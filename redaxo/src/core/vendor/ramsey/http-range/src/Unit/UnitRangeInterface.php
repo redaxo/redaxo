@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/http-range library
  *
@@ -20,8 +21,6 @@ interface UnitRangeInterface
 {
     /**
      * Returns the raw range.
-     *
-     * @return string
      */
     public function getRange(): string;
 

@@ -141,12 +141,12 @@ class rex_sql implements Iterator
                     $dbconfig->login,
                     $dbconfig->password,
                     $dbconfig->persistent,
-                    $options
+                    $options,
                 );
                 self::$pdo[$db] = $conn;
 
                 // ggf. Strict Mode abschalten
-                $this->setQuery('SET SESSION SQL_MODE="", NAMES utf8mb4');
+                self::factory()->setQuery('SET SESSION SQL_MODE="", NAMES utf8mb4');
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
@@ -180,16 +180,12 @@ class rex_sql implements Iterator
      * @return PDO
      */
     protected static function createConnection(
-        #[\SensitiveParameter]
-        $host,
-        #[\SensitiveParameter]
-        $database,
-        #[\SensitiveParameter]
-        $login,
-        #[\SensitiveParameter]
-        $password,
+        #[\SensitiveParameter] $host,
+        #[\SensitiveParameter] $database,
+        #[\SensitiveParameter] $login,
+        #[\SensitiveParameter] $password,
         $persistent = false,
-        array $options = []
+        array $options = [],
     ) {
         if (!$database) {
             throw new InvalidArgumentException('Database name can not be empty.');
@@ -644,9 +640,9 @@ class rex_sql implements Iterator
             $this->wherevar = 'WHERE ' . $where;
             $this->whereParams = $params;
         } elseif (is_string($where)) {
-            //$trace = debug_backtrace();
-            //$loc = $trace[0];
-            //trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
+            // $trace = debug_backtrace();
+            // $loc = $trace[0];
+            // trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
 
             $this->wherevar = 'WHERE ' . $where;
             $this->whereParams = [];
@@ -971,7 +967,7 @@ class rex_sql implements Iterator
 
         $this->setQuery(
             'SELECT ' . $columns . ' FROM ' . $this->escapeIdentifier($this->table) . ' ' . $where,
-            $whereParams
+            $whereParams,
         );
         return $this;
     }
@@ -990,7 +986,7 @@ class rex_sql implements Iterator
 
         $this->setQuery(
             'UPDATE ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $where,
-            array_merge($this->values, $whereParams)
+            array_merge($this->values, $whereParams),
         );
         return $this;
     }
@@ -1021,7 +1017,7 @@ class rex_sql implements Iterator
 
         $this->setQuery(
             'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' ' . $setValues,
-            $this->values
+            $this->values,
         );
 
         // provide debug infos, if insert is considered successfull, but no rows were inserted.
@@ -1049,7 +1045,7 @@ class rex_sql implements Iterator
         $onDuplicateKeyUpdate = $this->buildOnDuplicateKeyUpdate(array_keys(array_merge($this->values, $this->rawValues)));
         $this->setQuery(
             'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $onDuplicateKeyUpdate,
-            $this->values
+            $this->values,
         );
 
         return $this;
@@ -1077,7 +1073,7 @@ class rex_sql implements Iterator
 
         $this->setQuery(
             'REPLACE INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $where,
-            array_merge($this->values, $whereParams)
+            array_merge($this->values, $whereParams),
         );
         return $this;
     }
@@ -1096,7 +1092,7 @@ class rex_sql implements Iterator
 
         $this->setQuery(
             'DELETE FROM ' . $this->escapeIdentifier($this->table) . ' ' . $where,
-            $whereParams
+            $whereParams,
         );
         return $this;
     }
@@ -1197,7 +1193,6 @@ class rex_sql implements Iterator
      *
      * @psalm-taint-source input
      * @psalm-taint-sink sql $query
-     * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
@@ -1232,7 +1227,6 @@ class rex_sql implements Iterator
      *
      * @psalm-taint-source input
      * @psalm-taint-sink sql $query
-     * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
@@ -1327,7 +1321,7 @@ class rex_sql implements Iterator
 
                     return $matches[0];
                 },
-                $query
+                $query,
             );
         }
         if ($this->getRows()) {
@@ -1948,7 +1942,7 @@ class rex_sql implements Iterator
                 $host,
                 $database,
                 $login,
-                $password
+                $password,
             );
 
             // db connection was successfully established, but we were meant to create the db
@@ -1975,7 +1969,7 @@ class rex_sql implements Iterator
                             $host,
                             'mysql',
                             $login,
-                            $password
+                            $password,
                         );
                         if (1 !== $conn->exec('CREATE DATABASE ' . $database . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
                             // unable to create db
@@ -2065,7 +2059,7 @@ class rex_sql implements Iterator
         }
 
         $query = $verb.' INTO '.$this->escapeIdentifier($this->table)."\n";
-        $query .= '('.implode(', ', array_map([$this, 'escapeIdentifier'], $fields)).")\n";
+        $query .= '('.implode(', ', array_map($this->escapeIdentifier(...), $fields)).")\n";
         $query .= "VALUES\n";
         $query .= implode(",\n", $rows);
 

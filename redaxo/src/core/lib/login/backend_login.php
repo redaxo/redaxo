@@ -20,6 +20,8 @@ class rex_backend_login extends rex_login
     /** @var rex_backend_password_policy */
     private $passwordPolicy;
 
+    private static bool $sessionRegenerationForBackendLogin = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -191,10 +193,8 @@ class rex_backend_login extends rex_login
     /**
      * @param null|string $passwordHash Passing `null` or ommitting this param is DEPRECATED
      */
-    public function changedPassword(
-        #[\SensitiveParameter]
-        ?string $passwordHash = null
-    ): void {
+    public function changedPassword(#[\SensitiveParameter] ?string $passwordHash = null): void
+    {
         $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
 
         if (null !== $passwordHash) {
@@ -229,7 +229,7 @@ class rex_backend_login extends rex_login
         ]);
     }
 
-    private static function deleteStayLoggedInCookie()
+    private static function deleteStayLoggedInCookie(): void
     {
         rex_response::sendCookie(self::getStayLoggedInCookieName(), '');
     }
@@ -237,9 +237,14 @@ class rex_backend_login extends rex_login
     /**
      * @return string
      */
-    private static function getStayLoggedInCookieName()
+    public static function getStayLoggedInCookieName()
     {
-        return 'rex_user_' . sha1(rex::getProperty('instname'));
+        $instname = rex::getProperty('instname');
+        if (!$instname) {
+            throw new rex_exception('Property "instname" is empty');
+        }
+
+        return 'rex_user_' . sha1($instname);
     }
 
     /**
@@ -298,5 +303,28 @@ class rex_backend_login extends rex_login
         $loginPolicy = (array) rex::getProperty('backend_login_policy', []);
 
         return new rex_login_policy($loginPolicy);
+    }
+
+    public static function regenerateSessionId()
+    {
+        self::$sessionRegenerationForBackendLogin = true;
+        try {
+            parent::regenerateSessionId();
+        } finally {
+            self::$sessionRegenerationForBackendLogin = false;
+        }
+    }
+
+    /**
+     * @internal
+     * @param rex_extension_point<null> $ep
+     */
+    public static function sessionRegenerated(rex_extension_point $ep): void
+    {
+        if (self::$sessionRegenerationForBackendLogin) {
+            return;
+        }
+
+        rex_user_session::updateSessionId(rex_type::string($ep->getParam('previous_id')), rex_type::string($ep->getParam('new_id')));
     }
 }

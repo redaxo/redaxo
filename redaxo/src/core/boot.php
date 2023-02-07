@@ -12,6 +12,7 @@
 define('REX_MIN_PHP_VERSION', '8.1');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
+    echo 'Ooops, something went wrong!<br>';
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
 
@@ -137,6 +138,8 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
         rex_response::setHeader('Strict-Transport-Security', 'max-age='.rex::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }
+
+rex_extension::register('SESSION_REGENERATED', [rex_backend_login::class, 'sessionRegenerated']);
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);

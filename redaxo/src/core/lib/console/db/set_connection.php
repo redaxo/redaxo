@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_db_set_connection extends rex_console_command implements rex_command_standalone
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Sets database connection credentials.')
@@ -24,7 +24,7 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Save credentials even if validation fails.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
 
@@ -60,7 +60,7 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
             $db['login'],
             $db['password'],
             $db['name'],
-            false
+            false,
         );
 
         if (true !== $settingsValid) {

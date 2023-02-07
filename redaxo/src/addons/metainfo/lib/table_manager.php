@@ -27,15 +27,12 @@ class rex_metainfo_table_manager
     public const FIELD_TIME = 13;
     public const FIELD_COUNT = 13;
 
-    private $tableName;
-    /**
-     * @psalm-var positive-int
-     *
-     * @var int
-     */
-    private $DBID;
+    private string $tableName;
+    /** @var positive-int */
+    private int $DBID;
 
-    public function __construct($tableName, $DBID = 1)
+    /** @param positive-int $DBID */
+    public function __construct(string $tableName, int $DBID = 1)
     {
         $this->tableName = $tableName;
         $this->DBID = $DBID;
@@ -50,6 +47,11 @@ class rex_metainfo_table_manager
     }
 
     /**
+     * @param string $name
+     * @param string $type
+     * @param int|null $length
+     * @param string|null $default
+     * @param bool $nullable
      * @return bool
      */
     public function addColumn($name, $type, $length, $default = null, $nullable = true)
@@ -74,19 +76,25 @@ class rex_metainfo_table_manager
             $qry .= ' DEFAULT ' . $sql->escape($default);
         }
 
-        if (true !== $nullable) {
+        if (!$nullable) {
             $qry .= ' NOT NULL';
         }
 
         try {
             $sql->setQuery($qry);
             return true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             return false;
         }
     }
 
     /**
+     * @param string $oldname
+     * @param string $name
+     * @param string $type
+     * @param int|null $length
+     * @param string|null $default
+     * @param bool $nullable
      * @return bool
      */
     public function editColumn($oldname, $name, $type, $length, $default = null, $nullable = true)
@@ -111,19 +119,20 @@ class rex_metainfo_table_manager
             $qry .= ' DEFAULT ' . $sql->escape($default);
         }
 
-        if (true !== $nullable) {
+        if (!$nullable) {
             $qry .= ' NOT NULL';
         }
 
         try {
             $sql->setQuery($qry);
             return true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             return false;
         }
     }
 
     /**
+     * @param string $name
      * @return bool
      */
     public function deleteColumn($name)
@@ -136,12 +145,13 @@ class rex_metainfo_table_manager
         try {
             $sql->setQuery($qry);
             return true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             return false;
         }
     }
 
     /**
+     * @param string $name
      * @return bool
      */
     public function hasColumn($name)

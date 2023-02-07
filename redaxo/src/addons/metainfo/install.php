@@ -77,18 +77,21 @@ $managers = [
 ];
 for ($i = 0; $i < $sql->getRows(); ++$i) {
     $column = (string) $sql->getValue('name');
-    if ('med_' == substr($column, 0, 4)) {
+    if (str_starts_with($column, 'med_')) {
         $table = 'media';
-    } elseif ('clang_' == substr($column, 0, 6)) {
+    } elseif (str_starts_with($column, 'clang_')) {
         $table = 'clang';
     } else {
         $table = 'article';
     }
 
+    $default = $sql->getValue('default');
+    $default = null === $default ? $default : (string) $default;
+
     if (isset($columns[$table][$column])) {
-        $managers[$table]->editColumn($column, $column, $sql->getValue('dbtype'), $sql->getValue('dblength'), $sql->getValue('default'));
+        $managers[$table]->editColumn($column, $column, (string) $sql->getValue('dbtype'), (int) $sql->getValue('dblength'), $default);
     } else {
-        $managers[$table]->addColumn($column, $sql->getValue('dbtype'), $sql->getValue('dblength'), $sql->getValue('default'));
+        $managers[$table]->addColumn($column, (string) $sql->getValue('dbtype'), (int) $sql->getValue('dblength'), $default);
     }
 
     unset($columns[$table][$column]);

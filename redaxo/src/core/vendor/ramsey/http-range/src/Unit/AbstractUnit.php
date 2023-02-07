@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/http-range library
  *
@@ -13,15 +14,14 @@ declare(strict_types=1);
 
 namespace Ramsey\Http\Range\Unit;
 
+use function explode;
+
 /**
  * `AbstractUnit` provides a basic implementation for HTTP range units.
  */
 abstract class AbstractUnit implements UnitInterface
 {
-    /**
-     * @var string
-     */
-    private $rangeSet;
+    private string $rangeSet;
 
     /**
      * @var mixed
@@ -30,8 +30,6 @@ abstract class AbstractUnit implements UnitInterface
 
     /**
      * Returns a new collection for this range unit.
-     *
-     * @return UnitRangesCollection
      */
     abstract public function newCollection(): UnitRangesCollection;
 
@@ -40,8 +38,6 @@ abstract class AbstractUnit implements UnitInterface
      *
      * @param string $range A single range (i.e. `500-999`, `500-`, `-500`).
      * @param mixed $totalSize The total size of the entity the range describes.
-     *
-     * @return UnitRangeInterface
      */
     abstract public function newRange(string $range, $totalSize): UnitRangeInterface;
 
@@ -65,8 +61,6 @@ abstract class AbstractUnit implements UnitInterface
      * ```
      *
      * @link https://tools.ietf.org/html/rfc7233#section-3.1 RFC 7233 § 3.1
-     *
-     * @return string
      */
     public function getRangeSet(): string
     {
@@ -81,8 +75,6 @@ abstract class AbstractUnit implements UnitInterface
      * ```
      *
      * @link https://tools.ietf.org/html/rfc7233#section-3.1 RFC 7233 § 3.1
-     *
-     * @return string
      */
     public function getRangesSpecifier(): string
     {
@@ -91,14 +83,14 @@ abstract class AbstractUnit implements UnitInterface
 
     /**
      * Returns an iterable collection of unit ranges.
-     *
-     * @return UnitRangesCollection
      */
     public function getRanges(): UnitRangesCollection
     {
         $ranges = explode(',', $this->getRangeSet());
-        $totalSize = $this->getTotalSize();
         $collection = $this->newCollection();
+
+        /** @var mixed $totalSize */
+        $totalSize = $this->getTotalSize();
 
         foreach ($ranges as $range) {
             $collection[] = $this->newRange($range, $totalSize);

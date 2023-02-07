@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_config_test extends TestCase
 {
-    public function testNonExistentConfig()
+    public function testNonExistentConfig(): void
     {
         static::assertFalse(rex_config::has('test-ns'), 'has() returns false for non-existing namespace');
         static::assertFalse(rex_config::has('test-ns', 'mykey'), 'has() returns false for non-existing key');
@@ -17,7 +17,7 @@ class rex_config_test extends TestCase
         static::assertEquals('defaultReturn', rex_config::get('test-ns', 'mykey', 'defaultReturn'), 'get returns the given default');
     }
 
-    public function testSetGetRemoveConfig()
+    public function testSetGetRemoveConfig(): void
     {
         static::assertFalse(rex_config::remove('test-ns', 'mykey1'), 'remove() returns false, when deleting an non-existing key');
         static::assertFalse(rex_config::set('test-ns', 'mykey1', 'myvalA'), 'set() returns false, when config not yet exists');
@@ -47,7 +47,7 @@ class rex_config_test extends TestCase
         static::assertNull(rex_config::get('test-ns', 'mykey1'), 'get() returns null, when getting a removed key');
     }
 
-    public function testRemoveNamespace()
+    public function testRemoveNamespace(): void
     {
         rex_config::set('test-ns', 'mykey1', 'myvalA');
         rex_config::set('test-ns', 'mykey2', 'myvalB');
@@ -62,7 +62,7 @@ class rex_config_test extends TestCase
         static::assertNull(rex_config::get('test-ns', 'mykey2'), 'removeNamespace() all keys2');
     }
 
-    public function testSaveAfterSetAndRemove()
+    public function testSaveAfterSetAndRemove(): void
     {
         rex_config::save();
 

@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class rex_i18n_trans_cb
 {
-    public static function mytranslate()
+    public static function mytranslate(): string
     {
         return 'translated';
     }
@@ -15,7 +15,7 @@ class rex_i18n_trans_cb
  */
 class rex_i18n_test extends TestCase
 {
-    private $previousLocale;
+    private string $previousLocale;
 
     protected function setUp(): void
     {
@@ -48,7 +48,7 @@ class rex_i18n_test extends TestCase
         return rex_path::addonData('tests', 'lang');
     }
 
-    public function testLoadFile()
+    public function testLoadFile(): void
     {
         rex_i18n::addDirectory($this->getPath());
 
@@ -59,7 +59,7 @@ class rex_i18n_test extends TestCase
         static::assertSame('abc def', rex_i18n::msg('rex_i18n_test_5'));
     }
 
-    public function testHasMsg()
+    public function testHasMsg(): void
     {
         rex_i18n::addDirectory($this->getPath());
 
@@ -68,7 +68,7 @@ class rex_i18n_test extends TestCase
         static::assertFalse(rex_i18n::hasMsg('rex_i18n_test_6'));
     }
 
-    public function testHasMsgOrFallback()
+    public function testHasMsgOrFallback(): void
     {
         rex_i18n::addDirectory($this->getPath());
 
@@ -77,7 +77,7 @@ class rex_i18n_test extends TestCase
         static::assertTrue(rex_i18n::hasMsgOrFallback('rex_i18n_test_6'));
     }
 
-    public function testGetMsgFallback()
+    public function testGetMsgFallback(): void
     {
         rex_i18n::addDirectory($this->getPath());
 
@@ -85,7 +85,7 @@ class rex_i18n_test extends TestCase
         static::assertSame('[translate:rex_i18n_test_7]', rex_i18n::msg('rex_i18n_test_7'));
     }
 
-    public function testGetMsgInLocaleFallback()
+    public function testGetMsgInLocaleFallback(): void
     {
         rex_i18n::addDirectory($this->getPath());
 
@@ -93,8 +93,8 @@ class rex_i18n_test extends TestCase
         static::assertSame('EN', rex_i18n::msgInLocale('my', 'en_gb'));
     }
 
-    public function testTranslateCallable()
+    public function testTranslateCallable(): void
     {
-        static::assertSame('translated', rex_i18n::translate('translate:my_cb', false, [rex_i18n_trans_cb::class, 'mytranslate']));
+        static::assertSame('translated', rex_i18n::translate('translate:my_cb', false, rex_i18n_trans_cb::mytranslate(...)));
     }
 }

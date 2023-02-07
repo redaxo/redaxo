@@ -1,6 +1,6 @@
 <?php
 
-$list = rex_list::factory('Select session_id, ip, useragent, starttime, last_activity from rex_user_session where user_id = '.rex::requireUser()->getId());
+$list = rex_list::factory('Select session_id, ip, useragent, starttime, last_activity from ' . rex::getTablePrefix() . 'user_session where user_id = '.rex::requireUser()->getId());
 
 $list->addColumn('remove_session', '<i class="rex-icon rex-icon-delete"></i>', 0, ['<th class="rex-table-icon"></th>', '<td class="rex-table-icon">###VALUE###</td>']);
 $list->setColumnParams('remove_session', ['function' => 'remove_session', 'session_id' => '###session_id###']);

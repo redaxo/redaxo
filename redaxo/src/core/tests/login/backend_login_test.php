@@ -30,14 +30,14 @@ class rex_backend_login_test extends TestCase
         $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE login = '". self::LOGIN ."' LIMIT 1");
     }
 
-    public function testSuccessfullLogin()
+    public function testSuccessfullLogin(): void
     {
         $login = new rex_backend_login();
         $login->setLogin(self::LOGIN, self::PASSWORD, false);
         static::assertTrue($login->checkLogin());
     }
 
-    public function testFailedLogin()
+    public function testFailedLogin(): void
     {
         $login = new rex_backend_login();
         $login->setLogin(self::LOGIN, 'somethingwhichisnotcorrect', false);
@@ -47,7 +47,7 @@ class rex_backend_login_test extends TestCase
     /**
      * Test if a login is allowed after one failure before.
      */
-    public function testSuccessfullReLogin()
+    public function testSuccessfullReLogin(): void
     {
         $login = new rex_backend_login();
 
@@ -61,7 +61,7 @@ class rex_backend_login_test extends TestCase
     /**
      * After LOGIN_TRIES requests, the account should be not accessible for RELOGIN_DELAY seconds.
      */
-    public function testSuccessfullReLoginAfterLoginTriesSeconds()
+    public function testSuccessfullReLoginAfterLoginTriesSeconds(): void
     {
         $login = new rex_backend_login();
         $tries = $login->getLoginPolicy()->getMaxTriesUntilDelay();
@@ -89,7 +89,7 @@ class rex_backend_login_test extends TestCase
         static::assertTrue($login->checkLogin(), 'after waiting the account should be unlocked');
     }
 
-    public function testLogout()
+    public function testLogout(): void
     {
         $login = new rex_backend_login();
         $login->setLogin(self::LOGIN, self::PASSWORD, false);

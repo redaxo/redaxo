@@ -27,7 +27,7 @@ class rex_clang_test extends TestCase
         static::assertIsBool(rex_clang::getCurrent()->isOnline());
     }
 
-    public function testHasValue()
+    public function testHasValue(): void
     {
         $clang = $this->createClangWithoutConstructor();
 
@@ -41,7 +41,7 @@ class rex_clang_test extends TestCase
         static::assertFalse($clang->hasValue('clang_bar'));
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         static::assertIsInt(rex_clang::getCurrent()->getValue('id'));
 
@@ -59,7 +59,6 @@ class rex_clang_test extends TestCase
 
     private function createClangWithoutConstructor(): rex_clang
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return (new ReflectionClass(rex_clang::class))->newInstanceWithoutConstructor();
     }
 }

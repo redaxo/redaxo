@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_socket_proxy_test extends TestCase
 {
-    private $proxy;
+    private ?string $proxy = null;
 
     protected function setUp(): void
     {
@@ -20,15 +20,15 @@ class rex_socket_proxy_test extends TestCase
         rex::setProperty('socket_proxy', $this->proxy);
     }
 
-    public function testFactory()
+    public function testFactory(): void
     {
         $socket = rex_socket_proxy::factory('www.example.com');
-        static::assertEquals(rex_socket_proxy::class, get_class($socket));
+        static::assertEquals(rex_socket_proxy::class, $socket::class);
     }
 
-    public function testFactoryUrl()
+    public function testFactoryUrl(): void
     {
         $socket = rex_socket_proxy::factoryUrl('www.example.com');
-        static::assertEquals(rex_socket_proxy::class, get_class($socket));
+        static::assertEquals(rex_socket_proxy::class, $socket::class);
     }
 }

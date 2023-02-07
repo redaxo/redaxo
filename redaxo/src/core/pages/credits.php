@@ -79,28 +79,28 @@ $content .= '
 
         <tbody>';
 
-        foreach (rex_package::getAvailablePackages() as $package) {
-            $helpUrl = rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]);
+foreach (rex_package::getAvailablePackages() as $package) {
+    $helpUrl = rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]);
 
-            $license = '';
-            if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
-                $f = fopen($licenseFile, 'r');
-                $firstLine = fgets($f) ?: '';
-                fclose($f);
+    $license = '';
+    if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
+        $f = fopen($licenseFile, 'r');
+        $firstLine = fgets($f) ?: '';
+        fclose($f);
 
-                if (preg_match('/^The MIT License(?: \(MIT\))$/i', $firstLine)) {
-                    $firstLine = 'MIT License';
-                }
+        if (preg_match('/^The MIT License(?: \(MIT\))$/i', $firstLine)) {
+            $firstLine = 'MIT License';
+        }
 
-                $license = '<a href="'. rex_url::backendPage('packages', ['subpage' => 'license', 'package' => $package->getPackageId()]) .'"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
-            }
+        $license = '<a href="'. rex_url::backendPage('packages', ['subpage' => 'license', 'package' => $package->getPackageId()]) .'"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
+    }
 
-            $packageVersion = rex_escape($package->getVersion());
-            if (rex_version::isUnstable($packageVersion)) {
-                $packageVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $packageVersion;
-            }
+    $packageVersion = rex_escape($package->getVersion());
+    if (rex_version::isUnstable($packageVersion)) {
+        $packageVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $packageVersion;
+    }
 
-            $content .= '
+    $content .= '
             <tr class="rex-package-is-' . $package->getType() . '">
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $package->getType() . '"></i></td>
                 <td data-title="' . rex_i18n::msg('credits_name') . '">' . $package->getName() . ' </td>
@@ -109,17 +109,17 @@ $content .= '
                     <a href="' . $helpUrl . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('credits_help') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
                 </td>
                 <td class="rex-table-slim" data-title="' . rex_i18n::msg('credits_supportpage') . '">';
-            if ($supportpage = $package->getSupportPage()) {
-                $content .= '<a href="' . $supportpage . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-external-link"></i> ' . rex_i18n::msg('credits_supportpage') . '</a>';
-            }
-            $content .= '
+    if ($supportpage = $package->getSupportPage()) {
+        $content .= '<a href="' . $supportpage . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-external-link"></i> ' . rex_i18n::msg('credits_supportpage') . '</a>';
+    }
+    $content .= '
                 </td>
                 <td class="rex-table-width-6" data-title="' . rex_i18n::msg('credits_license') . '">'. $license .'</td>
                 <td data-title="' . rex_i18n::msg('credits_author') . '">' . rex_escape((string) $package->getAuthor()) . '</td>
             </tr>';
-        }
+}
 
-        $content .= '
+$content .= '
         </tbody>
     </table>';
 

@@ -97,15 +97,35 @@ class rex_install_package_update extends rex_install_package_download
         foreach ($this->addon->getRegisteredPlugins() as $plugin) {
             $pluginPath = $temppath . '/plugins/' . $plugin->getName();
             if (!is_dir($pluginPath)) {
-                rex_dir::copy($plugin->getPath(), $pluginPath);
+                if (is_dir($plugin->getPath())) {
+                    rex_dir::copy($plugin->getPath(), $pluginPath);
+                }
             } elseif ($plugin->isInstalled() && is_dir($pluginPath . '/assets')) {
                 rex_dir::copy($pluginPath . '/assets', $plugin->getAssetsPath());
             }
         }
 
         // ---- update main addon dir
-        rex_dir::delete($path);
-        rename($temppath, $path);
+        $pathOld = rex_path::addon($this->addonkey.'.old');
+        error_clear_last();
+        // move current addon to temp path
+        if (!@rename($path, $pathOld)) {
+            $message = $path.' could not be moved to '.$pathOld;
+            $message .= ($error = error_get_last()) ? ': '.$error['message'] : '.';
+            throw new rex_functional_exception($message);
+        }
+        // move new addon to main addon path
+        if (@rename($temppath, $path)) {
+            // remove temp path of old addon
+            rex_dir::delete($pathOld);
+        } else {
+            // revert to old addon
+            rename($pathOld, $path);
+
+            $message = $temppath . ' could not be moved to '.$path;
+            $message .= ($error = error_get_last()) ? ': '.$error['message'] : '.';
+            throw new rex_functional_exception($message);
+        }
 
         // ---- update assets
         $origAssets = $this->addon->getPath('assets');

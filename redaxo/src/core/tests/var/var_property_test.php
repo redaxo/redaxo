@@ -14,7 +14,8 @@ class rex_var_property_test extends rex_var_base_test
         rex_addon::get('project')->removeProperty('tests');
     }
 
-    public function propertyReplaceProvider()
+    /** @return list<array{string, string}> */
+    public function propertyReplaceProvider(): array
     {
         return [
             ['REX_PROPERTY[key=myCoreProperty]', 'myCorePropertyValue'],
@@ -25,7 +26,7 @@ class rex_var_property_test extends rex_var_base_test
     /**
      * @dataProvider propertyReplaceProvider
      */
-    public function testPropertyReplace($content, $expectedOutput)
+    public function testPropertyReplace($content, $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }

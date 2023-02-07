@@ -120,7 +120,7 @@ if (rex::isBackend() && rex::getUser()) {
     if ($config['codemirror']) {
         // JsProperty CodeMirror-Theme
         rex_view::setJsProperty('customizer_codemirror_defaulttheme', $config['codemirror_theme']);
-        rex_view::setJsProperty('customizer_codemirror_defaultdarktheme', $config['codemirror_darktheme']);
+        rex_view::setJsProperty('customizer_codemirror_defaultdarktheme', $config['codemirror_darktheme'] ?? 'dracula');
         // JsProperty CodeMirror-Selectors
         $selectors = 'textarea.rex-code, textarea.rex-js-code, textarea.codemirror';
         if (isset($config['codemirror-selectors']) && '' != $config['codemirror-selectors']) {
@@ -132,7 +132,7 @@ if (rex::isBackend() && rex::getUser()) {
             rex_view::setJsProperty('customizer_codemirror_autoresize', $config['codemirror-autoresize']);
         }
         // JsProperty Codemirror-Options
-        rex_view::setJsProperty('customizer_codemirror_options', str_replace(["\n", "\r"], '', trim($config['codemirror-options'])));
+        rex_view::setJsProperty('customizer_codemirror_options', str_replace(["\n", "\r"], '', trim($config['codemirror-options'] ?? '')));
         // JsProperty JS/CSS-Buster
         $mtimejs = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.js'));
         $mtimecss = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.css'));
@@ -154,7 +154,7 @@ if (rex::isBackend() && rex::getUser()) {
     if ($config['showlink']) {
         rex_view::setJsProperty(
             'customizer_showlink',
-            '<h1 class="be-style-customizer-title"><a href="'. rex_url::frontend() .'" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="fa fa-external-link"></i></a></h1>'
+            '<h1 class="be-style-customizer-title"><a href="'. rex_url::frontend() .'" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="fa fa-external-link"></i></a></h1>',
         );
     }
 }

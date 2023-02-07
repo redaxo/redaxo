@@ -64,6 +64,15 @@ class rex_user_session
         $this->storeCurrentSession($login);
     }
 
+    public static function updateSessionId(string $previousId, string $newId): void
+    {
+        rex_sql::factory()
+            ->setTable(rex::getTable('user_session'))
+            ->setWhere(['session_id' => $previousId])
+            ->setValue('session_id', $newId)
+            ->update();
+    }
+
     public static function clearExpiredSessions(): void
     {
         rex_sql::factory()

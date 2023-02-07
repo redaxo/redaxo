@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_article_content_base_test extends TestCase
 {
-    public function testHasValue()
+    public function testHasValue(): void
     {
         $instance = $this->createArticleContentBaseWithoutConstructor();
 
@@ -22,7 +22,7 @@ class rex_article_content_base_test extends TestCase
         static::assertFalse($instance->hasValue('art_bar'));
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $instance = $this->createArticleContentBaseWithoutConstructor();
 
@@ -55,7 +55,6 @@ class rex_article_content_base_test extends TestCase
 
     private function createArticleContentBaseWithoutConstructor(): rex_article_content_base
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return (new ReflectionClass(rex_article_content_base::class))->newInstanceWithoutConstructor();
     }
 }

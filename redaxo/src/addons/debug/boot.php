@@ -143,7 +143,7 @@ if ('cli' === PHP_SAPI) {
                 array_diff($input->getArguments(), $command->getDefinition()->getArgumentDefaults()),
                 array_diff($input->getOptions(), $command->getDefinition()->getOptionDefaults()),
                 $command->getDefinition()->getArgumentDefaults(),
-                $command->getDefinition()->getOptionDefaults()
+                $command->getDefinition()->getOptionDefaults(),
                 // $output->fetch()
             )
         ->storeRequest();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/http-range library
  *
@@ -19,6 +20,9 @@ use Ramsey\Http\Range\Unit\BytesUnit;
 use Ramsey\Http\Range\Unit\GenericUnit;
 use Ramsey\Http\Range\Unit\UnitInterface;
 
+use function explode;
+use function strtolower;
+
 /**
  * A default factory for creating range units.
  */
@@ -30,8 +34,6 @@ class UnitFactory implements UnitFactoryInterface
      * @param string $rangesSpecifier The original value of the HTTP Range header.
      * @param mixed $totalSize The total size of the entity described by this unit.
      *
-     * @return UnitInterface
-     *
      * @throws InvalidRangeUnitException if no range unit could be found.
      * @throws InvalidRangeSetException if no range set could be found.
      */
@@ -39,15 +41,15 @@ class UnitFactory implements UnitFactoryInterface
     {
         $unitSet = explode('=', $rangesSpecifier);
 
-        if (empty($unitSet[0])) {
+        if (!isset($unitSet[0]) || $unitSet[0] === '') {
             throw new InvalidRangeUnitException(
-                'No range-unit provided in $rangesSpecifier'
+                'No range-unit provided in $rangesSpecifier',
             );
         }
 
-        if (empty($unitSet[1])) {
+        if (!isset($unitSet[1]) || $unitSet[1] === '') {
             throw new InvalidRangeSetException(
-                'No range-set provided in $rangesSpecifier'
+                'No range-set provided in $rangesSpecifier',
             );
         }
 

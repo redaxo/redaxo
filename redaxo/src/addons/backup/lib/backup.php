@@ -299,7 +299,7 @@ class rex_backup
             $tables = self::getTables();
         }
         foreach ($tables as $table) {
-            //---- export metadata
+            // ---- export metadata
             $create = rex_sql::showCreateTable($table);
 
             fwrite($fp, 'DROP TABLE IF EXISTS ' . $sql->escapeIdentifier($table) . ';' . $nl);
@@ -325,7 +325,7 @@ class rex_backup
                 $fields[] = $type;
             }
 
-            //---- export tabledata
+            // ---- export tabledata
             $start = 0;
             $max = $insertSize;
 
@@ -452,7 +452,7 @@ class rex_backup
                 continue;
             }
 
-            if (substr($file, 0, strlen(rex::getTempPrefix())) == rex::getTempPrefix()) {
+            if (str_starts_with($file, rex::getTempPrefix())) {
                 continue;
             }
 
@@ -476,7 +476,7 @@ class rex_backup
     {
         $tables = [];
         foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
-            if (substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+            if (!str_starts_with($table, rex::getTablePrefix() . rex::getTempPrefix())) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
                 $tables[] = $table;
             }
         }
@@ -558,7 +558,7 @@ class rex_backup
                                 $record[] = "'" . $column . "'";
                                 break;
                             }
-                        // no break
+                            // no break
                         default:
                             $record[] = $sql->escape($column);
                             break;

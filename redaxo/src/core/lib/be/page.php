@@ -484,7 +484,7 @@ class rex_be_page
     public function setSubpages(array $subpages)
     {
         $this->subpages = [];
-        array_walk($subpages, [$this, 'addSubpage']);
+        array_walk($subpages, $this->addSubpage(...));
 
         return $this;
     }

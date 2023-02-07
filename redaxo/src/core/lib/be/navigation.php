@@ -65,7 +65,7 @@ class rex_be_navigation
             return $prio1 <=> $prio2;
         });
 
-        //$this->setActiveElements();
+        // $this->setActiveElements();
         $return = [];
         foreach ($this->pages as $block => $blockPages) {
             if (count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {

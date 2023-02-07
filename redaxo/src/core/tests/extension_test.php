@@ -17,7 +17,7 @@ class rex_extension_test extends TestCase
         parent::tearDown();
     }
 
-    public function testIsRegistered()
+    public function testIsRegistered(): void
     {
         $EP = 'TEST_IS_REGISTERED';
 
@@ -29,7 +29,7 @@ class rex_extension_test extends TestCase
         static::assertTrue(rex_extension::isRegistered($EP), 'isRegistered() returns true for registered extension points');
     }
 
-    public function testRegisterPoint()
+    public function testRegisterPoint(): void
     {
         $EP = 'TEST_EP';
 
@@ -52,7 +52,7 @@ class rex_extension_test extends TestCase
         static::assertEquals('test test2 test3', $result, 'registerPoint() returns the returned value of last extension');
     }
 
-    public function testRegisterPointReadOnly()
+    public function testRegisterPointReadOnly(): void
     {
         $EP = 'TEST_EP_READ_ONLY';
 
@@ -71,7 +71,7 @@ class rex_extension_test extends TestCase
         static::assertEquals($subject, $subjectActual, 'read-only extention points don\'t change subject param');
     }
 
-    public function testRegisterPointWithParams()
+    public function testRegisterPointWithParams(): void
     {
         $EP = 'TEST_EP_WITH_PARAMS';
 
@@ -86,7 +86,7 @@ class rex_extension_test extends TestCase
         static::assertEquals($myparam, $myparamActual, 'additional params will be available in extentions');
     }
 
-    public function testRegister()
+    public function testRegister(): void
     {
         $EP = 'TEST_EP_LEVELS';
 
@@ -109,7 +109,7 @@ class rex_extension_test extends TestCase
         static::assertEquals($expected, $actual);
     }
 
-    public function testRegisterMultiple()
+    public function testRegisterMultiple(): void
     {
         $EP1 = 'TEST_EP_MULTIPLE_1';
         $EP2 = 'TEST_EP_MULTIPLE_2';

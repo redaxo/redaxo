@@ -13,15 +13,17 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_db_dump_schema extends rex_console_command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Dumps the schema of db tables as php code')
-            ->addArgument('table', InputArgument::REQUIRED, 'Database table')
+            ->addArgument('table', InputArgument::REQUIRED, 'Database table', null, static function () {
+                return rex_sql::factory()->getTables(rex::getTablePrefix());
+            })
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = rex_sql_table::get($input->getArgument('table'));
 
