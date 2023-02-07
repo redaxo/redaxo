@@ -1,11 +1,8 @@
 <?php
-/**
- * @var Checkbox $this
- * @psalm-scope-this Checkbox
- */
 
 use Redaxo\Core\Fragment\Component\Checkbox;
 
+/** @var Checkbox $this */
 ?>
 <sl-checkbox
     <?= $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>

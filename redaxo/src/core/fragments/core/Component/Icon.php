@@ -1,11 +1,9 @@
 <?php
-/**
- * @var Icon $this
- * @psalm-scope-this Icon
- */
 
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
+
+/** @var Icon $this */
 
 $name = match ($this->name) {
     IconLibrary::Add => 'plus-lg',

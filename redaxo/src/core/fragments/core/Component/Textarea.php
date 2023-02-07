@@ -1,15 +1,12 @@
 <?php
-/**
- * @var Textarea $this
- * @psalm-scope-this Textarea
- */
 
 use Redaxo\Core\Fragment\Component\Textarea;
 
+/** @var Textarea $this */
 ?>
 
 <sl-textarea
-    <?= $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>
+    <?= /** @psalm-trace $this */ $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>
     <?= $this->value ? 'value="'.rex_escape($this->value).'"' : '' ?>
     <?= $this->label ? 'label="'.rex_escape($this->label).'"' : '' ?>
     <?= $this->notice ? 'help-text="'.rex_escape($this->notice).'"' : '' ?>

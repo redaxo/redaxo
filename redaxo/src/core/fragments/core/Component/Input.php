@@ -1,11 +1,8 @@
 <?php
-/**
- * @var Input $this
- * @psalm-scope-this Input
- */
 
 use Redaxo\Core\Fragment\Component\Input;
 
+/** @var Input $this */
 ?>
 
 <sl-input

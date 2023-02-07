@@ -1,11 +1,8 @@
 <?php
-/**
- * @var Card $this
- * @psalm-scope-this Card
- */
 
 use Redaxo\Core\Fragment\Component\Card;
 
+/** @var Card $this */
 ?>
 
 <sl-card

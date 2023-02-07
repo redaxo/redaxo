@@ -1,11 +1,8 @@
 <?php
-/**
- * @var Button $this
- * @psalm-scope-this Button
- */
 
 use Redaxo\Core\Fragment\Component\Button;
 
+/** @var Button $this */
 ?>
 
 <sl-button

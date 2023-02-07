@@ -1,11 +1,9 @@
 <?php
-/**
- * @var Alert $this
- * @psalm-scope-this Alert
- */
 
 use Redaxo\Core\Fragment\Component\Alert;
 use Redaxo\Core\Fragment\Component\AlertType;
+
+/** @var Alert $this */
 
 $variant = match ($this->type) {
     AlertType::Error => 'danger',

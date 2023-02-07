@@ -7,6 +7,8 @@
 use Redaxo\Core\Fragment\Component\Choice;
 use Redaxo\Core\Fragment\Component\ChoiceType;
 
+/** @var Choice $this */
+
 if (ChoiceType::Check === $this->type && $this->multiple) {
     echo $this->parse('core/Component/ChoiceCheckbox.php');
 }

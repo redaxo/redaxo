@@ -171,7 +171,7 @@ class Input extends rex_fragment
     }
 
     /**
-     * @psalm-return array{InputType}
+     * @return list<InputType>
      */
     private function minMaxTypes(): array
     {
@@ -182,7 +182,7 @@ class Input extends rex_fragment
     }
 
     /**
-     * @psalm-return array{InputType}
+     * @return list<InputType>
      */
     private function stepTypes(): array
     {

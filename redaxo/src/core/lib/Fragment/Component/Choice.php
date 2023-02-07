@@ -149,7 +149,7 @@ class Choice extends rex_fragment
     }
 
     /**
-     * @return string[]|string[][]
+     * @return array<string, array<string, string>|string>
      */
     public function getChoices(): array
     {

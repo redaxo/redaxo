@@ -1,10 +1,9 @@
 <?php
-/**
- * @var Choice $this
- * @psalm-scope-this Choice
- */
 
 use Redaxo\Core\Fragment\Component\Choice;
+
+/** @var Choice $this */
+?><?php
 
 $counter = 1;
 
