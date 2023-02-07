@@ -1,8 +1,4 @@
 <?php
-/**
- * @var Choice $this
- * @psalm-scope-this Choice
- */
 
 use Redaxo\Core\Fragment\Component\Choice;
 use Redaxo\Core\Fragment\Component\ChoiceType;
