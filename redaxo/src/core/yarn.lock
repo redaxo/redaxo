@@ -7,19 +7,19 @@
   resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.5.0.tgz#6e52b3d1c38d13130101771821e09cdd414a16bc"
   integrity sha512-tlJpwF40DEQcfR/QF+wNMVyGMaO9FQp6Z1Wahj4Gk3CJQYHwA2xVG7iKDFdW6zuxZY9XWOpGcfNCTsX4McOsOg==
 
-"@floating-ui/core@^1.0.5":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.1.0.tgz#0a1dee4bbce87ff71602625d33f711cafd8afc08"
-  integrity sha512-zbsLwtnHo84w1Kc8rScAo5GMk1GdecSlrflIbfnEBJwvTSj1SL6kkOYV+nHraMCPEy+RNZZUaZyL8JosDGCtGQ==
+"@floating-ui/core@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.2.0.tgz#ae7ae7923d41f3d84cb2fd88740a89436610bbec"
+  integrity sha512-GHUXPEhMEmTpnpIfesFA2KAoMJPb1SPQw964tToQwt+BbGXdhqTCWT1rOb0VURGylsxsYxiGMnseJ3IlclVpVA==
 
-"@floating-ui/dom@^1.0.7":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.1.0.tgz#29fea1344fdef15b6ba270a733d20b7134fee5c2"
-  integrity sha512-TSogMPVxbRe77QCj1dt8NmRiJasPvuc+eT5jnJ6YpLqgOD2zXc5UA3S1qwybN+GVCDNdKfpKy1oj8RpzLJvh6A==
+"@floating-ui/dom@^1.1.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.2.0.tgz#a60212069cc58961c478037c30eba4b191c75316"
+  integrity sha512-QXzg57o1cjLz3cGETzKXjI3kx1xyS49DW9l7kV2jw2c8Yftd434t2hllX0sVGn2Q8MtcW/4pNm8bfE1/4n6mng==
   dependencies:
-    "@floating-ui/core" "^1.0.5"
+    "@floating-ui/core" "^1.2.0"
 
-"@lit-labs/react@^1.1.0":
+"@lit-labs/react@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@lit-labs/react/-/react-1.1.1.tgz#88a4320d357dcdfd7c7e276f809e3453a124cbbc"
   integrity sha512-9TC+/ZWb6BJlWCyUr14FKFlaGnyKpeEDorufXozQgke/VoVrslUQNaL7nBmrAWdNrmzx5jWgi8lFmWwrxMjnlA==
@@ -46,17 +46,17 @@
   resolved "https://registry.yarnpkg.com/@shoelace-style/localize/-/localize-3.0.4.tgz#e2b71e077f34deff01eca08ef63c49e70e2a2852"
   integrity sha512-HFY90KD+b1Td2otSBryCOpQjBEArIwlV6Tv4J4rC/E/D5wof2eLF6JUVrbiRNn8GRmwATe4YDAEK7NUD08xO1w==
 
-"@shoelace-style/shoelace@^2.0.0-beta.88":
-  version "2.0.0-beta.88"
-  resolved "https://registry.yarnpkg.com/@shoelace-style/shoelace/-/shoelace-2.0.0-beta.88.tgz#3d1616178488986a097fe46c68fcddcdbd08027f"
-  integrity sha512-AoT3jtD7Gh5jgEtvbyqgOL+VDmxlcW0UYpKBZ0FzfF7bV38UeZqosnfeXZzQXaP/U/s4BpgkSS0+ZpPuepjDtw==
+"@shoelace-style/shoelace@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@shoelace-style/shoelace/-/shoelace-2.0.0.tgz#f89fbf168ede60fbe60882a5a2c90df711db44c5"
+  integrity sha512-2pTXOUlU9CZcsr1hkac9G4RNR0TTNj1rfxLqcNZ1GKtd94BL7NgYp6EHMyVnGzTN+iaLfJVVIFTiLGXIA6SwnQ==
   dependencies:
     "@ctrl/tinycolor" "^3.5.0"
-    "@floating-ui/dom" "^1.0.7"
-    "@lit-labs/react" "^1.1.0"
+    "@floating-ui/dom" "^1.1.0"
+    "@lit-labs/react" "^1.1.1"
     "@shoelace-style/animations" "^1.1.0"
     "@shoelace-style/localize" "^3.0.4"
-    lit "^2.4.1"
+    lit "^2.6.1"
     qr-creator "^1.0.0"
 
 "@types/trusted-types@^2.0.2":
@@ -79,10 +79,10 @@ lit-html@^2.2.0, lit-html@^2.6.0:
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit@^2.4.1:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/lit/-/lit-2.6.0.tgz#d72a1d3901d443510e9fdc45a3c5eb944464737f"
-  integrity sha512-GUKVozhomdYlFVuB4UNipbPB5RcXNX4ns43uDA1gSTZN1oHe7mnj05fpYbESxXfxg/Gn905HTIzymCFrr/cn3A==
+lit@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-2.6.1.tgz#5951a2098b9bde5b328c73b55c15fdc0eefd96d7"
+  integrity sha512-DT87LD64f8acR7uVp7kZfhLRrHkfC/N4BVzAtnw9Yg8087mbBJ//qedwdwX0kzDbxgPccWRW6mFwGbRQIxy0pw==
   dependencies:
     "@lit/reactive-element" "^1.6.0"
     lit-element "^3.2.0"
