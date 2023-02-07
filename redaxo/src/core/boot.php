@@ -139,7 +139,7 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
     }
 }
 
-rex_extension::register('SESSION_REGENERATED', rex_backend_login::sessionRegenerated(...));
+rex_extension::register('SESSION_REGENERATED', [rex_backend_login::class, 'sessionRegenerated']);
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
