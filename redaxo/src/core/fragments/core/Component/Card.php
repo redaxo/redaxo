@@ -6,7 +6,7 @@ use Redaxo\Core\Fragment\Component\Card;
 ?>
 
 <sl-card
-    <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
+    <?= rex_string::buildAttributes($this->attributes) ?>
 >
     <?= $this->slotImage ? $this->slotImage->prepare('image')->get() : '' ?>
     <?= $this->slotHeader ? $this->slotHeader->prepare('header')->get() : '' ?>

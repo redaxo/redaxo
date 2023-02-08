@@ -149,8 +149,8 @@ class Input extends rex_fragment
          */
         public bool $autofocus = false,
 
-        /** @var array<string, string>|null */
-        public ?array $attributes = null,
+        /** @var array<string, string|int> */
+        public array $attributes = [],
     ) {
         if ($this->min && !in_array($this->type, $this->minMaxTypes())) {
             throw new rex_functional_exception('The min property applies to date and number input types. The current type is '.$this->type->name.'.');

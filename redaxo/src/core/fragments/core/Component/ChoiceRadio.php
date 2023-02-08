@@ -13,7 +13,7 @@ $counter = 1;
     <?= $this->label ? 'label="'.rex_escape($this->label).'"' : '' ?>
     <?= $this->notice ? 'help-text="'.rex_escape($this->notice).'"' : '' ?>
     <?= $this->required ? 'required' : '' ?>
-    <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
+    <?= rex_string::buildAttributes($this->attributes) ?>
 >
     <?php foreach ($this->getChoices() as $label => $value): ?>
         <?php if (!is_array($value)): ?>

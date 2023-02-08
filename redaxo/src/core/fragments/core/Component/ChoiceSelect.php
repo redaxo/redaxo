@@ -16,7 +16,7 @@ $counter = 1;
     <?= $this->disabled ? 'disabled' : '' ?>
     <?= $this->placeholder ? 'placeholder="'.rex_escape($this->placeholder).'"' : '' ?>
     <?= $this->required ? 'required' : '' ?>
-    <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
+    <?= rex_string::buildAttributes($this->attributes) ?>
 >
     <?php foreach ($this->getChoices() as $label => $value): ?>
         <?php if (!is_array($value)): ?>

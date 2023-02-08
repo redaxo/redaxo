@@ -19,7 +19,7 @@ $variant = match ($this->type) {
     <?= $this->open ? 'open' : '' ?>
     <?= $this->closeable ? 'closeable' : '' ?>
     <?= $this->duration ? 'duration="'.$this->duration.'"' : '' ?>
-    <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
+    <?= rex_string::buildAttributes($this->attributes) ?>
 >
     <?= $this->slotIcon ? $this->slotIcon->prepare('icon')->get() : '' ?>
     <?= $this->slotDefault->get() ?>

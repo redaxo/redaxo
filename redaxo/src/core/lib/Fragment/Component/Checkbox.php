@@ -58,8 +58,8 @@ class Checkbox extends rex_fragment
          */
         public bool $required = false,
 
-        /** @var array<string, string>|null */
-        public ?array $attributes = null,
+        /** @var array<string, string|int> */
+        public array $attributes = [],
     ) {
         parent::__construct([]);
     }

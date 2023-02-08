@@ -108,8 +108,8 @@ class Textarea extends rex_fragment
          */
         public bool $spellcheck = true,
 
-        /** @var array<string, string>|null */
-        public ?array $attributes = null,
+        /** @var array<string, string|int> */
+        public array $attributes = [],
     ) {
 
         parent::__construct([]);

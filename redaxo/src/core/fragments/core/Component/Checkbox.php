@@ -12,7 +12,7 @@ use Redaxo\Core\Fragment\Component\Checkbox;
     <?= $this->checked ? 'checked' : '' ?>
     <?= $this->indeterminate ? 'indeterminate' : '' ?>
     <?= $this->required ? 'required' : '' ?>
-    <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
+    <?= rex_string::buildAttributes($this->attributes) ?>
 >
     <?= $this->slotLabel ? $this->slotLabel->prepare('label')->get() : '' ?>
 </sl-checkbox>

@@ -18,7 +18,7 @@ use Redaxo\Core\Fragment\Component\Button;
     <?= $this->value ? 'value="'.rex_escape($this->value).'"' : '' ?>
     <?= $this->href ? 'href="'.rex_escape($this->href).'"' : '' ?>
     <?= $this->target ? 'target="'.$this->target->value.'"' : '' ?>
-    <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
+    <?= rex_string::buildAttributes($this->attributes) ?>
 >
     <?= $this->slotPrefix ? $this->slotPrefix->prepare('prefix')->get() : '' ?>
     <?= $this->slotSuffix ? $this->slotSuffix->prepare('suffix')->get() : '' ?>

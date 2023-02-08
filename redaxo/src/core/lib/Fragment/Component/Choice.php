@@ -92,8 +92,8 @@ class Choice extends rex_fragment
          */
         public ChoiceType $type = ChoiceType::Select,
 
-        /** @var array<string, string>|null */
-        public ?array $attributes = null,
+        /** @var array<string, string|int> */
+        public array $attributes = [],
 
         /**
          * By default, the array key of each item in the

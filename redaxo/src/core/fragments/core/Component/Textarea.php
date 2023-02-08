@@ -21,7 +21,7 @@ use Redaxo\Core\Fragment\Component\Textarea;
     <?= $this->autofocus ? 'autofocus' : '' ?>
     <?= $this->autocapitalize ? 'autocapitalize="'.$this->autocapitalize->value.'"' : '' ?>
     <?= $this->spellcheck ? 'spellcheck="true"' : 'spellcheck="false"' ?>
-    <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
+    <?= rex_string::buildAttributes($this->attributes) ?>
 >
     <?= $this->slotLabel ? $this->slotLabel->prepare('label')->get() : '' ?>
     <?= $this->slotNotice ? $this->slotNotice->prepare('help-text')->get() : '' ?>
