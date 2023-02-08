@@ -22,7 +22,7 @@ $counter = 1;
         </sl-checkbox>
     <?php else: ?>
         <?php if (1 !== $counter): ?>
-        <sl-divider></sl-divider>
+            <sl-divider></sl-divider>
         <?php endif ?>
         <small><?= rex_escape($label) ?></small>
         <?php foreach ($value as $nestedLabel => $nestedValue): ?>
