@@ -23,7 +23,7 @@ $counter = 1;
             <sl-option value="<?= rex_escape($value) ?>"><?= rex_escape($label) ?></sl-option>
         <?php else: ?>
             <?php if (1 !== $counter): ?>
-            <sl-divider></sl-divider>
+                <sl-divider></sl-divider>
             <?php endif ?>
             <small><?= rex_escape($label) ?></small>
             <?php foreach ($value as $nestedLabel => $nestedValue): ?>

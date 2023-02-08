@@ -20,7 +20,7 @@ $counter = 1;
             <sl-radio value="<?= rex_escape($value) ?>"<?= $this->disabled ? 'disabled' : '' ?>><?= rex_escape($label) ?></sl-radio>
         <?php else: ?>
             <?php if (1 !== $counter): ?>
-            <sl-divider></sl-divider>
+                <sl-divider></sl-divider>
             <?php endif ?>
             <small><?= rex_escape($label) ?></small>
             <?php foreach ($value as $nestedLabel => $nestedValue): ?>
