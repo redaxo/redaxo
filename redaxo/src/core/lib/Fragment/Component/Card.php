@@ -7,8 +7,6 @@ use rex_fragment;
 
 class Card extends rex_fragment
 {
-    private string $fileName = 'core/Component/Card.php';
-
     public function __construct(
         /**
          * The card's main content.
@@ -39,6 +37,6 @@ class Card extends rex_fragment
 
     public function render(): string
     {
-        return parent::parse($this->fileName);
+        return parent::parse('core/Component/Card.php');
     }
 }

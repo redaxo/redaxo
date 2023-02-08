@@ -7,8 +7,6 @@ use rex_fragment;
 
 class Button extends rex_fragment
 {
-    private string $fileName = 'core/Component/Button.php';
-
     public function __construct(
         /**
          * The button's label.
@@ -109,7 +107,7 @@ class Button extends rex_fragment
 
     public function render(): string
     {
-        return parent::parse($this->fileName);
+        return parent::parse('core/Component/Button.php');
     }
 }
 

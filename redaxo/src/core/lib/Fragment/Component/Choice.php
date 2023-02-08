@@ -12,8 +12,6 @@ use function is_callable;
 
 class Choice extends rex_fragment
 {
-    private string $fileName = 'core/Component/Choice.php';
-
     /** @var array<string, array<string, string>|string> */
     private array $choicesByLabels = [];
 
@@ -145,7 +143,7 @@ class Choice extends rex_fragment
 
     public function render(): string
     {
-        return parent::parse($this->fileName);
+        return parent::parse('core/Component/Choice.php');
     }
 
     /**

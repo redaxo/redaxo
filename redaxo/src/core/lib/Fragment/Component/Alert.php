@@ -7,8 +7,6 @@ use rex_fragment;
 
 class Alert extends rex_fragment
 {
-    private string $fileName = 'core/Component/Alert.php';
-
     public function __construct(
         /**
          * The alert's main content.
@@ -58,7 +56,7 @@ class Alert extends rex_fragment
 
     public function render(): string
     {
-        return parent::parse($this->fileName);
+        return parent::parse('core/Component/Alert.php');
     }
 }
 

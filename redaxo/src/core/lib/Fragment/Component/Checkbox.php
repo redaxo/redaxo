@@ -7,8 +7,6 @@ use rex_fragment;
 
 class Checkbox extends rex_fragment
 {
-    private string $fileName = 'core/Component/Checkbox.php';
-
     public function __construct(
         /**
          * The checkbox's label. Alternatively, you can use the
@@ -66,6 +64,6 @@ class Checkbox extends rex_fragment
 
     public function render(): string
     {
-        return parent::parse($this->fileName);
+        return parent::parse('core/Component/Checkbox.php');
     }
 }

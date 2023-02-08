@@ -8,8 +8,6 @@ use rex_fragment;
 
 class Textarea extends rex_fragment
 {
-    private string $fileName = 'core/Component/Textarea.php';
-
     public function __construct(
         /**
          * The textarea's label. Alternatively, you can use
@@ -117,7 +115,7 @@ class Textarea extends rex_fragment
 
     public function render(): string
     {
-        return parent::parse($this->fileName);
+        return parent::parse('core/Component/Textarea.php');
     }
 }
 
