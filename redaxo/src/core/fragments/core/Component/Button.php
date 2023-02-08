@@ -14,9 +14,9 @@ use Redaxo\Core\Fragment\Component\Button;
     <?= $this->pill ? 'pill' : '' ?>
     <?= $this->circle ? 'circle' : '' ?>
     <?= $this->type ? 'type="'.$this->type->value.'"' : '' ?>
-    <?= $this->name ? 'name="'.$this->name.'"' : '' ?>
-    <?= $this->value ? 'value="'.$this->value.'"' : '' ?>
-    <?= $this->href ? 'href="'.$this->href.'"' : '' ?>
+    <?= $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>
+    <?= $this->value ? 'value="'.rex_escape($this->value).'"' : '' ?>
+    <?= $this->href ? 'href="'.rex_escape($this->href).'"' : '' ?>
     <?= $this->target ? 'target="'.$this->target->value.'"' : '' ?>
     <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
 >
