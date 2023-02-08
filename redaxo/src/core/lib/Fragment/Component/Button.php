@@ -121,8 +121,8 @@ enum ButtonSize: string
 enum ButtonTarget: string
 {
     case Blank = '_blank';
-    case parent = '_parent';
-    case self = '_self';
+    case Parent = '_parent';
+    case Self = '_self';
     case Top = '_top';
 }
 
