@@ -20,14 +20,22 @@ $counter = 1;
 >
     <?php foreach ($this->getChoices() as $label => $value): ?>
         <?php if (!is_array($value)): ?>
-            <sl-option value="<?= rex_escape($value) ?>"><?= rex_escape($label) ?></sl-option>
+            <sl-option
+                value="<?= rex_escape($value) ?>"
+            >
+                <?= rex_escape($label) ?>
+            </sl-option>
         <?php else: ?>
             <?php if (1 !== $counter): ?>
                 <sl-divider></sl-divider>
             <?php endif ?>
             <small><?= rex_escape($label) ?></small>
             <?php foreach ($value as $nestedLabel => $nestedValue): ?>
-                <sl-option value="<?= rex_escape($nestedValue) ?>"><?= rex_escape($nestedLabel) ?></sl-option>
+                <sl-option
+                    value="<?= rex_escape($nestedValue) ?>"
+                >
+                    <?= rex_escape($nestedLabel) ?>
+                </sl-option>
             <?php endforeach; ?>
         <?php endif ?>
         <?php $counter++ ?>

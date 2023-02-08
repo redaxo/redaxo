@@ -17,14 +17,24 @@ $counter = 1;
 >
     <?php foreach ($this->getChoices() as $label => $value): ?>
         <?php if (!is_array($value)): ?>
-            <sl-radio value="<?= rex_escape($value) ?>"<?= $this->disabled ? 'disabled' : '' ?>><?= rex_escape($label) ?></sl-radio>
+            <sl-radio
+                value="<?= rex_escape($value) ?>"
+                <?= $this->disabled ? 'disabled' : '' ?>
+            >
+                <?= rex_escape($label) ?>
+            </sl-radio>
         <?php else: ?>
             <?php if (1 !== $counter): ?>
                 <sl-divider></sl-divider>
             <?php endif ?>
             <small><?= rex_escape($label) ?></small>
             <?php foreach ($value as $nestedLabel => $nestedValue): ?>
-                <sl-radio value="<?= rex_escape($nestedValue) ?>"<?= $this->disabled ? 'disabled' : '' ?>><?= rex_escape($nestedLabel) ?></sl-radio>
+                <sl-radio
+                    value="<?= rex_escape($nestedValue) ?>"
+                    <?= $this->disabled ? 'disabled' : '' ?>
+                >
+                    <?= rex_escape($nestedLabel) ?>
+                </sl-radio>
             <?php endforeach; ?>
         <?php endif ?>
         <?php $counter++ ?>
