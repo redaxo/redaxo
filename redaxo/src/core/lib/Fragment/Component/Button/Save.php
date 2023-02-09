@@ -16,8 +16,8 @@ class Save
         public ?Slot $slotDefault = null,
         public ?string $name = null,
         public ?string $value = null,
-        /** @var array<string, string>|null */
-        public ?array $attributes = null,
+        /** @var array<string, string|int> */
+        public array $attributes = [],
     ) {}
 
     public function render(): string

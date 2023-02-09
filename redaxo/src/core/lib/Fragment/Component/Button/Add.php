@@ -13,8 +13,8 @@ class Add
 {
     public function __construct(
         public ?string $href = null,
-        /** @var array<string, string>|null */
-        public ?array $attributes = null,
+        /** @var array<string, string|int> */
+        public array $attributes = [],
     ) {}
 
     public function render(): string
