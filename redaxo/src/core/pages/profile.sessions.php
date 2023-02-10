@@ -1,9 +1,13 @@
 <?php
 
-$list = rex_list::factory('Select session_id, ip, useragent, starttime, last_activity from ' . rex::getTablePrefix() . 'user_session where user_id = '.rex::requireUser()->getId());
+if (!isset($userId) || 1 > $userId) {
+    $userId = rex::requireUser()->getId();
+}
+
+$list = rex_list::factory('Select session_id, ip, useragent, starttime, last_activity from ' . rex::getTablePrefix() . 'user_session where user_id = ' . (int) $userId);
 
 $list->addColumn('remove_session', '<i class="rex-icon rex-icon-delete"></i>', 0, ['<th class="rex-table-icon"></th>', '<td class="rex-table-icon">###VALUE###</td>']);
-$list->setColumnParams('remove_session', ['function' => 'remove_session', 'session_id' => '###session_id###']);
+$list->setColumnParams('remove_session', ['function' => 'remove_session', 'session_id' => '###session_id###', 'user_id' => $userId]);
 $list->setColumnFormat('remove_session', 'custom', static function () use ($list) {
     // prevent removing the current session
     if ($list->getValue('session_id') === session_id()) {
