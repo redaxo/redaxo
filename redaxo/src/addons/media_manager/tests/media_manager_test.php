@@ -72,7 +72,7 @@ class rex_media_manager_test extends TestCase
     {
         yield [false, 'non_existing', 'test.jpg', time()];
 
-        $media = new class extends rex_media {
+        $media = new class() extends rex_media {
             public int $fakeUpdateDate = 0;
 
             public function __construct() {}
