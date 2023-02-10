@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -54,9 +55,7 @@ class rex_media_manager_test extends TestCase
         }
     }
 
-    /**
-     * @dataProvider dataGetUrl
-     */
+    #[DataProvider('dataGetUrl')]
     public function testGetUrl($expectedBuster, $type, $file, $timestamp = null): void
     {
         $url = rex_media_manager::getUrl($type, $file, $timestamp);
@@ -69,13 +68,26 @@ class rex_media_manager_test extends TestCase
     }
 
     /** @return iterable<int, array{0: false|int, 1: string, 2: string|rex_media, 3?: int}> */
-    public function dataGetUrl(): iterable
+    public static function dataGetUrl(): iterable
     {
         yield [false, 'non_existing', 'test.jpg', time()];
 
-        $media = $this->getMockBuilder(rex_media::class)->disableOriginalConstructor()->getMock();
-        $media->method('getFileName')->willReturn('test.jpg');
-        $media->method('getUpdatedate')->willReturn(time());
+        $media = new class extends rex_media {
+            public int $fakeUpdateDate = 0;
+
+            public function __construct() {}
+
+            public function getFileName()
+            {
+                return 'test.jpg';
+            }
+
+            public function getUpdateDate()
+            {
+                return $this->fakeUpdateDate;
+            }
+        };
+        $media->fakeUpdateDate = time();
 
         yield [false, 'non_existing', $media];
 
@@ -92,9 +104,8 @@ class rex_media_manager_test extends TestCase
 
             yield [$expectedBuster, $type, 'test.jpg', $fileTimestamp];
 
-            $media = $this->getMockBuilder(rex_media::class)->disableOriginalConstructor()->getMock();
-            $media->method('getFileName')->willReturn('test.jpg');
-            $media->method('getUpdatedate')->willReturn($fileTimestamp);
+            $media = clone $media;
+            $media->fakeUpdateDate = $fileTimestamp;
 
             yield [$expectedBuster, $type, $media];
         }

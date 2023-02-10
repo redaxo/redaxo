@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -7,9 +8,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_password_policy_test extends TestCase
 {
-    /**
-     * @dataProvider provideCheck
-     */
+    #[DataProvider('provideCheck')]
     public function testCheck(array $options, $expected, $password): void
     {
         $policy = new rex_password_policy($options);
@@ -24,7 +23,7 @@ class rex_password_policy_test extends TestCase
     }
 
     /** @return iterable<int, array{array<string, array{min?: int, max?: int}>, bool, string}> */
-    public function provideCheck(): iterable
+    public static function provideCheck(): iterable
     {
         yield [[], true, 'foo'];
 
@@ -75,10 +74,10 @@ class rex_password_policy_test extends TestCase
     }
 
     /**
-     * @dataProvider provideGetHtmlAttributes
      * @param array<string, string> $expected
      * @param array<string, array{min?: int, max?: int}> $options
      */
+    #[DataProvider('provideGetHtmlAttributes')]
     public function testGetHtmlAttributes(array $expected, array $options): void
     {
         $policy = new rex_password_policy($options);
@@ -87,7 +86,7 @@ class rex_password_policy_test extends TestCase
     }
 
     /** @return iterable<int, array{array<string, string>, array<string, array{min?: int, max?: int}>}> */
-    public function provideGetHtmlAttributes(): iterable
+    public static function provideGetHtmlAttributes(): iterable
     {
         yield [
             ['passwordrules' => 'allowed: upper, lower, digit, special'],

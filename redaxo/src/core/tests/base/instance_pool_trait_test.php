@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 class rex_test_instance_pool_base
@@ -62,9 +63,7 @@ class rex_instance_pool_trait_test extends TestCase
         });
     }
 
-    /**
-     * @depends testGetInstance
-     */
+    #[Depends('testGetInstance')]
     public function testClearInstance(): void
     {
         rex_test_instance_pool_1::clearInstance(2);
@@ -72,9 +71,7 @@ class rex_instance_pool_trait_test extends TestCase
         static::assertTrue(rex_test_instance_pool_2::hasInstance(2), 'clearInstance uses LSB, instance of subclass 2 still exists');
     }
 
-    /**
-     * @depends testClearInstance
-     */
+    #[Depends('testClearInstance')]
     public function testClearInstancePool(): void
     {
         rex_test_instance_pool_2::clearInstancePool();

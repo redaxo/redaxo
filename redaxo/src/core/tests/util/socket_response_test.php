@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,7 +18,7 @@ class rex_socket_response_test extends TestCase
     }
 
     /** @return list<array{string, ?int, ?string, string}> */
-    public function getStatusProvider(): array
+    public static function getStatusProvider(): array
     {
         return [
             ['',                              null, null,                'isInvalid'],
@@ -33,9 +34,7 @@ class rex_socket_response_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getStatusProvider
-     */
+    #[DataProvider('getStatusProvider')]
     public function testGetStatus($header, $statusCode, $statusMessage, $positiveMethod): void
     {
         $response = $this->getResponse($header . "\r\n");
