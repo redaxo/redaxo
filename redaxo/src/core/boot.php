@@ -32,6 +32,8 @@ if ('cli' !== PHP_SAPI) {
     @session_cache_limiter('');
 }
 
+ini_set('session.use_strict_mode', '1');
+
 // set arg_separator to get valid html output if session.use_trans_sid is activated
 ini_set('arg_separator.output', '&amp;');
 // disable html_errors to avoid html in exceptions and log files
