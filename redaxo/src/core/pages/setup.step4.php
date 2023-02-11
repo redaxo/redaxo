@@ -196,7 +196,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 $content .= '</form>';
 
 $content .= '
-            <script type="text/javascript">
+            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
                  <!--
                 jQuery(function($) {
                     var $container = $(".rex-js-setup-step-4");

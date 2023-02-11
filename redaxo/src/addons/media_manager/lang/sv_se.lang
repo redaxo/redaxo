@@ -152,7 +152,7 @@ media_manager_effect_convert2img_color_notice = Formatera "#ffffff", om ingentin
 media_manager_effect_image_properties = Bild: inställningar (kvalité, interlace, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Lämna tom för standardvärdet.
 media_manager_effect_image_properties_png_compression_notice = [0-9]. Lämna tom för standardvärdet.
-media_manager_effect_image_properties_webp_quality_notice = [0-100]. Lämna tom för standardvärdet.
+media_manager_effect_image_properties_webp_quality_notice = [0-101]. Lämna tom för standardvärdet.
 media_manager_effect_image_properties_interlace_notice = Lämna tom för standardvärdet.
 
 media_manager_effect_brightness = Bild: Ljusstyrka
@@ -167,5 +167,5 @@ media_manager_effect_sepia = Bild: sepia
 
 media_manager_effect_greyscale = Bild: grånyanser
 
-media_manager_effect_image_format = Bild: konvertera till JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format = Bild: konvertera till JPEG/PNG/GIF/WEBP/AVIF
 media_manager_effect_image_format_convertto = Målformat

@@ -31,7 +31,7 @@ class rex_category_test extends TestCase
         rex_category::clearInstancePool();
     }
 
-    public function testHasValue()
+    public function testHasValue(): void
     {
         $instance = $this->createCategoryWithoutConstructor();
 
@@ -45,7 +45,7 @@ class rex_category_test extends TestCase
         static::assertFalse($instance->hasValue('cat_bar'));
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $instance = $this->createCategoryWithoutConstructor();
 
@@ -159,7 +159,6 @@ class rex_category_test extends TestCase
 
     private function createCategoryWithoutConstructor(): rex_category
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return (new ReflectionClass(rex_category::class))->newInstanceWithoutConstructor();
     }
 
@@ -175,7 +174,7 @@ class rex_category_test extends TestCase
     private function createCategory(?rex_category $parent, array $params): rex_category
     {
         return new class($parent, $params) extends rex_category {
-            private $parent;
+            private ?rex_category $parent;
 
             public function __construct(?rex_category $parent, array $params)
             {
@@ -188,6 +187,7 @@ class rex_category_test extends TestCase
 
             public function getParent()
             {
+                /** @var static */
                 return $this->parent;
             }
         };

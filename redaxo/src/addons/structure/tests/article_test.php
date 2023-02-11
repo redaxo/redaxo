@@ -31,7 +31,7 @@ class rex_article_test extends TestCase
         rex_article::clearInstancePool();
     }
 
-    public function testHasValue()
+    public function testHasValue(): void
     {
         $instance = $this->createArticleWithoutConstructor();
 
@@ -45,7 +45,7 @@ class rex_article_test extends TestCase
         static::assertFalse($instance->hasValue('art_bar'));
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $instance = $this->createArticleWithoutConstructor();
 
@@ -61,7 +61,6 @@ class rex_article_test extends TestCase
 
     private function createArticleWithoutConstructor(): rex_article
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return (new ReflectionClass(rex_article::class))->newInstanceWithoutConstructor();
     }
 }

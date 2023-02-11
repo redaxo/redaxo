@@ -146,7 +146,7 @@ class rex_sql implements Iterator
                 self::$pdo[$db] = $conn;
 
                 // ggf. Strict Mode abschalten
-                $this->setQuery('SET SESSION SQL_MODE="", NAMES utf8mb4');
+                self::factory()->setQuery('SET SESSION SQL_MODE="", NAMES utf8mb4');
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
@@ -1193,7 +1193,6 @@ class rex_sql implements Iterator
      *
      * @psalm-taint-source input
      * @psalm-taint-sink sql $query
-     * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
@@ -1228,7 +1227,6 @@ class rex_sql implements Iterator
      *
      * @psalm-taint-source input
      * @psalm-taint-sink sql $query
-     * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {

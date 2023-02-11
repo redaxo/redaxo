@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_context_test extends TestCase
 {
-    public function testGetUrl()
+    public function testGetUrl(): void
     {
         $globalParams = ['int' => '25', 'str' => '<a b$c&?>'];
         $context = new rex_context($globalParams);
@@ -19,7 +19,7 @@ class rex_context_test extends TestCase
         static::assertEquals('index.php?int=25&amp;str=%3Ca+b%24c%26%3F%3E&amp;myarr[a]=xyz&amp;myarr[b]=123', $context->getUrl(['myarr' => ['a' => 'xyz', 'b' => 123]]), 'assoc arrays are handled');
     }
 
-    public function testGetHiddenInputFields()
+    public function testGetHiddenInputFields(): void
     {
         $globalParams = ['int' => '25', 'str' => '<a b$c&?>'];
         $context = new rex_context($globalParams);
@@ -61,7 +61,7 @@ class rex_context_test extends TestCase
         );
     }
 
-    public function testFromGet()
+    public function testFromGet(): void
     {
         $key = 'context_test_get';
         $_GET[$key] = 1;
@@ -71,7 +71,7 @@ class rex_context_test extends TestCase
         static::assertEquals($_GET[$key], $context->getParam($key));
     }
 
-    public function testFromPost()
+    public function testFromPost(): void
     {
         $key = 'context_test_post';
         $_POST[$key] = 'foo';
@@ -81,7 +81,7 @@ class rex_context_test extends TestCase
         static::assertEquals($_POST[$key], $context->getParam($key));
     }
 
-    public function testRestore()
+    public function testRestore(): void
     {
         $keyGet = 'context_test_restore_1';
         $keyPost = 'context_test_restore_2';

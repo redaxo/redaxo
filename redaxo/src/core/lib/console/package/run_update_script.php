@@ -11,11 +11,23 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_package_run_update_script extends rex_console_command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Runs the update.php of the given package with given previous version')
-            ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the package (addon or plugin); e.g. "cronjob" or "structure/content"')
+            ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the package (addon or plugin); e.g. "cronjob" or "structure/content"', null, static function () {
+                $packageNames = [];
+
+                foreach (rex_package::getRegisteredPackages() as $package) {
+                    if (!$package->isInstalled()) {
+                        continue;
+                    }
+
+                    $packageNames[] = $package->getPackageId();
+                }
+
+                return $packageNames;
+            })
             ->addArgument('previous-version', InputArgument::REQUIRED, 'The previous package version that is used for version comparisons in update.php')
         ;
     }

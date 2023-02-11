@@ -26,7 +26,7 @@ class rex_dir_test extends TestCase
         return rex_path::addonData('tests', 'rex_dir_test/' . $file);
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $path = $this->getPath('create');
         static::assertTrue(rex_dir::create($path), 'create() returns true on success');
@@ -34,14 +34,14 @@ class rex_dir_test extends TestCase
         static::assertTrue(rex_dir::create($path), 'create() on existing dirs returns also true');
     }
 
-    public function testCreateRecursive()
+    public function testCreateRecursive(): void
     {
         $path = $this->getPath('create_recursive/test/test');
         static::assertTrue(rex_dir::create($path), 'create() returns true on success');
         static::assertDirectoryExists($path, 'dir exists after create()');
     }
 
-    public function testCopyToNewDir()
+    public function testCopyToNewDir(): void
     {
         $orig = $this->getPath('orig1');
         $copy = $this->getPath('copy1');
@@ -55,7 +55,7 @@ class rex_dir_test extends TestCase
         static::assertTrue(is_file($copy . '/dir2/file.txt'), 'file in subdir exists after copy()');
     }
 
-    public function testCopyToExistingDir()
+    public function testCopyToExistingDir(): void
     {
         $orig = $this->getPath('orig2');
         $copy = $this->getPath('copy2');
@@ -83,7 +83,7 @@ class rex_dir_test extends TestCase
         static::assertEquals('file2_new', rex_file::get($copy . '/dir3/file2.txt'), 'existing file in destination dir will be replaced');
     }
 
-    public function testDeleteComplete()
+    public function testDeleteComplete(): void
     {
         $dir = $this->getPath('deleteComplete');
         $file = $this->getPath('deleteComplete/subdir/file.txt');
@@ -94,7 +94,7 @@ class rex_dir_test extends TestCase
         static::assertDirectoryDoesNotExist($dir, 'dir does not exist after complete delete()');
     }
 
-    public function testDeleteWithoutSelf()
+    public function testDeleteWithoutSelf(): void
     {
         $dir = $this->getPath('deleteCompleteWithoutSelf');
         $file = $this->getPath('deleteCompleteWithoutSelf/subdir/file.txt');
@@ -107,7 +107,7 @@ class rex_dir_test extends TestCase
         static::assertDirectoryExists($dir, 'main dir still exists after delete() without self');
     }
 
-    public function testDeleteFilesNotRecursive()
+    public function testDeleteFilesNotRecursive(): void
     {
         $dir = $this->getPath('deleteFilesNotRecursive');
         $file1 = $this->getPath('deleteFilesNotRecursive/file.txt');
@@ -122,7 +122,7 @@ class rex_dir_test extends TestCase
         static::assertTrue(is_file($file2), 'file in subdir still exists after non-recursive deleteFiles()');
     }
 
-    public function testDeleteFilesRecursive()
+    public function testDeleteFilesRecursive(): void
     {
         $dir = $this->getPath('deleteFilesRecursive');
         $file1 = $this->getPath('deleteFilesRecursive/file.txt');

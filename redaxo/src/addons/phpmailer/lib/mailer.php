@@ -161,6 +161,9 @@ class rex_mailer extends PHPMailer
         unset($this->xHeader[$kind]);
     }
 
+    /**
+     * @return void
+     */
     public function clearAllRecipients()
     {
         parent::clearAllRecipients();

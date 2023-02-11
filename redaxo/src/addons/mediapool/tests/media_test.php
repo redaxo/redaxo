@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_media_test extends TestCase
 {
-    public function testHasValue()
+    public function testHasValue(): void
     {
         $media = $this->createMediaWithoutConstructor();
 
@@ -21,7 +21,7 @@ class rex_media_test extends TestCase
         static::assertFalse($media->hasValue('med_bar'));
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $media = $this->createMediaWithoutConstructor();
 
@@ -37,7 +37,6 @@ class rex_media_test extends TestCase
 
     private function createMediaWithoutConstructor(): rex_media
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return (new ReflectionClass(rex_media::class))->newInstanceWithoutConstructor();
     }
 }

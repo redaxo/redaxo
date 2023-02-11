@@ -17,14 +17,14 @@ class rex_log_file_test extends TestCase
         return rex_path::addonData('tests', 'rex_log_file_test/' . $file);
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $path = $this->getPath('test1.log');
         new rex_log_file($path);
         static::assertStringEqualsFile($path, '');
     }
 
-    public function testConstructWithMaxFileSize()
+    public function testConstructWithMaxFileSize(): void
     {
         $path = $this->getPath('test2.log');
         $path2 = $path . '.2';
@@ -48,7 +48,7 @@ class rex_log_file_test extends TestCase
     /**
      * @depends testConstruct
      */
-    public function testAdd()
+    public function testAdd(): void
     {
         $path = $this->getPath('test3.log');
         $log = new rex_log_file($path);
@@ -56,8 +56,8 @@ class rex_log_file_test extends TestCase
         $log->add(['test2a', 'test2b', 'test2c']);
 
         $format = <<<'EOF'
-            %i-%i-%i %i:%i:%i | test1a | test1b
-            %i-%i-%i %i:%i:%i | test2a | test2b | test2c
+            %i-%i-%iT%i:%i:%i%i:%i | test1a | test1b
+            %i-%i-%iT%i:%i:%i%i:%i | test2a | test2b | test2c
             EOF;
         static::assertStringMatchesFormat($format, rex_file::require($path));
     }
@@ -65,7 +65,7 @@ class rex_log_file_test extends TestCase
     /**
      * @depends testConstruct
      */
-    public function testIterator()
+    public function testIterator(): void
     {
         $path = $this->getPath('test4.log');
         $log = new rex_log_file($path);
@@ -99,7 +99,7 @@ class rex_log_file_test extends TestCase
         static::assertEquals($expected, iterator_to_array($log));
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $path = $this->getPath('delete.log');
         $path2 = $path . '.2';

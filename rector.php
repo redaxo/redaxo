@@ -56,6 +56,8 @@ return static function (RectorConfig $rectorConfig): void {
         'redaxo/src/addons/be_style/vendor',
         'redaxo/src/addons/debug/vendor',
         'redaxo/src/addons/phpmailer/vendor',
+
+        FirstClassCallableRector::class => ['redaxo/src/core/boot.php'],
     ]);
 
     $rectorConfig->parallel();

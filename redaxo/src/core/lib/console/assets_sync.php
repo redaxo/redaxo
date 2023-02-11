@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class rex_command_assets_sync extends rex_console_command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Sync assets within the assets-dir with the sources-dir')
@@ -26,7 +26,7 @@ class rex_command_assets_sync extends rex_console_command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $created = $updated = $errored = 0;
         $io = $this->getStyle($input, $output);

@@ -62,7 +62,7 @@ class rex_article_content_test extends TestCase
         rex_article::clearInstancePool();
     }
 
-    public function testBcHasValue()
+    public function testBcHasValue(): void
     {
         $instance = new rex_article_content(1, 1);
 
@@ -80,7 +80,7 @@ class rex_article_content_test extends TestCase
         static::assertFalse($instance->hasValue('art_bar'));
     }
 
-    public function testBcGetValue()
+    public function testBcGetValue(): void
     {
         $instance = new rex_article_content(1, 1);
 
@@ -117,7 +117,7 @@ class rex_article_content_test extends TestCase
         ];
     }
 
-    public function testHasValue()
+    public function testHasValue(): void
     {
         $instance = new rex_article_content(1, 1);
 
@@ -128,7 +128,7 @@ class rex_article_content_test extends TestCase
         static::assertFalse($instance->hasValue('art_bar'));
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $instance = new rex_article_content(1, 1);
 

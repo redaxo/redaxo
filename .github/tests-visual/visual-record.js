@@ -12,7 +12,7 @@ const puppeteer = require('puppeteer');
 const pixelmatch = require('pixelmatch');
 const PNG = require('pngjs').PNG;
 const fs = require('fs');
-const mkdirp = require('mkdirp');
+const {mkdirp} = require('mkdirp');
 
 const viewportWidth = 1280;
 const viewportHeight = 800;
@@ -139,7 +139,11 @@ async function processScreenshot(page, screenshotName) {
             '#rex-page-system-report-html .row td',
             'td[data-title="Version"]',
             'td[data-title="Erstellt am"]',
-            'tr[class^="rex-state-"] td[data-title="Zeit"]' // system log items
+            'tr[class^="rex-state-"] td[data-title="Zeit"]', // system log items
+            'td[data-title="Sitzungs-ID"]',
+            'td[data-title="User-Agent"]',
+            'td[data-title="Startzeit"]',
+            'td[data-title="Letzte Aktivität"]'
         ];
 
         changingElements.forEach(function (selector) {
@@ -193,7 +197,7 @@ async function logIntoBackend(page, username = 'myusername', password = '91dfd9d
 async function goToUrlOrThrow(page, url, options) {
     // prevent timeouts on slower pages
     options.timeout = 0;
-    
+
     const response = await page.goto(url, options);
     if (!response.ok() && response.status() != 304) {
         const error = `Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`;

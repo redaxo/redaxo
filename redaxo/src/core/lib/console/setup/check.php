@@ -12,14 +12,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_setup_check extends rex_console_command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Check the commandline interface (CLI) environment for REDAXO requirements')
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $exitCode = 0;
         $io = $this->getStyle($input, $output);

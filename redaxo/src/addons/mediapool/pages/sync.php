@@ -149,7 +149,7 @@ if ($diffCount > 0) {
                 </fieldset>
             </form>
 
-            <script type="text/javascript">
+            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
                 jQuery(document).ready(function($){
                     $("input[name=\'sync_files[]\']").change(function() {
                         $(this).closest(\'form\').find("[type=\'submit\']").attr("disabled", $("input[name=\'sync_files[]\']:checked").length == 0);

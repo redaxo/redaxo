@@ -26,7 +26,7 @@ class rex_file_test extends TestCase
         return rex_path::addonData('tests', 'rex_file_test/' . $file);
     }
 
-    public function testRequireThrows()
+    public function testRequireThrows(): void
     {
         $this->expectException(rex_exception::class);
 
@@ -34,7 +34,7 @@ class rex_file_test extends TestCase
         rex_file::require($file);
     }
 
-    public function testGetDefault()
+    public function testGetDefault(): void
     {
         $file = $this->getPath('non_existing.txt');
         static::assertNull(rex_file::get($file), 'get() returns null for non-existing files');
@@ -42,7 +42,7 @@ class rex_file_test extends TestCase
         static::assertEquals($myDefault, rex_file::get($file, $myDefault), 'get() returns given default value for non-existing files');
     }
 
-    public function testGetConfigDefault()
+    public function testGetConfigDefault(): void
     {
         $file = $this->getPath('non_existing.txt');
         static::assertEquals([], rex_file::getConfig($file), 'getConfig() returns empty array for non-existing files');
@@ -50,7 +50,7 @@ class rex_file_test extends TestCase
         static::assertEquals($myDefault, rex_file::getConfig($file, $myDefault), 'getConfig() returns given default value for non-existing files');
     }
 
-    public function testGetCacheDefault()
+    public function testGetCacheDefault(): void
     {
         $file = $this->getPath('non_existing.txt');
         static::assertEquals([], rex_file::getCache($file), 'getCache() returns empty array for non-existing files');
@@ -58,7 +58,7 @@ class rex_file_test extends TestCase
         static::assertEquals($myDefault, rex_file::getCache($file, $myDefault), 'getCache() returns given default value for non-existing files');
     }
 
-    public function testPutGet()
+    public function testPutGet(): void
     {
         $file = $this->getPath('putget.txt');
         $content = 'test';
@@ -66,7 +66,7 @@ class rex_file_test extends TestCase
         static::assertEquals($content, rex_file::get($file), 'get() returns content of file');
     }
 
-    public function testPutGetConfig()
+    public function testPutGetConfig(): void
     {
         $file = $this->getPath('putgetcache.txt');
         $content = ['test', 'key' => 'value'];
@@ -74,7 +74,7 @@ class rex_file_test extends TestCase
         static::assertEquals($content, rex_file::getConfig($file), 'getConfig() returns content of file');
     }
 
-    public function testPutGetCache()
+    public function testPutGetCache(): void
     {
         $file = $this->getPath('putgetcache.txt');
         $content = ['test', 'key' => 'value'];
@@ -82,7 +82,7 @@ class rex_file_test extends TestCase
         static::assertEquals($content, rex_file::getCache($file), 'getCache() returns content of file');
     }
 
-    public function testPutInNewDir()
+    public function testPutInNewDir(): void
     {
         $file = $this->getPath('subdir/test.txt');
         $content = 'test';
@@ -90,7 +90,7 @@ class rex_file_test extends TestCase
         static::assertEquals($content, rex_file::get($file), 'get() returns content of file');
     }
 
-    public function testCopyToFile()
+    public function testCopyToFile(): void
     {
         $orig = $this->getPath('orig.txt');
         $copy = $this->getPath('sub/copy.txt');
@@ -101,7 +101,7 @@ class rex_file_test extends TestCase
         static::assertEquals($content, rex_file::get($copy), 'content of new file is the same as of original file');
     }
 
-    public function testCopyToDir()
+    public function testCopyToDir(): void
     {
         $orig = $this->getPath('file.txt');
         $copyDir = $this->getPath('copy');
@@ -113,7 +113,7 @@ class rex_file_test extends TestCase
         static::assertEquals($content, rex_file::get($copyFile), 'content of new file is the same as of original file');
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $file = $this->getPath('delete.txt');
         rex_file::put($file, '');
@@ -123,7 +123,8 @@ class rex_file_test extends TestCase
         static::assertTrue(rex_file::delete($file), 'delete() returns true when the file is already deleted');
     }
 
-    public function dataTestExtension()
+    /** @return list<array{string, string}> */
+    public function dataTestExtension(): array
     {
         return [
             ['test.txt',      'txt'],
@@ -136,12 +137,13 @@ class rex_file_test extends TestCase
     /**
      * @dataProvider dataTestExtension
      */
-    public function testExtension($file, $expectedExtension)
+    public function testExtension($file, $expectedExtension): void
     {
         static::assertEquals($expectedExtension, rex_file::extension($file), 'extension() returns file extension');
     }
 
-    public function dataTestMimeType(): iterable
+    /** @return list<array{string, string}> */
+    public function dataTestMimeType(): array
     {
         return [
             ['image/png', rex_path::pluginAssets('be_style', 'redaxo', 'icons/apple-touch-icon.png')],
@@ -160,7 +162,7 @@ class rex_file_test extends TestCase
         static::assertEquals($expectedMimeType, rex_file::mimeType($file));
     }
 
-    public function testGetOutput()
+    public function testGetOutput(): void
     {
         $file = $this->getPath('test.php');
         rex_file::put($file, 'a<?php echo "b";');

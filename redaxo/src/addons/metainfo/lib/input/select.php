@@ -4,6 +4,8 @@
  * @package redaxo\metainfo
  *
  * @internal
+ *
+ * @extends rex_input<string|array<string>>
  */
 class rex_input_select extends rex_input
 {

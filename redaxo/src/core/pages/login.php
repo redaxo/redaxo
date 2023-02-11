@@ -116,7 +116,7 @@ $content = '
     ' . rex_csrf_token::factory('backend_login')->getHiddenField() . '
     <input type="hidden" name="rex_user_passkey" data-auth-passkey="'.rex_escape($webauthn->getGetArgs()).'"/>
 </form>
-<script type="text/javascript">
+<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
      <!--
     jQuery(function($) {
         $("#rex-form-login")

@@ -170,7 +170,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $element = $fragment->parse('core/form/form.php');
 
         $element .= '
-            <script type="text/javascript">
+            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
             // <![CDATA[
                 jQuery(function($){
                     $(".rex-js-cronjob-interval-all").each(function () {
