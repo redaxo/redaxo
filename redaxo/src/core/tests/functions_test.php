@@ -16,6 +16,7 @@ class rex_functions_test extends TestCase
 
         $escapped = rex_escape($obj);
 
+        /** @psalm-suppress RedundantCondition */
         static::assertSame($str, $obj->str);
 
         static::assertInstanceOf(stdClass::class, $escapped);
