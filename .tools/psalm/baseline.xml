@@ -4339,9 +4339,6 @@
       <code>$sql-&gt;getValue('password')</code>
       <code>rex::getProperty('session_duration')</code>
     </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$this-&gt;userLogin</code>
-    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/login/backend_password_policy.php">
     <ArgumentTypeCoercion>
