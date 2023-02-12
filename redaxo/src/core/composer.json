@@ -10,7 +10,7 @@
         "symfony/polyfill-php80": "^1.27",
         "symfony/var-dumper": "^5.4.19",
         "symfony/yaml": "^5.4.19",
-        "voku/anti-xss": "^4.1.39"
+        "voku/anti-xss": "^4.1.41"
     },
 
     "replace": {

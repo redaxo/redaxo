@@ -53,7 +53,7 @@
         "symfony/string": "v5.4.19",
         "symfony/var-dumper": "v5.4.19",
         "symfony/yaml": "v5.4.19",
-        "voku/anti-xss": "4.1.39",
+        "voku/anti-xss": "4.1.41",
         "voku/portable-ascii": "2.0.1",
         "voku/portable-utf8": "6.0.12"
     },
