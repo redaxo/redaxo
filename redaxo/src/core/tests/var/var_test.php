@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class rex_var_test_var extends rex_var
 {
     public function getOutput()
@@ -22,10 +24,12 @@ class rex_var_2nd_test_var extends rex_var
     }
 }
 
-class rex_var_test extends rex_var_base_test
+require_once __DIR__.'/var_test_base.php';
+
+class rex_var_test extends rex_var_test_base
 {
     /** @return list<array{string, string}> */
-    public function parseTokensProvider(): array
+    public static function parseTokensProvider(): array
     {
         return [
             ['aREX_TEST_VAR[content=b]c', 'abc'],
@@ -47,16 +51,14 @@ c', "a\nb\nc"],
         ];
     }
 
-    /**
-     * @dataProvider parseTokensProvider
-     */
+    #[DataProvider('parseTokensProvider')]
     public function testParseTokens($content, $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }
 
     /** @return list<array{string, string}> */
-    public function parseArgsSyntaxProvider(): array
+    public static function parseArgsSyntaxProvider(): array
     {
         return [
             ['REX_TEST_VAR[]', 'default'],
@@ -115,16 +117,14 @@ c', "a\nb\nc"],
         ];
     }
 
-    /**
-     * @dataProvider parseArgsSyntaxProvider
-     */
+    #[DataProvider('parseArgsSyntaxProvider')]
     public function testParseArgsSyntax($content, $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }
 
     /** @return list<array{string, string}> */
-    public function parseGlobalArgsProvider(): array
+    public static function parseGlobalArgsProvider(): array
     {
         return [
             ['REX_TEST_VAR[content=ab instead=cd]', 'cd'],
@@ -153,9 +153,7 @@ c', "a\nb\nc"],
         return sprintf('var:%s class:%s subject:%s content:%s suffix:%s', $params['var'], $params['class'], $params['subject'], $params['content'], $params['suffix']);
     }
 
-    /**
-     * @dataProvider parseGlobalArgsProvider
-     */
+    #[DataProvider('parseGlobalArgsProvider')]
     public function testParseGlobalArgs($content, $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);

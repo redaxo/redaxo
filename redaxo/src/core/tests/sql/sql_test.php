@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -76,9 +77,7 @@ class rex_sql_test extends TestCase
         static::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, 'fu-database'));
     }
 
-    /**
-     * @dataProvider provideDbType
-     */
+    #[DataProvider('provideDbType')]
     public function testDbType(string $expected, string $version): void
     {
         $sql = $this->getVersionMock($version);
@@ -86,7 +85,7 @@ class rex_sql_test extends TestCase
         static::assertSame($expected, $sql->getDbType());
     }
 
-    public function provideDbType(): array
+    public static function provideDbType(): array
     {
         return [
             [rex_sql::MYSQL, '5.7.7'],
@@ -97,9 +96,7 @@ class rex_sql_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideDbVersion
-     */
+    #[DataProvider('provideDbVersion')]
     public function testDbVersion(string $expected, string $version): void
     {
         $sql = $this->getVersionMock($version);
@@ -107,7 +104,7 @@ class rex_sql_test extends TestCase
         static::assertSame($expected, $sql->getDbVersion());
     }
 
-    public function provideDbVersion(): array
+    public static function provideDbVersion(): array
     {
         return [
             ['5.7.7', '5.7.7'],
@@ -156,7 +153,7 @@ class rex_sql_test extends TestCase
         static::assertSame('\\%foo\\_bar\\\\baz\\\\\\_qux', $sql->escapeLikeWildcards('%foo_bar\\baz\\_qux'));
     }
 
-    /** @dataProvider dataIn */
+    #[DataProvider('dataIn')]
     public function testIn(string $expected, array $values): void
     {
         $sql = rex_sql::factory();
@@ -165,7 +162,7 @@ class rex_sql_test extends TestCase
         static::assertSame($expected, $in);
     }
 
-    public function dataIn(): iterable
+    public static function dataIn(): iterable
     {
         return [
             ['', []],
@@ -545,16 +542,14 @@ class rex_sql_test extends TestCase
         static::assertContains(self::VIEW, $tables);
     }
 
-    /**
-     * @dataProvider provideGetQueryTypes
-     */
+    #[DataProvider('provideGetQueryTypes')]
     public function testGetQueryType(string $query, $expectedQueryType): void
     {
         $actualQueryType = rex_sql::getQueryType($query);
         static::assertSame($expectedQueryType, $actualQueryType);
     }
 
-    public function provideGetQueryTypes(): array
+    public static function provideGetQueryTypes(): array
     {
         return [
             ['Select * from testTable', 'SELECT'],
