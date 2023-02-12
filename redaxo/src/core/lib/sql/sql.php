@@ -820,7 +820,7 @@ class rex_sql implements Iterator
         if (!$this->lastRow) {
             $lastRow = $this->stmt->fetch($fetchType);
             if (false === $lastRow) {
-                throw new rex_sql_exception('Unable to fetch row.');
+                throw new rex_sql_exception('Unable to fetch row for statement "'.$this->query.'"', null, $this);
             }
             $this->lastRow = $lastRow;
         }
