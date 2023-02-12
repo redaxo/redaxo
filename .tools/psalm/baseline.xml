@@ -5699,16 +5699,6 @@
       <code>setType</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/core/tests/util/finder_test.php">
-    <MixedArgument>
-      <code>$contains</code>
-      <code>$file</code>
-      <code>$iterator</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$file</code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/tests/util/formatter_test.php">
     <MixedArrayAccess>
       <code>$params['some']</code>
@@ -5718,11 +5708,6 @@
       <code>$params['some']</code>
       <code>$params['subject']</code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/tests/util/socket_response_test.php">
-    <MixedArgument>
-      <code>$content</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/core/tests/util/socket_test.php">
     <MixedArgument>

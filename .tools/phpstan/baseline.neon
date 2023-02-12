@@ -3221,26 +3221,6 @@ parameters:
 			path: ../../redaxo/src/core/tests/sql/sql_table_test.php
 
 		-
-			message: "#^Property class@anonymous/core/tests/sql/sql_test\\.php\\:128\\:\\:\\$version has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/sql/sql_test.php
-
-		-
-			message: "#^Method rex_finder_test\\:\\:assertIteratorContains\\(\\) has parameter \\$contains with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/finder_test.php
-
-		-
-			message: "#^Method rex_finder_test\\:\\:assertIteratorContains\\(\\) has parameter \\$iterator with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/finder_test.php
-
-		-
-			message: "#^Method rex_socket_response_test\\:\\:getResponse\\(\\) has parameter \\$content with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/socket_response_test.php
-
-		-
 			message: "#^Method rex_socket_test\\:\\:testWriteRequest\\(\\) has parameter \\$socket with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/util/socket_test.php

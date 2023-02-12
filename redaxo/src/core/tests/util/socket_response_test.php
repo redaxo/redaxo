@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_socket_response_test extends TestCase
 {
-    private function getResponse($content): rex_socket_response
+    private function getResponse(string $content): rex_socket_response
     {
         $stream = fopen('php://temp', 'r+');
         fwrite($stream, $content);
