@@ -35,7 +35,7 @@ class rex_socket_response_test extends TestCase
     }
 
     #[DataProvider('getStatusProvider')]
-    public function testGetStatus($header, $statusCode, $statusMessage, $positiveMethod): void
+    public function testGetStatus(string $header, ?int $statusCode, ?string $statusMessage, string $positiveMethod): void
     {
         $response = $this->getResponse($header . "\r\n");
 

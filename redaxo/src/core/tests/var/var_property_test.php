@@ -28,7 +28,7 @@ class rex_var_property_test extends rex_var_test_base
     }
 
     #[DataProvider('propertyReplaceProvider')]
-    public function testPropertyReplace($content, $expectedOutput): void
+    public function testPropertyReplace(string $content, string $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }

@@ -44,8 +44,9 @@ class rex_type_test extends TestCase
         ];
     }
 
+    /** @param string|callable(mixed):mixed|list<array{string, string, mixed}> $vartype */
     #[DataProvider('castProvider')]
-    public function testCast($var, $vartype, $expectedResult): void
+    public function testCast(mixed $var, string|callable|array $vartype, mixed $expectedResult): void
     {
         static::assertSame($expectedResult, rex_type::cast($var, $vartype));
     }
@@ -65,10 +66,11 @@ class rex_type_test extends TestCase
     }
 
     #[DataProvider('castWrongVartypeProvider')]
-    public function testCastWrongVartype($vartype): void
+    public function testCastWrongVartype(mixed $vartype): void
     {
         $this->expectException(InvalidArgumentException::class);
 
+        /** @psalm-suppress MixedArgument */
         rex_type::cast(1, $vartype);
     }
 }

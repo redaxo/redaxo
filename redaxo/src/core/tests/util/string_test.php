@@ -28,7 +28,7 @@ class rex_string_test extends TestCase
     }
 
     #[DataProvider('normalizeProvider')]
-    public function testNormalize($expected, $string, $replaceChar = '_', $allowedChars = ''): void
+    public function testNormalize(string $expected, string $string, string $replaceChar = '_', string $allowedChars = ''): void
     {
         static::assertEquals($expected, rex_string::normalize($string, $replaceChar, $allowedChars));
     }
@@ -49,7 +49,7 @@ class rex_string_test extends TestCase
     }
 
     #[DataProvider('splitProvider')]
-    public function testSplit($string, $expectedArray): void
+    public function testSplit(string $string, array $expectedArray): void
     {
         static::assertEquals($expectedArray, rex_string::split($string));
     }
@@ -66,7 +66,7 @@ class rex_string_test extends TestCase
     }
 
     #[DataProvider('buildQueryProvider')]
-    public function testBuildQuery($expected, $params, $argSeparator = '&'): void
+    public function testBuildQuery(string $expected, array $params, string $argSeparator = '&'): void
     {
         static::assertEquals($expected, rex_string::buildQuery($params, $argSeparator));
     }

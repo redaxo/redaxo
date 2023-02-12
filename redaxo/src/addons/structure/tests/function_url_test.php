@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class rex_structure_function_url_test extends TestCase
 {
     #[DataProvider('provideRedirectException')]
-    public function testRedirectException($articleId): never
+    public function testRedirectException(string $articleId): never
     {
         $this->expectException(InvalidArgumentException::class);
 

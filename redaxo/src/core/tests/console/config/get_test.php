@@ -10,7 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 class rex_command_config_get_test extends TestCase
 {
     #[DataProvider('dataKeyFound')]
-    public function testKeyFound($expectedValue, $key): void
+    public function testKeyFound(string $expectedValue, string $key): void
     {
         $commandTester = new CommandTester(new rex_command_config_get());
         $commandTester->execute([

@@ -18,7 +18,7 @@ class rex_path_test extends TestCase
     }
 
     #[DataProvider('dataRelative')]
-    public function testRelative($expected, $path, $basePath = null): void
+    public function testRelative(string $expected, string $path, ?string $basePath = null): void
     {
         static::assertSame($this->path($expected), rex_path::relative($path, $basePath));
     }
@@ -57,7 +57,7 @@ class rex_path_test extends TestCase
         static::assertNull(rex_path::findBinaryPath('noone-knows'));
     }
 
-    private function path($path): string
+    private function path(string $path): string
     {
         return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
     }
