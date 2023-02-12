@@ -270,7 +270,11 @@ class rex_cronjob_manager_sql
     private function tryExecuteJob(array $job, $log = true, $resetExecutionStart = false)
     {
         $params = $job['parameters'] ? json_decode($job['parameters'], true) : [];
-        $cronjob = rex_cronjob::factory($job['type']);
+
+        /** @psalm-taint-escape callable */ // It is intended that the class name is coming from database
+        $type = $job['type'];
+
+        $cronjob = rex_cronjob::factory($type);
 
         $this->setNextTime($job['id'], $job['interval'], $resetExecutionStart);
 

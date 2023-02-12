@@ -29,6 +29,7 @@
  *
  * @psalm-taint-escape has_quotes
  * @psalm-taint-escape html
+ * @psalm-pure
  */
 function rex_escape($value, $strategy = 'html')
 {

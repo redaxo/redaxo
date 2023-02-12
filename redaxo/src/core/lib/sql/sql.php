@@ -1448,6 +1448,7 @@ class rex_sql implements Iterator
      *   ($value is non-falsy-string ? non-falsy-string :
      *   ($value is non-empty-string ? non-empty-string : string
      * )))
+     * @psalm-pure
      */
     public function escapeLikeWildcards(string $value): string
     {

@@ -82,6 +82,7 @@ abstract class rex_api_function
         $api = rex_request(self::REQ_CALL_PARAM, 'string');
 
         if ($api) {
+            /** @psalm-taint-escape callable */ // It is intended that the class name suffix is coming grom request param
             $apiClass = 'rex_api_' . $api;
             if (class_exists($apiClass)) {
                 $apiImpl = new $apiClass();
