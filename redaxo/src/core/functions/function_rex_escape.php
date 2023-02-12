@@ -42,12 +42,12 @@ function rex_escape($value, $strategy = 'html')
         }
 
         if ($value instanceof stdClass) {
-            $value = clone $value;
+            $clone = clone $value;
             foreach (get_object_vars($value) as $k => $v) {
-                $value->$k = rex_escape($v, $strategy);
+                $clone->$k = rex_escape($v, $strategy);
             }
 
-            return $value;
+            return $clone;
         }
 
         if (is_object($value) && method_exists($value, '__toString')) {
