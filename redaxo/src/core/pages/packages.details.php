@@ -12,9 +12,11 @@ $navigation = [
     'license' => ['href' => rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]), 'title' => rex_i18n::msg('credits_license')],
 ];
 
-if (isset($navigation[$subPage])) {
-    $navigation[$subPage]['active'] = true;
+if (!in_array($subPage, ['help', 'changelog', 'license'], true)) {
+    throw new rex_exception('Unknown packages subpage "'.$subPage.'"');
 }
+
+$navigation[$subPage]['active'] = true;
 
 if (!$hasChangelog) {
     unset($navigation['changelog']);
