@@ -42,11 +42,12 @@ function rex_escape($value, $strategy = 'html')
         }
 
         if ($value instanceof stdClass) {
+            $escaped = new stdClass();
             foreach (get_object_vars($value) as $k => $v) {
-                $value->$k = rex_escape($v, $strategy);
+                $escaped->$k = rex_escape($v, $strategy);
             }
 
-            return $value;
+            return $escaped;
         }
 
         if (is_object($value) && method_exists($value, '__toString')) {
