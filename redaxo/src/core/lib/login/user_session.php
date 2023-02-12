@@ -11,7 +11,7 @@ class rex_user_session
 
     private const SESSION_VAR_LAST_DB_UPDATE = 'last_db_update';
 
-    public function storeCurrentSession(rex_backend_login $login): void
+    public function storeCurrentSession(rex_backend_login $login, ?string $cookieKey = null): void
     {
         $sessionId = session_id();
         if (false === $sessionId || '' === $sessionId) {
@@ -22,16 +22,42 @@ class rex_user_session
         if (null === $userId) {
             $userId = $login->getSessionVar(rex_login::SESSION_USER_ID);
         }
+        $userId = (int) $userId;
 
-        rex_sql::factory()
+        $updateByCookieKey = false;
+        if (null !== $cookieKey) {
+            $sql = rex_sql::factory()
+                ->setTable(rex::getTable('user_session'))
+                ->setWhere(['cookie_key' => $cookieKey])
+                ->select();
+            if ($sql->getRows()) {
+                if ($userId !== (int) $sql->getValue('user_id')) {
+                    throw new rex_exception('Cookie key "'.$cookieKey.'" does not belong to current user "'.$userId.'", it belongs to user "'.(string) $sql->getValue('user_id').'"');
+                }
+
+                $updateByCookieKey = true;
+            }
+        }
+
+        $sql = rex_sql::factory()
             ->setTable(rex::getTable('user_session'))
             ->setValue('session_id', session_id())
             ->setValue('user_id', $userId)
+            ->setValue('cookie_key', $cookieKey)
             ->setValue('ip', rex_request::server('REMOTE_ADDR', 'string'))
             ->setValue('useragent', rex_request::server('HTTP_USER_AGENT', 'string'))
-            ->setValue('starttime', rex_sql::datetime($login->getSessionVar(rex_login::SESSION_START_TIME, time())))
             ->setValue('last_activity', rex_sql::datetime($login->getSessionVar(rex_login::SESSION_LAST_ACTIVITY)))
-            ->insertOrUpdate();
+        ;
+
+        if ($updateByCookieKey) {
+            $sql
+                ->setWhere(['cookie_key' => $cookieKey])
+                ->update();
+        } else {
+            $sql
+                ->setValue('starttime', rex_sql::datetime($login->getSessionVar(rex_login::SESSION_START_TIME, time())))
+                ->insertOrUpdate();
+        }
 
         $login->setSessionVar(self::SESSION_VAR_LAST_DB_UPDATE, time());
     }
@@ -77,7 +103,7 @@ class rex_user_session
     {
         rex_sql::factory()
             ->setTable(rex::getTable('user_session'))
-            ->setWhere('UNIX_TIMESTAMP(last_activity) < ?', [time() - (int) rex::getProperty('session_duration')])
+            ->setWhere('UNIX_TIMESTAMP(last_activity) < ? AND cookie_key IS NULL', [time() - (int) rex::getProperty('session_duration')])
             ->delete();
     }
 

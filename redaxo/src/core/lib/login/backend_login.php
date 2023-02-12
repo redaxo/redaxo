@@ -78,9 +78,15 @@ class rex_backend_login extends rex_login
         $cookiename = self::getStayLoggedInCookieName();
         $loggedInViaCookie = false;
 
-        if ($cookiekey = rex_cookie($cookiename, 'string')) {
+        if ($cookiekey = rex_cookie($cookiename, 'string', null)) {
             if (!$userId) {
-                $sql->setQuery('SELECT id, password FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', [$cookiekey]);
+                $sql->setQuery('
+                    SELECT id, password
+                    FROM ' . rex::getTable('user') . ' user
+                    JOIN ' . rex::getTable('user_session') . ' ON user.id = user_id
+                    WHERE cookie_key = ?
+                    LIMIT 1
+                ', [$cookiekey]);
                 if (1 == $sql->getRows()) {
                     $this->setSessionVar(rex_login::SESSION_USER_ID, $sql->getValue('id'));
                     $this->setSessionVar(rex_login::SESSION_PASSWORD, $sql->getValue('password'));
@@ -88,6 +94,7 @@ class rex_backend_login extends rex_login
                     $loggedInViaCookie = true;
                 } else {
                     self::deleteStayLoggedInCookie();
+                    $cookiekey = null;
                 }
             }
             $this->setSessionVar(rex_login::SESSION_LAST_ACTIVITY, time());
@@ -101,15 +108,6 @@ class rex_backend_login extends rex_login
                 self::regenerateSessionId();
                 $params = [];
                 $add = '';
-                if ($this->stayLoggedIn || $cookiekey) {
-                    $cookiekey = (string) $this->user->getValue('cookiekey');
-                    if (!$cookiekey) {
-                        $cookiekey = sha1($this->systemId . time() . $this->userLogin);
-                        $add = 'cookiekey = ?, ';
-                        $params[] = $cookiekey;
-                    }
-                    self::setStayLoggedInCookie($cookiekey);
-                }
                 if (self::passwordNeedsRehash($this->user->getValue('password'))) {
                     $add .= 'password = ?, ';
                     $params[] = self::passwordHash($this->userPassword, true);
@@ -117,7 +115,16 @@ class rex_backend_login extends rex_login
                 array_push($params, rex_sql::datetime(), rex_sql::datetime(), session_id(), $this->userLogin);
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
 
-                rex_user_session::getInstance()->storeCurrentSession($this);
+                if ($this->stayLoggedIn || $loggedInViaCookie) {
+                    if (!$cookiekey || !$loggedInViaCookie) {
+                        $cookiekey = base64_encode(random_bytes(64));
+                    }
+                    self::setStayLoggedInCookie($cookiekey);
+                } else {
+                    $cookiekey = null;
+                }
+
+                rex_user_session::getInstance()->storeCurrentSession($this, $cookiekey);
                 rex_user_session::clearExpiredSessions();
             }
 
