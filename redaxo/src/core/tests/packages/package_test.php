@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -7,15 +8,13 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_package_test extends TestCase
 {
-    /**
-     * @dataProvider dataSplitId
-     */
+    #[DataProvider('dataSplitId')]
     public function testSplitId(array $expected, string $packageId): void
     {
         static::assertSame($expected, rex_package::splitId($packageId));
     }
 
-    public function dataSplitId(): iterable
+    public static function dataSplitId(): iterable
     {
         return [
             [['foo', null], 'foo'],

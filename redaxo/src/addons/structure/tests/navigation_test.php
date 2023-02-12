@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,9 +23,7 @@ class rex_navigation_test extends TestCase
         static::assertInstanceOf(rex_navigation::class, $nav);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testConstructAnonymousClass(): void
     {
         // no exception

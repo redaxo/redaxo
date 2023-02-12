@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -8,9 +9,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class rex_command_config_get_test extends TestCase
 {
-    /**
-     * @dataProvider dataKeyFound
-     */
+    #[DataProvider('dataKeyFound')]
     public function testKeyFound($expectedValue, $key): void
     {
         $commandTester = new CommandTester(new rex_command_config_get());
@@ -22,7 +21,7 @@ class rex_command_config_get_test extends TestCase
     }
 
     /** @return list<array{string, string}> */
-    public function dataKeyFound(): array
+    public static function dataKeyFound(): array
     {
         return [
             ["false\n", 'setup'],
