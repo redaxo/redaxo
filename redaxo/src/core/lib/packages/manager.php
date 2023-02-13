@@ -11,10 +11,7 @@ abstract class rex_package_manager
 {
     use rex_factory_trait;
 
-    /**
-     * @var rex_package
-     * @psalm-var T
-     */
+    /** @var T */
     protected $package;
 
     /** @var bool */
@@ -27,9 +24,8 @@ abstract class rex_package_manager
     private $i18nPrefix;
 
     /**
-     * @param rex_package $package    Package
-     * @param string      $i18nPrefix Prefix for i18n
-     * @psalm-param T $package
+     * @param T $package Package
+     * @param string $i18nPrefix Prefix for i18n
      */
     protected function __construct(rex_package $package, $i18nPrefix)
     {

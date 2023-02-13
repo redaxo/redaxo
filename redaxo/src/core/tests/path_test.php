@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,16 +17,14 @@ class rex_path_test extends TestCase
         static::assertEquals($this->path('c:\def\xy'), $path, 'resolves .. and .');
     }
 
-    /**
-     * @dataProvider dataRelative
-     */
+    #[DataProvider('dataRelative')]
     public function testRelative($expected, $path, $basePath = null): void
     {
         static::assertSame($this->path($expected), rex_path::relative($path, $basePath));
     }
 
     /** @return list<array{0: string, 1: string, 2?: string}> */
-    public function dataRelative(): array
+    public static function dataRelative(): array
     {
         return [
             ['redaxo/src/core/boot.php', rex_path::core('boot.php')],

@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-abstract class rex_var_base_test extends TestCase
+abstract class rex_var_test_base extends TestCase
 {
     protected function getParseOutput($content): string
     {

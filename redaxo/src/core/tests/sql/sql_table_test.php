@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -659,9 +660,7 @@ class rex_sql_table_test extends TestCase
         static::assertTrue($table->hasIndex('i_description'));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testEnsureMultipleTimes(): void
     {
         for ($i = 0; $i < 3; ++$i) {

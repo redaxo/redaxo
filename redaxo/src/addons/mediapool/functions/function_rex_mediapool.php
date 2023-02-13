@@ -139,9 +139,8 @@ function rex_mediapool_syncFile($physicalFilename, $categoryId, $title, $filesiz
 /**
  * @param string $filename
  *
- * @return array
+ * @return array{ok: bool, msg: string}
  *
- * @psalm-return array{ok: bool, msg: string}
  * @deprecated since 2.11, use `rex_media_service::deleteMedia` instead
  */
 function rex_mediapool_deleteMedia($filename)
