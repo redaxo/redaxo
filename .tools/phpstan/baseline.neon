@@ -1576,7 +1576,7 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/version/lib/revision.php
 
 		-
-			message: "#^Method class@anonymous/addons/structure/tests/category_test\\.php\\:176\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method class@anonymous/addons/structure/tests/category_test\\.php\\:171\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/tests/category_test.php
 
@@ -1628,7 +1628,7 @@ parameters:
 		-
 			message: "#^Method rex_structure_function_url_test\\:\\:testRedirectException\\(\\) has parameter \\$articleId with no type specified\\.$#"
 			count: 1
-			path: ../../redaxo/src/addons/structure/tests/function_rex_url_test.php
+			path: ../../redaxo/src/addons/structure/tests/function_url_test.php
 
 		-
 			message: "#^Method rex_user_role\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
@@ -3376,7 +3376,7 @@ parameters:
 			path: ../../redaxo/src/core/tests/sql/sql_test.php
 
 		-
-			message: "#^Property class@anonymous/core/tests/sql/sql_test\\.php\\:129\\:\\:\\$version has no type specified\\.$#"
+			message: "#^Property class@anonymous/core/tests/sql/sql_test\\.php\\:126\\:\\:\\$version has no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/sql/sql_test.php
 
@@ -3601,26 +3601,6 @@ parameters:
 			path: ../../redaxo/src/core/tests/util/version_test.php
 
 		-
-			message: "#^Method rex_var_base_test\\:\\:assertParseOutputEquals\\(\\) has parameter \\$content with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/var/var_base_test.php
-
-		-
-			message: "#^Method rex_var_base_test\\:\\:assertParseOutputEquals\\(\\) has parameter \\$expected with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/var/var_base_test.php
-
-		-
-			message: "#^Method rex_var_base_test\\:\\:assertParseOutputEquals\\(\\) has parameter \\$msg with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/var/var_base_test.php
-
-		-
-			message: "#^Method rex_var_base_test\\:\\:getParseOutput\\(\\) has parameter \\$content with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/var/var_base_test.php
-
-		-
 			message: "#^Method rex_var_config_test\\:\\:testConfigReplace\\(\\) has parameter \\$content with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/var/var_config_test.php
@@ -3674,4 +3654,24 @@ parameters:
 			message: "#^Method rex_var_test\\:\\:varCallback\\(\\) has parameter \\$params with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/var/var_test.php
+
+		-
+			message: "#^Method rex_var_test_base\\:\\:assertParseOutputEquals\\(\\) has parameter \\$content with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/var/var_test_base.php
+
+		-
+			message: "#^Method rex_var_test_base\\:\\:assertParseOutputEquals\\(\\) has parameter \\$expected with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/var/var_test_base.php
+
+		-
+			message: "#^Method rex_var_test_base\\:\\:assertParseOutputEquals\\(\\) has parameter \\$msg with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/var/var_test_base.php
+
+		-
+			message: "#^Method rex_var_test_base\\:\\:getParseOutput\\(\\) has parameter \\$content with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/var/var_test_base.php
 

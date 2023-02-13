@@ -357,35 +357,15 @@ abstract class rex_error_handler
      */
     public static function getErrorType($errno)
     {
-        switch ($errno) {
-            case E_USER_ERROR:
-            case E_ERROR:
-            case E_COMPILE_ERROR:
-            case E_RECOVERABLE_ERROR:
-                return 'Fatal error';
-
-            case E_PARSE:
-                return 'Parse error';
-
-            case E_USER_WARNING:
-            case E_WARNING:
-            case E_COMPILE_WARNING:
-                return 'Warning';
-
-            case E_USER_NOTICE:
-            case E_NOTICE:
-                return 'Notice';
-
-            case E_USER_DEPRECATED:
-            case E_DEPRECATED:
-                return 'Deprecated';
-
-            case E_STRICT:
-                return 'Strict';
-
-            default:
-                return 'Unknown';
-        }
+        return match ($errno) {
+            E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR => 'Fatal error',
+            E_PARSE => 'Parse error',
+            E_USER_WARNING, E_WARNING, E_COMPILE_WARNING => 'Warning',
+            E_USER_NOTICE, E_NOTICE => 'Notice',
+            E_USER_DEPRECATED, E_DEPRECATED => 'Deprecated',
+            E_STRICT => 'Strict',
+            default => 'Unknown',
+        };
     }
 
     /**

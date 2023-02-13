@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,7 +14,7 @@ class rex_string_test extends TestCase
     }
 
     /** @return list<array{0: string, 1: string, 2?: string, 3?: string}> */
-    public function normalizeProvider(): array
+    public static function normalizeProvider(): array
     {
         return [
             [
@@ -26,16 +27,14 @@ class rex_string_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider normalizeProvider
-     */
+    #[DataProvider('normalizeProvider')]
     public function testNormalize($expected, $string, $replaceChar = '_', $allowedChars = ''): void
     {
         static::assertEquals($expected, rex_string::normalize($string, $replaceChar, $allowedChars));
     }
 
     /** @return list<array{string, array<int|string, string>}> */
-    public function splitProvider(): array
+    public static function splitProvider(): array
     {
         return [
             ['',                                          []],
@@ -49,16 +48,14 @@ class rex_string_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider splitProvider
-     */
+    #[DataProvider('splitProvider')]
     public function testSplit($string, $expectedArray): void
     {
         static::assertEquals($expectedArray, rex_string::split($string));
     }
 
     /** @return list<array{0: string, 1: array, 2?: string}> */
-    public function buildQueryProvider(): array
+    public static function buildQueryProvider(): array
     {
         return [
             ['', []],
@@ -68,9 +65,7 @@ class rex_string_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider buildQueryProvider
-     */
+    #[DataProvider('buildQueryProvider')]
     public function testBuildQuery($expected, $params, $argSeparator = '&'): void
     {
         static::assertEquals($expected, rex_string::buildQuery($params, $argSeparator));

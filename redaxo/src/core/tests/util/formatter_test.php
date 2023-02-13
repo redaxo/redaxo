@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -62,11 +63,10 @@ class rex_formatter_test extends TestCase
     }
 
     /**
-     * @dataProvider dataIntlDateTime
-     *
      * @param string|int|DateTimeInterface|null $value
      * @param null|int|array{int, int}|string $format
      */
+    #[DataProvider('dataIntlDateTime')]
     public function testIntlDateTime(string $expected, $value, $format = null): void
     {
         if (null === $format) {
@@ -82,7 +82,7 @@ class rex_formatter_test extends TestCase
     /**
      * @return list<array{string, string|int|DateTimeInterface|null, 3?: null|int|array{int, int}|string}>
      */
-    public function dataIntlDateTime(): array
+    public static function dataIntlDateTime(): array
     {
         return [
             ['', null],
@@ -97,11 +97,10 @@ class rex_formatter_test extends TestCase
     }
 
     /**
-     * @dataProvider dataIntlDate
-     *
      * @param string|int|DateTimeInterface|null $value
      * @param null|int|string $format
      */
+    #[DataProvider('dataIntlDate')]
     public function testIntlDate(string $expected, $value, $format = null): void
     {
         if (null === $format) {
@@ -117,7 +116,7 @@ class rex_formatter_test extends TestCase
     /**
      * @return list<array{string, string|int|DateTimeInterface|null, 3?: null|int|string}>
      */
-    public function dataIntlDate(): array
+    public static function dataIntlDate(): array
     {
         return [
             ['', null],
@@ -130,11 +129,10 @@ class rex_formatter_test extends TestCase
     }
 
     /**
-     * @dataProvider dataIntlTime
-     *
      * @param string|int|DateTimeInterface|null $value
      * @param null|int|string $format
      */
+    #[DataProvider('dataIntlTime')]
     public function testIntlTime(string $expected, $value, $format = null): void
     {
         if (null === $format) {
@@ -150,7 +148,7 @@ class rex_formatter_test extends TestCase
     /**
      * @return list<array{string, string|int|DateTimeInterface|null, 3?: null|int|string}>
      */
-    public function dataIntlTime(): array
+    public static function dataIntlTime(): array
     {
         return [
             ['', null],

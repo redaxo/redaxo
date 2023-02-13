@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -95,7 +96,7 @@ class rex_article_content_test extends TestCase
         static::assertEquals('teststring', $instance->getValue('art_foo'));
     }
 
-    /** @dataProvider dataBcGetValueNonExisting */
+    #[DataProvider('dataBcGetValueNonExisting')]
     public function testBcGetValueNonExisting(string $value): void
     {
         $instance = new rex_article_content(1, 1);
@@ -109,7 +110,7 @@ class rex_article_content_test extends TestCase
     }
 
     /** @return list<array{string}> */
-    public function dataBcGetValueNonExisting(): array
+    public static function dataBcGetValueNonExisting(): array
     {
         return [
             ['bar'],
@@ -136,7 +137,7 @@ class rex_article_content_test extends TestCase
         static::assertEquals('teststring', $instance->getValue('art_foo'));
     }
 
-    /** @dataProvider dataGetValueNonExisting */
+    #[DataProvider('dataGetValueNonExisting')]
     public function testGetValueNonExisting(string $value): void
     {
         $instance = new rex_article_content(1, 1);
@@ -147,7 +148,7 @@ class rex_article_content_test extends TestCase
     }
 
     /** @return list<array{string}> */
-    public function dataGetValueNonExisting(): array
+    public static function dataGetValueNonExisting(): array
     {
         return [
             ['bar'],

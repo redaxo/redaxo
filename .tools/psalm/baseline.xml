@@ -1897,7 +1897,6 @@
     <MixedInferredReturnType>
       <code>int</code>
       <code>int</code>
-      <code>list&lt;string[]&gt;</code>
     </MixedInferredReturnType>
     <MixedOperand>
       <code>$currentStatus</code>
@@ -1905,8 +1904,6 @@
       <code>$currentStatus</code>
     </MixedOperand>
     <MixedReturnStatement>
-      <code>$artStatusTypes</code>
-      <code>$artStatusTypes</code>
       <code>($currentStatus + 1) % count($artStatusTypes)</code>
       <code>($currentStatus - 1) % count($artStatusTypes)</code>
     </MixedReturnStatement>
@@ -1955,7 +1952,6 @@
     <MixedInferredReturnType>
       <code>int</code>
       <code>int</code>
-      <code>list&lt;string[]&gt;</code>
     </MixedInferredReturnType>
     <MixedOperand>
       <code>$currentStatus</code>
@@ -1963,8 +1959,6 @@
       <code>$currentStatus</code>
     </MixedOperand>
     <MixedReturnStatement>
-      <code>$catStatusTypes</code>
-      <code>$catStatusTypes</code>
       <code>($currentStatus + 1) % count($catStatusTypes)</code>
       <code>($currentStatus - 1) % count($catStatusTypes)</code>
     </MixedReturnStatement>
@@ -2624,13 +2618,8 @@
     <MixedAssignment>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code>iterable</code>
-      <code>iterable</code>
-      <code>iterable</code>
-    </MixedInferredReturnType>
   </file>
-  <file src="redaxo/src/addons/structure/tests/function_rex_url_test.php">
+  <file src="redaxo/src/addons/structure/tests/function_url_test.php">
     <MixedArgument>
       <code>$articleId</code>
     </MixedArgument>
@@ -3615,10 +3604,6 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/core/lib/be/page.php">
-    <MixedArrayTypeCoercion>
-      <code>$this-&gt;itemAttr[$name]</code>
-      <code>$this-&gt;linkAttr[$name]</code>
-    </MixedArrayTypeCoercion>
     <PossiblyNullReference>
       <code>getParent</code>
     </PossiblyNullReference>
@@ -4279,10 +4264,6 @@
       <code>$this-&gt;linkAttributes[$column] ?? $default</code>
       <code>json_decode($this-&gt;getValue($column), true)</code>
     </MixedReturnStatement>
-    <MixedReturnTypeCoercion>
-      <code>$default ?? $columnName</code>
-      <code>(T is null ? string : ?string)</code>
-    </MixedReturnTypeCoercion>
     <PossiblyNullArgument>
       <code>$columnLayout</code>
       <code>$column['width'] ?? null</code>
@@ -4950,13 +4931,8 @@
       <code>$version</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
-      <code>$column</code>
-      <code>$column</code>
       <code>$fldName</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayTypeCoercion>
-      <code>$this-&gt;values[$column]</code>
-    </MixedArrayTypeCoercion>
     <MixedAssignment>
       <code>$buffered</code>
       <code>$field</code>
@@ -5707,11 +5683,6 @@
       <code>$rule</code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/tests/packages/package_test.php">
-    <MixedInferredReturnType>
-      <code>iterable</code>
-    </MixedInferredReturnType>
-  </file>
   <file src="redaxo/src/core/tests/path_test.php">
     <MixedArgument>
       <code>$basePath</code>
@@ -5762,12 +5733,6 @@
     <MixedArgumentTypeCoercion>
       <code>$values</code>
     </MixedArgumentTypeCoercion>
-    <MixedInferredReturnType>
-      <code>array</code>
-      <code>array</code>
-      <code>array</code>
-      <code>iterable</code>
-    </MixedInferredReturnType>
   </file>
   <file src="redaxo/src/core/tests/util/file_test.php">
     <MixedArgument>
@@ -5786,19 +5751,14 @@
   </file>
   <file src="redaxo/src/core/tests/util/formatter_test.php">
     <InvalidDocblock>
-      <code>public function dataIntlDate(): array</code>
-      <code>public function dataIntlDateTime(): array</code>
-      <code>public function dataIntlTime(): array</code>
+      <code>public static function dataIntlDate(): array</code>
+      <code>public static function dataIntlDateTime(): array</code>
+      <code>public static function dataIntlTime(): array</code>
     </InvalidDocblock>
     <MixedArrayAccess>
       <code>$params['some']</code>
       <code>$params['subject']</code>
     </MixedArrayAccess>
-    <MixedInferredReturnType>
-      <code>list&lt;array{string, string|int|DateTimeInterface|null, 3?: null|int|array{int, int}|string}&gt;</code>
-      <code>list&lt;array{string, string|int|DateTimeInterface|null, 3?: null|int|string}&gt;</code>
-      <code>list&lt;array{string, string|int|DateTimeInterface|null, 3?: null|int|string}&gt;</code>
-    </MixedInferredReturnType>
     <MixedOperand>
       <code>$params['some']</code>
       <code>$params['subject']</code>
@@ -5873,12 +5833,6 @@
       <code>$version</code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/tests/var/var_base_test.php">
-    <MixedArgument>
-      <code>$content</code>
-      <code>$msg</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/core/tests/var/var_test.php">
     <MixedArgument>
       <code>$params['class']</code>
@@ -5894,6 +5848,12 @@
       <code>$params['suffix']</code>
       <code>$params['var']</code>
     </MixedArrayAccess>
+  </file>
+  <file src="redaxo/src/core/tests/var/var_test_base.php">
+    <MixedArgument>
+      <code>$content</code>
+      <code>$msg</code>
+    </MixedArgument>
   </file>
   <file src="redaxo/src/core/update.php">
     <MixedArrayAccess>

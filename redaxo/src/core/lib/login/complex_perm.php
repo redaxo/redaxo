@@ -30,8 +30,7 @@ abstract class rex_complex_perm
     /**
      * Array of class names.
      *
-     * @var array
-     * @psalm-var array<string, class-string<self>>
+     * @var array<string, class-string<self>>
      */
     private static $classes = [];
 
@@ -68,9 +67,8 @@ abstract class rex_complex_perm
     /**
      * Registers a new complex perm class.
      *
-     * @param string $key   Key for the complex perm
-     * @param string $class Class name
-     * @psalm-param class-string<self> $class
+     * @param string $key Key for the complex perm
+     * @param class-string<self> $class Class name
      * @throws InvalidArgumentException
      * @return void
      */
@@ -85,8 +83,7 @@ abstract class rex_complex_perm
     /**
      * Returns all complex perm classes.
      *
-     * @return array Class names
-     * @psalm-return array<string, class-string<self>>
+     * @return array<string, class-string<self>> Class names
      */
     public static function getAll()
     {

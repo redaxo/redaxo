@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -124,7 +125,7 @@ class rex_file_test extends TestCase
     }
 
     /** @return list<array{string, string}> */
-    public function dataTestExtension(): array
+    public static function dataTestExtension(): array
     {
         return [
             ['test.txt',      'txt'],
@@ -134,16 +135,14 @@ class rex_file_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataTestExtension
-     */
+    #[DataProvider('dataTestExtension')]
     public function testExtension($file, $expectedExtension): void
     {
         static::assertEquals($expectedExtension, rex_file::extension($file), 'extension() returns file extension');
     }
 
     /** @return list<array{string, string}> */
-    public function dataTestMimeType(): array
+    public static function dataTestMimeType(): array
     {
         return [
             ['image/png', rex_path::pluginAssets('be_style', 'redaxo', 'icons/apple-touch-icon.png')],
@@ -154,9 +153,7 @@ class rex_file_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataTestMimeType
-     */
+    #[DataProvider('dataTestMimeType')]
     public function testMimeType(string $expectedMimeType, string $file): void
     {
         static::assertEquals($expectedMimeType, rex_file::mimeType($file));

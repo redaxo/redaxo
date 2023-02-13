@@ -221,14 +221,10 @@ class rex_be_page
     /**
      * Returns an item attribute or all item attributes.
      *
-     * @param string|null $name
-     * @param string      $default
-     *
-     * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
-     *
      * @template T as ?string
-     * @phpstan-template T
-     * @psalm-param T $name
+     * @param T $name
+     * @param string $default
+     * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
      * @psalm-return (T is string ? string : array<string, string>)
      */
     public function getItemAttr($name, $default = '')
@@ -323,14 +319,10 @@ class rex_be_page
     /**
      * Returns an link attribute or all link attributes.
      *
-     * @param string|null $name
-     * @param string      $default
-     *
-     * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
-     *
      * @template T as ?string
-     * @phpstan-template T
-     * @psalm-param T $name
+     * @param T $name
+     * @param string $default
+     * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
      * @psalm-return (T is string ? string : array<string, string>)
      */
     public function getLinkAttr($name, $default = '')

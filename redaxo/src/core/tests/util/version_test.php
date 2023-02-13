@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +24,7 @@ class rex_version_test extends TestCase
     }
 
     /** @return list<array{string, list<string>}> */
-    public function splitProvider(): array
+    public static function splitProvider(): array
     {
         return [
             ['1.1.2',      ['1', '1', '2']],
@@ -33,16 +34,14 @@ class rex_version_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider splitProvider
-     */
+    #[DataProvider('splitProvider')]
     public function testSplit($version, $expected): void
     {
         static::assertEquals($expected, rex_version::split($version));
     }
 
     /** @return list<array{bool, string, string, null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>='}> */
-    public function compareProvider(): array
+    public static function compareProvider(): array
     {
         return [
             [true, '1',      '1',      '='],
@@ -76,10 +75,9 @@ class rex_version_test extends TestCase
     }
 
     /**
-     * @dataProvider compareProvider
-     *
      * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
      */
+    #[DataProvider('compareProvider')]
     public function testCompare($expected, string $version1, string $version2, ?string $comparator): void
     {
         static::assertSame($expected, rex_version::compare($version1, $version2, $comparator));
@@ -92,9 +90,7 @@ class rex_version_test extends TestCase
         static::assertNull(rex_version::gitHash(__DIR__, 'foo/bar'));
     }
 
-    /**
-     * @dataProvider dataMatchVersionConstraints
-     */
+    #[DataProvider('dataMatchVersionConstraints')]
     public function testMatchVersionConstraints(bool $expected, string $version, string $constraints): void
     {
         static::assertSame($expected, rex_version::matchesConstraints($version, $constraints));
@@ -103,7 +99,7 @@ class rex_version_test extends TestCase
     /**
      * @return list<array{bool, string, string}>
      */
-    public function dataMatchVersionConstraints(): array
+    public static function dataMatchVersionConstraints(): array
     {
         return [
             [true, '1.0.4', '1.0.4'],
