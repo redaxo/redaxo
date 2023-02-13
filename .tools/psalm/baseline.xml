@@ -1897,7 +1897,6 @@
     <MixedInferredReturnType>
       <code>int</code>
       <code>int</code>
-      <code>list&lt;string[]&gt;</code>
     </MixedInferredReturnType>
     <MixedOperand>
       <code>$currentStatus</code>
@@ -1905,8 +1904,6 @@
       <code>$currentStatus</code>
     </MixedOperand>
     <MixedReturnStatement>
-      <code>$artStatusTypes</code>
-      <code>$artStatusTypes</code>
       <code>($currentStatus + 1) % count($artStatusTypes)</code>
       <code>($currentStatus - 1) % count($artStatusTypes)</code>
     </MixedReturnStatement>
@@ -1955,7 +1952,6 @@
     <MixedInferredReturnType>
       <code>int</code>
       <code>int</code>
-      <code>list&lt;string[]&gt;</code>
     </MixedInferredReturnType>
     <MixedOperand>
       <code>$currentStatus</code>
@@ -1963,8 +1959,6 @@
       <code>$currentStatus</code>
     </MixedOperand>
     <MixedReturnStatement>
-      <code>$catStatusTypes</code>
-      <code>$catStatusTypes</code>
       <code>($currentStatus + 1) % count($catStatusTypes)</code>
       <code>($currentStatus - 1) % count($catStatusTypes)</code>
     </MixedReturnStatement>
@@ -3610,10 +3604,6 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/core/lib/be/page.php">
-    <MixedArrayTypeCoercion>
-      <code>$this-&gt;itemAttr[$name]</code>
-      <code>$this-&gt;linkAttr[$name]</code>
-    </MixedArrayTypeCoercion>
     <PossiblyNullReference>
       <code>getParent</code>
     </PossiblyNullReference>
@@ -4274,10 +4264,6 @@
       <code>$this-&gt;linkAttributes[$column] ?? $default</code>
       <code>json_decode($this-&gt;getValue($column), true)</code>
     </MixedReturnStatement>
-    <MixedReturnTypeCoercion>
-      <code>$default ?? $columnName</code>
-      <code>(T is null ? string : ?string)</code>
-    </MixedReturnTypeCoercion>
     <PossiblyNullArgument>
       <code>$columnLayout</code>
       <code>$column['width'] ?? null</code>
@@ -4945,13 +4931,8 @@
       <code>$version</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
-      <code>$column</code>
-      <code>$column</code>
       <code>$fldName</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayTypeCoercion>
-      <code>$this-&gt;values[$column]</code>
-    </MixedArrayTypeCoercion>
     <MixedAssignment>
       <code>$buffered</code>
       <code>$field</code>

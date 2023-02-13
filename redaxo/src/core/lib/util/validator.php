@@ -11,11 +11,7 @@ class rex_validator
 {
     use rex_factory_trait;
 
-    /**
-     * @psalm-var list<rex_validation_rule>
-     *
-     * @var rex_validation_rule[]
-     */
+    /** @var list<rex_validation_rule> */
     private $rules = [];
     /** @var string|null */
     private $message;
@@ -73,9 +69,7 @@ class rex_validator
     }
 
     /**
-     * @psalm-return list<rex_validation_rule>
-     *
-     * @return rex_validation_rule[]
+     * @return list<rex_validation_rule>
      */
     public function getRules(): array
     {
@@ -273,7 +267,7 @@ class rex_validator
      * Checks the value by using the given callable.
      *
      * @param string $value
-     * @psalm-param callable(string):bool $callback
+     * @param callable(string):bool $callback
      *
      * @return bool
      */

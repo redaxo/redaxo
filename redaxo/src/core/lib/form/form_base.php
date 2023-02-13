@@ -1162,7 +1162,7 @@ abstract class rex_form_base
     }
 
     /**
-     * @psalm-return never-return
+     * @return never
      */
     protected function redirect($listMessage = '', $listWarning = '', array $params = [])
     {
