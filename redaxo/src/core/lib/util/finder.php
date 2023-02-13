@@ -34,7 +34,7 @@ class rex_finder implements IteratorAggregate, Countable
     private $ignoreDirsRecursive = [];
     /** @var bool */
     private $ignoreSystemStuff = true;
-    /** @var false|rex_sortable_iterator::*|callable(mixed, mixed): int $sort*/
+    /** @var false|rex_sortable_iterator::*|callable(mixed, mixed): int */
     private $sort = false;
 
     /**

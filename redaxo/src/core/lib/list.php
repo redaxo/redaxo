@@ -76,11 +76,11 @@ class rex_list implements rex_url_provider_interface
     private $formAttributes;
 
     //  --------- Row Attributes
-    /** @var array<string, string|int>|callable(self):string  */
+    /** @var array<string, string|int>|callable(self):string */
     private $rowAttributes;
 
     // --------- Column Attributes
-    /** @var array<string, string>  */
+    /** @var array<string, string> */
     private $customColumns;
     /** @var list<string> */
     private $columnNames;
@@ -88,7 +88,7 @@ class rex_list implements rex_url_provider_interface
     private $columnLabels;
     /** @var array<string, array{string, mixed, array}> */
     private $columnFormates;
-    /** @var array<string, array<string|int, mixed>>  */
+    /** @var array<string, array<string|int, mixed>> */
     private $columnOptions;
     /** @var array<string, array{string, string}> */
     private $columnLayouts;
@@ -98,7 +98,7 @@ class rex_list implements rex_url_provider_interface
     private $columnDisabled;
 
     // --------- Layout, Default
-    /** @var array{string, string}  */
+    /** @var array{string, string} */
     private $defaultColumnLayout;
 
     // --------- Table Attributes
@@ -110,7 +110,7 @@ class rex_list implements rex_url_provider_interface
     private $tableColumnGroups;
 
     // --------- Link Attributes
-    /** @var array<string, array<string, string|int>>  */
+    /** @var array<string, array<string, string|int>> */
     private $linkAttributes;
 
     // --------- Pagination Attributes

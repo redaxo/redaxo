@@ -17,7 +17,7 @@ final class rex_validation_rule
     public const VALUES = 'values';
     public const CUSTOM = 'custom';
 
-    /** @var rex_validation_rule::*|string $type */
+    /** @var rex_validation_rule::*|string */
     private $type;
     /** @var null|string */
     private $message;
