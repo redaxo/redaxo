@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class rex_markdown_test extends TestCase
 {
     #[DataProvider('parseProvider')]
-    public function testParse($expected, $code): void
+    public function testParse(string $expected, string $code): void
     {
         static::assertSame($expected, rex_markdown::factory()->parse($code));
     }

@@ -97,7 +97,7 @@ class rex_socket_test extends TestCase
     }
 
     #[DataProvider('parseUrlProvider')]
-    public function testParseUrl($url, $expectedHost, $expectedPort, $expectedSsl, $expectedPath): void
+    public function testParseUrl(string $url, string $expectedHost, int $expectedPort, bool $expectedSsl, string $expectedPath): void
     {
         $method = new ReflectionMethod(rex_socket::class, 'parseUrl');
         $result = $method->invoke(null, $url);
@@ -121,7 +121,7 @@ class rex_socket_test extends TestCase
     }
 
     #[DataProvider('parseUrlExceptionProvider')]
-    public function testParseUrlException($url): void
+    public function testParseUrlException(string $url): void
     {
         $this->expectException(rex_socket_exception::class);
 

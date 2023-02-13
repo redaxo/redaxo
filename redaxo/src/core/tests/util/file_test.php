@@ -136,7 +136,7 @@ class rex_file_test extends TestCase
     }
 
     #[DataProvider('dataTestExtension')]
-    public function testExtension($file, $expectedExtension): void
+    public function testExtension(string $file, string $expectedExtension): void
     {
         static::assertEquals($expectedExtension, rex_file::extension($file), 'extension() returns file extension');
     }
