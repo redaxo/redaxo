@@ -135,18 +135,11 @@ class rex_validator
      */
     public function type($value, $type)
     {
-        switch ($type) {
-            case 'int':
-            case 'integer':
-                return $this->match($value, '/^\d+$/');
-
-            case 'float':
-            case 'real':
-                return is_numeric($value);
-
-            default:
-                throw new InvalidArgumentException('Unknown $type:' . $type);
-        }
+        return match ($type) {
+            'int', 'integer' => $this->match($value, '/^\d+$/'),
+            'float', 'real' => is_numeric($value),
+            default => throw new InvalidArgumentException('Unknown $type:' . $type),
+        };
     }
 
     /**

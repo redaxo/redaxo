@@ -109,14 +109,10 @@ class rex_media_cache
 
         $cacheArray = [];
         foreach ($sql->getFieldNames() as $fieldName) {
-            switch ($fieldName) {
-                case 'createdate':
-                case 'updatedate':
-                    $cacheArray[$fieldName] = $sql->getDateTimeValue($fieldName);
-                    break;
-                default:
-                    $cacheArray[$fieldName] = $sql->getValue($fieldName);
-            }
+            $cacheArray[$fieldName] = match ($fieldName) {
+                'createdate', 'updatedate' => $sql->getDateTimeValue($fieldName),
+                default => $sql->getValue($fieldName),
+            };
         }
 
         $mediaFile = rex_path::addonCache('mediapool', $filename . '.media');
@@ -148,14 +144,10 @@ class rex_media_cache
 
         $cacheArray = [];
         foreach ($sql->getFieldNames() as $fieldName) {
-            switch ($fieldName) {
-                case 'createdate':
-                case 'updatedate':
-                    $cacheArray[$fieldName] = $sql->getDateTimeValue($fieldName);
-                    break;
-                default:
-                    $cacheArray[$fieldName] = $sql->getValue($fieldName);
-            }
+            $cacheArray[$fieldName] = match ($fieldName) {
+                'createdate', 'updatedate' => $sql->getDateTimeValue($fieldName),
+                default => $sql->getValue($fieldName),
+            };
         }
 
         $catFile = rex_path::addonCache('mediapool', $categoryId . '.mcat');

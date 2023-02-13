@@ -659,41 +659,18 @@ abstract class rex_form_base
             return $className;
         }
 
-        switch ($inputType) {
-            case 'control':
-                $className = rex_form_control_element::class;
-                break;
-            case 'checkbox':
-                $className = rex_form_checkbox_element::class;
-                break;
-            case 'radio':
-                $className = rex_form_radio_element::class;
-                break;
-            case 'select':
-                $className = rex_form_select_element::class;
-                break;
-            case 'media':
-                $className = rex_form_widget_media_element::class;
-                break;
-            case 'medialist':
-                $className = rex_form_widget_medialist_element::class;
-                break;
-            case 'link':
-                $className = rex_form_widget_linkmap_element::class;
-                break;
-            case 'linklist':
-                $className = rex_form_widget_linklist_element::class;
-                break;
-            case 'hidden':
-            case 'readonly':
-            case 'readonlytext':
-            case 'text':
-            case 'textarea':
-                $className = rex_form_element::class;
-                break;
-            default:
-                throw new rex_exception("Unexpected inputType '" . $inputType . "'!");
-        }
+        $className = match ($inputType) {
+            'control' => rex_form_control_element::class,
+            'checkbox' => rex_form_checkbox_element::class,
+            'radio' => rex_form_radio_element::class,
+            'select' => rex_form_select_element::class,
+            'media' => rex_form_widget_media_element::class,
+            'medialist' => rex_form_widget_medialist_element::class,
+            'link' => rex_form_widget_linkmap_element::class,
+            'linklist' => rex_form_widget_linklist_element::class,
+            'hidden', 'readonly', 'readonlytext', 'text', 'textarea' => rex_form_element::class,
+            default => throw new rex_exception("Unexpected inputType '" . $inputType . "'!"),
+        };
 
         return $className;
     }
