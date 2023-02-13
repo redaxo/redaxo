@@ -143,7 +143,7 @@ abstract class rex_error_handler
                     <text fill="#FFFFFF" x="193" y="29" font-size="10">'. rex::getVersion() .'</text>
                 </svg>';
         $styles = '
-                <style>
+                <style nonce="'.rex_response::getNonce().'">
                     .Whoops {
                         padding-top: 70px;
                     }

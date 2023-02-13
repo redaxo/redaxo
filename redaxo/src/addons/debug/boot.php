@@ -27,8 +27,10 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser()?-
         $appearance = 'auto';
     }
 
+    $nonce = rex_response::getNonce();
+
     $injectedScript = <<<EOF
-        <script>
+        <script nonce="$nonce">
             let store;
             try {
                 store = JSON.parse(localStorage.getItem('clockwork'));
