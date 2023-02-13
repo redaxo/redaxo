@@ -74,7 +74,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 $content .= '
 
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="'.rex_response::getNonce().'">
          <!--
         jQuery(function($) {
             $(".rex-js-createadminform .rex-js-noadmin").on("change",function (){

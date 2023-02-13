@@ -51,29 +51,17 @@ class rex_effect_insert_image extends rex_effect_abstract
         $brandWidth = (int) $brand->getWidth();
         $brandHeight = (int) $brand->getHeight();
 
-        switch ($hpos) {
-            case 'left':
-                $dstX = $paddingX;
-                break;
-            case 'center':
-                $dstX = (int) (($imageWidth - $brandWidth) / 2) + $paddingX;
-                break;
-            case 'right':
-            default:
-                $dstX = $imageWidth - $brandWidth - $paddingX;
-        }
+        $dstX = match ($hpos) {
+            'left' => $paddingX,
+            'center' => (int) (($imageWidth - $brandWidth) / 2) + $paddingX,
+            default => $imageWidth - $brandWidth - $paddingX,
+        };
 
-        switch ($vpos) {
-            case 'top':
-                $dstY = $paddingY;
-                break;
-            case 'middle':
-                $dstY = (int) (($imageHeight - $brandHeight) / 2) + $paddingY;
-                break;
-            case 'bottom':
-            default:
-                $dstY = $imageHeight - $brandHeight - $paddingY;
-        }
+        $dstY = match ($vpos) {
+            'top' => $paddingY,
+            'middle' => (int) (($imageHeight - $brandHeight) / 2) + $paddingY,
+            default => $imageHeight - $brandHeight - $paddingY,
+        };
 
         imagealphablending($gdimage, true);
         imagecopy($gdimage, $gdbrand, $dstX, $dstY, 0, 0, $brandWidth, $brandHeight);

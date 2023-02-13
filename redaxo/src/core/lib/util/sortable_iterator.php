@@ -45,19 +45,12 @@ class rex_sortable_iterator implements IteratorAggregate
             $b = $normalize($b);
             return strnatcasecmp($a, $b);
         };
-        switch (true) {
-            case self::VALUES === $this->sort:
-                uasort($array, $sortCallback);
-                break;
-            case self::KEYS === $this->sort:
-                uksort($array, $sortCallback);
-                break;
-            case is_callable($this->sort):
-                uasort($array, $this->sort);
-                break;
-            default:
-                throw new rex_exception('Unknown sort mode!');
-        }
+        match (true) {
+            self::VALUES === $this->sort => uasort($array, $sortCallback),
+            self::KEYS === $this->sort => uksort($array, $sortCallback),
+            is_callable($this->sort) => uasort($array, $this->sort),
+            default => throw new rex_exception('Unknown sort mode!'),
+        };
         return new ArrayIterator($array);
     }
 }

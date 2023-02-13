@@ -16,8 +16,7 @@ class rex_timer
     /**
      * @internal
      *
-     * @var array
-     * @psalm-var array<string, array{sum: mixed, timings: list<array{start: float, end: float}>}>
+     * @var array<string, array{sum: mixed, timings: list<array{start: float, end: float}>}>
      */
     public static $serverTimings = [];
 

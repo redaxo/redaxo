@@ -12,24 +12,21 @@ class rex_user_role implements rex_user_role_interface
     /**
      * Permissions.
      *
-     * @var array
-     * @psalm-var list<string>
+     * @var list<string>
      */
     private $perms = [];
 
     /**
      * Complex perm params.
      *
-     * @var array
-     * @psalm-var array<string, rex_complex_perm::ALL|string[]>
+     * @var array<string, rex_complex_perm::ALL|string[]>
      */
     private $complexPermParams = [];
 
     /**
      * Cache for complex perm instances.
      *
-     * @var array
-     * @psalm-var array<string, rex_complex_perm|null>
+     * @var array<string, rex_complex_perm|null>
      */
     private $complexPerms = [];
 
