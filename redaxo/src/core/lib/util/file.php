@@ -34,13 +34,10 @@ class rex_file
     /**
      * Returns the content of a file.
      *
-     * @param string $file    Path to the file
-     * @param mixed  $default Default value
-     * @psalm-template T
-     * @psalm-param T $default
-     *
-     * @return mixed Content of the file or default value if the file isn't readable
-     * @psalm-return string|T
+     * @template T
+     * @param string $file Path to the file
+     * @param T $default Default value
+     * @return string|T Content of the file or default value if the file isn't readable
      */
     public static function get($file, $default = null)
     {
@@ -53,13 +50,10 @@ class rex_file
     /**
      * Returns the content of a config file.
      *
-     * @param string $file    Path to the file
-     * @param mixed  $default Default value
-     * @psalm-template T
-     * @psalm-param T $default
-     *
-     * @return mixed Content of the file or default value if the file isn't readable
-     * @psalm-return array|T
+     * @template T
+     * @param string $file Path to the file
+     * @param T $default Default value
+     * @return array|T Content of the file or default value if the file isn't readable
      */
     public static function getConfig($file, $default = [])
     {
@@ -70,13 +64,10 @@ class rex_file
     /**
      * Returns the content of a cache file.
      *
+     * @template T
      * @param string $file    Path to the file
-     * @param mixed  $default Default value
-     * @psalm-template T
-     * @psalm-param T $default
-     *
-     * @return mixed Content of the file or default value if the file isn't readable
-     * @psalm-return array|T
+     * @param T  $default Default value
+     * @return array|T Content of the file or default value if the file isn't readable
      */
     public static function getCache($file, $default = [])
     {

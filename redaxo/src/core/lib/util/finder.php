@@ -34,7 +34,7 @@ class rex_finder implements IteratorAggregate, Countable
     private $ignoreDirsRecursive = [];
     /** @var bool */
     private $ignoreSystemStuff = true;
-    /** @psalm-var false|rex_sortable_iterator::*|callable(mixed, mixed): int $sort*/
+    /** @var false|rex_sortable_iterator::*|callable(mixed, mixed): int $sort*/
     private $sort = false;
 
     /**
@@ -185,8 +185,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Sorts the elements.
      *
-     * @param int|callable $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
-     * @psalm-param rex_sortable_iterator::*|callable(mixed, mixed): int $sort
+     * @param rex_sortable_iterator::*|callable(mixed, mixed): int $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
      *
      * @return $this
      */
@@ -197,10 +196,7 @@ class rex_finder implements IteratorAggregate, Countable
         return $this;
     }
 
-    /**
-     * @return Traversable|SplFileInfo[]
-     * @psalm-return Traversable<string, SplFileInfo>
-     */
+    /** @return Traversable<string, SplFileInfo> */
     #[ReturnTypeWillChange]
     public function getIterator()
     {

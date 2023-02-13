@@ -22,8 +22,7 @@ class rex_fragment
     /**
      * key-value pair which represents all variables defined inside the fragment.
      *
-     * @var array
-     * @psalm-var array<string, mixed>
+     * @var array<string, mixed>
      */
     private $vars;
 
@@ -44,8 +43,7 @@ class rex_fragment
     /**
      * Creates a fragment with the given variables.
      *
-     * @param array $vars A array of key-value pairs to pass as local parameters
-     * @psalm-param array<string, mixed> $vars
+     * @param array<string, mixed> $vars A array of key-value pairs to pass as local parameters
      */
     public function __construct(array $vars = [])
     {
@@ -157,17 +155,15 @@ class rex_fragment
     /**
      * Escapes the value $val for proper use in the gui.
      *
-     * @param mixed  $value    The value to escape
+     * @template T
+     * @param T $value The value to escape
      * @param string $strategy One of "html", "html_attr", "css", "js", "url"
      * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
-     *
-     * @psalm-template T
-     * @psalm-param T $value
-     * @psalm-return (T is Stringable ? string : T)
      *
      * @throws InvalidArgumentException
      *
      * @return mixed
+     * @psalm-return (T is Stringable ? string : T)
      */
     protected function escape($value, $strategy = 'html')
     {

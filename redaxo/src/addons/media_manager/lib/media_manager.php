@@ -143,9 +143,7 @@ class rex_media_manager
 
     /**
      * @param string $type
-     * @return array[]
-     *
-     * @psalm-return list<array{effect: string, params: array<string, mixed>}>
+     * @return list<array{effect: string, params: array<string, mixed>}>
      */
     public function effectsFromType($type)
     {

@@ -55,8 +55,7 @@ class rex_context implements rex_context_provider_interface
     /**
      * Constructs a rex_context with the given global parameters.
      *
-     * @param array $globalParams A array containing only scalar values for key/value
-     * @psalm-param array<string, mixed> $globalParams
+     * @param array<string, mixed> $globalParams A array containing only scalar values for key/value
      */
     public function __construct(array $globalParams = [])
     {

@@ -54,10 +54,7 @@ class rex_list implements rex_url_provider_interface
 
     public const DISABLE_PAGINATION = null;
 
-    /**
-     * @var int
-     * @psalm-var positive-int
-     */
+    /** @var positive-int */
     private $db;
     /** @var rex_sql */
     private $sql;
@@ -69,51 +66,51 @@ class rex_list implements rex_url_provider_interface
     // --------- List Attributes
     /** @var string */
     private $name;
-    /** @psalm-var array<string, string|int> */
+    /** @var array<string, string|int> */
     private $params;
     /** @var int */
     private $rows;
 
     // --------- Form Attributes
-    /** @psalm-var array<string, string|int> */
+    /** @var array<string, string|int> */
     private $formAttributes;
 
     //  --------- Row Attributes
-    /** @psalm-var array<string, string|int>|callable(self):string  */
+    /** @var array<string, string|int>|callable(self):string  */
     private $rowAttributes;
 
     // --------- Column Attributes
-    /** @psalm-var array<string, string>  */
+    /** @var array<string, string>  */
     private $customColumns;
-    /** @psalm-var list<string> */
+    /** @var list<string> */
     private $columnNames;
-    /** @psalm-var array<string, string> */
+    /** @var array<string, string> */
     private $columnLabels;
-    /** @psalm-var array<string, array{string, mixed, array}> */
+    /** @var array<string, array{string, mixed, array}> */
     private $columnFormates;
-    /** @psalm-var array<string, array<string|int, mixed>>  */
+    /** @var array<string, array<string|int, mixed>>  */
     private $columnOptions;
-    /** @psalm-var array<string, array{string, string}> */
+    /** @var array<string, array{string, string}> */
     private $columnLayouts;
-    /** @psalm-var array<string, array> */
+    /** @var array<string, array> */
     private $columnParams;
-    /** @psalm-var list<string> */
+    /** @var list<string> */
     private $columnDisabled;
 
     // --------- Layout, Default
-    /** @psalm-var array{string, string}  */
+    /** @var array{string, string}  */
     private $defaultColumnLayout;
 
     // --------- Table Attributes
     /** @var string */
     private $caption;
-    /** @psalm-var array<string, string|int> */
+    /** @var array<string, string|int> */
     private $tableAttributes;
     /** @var array<int, array> */
     private $tableColumnGroups;
 
     // --------- Link Attributes
-    /** @psalm-var array<string, array<string, string|int>>  */
+    /** @var array<string, array<string, string|int>>  */
     private $linkAttributes;
 
     // --------- Pagination Attributes
@@ -127,9 +124,7 @@ class rex_list implements rex_url_provider_interface
      * @param int|self::DISABLE_PAGINATION $rowsPerPage
      * @param string|null $listName    Name der Liste
      * @param bool        $debug
-     * @param int         $db
-     *
-     * @psalm-param positive-int $db
+     * @param positive-int $db
      */
     protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
     {
@@ -214,9 +209,7 @@ class rex_list implements rex_url_provider_interface
      * @param int|self::DISABLE_PAGINATION $rowsPerPage
      * @param string|null $listName
      * @param bool        $debug
-     * @param int         $db          DB connection ID
-     *
-     * @psalm-param positive-int $db
+     * @param positive-int $db DB connection ID
      *
      * @return static
      */
@@ -527,14 +520,10 @@ class rex_list implements rex_url_provider_interface
      * Falls nicht vorhanden und der Parameter $default auf null steht,
      * wird der Spaltenname zurückgegeben
      *
-     * @param string $columnName Name der Spalte
-     * @param mixed  $default    Defaultrückgabewert, falls kein Label gesetzt ist
-     *
-     * @return string|null
-     *
      * @template T as null|string
-     * @phpstan-template T
-     * @psalm-param T $default
+     * @param string $columnName Name der Spalte
+     * @param T $default Defaultrückgabewert, falls kein Label gesetzt ist
+     * @return string|null
      * @psalm-return (T is null ? string : ?string)
      */
     public function getColumnLabel($columnName, $default = null)

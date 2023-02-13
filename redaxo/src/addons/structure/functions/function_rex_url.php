@@ -60,7 +60,7 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
  * @param null|int|string $articleId
  * @param null|int|string $clang      SprachId des Artikels
  *
- * @psalm-return never-return
+ * @return never
  *
  * @throws InvalidArgumentException
  *

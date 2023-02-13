@@ -6,9 +6,7 @@
  * (c) Fabien Potencier
  * https://github.com/twigphp/Twig/blob/5f20d4a362078e8a066f7dcc146e8005186d9663/src/Extension/EscaperExtension.php#L166
  *
- * @package redaxo\core
- *
- * @param mixed  $value    The value to escape
+ * @param T $value The value to escape
  * @param string $strategy Supported strategies:
  *                         "html": escapes a string for the HTML context.
  *                         "html_simplified": escapes a string for the HTML context. Allows some basic tags which are safe regarding XSS.
@@ -16,19 +14,18 @@
  *                         "js": escapes a string for the JavaScript/JSON context.
  *                         "css": escapes a string for the CSS context. CSS escaping can be applied to any string being inserted into CSS and escapes everything except alphanumerics.
  *                         "url": escapes a string for the URI or parameter contexts. This should not be used to escape an entire URI; only a subcomponent being inserted.
- *
- * @psalm-template T
- * @psalm-param T $value
- * @psalm-return (T is Stringable ? string : T)
+ * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
  *
  * @throws InvalidArgumentException
  *
- * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
- *
  * @return mixed
+ * @psalm-return (T is Stringable ? string : T)
  *
  * @psalm-taint-escape has_quotes
  * @psalm-taint-escape html
+ *@package redaxo\core
+ *
+ * @template T
  */
 function rex_escape($value, $strategy = 'html')
 {

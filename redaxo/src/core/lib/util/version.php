@@ -71,7 +71,7 @@ class rex_version
             }
         }
 
-        /** @psalm-var array{0: '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=', 1: string} $constraint */
+        /** @var array{0: '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=', 1: string} $constraint */
         foreach ($constraints as $constraint) {
             if (!self::compare($version, $constraint[1], $constraint[0])) {
                 return false;

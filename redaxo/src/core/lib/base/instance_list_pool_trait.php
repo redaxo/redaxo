@@ -9,10 +9,7 @@
  */
 trait rex_instance_list_pool_trait
 {
-    /**
-     * @var mixed[]
-     * @psalm-var array<string, array>
-     */
+    /** @var array<string, array> */
     private static $instanceLists = [];
 
     /**

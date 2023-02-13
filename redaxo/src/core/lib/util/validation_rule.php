@@ -17,10 +17,7 @@ final class rex_validation_rule
     public const VALUES = 'values';
     public const CUSTOM = 'custom';
 
-    /**
-     * @var string
-     * @psalm-var rex_validation_rule::*|string $type
-     */
+    /** @var rex_validation_rule::*|string $type */
     private $type;
     /** @var null|string */
     private $message;
@@ -28,9 +25,7 @@ final class rex_validation_rule
     private $option;
 
     /**
-     * @param string $type Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory
-     * @psalm-param rex_validation_rule::*|string $type
-     *
+     * @param rex_validation_rule::*|string $type Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
      */
@@ -44,7 +39,7 @@ final class rex_validation_rule
     /**
      * Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory.
      *
-     * @psalm-return rex_validation_rule::*|string $type
+     * @return rex_validation_rule::*|string $type
      */
     public function getType(): string
     {
