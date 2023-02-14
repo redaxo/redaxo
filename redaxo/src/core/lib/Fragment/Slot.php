@@ -10,7 +10,7 @@ class Slot
     public function __construct(
 
         /**
-         * @var list<string|null>|string|callable
+         * @var list<string|null>|string|Closure
          */
         public array|string|Closure $value,
     ) {
@@ -25,9 +25,9 @@ class Slot
 
     public function get(): string
     {
-        if (is_callable($this->value)) {
+        if ($this->value instanceof Closure) {
             ob_start();
-            call_user_func($this->value, func_get_args());
+            ($this->value)();
             $this->value = ob_get_clean();
         }
         return $this->value;
@@ -36,9 +36,7 @@ class Slot
     public function prepare(string $slot): static
     {
         $this->value = trim($this->get());
-        if (!str_contains($this->value, 'slot="'.$slot.'"')) {
-            $this->value = preg_replace('/\A(<[a-z-]+)/', '$1 slot="'.$slot.'"', $this->value);
-        }
+        $this->value = preg_replace('/\A(<[a-z-]+)/', '$1 slot="'.$slot.'"', $this->value);
 
         if (!str_contains($this->value, 'slot="'.$slot.'"')) {
             throw new rex_functional_exception('The '.$slot.' property requires the attribute `slot="'.$slot.'"`');
