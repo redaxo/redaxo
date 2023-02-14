@@ -556,16 +556,16 @@ class rex_login
     {
         if (PHP_SESSION_ACTIVE !== session_status()) {
             $env = rex::isBackend() ? 'backend' : 'frontend';
-            $sessionConfig = rex::getProperty('session', []);
+            $sessionConfig = rex_type::array(rex::getProperty('session', []));
 
             if (isset($sessionConfig[$env]['sid_length'])) {
-                ini_set('session.sid_length', $sessionConfig[$env]['sid_length']);
+                ini_set('session.sid_length', (int) $sessionConfig[$env]['sid_length']);
             }
             if (isset($sessionConfig[$env]['sid_bits_per_character'])) {
-                ini_set('session.sid_bits_per_character', $sessionConfig[$env]['sid_bits_per_character']);
+                ini_set('session.sid_bits_per_character', (int) $sessionConfig[$env]['sid_bits_per_character']);
             }
             if (isset($sessionConfig[$env]['save_path'])) {
-                session_save_path($sessionConfig[$env]['save_path']);
+                session_save_path((string) $sessionConfig[$env]['save_path']);
             }
 
             $cookieParams = static::getCookieParams();
