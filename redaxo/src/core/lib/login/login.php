@@ -30,11 +30,7 @@ class rex_login
      */
     public const SESSION_IMPERSONATOR = 'impersonator';
 
-    /**
-     * @psalm-var positive-int
-     *
-     * @var int
-     */
+    /** @var positive-int */
     protected $DB = 1;
     /**
      * A Session will be closed when not activly used for this timespan (seconds).

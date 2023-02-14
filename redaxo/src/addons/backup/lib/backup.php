@@ -76,16 +76,13 @@ class rex_backup
      *
      * @param string $filename Pfad + Dateinamen zur SQL-Datei
      *
-     * @return array Gibt ein Assoc. Array zurück.
+     * @return array{state: bool, message: string} Gibt ein Assoc. Array zurück.
      *               'state' => boolean (Status ob fehler aufgetreten sind)
      *               'message' => Evtl. Status/Fehlermeldung
-     * @psalm-return array{state: bool, message: string}
      */
     public static function importDb($filename)
     {
-        /**
-         * @psalm-return array{state: bool, message: string}
-         */
+        /** @return array{state: bool, message: string} */
         $returnError = static function (string $message): array {
             $return = [];
             $return['state'] = false;
@@ -214,10 +211,9 @@ class rex_backup
      *
      * @param string $filename Pfad + Dateinamen zum Tar-Archiv
      *
-     * @return array Gibt ein Assoc. Array zurück.
+     * @return array{state: bool, message: string} Gibt ein Assoc. Array zurück.
      *               'state' => boolean (Status ob fehler aufgetreten sind)
      *               'message' => Evtl. Status/Fehlermeldung
-     * @psalm-return array{state: bool, message: string}
      */
     public static function importFiles($filename)
     {

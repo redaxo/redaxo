@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -7,16 +8,14 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_mediapool_test extends TestCase
 {
-    /**
-     * @dataProvider provideIsAllowedExtension
-     */
-    public function testIsAllowedExtension($expected, $filename, array $args = []): void
+    #[DataProvider('provideIsAllowedExtension')]
+    public function testIsAllowedExtension(bool $expected, string $filename, array $args = []): void
     {
         static::assertSame($expected, rex_mediapool::isAllowedExtension($filename, $args));
     }
 
     /** @return list<array{0: bool, 1: string, 2?: array{types: string}}> */
-    public function provideIsAllowedExtension(): array
+    public static function provideIsAllowedExtension(): array
     {
         return [
             [false, 'foo.bar.php'],
@@ -33,10 +32,8 @@ class rex_mediapool_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideIsAllowedMimeType
-     */
-    public function testIsAllowedMimeType($expected, $path, $filename = null): void
+    #[DataProvider('provideIsAllowedMimeType')]
+    public function testIsAllowedMimeType(bool $expected, string $path, ?string $filename = null): void
     {
         $addon = rex_addon::get('mediapool');
 
@@ -52,7 +49,7 @@ class rex_mediapool_test extends TestCase
     }
 
     /** @return list<array{0: bool, 1: string, 2?: string}> */
-    public function provideIsAllowedMimeType(): array
+    public static function provideIsAllowedMimeType(): array
     {
         return [
             [false, __FILE__],

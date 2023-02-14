@@ -7,17 +7,17 @@ class rex_be_navigation
 {
     use rex_factory_trait;
 
-    /** @psalm-var array<string, string> */
+    /** @var array<string, string> */
     private $headlines = [];
 
-    /** @psalm-var array<string, int> */
+    /** @var array<string, int> */
     private $prios = [
         'default' => 0,
         'system' => 10,
         'addons' => 20,
     ];
 
-    /** @psalm-var array<string, list> */
+    /** @var array<string, list> */
     private $pages = [];
 
     /**

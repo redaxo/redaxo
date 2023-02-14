@@ -1,6 +1,10 @@
 <?php
 
-class rex_var_config_test extends rex_var_base_test
+use PHPUnit\Framework\Attributes\DataProvider;
+
+require_once __DIR__.'/var_test_base.php';
+
+class rex_var_config_test extends rex_var_test_base
 {
     protected function setUp(): void
     {
@@ -15,7 +19,7 @@ class rex_var_config_test extends rex_var_base_test
     }
 
     /** @return list<array{string, string}> */
-    public function configReplaceProvider(): array
+    public static function configReplaceProvider(): array
     {
         return [
             ['REX_CONFIG[key=myCoreConfig]', 'myCoreConfigValue'],
@@ -23,10 +27,8 @@ class rex_var_config_test extends rex_var_base_test
         ];
     }
 
-    /**
-     * @dataProvider configReplaceProvider
-     */
-    public function testConfigReplace($content, $expectedOutput): void
+    #[DataProvider('configReplaceProvider')]
+    public function testConfigReplace(string $content, string $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }
