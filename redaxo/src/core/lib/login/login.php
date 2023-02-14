@@ -555,6 +555,19 @@ class rex_login
     public static function startSession()
     {
         if (PHP_SESSION_ACTIVE !== session_status()) {
+            $env = rex::isBackend() ? 'backend' : 'frontend';
+            $sessionConfig = rex::getProperty('session', []);
+
+            if (isset($sessionConfig[$env]['sid_length'])) {
+                ini_set('session.sid_length', $sessionConfig[$env]['sid_length']);
+            }
+            if (isset($sessionConfig[$env]['sid_bits_per_character'])) {
+                ini_set('session.sid_bits_per_character', $sessionConfig[$env]['sid_bits_per_character']);
+            }
+            if (isset($sessionConfig[$env]['save_path'])) {
+                session_save_path($sessionConfig[$env]['save_path']);
+            }
+
             $cookieParams = static::getCookieParams();
 
             session_set_cookie_params(

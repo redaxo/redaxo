@@ -122,17 +122,29 @@
             "type": "object",
             "properties": {
                 "backend": {
-                    "$ref": "#/properties/session/definitions/cookie"
+                    "$ref": "#/properties/session/definitions/options"
                 },
                 "frontend": {
-                    "$ref": "#/properties/session/definitions/cookie"
+                    "$ref": "#/properties/session/definitions/options"
                 }
             },
             "additionalProperties": false,
             "definitions": {
-                "cookie": {
+                "options": {
                     "type": "object",
                     "properties": {
+                        "save_path": {
+                            "description": "Directory path used to save session data",
+                            "type": ["null", "string"]
+                        },
+                        "sid_length": {
+                            "description": "Length of session ID string",
+                            "type": ["null", "integer"]
+                        },
+                        "sid_bits_per_character": {
+                            "description": "Number of bits in encoded session ID character",
+                            "type": ["null", "integer"]
+                        },
                         "cookie": {
                             "type": "object",
                             "properties": {
