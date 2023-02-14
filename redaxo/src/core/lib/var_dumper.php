@@ -51,7 +51,7 @@ abstract class rex_var_dumper
             } else {
                 $styleAll = 'font-family: "Fira Code", Menlo, Monaco, Consolas, monospace; font-size: 14px; line-height: 1.4 !important;';
                 $dumper = new HtmlDumper();
-                $dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s"><div class="sf-dump-rex-container">', '</div></pre><script>Sfdump(%s)</script>');
+                $dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s">', '</pre><script>Sfdump(%s)</script>');
                 $dumper->setIndentPad('    ');
                 $dumper->setStyles([
                     'rex-container' => $styleAll . '
