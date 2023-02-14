@@ -8,12 +8,15 @@ use Redaxo\Core\Fragment\Component\IconLibrary;
 $name = match ($this->name) {
     IconLibrary::Add => 'plus-lg',
     IconLibrary::AlertError => 'exclamation-octagon',
-    IconLibrary::AlertInfo => 'info-circle',
+    IconLibrary::AlertInfo,
+    IconLibrary::PHPInfo => 'info-circle',
     IconLibrary::AlertNeutral => 'x-diamond',
     IconLibrary::AlertSuccess => 'check-circle',
     IconLibrary::AlertWarning => 'exclamation-triangle',
     IconLibrary::Debug => 'heart-pulse',
+    IconLibrary::VersionUnstable => 'egg-fried',
     IconLibrary::Save => 'database-up',
+    default => 'award',
 };
 ?>
 <sl-icon name="<?= $name ?>"
