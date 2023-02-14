@@ -12,7 +12,7 @@
 
     <title>Ooops, something went wrong!</title>
 
-    <style type="text/css">
+    <style type="text/css" nonce="<?= rex_response::getNonce() ?>">
         html, body {
             height: 100%;
             background-color: #f7f7f7;

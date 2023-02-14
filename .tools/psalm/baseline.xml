@@ -917,16 +917,6 @@
       <code>$error</code>
     </PossiblyNullArgument>
   </file>
-  <file src="redaxo/src/addons/media_manager/tests/media_manager_test.php">
-    <MixedArgument>
-      <code>$file</code>
-      <code>$timestamp</code>
-      <code>$type</code>
-    </MixedArgument>
-    <MixedOperand>
-      <code>$expectedBuster</code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
     <ArgumentTypeCoercion>
       <code>$data</code>
@@ -1222,11 +1212,6 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/tests/mediapool_test.php">
-    <MixedArgument>
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$path</code>
-    </MixedArgument>
     <MixedAssignment>
       <code>$allowedMimeTypes</code>
     </MixedAssignment>
@@ -1897,7 +1882,6 @@
     <MixedInferredReturnType>
       <code>int</code>
       <code>int</code>
-      <code>list&lt;string[]&gt;</code>
     </MixedInferredReturnType>
     <MixedOperand>
       <code>$currentStatus</code>
@@ -1905,8 +1889,6 @@
       <code>$currentStatus</code>
     </MixedOperand>
     <MixedReturnStatement>
-      <code>$artStatusTypes</code>
-      <code>$artStatusTypes</code>
       <code>($currentStatus + 1) % count($artStatusTypes)</code>
       <code>($currentStatus - 1) % count($artStatusTypes)</code>
     </MixedReturnStatement>
@@ -1955,7 +1937,6 @@
     <MixedInferredReturnType>
       <code>int</code>
       <code>int</code>
-      <code>list&lt;string[]&gt;</code>
     </MixedInferredReturnType>
     <MixedOperand>
       <code>$currentStatus</code>
@@ -1963,8 +1944,6 @@
       <code>$currentStatus</code>
     </MixedOperand>
     <MixedReturnStatement>
-      <code>$catStatusTypes</code>
-      <code>$catStatusTypes</code>
       <code>($currentStatus + 1) % count($catStatusTypes)</code>
       <code>($currentStatus - 1) % count($catStatusTypes)</code>
     </MixedReturnStatement>
@@ -2624,16 +2603,6 @@
     <MixedAssignment>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code>iterable</code>
-      <code>iterable</code>
-      <code>iterable</code>
-    </MixedInferredReturnType>
-  </file>
-  <file src="redaxo/src/addons/structure/tests/function_rex_url_test.php">
-    <MixedArgument>
-      <code>$articleId</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/structure/update.php">
     <MixedAssignment>
@@ -3615,10 +3584,6 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/core/lib/be/page.php">
-    <MixedArrayTypeCoercion>
-      <code>$this-&gt;itemAttr[$name]</code>
-      <code>$this-&gt;linkAttr[$name]</code>
-    </MixedArrayTypeCoercion>
     <PossiblyNullReference>
       <code>getParent</code>
     </PossiblyNullReference>
@@ -4279,10 +4244,6 @@
       <code>$this-&gt;linkAttributes[$column] ?? $default</code>
       <code>json_decode($this-&gt;getValue($column), true)</code>
     </MixedReturnStatement>
-    <MixedReturnTypeCoercion>
-      <code>$default ?? $columnName</code>
-      <code>(T is null ? string : ?string)</code>
-    </MixedReturnTypeCoercion>
     <PossiblyNullArgument>
       <code>$columnLayout</code>
       <code>$column['width'] ?? null</code>
@@ -4947,13 +4908,8 @@
       <code>$version</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
-      <code>$column</code>
-      <code>$column</code>
       <code>$fldName</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayTypeCoercion>
-      <code>$this-&gt;values[$column]</code>
-    </MixedArrayTypeCoercion>
     <MixedAssignment>
       <code>$buffered</code>
       <code>$field</code>
@@ -5692,7 +5648,6 @@
   </file>
   <file src="redaxo/src/core/tests/login/password_policy_test.php">
     <MixedArgument>
-      <code>$password</code>
       <code>$rule</code>
       <code>$rule</code>
     </MixedArgument>
@@ -5703,18 +5658,6 @@
       <code>$rule</code>
       <code>$rule</code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/tests/packages/package_test.php">
-    <MixedInferredReturnType>
-      <code>iterable</code>
-    </MixedInferredReturnType>
-  </file>
-  <file src="redaxo/src/core/tests/path_test.php">
-    <MixedArgument>
-      <code>$basePath</code>
-      <code>$path</code>
-      <code>$path</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/core/tests/sql/sql_select_test.php">
     <MixedArgument>
@@ -5729,89 +5672,19 @@
   </file>
   <file src="redaxo/src/core/tests/sql/sql_table_test.php">
     <PossiblyNullReference>
-      <code>getColumns</code>
-      <code>getColumns</code>
-      <code>getColumns</code>
-      <code>getComment</code>
-      <code>getComment</code>
-      <code>getComment</code>
       <code>getDefault</code>
-      <code>getName</code>
-      <code>getName</code>
-      <code>getName</code>
-      <code>getName</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>getType</code>
       <code>setExtra</code>
       <code>setType</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/core/tests/sql/sql_test.php">
-    <MixedArgumentTypeCoercion>
-      <code>$values</code>
-    </MixedArgumentTypeCoercion>
-    <MixedInferredReturnType>
-      <code>array</code>
-      <code>array</code>
-      <code>array</code>
-      <code>iterable</code>
-    </MixedInferredReturnType>
-  </file>
-  <file src="redaxo/src/core/tests/util/file_test.php">
-    <MixedArgument>
-      <code>$file</code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/tests/util/finder_test.php">
-    <MixedArgument>
-      <code>$contains</code>
-      <code>$file</code>
-      <code>$iterator</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$file</code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/tests/util/formatter_test.php">
-    <InvalidDocblock>
-      <code>public function dataIntlDate(): array</code>
-      <code>public function dataIntlDateTime(): array</code>
-      <code>public function dataIntlTime(): array</code>
-    </InvalidDocblock>
     <MixedArrayAccess>
       <code>$params['some']</code>
       <code>$params['subject']</code>
     </MixedArrayAccess>
-    <MixedInferredReturnType>
-      <code>list&lt;array{string, string|int|DateTimeInterface|null, 3?: null|int|array{int, int}|string}&gt;</code>
-      <code>list&lt;array{string, string|int|DateTimeInterface|null, 3?: null|int|string}&gt;</code>
-      <code>list&lt;array{string, string|int|DateTimeInterface|null, 3?: null|int|string}&gt;</code>
-    </MixedInferredReturnType>
     <MixedOperand>
       <code>$params['some']</code>
       <code>$params['subject']</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/tests/util/markdown_test.php">
-    <MixedArgument>
-      <code>$code</code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/tests/util/socket_response_test.php">
-    <MixedArgument>
-      <code>$content</code>
-    </MixedArgument>
-    <MixedOperand>
-      <code>$header</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/socket_test.php">
@@ -5829,16 +5702,6 @@
       <code>$b</code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/tests/util/string_test.php">
-    <MixedArgument>
-      <code>$allowedChars</code>
-      <code>$argSeparator</code>
-      <code>$params</code>
-      <code>$replaceChar</code>
-      <code>$string</code>
-      <code>$string</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/core/tests/util/timer_test.php">
     <MixedAssignment>
       <code>$i</code>
@@ -5849,32 +5712,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/type_test.php">
-    <MixedArgument>
-      <code>$vartype</code>
-      <code>$vartype</code>
-    </MixedArgument>
     <MixedOperand>
       <code>$var</code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/tests/util/validator_test.php">
-    <MixedArgument>
-      <code>$type</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/tests/util/version_test.php">
-    <MixedArgument>
-      <code>$version</code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/tests/var/var_base_test.php">
-    <MixedArgument>
-      <code>$content</code>
-      <code>$msg</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/core/tests/var/var_test.php">
     <MixedArgument>
@@ -5884,13 +5724,6 @@
       <code>$params['suffix']</code>
       <code>$params['var']</code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code>$params['class']</code>
-      <code>$params['content']</code>
-      <code>$params['subject']</code>
-      <code>$params['suffix']</code>
-      <code>$params['var']</code>
-    </MixedArrayAccess>
   </file>
   <file src="redaxo/src/core/update.php">
     <MixedArrayAccess>

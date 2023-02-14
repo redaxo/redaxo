@@ -3,7 +3,7 @@
 /**
  * Extension Point Class.
  *
- * @psalm-template T
+ * @template T
  *
  * @author gharlan
  *
@@ -15,10 +15,7 @@ class rex_extension_point
 {
     /** @var string */
     private $name;
-    /**
-     * @psalm-var T
-     * @var mixed
-     */
+    /** @var T */
     private $subject;
     /** @var array */
     private $params = [];
@@ -29,9 +26,8 @@ class rex_extension_point
 
     /**
      * @param string $name
-     * @param mixed  $subject
-     * @psalm-param T $subject
-     * @param bool   $readonly
+     * @param T $subject
+     * @param bool $readonly
      */
     public function __construct($name, $subject = null, array $params = [], $readonly = false)
     {
@@ -54,9 +50,7 @@ class rex_extension_point
     /**
      * Sets the subject.
      *
-     * @param mixed $subject
-     * @psalm-param T $subject
-     *
+     * @param T $subject
      * @throws rex_exception
      * @return void
      */
@@ -71,8 +65,7 @@ class rex_extension_point
     /**
      * Returns the subject.
      *
-     * @psalm-return T
-     * @return mixed
+     * @return T
      */
     public function getSubject()
     {

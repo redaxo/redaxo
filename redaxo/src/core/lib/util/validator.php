@@ -11,11 +11,7 @@ class rex_validator
 {
     use rex_factory_trait;
 
-    /**
-     * @psalm-var list<rex_validation_rule>
-     *
-     * @var rex_validation_rule[]
-     */
+    /** @var list<rex_validation_rule> */
     private $rules = [];
     /** @var string|null */
     private $message;
@@ -73,9 +69,7 @@ class rex_validator
     }
 
     /**
-     * @psalm-return list<rex_validation_rule>
-     *
-     * @return rex_validation_rule[]
+     * @return list<rex_validation_rule>
      */
     public function getRules(): array
     {
@@ -141,18 +135,11 @@ class rex_validator
      */
     public function type($value, $type)
     {
-        switch ($type) {
-            case 'int':
-            case 'integer':
-                return $this->match($value, '/^\d+$/');
-
-            case 'float':
-            case 'real':
-                return is_numeric($value);
-
-            default:
-                throw new InvalidArgumentException('Unknown $type:' . $type);
-        }
+        return match ($type) {
+            'int', 'integer' => $this->match($value, '/^\d+$/'),
+            'float', 'real' => is_numeric($value),
+            default => throw new InvalidArgumentException('Unknown $type:' . $type),
+        };
     }
 
     /**
@@ -273,7 +260,7 @@ class rex_validator
      * Checks the value by using the given callable.
      *
      * @param string $value
-     * @psalm-param callable(string):bool $callback
+     * @param callable(string):bool $callback
      *
      * @return bool
      */

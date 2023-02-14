@@ -30,11 +30,7 @@ class rex_login
      */
     public const SESSION_IMPERSONATOR = 'impersonator';
 
-    /**
-     * @psalm-var positive-int
-     *
-     * @var int
-     */
+    /** @var positive-int */
     protected $DB = 1;
     /**
      * A Session will be closed when not activly used for this timespan (seconds).
@@ -533,10 +529,18 @@ class rex_login
 
             rex_csrf_token::removeAll();
 
-            rex_extension::registerPoint(new rex_extension_point('SESSION_REGENERATED', null, [
+            $extensionPoint = new rex_extension_point('SESSION_REGENERATED', null, [
                 'previous_id' => $previous,
                 'new_id' => session_id(),
-            ], true));
+                'class' => static::class,
+            ], true);
+
+            // We don't know here if packages have already been loaded
+            // Therefore we call the extension point twice, directly and after PACKAGES_INCLUDED
+            rex_extension::registerPoint($extensionPoint);
+            rex_extension::register('PACKAGES_INCLUDED', static function () use ($extensionPoint) {
+                rex_extension::registerPoint($extensionPoint);
+            }, rex_extension::EARLY);
         }
 
         // session-id is shared between frontend/backend or even redaxo instances per server because it's the same http session

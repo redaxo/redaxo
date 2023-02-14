@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -51,9 +53,7 @@ class rex_socket_test extends TestCase
         static::assertEquals(rex_socket_proxy::class, $socket::class);
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[Depends('testFactory')]
     public function testWriteRequest($socket): void
     {
         $class = new ReflectionClass(rex_socket::class);
@@ -80,7 +80,7 @@ class rex_socket_test extends TestCase
     }
 
     /** @return list<array{string, string, int, bool, string}> */
-    public function parseUrlProvider(): array
+    public static function parseUrlProvider(): array
     {
         return [
             ['example.com',                             'example.com', 80,  false, '/'],
@@ -96,10 +96,8 @@ class rex_socket_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider parseUrlProvider
-     */
-    public function testParseUrl($url, $expectedHost, $expectedPort, $expectedSsl, $expectedPath): void
+    #[DataProvider('parseUrlProvider')]
+    public function testParseUrl(string $url, string $expectedHost, int $expectedPort, bool $expectedSsl, string $expectedPath): void
     {
         $method = new ReflectionMethod(rex_socket::class, 'parseUrl');
         $result = $method->invoke(null, $url);
@@ -113,7 +111,7 @@ class rex_socket_test extends TestCase
     }
 
     /** @return list<array{string}> */
-    public function parseUrlExceptionProvider(): array
+    public static function parseUrlExceptionProvider(): array
     {
         return [
             [''],
@@ -122,10 +120,8 @@ class rex_socket_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider parseUrlExceptionProvider
-     */
-    public function testParseUrlException($url): void
+    #[DataProvider('parseUrlExceptionProvider')]
+    public function testParseUrlException(string $url): void
     {
         $this->expectException(rex_socket_exception::class);
 

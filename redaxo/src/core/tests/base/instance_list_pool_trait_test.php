@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 class rex_test_instance_list_pool
@@ -69,18 +70,14 @@ class rex_instance_list_pool_trait_test extends TestCase
         );
     }
 
-    /**
-     * @depends testGetInstanceList
-     */
+    #[Depends('testGetInstanceList')]
     public function testClearInstanceList(): void
     {
         rex_test_instance_list_pool::clearInstanceList(2);
         static::assertFalse(rex_test_instance_list_pool::hasInstanceList(2), 'instance list is cleared after clearInstanceList()');
     }
 
-    /**
-     * @depends testClearInstanceList
-     */
+    #[Depends('testClearInstanceList')]
     public function testClearInstanceListPool(): void
     {
         rex_test_instance_list_pool::clearInstanceListPool();

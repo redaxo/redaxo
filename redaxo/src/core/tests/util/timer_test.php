@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class rex_timer_test extends TestCase
 {
     /** @var array{enabled: bool, throw_always_exception: bool|int} */
-    private $orgDebug;
+    private array $orgDebug;
 
     protected function setUp(): void
     {
