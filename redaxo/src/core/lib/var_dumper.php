@@ -54,27 +54,27 @@ abstract class rex_var_dumper
                 $dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s">', '</pre><script>Sfdump(%s)</script>');
                 $dumper->setIndentPad('    ');
                 $dumper->setStyles([
-                    'default' => '
-                        background-color: transparent;
-                        color: #eeffff;
+                    'default' => $styleAll.'
+                        position: relative;
+                        z-index: 99999;
+                        background-color: #002635;
+                        color: #FF8400;
+                        white-space: pre-wrap;
+                        word-break: break-all;
+                        word-wrap: break-word;
                     ',
-                    'expanded' => '
-                        white-space: pre;
-                        background: unset;
-                        color: inherit;
-                    ',
-                    'const' => 'color: #F78C6C; font-weight: 700;',
-                    'ellipsis' => 'color: #eeffff;',
-                    'index' => 'color: #C3E88D;',
-                    'key' => 'color: #C3E88D;',
-                    'meta' => 'color: #89DDFF;',
-                    'note' => 'color: #FFB62C;',
-                    'num' => 'color: #F78C6C;',
-                    'protected' => 'color: #C792EA;',
-                    'private' => 'color: #C792EA;',
-                    'public' => 'color: #C792EA;',
-                    'ref' => 'color: #eeffff;',
-                    'str' => 'color: #FF5370;',
+                    'const' => $styleAll.'color: #F78C6C; font-weight: 700;',
+                    'ellipsis' => $styleAll.'color: #eeffff;',
+                    'index' => $styleAll.'color: #C3E88D;',
+                    'key' => $styleAll.'color: #C3E88D;',
+                    'meta' => $styleAll.'color: #89DDFF;',
+                    'note' => $styleAll.'color: #FFB62C;',
+                    'num' => $styleAll.'color: #F78C6C;',
+                    'protected' => $styleAll.'color: #C792EA;',
+                    'private' => $styleAll.'color: #C792EA;',
+                    'public' => $styleAll.'color: #C792EA;',
+                    'ref' => $styleAll.'color: #eeffff;',
+                    'str' => $styleAll.'color: #FF5370;',
                     'search-wrapper' => 'margin-bottom: 10px;',
                     'search-input' => 'height: 26px !important; background-color: #f3f6fb !important;',
                     'search-count' => 'height: 26px !important; line-height: 26px !important;',
