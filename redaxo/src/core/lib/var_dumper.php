@@ -54,38 +54,32 @@ abstract class rex_var_dumper
                 $dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s">', '</pre><script>Sfdump(%s)</script>');
                 $dumper->setIndentPad('    ');
                 $dumper->setStyles([
-                    'rex-container' => $styleAll . '
-                        position: relative;
-                        z-index: 99999;
-                        padding: 10px;
-                        background-color: #263238;
-                        border: 0;
-                        color: #eeffff;
-                        white-space: pre-wrap;
-                        word-break: normal;
-                        word-wrap: break-word;
-                    ',
-                    'default' => $styleAll . '
+                    'default' => '
                         background-color: transparent;
                         color: #eeffff;
                     ',
-                    'expanded' => $styleAll . '
+                    'expanded' => '
                         white-space: pre;
                         background: unset;
                         color: inherit;
                     ',
-                    'const' => $styleAll . 'color: #F78C6C; font-weight: 700;',
-                    'ellipsis' => $styleAll . 'color: #eeffff;',
-                    'index' => $styleAll . 'color: #C3E88D;',
-                    'key' => $styleAll . 'color: #C3E88D;',
-                    'meta' => $styleAll . 'color: #89DDFF;',
-                    'note' => $styleAll . 'color: #FFB62C;',
-                    'num' => $styleAll . 'color: #F78C6C;',
-                    'protected' => $styleAll . 'color: #C792EA;',
-                    'private' => $styleAll . 'color: #C792EA;',
-                    'public' => $styleAll . 'color: #C792EA;',
-                    'ref' => $styleAll . 'color: #eeffff;',
-                    'str' => $styleAll . 'color: #FF5370;',
+                    'const' => 'color: #F78C6C; font-weight: 700;',
+                    'ellipsis' => 'color: #eeffff;',
+                    'index' => 'color: #C3E88D;',
+                    'key' => 'color: #C3E88D;',
+                    'meta' => 'color: #89DDFF;',
+                    'note' => 'color: #FFB62C;',
+                    'num' => 'color: #F78C6C;',
+                    'protected' => 'color: #C792EA;',
+                    'private' => 'color: #C792EA;',
+                    'public' => 'color: #C792EA;',
+                    'ref' => 'color: #eeffff;',
+                    'str' => 'color: #FF5370;',
+                    'search-wrapper' => 'margin-bottom: 10px;',
+                    'search-input' => 'height: 26px !important; background-color: #f3f6fb !important;',
+                    'search-count' => 'height: 26px !important; line-height: 26px !important;',
+                    'search-input-previous' => 'height: 26px !important;',
+                    'search-input-next' => 'height: 26px !important;',
                 ]);
             }
 
