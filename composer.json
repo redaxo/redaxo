@@ -30,7 +30,7 @@
     "replace": {
         "erusev/parsedown": "1.7.4",
         "erusev/parsedown-extra": "0.8.1",
-        "filp/whoops": "2.14.6",
+        "filp/whoops": "2.14.5",
         "itsgoingd/clockwork": "v5.1.12",
         "phpmailer/phpmailer": "v6.7.1",
         "psr/container": "1.1.1",
@@ -42,7 +42,7 @@
         "splitbrain/php-archive": "1.3.1",
         "symfony/console": "v5.4.19",
         "symfony/deprecation-contracts": "v2.5.2",
-        "symfony/http-foundation": "v5.4.19",
+        "symfony/http-foundation": "v5.4.20",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-php70": "*",
         "symfony/polyfill-php72": "*",
@@ -53,7 +53,7 @@
         "symfony/string": "v5.4.19",
         "symfony/var-dumper": "v5.4.19",
         "symfony/yaml": "v5.4.19",
-        "voku/anti-xss": "4.1.39",
+        "voku/anti-xss": "4.1.41",
         "voku/portable-ascii": "2.0.1",
         "voku/portable-utf8": "6.0.12"
     },
