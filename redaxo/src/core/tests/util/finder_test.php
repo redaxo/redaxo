@@ -35,7 +35,11 @@ class rex_finder_test extends TestCase
         return rex_path::addonData('tests', 'rex_finder_test/' . $file);
     }
 
-    private function assertIteratorContains($iterator, $contains): void
+    /**
+     * @param Traversable<string, SplFileInfo> $iterator
+     * @param list<string> $contains
+     */
+    private function assertIteratorContains(Traversable $iterator, array $contains): void
     {
         $array = iterator_to_array($iterator, true);
         static::assertCount(count($contains), $array);

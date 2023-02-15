@@ -85,6 +85,7 @@ class rex_sql_test extends TestCase
         static::assertSame($expected, $sql->getDbType());
     }
 
+    /** @return list<array{string, string}> */
     public static function provideDbType(): array
     {
         return [
@@ -104,6 +105,7 @@ class rex_sql_test extends TestCase
         static::assertSame($expected, $sql->getDbVersion());
     }
 
+    /** @return list<array{string, string}> */
     public static function provideDbVersion(): array
     {
         return [
@@ -124,15 +126,14 @@ class rex_sql_test extends TestCase
                 $this->DBID = 999;
 
                 self::$pdo[$this->DBID] = new class($version) extends PDO {
-                    private $version;
+                    private string $version;
 
                     public function __construct(string $version)
                     {
                         $this->version = $version;
                     }
 
-                    #[\ReturnTypeWillChange]
-                    public function getAttribute($attribute)
+                    public function getAttribute(int $attribute): string
                     {
                         return $this->version;
                     }
@@ -153,6 +154,7 @@ class rex_sql_test extends TestCase
         static::assertSame('\\%foo\\_bar\\\\baz\\\\\\_qux', $sql->escapeLikeWildcards('%foo_bar\\baz\\_qux'));
     }
 
+    /** @param list<int|string> $values */
     #[DataProvider('dataIn')]
     public function testIn(string $expected, array $values): void
     {
@@ -162,6 +164,7 @@ class rex_sql_test extends TestCase
         static::assertSame($expected, $in);
     }
 
+    /** @return list<array{string, list<int|string>}> */
     public static function dataIn(): iterable
     {
         return [
@@ -543,12 +546,13 @@ class rex_sql_test extends TestCase
     }
 
     #[DataProvider('provideGetQueryTypes')]
-    public function testGetQueryType(string $query, $expectedQueryType): void
+    public function testGetQueryType(string $query, string|false $expectedQueryType): void
     {
         $actualQueryType = rex_sql::getQueryType($query);
         static::assertSame($expectedQueryType, $actualQueryType);
     }
 
+    /** @return list<array{string, string|false}> */
     public static function provideGetQueryTypes(): array
     {
         return [

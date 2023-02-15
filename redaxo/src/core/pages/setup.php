@@ -11,7 +11,7 @@ $context = rex_setup::getContext();
 $cancelSetupBtn = '';
 if (!rex_setup::isInitialSetup()) {
     $cancelSetupBtn = '
-    <style>
+    <style nonce="'.rex_response::getNonce().'">
         .rex-cancel-setup {
             position: absolute;
             top: 7px;

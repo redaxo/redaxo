@@ -34,8 +34,9 @@ class rex_version_test extends TestCase
         ];
     }
 
+    /** @param list<string> $expected */
     #[DataProvider('splitProvider')]
-    public function testSplit($version, $expected): void
+    public function testSplit(string $version, array $expected): void
     {
         static::assertEquals($expected, rex_version::split($version));
     }
@@ -74,11 +75,9 @@ class rex_version_test extends TestCase
         ];
     }
 
-    /**
-     * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
-     */
+    /** @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator */
     #[DataProvider('compareProvider')]
-    public function testCompare($expected, string $version1, string $version2, ?string $comparator): void
+    public function testCompare(bool $expected, string $version1, string $version2, ?string $comparator): void
     {
         static::assertSame($expected, rex_version::compare($version1, $version2, $comparator));
     }
@@ -96,9 +95,7 @@ class rex_version_test extends TestCase
         static::assertSame($expected, rex_version::matchesConstraints($version, $constraints));
     }
 
-    /**
-     * @return list<array{bool, string, string}>
-     */
+    /** @return list<array{bool, string, string}> */
     public static function dataMatchVersionConstraints(): array
     {
         return [

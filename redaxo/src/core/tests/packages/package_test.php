@@ -8,13 +8,15 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_package_test extends TestCase
 {
+    /** @param array{string, ?string} $expected */
     #[DataProvider('dataSplitId')]
     public function testSplitId(array $expected, string $packageId): void
     {
         static::assertSame($expected, rex_package::splitId($packageId));
     }
 
-    public static function dataSplitId(): iterable
+    /** @return list<array{array{string, ?string}, string}> */
+    public static function dataSplitId(): array
     {
         return [
             [['foo', null], 'foo'],

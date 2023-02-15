@@ -28,7 +28,7 @@ class rex_var_config_test extends rex_var_test_base
     }
 
     #[DataProvider('configReplaceProvider')]
-    public function testConfigReplace($content, $expectedOutput): void
+    public function testConfigReplace(string $content, string $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }

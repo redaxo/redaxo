@@ -52,7 +52,7 @@ c', "a\nb\nc"],
     }
 
     #[DataProvider('parseTokensProvider')]
-    public function testParseTokens($content, $expectedOutput): void
+    public function testParseTokens(string $content, string $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }
@@ -118,7 +118,7 @@ c', "a\nb\nc"],
     }
 
     #[DataProvider('parseArgsSyntaxProvider')]
-    public function testParseArgsSyntax($content, $expectedOutput): void
+    public function testParseArgsSyntax(string $content, string $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }
@@ -148,13 +148,13 @@ c', "a\nb\nc"],
         ];
     }
 
-    public static function varCallback($params): string
+    public static function varCallback(array $params): string
     {
         return sprintf('var:%s class:%s subject:%s content:%s suffix:%s', $params['var'], $params['class'], $params['subject'], $params['content'], $params['suffix']);
     }
 
     #[DataProvider('parseGlobalArgsProvider')]
-    public function testParseGlobalArgs($content, $expectedOutput): void
+    public function testParseGlobalArgs(string $content, string $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }

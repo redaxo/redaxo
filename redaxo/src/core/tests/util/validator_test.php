@@ -34,7 +34,7 @@ class rex_validator_test extends TestCase
     }
 
     #[DataProvider('dataType')]
-    public function testType($value, $type, $expected): void
+    public function testType(string $value, string $type, bool $expected): void
     {
         static::assertEquals($expected, rex_validator::factory()->type($value, $type));
     }
@@ -81,7 +81,7 @@ class rex_validator_test extends TestCase
     }
 
     #[DataProvider('dataUrl')]
-    public function testUrl($value, $isValid): void
+    public function testUrl(string $value, bool $isValid): void
     {
         static::assertEquals($isValid, rex_validator::factory()->url($value));
     }
@@ -99,7 +99,7 @@ class rex_validator_test extends TestCase
     }
 
     #[DataProvider('dataEmail')]
-    public function testEmail($value, $isValid): void
+    public function testEmail(string $value, bool $isValid): void
     {
         static::assertEquals($isValid, rex_validator::factory()->email($value));
     }

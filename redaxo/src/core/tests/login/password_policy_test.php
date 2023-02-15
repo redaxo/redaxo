@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class rex_password_policy_test extends TestCase
 {
     #[DataProvider('provideCheck')]
-    public function testCheck(array $options, $expected, $password): void
+    public function testCheck(array $options, bool $expected, string $password): void
     {
         $policy = new rex_password_policy($options);
 

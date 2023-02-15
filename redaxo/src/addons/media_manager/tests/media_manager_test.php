@@ -56,7 +56,7 @@ class rex_media_manager_test extends TestCase
     }
 
     #[DataProvider('dataGetUrl')]
-    public function testGetUrl($expectedBuster, $type, $file, $timestamp = null): void
+    public function testGetUrl(int|false $expectedBuster, string $type, string|rex_media $file, ?int $timestamp = null): void
     {
         $url = rex_media_manager::getUrl($type, $file, $timestamp);
 

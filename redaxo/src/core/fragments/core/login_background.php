@@ -22,7 +22,7 @@
     />
 </picture>
 
-<style>
+<style nonce="<?= rex_response::getNonce() ?>">
     #rex-page-login {
         background-color: #2a3444;
     }
@@ -49,7 +49,7 @@
     }
 </style>
 
-<script>
+<script nonce="<?= rex_response::getNonce() ?>">
     var picture = document.querySelector('.rex-background');
     picture.classList.add('rex-background--process');
     picture.querySelector('img').onload = function() {

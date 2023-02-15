@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class rex_mediapool_test extends TestCase
 {
     #[DataProvider('provideIsAllowedExtension')]
-    public function testIsAllowedExtension($expected, $filename, array $args = []): void
+    public function testIsAllowedExtension(bool $expected, string $filename, array $args = []): void
     {
         static::assertSame($expected, rex_mediapool::isAllowedExtension($filename, $args));
     }
@@ -33,7 +33,7 @@ class rex_mediapool_test extends TestCase
     }
 
     #[DataProvider('provideIsAllowedMimeType')]
-    public function testIsAllowedMimeType($expected, $path, $filename = null): void
+    public function testIsAllowedMimeType(bool $expected, string $path, ?string $filename = null): void
     {
         $addon = rex_addon::get('mediapool');
 

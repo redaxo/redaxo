@@ -24,7 +24,7 @@ class rex_command_config_set_test extends TestCase
     }
 
     #[DataProvider('dataSetBoolean')]
-    public function testSetBoolean($expectedValue, $value): void
+    public function testSetBoolean(bool $expectedValue, string $value): void
     {
         $commandTester = new CommandTester(new rex_command_config_set());
         $commandTester->execute([
