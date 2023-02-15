@@ -136,6 +136,8 @@ media_manager_effect_header_download = Download
 media_manager_effect_header_cache = Cache-Control
 media_manager_effect_header_filename = Källa för filnamn
 media_manager_effect_header_filename_notice = <code> filnamn </ code> är det normaliserade filnamnet på servern, t.ex. <code> my-download.pdf </ code>, <code> originalnamn </ code> är det ursprungliga filnamnet vid uppladdningstidpunkten (med mellanslag, stor / små bokstäver, etc.), t.ex. <code> Min Download.pdf </ code>
+media_manager_effect_header_index = SEO: Indexering
+media_manager_effect_header_index_notice = <code>index</code>: sökmotorer bör söka igenom filen och eventuellt inkludera den i indexet (standard) | <code>noindex</code>: sökmotorer bör <b>inte</b> söka igenom filen eller inkludera den i indexet
 
 
 
