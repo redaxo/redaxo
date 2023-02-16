@@ -26,7 +26,7 @@ abstract class rex_cronjob
             return $class;
         }
 
-        return new $class();
+        return rex_type::instanceOf(new $class(), self::class);
     }
 
     /**

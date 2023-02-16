@@ -51,41 +51,35 @@ abstract class rex_var_dumper
             } else {
                 $styleAll = 'font-family: "Fira Code", Menlo, Monaco, Consolas, monospace; font-size: 14px; line-height: 1.4 !important;';
                 $dumper = new HtmlDumper();
-                $dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s"><div class="sf-dump-rex-container">', '</div></pre><script>Sfdump(%s)</script>');
+                $dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s">', '</pre><script>Sfdump(%s)</script>');
                 $dumper->setIndentPad('    ');
                 $dumper->setStyles([
-                    'rex-container' => $styleAll . '
+                    'default' => $styleAll.'
                         position: relative;
                         z-index: 99999;
-                        padding: 10px;
-                        background-color: #263238;
-                        border: 0;
-                        color: #eeffff;
+                        background-color: #002635;
+                        color: #FF8400;
                         white-space: pre-wrap;
-                        word-break: normal;
+                        word-break: break-all;
                         word-wrap: break-word;
                     ',
-                    'default' => $styleAll . '
-                        background-color: transparent;
-                        color: #eeffff;
-                    ',
-                    'expanded' => $styleAll . '
-                        white-space: pre;
-                        background: unset;
-                        color: inherit;
-                    ',
-                    'const' => $styleAll . 'color: #F78C6C; font-weight: 700;',
-                    'ellipsis' => $styleAll . 'color: #eeffff;',
-                    'index' => $styleAll . 'color: #C3E88D;',
-                    'key' => $styleAll . 'color: #C3E88D;',
-                    'meta' => $styleAll . 'color: #89DDFF;',
-                    'note' => $styleAll . 'color: #FFB62C;',
-                    'num' => $styleAll . 'color: #F78C6C;',
-                    'protected' => $styleAll . 'color: #C792EA;',
-                    'private' => $styleAll . 'color: #C792EA;',
-                    'public' => $styleAll . 'color: #C792EA;',
-                    'ref' => $styleAll . 'color: #eeffff;',
-                    'str' => $styleAll . 'color: #FF5370;',
+                    'const' => $styleAll.'color: #F78C6C; font-weight: 700;',
+                    'ellipsis' => $styleAll.'color: #eeffff;',
+                    'index' => $styleAll.'color: #C3E88D;',
+                    'key' => $styleAll.'color: #C3E88D;',
+                    'meta' => $styleAll.'color: #89DDFF;',
+                    'note' => $styleAll.'color: #FFB62C;',
+                    'num' => $styleAll.'color: #F78C6C;',
+                    'protected' => $styleAll.'color: #C792EA;',
+                    'private' => $styleAll.'color: #C792EA;',
+                    'public' => $styleAll.'color: #C792EA;',
+                    'ref' => $styleAll.'color: #eeffff;',
+                    'str' => $styleAll.'color: #FF5370;',
+                    'search-wrapper' => 'margin-bottom: 10px;',
+                    'search-input' => 'height: 26px !important; background-color: #f3f6fb !important;',
+                    'search-count' => 'height: 26px !important; line-height: 26px !important;',
+                    'search-input-previous' => 'height: 26px !important;',
+                    'search-input-next' => 'height: 26px !important;',
                 ]);
             }
 
