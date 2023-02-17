@@ -57,7 +57,7 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     $data = $entry->getData();
 
     $class = strtolower($data[0]);
-    $class = ('notice' == $class || 'warning' == $class || 'success' == $class || 'info' == $class) ? $class : 'error';
+    $class = in_array($class, ['notice', 'warning', 'success', 'info', 'debug'], true) ? $class : 'error';
 
     $path = '';
     if (isset($data[2])) {

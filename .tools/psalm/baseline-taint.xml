@@ -11,12 +11,6 @@
       <code>$source</code>
     </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/cronjob/lib/cronjob.php">
-    <TaintedCallable>
-      <code>$class</code>
-      <code>$class</code>
-    </TaintedCallable>
-  </file>
   <file src="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php">
     <TaintedHtml>
       <code>$this-&gt;getVar('content1iframe')</code>
@@ -75,23 +69,6 @@
       <code>$this-&gt;getVar('content')</code>
     </TaintedTextWithQuotes>
   </file>
-  <file src="redaxo/src/core/lib/api_function.php">
-    <TaintedCallable>
-      <code>$apiClass</code>
-    </TaintedCallable>
-  </file>
-  <file src="redaxo/src/core/lib/be/controller.php">
-    <TaintedCallable>
-      <code>$adder</code>
-      <code>$setter</code>
-      <code>$setter</code>
-    </TaintedCallable>
-  </file>
-  <file src="redaxo/src/core/lib/console/command_loader.php">
-    <TaintedCallable>
-      <code>$class</code>
-    </TaintedCallable>
-  </file>
   <file src="redaxo/src/core/lib/login/login.php">
     <TaintedHeader>
       <code>$rawHeader</code>
@@ -105,7 +82,6 @@
   </file>
   <file src="redaxo/src/core/lib/sql/sql.php">
     <TaintedSql>
-      <code>$query</code>
       <code>$query</code>
     </TaintedSql>
   </file>
