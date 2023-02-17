@@ -136,8 +136,6 @@ media_manager_effect_header_download = Descargar
 media_manager_effect_header_cache = Control de caché
 media_manager_effect_header_filename = Fuente para los nombres de archivo
 media_manager_effect_header_filename_notice = <code>filename</code> es el nombre de archivo normalizado en el servidor, por ejemplo, <code>my-download.pdf</code>, <code> nombre original </code> es el nombre del archivo original en el momento de la carga (con espacios , Mayúsculas/minúsculas, etc.), por ejemplo, <code>My Download.pdf</code>
-media_manager_effect_header_index = SEO: Indexación
-media_manager_effect_header_index_notice = <code>index</code>: sos motores de búsqueda deben rastrear el archivo y posiblemente incluirlo en el índice (por defecto) | <code>noindex</code>: los motores de búsqueda no deben <b>rastrear</b> el archivo ni incluirlo en el índice
 
 
 
