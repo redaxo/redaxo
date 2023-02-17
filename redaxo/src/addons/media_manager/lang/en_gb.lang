@@ -139,7 +139,7 @@ media_manager_effect_header_cache = Cache control
 media_manager_effect_header_filename = Source for filename
 media_manager_effect_header_filename_notice = <code>filename</code> is the normalized filename on the server, i.e <code>mein-download.pdf</code>, <code>originalname</code> is the original filename at the moment of upload (with whitespace, using uppercase/lowercase letters, etc.), i.e. <code>My Download.pdf</code>
 media_manager_effect_header_index = SEO: Indexing
-media_manager_effect_header_index_notice = <code>index</code>: search engines should crawl the file and possibly include it in the index (Standard) | <code>noindex</code>: search engines should <b>not</b> crawl the file or include it in the index
+media_manager_effect_header_index_notice = <code>index</code>: search engines should crawl the file and possibly include it in the index (default) | <code>noindex</code>: search engines should <b>not</b> crawl the file or include it in the index
 
 
 
