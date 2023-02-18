@@ -635,7 +635,7 @@ if ($SHOW) {
         if (
             $list->getValue('id') == rex::getUser()->getId()
             || $list->getValue('admin') && !rex::getUser()->isAdmin()
-            || rex::getImpersonator() && $list->getValue('id') == rex::getImpersonator()->getId()
+            || ($impersonator = rex::getImpersonator()) && $list->getValue('id') == $impersonator->getId()
         ) {
             return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete') . '</span>';
         }
