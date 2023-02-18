@@ -169,6 +169,7 @@ final class AntiXSS
         'onDrag',
         'onDragDrop',
         'onDragEnd',
+        'onDragExit',
         'onDragEnter',
         'onDragLeave',
         'onDragOver',
@@ -201,6 +202,7 @@ final class AntiXSS
         'onLanguageChange',
         'onLayoutComplete',
         'onLoad',
+        'onLoadEnd',
         'onLoadedData',
         'onLoadedMetaData',
         'onLoadStart',
@@ -313,6 +315,8 @@ final class AntiXSS
         'onTimer',
         'onTrackChange',
         'onTransitionEnd',
+        'onTransitionRun',
+        'onTransitionStart',
         'onToggle',
         'onTouchCancel',
         'onTouchEnd',
@@ -322,6 +326,7 @@ final class AntiXSS
         'onTransitionCancel',
         'onTransitionEnd',
         'onUnload',
+        'onUnhandledRejection',
         'onURLFlip',
         'onUserProximity',
         'onVolumeChange',
@@ -517,7 +522,7 @@ final class AntiXSS
                     ['#', '.'],
                     ['\#', '\.'],
                     $WORDS_CACHE['chunk'][$word]
-                ) . ')(?<after>[^\p{L}@.!? ]|$)#ius',
+                ) . ')(?<after>[^\p{L}@.!?\' ]|$)#ius',
                 function ($matches) {
                     return $this->_compact_exploded_words_callback($matches);
                 },
@@ -685,35 +690,42 @@ final class AntiXSS
 
         // backup the string (for later comparison)
         $str_backup = $str;
+        
+        // process
+        do {
+            // backup the string (for the loop)
+            $str_backup_loop = $str;
 
-        // correct words before the browser will do it
-        $str = $this->_compact_exploded_javascript($str);
-
-        // remove disallowed javascript calls in links, images etc.
-        $str = $this->_remove_disallowed_javascript($str);
-
-        // remove strings that are never allowed
-        $str = $this->_do_never_allowed($str);
-
-        // remove evil attributes such as style, onclick and xmlns
-        $str = $this->_remove_evil_attributes($str);
-
-        // sanitize naughty JavaScript elements
-        $str = $this->_sanitize_naughty_javascript($str);
-
-        // sanitize naughty HTML elements
-        $str = $this->_sanitize_naughty_html($str);
-
-        // final clean up
-        //
-        // -> This adds a bit of extra precaution in case something got through the above filters.
-        $str = $this->_do_never_allowed_afterwards($str);
+            // correct words before the browser will do it
+            $str = $this->_compact_exploded_javascript($str);
+    
+            // remove disallowed javascript calls in links, images etc.
+            $str = $this->_remove_disallowed_javascript($str);
+    
+            // remove strings that are never allowed
+            $str = $this->_do_never_allowed($str);
+    
+            // remove evil attributes such as style, onclick and xmlns
+            $str = $this->_remove_evil_attributes($str);
+    
+            // sanitize naughty JavaScript elements
+            $str = $this->_sanitize_naughty_javascript($str);
+    
+            // sanitize naughty HTML elements
+            $str = $this->_sanitize_naughty_html($str);
+    
+            // final clean up
+            //
+            // -> This adds a bit of extra precaution in case something got through the above filters.
+            $str = $this->_do_never_allowed_afterwards($str);
+            
+        } while ($str_backup_loop !== $str);
 
         // check for xss
         if ($this->_xss_found !== true) {
             $this->_xss_found = !($str_backup === $str);
         }
-
+        
         return $str;
     }
 
@@ -1160,7 +1172,26 @@ final class AntiXSS
                 }
             }
         }
-
+        
+        if (
+            \substr($match[0], -3) === ' />'
+            &&
+            \substr($match[1], -2) === ' /'
+            &&
+            \substr($replacer, -2) !== ' /'
+        ) {
+            $replacer .= ' /';
+        } elseif (
+            \substr($match[0], -2) === '/>'
+            &&
+            \substr($match[1], -1) === '/'
+            &&
+            \substr($replacer, -1) !== '/'
+        ) {
+            $replacer .= '/';
+        }
+        
+        
         return \str_ireplace($match[1], $replacer, (string) $match[0]);
     }
 

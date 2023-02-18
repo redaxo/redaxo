@@ -367,7 +367,7 @@ if ('' == $func) {
     // ]]>
     </script>
 
-    <style>
+    <style nonce="<?= rex_response::getNonce() ?>">
         .rex-cronjob-interval-all .checkbox label {
             font-weight: 700;
         }

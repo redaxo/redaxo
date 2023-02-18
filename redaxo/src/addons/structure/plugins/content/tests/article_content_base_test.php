@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -34,7 +35,7 @@ class rex_article_content_base_test extends TestCase
         static::assertEquals('teststring', $instance->getValue('art_foo'));
     }
 
-    /** @dataProvider dataGetValueNonExisting */
+    #[DataProvider('dataGetValueNonExisting')]
     public function testGetValueNonExisting(string $value): void
     {
         $instance = $this->createArticleContentBaseWithoutConstructor();
@@ -45,7 +46,7 @@ class rex_article_content_base_test extends TestCase
     }
 
     /** @return list<array{string}> */
-    public function dataGetValueNonExisting(): array
+    public static function dataGetValueNonExisting(): array
     {
         return [
             ['bar'],

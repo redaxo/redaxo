@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,7 +17,7 @@ class rex_validator_test extends TestCase
     }
 
     /** @return list<array{string, string, bool}> */
-    public function dataType(): array
+    public static function dataType(): array
     {
         return [
             ['',      'int', false],
@@ -32,10 +33,8 @@ class rex_validator_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataType
-     */
-    public function testType($value, $type, $expected): void
+    #[DataProvider('dataType')]
+    public function testType(string $value, string $type, bool $expected): void
     {
         static::assertEquals($expected, rex_validator::factory()->type($value, $type));
     }
@@ -69,7 +68,7 @@ class rex_validator_test extends TestCase
     }
 
     /** @return list<array{string, bool}> */
-    public function dataUrl(): array
+    public static function dataUrl(): array
     {
         return [
             ['', false],
@@ -81,16 +80,14 @@ class rex_validator_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataUrl
-     */
-    public function testUrl($value, $isValid): void
+    #[DataProvider('dataUrl')]
+    public function testUrl(string $value, bool $isValid): void
     {
         static::assertEquals($isValid, rex_validator::factory()->url($value));
     }
 
     /** @return list<array{string, bool}> */
-    public function dataEmail(): array
+    public static function dataEmail(): array
     {
         return [
             ['', false],
@@ -101,10 +98,8 @@ class rex_validator_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataEmail
-     */
-    public function testEmail($value, $isValid): void
+    #[DataProvider('dataEmail')]
+    public function testEmail(string $value, bool $isValid): void
     {
         static::assertEquals($isValid, rex_validator::factory()->email($value));
     }
@@ -130,9 +125,7 @@ class rex_validator_test extends TestCase
         static::assertTrue($validator->values('ghi', ['def', 'ghi']));
     }
 
-    /**
-     * @dataProvider dataCustom
-     */
+    #[DataProvider('dataCustom')]
     public function testCustom(bool $expected, string $value): void
     {
         $validator = rex_validator::factory();
@@ -150,7 +143,7 @@ class rex_validator_test extends TestCase
     }
 
     /** @return iterable<int, array{bool, string}> */
-    public function dataCustom(): iterable
+    public static function dataCustom(): iterable
     {
         return [
             [true, 'abc'],

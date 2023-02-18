@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -22,10 +23,8 @@ class rex_command_config_set_test extends TestCase
         file_put_contents($configPath, $this->initialConfig);
     }
 
-    /**
-     * @dataProvider dataSetBoolean
-     */
-    public function testSetBoolean($expectedValue, $value): void
+    #[DataProvider('dataSetBoolean')]
+    public function testSetBoolean(bool $expectedValue, string $value): void
     {
         $commandTester = new CommandTester(new rex_command_config_set());
         $commandTester->execute([
@@ -41,7 +40,7 @@ class rex_command_config_set_test extends TestCase
     }
 
     /** @return list<array{bool, string}> */
-    public function dataSetBoolean(): array
+    public static function dataSetBoolean(): array
     {
         return [
             [true, '1'],

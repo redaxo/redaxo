@@ -7,27 +7,27 @@
 <picture class="rex-background">
     <source
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/dynamic-wang-EHnrP9CanuQ-unsplash_2400.avif') ?> 2400w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/dynamic-wang-EHnrP9CanuQ-unsplash_3600.avif') ?> 3600w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_2400.avif') ?> 2400w,
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_3500.avif') ?> 3500w"
         sizes="100vw"
         type="image/avif"
     />
     <img
         alt=""
-        src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/dynamic-wang-EHnrP9CanuQ-unsplash_2400.jpg') ?>"
+        src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_2400.webp') ?>"
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/dynamic-wang-EHnrP9CanuQ-unsplash_2400.jpg') ?> 2400w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/dynamic-wang-EHnrP9CanuQ-unsplash_3600.jpg') ?> 3600w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_2400.webp') ?> 2400w,
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_3500.webp') ?> 3500w"
         sizes="100vw"
     />
 </picture>
 
-<style>
+<style nonce="<?= rex_response::getNonce() ?>">
     #rex-page-login {
-        background-color: #2a3444;
+        background-color: #593960;
     }
     #rex-page-login .panel-default {
-        background-color: rgba(33, 38, 41, 0.95);
+        background-color: rgba(24, 28, 30, 0.97);
     }
 
     #rex-page-login .btn-primary {
@@ -49,7 +49,7 @@
     }
 </style>
 
-<script>
+<script nonce="<?= rex_response::getNonce() ?>">
     var picture = document.querySelector('.rex-background');
     picture.classList.add('rex-background--process');
     picture.querySelector('img').onload = function() {
@@ -62,7 +62,7 @@
         <ul class="list-inline">
             <li><a href="https://www.yakamara.de" target="_blank" rel="noreferrer noopener">yakamara.de</a></li>
             <li><a href="https://www.redaxo.org" target="_blank" rel="noreferrer noopener">redaxo.org</a></li>
-            <li class="rex-background-credits"><a href="https://unsplash.com/@dynamicwang" target="_blank" rel="noreferrer noopener">Photo by Dynamic Wang on Unsplash</a></li>
+            <li class="rex-background-credits"><a href="https://unsplash.com/@planetvolumes" target="_blank" rel="noreferrer noopener">Photo by Planet Volumes on Unsplash</a></li>
         </ul>
     </nav>
 </footer>

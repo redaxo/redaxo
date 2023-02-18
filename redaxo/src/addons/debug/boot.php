@@ -27,8 +27,10 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser()?-
         $appearance = 'auto';
     }
 
+    $nonce = rex_response::getNonce();
+
     $injectedScript = <<<EOF
-        <script>
+        <script nonce="$nonce">
             let store;
             try {
                 store = JSON.parse(localStorage.getItem('clockwork'));
@@ -90,23 +92,13 @@ $shutdownFn = static function () {
     }
 
     foreach ($req->databaseQueries as $query) {
-        switch (rex_sql::getQueryType($query['query'])) {
-            case 'SELECT':
-                $req->databaseSelects++;
-                break;
-            case 'INSERT':
-                $req->databaseInserts++;
-                break;
-            case 'UPDATE':
-                $req->databaseUpdates++;
-                break;
-            case 'DELETE':
-                $req->databaseDeletes++;
-                break;
-            default:
-                $req->databaseOthers++;
-                break;
-        }
+        match (rex_sql::getQueryType($query['query'])) {
+            'SELECT' => $req->databaseSelects++,
+            'INSERT' => $req->databaseInserts++,
+            'UPDATE' => $req->databaseUpdates++,
+            'DELETE' => $req->databaseDeletes++,
+            default => $req->databaseOthers++,
+        };
         if ($query['duration'] > 20) {
             ++$req->databaseSlowQueries;
         }

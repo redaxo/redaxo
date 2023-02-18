@@ -30,11 +30,7 @@ class rex_login
      */
     public const SESSION_IMPERSONATOR = 'impersonator';
 
-    /**
-     * @psalm-var positive-int
-     *
-     * @var int
-     */
+    /** @var positive-int */
     protected $DB = 1;
     /**
      * A Session will be closed when not activly used for this timespan (seconds).
@@ -533,10 +529,18 @@ class rex_login
 
             rex_csrf_token::removeAll();
 
-            rex_extension::registerPoint(new rex_extension_point('SESSION_REGENERATED', null, [
+            $extensionPoint = new rex_extension_point('SESSION_REGENERATED', null, [
                 'previous_id' => $previous,
                 'new_id' => session_id(),
-            ], true));
+                'class' => static::class,
+            ], true);
+
+            // We don't know here if packages have already been loaded
+            // Therefore we call the extension point twice, directly and after PACKAGES_INCLUDED
+            rex_extension::registerPoint($extensionPoint);
+            rex_extension::register('PACKAGES_INCLUDED', static function () use ($extensionPoint) {
+                rex_extension::registerPoint($extensionPoint);
+            }, rex_extension::EARLY);
         }
 
         // session-id is shared between frontend/backend or even redaxo instances per server because it's the same http session
@@ -551,6 +555,19 @@ class rex_login
     public static function startSession()
     {
         if (PHP_SESSION_ACTIVE !== session_status()) {
+            $env = rex::isBackend() ? 'backend' : 'frontend';
+            $sessionConfig = rex_type::array(rex::getProperty('session', []));
+
+            if (isset($sessionConfig[$env]['sid_length'])) {
+                ini_set('session.sid_length', (int) $sessionConfig[$env]['sid_length']);
+            }
+            if (isset($sessionConfig[$env]['sid_bits_per_character'])) {
+                ini_set('session.sid_bits_per_character', (int) $sessionConfig[$env]['sid_bits_per_character']);
+            }
+            if (isset($sessionConfig[$env]['save_path'])) {
+                session_save_path((string) $sessionConfig[$env]['save_path']);
+            }
+
             $cookieParams = static::getCookieParams();
 
             session_set_cookie_params(

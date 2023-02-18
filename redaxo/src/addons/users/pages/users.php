@@ -162,8 +162,6 @@ if ($warnings) {
         $updateuser->setValue('password', $passwordHash);
         $updateuser->setDateTimeValue('password_changed', time());
         $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash));
-        // On password change the "stay logged in" cookies must be invalidated
-        $updateuser->setValue('cookiekey', null);
     }
 
     $updateuser->setValue('password_change_required', (int) $passwordChangeRequired);

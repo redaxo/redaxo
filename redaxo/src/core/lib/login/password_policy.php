@@ -114,29 +114,15 @@ class rex_password_policy
     protected function isValid(#[\SensitiveParameter] $password)
     {
         foreach ($this->options as $key => $options) {
-            switch ($key) {
-                case 'length':
-                    $count = mb_strlen($password);
-                    break;
-                case 'letter':
-                    $count = preg_match_all('/[a-zA-Z]/', $password);
-                    break;
-                case 'uppercase':
-                    $count = preg_match_all('/[A-Z]/', $password);
-                    break;
-                case 'lowercase':
-                    $count = preg_match_all('/[a-z]/', $password);
-                    break;
-                case 'digit':
-                    $count = preg_match_all('/[0-9]/', $password);
-                    break;
-                case 'symbol':
-                    $count = preg_match_all('/[^a-zA-Z0-9]/', $password);
-                    break;
-
-                default:
-                    throw new rex_exception(sprintf('Unknown password_policy key "%s".', $key));
-            }
+            $count = match ($key) {
+                'length' => mb_strlen($password),
+                'letter' => preg_match_all('/[a-zA-Z]/', $password),
+                'uppercase' => preg_match_all('/[A-Z]/', $password),
+                'lowercase' => preg_match_all('/[a-z]/', $password),
+                'digit' => preg_match_all('/[0-9]/', $password),
+                'symbol' => preg_match_all('/[^a-zA-Z0-9]/', $password),
+                default => throw new rex_exception(sprintf('Unknown password_policy key "%s".', $key)),
+            };
 
             if (!$this->matchesCount($count, $options)) {
                 return false;

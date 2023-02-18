@@ -259,7 +259,7 @@ class rex_mailer extends PHPMailer
 
         // Start - generate mailbody
         $mailBody = '<h2>Error protocol for: ' . rex::getServerName() . '</h2>';
-        $mailBody .= '<style> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
+        $mailBody .= '<style nonce="'.rex_response::getNonce().'"> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
         $mailBody .= '<table>';
         $mailBody .= '    <thead>';
         $mailBody .= '        <tr>';

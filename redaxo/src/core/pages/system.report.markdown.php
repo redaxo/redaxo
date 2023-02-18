@@ -11,7 +11,7 @@ echo '<pre><code>'.rex_escape($report).'</code></pre>';
 echo '</div>';
 
 echo '
-    <script>
+    <script nonce="'.rex_response::getNonce().'">
         $("#rex-system-report-markdown")
             .on("cut paste", function (event) {
                 event.preventDefault();

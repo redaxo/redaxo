@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -7,11 +8,8 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_structure_function_url_test extends TestCase
 {
-    /**
-     * @dataProvider provideRedirectException
-     * @return never
-     */
-    public function testRedirectException($articleId)
+    #[DataProvider('provideRedirectException')]
+    public function testRedirectException(string $articleId): never
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -19,7 +17,7 @@ class rex_structure_function_url_test extends TestCase
     }
 
     /** @return list<array{string}> */
-    public function provideRedirectException(): array
+    public static function provideRedirectException(): array
     {
         return [
             ['http://www.example.com'],
