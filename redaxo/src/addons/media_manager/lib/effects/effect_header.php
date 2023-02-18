@@ -37,6 +37,10 @@ class rex_effect_header extends rex_effect_abstract
             $disposition .= "; filename*=utf-8''" . rawurldecode(rex_media::get($this->media->getMediaFilename())->getOriginalFileName());
         }
 
+        if ('noindex' === $this->params['index']) {
+            $this->media->setHeader('X-Robots-Tag', 'noindex');
+        }
+
         $this->media->setHeader('Content-Disposition', $disposition);
 
         /*
@@ -76,6 +80,14 @@ class rex_effect_header extends rex_effect_abstract
                 'options' => ['filename', 'originalname'],
                 'default' => 'filename',
                 'notice' => rex_i18n::msg('media_manager_effect_header_filename_notice'),
+            ],
+            [
+                'label' => rex_i18n::msg('media_manager_effect_header_index'),
+                'name' => 'index',
+                'type' => 'select',
+                'options' => ['index', 'noindex'],
+                'default' => 'index',
+                'notice' => rex_i18n::msg('media_manager_effect_header_index_notice'),
             ],
         ];
     }

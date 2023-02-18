@@ -6,6 +6,9 @@
  * (c) Fabien Potencier
  * https://github.com/twigphp/Twig/blob/5f20d4a362078e8a066f7dcc146e8005186d9663/src/Extension/EscaperExtension.php#L166
  *
+ * @package redaxo\core
+ *
+ * @template T
  * @param T $value The value to escape
  * @param string $strategy Supported strategies:
  *                         "html": escapes a string for the HTML context.
@@ -23,9 +26,7 @@
  *
  * @psalm-taint-escape has_quotes
  * @psalm-taint-escape html
- *@package redaxo\core
- *
- * @template T
+ * @psalm-pure
  */
 function rex_escape($value, $strategy = 'html')
 {
@@ -39,11 +40,12 @@ function rex_escape($value, $strategy = 'html')
         }
 
         if ($value instanceof stdClass) {
+            $clone = clone $value;
             foreach (get_object_vars($value) as $k => $v) {
-                $value->$k = rex_escape($v, $strategy);
+                $clone->$k = rex_escape($v, $strategy);
             }
 
-            return $value;
+            return $clone;
         }
 
         if (is_object($value) && method_exists($value, '__toString')) {
