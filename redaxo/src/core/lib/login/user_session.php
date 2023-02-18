@@ -44,7 +44,6 @@ class rex_user_session
             ->setTable(rex::getTable('user_session'))
             ->setValue('session_id', session_id())
             ->setValue('user_id', $userId)
-            ->setValue('cookie_key', $cookieKey)
             ->setValue('ip', rex_request::server('REMOTE_ADDR', 'string'))
             ->setValue('useragent', rex_request::server('HTTP_USER_AGENT', 'string'))
             ->setValue('last_activity', rex_sql::datetime($login->getSessionVar(rex_login::SESSION_LAST_ACTIVITY)))
@@ -55,6 +54,10 @@ class rex_user_session
                 ->setWhere(['cookie_key' => $cookieKey])
                 ->update();
         } else {
+            if (null !== $cookieKey) {
+                $sql->setValue('cookie_key', $cookieKey);
+            }
+
             $sql
                 ->setValue('starttime', rex_sql::datetime($login->getSessionVar(rex_login::SESSION_START_TIME, time())))
                 ->insertOrUpdate();
