@@ -9,7 +9,6 @@ class rex_backend_login_test extends TestCase
 {
     private const LOGIN = 'testusr';
     private const PASSWORD = 'test1234';
-    private const COOKIEKEY = 'mycookie';
 
     protected function setUp(): void
     {
@@ -20,7 +19,6 @@ class rex_backend_login_test extends TestCase
         $adduser->setValue('password', rex_login::passwordHash(self::PASSWORD));
         $adduser->setValue('status', '1');
         $adduser->setValue('login_tries', '0');
-        $adduser->setValue('cookiekey', self::COOKIEKEY);
         $adduser->insert();
     }
 

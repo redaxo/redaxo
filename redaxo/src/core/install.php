@@ -47,9 +47,9 @@ $table
     ->ensureColumn(new rex_sql_column('lasttrydate', 'datetime'))
     ->ensureColumn(new rex_sql_column('lastlogin', 'datetime', true))
     ->ensureColumn(new rex_sql_column('session_id', 'varchar(255)', true))
-    ->ensureColumn(new rex_sql_column('cookiekey', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensureIndex(new rex_sql_index('login', ['login'], rex_sql_index::UNIQUE))
+    ->removeColumn('cookiekey')
     ->ensure();
 
 if (!$hasPasswordChanged) {
@@ -62,10 +62,12 @@ if (!$hasPasswordChanged) {
 rex_sql_table::get(rex::getTable('user_session'))
     ->ensureColumn(new rex_sql_column('session_id', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('user_id', 'int(10) unsigned'))
+    ->ensureColumn(new rex_sql_column('cookie_key', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('ip', 'varchar(39)')) // max for ipv6
     ->ensureColumn(new rex_sql_column('useragent', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('starttime', 'datetime'))
     ->ensureColumn(new rex_sql_column('last_activity', 'datetime'))
     ->setPrimaryKey('session_id')
+    ->ensureIndex(new rex_sql_index('cookie_key', ['cookie_key'], rex_sql_index::UNIQUE))
     ->ensureForeignKey(new rex_sql_foreign_key(rex::getTable('user_session').'_user_id', rex::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensure();
