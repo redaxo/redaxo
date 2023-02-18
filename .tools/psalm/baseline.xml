@@ -4275,7 +4275,7 @@
   <file src="redaxo/src/core/lib/login/backend_login.php">
     <InvalidArgument>
       <code>[
-            'expires' =&gt; strtotime('+1 year'),
+            'expires' =&gt; strtotime(rex_user_session::STAY_LOGGED_IN_DURATION.' months'),
             'secure' =&gt; $sessionConfig['secure'] ?? false,
             'samesite' =&gt; $sessionConfig['samesite'] ?? 'lax',
         ]</code>
