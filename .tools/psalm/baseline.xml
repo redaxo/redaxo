@@ -5606,9 +5606,10 @@
       <code>$this-&gt;getValue($column)</code>
       <code>$value</code>
     </InvalidScalarArgument>
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="7">
       <code>$field</code>
       <code>$key</code>
+      <code>$metadata['name']</code>
       <code>$metadata['name']</code>
       <code>$params[$key]</code>
       <code>$version</code>
@@ -5636,11 +5637,13 @@
       <code>scalar|null</code>
       <code>string</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="2">
+    <MixedOperand occurrences="3">
       <code>$i</code>
       <code>$metadata['table']</code>
+      <code>$metadata['table']</code>
     </MixedOperand>
-    <MixedPropertyTypeCoercion occurrences="2">
+    <MixedPropertyTypeCoercion occurrences="3">
+      <code>$this-&gt;fieldnames</code>
       <code>$this-&gt;rawFieldnames</code>
       <code>$this-&gt;tablenames</code>
     </MixedPropertyTypeCoercion>
