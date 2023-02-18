@@ -9,6 +9,7 @@ class rex_user_session
 {
     use rex_singleton_trait;
 
+    public const STAY_LOGGED_IN_DURATION = 3; // months
     private const SESSION_VAR_LAST_DB_UPDATE = 'last_db_update';
 
     public function storeCurrentSession(rex_backend_login $login, ?string $cookieKey = null): void
@@ -103,7 +104,10 @@ class rex_user_session
     {
         rex_sql::factory()
             ->setTable(rex::getTable('user_session'))
-            ->setWhere('UNIX_TIMESTAMP(last_activity) < ? AND cookie_key IS NULL', [time() - (int) rex::getProperty('session_duration')])
+            ->setWhere('UNIX_TIMESTAMP(last_activity) < IF(cookie_key IS NULL, ?, ?)', [
+                time() - (int) rex::getProperty('session_duration'),
+                strtotime('-'.self::STAY_LOGGED_IN_DURATION.' months'),
+            ])
             ->delete();
     }
 

@@ -228,7 +228,7 @@ class rex_backend_login extends rex_login
         $sessionConfig = rex::getProperty('session', [])['backend']['cookie'] ?? [];
 
         rex_response::sendCookie(self::getStayLoggedInCookieName(), $cookiekey, [
-            'expires' => strtotime('+1 year'),
+            'expires' => strtotime(rex_user_session::STAY_LOGGED_IN_DURATION.' months'),
             'secure' => $sessionConfig['secure'] ?? false,
             'samesite' => $sessionConfig['samesite'] ?? 'lax',
         ]);
