@@ -1381,12 +1381,20 @@ class rex_sql implements Iterator
             $this->fieldnames = [];
             $this->tablenames = [];
 
+            $stripTableName = null;
             for ($i = 0; $i < $this->getFields(); ++$i) {
                 $metadata = $this->stmt->getColumnMeta($i);
 
-                // strip table-name from column
-                $this->fieldnames[] = substr($metadata['name'], strlen($metadata['table'] . '.'));
                 $this->rawFieldnames[] = $metadata['name'];
+
+                if (null === $stripTableName) {
+                    $stripTableName = str_starts_with($metadata['name'], $metadata['table'].'.');
+                }
+                if ($stripTableName) {
+                    $metadata['name'] = substr($metadata['name'], strlen($metadata['table'].'.'));
+                }
+
+                $this->fieldnames[] = $metadata['name'];
 
                 if (!in_array($metadata['table'], $this->tablenames)) {
                     $this->tablenames[] = $metadata['table'];

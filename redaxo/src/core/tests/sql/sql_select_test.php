@@ -95,6 +95,8 @@ class rex_sql_select_test extends TestCase
 
         static::assertEquals('abc', $sql->getValue('col_str'), 'getValue() retrievs field by name');
         static::assertEquals('abc', $sql->getValue(self::TABLE . '.col_str'), 'getValue() retrievs field by table.fieldname');
+
+        static::assertSame(['id', 'col_str', 'col_int', 'col_date', 'col_time', 'col_text'], $sql->getFieldnames());
     }
 
     public function testGetArray()
@@ -109,6 +111,8 @@ class rex_sql_select_test extends TestCase
         $row1 = $array[0];
         static::assertEquals('abc', $row1['col_str']);
         static::assertEquals('5', $row1['col_int']);
+
+        static::assertSame(['id', 'col_str', 'col_int', 'col_date', 'col_time', 'col_text'], $sql->getFieldnames());
     }
 
     public function testGetDbArray()
