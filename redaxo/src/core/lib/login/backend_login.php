@@ -59,7 +59,7 @@ class rex_backend_login extends rex_login
         $this->tableName = $tableName;
     }
 
-    public function setPasskey(string $data): void
+    public function setPasskey(?string $data): void
     {
         $this->passkey = $data;
     }
@@ -108,15 +108,17 @@ class rex_backend_login extends rex_login
 
         if ($this->passkey) {
             $webauthn = new rex_webauthn();
-            $user = $webauthn->processGet($this->passkey);
+            $result = $webauthn->processGet($this->passkey);
 
-            if ($user) {
+            if ($result) {
+                [$this->passkey, $user] = $result;
                 $this->setSessionVar(self::SESSION_USER_ID, $user->getId());
-                $this->setSessionVar(self::SESSION_PASSWORD, $user->getValue('password'));
+                $this->setSessionVar(self::SESSION_PASSWORD, null);
                 $this->setSessionVar(self::SESSION_START_TIME, time());
                 $this->setSessionVar(self::SESSION_LAST_ACTIVITY, time());
             } else {
                 $this->message = rex_i18n::msg('login_error');
+                $this->passkey = null;
             }
         }
 
@@ -144,7 +146,7 @@ class rex_backend_login extends rex_login
                     $cookiekey = null;
                 }
 
-                rex_user_session::getInstance()->storeCurrentSession($this, $cookiekey);
+                rex_user_session::getInstance()->storeCurrentSession($this, $cookiekey, $this->passkey);
                 rex_user_session::clearExpiredSessions();
             }
 
@@ -189,11 +191,16 @@ class rex_backend_login extends rex_login
 
         // check if session was killed only if the user is logged in
         if ($check) {
-            $sql->setQuery('SELECT 1 FROM '.rex::getTable('user_session').' where session_id = ?', [session_id()]);
+            $sql->setQuery('SELECT passkey_id FROM '.rex::getTable('user_session').' where session_id = ?', [session_id()]);
             if (0 === $sql->getRows()) {
                 $check = false;
                 $this->message = rex_i18n::msg('login_session_expired');
                 rex_csrf_token::removeAll();
+            } else {
+                $this->passkey = null === $sql->getValue('passkey_id') ? null : (string) $sql->getValue('passkey_id');
+                if ($this->passkey) {
+                    $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
+                }
             }
         }
 
@@ -217,19 +224,20 @@ class rex_backend_login extends rex_login
         return (bool) $this->getSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
     }
 
-    /**
-     * @param null|string $passwordHash Passing `null` or ommitting this param is DEPRECATED
-     */
     public function changedPassword(#[\SensitiveParameter] ?string $passwordHash = null): void
     {
         $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
 
-        if (null !== $passwordHash) {
-            parent::changedPassword($passwordHash);
-            if (null !== $user = $this->getUser()) {
-                rex_user_session::getInstance()->removeSessionsExceptCurrent($user->getId());
-            }
+        parent::changedPassword($passwordHash);
+
+        if (null !== $user = $this->getUser()) {
+            rex_user_session::getInstance()->removeSessionsExceptCurrent($user->getId());
         }
+    }
+
+    public function getPasskey(): ?string
+    {
+        return $this->passkey;
     }
 
     /**

@@ -77,7 +77,7 @@ if (rex::isSetup()) {
     $login = new rex_backend_login();
     rex::setProperty('login', $login);
 
-    $passkey = rex_post('rex_user_passkey', 'string');
+    $passkey = rex_post('rex_user_passkey', 'string', null);
     $rexUserLogin = rex_post('rex_user_login', 'string');
     $rexUserPsw = rex_post('rex_user_psw', 'string');
     $rexUserStayLoggedIn = rex_post('rex_user_stay_logged_in', 'boolean', false);
@@ -115,7 +115,7 @@ if (rex::isSetup()) {
         // the server side encryption of pw is only required
         // when not already encrypted by client using javascript
         $login->setLogin($rexUserLogin, $rexUserPsw, rex_post('javascript', 'boolean'));
-        $login->setPasskey($passkey);
+        $login->setPasskey('' === $passkey ? null : $passkey);
         $login->setStayLoggedIn($rexUserStayLoggedIn);
         $loginCheck = $login->checkLogin();
     }

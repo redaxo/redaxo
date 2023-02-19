@@ -12,7 +12,7 @@ class rex_user_session
     public const STAY_LOGGED_IN_DURATION = 3; // months
     private const SESSION_VAR_LAST_DB_UPDATE = 'last_db_update';
 
-    public function storeCurrentSession(rex_backend_login $login, ?string $cookieKey = null): void
+    public function storeCurrentSession(rex_backend_login $login, ?string $cookieKey = null, ?string $passkey = null): void
     {
         $sessionId = session_id();
         if (false === $sessionId || '' === $sessionId) {
@@ -56,6 +56,9 @@ class rex_user_session
         } else {
             if (null !== $cookieKey) {
                 $sql->setValue('cookie_key', $cookieKey);
+            }
+            if (null !== $passkey) {
+                $sql->setValue('passkey_id', $passkey);
             }
 
             $sql

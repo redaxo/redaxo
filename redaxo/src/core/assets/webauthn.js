@@ -1,23 +1,9 @@
-const authChange = function (form) {
+const authAddPasskey = function (form) {
+    form.classList.remove('hidden');
+
     const passkey = form.querySelector('[data-auth-passkey]');
-    const checkbox = passkey.querySelector('input');
-    const password = form.querySelector('[data-auth-password]');
-
-    passkey.classList.remove('hidden');
-
-    checkbox.addEventListener('change', () => {
-        password.classList.toggle('hidden', passkey.checked);
-
-        password.querySelectorAll('input').forEach(input => {
-            input.disabled = checkbox.checked;
-        });
-    });
 
     form.addEventListener('submit', (event) => {
-        if (!checkbox.checked || '0' !== checkbox.value) {
-            return;
-        }
-
         event.preventDefault();
 
         const options = JSON.parse(passkey.dataset.authPasskey);
@@ -29,9 +15,29 @@ const authChange = function (form) {
                 attestationObject: data.response.attestationObject ? arrayBufferToBase64(data.response.attestationObject) : null
             }
 
-            checkbox.value = JSON.stringify(data);
+            passkey.value = JSON.stringify(data);
 
-            form.querySelector('[data-auth-save]').click();
+            form.submit();
+        });
+    });
+}
+
+const authPasskeyVerify = function (form) {
+    const verify = form.querySelector('[data-auth-passkey-verify]');
+    if (!verify) {
+        return;
+    }
+
+    const fields = form.querySelectorAll('input[type=password], button[type=submit]');
+    fields.forEach(field => field.disabled = true);
+
+    verify.addEventListener('click', () => {
+        const passkey = form.querySelector('[data-auth-passkey]');
+
+        authVerify(passkey, 'required', () => {
+            verify.disabled = true;
+            form.querySelector('[data-auth-passkey-verify-success]').classList.remove('hidden');
+            fields.forEach(field => field.disabled = false);
         });
     });
 }
@@ -39,17 +45,21 @@ const authChange = function (form) {
 const authLogin = function (form) {
     const passkey = form.querySelector('[data-auth-passkey]');
 
+    authVerify(passkey, 'conditional', () => form.submit());
+}
+
+const authVerify = function (passkey, mediation, onSuccess) {
     const options = JSON.parse(passkey.dataset.authPasskey);
     recursiveBase64StrToArrayBuffer(options);
 
-    const abortController = new AbortController();
-    options.signal = abortController.signal;
+    // const abortController = new AbortController();
+    // options.signal = abortController.signal;
 
-    options.mediation = 'conditional';
+    options.mediation = mediation;
 
     navigator.credentials.get(options).then(data => {
         data = {
-            id: data.rawId ? arrayBufferToBase64(data.rawId) : null,
+            id: data.id,
             clientDataJSON: data.response.clientDataJSON  ? arrayBufferToBase64(data.response.clientDataJSON) : null,
             authenticatorData: data.response.authenticatorData ? arrayBufferToBase64(data.response.authenticatorData) : null,
             signature: data.response.signature ? arrayBufferToBase64(data.response.signature) : null,
@@ -58,7 +68,7 @@ const authLogin = function (form) {
 
         passkey.value = JSON.stringify(data);
 
-        form.submit();
+        onSuccess();
     });
 }
 
@@ -115,9 +125,14 @@ if (window.PublicKeyCredential &&
         $(document).on('rex:ready', function (event, container) {
             container = container.get(0);
 
-            let form = container.querySelector('form[data-auth-change]');
+            let form = container.querySelector('form[data-auth-add-passkey]');
             if (form) {
-                authChange(form);
+                authAddPasskey(form);
+                authPasskeyVerify(form);
+            }
+            form = container.querySelector('form[data-auth-change-password]');
+            if (form) {
+                authPasskeyVerify(form);
             }
 
             form = container.querySelector('form[data-auth-login]');
@@ -125,6 +140,5 @@ if (window.PublicKeyCredential &&
                 authLogin(form);
             }
         });
-
     });
 }

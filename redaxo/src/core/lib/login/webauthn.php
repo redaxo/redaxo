@@ -44,19 +44,23 @@ class rex_webauthn
 
         $data = $this->webauthn->processCreate($clientDataJSON, $attestationObject, $challenge);
 
-        return [base64_encode(rex_type::string($data->credentialId)), rex_type::string($data->credentialPublicKey)];
+        $credentialId = rex_type::string($data->credentialId);
+        $credentialId = rtrim(strtr(base64_encode($credentialId), '+/', '-_'), '=');
+
+        return [$credentialId, rex_type::string($data->credentialPublicKey)];
     }
 
-    public function getGetArgs(): string
+    public function getGetArgs(?string $id = null): string
     {
-        $args = $this->webauthn->getGetArgs();
+        $args = $this->webauthn->getGetArgs($id ? [$id] : []);
 
         rex_set_session(self::SESSION_CHALLENGE, $this->webauthn->getChallenge());
 
         return json_encode($args);
     }
 
-    public function processGet(string $data): ?rex_user
+    /** @return array{string, rex_user} */
+    public function processGet(string $data): ?array
     {
         $data = rex_type::instanceOf(json_decode($data), stdClass::class);
 
@@ -64,7 +68,14 @@ class rex_webauthn
 
         $user = rex_user::get($id);
 
-        if (!$user || $user->getValue('passkey_id') !== $data->id) {
+        if (!$user) {
+            return null;
+        }
+
+        $sql = rex_sql::factory();
+        $sql->setQuery('SELECT public_key FROM '.rex::getTable('user_passkey').' WHERE id = ? AND user_id = ?', [$data->id, $id]);
+
+        if (!$sql->getRows()) {
             return null;
         }
 
@@ -76,11 +87,11 @@ class rex_webauthn
         $challenge = rex_session(self::SESSION_CHALLENGE);
 
         try {
-            $this->webauthn->processGet($clientDataJSON, $authenticatorData, $signature, $user->getValue('passkey_public_key'), $challenge);
+            $this->webauthn->processGet($clientDataJSON, $authenticatorData, $signature, rex_type::string($sql->getValue('public_key')), $challenge);
         } catch (WebAuthnException) {
             return null;
         }
 
-        return $user;
+        return [rex_type::string($data->id), $user];
     }
 }

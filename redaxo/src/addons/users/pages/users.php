@@ -8,7 +8,6 @@ $content = '';
 $userId = rex_request('user_id', 'int');
 $info = [];
 $warnings = [];
-$success = [];
 
 $user = null;
 
@@ -98,9 +97,10 @@ $save = rex_request('save', 'int');
 $adminchecked = '';
 
 $passwordPolicy = rex_backend_password_policy::factory();
+$csrfToken = rex_csrf_token::factory('user_edit');
 
 if ($save && ($fUNCADD || $fUNCUPDATE || $fUNCAPPLY)) {
-    if (!rex_csrf_token::factory('user_edit')->isValid()) {
+    if (!$csrfToken->isValid()) {
         $warnings[] = rex_i18n::msg('csrf_token_invalid');
     }
 
@@ -113,16 +113,6 @@ if ($save && ($fUNCADD || $fUNCUPDATE || $fUNCAPPLY)) {
             $msg .= ' '.rex_i18n::msg('password_admin_notice');
         }
         $warnings[] = $msg;
-    }
-}
-
-if ('remove_session' === rex_request::get('function', 'string')) {
-    $sessionId = rex_request::get('session_id', 'string', '');
-    $userId = rex_request::get('user_id', 'int', 0);
-    if (rex_user_session::getInstance()->removeSession($sessionId, $userId)) {
-        $success[] = rex_i18n::msg('session_removed');
-    } else {
-        $warnings[] = rex_i18n::msg('session_remove_error');
     }
 }
 
@@ -291,13 +281,11 @@ if (!empty($info)) {
     $message .= rex_view::info(implode('<br/>', $info));
 }
 
-if (!empty($success)) {
-    $message .= rex_view::success(implode('<br/>', $success));
-}
-
 if (!empty($warnings)) {
     $message .= rex_view::warning(implode('<br/>', $warnings));
 }
+
+echo rex_api_function::getMessage();
 
 // --------------------------------- FORMS
 
@@ -558,6 +546,7 @@ if ('' != $fUNCADD || $userId > 0) {
     echo $message;
     echo $content;
 
+    require rex_path::core('pages/profile.auth_methods.php');
     require rex_path::core('pages/profile.sessions.php');
 }
 
