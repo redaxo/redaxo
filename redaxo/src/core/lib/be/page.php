@@ -541,7 +541,7 @@ class rex_be_page
         if (null !== $this->isActive) {
             return $this->isActive;
         }
-        $page = rex_be_controller::getCurrentPageObject();
+        $page = rex_be_controller::requireCurrentPageObject();
         do {
             if ($page === $this) {
                 return true;

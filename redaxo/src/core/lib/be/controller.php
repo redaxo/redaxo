@@ -8,7 +8,7 @@ class rex_be_controller
     /** @var string */
     private static $page;
 
-    /** @var string[] */
+    /** @var list<string> */
     private static $pageParts = [];
 
     /** @var rex_be_page|null */
@@ -37,10 +37,11 @@ class rex_be_controller
     }
 
     /**
-     * @param null|positive-int $part Part index, beginning with 1. If $part is null, an array of all current parts will be returned
+     * @template T of positive-int|null
+     * @param T $part Part index, beginning with 1. If $part is null, an array of all current parts will be returned
      * @param null|string $default Default value
-     *
-     * @return string[]|string|null
+     * @return list<string>|string|null
+     * @psalm-return (T is null ? list<string> : string|null)
      */
     public static function getCurrentPagePart($part = null, $default = null)
     {
@@ -62,8 +63,13 @@ class rex_be_controller
         return self::$pageObject;
     }
 
+    public static function requireCurrentPageObject(): rex_be_page
+    {
+        return rex_type::notNull(self::getCurrentPageObject());
+    }
+
     /**
-     * @param string|array $page
+     * @param string|list<string> $page
      *
      * @return rex_be_page|null
      */
@@ -110,7 +116,7 @@ class rex_be_controller
     {
         $parts = [];
 
-        $activePageObj = self::getCurrentPageObject();
+        $activePageObj = self::requireCurrentPageObject();
         if ($activePageObj->getTitle()) {
             $parts[] = $activePageObj->getTitle();
         }
@@ -396,7 +402,7 @@ class rex_be_controller
                 $page = self::getPageObject(rex::getProperty('start_page'));
                 if (!$page) {
                     // --- fallback zur profile page
-                    $page = self::getPageObject('profile');
+                    $page = rex_type::notNull(self::getPageObject('profile'));
                 }
             }
             rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
@@ -415,7 +421,7 @@ class rex_be_controller
      */
     public static function includeCurrentPage()
     {
-        $currentPage = self::getCurrentPageObject();
+        $currentPage = self::requireCurrentPageObject();
 
         if (rex_request::isPJAXRequest() && !rex_request::isPJAXContainer('#rex-js-page-container')) {
             // non-core pjax containers should not have a layout.
@@ -427,7 +433,7 @@ class rex_be_controller
             require rex_path::core('layout/top.php');
         });
 
-        self::includePath($currentPage->getPath());
+        self::includePath(rex_type::string($currentPage->getPath()));
 
         rex_timer::measure('Layout: bottom.php', function () {
             require rex_path::core('layout/bottom.php');
@@ -441,7 +447,7 @@ class rex_be_controller
      */
     public static function includeCurrentPageSubPath(array $context = [])
     {
-        $path = self::getCurrentPageObject()->getSubPath();
+        $path = rex_type::string(self::requireCurrentPageObject()->getSubPath());
 
         if ('.md' !== strtolower(substr($path, -3))) {
             return self::includePath($path, $context);
@@ -462,7 +468,7 @@ class rex_be_controller
         $content = $fragment->parse('core/page/docs.php');
 
         $fragment = new rex_fragment();
-        $fragment->setVar('title', self::getCurrentPageObject()->getTitle(), false);
+        $fragment->setVar('title', self::requireCurrentPageObject()->getTitle(), false);
         $fragment->setVar('body', $content, false);
         echo $fragment->parse('core/page/section.php');
     }

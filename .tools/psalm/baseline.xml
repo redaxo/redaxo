@@ -2671,34 +2671,6 @@
       <code>$_SERVER['PHP_SELF']</code>
     </PossiblyUndefinedArrayOffset>
   </file>
-  <file src="redaxo/src/core/boot.php">
-    <MixedArgument>
-      <code>$REX['BACKEND_FOLDER']</code>
-      <code>$REX['BACKEND_FOLDER']</code>
-      <code>$REX['HTDOCS_PATH']</code>
-      <code>$REX['HTDOCS_PATH']</code>
-      <code>$value</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code>$key</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code>$REX['BACKEND_FOLDER']</code>
-      <code>$REX['BACKEND_FOLDER']</code>
-      <code>$REX['HTDOCS_PATH']</code>
-      <code>$REX['HTDOCS_PATH']</code>
-      <code>$REX['REDAXO']</code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>rex::getProperty('hsts_max_age', 31536000)</code>
-    </MixedOperand>
-    <PossiblyUndefinedArrayOffset>
-      <code>$_SERVER['REQUEST_TIME_FLOAT']</code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
   <file src="redaxo/src/core/console.php">
     <PossiblyNullArgument>
       <code>$command-&gt;getName()</code>
@@ -3015,9 +2987,6 @@
     <MixedArgument>
       <code>$this-&gt;meta_navigation</code>
     </MixedArgument>
-    <PossiblyNullReference>
-      <code>isPopup</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/fragments/core/navigation.php">
     <MixedArgument>
@@ -3339,11 +3308,6 @@
       <code>$strategy</code>
     </NoValue>
   </file>
-  <file src="redaxo/src/core/layout/bottom.php">
-    <PossiblyNullReference>
-      <code>hasLayout</code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/layout/top.php">
     <MixedArrayAccess>
       <code>$block['headline']</code>
@@ -3352,9 +3316,6 @@
     <MixedAssignment>
       <code>$block</code>
     </MixedAssignment>
-    <PossiblyNullReference>
-      <code>hasLayout</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/api_function.php">
     <MixedArgument>
@@ -3437,7 +3398,6 @@
       <code>$page</code>
       <code>$pageArray['title']</code>
       <code>$pageArray['title']</code>
-      <code>$page[$i]</code>
       <code>$plugin-&gt;getProperty('page')</code>
       <code>$subProperties</code>
       <code>$subProperties['title']</code>
@@ -3459,10 +3419,6 @@
     <MixedArrayAccess>
       <code>$subProperties['title']</code>
     </MixedArrayAccess>
-    <MixedArrayOffset>
-      <code>self::$pages[$page[0]]</code>
-      <code>self::$pages[$page[0]]</code>
-    </MixedArrayOffset>
     <MixedAssignment>
       <code>$k</code>
       <code>$page</code>
@@ -3479,21 +3435,6 @@
       <code>$check($page)</code>
       <code>$check($subpage)</code>
     </MixedFunctionCall>
-    <PossiblyNullArgument>
-      <code>$currentPage-&gt;getPath()</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference>
-      <code>getHref</code>
-      <code>getPath</code>
-      <code>getSubPath</code>
-      <code>getTitle</code>
-      <code>getTitle</code>
-      <code>setHasLayout</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/be/navigation.php">
     <MixedArgumentTypeCoercion>
@@ -3528,11 +3469,6 @@
       <code>isActive</code>
     </MixedMethodCall>
   </file>
-  <file src="redaxo/src/core/lib/be/page.php">
-    <PossiblyNullReference>
-      <code>getParent</code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/lib/clang/clang.php">
     <MixedArrayAccess>
       <code>$data['priority']</code>
@@ -3551,9 +3487,6 @@
     </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/clang/service.php">
-    <PossiblyNullArrayOffset>
-      <code>$clangs</code>
-    </PossiblyNullArrayOffset>
     <PossiblyNullReference>
       <code>getId</code>
       <code>getId</code>
@@ -4523,6 +4456,7 @@
       <code>$__file</code>
       <code>$__file</code>
       <code>$__file</code>
+      <code>$cache</code>
       <code>$dir</code>
       <code>$key</code>
       <code>$key</code>
@@ -4873,8 +4807,6 @@
   <file src="redaxo/src/core/lib/sql/table.php">
     <MixedArgument>
       <code>$column</code>
-      <code>$db</code>
-      <code>$name</code>
       <code>$oldName</code>
       <code>$oldName</code>
       <code>$stepParts</code>
@@ -4903,19 +4835,8 @@
       <code>isModified</code>
     </MixedMethodCall>
     <PossiblyNullArgument>
-      <code>$column-&gt;getDefault()</code>
-      <code>$column-&gt;getExtra()</code>
-      <code>$comment</code>
       <code>$oldName</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference>
-      <code>equals</code>
-      <code>equals</code>
-      <code>equals</code>
-      <code>setName</code>
-      <code>setName</code>
-      <code>setName</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/sql/util.php">
     <MixedArgument>
@@ -4963,15 +4884,7 @@
       <code>$_SERVER['SERVER_PROTOCOL']</code>
     </PossiblyUndefinedArrayOffset>
   </file>
-  <file src="redaxo/src/core/lib/util/editor.php">
-    <PossiblyInvalidArgument>
-      <code>$line</code>
-    </PossiblyInvalidArgument>
-  </file>
   <file src="redaxo/src/core/lib/util/file.php">
-    <MixedArgument>
-      <code>$content</code>
-    </MixedArgument>
     <MixedInferredReturnType>
       <code>array|T</code>
     </MixedInferredReturnType>

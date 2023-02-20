@@ -140,6 +140,22 @@ class rex_type
     }
 
     /**
+     * @template T
+     * @param T|null $value
+     * @return T
+     * @psalm-assert !null $value
+     * @psalm-pure
+     */
+    public static function notNull($value): mixed
+    {
+        if (null === $value) {
+            throw new InvalidArgumentException('Exptected a value other than null');
+        }
+
+        return $value;
+    }
+
+    /**
      * @param mixed $value
      * @psalm-assert string $value
      * @psalm-pure

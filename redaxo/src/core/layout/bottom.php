@@ -1,6 +1,6 @@
 <?php
 
-$curPage = rex_be_controller::getCurrentPageObject();
+$curPage = rex_be_controller::requireCurrentPageObject();
 
 if (!$curPage->hasLayout()) {
     if (rex_request::isPJAXRequest()) {

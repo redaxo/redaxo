@@ -76,7 +76,7 @@ class rex_editor
                 $editorUrl = $this->editors[$editor];
             }
 
-            $editorUrl = str_replace('%l', $line, $editorUrl);
+            $editorUrl = str_replace('%l', (string) $line, $editorUrl);
             $editorUrl = str_replace('%f', $filePath, $editorUrl);
         }
 

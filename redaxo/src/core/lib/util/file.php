@@ -108,7 +108,7 @@ class rex_file
      * Puts content in a config file.
      *
      * @param string $file    Path to the file
-     * @param mixed  $content Content for the file
+     * @param array  $content Content for the file
      * @param int    $inline  The level where you switch to inline YAML
      *
      * @return bool TRUE on success, FALSE on failure
@@ -124,7 +124,7 @@ class rex_file
      * Puts content in a cache file.
      *
      * @param string $file    Path to the file
-     * @param mixed  $content Content for the file
+     * @param array  $content Content for the file
      *
      * @return bool TRUE on success, FALSE on failure
      *

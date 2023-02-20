@@ -3,10 +3,13 @@
 /**
  * REDAXO main boot file.
  *
- * @global string  $REX['HTDOCS_PATH']    [Required] Relative path to htdocs directory
- * @global string  $REX['BACKEND_FOLDER'] [Required] Name of backend folder
- * @global boolean $REX['REDAXO']         [Required] Backend/Frontend flag
- * @global boolean $REX['LOAD_PAGE']      [Optional] Wether the front controller should be loaded or not. Default value is false.
+ * @var array{HTDOCS_PATH: non-empty-string, BACKEND_FOLDER: non-empty-string, REDAXO: bool, LOAD_PAGE?: bool, PATH_PROVIDER?: object, URL_PROVIDER?: object} $REX
+ *          HTDOCS_PATH    [Required] Relative path to htdocs directory
+ *          BACKEND_FOLDER [Required] Name of backend folder
+ *          REDAXO         [Required] Backend/Frontend flag
+ *          LOAD_PAGE      [Optional] Wether the front controller should be loaded or not. Default value is false.
+ *          PATH_PROVIDER  [Optional] Custom path provider
+ *          URL_PROVIDER   [Optional] Custom url provider
  */
 
 define('REX_MIN_PHP_VERSION', '8.1');
@@ -73,7 +76,7 @@ if (isset($REX['URL_PROVIDER']) && is_object($REX['URL_PROVIDER'])) {
 rex_url::init($urlProvider);
 
 // start timer at the very beginning
-rex::setProperty('timer', new rex_timer($_SERVER['REQUEST_TIME_FLOAT']));
+rex::setProperty('timer', new rex_timer($_SERVER['REQUEST_TIME_FLOAT'] ?? null));
 // add backend flag to rex
 rex::setProperty('redaxo', $REX['REDAXO']);
 // add core lang directory to rex_i18n
@@ -102,9 +105,13 @@ if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
     );
     rex_file::putCache($cacheFile, $config);
 }
+/**
+ * @var string $key
+ * @var mixed $value
+ */
 foreach ($config as $key => $value) {
     if (in_array($key, array('fileperm', 'dirperm'))) {
-        $value = octdec($value);
+        $value = octdec((string) $value);
     }
     rex::setProperty($key, $value);
 }
@@ -137,7 +144,7 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
     }
 
     if (true === rex::getProperty('use_hsts') && rex_request::isHttps()) {
-        rex_response::setHeader('Strict-Transport-Security', 'max-age='.rex::getProperty('hsts_max_age', 31536000)); // default 1 year
+        rex_response::setHeader('Strict-Transport-Security', 'max-age='.(int) rex::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }
 
