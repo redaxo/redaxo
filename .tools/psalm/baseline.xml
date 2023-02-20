@@ -3315,15 +3315,15 @@
                 }
 
                 $codepoint = mb_ord($char, 'UTF-8');
-                if (0x10000 &gt; $codepoint) {
+                if (0x1_00_00 &gt; $codepoint) {
                     return sprintf('\u%04X', $codepoint);
                 }
 
                 // Split characters outside the BMP into surrogate pairs
                 // https://tools.ietf.org/html/rfc2781.html#section-2.1
-                $u = $codepoint - 0x10000;
-                $high = 0xD800 | ($u &gt;&gt; 10);
-                $low = 0xDC00 | ($u &amp; 0x3FF);
+                $u = $codepoint - 0x1_00_00;
+                $high = 0xD8_00 | ($u &gt;&gt; 10);
+                $low = 0xDC_00 | ($u &amp; 0x3_FF);
 
                 return sprintf('\u%04X\u%04X', $high, $low);
             }</code>
