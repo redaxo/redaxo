@@ -27,7 +27,7 @@ abstract class rex_extension
      *
      * @template T
      * @param rex_extension_point<T> $extensionPoint Extension point
-     * @return (T is null ? mixed : T) Subject, maybe adjusted by the extensions
+     * @return T Subject, maybe adjusted by the extensions
      *
      * @psalm-taint-specialize
      */
