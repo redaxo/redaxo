@@ -34,7 +34,7 @@ $counter = 1;
             >
                 <?= rex_escape($nestedLabel) ?>
             </sl-checkbox>
-        <?php endforeach; ?>
+        <?php endforeach ?>
     <?php endif ?>
     <?php $counter++ ?>
-<?php endforeach; ?>
+<?php endforeach ?>

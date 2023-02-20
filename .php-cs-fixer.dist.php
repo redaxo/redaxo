@@ -1,7 +1,5 @@
 <?php
 
-use PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer;
-
 $src = __DIR__.'/redaxo/src';
 $bootPath = realpath($src.'/core/boot.php');
 $tools = __DIR__.'/.tools';
@@ -38,7 +36,4 @@ $finder = PhpCsFixer\Finder::create()
 
 return (new Redaxo\PhpCsFixerConfig\Config())
     ->setFinder($finder)
-    ->setRules([
-        MultilinePromotedPropertiesFixer::name() => false,
-    ])
 ;

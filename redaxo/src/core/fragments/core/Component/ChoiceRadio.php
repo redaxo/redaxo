@@ -35,10 +35,10 @@ $counter = 1;
                 >
                     <?= rex_escape($nestedLabel) ?>
                 </sl-radio>
-            <?php endforeach; ?>
+            <?php endforeach ?>
         <?php endif ?>
         <?php $counter++ ?>
-    <?php endforeach; ?>
+    <?php endforeach ?>
     <?= $this->slotLabel ? $this->slotLabel->prepare('label')->get() : '' ?>
     <?= $this->slotNotice ? $this->slotNotice->prepare('help-text')->get() : '' ?>
 </sl-radio-group>

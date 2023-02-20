@@ -100,7 +100,6 @@ class Choice extends rex_fragment
          * to take more control.
          */
         public null|string|Closure $choiceLabel = null,
-
     ) {
         foreach ($this->choices as $choiceLabel => $choiceValue) {
             if (!is_array($choiceValue)) {

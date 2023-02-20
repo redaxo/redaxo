@@ -5,21 +5,18 @@ namespace Redaxo\Core\Fragment;
 use Closure;
 use rex_functional_exception;
 
+use function is_array;
+
 class Slot
 {
     public function __construct(
-
-        /**
-         * @var list<string|null>|string|Closure
-         */
+        /** @var list<string|null>|string|Closure */
         public array|string|Closure $value,
     ) {
         if (is_array($this->value)) {
-            $this->value = implode('',
-                array_filter($this->value, function($value) {
-                    return null !== $value;
-                })
-            );
+            $this->value = implode('', array_filter($this->value, static function ($value) {
+                return null !== $value;
+            }));
         }
     }
 
