@@ -154,7 +154,7 @@ $tableSelect->setAttribute('class', 'form-control');
 $tables = rex_sql::factory()->getTables();
 foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
-    if ($table === rex::getTable('user') || $table === rex::getTable('user_session')) {
+    if (in_array($table, [rex::getTable('user'), rex::getTable('user_passkey'), rex::getTable('user_session')], true)) {
         continue;
     }
     // skip non rex_ tables

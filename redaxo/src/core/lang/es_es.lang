@@ -393,7 +393,6 @@ profile_title = Mi perfil
 profile_save = Guardar perfil
 invalid_email = La dirección de correo electrónico es inválida.
 user_psw_updated = Se ha actualizado la contraseña.
-user_psw_error = Introduzca la contraseña antigua y la nueva dos veces.
 profile_changepsw = Cambia la contraseña
 old_password = Contraseña anterior
 new_password = Nueva contraseña

@@ -161,6 +161,7 @@ class rex_setup_importer
         return [
             rex::getTablePrefix() . 'clang',
             rex::getTablePrefix() . 'user_session',
+            rex::getTablePrefix() . 'user_passkey',
             rex::getTablePrefix() . 'user',
             rex::getTablePrefix() . 'config',
         ];
