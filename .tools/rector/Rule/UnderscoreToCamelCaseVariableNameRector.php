@@ -19,24 +19,16 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
 {
-    /**
-     * @var ReservedKeywordAnalyzer
-     */
+    /** @var ReservedKeywordAnalyzer */
     private $reservedKeywordAnalyzer;
 
-    /**
-     * @var ParamRenameFactory
-     */
+    /** @var ParamRenameFactory */
     private $paramRenameFactory;
 
-    /**
-     * @var UnderscoreCamelCaseExpectedNameResolver
-     */
+    /** @var UnderscoreCamelCaseExpectedNameResolver */
     private $underscoreCamelCaseExpectedNameResolver;
 
-    /**
-     * @var ParamRenamer
-     */
+    /** @var ParamRenamer */
     private $paramRenamer;
 
     public function __construct(

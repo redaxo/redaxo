@@ -21,10 +21,10 @@ $sectionAttributes['class'][] = 'rex-page-section';
     <?php endif ?>
 
     <?php if (isset($this->class) && '' != $this->class): ?>
-        <div class="panel panel-<?= $this->class; ?>">
+        <div class="panel panel-<?= $this->class ?>">
     <?php else: ?>
         <div class="panel panel-default">
-    <?php endif; ?>
+    <?php endif ?>
 
         <?php
         $collapseId = (isset($this->collapse) && $this->collapse) ? 'collapse-' . random_int(100_000, 999_999) : '';
@@ -54,33 +54,33 @@ $sectionAttributes['class'][] = 'rex-page-section';
         ?>
 
         <?php if (isset($this->collapse) && $this->collapse): ?>
-            <div id="<?= $collapseId; ?>" class="panel-collapse collapse<?= $collapsed ? '' : ' in'; ?>">
-        <?php endif; ?>
+            <div id="<?= $collapseId ?>" class="panel-collapse collapse<?= $collapsed ? '' : ' in' ?>">
+        <?php endif ?>
 
         <?php if (isset($this->body) && '' != $this->body): ?>
             <div class="panel-body">
-                <?= $this->body; ?>
+                <?= $this->body ?>
             </div>
-        <?php endif; ?>
+        <?php endif ?>
 
         <?php if (isset($this->content) && '' != $this->content): ?>
-            <?= $this->content; ?>
-        <?php endif; ?>
+            <?= $this->content ?>
+        <?php endif ?>
 
         <?php if ((isset($this->footer) && '' != $this->footer) || (isset($this->buttons) && '' != $this->buttons)): ?>
             <footer class="panel-footer">
                 <?php if (isset($this->footer) && '' != $this->footer): ?>
-                    <?= $this->footer; ?>
-                <?php endif; ?>
+                    <?= $this->footer ?>
+                <?php endif ?>
                 <?php if (isset($this->buttons) && '' != $this->buttons): ?>
-                    <?= $this->buttons; ?>
-                <?php endif; ?>
+                    <?= $this->buttons ?>
+                <?php endif ?>
             </footer>
-        <?php endif; ?>
+        <?php endif ?>
 
         <?php if (isset($this->collapse) && $this->collapse): ?>
             </div>
-        <?php endif; ?>
+        <?php endif ?>
     </div>
 
 

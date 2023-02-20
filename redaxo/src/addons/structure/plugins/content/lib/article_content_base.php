@@ -28,13 +28,9 @@ class rex_article_content_base
     protected $slice_id;
     /** @var int */
     protected $getSlice;
-    /**
-     * @var 'view'|'edit'
-     */
+    /** @var 'view'|'edit' */
     protected $mode;
-    /**
-     * @var 'add'|'edit'
-     */
+    /** @var 'add'|'edit' */
     protected $function;
 
     /** @var int */
