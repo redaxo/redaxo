@@ -189,6 +189,12 @@ $sql = rex_sql::factory();
             <?= $csrfToken->getHiddenField() ?>
 
             <?= (new Card(
+                slotHeader: new Slot(static function () { ?>
+                    <div>
+                        <?= rex_i18n::msg('system_settings') ?>
+                    </div>
+                <?php }),
+
                 slotDefault: new Slot(static function () use ($langChoices, $editor, $configYml) { ?>
                     <?= (new Input(
                         label: rex_i18n::msg('server'),
@@ -233,11 +239,7 @@ $sql = rex_sql::factory();
                         </p>
                     <?php endif ?>
                 <?php }),
-                slotHeader: new Slot(static function () { ?>
-                    <div>
-                        <?= rex_i18n::msg('system_settings') ?>
-                    </div>
-                <?php }),
+
                 slotFooter: new Slot(static function () { ?>
                     <?= (new Button\Save(
                         name: 'sendit',
@@ -250,6 +252,12 @@ $sql = rex_sql::factory();
             <input type="hidden" name="func" value="update_editor" />
             <?= $csrfToken->getHiddenField() ?>
             <?= (new Card(
+                slotHeader: new Slot(static function () { ?>
+                    <div>
+                        <?= rex_i18n::msg('system_editor') ?>
+                    </div>
+                <?php }),
+
                 slotDefault: new Slot(static function () use ($viaCookie, $editor) { ?>
                     <p><?= rex_i18n::msg('system_editor_note') ?></p>
 
@@ -270,12 +278,6 @@ $sql = rex_sql::factory();
                     <?= $viaCookie ? (new Info(
                         slotDefault: new Slot(rex_i18n::msg('system_editor_note_cookie')),
                     ))->render() : '' ?>
-                <?php }),
-
-                slotHeader: new Slot(static function () { ?>
-                    <div>
-                        <?= rex_i18n::msg('system_editor') ?>
-                    </div>
                 <?php }),
 
                 slotFooter: new Slot(static function () use ($viaCookie) { ?>
@@ -308,6 +310,8 @@ $sql = rex_sql::factory();
     </div>
     <div class="col-lg-4">
         <?= (new Card(
+            slotHeader: new Slot('<div>'.rex_i18n::msg('system_features').'</div>'),
+
             slotDefault: new Slot(static function () use ($csrfToken) { ?>
                 <h3><?= rex_i18n::msg('delete_cache') ?></h3>
                 <p><?= rex_i18n::msg('delete_cache_description') ?></p>
@@ -362,11 +366,15 @@ $sql = rex_sql::factory();
                     ))->render() ?>
                 </p>
             <?php }),
-
-            slotHeader: new Slot('<div>'.rex_i18n::msg('system_features').'</div>'),
         ))->render() ?>
 
         <?= (new Card(
+            slotHeader: new Slot(static function () { ?>
+                <div>
+                    <?= rex_i18n::msg('installation') ?>
+                </div>
+            <?php }),
+
             slotDefault: new Slot(static function () use ($rexVersion) { ?>
                 <table class="table">
                     <tr>
@@ -409,14 +417,15 @@ $sql = rex_sql::factory();
                     </tr>
                 </table>
             <?php }),
-            slotHeader: new Slot(static function () { ?>
-                <div>
-                    <?= rex_i18n::msg('installation') ?>
-                </div>
-            <?php }),
         ))->render() ?>
 
         <?= (new Card(
+            slotHeader: new Slot(static function () { ?>
+                <div>
+                    <?= rex_i18n::msg('database') ?>
+                </div>
+            <?php }),
+
             slotDefault: new Slot(static function () use ($sql, $dbConfig) { ?>
                 <table class="table">
                     <tr>
@@ -432,12 +441,6 @@ $sql = rex_sql::factory();
                         <td><?= $dbConfig->host ?></td>
                     </tr>
                 </table>
-            <?php }),
-
-            slotHeader: new Slot(static function () { ?>
-                <div>
-                    <?= rex_i18n::msg('database') ?>
-                </div>
             <?php }),
         ))->render() ?>
     </div>
