@@ -450,8 +450,8 @@ footer_datetime = {0}
 footer_scripttime = {0} seg.
 footer_credits = Créditos
 
-created_by = creado por
-created_on = creado en
-updated_by = actualizado por
-updated_on = modificado el
+created_by = Creado por
+created_on = Creado en
+updated_by = Actualizado por
+updated_on = Modificado el
 status = Estado
