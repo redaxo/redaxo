@@ -404,7 +404,6 @@ profile_title = Min profil
 profile_save = Spara profil
 invalid_email = Ogiltig e-post adress.
 user_psw_updated = Lösenordet aktualiserades
-user_psw_error = Vänligen ange det gamla och det nya lösenordet två gånger
 profile_changepsw = Ändra lösenord
 old_password = Gammalt lösenord
 new_password = Nytt lösenord

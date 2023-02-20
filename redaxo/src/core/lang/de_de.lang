@@ -405,15 +405,32 @@ profile_title = Mein Profil
 profile_save = Profil speichern
 invalid_email = Die E-Mailadresse ist nicht gültig.
 user_psw_updated = Passwort wurde aktualisiert
-user_psw_error = Bitte das alte Passwort und das neue Passwort zweimal eingeben
+user_psw_verify_error = Das alte Passwort ist nicht korrekt.
+user_psw_new_error = Das neue Passwort ist leer oder die Wiederholung stimmt nicht überein.
 profile_changepsw = Passwort ändern
+add_password = Passwort hinzufügen
 old_password = Altes Passwort
 new_password = Neues Passwort
 new_password_repeat = Neues Passwort wiederholen
 profile_save_psw = Passwort speichern
+password_removed = Passwort wurde gelöscht.
+password_remove_error = Passwort konnte nicht gelöscht werden.
+passkey_current = Aktueller Passkey
+passkey_current_verify = Aktuellen Passkey bestätigen
+passkey_verify_error = Die Bestätigung des aktuellen Passkeys ist fehlgeschlagen.
+passkey_add = Passkey hinzufügen
+passkey_added = Passkey wurde hinzugefügt.
+passkey_removed = Passkey wurde gelöscht.
+passkey_remove_error = Passkey konnte nicht gelöscht werden.
 backend_language = Backendsprache
 user_data_updated = Benutzerdaten wurden aktualisiert!
 theme = Backend-Theme
+
+# src\core\pages\profile.auth_methods.php
+auth_methods_caption = Authentifizierungsmethoden
+auth_method = Authentifizierung
+passkey = Passkey
+confirm_remove_auth = Authentifizierungsmethode wirklich löschen?
 
 # src\core\pages\profile.sessions.php
 session_caption = Liste aller offenen Sitzungen

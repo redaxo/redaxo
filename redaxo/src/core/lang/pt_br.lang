@@ -320,7 +320,6 @@ profile_title = Meu perfil
 profile_save = Salvar perfil
 invalid_email = O endereço de email é inválido.
 user_psw_updated = A senha foi alterada
-user_psw_error = Por favor, insira a senha antiga e a senha nova duas vezes
 profile_changepsw = Alterar senha
 old_password = Senha antiga
 new_password = Senha nova

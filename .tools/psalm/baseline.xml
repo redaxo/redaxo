@@ -2578,10 +2578,6 @@
       <code>$login</code>
       <code>$validtime</code>
     </MixedOperand>
-    <PossiblyNullArgument>
-      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
-      <code>$this-&gt;user-&gt;getValue($this-&gt;passwordColumn)</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/structure/plugins/version/lib/revision.php">
     <NoValue>
@@ -4296,8 +4292,6 @@
       <code>$_SESSION[static::getSessionNamespace()]</code>
     </PossiblyInvalidArrayOffset>
     <PossiblyNullArgument>
-      <code>$sql-&gt;getValue('id')</code>
-      <code>$sql-&gt;getValue('password')</code>
       <code>rex::getProperty('session_duration')</code>
     </PossiblyNullArgument>
   </file>
@@ -4363,20 +4357,11 @@
       <code>$cookieParams</code>
       <code>array{lifetime: ?int, path: ?string, domain: ?string, secure: ?bool, httponly: ?bool, samesite: ?string}</code>
     </MixedReturnTypeCoercion>
-    <NullArgument>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-    </NullArgument>
     <PossiblyInvalidArrayOffset>
       <code>$_SESSION[static::getSessionNamespace()]</code>
     </PossiblyInvalidArrayOffset>
     <PossiblyNullArgument>
       <code>$cookieParams['lifetime']</code>
-      <code>$this-&gt;impersonator-&gt;getValue($this-&gt;idColumn)</code>
-      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
-      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
-      <code>$this-&gt;user-&gt;getValue($this-&gt;passwordColumn)</code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/login/password_policy.php">

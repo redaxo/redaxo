@@ -31,7 +31,7 @@ $table
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('description', 'text', true))
     ->ensureColumn(new rex_sql_column('login', 'varchar(50)'))
-    ->ensureColumn(new rex_sql_column('password', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('password', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('email', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
     ->ensureColumn(new rex_sql_column('admin', 'tinyint(1)'))
@@ -59,10 +59,20 @@ if (!$hasPasswordChanged) {
         ->update();
 }
 
+rex_sql_table::get(rex::getTable('user_passkey'))
+    ->ensureColumn(new rex_sql_column('id', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('user_id', 'int(10) unsigned'))
+    ->ensureColumn(new rex_sql_column('public_key', 'text'))
+    ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
+    ->setPrimaryKey('id')
+    ->ensureForeignKey(new rex_sql_foreign_key(rex::getTable('user_passkey').'_user_id', rex::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
+    ->ensure();
+
 rex_sql_table::get(rex::getTable('user_session'))
     ->ensureColumn(new rex_sql_column('session_id', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('user_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('cookie_key', 'varchar(255)', true))
+    ->ensureColumn(new rex_sql_column('passkey_id', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('ip', 'varchar(39)')) // max for ipv6
     ->ensureColumn(new rex_sql_column('useragent', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('starttime', 'datetime'))
@@ -70,4 +80,5 @@ rex_sql_table::get(rex::getTable('user_session'))
     ->setPrimaryKey('session_id')
     ->ensureIndex(new rex_sql_index('cookie_key', ['cookie_key'], rex_sql_index::UNIQUE))
     ->ensureForeignKey(new rex_sql_foreign_key(rex::getTable('user_session').'_user_id', rex::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
+    ->ensureForeignKey(new rex_sql_foreign_key(rex::getTable('user_session').'_passkey_id', rex::getTable('user_passkey'), ['passkey_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensure();

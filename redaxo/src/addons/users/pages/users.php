@@ -545,6 +545,7 @@ if ('' != $fUNCADD || $userId > 0) {
     echo $message;
     echo $content;
 
+    require rex_path::core('pages/profile.auth_methods.php');
     require rex_path::core('pages/profile.sessions.php');
 }
 

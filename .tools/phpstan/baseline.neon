@@ -2256,11 +2256,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Parameter \\#2 \\$value of method rex_login\\:\\:setSessionVar\\(\\) expects array\\|bool\\|float\\|int\\|string, null given\\.$#"
-			count: 3
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
