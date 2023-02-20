@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.12.1 – 20.02.2023
+---------------------------
+
+### Bugfixes
+
+* Eigene Subpages konnten keine zusätzlichen URL-Params haben (@gharlan)
+* Medialist-Vars: Deprecated-Meldung entfernt (@gharlan)
+
+
 Version 2.12.0 – 25.07.2022
 ---------------------------
 

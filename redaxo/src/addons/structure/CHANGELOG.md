@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.14.3 – 20.02.2023
+---------------------------
+
+### Bugfixes
+
+* Template-Liste: Templatename wurde nicht übersetzt bei Nutzung des `translate:`-Präfixes (@gharlan)
+* Linklist-Vars: Deprecated-Meldung entfernt (@gharlan)
+
+
 Version 2.14.2 – 13.12.2022
 ---------------------------
 

@@ -637,7 +637,11 @@ if ($SHOW) {
     $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###id###'] + rex_csrf_token::factory('user_delete')->getUrlParams());
     $list->setColumnFormat('funcs', 'custom', static function () use ($currentUser, $list) {
-        if ($list->getValue('id') == $currentUser->getId() || $list->getValue('admin') && !$currentUser->isAdmin()) {
+        if (
+            $list->getValue('id') == $currentUser->getId()
+            || $list->getValue('admin') && !$currentUser->isAdmin()
+            || ($impersonator = rex::getImpersonator()) && $list->getValue('id') == $impersonator->getId()
+        ) {
             return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete') . '</span>';
         }
         return $list->getColumnLink('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete'));

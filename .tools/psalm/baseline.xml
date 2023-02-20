@@ -4888,6 +4888,7 @@
       <code>$field</code>
       <code>$key</code>
       <code>$metadata['name']</code>
+      <code>$metadata['name']</code>
       <code>$params[$key]</code>
       <code>$version</code>
       <code>$version</code>
@@ -4916,8 +4917,10 @@
     <MixedOperand>
       <code>$i</code>
       <code>$metadata['table']</code>
+      <code>$metadata['table']</code>
     </MixedOperand>
     <MixedPropertyTypeCoercion>
+      <code>$this-&gt;fieldnames</code>
       <code>$this-&gt;rawFieldnames</code>
       <code>$this-&gt;tablenames</code>
     </MixedPropertyTypeCoercion>
