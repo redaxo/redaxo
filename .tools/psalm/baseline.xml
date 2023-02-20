@@ -494,6 +494,10 @@
       <code>$addon-&gt;getProperty('conflicts', [])</code>
       <code>$addon-&gt;getProperty('requires', [])</code>
       <code>$config['version']</code>
+      <code>$key</code>
+      <code>$key</code>
+      <code>$key</code>
+      <code>$key</code>
       <code>$msg</code>
       <code>$plugin-&gt;getProperty('conflicts', [])</code>
       <code>$plugin-&gt;getProperty('requires', [])</code>
@@ -551,15 +555,14 @@
     </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/package/package_download.php">
-    <MixedArgument>
-      <code>$dir</code>
-    </MixedArgument>
     <PropertyTypeCoercion>
       <code>rex_path::basename($addonkey)</code>
     </PropertyTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/package/package_update.php">
     <MixedArgument>
+      <code>$key</code>
+      <code>$key</code>
       <code>$plugin-&gt;getProperty('conflicts', [])</code>
       <code>$plugin-&gt;getProperty('requires', [])</code>
       <code>$plugin-&gt;getProperty('version')</code>
@@ -818,28 +821,24 @@
       <code>$imgFactor</code>
       <code>$imgFactor</code>
       <code>$imgFactor</code>
-      <code>$imgRatio</code>
-      <code>$imgRatio</code>
       <code>$resizeRatio</code>
       <code>$resizeRatio</code>
     </MixedAssignment>
     <MixedOperand>
-      <code>$height</code>
-      <code>$height</code>
-      <code>$height</code>
-      <code>$height</code>
+      <code>$imgFactor</code>
+      <code>$imgFactor</code>
+      <code>$imgFactor</code>
+      <code>$imgFactor</code>
+      <code>$this-&gt;params['height']</code>
+      <code>$this-&gt;params['height']</code>
       <code>$this-&gt;params['height']</code>
       <code>$this-&gt;params['height']</code>
       <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
-      <code>$width</code>
-      <code>$width</code>
-      <code>$width</code>
-      <code>$width</code>
-      <code>$width</code>
-      <code>$width</code>
+      <code>$this-&gt;params['width']</code>
+      <code>$this-&gt;params['width']</code>
     </MixedOperand>
     <PossiblyUndefinedArrayOffset>
       <code>$this-&gt;params['height']</code>
@@ -1095,6 +1094,10 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/media.detail.php">
+    <ArgumentTypeCoercion>
+      <code>$gf-&gt;getValue('category_id')</code>
+      <code>$gf-&gt;getValue('category_id')</code>
+    </ArgumentTypeCoercion>
     <MixedArgument>
       <code>$error</code>
       <code>$success</code>
@@ -1111,6 +1114,10 @@
       <code>rex_escape($gf-&gt;getValue('title'), 'js')</code>
       <code>rex_escape($gf-&gt;getValue('updateuser'))</code>
     </NullOperand>
+    <PossiblyNullArgument>
+      <code>$gf-&gt;getValue('category_id')</code>
+      <code>$gf-&gt;getValue('category_id')</code>
+    </PossiblyNullArgument>
     <PossiblyNullOperand>
       <code>$gf-&gt;getDateTimeValue('updatedate')</code>
     </PossiblyNullOperand>
@@ -1193,6 +1200,7 @@
   <file src="redaxo/src/addons/mediapool/pages/upload.php">
     <MixedArgument>
       <code>$js</code>
+      <code>$rexFileCategory</code>
     </MixedArgument>
     <MixedOperand>
       <code>$data['filename']</code>
@@ -2259,6 +2267,12 @@
       <code>getValue</code>
     </MixedMethodCall>
   </file>
+  <file src="redaxo/src/addons/structure/plugins/content/pages/content.edit.php">
+    <PossiblyNullPropertyAssignmentValue>
+      <code>$info</code>
+      <code>$warning</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/content.functions.php">
     <ArgumentTypeCoercion>
       <code>$article-&gt;getValue('parent_id')</code>
@@ -2285,6 +2299,9 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/content.php">
+    <ArgumentTypeCoercion>
+      <code>$moduleId</code>
+    </ArgumentTypeCoercion>
     <MixedArgument>
       <code>$ctypes</code>
       <code>$sliceRevision</code>
@@ -2313,6 +2330,9 @@
     <MixedOperand>
       <code>rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'templateAttributes', 'article', 'articleId', 'categoryId', 'clang', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'))</code>
     </MixedOperand>
+    <PossiblyNullArgument>
+      <code>$moduleId</code>
+    </PossiblyNullArgument>
     <PossiblyNullReference>
       <code>addSubpage</code>
       <code>getCategoryId</code>
@@ -3318,15 +3338,9 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/api_function.php">
-    <MixedArgument>
-      <code>$json</code>
-    </MixedArgument>
     <MixedAssignment>
       <code>$json</code>
       <code>$key</code>
-      <code>$this-&gt;message</code>
-      <code>$this-&gt;requiresReboot</code>
-      <code>$this-&gt;succeeded</code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
@@ -3544,12 +3558,6 @@
       <code>boot</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/core/lib/console/assets_sync.php">
-    <MixedArgument>
-      <code>$folder1</code>
-      <code>$folder2</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/core/lib/console/command_loader.php">
     <TypeDoesNotContainType>
       <code>is_array($commands)</code>
@@ -3703,6 +3711,7 @@
       <code>$message</code>
       <code>$messages</code>
       <code>$password</code>
+      <code>$password</code>
       <code>$value</code>
       <code>$value</code>
       <code>$value</code>
@@ -3776,6 +3785,7 @@
   <file src="redaxo/src/core/lib/console/user/create.php">
     <MixedArgument>
       <code>$password</code>
+      <code>$password</code>
     </MixedArgument>
     <MixedAssignment>
       <code>$password</code>
@@ -3783,6 +3793,7 @@
   </file>
   <file src="redaxo/src/core/lib/console/user/set_password.php">
     <MixedArgument>
+      <code>$password</code>
       <code>$password</code>
     </MixedArgument>
     <MixedAssignment>
@@ -3809,9 +3820,6 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/csrf_token.php">
-    <MixedAssignment>
-      <code>$this-&gt;id</code>
-    </MixedAssignment>
     <MixedReturnTypeCoercion>
       <code>array&lt;string, string&gt;</code>
       <code>rex_session(self::getSessionKey(), 'array')</code>
@@ -3831,9 +3839,6 @@
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/core/lib/exception.php">
-    <MixedArgument>
-      <code>$message</code>
-    </MixedArgument>
     <MixedInferredReturnType>
       <code>?int</code>
     </MixedInferredReturnType>
@@ -4148,6 +4153,9 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/login/backend_login.php">
+    <ArgumentTypeCoercion>
+      <code>$password</code>
+    </ArgumentTypeCoercion>
     <InvalidArgument>
       <code>[
             'expires' =&gt; strtotime(rex_user_session::STAY_LOGGED_IN_DURATION.' months'),
@@ -4171,6 +4179,7 @@
       <code>$_SESSION[static::getSessionNamespace()]</code>
     </PossiblyInvalidArrayOffset>
     <PossiblyNullArgument>
+      <code>$this-&gt;userPassword</code>
       <code>rex::getProperty('session_duration')</code>
     </PossiblyNullArgument>
   </file>
@@ -4194,14 +4203,6 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
-    <MixedArgument>
-      <code>$hash</code>
-      <code>$hash</code>
-      <code>$password</code>
-      <code>$password</code>
-      <code>$password</code>
-      <code>$password</code>
-    </MixedArgument>
     <MixedArrayAccess>
       <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId]</code>
       <code>$sessionConfig[$key]</code>
@@ -4218,13 +4219,8 @@
     <MixedAssignment>
       <code>$cookieParams[$name]</code>
       <code>$name</code>
-      <code>$password</code>
-      <code>$password</code>
       <code>$rexSessId</code>
       <code>$sessionConfig</code>
-      <code>$this-&gt;DB</code>
-      <code>$this-&gt;cache</code>
-      <code>$this-&gt;logout</code>
       <code>$this-&gt;sessionMaxOverallDuration</code>
       <code>$value</code>
     </MixedAssignment>
@@ -4241,17 +4237,10 @@
     </PossiblyInvalidArrayOffset>
     <PossiblyNullArgument>
       <code>$cookieParams['lifetime']</code>
+      <code>$this-&gt;userPassword</code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/login/password_policy.php">
-    <MixedArgument>
-      <code>$password</code>
-      <code>$password</code>
-      <code>$password</code>
-      <code>$password</code>
-      <code>$password</code>
-      <code>$password</code>
-    </MixedArgument>
     <PossiblyNullArgument>
       <code>$this-&gt;getDescription()</code>
     </PossiblyNullArgument>
@@ -4347,11 +4336,6 @@
       <code>$addon</code>
     </ParamNameMismatch>
   </file>
-  <file src="redaxo/src/core/lib/packages/api_package.php">
-    <MixedAssignment>
-      <code>$success</code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/packages/manager.php">
     <LessSpecificReturnStatement>
       <code>$packages</code>
@@ -4360,6 +4344,8 @@
       <code>$args</code>
       <code>$instmsg</code>
       <code>$instmsg</code>
+      <code>$key</code>
+      <code>$key</code>
       <code>$normal</code>
       <code>$normal</code>
       <code>$packageId</code>
@@ -4458,9 +4444,6 @@
       <code>$__file</code>
       <code>$cache</code>
       <code>$dir</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
       <code>$package</code>
       <code>$value</code>
     </MixedArgument>
@@ -4538,7 +4521,6 @@
       <code>$value</code>
     </MixedAssignment>
     <MixedOperand>
-      <code>$cacheControl</code>
       <code>$preloadFile['file']</code>
       <code>$preloadFile['mimeType']</code>
       <code>$preloadFile['type']</code>
@@ -4568,10 +4550,6 @@
       <code>rex_version::gitHash($path, $repo) ?? false</code>
     </LessSpecificReturnStatement>
     <MixedArgument>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$path</code>
       <code>$value</code>
       <code>$value</code>
       <code>$value</code>
@@ -4669,14 +4647,6 @@
       <code>$this-&gt;options[$this-&gt;currentOptgroup][$parentId]</code>
     </MixedReturnStatement>
   </file>
-  <file src="redaxo/src/core/lib/setup/import.php">
-    <MixedArgument>
-      <code>$importArchive</code>
-      <code>$importArchive</code>
-      <code>$installDump</code>
-      <code>$installDump</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
     <MixedArgument>
       <code>$config['db'][1]['host']</code>
@@ -4706,18 +4676,6 @@
     </MixedFunctionCall>
   </file>
   <file src="redaxo/src/core/lib/sql/schema_dumper.php">
-    <MixedArgument>
-      <code>$name</code>
-      <code>$name</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$scalar</code>
-      <code>$value</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <PossiblyNullArgument>
-      <code>$table-&gt;getPrimaryKey()</code>
-    </PossiblyNullArgument>
     <RedundantCondition>
       <code>$nonDefault</code>
       <code>$nonDefault</code>
@@ -5475,10 +5433,6 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/socket_test.php">
-    <MixedArgument>
-      <code>$socket</code>
-      <code>$socket</code>
-    </MixedArgument>
     <MixedAssignment>
       <code>$result</code>
     </MixedAssignment>

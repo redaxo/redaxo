@@ -21,6 +21,8 @@ class rex
     /**
      * @see rex_config::set()
      *
+     * @param string|array $key The associated key or an associative array of key/value pairs
+     * @param mixed $value The value to save
      * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public static function setConfig($key, $value = null)
@@ -31,11 +33,11 @@ class rex
     /**
      * @see rex_config::get()
      *
-     * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
-     *
      * @template T as ?string
-     * @phpstan-template T
-     * @psalm-param T $key
+     * @param T $key The associated key
+     * @param mixed $default Default return value if no associated-value can be found
+     * @throws InvalidArgumentException
+     * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
     public static function getConfig($key = null, $default = null)
@@ -46,6 +48,7 @@ class rex
     /**
      * @see rex_config::has()
      *
+     * @param string $key The associated key
      * @return bool TRUE if the key is set, otherwise FALSE
      */
     public static function hasConfig($key)
@@ -56,6 +59,7 @@ class rex
     /**
      * @see rex_config::remove()
      *
+     * @param string $key The associated key
      * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function removeConfig($key)
@@ -458,6 +462,7 @@ class rex
 
     /**
      * @deprecated since 5.10, use `rex_version::gitHash` instead
+     * @param string $path
      * @return non-empty-string|false
      */
     #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(%parametersList%)')]

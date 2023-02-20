@@ -55,6 +55,7 @@ abstract class rex_install_package_download
     }
 
     /**
+     * @param string $dir
      * @return string|true
      */
     protected function extractArchiveTo($dir)

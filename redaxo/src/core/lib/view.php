@@ -244,6 +244,7 @@ class rex_view
      * @param string $content
      * @param string $brand
      * @param string $cssClass
+     * @param bool $inverse
      *
      * @return string
      */

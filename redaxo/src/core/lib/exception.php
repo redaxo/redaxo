@@ -22,6 +22,7 @@ class rex_sql_exception extends rex_exception
     /** @var null|rex_sql */
     private $sql;
 
+    /** @param string $message */
     public function __construct($message, Exception $previous = null, rex_sql $sql = null)
     {
         parent::__construct($message, $previous);

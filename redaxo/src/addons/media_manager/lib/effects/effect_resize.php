@@ -71,6 +71,8 @@ class rex_effect_resize extends rex_effect_abstract
     }
 
     /**
+     * @param int $width
+     * @param int $height
      * @return void
      */
     private function resizeMax($width, $height)
@@ -96,6 +98,8 @@ class rex_effect_resize extends rex_effect_abstract
     }
 
     /**
+     * @param int $width
+     * @param int $height
      * @return void
      */
     private function resizeMin($width, $height)

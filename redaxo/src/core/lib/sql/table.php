@@ -42,10 +42,10 @@ class rex_sql_table
     /** @var array<string, string> */
     private $positions = [];
 
-    /** @var string[] */
+    /** @var list<string> */
     private $primaryKey = [];
 
-    /** @var string[] */
+    /** @var list<string> */
     private $primaryKeyExisting = [];
 
     /** @var array<string, rex_sql_index> */
@@ -364,6 +364,7 @@ class rex_sql_table
         }
 
         if (false !== $key = array_search($oldName, $this->primaryKey)) {
+            /** @psalm-suppress PropertyTypeCoercion */
             $this->primaryKey[$key] = $newName;
         }
 
@@ -383,7 +384,7 @@ class rex_sql_table
     }
 
     /**
-     * @return null|string[] Column names
+     * @return null|non-empty-list<string> Column names
      */
     public function getPrimaryKey()
     {
@@ -391,7 +392,7 @@ class rex_sql_table
     }
 
     /**
-     * @param null|string|string[] $columns Column name(s)
+     * @param null|string|list<string> $columns Column name(s)
      *
      * @throws rex_exception
      *

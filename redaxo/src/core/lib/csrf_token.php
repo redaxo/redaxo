@@ -16,7 +16,7 @@ class rex_csrf_token
     /** @var string */
     private $id;
 
-    private function __construct($tokenId)
+    private function __construct(string $tokenId)
     {
         $this->id = $tokenId;
     }

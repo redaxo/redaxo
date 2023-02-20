@@ -146,13 +146,35 @@ class rex_type
      * @psalm-assert !null $value
      * @psalm-pure
      */
-    public static function notNull($value): mixed
+    public static function notNull(mixed $value): mixed
     {
         if (null === $value) {
             throw new InvalidArgumentException('Exptected a value other than null');
         }
 
         return $value;
+    }
+
+    /**
+     * @psalm-assert bool $value
+     * @psalm-pure
+     */
+    public static function bool(mixed $value): bool
+    {
+        if (!is_bool($value)) {
+            throw new InvalidArgumentException('Exptected a boolean, but got '.get_debug_type($value));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @psalm-assert ?bool $value
+     * @psalm-pure
+     */
+    public static function nullOrBool(mixed $value): ?bool
+    {
+        return null === $value ? null : self::bool($value);
     }
 
     /**
