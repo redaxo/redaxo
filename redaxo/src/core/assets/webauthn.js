@@ -31,12 +31,15 @@ const authPasskeyVerify = function (form) {
     const fields = form.querySelectorAll('input[type=password], button[type=submit]');
     fields.forEach(field => field.disabled = true);
 
-    verify.addEventListener('click', () => {
-        const passkey = form.querySelector('[data-auth-passkey]');
+    const button = verify.querySelector('button');
 
-        authVerify(passkey, 'required', () => {
-            verify.disabled = true;
-            form.querySelector('[data-auth-passkey-verify-success]').classList.remove('hidden');
+    button.addEventListener('click', () => {
+        const passkey = verify.querySelector('input[type=hidden]');
+
+        authVerify(verify.dataset.authPasskeyVerify, 'required', value => {
+            passkey.value = value;
+            button.disabled = true;
+            verify.querySelector('i').classList.remove('hidden');
             fields.forEach(field => field.disabled = false);
         });
     });
@@ -45,15 +48,15 @@ const authPasskeyVerify = function (form) {
 const authLogin = function (form) {
     const passkey = form.querySelector('[data-auth-passkey]');
 
-    authVerify(passkey, 'conditional', () => form.submit());
+    authVerify(passkey.dataset.authPasskey, 'conditional', value => {
+        passkey.value = value;
+        form.submit();
+    });
 }
 
-const authVerify = function (passkey, mediation, onSuccess) {
-    const options = JSON.parse(passkey.dataset.authPasskey);
+const authVerify = function (options, mediation, onSuccess) {
+    options = JSON.parse(options);
     recursiveBase64StrToArrayBuffer(options);
-
-    // const abortController = new AbortController();
-    // options.signal = abortController.signal;
 
     options.mediation = mediation;
 
@@ -66,9 +69,7 @@ const authVerify = function (passkey, mediation, onSuccess) {
             userHandle: data.response.userHandle ? arrayBufferToBase64(data.response.userHandle) : null
         }
 
-        passkey.value = JSON.stringify(data);
-
-        onSuccess();
+        onSuccess(JSON.stringify(data));
     });
 }
 

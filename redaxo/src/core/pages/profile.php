@@ -104,7 +104,7 @@ if ($update && !$error) {
     }
 }
 
-$verifyLogin = static function () use ($user, $login, $userpsw, $passkey, $webauthn): bool|string {
+$verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool|string {
     if (!$login->getPasskey()) {
         if (!$userpsw || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
             return rex_i18n::msg('user_psw_verify_error');
@@ -113,7 +113,7 @@ $verifyLogin = static function () use ($user, $login, $userpsw, $passkey, $webau
         return true;
     }
 
-    $result = $webauthn->processGet($passkey);
+    $result = $webauthn->processGet(rex_post('passkey_verify', 'string'));
     if ($result) {
         [$id, $passkeyUser] = $result;
 
@@ -283,11 +283,11 @@ $n = [];
 
 if ($login->getPasskey()) {
     $n['label'] = '<label for="rex-id-userpsw">' . rex_i18n::msg('passkey_current') . '</label>';
-    $n['field'] = '
-        <button type="button" class="btn btn-primary" data-auth-passkey-verify>' . rex_i18n::msg('passkey_current_verify') . '</button>
-        <i class="fa fa-check-circle-o text-success hidden" data-auth-passkey-verify-success></i>
-        <input type="hidden" name="passkey" data-auth-passkey="'.rex_escape($webauthn->getGetArgs($login->getPasskey())).'"/>
-    ';
+    $n['field'] = '<div data-auth-passkey-verify="'.rex_escape($webauthn->getGetArgs($login->getPasskey())).'">
+        <button type="button" class="btn btn-primary">' . rex_i18n::msg('passkey_current_verify') . '</button>
+        <i class="fa fa-check-circle-o text-success hidden"></i>
+        <input type="hidden" name="passkey_verify"/>
+    </div>';
 } else {
     $n['label'] = '<label for="rex-id-userpsw">' . rex_i18n::msg('old_password') . '</label>';
     $n['field'] = '<input class="form-control rex-js-userpsw" type="password" id="rex-id-userpsw" name="userpsw" autocomplete="current-password" required />';

@@ -11,22 +11,17 @@ use lbuchs\WebAuthn\WebAuthnException;
  */
 class rex_webauthn
 {
-    private const SESSION_CHALLENGE = 'webauthn_challenge';
-
-    private WebAuthn $webauthn;
-
-    public function __construct()
-    {
-        $this->webauthn = new WebAuthn(rex::getServerName(), rex::getRequest()->getHost());
-    }
+    private const SESSION_CHALLENGE_CREATE = 'webauthn_challenge_create';
+    private const SESSION_CHALLENGE_GET = 'webauthn_challenge_get';
 
     public function getCreateArgs(): string
     {
         $user = rex::requireUser();
 
-        $args = $this->webauthn->getCreateArgs((string) $user->getId(), $user->getLogin(), $user->getName(), requireResidentKey: true);
+        $webauthn = $this->createWebauthnBase();
+        $args = $webauthn->getCreateArgs((string) $user->getId(), $user->getLogin(), $user->getName(), requireResidentKey: true);
 
-        rex_set_session(self::SESSION_CHALLENGE, $this->webauthn->getChallenge());
+        rex_set_session(self::SESSION_CHALLENGE_CREATE, $webauthn->getChallenge());
 
         return json_encode($args);
     }
@@ -40,9 +35,9 @@ class rex_webauthn
         $attestationObject = base64_decode(rex_type::string($data->attestationObject));
 
         /** @var ByteBuffer $challenge */
-        $challenge = rex_session(self::SESSION_CHALLENGE);
+        $challenge = rex_session(self::SESSION_CHALLENGE_CREATE);
 
-        $data = $this->webauthn->processCreate($clientDataJSON, $attestationObject, $challenge);
+        $data = $this->createWebauthnBase()->processCreate($clientDataJSON, $attestationObject, $challenge);
 
         $credentialId = rex_type::string($data->credentialId);
         $credentialId = rtrim(strtr(base64_encode($credentialId), '+/', '-_'), '=');
@@ -52,14 +47,15 @@ class rex_webauthn
 
     public function getGetArgs(?string $id = null): string
     {
-        $args = $this->webauthn->getGetArgs($id ? [ByteBuffer::fromBase64Url($id)] : []);
+        $webauthn = $this->createWebauthnBase();
+        $args = $webauthn->getGetArgs($id ? [ByteBuffer::fromBase64Url($id)] : []);
 
-        rex_set_session(self::SESSION_CHALLENGE, $this->webauthn->getChallenge());
+        rex_set_session(self::SESSION_CHALLENGE_GET, $webauthn->getChallenge());
 
         return json_encode($args);
     }
 
-    /** @return array{string, rex_user} */
+    /** @return array{string, rex_user}|null */
     public function processGet(string $data): ?array
     {
         $data = rex_type::instanceOf(json_decode($data), stdClass::class);
@@ -84,14 +80,19 @@ class rex_webauthn
         $signature = base64_decode(rex_type::string($data->signature));
 
         /** @var ByteBuffer $challenge */
-        $challenge = rex_session(self::SESSION_CHALLENGE);
+        $challenge = rex_session(self::SESSION_CHALLENGE_GET);
 
         try {
-            $this->webauthn->processGet($clientDataJSON, $authenticatorData, $signature, rex_type::string($sql->getValue('public_key')), $challenge);
+            $this->createWebauthnBase()->processGet($clientDataJSON, $authenticatorData, $signature, rex_type::string($sql->getValue('public_key')), $challenge);
         } catch (WebAuthnException) {
             return null;
         }
 
         return [rex_type::string($data->id), $user];
+    }
+
+    private function createWebauthnBase(): WebAuthn
+    {
+        return new WebAuthn(rex::getServerName(), rex::getRequest()->getHost());
     }
 }
