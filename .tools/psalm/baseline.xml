@@ -468,15 +468,11 @@
     </MixedArrayAssignment>
     <MixedAssignment>
       <code>$data['listeners']</code>
-      <code>$res</code>
     </MixedAssignment>
     <MixedOperand>
       <code>$trace['file']</code>
       <code>$trace['line']</code>
     </MixedOperand>
-    <MixedReturnStatement>
-      <code>$res</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/debug/lib/extensions/logger_debug.php">
     <MixedArgument>
@@ -1018,7 +1014,6 @@
       <code>$data['file']['type']</code>
       <code>$data['height']</code>
       <code>$data['width']</code>
-      <code>$errorMessage</code>
       <code>$size[0]</code>
       <code>$size[1]</code>
     </MixedArgument>
@@ -1030,7 +1025,6 @@
       <code>$data['file']['type']</code>
       <code>$data['height']</code>
       <code>$data['width']</code>
-      <code>$errorMessage</code>
       <code>$return['type']</code>
     </MixedAssignment>
     <PossiblyNullOperand>
@@ -2129,12 +2123,6 @@
     </MoreSpecificReturnType>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
-    <MixedArgument>
-      <code>$output</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$output</code>
-    </MixedAssignment>
     <PossiblyFalseArgument>
       <code>$TEMPLATE-&gt;getTemplate()</code>
     </PossiblyFalseArgument>
@@ -3925,9 +3913,6 @@
     <MixedOperand>
       <code>$level</code>
     </MixedOperand>
-    <MixedReturnStatement>
-      <code>$factoryClass::registerPoint($extensionPoint)</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/form/config_form.php">
     <PossiblyNullOperand>
@@ -4979,19 +4964,6 @@
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/core/lib/util/editor.php">
-    <MixedInferredReturnType>
-      <code>string|null</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code>rex_extension::registerPoint(new rex_extension_point('EDITOR_URL', $editorUrl, [
-            'file' =&gt; $filePath,
-            'line' =&gt; $line,
-        ]))</code>
-      <code>rex_extension::registerPoint(new rex_extension_point('EDITOR_URL', $editorUrl, [
-            'file' =&gt; $filePath,
-            'line' =&gt; $line,
-        ]))</code>
-    </MixedReturnStatement>
     <PossiblyInvalidArgument>
       <code>$line</code>
     </PossiblyInvalidArgument>

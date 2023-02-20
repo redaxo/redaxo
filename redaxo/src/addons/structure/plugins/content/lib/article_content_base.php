@@ -328,7 +328,7 @@ class rex_article_content_base
     {
         $output = rex_extension::registerPoint(new rex_extension_point(
             'SLICE_OUTPUT',
-            $artDataSql->getValue(rex::getTablePrefix() . 'module.output'),
+            (string) $artDataSql->getValue(rex::getTablePrefix() . 'module.output'),
             [
                 'article_id' => $this->article_id,
                 'clang' => $this->clang,
