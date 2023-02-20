@@ -464,8 +464,8 @@ footer_datetime = {0}
 footer_scripttime = {0} sec.
 footer_credits = Credits
 
-created_by = created by
-created_on = created
-updated_by = updated by
-updated_on = updated
+created_by = Created by
+created_on = Created
+updated_by = Updated by
+updated_on = Updated
 status = Status

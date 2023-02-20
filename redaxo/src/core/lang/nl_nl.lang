@@ -412,8 +412,8 @@ footer_datetime = {0}
 footer_scripttime = {0} sec.
 footer_credits = Credits
 
-created_by = gemaakt door
-created_on = gemaakt op
-updated_by = bijgewerkt door
-updated_on = bijgewerkt op
+created_by = Gemaakt door
+created_on = Gemaakt op
+updated_by = Bijgewerkt door
+updated_on = Bijgewerkt op
 status = Status
