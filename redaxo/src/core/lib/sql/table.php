@@ -179,7 +179,7 @@ class rex_sql_table
         $table = static::getInstance(
             [$db, $name],
             /** @param positive-int $db */
-            static fn(int $db, string $name) => new static($name, $db),
+            static fn (int $db, string $name) => new static($name, $db),
         );
 
         return rex_type::instanceOf($table, self::class);
