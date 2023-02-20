@@ -52,7 +52,7 @@ class rex_webauthn
 
     public function getGetArgs(?string $id = null): string
     {
-        $args = $this->webauthn->getGetArgs($id ? [$id] : []);
+        $args = $this->webauthn->getGetArgs($id ? [ByteBuffer::fromBase64Url($id)] : []);
 
         rex_set_session(self::SESSION_CHALLENGE, $this->webauthn->getChallenge());
 

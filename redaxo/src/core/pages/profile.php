@@ -286,7 +286,7 @@ if ($login->getPasskey()) {
     $n['field'] = '
         <button type="button" class="btn btn-primary" data-auth-passkey-verify>' . rex_i18n::msg('passkey_current_verify') . '</button>
         <i class="fa fa-check-circle-o text-success hidden" data-auth-passkey-verify-success></i>
-        <input type="hidden" name="passkey" data-auth-passkey="'.rex_escape($webauthn->getGetArgs()).'"/>
+        <input type="hidden" name="passkey" data-auth-passkey="'.rex_escape($webauthn->getGetArgs($login->getPasskey())).'"/>
     ';
 } else {
     $n['label'] = '<label for="rex-id-userpsw">' . rex_i18n::msg('old_password') . '</label>';
