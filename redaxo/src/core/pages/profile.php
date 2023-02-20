@@ -104,7 +104,7 @@ if ($update && !$error) {
     }
 }
 
-$verify = static function () use ($user, $login, $userpsw, $passkey, $webauthn): bool|string {
+$verifyLogin = static function () use ($user, $login, $userpsw, $passkey, $webauthn): bool|string {
     if (!$login->getPasskey()) {
         if (!$userpsw || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
             return rex_i18n::msg('user_psw_verify_error');
@@ -128,7 +128,7 @@ $verify = static function () use ($user, $login, $userpsw, $passkey, $webauthn):
 if (rex_post('upd_psw_button', 'bool')) {
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
-    } elseif (true !== $msg = $verify()) {
+    } elseif (true !== $msg = $verifyLogin()) {
         $error = $msg;
     } elseif (!$userpswNew1 || $userpswNew1 != $userpswNew2) {
         $error = rex_i18n::msg('user_psw_new_error');
@@ -173,7 +173,7 @@ if (rex_post('upd_psw_button', 'bool')) {
 if ('add_passkey' === rex_request('function', 'string')) {
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
-    } elseif (true !== $msg = $verify()) {
+    } elseif (true !== $msg = $verifyLogin()) {
         $error = $msg;
     } else {
         [$passkeyId, $passkeyPublicKey] = $webauthn->processCreate($passkey);
