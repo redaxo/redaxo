@@ -7,6 +7,7 @@
 /node_modules/
 /redaxo/cache/
 /redaxo/data/
+/redaxo/src/core/node_modules/
 /releases/
 /resources/
 /vendor/
