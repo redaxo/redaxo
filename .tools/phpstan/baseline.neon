@@ -1626,11 +1626,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/autoload.php
 
 		-
-			message: "#^Method rex_be_controller\\:\\:getPageObject\\(\\) has parameter \\$page with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/be/controller.php
-
-		-
 			message: "#^Method rex_be_controller\\:\\:includeCurrentPageSubPath\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/be/controller.php
@@ -2866,7 +2861,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_sql_table\\)\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_sql_table\\) given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_sql_table\\)\\|null\\)\\|null, Closure\\(int, string\\)\\: static\\(rex_sql_table\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
 
@@ -2917,6 +2912,16 @@ parameters:
 
 		-
 			message: "#^Method rex_file\\:\\:getConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/file.php
+
+		-
+			message: "#^Method rex_file\\:\\:putCache\\(\\) has parameter \\$content with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/file.php
+
+		-
+			message: "#^Method rex_file\\:\\:putConfig\\(\\) has parameter \\$content with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/file.php
 

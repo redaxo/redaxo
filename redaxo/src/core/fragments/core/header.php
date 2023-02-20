@@ -4,7 +4,7 @@
  * @psalm-scope-this rex_fragment
  */
 
-$isPopup = rex_be_controller::getCurrentPageObject()->isPopup();
+$isPopup = rex_be_controller::requireCurrentPageObject()->isPopup();
 $isLogin = ('login' === rex_be_controller::getCurrentPage());
 $isSetup = ('setup' === rex_be_controller::getCurrentPage());
 ?>
