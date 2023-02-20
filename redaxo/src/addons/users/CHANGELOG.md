@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.9.2 – 20.02.2023
+--------------------------
+
+### Bugfixes
+
+* Nach Identitätswechsel konnte u.U. der Original-Benutzer gelöscht werden (@gharlan)
+
+
 Version 2.9.1 – 13.12.2022
 --------------------------
 

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.13.3 – 20.02.2023
+---------------------------
+
+### Bugfixes
+
+* Effekt `resize`: Werte mit `px`-Suffix wurden nicht akzeptiert (@gharlan)
+
+
 Version 2.13.2 – 16.12.2022
 ---------------------------
 

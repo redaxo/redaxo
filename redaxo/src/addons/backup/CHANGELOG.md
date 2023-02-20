@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.3 – 20.02.2023
+--------------------------
+
+### Bugfixes
+
+* Backup-Cronjob: Deprecated-Meldung entfernt (@gharlan)
+
+
 Version 2.8.2 – 25.07.2022
 --------------------------
 

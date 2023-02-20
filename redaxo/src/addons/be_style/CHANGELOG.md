@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 3.1.2 – 20.02.2023
+--------------------------
+
+* Dropdowns wurden teils von der Headerleiste überdeckt (@TobiasKrais)
+* Darstellung HTML5-Datefelder korrigiert (@tbaddade)
+* customizer: Fehlende Config-Werte werden besser abgefangen (@gharlan)
+
+
 Version 3.1.1 – 13.12.2022
 --------------------------
 
