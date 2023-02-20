@@ -40,6 +40,7 @@ abstract class rex_var_dumper
     }
 
     /**
+     * @param mixed $var
      * @return void
      */
     public static function dump($var)

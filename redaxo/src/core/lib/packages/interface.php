@@ -79,7 +79,9 @@ interface rex_package_interface
 
     /**
      * @see rex_config::set()
-     * @return bool
+     * @param string|array $key The associated key or an associative array of key/value pairs
+     * @param mixed $value The value to save
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public function setConfig($key, $value = null);
 
@@ -87,20 +89,24 @@ interface rex_package_interface
      * @see rex_config::get()
      *
      * @template T as ?string
-     * @param T $key
+     * @param T $key The associated key
+     * @param mixed $default Default return value if no associated-value can be found
+     * @throws InvalidArgumentException
+     * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      * @psalm-return (T is string ? mixed|null : array<string, mixed>)
-     * @return mixed
      */
     public function getConfig($key = null, $default = null);
 
     /**
      * @see rex_config::has()
+     * @param string|null $key The associated key
      * @return bool
      */
     public function hasConfig($key = null);
 
     /**
      * @see rex_config::remove()
+     * @param string $key The associated key
      * @return bool
      */
     public function removeConfig($key);

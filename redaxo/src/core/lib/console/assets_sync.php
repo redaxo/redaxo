@@ -93,7 +93,7 @@ class rex_command_assets_sync extends rex_console_command
     /**
      * @return array{0: int, 1: int, 2: int}
      */
-    private function sync(SymfonyStyle $io, $folder1, $folder2)
+    private function sync(SymfonyStyle $io, string $folder1, string $folder2)
     {
         $created = $updated = $errored = 0;
 

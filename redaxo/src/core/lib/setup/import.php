@@ -165,12 +165,7 @@ class rex_setup_importer
         ];
     }
 
-    /**
-     * @param string $importSql
-     *
-     * @return string
-     */
-    private static function import($importSql, $importArchive = null)
+    private static function import(string $importSql, ?string $importArchive = null): string
     {
         $errMsg = '';
 
@@ -206,10 +201,7 @@ class rex_setup_importer
 
     // -------------------------- System AddOns prüfen
 
-    /**
-     * @return string
-     */
-    private static function installAddons($uninstallBefore = false, $installDump = true)
+    private static function installAddons(bool $uninstallBefore = false, bool $installDump = true): string
     {
         $addonErr = '';
         rex_package_manager::synchronizeWithFileSystem();
@@ -262,10 +254,7 @@ class rex_setup_importer
         return $addonErr;
     }
 
-    /**
-     * @return string
-     */
-    private static function reinstallPackages()
+    private static function reinstallPackages(): string
     {
         $error = '';
         rex_addon::initialize();

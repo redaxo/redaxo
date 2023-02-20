@@ -219,6 +219,7 @@ abstract class rex_api_function
     }
 
     /**
+     * @param bool $formatted
      * @return string
      */
     public static function getMessage($formatted = true)
@@ -280,7 +281,7 @@ class rex_api_result
     /**
      * Optional message which will be visible to the end-user.
      *
-     * @var string
+     * @var string|null
      */
     private $message;
 
@@ -292,6 +293,10 @@ class rex_api_result
      */
     private $requiresReboot;
 
+    /**
+     * @param bool $succeeded
+     * @param string|null $message
+     */
     public function __construct($succeeded, $message = null)
     {
         $this->succeeded = $succeeded;
@@ -299,6 +304,7 @@ class rex_api_result
     }
 
     /**
+     * @param bool $requiresReboot
      * @return void
      */
     public function setRequiresReboot($requiresReboot)
@@ -332,7 +338,7 @@ class rex_api_result
     /**
      * Returns end-user friendly statusmessage.
      *
-     * @return string a statusmessage
+     * @return string|null a statusmessage
      */
     public function getMessage()
     {
@@ -362,6 +368,7 @@ class rex_api_result
     }
 
     /**
+     * @param string $json
      * @return self
      */
     public static function fromJSON($json)

@@ -381,6 +381,7 @@ class rex_response
 
     /**
      * Sends the cache control header.
+     * @param string $cacheControl
      * @return void
      */
     public static function sendCacheControl($cacheControl = 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0')
@@ -394,7 +395,7 @@ class rex_response
      *
      * HTTP_IF_MODIFIED_SINCE feature
      *
-     * @param int $lastModified HTTP Last-Modified Timestamp
+     * @param int|null $lastModified HTTP Last-Modified Timestamp
      * @return void|never
      */
     public static function sendLastModified($lastModified = null)

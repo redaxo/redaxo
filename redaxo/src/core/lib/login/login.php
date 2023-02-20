@@ -88,6 +88,7 @@ class rex_login
      * Setzt, ob die Ergebnisse der Login-Abfrage
      * pro Seitenaufruf gecached werden sollen.
      *
+     * @param bool $status
      * @return void
      */
     public function setCache($status = true)
@@ -98,6 +99,7 @@ class rex_login
     /**
      * Setzt die Id der zu verwendenden SQL Connection.
      *
+     * @param positive-int $DB
      * @return void
      */
     public function setSqlDb($DB)
@@ -133,6 +135,7 @@ class rex_login
      *
      * @param string $login
      * @param string $password
+     * @param bool $isPreHashed
      * @return void
      */
     public function setLogin(#[\SensitiveParameter] $login, #[\SensitiveParameter] $password, $isPreHashed = false)
@@ -144,6 +147,7 @@ class rex_login
     /**
      * Markiert die aktuelle Session als ausgeloggt.
      *
+     * @param bool $logout
      * @return void
      */
     public function setLogout($logout)
@@ -657,8 +661,8 @@ class rex_login
     /**
      * Verschlüsselt den übergebnen String.
      *
-     * @throws rex_exception
-     *
+     * @param string $password
+     * @param bool $isPreHashed
      * @return string Returns the hashed password
      */
     public static function passwordHash(#[\SensitiveParameter] $password, $isPreHashed = false)
@@ -669,6 +673,9 @@ class rex_login
     }
 
     /**
+     * @param string $password
+     * @param string $hash
+     * @param bool $isPreHashed
      * @return bool returns TRUE if the password and hash match, or FALSE otherwise
      */
     public static function passwordVerify(#[\SensitiveParameter] $password, #[\SensitiveParameter] $hash, $isPreHashed = false)
@@ -678,6 +685,7 @@ class rex_login
     }
 
     /**
+     * @param string $hash
      * @return bool returns TRUE if the hash should be rehashed to match the given algo and options, or FALSE otherwise
      */
     public static function passwordNeedsRehash(#[\SensitiveParameter] $hash)

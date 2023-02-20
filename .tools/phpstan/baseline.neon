@@ -196,11 +196,6 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/api/api_core_update.php
 
 		-
-			message: "#^Method rex_install_package_download\\:\\:extractArchiveTo\\(\\) has parameter \\$dir with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/install/lib/package/package_download.php
-
-		-
 			message: "#^Method rex_install_package_update\\:\\:checkRequirements\\(\\) has parameter \\$config with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/package/package_update.php
@@ -363,26 +358,6 @@ parameters:
 		-
 			message: "#^Method rex_effect_resize\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 2
-			path: ../../redaxo/src/addons/media_manager/lib/effects/effect_resize.php
-
-		-
-			message: "#^Method rex_effect_resize\\:\\:resizeMax\\(\\) has parameter \\$height with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/media_manager/lib/effects/effect_resize.php
-
-		-
-			message: "#^Method rex_effect_resize\\:\\:resizeMax\\(\\) has parameter \\$width with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/media_manager/lib/effects/effect_resize.php
-
-		-
-			message: "#^Method rex_effect_resize\\:\\:resizeMin\\(\\) has parameter \\$height with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/media_manager/lib/effects/effect_resize.php
-
-		-
-			message: "#^Method rex_effect_resize\\:\\:resizeMin\\(\\) has parameter \\$width with no type specified\\.$#"
-			count: 1
 			path: ../../redaxo/src/addons/media_manager/lib/effects/effect_resize.php
 
 		-
@@ -612,11 +587,6 @@ parameters:
 
 		-
 			message: "#^Method rex_media_perm\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/perm.php
-
-		-
-			message: "#^Method rex_media_perm\\:\\:hasCategoryPerm\\(\\) has parameter \\$categoryId with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/perm.php
 
@@ -1466,11 +1436,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/content/lib/module_perm.php
 
 		-
-			message: "#^Method rex_module_perm\\:\\:hasPerm\\(\\) has parameter \\$moduleId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/lib/module_perm.php
-
-		-
 			message: "#^Method rex_article_slice_history\\:\\:getSnapshots\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/history/lib/article_slice_history.php
@@ -1581,32 +1546,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/api_function.php
 
 		-
-			message: "#^Method rex_api_function\\:\\:getMessage\\(\\) has parameter \\$formatted with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
 			message: "#^Method rex_api_function\\:\\:getUrlParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^Method rex_api_result\\:\\:__construct\\(\\) has parameter \\$message with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^Method rex_api_result\\:\\:__construct\\(\\) has parameter \\$succeeded with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^Method rex_api_result\\:\\:fromJSON\\(\\) has parameter \\$json with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^Method rex_api_result\\:\\:setRequiresReboot\\(\\) has parameter \\$requiresReboot with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/api_function.php
 
@@ -1691,16 +1631,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/config_db.php
 
 		-
-			message: "#^Method rex_command_assets_sync\\:\\:sync\\(\\) has parameter \\$folder1 with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/console/assets_sync.php
-
-		-
-			message: "#^Method rex_command_assets_sync\\:\\:sync\\(\\) has parameter \\$folder2 with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/console/assets_sync.php
-
-		-
 			message: "#^Class rex_extension_point_console_shutdown extends generic class rex_extension_point but does not specify its types\\: T$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/console/extension_point_console_shutdown.php
@@ -1729,11 +1659,6 @@ parameters:
 			message: "#^Method rex_url_provider_interface\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/context.php
-
-		-
-			message: "#^Method rex_csrf_token\\:\\:__construct\\(\\) has parameter \\$tokenId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/csrf_token.php
 
 		-
 			message: "#^Method rex_csrf_token\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
@@ -2186,57 +2111,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Method rex_login\\:\\:passwordHash\\(\\) has parameter \\$isPreHashed with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:passwordHash\\(\\) has parameter \\$password with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:passwordNeedsRehash\\(\\) has parameter \\$hash with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:passwordVerify\\(\\) has parameter \\$hash with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:passwordVerify\\(\\) has parameter \\$isPreHashed with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:passwordVerify\\(\\) has parameter \\$password with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:setCache\\(\\) has parameter \\$status with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:setLogin\\(\\) has parameter \\$isPreHashed with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:setLogout\\(\\) has parameter \\$logout with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
 			message: "#^Method rex_login\\:\\:setSessionVar\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:setSqlDb\\(\\) has parameter \\$DB with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
 
@@ -2249,11 +2124,6 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_password_policy\\:\\:isValid\\(\\) has parameter \\$password with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/password_policy.php
 
 		-
 			message: "#^Method rex_perm\\:\\:getAll\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -2281,37 +2151,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
-			message: "#^Method rex_addon\\:\\:initialize\\(\\) has parameter \\$dbExists with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/addons/addon.php
-
-		-
-			message: "#^Method rex_package_interface\\:\\:getConfig\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/interface.php
-
-		-
-			message: "#^Method rex_package_interface\\:\\:hasConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/interface.php
-
-		-
 			message: "#^Method rex_package_interface\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/interface.php
 
 		-
-			message: "#^Method rex_package_interface\\:\\:removeConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/interface.php
-
-		-
-			message: "#^Method rex_package_interface\\:\\:setConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/interface.php
-
-		-
-			message: "#^Method rex_package_interface\\:\\:setConfig\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: "#^Method rex_package_interface\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/interface.php
 
@@ -2341,32 +2186,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/null.php
 
 		-
-			message: "#^Method rex_null_package\\:\\:getConfig\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/null.php
-
-		-
-			message: "#^Method rex_null_package\\:\\:hasConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/null.php
-
-		-
 			message: "#^Method rex_null_package\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/null.php
 
 		-
-			message: "#^Method rex_null_package\\:\\:removeConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/null.php
-
-		-
-			message: "#^Method rex_null_package\\:\\:setConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/null.php
-
-		-
-			message: "#^Method rex_null_package\\:\\:setConfig\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: "#^Method rex_null_package\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/null.php
 
@@ -2376,32 +2201,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/package.php
 
 		-
-			message: "#^Method rex_package\\:\\:getConfig\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
-
-		-
-			message: "#^Method rex_package\\:\\:hasConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
-
-		-
 			message: "#^Method rex_package\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/package.php
 
 		-
-			message: "#^Method rex_package\\:\\:removeConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
-
-		-
-			message: "#^Method rex_package\\:\\:setConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
-
-		-
-			message: "#^Method rex_package\\:\\:setConfig\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: "#^Method rex_package\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/package.php
 
@@ -2421,11 +2226,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/response.php
 
 		-
-			message: "#^Method rex_response\\:\\:sendCacheControl\\(\\) has parameter \\$cacheControl with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
 			message: "#^Property rex_response\\:\\:\\$additionalHeaders type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/response.php
@@ -2436,32 +2236,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/response.php
 
 		-
-			message: "#^Method rex\\:\\:getConfig\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/rex.php
-
-		-
-			message: "#^Method rex\\:\\:getVersionHash\\(\\) has parameter \\$path with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/rex.php
-
-		-
-			message: "#^Method rex\\:\\:hasConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/rex.php
-
-		-
-			message: "#^Method rex\\:\\:removeConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/rex.php
-
-		-
-			message: "#^Method rex\\:\\:setConfig\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/rex.php
-
-		-
-			message: "#^Method rex\\:\\:setConfig\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: "#^Method rex\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/rex.php
 
@@ -2661,21 +2436,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_setup_importer\\:\\:import\\(\\) has parameter \\$importArchive with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/setup/import.php
-
-		-
-			message: "#^Method rex_setup_importer\\:\\:installAddons\\(\\) has parameter \\$installDump with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/setup/import.php
-
-		-
-			message: "#^Method rex_setup_importer\\:\\:installAddons\\(\\) has parameter \\$uninstallBefore with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/setup/import.php
-
-		-
 			message: "#^Method rex_setup\\:\\:checkDb\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/setup/setup.php
@@ -2689,31 +2449,6 @@ parameters:
 			message: "#^Method rex_setup\\:\\:checkFilesystem\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/setup/setup.php
-
-		-
-			message: "#^Method rex_sql_schema_dumper\\:\\:getPrimaryKey\\(\\) has parameter \\$primaryKey with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/schema_dumper.php
-
-		-
-			message: "#^Method rex_sql_schema_dumper\\:\\:map\\(\\) has parameter \\$map with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/schema_dumper.php
-
-		-
-			message: "#^Method rex_sql_schema_dumper\\:\\:scalar\\(\\) has parameter \\$scalar with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/schema_dumper.php
-
-		-
-			message: "#^Method rex_sql_schema_dumper\\:\\:simpleArray\\(\\) has parameter \\$list with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/schema_dumper.php
-
-		-
-			message: "#^Method rex_sql_schema_dumper\\:\\:tableName\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/schema_dumper.php
 
 		-
 			message: "#^Method rex_sql\\:\\:buildOnDuplicateKeyUpdate\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
@@ -2874,11 +2609,6 @@ parameters:
 			message: "#^Unsafe call to private method rex_sql_table\\:\\:baseClearInstance\\(\\) through static\\:\\:\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Method rex_sql_util\\:\\:prepareQuery\\(\\) has parameter \\$query with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/util.php
 
 		-
 			message: "#^Method rex_sql_util\\:\\:readSqlDump\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -3121,22 +2851,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/var/var.php
 
 		-
-			message: "#^Method rex_var_dumper\\:\\:dump\\(\\) has parameter \\$var with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/var_dumper.php
-
-		-
 			message: "#^Method rex_view\\:\\:getJsFilesWithOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/view.php
 
 		-
 			message: "#^Method rex_view\\:\\:title\\(\\) has parameter \\$subtitle with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/view.php
-
-		-
-			message: "#^Method rex_view\\:\\:toolbar\\(\\) has parameter \\$inverse with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/view.php
 
@@ -3214,11 +2934,6 @@ parameters:
 			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) with \\*NEVER\\* and array\\<int, \\(int\\|string\\)\\> will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/sql/sql_table_test.php
-
-		-
-			message: "#^Method rex_socket_test\\:\\:testWriteRequest\\(\\) has parameter \\$socket with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/socket_test.php
 
 		-
 			message: "#^Method rex_string_test\\:\\:buildQueryProvider\\(\\) return type has no value type specified in iterable type array\\.$#"

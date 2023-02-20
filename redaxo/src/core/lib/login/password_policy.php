@@ -109,6 +109,7 @@ class rex_password_policy
     }
 
     /**
+     * @param string $password
      * @return bool
      */
     protected function isValid(#[\SensitiveParameter] $password)

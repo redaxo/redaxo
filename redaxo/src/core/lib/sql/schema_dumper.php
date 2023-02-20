@@ -46,8 +46,8 @@ class rex_sql_schema_dumper
             $code,
         );
 
-        if ($setPrimaryKey && $table->getPrimaryKey()) {
-            $code .= "\n    ->setPrimaryKey(".$this->getPrimaryKey($table->getPrimaryKey()).')';
+        if ($setPrimaryKey && $primaryKey = $table->getPrimaryKey()) {
+            $code .= "\n    ->setPrimaryKey(".$this->getPrimaryKey($primaryKey).')';
         }
 
         foreach ($table->getIndexes() as $index) {
@@ -63,10 +63,7 @@ class rex_sql_schema_dumper
         return $code;
     }
 
-    /**
-     * @return string
-     */
-    private function getColumn(rex_sql_column $column)
+    private function getColumn(rex_sql_column $column): string
     {
         $parameters = [];
         $nonDefault = false;
@@ -96,10 +93,7 @@ class rex_sql_schema_dumper
         return 'new rex_sql_column('.implode(', ', array_reverse($parameters)).')';
     }
 
-    /**
-     * @return string
-     */
-    private function getIndex(rex_sql_index $index)
+    private function getIndex(rex_sql_index $index): string
     {
         $parameters = [
             $this->scalar($index->getName()),
@@ -116,10 +110,7 @@ class rex_sql_schema_dumper
         return 'new rex_sql_index('.implode(', ', $parameters).')';
     }
 
-    /**
-     * @return string
-     */
-    private function getForeignKey(rex_sql_foreign_key $foreignKey)
+    private function getForeignKey(rex_sql_foreign_key $foreignKey): string
     {
         $parameters = [
             $this->scalar($foreignKey->getName()),
@@ -147,10 +138,8 @@ class rex_sql_schema_dumper
         return 'new rex_sql_foreign_key('.implode(', ', $parameters).')';
     }
 
-    /**
-     * @return string
-     */
-    private function getPrimaryKey(array $primaryKey)
+    /** @param list<string> $primaryKey */
+    private function getPrimaryKey(array $primaryKey): string
     {
         if (1 === count($primaryKey)) {
             return $this->scalar(reset($primaryKey));
@@ -159,10 +148,7 @@ class rex_sql_schema_dumper
         return $this->simpleArray($primaryKey);
     }
 
-    /**
-     * @return string
-     */
-    private function tableName($name)
+    private function tableName(string $name): string
     {
         if (!str_starts_with($name, rex::getTablePrefix())) {
             return $this->scalar($name);
@@ -173,10 +159,8 @@ class rex_sql_schema_dumper
         return 'rex::getTable('.$this->scalar($name).')';
     }
 
-    /**
-     * @return string
-     */
-    private function scalar($scalar)
+    /** @param scalar|null $scalar */
+    private function scalar($scalar): string
     {
         if (null === $scalar) {
             return 'null';
@@ -188,10 +172,8 @@ class rex_sql_schema_dumper
         return var_export($scalar, true);
     }
 
-    /**
-     * @return string
-     */
-    private function simpleArray(array $list)
+    /** @param list<scalar> $list */
+    private function simpleArray(array $list): string
     {
         $parts = [];
 
@@ -202,10 +184,8 @@ class rex_sql_schema_dumper
         return '['.implode(', ', $parts).']';
     }
 
-    /**
-     * @return string
-     */
-    private function map(array $map)
+    /** @param array<string, scalar> $map */
+    private function map(array $map): string
     {
         $parts = [];
 

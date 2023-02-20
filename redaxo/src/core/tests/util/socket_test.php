@@ -54,7 +54,7 @@ class rex_socket_test extends TestCase
     }
 
     #[Depends('testFactory')]
-    public function testWriteRequest($socket): void
+    public function testWriteRequest(rex_socket $socket): void
     {
         $class = new ReflectionClass(rex_socket::class);
         $property = $class->getProperty('stream');

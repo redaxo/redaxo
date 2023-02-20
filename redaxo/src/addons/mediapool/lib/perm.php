@@ -6,6 +6,7 @@
 class rex_media_perm extends rex_complex_perm
 {
     /**
+     * @param int $categoryId
      * @return bool
      */
     public function hasCategoryPerm($categoryId)
