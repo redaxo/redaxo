@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 3.1.2 – XX.02.2023
+Version 3.1.2 – 20.02.2023
 --------------------------
 
 * Dropdowns wurden teils von der Headerleiste überdeckt (@TobiasKrais)
