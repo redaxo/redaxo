@@ -252,8 +252,10 @@ abstract class rex_package implements rex_package_interface
             return;
         }
 
+        /** @var array<string, array{timestamp: int, data: array<string, mixed>}>|null $cache */
         static $cache = null;
         if (null === $cache) {
+            /** @var array<string, array{timestamp: int, data: array<string, mixed>}> $cache */
             $cache = rex_file::getCache(rex_path::coreCache(self::PROPERTIES_CACHE_FILE));
         }
         $id = $this->getPackageId();
@@ -267,6 +269,7 @@ abstract class rex_package implements rex_package_interface
                 $cache[$id]['timestamp'] = filemtime($file);
                 $cache[$id]['data'] = $properties;
 
+                /** @var bool $registeredShutdown */
                 static $registeredShutdown = false;
                 if (!$registeredShutdown) {
                     $registeredShutdown = true;

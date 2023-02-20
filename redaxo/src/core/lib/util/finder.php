@@ -237,8 +237,7 @@ class rex_finder implements IteratorAggregate, Countable
             }
 
             if ($this->ignoreSystemStuff) {
-                static $systemStuff = ['.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
-                foreach ($systemStuff as $systemStuffFile) {
+                foreach (['.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'] as $systemStuffFile) {
                     if (0 === stripos($filename, $systemStuffFile)) {
                         return false;
                     }

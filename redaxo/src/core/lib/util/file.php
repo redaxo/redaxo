@@ -230,25 +230,21 @@ class rex_file
             return null;
         }
 
-        // map less common types to their more common equivalent
-        static $mapping = [
-            'application/xml' => 'text/xml',
-            'image/svg' => 'image/svg+xml',
-        ];
-
         if ('text/plain' !== $mimeType) {
-            $mimeType = $mapping[$mimeType] ?? $mimeType;
-
-            return $mimeType ?: null;
+            // map less common types to their more common equivalent
+            return match ($mimeType) {
+                'application/xml' => 'text/xml',
+                'image/svg' => 'image/svg+xml',
+                default => $mimeType ?: null,
+            };
         }
 
-        static $extensions = [
+        return match (strtolower(self::extension($file))) {
             'css' => 'text/css',
             'js' => 'application/javascript',
             'svg' => 'image/svg+xml',
-        ];
-
-        return $extensions[strtolower(self::extension($file))] ?? $mimeType;
+            default => $mimeType,
+        };
     }
 
     /**

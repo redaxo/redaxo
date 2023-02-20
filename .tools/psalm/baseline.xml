@@ -596,10 +596,6 @@
     </PropertyTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/webservice.php">
-    <MixedArgument>
-      <code>$config['api_key']</code>
-      <code>$config['api_login']</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code>$data</code>
     </MixedArgumentTypeCoercion>
@@ -1018,8 +1014,6 @@
       <code>$data['file']['type']</code>
       <code>$data['height']</code>
       <code>$data['width']</code>
-      <code>$jpgExtensions</code>
-      <code>$jpgExtensions</code>
       <code>$size[0]</code>
       <code>$size[1]</code>
     </MixedArgument>
@@ -1222,16 +1216,12 @@
     <MixedArgument>
       <code>$ep-&gt;getParam('file')</code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code>$pages[$prefix]</code>
-    </MixedArrayAccess>
     <MixedAssignment>
       <code>$metaSidebar</code>
       <code>$subject</code>
     </MixedAssignment>
     <MixedOperand>
       <code>$metaSidebar</code>
-      <code>$pages[$prefix]</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/extensions/extension_cleanup.php">
@@ -1686,28 +1676,6 @@
       <code>rex_addon::get('structure')-&gt;getProperty('start_article_id', 1)</code>
     </MixedReturnStatement>
   </file>
-  <file src="redaxo/src/addons/structure/lib/linkmap/form_element/linklist.php">
-    <MixedArgument>
-      <code>$widgetCounter</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$widgetCounter</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$widgetCounter</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/structure/lib/linkmap/form_element/linkmap.php">
-    <MixedArgument>
-      <code>$widgetCounter</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$widgetCounter</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$widgetCounter</code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/addons/structure/lib/linkmap/linkmap.php">
     <MixedArgument>
       <code>$liClasses</code>
@@ -2053,14 +2021,7 @@
   <file src="redaxo/src/addons/structure/plugins/content/boot.php">
     <MixedArgument>
       <code>$ep-&gt;getParam('file')</code>
-      <code>$urls[$match[1]][0]</code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code>$urls[$match[1]]</code>
-      <code>$urls[$match[1]]</code>
-      <code>$urls[$match[1]][0]</code>
-      <code>$urls[$match[1]][1]</code>
-    </MixedArrayAccess>
     <MixedAssignment>
       <code>$content</code>
     </MixedAssignment>
@@ -4570,30 +4531,15 @@
       <code>$value</code>
     </MixedArgument>
     <MixedArrayAccess>
-      <code>$cache[$id]</code>
-      <code>$cache[$id]</code>
-      <code>$cache[$id]</code>
-      <code>$cache[$id]['data']</code>
-      <code>$cache[$id]['timestamp']</code>
       <code>$cache[$package]</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code>$cache[$id]</code>
-      <code>$cache[$id]</code>
-      <code>$cache[$id]['data']</code>
-      <code>$cache[$id]['timestamp']</code>
-    </MixedArrayAssignment>
     <MixedArrayOffset>
       <code>$cache[$package]</code>
-      <code>$this-&gt;properties[$key]</code>
-      <code>$this-&gt;properties[$key]</code>
     </MixedArrayOffset>
     <MixedAssignment>
       <code>$dir</code>
-      <code>$key</code>
       <code>$package</code>
       <code>$plugin</code>
-      <code>$properties</code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
@@ -4795,11 +4741,7 @@
       <code>$importArchive</code>
       <code>$installDump</code>
       <code>$installDump</code>
-      <code>$utf8mb4MinVersions[$sql-&gt;getDbType()]</code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code>$utf8mb4MinVersions[$sql-&gt;getDbType()]</code>
-    </MixedArrayAccess>
   </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
     <MixedArgument>
@@ -4834,19 +4776,7 @@
       <code>$name</code>
       <code>$name</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code>$parameters</code>
-      <code>$parameters</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code>$options[$foreignKey-&gt;getOnDelete()]</code>
-      <code>$options[$foreignKey-&gt;getOnUpdate()]</code>
-      <code>$types[$index-&gt;getType()]</code>
-    </MixedArrayAccess>
     <MixedAssignment>
-      <code>$parameters[]</code>
-      <code>$parameters[]</code>
-      <code>$parameters[]</code>
       <code>$scalar</code>
       <code>$value</code>
       <code>$value</code>
@@ -5042,22 +4972,10 @@
     <MixedArgument>
       <code>$content</code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code>$extensions[strtolower(self::extension($file))]</code>
-      <code>$mapping[$mimeType]</code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code>$mimeType</code>
-    </MixedAssignment>
     <MixedInferredReturnType>
       <code>array|T</code>
-      <code>null|string</code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
-      <code>$extensions[strtolower(self::extension($file))] ?? $mimeType</code>
-      <code>$extensions[strtolower(self::extension($file))] ?? $mimeType</code>
-      <code>$mimeType ?: null</code>
-      <code>$mimeType ?: null</code>
       <code>null === $content ? $default : json_decode($content, true)</code>
     </MixedReturnStatement>
   </file>
@@ -5065,15 +4983,11 @@
     <MixedArgument>
       <code>$filename</code>
       <code>$pattern</code>
-      <code>$systemStuffFile</code>
     </MixedArgument>
     <MixedArrayAssignment>
       <code>$this-&gt;$var[]</code>
       <code>$this-&gt;$var[]</code>
     </MixedArrayAssignment>
-    <MixedAssignment>
-      <code>$systemStuffFile</code>
-    </MixedAssignment>
     <MixedOperand>
       <code>$this-&gt;$var</code>
       <code>$this-&gt;$var</code>
@@ -5661,15 +5575,6 @@
       <code>$a</code>
       <code>$b</code>
     </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/tests/util/timer_test.php">
-    <MixedAssignment>
-      <code>$i</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$i</code>
-      <code>$i++</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/type_test.php">
     <MixedOperand>

@@ -106,13 +106,11 @@ class rex_sql_schema_dumper
             $this->simpleArray($index->getColumns()),
         ];
 
-        static $types = [
-            rex_sql_index::UNIQUE => 'rex_sql_index::UNIQUE',
-            rex_sql_index::FULLTEXT => 'rex_sql_index::FULLTEXT',
-        ];
-
-        if (rex_sql_index::INDEX !== $index->getType()) {
-            $parameters[] = $types[$index->getType()];
+        if (rex_sql_index::INDEX !== $type = $index->getType()) {
+            $parameters[] = match ($type) {
+                rex_sql_index::UNIQUE => 'rex_sql_index::UNIQUE',
+                rex_sql_index::FULLTEXT => 'rex_sql_index::FULLTEXT',
+            };
         }
 
         return 'new rex_sql_index('.implode(', ', $parameters).')';
@@ -129,7 +127,7 @@ class rex_sql_schema_dumper
             $this->map($foreignKey->getColumns()),
         ];
 
-        static $options = [
+        $options = [
             rex_sql_foreign_key::RESTRICT => 'rex_sql_foreign_key::RESTRICT',
             rex_sql_foreign_key::NO_ACTION => 'rex_sql_foreign_key::NO_ACTION',
             rex_sql_foreign_key::CASCADE => 'rex_sql_foreign_key::CASCADE',
