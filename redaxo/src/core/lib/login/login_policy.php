@@ -7,9 +7,7 @@
  */
 final class rex_login_policy
 {
-    /**
-     * @var array<string, int|bool>
-     */
+    /** @var array<string, int|bool> */
     private $options;
 
     /**

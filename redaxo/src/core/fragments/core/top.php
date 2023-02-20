@@ -5,11 +5,11 @@
  */
 ?>
 <!doctype html>
-<html lang="<?php echo rex_i18n::msg('htmllang'); ?>">
+<html lang="<?= rex_i18n::msg('htmllang') ?>">
 <head>
     <meta charset="utf-8" />
 
-    <title><?php echo $this->pageTitle ?></title>
+    <title><?= $this->pageTitle ?></title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 <?php
@@ -76,12 +76,12 @@
     }
 ?>
 
-    <?php echo $this->favicon ? '<link rel="shortcut icon" href="' . $this->favicon . '" />' : '' ?>
+    <?= $this->favicon ? '<link rel="shortcut icon" href="' . $this->favicon . '" />' : '' ?>
 
-    <?php echo $this->pageHeader ?>
+    <?= $this->pageHeader ?>
 
 </head>
-<body<?php echo $this->bodyAttr; ?>>
+<body<?= $this->bodyAttr ?>>
 
 <div class="rex-ajax-loader" id="rex-js-ajax-loader">
     <div class="rex-ajax-loader-element"></div>

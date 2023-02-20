@@ -339,13 +339,14 @@ if ('' == $func) {
     $fragment->setVar('body', $content, false);
     $content = $fragment->parse('core/page/section.php');
 
-    echo $content; ?>
+    echo $content;
+?>
 
     <script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
     // <![CDATA[
         jQuery(function($){
             var currentShown = null;
-            $("#<?php echo $typeFieldId ?>").change(function(){
+            $("#<?= $typeFieldId ?>").change(function(){
                 var next = $("#rex-"+ $(this).val());
 
                 if (next.is(currentShown)) {
@@ -360,9 +361,9 @@ if ('' == $func) {
                 }
                 currentShown = next;
             }).change();
-            $('#<?php echo $typeFieldId ?>').change(function(){
-                $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $envJs; ?>
-            }).change();<?php echo $visibleJs . "\n"; ?>
+            $('#<?= $typeFieldId ?>').change(function(){
+                $('#<?= $envFieldId ?> option').prop('disabled','');<?= $envJs ?>
+            }).change();<?= $visibleJs . "\n" ?>
         });
     // ]]>
     </script>
