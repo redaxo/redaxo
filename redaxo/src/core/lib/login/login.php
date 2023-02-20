@@ -484,6 +484,7 @@ class rex_login
      */
     public function getSessionVar($varname, $default = '')
     {
+        /** @var bool $sessChecked */
         static $sessChecked = false;
         // validate session-id - once per request - to prevent fixation
         if (!$sessChecked) {

@@ -78,14 +78,14 @@ rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) 
         return;
     }
 
-    static $pages = [
+    $prefix = rex_metainfo_meta_prefix((string) $sql->getValue('name'));
+    $page = match ($prefix) {
         'art_' => 'articles',
         'cat_' => 'categories',
         'med_' => 'media',
         'clang_' => 'clangs',
-    ];
+        default => throw new LogicException('Unknown metainfo prefix "'.$prefix.'"'),
+    };
 
-    $prefix = rex_metainfo_meta_prefix((string) $sql->getValue('name'));
-
-    return rex_url::backendPage('metainfo/'.$pages[$prefix], ['func' => 'edit', 'field_id' => $id]);
+    return rex_url::backendPage('metainfo/'.$page, ['func' => 'edit', 'field_id' => $id]);
 });

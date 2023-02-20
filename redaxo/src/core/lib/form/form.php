@@ -263,6 +263,7 @@ class rex_form extends rex_form_base
      */
     protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
     {
+        /** @var bool $setOnce */
         static $setOnce = false;
 
         if (!$setOnce) {
