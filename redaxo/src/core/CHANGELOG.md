@@ -1,6 +1,26 @@
 Changelog
 =========
 
+Version 5.14.3 – XX.02.2023
+---------------------------
+
+### Bugfixes
+
+* Whoops: Session-ID und Eingeloggt-bleiben-Cookie werden maskiert (@gharlan)
+* `rex_sql`:
+    - bei Aufruf von `escape` wurden teils vorher gesetzte Werte (Table etc.) wieder geleert (@gharlan)
+    - nach `getArray` lieferte `getFieldnames` falsche Werte (@gharlan)
+* `rex_sql_foreign_key`: Es fehlte `NO ACTION` als Variante für `ON UPDATE/DELETE` (@tyrant88)
+* `rex_escape`: `stdClass`-Objekte wurden direkt geändert, statt ein Clone zu erzeugen (@gharlan)
+* `rex_string::buildQuery`: Deprecated-Meldung entfernt (@tyrant88)
+* `rex_markdown`: Deprecated-Meldungen entfernt (@gharlan)
+* Command `user:set-password`: Login-Versuche wurden nicht zurückgesetzt (@dergel)
+* Syslog: Debug-Meldungen erschienen in Rot statt in neutraler Farbe (@gharlan)
+* EOL-Daten für PHP/MariaDB aktualisiert (@staabm, @gharlan)
+* Englische Übersetzung korrigiert (@dgrothaus-mc)
+* Vendor-Updates (@skerbis, @gharlan)
+
+
 Version 5.14.2 – 13.12.2022
 ---------------------------
 

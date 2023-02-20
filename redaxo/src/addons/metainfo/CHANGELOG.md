@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.9.1 – XX.02.2023
+--------------------------
+
+### Bugfixes
+
+* Bei Feldnotizen (`note="..."`) wurde der `translate:`-Präfix nicht berücksichtigt (@gharlan)
+
+
 Version 2.9.0 – 25.07.2022
 --------------------------
 

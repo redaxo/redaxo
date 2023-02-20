@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.10.1 – XX.02.2023
+---------------------------
+
+### Bugfixes
+
+* Bei Addon-Updates konnten Plugins nicht gelöscht werden, sie wurden immer aus dem alten Release "gerettet" (@gharlan)
+* Paket-Entpackung für Windows optimiert (@gharlan)
+* Cache-Dateien optimiert (@gharlan)
+
+
 Version 2.10.0 – 25.07.2022
 ---------------------------
 
