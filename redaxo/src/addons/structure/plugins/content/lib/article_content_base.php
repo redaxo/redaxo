@@ -579,32 +579,27 @@ class rex_article_content_base
             $templateId = $this->getTemplateId();
         }
 
-        /** @var list<string> $search */
-        static $search = [
-            'REX_ARTICLE_ID',
-            'REX_CATEGORY_ID',
-            'REX_CLANG_ID',
-            'REX_TEMPLATE_ID',
-            'REX_USER_ID',
-            'REX_USER_LOGIN',
-        ];
-
-        $replace = [
-            $this->article_id,
-            $this->category_id,
-            $this->clang,
-            $templateId,
-            $userId,
-            $userLogin,
-        ];
-
         // calculating the key takes an additional sql query... execute the query only when we are sure the var is used
         if (str_contains($content, 'REX_TEMPLATE_KEY')) {
             $template = new rex_template($templateId);
             $content = str_replace('REX_TEMPLATE_KEY', $template->getKey(), $content);
         }
 
-        return str_replace($search, $replace, $content);
+        return str_replace([
+            'REX_ARTICLE_ID',
+            'REX_CATEGORY_ID',
+            'REX_CLANG_ID',
+            'REX_TEMPLATE_ID',
+            'REX_USER_ID',
+            'REX_USER_LOGIN',
+        ], [
+            $this->article_id,
+            $this->category_id,
+            $this->clang,
+            $templateId,
+            $userId,
+            $userLogin,
+        ], $content);
     }
 
     /**

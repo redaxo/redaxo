@@ -84,8 +84,7 @@ class rex_log_file implements Iterator
     #[ReturnTypeWillChange]
     public function next()
     {
-        /** @var int $bufferSize */
-        static $bufferSize = 500;
+        $bufferSize = 500;
 
         if ($this->pos < 0) {
             // position is before file start -> look for next file

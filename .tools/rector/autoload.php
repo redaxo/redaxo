@@ -1,7 +1,7 @@
 <?php
 
 spl_autoload_register(static function (string $class): void {
-    static $prefix = 'Redaxo\\Rector\\';
+    $prefix = 'Redaxo\\Rector\\';
 
     if (!str_starts_with($class, $prefix)) {
         return;

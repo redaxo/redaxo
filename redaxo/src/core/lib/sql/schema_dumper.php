@@ -127,8 +127,7 @@ class rex_sql_schema_dumper
             $this->map($foreignKey->getColumns()),
         ];
 
-        /** @var array<rex_sql_foreign_key::*, string> $options */
-        static $options = [
+        $options = [
             rex_sql_foreign_key::RESTRICT => 'rex_sql_foreign_key::RESTRICT',
             rex_sql_foreign_key::NO_ACTION => 'rex_sql_foreign_key::NO_ACTION',
             rex_sql_foreign_key::CASCADE => 'rex_sql_foreign_key::CASCADE',
