@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -45,9 +46,7 @@ class rex_log_file_test extends TestCase
         static::assertStringEqualsFile($path, '');
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testAdd(): void
     {
         $path = $this->getPath('test3.log');
@@ -56,15 +55,13 @@ class rex_log_file_test extends TestCase
         $log->add(['test2a', 'test2b', 'test2c']);
 
         $format = <<<'EOF'
-            %i-%i-%i %i:%i:%i | test1a | test1b
-            %i-%i-%i %i:%i:%i | test2a | test2b | test2c
+            %i-%i-%iT%i:%i:%i%i:%i | test1a | test1b
+            %i-%i-%iT%i:%i:%i%i:%i | test2a | test2b | test2c
             EOF;
         static::assertStringMatchesFormat($format, rex_file::require($path));
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testIterator(): void
     {
         $path = $this->getPath('test4.log');

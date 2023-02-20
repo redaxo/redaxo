@@ -30,11 +30,7 @@ class rex_login
      */
     public const SESSION_IMPERSONATOR = 'impersonator';
 
-    /**
-     * @psalm-var positive-int
-     *
-     * @var int
-     */
+    /** @var positive-int */
     protected $DB = 1;
     /**
      * A Session will be closed when not activly used for this timespan (seconds).
@@ -70,9 +66,7 @@ class rex_login
     protected $cache = false;
     /** @var int */
     protected $loginStatus = 0; // 0 = noch checken, 1 = ok, -1 = not ok
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $message = '';
 
     /** @var rex_sql|rex_user */
@@ -83,7 +77,7 @@ class rex_login
 
     public function __construct()
     {
-        $this->sessionMaxOverallDuration = rex::getProperty('session_max_overall_duration', 2419200); // 4 weeks
+        $this->sessionMaxOverallDuration = rex::getProperty('session_max_overall_duration', 2_419_200); // 4 weeks
 
         self::startSession();
     }
@@ -92,6 +86,7 @@ class rex_login
      * Setzt, ob die Ergebnisse der Login-Abfrage
      * pro Seitenaufruf gecached werden sollen.
      *
+     * @param bool $status
      * @return void
      */
     public function setCache($status = true)
@@ -102,6 +97,7 @@ class rex_login
     /**
      * Setzt die Id der zu verwendenden SQL Connection.
      *
+     * @param positive-int $DB
      * @return void
      */
     public function setSqlDb($DB)
@@ -137,6 +133,7 @@ class rex_login
      *
      * @param string $login
      * @param string $password
+     * @param bool $isPreHashed
      * @return void
      */
     public function setLogin(#[\SensitiveParameter] $login, #[\SensitiveParameter] $password, $isPreHashed = false)
@@ -148,6 +145,7 @@ class rex_login
     /**
      * Markiert die aktuelle Session als ausgeloggt.
      *
+     * @param bool $logout
      * @return void
      */
     public function setLogout($logout)
@@ -279,7 +277,7 @@ class rex_login
                 $this->user = rex_sql::factory($this->DB);
 
                 $this->user->setQuery($this->loginQuery, [':login' => $this->userLogin]);
-                if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
+                if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, (string) $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
                     static::regenerateSessionId();
                     $this->setSessionVar(self::SESSION_START_TIME, time());
@@ -326,7 +324,8 @@ class rex_login
                         $ok = false;
                         $this->message = rex_i18n::msg('login_user_not_found');
                     }
-                    if ($this->impersonator->getValue($this->passwordColumn) !== $this->getSessionVar('password')) {
+                    $sessionPassword = $this->getSessionVar(self::SESSION_PASSWORD, null);
+                    if (null !== $sessionPassword && $this->impersonator->getValue($this->passwordColumn) !== $sessionPassword) {
                         $ok = false;
                         $this->message = rex_i18n::msg('login_session_expired');
                     }
@@ -341,7 +340,8 @@ class rex_login
                         $ok = false;
                         $this->message = rex_i18n::msg('login_user_not_found');
                     }
-                    if (!$this->impersonator && $this->user->getValue($this->passwordColumn) !== $this->getSessionVar('password')) {
+                    $sessionPassword = $this->getSessionVar(self::SESSION_PASSWORD, null);
+                    if (!$this->impersonator && null !== $sessionPassword && (string) $this->user->getValue($this->passwordColumn) !== $sessionPassword) {
                         $ok = false;
                         $this->message = rex_i18n::msg('login_session_expired');
                     }
@@ -418,10 +418,7 @@ class rex_login
         $this->setSessionVar(self::SESSION_IMPERSONATOR, null);
     }
 
-    /**
-     * @param string $passwordHash
-     */
-    public function changedPassword(#[\SensitiveParameter] string $passwordHash): void
+    public function changedPassword(#[\SensitiveParameter] ?string $passwordHash): void
     {
         $this->setSessionVar(self::SESSION_PASSWORD, $passwordHash);
     }
@@ -462,7 +459,7 @@ class rex_login
      * Setzte eine Session-Variable.
      *
      * @param string $varname
-     * @param scalar|array $value
+     * @param scalar|array|null $value
      * @return void
      */
     public function setSessionVar($varname, $value)
@@ -489,6 +486,7 @@ class rex_login
      */
     public function getSessionVar($varname, $default = '')
     {
+        /** @var bool $sessChecked */
         static $sessChecked = false;
         // validate session-id - once per request - to prevent fixation
         if (!$sessChecked) {
@@ -533,10 +531,18 @@ class rex_login
 
             rex_csrf_token::removeAll();
 
-            rex_extension::registerPoint(new rex_extension_point('SESSION_REGENERATED', null, [
+            $extensionPoint = new rex_extension_point('SESSION_REGENERATED', null, [
                 'previous_id' => $previous,
                 'new_id' => session_id(),
-            ], true));
+                'class' => static::class,
+            ], true);
+
+            // We don't know here if packages have already been loaded
+            // Therefore we call the extension point twice, directly and after PACKAGES_INCLUDED
+            rex_extension::registerPoint($extensionPoint);
+            rex_extension::register('PACKAGES_INCLUDED', static function () use ($extensionPoint) {
+                rex_extension::registerPoint($extensionPoint);
+            }, rex_extension::EARLY);
         }
 
         // session-id is shared between frontend/backend or even redaxo instances per server because it's the same http session
@@ -551,6 +557,19 @@ class rex_login
     public static function startSession()
     {
         if (PHP_SESSION_ACTIVE !== session_status()) {
+            $env = rex::isBackend() ? 'backend' : 'frontend';
+            $sessionConfig = rex_type::array(rex::getProperty('session', []));
+
+            if (isset($sessionConfig[$env]['sid_length'])) {
+                ini_set('session.sid_length', (int) $sessionConfig[$env]['sid_length']);
+            }
+            if (isset($sessionConfig[$env]['sid_bits_per_character'])) {
+                ini_set('session.sid_bits_per_character', (int) $sessionConfig[$env]['sid_bits_per_character']);
+            }
+            if (isset($sessionConfig[$env]['save_path'])) {
+                session_save_path((string) $sessionConfig[$env]['save_path']);
+            }
+
             $cookieParams = static::getCookieParams();
 
             session_set_cookie_params(
@@ -640,8 +659,8 @@ class rex_login
     /**
      * Verschlüsselt den übergebnen String.
      *
-     * @throws rex_exception
-     *
+     * @param string $password
+     * @param bool $isPreHashed
      * @return string Returns the hashed password
      */
     public static function passwordHash(#[\SensitiveParameter] $password, $isPreHashed = false)
@@ -652,6 +671,9 @@ class rex_login
     }
 
     /**
+     * @param string $password
+     * @param string $hash
+     * @param bool $isPreHashed
      * @return bool returns TRUE if the password and hash match, or FALSE otherwise
      */
     public static function passwordVerify(#[\SensitiveParameter] $password, #[\SensitiveParameter] $hash, $isPreHashed = false)
@@ -661,6 +683,7 @@ class rex_login
     }
 
     /**
+     * @param string $hash
      * @return bool returns TRUE if the hash should be rehashed to match the given algo and options, or FALSE otherwise
      */
     public static function passwordNeedsRehash(#[\SensitiveParameter] $hash)

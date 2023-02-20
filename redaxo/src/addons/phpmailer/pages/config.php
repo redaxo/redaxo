@@ -368,7 +368,7 @@ echo '
         ' . $content . '
     </form>';
 ?>
-<script>
+<script nonce="<?= rex_response::getNonce() ?>">
     $('#smtpsettings').toggle(
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );

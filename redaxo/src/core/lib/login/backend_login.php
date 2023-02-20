@@ -14,13 +14,14 @@ class rex_backend_login extends rex_login
 
     /** @var string */
     private $tableName;
+
+    private ?string $passkey = null;
+
     /** @var bool|null */
     private $stayLoggedIn;
 
     /** @var rex_backend_password_policy */
     private $passwordPolicy;
-
-    private static bool $sessionRegenerationForBackendLogin = false;
 
     public function __construct()
     {
@@ -58,6 +59,11 @@ class rex_backend_login extends rex_login
         $this->tableName = $tableName;
     }
 
+    public function setPasskey(?string $data): void
+    {
+        $this->passkey = $data;
+    }
+
     /**
      * @param bool $stayLoggedIn
      * @return void
@@ -78,9 +84,15 @@ class rex_backend_login extends rex_login
         $cookiename = self::getStayLoggedInCookieName();
         $loggedInViaCookie = false;
 
-        if ($cookiekey = rex_cookie($cookiename, 'string')) {
+        if ($cookiekey = rex_cookie($cookiename, 'string', null)) {
             if (!$userId) {
-                $sql->setQuery('SELECT id, password FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', [$cookiekey]);
+                $sql->setQuery('
+                    SELECT id, password
+                    FROM ' . rex::getTable('user') . ' user
+                    JOIN ' . rex::getTable('user_session') . ' ON user.id = user_id
+                    WHERE cookie_key = ?
+                    LIMIT 1
+                ', [$cookiekey]);
                 if (1 == $sql->getRows()) {
                     $this->setSessionVar(rex_login::SESSION_USER_ID, $sql->getValue('id'));
                     $this->setSessionVar(rex_login::SESSION_PASSWORD, $sql->getValue('password'));
@@ -88,9 +100,26 @@ class rex_backend_login extends rex_login
                     $loggedInViaCookie = true;
                 } else {
                     self::deleteStayLoggedInCookie();
+                    $cookiekey = null;
                 }
             }
             $this->setSessionVar(rex_login::SESSION_LAST_ACTIVITY, time());
+        }
+
+        if ($this->passkey) {
+            $webauthn = new rex_webauthn();
+            $result = $webauthn->processGet($this->passkey);
+
+            if ($result) {
+                [$this->passkey, $user] = $result;
+                $this->setSessionVar(self::SESSION_USER_ID, $user->getId());
+                $this->setSessionVar(self::SESSION_PASSWORD, null);
+                $this->setSessionVar(self::SESSION_START_TIME, time());
+                $this->setSessionVar(self::SESSION_LAST_ACTIVITY, time());
+            } else {
+                $this->message = rex_i18n::msg('login_error');
+                $this->passkey = null;
+            }
         }
 
         $check = parent::checkLogin();
@@ -101,23 +130,23 @@ class rex_backend_login extends rex_login
                 self::regenerateSessionId();
                 $params = [];
                 $add = '';
-                if ($this->stayLoggedIn || $cookiekey) {
-                    $cookiekey = (string) $this->user->getValue('cookiekey');
-                    if (!$cookiekey) {
-                        $cookiekey = sha1($this->systemId . time() . $this->userLogin);
-                        $add = 'cookiekey = ?, ';
-                        $params[] = $cookiekey;
-                    }
-                    self::setStayLoggedInCookie($cookiekey);
-                }
-                if (self::passwordNeedsRehash($this->user->getValue('password'))) {
+                if (($password = $this->user->getValue('password')) && self::passwordNeedsRehash($password)) {
                     $add .= 'password = ?, ';
                     $params[] = self::passwordHash($this->userPassword, true);
                 }
                 array_push($params, rex_sql::datetime(), rex_sql::datetime(), session_id(), $this->userLogin);
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
 
-                rex_user_session::getInstance()->storeCurrentSession($this);
+                if ($this->stayLoggedIn || $loggedInViaCookie) {
+                    if (!$cookiekey || !$loggedInViaCookie) {
+                        $cookiekey = base64_encode(random_bytes(64));
+                    }
+                    self::setStayLoggedInCookie($cookiekey);
+                } else {
+                    $cookiekey = null;
+                }
+
+                rex_user_session::getInstance()->storeCurrentSession($this, $cookiekey, $this->passkey);
                 rex_user_session::clearExpiredSessions();
             }
 
@@ -162,11 +191,16 @@ class rex_backend_login extends rex_login
 
         // check if session was killed only if the user is logged in
         if ($check) {
-            $sql->setQuery('SELECT 1 FROM '.rex::getTable('user_session').' where session_id = ?', [session_id()]);
+            $sql->setQuery('SELECT passkey_id FROM '.rex::getTable('user_session').' where session_id = ?', [session_id()]);
             if (0 === $sql->getRows()) {
                 $check = false;
                 $this->message = rex_i18n::msg('login_session_expired');
                 rex_csrf_token::removeAll();
+            } else {
+                $this->passkey = null === $sql->getValue('passkey_id') ? null : (string) $sql->getValue('passkey_id');
+                if ($this->passkey) {
+                    $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
+                }
             }
         }
 
@@ -190,19 +224,20 @@ class rex_backend_login extends rex_login
         return (bool) $this->getSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
     }
 
-    /**
-     * @param null|string $passwordHash Passing `null` or ommitting this param is DEPRECATED
-     */
     public function changedPassword(#[\SensitiveParameter] ?string $passwordHash = null): void
     {
         $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
 
-        if (null !== $passwordHash) {
-            parent::changedPassword($passwordHash);
-            if (null !== $user = $this->getUser()) {
-                rex_user_session::getInstance()->removeSessionsExceptCurrent($user->getId());
-            }
+        parent::changedPassword($passwordHash);
+
+        if (null !== $user = $this->getUser()) {
+            rex_user_session::getInstance()->removeSessionsExceptCurrent($user->getId());
         }
+    }
+
+    public function getPasskey(): ?string
+    {
+        return $this->passkey;
     }
 
     /**
@@ -223,7 +258,7 @@ class rex_backend_login extends rex_login
         $sessionConfig = rex::getProperty('session', [])['backend']['cookie'] ?? [];
 
         rex_response::sendCookie(self::getStayLoggedInCookieName(), $cookiekey, [
-            'expires' => strtotime('+1 year'),
+            'expires' => strtotime(rex_user_session::STAY_LOGGED_IN_DURATION.' months'),
             'secure' => $sessionConfig['secure'] ?? false,
             'samesite' => $sessionConfig['samesite'] ?? 'lax',
         ]);
@@ -305,23 +340,13 @@ class rex_backend_login extends rex_login
         return new rex_login_policy($loginPolicy);
     }
 
-    public static function regenerateSessionId()
-    {
-        self::$sessionRegenerationForBackendLogin = true;
-        try {
-            parent::regenerateSessionId();
-        } finally {
-            self::$sessionRegenerationForBackendLogin = false;
-        }
-    }
-
     /**
      * @internal
      * @param rex_extension_point<null> $ep
      */
     public static function sessionRegenerated(rex_extension_point $ep): void
     {
-        if (self::$sessionRegenerationForBackendLogin) {
+        if (self::class === $ep->getParam('class')) {
             return;
         }
 

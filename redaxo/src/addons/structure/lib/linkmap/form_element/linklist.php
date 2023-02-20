@@ -30,6 +30,7 @@ class rex_form_widget_linklist_element extends rex_form_element
 
     public function formatElement()
     {
+        /** @var int $widgetCounter */
         static $widgetCounter = 1;
 
         $html = rex_var_linklist::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), ['category' => $this->categoryId]);

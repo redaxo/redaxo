@@ -42,10 +42,10 @@ class rex_sql_table
     /** @var array<string, string> */
     private $positions = [];
 
-    /** @var string[] */
+    /** @var list<string> */
     private $primaryKey = [];
 
-    /** @var string[] */
+    /** @var list<string> */
     private $primaryKeyExisting = [];
 
     /** @var array<string, rex_sql_index> */
@@ -64,7 +64,7 @@ class rex_sql_table
     private static $explicitCharset;
 
     /**
-     * @psalm-param positive-int $db
+     * @param positive-int $db
      */
     private function __construct(string $name, int $db = 1)
     {
@@ -169,17 +169,18 @@ class rex_sql_table
     }
 
     /**
-     * @param string $name
-     * @psalm-param non-empty-string $name
-     * @psalm-param positive-int $db
+     * @param non-empty-string $name
+     * @param positive-int $db
      *
      * @return self
      */
     public static function get($name, int $db = 1)
     {
-        $table = static::getInstance([$db, $name], static function ($db, $name) {
-            return new static($name, $db);
-        });
+        $table = static::getInstance(
+            [$db, $name],
+            /** @param positive-int $db */
+            static fn (int $db, string $name) => new static($name, $db),
+        );
 
         return rex_type::instanceOf($table, self::class);
     }
@@ -286,14 +287,15 @@ class rex_sql_table
     public function ensureColumn(rex_sql_column $column, $afterColumn = null)
     {
         $name = $column->getName();
+        $existing = $this->getColumn($name);
 
-        if (!$this->hasColumn($name)) {
+        if (!$existing) {
             return $this->addColumn($column, $afterColumn);
         }
 
         $this->setPosition($name, $afterColumn);
 
-        if ($this->getColumn($name)->equals($column)) {
+        if ($existing->equals($column)) {
             return $this;
         }
 
@@ -338,7 +340,8 @@ class rex_sql_table
      */
     public function renameColumn($oldName, $newName)
     {
-        if (!$this->hasColumn($oldName)) {
+        $column = $this->getColumn($oldName);
+        if (!$column) {
             throw new rex_exception(sprintf('Column with name "%s" does not exist.', $oldName));
         }
 
@@ -350,7 +353,7 @@ class rex_sql_table
             return $this;
         }
 
-        $column = $this->getColumn($oldName)->setName($newName);
+        $column->setName($newName);
 
         unset($this->columns[$oldName]);
         $this->columns[$newName] = $column;
@@ -361,6 +364,7 @@ class rex_sql_table
         }
 
         if (false !== $key = array_search($oldName, $this->primaryKey)) {
+            /** @psalm-suppress PropertyTypeCoercion */
             $this->primaryKey[$key] = $newName;
         }
 
@@ -380,7 +384,7 @@ class rex_sql_table
     }
 
     /**
-     * @return null|string[] Column names
+     * @return null|non-empty-list<string> Column names
      */
     public function getPrimaryKey()
     {
@@ -388,7 +392,7 @@ class rex_sql_table
     }
 
     /**
-     * @param null|string|string[] $columns Column name(s)
+     * @param null|string|list<string> $columns Column name(s)
      *
      * @throws rex_exception
      *
@@ -465,12 +469,13 @@ class rex_sql_table
     public function ensureIndex(rex_sql_index $index)
     {
         $name = $index->getName();
+        $existing = $this->getIndex($name);
 
-        if (!$this->hasIndex($name)) {
+        if (!$existing) {
             return $this->addIndex($index);
         }
 
-        if ($this->getIndex($name)->equals($index)) {
+        if ($existing->equals($index)) {
             return $this;
         }
 
@@ -489,7 +494,8 @@ class rex_sql_table
      */
     public function renameIndex($oldName, $newName)
     {
-        if (!$this->hasIndex($oldName)) {
+        $index = $this->getIndex($oldName);
+        if (!$index) {
             throw new rex_exception(sprintf('Index with name "%s" does not exist.', $oldName));
         }
 
@@ -501,7 +507,7 @@ class rex_sql_table
             return $this;
         }
 
-        $index = $this->getIndex($oldName)->setName($newName);
+        $index->setName($newName);
 
         unset($this->indexes[$oldName]);
         $this->indexes[$newName] = $index;
@@ -580,12 +586,13 @@ class rex_sql_table
     public function ensureForeignKey(rex_sql_foreign_key $foreignKey)
     {
         $name = $foreignKey->getName();
+        $existing = $this->getForeignKey($name);
 
-        if (!$this->hasForeignKey($name)) {
+        if (!$existing) {
             return $this->addForeignKey($foreignKey);
         }
 
-        if ($this->getForeignKey($name)->equals($foreignKey)) {
+        if ($existing->equals($foreignKey)) {
             return $this;
         }
 
@@ -604,7 +611,8 @@ class rex_sql_table
      */
     public function renameForeignKey($oldName, $newName)
     {
-        if (!$this->hasForeignKey($oldName)) {
+        $foreignKey = $this->getForeignKey($oldName);
+        if (!$foreignKey) {
             throw new rex_exception(sprintf('Foreign key with name "%s" does not exist.', $oldName));
         }
 
@@ -616,7 +624,7 @@ class rex_sql_table
             return $this;
         }
 
-        $foreignKey = $this->getForeignKey($oldName)->setName($newName);
+        $foreignKey->setName($newName);
 
         unset($this->foreignKeys[$oldName]);
         $this->foreignKeys[$newName] = $foreignKey;
@@ -928,11 +936,11 @@ class rex_sql_table
         ) {
             $default = 'DEFAULT '.$default;
         } else {
-            $default = 'DEFAULT '.$this->sql->escape($column->getDefault());
+            $default = 'DEFAULT '.$this->sql->escape($default);
         }
 
-        $comment = $column->getComment();
-        if (null !== $comment && '' !== $comment) {
+        $comment = $column->getComment() ?? '';
+        if ('' !== $comment) {
             $comment = 'COMMENT '. $this->sql->escape($comment);
         }
 
@@ -942,7 +950,7 @@ class rex_sql_table
             $column->getType(),
             $default,
             $column->isNullable() ? '' : 'NOT NULL',
-            $column->getExtra(),
+            $column->getExtra() ?? '',
             $comment,
         );
     }

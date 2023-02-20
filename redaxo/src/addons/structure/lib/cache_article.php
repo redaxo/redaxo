@@ -148,14 +148,10 @@ class rex_article_cache
             // --------------------------------------------------- Artikelparameter speichern
             $params = ['last_update_stamp' => time()];
             foreach ($fieldnames as $field) {
-                switch ($field) {
-                    case 'createdate':
-                    case 'updatedate':
-                        $params[$field] = $row->getDateTimeValue($field);
-                        break;
-                    default:
-                        $params[$field] = $row->getValue($field);
-                }
+                $params[$field] = match ($field) {
+                    'createdate', 'updatedate' => $row->getDateTimeValue($field),
+                    default => $row->getValue($field),
+                };
             }
 
             $articleFile = rex_path::addonCache('structure', "$articleId.$clang.article");

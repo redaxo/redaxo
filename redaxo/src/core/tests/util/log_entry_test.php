@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,9 +28,7 @@ class rex_log_entry_test extends TestCase
         static::assertSame(['test1', '', "test2\nt | test3", ''], $entry->getData());
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testGetTimestamp(): void
     {
         $time = time();
@@ -43,9 +42,7 @@ class rex_log_entry_test extends TestCase
         static::assertSame($expected, @$entry->getTimestamp($format));
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testToString(): void
     {
         $time = time();

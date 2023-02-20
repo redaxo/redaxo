@@ -26,7 +26,7 @@ if (count($errorArray) > 0) {
 $security = '<div class="rex-js-setup-security-message" style="display:none">' . rex_view::error(rex_i18n::msg('setup_security_msg') . '<br />' . rex_i18n::msg('setup_no_js_security_msg')) . '</div>';
 $security .= '<noscript>' . rex_view::error(rex_i18n::msg('setup_no_js_security_msg')) . '</noscript>';
 
-$security .= '<script>
+$security .= '<script nonce="'.rex_response::getNonce().'">
 
     jQuery(function($){
         var allowedUrl = "' . rex_url::backend('index.php') . '";

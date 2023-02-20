@@ -75,7 +75,7 @@ if (rex::isBackend()) {
 }
 
 rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) {
-    static $urls = [
+    $urls = [
         'template' => ['templates', 'template_id'],
         'module' => ['modules/modules', 'module_id'],
         'action' => ['modules/actions', 'action_id'],

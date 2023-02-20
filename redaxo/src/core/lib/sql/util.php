@@ -139,7 +139,7 @@ class rex_sql_util
     /**
      * @return string
      */
-    private static function prepareQuery($query)
+    private static function prepareQuery(string $query)
     {
         // rex::getUser() gibts im Setup nicht
         /** @psalm-taint-escape sql */ // we trust the user db table

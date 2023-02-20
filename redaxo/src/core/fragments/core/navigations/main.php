@@ -6,7 +6,7 @@
 ?>
     <?php if (isset($this->headline)): ?>
     <h4 class="rex-nav-main-title"><?= $this->headline['title'] ?></h4>
-    <?php endif; ?>
+    <?php endif ?>
     <ul class="rex-nav-main-list nav nav-pills nav-stacked">
         <?php foreach ($this->items as $item):
 
@@ -32,6 +32,6 @@
             $linkAttr = isset($item['linkAttr']) ? rex_string::buildAttributes($item['linkAttr']) : '';
         ?>
 
-        <li<?= $itemAttr ?>><a href="<?= $item['href']; ?>"<?= $linkAttr; ?>><?= $icon . $item['title']; ?></a></li>
-        <?php endforeach; ?>
+        <li<?= $itemAttr ?>><a href="<?= $item['href'] ?>"<?= $linkAttr ?>><?= $icon . $item['title'] ?></a></li>
+        <?php endforeach ?>
     </ul>

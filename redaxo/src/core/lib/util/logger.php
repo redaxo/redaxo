@@ -131,7 +131,7 @@ class rex_logger extends AbstractLogger
     {
         // check if already opened
         if (!self::$file) {
-            self::$file = new rex_log_file(self::getPath(), 2000000);
+            self::$file = new rex_log_file(self::getPath(), 2_000_000);
         }
     }
 
@@ -155,22 +155,11 @@ class rex_logger extends AbstractLogger
      */
     public static function getLogLevel($errno)
     {
-        switch ($errno) {
-            case E_STRICT:
-            case E_USER_DEPRECATED:
-            case E_DEPRECATED:
-            case E_USER_WARNING:
-            case E_WARNING:
-            case E_COMPILE_WARNING:
-                return LogLevel::WARNING;
-
-            case E_USER_NOTICE:
-            case E_NOTICE:
-                return LogLevel::NOTICE;
-
-            default:
-                return LogLevel::ERROR;
-        }
+        return match ($errno) {
+            E_STRICT, E_USER_DEPRECATED, E_DEPRECATED, E_USER_WARNING, E_WARNING, E_COMPILE_WARNING => LogLevel::WARNING,
+            E_USER_NOTICE, E_NOTICE => LogLevel::NOTICE,
+            default => LogLevel::ERROR,
+        };
     }
 
     /**

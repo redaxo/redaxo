@@ -168,8 +168,10 @@ class rex_install_webservice
         $path = !str_contains($path, '?') ? rtrim($path, '/') . '/?' : $path . '&';
         $path .= 'rex_version=' . rex::getVersion();
 
+        /** @var array<string, string>|null $config */
         static $config;
         if (null === $config) {
+            /** @var array<string, string> $config */
             $config = rex_file::getCache(rex_path::addonData('install', 'config.json'));
         }
 

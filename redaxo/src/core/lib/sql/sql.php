@@ -70,10 +70,7 @@ class rex_sql implements Iterator
     protected $query; // Die Abfrage
     /** @var array */
     protected $params; // Die Abfrage-Parameter
-    /**
-     * @var int
-     * @psalm-var positive-int
-     */
+    /** @var positive-int */
     protected $DBID; // ID der Verbindung
 
     /**
@@ -89,17 +86,11 @@ class rex_sql implements Iterator
     /** @var PDOStatement|null */
     protected $stmt;
 
-    /**
-     * @var PDO[]
-     * @psalm-var array<positive-int, PDO>
-     */
+    /** @var array<positive-int, PDO> */
     protected static $pdo = [];
 
     /**
-     * @param int $db
-     * @psalm-param positive-int $db
-     *
-     * @throws rex_sql_exception
+     * @param positive-int $db
      */
     protected function __construct($db = 1)
     {
@@ -112,9 +103,7 @@ class rex_sql implements Iterator
     /**
      * Stellt die Verbindung zur Datenbank her.
      *
-     * @param int $db
-     * @psalm-param positive-int $db
-     *
+     * @param positive-int $db
      * @throws rex_sql_exception
      * @return void
      */
@@ -219,8 +208,7 @@ class rex_sql implements Iterator
      *
      * @param string $query
      *
-     * @return false|int
-     * @psalm-return false|positive-int
+     * @return false|positive-int
      */
     protected static function getQueryDBID($query)
     {
@@ -241,8 +229,7 @@ class rex_sql implements Iterator
      *
      * @param string $query Abfrage
      *
-     * @return false|int
-     * @psalm-return false|positive-int
+     * @return false|positive-int
      */
     protected static function stripQueryDBID(&$query)
     {
@@ -400,15 +387,14 @@ class rex_sql implements Iterator
             $this->flush();
             $this->params = $params;
 
-            /** @var array<string, PDO::PARAM_*> $types */
-            static $types = [
-                'bool' => PDO::PARAM_BOOL,
-                'integer' => PDO::PARAM_INT,
-                'null' => PDO::PARAM_NULL,
-            ];
             foreach ($params as $param => $value) {
                 $param = is_int($param) ? $param + 1 : $param;
-                $type = $types[gettype($value)] ?? PDO::PARAM_STR;
+                $type = match (gettype($value)) {
+                    'boolean' => PDO::PARAM_BOOL,
+                    'integer' => PDO::PARAM_INT,
+                    'NULL' => PDO::PARAM_NULL,
+                    default => PDO::PARAM_STR,
+                };
 
                 $this->stmt->bindValue($param, $value, $type);
             }
@@ -594,9 +580,8 @@ class rex_sql implements Iterator
      *          $record->setRawValue('created', 'NOW()');
      *      });
      *
-     * @param callable $callback The callback receives a new `rex_sql` instance for the new record
+     * @param callable(rex_sql):void $callback The callback receives a new `rex_sql` instance for the new record
      *                           and must set the values of the new record on that instance (see example above)
-     * @psalm-param callable(rex_sql):void $callback
      *
      * @return $this
      */
@@ -656,7 +641,7 @@ class rex_sql implements Iterator
     /**
      * Returns the tuple of `where` string and `where` params.
      *
-     * @psalm-return array{0: string, 1: array}
+     * @return array{0: string, 1: array}
      */
     private function buildWhere(): array
     {
@@ -820,7 +805,7 @@ class rex_sql implements Iterator
         if (!$this->lastRow) {
             $lastRow = $this->stmt->fetch($fetchType);
             if (false === $lastRow) {
-                throw new rex_sql_exception('Unable to fetch row.');
+                throw new rex_sql_exception('Unable to fetch row for statement "'.$this->query.'"', null, $this);
             }
             $this->lastRow = $lastRow;
         }
@@ -830,12 +815,10 @@ class rex_sql implements Iterator
     /**
      * Prueft, ob eine Spalte im Resultset vorhanden ist.
      *
-     * @param string $column Name der Spalte
-     *
+     * @template T as string
+     * @param T $column Name der Spalte
      * @return bool
      *
-     * @template T
-     * @psalm-param T $column
      * @psalm-assert-if-true !null $this->isNull(T)
      * @psalm-assert-if-false !null $this->isNull(T)
      */
@@ -1179,8 +1162,7 @@ class rex_sql implements Iterator
      * Laedt das komplette Resultset in ein Array und gibt dieses zurueck und
      * wechselt die DBID falls vorhanden.
      *
-     * @psalm-template TFetchType as PDO::FETCH_ASSOC|PDO::FETCH_NUM
-     * @phpstan-template TFetchType
+     * @template TFetchType as PDO::FETCH_ASSOC|PDO::FETCH_NUM
      *
      * @param string $query     The sql-query
      * @param array  $params    An optional array of statement parameter
@@ -1213,8 +1195,7 @@ class rex_sql implements Iterator
     /**
      * Laedt das komplette Resultset in ein Array und gibt dieses zurueck.
      *
-     * @psalm-template TFetchType as PDO::FETCH_ASSOC|PDO::FETCH_NUM
-     * @phpstan-template TFetchType
+     * @template TFetchType as PDO::FETCH_ASSOC|PDO::FETCH_NUM
      *
      * @param string $query     The sql-query
      * @param array  $params    An optional array of statement parameter
@@ -1395,12 +1376,20 @@ class rex_sql implements Iterator
             $this->fieldnames = [];
             $this->tablenames = [];
 
+            $stripTableName = null;
             for ($i = 0; $i < $this->getFields(); ++$i) {
                 $metadata = $this->stmt->getColumnMeta($i);
 
-                // strip table-name from column
-                $this->fieldnames[] = substr($metadata['name'], strlen($metadata['table'] . '.'));
                 $this->rawFieldnames[] = $metadata['name'];
+
+                if (null === $stripTableName) {
+                    $stripTableName = str_starts_with($metadata['name'], $metadata['table'].'.');
+                }
+                if ($stripTableName) {
+                    $metadata['name'] = substr($metadata['name'], strlen($metadata['table'].'.'));
+                }
+
+                $this->fieldnames[] = $metadata['name'];
 
                 if (!in_array($metadata['table'], $this->tablenames)) {
                     $this->tablenames[] = $metadata['table'];
@@ -1448,6 +1437,7 @@ class rex_sql implements Iterator
      *   ($value is non-falsy-string ? non-falsy-string :
      *   ($value is non-empty-string ? non-empty-string : string
      * )))
+     * @psalm-pure
      */
     public function escapeLikeWildcards(string $value): string
     {
@@ -1667,8 +1657,7 @@ class rex_sql implements Iterator
      * der Datenbankverbindung $DBID zu erstellen.
      *
      * @param string $table Name der Tabelle
-     * @param int    $db    Id der Datenbankverbindung
-     * @psalm-param positive-int $db
+     * @param positive-int $db Id der Datenbankverbindung
      *
      * @throws rex_sql_exception
      *
@@ -1693,9 +1682,8 @@ class rex_sql implements Iterator
      * Sucht alle Tabellen/Views der Datenbankverbindung $DBID.
      * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
      *
-     * @param int         $db          Id der Datenbankverbindung
+     * @param positive-int $db Id der Datenbankverbindung
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
-     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      *
@@ -1810,8 +1798,7 @@ class rex_sql implements Iterator
      * )
      *
      * @param string $table Name der Tabelle
-     * @param int    $db    Id der Datenbankverbindung
-     * @psalm-param positive-int $db
+     * @param positive-int $db Id der Datenbankverbindung
      *
      * @throws rex_sql_exception
      *
@@ -1848,9 +1835,7 @@ class rex_sql implements Iterator
     /**
      * Returns the full database version string.
      *
-     * @param int $db
-     * @psalm-param positive-int $db
-     *
+     * @param positive-int $db
      * @return string E.g. "5.7.7" or "5.5.5-10.4.9-MariaDB"
      */
     public static function getServerVersion($db = 1)
@@ -1861,8 +1846,7 @@ class rex_sql implements Iterator
     /**
      * Returns the database type (MySQL or MariaDB).
      *
-     * @return string `rex_sql::MYSQL` or `rex_sql::MARIADB`
-     * @psalm-return self::MYSQL|self::MARIADB
+     * @return self::MYSQL|self::MARIADB
      */
     public function getDbType(): string
     {
@@ -1890,9 +1874,7 @@ class rex_sql implements Iterator
     /**
      * Creates a rex_sql instance.
      *
-     * @param int $db
-     * @psalm-param positive-int $db
-     *
+     * @param positive-int $db
      * @return static Returns a rex_sql instance
      */
     public static function factory($db = 1)

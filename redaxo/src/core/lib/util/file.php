@@ -34,13 +34,10 @@ class rex_file
     /**
      * Returns the content of a file.
      *
-     * @param string $file    Path to the file
-     * @param mixed  $default Default value
-     * @psalm-template T
-     * @psalm-param T $default
-     *
-     * @return mixed Content of the file or default value if the file isn't readable
-     * @psalm-return string|T
+     * @template T
+     * @param string $file Path to the file
+     * @param T $default Default value
+     * @return string|T Content of the file or default value if the file isn't readable
      */
     public static function get($file, $default = null)
     {
@@ -53,13 +50,10 @@ class rex_file
     /**
      * Returns the content of a config file.
      *
-     * @param string $file    Path to the file
-     * @param mixed  $default Default value
-     * @psalm-template T
-     * @psalm-param T $default
-     *
-     * @return mixed Content of the file or default value if the file isn't readable
-     * @psalm-return array|T
+     * @template T
+     * @param string $file Path to the file
+     * @param T $default Default value
+     * @return array|T Content of the file or default value if the file isn't readable
      */
     public static function getConfig($file, $default = [])
     {
@@ -70,13 +64,10 @@ class rex_file
     /**
      * Returns the content of a cache file.
      *
+     * @template T
      * @param string $file    Path to the file
-     * @param mixed  $default Default value
-     * @psalm-template T
-     * @psalm-param T $default
-     *
-     * @return mixed Content of the file or default value if the file isn't readable
-     * @psalm-return array|T
+     * @param T  $default Default value
+     * @return array|T Content of the file or default value if the file isn't readable
      */
     public static function getCache($file, $default = [])
     {
@@ -117,7 +108,7 @@ class rex_file
      * Puts content in a config file.
      *
      * @param string $file    Path to the file
-     * @param mixed  $content Content for the file
+     * @param array  $content Content for the file
      * @param int    $inline  The level where you switch to inline YAML
      *
      * @return bool TRUE on success, FALSE on failure
@@ -133,7 +124,7 @@ class rex_file
      * Puts content in a cache file.
      *
      * @param string $file    Path to the file
-     * @param mixed  $content Content for the file
+     * @param array  $content Content for the file
      *
      * @return bool TRUE on success, FALSE on failure
      *
@@ -239,25 +230,21 @@ class rex_file
             return null;
         }
 
-        // map less common types to their more common equivalent
-        static $mapping = [
-            'application/xml' => 'text/xml',
-            'image/svg' => 'image/svg+xml',
-        ];
-
         if ('text/plain' !== $mimeType) {
-            $mimeType = $mapping[$mimeType] ?? $mimeType;
-
-            return $mimeType ?: null;
+            // map less common types to their more common equivalent
+            return match ($mimeType) {
+                'application/xml' => 'text/xml',
+                'image/svg' => 'image/svg+xml',
+                default => $mimeType ?: null,
+            };
         }
 
-        static $extensions = [
+        return match (strtolower(self::extension($file))) {
             'css' => 'text/css',
             'js' => 'application/javascript',
             'svg' => 'image/svg+xml',
-        ];
-
-        return $extensions[strtolower(self::extension($file))] ?? $mimeType;
+            default => $mimeType,
+        };
     }
 
     /**

@@ -143,37 +143,29 @@ class rex_setup_importer
 
     public static function supportsUtf8mb4(): bool
     {
-        static $utf8mb4MinVersions = [
-            rex_sql::MYSQL => '5.7.7',
-            rex_sql::MARIADB => '10.2.0',
-        ];
-
         $sql = rex_sql::factory();
 
-        return version_compare($sql->getDbVersion(), $utf8mb4MinVersions[$sql->getDbType()], '>=');
+        return version_compare($sql->getDbVersion(), match ($sql->getDbType()) {
+            rex_sql::MYSQL => '5.7.7',
+            rex_sql::MARIADB => '10.2.0',
+        }, '>=');
     }
 
     /**
-     * @return string[]
-     *
-     * @psalm-return list<string>
+     * @return list<string>
      */
     private static function getRequiredTables()
     {
         return [
             rex::getTablePrefix() . 'clang',
             rex::getTablePrefix() . 'user_session',
+            rex::getTablePrefix() . 'user_passkey',
             rex::getTablePrefix() . 'user',
             rex::getTablePrefix() . 'config',
         ];
     }
 
-    /**
-     * @param string $importSql
-     *
-     * @return string
-     */
-    private static function import($importSql, $importArchive = null)
+    private static function import(string $importSql, ?string $importArchive = null): string
     {
         $errMsg = '';
 
@@ -209,10 +201,7 @@ class rex_setup_importer
 
     // -------------------------- System AddOns prüfen
 
-    /**
-     * @return string
-     */
-    private static function installAddons($uninstallBefore = false, $installDump = true)
+    private static function installAddons(bool $uninstallBefore = false, bool $installDump = true): string
     {
         $addonErr = '';
         rex_package_manager::synchronizeWithFileSystem();
@@ -265,10 +254,7 @@ class rex_setup_importer
         return $addonErr;
     }
 
-    /**
-     * @return string
-     */
-    private static function reinstallPackages()
+    private static function reinstallPackages(): string
     {
         $error = '';
         rex_addon::initialize();

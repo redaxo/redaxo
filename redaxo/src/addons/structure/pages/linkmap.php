@@ -69,10 +69,10 @@ if (!rex_request::isXmlHttpRequest()) {
 
 ?>
 <script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
-    <?php echo $retainEventHandlers ?>
+    <?= $retainEventHandlers ?>
 
     function insertLink(link,name){
-        <?php echo $funcBody . "\n" ?>
+        <?= $funcBody, "\n" ?>
     }
 </script>
 

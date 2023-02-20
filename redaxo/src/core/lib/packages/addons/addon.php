@@ -260,6 +260,7 @@ class rex_addon extends rex_package implements rex_addon_interface
 
     /**
      * Initializes all packages.
+     * @param bool $dbExists
      * @return void
      */
     public static function initialize($dbExists = true)

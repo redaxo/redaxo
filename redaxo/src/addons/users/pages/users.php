@@ -6,7 +6,7 @@ $message = '';
 $content = '';
 
 $userId = rex_request('user_id', 'int');
-$info = '';
+$info = [];
 $warnings = [];
 
 $user = null;
@@ -151,15 +151,13 @@ if ($warnings) {
         $updateuser->setValue('password', $passwordHash);
         $updateuser->setDateTimeValue('password_changed', time());
         $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash));
-        // On password change the "stay logged in" cookies must be invalidated
-        $updateuser->setValue('cookiekey', null);
     }
 
     $updateuser->setValue('password_change_required', (int) $passwordChangeRequired);
 
     $updateuser->update();
 
-    $info = rex_i18n::msg('user_data_updated');
+    $info[] = rex_i18n::msg('user_data_updated');
 
     rex_user::clearInstance($userId);
     $user = rex_user::require($userId);
@@ -191,7 +189,7 @@ if ($warnings) {
     } else {
         $deleteuser = rex_sql::factory();
         $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'user WHERE id = ? LIMIT 1', [$userId]);
-        $info = rex_i18n::msg('user_deleted');
+        $info[] = rex_i18n::msg('user_deleted');
 
         rex_user::clearInstance($userId);
 
@@ -234,7 +232,7 @@ if ($warnings) {
         $adduser->insert();
         $userId = 0;
         $fUNCADD = '';
-        $info = rex_i18n::msg('user_added');
+        $info[] = rex_i18n::msg('user_added');
 
         rex_extension::registerPoint(new rex_extension_point('USER_ADDED', '', [
             'id' => $adduser->getLastId(),
@@ -278,13 +276,15 @@ if ($warnings) {
 
 // ---------------------------------- ERR MSG
 
-if ('' != $info) {
-    $message .= rex_view::info($info);
+if (!empty($info)) {
+    $message .= rex_view::info(implode('<br/>', $info));
 }
 
 if (!empty($warnings)) {
     $message .= rex_view::warning(implode('<br/>', $warnings));
 }
+
+echo rex_api_function::getMessage();
 
 // --------------------------------- FORMS
 
@@ -544,6 +544,9 @@ if ('' != $fUNCADD || $userId > 0) {
 
     echo $message;
     echo $content;
+
+    require rex_path::core('pages/profile.auth_methods.php');
+    require rex_path::core('pages/profile.sessions.php');
 }
 
 // ---------------------------------- Userliste
@@ -634,7 +637,11 @@ if ($SHOW) {
     $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###id###'] + rex_csrf_token::factory('user_delete')->getUrlParams());
     $list->setColumnFormat('funcs', 'custom', static function () use ($currentUser, $list) {
-        if ($list->getValue('id') == $currentUser->getId() || $list->getValue('admin') && !$currentUser->isAdmin()) {
+        if (
+            $list->getValue('id') == $currentUser->getId()
+            || $list->getValue('admin') && !$currentUser->isAdmin()
+            || ($impersonator = rex::getImpersonator()) && $list->getValue('id') == $impersonator->getId()
+        ) {
             return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete') . '</span>';
         }
         return $list->getColumnLink('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete'));

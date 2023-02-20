@@ -22,7 +22,7 @@
         <?php if ($pager->getRowCount() > $pager->getRowsPerPage()): ?>
             <nav class="rex-nav-pagination">
                 <ul class="pagination">
-                    <li class="rex-prev<?= $pager->isActivePage($firstPage) ? ' disabled' : ''; ?>">
+                    <li class="rex-prev<?= $pager->isActivePage($firstPage) ? ' disabled' : '' ?>">
                         <a href="<?= $urlProvider->getUrl([$pager->getCursorName() => $pager->getCursor($pager->getPrevPage())]) ?>" title="<?= $this->i18n('list_previous') ?>">
                             <i class="rex-icon rex-icon-previous"></i><span class="sr-only"><?= $this->i18n('list_previous') ?></span>
                         </a>
@@ -38,7 +38,7 @@
                         <li class="disabled">
                             <span>…</span>
                         </li>
-                    <?php endif; ?>
+                    <?php endif ?>
 
                     <?php for ($page = $from; $page <= $to; ++$page): ?>
                         <li class="rex-page<?= $pager->isActivePage($page) ? ' active' : '' ?>">
@@ -46,13 +46,13 @@
                                 <?= $page + 1 ?>
                             </a>
                         </li>
-                    <?php endfor; ?>
+                    <?php endfor ?>
 
                     <?php if ($to < $lastPage - 1): ?>
                         <li class="disabled">
                             <span>…</span>
                         </li>
-                    <?php endif; ?>
+                    <?php endif ?>
 
                     <li class="rex-page<?= $pager->isActivePage($lastPage) ? ' active' : '' ?>">
                         <a href="<?= $urlProvider->getUrl([$pager->getCursorName() => $pager->getCursor($lastPage)]) ?>">
@@ -60,7 +60,7 @@
                         </a>
                     </li>
 
-                    <li class="rex-next<?= $pager->isActivePage($lastPage) ? ' disabled' : ''; ?>">
+                    <li class="rex-next<?= $pager->isActivePage($lastPage) ? ' disabled' : '' ?>">
                         <a href="<?= $urlProvider->getUrl([$pager->getCursorName() => $pager->getCursor($pager->getNextPage())]) ?>" title="<?= $this->i18n('list_next') ?>">
                             <span class="sr-only"><?= $this->i18n('list_next') ?></span><i class="rex-icon rex-icon-next"></i>
                         </a>

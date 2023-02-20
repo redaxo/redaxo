@@ -6,6 +6,7 @@
 class rex_module_perm extends rex_complex_perm
 {
     /**
+     * @param int $moduleId
      * @return bool
      */
     public function hasPerm($moduleId)

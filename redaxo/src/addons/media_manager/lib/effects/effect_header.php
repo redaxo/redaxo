@@ -11,29 +11,15 @@ class rex_effect_header extends rex_effect_abstract
             $this->media->setHeader('Cache-Control', 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0');
             $this->media->setHeader('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT'); // in the past
         } elseif ('cache' !== $this->params['cache'] /* bc */ && 'unspecified' !== $this->params['cache']) {
-            switch ($this->params['cache']) {
-                case 'max-age: 1 min':
-                    $seconds = 60;
-                    break;
-                case 'max-age: 1 hour':
-                    $seconds = 60 * 60;
-                    break;
-                case 'max-age: 1 day':
-                    $seconds = 60 * 60 * 24;
-                    break;
-                case 'max-age: 1 week':
-                    $seconds = 60 * 60 * 24 * 7;
-                    break;
-                case 'max-age: 1 month':
-                    $seconds = 60 * 60 * 24 * 30;
-                    break;
-                case 'max-age: 1 year':
-                case 'immutable':
-                    $seconds = 60 * 60 * 24 * 365;
-                    break;
-                default:
-                    throw new LogicException(sprintf('Unsupported cache duration "%s".', $this->params['cache']));
-            }
+            $seconds = match ($this->params['cache']) {
+                'max-age: 1 min' => 60,
+                'max-age: 1 hour' => 60 * 60,
+                'max-age: 1 day' => 60 * 60 * 24,
+                'max-age: 1 week' => 60 * 60 * 24 * 7,
+                'max-age: 1 month' => 60 * 60 * 24 * 30,
+                'max-age: 1 year', 'immutable' => 60 * 60 * 24 * 365,
+                default => throw new LogicException(sprintf('Unsupported cache duration "%s".', $this->params['cache'])),
+            };
 
             $cacheControl = 'proxy-revalidate, private, max-age='.$seconds;
 
@@ -49,6 +35,10 @@ class rex_effect_header extends rex_effect_abstract
 
         if ('originalname' == $this->params['filename']) {
             $disposition .= "; filename*=utf-8''" . rawurldecode(rex_media::get($this->media->getMediaFilename())->getOriginalFileName());
+        }
+
+        if ('noindex' === $this->params['index']) {
+            $this->media->setHeader('X-Robots-Tag', 'noindex');
         }
 
         $this->media->setHeader('Content-Disposition', $disposition);
@@ -90,6 +80,14 @@ class rex_effect_header extends rex_effect_abstract
                 'options' => ['filename', 'originalname'],
                 'default' => 'filename',
                 'notice' => rex_i18n::msg('media_manager_effect_header_filename_notice'),
+            ],
+            [
+                'label' => rex_i18n::msg('media_manager_effect_header_index'),
+                'name' => 'index',
+                'type' => 'select',
+                'options' => ['index', 'noindex'],
+                'default' => 'index',
+                'notice' => rex_i18n::msg('media_manager_effect_header_index_notice'),
             ],
         ];
     }

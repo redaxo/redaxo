@@ -1,7 +1,7 @@
 <?php
 
 // Für größere Exports den Speicher für PHP erhöhen.
-if (rex_ini_get('memory_limit') < 67108864) {
+if (rex_ini_get('memory_limit') < 67_108_864) {
     @ini_set('memory_limit', '64M');
 }
 
@@ -154,7 +154,7 @@ $tableSelect->setAttribute('class', 'form-control');
 $tables = rex_sql::factory()->getTables();
 foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
-    if ($table === rex::getTable('user') || $table === rex::getTable('user_session')) {
+    if (in_array($table, [rex::getTable('user'), rex::getTable('user_passkey'), rex::getTable('user_session')], true)) {
         continue;
     }
     // skip non rex_ tables

@@ -178,9 +178,8 @@ class rex_i18n
      * Returns the message fallback for a missing key in main locale.
      *
      * @param string         $key          A Language-Key
-     * @param string[]|int[] $replacements A arbritary number of strings/ints used for interpolating within the resolved message
+     * @param list<string|int> $replacements A arbritary number of strings/ints used for interpolating within the resolved message
      * @param string         $locale       A Locale
-     * @psalm-param list<string|int> $replacements
      *
      * @return non-empty-string
      */
@@ -231,9 +230,8 @@ class rex_i18n
      *
      * @param string         $key
      * @param bool           $escape
-     * @param string[]|int[] $replacements A arbritary number of strings/ints used for interpolating within the resolved message
+     * @param list<string|int> $replacements A arbritary number of strings/ints used for interpolating within the resolved message
      * @param string         $locale       A Locale
-     * @psalm-param list<string|int> $replacements
      *
      * @psalm-taint-escape ($escape is true ? "html" : null)
      *
@@ -347,8 +345,7 @@ class rex_i18n
      *
      * @param string   $text         The text for translation
      * @param bool     $escape       Flag whether the translated text should be escaped
-     * @param callable $i18nFunction Function that returns the translation for the i18n key
-     * @psalm-param callable(string):string $i18nFunction
+     * @param null|callable(string):string $i18nFunction Function that returns the translation for the i18n key
      *
      * @throws InvalidArgumentException
      *

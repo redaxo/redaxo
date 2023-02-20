@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,12 +27,10 @@ class rex_formatter_test extends TestCase
         $oldLocale = rex_i18n::getLocale();
         rex_i18n::setLocale('en_gb');
 
-        $strftime =
-            /** @param string|int $value */
-            static function ($value, string $format): string {
-                /** @psalm-suppress DeprecatedMethod */
-                return @rex_formatter::strftime($value, $format); /** @phpstan-ignore-line */
-            };
+        $strftime = static function (string|int $value, string $format): string {
+            /** @psalm-suppress DeprecatedMethod */
+            return @rex_formatter::strftime($value, $format); /** @phpstan-ignore-line */
+        };
 
         $value = 1336811080;
 
@@ -61,13 +60,9 @@ class rex_formatter_test extends TestCase
         rex_i18n::setLocale($oldLocale);
     }
 
-    /**
-     * @dataProvider dataIntlDateTime
-     *
-     * @param string|int|DateTimeInterface|null $value
-     * @param null|int|array{int, int}|string $format
-     */
-    public function testIntlDateTime(string $expected, $value, $format = null): void
+    /** @param int|array{int, int}|string|null $format */
+    #[DataProvider('dataIntlDateTime')]
+    public function testIntlDateTime(string $expected, string|int|DateTimeInterface|null $value, int|array|string|null $format = null): void
     {
         if (null === $format) {
             $string = rex_formatter::intlDateTime($value);
@@ -80,9 +75,9 @@ class rex_formatter_test extends TestCase
     }
 
     /**
-     * @return list<array{string, string|int|DateTimeInterface|null, 3?: null|int|array{int, int}|string}>
+     * @return list<array{0: string, 1: string|int|DateTimeInterface|null, 2?: null|int|array{int, int}|string}>
      */
-    public function dataIntlDateTime(): array
+    public static function dataIntlDateTime(): array
     {
         return [
             ['', null],
@@ -96,13 +91,8 @@ class rex_formatter_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataIntlDate
-     *
-     * @param string|int|DateTimeInterface|null $value
-     * @param null|int|string $format
-     */
-    public function testIntlDate(string $expected, $value, $format = null): void
+    #[DataProvider('dataIntlDate')]
+    public function testIntlDate(string $expected, string|int|DateTimeInterface|null $value, int|string|null $format = null): void
     {
         if (null === $format) {
             $string = rex_formatter::intlDate($value);
@@ -115,9 +105,9 @@ class rex_formatter_test extends TestCase
     }
 
     /**
-     * @return list<array{string, string|int|DateTimeInterface|null, 3?: null|int|string}>
+     * @return list<array{0: string, 1: string|int|DateTimeInterface|null, 2?: null|int|string}>
      */
-    public function dataIntlDate(): array
+    public static function dataIntlDate(): array
     {
         return [
             ['', null],
@@ -129,13 +119,8 @@ class rex_formatter_test extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataIntlTime
-     *
-     * @param string|int|DateTimeInterface|null $value
-     * @param null|int|string $format
-     */
-    public function testIntlTime(string $expected, $value, $format = null): void
+    #[DataProvider('dataIntlTime')]
+    public function testIntlTime(string $expected, string|int|DateTimeInterface|null $value, int|string|null $format = null): void
     {
         if (null === $format) {
             $string = rex_formatter::intlTime($value);
@@ -148,9 +133,9 @@ class rex_formatter_test extends TestCase
     }
 
     /**
-     * @return list<array{string, string|int|DateTimeInterface|null, 3?: null|int|string}>
+     * @return list<array{0: string, 1: string|int|DateTimeInterface|null, 2?: null|int|string}>
      */
-    public function dataIntlTime(): array
+    public static function dataIntlTime(): array
     {
         return [
             ['', null],

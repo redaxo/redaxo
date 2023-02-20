@@ -255,16 +255,11 @@ abstract class rex_var
     /**
      * Returns the argument.
      *
-     * @param string          $key
-     * @param null|string|int $default
-     * @param bool            $defaultArg
-     *
-     * @return null|string|int
-     *
      * @template T as null|string|int
-     * @phpstan-template T
-     * @psalm-param T $default
-     * @psalm-return string|T
+     * @param string $key
+     * @param T $default
+     * @param bool $defaultArg
+     * @return string|T
      */
     protected function getArg($key, $default = null, $defaultArg = false)
     {
@@ -277,16 +272,11 @@ abstract class rex_var
     /**
      * Returns the (recursive) parsed argument.
      *
-     * @param string          $key
-     * @param null|string|int $default
-     * @param bool            $defaultArg
-     *
-     * @return int|null|string
-     *
      * @template T as null|string|int
-     * @phpstan-template T
-     * @psalm-param T $default
-     * @psalm-return string|T
+     * @param string $key
+     * @param T $default
+     * @param bool $defaultArg
+     * @return string|T
      */
     protected function getParsedArg($key, $default = null, $defaultArg = false)
     {

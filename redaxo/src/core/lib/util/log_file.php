@@ -84,8 +84,7 @@ class rex_log_file implements Iterator
     #[ReturnTypeWillChange]
     public function next()
     {
-        /** @var int $bufferSize */
-        static $bufferSize = 500;
+        $bufferSize = 500;
 
         if ($this->pos < 0) {
             // position is before file start -> look for next file
@@ -198,7 +197,7 @@ class rex_log_file implements Iterator
  */
 class rex_log_entry
 {
-    public const DATE_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_FORMAT = 'Y-m-d\TH:i:sP';
 
     /** @var int */
     private $timestamp;

@@ -227,11 +227,8 @@ class rex_socket
     /**
      * Makes a POST request.
      *
-     * @param string|array|callable $data Body data as string or array (POST parameters) or a callback for writing the body
-     * @psalm-param string|array<string, string>|callable(resource): void $data
-     *
-     * @param array $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
-     * @psalm-param array<string, array{path: string, type: string}> $files
+     * @param string|array<string, string>|callable(resource): void $data Body data as string or array (POST parameters) or a callback for writing the body
+     * @param array<string, array{path: string, type: string}> $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
      *
      * @throws rex_socket_exception
      *
@@ -300,9 +297,8 @@ class rex_socket
     /**
      * Makes a request.
      *
-     * @param string          $method HTTP method, e.g. "GET"
-     * @param string|callable $data   Body data as string or a callback for writing the body
-     * @psalm-param string|callable(resource): void $data
+     * @param string $method HTTP method, e.g. "GET"
+     * @param string|callable(resource): void $data Body data as string or a callback for writing the body
      *
      * @throws InvalidArgumentException
      *
@@ -404,8 +400,7 @@ class rex_socket
      * @param string          $method  HTTP method, e.g. "GET"
      * @param string          $path    Path
      * @param array           $headers Headers
-     * @param string|callable $data    Body data as string or a callback for writing the body
-     * @psalm-param string|callable(resource): void $data
+     * @param string|callable(resource): void $data Body data as string or a callback for writing the body
      *
      * @throws rex_socket_exception
      *

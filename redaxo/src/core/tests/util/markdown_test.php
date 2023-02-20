@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -7,16 +8,14 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_markdown_test extends TestCase
 {
-    /**
-     * @dataProvider parseProvider
-     */
-    public function testParse($expected, $code): void
+    #[DataProvider('parseProvider')]
+    public function testParse(string $expected, string $code): void
     {
         static::assertSame($expected, rex_markdown::factory()->parse($code));
     }
 
     /** @return list<array{string, string}> */
-    public function parseProvider(): array
+    public static function parseProvider(): array
     {
         return [
             ['', ''],

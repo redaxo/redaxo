@@ -9,11 +9,7 @@
  */
 trait rex_instance_pool_trait
 {
-    /**
-     * @psalm-var array<class-string, array<string, null|static>>
-     *
-     * @var static[][]
-     */
+    /** @var array<class-string, array<string, null|static>> */
     private static $instances = [];
 
     private function __construct()

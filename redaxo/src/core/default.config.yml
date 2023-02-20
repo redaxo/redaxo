@@ -21,6 +21,9 @@ backend_login_policy:
 # will no longer work.
 session:
     backend:
+        # save_path:
+        # sid_length:
+        # sid_bits_per_character:
         cookie:
             lifetime: null
             path: null
@@ -29,6 +32,9 @@ session:
             httponly: true
             samesite: 'Lax'
     frontend:
+        # save_path:
+        # sid_length:
+        # sid_bits_per_character:
         cookie:
             lifetime: null
             path: null
