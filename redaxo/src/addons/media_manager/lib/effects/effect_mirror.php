@@ -160,7 +160,7 @@ class rex_effect_mirror extends rex_effect_abstract
         for ($y = 1; $y <= $reflectionHeight; ++$y) {
             for ($x = 0; $x < $destWidth; ++$x) {
                 $rgba = imagecolorat($image, $x, $srcHeight - $y);
-                $alpha = ($rgba & 0x7F000000) >> 24;
+                $alpha = ($rgba & 0x7F_00_00_00) >> 24;
                 $alpha = max($alpha, 47 + ($y * $alphaStep));
                 $rgba = imagecolorsforindex($image, $rgba);
                 $rgba = imagecolorallocatealpha($reflected, $rgba['red'], $rgba['green'], $rgba['blue'], $alpha);

@@ -772,7 +772,7 @@ class rex_article_service
                     $artSql->setValue('catpriority', 0);
                     $artSql->setValue('path', $path);
                     $artSql->setValue('name', $fromSql->getValue('name') . ' ' . rex_i18n::msg('structure_copy'));
-                    $artSql->setValue('priority', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
+                    $artSql->setValue('priority', 99_999); // Artikel als letzten Artikel in die neue Kat einfügen
                     $artSql->setValue('status', 0); // Kopierter Artikel offline setzen
                     $artSql->setValue('startarticle', 0);
                     $artSql->addGlobalUpdateFields($user);
