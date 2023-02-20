@@ -254,7 +254,7 @@ class rex_metainfo_table_expander extends rex_form
         // Dies muss hier geschehen, da in parent::save() die Werte fuer die DB mit den
         // POST werten ueberschrieben werden!
         $fieldOldName = '';
-        $fieldOldPriority = 9999999999999; // dirty, damit die prio richtig laeuft...
+        $fieldOldPriority = 9_999_999_999_999; // dirty, damit die prio richtig laeuft...
         if (1 == $this->sql->getRows()) {
             $fieldOldName = (string) $this->sql->getValue('name');
             $fieldOldPriority = (int) $this->sql->getValue('priority');

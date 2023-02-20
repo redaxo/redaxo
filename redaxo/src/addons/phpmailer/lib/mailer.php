@@ -178,7 +178,7 @@ class rex_mailer extends PHPMailer
             $replytos = implode(', ', array_column($this->getReplyToAddresses(), 0));
         }
 
-        $log = new rex_log_file(self::logFile(), 2000000);
+        $log = new rex_log_file(self::logFile(), 2_000_000);
         $data = [
             $success,
             $this->From.($replytos ? '; reply-to: '.$replytos : ''),

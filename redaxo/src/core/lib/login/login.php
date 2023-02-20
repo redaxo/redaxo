@@ -79,7 +79,7 @@ class rex_login
 
     public function __construct()
     {
-        $this->sessionMaxOverallDuration = rex::getProperty('session_max_overall_duration', 2419200); // 4 weeks
+        $this->sessionMaxOverallDuration = rex::getProperty('session_max_overall_duration', 2_419_200); // 4 weeks
 
         self::startSession();
     }

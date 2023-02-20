@@ -540,7 +540,7 @@ class rex_response
 
         $str = 'Set-Cookie: '. ($raw ? $name : urlencode($name)).'=';
         if ('' === (string) $value) {
-            $str .= 'deleted; expires='.gmdate('D, d-M-Y H:i:s T', time() - 31536001).'; Max-Age=0';
+            $str .= 'deleted; expires='.gmdate('D, d-M-Y H:i:s T', time() - 31_536_001).'; Max-Age=0';
         } else {
             $str .= $raw ? $value : rawurlencode($value);
             if (0 !== $expire) {

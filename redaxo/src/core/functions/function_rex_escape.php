@@ -101,15 +101,15 @@ function rex_escape($value, $strategy = 'html')
                 }
 
                 $codepoint = mb_ord($char, 'UTF-8');
-                if (0x10000 > $codepoint) {
+                if (0x1_00_00 > $codepoint) {
                     return sprintf('\u%04X', $codepoint);
                 }
 
                 // Split characters outside the BMP into surrogate pairs
                 // https://tools.ietf.org/html/rfc2781.html#section-2.1
-                $u = $codepoint - 0x10000;
-                $high = 0xD800 | ($u >> 10);
-                $low = 0xDC00 | ($u & 0x3FF);
+                $u = $codepoint - 0x1_00_00;
+                $high = 0xD8_00 | ($u >> 10);
+                $low = 0xDC_00 | ($u & 0x3_FF);
 
                 return sprintf('\u%04X\u%04X', $high, $low);
             }, $string);

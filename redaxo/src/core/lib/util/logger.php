@@ -131,7 +131,7 @@ class rex_logger extends AbstractLogger
     {
         // check if already opened
         if (!self::$file) {
-            self::$file = new rex_log_file(self::getPath(), 2000000);
+            self::$file = new rex_log_file(self::getPath(), 2_000_000);
         }
     }
 
