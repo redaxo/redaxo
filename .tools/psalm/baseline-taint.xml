@@ -76,7 +76,6 @@
   </file>
   <file src="redaxo/src/core/lib/response.php">
     <TaintedHeader>
-      <code>$name .': ' . $value</code>
       <code>$str</code>
     </TaintedHeader>
   </file>
