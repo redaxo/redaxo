@@ -380,6 +380,8 @@ abstract class rex_error_handler
             return null;
         }
 
+        // Backend URLs use `/` inside page param, and we try to use them unencoded
+        // so for consistency we unencode them here too
         $uri = preg_replace_callback('@(?<=\?page=)[\w/]+@', static function (array $match) {
             return str_replace('%2F', '/', $match[0]);
         }, $request->getRequestUri(), 1);
