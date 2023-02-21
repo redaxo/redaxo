@@ -5345,11 +5345,6 @@
       <code>isset($logFile)</code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="redaxo/src/core/pages/system.log.redaxo.php">
-    <ArgumentTypeCoercion>
-      <code>$data[3] ?? 1</code>
-    </ArgumentTypeCoercion>
-  </file>
   <file src="redaxo/src/core/pages/system.report.html.php">
     <MixedArgument>
       <code>$value</code>
