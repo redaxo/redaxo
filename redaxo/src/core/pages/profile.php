@@ -278,7 +278,7 @@ if (!$passwordChangeRequired) {
     echo $content;
 }
 
-$confirmField = function (string $id) use ($login, $webauthn): string {
+$confirmField = static function (string $id) use ($login, $webauthn): string {
     $formElements = [];
     $n = [];
 
