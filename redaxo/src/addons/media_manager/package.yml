@@ -18,7 +18,7 @@ requires:
     php:
         version: '>=8.1'
         extensions: [gd]
-    redaxo: ^5.15.0-dev
+    redaxo: ^5.15.0-beta1
 
 default_config:
     jpg_quality: 80
