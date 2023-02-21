@@ -97,6 +97,10 @@ jobs:
                 run: |
                     php -S localhost:8000 &
                     npm install puppeteer@6 pixelmatch pngjs fs mkdirp
+            -   name: Setup Shoelace
+                run: |
+                    yarn --cwd redaxo/src/core
+                    cp -R redaxo/src/core/node_modules/@shoelace-style/shoelace assets/core/shoelace/
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'
