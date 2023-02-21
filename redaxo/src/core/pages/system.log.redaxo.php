@@ -53,7 +53,13 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     /** @var rex_log_entry $entry */
     $data = $entry->getData();
 
-    $class = match (strtolower($data[0])) {
+    $type = rex_type::string($data[0]);
+    $message = rex_type::string($data[1]);
+    $file = $data[2] ?? null;
+    $line = $data[3] ?? null;
+    $url = $data[4] ?? null;
+
+    $class = match (strtolower($type)) {
         'debug' => 'default',
         'info', 'notice', 'deprecated' => 'info',
         'warning' => 'warning',
@@ -61,29 +67,30 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     };
 
     $path = '';
-    if ($data[2] ?? false) {
-        $path = rex_escape($data[2].(isset($data[3]) ? ':'.$data[3] : ''));
+    if ($file) {
+        $path = rex_escape($file.(null === $line ? '' : ':'.$line));
 
-        $fullPath = str_starts_with($data[2], 'rex://') ? $data[2] : rex_path::base($data[2]);
-        if ($url = $editor->getUrl($fullPath, $data[3] ?? 1)) {
+        $fullPath = str_starts_with($file, 'rex://') ? $file : rex_path::base($file);
+        if ($url = $editor->getUrl($fullPath, (int) ($line ?? 1))) {
             $path = '<a href="'.$url.'">'.$path.'</a>';
         }
         $path = '<small class="rex-word-break"><span class="label label-default">'.rex_i18n::msg('syslog_file').':</span> '.$path.'</small><br>';
     }
-    $url = '';
-    if ($data[4] ?? false) {
-        $url = rex_escape($data[4]);
+    if ($url) {
+        $url = rex_escape($url);
         $url = '<small class="rex-word-break"><span class="label label-default">'.rex_i18n::msg('syslog_url').':</span> <a href="'.$url.'">'.$url.'</a></small>';
+    } else {
+        $url = '';
     }
 
     $content .= '
                 <tr>
                     <td data-title="' . rex_i18n::msg('syslog_timestamp') . '" class="rex-table-tabular-nums rex-table-date">
                         <small>' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</small><br>
-                        <span class="label label-'.$class.'">' . rex_escape($data[0]) . '</span>
+                        <span class="label label-'.$class.'">' . rex_escape($type) . '</span>
                     </td>
                     <td data-title="' . rex_i18n::msg('syslog_message') . '">
-                        <div class="rex-word-break"><b style="font-weight: 500">' . nl2br(rex_escape($data[1])) . '</b></div>
+                        <div class="rex-word-break"><b style="font-weight: 500">' . nl2br(rex_escape($message)) . '</b></div>
                         '.$path.'
                         '.$url.'
                     </td>
