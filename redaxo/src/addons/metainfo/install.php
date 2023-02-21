@@ -30,6 +30,10 @@ rex_sql_table::get(rex::getTable('metainfo_field'))
     ->ensureIndex(new rex_sql_index('name', ['name'], rex_sql_index::UNIQUE))
     ->ensure();
 
+if (!class_exists(rex_metainfo_default_type::class)) {
+    require_once __DIR__ . '/lib/default_type.php';
+}
+
 $data = [
     ['id' => rex_metainfo_default_type::TEXT, 'label' => 'text', 'dbtype' => 'text', 'dblength' => 0],
     ['id' => rex_metainfo_default_type::TEXTAREA, 'label' => 'textarea', 'dbtype' => 'text', 'dblength' => 0],
