@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.15.0 – XX.XX.2023
+---------------------------
+
+### Neu
+
+* Struktur: Template-Spalte optimiert (@pwechs)
+* Artikel-Editieransicht: Artikel-Status kann in der Metadaten-Box rechts geändert werden (@pwechs)
+* Templates: Bei Inaktiv-Setzung Prüfung, ob Template noch aktiv genutzt wird (@pwechs, @gharlan)
+* `rex_template`: Neue Methode `exists` (@staabm)
+* Datenbank: Überflüssige Indexe entfernt (@gharlan)
+
+
 Version 2.14.3 – 20.02.2023
 ---------------------------
 

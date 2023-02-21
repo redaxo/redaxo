@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 3.2.0 – XX.XX.2023
+--------------------------
+
+* Login-Seite: Neues Hintergrundbild (@schuer)
+* Markierungsfarbe in AddOn-Tabelle nach Installer-Download optimiert (@pwechs)
+* CodeMirror: LineWrapping per Default deaktiviert (@aeberhard)
+* Customizer: Frontend-Link anhand tatsächlicher Domain, nicht über `rex::getServer()` (@christophboecker)
+
+
 Version 3.1.2 – 20.02.2023
 --------------------------
 

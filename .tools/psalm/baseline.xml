@@ -5462,8 +5462,5 @@
     <MixedAssignment>
       <code>$_SESSION[$sessionKey]['backend_login']</code>
     </MixedAssignment>
-    <RedundantCondition>
-      <code>rex::getProperty('login')</code>
-    </RedundantCondition>
   </file>
 </files>
