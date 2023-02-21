@@ -278,30 +278,33 @@ if (!$passwordChangeRequired) {
     echo $content;
 }
 
-$formElements = [];
-$n = [];
+$confirmField = static function (string $id) use ($login, $webauthn): string {
+    $formElements = [];
+    $n = [];
 
-if ($login->getPasskey()) {
-    $n['label'] = '<label for="rex-id-userpsw">' . rex_i18n::msg('passkey_current') . '</label>';
-    $n['field'] = '<div data-auth-passkey-verify="'.rex_escape($webauthn->getGetArgs($login->getPasskey())).'">
-        <button type="button" class="btn btn-primary">' . rex_i18n::msg('passkey_current_verify') . '</button>
+    if ($login->getPasskey()) {
+        $n['label'] = '<label for="'.$id.'">' . rex_i18n::msg('passkey_current') . '</label>';
+        $n['field'] = '<div data-auth-passkey-verify="'.rex_escape($webauthn->getGetArgs($login->getPasskey())).'">
+        <button type="button" class="btn btn-primary" id="'.$id.'">' . rex_i18n::msg('passkey_current_verify') . '</button>
         <i class="fa fa-check-circle-o text-success hidden"></i>
         <input type="hidden" name="passkey_verify"/>
     </div>';
-} else {
-    $n['label'] = '<label for="rex-id-userpsw">' . rex_i18n::msg('old_password') . '</label>';
-    $n['field'] = '<input class="form-control rex-js-userpsw" type="password" id="rex-id-userpsw" name="userpsw" autocomplete="current-password" required />';
-}
+    } else {
+        $n['label'] = '<label for="'.$id.'">' . rex_i18n::msg('old_password') . '</label>';
+        $n['field'] = '<input class="form-control rex-js-userpsw" type="password" id="'.$id.'" name="userpsw" autocomplete="current-password" required />';
+    }
 
-$formElements[] = $n;
+    $formElements[] = $n;
 
-$fragment = new rex_fragment();
-$fragment->setVar('flush', true);
-$fragment->setVar('group', true);
-$fragment->setVar('elements', $formElements, false);
-$confirm = $fragment->parse('core/form/form.php');
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('group', true);
+    $fragment->setVar('elements', $formElements, false);
 
-$content = '<fieldset>'.$confirm;
+    return $fragment->parse('core/form/form.php');
+};
+
+$content = '<fieldset>'.$confirmField('rex-id-userpsw');
 
 $formElements = [];
 
@@ -341,7 +344,7 @@ $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $changePassword = $fragment->parse('core/page/section.php');
 
-$content = '<fieldset>'.$confirm;
+$content = '<fieldset>'.$confirmField('rex-id-user-passkey');
 $content .= '<input type="hidden" name="passkey" data-auth-passkey="'.rex_escape($webauthn->getCreateArgs()).'"/>';
 $content .= '</fieldset>';
 
