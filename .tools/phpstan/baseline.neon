@@ -1016,11 +1016,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/perm.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/select_category.php
-
-		-
 			message: "#^Method rex_category_select\\:\\:__construct\\(\\) has parameter \\$addHomepage with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/select_category.php
@@ -1486,11 +1481,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/history/lib/history_login.php
 
 		-
-			message: "#^If condition is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/version/lib/revision.php
-
-		-
 			message: "#^Method class@anonymous/addons/structure/tests/category_test\\.php\\:175\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/tests/category_test.php
@@ -1552,11 +1542,6 @@ parameters:
 
 		-
 			message: "#^Method rex_autoload\\:\\:findClasses\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/autoload.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
 
@@ -1746,11 +1731,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/elements/options.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/prio.php
-
-		-
 			message: "#^Method rex_form_prio_element\\:\\:organizePriorities\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/elements/prio.php
@@ -1779,11 +1759,6 @@ parameters:
 			message: "#^Property rex_form\\:\\:\\$languageSupport type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/form.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with int\\|false will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
 
 		-
 			message: "#^Method rex_form_base\\:\\:addCheckboxField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
@@ -1904,16 +1879,6 @@ parameters:
 			message: "#^Method rex_form_base\\:\\:setApplyUrl\\(\\) has parameter \\$url with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/fragment.php
 
 		-
 			message: "#^Method rex_list\\:\\:_getAttributeString\\(\\) has parameter \\$array with no type specified\\.$#"
@@ -2106,22 +2071,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/complex_perm.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
 			message: "#^Method rex_login\\:\\:setSessionVar\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
 

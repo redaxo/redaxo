@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.6.0@e784128902dfe01d489c4123d69918a9f3c1eac5">
+<files psalm-version="5.7.5@5390c212bab06ee230c8720c2e9c54b823db00c8">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <TaintedFile>
       <code>$filename</code>
@@ -13,60 +13,60 @@
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php">
     <TaintedHtml>
-      <code>$this-&gt;getVar('content1iframe')</code>
-      <code>$this-&gt;getVar('content1select')</code>
-      <code>$this-&gt;getVar('content2iframe')</code>
-      <code>$this-&gt;getVar('content2select')</code>
+      <code><![CDATA[$this->getVar('content1iframe')]]></code>
+      <code><![CDATA[$this->getVar('content1select')]]></code>
+      <code><![CDATA[$this->getVar('content2iframe')]]></code>
+      <code><![CDATA[$this->getVar('content2select')]]></code>
     </TaintedHtml>
     <TaintedTextWithQuotes>
-      <code>$this-&gt;getVar('content1iframe')</code>
-      <code>$this-&gt;getVar('content1select')</code>
-      <code>$this-&gt;getVar('content2iframe')</code>
-      <code>$this-&gt;getVar('content2select')</code>
+      <code><![CDATA[$this->getVar('content1iframe')]]></code>
+      <code><![CDATA[$this->getVar('content1select')]]></code>
+      <code><![CDATA[$this->getVar('content2iframe')]]></code>
+      <code><![CDATA[$this->getVar('content2select')]]></code>
     </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/fe_ooops.php">
     <TaintedHtml>
-      <code>$this-&gt;getVar('content', '')</code>
+      <code><![CDATA[$this->getVar('content', '')]]></code>
     </TaintedHtml>
     <TaintedTextWithQuotes>
-      <code>$this-&gt;getVar('content', '')</code>
+      <code><![CDATA[$this->getVar('content', '')]]></code>
     </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/form/search.php">
     <TaintedHtml>
-      <code>'&lt;div class="'. $class . '"' . $id . '&gt;
-      &lt;span class="input-group-addon clear-button"&gt;&lt;i class="rex-icon rex-icon-search"&gt;&lt;/i&gt;&lt;/span&gt;
-      &lt;input class="form-control" type="text"' . $autofocus . $placeholder . $value . '&gt;
-      &lt;span title="' . $clear . '" class="form-control-clear rex-icon rex-icon-clear form-control-feedback hidden"&gt;&lt;/span&gt;
-&lt;/div&gt;'</code>
+      <code><![CDATA['<div class="'. $class . '"' . $id . '>
+      <span class="input-group-addon clear-button"><i class="rex-icon rex-icon-search"></i></span>
+      <input class="form-control" type="text"' . $autofocus . $placeholder . $value . '>
+      <span title="' . $clear . '" class="form-control-clear rex-icon rex-icon-clear form-control-feedback hidden"></span>
+</div>']]></code>
     </TaintedHtml>
     <TaintedTextWithQuotes>
-      <code>'&lt;div class="'. $class . '"' . $id . '&gt;
-      &lt;span class="input-group-addon clear-button"&gt;&lt;i class="rex-icon rex-icon-search"&gt;&lt;/i&gt;&lt;/span&gt;
-      &lt;input class="form-control" type="text"' . $autofocus . $placeholder . $value . '&gt;
-      &lt;span title="' . $clear . '" class="form-control-clear rex-icon rex-icon-clear form-control-feedback hidden"&gt;&lt;/span&gt;
-&lt;/div&gt;'</code>
+      <code><![CDATA['<div class="'. $class . '"' . $id . '>
+      <span class="input-group-addon clear-button"><i class="rex-icon rex-icon-search"></i></span>
+      <input class="form-control" type="text"' . $autofocus . $placeholder . $value . '>
+      <span title="' . $clear . '" class="form-control-clear rex-icon rex-icon-clear form-control-feedback hidden"></span>
+</div>']]></code>
     </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/page/docs.php">
     <TaintedHtml>
-      <code>$this-&gt;getVar('content')</code>
-      <code>$this-&gt;getVar('sidebar')</code>
-      <code>$this-&gt;getVar('toc')</code>
+      <code><![CDATA[$this->getVar('content')]]></code>
+      <code><![CDATA[$this->getVar('sidebar')]]></code>
+      <code><![CDATA[$this->getVar('toc')]]></code>
     </TaintedHtml>
     <TaintedTextWithQuotes>
-      <code>$this-&gt;getVar('content')</code>
-      <code>$this-&gt;getVar('sidebar')</code>
-      <code>$this-&gt;getVar('toc')</code>
+      <code><![CDATA[$this->getVar('content')]]></code>
+      <code><![CDATA[$this->getVar('sidebar')]]></code>
+      <code><![CDATA[$this->getVar('toc')]]></code>
     </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/page/readme.php">
     <TaintedHtml>
-      <code>$this-&gt;getVar('content')</code>
+      <code><![CDATA[$this->getVar('content')]]></code>
     </TaintedHtml>
     <TaintedTextWithQuotes>
-      <code>$this-&gt;getVar('content')</code>
+      <code><![CDATA[$this->getVar('content')]]></code>
     </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
