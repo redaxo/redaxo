@@ -25,18 +25,15 @@ if ($func && !$csrfToken->isValid()) {
     exit;
 }
 
-$message = '';
-$content = '';
-
 if ('' != $success) {
-    $message .= rex_view::success($success);
+    echo rex_view::success($success);
 }
 
 if ('' != $error) {
-    $message .= rex_view::error($error);
+    echo rex_view::error($error);
 }
 
-$content .= '
+$content = '
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -137,5 +134,4 @@ $content = '
         ' . $content . '
     </form>';
 
-echo $message;
 echo $content;
