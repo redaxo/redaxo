@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.12.0 – XX.XX.2023
+---------------------------
+
+### Neu
+
+* Neue EPs `PHPMAILER_PRE_SEND` und `PHPMAILER_POST_SEND` (@skerbis)
+* Log: Reply-To wird mitgeloggt (@skerbis)
+* Archiv: Auch bei nicht erfolgreichen Versand wird die Mail archiviert (@skerbis)
+* Readme erweitert (@skerbis)
+
+
 Version 2.11.2 – 03.05.2022
 ---------------------------
 
