@@ -380,7 +380,7 @@ abstract class rex_error_handler
             return null;
         }
 
-        $uri = preg_replace_callback('@(?<=\?page=)[\w/]+@', function (array $match) {
+        $uri = preg_replace_callback('@(?<=\?page=)[\w/]+@', static function (array $match) {
             return str_replace('%2F', '/', $match[0]);
         }, $request->getRequestUri(), 1);
 
