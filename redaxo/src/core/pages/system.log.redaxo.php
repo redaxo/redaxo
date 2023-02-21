@@ -41,10 +41,7 @@ $content .= '
                 <thead>
                     <tr>
                         <th>' . rex_i18n::msg('syslog_timestamp') . '</th>
-                        <th>' . rex_i18n::msg('syslog_type') . '</th>
                         <th>' . rex_i18n::msg('syslog_message') . '</th>
-                        <th>' . rex_i18n::msg('syslog_file') . '</th>
-                        <th class="rex-table-number">' . rex_i18n::msg('syslog_line') . '</th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -56,26 +53,40 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     /** @var rex_log_entry $entry */
     $data = $entry->getData();
 
-    $class = strtolower($data[0]);
-    $class = in_array($class, ['notice', 'warning', 'success', 'info', 'debug'], true) ? $class : 'error';
+    $class = match (strtolower($data[0])) {
+        'debug' => 'default',
+        'info', 'notice', 'deprecated' => 'info',
+        'warning' => 'warning',
+        default => 'danger',
+    };
 
     $path = '';
-    if (isset($data[2])) {
-        $path = rex_escape($data[2]);
+    if ($data[2] ?? false) {
+        $path = rex_escape($data[2].(isset($data[3]) ? ':'.$data[3] : ''));
 
         $fullPath = str_starts_with($data[2], 'rex://') ? $data[2] : rex_path::base($data[2]);
         if ($url = $editor->getUrl($fullPath, $data[3] ?? 1)) {
             $path = '<a href="'.$url.'">'.$path.'</a>';
         }
+        $path = '<small class="rex-word-break"><span class="label label-default">'.rex_i18n::msg('syslog_file').':</span> '.$path.'</small><br>';
+    }
+    $url = '';
+    if ($data[4] ?? false) {
+        $url = rex_escape($data[4]);
+        $url = '<small class="rex-word-break"><span class="label label-default">'.rex_i18n::msg('syslog_url').':</span> <a href="'.$url.'">'.$url.'</a></small>';
     }
 
     $content .= '
-                <tr class="rex-state-' . $class . '">
-                    <td data-title="' . rex_i18n::msg('syslog_timestamp') . '" class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>
-                    <td data-title="' . rex_i18n::msg('syslog_type') . '"><div class="rex-word-break">' . rex_escape($data[0]) . '</div></td>
-                    <td data-title="' . rex_i18n::msg('syslog_message') . '"><div class="rex-word-break">' . nl2br(rex_escape($data[1])) . '</div></td>
-                    <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-word-break">' . $path . '</div></td>
-                    <td class="rex-table-number" data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? rex_escape($data[3]) : '') . '</td>
+                <tr>
+                    <td data-title="' . rex_i18n::msg('syslog_timestamp') . '" class="rex-table-tabular-nums rex-table-date">
+                        <small>' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</small><br>
+                        <span class="label label-'.$class.'">' . rex_escape($data[0]) . '</span>
+                    </td>
+                    <td data-title="' . rex_i18n::msg('syslog_message') . '">
+                        <div class="rex-word-break"><b style="font-weight: 500">' . nl2br(rex_escape($data[1])) . '</b></div>
+                        '.$path.'
+                        '.$url.'
+                    </td>
                 </tr>';
 }
 

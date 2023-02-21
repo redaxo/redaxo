@@ -33,13 +33,13 @@ class rex_logger extends AbstractLogger
      * @param Throwable|Exception $exception The Exception to log
      * @return void
      */
-    public static function logException($exception)
+    public static function logException($exception, ?string $url = null)
     {
         if ($exception instanceof ErrorException) {
-            self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
+            self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $url);
         } else {
             $logger = self::factory();
-            $logger->log($exception::class, $exception->getMessage(), [], $exception->getFile(), $exception->getLine());
+            $logger->log($exception::class, $exception->getMessage(), [], $exception->getFile(), $exception->getLine(), $url);
         }
     }
 
@@ -54,7 +54,7 @@ class rex_logger extends AbstractLogger
      * @throws InvalidArgumentException
      * @return void
      */
-    public static function logError($errno, $errstr, $errfile, $errline)
+    public static function logError($errno, $errstr, $errfile, $errline, ?string $url = null)
     {
         if (!is_int($errno)) {
             throw new InvalidArgumentException('Expecting $errno to be integer, but ' . gettype($errno) . ' given!');
@@ -70,7 +70,7 @@ class rex_logger extends AbstractLogger
         }
 
         $logger = self::factory();
-        $logger->log(rex_error_handler::getErrorType($errno), $errstr, [], $errfile, $errline);
+        $logger->log(rex_error_handler::getErrorType($errno), $errstr, [], $errfile, $errline, $url);
     }
 
     /**
@@ -83,7 +83,7 @@ class rex_logger extends AbstractLogger
      *
      * @throws InvalidArgumentException
      */
-    public function log($level, $message, array $context = [], $file = null, $line = null)
+    public function log($level, $message, array $context = [], $file = null, $line = null, ?string $url = null)
     {
         if ($factoryClass = static::getExplicitFactoryClass()) {
             $factoryClass::log($level, $message, $context, $file, $line);
@@ -109,9 +109,12 @@ class rex_logger extends AbstractLogger
         }
 
         $logData = [$level, $message];
-        if ($file && $line) {
-            $logData[] = rex_path::relative($file);
-            $logData[] = $line;
+        if ($file && $line || $url) {
+            $logData[] = $file ? rex_path::relative($file) : '';
+            $logData[] = $line ?? '';
+            if ($url) {
+                $logData[] = $url;
+            }
         }
         self::$file->add($logData);
 
