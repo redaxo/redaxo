@@ -36,7 +36,6 @@ class rex_effect_mirror extends rex_effect_abstract
             $this->params['bg_b'] = 255;
         }
 
-
         if ('colored' != $this->params['set_transparent'] && !$this->media->formatSupportsTransparency()) {
             $this->media->setFormat('png');
         }
