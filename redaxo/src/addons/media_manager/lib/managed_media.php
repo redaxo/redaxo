@@ -220,6 +220,11 @@ class rex_managed_media
         return $this->format;
     }
 
+    public function formatSupportsTransparency(): bool
+    {
+        return in_array($this->format, ['gif', 'png', 'webp', 'avif'], true);
+    }
+
     /**
      * @param string $format
      * @return void
