@@ -1204,7 +1204,7 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception on errors
      *
      * @return list<array<int|string, scalar|null>>
-     * @psalm-return list<array<(TFetchType is PDO::FETCH_KEY_PAIR ? array-key : (TFetchType is PDO::FETCH_NUM ? int : string)), scalar|null>>
+     * @psalm-return list<array<(TFetchType is PDO::FETCH_KEY_PAIR ? int|string : (TFetchType is PDO::FETCH_NUM ? int : string)), scalar|null>>
      *
      * @psalm-taint-source input
      * @psalm-taint-sink sql $query
