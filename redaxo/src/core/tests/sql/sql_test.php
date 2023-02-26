@@ -572,7 +572,8 @@ class rex_sql_test extends TestCase
         ];
     }
 
-    public function testGetArrayKeyPair(): void {
+    public function testGetArrayKeyPair(): void
+    {
         $this->testInsertRow();
 
         $sql = rex_sql::factory();
@@ -581,7 +582,7 @@ class rex_sql_test extends TestCase
 
         static::assertIsArray($data);
         static::assertCount(1, $data);
-        foreach($data as $k => $v) {
+        foreach ($data as $k => $v) {
             static::assertIsInt($v);
             static::assertIsString($k);
         }
