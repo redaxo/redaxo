@@ -71,11 +71,6 @@
         <InternalProperty errorLevel="info" />
         <MissingClosureParamType errorLevel="info" />
         <MissingClosureReturnType errorLevel="info" />
-        <MissingConstructor>
-            <errorLevel type="suppress">
-                <file name="vendor/phpunit/phpunit/src/Framework/TestCase.php" />
-            </errorLevel>
-        </MissingConstructor>
         <MissingParamType errorLevel="info" />
         <PropertyNotSetInConstructor errorLevel="info" />
         <RawObjectIteration>

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+composer require --dev --ansi --fixed \
+    friendsofphp/php-cs-fixer \
+    friendsofredaxo/linter \
+    phpstan/extension-installer \
+    phpstan/phpstan \
+    phpstan/phpstan-deprecation-rules \
+    phpstan/phpstan-phpunit \
+    phpstan/phpstan-symfony \
+    psalm/plugin-phpunit \
+    psalm/plugin-symfony \
+    rector/rector \
+    redaxo/php-cs-fixer-config \
+    redaxo/psalm-plugin \
+    vimeo/psalm
+
+composer update --ansi
