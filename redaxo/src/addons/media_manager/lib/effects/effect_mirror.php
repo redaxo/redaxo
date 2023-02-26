@@ -36,18 +36,11 @@ class rex_effect_mirror extends rex_effect_abstract
             $this->params['bg_b'] = 255;
         }
 
-        if ('colored' != $this->params['set_transparent']) {
-            if ('webp' == $this->media->getFormat()) {
-                $this->media->setFormat('webp');
-            } else {
-                $this->media->setFormat('png');
-            }
+        if ('colored' != $this->params['set_transparent'] && !$this->media->formatSupportsTransparency()) {
+            $this->media->setFormat('png');
         }
 
-        $trans = false;
-        if ('png' == $this->media->getFormat() || 'webp' == $this->media->getFormat()) {
-            $trans = true;
-        }
+        $trans = $this->media->formatSupportsTransparency();
 
         $gdimage = $this->imagereflection($gdimage, $this->params['height'], $this->params['opacity'] ?? 100, $trans, [$this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']]);
         $this->media->setImage($gdimage);

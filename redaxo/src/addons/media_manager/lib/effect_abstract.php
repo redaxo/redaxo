@@ -77,18 +77,25 @@ abstract class rex_effect_abstract
     protected function keepTransparent($gdImage)
     {
         $image = $this->media;
-        if ('png' == $image->getFormat() || 'webp' == $image->getFormat()) {
+
+        if (!$image->formatSupportsTransparency()) {
+            return;
+        }
+
+        if ('gif' !== $image->getFormat()) {
             imagealphablending($gdImage, false);
             imagesavealpha($gdImage, true);
-        } elseif ('gif' == $image->getFormat()) {
-            $gdimage = $image->getImage();
-            $colorTransparent = imagecolortransparent($gdimage);
-            imagepalettecopy($gdimage, $gdImage);
-            if ($colorTransparent > 0) {
-                imagefill($gdImage, 0, 0, $colorTransparent);
-                imagecolortransparent($gdImage, $colorTransparent);
-            }
-            imagetruecolortopalette($gdImage, true, 256);
+
+            return;
         }
+
+        $gdimage = $image->getImage();
+        $colorTransparent = imagecolortransparent($gdimage);
+        imagepalettecopy($gdimage, $gdImage);
+        if ($colorTransparent > 0) {
+            imagefill($gdImage, 0, 0, $colorTransparent);
+            imagecolortransparent($gdImage, $colorTransparent);
+        }
+        imagetruecolortopalette($gdImage, true, 256);
     }
 }

@@ -26,8 +26,8 @@ blocked_extensions: [php, php3, php4, php5, php6, php7, php8, phar, pht, phtml, 
 #       jpg: [image/jpeg, image/pjpeg]
 allowed_mime_types: ~
 
-allowed_doctypes: [bmp, css, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, svg, swf, tar, tif, tiff, txt, webp, wma, xls, xlsx, zip]
-image_extensions: [bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]
+allowed_doctypes: [avif, bmp, css, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, svg, swf, tar, tif, tiff, txt, webp, wma, xls, xlsx, zip]
+image_extensions: [avif, bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]
 
 requires:
     php: '>=8.1'
