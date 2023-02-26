@@ -13,8 +13,6 @@ interface rex_url_provider_interface
      * Returns a Url which contains the given parameters.
      *
      * @param array $params A scalar array containing key value pairs for the parameter and its value
-     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
-     *
      * @return string The generated Url
      */
     public function getUrl(array $params = []);

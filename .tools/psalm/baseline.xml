@@ -2728,7 +2728,7 @@
       <code><![CDATA[$button['hidden_label']]]></code>
       <code><![CDATA[$button['icon']]]></code>
       <code><![CDATA[$button['label']]]></code>
-      <code><![CDATA[$button['url']]]></code>
+      <code><![CDATA[rex_escape($button['url'])]]></code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/buttons/button_group.php">
@@ -2745,7 +2745,7 @@
       <code><![CDATA[$this->button_prefix]]></code>
       <code><![CDATA[$this->footer]]></code>
       <code><![CDATA[$this->header]]></code>
-      <code><![CDATA[(isset($item['href']) && '' != $item['href']) ? '<a href="' . $item['href'] . '">' . $item['title'] . '</a>' : $item['title']]]></code>
+      <code><![CDATA[(isset($item['href']) && '' != $item['href']) ? '<a href="' . rex_escape($item['href']) . '">' . $item['title'] . '</a>' : $item['title']]]></code>
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$item['attributes']]]></code>
@@ -2755,10 +2755,10 @@
       <code>$item</code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$item['href']]]></code>
       <code><![CDATA[$item['title']]]></code>
       <code><![CDATA[$this->button_label]]></code>
       <code><![CDATA[$this->class]]></code>
+      <code><![CDATA[rex_escape($item['href'])]]></code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/fe_ooops.php">
@@ -3019,10 +3019,10 @@
       <code>$items</code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$item['href']]]></code>
       <code><![CDATA[$item['title']]]></code>
       <code><![CDATA[$this->id]]></code>
       <code><![CDATA[$this->title]]></code>
+      <code><![CDATA[rex_escape($item['href'])]]></code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/navigations/content.php">
@@ -3078,11 +3078,11 @@
   </file>
   <file src="redaxo/src/core/fragments/core/navigations/main.php">
     <MixedArgument>
-      <code><![CDATA[$item['href']]]></code>
       <code><![CDATA[$item['icon']]]></code>
       <code><![CDATA[$item['itemAttr']]]></code>
       <code><![CDATA[$item['linkAttr']]]></code>
       <code><![CDATA[$this->headline['title']]]></code>
+      <code><![CDATA[rex_escape($item['href'])]]></code>
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$item['href']]]></code>
@@ -3116,8 +3116,8 @@
       <code>$items</code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$item['href']]]></code>
       <code><![CDATA[$item['title']]]></code>
+      <code><![CDATA[rex_escape($item['href'])]]></code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/page/docs.php">

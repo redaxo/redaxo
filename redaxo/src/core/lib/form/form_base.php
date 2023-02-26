@@ -104,8 +104,6 @@ abstract class rex_form_base
     /**
      * Gibt eine Formular-Url zurück.
      *
-     * @param bool $escape
-     *
      * @return string
      */
     public function getUrl(array $params = [])

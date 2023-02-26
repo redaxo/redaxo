@@ -837,8 +837,6 @@ class rex_list implements rex_url_provider_interface
      * @see #replaceVariable, #replaceVariables
      *
      * @param array $params
-     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
-     *
      * @return string
      */
     public function getParsedUrl($params = [])
