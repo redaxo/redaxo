@@ -800,7 +800,7 @@ class rex_list implements rex_url_provider_interface
 
     // ---------------------- Url generation
 
-    public function getUrl(array $params = [], $escape = true)
+    public function getUrl(array $params = [])
     {
         $params = array_merge($this->getParams(), $params);
 
@@ -825,7 +825,7 @@ class rex_list implements rex_url_provider_interface
             }
         }
 
-        return rex::isBackend() ? rex_url::backendController($flatParams, $escape) : rex_url::frontendController($flatParams, $escape);
+        return rex::isBackend() ? rex_url::backendController($flatParams) : rex_url::frontendController($flatParams);
     }
 
     /**
@@ -841,7 +841,7 @@ class rex_list implements rex_url_provider_interface
      *
      * @return string
      */
-    public function getParsedUrl($params = [], $escape = true)
+    public function getParsedUrl($params = [])
     {
         $params = array_merge($this->getParams(), $params);
 
@@ -865,7 +865,7 @@ class rex_list implements rex_url_provider_interface
                 $flatParams[$name] = $this->replaceVariables((string) $value);
             }
         }
-        return rex::isBackend() ? rex_url::backendController($flatParams, $escape) : rex_url::frontendController($flatParams, $escape);
+        return rex::isBackend() ? rex_url::backendController($flatParams) : rex_url::frontendController($flatParams);
     }
 
     // ---------------------- Pagination
@@ -1147,7 +1147,7 @@ class rex_list implements rex_url_provider_interface
         $s = "\n";
 
         // Form vars
-        $this->addFormAttribute('action', $this->getUrl([], false));
+        $this->addFormAttribute('action', $this->getUrl());
         $this->addFormAttribute('method', 'post');
 
         // Table vars

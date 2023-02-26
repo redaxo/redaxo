@@ -17,7 +17,7 @@ interface rex_url_provider_interface
      *
      * @return string The generated Url
      */
-    public function getUrl(array $params = [], $escape = true);
+    public function getUrl(array $params = []);
 }
 
 /**
@@ -62,12 +62,12 @@ class rex_context implements rex_context_provider_interface
         $this->globalParams = $globalParams;
     }
 
-    public function getUrl(array $params = [], $escape = true)
+    public function getUrl(array $params = [])
     {
         // combine global params with local
         $params = array_merge($this->globalParams, $params);
 
-        return rex::isBackend() ? rex_url::backendController($params, $escape) : rex_url::frontendController($params, $escape);
+        return rex::isBackend() ? rex_url::backendController($params) : rex_url::frontendController($params);
     }
 
     /**

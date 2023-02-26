@@ -10,15 +10,14 @@
  * Gibt eine Url zu einem Artikel zurück.
  *
  * @param int|string|null $id
- * @param int|string|null $clang     SprachId des Artikels
- * @param array           $params    Array von Parametern
- * @param string          $separator
+ * @param int|string|null $clang SprachId des Artikels
+ * @param array $params Array von Parametern
  *
  * @return string
  *
  * @package redaxo\structure
  */
-function rex_getUrl($id = null, $clang = null, array $params = [], $separator = '&amp;')
+function rex_getUrl($id = null, $clang = null, array $params = [])
 {
     $id = (int) $id;
     $clang = (int) $clang;
@@ -36,17 +35,17 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
     }
 
     // ----- EXTENSION POINT
-    $url = rex_extension::registerPoint(new rex_extension_point('URL_REWRITE', '', ['id' => $id, 'clang' => $clang, 'params' => $params, 'separator' => $separator]));
+    $url = rex_extension::registerPoint(new rex_extension_point('URL_REWRITE', '', ['id' => $id, 'clang' => $clang, 'params' => $params]));
 
     if ('' == $url) {
         if (rex_clang::count() > 1) {
-            $clang = $separator . 'clang=' . $clang;
+            $clang = '&clang=' . $clang;
         } else {
             $clang = '';
         }
 
-        $params = rex_string::buildQuery($params, $separator);
-        $params = $params ? $separator . $params : '';
+        $params = rex_string::buildQuery($params);
+        $params = $params ? '&'.$params : '';
 
         $url = rex_url::frontendController() . '?article_id=' . $id . $clang . $params;
     }
@@ -71,5 +70,5 @@ function rex_redirect($articleId, $clang = null, array $params = [])
         throw new InvalidArgumentException(sprintf('"%s" is not a valid article_id!', $articleId));
     }
 
-    rex_response::sendRedirect(rex_getUrl($articleId, $clang, $params, '&'));
+    rex_response::sendRedirect(rex_getUrl($articleId, $clang, $params));
 }

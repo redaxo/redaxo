@@ -280,9 +280,9 @@ abstract class rex_structure_element
      *
      * @return string
      */
-    public function getUrl(array $params = [], $divider = '&amp;')
+    public function getUrl(array $params = [])
     {
-        return rex_getUrl($this->getId(), $this->getClangId(), $params, $divider);
+        return rex_getUrl($this->getId(), $this->getClangId(), $params);
     }
 
     /**
