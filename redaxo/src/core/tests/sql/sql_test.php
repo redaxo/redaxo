@@ -587,4 +587,20 @@ class rex_sql_test extends TestCase
             static::assertIsString($k);
         }
     }
+
+    public function testGetDbArrayKeyPair(): void
+    {
+        $this->testInsertRow();
+
+        $sql = rex_sql::factory();
+        $query = 'select col_str,col_int from '. self::TABLE;
+        $data = $sql->getDBArray($query, [], PDO::FETCH_KEY_PAIR);
+
+        static::assertIsArray($data);
+        static::assertCount(1, $data);
+        foreach ($data as $k => $v) {
+            static::assertIsInt($v);
+            static::assertIsString($k);
+        }
+    }
 }
