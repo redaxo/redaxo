@@ -1195,7 +1195,7 @@ class rex_sql implements Iterator
     /**
      * Laedt das komplette Resultset in ein Array und gibt dieses zurueck.
      *
-     * @template TFetchType as PDO::FETCH_ASSOC|PDO::FETCH_NUM
+     * @template TFetchType as PDO::FETCH_ASSOC|PDO::FETCH_NUM|PDO::FETCH_KEY_PAIR
      *
      * @param string $query     The sql-query
      * @param array  $params    An optional array of statement parameter
