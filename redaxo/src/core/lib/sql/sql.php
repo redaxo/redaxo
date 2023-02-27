@@ -1170,7 +1170,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception on errors
      *
-     * @return list<array<int|string, scalar|null>>
+     * @return list<array<int|string, scalar|null>>|array<int|string, scalar|null>
      * @psalm-return (
      *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
      *    (
@@ -1208,7 +1208,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception on errors
      *
-     * @return list<array<int|string, scalar|null>>
+     * @return list<array<int|string, scalar|null>>|array<int|string, scalar|null>
      * @psalm-return (
      *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
      *    (
