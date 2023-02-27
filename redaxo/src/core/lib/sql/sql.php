@@ -1174,8 +1174,8 @@ class rex_sql implements Iterator
      * @psalm-return (
      *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
      *    (
-     *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null> :
-     *         list<array<string, scalar|null>
+     *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null>> :
+     *         list<array<string, scalar|null>>
      *    ))
      *
      * @psalm-taint-source input
@@ -1212,8 +1212,8 @@ class rex_sql implements Iterator
      * @psalm-return (
      *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
      *    (
-     *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null> :
-     *         list<array<string, scalar|null>
+     *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null>> :
+     *         list<array<string, scalar|null>>
      *    ))
      *
      * @psalm-taint-source input
