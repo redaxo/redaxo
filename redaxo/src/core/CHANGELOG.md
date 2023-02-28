@@ -28,6 +28,10 @@ Version 5.15.0 – XX.XX.2023
 * Code-Stabilität durch statische Code-Analyse verbessert (@bloep, @thorol, @staabm, @gharlan)
 * Vendor-Updates (u.a. Symfony 6) (@gharlan)
 
+### Bugfixes
+
+* `rex_backend_login`: "Headers already sent"-Fehler vermeiden (@gharlan)
+
 
 Version 5.14.3 – 20.02.2023
 ---------------------------
