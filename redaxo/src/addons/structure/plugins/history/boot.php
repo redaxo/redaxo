@@ -160,14 +160,14 @@ if (rex::isBackend() && rex::getUser()?->hasPerm('history[article_rollback]')) {
 
     rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
         if ('content/edit' == $ep->getParam('page')) {
-            $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [], '&');
+            $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId());
             if (str_starts_with($articleLink, 'http')) {
                 $user = rex::requireUser();
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
                 $userHistorySession = rex_history_login::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
-                $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [rex_history_login::class => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime], '&');
+                $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [rex_history_login::class => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime]);
             }
 
             echo '<script nonce="'.rex_response::getNonce().'">

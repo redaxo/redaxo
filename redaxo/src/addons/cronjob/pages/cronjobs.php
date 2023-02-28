@@ -202,7 +202,7 @@ if ('' == $func) {
         } else {
             $warning = rex_i18n::rawMsg('cronjob_type_not_found', $field->getValue(), $activeType);
         }
-        rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning], false));
+        rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning]));
     }
 
     $form->addFieldset($addon->i18n('type_parameters'));

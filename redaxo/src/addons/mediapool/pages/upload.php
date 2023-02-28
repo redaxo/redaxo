@@ -36,7 +36,7 @@ if ('add_file' == $mediaMethod) {
                     if ('' != $openerInputField) {
                         if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
                             $js = "selectMedialist('" . $data['filename'] . "');";
-                            $js .= 'location.href = "' . rex_url::backendPage('mediapool', ['info' => $info, 'opener_input_field' => $openerInputField], false) . '";';
+                            $js .= 'location.href = "' . rex_url::backendPage('mediapool', ['info' => $info, 'opener_input_field' => $openerInputField]) . '";';
                         } else {
                             $js = "selectMedia('" . $data['filename'] . "');";
                         }
@@ -50,7 +50,7 @@ if ('add_file' == $mediaMethod) {
                     exit;
                 }
 
-                rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $openerInputField], false));
+                rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $openerInputField]));
             } catch (rex_api_exception $e) {
                 $warning = $e->getMessage();
             }

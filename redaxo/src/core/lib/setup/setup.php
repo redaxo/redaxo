@@ -293,7 +293,7 @@ class rex_setup
             return false;
         }
 
-        return rex_url::backendPage('setup', ['setup_token' => $token], false);
+        return rex_url::backendPage('setup', ['setup_token' => $token]);
     }
 
     public static function isEnabled(): bool

@@ -12,11 +12,11 @@ class rex_context_test extends TestCase
         $globalParams = ['int' => '25', 'str' => '<a b$c&?>'];
         $context = new rex_context($globalParams);
 
-        static::assertEquals('index.php?int=25&amp;str=%3Ca+b%24c%26%3F%3E', $context->getUrl(), 'parameters get properly encoded');
-        static::assertEquals('index.php?int=25&amp;str=xyz', $context->getUrl(['str' => 'xyz']), 'local params override global params');
-        static::assertEquals('index.php?int=25&amp;str=%3Ca+b%24c%26%3F%3E&amp;str2=xyz', $context->getUrl(['str2' => 'xyz']), 'new params are appended');
-        static::assertEquals('index.php?int=25&amp;str=%3Ca+b%24c%26%3F%3E&amp;myarr[0]=xyz&amp;myarr[1]=123', $context->getUrl(['myarr' => ['xyz', 123]]), 'numeric arrays are handled');
-        static::assertEquals('index.php?int=25&amp;str=%3Ca+b%24c%26%3F%3E&amp;myarr[a]=xyz&amp;myarr[b]=123', $context->getUrl(['myarr' => ['a' => 'xyz', 'b' => 123]]), 'assoc arrays are handled');
+        static::assertEquals('index.php?int=25&str=%3Ca+b%24c%26%3F%3E', $context->getUrl(), 'parameters get properly encoded');
+        static::assertEquals('index.php?int=25&str=xyz', $context->getUrl(['str' => 'xyz']), 'local params override global params');
+        static::assertEquals('index.php?int=25&str=%3Ca+b%24c%26%3F%3E&str2=xyz', $context->getUrl(['str2' => 'xyz']), 'new params are appended');
+        static::assertEquals('index.php?int=25&str=%3Ca+b%24c%26%3F%3E&myarr[0]=xyz&myarr[1]=123', $context->getUrl(['myarr' => ['xyz', 123]]), 'numeric arrays are handled');
+        static::assertEquals('index.php?int=25&str=%3Ca+b%24c%26%3F%3E&myarr[a]=xyz&myarr[b]=123', $context->getUrl(['myarr' => ['a' => 'xyz', 'b' => 123]]), 'assoc arrays are handled');
     }
 
     public function testGetHiddenInputFields(): void

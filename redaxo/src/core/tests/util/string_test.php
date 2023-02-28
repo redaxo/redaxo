@@ -54,21 +54,20 @@ class rex_string_test extends TestCase
         static::assertEquals($expectedArray, rex_string::split($string));
     }
 
-    /** @return list<array{0: string, 1: array, 2?: string}> */
+    /** @return list<array{0: string, 1: array}> */
     public static function buildQueryProvider(): array
     {
         return [
             ['', []],
             ['page=system/settings&a%2Bb=test+test', ['page' => 'system/settings', 'a+b' => 'test test']],
             ['arr[0]=a&arr[1]=b&arr[key]=c', ['arr' => ['a', 'b', 'key' => 'c']]],
-            ['a=1&amp;b=2', ['a' => 1, 'b' => 2], '&amp;'],
         ];
     }
 
     #[DataProvider('buildQueryProvider')]
-    public function testBuildQuery(string $expected, array $params, string $argSeparator = '&'): void
+    public function testBuildQuery(string $expected, array $params): void
     {
-        static::assertEquals($expected, rex_string::buildQuery($params, $argSeparator));
+        static::assertEquals($expected, rex_string::buildQuery($params));
     }
 
     public function testBuildAttributes(): void
