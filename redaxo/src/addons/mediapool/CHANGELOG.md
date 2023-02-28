@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.13.0 – 28.02.2023
+---------------------------
+
+### Neu
+
+* Neuer EP `MEDIA_LIST_THUMBNAIL` (@danspringer)
+
+
 Version 2.12.1 – 20.02.2023
 ---------------------------
 

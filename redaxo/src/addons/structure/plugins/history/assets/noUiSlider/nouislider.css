@@ -1,4 +1,3 @@
-/*! nouislider - 10.1.0 - 2017-07-28 13:09:54 */
 /* Functional styling;
  * These styles are required for noUiSlider to function.
  * You don't need to change these rules to apply your design.
@@ -18,46 +17,67 @@
 }
 .noUi-target {
   position: relative;
-  direction: ltr;
 }
-.noUi-base {
+.noUi-base,
+.noUi-connects {
   width: 100%;
   height: 100%;
   position: relative;
   z-index: 1;
-  /* Fix 401 */
 }
-.noUi-connect {
-  position: absolute;
-  right: 0;
-  top: 0;
-  left: 0;
-  bottom: 0;
+/* Wrapper for all connect elements.
+ */
+.noUi-connects {
+  overflow: hidden;
+  z-index: 0;
 }
+.noUi-connect,
 .noUi-origin {
+  will-change: transform;
   position: absolute;
-  height: 0;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  -ms-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  -webkit-transform-style: preserve-3d;
+  transform-origin: 0 0;
+  transform-style: flat;
+}
+/* Offset direction
+ */
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-origin {
+  left: 0;
+  right: auto;
+}
+/* Give origins 0 height/width so they don't interfere with clicking the
+ * connect elements.
+ */
+.noUi-vertical .noUi-origin {
+  top: -100%;
   width: 0;
 }
+.noUi-horizontal .noUi-origin {
+  height: 0;
+}
 .noUi-handle {
-  position: relative;
-  z-index: 1;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute;
+}
+.noUi-touch-area {
+  height: 100%;
+  width: 100%;
 }
 .noUi-state-tap .noUi-connect,
 .noUi-state-tap .noUi-origin {
-  -webkit-transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
-  transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
+  -webkit-transition: transform 0.3s;
+  transition: transform 0.3s;
 }
 .noUi-state-drag * {
   cursor: inherit !important;
-}
-/* Painting and performance;
- * Browsers can paint handles in their own layer.
- */
-.noUi-base,
-.noUi-handle {
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
 }
 /* Slider size and handle placement;
  */
@@ -67,7 +87,7 @@
 .noUi-horizontal .noUi-handle {
   width: 34px;
   height: 28px;
-  left: -17px;
+  right: -17px;
   top: -6px;
 }
 .noUi-vertical {
@@ -76,10 +96,15 @@
 .noUi-vertical .noUi-handle {
   width: 28px;
   height: 34px;
-  left: -6px;
-  top: -17px;
+  right: -6px;
+  bottom: -17px;
+}
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-handle {
+  left: -17px;
+  right: auto;
 }
 /* Styling;
+ * Giving the connect element a border radius causes issues with using transform: scale
  */
 .noUi-target {
   background: #FAFAFA;
@@ -87,12 +112,11 @@
   border: 1px solid #D3D3D3;
   box-shadow: inset 0 1px 1px #F0F0F0, 0 3px 6px -5px #BBB;
 }
+.noUi-connects {
+  border-radius: 3px;
+}
 .noUi-connect {
   background: #3FB8AF;
-  border-radius: 4px;
-  box-shadow: inset 0 0 3px rgba(51, 51, 51, 0.45);
-  -webkit-transition: background 450ms;
-  transition: background 450ms;
 }
 /* Handles and cursors;
  */
@@ -196,8 +220,12 @@
   width: 100%;
 }
 .noUi-value-horizontal {
-  -webkit-transform: translate3d(-50%, 50%, 0);
-  transform: translate3d(-50%, 50%, 0);
+  -webkit-transform: translate(-50%, 50%);
+  transform: translate(-50%, 50%);
+}
+.noUi-rtl .noUi-value-horizontal {
+  -webkit-transform: translate(50%, 50%);
+  transform: translate(50%, 50%);
 }
 .noUi-marker-horizontal.noUi-marker {
   margin-left: -1px;
@@ -220,9 +248,13 @@
   left: 100%;
 }
 .noUi-value-vertical {
-  -webkit-transform: translate3d(0, 50%, 0);
-  transform: translate3d(0, 50%, 0);
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
   padding-left: 25px;
+}
+.noUi-rtl .noUi-value-vertical {
+  -webkit-transform: translate(0, 50%);
+  transform: translate(0, 50%);
 }
 .noUi-marker-vertical.noUi-marker {
   width: 5px;
@@ -257,4 +289,16 @@
   transform: translate(0, -50%);
   top: 50%;
   right: 120%;
+}
+.noUi-horizontal .noUi-origin > .noUi-tooltip {
+  -webkit-transform: translate(50%, 0);
+  transform: translate(50%, 0);
+  left: auto;
+  bottom: 10px;
+}
+.noUi-vertical .noUi-origin > .noUi-tooltip {
+  -webkit-transform: translate(0, -18px);
+  transform: translate(0, -18px);
+  top: auto;
+  right: 28px;
 }

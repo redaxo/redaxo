@@ -19,7 +19,7 @@ class rex_webauthn
         $user = rex::requireUser();
 
         $webauthn = $this->createWebauthnBase();
-        $args = $webauthn->getCreateArgs((string) $user->getId(), $user->getLogin(), $user->getName(), requireResidentKey: true);
+        $args = $webauthn->getCreateArgs((string) $user->getId(), $user->getLogin(), $user->getName(), requireResidentKey: true, requireUserVerification: true);
 
         rex_set_session(self::SESSION_CHALLENGE_CREATE, $webauthn->getChallenge());
 
@@ -37,7 +37,7 @@ class rex_webauthn
         /** @var ByteBuffer $challenge */
         $challenge = rex_session(self::SESSION_CHALLENGE_CREATE);
 
-        $data = $this->createWebauthnBase()->processCreate($clientDataJSON, $attestationObject, $challenge);
+        $data = $this->createWebauthnBase()->processCreate($clientDataJSON, $attestationObject, $challenge, requireUserVerification: true);
 
         $credentialId = rex_type::string($data->credentialId);
         $credentialId = rtrim(strtr(base64_encode($credentialId), '+/', '-_'), '=');
@@ -48,7 +48,7 @@ class rex_webauthn
     public function getGetArgs(?string $id = null): string
     {
         $webauthn = $this->createWebauthnBase();
-        $args = $webauthn->getGetArgs($id ? [ByteBuffer::fromBase64Url($id)] : []);
+        $args = $webauthn->getGetArgs($id ? [ByteBuffer::fromBase64Url($id)] : [], requireUserVerification: true);
 
         rex_set_session(self::SESSION_CHALLENGE_GET, $webauthn->getChallenge());
 
@@ -83,7 +83,7 @@ class rex_webauthn
         $challenge = rex_session(self::SESSION_CHALLENGE_GET);
 
         try {
-            $this->createWebauthnBase()->processGet($clientDataJSON, $authenticatorData, $signature, rex_type::string($sql->getValue('public_key')), $challenge);
+            $this->createWebauthnBase()->processGet($clientDataJSON, $authenticatorData, $signature, rex_type::string($sql->getValue('public_key')), $challenge, requireUserVerification: true);
         } catch (WebAuthnException) {
             return null;
         }

@@ -124,6 +124,7 @@ syslog_type = Typ
 syslog_message = Nachricht
 syslog_file = Datei
 syslog_line = Zeile
+syslog_url = URL
 syslog_title = Logdatei "{0}"
 syslog_phperrors = PHP Errorlog
 syslog_slowqueries = DB Slow-Query log

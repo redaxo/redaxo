@@ -25,26 +25,20 @@ if ($func && !$csrfToken->isValid()) {
     exit;
 }
 
-$message = '';
-$content = '';
-
 if ('' != $success) {
-    $message .= rex_view::success($success);
+    echo rex_view::success($success);
 }
 
 if ('' != $error) {
-    $message .= rex_view::error($error);
+    echo rex_view::error($error);
 }
 
-$content .= '
+$content = '
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>' . rex_i18n::msg('syslog_timestamp') . '</th>
-                        <th>' . rex_i18n::msg('syslog_type') . '</th>
                         <th>' . rex_i18n::msg('syslog_message') . '</th>
-                        <th>' . rex_i18n::msg('syslog_file') . '</th>
-                        <th class="rex-table-number">' . rex_i18n::msg('syslog_line') . '</th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -56,26 +50,48 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     /** @var rex_log_entry $entry */
     $data = $entry->getData();
 
-    $class = strtolower($data[0]);
-    $class = in_array($class, ['notice', 'warning', 'success', 'info', 'debug'], true) ? $class : 'error';
+    $type = rex_type::string($data[0]);
+    $message = rex_type::string($data[1]);
+    $file = $data[2] ?? null;
+    $line = $data[3] ?? null;
+
+    $class = match (strtolower($type)) {
+        'debug' => 'default',
+        'info', 'notice', 'deprecated' => 'info',
+        'warning' => 'warning',
+        default => 'danger',
+    };
 
     $path = '';
-    if (isset($data[2])) {
-        $path = rex_escape($data[2]);
+    if ($file) {
+        $path = rex_escape($file.(null === $line ? '' : ':'.$line));
 
-        $fullPath = str_starts_with($data[2], 'rex://') ? $data[2] : rex_path::base($data[2]);
-        if ($url = $editor->getUrl($fullPath, $data[3] ?? 1)) {
+        $fullPath = str_starts_with($file, 'rex://') ? $file : rex_path::base($file);
+        if ($url = $editor->getUrl($fullPath, (int) ($line ?? 1))) {
             $path = '<a href="'.$url.'">'.$path.'</a>';
         }
+        $path = '<small class="rex-word-break"><span class="label label-default">'.rex_i18n::msg('syslog_file').':</span> '.$path.'</small><br>';
+    }
+
+    $url = $data[4] ?? null;
+    if ($url) {
+        $url = rex_escape($url);
+        $url = '<small class="rex-word-break"><span class="label label-default">'.rex_i18n::msg('syslog_url').':</span> <a href="'.$url.'">'.$url.'</a></small>';
+    } else {
+        $url = '';
     }
 
     $content .= '
-                <tr class="rex-state-' . $class . '">
-                    <td data-title="' . rex_i18n::msg('syslog_timestamp') . '" class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>
-                    <td data-title="' . rex_i18n::msg('syslog_type') . '"><div class="rex-word-break">' . rex_escape($data[0]) . '</div></td>
-                    <td data-title="' . rex_i18n::msg('syslog_message') . '"><div class="rex-word-break">' . nl2br(rex_escape($data[1])) . '</div></td>
-                    <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-word-break">' . $path . '</div></td>
-                    <td class="rex-table-number" data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? rex_escape($data[3]) : '') . '</td>
+                <tr>
+                    <td data-title="' . rex_i18n::msg('syslog_timestamp') . '" class="rex-table-tabular-nums rex-table-date">
+                        <small>' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</small><br>
+                        <span class="label label-'.$class.'">' . rex_escape($type) . '</span>
+                    </td>
+                    <td data-title="' . rex_i18n::msg('syslog_message') . '">
+                        <div class="rex-word-break"><b style="font-weight: 500">' . nl2br(rex_escape($message)) . '</b></div>
+                        '.$path.'
+                        '.$url.'
+                    </td>
                 </tr>';
 }
 
@@ -119,5 +135,4 @@ $content = '
         ' . $content . '
     </form>';
 
-echo $message;
 echo $content;

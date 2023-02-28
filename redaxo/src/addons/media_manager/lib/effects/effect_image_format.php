@@ -113,7 +113,13 @@ class rex_effect_image_format extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_effect_image_format_convertto'),
                 'name' => 'convert_to',
                 'type' => 'select',
-                'options' => self::CONVERT_TOS,
+                'options' => array_filter(self::CONVERT_TOS, static function (string $format): bool {
+                    return match ($format) {
+                        'webp' => function_exists('imagewebp'),
+                        'avif' => function_exists('imageavif'),
+                        default => true,
+                    };
+                }),
                 'default' => self::CONVERT_TO_DEFAULT,
             ],
         ];

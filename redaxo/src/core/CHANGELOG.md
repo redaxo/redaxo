@@ -1,6 +1,38 @@
 Changelog
 =========
 
+Version 5.15.0 – 28.02.2023
+---------------------------
+
+### Neu
+
+* Neue PHP-Mindestversion 8.1 (@gharlan)
+* Login optional per Passkey/WebAuthn statt Benutzername/Passwort (@gharlan)
+* Sessions:
+    - Backend-Sessions werden einzeln in der Datenbank gespeichert; im Profil wird die Liste der offenen Session ausgegeben und Sessions können einzeln beendet werden (@bloep, @gharlan)
+    - Neue Option `session_max_overall_duration` in `config.yml` (@staabm)
+    - `session.use_strict_mode` wird immer aktiviert (@gharlan)
+    - `session.save_path/sid_length/sid_bits_per_character` können über `config.yml` gesetzt werden (@gharlan)
+    - Neuer EP `SESSION_REGENERATED` (@gharlan)
+* Syslog:
+    - Darstellung im Backend optimiert (@tbaddade, @gharlan)
+    - Aufgerufene URL wird mitgeloggt (@gharlan)
+    - Zeitstempel inkl. Zeitzonen-Offset in Logdatei (@dergel) 
+* `dump`: Suchfunktion innerhalb der Dumpausgabe aktiviert (@tbaddade, @gharlan)
+* `rex_form`: Label kann optional über Felder gesetzt werden (`setLabelOnTop`) (@christophboecker)
+* `rex_formatter`: Methode `truncate` nutzt richtiges Ellipsis-Zeichen (@skerbis)
+* `rex_response`: Neue Methode `getNonce` (wird an vielen Stellen im Backend bereits verwendet) (@dergel, @gharlan)
+* Console-Commands: Autocomplete für Argumente/Optionen (@staabm, @gharlan)
+* Search-Fragment: Value kann vorbelegt werden (@aeberhard)
+* Optimierung Fehlermeldung, wenn PHP-Version zu niedrig (@gharlan)
+* Code-Stabilität durch statische Code-Analyse verbessert (@bloep, @thorol, @staabm, @gharlan)
+* Vendor-Updates (u.a. Symfony 6) (@gharlan)
+
+### Bugfixes
+
+* `rex_backend_login`: "Headers already sent"-Fehler vermeiden (@gharlan)
+
+
 Version 5.14.3 – 20.02.2023
 ---------------------------
 

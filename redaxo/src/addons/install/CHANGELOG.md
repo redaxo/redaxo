@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.11.0 – 28.02.2023
+---------------------------
+
+### Neu
+
+* AddOns können nach Download direkt installiert werden (@pwechs)
+* Bei den verfügbaren Versionsnummern wird das Veröffentlichungsdatum per Title-Attribut gesetzt (@pwechs)
+* Stabilere Addon-Updates bei Rechteproblemen (@gharlan)
+* Command `install:download`: Version-Constraints werden unterstützt (@staabm)
+
+
 Version 2.10.1 – 20.02.2023
 ---------------------------
 

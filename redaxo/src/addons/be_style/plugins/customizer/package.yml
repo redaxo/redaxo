@@ -1,5 +1,5 @@
 package: be_style/customizer
-version: '3.1.2'
+version: '4.0.0-dev'
 author: Peter Thiel
 supportpage: https://github.com/redaxo/redaxo
 
@@ -15,7 +15,7 @@ pages:
 requires:
     php:
         extensions: [zip]
-    redaxo: ^5.13.0
+    redaxo: ^6.0.0-dev
 
 default_config:
     labelcolor: '#3bb594'

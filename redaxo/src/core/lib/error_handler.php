@@ -61,7 +61,7 @@ abstract class rex_error_handler
         }
 
         try {
-            rex_logger::logException($exception);
+            rex_logger::logException($exception, self::getUrl());
 
             // in case exceptions happen early - before symfony-console doRun()
             if ('cli' === PHP_SAPI) {
@@ -324,7 +324,7 @@ abstract class rex_error_handler
             }
         }
 
-        rex_logger::logError($errno, $errstr, $errfile, $errline);
+        rex_logger::logError($errno, $errstr, $errfile, $errline, self::getUrl());
 
         return true;
     }
@@ -366,6 +366,27 @@ abstract class rex_error_handler
             E_STRICT => 'Strict',
             default => 'Unknown',
         };
+    }
+
+    private static function getUrl(): ?string
+    {
+        if ('cli' === PHP_SAPI) {
+            return null;
+        }
+
+        try {
+            $request = rex::getRequest();
+        } catch (rex_exception) {
+            return null;
+        }
+
+        // Backend URLs use `/` inside page param, and we try to use them unencoded
+        // so for consistency we unencode them here too
+        $uri = preg_replace_callback('@(?<=\?page=)[\w/]+@', static function (array $match) {
+            return str_replace('%2F', '/', $match[0]);
+        }, $request->getRequestUri(), 1);
+
+        return $request->getSchemeAndHttpHost().$uri;
     }
 
     /**

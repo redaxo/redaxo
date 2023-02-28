@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 2.14.0 – 28.02.2023
+---------------------------
+
+### Neu
+
+* AVIF-Unterstützung: Verarbeitung von AVIF-Bildern und Umwandlung in AVIF (@gharlan)
+* Lossless WEBP wird unterstützt (Qualität mit Wert 101) (@gharlan)
+* Effekt `workspace`:
+    - Optionaler Abstand zum Rand (@frood)
+    - Optionales Hintergrundbild (@frood)
+* Effekt `header`: `noindex` kann aktiviert werden (@bitshiftersgmbh)
+
+
 Version 2.13.3 – 20.02.2023
 ---------------------------
 

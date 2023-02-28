@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.10.0 – 28.02.2023
+---------------------------
+
+### Neu
+
+* Sessions/Passkeys der Benutzer können eingesehen und einzeln gelöscht werden (@dergel, @gharlan)
+
+
 Version 2.9.2 – 20.02.2023
 --------------------------
 
