@@ -291,6 +291,12 @@ class rex_backend_login extends rex_login
         if (!isset($_COOKIE[session_name()])) {
             return false;
         }
+
+        // it is not possible to start a session if headers are already sent
+        if (PHP_SESSION_ACTIVE !== session_status() && headers_sent()) {
+            return false;
+        }
+
         self::startSession();
 
         return ($_SESSION[static::getSessionNamespace()][self::SYSTEM_ID][rex_login::SESSION_USER_ID] ?? 0) > 0;
