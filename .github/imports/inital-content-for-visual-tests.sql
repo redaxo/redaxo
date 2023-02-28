@@ -1,4 +1,4 @@
-## Redaxo Database Dump Version 5
+## Redaxo Database Dump Version 6
 ## Prefix rex_
 ## charset utf8mb4
 

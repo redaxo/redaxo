@@ -54,7 +54,6 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     $message = rex_type::string($data[1]);
     $file = $data[2] ?? null;
     $line = $data[3] ?? null;
-    $url = $data[4] ?? null;
 
     $class = match (strtolower($type)) {
         'debug' => 'default',
@@ -73,6 +72,8 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
         }
         $path = '<small class="rex-word-break"><span class="label label-default">'.rex_i18n::msg('syslog_file').':</span> '.$path.'</small><br>';
     }
+
+    $url = $data[4] ?? null;
     if ($url) {
         $url = rex_escape($url);
         $url = '<small class="rex-word-break"><span class="label label-default">'.rex_i18n::msg('syslog_url').':</span> <a href="'.$url.'">'.$url.'</a></small>';

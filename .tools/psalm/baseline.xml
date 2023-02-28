@@ -4682,8 +4682,6 @@
     </ArgumentTypeCoercion>
     <LessSpecificReturnStatement>
       <code><![CDATA[$sql->getValue('Create Table')]]></code>
-      <code><![CDATA[$this->stmt->fetchAll($fetchType)]]></code>
-      <code><![CDATA[$this->stmt->fetchAll($fetchType)]]></code>
     </LessSpecificReturnStatement>
     <MixedArgument>
       <code>$field</code>
@@ -4730,9 +4728,23 @@
       <code>$version</code>
       <code><![CDATA[json_decode($this->getValue($column), true)]]></code>
     </MixedReturnStatement>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$this->stmt->fetchAll($fetchType)]]></code>
+      <code><![CDATA[$this->stmt->fetchAll($fetchType)]]></code>
+      <code><![CDATA[(
+     *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
+     *    (
+     *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null>> :
+     *         list<array<string, scalar|null>>
+     *    ))]]></code>
+      <code><![CDATA[(
+     *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
+     *    (
+     *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null>> :
+     *         list<array<string, scalar|null>>
+     *    ))]]></code>
+    </MixedReturnTypeCoercion>
     <MoreSpecificReturnType>
-      <code><![CDATA[list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>]]></code>
-      <code><![CDATA[list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>]]></code>
       <code>string</code>
     </MoreSpecificReturnType>
     <NullableReturnStatement>
