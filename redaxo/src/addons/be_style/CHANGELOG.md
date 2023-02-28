@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 3.2.0 – XX.XX.2023
+Version 3.2.0 – 28.02.2023
 --------------------------
 
 * Login-Seite: Neues Hintergrundbild (@schuer)

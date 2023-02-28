@@ -1,5 +1,5 @@
 package: structure
-version: '2.15.0-beta1'
+version: '2.15.0'
 author: Markus Staab
 supportpage: https://github.com/redaxo/redaxo
 
@@ -27,7 +27,7 @@ system_plugins: [content]
 
 requires:
     php: '>=8.1'
-    redaxo: ^5.15.0-beta1
+    redaxo: ^5.15.0
 
 default_config:
     start_article_id: 1
