@@ -56,7 +56,7 @@ if ($func && !$csrfToken->isValid()) {
     rex::setProperty('debug', $config['debug']);
     if (rex_file::putConfig($configFile, $config) > 0) {
         // reload the page so that debug mode is immediately visible
-        rex_response::sendRedirect(rex_url::currentBackendPage(['rex_debug_updated' => true], false));
+        rex_response::sendRedirect(rex_url::currentBackendPage(['rex_debug_updated' => true]));
     }
 } elseif ('updateinfos' == $func) {
     $configFile = rex_path::coreData('config.yml');

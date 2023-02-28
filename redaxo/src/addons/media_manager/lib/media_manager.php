@@ -543,11 +543,10 @@ class rex_media_manager
      * @param string|rex_media $file      Media file
      * @param null|int         $timestamp Last change timestamp of given file, for cache buster parameter
      *                                    (not nessary when the file is given by a `rex_media` object)
-     * @param bool             $escape
      *
      * @return string
      */
-    public static function getUrl($type, $file, $timestamp = null, $escape = true)
+    public static function getUrl($type, $file, $timestamp = null)
     {
         if ($file instanceof rex_media) {
             if (null === $timestamp) {
@@ -570,13 +569,12 @@ class rex_media_manager
             }
         }
 
-        $url = rex_url::frontendController($params, $escape);
+        $url = rex_url::frontendController($params);
 
         return rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_URL', $url, [
             'type' => $type,
             'file' => $file,
             'buster' => $params['buster'] ?? null,
-            'escape' => $escape,
         ]));
     }
 

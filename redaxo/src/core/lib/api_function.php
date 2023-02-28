@@ -192,7 +192,7 @@ abstract class rex_api_function
                         // add api call result to url
                         $context->setParam(self::REQ_RESULT_PARAM, $result->toJSON());
                         // and redirect to SELF for reboot
-                        rex_response::sendRedirect($context->getUrl([], false));
+                        rex_response::sendRedirect($context->getUrl());
                     }
                 } catch (rex_api_exception $e) {
                     $message = $e->getMessage();

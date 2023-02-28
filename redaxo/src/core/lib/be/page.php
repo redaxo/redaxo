@@ -165,7 +165,7 @@ class rex_be_page
     public function setHref($href)
     {
         if (is_array($href)) {
-            $href = rex_url::backendController($href, false);
+            $href = rex_url::backendController($href);
         }
         $this->href = $href;
 
@@ -192,7 +192,7 @@ class rex_be_page
         if ($this->href) {
             return $this->href;
         }
-        return rex_url::backendPage($this->getFirstSubpagesLeaf()->getFullKey(), [], false);
+        return rex_url::backendPage($this->getFirstSubpagesLeaf()->getFullKey());
     }
 
     /**

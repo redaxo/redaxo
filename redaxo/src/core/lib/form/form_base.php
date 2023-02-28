@@ -104,16 +104,14 @@ abstract class rex_form_base
     /**
      * Gibt eine Formular-Url zurück.
      *
-     * @param bool $escape
-     *
      * @return string
      */
-    public function getUrl(array $params = [], $escape = true)
+    public function getUrl(array $params = [])
     {
         $params = array_merge($this->getParams(), $params);
         $params['form'] = $this->getName();
 
-        return rex::isBackend() ? rex_url::backendController($params, $escape) : rex_url::frontendController($params, $escape);
+        return rex::isBackend() ? rex_url::backendController($params) : rex_url::frontendController($params);
     }
 
     // --------- Sections
@@ -635,7 +633,7 @@ abstract class rex_form_base
     public function setApplyUrl($url)
     {
         if (is_array($url)) {
-            $url = $this->getUrl($url, false);
+            $url = $this->getUrl($url);
         }
 
         $this->applyUrl = $url;
@@ -1174,7 +1172,7 @@ abstract class rex_form_base
         rex_extension::registerPoint(new rex_extension_point('REX_FORM_GET', $this, [], true));
 
         if (!$this->applyUrl) {
-            $this->setApplyUrl($this->getUrl(['func' => ''], false));
+            $this->setApplyUrl($this->getUrl(['func' => '']));
         }
 
         if (null !== ($controlElement = $this->getControlElement())) {

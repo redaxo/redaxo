@@ -23,7 +23,7 @@ if (count($items) > 0) {
         }
 
         if (isset($item['href']) && '' != $item['href']) {
-            $listItem = '<a href="' . $item['href'] . '"' . $attributes . '>' . $listItem . '</a>';
+            $listItem = '<a href="' . rex_escape($item['href']) . '"' . $attributes . '>' . $listItem . '</a>';
         } elseif ('' != $attributes) {
             $listItem = '<span' . $attributes . '>' . $listItem . '</span>';
         }
