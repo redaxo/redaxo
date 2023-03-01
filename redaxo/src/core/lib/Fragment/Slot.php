@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Fragment;
 
 use Closure;
-use rex_functional_exception;
+use rex_exception;
 
 use function is_array;
 
@@ -36,7 +36,7 @@ class Slot
         $this->value = preg_replace('/\A(<[a-z-]+)/', '$1 slot="'.$slot.'"', $this->value);
 
         if (!str_contains($this->value, 'slot="'.$slot.'"')) {
-            throw new rex_functional_exception('The '.$slot.' property requires the attribute `slot="'.$slot.'"`');
+            throw new rex_exception('The '.$slot.' property requires the attribute `slot="'.$slot.'"`');
         }
 
         return $this;

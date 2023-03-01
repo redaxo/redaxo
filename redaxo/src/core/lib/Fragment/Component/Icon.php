@@ -45,7 +45,7 @@ enum IconLibrary
     case AlertSuccess;
     case AlertWarning;
     case Debug;
-    case PHPInfo;
+    case PhpInfo;
     case VersionUnstable;
     case Save;
 }

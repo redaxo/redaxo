@@ -310,7 +310,9 @@ $sql = rex_sql::factory();
     </div>
     <div class="col-lg-4">
         <?= (new Card(
-            slotHeader: new Slot('<div>'.rex_i18n::msg('system_features').'</div>'),
+            slotHeader: new Slot(static function () { ?>
+                <div><?= rex_i18n::msg('system_features') ?></div>
+            <?php }),
 
             slotDefault: new Slot(static function () use ($csrfToken) { ?>
                 <h3><?= rex_i18n::msg('delete_cache') ?></h3>
@@ -357,7 +359,7 @@ $sql = rex_sql::factory();
                 <p>
                     <?= (new Button(
                         slotDefault: new Slot(rex_i18n::msg('setup')),
-                        href: rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams(), false),
+                        href: rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()),
                         variant: ButtonVariant::Primary,
                         attributes: [
                             'data-pjax' => 'false',
@@ -398,7 +400,7 @@ $sql = rex_sql::factory();
                                 <?php }),
                                 slotSuffix: new Slot(static function () { ?>
                                     <?= (new Icon(
-                                        name: IconLibrary::PHPInfo,
+                                        name: IconLibrary::PhpInfo,
                                     ))->render() ?>
                                 <?php }),
                                 href: rex_url::backendPage('system/phpinfo'),

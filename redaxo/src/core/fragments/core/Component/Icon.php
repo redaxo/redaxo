@@ -9,7 +9,7 @@ $name = match ($this->name) {
     IconLibrary::Add => 'plus-lg',
     IconLibrary::AlertError => 'exclamation-octagon',
     IconLibrary::AlertInfo,
-    IconLibrary::PHPInfo => 'info-circle',
+    IconLibrary::PhpInfo => 'info-circle',
     IconLibrary::AlertNeutral => 'x-diamond',
     IconLibrary::AlertSuccess => 'check-circle',
     IconLibrary::AlertWarning => 'exclamation-triangle',
