@@ -42,5 +42,4 @@ redaxo/bin/console cache:clear --ansi
 
 composer update --ansi # update dev-tools
 
-yarn --cwd redaxo/src/core
-cp -R redaxo/src/core/node_modules/@shoelace-style/shoelace assets/core/shoelace/
+yarn install
