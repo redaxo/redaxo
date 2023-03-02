@@ -339,7 +339,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         $artAddLink = '<a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['function' => 'add_art', 'artstart' => $structureContext->getArtStart()]) . '"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2') . '><i class="rex-icon rex-icon-add-article"></i></a>';
     }
 
-    $article_order_by = rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_ARTICLE_ORDER_BY', 'priority, name', [
+    $articleOrderBy = rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_ARTICLE_ORDER_BY', 'priority, name', [
         'category_id' => $structureContext->getCategoryId(),
         'article_id' => $structureContext->getArticleId(),
         'clang' => $structureContext->getClangId(),
@@ -354,7 +354,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         WHERE
             ((parent_id = :category_id AND startarticle=0) OR (id = :category_id AND startarticle=1))
             AND clang_id = :clang_id
-        ORDER BY ' . $article_order_by . '
+        ORDER BY ' . $articleOrderBy . '
     ', [
         'category_id' => $structureContext->getCategoryId(),
         'clang_id' => $structureContext->getClangId(),
@@ -377,7 +377,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             ((parent_id = :category_id AND startarticle=0) OR (id = :category_id AND startarticle=1))
             AND clang_id = :clang_id
         ORDER BY
-            ' . $article_order_by . '
+            ' . $articleOrderBy . '
         LIMIT ' . $artPager->getCursor() . ',' . $artPager->getRowsPerPage(),
         [
             'category_id' => $structureContext->getCategoryId(),
