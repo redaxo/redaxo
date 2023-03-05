@@ -80,14 +80,23 @@
 
     <?= $this->pageHeader ?>
     <link rel="stylesheet" href="<?= rex_url::coreAssets('shoelace/dist/themes/light.css') ?>" />
+    <link rel="stylesheet" href="<?= rex_url::coreAssets('shoelace/dist/themes/dark.css') ?>" />
     <script type="module" src="<?= rex_url::coreAssets('shoelace/dist/shoelace.js') ?>"></script>
-    <style>
+    <style nonce="<?= rex_response::getNonce() ?>">
         html {
             font-size: 1rem !important;
         }
     </style>
-
+    <script nonce="<?= rex_response::getNonce() ?>">
+        if (window.matchMedia) {
+            document.documentElement.classList.toggle('sl-theme-dark', window.matchMedia('(prefers-color-scheme: dark)').matches);
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                document.documentElement.classList.toggle('sl-theme-dark', event.matches);
+            });
+        }
+    </script>
 </head>
+
 <body<?= $this->bodyAttr ?>>
 
 <div class="rex-ajax-loader" id="rex-js-ajax-loader">
