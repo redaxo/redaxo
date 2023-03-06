@@ -123,9 +123,7 @@ if (window.PublicKeyCredential &&
             return;
         }
 
-        $(document).on('rex:ready', function (event, container) {
-            container = container.get(0);
-
+        const init = function (container) {
             let form = container.querySelector('form[data-auth-add-passkey]');
             if (form) {
                 authAddPasskey(form);
@@ -140,6 +138,14 @@ if (window.PublicKeyCredential &&
             if (form) {
                 authLogin(form);
             }
-        });
+        }
+
+        init(document.body);
+
+        setTimeout(function () {
+            $(document).on('rex:ready', function (event, container) {
+                init(container.get(0));
+            });
+        }, 1000);
     });
 }
