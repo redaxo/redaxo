@@ -6,13 +6,13 @@ use Redaxo\Core\Fragment\Component\Alert;
 use Redaxo\Core\Fragment\Component\AlertType;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
-use Redaxo\Core\Fragment\Slot;
+use Redaxo\Core\Fragment\Fragment;
 
-class Success
+class Success extends Fragment
 {
     public function __construct(
-        /** @see Alert::$slotDefault */
-        public Slot $slotDefault,
+        /** @see Alert::$body */
+        public string|Fragment $body,
 
         /** @see Alert::$duration */
         public ?int $duration = null,
@@ -23,13 +23,9 @@ class Success
 
     public function render(): string
     {
-        $icon = new Icon(
-            name: IconLibrary::AlertSuccess,
-        );
-
         $alert = new Alert(
-            slotDefault: $this->slotDefault,
-            slotIcon: new Slot($icon->render()),
+            body: $this->body,
+            icon: new Icon(IconLibrary::AlertSuccess),
             open: true,
             type: AlertType::Success,
             attributes: $this->attributes,

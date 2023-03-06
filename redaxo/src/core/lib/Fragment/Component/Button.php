@@ -2,26 +2,25 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
-use Redaxo\Core\Fragment\Slot;
-use rex_fragment;
+use Redaxo\Core\Fragment\Fragment;
 
-class Button extends rex_fragment
+class Button extends Fragment
 {
     public function __construct(
         /**
          * The button's label.
          */
-        public Slot $slotDefault,
+        public string|Fragment $label,
 
         /**
          * A presentational prefix icon or similar element.
          */
-        public ?Slot $slotPrefix = null,
+        public string|Fragment|null $prefix = null,
 
         /**
          * A presentational suffix icon or similar element.
          */
-        public ?Slot $slotSuffix = null,
+        public string|Fragment|null $suffix = null,
 
         /**
          * When set, the underlying button will be rendered
@@ -101,13 +100,11 @@ class Button extends rex_fragment
 
         /** @var array<string, string|int> */
         public array $attributes = [],
-    ) {
-        parent::__construct([]);
-    }
+    ) {}
 
-    public function render(): string
+    protected function getPath(): string
     {
-        return parent::parse('core/Component/Button.php');
+        return 'core/Component/Button.php';
     }
 }
 

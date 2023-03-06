@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Fragment\Component\Button;
+use Redaxo\Core\Fragment\Fragment;
 
 /** @var Button $this */
 ?>
@@ -20,7 +21,7 @@ use Redaxo\Core\Fragment\Component\Button;
     <?= $this->target ? 'target="'.$this->target->value.'"' : '' ?>
     <?= rex_string::buildAttributes($this->attributes) ?>
 >
-    <?= $this->slotPrefix ? $this->slotPrefix->prepare('prefix')->get() : '' ?>
-    <?= $this->slotSuffix ? $this->slotSuffix->prepare('suffix')->get() : '' ?>
-    <?= $this->slotDefault->get() ?>
+    <?= Fragment::slot($this->prefix, 'prefix') ?>
+    <?= Fragment::slot($this->suffix, 'suffix') ?>
+    <?= Fragment::slot($this->label) ?>
 </sl-button>

@@ -6,10 +6,10 @@ use Redaxo\Core\Fragment\Component\Button;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
-use Redaxo\Core\Fragment\Slot;
+use Redaxo\Core\Fragment\Fragment;
 use rex_i18n;
 
-class Add
+class Add extends Fragment
 {
     public function __construct(
         public ?string $href = null,
@@ -19,13 +19,9 @@ class Add
 
     public function render(): string
     {
-        $icon = new Icon(
-            name: IconLibrary::Add,
-        );
-
         $button = new Button(
-            slotDefault: new Slot(rex_i18n::msg('add')),
-            slotPrefix: new Slot($icon->render()),
+            label: rex_i18n::rawMsg('add'),
+            prefix: new Icon(IconLibrary::Add),
             href: $this->href,
             variant: ButtonVariant::Primary,
             attributes: $this->attributes,

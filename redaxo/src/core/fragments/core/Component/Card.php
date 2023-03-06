@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Fragment\Component\Card;
+use Redaxo\Core\Fragment\Fragment;
 
 /** @var Card $this */
 ?>
@@ -8,8 +9,8 @@ use Redaxo\Core\Fragment\Component\Card;
 <sl-card
     <?= rex_string::buildAttributes($this->attributes) ?>
 >
-    <?= $this->slotImage ? $this->slotImage->prepare('image')->get() : '' ?>
-    <?= $this->slotHeader ? $this->slotHeader->prepare('header')->get() : '' ?>
-    <?= $this->slotFooter ? $this->slotFooter->prepare('footer')->get() : '' ?>
-    <?= $this->slotDefault->get() ?>
+    <?= Fragment::slot($this->image, 'image') ?>
+    <?= Fragment::slot($this->header, 'header') ?>
+    <?= Fragment::slot($this->footer, 'footer') ?>
+    <?= Fragment::slot($this->body) ?>
 </sl-card>

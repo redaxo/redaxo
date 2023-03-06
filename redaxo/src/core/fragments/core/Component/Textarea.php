@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Fragment\Component\Textarea;
+use Redaxo\Core\Fragment\Fragment;
 
 /** @var Textarea $this */
 ?>
@@ -8,8 +9,8 @@ use Redaxo\Core\Fragment\Component\Textarea;
 <sl-textarea
     <?= $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>
     <?= $this->value ? 'value="'.rex_escape($this->value).'"' : '' ?>
-    <?= $this->label ? 'label="'.rex_escape($this->label).'"' : '' ?>
-    <?= $this->notice ? 'help-text="'.rex_escape($this->notice).'"' : '' ?>
+    <?= is_string($this->label) ? 'label="'.rex_escape($this->label).'"' : '' ?>
+    <?= is_string($this->notice) ? 'help-text="'.rex_escape($this->notice).'"' : '' ?>
     <?= $this->disabled ? 'disabled' : '' ?>
     <?= $this->placeholder ? 'placeholder="'.rex_escape($this->placeholder).'"' : '' ?>
     rows="<?= rex_escape($this->rows) ?>"
@@ -23,6 +24,6 @@ use Redaxo\Core\Fragment\Component\Textarea;
     <?= $this->spellcheck ? 'spellcheck="true"' : 'spellcheck="false"' ?>
     <?= rex_string::buildAttributes($this->attributes) ?>
 >
-    <?= $this->slotLabel ? $this->slotLabel->prepare('label')->get() : '' ?>
-    <?= $this->slotNotice ? $this->slotNotice->prepare('help-text')->get() : '' ?>
+    <?= $this->label instanceof Fragment ? Fragment::slot($this->label, 'label') : '' ?>
+    <?= $this->notice instanceof Fragment ? Fragment::slot($this->notice, 'help-text') : '' ?>
 </sl-textarea>

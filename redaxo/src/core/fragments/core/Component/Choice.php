@@ -2,15 +2,14 @@
 
 use Redaxo\Core\Fragment\Component\Choice;
 use Redaxo\Core\Fragment\Component\ChoiceType;
+use Redaxo\Core\Fragment\Fragment;
 
 /** @var Choice $this */
 
-if (ChoiceType::Check === $this->type && $this->multiple) {
-    echo $this->parse('core/Component/ChoiceCheckbox.php');
-}
-if (ChoiceType::Check === $this->type && !$this->multiple) {
-    echo $this->parse('core/Component/ChoiceRadio.php');
-}
 if (ChoiceType::Select === $this->type) {
-    echo $this->parse('core/Component/ChoiceSelect.php');
+    require Fragment::resolvePath('core/Component/ChoiceSelect.php');
+} elseif ($this->multiple) {
+    require Fragment::resolvePath('core/Component/ChoiceCheckbox.php');
+} else {
+    require Fragment::resolvePath('core/Component/ChoiceRadio.php');
 }

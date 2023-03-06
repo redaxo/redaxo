@@ -13,7 +13,7 @@ use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
 use Redaxo\Core\Fragment\Component\Input;
 use Redaxo\Core\Fragment\Component\InputType;
-use Redaxo\Core\Fragment\Slot;
+use Redaxo\Core\Fragment\Html;
 
 $alertError = [];
 $alertSuccess = '';
@@ -172,13 +172,13 @@ $sql = rex_sql::factory();
 
 <?php if (!empty($alertError)): ?>
     <?= (new Error(
-        slotDefault: new Slot($alertError),
+        body: new Html($alertError),
     ))->render() ?>
 <?php endif ?>
 
 <?php if ('' != $alertSuccess): ?>
     <?= (new Success(
-        slotDefault: new Slot($alertSuccess),
+        body: new Html($alertSuccess),
     ))->render() ?>
 <?php endif ?>
 
@@ -189,13 +189,9 @@ $sql = rex_sql::factory();
             <?= $csrfToken->getHiddenField() ?>
 
             <?= (new Card(
-                slotHeader: new Slot(static function () { ?>
-                    <div>
-                        <?= rex_i18n::msg('system_settings') ?>
-                    </div>
-                <?php }),
+                header: rex_i18n::msg('system_settings'),
 
-                slotDefault: new Slot(static function () use ($langChoices, $editor, $configYml) { ?>
+                body: new Html(static function () use ($langChoices, $editor, $configYml) { ?>
                     <?= (new Input(
                         label: rex_i18n::msg('server'),
                         type: InputType::Url,
@@ -228,7 +224,7 @@ $sql = rex_sql::factory();
 
                     <?php if ($url = $editor->getUrl($configYml, 0)): ?>
                         <?= (new Button(
-                            slotDefault: new Slot(rex_i18n::msg('system_editor_open_file', rex_path::basename($configYml))),
+                            label: rex_i18n::rawMsg('system_editor_open_file', rex_path::basename($configYml)),
                             href: $url,
                             variant: ButtonVariant::Primary,
                             size: ButtonSize::Small,
@@ -240,7 +236,7 @@ $sql = rex_sql::factory();
                     <?php endif ?>
                 <?php }),
 
-                slotFooter: new Slot(static function () { ?>
+                footer: new Html(static function () { ?>
                     <?= (new Button\Save(
                         name: 'sendit',
                     ))->render() ?>
@@ -252,13 +248,9 @@ $sql = rex_sql::factory();
             <input type="hidden" name="func" value="update_editor" />
             <?= $csrfToken->getHiddenField() ?>
             <?= (new Card(
-                slotHeader: new Slot(static function () { ?>
-                    <div>
-                        <?= rex_i18n::msg('system_editor') ?>
-                    </div>
-                <?php }),
+                header: rex_i18n::msg('system_editor'),
 
-                slotDefault: new Slot(static function () use ($viaCookie, $editor) { ?>
+                body: new Html(static function () use ($viaCookie, $editor) { ?>
                     <p><?= rex_i18n::msg('system_editor_note') ?></p>
 
                     <?= (new Choice(
@@ -276,21 +268,21 @@ $sql = rex_sql::factory();
                     ))->render() ?>
 
                     <?= $viaCookie ? (new Info(
-                        slotDefault: new Slot(rex_i18n::msg('system_editor_note_cookie')),
+                        body: rex_i18n::msg('system_editor_note_cookie'),
                     ))->render() : '' ?>
                 <?php }),
 
-                slotFooter: new Slot(static function () use ($viaCookie) { ?>
+                footer: new Html(static function () use ($viaCookie) { ?>
                     <div>
                         <?= (new Button\Save(
-                            slotDefault: new Slot(rex_i18n::msg('system_editor_update_cookie')),
+                            label: rex_i18n::rawMsg('system_editor_update_cookie'),
                             name: 'editor[update_cookie]',
                             value: '1',
                         ))->render() ?>
 
                         <?php if ($viaCookie): ?>
                             <?= (new Button(
-                                slotDefault: new Slot(rex_i18n::msg('system_editor_delete_cookie')),
+                                label: rex_i18n::rawMsg('system_editor_delete_cookie'),
                                 variant: ButtonVariant::Danger,
                                 type: ButtonType::Submit,
                                 name: 'editor[delete_cookie]',
@@ -298,7 +290,7 @@ $sql = rex_sql::factory();
                             ))->render() ?>
                         <?php else: ?>
                             <?= (new Button\Save(
-                                slotDefault: new Slot(rex_i18n::msg('system_editor_update_configyml')),
+                                label: rex_i18n::rawMsg('system_editor_update_configyml'),
                                 name: 'editor[update_cookie]',
                                 value: '0',
                             ))->render() ?>
@@ -310,17 +302,15 @@ $sql = rex_sql::factory();
     </div>
     <div class="col-lg-4">
         <?= (new Card(
-            slotHeader: new Slot(static function () { ?>
-                <div><?= rex_i18n::msg('system_features') ?></div>
-            <?php }),
+            header: rex_i18n::msg('system_features'),
 
-            slotDefault: new Slot(static function () use ($csrfToken) { ?>
+            body: new Html(static function () use ($csrfToken) { ?>
                 <h3><?= rex_i18n::msg('delete_cache') ?></h3>
                 <p><?= rex_i18n::msg('delete_cache_description') ?></p>
                 <p>
                     <?= (new Button(
-                        slotDefault: new Slot(rex_i18n::msg('delete_cache')),
-                        href: (rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams())),
+                        label: rex_i18n::rawMsg('delete_cache'),
+                        href: rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()),
                         variant: ButtonVariant::Danger,
                     ))->render() ?>
                 </p>
@@ -329,12 +319,8 @@ $sql = rex_sql::factory();
                 <p><?= rex_i18n::msg('debug_mode_note') ?></p>
                 <p>
                     <?= (new Button(
-                        slotDefault: new Slot(rex_i18n::msg('debug_mode_'.(rex::isDebugMode() ? 'off' : 'on'))),
-                        slotPrefix: new Slot(static function () { ?>
-                            <?= (new Icon(
-                                name: IconLibrary::Debug,
-                            ))->render() ?>
-                        <?php }),
+                        label: rex_i18n::rawMsg('debug_mode_'.(rex::isDebugMode() ? 'off' : 'on')),
+                        prefix: new Icon(IconLibrary::Debug),
                         href: (rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams())),
                         variant: ButtonVariant::Warning,
                         attributes: ['data-pjax' => 'false'] + (!rex::isDebugMode() ? ['data-confirm' => rex_i18n::msg('debug_confirm')] : []),
@@ -345,7 +331,7 @@ $sql = rex_sql::factory();
                 <p><?= rex_i18n::msg('safemode_text') ?></p>
                 <p>
                     <?= (new Button(
-                        slotDefault: new Slot(rex_i18n::msg('safemode_'.(rex::isSafeMode() ? 'deactivate' : 'activate'))),
+                        label: rex_i18n::rawMsg('safemode_'.(rex::isSafeMode() ? 'deactivate' : 'activate')),
                         href: rex_url::currentBackendPage(['safemode' => (rex::isSafeMode() ? '0' : '1')] + $csrfToken->getUrlParams()),
                         variant: ButtonVariant::Warning,
                         attributes: [
@@ -358,7 +344,7 @@ $sql = rex_sql::factory();
                 <p><?= rex_i18n::msg('setup_text') ?></p>
                 <p>
                     <?= (new Button(
-                        slotDefault: new Slot(rex_i18n::msg('setup')),
+                        label: rex_i18n::rawMsg('setup'),
                         href: rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()),
                         variant: ButtonVariant::Primary,
                         attributes: [
@@ -371,13 +357,9 @@ $sql = rex_sql::factory();
         ))->render() ?>
 
         <?= (new Card(
-            slotHeader: new Slot(static function () { ?>
-                <div>
-                    <?= rex_i18n::msg('installation') ?>
-                </div>
-            <?php }),
+            header: rex_i18n::msg('installation'),
 
-            slotDefault: new Slot(static function () use ($rexVersion) { ?>
+            body: new Html(static function () use ($rexVersion) { ?>
                 <table class="table">
                     <tr>
                         <th class="rex-table-width-3">REDAXO</th>
@@ -395,14 +377,8 @@ $sql = rex_sql::factory();
                         <th>PHP</th>
                         <td>
                             <?= (new Button(
-                                slotDefault: new Slot(static function () { ?>
-                                    <?= PHP_VERSION ?>
-                                <?php }),
-                                slotSuffix: new Slot(static function () { ?>
-                                    <?= (new Icon(
-                                        name: IconLibrary::PhpInfo,
-                                    ))->render() ?>
-                                <?php }),
+                                label: PHP_VERSION,
+                                suffix: new Icon(IconLibrary::PhpInfo),
                                 href: rex_url::backendPage('system/phpinfo'),
                                 attributes: [
                                     'onclick' => 'newWindow("phpinfo", this.href, 1000,800,",status=yes,resizable=yes"); return false;',
@@ -422,13 +398,9 @@ $sql = rex_sql::factory();
         ))->render() ?>
 
         <?= (new Card(
-            slotHeader: new Slot(static function () { ?>
-                <div>
-                    <?= rex_i18n::msg('database') ?>
-                </div>
-            <?php }),
+            header: rex_i18n::msg('database'),
 
-            slotDefault: new Slot(static function () use ($sql, $dbConfig) { ?>
+            body: new Html(static function () use ($sql, $dbConfig) { ?>
                 <table class="table">
                     <tr>
                         <th class="rex-table-width-3"><?= rex_i18n::msg('version') ?></th>

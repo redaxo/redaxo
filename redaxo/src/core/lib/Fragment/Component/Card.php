@@ -2,41 +2,38 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
-use Redaxo\Core\Fragment\Slot;
-use rex_fragment;
+use Redaxo\Core\Fragment\Fragment;
 
-class Card extends rex_fragment
+class Card extends Fragment
 {
     public function __construct(
         /**
          * The card's main content.
          */
-        public Slot $slotDefault,
+        public string|Fragment $body,
 
         /**
          * An optional header for the card.
          */
-        public ?Slot $slotHeader = null,
+        public string|Fragment|null $header = null,
 
         /**
          * An optional footer for the card.
          */
-        public ?Slot $slotFooter = null,
+        public string|Fragment|null $footer = null,
 
         /**
          * An optional image to render at the start of
          * the card.
          */
-        public ?Slot $slotImage = null,
+        public ?Fragment $image = null,
 
         /** @var array<string, string|int> */
         public array $attributes = [],
-    ) {
-        parent::__construct([]);
-    }
+    ) {}
 
-    public function render(): string
+    protected function getPath(): string
     {
-        return parent::parse('core/Component/Card.php');
+        return 'core/Component/Card.php';
     }
 }
