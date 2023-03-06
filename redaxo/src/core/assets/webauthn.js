@@ -114,6 +114,12 @@ const arrayBufferToBase64 = function (buffer) {
 if (window.PublicKeyCredential &&
     PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable &&
     PublicKeyCredential.isConditionalMediationAvailable) {
+
+    let ready = false;
+    $(document).on('rex:ready', function () {
+        ready = true;
+    });
+
     // Check if user verifying platform authenticator is available.
     Promise.all([
         PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(),
@@ -140,12 +146,12 @@ if (window.PublicKeyCredential &&
             }
         }
 
-        init(document.body);
+        if (ready) {
+            init(document.body);
+        }
 
-        setTimeout(function () {
-            $(document).on('rex:ready', function (event, container) {
-                init(container.get(0));
-            });
-        }, 1000);
+        $(document).on('rex:ready', function (event, container) {
+            init(container.get(0));
+        });
     });
 }
