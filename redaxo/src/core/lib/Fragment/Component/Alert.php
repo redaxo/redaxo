@@ -35,7 +35,7 @@ class Alert extends Fragment
         /**
          * The alert's type.
          */
-        public ?AlertType $type = null,
+        public AlertType $type = AlertType::Neutral,
 
         /**
          * The length of time, in milliseconds, the alert

@@ -16,7 +16,6 @@ $name = match ($this->name) {
     IconLibrary::Debug => 'heart-pulse',
     IconLibrary::VersionUnstable => 'egg-fried',
     IconLibrary::Save => 'database-up',
-    default => 'award',
 };
 ?>
 <sl-icon name="<?= $name ?>"

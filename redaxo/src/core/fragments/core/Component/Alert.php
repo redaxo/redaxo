@@ -9,9 +9,9 @@ use Redaxo\Core\Fragment\Fragment;
 $variant = match ($this->type) {
     AlertType::Error => 'danger',
     AlertType::Info => 'primary',
+    AlertType::Neutral => 'neutral',
     AlertType::Success => 'success',
     AlertType::Warning => 'warning',
-    default => 'neutral',
 };
 ?>
 
