@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Fragment\Component\Alert;
 use Redaxo\Core\Fragment\Component\AlertType;
+use Redaxo\Core\Fragment\Fragment;
 
 /** @var Alert $this */
 
@@ -21,6 +22,6 @@ $variant = match ($this->type) {
     <?= $this->duration ? 'duration="'.$this->duration.'"' : '' ?>
     <?= rex_string::buildAttributes($this->attributes) ?>
 >
-    <?= $this->slotIcon ? $this->slotIcon->prepare('icon')->get() : '' ?>
-    <?= $this->slotDefault->get() ?>
+    <?= Fragment::slot($this->icon, 'icon') ?>
+    <?= Fragment::slot($this->body) ?>
 </sl-alert>

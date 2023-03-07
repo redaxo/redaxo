@@ -2,23 +2,15 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
-use Redaxo\Core\Fragment\Slot;
-use rex_fragment;
+use Redaxo\Core\Fragment\Fragment;
 
-class Checkbox extends rex_fragment
+class Checkbox extends Fragment
 {
     public function __construct(
         /**
-         * The checkbox's label. Alternatively, you can use the
-         * label attribute.
+         * The checkbox's label.
          */
-        public ?Slot $slotLabel = null,
-
-        /**
-         * The checkbox's label. If you need to display HTML,
-         * use the label slot instead.
-         */
-        public ?string $label = null,
+        public string|Fragment|null $label = null,
 
         /**
          * The name of the checkbox, submitted as a name/value
@@ -58,12 +50,10 @@ class Checkbox extends rex_fragment
 
         /** @var array<string, string|int> */
         public array $attributes = [],
-    ) {
-        parent::__construct([]);
-    }
+    ) {}
 
-    public function render(): string
+    protected function getPath(): string
     {
-        return parent::parse('core/Component/Checkbox.php');
+        return 'core/Component/Checkbox.php';
     }
 }

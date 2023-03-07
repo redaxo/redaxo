@@ -3,43 +3,34 @@
 namespace Redaxo\Core\Fragment\Component;
 
 use Redaxo\Core\Fragment\Enum\FormControl\Autocapitalize;
-use Redaxo\Core\Fragment\Slot;
-use rex_fragment;
+use Redaxo\Core\Fragment\Fragment;
 use rex_functional_exception;
 
 use function in_array;
 
-class Input extends rex_fragment
+class Input extends Fragment
 {
     public function __construct(
         /**
-         * The input's label. Alternatively, you can use the
-         * label attribute.
+         * The input's label.
          */
-        public ?Slot $slotLabel = null,
+        public string|Fragment|null $label = null,
 
         /**
          * Text that describes how to use the input.
-         * Alternatively, you can use the notice property.
          */
-        public ?Slot $slotNotice = null,
+        public string|Fragment|null $notice = null,
 
         /**
          * Used to prepend a presentational icon or similar
          * element to the input.
          */
-        public ?Slot $slotPrefix = null,
+        public string|Fragment|null $prefix = null,
 
         /**
          * A presentational suffix icon or similar element.
          */
-        public ?Slot $slotSuffix = null,
-
-        /**
-         * The input's label. If you need to display HTML,
-         * use the label slot instead.
-         */
-        public ?string $label = null,
+        public string|Fragment|null $suffix = null,
 
         /**
          * The type of input. Works the same as a native
@@ -59,12 +50,6 @@ class Input extends rex_fragment
          * name/value pair with form data.
          */
         public ?string $value = null,
-
-        /**
-         * The input's notice. If you need to display HTML,
-         * use the notice slot instead.
-         */
-        public ?string $notice = null,
 
         /**
          * Disables the input.
@@ -159,13 +144,11 @@ class Input extends rex_fragment
         if ($this->step && !in_array($this->type, $this->stepTypes())) {
             throw new rex_functional_exception('The step property applies to date and number input types. The current type is '.$this->type->name.'.');
         }
-
-        parent::__construct([]);
     }
 
-    public function render(): string
+    protected function getPath(): string
     {
-        return parent::parse('core/Component/Input.php');
+        return 'core/Component/Input.php';
     }
 
     /**

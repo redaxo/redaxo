@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Fragment\Component\Input;
+use Redaxo\Core\Fragment\Fragment;
 
 /** @var Input $this */
 ?>
@@ -9,8 +10,8 @@ use Redaxo\Core\Fragment\Component\Input;
     type="<?= $this->type->value ?>"
     <?= $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>
     <?= $this->value ? 'value="'.rex_escape($this->value).'"' : '' ?>
-    <?= $this->label ? 'label="'.rex_escape($this->label).'"' : '' ?>
-    <?= $this->notice ? 'help-text="'.rex_escape($this->notice).'"' : '' ?>
+    <?= is_string($this->label) ? 'label="'.rex_escape($this->label).'"' : '' ?>
+    <?= is_string($this->notice) ? 'help-text="'.rex_escape($this->notice).'"' : '' ?>
     <?= $this->disabled ? 'disabled' : '' ?>
     <?= $this->placeholder ? 'placeholder="'.rex_escape($this->placeholder).'"' : '' ?>
     <?= $this->readonly ? 'readonly' : '' ?>
@@ -25,8 +26,8 @@ use Redaxo\Core\Fragment\Component\Input;
     <?= $this->spellcheck ? 'spellcheck="true"' : 'spellcheck="false"' ?>
     <?= rex_string::buildAttributes($this->attributes) ?>
 >
-    <?= $this->slotLabel ? $this->slotLabel->prepare('label')->get() : '' ?>
-    <?= $this->slotNotice ? $this->slotNotice->prepare('help-text')->get() : '' ?>
-    <?= $this->slotPrefix ? $this->slotPrefix->prepare('prefix')->get() : '' ?>
-    <?= $this->slotSuffix ? $this->slotSuffix->prepare('suffix')->get() : '' ?>
+    <?= $this->label instanceof Fragment ? Fragment::slot($this->label, 'label') : '' ?>
+    <?= $this->notice instanceof Fragment ? Fragment::slot($this->notice, 'help-text') : '' ?>
+    <?= Fragment::slot($this->prefix, 'prefix') ?>
+    <?= Fragment::slot($this->suffix, 'suffix') ?>
 </sl-input>

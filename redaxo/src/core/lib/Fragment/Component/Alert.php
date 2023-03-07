@@ -2,21 +2,20 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
-use Redaxo\Core\Fragment\Slot;
-use rex_fragment;
+use Redaxo\Core\Fragment\Fragment;
 
-class Alert extends rex_fragment
+class Alert extends Fragment
 {
     public function __construct(
         /**
          * The alert's main content.
          */
-        public Slot $slotDefault,
+        public string|Fragment $body,
 
         /**
          * An icon to show in the alert.
          */
-        public ?Slot $slotIcon = null,
+        public ?Fragment $icon = null,
 
         /**
          * Indicates whether or not the alert is open. You
@@ -50,13 +49,11 @@ class Alert extends rex_fragment
 
         /** @var array<string, string|int> */
         public array $attributes = [],
-    ) {
-        parent::__construct([]);
-    }
+    ) {}
 
-    public function render(): string
+    protected function getPath(): string
     {
-        return parent::parse('core/Component/Alert.php');
+        return 'core/Component/Alert.php';
     }
 }
 

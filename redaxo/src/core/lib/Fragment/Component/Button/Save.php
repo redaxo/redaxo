@@ -7,13 +7,13 @@ use Redaxo\Core\Fragment\Component\ButtonType;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
-use Redaxo\Core\Fragment\Slot;
+use Redaxo\Core\Fragment\Fragment;
 use rex_i18n;
 
-class Save
+class Save extends Fragment
 {
     public function __construct(
-        public ?Slot $slotDefault = null,
+        public string|Fragment|null $label = null,
         public ?string $name = null,
         public ?string $value = null,
         /** @var array<string, string|int> */
@@ -22,13 +22,9 @@ class Save
 
     public function render(): string
     {
-        $icon = new Icon(
-            name: IconLibrary::Save,
-        );
-
         $button = new Button(
-            slotDefault: $this->slotDefault ?: new Slot(rex_i18n::msg('save')),
-            slotPrefix: new Slot($icon->render()),
+            label: $this->label ?? rex_i18n::rawMsg('form_save'),
+            prefix: new Icon(IconLibrary::Save),
             variant: ButtonVariant::Success,
             type: ButtonType::Submit,
             name: $this->name,

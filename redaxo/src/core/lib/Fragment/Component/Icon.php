@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
-use rex_fragment;
+use Redaxo\Core\Fragment\Fragment;
 
-class Icon extends rex_fragment
+class Icon extends Fragment
 {
     public function __construct(
         /**
@@ -26,13 +26,11 @@ class Icon extends rex_fragment
          * executed as code and can result in XSS attacks.
          */
         public ?string $src = null,
-    ) {
-        parent::__construct([]);
-    }
+    ) {}
 
-    public function render(): string
+    protected function getPath(): string
     {
-        return parent::parse('core/Component/Icon.php');
+        return 'core/Component/Icon.php';
     }
 }
 

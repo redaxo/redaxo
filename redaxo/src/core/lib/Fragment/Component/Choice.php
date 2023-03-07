@@ -3,14 +3,13 @@
 namespace Redaxo\Core\Fragment\Component;
 
 use Closure;
-use Redaxo\Core\Fragment\Slot;
-use rex_fragment;
+use Redaxo\Core\Fragment\Fragment;
 
 use function call_user_func;
 use function is_array;
 use function is_callable;
 
-class Choice extends rex_fragment
+class Choice extends Fragment
 {
     /** @var array<string, array<string, string>|string> */
     private array $choicesByLabels = [];
@@ -20,22 +19,14 @@ class Choice extends rex_fragment
 
     public function __construct(
         /**
-         * The choice label. Alternatively, you can use the
-         * label attribute.
+         * The choice label.
          */
-        public ?Slot $slotLabel = null,
+        public string|Fragment|null $label = null,
 
         /**
          * Text that describes how to use the choice.
-         * Alternatively, you can use the notice property.
          */
-        public ?Slot $slotNotice = null,
-
-        /**
-         * The choice label. If you need to display HTML,
-         * use the label slot instead.
-         */
-        public ?string $label = null,
+        public string|Fragment|null $notice = null,
 
         /**
          * The name of the choice.
@@ -57,12 +48,6 @@ class Choice extends rex_fragment
          * @var array<string, array<string, string>|string>
          */
         public array $choices = [],
-
-        /**
-         * The choice notice. If you need to display HTML,
-         * use the notice slot instead.
-         */
-        public ?string $notice = null,
 
         /**
          * Disables the choice.
@@ -136,13 +121,11 @@ class Choice extends rex_fragment
         if ($this->multiple && $this->name) {
             $this->name .= '[]';
         }
-
-        parent::__construct([]);
     }
 
-    public function render(): string
+    protected function getPath(): string
     {
-        return parent::parse('core/Component/Choice.php');
+        return 'core/Component/Choice.php';
     }
 
     /**
