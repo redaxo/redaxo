@@ -137,7 +137,10 @@ class Input extends Fragment
 
         /** @var array<string, string|int> */
         public array $attributes = [],
-    ) {
+    ) {}
+
+    public function render(): string
+    {
         if ($this->min && !in_array($this->type, $this->minMaxTypes())) {
             throw new rex_functional_exception('The min property applies to date and number input types. The current type is '.$this->type->name.'.');
         }
@@ -147,6 +150,8 @@ class Input extends Fragment
         if ($this->step && !in_array($this->type, $this->stepTypes())) {
             throw new rex_functional_exception('The step property applies to date and number input types. The current type is '.$this->type->name.'.');
         }
+
+        return parent::render();
     }
 
     protected function getPath(): string
