@@ -4,8 +4,9 @@
  * @psalm-scope-this rex_fragment
  */
 ?>
+<?php $theme = rex::getTheme() ?>
 <!doctype html>
-<html lang="<?= rex_i18n::msg('htmllang') ?>">
+<html lang="<?= rex_i18n::msg('htmllang') ?>" <?= $theme ? 'class="sl-theme-'.rex_escape($theme).'"' : '' ?>>
 <head>
     <meta charset="utf-8" />
 
@@ -79,22 +80,24 @@
     <?= $this->favicon ? '<link rel="shortcut icon" href="' . $this->favicon . '" />' : '' ?>
 
     <?= $this->pageHeader ?>
-    <link rel="stylesheet" href="<?= rex_url::coreAssets('shoelace/dist/themes/light.css') ?>" />
-    <link rel="stylesheet" href="<?= rex_url::coreAssets('shoelace/dist/themes/dark.css') ?>" />
+    <?php if ('dark' !== $theme): ?><link rel="stylesheet" href="<?= rex_url::coreAssets('shoelace/dist/themes/light.css') ?>" /><?php endif ?>
+    <?php if ('light' !== $theme): ?><link rel="stylesheet" href="<?= rex_url::coreAssets('shoelace/dist/themes/dark.css') ?>" /><?php endif ?>
     <script type="module" src="<?= rex_url::coreAssets('shoelace/dist/shoelace.js') ?>"></script>
     <style nonce="<?= rex_response::getNonce() ?>">
         html {
             font-size: 1rem !important;
         }
     </style>
-    <script nonce="<?= rex_response::getNonce() ?>">
-        if (window.matchMedia) {
-            document.documentElement.classList.toggle('sl-theme-dark', window.matchMedia('(prefers-color-scheme: dark)').matches);
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-                document.documentElement.classList.toggle('sl-theme-dark', event.matches);
-            });
-        }
-    </script>
+    <?php if (!$theme): ?>
+        <script nonce="<?= rex_response::getNonce() ?>">
+            if (window.matchMedia) {
+                document.documentElement.classList.toggle('sl-theme-dark', window.matchMedia('(prefers-color-scheme: dark)').matches);
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                    document.documentElement.classList.toggle('sl-theme-dark', event.matches);
+                });
+            }
+        </script>
+    <?php endif ?>
 </head>
 
 <body<?= $this->bodyAttr ?>>
