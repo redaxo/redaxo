@@ -8,6 +8,9 @@ use rex_functional_exception;
 
 use function in_array;
 
+/**
+ * @see redaxo/src/core/fragments/core/Component/Input.php
+ */
 class Input extends Fragment
 {
     public function __construct(

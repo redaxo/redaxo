@@ -5,6 +5,9 @@ namespace Redaxo\Core\Fragment\Component;
 use Redaxo\Core\Fragment\Enum\FormControl\Autocapitalize;
 use Redaxo\Core\Fragment\Fragment;
 
+/**
+ * @see redaxo/src/core/fragments/core/Component/Textarea.php
+ */
 class Textarea extends Fragment
 {
     public function __construct(

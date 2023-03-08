@@ -9,6 +9,12 @@ use function call_user_func;
 use function is_array;
 use function is_callable;
 
+/**
+ * @see redaxo/src/core/fragments/core/Component/Choice.php
+ * @see redaxo/src/core/fragments/core/Component/ChoiceCheckbox.php
+ * @see redaxo/src/core/fragments/core/Component/ChoiceRadio.php
+ * @see redaxo/src/core/fragments/core/Component/ChoiceSelect.php
+ */
 class Choice extends Fragment
 {
     /** @var array<string, array<string, string>|string> */
