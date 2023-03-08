@@ -86,10 +86,14 @@ class Choice extends Fragment
          */
         public null|string|Closure $choiceLabel = null,
     ) {
+    }
+
+    public function render(): string
+    {
         foreach ($this->choices as $choiceLabel => $choiceValue) {
             if (!is_array($choiceValue)) {
                 if (is_callable($this->choiceLabel)) {
-                    $choiceLabel = (string) call_user_func($this->choiceLabel, $value, $choiceLabel);
+                    $choiceLabel = (string) call_user_func($this->choiceLabel, $choiceValue, $choiceLabel);
                 }
 
                 $this->choicesByLabels[trim($choiceLabel)] = trim($choiceValue);
@@ -121,6 +125,8 @@ class Choice extends Fragment
         if ($this->multiple && $this->name) {
             $this->name .= '[]';
         }
+
+        return parent::render();
     }
 
     protected function getPath(): string
