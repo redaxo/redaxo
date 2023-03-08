@@ -172,7 +172,7 @@ $sql = rex_sql::factory();
 
 <?php if (!empty($alertError)): ?>
     <?= (new Error(
-        body: new Html($alertError),
+        body: new Html(implode('<br>', $alertError)),
     ))->render() ?>
 <?php endif ?>
 

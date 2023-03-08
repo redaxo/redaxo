@@ -18,12 +18,15 @@ abstract class Fragment
         $path = $this->getPath();
         $fullPath = $this->resolvePath($path);
 
-        $ouput = rex_timer::measure('Fragment: '.$path, Closure::bind(function () use ($fullPath) {
+        $closure = Closure::bind(function () use ($fullPath) {
             ob_start();
             require $fullPath;
 
             return rex_type::string(ob_get_clean());
-        }, $this, static::class));
+        }, $this, static::class);
+        rex_type::instanceOf($closure, Closure::class);
+
+        $ouput = rex_timer::measure('Fragment: '.$path, $closure);
 
         return rex_type::string($ouput);
     }
@@ -63,7 +66,7 @@ abstract class Fragment
             return $content->render();
         }
 
-        if (property_exists($content, 'attributes') && is_array($content->attributes)) {
+        if (isset($content->attributes) && is_array($content->attributes)) {
             $content->attributes['slot'] = $name;
 
             return $content->render();
