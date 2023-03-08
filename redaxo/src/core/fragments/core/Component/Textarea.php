@@ -13,12 +13,12 @@ use Redaxo\Core\Fragment\Fragment;
     <?= is_string($this->notice) ? 'help-text="'.rex_escape($this->notice).'"' : '' ?>
     <?= $this->disabled ? 'disabled' : '' ?>
     <?= $this->placeholder ? 'placeholder="'.rex_escape($this->placeholder).'"' : '' ?>
-    rows="<?= rex_escape($this->rows) ?>"
-    resize="<?= rex_escape($this->resize->value) ?>"
+    rows="<?= $this->rows ?>"
+    resize="<?= $this->resize->value ?>"
     <?= $this->readonly ? 'readonly' : '' ?>
     <?= $this->required ? 'required' : '' ?>
-    <?= $this->minlength ? 'minlength="'.rex_escape($this->minlength).'"' : '' ?>
-    <?= $this->maxlength ? 'maxlength="'.rex_escape($this->maxlength).'"' : '' ?>
+    <?= $this->minlength ? 'minlength="'.$this->minlength.'"' : '' ?>
+    <?= $this->maxlength ? 'maxlength="'.$this->maxlength.'"' : '' ?>
     <?= $this->autofocus ? 'autofocus' : '' ?>
     <?= $this->autocapitalize ? 'autocapitalize="'.$this->autocapitalize->value.'"' : '' ?>
     <?= $this->spellcheck ? 'spellcheck="true"' : 'spellcheck="false"' ?>

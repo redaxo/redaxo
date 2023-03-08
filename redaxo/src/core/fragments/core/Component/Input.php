@@ -17,8 +17,8 @@ use Redaxo\Core\Fragment\Fragment;
     <?= $this->readonly ? 'readonly' : '' ?>
     <?= $this->required ? 'required' : '' ?>
     <?= $this->pattern ? 'pattern="'.rex_escape($this->pattern).'"' : '' ?>
-    <?= $this->minlength ? 'minlength="'.rex_escape($this->minlength).'"' : '' ?>
-    <?= $this->maxlength ? 'maxlength="'.rex_escape($this->maxlength).'"' : '' ?>
+    <?= $this->minlength ? 'minlength="'.$this->minlength.'"' : '' ?>
+    <?= $this->maxlength ? 'maxlength="'.$this->maxlength.'"' : '' ?>
     <?= $this->min ? 'min="'.rex_escape($this->min).'"' : '' ?>
     <?= $this->max ? 'max="'.rex_escape($this->max).'"' : '' ?>
     <?= $this->step ? 'step="'.rex_escape($this->step).'"' : '' ?>
