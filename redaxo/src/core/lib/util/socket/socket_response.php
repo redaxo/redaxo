@@ -187,7 +187,7 @@ class rex_socket_response
             return [];
         }
 
-        return array_map(static function ($encoding) {
+        return array_map(static function ($encoding): string {
             return trim(strtolower($encoding));
         }, explode(',', $contenEncodingHeader));
     }

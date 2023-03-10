@@ -234,7 +234,7 @@ abstract class rex_formatter
      *
      * @return string
      */
-    public static function number($value, $format = [])
+    public static function number($value, $format = []): string
     {
         if (!is_array($format)) {
             $format = [];
@@ -300,7 +300,7 @@ abstract class rex_formatter
      *
      * @return string
      */
-    public static function sprintf($value, $format = '')
+    public static function sprintf($value, $format = ''): string
     {
         if ('' == $format) {
             $format = '%s';
@@ -317,7 +317,7 @@ abstract class rex_formatter
      *
      * @return string
      */
-    public static function nl2br($value)
+    public static function nl2br($value): string
     {
         return nl2br($value);
     }
@@ -391,7 +391,7 @@ abstract class rex_formatter
      *
      * @return string
      */
-    public static function version($value, $format)
+    public static function version($value, $format): string
     {
         return vsprintf($format, rex_version::split($value));
     }

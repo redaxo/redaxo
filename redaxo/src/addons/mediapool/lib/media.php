@@ -296,7 +296,7 @@ class rex_media
      *
      * @return string
      */
-    public function toLink($attributes = '')
+    public function toLink($attributes = ''): string
     {
         return sprintf('<a href="%s" title="%s"%s>%s</a>', $this->getUrl(), $this->getValue('med_description'), $attributes, $this->getFileName());
     }
@@ -322,7 +322,7 @@ class rex_media
     /**
      * @return bool
      */
-    public function fileExists()
+    public function fileExists(): bool
     {
         return is_file(rex_path::media($this->getFileName()));
     }
@@ -339,7 +339,7 @@ class rex_media
     /**
      * @return bool
      */
-    public static function isDocType($type)
+    public static function isDocType($type): bool
     {
         return in_array($type, self::getDocTypes());
     }
@@ -356,7 +356,7 @@ class rex_media
     /**
      * @return bool
      */
-    public static function isImageType($extension)
+    public static function isImageType($extension): bool
     {
         return in_array($extension, self::getImageTypes());
     }

@@ -266,7 +266,7 @@ class rex_log_entry
      */
     public function __toString()
     {
-        $data = array_map(static function ($part) {
+        $data = array_map(static function ($part): string {
             return trim(addcslashes($part, "|\n\\"));
         }, $this->data);
         $data = implode(' | ', $data);

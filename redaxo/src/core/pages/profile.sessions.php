@@ -35,7 +35,7 @@ $list->setColumnFormat('last_activity', 'custom', static function () use ($list)
     }
     return rex_formatter::intlDateTime((string) $list->getValue('last_activity'), IntlDateFormatter::SHORT);
 });
-$list->setColumnFormat('starttime', 'custom', static function () use ($list) {
+$list->setColumnFormat('starttime', 'custom', static function () use ($list): string {
     return rex_formatter::intlDateTime((string) $list->getValue('starttime'), IntlDateFormatter::SHORT);
 });
 $content = $list->get();

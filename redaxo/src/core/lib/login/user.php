@@ -183,7 +183,7 @@ class rex_user
      *
      * @return bool
      */
-    public function hasRole()
+    public function hasRole(): bool
     {
         if (self::$roleClass && !is_object($this->role) && ($role = $this->sql->getValue('role'))) {
             $class = self::$roleClass;

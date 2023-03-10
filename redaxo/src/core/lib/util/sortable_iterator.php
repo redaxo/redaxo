@@ -35,12 +35,12 @@ class rex_sortable_iterator implements IteratorAggregate
     public function getIterator()
     {
         $array = iterator_to_array($this->iterator);
-        $normalize = static function ($string) {
+        $normalize = static function ($string): array|string {
             $string = preg_replace("/(?<=[aou])\xcc\x88/i", '', $string);
             $string = mb_strtolower($string);
             return str_replace(['ä', 'ö', 'ü', 'ß'], ['a', 'o', 'u', 's'], $string);
         };
-        $sortCallback = static function ($a, $b) use ($normalize) {
+        $sortCallback = static function ($a, $b) use ($normalize): int {
             $a = $normalize($a);
             $b = $normalize($b);
             return strnatcasecmp($a, $b);

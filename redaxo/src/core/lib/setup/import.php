@@ -70,7 +70,7 @@ class rex_setup_importer
     /**
      * @return string
      */
-    public static function databaseAlreadyExists()
+    public static function databaseAlreadyExists(): string
     {
         // ----- db schon vorhanden, nichts tun
         return self::reinstallPackages();

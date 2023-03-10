@@ -230,7 +230,7 @@ class rex_autoload
      *
      * @return string[]
      */
-    public static function getClasses()
+    public static function getClasses(): array
     {
         return array_keys(self::$classes);
     }

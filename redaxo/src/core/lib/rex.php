@@ -215,7 +215,7 @@ class rex
      *
      * @return bool
      */
-    public static function isSetup()
+    public static function isSetup(): bool
     {
         return rex_setup::isEnabled();
     }

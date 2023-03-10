@@ -112,7 +112,7 @@ class rex_be_controller
     /**
      * @return string
      */
-    public static function getPageTitle()
+    public static function getPageTitle(): string
     {
         $parts = [];
 

@@ -17,7 +17,7 @@ class rex_command_user_set_password extends rex_console_command
     {
         $this
             ->setDescription('Sets a new password for a user')
-            ->addArgument('user', InputArgument::REQUIRED, 'Username', null, static function () {
+            ->addArgument('user', InputArgument::REQUIRED, 'Username', null, static function (): array {
                 return array_column(rex_sql::factory()->getArray('SELECT login FROM '.rex::getTable('user')), 'login');
             })
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')

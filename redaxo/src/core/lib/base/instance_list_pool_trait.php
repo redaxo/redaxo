@@ -105,7 +105,7 @@ trait rex_instance_list_pool_trait
      *
      * @return string
      */
-    private static function getInstanceListPoolKey($key)
+    private static function getInstanceListPoolKey($key): string
     {
         return implode('###', (array) $key);
     }

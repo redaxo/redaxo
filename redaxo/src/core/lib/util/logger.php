@@ -22,7 +22,7 @@ class rex_logger extends AbstractLogger
      *
      * @return string
      */
-    public static function getPath()
+    public static function getPath(): string
     {
         return rex_path::log('system.log');
     }

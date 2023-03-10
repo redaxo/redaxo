@@ -45,7 +45,7 @@ $list->setColumnFormat('id', 'custom', static function () use ($list) {
 
     return '<span class="label label-default">'.rex_i18n::msg('passkey').'</span> '.rex_escape($id);
 });
-$list->setColumnFormat('createdate', 'custom', static function () use ($list) {
+$list->setColumnFormat('createdate', 'custom', static function () use ($list): string {
     return rex_formatter::intlDateTime((string) $list->getValue('createdate'), IntlDateFormatter::SHORT);
 });
 

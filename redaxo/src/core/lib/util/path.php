@@ -333,7 +333,7 @@ class rex_path
      *
      * @return string Absolute path
      */
-    public static function absolute($relPath)
+    public static function absolute($relPath): string
     {
         $stack = [];
 
@@ -397,7 +397,7 @@ class rex_path
      *
      * @return string
      */
-    public static function basename($path)
+    public static function basename($path): string
     {
         /** @psalm-taint-escape text */
         $path = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);

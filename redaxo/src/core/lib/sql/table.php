@@ -174,12 +174,12 @@ class rex_sql_table
      *
      * @return self
      */
-    public static function get($name, int $db = 1)
+    public static function get($name, int $db = 1): \rex_sql_table
     {
         $table = static::getInstance(
             [$db, $name],
             /** @param positive-int $db */
-            static fn (int $db, string $name) => new static($name, $db),
+            static fn (int $db, string $name): static => new static($name, $db),
         );
 
         return rex_type::instanceOf($table, self::class);

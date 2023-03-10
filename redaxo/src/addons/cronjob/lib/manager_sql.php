@@ -44,7 +44,7 @@ class rex_cronjob_manager_sql
     /**
      * @return bool
      */
-    public function hasManager()
+    public function hasManager(): bool
     {
         return is_object($this->manager);
     }

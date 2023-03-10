@@ -136,7 +136,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
         return $this->getAddon()->isAvailable() && parent::isAvailable();
     }
 
-    public function isSystemPackage()
+    public function isSystemPackage(): bool
     {
         return in_array($this->getName(), (array) $this->addon->getProperty('system_plugins', []));
     }

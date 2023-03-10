@@ -202,7 +202,7 @@ class rex_clang
      *
      * @return int
      */
-    public static function count($ignoreOfflines = false)
+    public static function count($ignoreOfflines = false): int
     {
         self::checkCache();
         return count(self::getAll($ignoreOfflines));
@@ -215,7 +215,7 @@ class rex_clang
      *
      * @return int[]
      */
-    public static function getAllIds($ignoreOfflines = false)
+    public static function getAllIds($ignoreOfflines = false): array
     {
         self::checkCache();
         return array_keys(self::getAll($ignoreOfflines));

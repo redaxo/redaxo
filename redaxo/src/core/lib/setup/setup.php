@@ -98,7 +98,7 @@ class rex_setup
             rex_path::src(),
         ];
 
-        $getMod = static function ($path) {
+        $getMod = static function ($path): string {
             return rex_type::string(substr(sprintf('%o', fileperms($path)), -3));
         };
 

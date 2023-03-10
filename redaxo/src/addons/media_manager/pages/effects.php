@@ -120,7 +120,7 @@ if ('' == $func) {
 
     echo $content;
 } elseif ('add' == $func || 'edit' == $func && $effectId > 0) {
-    uasort($effects, static function (rex_effect_abstract $a, rex_effect_abstract $b) {
+    uasort($effects, static function (rex_effect_abstract $a, rex_effect_abstract $b): int {
         return strnatcmp($a->getName(), $b->getName());
     });
 

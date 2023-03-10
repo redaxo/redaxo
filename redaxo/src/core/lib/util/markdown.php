@@ -33,7 +33,7 @@ class rex_markdown
      *
      * @return string HTML code
      */
-    public function parse($code, $options = [])
+    public function parse($code, $options = []): string
     {
         // deprecated bool param
         $options = is_bool($options) ? [self::SOFT_LINE_BREAKS => $options] : $options;

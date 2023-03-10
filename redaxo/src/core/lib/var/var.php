@@ -287,7 +287,7 @@ abstract class rex_var
         $begin = '<<<addslashes>>>';
         $end = '<<</addslashes>>>';
         $arg = $begin . self::replaceVars($arg, $end . "' . %s . '" . $begin) . $end;
-        $arg = preg_replace_callback("@$begin(.*)$end@Us", static function ($match) {
+        $arg = preg_replace_callback("@$begin(.*)$end@Us", static function ($match): string {
             return addcslashes($match[1], "\\'");
         }, $arg);
         $arg = str_replace([self::PLACEHOLDER_BRACKET_OPEN, self::PLACEHOLDER_BRACKET_CLOSE], ['[', ']'], $arg);

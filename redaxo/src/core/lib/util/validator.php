@@ -251,7 +251,7 @@ class rex_validator
      *
      * @return bool
      */
-    public function values($value, array $validValues)
+    public function values($value, array $validValues): bool
     {
         return in_array($value, $validValues);
     }

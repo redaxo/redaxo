@@ -64,7 +64,7 @@ class rex_user_role implements rex_user_role_interface
         }
     }
 
-    public function hasPerm($perm)
+    public function hasPerm($perm): bool
     {
         return in_array($perm, $this->perms);
     }

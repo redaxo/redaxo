@@ -14,7 +14,7 @@ class rex_string
      *
      * @return int Size in bytes
      */
-    public static function size($string)
+    public static function size($string): int
     {
         return mb_strlen($string, '8bit');
     }
@@ -46,7 +46,7 @@ class rex_string
      *
      * @return string
      */
-    public static function normalize($string, $replaceChar = '_', $allowedChars = '')
+    public static function normalize($string, $replaceChar = '_', $allowedChars = ''): string
     {
         $string = self::normalizeEncoding($string);
         $string = mb_strtolower($string);
@@ -109,7 +109,7 @@ class rex_string
      * @return list<string>
      */
     #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::split` instead', replacement: 'rex_version::split(%parameter0%)')]
-    public static function versionSplit($version)
+    public static function versionSplit($version): array
     {
         return rex_version::split($version);
     }
@@ -137,7 +137,7 @@ class rex_string
      *
      * @return string
      */
-    public static function yamlEncode(array $value, $inline = 3)
+    public static function yamlEncode(array $value, $inline = 3): string
     {
         return Symfony\Component\Yaml\Yaml::dump($value, $inline, 4);
     }
@@ -177,7 +177,7 @@ class rex_string
      *
      * @return string
      */
-    public static function buildQuery(array $params, $argSeparator = '&')
+    public static function buildQuery(array $params, $argSeparator = '&'): string
     {
         $query = [];
         $func = static function (array $params, ?string $fullkey = null) use (&$query, &$func) {

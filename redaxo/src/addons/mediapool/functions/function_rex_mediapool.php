@@ -330,7 +330,7 @@ function rex_mediapool_Syncform($rexFileCategory)
  * @return bool
  * @deprecated since 2.11, use `rex_mediapool::isAllowedExtension` instead
  */
-function rex_mediapool_isAllowedMediaType($filename, array $args = [])
+function rex_mediapool_isAllowedMediaType($filename, array $args = []): bool
 {
     return rex_mediapool::isAllowedExtension($filename, $args);
 }
@@ -345,7 +345,7 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
  * @return bool
  * @deprecated since 2.11, use `rex_mediapool::isAllowedMimeType` instead
  */
-function rex_mediapool_isAllowedMimeType($path, $filename = null)
+function rex_mediapool_isAllowedMimeType($path, $filename = null): bool
 {
     return rex_mediapool::isAllowedMimeType($path, $filename);
 }
@@ -358,7 +358,7 @@ function rex_mediapool_isAllowedMimeType($path, $filename = null)
  * @return array allowed extensions
  * @deprecated since 2.11, use `rex_mediapool::getAllowedExtensions` instead
  */
-function rex_mediapool_getMediaTypeWhitelist($args = [])
+function rex_mediapool_getMediaTypeWhitelist($args = []): array
 {
     return rex_mediapool::getAllowedExtensions($args);
 }
@@ -369,7 +369,7 @@ function rex_mediapool_getMediaTypeWhitelist($args = [])
  * @return array blocked mediatype extensions
  * @deprecated since 2.11, use `rex_mediapool::getBlockedExtensions` instead
  */
-function rex_mediapool_getMediaTypeBlacklist()
+function rex_mediapool_getMediaTypeBlacklist(): array
 {
     return rex_mediapool::getBlockedExtensions();
 }

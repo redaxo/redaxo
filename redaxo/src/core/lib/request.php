@@ -226,7 +226,7 @@ class rex_request
      * @return string HTTP method in lowercase (head,get,post,put,delete)
      * @psalm-return lowercase-string
      */
-    public static function requestMethod()
+    public static function requestMethod(): string
     {
         return strtolower(rex::getRequest()->getMethod());
     }
@@ -241,7 +241,7 @@ class rex_request
      *
      * @return bool true if the request is an XMLHttpRequest, false otherwise
      */
-    public static function isXmlHttpRequest()
+    public static function isXmlHttpRequest(): bool
     {
         return rex::getRequest()->isXmlHttpRequest();
     }
@@ -283,7 +283,7 @@ class rex_request
      *
      * @return bool true when https/ssl, otherwise false
      */
-    public static function isHttps()
+    public static function isHttps(): bool
     {
         return rex::getRequest()->isSecure();
     }

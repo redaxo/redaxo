@@ -137,7 +137,7 @@ class rex_media_category
      *
      * @return list<int>
      */
-    public function getPathAsArray()
+    public function getPathAsArray(): array
     {
         $p = array_filter(explode('|', $this->path));
 
@@ -227,7 +227,7 @@ class rex_media_category
      *
      * @return bool
      */
-    public function inParentTree($anObj)
+    public function inParentTree($anObj): bool
     {
         $tree = $this->getParentTree();
         return in_array($anObj, $tree);

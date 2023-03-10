@@ -116,7 +116,7 @@ class rex_addon extends rex_package implements rex_addon_interface
         return rex_path::addonCache($this->getName(), $file);
     }
 
-    public function isSystemPackage()
+    public function isSystemPackage(): bool
     {
         return in_array($this->getPackageId(), rex::getProperty('system_addons'));
     }

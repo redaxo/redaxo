@@ -53,7 +53,7 @@ class rex_input_datetime extends rex_input
         parent::setValue($value);
     }
 
-    public function getValue()
+    public function getValue(): array
     {
         return array_merge($this->dateInput->getValue(), $this->timeInput->getValue());
     }

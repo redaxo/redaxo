@@ -113,7 +113,7 @@ class rex_fragment
         foreach (self::$fragmentDirs as $fragDir) {
             $fragment = $fragDir . $filename;
             if (is_readable($fragment)) {
-                $content = rex_timer::measure('Fragment: '.$filename, function () use ($fragment) {
+                $content = rex_timer::measure('Fragment: '.$filename, function () use ($fragment): string {
                     ob_start();
                     require $fragment;
 

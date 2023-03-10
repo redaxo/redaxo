@@ -75,7 +75,7 @@ class rex_structure_perm extends rex_complex_perm
                 return $a->getPriority() <=> $b->getPriority();
             });
         } else {
-            usort($categories, static function (rex_category $a, rex_category $b) {
+            usort($categories, static function (rex_category $a, rex_category $b): int {
                 return strcasecmp($a->getName(), $b->getName());
             });
         }

@@ -72,7 +72,7 @@ if ('' == $func) {
     $list->setColumnParams('name', ['func' => 'edit', 'oid' => '###id###']);
 
     $list->setColumnLabel('environment', $addon->i18n('environment'));
-    $list->setColumnFormat('environment', 'custom', static function () use ($list) {
+    $list->setColumnFormat('environment', 'custom', static function () use ($list): string {
         $value = $list->getValue('environment');
         $env = [];
         if (str_contains($value, '|frontend|')) {

@@ -282,7 +282,7 @@ class rex_sql implements Iterator
      *
      * @return string
      */
-    public static function datetime($timestamp = null)
+    public static function datetime($timestamp = null): string
     {
         return date(self::FORMAT_DATETIME, $timestamp ?? time());
     }
@@ -1848,7 +1848,7 @@ class rex_sql implements Iterator
      * @param positive-int $db
      * @return string E.g. "5.7.7" or "5.5.5-10.4.9-MariaDB"
      */
-    public static function getServerVersion($db = 1)
+    public static function getServerVersion($db = 1): string
     {
         return rex_type::string(self::factory($db)->getConnection()->getAttribute(PDO::ATTR_SERVER_VERSION));
     }
