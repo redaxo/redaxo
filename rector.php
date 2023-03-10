@@ -19,6 +19,7 @@ use Rector\Php80\Rector\Identical\StrStartsWithRector;
 use Rector\Php80\Rector\NotIdentical\StrContainsRector;
 use Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector;
 use Rector\Php81\Rector\Array_\FirstClassCallableRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictTypedCallRector;
 use Redaxo\Rector\Rule\UnderscoreToCamelCasePropertyNameRector;
 use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
 use Redaxo\Rector\Util\UnderscoreCamelCaseConflictingNameGuard;
@@ -84,7 +85,8 @@ return static function (RectorConfig $rectorConfig): void {
     $services->set(StrEndsWithRector::class);
     $services->set(StrStartsWithRector::class);
     $services->set(TernaryToNullCoalescingRector::class);
-
+    $services->set(ReturnTypeFromStrictTypedCallRector::class);
+    
     // Util services for own rules
     $services->set(UnderscoreCamelCaseConflictingNameGuard::class)->autowire();
     $services->set(UnderscoreCamelCaseExpectedNameResolver::class)->autowire();
