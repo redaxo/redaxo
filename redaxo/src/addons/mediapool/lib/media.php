@@ -306,9 +306,6 @@ class rex_media
 
     // new functions by vscope
 
-    /**
-     * @return string
-     */
     public function getExtension(): string
     {
         return rex_file::extension($this->name);
