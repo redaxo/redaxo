@@ -199,8 +199,6 @@ class rex_clang
      * Counts the clangs.
      *
      * @param bool $ignoreOfflines
-     *
-     * @return int
      */
     public static function count($ignoreOfflines = false): int
     {

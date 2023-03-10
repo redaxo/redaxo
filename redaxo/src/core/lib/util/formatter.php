@@ -231,8 +231,6 @@ abstract class rex_formatter
      *
      * @param string|float $value  Value
      * @param array        $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
-     *
-     * @return string
      */
     public static function number($value, $format = []): string
     {
@@ -297,8 +295,6 @@ abstract class rex_formatter
      *
      * @param string $value  Value
      * @param string $format
-     *
-     * @return string
      */
     public static function sprintf($value, $format = ''): string
     {
@@ -314,8 +310,6 @@ abstract class rex_formatter
      * @see http://www.php.net/manual/en/function.nl2br.php
      *
      * @param string $value Value
-     *
-     * @return string
      */
     public static function nl2br($value): string
     {
@@ -388,8 +382,6 @@ abstract class rex_formatter
      *
      * @param string $value  Version
      * @param string $format Version format, e.g. "%s.%s"
-     *
-     * @return string
      */
     public static function version($value, $format): string
     {

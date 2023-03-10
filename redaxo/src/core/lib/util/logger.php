@@ -19,8 +19,6 @@ class rex_logger extends AbstractLogger
 
     /**
      * Returns the path to the system.log file.
-     *
-     * @return string
      */
     public static function getPath(): string
     {

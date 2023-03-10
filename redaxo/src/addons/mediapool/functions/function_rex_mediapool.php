@@ -327,7 +327,6 @@ function rex_mediapool_Syncform($rexFileCategory)
  *
  * @param string $filename
  *
- * @return bool
  * @deprecated since 2.11, use `rex_mediapool::isAllowedExtension` instead
  */
 function rex_mediapool_isAllowedMediaType($filename, array $args = []): bool
@@ -342,7 +341,6 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = []): bool
  * @param null|string $filename Optional filename, will be used for extracting the file extension.
  *                              If not given, the extension is extracted from `$path`.
  *
- * @return bool
  * @deprecated since 2.11, use `rex_mediapool::isAllowedMimeType` instead
  */
 function rex_mediapool_isAllowedMimeType($path, $filename = null): bool

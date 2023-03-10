@@ -171,10 +171,8 @@ class rex_sql_table
     /**
      * @param non-empty-string $name
      * @param positive-int $db
-     *
-     * @return self
      */
-    public static function get($name, int $db = 1): \rex_sql_table
+    public static function get($name, int $db = 1): self
     {
         $table = static::getInstance(
             [$db, $name],

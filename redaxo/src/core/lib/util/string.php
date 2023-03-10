@@ -43,8 +43,6 @@ class rex_string
      * @param string $string       Input string
      * @param string $replaceChar  Character that is used to replace not allowed chars
      * @param string $allowedChars Allowed character list
-     *
-     * @return string
      */
     public static function normalize($string, $replaceChar = '_', $allowedChars = ''): string
     {
@@ -134,8 +132,6 @@ class rex_string
      *
      * @param array $value  The value being encoded
      * @param int   $inline The level where you switch to inline YAML
-     *
-     * @return string
      */
     public static function yamlEncode(array $value, $inline = 3): string
     {
@@ -174,8 +170,6 @@ class rex_string
      * Generates URL-encoded query string.
      *
      * @param string $argSeparator
-     *
-     * @return string
      */
     public static function buildQuery(array $params, $argSeparator = '&'): string
     {

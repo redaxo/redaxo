@@ -6,7 +6,7 @@
  */
 class rex_api_user_remove_auth_method extends rex_api_function
 {
-    public function execute(): \rex_api_result
+    public function execute(): rex_api_result
     {
         $userId = rex_request::get('user_id', 'int');
         $user = rex::requireUser();

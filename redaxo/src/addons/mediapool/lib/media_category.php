@@ -224,8 +224,6 @@ class rex_media_category
      * Checks if $anObj is in the parent tree of the object.
      *
      * @param self $anObj
-     *
-     * @return bool
      */
     public function inParentTree($anObj): bool
     {

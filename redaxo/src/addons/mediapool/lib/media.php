@@ -293,8 +293,6 @@ class rex_media
 
     /**
      * @param string $attributes
-     *
-     * @return string
      */
     public function toLink($attributes = ''): string
     {
@@ -319,9 +317,6 @@ class rex_media
         return rex_file::extension($this->name);
     }
 
-    /**
-     * @return bool
-     */
     public function fileExists(): bool
     {
         return is_file(rex_path::media($this->getFileName()));
@@ -336,9 +331,6 @@ class rex_media
         return rex_addon::get('mediapool')->getProperty('allowed_doctypes');
     }
 
-    /**
-     * @return bool
-     */
     public static function isDocType($type): bool
     {
         return in_array($type, self::getDocTypes());
@@ -353,9 +345,6 @@ class rex_media
         return rex_addon::get('mediapool')->getProperty('image_extensions');
     }
 
-    /**
-     * @return bool
-     */
     public static function isImageType($extension): bool
     {
         return in_array($extension, self::getImageTypes());

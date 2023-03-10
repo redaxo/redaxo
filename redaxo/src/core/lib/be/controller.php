@@ -109,9 +109,6 @@ class rex_be_controller
         self::$pages = $pages;
     }
 
-    /**
-     * @return string
-     */
     public static function getPageTitle(): string
     {
         $parts = [];

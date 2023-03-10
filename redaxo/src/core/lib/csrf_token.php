@@ -59,9 +59,6 @@ class rex_csrf_token
         return $token;
     }
 
-    /**
-     * @return string
-     */
     public function getHiddenField(): string
     {
         return sprintf('<input type="hidden" name="%s" value="%s"/>', self::PARAM, $this->getValue());
@@ -150,9 +147,6 @@ class rex_csrf_token
         return 'csrf_tokens_'.rex::getEnvironment();
     }
 
-    /**
-     * @return string
-     */
     private static function generateToken(): string
     {
         $bytes = random_bytes(32);

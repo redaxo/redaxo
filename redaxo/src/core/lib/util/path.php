@@ -394,8 +394,6 @@ class rex_path
      * This method should be used to secure incoming GET/POST parameters containing a filename.
      *
      * @param string $path
-     *
-     * @return string
      */
     public static function basename($path): string
     {

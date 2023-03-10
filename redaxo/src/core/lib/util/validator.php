@@ -248,8 +248,6 @@ class rex_validator
      * Checks whether the value is one of the given valid values.
      *
      * @param string $value
-     *
-     * @return bool
      */
     public function values($value, array $validValues): bool
     {

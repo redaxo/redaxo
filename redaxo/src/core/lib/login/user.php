@@ -180,8 +180,6 @@ class rex_user
 
     /**
      * Returns if the user has a role.
-     *
-     * @return bool
      */
     public function hasRole(): bool
     {

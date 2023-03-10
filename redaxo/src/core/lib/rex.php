@@ -212,8 +212,6 @@ class rex
 
     /**
      * Returns if the setup is active.
-     *
-     * @return bool
      */
     public static function isSetup(): bool
     {

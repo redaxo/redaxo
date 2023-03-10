@@ -279,8 +279,6 @@ class rex_sql implements Iterator
      * if no timestamp (or `null`) is given.
      *
      * @param int|null $timestamp
-     *
-     * @return string
      */
     public static function datetime($timestamp = null): string
     {

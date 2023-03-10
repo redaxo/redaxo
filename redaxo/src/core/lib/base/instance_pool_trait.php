@@ -105,8 +105,6 @@ trait rex_instance_pool_trait
      * The original key can be a scalar value or an array of scalar values
      *
      * @param mixed $key Key
-     *
-     * @return string
      */
     private static function getInstancePoolKey($key): string
     {

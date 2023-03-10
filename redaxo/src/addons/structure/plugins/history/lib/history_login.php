@@ -38,9 +38,6 @@ class rex_history_login extends rex_backend_login
         return password_hash($login . $session . $validtime, PASSWORD_DEFAULT);
     }
 
-    /**
-     * @return bool
-     */
     public static function verifySessionKey($key1, $key2): bool
     {
         return password_verify($key1, $key2);
