@@ -202,7 +202,7 @@ function rex_env($varname, $vartype = '', $default = '')
  *
  * @package redaxo\core
  */
-function rex_request_method()
+function rex_request_method(): string
 {
     return rex_request::requestMethod();
 }

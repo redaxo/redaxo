@@ -511,7 +511,7 @@ class rex_media_manager
     /**
      * @return string
      */
-    public static function getMediaFile()
+    public static function getMediaFile(): string
     {
         return rex_path::basename(rex_get('rex_media_file', 'string'));
     }
@@ -519,7 +519,7 @@ class rex_media_manager
     /**
      * @return string
      */
-    public static function getMediaType()
+    public static function getMediaType(): string
     {
         $type = rex_get('rex_media_type', 'string');
 

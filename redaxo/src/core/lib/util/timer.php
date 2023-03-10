@@ -124,7 +124,7 @@ class rex_timer
      *
      * @return string Formatted time difference
      */
-    public function getFormattedDelta($precision = self::MILLISEC, $decimals = 3)
+    public function getFormattedDelta($precision = self::MILLISEC, $decimals = 3): string
     {
         $time = $this->getDelta($precision);
         return rex_formatter::number($time, [$decimals]);

@@ -302,7 +302,7 @@ class rex_media
     /**
      * @return bool
      */
-    public function isImage()
+    public function isImage(): bool
     {
         return self::isImageType($this->getExtension());
     }
