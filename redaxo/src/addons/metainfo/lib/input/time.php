@@ -16,7 +16,7 @@ class rex_input_time extends rex_input
     {
         parent::__construct();
 
-        $range = static function ($start, $end): array|string {
+        $range = static function ($start, $end): array {
             return array_map(static function ($number): string {
                 return sprintf('%02d', $number);
             }, range($start, $end));
