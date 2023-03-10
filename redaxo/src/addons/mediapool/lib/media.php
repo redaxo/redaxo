@@ -299,9 +299,6 @@ class rex_media
         return sprintf('<a href="%s" title="%s"%s>%s</a>', $this->getUrl(), $this->getValue('med_description'), $attributes, $this->getFileName());
     }
 
-    /**
-     * @return bool
-     */
     public function isImage(): bool
     {
         return self::isImageType($this->getExtension());
