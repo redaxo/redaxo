@@ -122,7 +122,7 @@ class rex_string
      * @return int|bool
      */
     #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::compare` instead', replacement: 'rex_version::compare(%parametersList%)')]
-    public static function versionCompare($version1, $version2, $comparator = '<')
+    public static function versionCompare($version1, $version2, $comparator = '<'): bool
     {
         return rex_version::compare($version1, $version2, $comparator);
     }

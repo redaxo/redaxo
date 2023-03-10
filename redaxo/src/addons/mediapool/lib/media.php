@@ -309,7 +309,7 @@ class rex_media
     /**
      * @return string
      */
-    public function getExtension()
+    public function getExtension(): string
     {
         return rex_file::extension($this->name);
     }
