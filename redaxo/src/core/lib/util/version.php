@@ -105,7 +105,7 @@ class rex_version
      *
      * @return bool
      */
-    public static function compare(string $version1, string $version2, ?string $comparator = '<'): int|bool
+    public static function compare(string $version1, string $version2, ?string $comparator = '<'): bool
     {
         // bc
         $comparator ??= '<';
