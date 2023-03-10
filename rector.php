@@ -86,7 +86,7 @@ return static function (RectorConfig $rectorConfig): void {
     $services->set(StrStartsWithRector::class);
     $services->set(TernaryToNullCoalescingRector::class);
     $services->set(ReturnTypeFromStrictTypedCallRector::class);
-    
+
     // Util services for own rules
     $services->set(UnderscoreCamelCaseConflictingNameGuard::class)->autowire();
     $services->set(UnderscoreCamelCaseExpectedNameResolver::class)->autowire();
