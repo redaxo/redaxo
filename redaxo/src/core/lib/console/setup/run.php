@@ -66,6 +66,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             return $value;
         };
 
+        rex_setup::init();
+
         // ---------------------------------- Step 1 . Language
         $io->title('Step 1 of 5 / Language');
         $langs = [];
