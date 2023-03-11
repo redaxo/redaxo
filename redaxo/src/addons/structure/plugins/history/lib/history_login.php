@@ -30,9 +30,6 @@ class rex_history_login extends rex_backend_login
         return false;
     }
 
-    /**
-     * @return null|string
-     */
     public static function createSessionKey(#[\SensitiveParameter] $login, $session, $validtime): string
     {
         return password_hash($login . $session . $validtime, PASSWORD_DEFAULT);
