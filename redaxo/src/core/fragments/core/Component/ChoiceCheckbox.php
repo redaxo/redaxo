@@ -8,7 +8,7 @@ use Redaxo\Core\Fragment\Fragment;
 
 $counter = 1;
 
-$random = rand(100, 999).rand(100, 999);
+$random = random_int(100, 999).random_int(100, 999);
 $attributes = [
     'class' => 'form-control form-control--medium',
 ];
@@ -27,7 +27,7 @@ $this->attributes = array_merge_recursive($this->attributes, $attributes);
         <label class="form-control__label" id="label-<?= $random ?>" aria-hidden="false">
             <?php if (is_string($this->label)): ?>
                 <?= rex_escape($this->label) ?>
-            <?php elseif ($this->label instanceof Fragment): ?>
+            <?php else: ?>
                 <?= Fragment::slot($this->label) ?>
             <?php endif ?>
         </label>

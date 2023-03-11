@@ -67,6 +67,7 @@ abstract class Fragment
         }
 
         if (isset($content->attributes) && is_array($content->attributes)) {
+            /** @psalm-suppress UndefinedPropertyAssignment */
             $content->attributes['slot'] = $name;
 
             return $content->render();

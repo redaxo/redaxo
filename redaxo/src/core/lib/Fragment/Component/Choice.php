@@ -91,8 +91,7 @@ class Choice extends Fragment
          * to take more control.
          */
         public null|string|Closure $choiceLabel = null,
-    ) {
-    }
+    ) {}
 
     public function render(): string
     {
