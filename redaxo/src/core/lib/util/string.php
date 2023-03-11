@@ -118,8 +118,6 @@ class rex_string
      * @param string $version1
      * @param string $version2
      * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
-     *
-     * @return int|bool
      */
     #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::compare` instead', replacement: 'rex_version::compare(%parametersList%)')]
     public static function versionCompare($version1, $version2, $comparator = '<'): bool
