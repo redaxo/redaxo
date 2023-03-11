@@ -18,7 +18,7 @@
         "phpstan/extension-installer": "1.2.0",
         "phpstan/phpstan": "1.10.3",
         "phpstan/phpstan-deprecation-rules": "1.1.2",
-        "phpstan/phpstan-phpunit": "1.3.9",
+        "phpstan/phpstan-phpunit": "1.3.10",
         "phpstan/phpstan-symfony": "1.2.23",
         "phpunit/phpunit": "^10.0.7",
         "psalm/plugin-phpunit": "0.18.4",
