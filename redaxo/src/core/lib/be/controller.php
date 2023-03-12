@@ -471,6 +471,8 @@ class rex_be_controller
         $fragment->setVar('title', self::requireCurrentPageObject()->getTitle(), false);
         $fragment->setVar('body', $content, false);
         echo $fragment->parse('core/page/section.php');
+
+        return null;
     }
 
     /**

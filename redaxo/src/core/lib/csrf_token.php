@@ -136,7 +136,7 @@ class rex_csrf_token
     private static function getSessionKey()
     {
         // use separate tokens for http/https
-        // http://symfony.com/blog/cve-2017-16653-csrf-protection-does-not-use-different-tokens-for-http-and-https
+        // https://symfony.com/blog/cve-2017-16653-csrf-protection-does-not-use-different-tokens-for-http-and-https
         $suffix = rex_request::isHttps() ? '_https' : '';
 
         return self::getBaseSessionKey().$suffix;

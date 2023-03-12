@@ -67,7 +67,7 @@ if (rex::isBackend()) {
 
 rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) {
     if (!preg_match('@^rex:///metainfo/(\d+)@', $ep->getParam('file'), $match)) {
-        return;
+        return null;
     }
 
     $id = $match[1];
@@ -75,7 +75,7 @@ rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) 
     $sql->setQuery('SELECT `name` FROM '.rex::getTable('metainfo_field').' WHERE id = ? LIMIT 1', [$id]);
 
     if (!$sql->getRows()) {
-        return;
+        return null;
     }
 
     $prefix = rex_metainfo_meta_prefix((string) $sql->getValue('name'));

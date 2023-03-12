@@ -99,7 +99,6 @@ class rex_fragment
      * @param string $filename the filename of the fragment to parse
      *
      * @throws InvalidArgumentException
-     * @throws rex_exception
      *
      * @return string
      */
@@ -130,7 +129,7 @@ class rex_fragment
             }
         }
 
-        throw new rex_exception(sprintf('Fragmentfile "%s" not found!', $filename));
+        throw new InvalidArgumentException(sprintf('Fragmentfile "%s" not found!', $filename));
     }
 
     /**
