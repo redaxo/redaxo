@@ -5367,9 +5367,6 @@
     <MixedAssignment>
       <code>$config[$key]</code>
     </MixedAssignment>
-    <NullOperand>
-      <code><![CDATA[rex_escape($editor->getBasepath())]]></code>
-    </NullOperand>
   </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
     <MixedArrayAccess>

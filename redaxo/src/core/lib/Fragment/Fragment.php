@@ -18,13 +18,13 @@ abstract class Fragment
         $path = $this->getPath();
         $fullPath = $this->resolvePath($path);
 
+        /** @var Closure():string $closure */
         $closure = Closure::bind(function () use ($fullPath) {
             ob_start();
             require $fullPath;
 
             return rex_type::string(ob_get_clean());
         }, $this, static::class);
-        rex_type::instanceOf($closure, Closure::class);
 
         $ouput = rex_timer::measure('Fragment: '.$path, $closure);
 
