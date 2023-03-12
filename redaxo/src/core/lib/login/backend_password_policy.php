@@ -76,7 +76,7 @@ class rex_backend_password_policy extends rex_password_policy
         return new $class();
     }
 
-    public function check($password, $id = null)
+    public function check(#[SensitiveParameter] $password, $id = null)
     {
         if (true !== $msg = parent::check($password, $id)) {
             return $msg;
@@ -121,7 +121,7 @@ class rex_backend_password_policy extends rex_password_policy
      *
      * @return list<array{string, int}>
      */
-    public function updatePreviousPasswords(?rex_user $user, string $password): array
+    public function updatePreviousPasswords(?rex_user $user, #[SensitiveParameter] string $password): array
     {
         if (!isset($this->noReuseOfLast) && !isset($this->noReuseWithin)) {
             return [];
@@ -142,7 +142,7 @@ class rex_backend_password_policy extends rex_password_policy
      * @param list<array{string, int}> $previousPasswords
      * @return list<array{string, int}>
      */
-    private function cleanUpPreviousPasswords(array $previousPasswords): array
+    private function cleanUpPreviousPasswords(#[SensitiveParameter] array $previousPasswords): array
     {
         if (!isset($this->noReuseOfLast) && !isset($this->noReuseWithin)) {
             return [];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.7.7@e028ba46ba0d7f9a78bc3201c251e137383e145f">
+<files psalm-version="5.8.0@9cf4f60a333f779ad3bc704a555920e81d4fdcda">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <LessSpecificReturnStatement>
       <code>$tables</code>
@@ -938,6 +938,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media.php">
+    <InvalidAttribute>
+      <code>AllowDynamicProperties</code>
+    </InvalidAttribute>
     <MixedArgument>
       <code>$filename</code>
       <code>$name</code>
@@ -1933,6 +1936,9 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/structure/lib/structure_element.php">
+    <InvalidAttribute>
+      <code>AllowDynamicProperties</code>
+    </InvalidAttribute>
     <MixedArgument>
       <code>$clang</code>
       <code>$id</code>
@@ -3478,6 +3484,9 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/core/lib/clang/clang.php">
+    <InvalidAttribute>
+      <code>AllowDynamicProperties</code>
+    </InvalidAttribute>
     <MixedArrayAccess>
       <code><![CDATA[$data['priority']]]></code>
       <code><![CDATA[$data['status']]]></code>
@@ -4157,6 +4166,9 @@
             'samesite' => $sessionConfig['samesite'] ?? 'lax',
         ]]]></code>
     </InvalidArgument>
+    <InvalidAttribute>
+      <code>SensitiveParameter</code>
+    </InvalidAttribute>
     <MixedArgument>
       <code><![CDATA[rex::getProperty('session_duration')]]></code>
     </MixedArgument>
@@ -4181,6 +4193,11 @@
     <ArgumentTypeCoercion>
       <code>$previousPasswords</code>
     </ArgumentTypeCoercion>
+    <InvalidAttribute>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+    </InvalidAttribute>
     <MixedArgument>
       <code>$previousPasswords</code>
     </MixedArgument>
@@ -4197,6 +4214,15 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
+    <InvalidAttribute>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+    </InvalidAttribute>
     <MixedArrayAccess>
       <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId]]]></code>
       <code>$sessionConfig[$key]</code>
@@ -4235,6 +4261,10 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/login/password_policy.php">
+    <InvalidAttribute>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+    </InvalidAttribute>
     <PossiblyNullArgument>
       <code><![CDATA[$this->getDescription()]]></code>
     </PossiblyNullArgument>
@@ -4261,6 +4291,9 @@
     <ArgumentTypeCoercion>
       <code>$role</code>
     </ArgumentTypeCoercion>
+    <InvalidAttribute>
+      <code>SensitiveParameter</code>
+    </InvalidAttribute>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->sql->getValue($key)]]></code>
       <code><![CDATA[$this->sql->getValue('email')]]></code>
@@ -4680,6 +4713,16 @@
       <code><![CDATA[$this->getValue($column)]]></code>
       <code>$value</code>
     </ArgumentTypeCoercion>
+    <InvalidAttribute>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+    </InvalidAttribute>
     <LessSpecificReturnStatement>
       <code><![CDATA[$sql->getValue('Create Table')]]></code>
     </LessSpecificReturnStatement>
@@ -5021,6 +5064,10 @@
             }
         }]]></code>
     </InvalidArgument>
+    <InvalidAttribute>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+    </InvalidAttribute>
     <MixedArgument>
       <code><![CDATA[$parts['host']]]></code>
       <code><![CDATA[$parts['path']]]></code>

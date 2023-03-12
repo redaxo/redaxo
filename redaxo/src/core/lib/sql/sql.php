@@ -3,7 +3,7 @@
 /**
  * Klasse zur Verbindung und Interatkion mit der Datenbank.
  *
- * see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
+ * see https://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
  *
  * @implements Iterator<int<0, max>, rex_sql>
  *
@@ -169,10 +169,10 @@ class rex_sql implements Iterator
      * @return PDO
      */
     protected static function createConnection(
-        #[\SensitiveParameter] $host,
-        #[\SensitiveParameter] $database,
-        #[\SensitiveParameter] $login,
-        #[\SensitiveParameter] $password,
+        #[SensitiveParameter] $host,
+        #[SensitiveParameter] $database,
+        #[SensitiveParameter] $login,
+        #[SensitiveParameter] $password,
         $persistent = false,
         array $options = [],
     ) {
@@ -1611,7 +1611,7 @@ class rex_sql implements Iterator
     // ----------------- iterator interface
 
     /**
-     * @see http://www.php.net/manual/en/iterator.rewind.php
+     * @see https://www.php.net/manual/en/iterator.rewind.php
      *
      * @throws rex_sql_exception
      */
@@ -1622,7 +1622,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @see http://www.php.net/manual/en/iterator.current.php
+     * @see https://www.php.net/manual/en/iterator.current.php
      *
      * @return $this
      */
@@ -1633,7 +1633,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @see http://www.php.net/manual/en/iterator.key.php
+     * @see https://www.php.net/manual/en/iterator.key.php
      */
     #[ReturnTypeWillChange]
     public function key()
@@ -1642,7 +1642,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @see http://www.php.net/manual/en/iterator.next.php
+     * @see https://www.php.net/manual/en/iterator.next.php
      */
     #[ReturnTypeWillChange]
     public function next()
@@ -1652,7 +1652,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @see http://www.php.net/manual/en/iterator.valid.php
+     * @see https://www.php.net/manual/en/iterator.valid.php
      */
     #[ReturnTypeWillChange]
     public function valid()
@@ -1910,7 +1910,12 @@ class rex_sql implements Iterator
      *
      * @return true|string
      */
-    public static function checkDbConnection($host, $login, $password, $database, $createDb = false)
+    public static function checkDbConnection(
+        #[SensitiveParameter] $host,
+        #[SensitiveParameter] $login,
+        #[SensitiveParameter] $password,
+        #[SensitiveParameter] $database,
+        $createDb = false)
     {
         if (!$database) {
             return rex_i18n::msg('sql_database_name_missing');

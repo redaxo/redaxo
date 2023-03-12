@@ -2131,11 +2131,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/manager.php
 
 		-
-			message: "#^Conditional return type uses subject type T of string\\|null which is not part of PHPDoc @template tags\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/null.php
-
-		-
 			message: "#^Method rex_null_package\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/null.php
@@ -2144,11 +2139,6 @@ parameters:
 			message: "#^Method rex_null_package\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/null.php
-
-		-
-			message: "#^Conditional return type uses subject type T of string\\|null which is not part of PHPDoc @template tags\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
 
 		-
 			message: "#^Method rex_package\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"

@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @internal
  */
-class rex_command_config_get extends rex_console_command
+class rex_command_config_get extends rex_console_command implements rex_command_standalone
 {
     protected function configure(): void
     {
