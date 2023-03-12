@@ -2,11 +2,10 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
+use InvalidArgumentException;
 use Redaxo\Core\Fragment\Enum\FormControl\Autocapitalize;
-use Redaxo\Core\Fragment\Fragment;
-use rex_functional_exception;
 
-use function in_array;
+use Redaxo\Core\Fragment\Fragment;
 
 /**
  * @see redaxo/src/core/fragments/core/Component/Input.php
@@ -112,8 +111,7 @@ class Input extends Fragment
          * value. Only applies to date and number input
          * types.
          *
-         * @TODO fix psalm notation
-         * string = 'any'
+         * @var null|int|float|'any'
          */
         public null|int|float|string $step = null,
 
@@ -141,14 +139,14 @@ class Input extends Fragment
 
     public function render(): string
     {
-        if ($this->min && !in_array($this->type, $this->minMaxTypes())) {
-            throw new rex_functional_exception('The min property applies to date and number input types. The current type is '.$this->type->name.'.');
+        if (null !== $this->min && !$this->type->supportsMinMaxStep()) {
+            throw new InvalidArgumentException('The min property applies to date and number input types. The current type is '.$this->type->name.'.');
         }
-        if ($this->max && !in_array($this->type, $this->minMaxTypes())) {
-            throw new rex_functional_exception('The max property applies to date and number input types. The current type is '.$this->type->name.'.');
+        if (null !== $this->max && !$this->type->supportsMinMaxStep()) {
+            throw new InvalidArgumentException('The max property applies to date and number input types. The current type is '.$this->type->name.'.');
         }
-        if ($this->step && !in_array($this->type, $this->stepTypes())) {
-            throw new rex_functional_exception('The step property applies to date and number input types. The current type is '.$this->type->name.'.');
+        if (null !== $this->step && !$this->type->supportsMinMaxStep()) {
+            throw new InvalidArgumentException('The step property applies to date and number input types. The current type is '.$this->type->name.'.');
         }
 
         return parent::render();
@@ -157,28 +155,6 @@ class Input extends Fragment
     protected function getPath(): string
     {
         return 'core/Component/Input.php';
-    }
-
-    /**
-     * @return list<InputType>
-     */
-    private function minMaxTypes(): array
-    {
-        return [
-            InputType::Date,
-            InputType::Number,
-        ];
-    }
-
-    /**
-     * @return list<InputType>
-     */
-    private function stepTypes(): array
-    {
-        return [
-            InputType::Date,
-            InputType::Number,
-        ];
     }
 }
 
@@ -194,4 +170,15 @@ enum InputType: string
     case Text = 'text';
     case Time = 'time';
     case Url = 'url';
+
+    public function supportsMinMaxStep(): bool
+    {
+        return match ($this) {
+            self::Date,
+            self::DatetimeLocale,
+            self::Number,
+            self::Time => true,
+            default => false,
+        };
+    }
 }
