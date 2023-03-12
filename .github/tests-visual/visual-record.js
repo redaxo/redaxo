@@ -284,7 +284,7 @@ async function main() {
             await goToUrlOrThrow(page, START_URL + '?page=system/settings', { waitUntil: 'load' });
             await Promise.all([
                 page.waitForNavigation(),
-                page.click('.toggle-safemode') // enable safe mode
+                page.click('.rex-toggle-safemode') // enable safe mode
             ]);
             await createScreenshots(page, 'system_settings_safemode.png');
             await Promise.all([
