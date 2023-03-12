@@ -169,10 +169,10 @@ class rex_sql implements Iterator
      * @return PDO
      */
     protected static function createConnection(
-        #[\SensitiveParameter] $host,
-        #[\SensitiveParameter] $database,
-        #[\SensitiveParameter] $login,
-        #[\SensitiveParameter] $password,
+        #[SensitiveParameter] $host,
+        #[SensitiveParameter] $database,
+        #[SensitiveParameter] $login,
+        #[SensitiveParameter] $password,
         $persistent = false,
         array $options = [],
     ) {
@@ -1910,7 +1910,12 @@ class rex_sql implements Iterator
      *
      * @return true|string
      */
-    public static function checkDbConnection($host, $login, $password, $database, $createDb = false)
+    public static function checkDbConnection(
+        #[SensitiveParameter] $host,
+        #[SensitiveParameter] $login,
+        #[SensitiveParameter] $password,
+        #[SensitiveParameter] $database,
+        $createDb = false)
     {
         if (!$database) {
             return rex_i18n::msg('sql_database_name_missing');
