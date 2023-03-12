@@ -5,9 +5,11 @@ namespace Redaxo\Core\Fragment\Component;
 use Closure;
 use Redaxo\Core\Fragment\Fragment;
 
-use function call_user_func;
+use rex_type;
+
+use function in_array;
 use function is_array;
-use function is_callable;
+use function is_int;
 
 /**
  * @see redaxo/src/core/fragments/core/Component/Choice.php
@@ -17,11 +19,14 @@ use function is_callable;
  */
 class Choice extends Fragment
 {
-    /** @var array<string, array<string, string>|string> */
-    private array $choicesByLabels = [];
+    /** @var array<string|int, array<string, string|int>> */
+    private array $groupedChoices = [];
 
-    /** @var array<string, string> */
-    private array $choicesByValues = [];
+    /** @var list<string|int> */
+    private array $allValues = [];
+
+    /** @var list<string|int> */
+    private array $selectedValues = [];
 
     public function __construct(
         /**
@@ -42,16 +47,16 @@ class Choice extends Fragment
         /**
          * The current values of the choice.
          *
-         * @var null|string|array<string>
+         * @var null|string|int|list<string|int>
          */
-        public null|string|array $value = null,
+        public null|string|int|array $value = null,
 
         /**
          * Choices is an array, where the array key is the
          * item's label and the array value is the item's
          * value.
          *
-         * @var array<string, array<string, string>|string>
+         * @var array<string|int, string|int|array<string, string|int>>
          */
         public array $choices = [],
 
@@ -89,43 +94,57 @@ class Choice extends Fragment
          * choices option is used as the text that's shown
          * to the user. The choiceLabel option allows you
          * to take more control.
+         *
+         * @var Closure(string|int,string):string|null
          */
-        public null|string|Closure $choiceLabel = null,
+        public null|Closure $choiceLabel = null,
     ) {}
 
     public function render(): string
     {
+        $currentGroup = [];
         foreach ($this->choices as $choiceLabel => $choiceValue) {
             if (!is_array($choiceValue)) {
-                if (is_callable($this->choiceLabel)) {
-                    $choiceLabel = (string) call_user_func($this->choiceLabel, $choiceValue, $choiceLabel);
+                $choiceLabel = rex_type::string($choiceLabel);
+
+                if ($this->choiceLabel) {
+                    $choiceLabel = ($this->choiceLabel)($choiceValue, $choiceLabel);
                 }
 
-                $this->choicesByLabels[trim($choiceLabel)] = trim($choiceValue);
-                $this->choicesByValues[trim($choiceValue)] = trim($choiceLabel);
+                $currentGroup[$choiceLabel] = $choiceValue;
+                $this->allValues[] = $choiceValue;
+
                 continue;
             }
-            foreach ($choiceValue as $nestedLabel => $nestedValue) {
-                if (is_callable($this->choiceLabel)) {
-                    $nestedLabel = (string) call_user_func($this->choiceLabel, $nestedValue, $nestedLabel);
-                }
-                $this->choicesByLabels[trim($choiceLabel)][trim($nestedLabel)] = trim($nestedValue);
-                $this->choicesByValues[trim($nestedValue)] = trim($nestedLabel);
+
+            if ($currentGroup) {
+                $this->groupedChoices[] = $currentGroup;
+                $currentGroup = [];
             }
+
+            foreach ($choiceValue as $nestedLabel => $nestedValue) {
+                if ($this->choiceLabel) {
+                    $nestedLabel = ($this->choiceLabel)($nestedValue, $nestedLabel);
+                }
+
+                $this->groupedChoices[$choiceLabel][$nestedLabel] = $nestedValue;
+                $this->allValues[] = $nestedValue;
+            }
+        }
+        if ($currentGroup) {
+            $this->groupedChoices[] = $currentGroup;
         }
 
         if (null === $this->value) {
-            $this->value = [];
-        } elseif (!is_array($this->value)) {
-            $this->value = [$this->value];
+            $this->selectedValues = [];
+        } else {
+            $this->selectedValues = is_array($this->value) ? $this->value : [$this->value];
         }
 
         // verify given values
-        foreach ($this->value as $index => $value) {
-            if (!isset($this->choicesByValues[trim($value)])) {
-                unset($this->value[$index]);
-            }
-        }
+        $this->selectedValues = array_values(array_filter($this->selectedValues, function (string|int $value) {
+            return in_array($value, $this->allValues, true);
+        }));
 
         if ($this->multiple && $this->name) {
             $this->name .= '[]';
@@ -139,12 +158,20 @@ class Choice extends Fragment
         return 'core/Component/Choice.php';
     }
 
-    /**
-     * @return array<string, array<string, string>|string>
-     */
-    public function getChoices(): array
+    /** @return list<string|int> */
+    public function getValues(): array
     {
-        return $this->choicesByLabels;
+        return $this->selectedValues;
+    }
+
+    /**
+     * @return iterable<string|null, array<string, string|int>>
+     */
+    public function getChoices(): iterable
+    {
+        foreach ($this->groupedChoices as $label => $group) {
+            yield is_int($label) ? null : $label => $group;
+        }
     }
 }
 

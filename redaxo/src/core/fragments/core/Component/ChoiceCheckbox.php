@@ -21,6 +21,8 @@ if ($this->notice) {
     $attributes['class'] = ' form-control--has-help-text';
 }
 $this->attributes = array_merge_recursive($this->attributes, $attributes);
+
+$values = $this->getValues();
 ?>
 <fieldset<?= rex_string::buildAttributes($this->attributes) ?>>
     <?php if ($this->label): ?>
@@ -34,32 +36,23 @@ $this->attributes = array_merge_recursive($this->attributes, $attributes);
     <?php endif ?>
 
     <div class="form-control-input">
-        <?php foreach ($this->getChoices() as $label => $value): ?>
-            <?php if (!is_array($value)): ?>
+        <?php foreach ($this->getChoices() as $groupLabel => $group): ?>
+            <?php if (1 !== $counter): ?>
+                <sl-divider></sl-divider>
+            <?php endif ?>
+            <?php if (null !== $groupLabel): ?>
+                <small><?= rex_escape($groupLabel) ?></small>
+            <?php endif ?>
+            <?php foreach ($group as $label => $value): ?>
                 <sl-checkbox
                     value="<?= rex_escape($value) ?>"
                     <?= $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>
                     <?= $this->disabled ? 'disabled' : '' ?>
-                    <?= in_array($value, $this->value) ? 'checked' : '' ?>
+                    <?= in_array($value, $values) ? 'checked' : '' ?>
                 >
                     <?= rex_escape($label) ?>
                 </sl-checkbox>
-            <?php else: ?>
-                <?php if (1 !== $counter): ?>
-                    <sl-divider></sl-divider>
-                <?php endif ?>
-                <small><?= rex_escape($label) ?></small>
-                <?php foreach ($value as $nestedLabel => $nestedValue): ?>
-                    <sl-checkbox
-                        value="<?= rex_escape($nestedValue) ?>"
-                        <?= $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>
-                        <?= $this->disabled ? 'disabled' : '' ?>
-                        <?= in_array($nestedValue, $this->value) ? 'checked' : '' ?>
-                    >
-                        <?= rex_escape($nestedLabel) ?>
-                    </sl-checkbox>
-                <?php endforeach ?>
-            <?php endif ?>
+            <?php endforeach ?>
             <?php $counter++ ?>
         <?php endforeach ?>
     </div>
