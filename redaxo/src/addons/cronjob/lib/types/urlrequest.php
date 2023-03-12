@@ -60,7 +60,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_url'),
                 'name' => 'url',
                 'type' => 'text',
-                'default' => 'http://',
+                'default' => 'https://',
             ],
             [
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_post'),

@@ -95,7 +95,7 @@ class rex_scss_compiler
         // set the path to your to-be-imported mixins. please note: custom paths are coming up on future releases!
         // $scss_compiler->setImportPaths($scss_folder);
 
-        // set css formatting (normal, nested or minimized), @see http://leafo.net/scssphp/docs/#output_formatting
+        // set css formatting (normal, nested or minimized), @see https://leafo.net/scssphp/docs/#output_formatting
         /** @psalm-suppress DeprecatedMethod */
         $scssCompiler->setFormatter($this->formatter); /** @phpstan-ignore-line */
 
