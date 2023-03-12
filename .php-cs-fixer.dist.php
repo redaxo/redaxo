@@ -26,7 +26,6 @@ $finder = PhpCsFixer\Finder::create()
         __DIR__.'/rector.php',
         $tools.'/bin/clone-addon',
         $tools.'/bin/release',
-        $tools.'/bin/setup',
         $tools.'/bin/update-root-composer',
     ])
     ->filter(static function (SplFileInfo $file) use ($bootPath) {

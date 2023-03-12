@@ -10,9 +10,9 @@ class rex_backup_file_compressor
     /**
      * GZIPs a file on disk (appending .gz to the name).
      *
-     * From http://stackoverflow.com/questions/6073397/how-do-you-create-a-gz-file-using-php
+     * From https://stackoverflow.com/questions/6073397/how-do-you-create-a-gz-file-using-php
      * Based on function by Kioob at:
-     * http://www.php.net/manual/en/function.gzwrite.php#34955
+     * https://www.php.net/manual/en/function.gzwrite.php#34955
      *
      * @param string $source Path to file that should be compressed
      * @param int $level GZIP compression level (default: 9)

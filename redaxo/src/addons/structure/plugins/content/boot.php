@@ -84,4 +84,6 @@ rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) 
     if (preg_match('@^rex:///(template|module|action)/(\d+)@', $ep->getParam('file'), $match)) {
         return rex_url::backendPage($urls[$match[1]][0], ['function' => 'edit', $urls[$match[1]][1] => $match[2]]);
     }
+
+    return null;
 });

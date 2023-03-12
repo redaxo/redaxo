@@ -84,6 +84,8 @@ if ('' != $historyDate) {
                     ' . $sliceDate . '
                     ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
         }
+
+        return null;
     });
 }
 

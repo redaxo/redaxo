@@ -171,7 +171,7 @@ class rex_socket
      *
      * @return $this Current socket
      */
-    public function addBasicAuthorization($user, $password)
+    public function addBasicAuthorization(#[SensitiveParameter] $user, #[SensitiveParameter] $password)
     {
         $this->addHeader('Authorization', 'Basic ' . base64_encode($user . ':' . $password));
 

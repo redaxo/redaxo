@@ -224,7 +224,7 @@ class rex_backend_login extends rex_login
         return (bool) $this->getSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
     }
 
-    public function changedPassword(#[\SensitiveParameter] ?string $passwordHash = null): void
+    public function changedPassword(#[SensitiveParameter] ?string $passwordHash = null): void
     {
         $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
 
