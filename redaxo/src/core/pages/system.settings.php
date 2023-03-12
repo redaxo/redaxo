@@ -405,15 +405,15 @@ $sql = rex_sql::factory();
                 <table class="table">
                     <tr>
                         <th class="rex-table-width-3"><?= rex_i18n::msg('version') ?></th>
-                        <td><?= $sql->getDbType() ?> <?= $sql->getDbVersion() ?></td>
+                        <td><?= $sql->getDbType() ?> <?= rex_escape($sql->getDbVersion()) ?></td>
                     </tr>
                     <tr>
                         <th><?= rex_i18n::msg('name') ?></th>
-                        <td><span class="rex-word-break"><?= $dbConfig->name ?></span></td>
+                        <td><span class="rex-word-break"><?= rex_escape($dbConfig->name) ?></span></td>
                     </tr>
                     <tr>
                         <th><?= rex_i18n::msg('host') ?></th>
-                        <td><?= $dbConfig->host ?></td>
+                        <td><?= rex_escape($dbConfig->host) ?></td>
                     </tr>
                 </table>
             <?php }),
