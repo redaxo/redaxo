@@ -41,3 +41,5 @@ done
 redaxo/bin/console cache:clear --ansi
 
 composer update --ansi # update dev-tools
+
+yarn install

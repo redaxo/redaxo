@@ -1,31 +1,46 @@
 <?php
 
-$error = [];
-$success = '';
+use Redaxo\Core\Fragment\Component\Alert\Error;
+use Redaxo\Core\Fragment\Component\Alert\Info;
+use Redaxo\Core\Fragment\Component\Alert\Success;
+use Redaxo\Core\Fragment\Component\Button;
+use Redaxo\Core\Fragment\Component\ButtonSize;
+use Redaxo\Core\Fragment\Component\ButtonType;
+use Redaxo\Core\Fragment\Component\ButtonVariant;
+use Redaxo\Core\Fragment\Component\Card;
+use Redaxo\Core\Fragment\Component\Choice;
+use Redaxo\Core\Fragment\Component\Icon;
+use Redaxo\Core\Fragment\Component\IconLibrary;
+use Redaxo\Core\Fragment\Component\Input;
+use Redaxo\Core\Fragment\Component\InputType;
+use Redaxo\Core\Fragment\Html;
+
+$alertError = [];
+$alertSuccess = '';
 
 $func = rex_request('func', 'string');
-
 $csrfToken = rex_csrf_token::factory('system');
 
 if (rex_request('rex_debug_updated', 'bool', false)) {
-    $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
+    $alertSuccess = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
 }
 
 if ($func && !$csrfToken->isValid()) {
-    $error[] = rex_i18n::msg('csrf_token_invalid');
+    $alertError[] = rex_i18n::msg('csrf_token_invalid');
 } elseif ('setup' == $func) {
     // REACTIVATE SETUP
     if (false !== $url = rex_setup::startWithToken()) {
         header('Location:' . $url);
         exit;
     }
-    $error[] = rex_i18n::msg('setup_error2');
+    $alertError[] = rex_i18n::msg('setup_error2');
 } elseif ('generate' == $func) {
     // generate all articles,cats,templates,caches
-    $success = rex_delete_cache();
+    $alertSuccess = rex_delete_cache();
 } elseif ('updateassets' == $func) {
     rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
-    $success = 'Updated assets';
+    rex_dir::copy(rex_path::core('node_modules/@shoelace-style/shoelace'), rex_path::coreAssets('shoelace'));
+    $alertSuccess = 'Updated assets';
 } elseif ('debugmode' == $func) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
@@ -54,14 +69,14 @@ if ($func && !$csrfToken->isValid()) {
 
     foreach (['server', 'servername', 'error_email', 'lang'] as $key) {
         if (!isset($settings[$key]) || !$settings[$key]) {
-            $error[] = rex_i18n::msg($key . '_required');
+            $alertError[] = rex_i18n::msg($key . '_required');
             continue;
         }
         $config[$key] = $settings[$key];
         try {
             rex::setProperty($key, $settings[$key]);
         } catch (InvalidArgumentException) {
-            $error[] = rex_i18n::msg($key . '_invalid');
+            $alertError[] = rex_i18n::msg($key . '_invalid');
         }
     }
 
@@ -69,14 +84,14 @@ if ($func && !$csrfToken->isValid()) {
         $key = $setting->getKey();
         if (isset($settings[$key])) {
             if (true !== ($msg = $setting->setValue($settings[$key]))) {
-                $error[] = $msg;
+                $alertError[] = $msg;
             }
         }
     }
 
-    if (empty($error)) {
+    if (empty($alertError)) {
         if (rex_file::putConfig($configFile, $config) > 0) {
-            $success = rex_i18n::msg('info_updated');
+            $alertSuccess = rex_i18n::msg('info_updated');
         }
     }
 } elseif ('update_editor' === $func) {
@@ -98,14 +113,14 @@ if ($func && !$csrfToken->isValid()) {
         unset($_COOKIE['editor']);
         unset($_COOKIE['editor_basepath']);
 
-        $success = rex_i18n::msg('system_editor_success_cookie_deleted');
+        $alertSuccess = rex_i18n::msg('system_editor_success_cookie_deleted');
     } elseif ($editor['update_cookie']) {
         rex_response::sendCookie('editor', $editor['name'], $cookieOptions);
         rex_response::sendCookie('editor_basepath', $editor['basepath'], $cookieOptions);
         $_COOKIE['editor'] = $editor['name'];
         $_COOKIE['editor_basepath'] = $editor['basepath'];
 
-        $success = rex_i18n::msg('system_editor_success_cookie');
+        $alertSuccess = rex_i18n::msg('system_editor_success_cookie');
     } else {
         $configFile = rex_path::coreData('config.yml');
         $config = rex_file::getConfig($configFile);
@@ -116,32 +131,11 @@ if ($func && !$csrfToken->isValid()) {
         rex::setProperty('editor_basepath', $config['editor_basepath']);
 
         rex_file::putConfig($configFile, $config);
-        $success = rex_i18n::msg('system_editor_success_configyml');
+        $alertSuccess = rex_i18n::msg('system_editor_success_configyml');
     }
 }
 
-$selLang = new rex_select();
-$selLang->setStyle('class="form-control"');
-$selLang->setName('settings[lang]');
-$selLang->setId('rex-id-lang');
-$selLang->setAttribute('class', 'form-control selectpicker');
-$selLang->setSize(1);
-$selLang->setSelected(rex::getProperty('lang'));
-$locales = rex_i18n::getLocales();
-asort($locales);
-foreach ($locales as $locale) {
-    $selLang->addOption(rex_i18n::msgInLocale('lang', $locale).' ('.$locale.')', $locale);
-}
-
-if (!empty($error)) {
-    echo rex_view::error(implode('<br />', $error));
-}
-
-if ('' != $success) {
-    echo rex_view::success($success);
-}
-
-$dbconfig = rex::getDbConfig(1);
+$dbConfig = rex::getDbConfig(1);
 
 $rexVersion = rex::getVersion();
 if (str_contains($rexVersion, '-dev')) {
@@ -151,122 +145,7 @@ if (str_contains($rexVersion, '-dev')) {
     }
 }
 
-if (rex_version::isUnstable($rexVersion)) {
-    $rexVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. rex_escape($rexVersion);
-}
-
-$mainContent = [];
-$sideContent = [];
-$debugConfirm = '';
-
-if (!rex::isDebugMode()) {
-    $debugConfirm = ' data-confirm="' . rex_i18n::msg('debug_confirm') . '" ';
-}
-
-$content = '
-    <h3>' . rex_i18n::msg('delete_cache') . '</h3>
-    <p>' . rex_i18n::msg('delete_cache_description') . '</p>
-    <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
-
-    <h3>' . rex_i18n::msg('debug_mode') . '</h3>
-    <p>' . rex_i18n::msg('debug_mode_note') . '</p>
-    <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"'.$debugConfirm.'><i class="rex-icon rex-icon-heartbeat"></i> ' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
-
-    <h3>' . rex_i18n::msg('safemode') . '</h3>
-    <p>' . rex_i18n::msg('safemode_text') . '</p>';
-
-$safemodeUrl = rex_url::currentBackendPage(['safemode' => '1'] + $csrfToken->getUrlParams());
-if (rex::isSafeMode()) {
-    $safemodeUrl = rex_url::currentBackendPage(['safemode' => '0'] + $csrfToken->getUrlParams());
-}
-
-$content .= '
-    <p><a class="btn btn-safemode-activate" href="' . $safemodeUrl . '" data-pjax="false">' . (rex::isSafeMode() ? rex_i18n::msg('safemode_deactivate') : rex_i18n::msg('safemode_activate')) . '</a></p>
-
-
-    <h3>' . rex_i18n::msg('setup') . '</h3>
-    <p>' . rex_i18n::msg('setup_text') . '</p>
-    <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
-
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('system_features'));
-$fragment->setVar('body', $content, false);
-$sideContent[] = $fragment->parse('core/page/section.php');
-
-$content = '
-    <table class="table">
-        <tr>
-            <th class="rex-table-width-3">REDAXO</th>
-            <td>' . $rexVersion . '</td>
-        </tr>
-        <tr>
-            <th>PHP</th>
-            <td>' . PHP_VERSION . ' <a class="rex-link-expanded" href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
-        </tr>
-        <tr>
-            <th>'.rex_i18n::msg('path').'</th>
-			<td>
-			<div class="rex-word-break">'. rex_path::base() .'</div>
-			</td>
-        </tr>
-    </table>';
-
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('installation'));
-$fragment->setVar('content', $content, false);
-$sideContent[] = $fragment->parse('core/page/section.php');
-
-$sql = rex_sql::factory();
-
-$content = '
-    <table class="table">
-        <tr>
-            <th class="rex-table-width-3">' . rex_i18n::msg('version') . '</th>
-            <td>' .  $sql->getDbType().' '.$sql->getDbVersion() . '</td>
-        </tr>
-        <tr>
-            <th>' . rex_i18n::msg('name') . '</th>
-            <td><span class="rex-word-break">' . $dbconfig->name . '</span></td>
-        </tr>
-        <tr>
-            <th>' . rex_i18n::msg('host') . '</th>
-            <td>' . $dbconfig->host . '</td>
-        </tr>
-    </table>';
-
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('database'));
-$fragment->setVar('content', $content, false);
-$sideContent[] = $fragment->parse('core/page/section.php');
-
 $content = '';
-
-$formElements = [];
-
-$n = [];
-$n['label'] = '<label for="rex-id-server" class="required">' . rex_i18n::msg('server') . '</label>';
-$n['field'] = '<input class="form-control" type="url" id="rex-id-server" name="settings[server]" value="' . rex_escape(rex::getServer()) . '" required />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-id-servername" class="required">' . rex_i18n::msg('servername') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . rex_escape(rex::getServerName()) . '" required />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-id-lang" class="required">' . rex_i18n::msg('backend_language') . '</label>';
-$n['field'] = $selLang->get();
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-id-error-email" class="required">' . rex_i18n::msg('error_email') . '</label>';
-$n['field'] = '<input class="form-control" type="email" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail()) . '" required />';
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
-
 foreach (rex_system_setting::getAll() as $setting) {
     $field = $setting->getField();
     if (!($field instanceof rex_form_element)) {
@@ -276,118 +155,268 @@ foreach (rex_system_setting::getAll() as $setting) {
     $content .= $field->get();
 }
 
-$formElements = [];
-
 $editor = rex_editor::factory();
 $configYml = rex_path::coreData('config.yml');
-if ($url = $editor->getUrl($configYml, 0)) {
-    $n = [];
-    $n['label'] = '';
-    $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($configYml)) . '</a>';
-    $n['note'] = rex_i18n::msg('system_edit_config_note');
-    $formElements[] = $n;
+
+$locales = rex_i18n::getLocales();
+asort($locales);
+$langChoices = [];
+foreach ($locales as $locale) {
+    $langChoices[rex_i18n::msgInLocale('lang', $locale).' ('.$locale.')'] = $locale;
 }
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
-
-$formElements = [];
-
-$n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="sendit"' . rex::getAccesskey(rex_i18n::msg('system_update'), 'save') . '>' . rex_i18n::msg('system_update') . '</button>';
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$buttons = $fragment->parse('core/form/submit.php');
-
-$fragment = new rex_fragment();
-$fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', rex_i18n::msg('system_settings'));
-$fragment->setVar('body', $content, false);
-$fragment->setVar('buttons', $buttons, false);
-$content = $fragment->parse('core/page/section.php');
-
-$mainContent[] = '
-<form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
-    <input type="hidden" name="func" value="updateinfos" />
-    ' . $csrfToken->getHiddenField() . '
-    ' . $content . '
-</form>';
-
-$content = '<p>' . rex_i18n::msg('system_editor_note') . '</p>';
 
 $viaCookie = array_key_exists('editor', $_COOKIE);
-if ($viaCookie) {
-    $content .= rex_view::info(rex_i18n::msg('system_editor_note_cookie'));
-}
 
-$formElements = [];
+$sql = rex_sql::factory();
+?>
 
-$selEditor = new rex_select();
-$selEditor->setStyle('class="form-control"');
-$selEditor->setName('editor[name]');
-$selEditor->setId('rex-id-editor');
-$selEditor->setAttribute('class', 'form-control selectpicker');
-$selEditor->setSize(1);
-$selEditor->setSelected($editor->getName());
-$selEditor->addArrayOptions(['' => rex_i18n::msg('system_editor_no_editor')] + $editor->getSupportedEditors());
+<?php if (!empty($alertError)): ?>
+    <?= (new Error(
+        body: new Html(implode('<br>', $alertError)),
+    ))->render() ?>
+<?php endif ?>
 
-$n = [];
-$n['label'] = '<label for="rex-id-editor">' . rex_i18n::msg('system_editor_name') . '</label>';
-$n['field'] = $selEditor->get();
-$formElements[] = $n;
+<?php if ('' != $alertSuccess): ?>
+    <?= (new Success(
+        body: new Html($alertSuccess),
+    ))->render() ?>
+<?php endif ?>
 
-$n = [];
-$n['label'] = '<label for="rex-id-editor-basepath">' . rex_i18n::msg('system_editor_basepath') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-editor-basepath" name="editor[basepath]" value="' . rex_escape($editor->getBasepath()) . '" />';
-$n['note'] = rex_i18n::msg('system_editor_basepath_note');
-$formElements[] = $n;
+<div class="row">
+    <div class="col-lg-8">
+        <form id="rex-form-system-setup" action="<?= rex_url::currentBackendPage() ?>" method="post">
+            <input type="hidden" name="func" value="updateinfos" />
+            <?= $csrfToken->getHiddenField() ?>
 
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
+            <?= (new Card(
+                header: rex_i18n::msg('system_settings'),
 
-$formElements = [];
-$class = 'rex-form-aligned';
+                body: new Html(static function () use ($langChoices, $editor, $configYml) { ?>
+                    <?= (new Input(
+                        label: rex_i18n::msg('server'),
+                        type: InputType::Url,
+                        name: 'settings[server]',
+                        value: rex::getServer(),
+                        required: true,
+                    ))->render() ?>
 
-if (!$viaCookie) {
-    $n = [];
-    $n['field'] = '<button class="btn btn-save '.$class.'" type="submit" name="editor[update_cookie]" value="0">' . rex_i18n::msg('system_editor_update_configyml') . '</button>';
-    $formElements[] = $n;
-    $class = '';
-}
+                    <?= (new Input(
+                        label: rex_i18n::msg('servername'),
+                        name: 'settings[servername]',
+                        value: rex::getServerName(),
+                        required: true,
+                    ))->render() ?>
 
-$n = [];
-$n['field'] = '<button class="btn btn-save '.$class.'" type="submit" name="editor[update_cookie]" value="1">' . rex_i18n::msg('system_editor_update_cookie') . '</button>';
-$formElements[] = $n;
+                    <?= (new Choice(
+                        label: rex_i18n::msg('backend_language'),
+                        name: 'settings[lang]',
+                        value: rex::getProperty('lang'),
+                        choices: $langChoices,
+                        required: true,
+                    ))->render() ?>
 
-if ($viaCookie) {
-    $n = [];
-    $n['field'] = '<button class="btn btn-delete" type="submit" name="editor[delete_cookie]" value="1">' . rex_i18n::msg('system_editor_delete_cookie') . '</button>';
-    $formElements[] = $n;
-}
+                    <?= (new Input(
+                        label: rex_i18n::msg('error_email'),
+                        name: 'settings[error_email]',
+                        value: rex::getErrorEmail(),
+                        required: true,
+                    ))->render() ?>
 
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$buttons = $fragment->parse('core/form/submit.php');
+                    <?php if ($url = $editor->getUrl($configYml, 0)): ?>
+                        <?= (new Button(
+                            label: rex_i18n::rawMsg('system_editor_open_file', rex_path::basename($configYml)),
+                            href: $url,
+                            variant: ButtonVariant::Primary,
+                            size: ButtonSize::Small,
+                        ))->render() ?>
 
-$fragment = new rex_fragment();
-$fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', rex_i18n::msg('system_editor'));
-$fragment->setVar('body', $content, false);
-$fragment->setVar('buttons', $buttons, false);
-$content = $fragment->parse('core/page/section.php');
+                        <p>
+                            <?= rex_i18n::msg('system_edit_config_note') ?>
+                        </p>
+                    <?php endif ?>
+                <?php }),
 
-$mainContent[] = '
-<form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
-    <input type="hidden" name="func" value="update_editor" />
-    ' . $csrfToken->getHiddenField() . '
-    ' . $content . '
-</form>';
+                footer: new Html(static function () { ?>
+                    <?= (new Button\Save(
+                        name: 'sendit',
+                    ))->render() ?>
+                <?php }),
+            ))->render() ?>
+        </form>
 
-$fragment = new rex_fragment();
-$fragment->setVar('content', [implode('', $mainContent), implode('', $sideContent)], false);
-$fragment->setVar('classes', ['col-lg-8', 'col-lg-4'], false);
-echo $fragment->parse('core/page/grid.php');
+        <form id="rex-form-system-setup" action="<?= rex_url::currentBackendPage() ?>" method="post">
+            <input type="hidden" name="func" value="update_editor" />
+            <?= $csrfToken->getHiddenField() ?>
+            <?= (new Card(
+                header: rex_i18n::msg('system_editor'),
+
+                body: new Html(static function () use ($viaCookie, $editor) { ?>
+                    <p><?= rex_i18n::msg('system_editor_note') ?></p>
+
+                    <?= (new Choice(
+                        label: rex_i18n::msg('system_editor_name'),
+                        name: 'editor[name]',
+                        value: $editor->getName(),
+                        choices: [rex_i18n::msg('system_editor_no_editor') => ''] + array_flip($editor->getSupportedEditors()),
+                    ))->render() ?>
+
+                    <?= (new Input(
+                        label: rex_i18n::msg('system_editor_basepath'),
+                        name: 'editor[basepath]',
+                        value: rex_escape($editor->getBasepath()),
+                        notice: rex_i18n::msg('system_editor_basepath_note'),
+                    ))->render() ?>
+
+                    <?= $viaCookie ? (new Info(
+                        body: rex_i18n::msg('system_editor_note_cookie'),
+                    ))->render() : '' ?>
+                <?php }),
+
+                footer: new Html(static function () use ($viaCookie) { ?>
+                    <div>
+                        <?= (new Button\Save(
+                            label: rex_i18n::rawMsg('system_editor_update_cookie'),
+                            name: 'editor[update_cookie]',
+                            value: '1',
+                        ))->render() ?>
+
+                        <?php if ($viaCookie): ?>
+                            <?= (new Button(
+                                label: rex_i18n::rawMsg('system_editor_delete_cookie'),
+                                variant: ButtonVariant::Danger,
+                                type: ButtonType::Submit,
+                                name: 'editor[delete_cookie]',
+                                value: '1',
+                            ))->render() ?>
+                        <?php else: ?>
+                            <?= (new Button\Save(
+                                label: rex_i18n::rawMsg('system_editor_update_configyml'),
+                                name: 'editor[update_cookie]',
+                                value: '0',
+                            ))->render() ?>
+                        <?php endif ?>
+                    </div>
+                <?php }),
+            ))->render() ?>
+        </form>
+    </div>
+    <div class="col-lg-4">
+        <?= (new Card(
+            header: rex_i18n::msg('system_features'),
+
+            body: new Html(static function () use ($csrfToken) { ?>
+                <h3><?= rex_i18n::msg('delete_cache') ?></h3>
+                <p><?= rex_i18n::msg('delete_cache_description') ?></p>
+                <p>
+                    <?= (new Button(
+                        label: rex_i18n::rawMsg('delete_cache'),
+                        href: rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()),
+                        variant: ButtonVariant::Danger,
+                    ))->render() ?>
+                </p>
+
+                <h3><?= rex_i18n::msg('debug_mode') ?></h3>
+                <p><?= rex_i18n::msg('debug_mode_note') ?></p>
+                <p>
+                    <?= (new Button(
+                        label: rex_i18n::rawMsg('debug_mode_'.(rex::isDebugMode() ? 'off' : 'on')),
+                        prefix: new Icon(IconLibrary::Debug),
+                        href: (rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams())),
+                        variant: ButtonVariant::Warning,
+                        attributes: ['data-pjax' => 'false'] + (!rex::isDebugMode() ? ['data-confirm' => rex_i18n::msg('debug_confirm')] : []),
+                    ))->render() ?>
+                </p>
+
+                <h3><?= rex_i18n::msg('safemode') ?></h3>
+                <p><?= rex_i18n::msg('safemode_text') ?></p>
+                <p>
+                    <?= (new Button(
+                        label: rex_i18n::rawMsg('safemode_'.(rex::isSafeMode() ? 'deactivate' : 'activate')),
+                        href: rex_url::currentBackendPage(['safemode' => (rex::isSafeMode() ? '0' : '1')] + $csrfToken->getUrlParams()),
+                        variant: ButtonVariant::Warning,
+                        attributes: [
+                            'data-pjax' => 'false',
+                            'class' => 'rex-toggle-safemode',
+                        ],
+                    ))->render() ?>
+                </p>
+
+                <h3><?= rex_i18n::msg('setup') ?></h3>
+                <p><?= rex_i18n::msg('setup_text') ?></p>
+                <p>
+                    <?= (new Button(
+                        label: rex_i18n::rawMsg('setup'),
+                        href: rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()),
+                        variant: ButtonVariant::Primary,
+                        attributes: [
+                            'data-pjax' => 'false',
+                            'data-confirm' => rex_i18n::msg('setup_restart'),
+                        ],
+                    ))->render() ?>
+                </p>
+            <?php }),
+        ))->render() ?>
+
+        <?= (new Card(
+            header: rex_i18n::msg('installation'),
+
+            body: new Html(static function () use ($rexVersion) { ?>
+                <table class="table">
+                    <tr>
+                        <th class="rex-table-width-3">REDAXO</th>
+                        <td>
+                            <?php if (rex_version::isUnstable($rexVersion)): ?>
+                                <?= (new Icon(
+                                    name: IconLibrary::VersionUnstable,
+                                    label: rex_i18n::msg('unstable_version'),
+                                ))->render() ?>
+                            <?php endif ?>
+                            <?= rex_escape($rexVersion) ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>PHP</th>
+                        <td>
+                            <?= (new Button(
+                                label: PHP_VERSION,
+                                suffix: new Icon(IconLibrary::PhpInfo),
+                                href: rex_url::backendPage('system/phpinfo'),
+                                attributes: [
+                                    'onclick' => 'newWindow("phpinfo", this.href, 1000,800,",status=yes,resizable=yes"); return false;',
+                                ],
+                            ))->render();
+                            ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?= rex_i18n::msg('path') ?></th>
+                        <td>
+                            <div class="rex-word-break"><?= rex_path::base() ?></div>
+                        </td>
+                    </tr>
+                </table>
+            <?php }),
+        ))->render() ?>
+
+        <?= (new Card(
+            header: rex_i18n::msg('database'),
+
+            body: new Html(static function () use ($sql, $dbConfig) { ?>
+                <table class="table">
+                    <tr>
+                        <th class="rex-table-width-3"><?= rex_i18n::msg('version') ?></th>
+                        <td><?= $sql->getDbType() ?> <?= rex_escape($sql->getDbVersion()) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= rex_i18n::msg('name') ?></th>
+                        <td><span class="rex-word-break"><?= rex_escape($dbConfig->name) ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?= rex_i18n::msg('host') ?></th>
+                        <td><?= rex_escape($dbConfig->host) ?></td>
+                    </tr>
+                </table>
+            <?php }),
+        ))->render() ?>
+    </div>
+</div>
