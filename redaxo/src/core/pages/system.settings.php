@@ -336,6 +336,7 @@ $sql = rex_sql::factory();
                         variant: ButtonVariant::Warning,
                         attributes: [
                             'data-pjax' => 'false',
+                            'class' => 'rex-toggle-safemode',
                         ],
                     ))->render() ?>
                 </p>
