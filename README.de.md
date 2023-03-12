@@ -44,7 +44,7 @@ Aktuelle Demo-Websites: [Basis](https://github.com/FriendsOfREDAXO/demo_base), [
 ### 2. Besuche den Slack-Chat
 
 Du wirst einen Haufen von Community-Mitgliedern im Slack vorfinden. Und auch die Entwickler. Hier ist die beste Möglichkeit, Fragen zu stellen und Leute kennenzulernen.
-— Wir freuen uns, dich zu sehen. Eine Einladung bekommst du hier: [redaxo.org/slack](http://redaxo.org/slack/)!
+— Wir freuen uns, dich zu sehen. Eine Einladung bekommst du hier: [redaxo.org/slack](https://redaxo.org/slack/)!
 
 ### 3. Kontakte uns bei Twitter
 
@@ -69,7 +69,7 @@ Um am Core und an den Core-Addons zu entwickeln, setze das Projekt mit diesen Sc
 
 ## Lizenz
 
-REDAXO wurde von [Yakamara](http://www.yakamara.de) (Frankfurt am Main 🇩🇪) entwickelt, ist Open-Source seit 2004 und wird unter der [MIT-Lizenz](LICENSE.md) veröffentlicht.
+REDAXO wurde von [Yakamara](https://www.yakamara.de) (Frankfurt am Main 🇩🇪) entwickelt, ist Open-Source seit 2004 und wird unter der [MIT-Lizenz](LICENSE.md) veröffentlicht.
 
 &nbsp;
 

@@ -14,7 +14,7 @@
  *
  * @package redaxo\core
  *
- * @see http://www.php.net/manual/en/class.streamwrapper.php
+ * @see https://www.php.net/manual/en/class.streamwrapper.php
  */
 class rex_stream
 {
@@ -88,7 +88,7 @@ class rex_stream
     }
 
     /**
-     * @see http://www.php.net/manual/en/streamwrapper.stream-open.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-open.php
      */
     public function stream_open(string $path, string $mode, int $options, ?string &$openedPath): bool
     {
@@ -104,7 +104,7 @@ class rex_stream
     }
 
     /**
-     * @see http://www.php.net/manual/en/streamwrapper.stream-read.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-read.php
      */
     public function stream_read(int $count): string
     {
@@ -114,7 +114,7 @@ class rex_stream
     }
 
     /**
-     * @see http://www.php.net/manual/en/streamwrapper.stream-eof.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-eof.php
      */
     public function stream_eof(): bool
     {
@@ -122,7 +122,7 @@ class rex_stream
     }
 
     /**
-     * @see http://www.php.net/manual/en/streamwrapper.stream-seek.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-seek.php
      */
     public function stream_seek(int $offset, int $whence = SEEK_SET): bool
     {
@@ -142,7 +142,7 @@ class rex_stream
     }
 
     /**
-     * @see http://www.php.net/manual/en/streamwrapper.stream-set-option.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-set-option.php
      */
     public function stream_set_option(): bool
     {
@@ -150,7 +150,7 @@ class rex_stream
     }
 
     /**
-     * @see http://www.php.net/manual/en/streamwrapper.stream-tell.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-tell.php
      */
     public function stream_tell(): int
     {
@@ -158,7 +158,7 @@ class rex_stream
     }
 
     /**
-     * @see http://www.php.net/manual/en/streamwrapper.stream-flush.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-flush.php
      */
     public function stream_flush(): bool
     {
@@ -166,7 +166,7 @@ class rex_stream
     }
 
     /**
-     * @see http://www.php.net/manual/en/streamwrapper.stream-stat.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-stat.php
      * @return null
      */
     public function stream_stat()
@@ -175,7 +175,7 @@ class rex_stream
     }
 
     /**
-     * @see http://www.php.net/manual/en/streamwrapper.url-stat.php
+     * @see https://www.php.net/manual/en/streamwrapper.url-stat.php
      * @return null
      */
     public function url_stat()
