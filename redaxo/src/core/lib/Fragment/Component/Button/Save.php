@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Fragment\Component\Button;
 
+use Redaxo\Core\Fragment\Attributes;
 use Redaxo\Core\Fragment\Component\Button;
 use Redaxo\Core\Fragment\Component\ButtonType;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
@@ -16,8 +17,7 @@ class Save extends Fragment
         public string|Fragment|null $label = null,
         public ?string $name = null,
         public ?string $value = null,
-        /** @var array<string, string|int> */
-        public array $attributes = [],
+        public Attributes $attributes = new Attributes(),
     ) {}
 
     public function render(): string

@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Fragment\Component;
 
 use InvalidArgumentException;
+use Redaxo\Core\Fragment\Attributes;
 use Redaxo\Core\Fragment\Enum\FormControl\Autocapitalize;
 
 use Redaxo\Core\Fragment\Fragment;
@@ -110,10 +111,8 @@ class Input extends Fragment
          * no stepping is implied, allowing any numeric
          * value. Only applies to date and number input
          * types.
-         *
-         * @var null|int|float|'any'
          */
-        public null|int|float|string $step = null,
+        public null|int|string $step = null,
 
         /**
          * Controls whether and how text input is
@@ -133,8 +132,7 @@ class Input extends Fragment
          */
         public bool $autofocus = false,
 
-        /** @var array<string, string|int> */
-        public array $attributes = [],
+        public Attributes $attributes = new Attributes(),
     ) {}
 
     public function render(): string

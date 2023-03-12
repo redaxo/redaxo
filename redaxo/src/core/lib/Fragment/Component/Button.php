@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
+use Redaxo\Core\Fragment\Attributes;
 use Redaxo\Core\Fragment\Fragment;
 
 /**
@@ -101,8 +102,7 @@ class Button extends Fragment
          */
         public ?string $value = null,
 
-        /** @var array<string, string|int> */
-        public array $attributes = [],
+        public Attributes $attributes = new Attributes(),
     ) {}
 
     protected function getPath(): string

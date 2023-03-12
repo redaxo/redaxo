@@ -8,14 +8,13 @@ use Redaxo\Core\Fragment\Fragment;
 
 $counter = 1;
 ?>
-<sl-radio-group
-    <?= $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>
-    <?= $this->value ? 'value="'.rex_escape(implode(' ', $this->getValues())).'"' : '' ?>
-    <?= is_string($this->label) ? 'label="'.rex_escape($this->label).'"' : '' ?>
-    <?= is_string($this->notice) ? 'help-text="'.rex_escape($this->notice).'"' : '' ?>
-    <?= $this->required ? 'required' : '' ?>
-    <?= rex_string::buildAttributes($this->attributes) ?>
->
+<sl-radio-group <?= $this->attributes->with([
+    'name' => $this->name,
+    'value' => implode(' ', $this->getValues()),
+    'label' => is_string($this->label) ? $this->label : null,
+    'help-text' => is_string($this->notice) ? $this->notice : null,
+    'required' => $this->required,
+])->toString() ?>>
     <?php foreach ($this->getChoices() as $groupLabel => $group): ?>
         <?php if (1 !== $counter): ?>
             <sl-divider></sl-divider>

@@ -8,17 +8,16 @@ use Redaxo\Core\Fragment\Fragment;
 
 $counter = 1;
 ?>
-<sl-select
-    <?= $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>
-    <?= $this->value ? 'value="'.rex_escape(implode(' ', $this->getValues())).'"' : '' ?>
-    <?= is_string($this->label) ? 'label="'.rex_escape($this->label).'"' : '' ?>
-    <?= is_string($this->notice) ? 'help-text="'.rex_escape($this->notice).'"' : '' ?>
-    <?= $this->multiple ? 'multiple' : '' ?>
-    <?= $this->disabled ? 'disabled' : '' ?>
-    <?= $this->placeholder ? 'placeholder="'.rex_escape($this->placeholder).'"' : '' ?>
-    <?= $this->required ? 'required' : '' ?>
-    <?= rex_string::buildAttributes($this->attributes) ?>
->
+<sl-select <?= $this->attributes->with([
+    'name' => $this->name,
+    'value' => implode(' ', $this->getValues()),
+    'label' => is_string($this->label) ? $this->label : null,
+    'help-text' => is_string($this->notice) ? $this->notice : null,
+    'multiple' => $this->multiple,
+    'disabled' => $this->disabled,
+    'placeholder' => $this->placeholder,
+    'required' => $this->required,
+])->toString() ?>>
     <?php foreach ($this->getChoices() as $groupLabel => $group): ?>
         <?php if (1 !== $counter): ?>
             <sl-divider></sl-divider>

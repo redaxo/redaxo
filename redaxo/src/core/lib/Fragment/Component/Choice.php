@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Fragment\Component;
 
 use Closure;
+use Redaxo\Core\Fragment\Attributes;
 use Redaxo\Core\Fragment\Fragment;
 
 use rex_type;
@@ -86,8 +87,7 @@ class Choice extends Fragment
          */
         public ChoiceType $type = ChoiceType::Select,
 
-        /** @var array<string, string|int> */
-        public array $attributes = [],
+        public Attributes $attributes = new Attributes(),
 
         /**
          * By default, the array key of each item in the
