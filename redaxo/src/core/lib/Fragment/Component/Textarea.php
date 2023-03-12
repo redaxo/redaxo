@@ -92,7 +92,7 @@ class Textarea extends Fragment
         /**
          * Enables spell checking on the textarea.
          */
-        public bool $spellcheck = true,
+        public ?bool $spellcheck = null,
 
         /** @var array<string, string|int> */
         public array $attributes = [],

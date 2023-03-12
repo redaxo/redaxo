@@ -23,7 +23,7 @@ use Redaxo\Core\Fragment\Fragment;
     <?= $this->max ? 'max="'.rex_escape($this->max).'"' : '' ?>
     <?= $this->step ? 'step="'.rex_escape($this->step).'"' : '' ?>
     <?= $this->autocapitalize ? 'autocapitalize="'.$this->autocapitalize->value.'"' : '' ?>
-    <?= $this->spellcheck ? 'spellcheck="true"' : 'spellcheck="false"' ?>
+    <?= null !== $this->spellcheck ? 'spellcheck="'.($this->spellcheck ? 'true' : 'false').'"' : '' ?>
     <?= rex_string::buildAttributes($this->attributes) ?>
 >
     <?= $this->label instanceof Fragment ? Fragment::slot($this->label, 'label') : '' ?>

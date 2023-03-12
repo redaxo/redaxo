@@ -125,7 +125,7 @@ class Input extends Fragment
         /**
          * Enables spell checking on the textarea.
          */
-        public bool $spellcheck = true,
+        public ?bool $spellcheck = null,
 
         /**
          * Indicates that the input should receive focus on
