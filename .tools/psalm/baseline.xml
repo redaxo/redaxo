@@ -4167,7 +4167,7 @@
         ]]]></code>
     </InvalidArgument>
     <InvalidAttribute>
-      <code>\SensitiveParameter</code>
+      <code>SensitiveParameter</code>
     </InvalidAttribute>
     <MixedArgument>
       <code><![CDATA[rex::getProperty('session_duration')]]></code>
@@ -4193,6 +4193,11 @@
     <ArgumentTypeCoercion>
       <code>$previousPasswords</code>
     </ArgumentTypeCoercion>
+    <InvalidAttribute>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+    </InvalidAttribute>
     <MixedArgument>
       <code>$previousPasswords</code>
     </MixedArgument>
@@ -4210,13 +4215,13 @@
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
     <InvalidAttribute>
-      <code>\SensitiveParameter</code>
-      <code>\SensitiveParameter</code>
-      <code>\SensitiveParameter</code>
-      <code>\SensitiveParameter</code>
-      <code>\SensitiveParameter</code>
-      <code>\SensitiveParameter</code>
-      <code>\SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
     </InvalidAttribute>
     <MixedArrayAccess>
       <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId]]]></code>
@@ -4257,8 +4262,8 @@
   </file>
   <file src="redaxo/src/core/lib/login/password_policy.php">
     <InvalidAttribute>
-      <code>\SensitiveParameter</code>
-      <code>\SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
     </InvalidAttribute>
     <PossiblyNullArgument>
       <code><![CDATA[$this->getDescription()]]></code>
@@ -4287,7 +4292,7 @@
       <code>$role</code>
     </ArgumentTypeCoercion>
     <InvalidAttribute>
-      <code>\SensitiveParameter</code>
+      <code>SensitiveParameter</code>
     </InvalidAttribute>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->sql->getValue($key)]]></code>
@@ -4709,10 +4714,14 @@
       <code>$value</code>
     </ArgumentTypeCoercion>
     <InvalidAttribute>
-      <code>\SensitiveParameter</code>
-      <code>\SensitiveParameter</code>
-      <code>\SensitiveParameter</code>
-      <code>\SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
     </InvalidAttribute>
     <LessSpecificReturnStatement>
       <code><![CDATA[$sql->getValue('Create Table')]]></code>
@@ -5055,6 +5064,10 @@
             }
         }]]></code>
     </InvalidArgument>
+    <InvalidAttribute>
+      <code>SensitiveParameter</code>
+      <code>SensitiveParameter</code>
+    </InvalidAttribute>
     <MixedArgument>
       <code><![CDATA[$parts['host']]]></code>
       <code><![CDATA[$parts['path']]]></code>
