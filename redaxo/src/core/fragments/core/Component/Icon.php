@@ -1,12 +1,12 @@
 <?php
 
-use Redaxo\Core\Fragment\Attributes;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
+use Redaxo\Core\Fragment\HtmlAttributes;
 
 /** @var Icon $this */
 ?>
-<sl-icon <?= (new Attributes([
+<sl-icon <?= (new HtmlAttributes([
     'name' => match ($this->name) {
         IconLibrary::Add => 'plus-lg',
         IconLibrary::AlertError => 'exclamation-octagon',

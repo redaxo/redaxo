@@ -3,10 +3,9 @@
 namespace Redaxo\Core\Fragment\Component;
 
 use InvalidArgumentException;
-use Redaxo\Core\Fragment\Attributes;
 use Redaxo\Core\Fragment\Enum\FormControl\Autocapitalize;
-
 use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\HtmlAttributes;
 
 /**
  * @see redaxo/src/core/fragments/core/Component/Input.php
@@ -132,7 +131,7 @@ class Input extends Fragment
          */
         public bool $autofocus = false,
 
-        public Attributes $attributes = new Attributes(),
+        public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 
     public function render(): string

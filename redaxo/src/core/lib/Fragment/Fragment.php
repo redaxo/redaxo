@@ -65,7 +65,7 @@ abstract class Fragment
             return $content->render();
         }
 
-        if (isset($content->attributes) && $content->attributes instanceof Attributes) {
+        if (isset($content->attributes) && $content->attributes instanceof HtmlAttributes) {
             $content->attributes->set('slot', $name);
 
             return $content->render();

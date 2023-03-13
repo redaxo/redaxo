@@ -7,6 +7,7 @@ use Redaxo\Core\Fragment\Component\AlertType;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
 use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\HtmlAttributes;
 
 class Info extends Fragment
 {
@@ -17,8 +18,7 @@ class Info extends Fragment
         /** @see Alert::$duration */
         public ?int $duration = null,
 
-        /** @var array<string, string|int> */
-        public array $attributes = [],
+        public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 
     public function render(): string

@@ -1,8 +1,8 @@
 <?php
 
-use Redaxo\Core\Fragment\Attributes;
 use Redaxo\Core\Fragment\Component\Choice;
 use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\HtmlAttributes;
 
 /** @var Choice $this */
 ?><?php
@@ -40,7 +40,7 @@ $values = $this->getValues();
                 <small><?= rex_escape($groupLabel) ?></small>
             <?php endif ?>
             <?php foreach ($group as $label => $value): ?>
-                <sl-checkbox <?= (new Attributes([
+                <sl-checkbox <?= (new HtmlAttributes([
                     'value' => $value,
                     'name' => $this->name,
                     'disabled' => $this->disabled,

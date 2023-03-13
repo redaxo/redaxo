@@ -2,19 +2,19 @@
 
 namespace Redaxo\Core\Fragment\Component\Button;
 
-use Redaxo\Core\Fragment\Attributes;
 use Redaxo\Core\Fragment\Component\Button;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
 use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\HtmlAttributes;
 use rex_i18n;
 
 class Add extends Fragment
 {
     public function __construct(
         public ?string $href = null,
-        public Attributes $attributes = new Attributes(),
+        public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 
     public function render(): string

@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
-use Redaxo\Core\Fragment\Attributes;
 use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\HtmlAttributes;
 
 /**
  * @see redaxo/src/core/fragments/core/Component/Button.php
@@ -102,7 +102,7 @@ class Button extends Fragment
          */
         public ?string $value = null,
 
-        public Attributes $attributes = new Attributes(),
+        public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 
     protected function getPath(): string

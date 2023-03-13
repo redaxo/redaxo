@@ -1,6 +1,5 @@
 <?php
 
-use Redaxo\Core\Fragment\Attributes;
 use Redaxo\Core\Fragment\Component\Alert\Error;
 use Redaxo\Core\Fragment\Component\Alert\Info;
 use Redaxo\Core\Fragment\Component\Alert\Success;
@@ -15,6 +14,7 @@ use Redaxo\Core\Fragment\Component\IconLibrary;
 use Redaxo\Core\Fragment\Component\Input;
 use Redaxo\Core\Fragment\Component\InputType;
 use Redaxo\Core\Fragment\Html;
+use Redaxo\Core\Fragment\HtmlAttributes;
 
 $alertError = [];
 $alertSuccess = '';
@@ -324,7 +324,7 @@ $sql = rex_sql::factory();
                         prefix: new Icon(IconLibrary::Debug),
                         href: (rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams())),
                         variant: ButtonVariant::Warning,
-                        attributes: new Attributes([
+                        attributes: new HtmlAttributes([
                             'data-pjax' => 'false',
                             'data-confirm' => rex::isDebugMode() ? null : rex_i18n::msg('debug_confirm'),
                         ]),
@@ -338,7 +338,7 @@ $sql = rex_sql::factory();
                         label: rex_i18n::rawMsg('safemode_'.(rex::isSafeMode() ? 'deactivate' : 'activate')),
                         href: rex_url::currentBackendPage(['safemode' => (rex::isSafeMode() ? '0' : '1')] + $csrfToken->getUrlParams()),
                         variant: ButtonVariant::Warning,
-                        attributes: new Attributes([
+                        attributes: new HtmlAttributes([
                             'data-pjax' => 'false',
                             'class' => 'rex-toggle-safemode',
                         ]),
@@ -352,7 +352,7 @@ $sql = rex_sql::factory();
                         label: rex_i18n::rawMsg('setup'),
                         href: rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()),
                         variant: ButtonVariant::Primary,
-                        attributes: new Attributes([
+                        attributes: new HtmlAttributes([
                             'data-pjax' => 'false',
                             'data-confirm' => rex_i18n::msg('setup_restart'),
                         ]),
@@ -385,7 +385,7 @@ $sql = rex_sql::factory();
                                 label: PHP_VERSION,
                                 suffix: new Icon(IconLibrary::PhpInfo),
                                 href: rex_url::backendPage('system/phpinfo'),
-                                attributes: new Attributes([
+                                attributes: new HtmlAttributes([
                                     'onclick' => 'newWindow("phpinfo", this.href, 1000,800,",status=yes,resizable=yes"); return false;',
                                 ]),
                             ))->render();
