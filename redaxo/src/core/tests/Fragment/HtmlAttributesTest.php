@@ -22,7 +22,6 @@ final class HtmlAttributesTest extends TestCase
         static::assertSame($expected, $attributes->toString());
     }
 
-
     /** @return list<array{string, array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>>}> */
     public static function dataConstruct(): array
     {
@@ -58,7 +57,6 @@ final class HtmlAttributesTest extends TestCase
         static::assertNotSame($initial, $with);
         static::assertSame($expected, $with->toString());
     }
-
 
     /** @return list<array{string, array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>>, array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>>}> */
     public static function dataWith(): array
