@@ -76,7 +76,7 @@ final class HtmlAttributes
                 if (!$enabled) {
                     continue;
                 }
-                if ($normalized[$part] ?? false) {
+                if (isset($normalized[$part])) {
                     continue;
                 }
 
@@ -115,7 +115,7 @@ final class HtmlAttributes
             $attr .= ' '.$key.'="'.$value.'"';
         }
 
-        return $attr;
+        return ltrim($attr);
 
     }
 
@@ -145,9 +145,7 @@ final class HtmlAttributes
                 continue;
             }
 
-            if ($value) {
-                $normalized[$key] = true;
-            }
+            $normalized[$key] = rex_type::bool($value);
         }
 
         return $normalized;
