@@ -13,7 +13,8 @@ $values = $this->getValues();
 
 ?>
 <fieldset<?= $this->attributes->with([
-    'aria-describedby' => ($this->notice ? 'help-text' : 'label').'-'.$random,
+    'aria-labelledby' => $this->label ? 'label-'.$random : null,
+    'aria-describedby' => $this->notice ? 'help-text-'.$random : null,
     'class' => [
         'form-control',
         'form-control--medium',
