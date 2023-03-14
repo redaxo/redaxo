@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Fragment\Component;
 
 use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\HtmlAttributes;
 
 /**
  * @see redaxo/src/core/fragments/core/Component/Card.php
@@ -31,8 +32,7 @@ class Card extends Fragment
          */
         public ?Fragment $image = null,
 
-        /** @var array<string, string|int> */
-        public array $attributes = [],
+        public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 
     protected function getPath(): string

@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Fragment\Component;
 
 use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\HtmlAttributes;
 
 /**
  * @see redaxo/src/core/fragments/core/Component/Checkbox.php
@@ -51,8 +52,7 @@ class Checkbox extends Fragment
          */
         public bool $required = false,
 
-        /** @var array<string, string|int> */
-        public array $attributes = [],
+        public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 
     protected function getPath(): string

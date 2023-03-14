@@ -8,7 +8,6 @@ use rex_fragment;
 use rex_timer;
 use rex_type;
 
-use function is_array;
 use function is_string;
 
 abstract class Fragment
@@ -66,9 +65,8 @@ abstract class Fragment
             return $content->render();
         }
 
-        if (isset($content->attributes) && is_array($content->attributes)) {
-            /** @psalm-suppress UndefinedPropertyAssignment */
-            $content->attributes['slot'] = $name;
+        if (isset($content->attributes) && $content->attributes instanceof HtmlAttributes) {
+            $content->attributes->set('slot', $name);
 
             return $content->render();
         }

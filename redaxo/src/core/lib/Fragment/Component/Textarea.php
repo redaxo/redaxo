@@ -4,6 +4,7 @@ namespace Redaxo\Core\Fragment\Component;
 
 use Redaxo\Core\Fragment\Enum\FormControl\Autocapitalize;
 use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\HtmlAttributes;
 
 /**
  * @see redaxo/src/core/fragments/core/Component/Textarea.php
@@ -94,8 +95,7 @@ class Textarea extends Fragment
          */
         public ?bool $spellcheck = null,
 
-        /** @var array<string, string|int> */
-        public array $attributes = [],
+        public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 
     protected function getPath(): string

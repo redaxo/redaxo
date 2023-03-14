@@ -8,6 +8,7 @@ use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
 use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\HtmlAttributes;
 use rex_i18n;
 
 class Save extends Fragment
@@ -16,8 +17,7 @@ class Save extends Fragment
         public string|Fragment|null $label = null,
         public ?string $name = null,
         public ?string $value = null,
-        /** @var array<string, string|int> */
-        public array $attributes = [],
+        public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 
     public function render(): string

@@ -6,21 +6,20 @@ use Redaxo\Core\Fragment\Fragment;
 /** @var Button $this */
 ?>
 
-<sl-button
-    <?= $this->variant ? 'variant="'.$this->variant->value.'"' : '' ?>
-    <?= $this->size ? 'size="'.$this->size->value.'"' : '' ?>
-    <?= $this->caret ? 'caret' : '' ?>
-    <?= $this->disabled ? 'disabled' : '' ?>
-    <?= $this->outline ? 'outline' : '' ?>
-    <?= $this->pill ? 'pill' : '' ?>
-    <?= $this->circle ? 'circle' : '' ?>
-    <?= $this->type ? 'type="'.$this->type->value.'"' : '' ?>
-    <?= $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>
-    <?= $this->value ? 'value="'.rex_escape($this->value).'"' : '' ?>
-    <?= $this->href ? 'href="'.rex_escape($this->href).'"' : '' ?>
-    <?= $this->target ? 'target="'.$this->target->value.'"' : '' ?>
-    <?= rex_string::buildAttributes($this->attributes) ?>
->
+<sl-button <?= $this->attributes->with([
+    'variant' => $this->variant,
+    'size' => $this->size,
+    'caret' => $this->caret,
+    'disabled' => $this->disabled,
+    'outline' => $this->outline,
+    'pill' => $this->pill,
+    'circle' => $this->circle,
+    'type' => $this->type,
+    'name' => $this->name,
+    'value' => $this->value,
+    'href' => $this->href,
+    'target' => $this->target,
+])->toString() ?>>
     <?= Fragment::slot($this->prefix, 'prefix') ?>
     <?= Fragment::slot($this->suffix, 'suffix') ?>
     <?= Fragment::slot($this->label) ?>
