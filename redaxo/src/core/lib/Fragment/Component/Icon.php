@@ -7,7 +7,7 @@ use Redaxo\Core\Fragment\Fragment;
 /**
  * @see redaxo/src/core/fragments/core/Component/Icon.php
  */
-class Icon extends Fragment
+final class Icon extends Fragment
 {
     public function __construct(
         /**

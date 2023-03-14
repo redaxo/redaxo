@@ -10,7 +10,7 @@ use Redaxo\Core\Fragment\Fragment;
 use Redaxo\Core\Fragment\HtmlAttributes;
 use rex_i18n;
 
-class Add extends Fragment
+final class Add extends Fragment
 {
     public function __construct(
         public ?string $href = null,

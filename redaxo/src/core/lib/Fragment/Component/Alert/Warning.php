@@ -9,7 +9,7 @@ use Redaxo\Core\Fragment\Component\IconLibrary;
 use Redaxo\Core\Fragment\Fragment;
 use Redaxo\Core\Fragment\HtmlAttributes;
 
-class Warning extends Fragment
+final class Warning extends Fragment
 {
     public function __construct(
         /** @see Alert::$body */
