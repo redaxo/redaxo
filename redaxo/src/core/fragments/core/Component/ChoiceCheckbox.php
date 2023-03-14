@@ -12,7 +12,7 @@ $random = random_int(100, 999).random_int(100, 999);
 $values = $this->getValues();
 
 ?>
-<fieldset<?= $this->attributes->with([
+<fieldset <?= $this->attributes->with([
     'aria-labelledby' => $this->label ? 'label-'.$random : null,
     'aria-describedby' => $this->notice ? 'help-text-'.$random : null,
     'class' => [
