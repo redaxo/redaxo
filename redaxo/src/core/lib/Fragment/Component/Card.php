@@ -8,7 +8,7 @@ use Redaxo\Core\Fragment\HtmlAttributes;
 /**
  * @see redaxo/src/core/fragments/core/Component/Card.php
  */
-class Card extends Fragment
+final class Card extends Fragment
 {
     public function __construct(
         /**

@@ -10,7 +10,7 @@ use Redaxo\Core\Fragment\HtmlAttributes;
 /**
  * @see redaxo/src/core/fragments/core/Component/Input.php
  */
-class Input extends Fragment
+final class Input extends Fragment
 {
     public function __construct(
         /**

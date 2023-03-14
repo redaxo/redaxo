@@ -8,7 +8,7 @@ use Redaxo\Core\Fragment\HtmlAttributes;
 /**
  * @see redaxo/src/core/fragments/core/Component/Button.php
  */
-class Button extends Fragment
+final class Button extends Fragment
 {
     public function __construct(
         /**

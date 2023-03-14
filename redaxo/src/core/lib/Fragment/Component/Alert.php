@@ -8,7 +8,7 @@ use Redaxo\Core\Fragment\HtmlAttributes;
 /**
  * @see redaxo/src/core/fragments/core/Component/Alert.php
  */
-class Alert extends Fragment
+final class Alert extends Fragment
 {
     public function __construct(
         /**
