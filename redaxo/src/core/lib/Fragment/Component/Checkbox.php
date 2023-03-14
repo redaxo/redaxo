@@ -8,7 +8,7 @@ use Redaxo\Core\Fragment\HtmlAttributes;
 /**
  * @see redaxo/src/core/fragments/core/Component/Checkbox.php
  */
-class Checkbox extends Fragment
+final class Checkbox extends Fragment
 {
     public function __construct(
         /**

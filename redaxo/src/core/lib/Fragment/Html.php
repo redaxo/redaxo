@@ -7,7 +7,7 @@ use rex_type;
 
 use function is_string;
 
-class Html extends Fragment
+final class Html extends Fragment
 {
     public function __construct(
         /** @var string|list<string|Fragment|null>|Closure */

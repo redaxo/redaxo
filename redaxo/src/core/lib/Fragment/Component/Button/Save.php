@@ -11,7 +11,7 @@ use Redaxo\Core\Fragment\Fragment;
 use Redaxo\Core\Fragment\HtmlAttributes;
 use rex_i18n;
 
-class Save extends Fragment
+final class Save extends Fragment
 {
     public function __construct(
         public string|Fragment|null $label = null,

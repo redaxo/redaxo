@@ -9,7 +9,7 @@ use Redaxo\Core\Fragment\HtmlAttributes;
 /**
  * @see redaxo/src/core/fragments/core/Component/Textarea.php
  */
-class Textarea extends Fragment
+final class Textarea extends Fragment
 {
     public function __construct(
         /**

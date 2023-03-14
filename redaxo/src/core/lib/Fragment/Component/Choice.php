@@ -18,7 +18,7 @@ use function is_int;
  * @see redaxo/src/core/fragments/core/Component/ChoiceRadio.php
  * @see redaxo/src/core/fragments/core/Component/ChoiceSelect.php
  */
-class Choice extends Fragment
+final class Choice extends Fragment
 {
     /** @var array<string|int, array<string, string|int>> */
     private array $groupedChoices = [];
