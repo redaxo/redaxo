@@ -188,9 +188,8 @@ class rex_setup
             $security[] = rex_i18n::msg('setup_session_autostart_warning');
         }
 
-        // Source: https://www.php.net/supported-versions.php, Security Support Until
+        // Source: https://www.php.net/supported-versions.php, Security Support Until, set to 1st of month
         $deprecatedVersions = [
-            '8.0' => '2023-11-01',
             '8.1' => '2024-11-01',
             '8.2' => '2025-12-01',
         ];
@@ -218,6 +217,7 @@ class rex_setup
         $dbVersion = $sql->getDbVersion();
         $dbType = $sql->getDbType();
         $security = [];
+        $currentDate = date('Y-m-d');
 
         if (rex_sql::MARIADB === $dbType) {
             // Deprecated versions and dates
@@ -237,22 +237,27 @@ class rex_setup
             ];
 
             $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
-
             if (array_key_exists($versionNumber, $deprecatedVersions)) {
                 $deprecationDate = $deprecatedVersions[$versionNumber];
-                $currentDate = date('Y-m-d');
                 if ($currentDate > $deprecationDate) {
                     $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
                 }
             }
         } elseif (rex_sql::MYSQL === $dbType) {
-            // https://en.wikipedia.org/wiki/MySQL#Release_history
-            if (1 == version_compare($dbVersion, '5.7', '<') && time() > strtotime('1 Feb 2021')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '8.0', '<') && time() > strtotime('1 Oct 2023')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '8.1', '<') && time() > strtotime('1 Apr 2026')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
+            // Deprecated versions and dates
+            // Source: https://en.wikipedia.org/wiki/MySQL#Release_history, set to 1st of month
+            $deprecatedVersions = [
+                '5.6' => '2021-12-01',
+                '5.7' => '2023-10-01',
+                '8.0' => '2026-04-01',
+            ];
+
+            $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
+            if (array_key_exists($versionNumber, $deprecatedVersions)) {
+                $deprecationDate = $deprecatedVersions[$versionNumber];
+                if ($currentDate > $deprecationDate) {
+                    $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
+                }
             }
         }
 
