@@ -226,8 +226,7 @@ class rex_setup
                 '10.11' => '2028-02-01', // LTS
             ];
 
-            $versionParts = explode('.', $dbVersion);
-            $versionNumber = $versionParts[0] . '.' . $versionParts[1];
+            $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
 
             if (array_key_exists($versionNumber, $deprecatedVersions)) {
                 $deprecationDate = $deprecatedVersions[$versionNumber];
