@@ -211,23 +211,23 @@ class rex_setup
         $security = [];
 
         if (rex_sql::MARIADB === $dbType) {
-          // Deprecated versions and dates
-            $deprecatedVersions = array(
+            // Deprecated versions and dates
+            $deprecatedVersions = [
                 '10.1' => '2020-10-01',
                 '10.2' => '2022-05-01',
                 '10.3' => '2023-05-01',
                 '10.4' => '2024-06-01',
                 '10.5' => '2025-06-01',
-                '10.6' => '2026-07-01', //LTS
+                '10.6' => '2026-07-01', // LTS
                 '10.7' => '2023-02-01',
                 '10.8' => '2023-05-01',
                 '10.9' => '2023-08-01',
                 '10.10' => '2023-11-01',
-                '10.11' => '2028-02-01', //LTS
-            );
+                '10.11' => '2028-02-01', // LTS
+            ];
 
-            $versionParts = explode(".", $dbVersion);
-            $versionNumber = $versionParts[0] . "." . $versionParts[1];
+            $versionParts = explode('.', $dbVersion);
+            $versionNumber = $versionParts[0] . '.' . $versionParts[1];
 
             if (array_key_exists($versionNumber, $deprecatedVersions)) {
                 $deprecationDate = $deprecatedVersions[$versionNumber];
