@@ -188,10 +188,11 @@ class rex_setup
             $security[] = rex_i18n::msg('setup_session_autostart_warning');
         }
 
-        // Source: https://www.php.net/supported-versions.php
+        // Source: https://www.php.net/supported-versions.php, Security Support Until
         $deprecatedVersions = [
-            "8.1" => "2024-11-01",
             "8.0" => "2023-11-01",
+            "8.1" => "2024-11-01",
+            "8.2" => "2025-12-01",
         ];
 
         $versionNumber = rex_formatter::version(PHP_VERSION, '%s.%s');
