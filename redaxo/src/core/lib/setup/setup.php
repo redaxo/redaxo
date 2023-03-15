@@ -42,7 +42,7 @@ class rex_setup
         // provide a error message for 'git cloned' sources, to give newcomers a hint why the very first setup might look broken.
         // we intentionally dont check permissions here, as those will be checked in a later setup step.
         if (!is_dir(rex_path::coreAssets())) {
-            throw new rex_exception('Unable to copy assets to "'. rex_path::coreAssets() .'". Is the folder writable for the webserver?');
+            throw new rex_exception('Unable to copy assets to "' . rex_path::coreAssets() . '". Is the folder writable for the webserver?');
         }
 
         // copy skins files/assets
@@ -188,13 +188,21 @@ class rex_setup
             $security[] = rex_i18n::msg('setup_session_autostart_warning');
         }
 
-        // https://www.php.net/supported-versions.php
-        if (1 == version_compare(PHP_VERSION, '8.2', '<') && time() > strtotime('25 Nov 2024')) {
-            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
-        } elseif (1 == version_compare(PHP_VERSION, '8.3', '<') && time() > strtotime('8 Dec 2025')) {
-            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
-        }
+        // Source: https://www.php.net/supported-versions.php
+        $deprecatedVersions = [
+            "8.1" => "2024-11-01",
+            "8.0" => "2023-11-01",
+        ];
 
+        $versionNumber = rex_formatter::version(PHP_VERSION, '%s.%s');
+
+        if (array_key_exists($versionNumber, $deprecatedVersions)) {
+            $deprecationDate = $deprecatedVersions[$versionNumber];
+            $currentDate = date('Y-m-d');
+            if ($currentDate > $deprecationDate) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
+            }
+        }
         return $security;
     }
 
@@ -226,7 +234,7 @@ class rex_setup
                 '10.10' => '2023-11-01',
                 '10.11' => '2028-02-01', // LTS
             ];
-    
+
             $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
 
             if (array_key_exists($versionNumber, $deprecatedVersions)) {
