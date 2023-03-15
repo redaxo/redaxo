@@ -212,6 +212,7 @@ class rex_setup
 
         if (rex_sql::MARIADB === $dbType) {
             // Deprecated versions and dates
+            // Source: https://endoflife.date/mariadb, set to 1st of month
             $deprecatedVersions = [
                 '10.1' => '2020-10-01',
                 '10.2' => '2022-05-01',
@@ -225,7 +226,7 @@ class rex_setup
                 '10.10' => '2023-11-01',
                 '10.11' => '2028-02-01', // LTS
             ];
-
+    
             $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
 
             if (array_key_exists($versionNumber, $deprecatedVersions)) {
