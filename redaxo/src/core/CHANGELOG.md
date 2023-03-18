@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 5.15.1 – 18.03.2023
+---------------------------
+
+### Bugfixes
+
+* Passkeys funktionierten in Chrome nicht (@gharlan)
+* Setup/Systembericht: MariaDB-Versionen wurden teils fälschlich als veraltet markiert (@skerbis)
+* REX_VARs in PHP-Strings zusammen mit String-Interpolation funktionierten nicht (`"REX_VALUE[1] $myvar"`) (@gharlan)
+* Commands `config:get/set` und `db:connection-options` konnten nicht verwenden werden, wenn die DB nocht nicht existiert (@gharlan)
+* Bessere Exception in `rex_fragment::parse` (@staabm)
+* `#[SensitiveParameter]` fehlte noch an manchen Parametern (@gharlan)
+
+
 Version 5.15.0 – 28.02.2023
 ---------------------------
 
