@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.11.1 – 18.03.2023
+---------------------------
+
+### Bugfixes
+
+* Nach AddOn-Updates wurde die neue `package.yml` teils nicht geladen und die alte blieb im Cache (@gharlan)
+
+
 Version 2.11.0 – 28.02.2023
 ---------------------------
 
