@@ -135,9 +135,9 @@ class rex_install_package_update extends rex_install_package_download
 
         // ---- update package order
         if ($this->addon->isAvailable()) {
-            $this->addon->loadProperties();
+            $this->addon->loadProperties(true);
             foreach ($this->addon->getAvailablePlugins() as $plugin) {
-                $plugin->loadProperties();
+                $plugin->loadProperties(true);
             }
             rex_package_manager::generatePackageOrder();
         }
