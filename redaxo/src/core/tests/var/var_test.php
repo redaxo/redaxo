@@ -34,7 +34,7 @@ class rex_var_test extends rex_var_test_base
         return [
             ['aREX_TEST_VAR[content=b]c', 'abc'],
             ['a<?php echo \'bREX_TEST_VAR[content=c]d\'; ?>e', 'abcde'],
-            ['a<?php echo "bREX_TEST_VAR[content=c]d"; ?>e', 'abcde'],
+            ['a<?php $foo = "123"; echo "REX_TEST_VAR[content=b]$foo"; ?>', 'ab123'],
             ['a<?php echo REX_TEST_VAR[content=b]; ?>c', 'abc'],
             ['REX_2ND_TEST_VAR[]', '2'],
             ['a<?php echo <<<EOT
