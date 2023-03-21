@@ -1606,11 +1606,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/clang/perm.php
 
 		-
-			message: "#^Method rex_config\\:\\:set\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/config.php
-
-		-
 			message: "#^Method rex_config_db\\:\\:__construct\\(\\) has parameter \\$dbConfig with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/config_db.php
