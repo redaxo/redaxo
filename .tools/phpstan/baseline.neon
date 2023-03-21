@@ -2601,16 +2601,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/finder.php
 
 		-
-			message: "#^Method rex_finder\\:\\:ignoreDirs\\(\\) has parameter \\$glob with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/finder.php
-
-		-
-			message: "#^Method rex_finder\\:\\:ignoreFiles\\(\\) has parameter \\$glob with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/finder.php
-
-		-
 			message: "#^Method rex_formatter\\:\\:bytes\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/formatter.php
