@@ -3515,9 +3515,6 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$cfg->getValue('value')]]></code>
     </ArgumentTypeCoercion>
-    <MixedArgumentTypeCoercion>
-      <code>$k</code>
-    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code>$v</code>
       <code>$value</code>

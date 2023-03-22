@@ -1606,11 +1606,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/clang/perm.php
 
 		-
-			message: "#^Method rex_config\\:\\:set\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/config.php
-
-		-
 			message: "#^Method rex_config_db\\:\\:__construct\\(\\) has parameter \\$dbConfig with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/config_db.php
@@ -2106,11 +2101,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/interface.php
 
 		-
-			message: "#^Method rex_package_interface\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/interface.php
-
-		-
 			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/manager.php
@@ -2136,17 +2126,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/null.php
 
 		-
-			message: "#^Method rex_null_package\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/null.php
-
-		-
 			message: "#^Method rex_package\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
-
-		-
-			message: "#^Method rex_package\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/package.php
 
@@ -2174,11 +2154,6 @@ parameters:
 			message: "#^Property rex_response\\:\\:\\$preloadFiles type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/rex.php
 
 		-
 			message: "#^Method rex_select\\:\\:addArrayOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
@@ -2597,16 +2572,6 @@ parameters:
 
 		-
 			message: "#^Method rex_finder\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/finder.php
-
-		-
-			message: "#^Method rex_finder\\:\\:ignoreDirs\\(\\) has parameter \\$glob with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/finder.php
-
-		-
-			message: "#^Method rex_finder\\:\\:ignoreFiles\\(\\) has parameter \\$glob with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/finder.php
 
