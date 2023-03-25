@@ -9,5 +9,7 @@ use Redaxo\Core\Fragment\Fragment;
 <sl-button-group <?= $this->attributes->with([
     'label' => $this->label,
 ])->toString() ?>>
-    <?= Fragment::slot($this->body) ?>
+    <?php foreach ($this->elements as $element): ?>
+        <?= $element->render() ?>
+    <?php endforeach ?>
 </sl-button-group>

@@ -13,8 +13,10 @@ final class ButtonGroup extends Fragment
     public function __construct(
         /**
          * The button groups main content.
+         *
+         * @var list<Fragment>
          */
-        public string|Fragment $body,
+        public array $elements,
 
         /**
          * A label to use for the button group.
@@ -23,7 +25,7 @@ final class ButtonGroup extends Fragment
          * devices when interacting with the control
          * and is strongly recommended.
          */
-        public null|string $label = null,
+        public string $label,
 
         public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
