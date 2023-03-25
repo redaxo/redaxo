@@ -1,7 +1,6 @@
 <?php
 
 use Redaxo\Core\Fragment\Component\ButtonGroup;
-use Redaxo\Core\Fragment\Fragment;
 
 /** @var ButtonGroup $this */
 ?>
