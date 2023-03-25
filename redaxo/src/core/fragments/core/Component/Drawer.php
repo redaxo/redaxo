@@ -7,12 +7,13 @@ use Redaxo\Core\Fragment\Fragment;
 ?>
 
 <sl-drawer <?= $this->attributes->with([
+    'label' => is_string($this->label) ? $this->label : null,
     'open' => $this->open,
     'placement' => $this->placement,
     'contained' => $this->contained,
 ])->toString() ?>>
-    <?= Fragment::slot($this->label, 'label') ?>
-    <?= Fragment::slot($this->header, 'header-actions') ?>
+    <?= $this->label instanceof Fragment ? Fragment::slot($this->label, 'label') : '' ?>
+    <?= Fragment::slot($this->headerActions, 'header-actions') ?>
     <?= Fragment::slot($this->footer, 'footer') ?>
     <?= Fragment::slot($this->body) ?>
 </sl-drawer>

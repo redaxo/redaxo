@@ -11,21 +11,6 @@ use Redaxo\Core\Fragment\HtmlAttributes;
 final class Drawer extends Fragment
 {
     public function __construct(
-        /**
-         * The drawer's main content.
-         */
-        public string|Fragment $body,
-
-        /**
-         * An optional header for the drawer.
-         */
-        public string|Fragment|null $header = null,
-
-        /**
-         * The drawer's footer, usually one or
-         * more buttons representing various options.
-         */
-        public string|Fragment|null $footer = null,
 
         /**
          * The drawer's label as displayed in the header.
@@ -33,7 +18,24 @@ final class Drawer extends Fragment
          * when using no-header, as it is required for
          * proper accessibility.
          */
-        public string|Fragment|null $label = null,
+        public string|Fragment $label,
+
+        /**
+         * The drawer's main content.
+         */
+        public string|Fragment $body,
+
+        /**
+         * Optional actions to add to the header.
+         * Works best with Fragment\Button.
+         */
+        public Fragment|null $headerActions = null,
+
+        /**
+         * The drawer's footer, usually one or
+         * more buttons representing various options.
+         */
+        public string|Fragment|null $footer = null,
 
         /**
          * Indicates whether or not the drawer
