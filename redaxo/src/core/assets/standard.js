@@ -540,6 +540,17 @@ function scrollToAnchor() {
     }
 }
 
+var rex_loader = {
+    show: function() {
+        document.documentElement.style.overflowY = 'hidden'; // freeze scroll position
+        document.querySelector('#rex-js-ajax-loader').classList.add('rex-visible');
+    },
+    hide:function() {
+        document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
+        document.documentElement.style.overflowY = null;
+    }
+};
+
 jQuery(document).ready(function($) {
 
     if (!("autofocus" in document.createElement("input"))) {
@@ -677,8 +688,7 @@ jQuery(document).ready(function($) {
                 // show only if page takes longer than 200 ms to load
                 window.clearTimeout(rexAjaxLoaderId);
                 rexAjaxLoaderId = setTimeout(function () {
-                    document.documentElement.style.overflowY = 'hidden'; // freeze scroll position
-                    document.querySelector('#rex-js-ajax-loader').classList.add('rex-visible');
+                    rex_loader.show();
                 }, 200);
             })
             .on('pjax:end',   function (event, xhr, options) {
@@ -688,8 +698,7 @@ jQuery(document).ready(function($) {
                 // make sure loader was visible for at least 500 ms to avoid flickering
                 window.clearTimeout(rexAjaxLoaderId);
                 rexAjaxLoaderId = setTimeout(function () {
-                    document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
-                    document.documentElement.style.overflowY = null;
+                    rex_loader.hide();
                 }, 500);
 
                 options.context.trigger('rex:ready', [options.context]);
