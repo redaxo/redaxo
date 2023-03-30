@@ -23,7 +23,7 @@
         "phpunit/phpunit": "^10.0.7",
         "psalm/plugin-phpunit": "0.18.4",
         "psalm/plugin-symfony": "v5.0.1",
-        "rector/rector": "0.15.21",
+        "rector/rector": "0.15.23",
         "redaxo/php-cs-fixer-config": "2.1.1",
         "redaxo/psalm-plugin": "2.0.0",
         "vimeo/psalm": "5.8.0"
