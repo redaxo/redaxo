@@ -508,10 +508,7 @@ class rex_media_manager
         }
     }
 
-    /**
-     * @return string
-     */
-    public static function getMediaFile():string
+    public static function getMediaFile(): string
     {
         return rex_path::basename(rex_get('rex_media_file', 'string'));
     }

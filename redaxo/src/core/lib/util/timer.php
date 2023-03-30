@@ -109,7 +109,7 @@ class rex_timer
      *
      * @return float Time difference
      */
-    public function getDelta($precision = self::MILLISEC):float
+    public function getDelta($precision = self::MILLISEC): float
     {
         $duration = $this->duration ?? microtime(true) - $this->start;
 
