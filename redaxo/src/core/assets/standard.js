@@ -541,13 +541,32 @@ function scrollToAnchor() {
 }
 
 var rex_loader = {
+    rexAjaxLoaderId,
+
     show: function() {
         document.documentElement.style.overflowY = 'hidden'; // freeze scroll position
         document.querySelector('#rex-js-ajax-loader').classList.add('rex-visible');
     },
-    hide:function() {
+    hide: function() {
         document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
         document.documentElement.style.overflowY = null;
+    }
+
+    showAfterDelay: function() {
+        // show loader only if page takes longer than 200 ms to load
+        window.clearTimeout(rex_loader.rexAjaxLoaderId);
+
+        rex_loader.rexAjaxLoaderId = setTimeout(function () {
+            rex_loader.show();
+        }, 200);
+    },
+    hideAfterDelay: function() {
+        // make sure loader was visible for at least 500 ms to avoid flickering
+        window.clearTimeout(rex_loader.rexAjaxLoaderId);
+
+        rex_loader.rexAjaxLoaderId = setTimeout(function () {
+            rex_loader.hide();
+        }, 500);
     }
 };
 
@@ -684,22 +703,13 @@ jQuery(document).ready(function($) {
             /*.on('pjax:success', function(e, data, status, xhr, options) {
              })*/
             .on('pjax:start', function () {
-                // show loader
-                // show only if page takes longer than 200 ms to load
-                window.clearTimeout(rexAjaxLoaderId);
-                rexAjaxLoaderId = setTimeout(function () {
-                    rex_loader.show();
-                }, 200);
+                rex_loader.showAfterDelay();
             })
             .on('pjax:end',   function (event, xhr, options) {
                 // adjust scroll position for anchors depending on scroll-margin-top value
                 scrollToAnchor();
-                // hide loader
-                // make sure loader was visible for at least 500 ms to avoid flickering
-                window.clearTimeout(rexAjaxLoaderId);
-                rexAjaxLoaderId = setTimeout(function () {
-                    rex_loader.hide();
-                }, 500);
+
+                rex_loader.hideAfterDelay();
 
                 options.context.trigger('rex:ready', [options.context]);
             });
