@@ -1,0 +1,37 @@
+name: Backwards compatibility
+
+on:
+    pull_request:
+
+concurrency:
+    group: bc-${{github.event_name}}-${{ github.head_ref || github.run_id }} # will be canceled on subsequent pushes in pull requests but not branches
+    cancel-in-progress: true
+
+jobs:
+    roave-backwards-compatibility-check:
+        name: Roave Backwards Compatibility Check
+        runs-on: ubuntu-latest
+
+        if: github.event.pull_request.draft == false
+
+        steps:
+            -   uses: actions/checkout@v3
+                with:
+                    token: ${{ secrets.PHP_GH_ACTION }}
+                    fetch-depth: 0
+
+            -   name: Setup PHP
+                id: setup-php
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 8.0
+                    coverage: none
+                    ini-values: opcache.enable_cli=1, opcache.file_cache=/tmp/phpstan, opcache.jit=disable
+
+            -   name: Install roave/backward-compatibility-check.
+                run: |
+                    composer global require roave/backward-compatibility-check
+                    echo "$(composer global config bin-dir --absolute --quiet)" >> $GITHUB_PATH
+
+            -   name: Run roave/backward-compatibility-check.
+                run: roave-backward-compatibility-check --format=github-actions
