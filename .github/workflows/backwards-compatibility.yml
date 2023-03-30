@@ -24,10 +24,10 @@ jobs:
                 id: setup-php
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.0
-                    coverage: none
-                    ini-values: opcache.enable_cli=1, opcache.file_cache=/tmp/phpstan, opcache.jit=disable
-
+                    php-version: '8.2'
+                    extensions: gd, intl, imagick
+                    coverage: none # disable xdebug, pcov
+                    
             -   name: Install roave/backward-compatibility-check.
                 run: |
                     composer global require roave/backward-compatibility-check
