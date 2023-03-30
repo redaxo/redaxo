@@ -33,7 +33,7 @@ function rex_mediapool_filename($mediaName, $doSubindexing = true): string
  * @return array
  * @deprecated since 2.11, use `rex_media_service::addMedia` instead
  */
-function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin = null, $doSubindexing = true)
+function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin = null, $doSubindexing = true):array
 {
     $data = $FILEINFOS;
     $data['category_id'] = (int) $rexFileCategory;

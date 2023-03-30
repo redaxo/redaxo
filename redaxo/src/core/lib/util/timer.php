@@ -50,7 +50,7 @@ class rex_timer
      *
      * @return T result of callable
      */
-    public static function measure($label, callable $callable)
+    protected static function measure($label, callable $callable)
     {
         if (!rex::isDebugMode()) {
             return $callable();
@@ -109,7 +109,7 @@ class rex_timer
      *
      * @return float Time difference
      */
-    public function getDelta($precision = self::MILLISEC)
+    public function getDelta($precision = self::MILLISEC):float
     {
         $duration = $this->duration ?? microtime(true) - $this->start;
 
