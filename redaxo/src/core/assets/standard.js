@@ -541,7 +541,7 @@ function scrollToAnchor() {
 }
 
 var rex_loader = {
-    rexAjaxLoaderId,
+    rexAjaxLoaderId: null,
 
     show: function() {
         document.documentElement.style.overflowY = 'hidden'; // freeze scroll position
