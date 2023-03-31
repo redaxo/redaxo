@@ -66,7 +66,7 @@ class rex_category_test extends TestCase
         static::assertSame($expectedValue, $category->getClosestValue('cat_foo'));
     }
 
-    /** @return iterable<int, list<int|string|null, rex_category>> */
+    /** @return iterable<int, array{int|string|null, rex_category}> */
     public static function dataGetClosestValue(): iterable
     {
         [$lev1, $_, $lev3] = self::createCategories([], [], []);

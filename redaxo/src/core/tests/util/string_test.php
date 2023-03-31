@@ -33,14 +33,14 @@ class rex_string_test extends TestCase
         static::assertEquals($expected, rex_string::normalize($string, $replaceChar, $allowedChars));
     }
 
-    /** @return list<array{string, array<int|string, string>}> */
+    /** @return list<array{string, array<int|string, string|int>}> */
     public static function splitProvider(): array
     {
         return [
             ['',                                          []],
             ['a b c',                                     ['a', 'b', 'c']],
             ['"a b" cdef \'ghi kl\'',                     ['a b', 'cdef', 'ghi kl']],
-            ['a=1 b=xyz c="hu hu" 123=\'he he\'',         ['a' => 1, 'b' => 'xyz', 'c' => 'hu hu', '123' => 'he he']],
+            ['a=1 b=xyz c="hu hu" 123=\'he he\'',         ['a' => '1', 'b' => 'xyz', 'c' => 'hu hu', '123' => 'he he']],
             ['a="a \"b\" c" b=\'a \\\'b\\\'\' c="a\\\\"', ['a' => 'a "b" c', 'b' => "a 'b'", 'c' => 'a\\']],
             ["\n a=1\n b='aa\nbb'\n c='a'\n ",            ['a' => '1', 'b' => "aa\nbb", 'c' => 'a']],
             ['"a b" c "d e',                              ['a b', 'c', '"d', 'e']],
@@ -51,7 +51,7 @@ class rex_string_test extends TestCase
     #[DataProvider('splitProvider')]
     public function testSplit(string $string, array $expectedArray): void
     {
-        static::assertEquals($expectedArray, rex_string::split($string));
+        static::assertSame($expectedArray, rex_string::split($string));
     }
 
     /** @return list<array{0: string, 1: array, 2?: string}> */

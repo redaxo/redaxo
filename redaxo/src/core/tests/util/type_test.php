@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_type_test extends TestCase
 {
-    /** @return list<array{mixed, string|callable(mixed):mixed|list<array{string, string, mixed}>, mixed}> */
+    /** @return list<array{mixed, string|callable(mixed):mixed|list<array{0: string, 1: string|callable(mixed):mixed|list, 2?: mixed}>, mixed}> */
     public static function castProvider(): array
     {
         $callback = static function ($var) {
@@ -44,7 +44,7 @@ class rex_type_test extends TestCase
         ];
     }
 
-    /** @param string|callable(mixed):mixed|list<array{string, string, mixed}> $vartype */
+    /** @param string|callable(mixed):mixed|list<array{0: string, 1: string|callable(mixed):mixed|list, 2?: mixed}> $vartype */
     #[DataProvider('castProvider')]
     public function testCast(mixed $var, string|callable|array $vartype, mixed $expectedResult): void
     {
