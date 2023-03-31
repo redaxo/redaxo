@@ -2577,9 +2577,6 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/addons/structure/tests/category_test.php">
-    <InvalidReturnType>
-      <code><![CDATA[iterable<int, list<int|string|null, rex_category>>]]></code>
-    </InvalidReturnType>
     <MixedArgument>
       <code><![CDATA[$classVarsProperty->getValue()]]></code>
     </MixedArgument>
@@ -5450,47 +5447,7 @@
       <code>$b</code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/tests/util/string_test.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[[
-            ['',                                          []],
-            ['a b c',                                     ['a', 'b', 'c']],
-            ['"a b" cdef \'ghi kl\'',                     ['a b', 'cdef', 'ghi kl']],
-            ['a=1 b=xyz c="hu hu" 123=\'he he\'',         ['a' => 1, 'b' => 'xyz', 'c' => 'hu hu', '123' => 'he he']],
-            ['a="a \"b\" c" b=\'a \\\'b\\\'\' c="a\\\\"', ['a' => 'a "b" c', 'b' => "a 'b'", 'c' => 'a\\']],
-            ["\n a=1\n b='aa\nbb'\n c='a'\n ",            ['a' => '1', 'b' => "aa\nbb", 'c' => 'a']],
-            ['"a b" c "d e',                              ['a b', 'c', '"d', 'e']],
-            ['"a"b" "c"d',                                ['a"b', '"c"d']],
-        ]]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[list<array{string, array<int|string, string>}>]]></code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="redaxo/src/core/tests/util/type_test.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[[
-            ['a', '', 'a'],
-            [1, 'string', '1'],
-            [1, 'bool', true],
-            [[], 'bool', false],
-            [['foo'], 'bool', true],
-            [['foo'], 'string', ''],
-            ['', 'array', []],
-            [1, 'array', [1]],
-            [[1, '2'], 'array[int]', [1, 2]],
-            ['a', $callback, 'ab'],
-            [$arrayVar, $arrayCasts, $arrayExpected],
-            [
-                ['k' => $arrayVar],
-                [['k', $arrayCasts]],
-                ['k' => $arrayExpected],
-            ],
-        ]]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[list<array{mixed, string|callable(mixed):mixed|list<array{string, string, mixed}>, mixed}>]]></code>
-    </InvalidReturnType>
     <MixedOperand>
       <code>$var</code>
     </MixedOperand>
