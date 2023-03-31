@@ -657,12 +657,12 @@
     </NullOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
+    <MixedArgument>
+      <code>$color</code>
+    </MixedArgument>
     <MixedAssignment>
       <code>$color</code>
     </MixedAssignment>
-    <MixedOperand>
-      <code>$color</code>
-    </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$this->media->getMediaPath()]]></code>
       <code><![CDATA[$this->media->getMediaPath()]]></code>

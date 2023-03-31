@@ -81,14 +81,20 @@ rex_file::putConfig($path, $config);
 require __DIR__.'/install.php';
 
 if (rex_version::compare(rex::getVersion(), '5.15.0-dev', '<') && $user = rex::getUser()) {
-    // prevent admin loggout during update
-    rex_sql::factory()
-        ->setTable(rex::getTable('user_session'))
-        ->setValue('session_id', session_id())
-        ->setValue('user_id', $user->getId())
-        ->setValue('ip', rex_request::server('REMOTE_ADDR', 'string'))
-        ->setValue('useragent', rex_request::server('HTTP_USER_AGENT', 'string'))
-        ->setValue('starttime', rex_sql::datetime())
-        ->setValue('last_activity', rex_sql::datetime())
-        ->insert();
+    // prevent admin logout during update
+    try {
+        rex_sql::factory()
+            ->setTable(rex::getTable('user_session'))
+            ->setValue('session_id', session_id())
+            ->setValue('user_id', $user->getId())
+            ->setValue('ip', rex_request::server('REMOTE_ADDR', 'string'))
+            ->setValue('useragent', rex_request::server('HTTP_USER_AGENT', 'string'))
+            ->setValue('starttime', rex_sql::datetime())
+            ->setValue('last_activity', rex_sql::datetime())
+            ->insert();
+    } catch (rex_sql_exception $exception) {
+        if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY !== $exception->getErrorCode()) {
+            throw $exception;
+        }
+    }
 }
