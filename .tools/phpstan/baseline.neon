@@ -1506,16 +1506,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/tests/category_test.php
 
 		-
-			message: "#^Method rex_category_test\\:\\:dataGetClosestValue\\(\\) return type has no value type specified in iterable type iterable\\<int, mixed\\>\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/tests/category_test.php
-
-		-
-			message: "#^PHPDoc tag @return contains unresolvable type\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/tests/category_test.php
-
-		-
 			message: "#^Method rex_user_role\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/users/lib/role.php

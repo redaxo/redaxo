@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.8.0@9cf4f60a333f779ad3bc704a555920e81d4fdcda">
+<files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <LessSpecificReturnStatement>
       <code>$tables</code>
@@ -657,12 +657,12 @@
     </NullOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
+    <MixedArgument>
+      <code>$color</code>
+    </MixedArgument>
     <MixedAssignment>
       <code>$color</code>
     </MixedAssignment>
-    <MixedOperand>
-      <code>$color</code>
-    </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$this->media->getMediaPath()]]></code>
       <code><![CDATA[$this->media->getMediaPath()]]></code>
@@ -973,6 +973,22 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media_category.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[self::getInstanceList([$this->getId(), 'media'], rex_media::get(...), static function ($id) {
+            $listPath = rex_path::addonCache('mediapool', $id . '.mlist');
+
+            $list = rex_file::getCache($listPath, null);
+            if (null === $list) {
+                rex_media_cache::generateList($id);
+                $list = rex_file::getCache($listPath);
+            }
+
+            return $list;
+        })]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>rex_media[]</code>
+    </InvalidReturnType>
     <MixedArgument>
       <code>$id</code>
       <code>$id</code>
@@ -1359,7 +1375,6 @@
       <code>$fieldAttributes</code>
       <code>$fieldName</code>
       <code>$fieldType</code>
-      <code>$itemValue</code>
       <code>$itemValue</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
@@ -2585,7 +2600,6 @@
   <file src="redaxo/src/addons/users/lib/role.php">
     <MixedArgument>
       <code>$perms[$key]</code>
-      <code>$perms[$key]</code>
       <code>$role[$key]</code>
       <code>$role[$key]</code>
     </MixedArgument>
@@ -2684,9 +2698,6 @@
       <code>$assetFile</code>
       <code>$userAgent</code>
     </MixedAssignment>
-    <MixedOperand>
-      <code>$assetFile</code>
-    </MixedOperand>
     <PossiblyNullReference>
       <code>getLanguage</code>
     </PossiblyNullReference>
@@ -3427,7 +3438,6 @@
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
-      <code>$key</code>
       <code>$pageKey</code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
@@ -3593,9 +3603,6 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$input->getArgument('table')]]></code>
     </ArgumentTypeCoercion>
-    <PossiblyNullArgument>
-      <code><![CDATA[$input->getArgument('table')]]></code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/console/db/set_connection.php">
     <MixedArgument>
@@ -3630,56 +3637,10 @@
       <code>rex_extension_point_console_shutdown</code>
     </MissingTemplateParam>
   </file>
-  <file src="redaxo/src/core/lib/console/package/activate.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/deactivate.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/delete.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
   <file src="redaxo/src/core/lib/console/package/install.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
     <UndefinedInterfaceMethod>
       <code>ask</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/run_update_script.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/uninstall.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/console/setup/check.php">
     <MixedArgument>
@@ -3799,10 +3760,6 @@
     <MixedAssignment>
       <code>$password</code>
     </MixedAssignment>
-    <PossiblyNullArgument>
-      <code>$username</code>
-      <code>$username</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/context.php">
     <InvalidArgument>
@@ -4616,7 +4573,6 @@
       <code>$query</code>
       <code>$query</code>
       <code>$style</code>
-      <code>$style</code>
       <code><![CDATA[$this->attributes['class']]]></code>
     </MixedArgument>
     <MixedArrayAccess>
@@ -4994,9 +4950,6 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/util/markdown.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->headers]]></code>
-    </InvalidPropertyAssignmentValue>
     <MixedArgument>
       <code>$block</code>
       <code>$block</code>
@@ -5034,6 +4987,9 @@
     <PossiblyUndefinedArrayOffset>
       <code>$level</code>
     </PossiblyUndefinedArrayOffset>
+    <PropertyTypeCoercion>
+      <code><![CDATA[$this->headers]]></code>
+    </PropertyTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/util/path.php">
     <LessSpecificReturnStatement>
