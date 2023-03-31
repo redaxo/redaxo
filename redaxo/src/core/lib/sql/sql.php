@@ -1437,6 +1437,18 @@ class rex_sql implements Iterator
      */
     public function escapeIdentifier($name)
     {
+        return self::_escapeIdentifier($name);
+    }
+
+    /**
+     * Escapes and adds backsticks around.
+     *
+     * @param string $name
+     *
+     * @psalm-taint-escape sql
+     */
+    static private function _escapeIdentifier($name): string
+    {
         return '`' . str_replace('`', '``', $name) . '`';
     }
 
@@ -1968,7 +1980,8 @@ class rex_sql implements Iterator
                             $login,
                             $password,
                         );
-                        if (1 !== $conn->exec('CREATE DATABASE ' . $database . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
+
+                        if (1 !== $conn->exec('CREATE DATABASE ' . self::_escapeIdentifier($database) . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
                             // unable to create db
                             $errMsg = rex_i18n::msg('sql_unable_to_create_database');
                         }
