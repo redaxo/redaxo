@@ -33,7 +33,7 @@ $tempPath = dirname(__DIR__, 2).'/redaxo/src/addons/.clone-addon.temp';
 exec('rm -rf '.escapeshellarg($tempPath));
 
 try {
-    passthru('git clone '.$url.' '.$tempPath);
+    passthru('git clone '.escapeshellarg($url).' '.escapeshellarg($tempPath));
 
     $package = file_get_contents($tempPath.'/package.yml');
     if (!preg_match('/^package:\s*[\'"]?(.*?)[\'"]?$/m', $package, $match)) {
@@ -53,5 +53,5 @@ try {
 
 exec('command -v gittower || which gittower', $output, $status);
 if (0 == $status) {
-    exec($output[0] .' '.$path);
+    exec(escapeshellarg($output[0]).' '.escapeshellarg($path));
 }
