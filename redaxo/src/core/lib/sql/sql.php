@@ -1447,7 +1447,7 @@ class rex_sql implements Iterator
      *
      * @psalm-taint-escape sql
      */
-    static private function _escapeIdentifier($name): string
+    private static function _escapeIdentifier($name): string
     {
         return '`' . str_replace('`', '``', $name) . '`';
     }
