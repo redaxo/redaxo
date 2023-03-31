@@ -31,7 +31,7 @@ class rex_type
      *    )
      *
      * @param mixed $var Variable to cast
-     * @param string|callable(mixed):mixed|list<array{0: string, 1: string|callable(mixed):mixed|list, 2?: mixed}> $vartype Variable type
+     * @param string|callable(mixed):mixed|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype Variable type
      *
      * @throws InvalidArgumentException
      *
