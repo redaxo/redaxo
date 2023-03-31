@@ -550,7 +550,7 @@ var rex_loader = {
     hide: function() {
         document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
         document.documentElement.style.overflowY = null;
-    }
+    },
 
     showAfterDelay: function() {
         // show loader only if page takes longer than 200 ms to load
