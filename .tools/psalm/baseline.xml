@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.8.0@9cf4f60a333f779ad3bc704a555920e81d4fdcda">
+<files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <LessSpecificReturnStatement>
       <code>$tables</code>
@@ -973,6 +973,22 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media_category.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[self::getInstanceList([$this->getId(), 'media'], rex_media::get(...), static function ($id) {
+            $listPath = rex_path::addonCache('mediapool', $id . '.mlist');
+
+            $list = rex_file::getCache($listPath, null);
+            if (null === $list) {
+                rex_media_cache::generateList($id);
+                $list = rex_file::getCache($listPath);
+            }
+
+            return $list;
+        })]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>rex_media[]</code>
+    </InvalidReturnType>
     <MixedArgument>
       <code>$id</code>
       <code>$id</code>
@@ -1359,7 +1375,6 @@
       <code>$fieldAttributes</code>
       <code>$fieldName</code>
       <code>$fieldType</code>
-      <code>$itemValue</code>
       <code>$itemValue</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
@@ -2562,6 +2577,9 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/addons/structure/tests/category_test.php">
+    <InvalidReturnType>
+      <code><![CDATA[iterable<int, list<int|string|null, rex_category>>]]></code>
+    </InvalidReturnType>
     <MixedArgument>
       <code><![CDATA[$classVarsProperty->getValue()]]></code>
     </MixedArgument>
@@ -2584,7 +2602,6 @@
   </file>
   <file src="redaxo/src/addons/users/lib/role.php">
     <MixedArgument>
-      <code>$perms[$key]</code>
       <code>$perms[$key]</code>
       <code>$role[$key]</code>
       <code>$role[$key]</code>
@@ -2684,9 +2701,6 @@
       <code>$assetFile</code>
       <code>$userAgent</code>
     </MixedAssignment>
-    <MixedOperand>
-      <code>$assetFile</code>
-    </MixedOperand>
     <PossiblyNullReference>
       <code>getLanguage</code>
     </PossiblyNullReference>
@@ -3427,7 +3441,6 @@
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
-      <code>$key</code>
       <code>$pageKey</code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
@@ -3596,9 +3609,6 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$input->getArgument('table')]]></code>
     </ArgumentTypeCoercion>
-    <PossiblyNullArgument>
-      <code><![CDATA[$input->getArgument('table')]]></code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/console/db/set_connection.php">
     <MixedArgument>
@@ -3633,56 +3643,10 @@
       <code>rex_extension_point_console_shutdown</code>
     </MissingTemplateParam>
   </file>
-  <file src="redaxo/src/core/lib/console/package/activate.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/deactivate.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/delete.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
   <file src="redaxo/src/core/lib/console/package/install.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
     <UndefinedInterfaceMethod>
       <code>ask</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/run_update_script.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/uninstall.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/console/setup/check.php">
     <MixedArgument>
@@ -3802,10 +3766,6 @@
     <MixedAssignment>
       <code>$password</code>
     </MixedAssignment>
-    <PossiblyNullArgument>
-      <code>$username</code>
-      <code>$username</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/context.php">
     <InvalidArgument>
@@ -4619,7 +4579,6 @@
       <code>$query</code>
       <code>$query</code>
       <code>$style</code>
-      <code>$style</code>
       <code><![CDATA[$this->attributes['class']]]></code>
     </MixedArgument>
     <MixedArrayAccess>
@@ -4997,9 +4956,6 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/util/markdown.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->headers]]></code>
-    </InvalidPropertyAssignmentValue>
     <MixedArgument>
       <code>$block</code>
       <code>$block</code>
@@ -5037,6 +4993,9 @@
     <PossiblyUndefinedArrayOffset>
       <code>$level</code>
     </PossiblyUndefinedArrayOffset>
+    <PropertyTypeCoercion>
+      <code><![CDATA[$this->headers]]></code>
+    </PropertyTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/util/path.php">
     <LessSpecificReturnStatement>
@@ -5491,7 +5450,47 @@
       <code>$b</code>
     </MixedArgument>
   </file>
+  <file src="redaxo/src/core/tests/util/string_test.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[[
+            ['',                                          []],
+            ['a b c',                                     ['a', 'b', 'c']],
+            ['"a b" cdef \'ghi kl\'',                     ['a b', 'cdef', 'ghi kl']],
+            ['a=1 b=xyz c="hu hu" 123=\'he he\'',         ['a' => 1, 'b' => 'xyz', 'c' => 'hu hu', '123' => 'he he']],
+            ['a="a \"b\" c" b=\'a \\\'b\\\'\' c="a\\\\"', ['a' => 'a "b" c', 'b' => "a 'b'", 'c' => 'a\\']],
+            ["\n a=1\n b='aa\nbb'\n c='a'\n ",            ['a' => '1', 'b' => "aa\nbb", 'c' => 'a']],
+            ['"a b" c "d e',                              ['a b', 'c', '"d', 'e']],
+            ['"a"b" "c"d',                                ['a"b', '"c"d']],
+        ]]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[list<array{string, array<int|string, string>}>]]></code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="redaxo/src/core/tests/util/type_test.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[[
+            ['a', '', 'a'],
+            [1, 'string', '1'],
+            [1, 'bool', true],
+            [[], 'bool', false],
+            [['foo'], 'bool', true],
+            [['foo'], 'string', ''],
+            ['', 'array', []],
+            [1, 'array', [1]],
+            [[1, '2'], 'array[int]', [1, 2]],
+            ['a', $callback, 'ab'],
+            [$arrayVar, $arrayCasts, $arrayExpected],
+            [
+                ['k' => $arrayVar],
+                [['k', $arrayCasts]],
+                ['k' => $arrayExpected],
+            ],
+        ]]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[list<array{mixed, string|callable(mixed):mixed|list<array{string, string, mixed}>, mixed}>]]></code>
+    </InvalidReturnType>
     <MixedOperand>
       <code>$var</code>
     </MixedOperand>
