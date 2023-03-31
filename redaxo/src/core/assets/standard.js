@@ -541,7 +541,7 @@ function scrollToAnchor() {
 }
 
 var rex_loader = {
-    rexAjaxLoaderId: null,
+    timeoutId: null,
 
     show: function() {
         document.documentElement.style.overflowY = 'hidden'; // freeze scroll position
@@ -554,17 +554,17 @@ var rex_loader = {
 
     showAfterDelay: function() {
         // show loader only if page takes longer than 200 ms to load
-        window.clearTimeout(rex_loader.rexAjaxLoaderId);
+        window.clearTimeout(rex_loader.timeoutId);
 
-        rex_loader.rexAjaxLoaderId = setTimeout(function () {
+        rex_loader.timeoutId = setTimeout(function () {
             rex_loader.show();
         }, 200);
     },
     hideAfterDelay: function() {
         // make sure loader was visible for at least 500 ms to avoid flickering
-        window.clearTimeout(rex_loader.rexAjaxLoaderId);
+        window.clearTimeout(rex_loader.timeoutId);
 
-        rex_loader.rexAjaxLoaderId = setTimeout(function () {
+        rex_loader.timeoutId = setTimeout(function () {
             rex_loader.hide();
         }, 500);
     }
