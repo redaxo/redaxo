@@ -137,7 +137,8 @@
             "description": "Directories/files that should be ignored by installer",
             "type": "array",
             "items": {
-                "type": "string"
+                "type": "string",
+                "pattern": "^[^/]+$"
             }
         }
     },
