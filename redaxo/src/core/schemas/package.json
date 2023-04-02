@@ -264,7 +264,7 @@
                 "linkClass": true,
                 "path": true,
                 "subPath": true,
-                "subpages": true,
+                "subpages": true
             },
             "additionalProperties": false
         },
