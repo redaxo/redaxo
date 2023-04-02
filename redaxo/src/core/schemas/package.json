@@ -143,7 +143,7 @@
     },
     "additionalProperties": true,
     "definitions": {
-        "page": {
+        "page-base": {
             "type": "object",
             "required": ["title"],
             "properties": {
@@ -240,39 +240,79 @@
                     },
                     "additionalProperties": false
                 }
+            }
+        },
+        "page": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/page-base"
+                }
+            ],
+            "properties": {
+                "title": true,
+                "hidden": true,
+                "hasLayout": true,
+                "hasNavigation": true,
+                "popup": true,
+                "pjax": true,
+                "perm": true,
+                "icon": true,
+                "href": true,
+                "itemAttr": true,
+                "itemClass": true,
+                "linkAttr": true,
+                "linkClass": true,
+                "path": true,
+                "subPath": true,
+                "subpages": true
             },
             "additionalProperties": false
         },
         "main-page": {
             "allOf": [
                 {
-                    "$ref": "#/definitions/page"
-                },
-                {
-                    "properties": {
-                        "main": {
-                            "description": "Whether it is a main page",
-                            "type": "boolean",
-                            "default": true
-                        },
-                        "block": {
-                            "description": "Block name",
-                            "anyOf": [
-                                {
-                                    "enum": ["system", "addons"]
-                                },
-                                {
-                                    "type": "string"
-                                }
-                            ]
-                        },
-                        "prio": {
-                            "description": "Page prio",
-                            "type": "integer"
-                        }
-                    }
+                    "$ref": "#/definitions/page-base"
                 }
-            ]
+            ],
+            "properties": {
+                "title": true,
+                "hidden": true,
+                "hasLayout": true,
+                "hasNavigation": true,
+                "popup": true,
+                "pjax": true,
+                "perm": true,
+                "icon": true,
+                "href": true,
+                "itemAttr": true,
+                "itemClass": true,
+                "linkAttr": true,
+                "linkClass": true,
+                "path": true,
+                "subPath": true,
+                "subpages": true,
+                "main": {
+                    "description": "Whether it is a main page",
+                    "type": "boolean",
+                    "default": true
+                },
+                "block": {
+                    "description": "Block name",
+                    "anyOf": [
+                        {
+                            "enum": ["system", "addons"]
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "prio": {
+                    "description": "Page prio",
+                    "type": "integer"
+                }
+            },
+            "additionalProperties": false
         }
     }
 }
