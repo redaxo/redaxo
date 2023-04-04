@@ -254,4 +254,17 @@ class rex_string
         /** @psalm-taint-escape html */
         return $antiXss->xss_clean($html);
     }
+
+    /**
+     * Converts a string content to a array.
+     *
+     * @param string $value
+     *
+     * @return array|null
+     */
+    public static function toArray($value)
+    {
+        $value = json_decode(htmlspecialchars_decode($value, ENT_QUOTES), true);
+        return is_array($value) ? $value : null;
+    }
 }
