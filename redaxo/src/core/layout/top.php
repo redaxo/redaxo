@@ -144,10 +144,11 @@ if ($user && $hasNavigation) {
     $blocks = $n->getNavigation();
 
     $navigation = '';
-    foreach ($blocks as $block) {
+    foreach ($blocks as $toggleIndex => $block) {
         $fragment = new rex_fragment();
         $fragment->setVar('headline', $block['headline'], false);
         $fragment->setVar('items', $block['navigation'], false);
+        $fragment->setVar('toggleIndex', $toggleIndex, false);
         $navigation .= $fragment->parse('core/navigations/main.php');
     }
 }

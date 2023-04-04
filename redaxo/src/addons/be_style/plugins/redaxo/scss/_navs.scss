@@ -169,6 +169,13 @@ $transitionDuration: 300ms;
     margin-top: floor($line-height-computed * 2);
     color: $color-a-lighter;
     font-size: $font-size-large;
+    cursor: pointer;
+
+    &.collapsed {
+        .rex-nav-main-title-icon::before {
+            content:"";
+        }
+    }
 }
 .rex-nav-meta {
     .navbar-nav {
