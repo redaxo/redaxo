@@ -17,7 +17,10 @@ use Redaxo\Core\Fragment\Html;
 use Redaxo\Core\Fragment\HtmlAttributes;
 use Redaxo\Core\Fragment\Page\SystemSettings;
 
-/** @var SystemSettings $this */
+/**
+ * @var SystemSettings $this
+ * @psalm-scope-this SystemSettings
+ */
 ?>
 
 <?php if ($this->errors): ?>
