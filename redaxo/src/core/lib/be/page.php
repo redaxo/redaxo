@@ -1,5 +1,8 @@
 <?php
 
+use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\Page;
+
 /**
  * Backend Page Class.
  *
@@ -26,6 +29,8 @@ class rex_be_page
     private $path;
     /** @var string|null */
     private $subPath;
+    /** @var null|class-string<Page> */
+    private ?string $fragment = null;
 
     /** @var self|null */
     private $parent;
@@ -438,6 +443,25 @@ class rex_be_page
     public function getSubPath()
     {
         return $this->subPath;
+    }
+
+    /**
+     * @param class-string<Page> $fragment
+     * @return $this
+     */
+    public function setFragment(string $fragment): static
+    {
+        $this->fragment = $fragment;
+
+        return $this;
+    }
+
+    /**
+     * @return null|class-string<Page>
+     */
+    public function getFragment(): ?string
+    {
+        return $this->fragment;
     }
 
     /**

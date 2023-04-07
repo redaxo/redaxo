@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Fragment\Page\SystemSettings;
+
 /**
  * @package redaxo\core\backend
  */
@@ -187,7 +189,7 @@ class rex_be_controller
             ->setPrio(80)
             ->setPjax()
             ->setIcon('rex-icon rex-icon-system')
-            ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setSubPath(rex_path::core('pages/system.settings.php')))
+            ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setFragment(SystemSettings::class))
             ->addSubpage((new rex_be_page('lang', rex_i18n::msg('languages')))->setSubPath(rex_path::core('pages/system.clangs.php')))
             ->addSubpage($logsPage)
             ->addSubpage((new rex_be_page('report', rex_i18n::msg('system_report')))
@@ -447,7 +449,16 @@ class rex_be_controller
      */
     public static function includeCurrentPageSubPath(array $context = [])
     {
-        $path = rex_type::string(self::requireCurrentPageObject()->getSubPath());
+        $page = self::requireCurrentPageObject();
+
+        if ($fragment = $page->getFragment()) {
+            $fragment = new $fragment();
+            echo $fragment->render();
+
+            return null;
+        }
+
+        $path = rex_type::string($page->getSubPath());
 
         if ('.md' !== strtolower(substr($path, -3))) {
             return self::includePath($path, $context);
@@ -468,7 +479,7 @@ class rex_be_controller
         $content = $fragment->parse('core/page/docs.php');
 
         $fragment = new rex_fragment();
-        $fragment->setVar('title', self::requireCurrentPageObject()->getTitle(), false);
+        $fragment->setVar('title', $page->getTitle(), false);
         $fragment->setVar('body', $content, false);
         echo $fragment->parse('core/page/section.php');
 
