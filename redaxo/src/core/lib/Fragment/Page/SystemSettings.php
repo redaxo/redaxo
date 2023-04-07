@@ -21,6 +21,9 @@ use rex_system_setting;
 use rex_url;
 use rex_version;
 
+use function array_key_exists;
+use function is_array;
+
 /**
  * @see redaxo/src/core/fragments/core/page/SystemSettings.php
  */

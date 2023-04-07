@@ -1,6 +1,5 @@
 <?php
 
-use Redaxo\Core\Fragment\Fragment;
 use Redaxo\Core\Fragment\Page;
 
 /**
