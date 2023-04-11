@@ -299,7 +299,7 @@ label.required::after {
     input[type="datetime-local"],
     input[type="month"] {
         &.form-control {
-            display: inline-flex;
+            display: flex;
             padding-left: $padding-base-horizontal - 2;
             height: $input-height-base;
             line-height: inherit
