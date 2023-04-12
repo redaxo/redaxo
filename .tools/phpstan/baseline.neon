@@ -616,11 +616,6 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/service_media_category.php
 
 		-
-			message: "#^Variable \\$warning in empty\\(\\) always exists and is always falsy\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/service_media_category.php
-
-		-
 			message: "#^Method rex_var_media\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/var_media.php
