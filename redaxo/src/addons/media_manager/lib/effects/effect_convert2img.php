@@ -184,10 +184,10 @@ class rex_effect_convert2img extends rex_effect_abstract
         if (!class_exists(Imagick::class) && '' == self::getConvertPath()) {
             $imNotfound = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_noimagemagick') . '</strong> ';
         }
-        
+
         $videoConverterNotfound = '';
-        if (!isVideoToImageConversionSupported()) {      
-        $videoConverterNotfound = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_videoconverternotfound') . '</strong> ';
+        if (!isVideoToImageConversionSupported()) {
+            $videoConverterNotfound = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_videoconverternotfound') . '</strong> ';
         }
 
         return [
@@ -235,28 +235,29 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
         return $path;
     }
-}
-/**
- * @package redaxo\media-manager
- * return bool
- */
- 
-private function isVideoToImageConversionSupported()
-{
-    $inputFile = $this->media->getMediaPath();
-    $inputExt = pathinfo($inputFile, PATHINFO_EXTENSION);
 
-    if (false === in_array($inputExt, self::VIDEO_TO_IMAGE_TYPES)) {
-        return false;
+    /**
+     * @package redaxo\media-manager
+     * return bool
+     */
+
+    private function isVideoToImageConversionSupported()
+    {
+        $inputFile = $this->media->getMediaPath();
+        $inputExt = pathinfo($inputFile, PATHINFO_EXTENSION);
+
+        if (false === in_array($inputExt, self::VIDEO_TO_IMAGE_TYPES)) {
+            return false;
+        }
+        $ffmpegPath = 'ffmpeg'; // change to full path if necessary
+        $output = array();
+        $returnVar = -1;
+
+        exec($ffmpegPath . ' -version', $output, $returnVar);
+        if ($returnVar !== 0) {
+            return false;
+        }
+
+        return in_array($inputExt, self::VIDEO_TO_IMAGE_TYPES);
     }
-    $ffmpegPath = 'ffmpeg'; // change to full path if necessary
-    $output = array();
-    $returnVar = -1;
-
-    exec($ffmpegPath . ' -version', $output, $returnVar);
-    if ($returnVar !== 0) {
-        return false;
-    }
-
-    return in_array($inputExt, self::VIDEO_TO_IMAGE_TYPES);
 }
