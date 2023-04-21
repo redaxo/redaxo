@@ -186,7 +186,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
 
         $videoConverterNotfound = '';
-        if (!isVideoToImageConversionSupported()) {
+        if (!$this->isFfmpegAvailable()) {
             $videoConverterNotfound = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_videoconverternotfound') . '</strong> ';
         }
 
@@ -243,12 +243,20 @@ class rex_effect_convert2img extends rex_effect_abstract
 
     private function isVideoToImageConversionSupported()
     {
+
         $inputFile = $this->media->getMediaPath();
         $inputExt = pathinfo($inputFile, PATHINFO_EXTENSION);
 
-        if (false === in_array($inputExt, self::VIDEO_TO_IMAGE_TYPES)) {
+
+        if (isFfmpegAvailable()) {
+            return in_array($inputExt, self::VIDEO_TO_IMAGE_TYPES);
+        } else {
             return false;
         }
+    }
+
+    private function isFfmpegAvailable()
+    {
         $ffmpegPath = 'ffmpeg'; // change to full path if necessary
         $output = array();
         $returnVar = -1;
@@ -256,8 +264,8 @@ class rex_effect_convert2img extends rex_effect_abstract
         exec($ffmpegPath . ' -version', $output, $returnVar);
         if ($returnVar !== 0) {
             return false;
+        } else {
+            return true;
         }
-
-        return in_array($inputExt, self::VIDEO_TO_IMAGE_TYPES);
     }
 }
