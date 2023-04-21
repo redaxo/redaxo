@@ -248,7 +248,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         $inputExt = pathinfo($inputFile, PATHINFO_EXTENSION);
 
 
-        if (isFfmpegAvailable()) {
+        if ($this->isFfmpegAvailable()) {
             return in_array($inputExt, self::VIDEO_TO_IMAGE_TYPES);
         } else {
             return false;
