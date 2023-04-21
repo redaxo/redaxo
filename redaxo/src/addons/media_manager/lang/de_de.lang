@@ -154,7 +154,7 @@ media_manager_effect_convert2img_convertto_notice = Zielformat, in das die Datei
 media_manager_effect_convert2img_noimagemagick = Achtung: ImageMagick konnte nicht gefunden werden. Dieser Effekt benötigt entweder die PHP-Extension "imagick" oder ImageMagick als "commandline binary", ausführbar per exec().
 media_manager_effect_convert2img_color = Farbe für Transparenz
 media_manager_effect_convert2img_color_notice = Format "#ffffff", wenn nichts gesetzt wird, dann wird Transparenz genutzt. Bei JPG bitte unbedingt eine Farbe angeben.
-
+media_manager_effect_convert2img_videoconverternotfound = ffmpeg (über exec()) wurde auf diesem System nicht gefunden. Videos können nicht konvertiert werden. 
 
 media_manager_effect_image_properties = Bild: Einstellungen (Qualität, Interlace, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leer lassen für Standardwert.
