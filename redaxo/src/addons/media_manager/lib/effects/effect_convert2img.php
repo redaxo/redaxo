@@ -63,7 +63,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             $duration = exec($ffprobeCmd);
 
             if ($duration) {
-                $timestamp = gmdate("H:i:s", floor($duration / 2));
+                $timestamp = gmdate("H:i:s", (int)floor($duration / 2));
             } else {
                 $timestamp = '00:00:01';
             }
