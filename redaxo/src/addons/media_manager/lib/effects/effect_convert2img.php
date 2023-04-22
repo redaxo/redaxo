@@ -239,7 +239,7 @@ class rex_effect_convert2img extends rex_effect_abstract
      * return bool
      */
 
-    private function isVideoToImageConversionSupported()
+    private function isVideoToImageConversionSupported(): bool
     {
 
         $inputFile = $this->media->getMediaPath();
@@ -253,7 +253,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
     }
 
-    private function isFfmpegAvailable()
+    private function isFfmpegAvailable(): bool
     {
         $ffmpegPath = 'ffmpeg'; // change to full path if necessary
         $output = array();
