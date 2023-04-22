@@ -53,6 +53,11 @@ class rex_effect_convert2img extends rex_effect_abstract
 
     public function execute()
     {
+        if (!isset(self::CONVERT_TO[(string) $this->params['convert_to']])) {
+            $convertTo = self::CONVERT_TO[self::CONVERT_TO_DEFAULT];
+        } else {
+            $convertTo = self::CONVERT_TO[(string) $this->params['convert_to']];
+        }
 
         if ($this->isVideoToImageConversionSupported()) {
 
@@ -68,7 +73,7 @@ class rex_effect_convert2img extends rex_effect_abstract
                 $timestamp = '00:00:01';
             }
 
-            $outputFile = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($inputFile) . '.jpg');
+            $outputFile = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($inputFile) . '.'.$convertTo['ext']);
 
             $cmd = 'ffmpeg -y -i ' . escapeshellarg($inputFile) . ' -ss ' . escapeshellarg($timestamp) . ' -vframes 1 ' . escapeshellarg($outputFile);
             exec($cmd, $out, $ret);
@@ -79,21 +84,14 @@ class rex_effect_convert2img extends rex_effect_abstract
 
             $this->media->setSourcePath($outputFile);
             $this->media->refreshImageDimensions();
-            $this->media->setFormat('jpg');
-
-            $this->media->setHeader('Content-Type', 'image/jpeg');
+            $this->media->setFormat($convertTo['ext']);
+            $this->media->setHeader('Content-Type', $convertTo['content-type']);
             $filename = $this->media->getMediaFilename();
             $this->media->setMediaFilename($filename);
             register_shutdown_function(static function () use ($outputFile) {
                 rex_file::delete($outputFile);
             });
         } else {
-
-            if (!isset(self::CONVERT_TO[(string) $this->params['convert_to']])) {
-                $convertTo = self::CONVERT_TO[self::CONVERT_TO_DEFAULT];
-            } else {
-                $convertTo = self::CONVERT_TO[(string) $this->params['convert_to']];
-            }
 
             $density = (int) $this->params['density'];
 
