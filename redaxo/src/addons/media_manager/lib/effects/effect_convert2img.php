@@ -256,10 +256,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         $returnVar = -1;
 
         exec($ffmpegPath . ' -version', $output, $returnVar);
-        if (0 !== $returnVar) {
-            return false;
-        }
-        return true;
+        return 0 === $returnVar;
 
     }
 }
