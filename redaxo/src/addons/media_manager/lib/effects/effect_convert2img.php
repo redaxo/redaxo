@@ -44,12 +44,10 @@ class rex_effect_convert2img extends rex_effect_abstract
         ],
     ];
 
-
     private const DENSITIES = [100, 150, 200, 300, 600];
     private const DENSITY_DEFAULT = 150;
     private const CONVERT_TOS = ['jpg', 'png', 'webp'];
     private const CONVERT_TO_DEFAULT = 'jpg';
-
 
     public function execute()
     {
@@ -68,7 +66,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             $duration = exec($ffprobeCmd);
 
             if ($duration) {
-                $timestamp = gmdate("H:i:s", (int)floor($duration / 2));
+                $timestamp = gmdate('H:i:s', (int) floor($duration / 2));
             } else {
                 $timestamp = '00:00:01';
             }
@@ -238,32 +236,30 @@ class rex_effect_convert2img extends rex_effect_abstract
      * @package redaxo\media-manager
      * return bool
      */
-
     private function isVideoToImageConversionSupported(): bool
     {
 
         $inputFile = $this->media->getMediaPath();
         $inputExt = pathinfo($inputFile, PATHINFO_EXTENSION);
 
-
         if ($this->isFfmpegAvailable()) {
             return in_array($inputExt, self::VIDEO_TO_IMAGE_TYPES);
-        } else {
-            return false;
         }
+        return false;
+
     }
 
     private function isFfmpegAvailable(): bool
     {
         $ffmpegPath = 'ffmpeg'; // change to full path if necessary
-        $output = array();
+        $output = [];
         $returnVar = -1;
 
         exec($ffmpegPath . ' -version', $output, $returnVar);
-        if ($returnVar !== 0) {
+        if (0 !== $returnVar) {
             return false;
-        } else {
-            return true;
         }
+        return true;
+
     }
 }
