@@ -66,7 +66,7 @@ abstract class rex_var_dumper
                     ',
                     'const' => $styleAll.'color: #F78C6C; font-weight: 700;',
                     'ellipsis' => $styleAll.'color: #eeffff;',
-                    'expanded' =>  $styleAll . '
+                    'expanded' => $styleAll . '
                         white-space: pre;
                         background: unset;
                         color: inherit;
