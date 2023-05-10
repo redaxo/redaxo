@@ -277,7 +277,7 @@ class rex_login
                 $this->user = rex_sql::factory($this->DB);
 
                 $this->user->setQuery($this->loginQuery, [':login' => $this->userLogin]);
-                if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, (string) $this->user->getValue($this->passwordColumn), true)) {
+                if (1 == $this->user->getRows() && static::passwordVerify($this->userPassword, (string) $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
                     static::regenerateSessionId();
                     $this->setSessionVar(self::SESSION_START_TIME, time());

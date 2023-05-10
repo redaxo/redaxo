@@ -74,7 +74,8 @@ if (rex::isSetup()) {
     rex_i18n::setLocale(rex::getProperty('lang'));
 
     // ---- prepare login
-    $login = new rex_backend_login();
+    $loginClass = rex::getProperty('backend_login_class', 'rex_backend_login');
+    $login = new $loginClass();
     rex::setProperty('login', $login);
 
     $passkey = rex_post('rex_user_passkey', 'string', null);
