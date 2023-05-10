@@ -119,7 +119,7 @@ $content = '
 <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
      <!--
     jQuery(function($) {
-        $("#rex-form-login")
+        /* $("#rex-form-login")
             .submit(function(){
                 var pwInp = $("#rex-id-login-password");
                 if(pwInp.val() != "") {
@@ -127,7 +127,7 @@ $content = '
                 }
         });
 
-        $("#javascript").val("1");
+        $("#javascript").val("1"); */
         ' . $js . '
     });
      //-->
