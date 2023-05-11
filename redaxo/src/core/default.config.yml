@@ -19,6 +19,7 @@ backend_login_policy:
 # e.g. rex_backend_login or rex_backend_login_ldap
 backend_login_class: rex_backend_login
 backend_login_ldap:
+    create_users: true
     allow_fallback: false
     ldap_uri: 'ldap://ldap.my.org:389'
     starttls: true
@@ -26,6 +27,10 @@ backend_login_ldap:
         - 'uid=%USER%,ou=People,dc=my,dc=org'
         - 'cn=%USER%,dc=my,dc=org'
         - 'cn=%USER%,ou=Roles,dc=my,dc=org'
+    attributes:
+        name: displayname
+        email: mail
+        description: description
 # using separate cookie domains for frontend and backend is more secure,
 # but be warned that some features like detecting a backend user in the frontend
 # will no longer work.
