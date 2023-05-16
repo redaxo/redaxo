@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version X.X.X – TT.MM.JJJJ
+--------------------------
+
+* Font Awesome: Vendor-Update auf v6.4.0
+
+
 Version 3.2.0 – 28.02.2023
 --------------------------
 
