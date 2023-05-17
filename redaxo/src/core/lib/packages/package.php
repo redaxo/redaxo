@@ -244,7 +244,7 @@ abstract class rex_package implements rex_package_interface
      * Loads the properties of package.yml.
      * @return void
      */
-    public function loadProperties()
+    public function loadProperties(bool $force = false)
     {
         $file = $this->getPath(self::FILE_PACKAGE);
         if (!is_file($file)) {
@@ -259,6 +259,10 @@ abstract class rex_package implements rex_package_interface
             $cache = rex_file::getCache(rex_path::coreCache(self::PROPERTIES_CACHE_FILE));
         }
         $id = $this->getPackageId();
+
+        if ($force) {
+            unset($cache[$id]);
+        }
 
         $isCached = isset($cache[$id]);
         $isBackendAdmin = rex::isBackend() && rex::getUser()?->isAdmin();

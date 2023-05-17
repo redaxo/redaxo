@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.8.0@9cf4f60a333f779ad3bc704a555920e81d4fdcda">
+<files psalm-version="5.11.0@c9b192ab8400fdaf04b2b13d110575adc879aa90">
   <file src="redaxo/src/addons/backup/lib/backup.php">
-    <LessSpecificReturnStatement>
-      <code>$tables</code>
-    </LessSpecificReturnStatement>
     <MixedArgument>
       <code>$column</code>
       <code>$column</code>
@@ -26,9 +23,10 @@
       <code>$column</code>
       <code>$column</code>
     </MixedOperand>
-    <MoreSpecificReturnType>
+    <MixedReturnTypeCoercion>
+      <code>$tables</code>
       <code><![CDATA[list<string>]]></code>
-    </MoreSpecificReturnType>
+    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/addons/backup/lib/cronjob.php">
     <MixedArgument>
@@ -72,6 +70,10 @@
       <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
       <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
     </MixedArgument>
+    <PossiblyFalseOperand>
+      <code>$filec</code>
+      <code>$filec</code>
+    </PossiblyFalseOperand>
   </file>
   <file src="redaxo/src/addons/backup/pages/import.upload.php">
     <InvalidArrayAccess>
@@ -105,6 +107,10 @@
       <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
       <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
     </MixedOperand>
+    <PossiblyFalseOperand>
+      <code><![CDATA[date('D, j M Y', strtotime('+1 week'))]]></code>
+      <code><![CDATA[date('D, j M Y', strtotime('+1 week'))]]></code>
+    </PossiblyFalseOperand>
     <PossiblyNullOperand>
       <code>rex_file::get($filename)</code>
       <code>rex_file::get($filename)</code>
@@ -657,12 +663,12 @@
     </NullOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
+    <MixedArgument>
+      <code>$color</code>
+    </MixedArgument>
     <MixedAssignment>
       <code>$color</code>
     </MixedAssignment>
-    <MixedOperand>
-      <code>$color</code>
-    </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$this->media->getMediaPath()]]></code>
       <code><![CDATA[$this->media->getMediaPath()]]></code>
@@ -909,9 +915,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
-    <ArgumentTypeCoercion>
-      <code>$data</code>
-    </ArgumentTypeCoercion>
     <InvalidArgument>
       <code>$data</code>
     </InvalidArgument>
@@ -923,6 +926,7 @@
       <code>$warning</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
+      <code>$data</code>
       <code>$info</code>
       <code>$warning</code>
     </MixedArgumentTypeCoercion>
@@ -973,6 +977,22 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media_category.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[self::getInstanceList([$this->getId(), 'media'], rex_media::get(...), static function ($id) {
+            $listPath = rex_path::addonCache('mediapool', $id . '.mlist');
+
+            $list = rex_file::getCache($listPath, null);
+            if (null === $list) {
+                rex_media_cache::generateList($id);
+                $list = rex_file::getCache($listPath);
+            }
+
+            return $list;
+        })]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>rex_media[]</code>
+    </InvalidReturnType>
     <MixedArgument>
       <code>$id</code>
       <code>$id</code>
@@ -1359,7 +1379,6 @@
       <code>$fieldAttributes</code>
       <code>$fieldName</code>
       <code>$fieldType</code>
-      <code>$itemValue</code>
       <code>$itemValue</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
@@ -2585,7 +2604,6 @@
   <file src="redaxo/src/addons/users/lib/role.php">
     <MixedArgument>
       <code>$perms[$key]</code>
-      <code>$perms[$key]</code>
       <code>$role[$key]</code>
       <code>$role[$key]</code>
     </MixedArgument>
@@ -2684,9 +2702,6 @@
       <code>$assetFile</code>
       <code>$userAgent</code>
     </MixedAssignment>
-    <MixedOperand>
-      <code>$assetFile</code>
-    </MixedOperand>
     <PossiblyNullReference>
       <code>getLanguage</code>
     </PossiblyNullReference>
@@ -3435,7 +3450,6 @@
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
-      <code>$key</code>
       <code>$pageKey</code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
@@ -3523,9 +3537,6 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$cfg->getValue('value')]]></code>
     </ArgumentTypeCoercion>
-    <MixedArgumentTypeCoercion>
-      <code>$k</code>
-    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code>$v</code>
       <code>$value</code>
@@ -3604,9 +3615,6 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$input->getArgument('table')]]></code>
     </ArgumentTypeCoercion>
-    <PossiblyNullArgument>
-      <code><![CDATA[$input->getArgument('table')]]></code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/console/db/set_connection.php">
     <MixedArgument>
@@ -3641,56 +3649,10 @@
       <code>rex_extension_point_console_shutdown</code>
     </MissingTemplateParam>
   </file>
-  <file src="redaxo/src/core/lib/console/package/activate.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/deactivate.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/delete.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
   <file src="redaxo/src/core/lib/console/package/install.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
     <UndefinedInterfaceMethod>
       <code>ask</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/run_update_script.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/uninstall.php">
-    <PossiblyNullArgument>
-      <code>$packageId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$packageId</code>
-    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/console/setup/check.php">
     <MixedArgument>
@@ -3810,10 +3772,6 @@
     <MixedAssignment>
       <code>$password</code>
     </MixedAssignment>
-    <PossiblyNullArgument>
-      <code>$username</code>
-      <code>$username</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/context.php">
     <InvalidArgument>
@@ -4167,19 +4125,19 @@
     <ArgumentTypeCoercion>
       <code>$password</code>
     </ArgumentTypeCoercion>
-    <InvalidArgument>
-      <code><![CDATA[[
-            'expires' => strtotime(rex_user_session::STAY_LOGGED_IN_DURATION.' months'),
-            'secure' => $sessionConfig['secure'] ?? false,
-            'samesite' => $sessionConfig['samesite'] ?? 'lax',
-        ]]]></code>
-    </InvalidArgument>
     <InvalidAttribute>
       <code>SensitiveParameter</code>
     </InvalidAttribute>
     <MixedArgument>
       <code><![CDATA[rex::getProperty('session_duration')]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[
+            'expires' => strtotime(rex_user_session::STAY_LOGGED_IN_DURATION.' months'),
+            'secure' => $sessionConfig['secure'] ?? false,
+            'samesite' => $sessionConfig['samesite'] ?? 'lax',
+        ]]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
       <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
       <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
@@ -4627,7 +4585,6 @@
       <code>$query</code>
       <code>$query</code>
       <code>$style</code>
-      <code>$style</code>
       <code><![CDATA[$this->attributes['class']]]></code>
     </MixedArgument>
     <MixedArrayAccess>
@@ -4953,8 +4910,6 @@
     <ArgumentTypeCoercion>
       <code>$args</code>
       <code>$args</code>
-      <code>func_get_args()</code>
-      <code>func_get_args()</code>
     </ArgumentTypeCoercion>
     <LessSpecificReturnStatement>
       <code>$lang</code>
@@ -4967,6 +4922,8 @@
     <MixedArgumentTypeCoercion>
       <code>$i18nFunction</code>
       <code>$i18nFunction</code>
+      <code>func_get_args()</code>
+      <code>func_get_args()</code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code>$array[$key]</code>
@@ -4992,22 +4949,19 @@
     </MethodSignatureMustProvideReturnType>
   </file>
   <file src="redaxo/src/core/lib/util/logger.php">
-    <InvalidArgument>
-      <code>$logData</code>
-    </InvalidArgument>
     <MixedArgument>
       <code>$level</code>
       <code>$level</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code>$logData</code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$replace['{' . $key . '}']]]></code>
       <code>$val</code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/util/markdown.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->headers]]></code>
-    </InvalidPropertyAssignmentValue>
     <MixedArgument>
       <code>$block</code>
       <code>$block</code>
@@ -5045,6 +4999,9 @@
     <PossiblyUndefinedArrayOffset>
       <code>$level</code>
     </PossiblyUndefinedArrayOffset>
+    <PropertyTypeCoercion>
+      <code><![CDATA[$this->headers]]></code>
+    </PropertyTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/util/path.php">
     <LessSpecificReturnStatement>

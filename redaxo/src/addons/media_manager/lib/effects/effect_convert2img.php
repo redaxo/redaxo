@@ -98,9 +98,9 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         $toPath = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filenameWoExt . $convertTo['ext']);
 
-        $addColor = ('' != $color) ? ' -background "' . $color  . '" -flatten' : '';
+        $addColor = '' != $color ? ' -background ' . escapeshellarg($color)  . ' -flatten' : '';
 
-        $cmd = $convertPath . ' -density '.$density.' "' . $fromPath . '[0]"  ' . $addColor . ' -colorspace RGB "' . $toPath . '"';
+        $cmd = $convertPath . ' -density '.$density.' ' . escapeshellarg($fromPath.'[0]') . '  ' . $addColor . ' -colorspace RGB ' . escapeshellarg($toPath);
         exec($cmd, $out, $ret);
 
         if (0 != $ret) {

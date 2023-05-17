@@ -416,7 +416,7 @@ class rex_path
         }
 
         $out = [];
-        $cmd = sprintf('command -v %s || which %s', $commandName, $commandName);
+        $cmd = sprintf('command -v %s || which %1$s', escapeshellarg($commandName));
         exec($cmd, $out, $ret);
 
         if (0 === $ret) {

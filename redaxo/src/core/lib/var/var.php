@@ -68,7 +68,7 @@ abstract class rex_var
                 continue;
             }
 
-            if (!in_array($token[0], [T_INLINE_HTML, T_CONSTANT_ENCAPSED_STRING, T_STRING, T_START_HEREDOC])) {
+            if (!in_array($token[0], [T_INLINE_HTML, T_CONSTANT_ENCAPSED_STRING, T_ENCAPSED_AND_WHITESPACE, T_STRING, T_START_HEREDOC])) {
                 $content .= $token[1];
                 continue;
             }
@@ -97,6 +97,10 @@ abstract class rex_var
                     if (' . ""' == $end || " . ''" == $end) {
                         $add = substr($add, 0, -5);
                     }
+                    break;
+
+                case T_ENCAPSED_AND_WHITESPACE:
+                    $add = self::replaceVars($add, '" . %s . "', false, '"');
                     break;
 
                 case T_STRING:
