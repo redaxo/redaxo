@@ -48,7 +48,7 @@ final class DumpCompletionCommand extends Command
         $shell = $this->guessShell();
         [$rcFile, $completionFile] = match ($shell) {
             'fish' => ['~/.config/fish/config.fish', "/etc/fish/completions/$commandName.fish"],
-            'zsh' => ['~/.zshrc', '$fpath[1]/'.$commandName],
+            'zsh' => ['~/.zshrc', '$fpath[1]/_'.$commandName],
             default => ['~/.bashrc', "/etc/bash_completion.d/$commandName"],
         };
 
@@ -143,8 +143,19 @@ EOH
      */
     private function getSupportedShells(): array
     {
-        return $this->supportedShells ??= array_map(function ($f) {
-            return pathinfo($f, \PATHINFO_EXTENSION);
-        }, glob(__DIR__.'/../Resources/completion.*'));
+        if (isset($this->supportedShells)) {
+            return $this->supportedShells;
+        }
+
+        $shells = [];
+
+        foreach (new \DirectoryIterator(__DIR__.'/../Resources/') as $file) {
+            if (str_starts_with($file->getBasename(), 'completion.') && $file->isFile()) {
+                $shells[] = $file->getExtension();
+            }
+        }
+        sort($shells);
+
+        return $this->supportedShells = $shells;
     }
 }

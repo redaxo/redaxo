@@ -340,7 +340,7 @@ class rex_category_service
             $EKAT->setTable(rex::getTablePrefix() . 'article');
             $EKAT->setWhere(['id' => $categoryId,  'clang_id' => $clang, 'startarticle' => 1]);
             $EKAT->setValue('status', $newstatus);
-            $EKAT->addGlobalCreateFields(self::getUser());
+            $EKAT->addGlobalUpdateFields(self::getUser());
 
             try {
                 $EKAT->update();
