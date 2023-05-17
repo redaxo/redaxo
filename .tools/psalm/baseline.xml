@@ -3337,6 +3337,14 @@
       <code>$block</code>
     </MixedAssignment>
   </file>
+  <file src="redaxo/src/core/lib/Fragment/Page/SystemSettings.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->errors]]></code>
+    </InvalidPropertyAssignmentValue>
+    <MixedAssignment>
+      <code>$config[$key]</code>
+    </MixedAssignment>
+  </file>
   <file src="redaxo/src/core/lib/api_function.php">
     <MixedAssignment>
       <code>$json</code>
@@ -5409,11 +5417,6 @@
     <MixedOperand>
       <code>$value</code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/pages/system.settings.php">
-    <MixedAssignment>
-      <code>$config[$key]</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
     <MixedArrayAccess>
