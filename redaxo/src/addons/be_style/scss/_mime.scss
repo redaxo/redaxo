@@ -19,6 +19,8 @@
     text-transform: uppercase;
 }
 .rex-mime-default {
+    @extend .fa-regular;
+    @extend .fa-file;    
 }
 .rex-mime-doc, 
 .rex-mime-docx {
