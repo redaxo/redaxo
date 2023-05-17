@@ -38,5 +38,4 @@ return [
     'vendor/font-awesome/fonts/fa-solid-900.woff2' => 'fonts/fa-solid-900.woff2',
     'vendor/font-awesome/fonts/fa-v4compatibility.ttf' => 'fonts/fa-v4compatibility.ttf',
     'vendor/font-awesome/fonts/fa-v4compatibility.woff2' => 'fonts/fa-v4compatibility.woff2',
-    'vendor/font-awesome/fonts/FontAwesome.otf' => 'fonts/FontAwesome.otf',
 ];
