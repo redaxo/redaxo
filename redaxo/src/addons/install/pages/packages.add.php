@@ -135,7 +135,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             });
         } elseif ('downloads' === $sortType) {
             uasort($addons, static function ($addon1, $addon2) {
-                return array_sum(array_column($addon1['files'], 'counter')) <=> array_sum(array_column($addon2['files'], 'counter'));
+                return $addon1['counter'] <=> $addon2['counter'];
             });
         }
     } elseif ('down' === $sort) {
@@ -148,7 +148,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             });
         } elseif ('downloads' === $sortType) {
             uasort($addons, static function ($addon1, $addon2) {
-                return array_sum(array_column($addon2['files'], 'counter')) <=> array_sum(array_column($addon1['files'], 'counter'));
+                return $addon2['counter'] <=> $addon1['counter'];
             });
         }
 
@@ -185,7 +185,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
          <tbody>';
 
     foreach ($addons as $key => $addon) {
-        $downloads = array_sum(array_column($addon['files'], 'counter')) ?: 0;
+        $downloads = $addon['counter'] ?: 0;
 
         if (rex_addon::exists($key)) {
             $content .= '
