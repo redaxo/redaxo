@@ -9,10 +9,12 @@
 .rex-icon-active-false {
     @extend .fa-regular;
     @extend .fa-square;
+    @extend .fa-fw;
 }
 .rex-icon-active-true {
     @extend .fa-regular;
     @extend .fa-square-check;
+    @extend .fa-fw;
 }
 .rex-icon-add {
     @extend .fa-solid;
@@ -278,18 +280,22 @@
 .rex-icon-package-is-activated {
     @extend .fa-solid;
     @extend .fa-check;
+    @extend .fa-fw;
 }
 .rex-icon-package-is-installed {
     @extend .fa-solid;
     @extend .fa-arrows-rotate;
+    @extend .fa-fw;
 }
 .rex-icon-package-not-activated {
     @extend .fa-solid;
     @extend .fa-xmark;
+    @extend .fa-fw;
 }
 .rex-icon-package-not-installed {
     @extend .fa-solid;
     @extend .fa-arrow-rotate-right;
+    @extend .fa-fw;
 }
 .rex-icon-package-plugin {
     @extend .fa-regular;
@@ -298,6 +304,7 @@
 .rex-icon-package-uninstall {
     @extend .fa-solid;
     @extend .fa-arrow-rotate-left;
+    @extend .fa-fw;
 }
 .rex-icon-password {
     @extend .fa-solid;
