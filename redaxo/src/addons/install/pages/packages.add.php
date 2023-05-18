@@ -123,7 +123,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     $sortByPublishedDateClass = '';
     $sortByDownloadsClass = '';
     $sortNextPublishedDate = '';
-    $sortNextDownloads = '';
+    $sortNextDownloads = 'down';
 
     if ('up' === $sort) {
         $sortClass = '-up';
@@ -156,17 +156,22 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         $sortClass = '';
         $sortNext = 'up';
         $sortNextPublishedDate = $sortNext;
-        $sortNextDownloads = $sortNext;
     }
 
     if ('published' === $sortType) {
         $sortByPublishedDateClass = $sortClass;
         $sortNextPublishedDate = $sortNext;
-        $sortNextDownloads = 'up';
     } elseif ('downloads' === $sortType) {
         $sortByDownloadsClass = $sortClass;
-        $sortNextDownloads = $sortNext;
         $sortNextPublishedDate = 'up';
+
+        if ('up' === $sort) {
+            $sortNextDownloads = '';
+        } elseif ('down' === $sort) {
+            $sortNextDownloads = 'up';
+        } else {
+            $sortNextDownloads = 'down';
+        }
     }
 
     $content = '
