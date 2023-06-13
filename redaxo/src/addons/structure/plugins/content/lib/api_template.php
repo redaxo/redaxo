@@ -33,7 +33,7 @@ class rex_template
 
         if (false !== $id = array_search($templateKey, $mapping, true)) {
             $template = new self($id);
-            $template->key == $templateKey;
+            $template->key = $templateKey;
 
             return $template;
         }
