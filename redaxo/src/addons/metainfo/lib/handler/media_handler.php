@@ -42,6 +42,8 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                 $key = 'media';
             } elseif (rex_metainfo_clang_handler::PREFIX === $prefix) {
                 $key = 'clangs';
+            } elseif (rex_metainfo_category_handler::PREFIX === $prefix) {
+                $key = 'categories';
             } else {
                 $key = 'articles';
             }
@@ -54,21 +56,27 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         }
 
         $articles = '';
-        $categories = '';
         if (!empty($where['articles'])) {
             $items = $sql->getArray('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
             foreach ($items as $artArr) {
                 $aid = (int) $artArr['id'];
                 $clang = (int) $artArr['clang_id'];
                 $parentId = (int) $artArr['parent_id'];
-                if ($artArr['startarticle']) {
-                    $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', ['edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $parentId, 'clang' => $clang]) . '\')">' . (string) $artArr['catname'] . '</a></li>';
-                } else {
-                    $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'meta', 'clang' => $clang]) . '\')">' . (string) $artArr['name'] . '</a></li>';
-                }
+                $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'meta', 'clang' => $clang]) . '\')">' . (string) $artArr['name'] . '</a></li>';
             }
             if ('' != $articles) {
                 $warning[] = rex_i18n::msg('minfo_media_in_use_art') . '<br /><ul>' . $articles . '</ul>';
+            }
+        }
+
+        $categories = '';
+        if (!empty($where['categories'])) {
+            $items = $sql->getArray('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['categories']));
+            foreach ($items as $artArr) {
+                $aid = (int) $artArr['id'];
+                $clang = (int) $artArr['clang_id'];
+                $parentId = (int) $artArr['parent_id'];
+                $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', ['edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $parentId, 'clang' => $clang]) . '\')">' . (string) $artArr['catname'] . '</a></li>';
             }
             if ('' != $categories) {
                 $warning[] = rex_i18n::msg('minfo_media_in_use_cat') . '<br /><ul>' . $categories . '</ul>';
