@@ -33,7 +33,7 @@ jobs:
                         db-image: 'mariadb:10.1'
                     -   os: ubuntu-latest
                         php-version: '8.2'
-                        db-image: 'mariadb:latest'
+                        db-image: 'mariadb:10.11'
 
         # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
         services:
