@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.11.0@c9b192ab8400fdaf04b2b13d110575adc879aa90">
+<files psalm-version="5.13.1@086b94371304750d1c673315321a55d15fc59015">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument>
       <code>$column</code>
@@ -70,10 +70,6 @@
       <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
       <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
     </MixedArgument>
-    <PossiblyFalseOperand>
-      <code>$filec</code>
-      <code>$filec</code>
-    </PossiblyFalseOperand>
   </file>
   <file src="redaxo/src/addons/backup/pages/import.upload.php">
     <InvalidArrayAccess>
@@ -107,10 +103,6 @@
       <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
       <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
     </MixedOperand>
-    <PossiblyFalseOperand>
-      <code><![CDATA[date('D, j M Y', strtotime('+1 week'))]]></code>
-      <code><![CDATA[date('D, j M Y', strtotime('+1 week'))]]></code>
-    </PossiblyFalseOperand>
     <PossiblyNullOperand>
       <code>rex_file::get($filename)</code>
       <code>rex_file::get($filename)</code>
@@ -494,6 +486,11 @@
       <code>addDatabaseQuery</code>
       <code>addDatabaseQuery</code>
     </MixedMethodCall>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$trace[$i]['line']]]></code>
+      <code><![CDATA[$trace[0]['file']]]></code>
+      <code><![CDATA[$trace[0]['line']]]></code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_core_update.php">
     <MixedArgument>
@@ -858,6 +855,12 @@
       <code><![CDATA[$this->params['rotate']]]></code>
     </MixedArgument>
   </file>
+  <file src="redaxo/src/addons/media_manager/lib/managed_media.php">
+    <RedundantCast>
+      <code>(int) $size[0]</code>
+      <code>(int) $size[1]</code>
+    </RedundantCast>
+  </file>
   <file src="redaxo/src/addons/media_manager/lib/media_manager.php">
     <MixedAssignment>
       <code><![CDATA[$effparams[str_replace('rex_effect_' . $effname . '_', '', $name)]]]></code>
@@ -942,9 +945,6 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media.php">
-    <InvalidAttribute>
-      <code>AllowDynamicProperties</code>
-    </InvalidAttribute>
     <MixedArgument>
       <code>$filename</code>
       <code>$name</code>
@@ -1032,23 +1032,10 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/service_media.php">
-    <MixedArgument>
-      <code><![CDATA[$data['file']['type']]]></code>
-      <code><![CDATA[$data['height']]]></code>
-      <code><![CDATA[$data['width']]]></code>
-      <code>$size[0]</code>
-      <code>$size[1]</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code>$allowedExtensions</code>
       <code>rex_mediapool::getBlockedExtensions()</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$data['file']['type']]]></code>
-      <code><![CDATA[$data['height']]]></code>
-      <code><![CDATA[$data['width']]]></code>
-      <code><![CDATA[$return['type']]]></code>
-    </MixedAssignment>
     <PossiblyNullOperand>
       <code><![CDATA[rex_file::mimeType($data['file']['path'])]]></code>
     </PossiblyNullOperand>
@@ -1215,10 +1202,6 @@
     <InvalidArgument>
       <code>$data</code>
     </InvalidArgument>
-    <MixedArgument>
-      <code>$size[0]</code>
-      <code>$size[1]</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/upload.php">
     <MixedArgument>
@@ -1955,9 +1938,6 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/structure/lib/structure_element.php">
-    <InvalidAttribute>
-      <code>AllowDynamicProperties</code>
-    </InvalidAttribute>
     <MixedArgument>
       <code>$clang</code>
       <code>$id</code>
@@ -3498,9 +3478,6 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/core/lib/clang/clang.php">
-    <InvalidAttribute>
-      <code>AllowDynamicProperties</code>
-    </InvalidAttribute>
     <MixedArrayAccess>
       <code><![CDATA[$data['priority']]]></code>
       <code><![CDATA[$data['status']]]></code>
@@ -4117,9 +4094,6 @@
     <ArgumentTypeCoercion>
       <code>$password</code>
     </ArgumentTypeCoercion>
-    <InvalidAttribute>
-      <code>SensitiveParameter</code>
-    </InvalidAttribute>
     <MixedArgument>
       <code><![CDATA[rex::getProperty('session_duration')]]></code>
     </MixedArgument>
@@ -4151,11 +4125,6 @@
     <ArgumentTypeCoercion>
       <code>$previousPasswords</code>
     </ArgumentTypeCoercion>
-    <InvalidAttribute>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-    </InvalidAttribute>
     <MixedArgument>
       <code>$previousPasswords</code>
     </MixedArgument>
@@ -4172,15 +4141,6 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
-    <InvalidAttribute>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-    </InvalidAttribute>
     <MixedArrayAccess>
       <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId]]]></code>
       <code>$sessionConfig[$key]</code>
@@ -4219,10 +4179,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/login/password_policy.php">
-    <InvalidAttribute>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-    </InvalidAttribute>
     <PossiblyNullArgument>
       <code><![CDATA[$this->getDescription()]]></code>
     </PossiblyNullArgument>
@@ -4249,9 +4205,6 @@
     <ArgumentTypeCoercion>
       <code>$role</code>
     </ArgumentTypeCoercion>
-    <InvalidAttribute>
-      <code>SensitiveParameter</code>
-    </InvalidAttribute>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->sql->getValue($key)]]></code>
       <code><![CDATA[$this->sql->getValue('email')]]></code>
@@ -4670,16 +4623,6 @@
       <code><![CDATA[$this->getValue($column)]]></code>
       <code>$value</code>
     </ArgumentTypeCoercion>
-    <InvalidAttribute>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-    </InvalidAttribute>
     <LessSpecificReturnStatement>
       <code><![CDATA[$sql->getValue('Create Table')]]></code>
     </LessSpecificReturnStatement>
@@ -5021,10 +4964,6 @@
             }
         }]]></code>
     </InvalidArgument>
-    <InvalidAttribute>
-      <code>SensitiveParameter</code>
-      <code>SensitiveParameter</code>
-    </InvalidAttribute>
     <MixedArgument>
       <code><![CDATA[$parts['host']]]></code>
       <code><![CDATA[$parts['path']]]></code>
