@@ -593,8 +593,8 @@
       <code>self::$updatePackages</code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code><![CDATA[array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>]]></code>
-      <code><![CDATA[array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>]]></code>
+      <code><![CDATA[array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, counter: int, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, counter: int, created: string, updated: string}>}>]]></code>
+      <code><![CDATA[array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, counter: int, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, counter: int, created: string, updated: string}>}>]]></code>
     </MoreSpecificReturnType>
     <PropertyTypeCoercion>
       <code>self::getPackages()</code>
@@ -622,8 +622,12 @@
       <code><![CDATA[$addon2['files']]]></code>
     </MixedArgument>
     <MixedArrayAccess>
+      <code><![CDATA[$addon1['counter']]]></code>
+      <code><![CDATA[$addon1['counter']]]></code>
       <code><![CDATA[$addon1['files']]]></code>
       <code><![CDATA[$addon1['files']]]></code>
+      <code><![CDATA[$addon2['counter']]]></code>
+      <code><![CDATA[$addon2['counter']]]></code>
       <code><![CDATA[$addon2['files']]]></code>
       <code><![CDATA[$addon2['files']]]></code>
       <code><![CDATA[reset($addon1['files'])['created']]]></code>
