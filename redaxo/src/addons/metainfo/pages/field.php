@@ -92,7 +92,7 @@ if ('' == $func) {
 // ------------------------------> Formular
 elseif ('edit' == $func || 'add' == $func) {
     $title = rex_i18n::msg('minfo_field_fieldset');
-    $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix().'metainfo_field', 'id='.$fieldId);
+    $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix() . 'metainfo_field', 'id=' . $fieldId);
 
     if ('edit' == $func) {
         $form->addParam('field_id', $fieldId);

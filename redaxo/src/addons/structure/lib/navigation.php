@@ -137,9 +137,9 @@ class rex_navigation
         $lis = [];
 
         if ($startPageLabel) {
-            $link = '<a href="'.rex_getUrl(rex_article::getSiteStartArticleId()).'">'.rex_escape($startPageLabel).'</a>';
+            $link = '<a href="' . rex_getUrl(rex_article::getSiteStartArticleId()) . '">' . rex_escape($startPageLabel) . '</a>';
             $lis[] = $this->getBreadcrumbListItemTag($link, [
-                'class' => 'rex-lvl'.$i,
+                'class' => 'rex-lvl' . $i,
             ], $i);
             ++$i;
 
@@ -164,7 +164,7 @@ class rex_navigation
                 'href' => $cat->getUrl(),
             ], $i);
             $lis[] = $this->getBreadcrumbListItemTag($link, [
-                'class' => 'rex-lvl'.$i,
+                'class' => 'rex-lvl' . $i,
             ], $i);
             ++$i;
         }
@@ -173,13 +173,13 @@ class rex_navigation
             if ($art = rex_article::get($this->currentArticleId)) {
                 if (!$art->isStartArticle()) {
                     $lis[] = $this->getBreadcrumbListItemTag(rex_escape($art->getName()), [
-                        'class' => 'rex-lvl'.$i,
+                        'class' => 'rex-lvl' . $i,
                     ], $i);
                 }
             } else {
                 $cat = rex_category::get($this->currentArticleId);
                 $lis[] = $this->getBreadcrumbListItemTag(rex_escape($cat->getName()), [
-                    'class' => 'rex-lvl'.$i,
+                    'class' => 'rex-lvl' . $i,
                 ], $i);
             }
         }
@@ -416,7 +416,7 @@ class rex_navigation
                         in_array($nav->getId(), $this->path))
                     && ($this->depth >= $depth || $this->depth < 0)
                 ) {
-                    $link .= "\n".$this->_getNavigation($nav->getId(), $depth);
+                    $link .= "\n" . $this->_getNavigation($nav->getId(), $depth);
                 }
                 --$depth;
                 $lis[] = $this->getListItemTag($nav, $link, $li, $depth);
@@ -425,9 +425,9 @@ class rex_navigation
         if (count($lis) > 0) {
             return $this->getListTag($lis, [
                 'class' => [
-                    'rex-navi'.$depth,
-                    'rex-navi-depth-'.$depth,
-                    'rex-navi-has-'.count($lis).'-elements',
+                    'rex-navi' . $depth,
+                    'rex-navi-depth-' . $depth,
+                    'rex-navi-has-' . count($lis) . '-elements',
                 ],
             ], $depth);
         }
@@ -440,7 +440,7 @@ class rex_navigation
      */
     protected function getBreadcrumbListTag(array $items, array $attributes): string
     {
-        return '<ul'.rex_string::buildAttributes($attributes).">\n".implode('', $items)."</ul>\n";
+        return '<ul' . rex_string::buildAttributes($attributes) . ">\n" . implode('', $items) . "</ul>\n";
     }
 
     /**
@@ -448,7 +448,7 @@ class rex_navigation
      */
     protected function getBreadcrumbListItemTag(string $item, array $attributes, int $depth): string
     {
-        return '<li'.rex_string::buildAttributes($attributes).'>'.$item."</li>\n";
+        return '<li' . rex_string::buildAttributes($attributes) . '>' . $item . "</li>\n";
     }
 
     /**
@@ -460,7 +460,7 @@ class rex_navigation
             $attributes['href'] = $category->getUrl();
         }
 
-        return '<a'.rex_string::buildAttributes($attributes).'>'.$content.'</a>';
+        return '<a' . rex_string::buildAttributes($attributes) . '>' . $content . '</a>';
     }
 
     /**
@@ -469,7 +469,7 @@ class rex_navigation
      */
     protected function getListTag(array $items, array $attributes, int $depth): string
     {
-        return '<ul'.rex_string::buildAttributes($attributes).">\n".implode('', $items)."</ul>\n";
+        return '<ul' . rex_string::buildAttributes($attributes) . ">\n" . implode('', $items) . "</ul>\n";
     }
 
     /**
@@ -477,7 +477,7 @@ class rex_navigation
      */
     protected function getListItemTag(rex_category $category, string $item, array $attributes, int $depth): string
     {
-        return '<li'.rex_string::buildAttributes($attributes).'>'.$item."</li>\n";
+        return '<li' . rex_string::buildAttributes($attributes) . '>' . $item . "</li>\n";
     }
 
     /**
@@ -489,6 +489,6 @@ class rex_navigation
             $attributes['href'] = $category->getUrl();
         }
 
-        return '<a'.rex_string::buildAttributes($attributes).'>'.$content.'</a>';
+        return '<a' . rex_string::buildAttributes($attributes) . '>' . $content . '</a>';
     }
 }

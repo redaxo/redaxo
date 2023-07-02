@@ -5,12 +5,12 @@ set_time_limit(0);
 // setup a minimal exception handler to print early errors,
 // happening before redaxo itself was able to register its rex_error_handler
 set_exception_handler(static function (Throwable $exception): void {
-    fwrite(STDERR, $exception->getMessage()."\n");
-    fwrite(STDERR, $exception->getTraceAsString()."\n");
+    fwrite(STDERR, $exception->getMessage() . "\n");
+    fwrite(STDERR, $exception->getTraceAsString() . "\n");
     exit(254);
 });
 
-require __DIR__.'/boot.php';
+require __DIR__ . '/boot.php';
 
 // force debug mode to enable output of notices/warnings and dump() function
 rex::setProperty('debug', true);

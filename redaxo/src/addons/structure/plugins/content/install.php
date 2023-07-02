@@ -126,7 +126,7 @@ rex_sql_table::get(rex::getTable('module_action'))
     ->ensure();
 
 $sql = rex_sql::factory();
-$sql->setQuery('SELECT 1 FROM '.rex::getTable('template').' LIMIT 1');
+$sql->setQuery('SELECT 1 FROM ' . rex::getTable('template') . ' LIMIT 1');
 if (!$sql->getRows()) {
     $sql
         ->setTable(rex::getTable('template'))

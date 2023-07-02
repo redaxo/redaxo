@@ -54,7 +54,7 @@ trait rex_instance_list_pool_trait
      * @psalm-param callable(mixed...):mixed[]|null $createListCallback
      * @psalm-return T[]
      */
-    protected static function getInstanceList($key, callable $getInstanceCallback, callable $createListCallback = null)
+    protected static function getInstanceList($key, callable $getInstanceCallback, ?callable $createListCallback = null)
     {
         $args = (array) $key;
         $key = self::getInstanceListPoolKey($args);

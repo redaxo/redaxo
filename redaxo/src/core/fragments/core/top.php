@@ -35,15 +35,15 @@
             if (!rex::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
             } elseif ($mtime = @filemtime($path)) {
-                $file .= '?buster='. $mtime;
+                $file .= '?buster=' . $mtime;
             }
-            echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file .'" />';
+            echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file . '" />';
         }
     }
     echo "\n";
     echo "\n" . '    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">';
     echo "\n" . '    <!--';
-    echo "\n" . '    var rex = '.$this->jsProperties.';';
+    echo "\n" . '    var rex = ' . $this->jsProperties . ';';
     echo "\n" . '    //-->';
     echo "\n" . '    </script>';
     foreach ($this->jsFiles as $file) {
@@ -61,7 +61,7 @@
                 $file = rex_url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
             }
         } elseif ($mtime = @filemtime($path)) {
-            $file .= '?buster='. $mtime;
+            $file .= '?buster=' . $mtime;
         }
 
         $attributes = [];
@@ -72,7 +72,7 @@
             $attributes[] = 'defer="defer"';
         }
 
-        echo "\n" . '    <script type="text/javascript" src="' . $file .'" '. implode(' ', $attributes) .' nonce="' . rex_response::getNonce() . '"></script>';
+        echo "\n" . '    <script type="text/javascript" src="' . $file . '" ' . implode(' ', $attributes) . ' nonce="' . rex_response::getNonce() . '"></script>';
     }
 ?>
 

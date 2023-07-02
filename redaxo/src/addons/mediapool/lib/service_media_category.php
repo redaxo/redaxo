@@ -20,7 +20,7 @@ class rex_media_category_service
         $path = '|';
         if ($parent) {
             $parentId = $parent->getId();
-            $path = $parent->getPath() . $parent->getId().'|';
+            $path = $parent->getPath() . $parent->getId() . '|';
         }
 
         $db->setTable(rex::getTablePrefix() . 'media_category');

@@ -167,19 +167,19 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="customizer-codemirror-langs">' . rex_i18n::msg('customizer_codemirror_langs') . '</label>';
 $n['field'] = '<input type="checkbox" id="customizer-codemirror-langs" name="settings[codemirror-langs]" value="1" ' . ($config['codemirror-langs'] ? 'checked="checked" ' : '') . '/>';
-$n['field'] .= ' '.rex_i18n::msg('customizer_codemirror_langs_text');
+$n['field'] .= ' ' . rex_i18n::msg('customizer_codemirror_langs_text');
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="customizer-codemirror-tools">' . rex_i18n::msg('customizer_codemirror_tools') . '</label>';
 $n['field'] = '<input type="checkbox" id="customizer-codemirror-tools" name="settings[codemirror-tools]" value="1" ' . ($config['codemirror-tools'] ? 'checked="checked" ' : '') . '/>';
-$n['field'] .= ' '.rex_i18n::msg('customizer_codemirror_tools_text');
+$n['field'] .= ' ' . rex_i18n::msg('customizer_codemirror_tools_text');
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="customizer-codemirror-autoresize">' . rex_i18n::msg('customizer_codemirror_autoresize') . '</label>';
 $n['field'] = '<input type="checkbox" id="customizer-codemirror-autoresize" name="settings[codemirror-autoresize]" value="1" ' . ($config['codemirror-autoresize'] ? 'checked="checked" ' : '') . '/>';
-$n['field'] .= ' '.rex_i18n::msg('customizer_codemirror_autoresize_text');
+$n['field'] .= ' ' . rex_i18n::msg('customizer_codemirror_autoresize_text');
 $formElements[] = $n;
 
 $n = [];

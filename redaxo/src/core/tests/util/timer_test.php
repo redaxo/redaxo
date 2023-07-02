@@ -28,7 +28,7 @@ class rex_timer_test extends TestCase
             /** @var int $i */
             static $i = 1;
             usleep(1);
-            return 'result'.($i++);
+            return 'result' . ($i++);
         };
 
         $result = rex_timer::measure('test', $callable);

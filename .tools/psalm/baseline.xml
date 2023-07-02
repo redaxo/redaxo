@@ -4110,7 +4110,7 @@
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[[
-            'expires' => strtotime(rex_user_session::STAY_LOGGED_IN_DURATION.' months'),
+            'expires' => strtotime(rex_user_session::STAY_LOGGED_IN_DURATION . ' months'),
             'secure' => $sessionConfig['secure'] ?? false,
             'samesite' => $sessionConfig['samesite'] ?? 'lax',
         ]]]></code>

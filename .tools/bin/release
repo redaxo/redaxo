@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-require dirname(__DIR__).'/bootstrap.php';
+require dirname(__DIR__) . '/bootstrap.php';
 
 // avoid PREG_JIT_STACKLIMIT_ERROR, changelog parts can be long
 ini_set('pcre.jit', 0);
@@ -25,7 +25,7 @@ class rex_release
 
     public function create()
     {
-        $this->path = rex_path::base('releases/'.$this->version);
+        $this->path = rex_path::base('releases/' . $this->version);
         if (file_exists($this->path)) {
             rex_dir::deleteFiles($this->path);
         }
@@ -114,13 +114,13 @@ class rex_release
                 ($part = $cutNextPart($addonChangelog)) &&
                 (!$part['date'] || $part['date'] > $previousDate)
             ) {
-                $changelog .= "\n\n\n".substr_replace($part['content'], $addon, 0, 7);
+                $changelog .= "\n\n\n" . substr_replace($part['content'], $addon, 0, 7);
             }
         }
 
         $changelog .= "\n";
 
-        rex_file::put($this->path.'/CHANGELOG.md', $changelog);
+        rex_file::put($this->path . '/CHANGELOG.md', $changelog);
     }
 
     private function createArchives()
@@ -128,8 +128,8 @@ class rex_release
         $complete = new ZipArchive();
         $update = new ZipArchive();
 
-        $complete->open($this->path.'/redaxo_'.$this->version.'.zip', ZipArchive::CREATE);
-        $update->open($this->path.'/redaxo_update_'.$this->version.'.zip', ZipArchive::CREATE);
+        $complete->open($this->path . '/redaxo_' . $this->version . '.zip', ZipArchive::CREATE);
+        $update->open($this->path . '/redaxo_update_' . $this->version . '.zip', ZipArchive::CREATE);
 
         $files = [
             'assets/.redaxo',
@@ -157,8 +157,8 @@ class rex_release
         $this->addDir($update, rex_path::core(), 'core');
 
         foreach (self::$addons as $addon) {
-            $this->addDir($complete, rex_path::addon($addon), 'redaxo/src/addons/'.$addon);
-            $this->addDir($update, rex_path::addon($addon), 'addons/'.$addon);
+            $this->addDir($complete, rex_path::addon($addon), 'redaxo/src/addons/' . $addon);
+            $this->addDir($update, rex_path::addon($addon), 'addons/' . $addon);
         }
         $this->addDir($complete, rex_path::addon('project'), 'redaxo/src/addons/project');
 
@@ -170,7 +170,7 @@ class rex_release
 
         $files = require $addon->getPath('vendor_files.php');
         foreach ($files as $source => $destination) {
-            $complete->addFile($addon->getPath($source), 'assets/addons/be_style/'.$destination);
+            $complete->addFile($addon->getPath($source), 'assets/addons/be_style/' . $destination);
         }
 
         $complete->close();
@@ -189,7 +189,7 @@ class rex_release
 
         foreach ($finder as $path => $file) {
             if (!$this->shouldIgnore($path)) {
-                $zip->addFile($path, $base.substr($path, strlen($dir)));
+                $zip->addFile($path, $base . substr($path, strlen($dir)));
             }
         }
     }
@@ -217,7 +217,7 @@ class rex_release
 }
 
 if (!isset($argv[1])) {
-    exit('Missing version'.PHP_EOL);
+    exit('Missing version' . PHP_EOL);
 }
 
 $release = new rex_release($argv[1]);

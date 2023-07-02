@@ -6,7 +6,7 @@ assert(isset($config) && is_array($config));
 assert(isset($cancelSetupBtn));
 
 $configFile = rex_path::coreData('config.yml');
-$headline = rex_view::title(rex_i18n::msg('setup_300', rex_path::relative($configFile)).$cancelSetupBtn);
+$headline = rex_view::title(rex_i18n::msg('setup_300', rex_path::relative($configFile)) . $cancelSetupBtn);
 
 $content = '';
 
@@ -86,11 +86,11 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-db-user-pass" class="required">' . rex_i18n::msg('setup_309') . '</label>';
-$n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="'. rex_setup::DEFAULT_DUMMY_PASSWORD .'" />';
+$n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . rex_setup::DEFAULT_DUMMY_PASSWORD . '" />';
 $formElements[] = $n;
 
 $n = [];
-$n['field'] = '<p>'.rex_i18n::msg('setup_password_hint').'</p>';
+$n['field'] = '<p>' . rex_i18n::msg('setup_password_hint') . '</p>';
 $formElements[] = $n;
 
 $n = [];
@@ -118,17 +118,17 @@ $formElements = [];
 
 if (!rex_request::isHttps()) {
     $n = [];
-    $n['field'] = '<label class="form-control-static"><i class="fa fa-warning"></i> '.rex_i18n::msg('https_only_over_https').'</label>';
+    $n['field'] = '<label class="form-control-static"><i class="fa fa-warning"></i> ' . rex_i18n::msg('https_only_over_https') . '</label>';
     $formElements[] = $n;
 }
 
 $n = [];
-$n['label'] = '<label>'.rex_i18n::msg('https_activate_redirect_for').'</label>';
+$n['label'] = '<label>' . rex_i18n::msg('https_activate_redirect_for') . '</label>';
 $n['field'] = $httpsRedirectSel->get();
 $formElements[] = $n;
 
 $n = [];
-$n['field'] = '<p>'.rex_i18n::msg('hsts_more_information').'</p>';
+$n['field'] = '<p>' . rex_i18n::msg('hsts_more_information') . '</p>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

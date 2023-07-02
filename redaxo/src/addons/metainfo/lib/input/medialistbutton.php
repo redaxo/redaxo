@@ -23,7 +23,7 @@ class rex_input_medialistbutton extends rex_input
      */
     public function setButtonId($buttonId)
     {
-        $this->buttonId = 'METAINFO_'.$buttonId;
+        $this->buttonId = 'METAINFO_' . $buttonId;
         $this->setAttribute('id', 'REX_MEDIALIST_' . $this->buttonId);
     }
 

@@ -35,13 +35,13 @@ if ('delete' == $function) {
 
         if (rex_template::getDefaultId() == $templateId) {
             $del = rex_sql::factory();
-            $del->setQuery('SELECT name FROM '.rex::getTable('template').' WHERE id = '.$templateId);
+            $del->setQuery('SELECT name FROM ' . rex::getTable('template') . ' WHERE id = ' . $templateId);
             $templatename = $del->getValue('name');
 
             $error .= rex_i18n::msg('cant_delete_template_because_its_default_template', $templatename);
         }
         if ('' == $error) {
-            $del->setQuery('DELETE FROM '.rex::getTablePrefix().'template WHERE id = "'.$templateId.'" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
+            $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $templateId . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
             rex_template_cache::delete($templateId);
             $success = rex_i18n::msg('template_deleted');
             $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
@@ -155,7 +155,7 @@ if ('add' == $function || 'edit' == $function) {
 
                 $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_inactivate_template_because_its_in_use');
                 if (false !== $templateIsInUseError) {
-                    $error .= ($error ? '<br><br>' : '').$templateIsInUseError;
+                    $error .= ($error ? '<br><br>' : '') . $templateIsInUseError;
                 }
             }
 

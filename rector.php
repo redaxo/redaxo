@@ -29,11 +29,11 @@ use Redaxo\Rector\Util\UnderscoreCamelCaseConflictingNameGuard;
 use Redaxo\Rector\Util\UnderscoreCamelCaseExpectedNameResolver;
 use Redaxo\Rector\Util\UnderscoreCamelCasePropertyRenamer;
 
-require_once __DIR__.'/.tools/rector/autoload.php';
+require_once __DIR__ . '/.tools/rector/autoload.php';
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->bootstrapFiles([
-        __DIR__.'/.tools/constants.php',
+        __DIR__ . '/.tools/constants.php',
     ]);
 
     // this list will grow over time.

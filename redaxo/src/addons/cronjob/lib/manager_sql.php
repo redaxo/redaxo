@@ -15,7 +15,7 @@ class rex_cronjob_manager_sql
     /** @var rex_cronjob_manager|null */
     private $manager;
 
-    private function __construct(rex_cronjob_manager $manager = null)
+    private function __construct(?rex_cronjob_manager $manager = null)
     {
         $this->sql = rex_sql::factory();
         // $this->sql->setDebug();
@@ -25,7 +25,7 @@ class rex_cronjob_manager_sql
     /**
      * @return self
      */
-    public static function factory(rex_cronjob_manager $manager = null)
+    public static function factory(?rex_cronjob_manager $manager = null)
     {
         return new self($manager);
     }
@@ -163,7 +163,7 @@ class rex_cronjob_manager_sql
 
         $query = '
             SELECT    id, name, type, parameters, `interval`, execution_moment
-            FROM      '.rex::getTable('cronjob').'
+            FROM      ' . rex::getTable('cronjob') . '
             WHERE     status = 1
                 AND   execution_start < ?
                 AND   environment LIKE ?
@@ -179,7 +179,7 @@ class rex_cronjob_manager_sql
             $minExecutionStartDiff = 2 * ((int) ini_get('max_execution_time') ?: 60 * 60);
         }
 
-        $jobs = $sql->getArray($query, [rex_sql::datetime(time() - $minExecutionStartDiff), '%|' .$env. '|%', rex_sql::datetime()]);
+        $jobs = $sql->getArray($query, [rex_sql::datetime(time() - $minExecutionStartDiff), '%|' . $env . '|%', rex_sql::datetime()]);
 
         if (!$jobs) {
             $this->saveNextTime();

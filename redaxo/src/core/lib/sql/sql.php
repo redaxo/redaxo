@@ -186,7 +186,7 @@ class rex_sql implements Iterator
 
         $dsn = 'mysql:host=' . $host;
         if ($port) {
-            $dsn .= ';port='. $port;
+            $dsn .= ';port=' . $port;
         }
         $dsn .= ';dbname=' . $database;
 
@@ -655,7 +655,7 @@ class rex_sql implements Iterator
         $whereParams = [];
         $where = $this->buildWhereArg($this->wherevar, $whereParams);
 
-        return ['WHERE '.$where, $whereParams];
+        return ['WHERE ' . $where, $whereParams];
     }
 
     /**
@@ -681,7 +681,7 @@ class rex_sql implements Iterator
             } else {
                 $paramName = $fldName;
                 for ($i = 1; array_key_exists($paramName, $params) || array_key_exists($paramName, $this->values); ++$i) {
-                    $paramName = $fldName.'_'.$i;
+                    $paramName = $fldName . '_' . $i;
                 }
 
                 $arg = $this->escapeIdentifier($fldName) . ' = :' . $paramName;
@@ -804,7 +804,7 @@ class rex_sql implements Iterator
         if (!$this->lastRow) {
             $lastRow = $this->stmt->fetch($fetchType);
             if (false === $lastRow) {
-                throw new rex_sql_exception('Unable to fetch row for statement "'.$this->query.'"', null, $this);
+                throw new rex_sql_exception('Unable to fetch row for statement "' . $this->query . '"', null, $this);
             }
             $this->lastRow = $lastRow;
         }
@@ -895,7 +895,7 @@ class rex_sql implements Iterator
                 }
 
                 /** @psalm-taint-escape sql */ // psalm marks whole array (keys and values) as tainted, not values only
-                $qry .= $this->escapeIdentifier($fldName) .' = :' . $fldName;
+                $qry .= $this->escapeIdentifier($fldName) . ' = :' . $fldName;
             }
         }
         if (is_array($this->rawValues)) {
@@ -992,7 +992,7 @@ class rex_sql implements Iterator
         $values = $this->values;
 
         if ($this->values || $this->rawValues) {
-            $setValues = 'SET '.$this->buildPreparedValues();
+            $setValues = 'SET ' . $this->buildPreparedValues();
         } else {
             $setValues = 'VALUES ()';
         }
@@ -1392,10 +1392,10 @@ class rex_sql implements Iterator
                 $this->rawFieldnames[] = $metadata['name'];
 
                 if (null === $stripTableName) {
-                    $stripTableName = str_starts_with($metadata['name'], $metadata['table'].'.');
+                    $stripTableName = str_starts_with($metadata['name'], $metadata['table'] . '.');
                 }
                 if ($stripTableName) {
-                    $metadata['name'] = substr($metadata['name'], strlen($metadata['table'].'.'));
+                    $metadata['name'] = substr($metadata['name'], strlen($metadata['table'] . '.'));
                 }
 
                 $this->fieldnames[] = $metadata['name'];
@@ -1487,7 +1487,7 @@ class rex_sql implements Iterator
                 continue;
             }
 
-            throw new InvalidArgumentException('Argument $values must be an array of ints and/or strings, but it contains "'.get_debug_type($value).'"');
+            throw new InvalidArgumentException('Argument $values must be an array of ints and/or strings, but it contains "' . get_debug_type($value) . '"');
         }
 
         if ($strings) {
@@ -1779,12 +1779,12 @@ class rex_sql implements Iterator
         $where = $where ? [$where] : [];
 
         if (null != $tablePrefix) {
-            $column = $this->escapeIdentifier('Tables_in_'.$dbConfig->name);
-            $where[] = $column.' LIKE ' . $this->escape($this->escapeLikeWildcards($tablePrefix).'%');
+            $column = $this->escapeIdentifier('Tables_in_' . $dbConfig->name);
+            $where[] = $column . ' LIKE ' . $this->escape($this->escapeLikeWildcards($tablePrefix) . '%');
         }
 
         if ($where) {
-            $qry .= ' WHERE '.implode(' AND ', $where);
+            $qry .= ' WHERE ' . implode(' AND ', $where);
         }
 
         $tables = $this->getArray($qry);
@@ -2064,16 +2064,16 @@ class rex_sql implements Iterator
                 $params[] = $record->values[$field];
             }
 
-            $rows[] = '('.implode(', ', $row).')';
+            $rows[] = '(' . implode(', ', $row) . ')';
         }
 
-        $query = $verb.' INTO '.$this->escapeIdentifier($this->table)."\n";
-        $query .= '('.implode(', ', array_map($this->escapeIdentifier(...), $fields)).")\n";
+        $query = $verb . ' INTO ' . $this->escapeIdentifier($this->table) . "\n";
+        $query .= '(' . implode(', ', array_map($this->escapeIdentifier(...), $fields)) . ")\n";
         $query .= "VALUES\n";
         $query .= implode(",\n", $rows);
 
         if ($onDuplicateKeyUpdate) {
-            $query .= "\n".$this->buildOnDuplicateKeyUpdate($fields);
+            $query .= "\n" . $this->buildOnDuplicateKeyUpdate($fields);
         }
 
         return $this->setQuery($query, $params);
@@ -2093,6 +2093,6 @@ class rex_sql implements Iterator
             $updates[] = "$field = VALUES($field)";
         }
 
-        return 'ON DUPLICATE KEY UPDATE '.implode(', ', $updates);
+        return 'ON DUPLICATE KEY UPDATE ' . implode(', ', $updates);
     }
 }

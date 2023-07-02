@@ -40,7 +40,7 @@ class rex_i18n
 
             // In setup we want to reach the php extensions check even if intl extension is missing
             if (class_exists(Locale::class)) {
-                Locale::setDefault($lang.'-'.strtoupper($country));
+                Locale::setDefault($lang . '-' . strtoupper($country));
             }
 
             $locales = [];
@@ -354,7 +354,7 @@ class rex_i18n
      *
      * @return non-empty-string Translated text
      */
-    public static function translate($text, $escape = true, callable $i18nFunction = null)
+    public static function translate($text, $escape = true, ?callable $i18nFunction = null)
     {
         if (!is_string($text)) {
             throw new InvalidArgumentException('Expecting $text to be a String, "' . gettype($text) . '" given!');
@@ -391,7 +391,7 @@ class rex_i18n
      *
      * @return mixed
      */
-    public static function translateArray($array, $escape = true, callable $i18nFunction = null)
+    public static function translateArray($array, $escape = true, ?callable $i18nFunction = null)
     {
         if (is_array($array)) {
             foreach ($array as $key => $value) {
@@ -423,7 +423,7 @@ class rex_i18n
     {
         $locale = self::validateLocale($locale);
 
-        $file = $dir.DIRECTORY_SEPARATOR.$locale.'.lang';
+        $file = $dir . DIRECTORY_SEPARATOR . $locale . '.lang';
         if (!($content = rex_file::get($file))) {
             return;
         }
@@ -460,7 +460,7 @@ class rex_i18n
     private static function validateLocale(string $locale): string
     {
         if (!preg_match('/^[a-z]{2}_[a-z]{2}$/', $locale)) {
-            throw new rex_exception('Invalid locale "'.$locale.'"');
+            throw new rex_exception('Invalid locale "' . $locale . '"');
         }
         return $locale;
     }

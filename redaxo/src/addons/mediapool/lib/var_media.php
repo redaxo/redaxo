@@ -81,7 +81,7 @@ class rex_var_media extends rex_var
         $viewFunc = '';
         if (rex::requireUser()->getComplexPerm('media')->hasMediaPerm()) {
             $disabled = '';
-            $quotedId = "'".rex_escape($id, 'js')."'";
+            $quotedId = "'" . rex_escape($id, 'js') . "'";
             $openFunc = 'openREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
             $addFunc = 'addREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
             $deleteFunc = 'deleteREXMedia(' . $quotedId . ');';

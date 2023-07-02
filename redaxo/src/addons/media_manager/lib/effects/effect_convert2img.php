@@ -66,7 +66,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         if (class_exists(Imagick::class)) {
             $imagick = new Imagick();
             $imagick->setResolution($density, $density);
-            $imagick->readImage($fromPath.'[0]');
+            $imagick->readImage($fromPath . '[0]');
 
             if ('' != $color) {
                 $imagick->setImageBackgroundColor($color);
@@ -98,16 +98,16 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         $toPath = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filenameWoExt . $convertTo['ext']);
 
-        $addColor = '' != $color ? ' -background ' . escapeshellarg($color)  . ' -flatten' : '';
+        $addColor = '' != $color ? ' -background ' . escapeshellarg($color) . ' -flatten' : '';
 
-        $cmd = $convertPath . ' -density '.$density.' ' . escapeshellarg($fromPath.'[0]') . '  ' . $addColor . ' -colorspace RGB ' . escapeshellarg($toPath);
+        $cmd = $convertPath . ' -density ' . $density . ' ' . escapeshellarg($fromPath . '[0]') . '  ' . $addColor . ' -colorspace RGB ' . escapeshellarg($toPath);
         exec($cmd, $out, $ret);
 
         if (0 != $ret) {
             if ($error = error_get_last()) {
-                throw new rex_exception('Unable to exec command '. $cmd .': '.$error['message']);
+                throw new rex_exception('Unable to exec command ' . $cmd . ': ' . $error['message']);
             }
-            throw new rex_exception('Unable to exec command '. $cmd);
+            throw new rex_exception('Unable to exec command ' . $cmd);
         }
 
         $this->media->setSourcePath($toPath);
@@ -130,7 +130,7 @@ class rex_effect_convert2img extends rex_effect_abstract
     {
         $imNotfound = '';
         if (!class_exists(Imagick::class) && '' == self::getConvertPath()) {
-            $imNotfound = '<strong>'.rex_i18n::msg('media_manager_effect_convert2img_noimagemagick').'</strong>';
+            $imNotfound = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_noimagemagick') . '</strong>';
         }
         return [
             [
