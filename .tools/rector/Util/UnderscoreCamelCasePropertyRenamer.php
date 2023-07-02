@@ -5,24 +5,18 @@ declare(strict_types=1);
 namespace Redaxo\Rector\Util;
 
 use PhpParser\Node\Stmt\Property;
-use Rector\Naming\PropertyRenamer\PropertyRenamer;
+use PhpParser\Node\VarLikeIdentifier;
+use Rector\Naming\PropertyRenamer\PropertyFetchRenamer;
+use Rector\Naming\RenameGuard\PropertyRenameGuard;
 use Rector\Naming\ValueObject\PropertyRename;
 
 final class UnderscoreCamelCasePropertyRenamer
 {
-    /** @var UnderscoreCamelCaseConflictingNameGuard */
-    private $underscoreCamelCaseConflictingNameGuard;
-
-    /** @var PropertyRenamer */
-    private $propertyRenamer;
-
     public function __construct(
-        UnderscoreCamelCaseConflictingNameGuard $underscoreCamelCaseConflictingNameGuard,
-        PropertyRenamer $propertyRenamer,
-    ) {
-        $this->underscoreCamelCaseConflictingNameGuard = $underscoreCamelCaseConflictingNameGuard;
-        $this->propertyRenamer = $propertyRenamer;
-    }
+        private readonly UnderscoreCamelCaseConflictingNameGuard $underscoreCamelCaseConflictingNameGuard,
+        private readonly PropertyRenameGuard $propertyRenameGuard,
+        private readonly PropertyFetchRenamer $propertyFetchRenamer,
+    ) {}
 
     public function rename(PropertyRename $propertyRename): ?Property
     {
@@ -30,6 +24,27 @@ final class UnderscoreCamelCasePropertyRenamer
             return null;
         }
 
-        return $this->propertyRenamer->rename($propertyRename);
+        if ($propertyRename->isAlreadyExpectedName()) {
+            return null;
+        }
+
+        if ($this->propertyRenameGuard->shouldSkip($propertyRename)) {
+            return null;
+        }
+
+        $onlyPropertyProperty = $propertyRename->getPropertyProperty();
+        $onlyPropertyProperty->name = new VarLikeIdentifier($propertyRename->getExpectedName());
+        $this->renamePropertyFetchesInClass($propertyRename);
+
+        return $propertyRename->getProperty();
+    }
+
+    private function renamePropertyFetchesInClass(PropertyRename $propertyRename): void
+    {
+        $this->propertyFetchRenamer->renamePropertyFetchesInClass(
+            $propertyRename->getClassLike(),
+            $propertyRename->getCurrentName(),
+            $propertyRename->getExpectedName(),
+        );
     }
 }
