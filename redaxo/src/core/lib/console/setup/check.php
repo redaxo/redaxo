@@ -30,7 +30,7 @@ class rex_command_setup_check extends rex_console_command
         } else {
             $exitCode = 1;
             $errors = array_map($this->decodeMessage(...), $errors);
-            $io->error("PHP version errors:\n" .implode("\n", $errors));
+            $io->error("PHP version errors:\n" . implode("\n", $errors));
         }
 
         $res = rex_setup::checkFilesystem();
@@ -42,13 +42,13 @@ class rex_command_setup_check extends rex_console_command
                     foreach ($messages as $message) {
                         $affectedFiles[] = rex_path::relative($message);
                     }
-                    $errors[] = rex_i18n::msg($key) . "\n". implode("\n", $affectedFiles);
+                    $errors[] = rex_i18n::msg($key) . "\n" . implode("\n", $affectedFiles);
                 }
             }
 
             $exitCode = 2;
             $errors = array_map($this->decodeMessage(...), $errors);
-            $io->error("Directory permissions error:\n" .implode("\n", $errors));
+            $io->error("Directory permissions error:\n" . implode("\n", $errors));
         } else {
             $io->success('Directory permissions ok');
         }
@@ -66,13 +66,13 @@ class rex_command_setup_check extends rex_console_command
             }
             if ($err) {
                 $exitCode = 3;
-                $io->error("Database error:\n". $this->decodeMessage($err));
+                $io->error("Database error:\n" . $this->decodeMessage($err));
             } else {
                 $io->success('Database ok');
             }
         } catch (PDOException $e) {
             $exitCode = 3;
-            $io->error("Database error:\n". $e->getMessage());
+            $io->error("Database error:\n" . $e->getMessage());
         }
 
         return $exitCode;

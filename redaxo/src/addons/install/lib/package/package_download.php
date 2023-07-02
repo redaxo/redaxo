@@ -90,7 +90,7 @@ abstract class rex_install_package_download
             if (true === $zip->open($file)) {
                 for ($i = 0; $i < $zip->numFiles; ++$i) {
                     $filename = $zip->getNameIndex($i);
-                    if (!str_starts_with($filename, $this->addonkey.'/')) {
+                    if (!str_starts_with($filename, $this->addonkey . '/')) {
                         $zip->deleteIndex($i);
                     } else {
                         $success = true;

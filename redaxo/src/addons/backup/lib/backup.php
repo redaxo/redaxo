@@ -33,7 +33,7 @@ class rex_backup
             return str_ends_with($filename, '.sql') || str_ends_with($filename, '.sql.gz');
         }
 
-        throw new rex_exception('unexpected importType '. $importType);
+        throw new rex_exception('unexpected importType ' . $importType);
     }
 
     /**
@@ -97,7 +97,7 @@ class rex_backup
 
             // should not happen
             if (false === $conts) {
-                return $returnError(rex_i18n::msg('backup_no_valid_import_file').'. Unable to decompress .gz');
+                return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. Unable to decompress .gz');
             }
         } else {
             $conts = rex_file::require($filename);
@@ -133,7 +133,7 @@ class rex_backup
 
             if ('utf8mb4' === $charset && !rex::getConfig('utf8mb4') && !rex_setup_importer::supportsUtf8mb4()) {
                 $sql = rex_sql::factory();
-                return $returnError(rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType().' '.$sql->getDbVersion()));
+                return $returnError(rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType() . ' ' . $sql->getDbVersion()));
             }
         }
 
@@ -142,7 +142,7 @@ class rex_backup
             // Hier case-insensitiv ersetzen, damit alle möglich Schreibweisen (TABLE TablE, tAblE,..) ersetzt werden
             // Dies ist wichtig, da auch SQLs innerhalb von Ein/Ausgabe der Module vom rex-admin verwendet werden
             $conts = preg_replace('/(TABLES? `?)' . preg_quote($prefix, '/') . '/i', '$1' . rex::getTablePrefix(), $conts);
-            $conts = preg_replace('/(INTO `?)'  . preg_quote($prefix, '/') . '/i', '$1' . rex::getTablePrefix(), $conts);
+            $conts = preg_replace('/(INTO `?)' . preg_quote($prefix, '/') . '/i', '$1' . rex::getTablePrefix(), $conts);
             $conts = preg_replace('/(EXISTS `?)' . preg_quote($prefix, '/') . '/i', '$1' . rex::getTablePrefix(), $conts);
         }
 
@@ -282,7 +282,7 @@ class rex_backup
         // Versionsstempel hinzufügen
         fwrite($fp, '## Redaxo Database Dump Version ' . rex::getVersion('%s') . $nl);
         fwrite($fp, '## Prefix ' . rex::getTablePrefix() . $nl);
-        fwrite($fp, '## charset '.(rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8') . $nl . $nl);
+        fwrite($fp, '## charset ' . (rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8') . $nl . $nl);
         //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);
@@ -570,7 +570,7 @@ class rex_backup
                     if ($i == $lastIdx) {
                         fwrite($fp, $values[$i]);
                     } else {
-                        fwrite($fp, $values[$i]. ',');
+                        fwrite($fp, $values[$i] . ',');
                     }
                 }
                 unset($values);

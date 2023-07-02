@@ -128,25 +128,25 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $elements = [];
 
         $n = [];
-        $n['label'] = '<label class="control-label">'.rex_i18n::msg('cronjob_interval_minutes').'</label>';
+        $n['label'] = '<label class="control-label">' . rex_i18n::msg('cronjob_interval_minutes') . '</label>';
         $n['field'] = $this->formatField('minutes', rex_i18n::msg('cronjob_interval_minutes_all'), $range(0, 55, 5));
         $elements[] = $n;
 
         $n = [];
-        $n['label'] = '<label class="control-label">'.rex_i18n::msg('cronjob_interval_hours').'</label>';
+        $n['label'] = '<label class="control-label">' . rex_i18n::msg('cronjob_interval_hours') . '</label>';
         $n['field'] = $this->formatField('hours', rex_i18n::msg('cronjob_interval_hours_all'), $range(0, 23));
         $elements[] = $n;
 
         $n = [];
-        $n['label'] = '<label class="control-label">'.rex_i18n::msg('cronjob_interval_days').'</label>';
+        $n['label'] = '<label class="control-label">' . rex_i18n::msg('cronjob_interval_days') . '</label>';
         $n['field'] = $this->formatField('days', rex_i18n::msg('cronjob_interval_days_all'), $range(1, 31));
         $elements[] = $n;
 
         $n = [];
-        $n['label'] = '<label class="control-label">'.rex_i18n::msg('cronjob_interval_weekdays').'</label>';
+        $n['label'] = '<label class="control-label">' . rex_i18n::msg('cronjob_interval_weekdays') . '</label>';
         $weekdays = static function () {
             for ($i = 1; $i < 7; ++$i) {
-                yield $i => rex_formatter::intlDate(strtotime('last sunday +'.$i.' days'), 'E');
+                yield $i => rex_formatter::intlDate(strtotime('last sunday +' . $i . ' days'), 'E');
             }
             yield 0 => rex_formatter::intlDate(strtotime('last sunday'), 'E');
         };
@@ -154,7 +154,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $elements[] = $n;
 
         $n = [];
-        $n['label'] = '<label class="control-label">'.rex_i18n::msg('cronjob_interval_months').'</label>';
+        $n['label'] = '<label class="control-label">' . rex_i18n::msg('cronjob_interval_months') . '</label>';
         $months = static function () {
             for ($i = 1; $i < 13; ++$i) {
                 yield $i => rex_formatter::intlDate(mktime(0, 0, 0, $i, 1), 'LLL');
@@ -202,8 +202,8 @@ class rex_cronjob_form_interval_element extends rex_form_element
 
         $elements = [];
 
-        $id = $this->getAttribute('id').'-'.$group.'-all';
-        $name = $this->getAttribute('name').'['.$group.']';
+        $id = $this->getAttribute('id') . '-' . $group . '-all';
+        $name = $this->getAttribute('name') . '[' . $group . ']';
         $checked = 'all' === $value ? ' checked="checked"' : '';
 
         $elements[] = [
@@ -220,8 +220,8 @@ class rex_cronjob_form_interval_element extends rex_form_element
 
         $elements = [];
         foreach ($options as $key => $label) {
-            $id = $this->getAttribute('id').'-'.$group.'-'.$key;
-            $name = $this->getAttribute('name').'['.$group.'][]';
+            $id = $this->getAttribute('id') . '-' . $group . '-' . $key;
+            $name = $this->getAttribute('name') . '[' . $group . '][]';
             $checked = is_array($value) && in_array($key, $value) ? ' checked="checked"' : '';
 
             $elements[] = [

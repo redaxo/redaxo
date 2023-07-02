@@ -312,7 +312,7 @@ class rex_managed_media
     protected function getImageSource()
     {
         if (!isset($this->image['src'])) {
-            throw new BadMethodCallException(__METHOD__.' can not be called without calling asImage() before');
+            throw new BadMethodCallException(__METHOD__ . ' can not be called without calling asImage() before');
         }
 
         $addon = rex_addon::get('media_manager');
@@ -351,7 +351,7 @@ class rex_managed_media
     public function getImage()
     {
         if (!isset($this->image['src'])) {
-            throw new BadMethodCallException(__METHOD__.' can not be called without calling asImage() before');
+            throw new BadMethodCallException(__METHOD__ . ' can not be called without calling asImage() before');
         }
 
         return $this->image['src'];
@@ -462,7 +462,7 @@ class rex_managed_media
     private function fixOrientation()
     {
         if (!isset($this->image['src'])) {
-            throw new BadMethodCallException(__METHOD__.' can not be called without calling asImage() before');
+            throw new BadMethodCallException(__METHOD__ . ' can not be called without calling asImage() before');
         }
 
         if (!function_exists('exif_read_data')) {

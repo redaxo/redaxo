@@ -339,7 +339,7 @@ class rex_form_element
         $label = $this->getLabel();
 
         if ('' != $label) {
-            $s .= '<label class="control-label '.($this->isRequiredField() ? 'required' : '').'" for="' . $this->getAttribute('id').'">' . $label . '</label>';
+            $s .= '<label class="control-label ' . ($this->isRequiredField() ? 'required' : '') . '" for="' . $this->getAttribute('id') . '">' . $label . '</label>';
         }
 
         return $s;

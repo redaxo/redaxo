@@ -274,7 +274,7 @@ class rex_article_content_base
             }
         }
 
-        throw new rex_exception('Articles do not have the property "'.$value.'"');
+        throw new rex_exception('Articles do not have the property "' . $value . '"');
     }
 
     /**
@@ -439,7 +439,7 @@ class rex_article_content_base
 
                 $TEMPLATE = new rex_template($this->template_id);
 
-                rex_timer::measure('Template: '.($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
+                rex_timer::measure('Template: ' . ($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
                     $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
 
                     require rex_stream::factory('template/' . $this->template_id, $tplContent);
@@ -653,21 +653,21 @@ class rex_article_content_base
             $artDataSql->reset();
             $rows = $artDataSql->getRows();
             for ($i = 0; $i < $rows; ++$i) {
-                $sliceId = (int) $artDataSql->getValue($prefix.'article_slice.id');
-                $sliceCtypeId = (int) $artDataSql->getValue($prefix.'article_slice.ctype_id');
-                $sliceModuleId = (int) $artDataSql->getValue($prefix.'module.id');
+                $sliceId = (int) $artDataSql->getValue($prefix . 'article_slice.id');
+                $sliceCtypeId = (int) $artDataSql->getValue($prefix . 'article_slice.ctype_id');
+                $sliceModuleId = (int) $artDataSql->getValue($prefix . 'module.id');
 
                 // ----- ctype unterscheidung
                 if ('edit' != $this->mode && !$this->eval) {
                     if (0 == $i) {
-                        $articleContent = "<?php\n\nif (\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1') {\n";
+                        $articleContent = "<?php\n\nif (\$this->ctype == '" . $sliceCtypeId . "' || \$this->ctype == '-1') {\n";
                     } elseif (null !== $prevCtype && $sliceCtypeId != $prevCtype) {
                         // ----- zwischenstand: ctype .. wenn ctype neu dann if
-                        $articleContent .= "}\n\nif (\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1') {\n";
+                        $articleContent .= "}\n\nif (\$this->ctype == '" . $sliceCtypeId . "' || \$this->ctype == '-1') {\n";
                     }
 
                     $slice = rex_article_slice::fromSql($artDataSql);
-                    $articleContent .= '$this->currentSlice = '.var_export($slice, true).";\n";
+                    $articleContent .= '$this->currentSlice = ' . var_export($slice, true) . ";\n";
                 }
 
                 // ------------- EINZELNER SLICE - AUSGABE

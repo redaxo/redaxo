@@ -397,7 +397,7 @@ class rex
         if (!$config) {
             $configFile = rex_path::coreData('config.yml');
 
-            throw new rex_exception('Unable to read db config from config.yml "'. $configFile .'"');
+            throw new rex_exception('Unable to read db config from config.yml "' . $configFile . '"');
         }
 
         return new rex_config_db($config[$db]);

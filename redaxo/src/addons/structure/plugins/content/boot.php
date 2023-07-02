@@ -43,11 +43,11 @@ if (rex::isBackend()) {
 
         if (!$article->setArticleId(rex_article::getCurrentId())) {
             if (!rex::isDebugMode() && !rex_backend_login::hasSession()) {
-                throw new rex_exception('Article with id '.rex_article::getCurrentId().' does not exist');
+                throw new rex_exception('Article with id ' . rex_article::getCurrentId() . ' does not exist');
             }
 
             $fragment = new rex_fragment([
-                'content' => '<p><b>Article with ID '.rex_article::getCurrentId().' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . rex_url::backendController() . '">REDAXO</a>.</p>',
+                'content' => '<p><b>Article with ID ' . rex_article::getCurrentId() . ' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . rex_url::backendController() . '">REDAXO</a>.</p>',
             ]);
             $content .= $fragment->parse('core/fe_ooops.php');
             rex_response::sendPage($content);

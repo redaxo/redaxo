@@ -76,11 +76,11 @@ abstract class rex_var
             $add = $token[1];
             switch ($token[0]) {
                 case T_INLINE_HTML:
-                    $format = '<?= %s'.self::PLACEHOLDER_INLINE_HTML;
+                    $format = '<?= %s' . self::PLACEHOLDER_INLINE_HTML;
                     $add = self::replaceVars($add, $format);
-                    $add = preg_replace_callback('/'. self::PLACEHOLDER_INLINE_HTML .'(\r?\n?)/', static function (array $match) {
+                    $add = preg_replace_callback('/' . self::PLACEHOLDER_INLINE_HTML . '(\r?\n?)/', static function (array $match) {
                         return $match[1]
-                            ? ', "'.addcslashes($match[1], "\r\n").'" ?>'.$match[1]
+                            ? ', "' . addcslashes($match[1], "\r\n") . '" ?>' . $match[1]
                             : ' ?>';
                     }, $add);
                     break;
@@ -193,9 +193,9 @@ abstract class rex_var
                     $output .= str_repeat("\n", max(0, substr_count($match[0], "\n") - substr_count($output, "\n") - substr_count($format, "\n")));
                     if ($useVariables) {
                         $replace = '$__rex_var_content_' . ++self::$variableIndex;
-                        $variables[] = '/* '. $match[0] .' */ ' . $replace . ' = ' . $output;
+                        $variables[] = '/* ' . $match[0] . ' */ ' . $replace . ' = ' . $output;
                     } else {
-                        $replace = '/* '. $match[0] .' */ '. $output;
+                        $replace = '/* ' . $match[0] . ' */ ' . $output;
                     }
 
                     $replacements[$match[0]] = sprintf($format, $replace);

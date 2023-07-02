@@ -145,7 +145,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'Timezone "%s" selected',
             static function ($value) use ($timezones) {
                 if (!in_array($value, $timezones, true)) {
-                    throw new InvalidArgumentException('Unknown timezone "'.$value.'" specified');
+                    throw new InvalidArgumentException('Unknown timezone "' . $value . '" specified');
                 }
                 return $value;
             },
@@ -195,7 +195,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 null,
                 static function ($value) {
                     if (!in_array($value, ['yes', 'no', 'true', 'false'], true)) {
-                        throw new InvalidArgumentException('Unknown value "'.$value.'" specified');
+                        throw new InvalidArgumentException('Unknown value "' . $value . '" specified');
                     }
                     return $value;
                 },
@@ -203,7 +203,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
             if (is_string($dbCreate)) {
                 $dbCreate = 'yes' === $dbCreate || 'true' === $dbCreate;
-                $io->success('Database will '.($dbCreate ? '' : 'not ').'be created');
+                $io->success('Database will ' . ($dbCreate ? '' : 'not ') . 'be created');
             }
 
             $config['db'][1]['host'] = $dbHost;
@@ -240,7 +240,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 $io->warning($warning);
             }
         } else {
-            $io->block('Database version: '.$sql->getDbType(). ' '.$sql->getDbVersion());
+            $io->block('Database version: ' . $sql->getDbType() . ' ' . $sql->getDbVersion());
         }
 
         // Search for exports
@@ -287,12 +287,12 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             null,
             static function ($value) use ($createdbOptions) {
                 if (!array_key_exists($value, $createdbOptions)) {
-                    throw new InvalidArgumentException('Unknown db-setup value "'.$value.'".');
+                    throw new InvalidArgumentException('Unknown db-setup value "' . $value . '".');
                 }
                 return $value;
             },
         );
-        $io->success('Using "'.$createdb.'" database setup');
+        $io->success('Using "' . $createdb . '" database setup');
 
         if ('update' == $createdb) {
             $useUtf8mb4 = 'utf8mb4' === $this->getDbCharset();
@@ -304,10 +304,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $importName = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
             $importName = rex_type::string($importName);
             if (!in_array($importName, $backups, true)) {
-                throw new InvalidArgumentException('Unknown import file "'.$importName.'" specified');
+                throw new InvalidArgumentException('Unknown import file "' . $importName . '" specified');
             }
             $error = rex_setup_importer::loadExistingImport($importName);
-            $io->success('Database successfully imported using file "'.$importName.'"');
+            $io->success('Database successfully imported using file "' . $importName . '"');
         } elseif ('existing' == $createdb && $tablesComplete) {
             $error = rex_setup_importer::databaseAlreadyExists();
             $io->success('Skipping database setup');
@@ -394,9 +394,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             };
 
             $description = $passwordPolicy->getDescription();
-            $description = $description ? ' ('.$description.')' : '';
+            $description = $description ? ' (' . $description . ')' : '';
 
-            $pwQuestion = new Question('Password'.$description);
+            $pwQuestion = new Question('Password' . $description);
             $pwQuestion->setHidden(true);
             $pwQuestion->setValidator($pwValidator);
             $password = $this->getOptionOrAsk(
@@ -452,25 +452,25 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         if ($charset) {
             if (!in_array($charset, ['utf8', 'utf8mb4'])) {
-                throw new InvalidArgumentException('unknown database charset "'.$charset.'" specified');
+                throw new InvalidArgumentException('unknown database charset "' . $charset . '" specified');
             }
             if ('utf8mb4' === $charset && !rex_setup_importer::supportsUtf8mb4()) {
                 $sql = rex_sql::factory();
-                throw new InvalidArgumentException('The utf8mb4 charset in REDAXO requires at least MySQL 5.7.7 or MariaDB 10.2. You are using '.$sql->getDbType(). ' '.$sql->getDbVersion());
+                throw new InvalidArgumentException('The utf8mb4 charset in REDAXO requires at least MySQL 5.7.7 or MariaDB 10.2. You are using ' . $sql->getDbType() . ' ' . $sql->getDbVersion());
             }
-            $this->io->success('Using database charset "'.$charset.'"');
+            $this->io->success('Using database charset "' . $charset . '"');
             return $charset;
         }
 
         if (!$this->input->isInteractive()) {
             $charset = rex_setup_importer::supportsUtf8mb4() ? 'utf8mb4' : 'utf8';
-            $this->io->success('Using database charset "'.$charset.'"');
+            $this->io->success('Using database charset "' . $charset . '"');
             return $charset;
         }
 
         if (!rex_setup_importer::supportsUtf8mb4()) {
             $sql = rex_sql::factory();
-            $this->io->writeln('The utf8mb4 charset in REDAXO requires at least MySQL 5.7.7 or MariaDB 10.2. You are using '.$sql->getDbType(). ' '.$sql->getDbVersion());
+            $this->io->writeln('The utf8mb4 charset in REDAXO requires at least MySQL 5.7.7 or MariaDB 10.2. You are using ' . $sql->getDbType() . ' ' . $sql->getDbVersion());
             $this->io->writeln('utf8 is deprecated and will removed in future versions of REDAXO.');
             if ($this->io->confirm('Continue with charset utf8 ?', false)) {
                 $this->io->success('Using database charset "utf8"');
@@ -483,7 +483,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'utf8mb4' => '(recommended) Requires at least MySQL 5.7.7 or MariaDB 10.2. Complete unicode support including emojis and more special characters',
             'utf8' => '(deprecated) non-standard utf8 mode. Won\'t be support in future versions of REDAXO',
         ], ' utf8mb4 '));
-        $this->io->success('Using database charset "'.$charset.'"');
+        $this->io->success('Using database charset "' . $charset . '"');
         return $charset;
     }
 
@@ -544,7 +544,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             }
         } else {
             $errors = array_map($this->decodeMessage(...), $errors);
-            $this->io->error("PHP version errors:\n" .implode("\n", $errors));
+            $this->io->error("PHP version errors:\n" . implode("\n", $errors));
             return 1;
         }
 
@@ -555,14 +555,14 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 if (count($messages) > 0) {
                     $affectedFiles = [];
                     foreach ($messages as $message) {
-                        $affectedFiles[] = '- '. rex_path::relative($message);
+                        $affectedFiles[] = '- ' . rex_path::relative($message);
                     }
-                    $errors[] = rex_i18n::msg($key) . "\n". implode("\n", $affectedFiles);
+                    $errors[] = rex_i18n::msg($key) . "\n" . implode("\n", $affectedFiles);
                 }
             }
 
             $errors = array_map($this->decodeMessage(...), $errors);
-            $this->io->error("Directory permissions error:\n" .implode("\n", $errors));
+            $this->io->error("Directory permissions error:\n" . implode("\n", $errors));
             return 1;
         }
         $this->io->success('Directory permissions ok');

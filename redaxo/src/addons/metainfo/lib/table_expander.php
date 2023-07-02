@@ -278,7 +278,7 @@ class rex_metainfo_table_expander extends rex_form
                 strlen($fieldDefault) &&
                 (rex_metainfo_table_manager::FIELD_CHECKBOX === $fieldType || rex_metainfo_table_manager::FIELD_SELECT === $fieldType && isset(rex_string::split($fieldAttributes)['multiple']))
             ) {
-                $fieldDefault = '|'.trim($fieldDefault, '|').'|';
+                $fieldDefault = '|' . trim($fieldDefault, '|') . '|';
             }
 
             if ($this->isEditMode()) {

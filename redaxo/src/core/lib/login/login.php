@@ -581,7 +581,7 @@ class rex_login
 
                 if (!@session_start()) {
                     if ($error = error_get_last()) {
-                        throw new rex_exception('Unable to start session: '.$error['message']);
+                        throw new rex_exception('Unable to start session: ' . $error['message']);
                     }
                     throw new rex_exception('Unable to start session.');
                 }
@@ -631,11 +631,11 @@ class rex_login
         // since header_remove() will remove all sent cookies, we need to collect all of them,
         // rewrite only the session cookie and send all cookies again.
         $cookieHeadersPrefix = 'Set-Cookie: ';
-        $sessionCookiePrefix = 'Set-Cookie: '. session_name() .'=';
+        $sessionCookiePrefix = 'Set-Cookie: ' . session_name() . '=';
         foreach (headers_list() as $rawHeader) {
             // rewrite the session cookie
             if (str_starts_with($rawHeader, $sessionCookiePrefix)) {
-                $rawHeader .= '; SameSite='. $sameSite;
+                $rawHeader .= '; SameSite=' . $sameSite;
             }
             // collect all cookies
             if (str_starts_with($rawHeader, $cookieHeadersPrefix)) {

@@ -127,5 +127,5 @@ if (isset($navigations['children'])) {
 }
 
 if ('' != $out) {
-    echo '<div' . ((isset($this->id) && '' != $this->id) ? ' id="' .  $this->id . '"' : '') . ' class="nav rex-page-nav">' . $out . '</div>';
+    echo '<div' . ((isset($this->id) && '' != $this->id) ? ' id="' . $this->id . '"' : '') . ' class="nav rex-page-nav">' . $out . '</div>';
 }

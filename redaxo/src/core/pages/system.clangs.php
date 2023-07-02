@@ -125,7 +125,7 @@ if ('addclang' == $func) {
     $content .= rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_ADD', ''));
 }
 
-$sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('clang').' ORDER BY priority');
+$sql = rex_sql::factory()->setQuery('SELECT * FROM ' . rex::getTable('clang') . ' ORDER BY priority');
 foreach ($sql as $row) {
     $langId = (int) $sql->getValue('id');
     $addTd = '<td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $langId . '</td>';
@@ -169,7 +169,7 @@ foreach ($sql as $row) {
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('clang_priority') . '">' . rex_escape($sql->getValue('priority')) . '</td>
                         <td class="rex-table-action"><a class="rex-link-expanded" href="' . $editLink . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>
                         <td class="rex-table-action">' . $delLink . '</td>
-                        <td class="rex-table-action"><a class="rex-link-expanded rex-' . $status . '" href="' . rex_url::currentBackendPage(['clang_id' => $langId, 'func' => 'editstatus', 'clang_status' => $sql->getValue('status') ? 0 : 1] + $csrfToken->getUrlParams()) . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . rex_i18n::msg('clang_'.$status) . '</a></td>
+                        <td class="rex-table-action"><a class="rex-link-expanded rex-' . $status . '" href="' . rex_url::currentBackendPage(['clang_id' => $langId, 'func' => 'editstatus', 'clang_status' => $sql->getValue('status') ? 0 : 1] + $csrfToken->getUrlParams()) . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . rex_i18n::msg('clang_' . $status) . '</a></td>
                     </tr>';
     }
 }

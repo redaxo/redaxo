@@ -60,7 +60,7 @@ class rex_var_template extends rex_var
         if ($timer && rex::isDebugMode()) {
             $timer->stop();
             $tmpl = new rex_template($id);
-            rex_timer::measured('Template: '.($tmpl->getKey() ?? $tmpl->getId()), $timer);
+            rex_timer::measured('Template: ' . ($tmpl->getKey() ?? $tmpl->getId()), $timer);
         }
 
         return ob_get_clean();

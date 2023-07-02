@@ -152,15 +152,15 @@ class rex_version
         }
 
         if (null !== $repo) {
-            $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' ls-remote --get-url';
+            $command = 'cd ' . escapeshellarg($path) . ' && ' . escapeshellarg($git) . ' ls-remote --get-url';
             $remote = @exec($command, $output, $exitCode);
 
-            if (0 !== $exitCode || !preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
+            if (0 !== $exitCode || !preg_match('{github.com[:/]' . preg_quote($repo) . '\.git$}i', $remote)) {
                 return null;
             }
         }
 
-        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' log -1 --pretty=format:%h';
+        $command = 'cd ' . escapeshellarg($path) . ' && ' . escapeshellarg($git) . ' log -1 --pretty=format:%h';
         $version = @exec($command, $output, $exitCode);
 
         return 0 === $exitCode ? $version : null;

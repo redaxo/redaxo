@@ -453,7 +453,7 @@ class rex_be_controller
             return self::includePath($path, $context);
         }
 
-        $languagePath = substr($path, 0, -3).'.'.rex_i18n::getLanguage().'.md';
+        $languagePath = substr($path, 0, -3) . '.' . rex_i18n::getLanguage() . '.md';
         if (is_readable($languagePath)) {
             $path = $languagePath;
         }
@@ -484,7 +484,7 @@ class rex_be_controller
      */
     private static function includePath($path, array $context = [])
     {
-        return rex_timer::measure('Page: '.rex_path::relative($path, rex_path::src()), function () use ($path, $context) {
+        return rex_timer::measure('Page: ' . rex_path::relative($path, rex_path::src()), function () use ($path, $context) {
             $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
 
             if (!preg_match($pattern, $path, $matches)) {

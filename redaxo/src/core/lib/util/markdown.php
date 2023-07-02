@@ -83,7 +83,7 @@ class rex_markdown
                     if ($previous < $topLevel) {
                         $message .= "it starts with a h$level instead of a h$topLevel.";
                     } else {
-                        $message .= "a h$previous is followed by a h$level, but only a h".($previous + 1).' or lower is allowed.';
+                        $message .= "a h$previous is followed by a h$level, but only a h" . ($previous + 1) . ' or lower is allowed.';
                     }
 
                     throw new rex_exception($message);
@@ -101,7 +101,7 @@ class rex_markdown
             }
 
             $toc .= "<li>\n";
-            $toc .= '<a href="#'.rex_escape($header['id']).'">'.rex_escape($header['text'])."</a>\n";
+            $toc .= '<a href="#' . rex_escape($header['id']) . '">' . rex_escape($header['text']) . "</a>\n";
         }
 
         for (; $previous > $topLevel - 1; --$previous) {
@@ -193,7 +193,7 @@ final class rex_parsedown extends ParsedownExtra
 
         $missingPhpStart = !str_contains($text, '<?php') && !str_contains($text, '<?=');
         if ($missingPhpStart) {
-            $text = '<?php '.$text;
+            $text = '<?php ' . $text;
         }
 
         $text = str_replace("\n", '', highlight_string($text, true));
@@ -232,7 +232,7 @@ final class rex_parsedown extends ParsedownExtra
             $baseId = $id = rex_string::normalize($plainText, '-');
 
             for ($i = 1; isset($this->ids[$id]); ++$i) {
-                $id = $baseId.'-'.$i;
+                $id = $baseId . '-' . $i;
             }
 
             $block['element']['attributes']['id'] = $id;

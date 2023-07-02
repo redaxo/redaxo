@@ -37,19 +37,19 @@ class rex_command_db_connection_options extends rex_console_command implements r
         $db = rex::getDbConfig(1);
 
         if (!str_contains($db->host, ':')) {
-            $output->writeln('--host='.escapeshellarg($db->host));
+            $output->writeln('--host=' . escapeshellarg($db->host));
         } else {
             [$host, $port] = explode(':', $db->host, 2);
 
             $output->writeln([
-                '--host='.escapeshellarg($host),
-                '--port='.escapeshellarg($port),
+                '--host=' . escapeshellarg($host),
+                '--port=' . escapeshellarg($port),
             ]);
         }
 
         $output->writeln([
-            '--user='.escapeshellarg($db->login),
-            '--password='.escapeshellarg($db->password),
+            '--user=' . escapeshellarg($db->login),
+            '--password=' . escapeshellarg($db->password),
             escapeshellarg($db->name),
         ]);
 

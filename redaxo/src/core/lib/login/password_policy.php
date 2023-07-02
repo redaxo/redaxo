@@ -50,7 +50,7 @@ class rex_password_policy
                 continue;
             }
 
-            $parts[] = rex_i18n::msg('password_rule_'.$key, $constraint);
+            $parts[] = rex_i18n::msg('password_rule_' . $key, $constraint);
         }
 
         return $parts ? implode('; ', $parts) : null;
@@ -85,13 +85,13 @@ class rex_password_policy
         $allowed = $mapping;
         foreach ($mapping as $rexKey => $htmlKey) {
             if (($this->options[$rexKey]['min'] ?? 0) > 0) {
-                $rules[] = 'required: '.$htmlKey;
+                $rules[] = 'required: ' . $htmlKey;
             }
             if (($this->options[$rexKey]['max'] ?? 1) <= 0) {
                 unset($allowed[$rexKey]);
             }
         }
-        $rules[] = 'allowed: '.implode(', ', $allowed);
+        $rules[] = 'allowed: ' . implode(', ', $allowed);
         $attr['passwordrules'] = implode('; ', $rules);
 
         return $attr;

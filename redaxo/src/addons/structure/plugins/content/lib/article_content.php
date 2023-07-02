@@ -74,13 +74,13 @@ class rex_article_content extends rex_article_content_base
         $value = $this->correctValue($value);
 
         if (!rex_article::hasValue($value)) {
-            throw new rex_exception('Articles do not have the property "'.$value.'"');
+            throw new rex_exception('Articles do not have the property "' . $value . '"');
         }
 
         $article = rex_article::get($this->article_id, $this->clang);
 
         if (!$article) {
-            throw new rex_exception('Article for id='.$this->article_id.' and clang='.$this->clang.' does not exist');
+            throw new rex_exception('Article for id=' . $this->article_id . ' and clang=' . $this->clang . ' does not exist');
         }
 
         return $article->getValue($value);

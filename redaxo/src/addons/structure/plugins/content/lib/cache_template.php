@@ -19,10 +19,10 @@ class rex_template_cache
     public static function generate(int $id): void
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM '.rex::getTable('template').' WHERE id = ?', [$id]);
+        $sql->setQuery('SELECT * FROM ' . rex::getTable('template') . ' WHERE id = ?', [$id]);
 
         if (1 !== $sql->getRows()) {
-            throw new rex_exception('Template with id "'.$id.'" does not exist.');
+            throw new rex_exception('Template with id "' . $id . '" does not exist.');
         }
 
         $content = $sql->getValue('content');
@@ -40,7 +40,7 @@ class rex_template_cache
 
     public static function generateKeyMapping(): void
     {
-        $data = rex_sql::factory()->getArray('SELECT id, `key` FROM '.rex::getTable('template').' WHERE `key` IS NOT NULL');
+        $data = rex_sql::factory()->getArray('SELECT id, `key` FROM ' . rex::getTable('template') . ' WHERE `key` IS NOT NULL');
         $mapping = array_column($data, 'key', 'id');
 
         if (!rex_file::putCache(self::getKeyMappingPath(), $mapping)) {
@@ -50,7 +50,7 @@ class rex_template_cache
 
     public static function getPath(int $id): string
     {
-        return rex_path::addonCache('structure', 'templates/'.$id.'.template');
+        return rex_path::addonCache('structure', 'templates/' . $id . '.template');
     }
 
     public static function getKeyMappingPath(): string

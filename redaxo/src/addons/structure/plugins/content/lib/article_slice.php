@@ -117,24 +117,24 @@ class rex_article_slice
         $data = [];
         foreach (['value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10] as $list => $count) {
             for ($k = 1; $k <= $count; ++$k) {
-                $value = $sql->getValue($table.'.'.$list.$k);
+                $value = $sql->getValue($table . '.' . $list . $k);
                 $data[$list][] = null == $value ? null : (string) $value;
             }
         }
 
         return new self(
-            (int) $sql->getValue($table.'.id'),
-            (int) $sql->getValue($table.'.article_id'),
-            (int) $sql->getValue($table.'.clang_id'),
-            (int) $sql->getValue($table.'.ctype_id'),
-            (int) $sql->getValue($table.'.module_id'),
-            (int) $sql->getValue($table.'.priority'),
-            (int) $sql->getValue($table.'.status'),
-            (int) $sql->getDateTimeValue($table.'.createdate'),
-            (int) $sql->getDateTimeValue($table.'.updatedate'),
-            (string) $sql->getValue($table.'.createuser'),
-            (string) $sql->getValue($table.'.updateuser'),
-            (int) $sql->getValue($table.'.revision'),
+            (int) $sql->getValue($table . '.id'),
+            (int) $sql->getValue($table . '.article_id'),
+            (int) $sql->getValue($table . '.clang_id'),
+            (int) $sql->getValue($table . '.ctype_id'),
+            (int) $sql->getValue($table . '.module_id'),
+            (int) $sql->getValue($table . '.priority'),
+            (int) $sql->getValue($table . '.status'),
+            (int) $sql->getDateTimeValue($table . '.createdate'),
+            (int) $sql->getDateTimeValue($table . '.updatedate'),
+            (string) $sql->getValue($table . '.createuser'),
+            (string) $sql->getValue($table . '.updateuser'),
+            (int) $sql->getValue($table . '.revision'),
             $data['value'],
             $data['media'],
             $data['medialist'],
@@ -211,7 +211,7 @@ class rex_article_slice
         }
 
         return self::getSliceWhere(
-            'article_id=? AND clang_id=? AND ctype_id=? AND priority=1 AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
+            'article_id=? AND clang_id=? AND ctype_id=? AND priority=1 AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
             [$anArticleId, $clang, $ctype, $revision],
         );
     }
@@ -234,7 +234,7 @@ class rex_article_slice
         }
 
         return self::getSlicesWhere(
-            'article_id=? AND clang_id=? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
+            'article_id=? AND clang_id=? AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
             [$anArticleId, $clang, $revision],
         );
     }
@@ -258,7 +258,7 @@ class rex_article_slice
         }
 
         return self::getSlicesWhere(
-            'article_id=? AND clang_id=? AND module_id=? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
+            'article_id=? AND clang_id=? AND module_id=? AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
             [$anArticleId, $clang, $aModuletypeId, $revision],
         );
     }
@@ -273,7 +273,7 @@ class rex_article_slice
     public function getNextSlice($ignoreOfflines = false)
     {
         return self::getSliceWhere(
-            'priority '.($ignoreOfflines ? '>=' : '=').' ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
+            'priority ' . ($ignoreOfflines ? '>=' : '=') . ' ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
             [$this->priority + 1, $this->articleId, $this->clang, $this->ctype, $this->revision],
         );
     }
@@ -286,7 +286,7 @@ class rex_article_slice
     public function getPreviousSlice($ignoreOfflines = false)
     {
         return self::getSliceWhere(
-            'priority '.($ignoreOfflines ? '<=' : '=').' ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
+            'priority ' . ($ignoreOfflines ? '<=' : '=') . ' ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
             [$this->priority - 1, $this->articleId, $this->clang, $this->ctype, $this->revision],
             self::ORDER_DESC,
         );
@@ -335,10 +335,10 @@ class rex_article_slice
             SELECT *
             FROM ' . rex::getTable('article_slice') . '
             WHERE ' . $where . '
-            ORDER BY ctype_id '.$orderDirection.', priority '.$orderDirection;
+            ORDER BY ctype_id ' . $orderDirection . ', priority ' . $orderDirection;
 
         if (null !== $limit) {
-            $query .= ' LIMIT '.$limit;
+            $query .= ' LIMIT ' . $limit;
         }
 
         $sql->setQuery($query, $params);

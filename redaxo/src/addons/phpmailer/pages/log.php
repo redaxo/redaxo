@@ -39,8 +39,8 @@ foreach (new LimitIterator($file, 0, 30) as $entry) {
     $data = $entry->getData();
     $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-mailer-log-ok';
     $content .= '
-                <tr class="'.$class.'">
-                  <td data-title="' . rex_i18n::msg('phpmailer_log_success') . '"><strong>' .rex_escape($data[0]). '</strong></td>
+                <tr class="' . $class . '">
+                  <td data-title="' . rex_i18n::msg('phpmailer_log_success') . '"><strong>' . rex_escape($data[0]) . '</strong></td>
                   <td data-title="' . rex_i18n::msg('phpmailer_log_date') . '" class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>
                   <td data-title="' . rex_i18n::msg('phpmailer_log_from') . '">' . rex_escape($data[1]) . '</td>
                   <td data-title="' . rex_i18n::msg('phpmailer_log_to') . '">' . rex_escape($data[2]) . '</td>

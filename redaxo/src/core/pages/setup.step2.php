@@ -26,7 +26,7 @@ if (count($errorArray) > 0) {
 $security = '<div class="rex-js-setup-security-message" style="display:none">' . rex_view::error(rex_i18n::msg('setup_security_msg') . '<br />' . rex_i18n::msg('setup_no_js_security_msg')) . '</div>';
 $security .= '<noscript>' . rex_view::error(rex_i18n::msg('setup_no_js_security_msg')) . '</noscript>';
 
-$security .= '<script nonce="'.rex_response::getNonce().'">
+$security .= '<script nonce="' . rex_response::getNonce() . '">
 
     jQuery(function($){
         var allowedUrl = "' . rex_url::backend('index.php') . '";
@@ -66,7 +66,7 @@ foreach (rex_setup::checkPhpSecurity() as $warning) {
     $security .= rex_view::warning($warning);
 }
 
-echo rex_view::title(rex_i18n::msg('setup_200').$cancelSetupBtn);
+echo rex_view::title(rex_i18n::msg('setup_200') . $cancelSetupBtn);
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', $class, false);

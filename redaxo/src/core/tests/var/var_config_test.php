@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\Attributes\DataProvider;
 
-require_once __DIR__.'/var_test_base.php';
+require_once __DIR__ . '/var_test_base.php';
 
 class rex_var_config_test extends rex_var_test_base
 {
