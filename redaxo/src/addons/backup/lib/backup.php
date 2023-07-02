@@ -257,7 +257,7 @@ class rex_backup
      *
      * @return bool TRUE wenn ein Dump erstellt wurde, sonst FALSE
      */
-    public static function exportDb($filename, array $tables = null)
+    public static function exportDb($filename, ?array $tables = null)
     {
         $fp = @tmpfile();
         $tempCacheFile = null;

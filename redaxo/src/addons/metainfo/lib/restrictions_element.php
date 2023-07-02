@@ -16,7 +16,7 @@ class rex_form_restrictons_element extends rex_form_select_element
      * @param string $tag
      * @param array<string, int|string> $attributes
      */
-    public function __construct($tag = '', rex_metainfo_table_expander $form = null, array $attributes = [])
+    public function __construct($tag = '', ?rex_metainfo_table_expander $form = null, array $attributes = [])
     {
         parent::__construct('', $form, $attributes);
 

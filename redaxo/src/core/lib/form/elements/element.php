@@ -41,7 +41,7 @@ class rex_form_element
      * @param array<string, int|string> $attributes
      * @param bool $separateEnding
      */
-    public function __construct($tag, rex_form_base $form = null, array $attributes = [], $separateEnding = false)
+    public function __construct($tag, ?rex_form_base $form = null, array $attributes = [], $separateEnding = false)
     {
         $this->tag = $tag;
         $this->table = $form;

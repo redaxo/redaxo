@@ -8,7 +8,7 @@ class rex_exception extends Exception
     /**
      * @param string    $message
      */
-    public function __construct($message, Exception $previous = null)
+    public function __construct($message, ?Exception $previous = null)
     {
         parent::__construct($message, 0, $previous);
     }
@@ -23,7 +23,7 @@ class rex_sql_exception extends rex_exception
     private $sql;
 
     /** @param string $message */
-    public function __construct($message, Exception $previous = null, rex_sql $sql = null)
+    public function __construct($message, ?Exception $previous = null, ?rex_sql $sql = null)
     {
         parent::__construct($message, $previous);
 

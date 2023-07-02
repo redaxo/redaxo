@@ -354,7 +354,7 @@ class rex_i18n
      *
      * @return non-empty-string Translated text
      */
-    public static function translate($text, $escape = true, callable $i18nFunction = null)
+    public static function translate($text, $escape = true, ?callable $i18nFunction = null)
     {
         if (!is_string($text)) {
             throw new InvalidArgumentException('Expecting $text to be a String, "' . gettype($text) . '" given!');
@@ -391,7 +391,7 @@ class rex_i18n
      *
      * @return mixed
      */
-    public static function translateArray($array, $escape = true, callable $i18nFunction = null)
+    public static function translateArray($array, $escape = true, ?callable $i18nFunction = null)
     {
         if (is_array($array)) {
             foreach ($array as $key => $value) {

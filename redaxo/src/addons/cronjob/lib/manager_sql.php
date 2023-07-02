@@ -15,7 +15,7 @@ class rex_cronjob_manager_sql
     /** @var rex_cronjob_manager|null */
     private $manager;
 
-    private function __construct(rex_cronjob_manager $manager = null)
+    private function __construct(?rex_cronjob_manager $manager = null)
     {
         $this->sql = rex_sql::factory();
         // $this->sql->setDebug();
@@ -25,7 +25,7 @@ class rex_cronjob_manager_sql
     /**
      * @return self
      */
-    public static function factory(rex_cronjob_manager $manager = null)
+    public static function factory(?rex_cronjob_manager $manager = null)
     {
         return new self($manager);
     }

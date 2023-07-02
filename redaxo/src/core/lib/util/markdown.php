@@ -161,7 +161,7 @@ final class rex_parsedown extends ParsedownExtra
     /**
      * @return array|null
      */
-    protected function blockSetextHeader($Line, array $Block = null)
+    protected function blockSetextHeader($Line, ?array $Block = null)
     {
         $block = parent::blockSetextHeader($Line, $Block);
 
@@ -213,7 +213,7 @@ final class rex_parsedown extends ParsedownExtra
     /**
      * @return array|null
      */
-    private function handleHeader(array $block = null)
+    private function handleHeader(?array $block = null)
     {
         if (!$this->generateToc) {
             return $block;

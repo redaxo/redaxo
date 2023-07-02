@@ -499,7 +499,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      *
      * @return mixed
      */
-    private function getOptionOrAsk($question, string $option, $default = null, string $successMessage = null, callable $validator = null)
+    private function getOptionOrAsk($question, string $option, $default = null, ?string $successMessage = null, ?callable $validator = null)
     {
         $optionValue = $this->input->getOption($option);
         if (!$this->forceAsking && null !== $optionValue) {
