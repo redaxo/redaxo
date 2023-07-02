@@ -1985,7 +1985,7 @@ class rex_sql implements Iterator
                             // unable to create db
                             $errMsg = rex_i18n::msg('sql_unable_to_create_database');
                         }
-                    } catch (PDOException $e) {
+                    } catch (PDOException) {
                         // unable to find database
                         $errMsg = rex_i18n::msg('sql_unable_to_open_database');
                     }

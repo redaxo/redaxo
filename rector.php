@@ -9,7 +9,6 @@ use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
 use Rector\CodeQuality\Rector\Identical\SimplifyConditionsRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\CodeQuality\Rector\Ternary\UnnecessaryTernaryExpressionRector;
-use Rector\CodingStyle\Rector\Property\InlineSimplePropertyAnnotationRector;
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Php70\Rector\Ternary\TernaryToNullCoalescingRector;
@@ -65,33 +64,30 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->phpVersion(PhpVersion::PHP_81);
 
-    // get services (needed for register a single rule)
-    $services = $rectorConfig->services();
-
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
-    $services->set(ChangeSwitchToMatchRector::class);
-    $services->set(CombinedAssignRector::class);
-    $services->set(FirstClassCallableRector::class);
-    $services->set(InlineSimplePropertyAnnotationRector::class);
-    $services->set(RemoveUnusedVariableInCatchRector::class);
-    $services->set(SimplifyBoolIdenticalTrueRector::class);
-    $services->set(SimplifyConditionsRector::class);
-    $services->set(SimplifyDeMorganBinaryRector::class);
-    $services->set(SimplifyForeachToCoalescingRector::class);
-    $services->set(SimplifyIfReturnBoolRector::class);
-    $services->set(StrContainsRector::class);
-    $services->set(StrEndsWithRector::class);
-    $services->set(StrStartsWithRector::class);
-    $services->set(TernaryToNullCoalescingRector::class);
+    $rectorConfig->rule(ChangeSwitchToMatchRector::class);
+    $rectorConfig->rule(CombinedAssignRector::class);
+    $rectorConfig->rule(FirstClassCallableRector::class);
+    $rectorConfig->rule(RemoveUnusedVariableInCatchRector::class);
+    $rectorConfig->rule(SimplifyBoolIdenticalTrueRector::class);
+    $rectorConfig->rule(SimplifyConditionsRector::class);
+    $rectorConfig->rule(SimplifyDeMorganBinaryRector::class);
+    $rectorConfig->rule(SimplifyForeachToCoalescingRector::class);
+    $rectorConfig->rule(SimplifyIfReturnBoolRector::class);
+    $rectorConfig->rule(StrContainsRector::class);
+    $rectorConfig->rule(StrEndsWithRector::class);
+    $rectorConfig->rule(StrStartsWithRector::class);
+    $rectorConfig->rule(TernaryToNullCoalescingRector::class);
 
     // Util services for own rules
+    $services = $rectorConfig->services();
     $services->set(UnderscoreCamelCaseConflictingNameGuard::class)->autowire();
     $services->set(UnderscoreCamelCaseExpectedNameResolver::class)->autowire();
     $services->set(UnderscoreCamelCasePropertyRenamer::class)->autowire();
 
     // Own rules
-    $services->set(UnderscoreToCamelCasePropertyNameRector::class);
-    $services->set(UnderscoreToCamelCaseVariableNameRector::class);
-    $services->set(UnnecessaryTernaryExpressionRector::class);
+    $rectorConfig->rule(UnderscoreToCamelCasePropertyNameRector::class);
+    $rectorConfig->rule(UnderscoreToCamelCaseVariableNameRector::class);
+    $rectorConfig->rule(UnnecessaryTernaryExpressionRector::class);
 };
