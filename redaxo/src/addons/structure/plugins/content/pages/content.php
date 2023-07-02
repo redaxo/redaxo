@@ -443,7 +443,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         'slice_revision' => &$sliceRevision,
     ]));
 
-    $contentMain = '<section id="rex-js-page-main-content" data-pjax-container="#rex-js-page-main-content">'.$contentMain.'</section>';
+    $contentMain = '<section id="rex-js-page-main-content" data-pjax-container="#rex-js-page-main-content">' . $contentMain . '</section>';
 
     // ----- EXTENSION POINT
     $contentSidebar = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SIDEBAR', '', [

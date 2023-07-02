@@ -93,7 +93,7 @@ final class HtmlAttributes
 
         foreach ($this->attributes as $key => $value) {
             if (true === $value) {
-                $attr .= ' '.$key;
+                $attr .= ' ' . $key;
 
                 continue;
             }
@@ -112,7 +112,7 @@ final class HtmlAttributes
                 $value = rex_escape($value);
             }
 
-            $attr .= ' '.$key.'="'.$value.'"';
+            $attr .= ' ' . $key . '="' . $value . '"';
         }
 
         return ltrim($attr);

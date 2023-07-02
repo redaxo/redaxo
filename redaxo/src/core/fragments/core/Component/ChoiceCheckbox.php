@@ -8,13 +8,13 @@ use Redaxo\Core\Fragment\HtmlAttributes;
 ?><?php
 
 $counter = 1;
-$random = random_int(100, 999).random_int(100, 999);
+$random = random_int(100, 999) . random_int(100, 999);
 $values = $this->getValues();
 
 ?>
 <fieldset <?= $this->attributes->with([
-    'aria-labelledby' => $this->label ? 'label-'.$random : null,
-    'aria-describedby' => $this->notice ? 'help-text-'.$random : null,
+    'aria-labelledby' => $this->label ? 'label-' . $random : null,
+    'aria-describedby' => $this->notice ? 'help-text-' . $random : null,
     'class' => [
         'form-control',
         'form-control--medium',

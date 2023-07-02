@@ -21,7 +21,7 @@ foreach ($packageOrder as $packageId) {
 // now we actually include the addons logic
 rex_timer::measure('packages_boot', static function () use ($packageOrder) {
     foreach ($packageOrder as $packageId) {
-        rex_timer::measure('package_boot: '.$packageId, static function () use ($packageId) {
+        rex_timer::measure('package_boot: ' . $packageId, static function () use ($packageId) {
             rex_package::require($packageId)->boot();
         });
     }

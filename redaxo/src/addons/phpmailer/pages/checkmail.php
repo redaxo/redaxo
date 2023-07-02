@@ -22,25 +22,25 @@ if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) 
         $securityMode = $addon->getConfig('security_mode');
 
         $host = "\nHost: " . rex_escape($addon->getConfig('host'));
-        $smtpinfo = $host. "\nPort: " . rex_escape($addon->getConfig('port'));
+        $smtpinfo = $host . "\nPort: " . rex_escape($addon->getConfig('port'));
         $smtpinfo .= $devider;
 
         if (false == $securityMode) {
             $securityMode = 'manual configured ' . $addon->getConfig('smtpsecure');
-            $securityMode = "\n".$addon->i18n('security_mode')."\n" . $securityMode . $devider . $smtpinfo;
+            $securityMode = "\n" . $addon->i18n('security_mode') . "\n" . $securityMode . $devider . $smtpinfo;
         } else {
             $securityMode = 'Auto';
-            $securityMode = "\n".$addon->i18n('security_mode').": \n" . $securityMode . $devider . $host . $devider;
+            $securityMode = "\n" . $addon->i18n('security_mode') . ": \n" . $securityMode . $devider . $host . $devider;
         }
     }
 
-    $mail->Body = $addon->i18n('checkmail_greeting') ."\n\n" .  $addon->i18n('checkmail_text') .' '. rex::getServerName();
-    $mail->Body .= "\n\nDomain: ".  $_SERVER['HTTP_HOST'];
+    $mail->Body = $addon->i18n('checkmail_greeting') . "\n\n" . $addon->i18n('checkmail_text') . ' ' . rex::getServerName();
+    $mail->Body .= "\n\nDomain: " . $_SERVER['HTTP_HOST'];
 
     $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider . $securityMode;
-    $mail->Body .= "\n". $addon->i18n('checkmail_domain_note'). "\n". $devider;
+    $mail->Body .= "\n" . $addon->i18n('checkmail_domain_note') . "\n" . $devider;
     $mail->Debugoutput = static function ($str) use (&$mailerDebug) {
-        $mailerDebug .= date('Y-m-d H:i:s', time()).' '.nl2br($str);
+        $mailerDebug .= date('Y-m-d H:i:s', time()) . ' ' . nl2br($str);
     };
 
     if (!$mail->send()) {
@@ -56,6 +56,6 @@ if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) 
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', $addon->i18n('checkmail_headline'));
-$fragment->setVar('body', $content.$mailerDebug, false);
+$fragment->setVar('body', $content . $mailerDebug, false);
 $out = $fragment->parse('core/page/section.php');
 echo $out;

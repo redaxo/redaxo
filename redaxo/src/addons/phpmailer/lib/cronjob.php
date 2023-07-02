@@ -33,7 +33,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
             $days = (int) $this->getParam('days');
             $purgeLog = self::purgeMailarchive($days, $logfolder);
             if (0 != $purgeLog) {
-                $this->setMessage('Mails deleted: '.$purgeLog);
+                $this->setMessage('Mails deleted: ' . $purgeLog);
                 return true;
             }
             $this->setMessage('No Mails found to delete');

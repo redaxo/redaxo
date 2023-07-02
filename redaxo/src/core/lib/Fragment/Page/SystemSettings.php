@@ -167,7 +167,7 @@ final class SystemSettings extends Page
         if (str_contains($rexVersion, '-dev')) {
             $hash = rex_version::gitHash(rex_path::base(), 'redaxo/redaxo');
             if ($hash) {
-                $rexVersion .= '#'. $hash;
+                $rexVersion .= '#' . $hash;
             }
         }
         $this->rexVersion = $rexVersion;
@@ -185,7 +185,7 @@ final class SystemSettings extends Page
 
         $langChoices = [];
         foreach ($locales as $locale) {
-            $langChoices[rex_i18n::msgInLocale('lang', $locale).' ('.$locale.')'] = $locale;
+            $langChoices[rex_i18n::msgInLocale('lang', $locale) . ' (' . $locale . ')'] = $locale;
         }
 
         return $langChoices;

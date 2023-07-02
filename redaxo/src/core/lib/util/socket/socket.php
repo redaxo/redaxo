@@ -306,13 +306,13 @@ class rex_socket
      */
     public function doRequest($method, $data = '')
     {
-        return rex_timer::measure('Socket request: '.$this->host.$this->path, function () use ($method, $data) {
+        return rex_timer::measure('Socket request: ' . $this->host . $this->path, function () use ($method, $data) {
             if (!is_string($data) && !is_callable($data)) {
                 throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
             }
 
             if (!$this->ssl) {
-                rex_logger::logError(E_WARNING, 'You should not use non-secure socket connections while connecting to "'. $this->host .'"!', __FILE__, __LINE__);
+                rex_logger::logError(E_WARNING, 'You should not use non-secure socket connections while connecting to "' . $this->host . '"!', __FILE__, __LINE__);
             }
 
             $this->openConnection();
@@ -372,7 +372,7 @@ class rex_socket
 
         try {
             $context = stream_context_create($this->options);
-            $this->stream = stream_socket_client($host.':'.$this->port, $errno, $errstr, (float) ini_get('default_socket_timeout'), STREAM_CLIENT_CONNECT, $context);
+            $this->stream = stream_socket_client($host . ':' . $this->port, $errno, $errstr, (float) ini_get('default_socket_timeout'), STREAM_CLIENT_CONNECT, $context);
         } finally {
             restore_error_handler();
         }

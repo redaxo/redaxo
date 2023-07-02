@@ -13,24 +13,11 @@ use function in_array;
 
 final class UnderscoreCamelCaseConflictingNameGuard
 {
-    /** @var UnderscoreCamelCaseExpectedNameResolver */
-    private $underscoreCamelCaseExpectedNameResolver;
-
-    /** @var NodeNameResolver */
-    private $nodeNameResolver;
-
-    /** @var ArrayFilter */
-    private $arrayFilter;
-
     public function __construct(
-        UnderscoreCamelCaseExpectedNameResolver $underscoreCamelCaseExpectedNameResolver,
-        NodeNameResolver $nodeNameResolver,
-        ArrayFilter $arrayFilter,
-    ) {
-        $this->underscoreCamelCaseExpectedNameResolver = $underscoreCamelCaseExpectedNameResolver;
-        $this->nodeNameResolver = $nodeNameResolver;
-        $this->arrayFilter = $arrayFilter;
-    }
+        private readonly UnderscoreCamelCaseExpectedNameResolver $underscoreCamelCaseExpectedNameResolver,
+        private readonly NodeNameResolver $nodeNameResolver,
+        private readonly ArrayFilter $arrayFilter,
+    ) {}
 
     public function isConflicting(PropertyRename $propertyRename): bool
     {

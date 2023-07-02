@@ -176,7 +176,7 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
                 <p><?= rex_i18n::msg('debug_mode_note') ?></p>
                 <p>
                     <?= (new Button(
-                        label: rex_i18n::rawMsg('debug_mode_'.(rex::isDebugMode() ? 'off' : 'on')),
+                        label: rex_i18n::rawMsg('debug_mode_' . (rex::isDebugMode() ? 'off' : 'on')),
                         prefix: new Icon(IconLibrary::Debug),
                         href: (rex_url::currentBackendPage(['func' => 'debugmode'] + $this->csrfToken->getUrlParams())),
                         variant: ButtonVariant::Warning,
@@ -191,7 +191,7 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
                 <p><?= rex_i18n::msg('safemode_text') ?></p>
                 <p>
                     <?= (new Button(
-                        label: rex_i18n::rawMsg('safemode_'.(rex::isSafeMode() ? 'deactivate' : 'activate')),
+                        label: rex_i18n::rawMsg('safemode_' . (rex::isSafeMode() ? 'deactivate' : 'activate')),
                         href: rex_url::currentBackendPage(['safemode' => (rex::isSafeMode() ? '0' : '1')] + $this->csrfToken->getUrlParams()),
                         variant: ButtonVariant::Warning,
                         attributes: new HtmlAttributes([

@@ -46,7 +46,7 @@ class rex_debug_clockwork
         $https = isset($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS'];
         $host = $_SERVER['HTTP_HOST'];
         $port = $_SERVER['SERVER_PORT'] ?? null;
-        $uri = dirname($_SERVER['REQUEST_URI']).'/'.self::getClockworkApiUrl();
+        $uri = dirname($_SERVER['REQUEST_URI']) . '/' . self::getClockworkApiUrl();
 
         $scheme = $https ? 'https' : 'http';
         $port = (!$https && 80 != $port || $https && 443 != $port) ? ":{$port}" : '';

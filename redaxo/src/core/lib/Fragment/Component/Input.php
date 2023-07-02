@@ -137,13 +137,13 @@ final class Input extends Fragment
     public function render(): string
     {
         if (null !== $this->min && !$this->type->supportsMinMaxStep()) {
-            throw new InvalidArgumentException('The min property applies to date and number input types. The current type is '.$this->type->name.'.');
+            throw new InvalidArgumentException('The min property applies to date and number input types. The current type is ' . $this->type->name . '.');
         }
         if (null !== $this->max && !$this->type->supportsMinMaxStep()) {
-            throw new InvalidArgumentException('The max property applies to date and number input types. The current type is '.$this->type->name.'.');
+            throw new InvalidArgumentException('The max property applies to date and number input types. The current type is ' . $this->type->name . '.');
         }
         if (null !== $this->step && !$this->type->supportsMinMaxStep()) {
-            throw new InvalidArgumentException('The step property applies to date and number input types. The current type is '.$this->type->name.'.');
+            throw new InvalidArgumentException('The step property applies to date and number input types. The current type is ' . $this->type->name . '.');
         }
 
         return parent::render();

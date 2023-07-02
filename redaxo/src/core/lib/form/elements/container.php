@@ -6,9 +6,9 @@
 class rex_form_container_element extends rex_form_element
 {
     /** @var array<string, rex_form_element[]> */
-    private $fields;
+    private $fields = [];
     /** @var bool */
-    private $multiple;
+    private $multiple = true;
     /** @var string */
     private $active;
 
@@ -18,11 +18,9 @@ class rex_form_container_element extends rex_form_element
      * @param string $tag
      * @param array<string, int|string> $attributes
      */
-    public function __construct($tag = '', rex_form_base $form = null, array $attributes = [])
+    public function __construct($tag = '', ?rex_form_base $form = null, array $attributes = [])
     {
         parent::__construct('', $form, $attributes);
-        $this->fields = [];
-        $this->multiple = true;
     }
 
     public function setValue($value)
@@ -74,8 +72,8 @@ class rex_form_container_element extends rex_form_element
             $this->fields[$group] = [];
         }
 
-        $field->setAttribute('id', $this->getAttribute('id').'-'.$group.'-'.$field->getFieldName());
-        $field->setAttribute('name', $this->getAttribute('name').'['.$group.']['.$field->getFieldName().']');
+        $field->setAttribute('id', $this->getAttribute('id') . '-' . $group . '-' . $field->getFieldName());
+        $field->setAttribute('name', $this->getAttribute('name') . '[' . $group . '][' . $field->getFieldName() . ']');
         $field->setValue($value);
 
         $this->fields[$group][] = $field;

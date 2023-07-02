@@ -106,12 +106,12 @@ class rex_install_package_update extends rex_install_package_download
         }
 
         // ---- update main addon dir
-        $pathOld = rex_path::addon($this->addonkey.'.old');
+        $pathOld = rex_path::addon($this->addonkey . '.old');
         error_clear_last();
         // move current addon to temp path
         if (!@rename($path, $pathOld)) {
-            $message = $path.' could not be moved to '.$pathOld;
-            $message .= ($error = error_get_last()) ? ': '.$error['message'] : '.';
+            $message = $path . ' could not be moved to ' . $pathOld;
+            $message .= ($error = error_get_last()) ? ': ' . $error['message'] : '.';
             throw new rex_functional_exception($message);
         }
         // move new addon to main addon path
@@ -122,8 +122,8 @@ class rex_install_package_update extends rex_install_package_download
             // revert to old addon
             rename($pathOld, $path);
 
-            $message = $temppath . ' could not be moved to '.$path;
-            $message .= ($error = error_get_last()) ? ': '.$error['message'] : '.';
+            $message = $temppath . ' could not be moved to ' . $path;
+            $message .= ($error = error_get_last()) ? ': ' . $error['message'] : '.';
             throw new rex_functional_exception($message);
         }
 
@@ -145,7 +145,7 @@ class rex_install_package_update extends rex_install_package_download
         $this->addon->setProperty('version', $this->file['version']);
         rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
 
-        rex_logger::factory()->info('AddOn '. $this->addonkey .' updated from '. $oldVersion .' to version '. $this->file['version']);
+        rex_logger::factory()->info('AddOn ' . $this->addonkey . ' updated from ' . $oldVersion . ' to version ' . $this->file['version']);
 
         // re-generate opcache to make sure new/updated classes immediately are available
         if (function_exists('opcache_reset')) {
@@ -243,12 +243,12 @@ class rex_install_package_update extends rex_install_package_download
             $package->setProperty('conflicts', $conflicts[$package]);
         }
 
-        return empty($messages) ? true : '<ul><li>'.implode('</li><li>', $messages).'</li></ul>';
+        return empty($messages) ? true : '<ul><li>' . implode('</li><li>', $messages) . '</li></ul>';
     }
 
     private function messageFromPackage(rex_package $package, rex_package_manager $manager): string
     {
-        return rex_i18n::msg('install_warning_message_from_'.$package->getType(), $package->getPackageId()).' '.$manager->getMessage();
+        return rex_i18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
     }
 
     public function __destruct()

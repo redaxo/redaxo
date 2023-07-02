@@ -39,7 +39,7 @@ final class rex_ctype
     public static function forTemplate(int $templateId): array
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT attributes FROM '. rex::getTable('template') .' WHERE id = ?', [$templateId]);
+        $sql->setQuery('SELECT attributes FROM ' . rex::getTable('template') . ' WHERE id = ?', [$templateId]);
         $attributes = $sql->getArrayValue('attributes');
 
         /** @var array<positive-int, string> $ctypesData */

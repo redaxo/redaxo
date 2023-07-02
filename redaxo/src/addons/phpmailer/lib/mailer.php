@@ -181,7 +181,7 @@ class rex_mailer extends PHPMailer
         $log = new rex_log_file(self::logFile(), 2_000_000);
         $data = [
             $success,
-            $this->From.($replytos ? '; reply-to: '.$replytos : ''),
+            $this->From . ($replytos ? '; reply-to: ' . $replytos : ''),
             implode(', ', array_column($this->getToAddresses(), 0)),
             $this->Subject,
             trim(str_replace('https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting', '', strip_tags($this->ErrorInfo))),
@@ -213,11 +213,11 @@ class rex_mailer extends PHPMailer
 
     private function archive(string $archivedata = '', string $status = ''): void
     {
-        $dir = self::logFolder().'/'.date('Y').'/'.date('m');
+        $dir = self::logFolder() . '/' . date('Y') . '/' . date('m');
         $count = 1;
-        $archiveFile = $dir.'/'.$status.date('Y-m-d_H_i_s').'.eml';
+        $archiveFile = $dir . '/' . $status . date('Y-m-d_H_i_s') . '.eml';
         while (is_file($archiveFile)) {
-            $archiveFile = $dir.'/'.$status.date('Y-m-d_H_i_s').'_'.(++$count).'.eml';
+            $archiveFile = $dir . '/' . $status . date('Y-m-d_H_i_s') . '_' . (++$count) . '.eml';
         }
 
         rex_file::put($archiveFile, $archivedata);
@@ -259,7 +259,7 @@ class rex_mailer extends PHPMailer
 
         // Start - generate mailbody
         $mailBody = '<h2>Error protocol for: ' . rex::getServerName() . '</h2>';
-        $mailBody .= '<style nonce="'.rex_response::getNonce().'"> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
+        $mailBody .= '<style nonce="' . rex_response::getNonce() . '"> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
         $mailBody .= '<table>';
         $mailBody .= '    <thead>';
         $mailBody .= '        <tr>';

@@ -111,7 +111,7 @@ abstract class rex_linkmap_tree_renderer
 
         $icon = '<i class="rex-icon rex-icon-' . ($OOobject->isSiteStartArticle() ? 'sitestartarticle' : ($OOobject->isStartArticle() ? 'startarticle' : 'article')) . '"></i>';
 
-        return '<li' . $liAttr . '><a' . $linkAttr . '>' . $icon . ' ' . rex_escape($label) . '<span class="list-item-suffix">'.$OOobject->getId().'</span></a>';
+        return '<li' . $liAttr . '><a' . $linkAttr . '>' . $icon . ' ' . rex_escape($label) . '<span class="list-item-suffix">' . $OOobject->getId() . '</span></a>';
     }
 }
 

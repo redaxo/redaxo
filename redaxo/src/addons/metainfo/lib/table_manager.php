@@ -62,7 +62,7 @@ class rex_metainfo_table_manager
         $qry .= $sql->escapeIdentifier($name);
 
         if (!ctype_alpha($type)) {
-            throw new InvalidArgumentException('Invalid column type "'.$type.'"');
+            throw new InvalidArgumentException('Invalid column type "' . $type . '"');
         }
         /** @psalm-taint-escape sql */
         $qry .= ' ' . $type;
@@ -105,7 +105,7 @@ class rex_metainfo_table_manager
         $qry .= $sql->escapeIdentifier($oldname) . ' ' . $sql->escapeIdentifier($name);
 
         if (!ctype_alpha($type)) {
-            throw new InvalidArgumentException('Invalid column type "'.$type.'"');
+            throw new InvalidArgumentException('Invalid column type "' . $type . '"');
         }
         /** @psalm-taint-escape sql */
         $qry .= ' ' . $type;

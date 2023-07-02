@@ -124,6 +124,6 @@ class rex_editor
     {
         $path = array_key_exists('editor_basepath', $_COOKIE) ? $_COOKIE['editor_basepath'] : rex::getProperty('editor_basepath');
 
-        return $path ? rtrim($path, '\\/').DIRECTORY_SEPARATOR : null;
+        return $path ? rtrim($path, '\\/') . DIRECTORY_SEPARATOR : null;
     }
 }

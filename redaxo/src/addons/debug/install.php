@@ -9,7 +9,7 @@ rex_dir::delete($addon->getAssetsPath());
 $zipArchive = new ZipArchive();
 
 // use path relative to __DIR__ to get correct path in update temp dir
-$path = __DIR__.'/frontend/frontend.zip';
+$path = __DIR__ . '/frontend/frontend.zip';
 
 $message = '';
 try {
@@ -21,7 +21,7 @@ try {
         $indexPath = $addon->getAssetsPath('clockwork/index.html');
 
         $index = file_get_contents($indexPath);
-        $index = preg_replace('/(href|src)=("?)([^>\s]+)/', '$1=$2'.$addon->getAssetsUrl('clockwork/$3'), $index);
+        $index = preg_replace('/(href|src)=("?)([^>\s]+)/', '$1=$2' . $addon->getAssetsUrl('clockwork/$3'), $index);
         file_put_contents($indexPath, $index);
     } else {
         $message = rex_i18n::msg('debug_error_unzip') . '<br>' . $path;

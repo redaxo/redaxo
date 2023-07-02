@@ -120,13 +120,7 @@ class rex_extension_point
      */
     public function getParam($key, $default = null)
     {
-        if (isset($this->extensionParams[$key])) {
-            return $this->extensionParams[$key];
-        }
-        if (isset($this->params[$key])) {
-            return $this->params[$key];
-        }
-        return $default;
+        return $this->extensionParams[$key] ?? $this->params[$key] ?? $default;
     }
 
     /**

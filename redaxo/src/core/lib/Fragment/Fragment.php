@@ -25,20 +25,20 @@ abstract class Fragment
             return rex_type::string(ob_get_clean());
         }, $this, static::class);
 
-        $ouput = rex_timer::measure('Fragment: '.$path, $closure);
+        $ouput = rex_timer::measure('Fragment: ' . $path, $closure);
 
         return rex_type::string($ouput);
     }
 
     protected function getPath(): string
     {
-        throw new rex_exception('Missing fragment path for fragment class "'.static::class.'"');
+        throw new rex_exception('Missing fragment path for fragment class "' . static::class . '"');
     }
 
     public static function resolvePath(string $path): string
     {
         foreach (rex_fragment::getDirectories() as $fragDir) {
-            $fragment = $fragDir.$path;
+            $fragment = $fragDir . $path;
             if (!is_file($fragment)) {
                 continue;
             }
@@ -58,7 +58,7 @@ abstract class Fragment
         if (is_string($content)) {
             $content = rex_escape($content);
 
-            return $name ? '<div slot="'.rex_escape($name).'">'.$content.'</div>' : $content;
+            return $name ? '<div slot="' . rex_escape($name) . '">' . $content . '</div>' : $content;
         }
 
         if (null === $name) {
@@ -74,10 +74,10 @@ abstract class Fragment
         $content = trim($content->render());
 
         $count = 0;
-        $content = preg_replace('/^(<[a-z-]+)/', '$1 slot="'.rex_escape($name).'"', $content, count: $count);
+        $content = preg_replace('/^(<[a-z-]+)/', '$1 slot="' . rex_escape($name) . '"', $content, count: $count);
 
         if (1 !== $count) {
-            throw new rex_exception('The content of the slot "'.$name.'" must start with an HTML element');
+            throw new rex_exception('The content of the slot "' . $name . '" must start with an HTML element');
         }
 
         return $content;
