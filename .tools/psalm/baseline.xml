@@ -1260,7 +1260,8 @@
       <code>string|false</code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
-      <code>$metaTables[$prefix]</code>
+      <code>$metaTables[$prefix] ?? false</code>
+      <code>$metaTables[$prefix] ?? false</code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/api_default_fields.php">
@@ -1479,7 +1480,8 @@
       <code>string|int|null</code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
-      <code>$default</code>
+      <code><![CDATA[$this->attributes[$name] ?? $default]]></code>
+      <code><![CDATA[$this->attributes[$name] ?? $default]]></code>
     </MixedReturnStatement>
     <MixedReturnTypeCoercion>
       <code><![CDATA[$this->getValue()]]></code>
@@ -2163,6 +2165,15 @@
     <MixedPropertyTypeCoercion>
       <code><![CDATA[$this->MODULESELECT]]></code>
     </MixedPropertyTypeCoercion>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/lib/article_slice.php">
+    <MixedInferredReturnType>
+      <code>(T is int ? string|null : int|string|null)</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->$index ?? null]]></code>
+      <code><![CDATA[$this->$index ?? null]]></code>
+    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/cache_template.php">
     <ArgumentTypeCoercion>
@@ -3300,11 +3311,7 @@
                         62 => '&gt;',   /* greater-than sign */
                     ];
 
-                    if (isset($entityMap[$ord])) {
-                        return $entityMap[$ord];
-                    }
-
-                    return sprintf('&#x%02X;', $ord);
+                    return $entityMap[$ord] ?? sprintf('&#x%02X;', $ord);
                 }
 
                 /*
@@ -3522,8 +3529,7 @@
       <code>rex_file::getCache(self::$cacheFile)</code>
     </MixedPropertyTypeCoercion>
     <MixedReturnStatement>
-      <code>$default</code>
-      <code>self::$data[$namespace][$key]</code>
+      <code>self::$data[$namespace][$key] ?? $default</code>
     </MixedReturnStatement>
     <PossiblyNullArgument>
       <code><![CDATA[$cfg->getValue('value')]]></code>
@@ -3953,7 +3959,8 @@
       <code>string|null</code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
-      <code>$fields[$normalizedFieldName]</code>
+      <code>$fields[$normalizedFieldName] ?? $default</code>
+      <code>$fields[$normalizedFieldName] ?? $default</code>
     </MixedReturnStatement>
     <NoValue>
       <code>return $className;</code>
@@ -4058,10 +4065,10 @@
       <code><![CDATA[$this->linkAttributes]]></code>
     </MixedPropertyTypeCoercion>
     <MixedReturnStatement>
-      <code>$default</code>
-      <code>$default</code>
-      <code>$default</code>
-      <code>$default</code>
+      <code><![CDATA[$this->columnFormates[$columnName] ?? $default]]></code>
+      <code><![CDATA[$this->columnFormates[$columnName] ?? $default]]></code>
+      <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
+      <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
       <code><![CDATA[$this->linkAttributes[$column] ?? $default]]></code>
       <code><![CDATA[$this->linkAttributes[$column] ?? $default]]></code>
       <code><![CDATA[json_decode($this->getValue($column), true)]]></code>
@@ -4167,8 +4174,7 @@
       <code>$value</code>
     </MixedAssignment>
     <MixedReturnStatement>
-      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId][$varname]]]></code>
-      <code>$default</code>
+      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId][$varname] ?? $default]]></code>
     </MixedReturnStatement>
     <MixedReturnTypeCoercion>
       <code>$cookieParams</code>
@@ -4585,7 +4591,8 @@
     <MixedReturnStatement>
       <code>$default</code>
       <code><![CDATA[$this->attributes[$name]]]></code>
-      <code><![CDATA[$this->options[$this->currentOptgroup][$parentId]]]></code>
+      <code><![CDATA[$this->options[$this->currentOptgroup][$parentId] ?? false]]></code>
+      <code><![CDATA[$this->options[$this->currentOptgroup][$parentId] ?? false]]></code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
