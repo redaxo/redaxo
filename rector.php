@@ -64,9 +64,6 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->phpVersion(PhpVersion::PHP_81);
 
-    // get services (needed for register a single rule)
-    $services = $rectorConfig->services();
-
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
     $rectorConfig->rule(ChangeSwitchToMatchRector::class);
@@ -84,6 +81,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(TernaryToNullCoalescingRector::class);
 
     // Util services for own rules
+    $services = $rectorConfig->services();
     $services->set(UnderscoreCamelCaseConflictingNameGuard::class)->autowire();
     $services->set(UnderscoreCamelCaseExpectedNameResolver::class)->autowire();
     $services->set(UnderscoreCamelCasePropertyRenamer::class)->autowire();
