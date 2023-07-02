@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Assign\CombinedAssignRector;
 use Rector\CodeQuality\Rector\BooleanNot\SimplifyDeMorganBinaryRector;
+use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\CodeQuality\Rector\Foreach_\SimplifyForeachToCoalescingRector;
+use Rector\CodeQuality\Rector\FuncCall\SimplifyRegexPatternRector;
+use Rector\CodeQuality\Rector\FuncCall\SingleInArrayToCompareRector;
 use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
 use Rector\CodeQuality\Rector\Identical\SimplifyConditionsRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
+use Rector\CodeQuality\Rector\NullsafeMethodCall\CleanupUnneededNullsafeOperatorRector;
 use Rector\CodeQuality\Rector\Ternary\UnnecessaryTernaryExpressionRector;
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
+use Rector\Php70\Rector\StmtsAwareInterface\IfIssetToCoalescingRector;
 use Rector\Php70\Rector\Ternary\TernaryToNullCoalescingRector;
 use Rector\Php80\Rector\Catch_\RemoveUnusedVariableInCatchRector;
 use Rector\Php80\Rector\Identical\StrEndsWithRector;
@@ -67,14 +72,19 @@ return static function (RectorConfig $rectorConfig): void {
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
     $rectorConfig->rule(ChangeSwitchToMatchRector::class);
+    $rectorConfig->rule(CleanupUnneededNullsafeOperatorRector::class);
     $rectorConfig->rule(CombinedAssignRector::class);
     $rectorConfig->rule(FirstClassCallableRector::class);
+    $rectorConfig->rule(IfIssetToCoalescingRector::class);
+    $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
     $rectorConfig->rule(RemoveUnusedVariableInCatchRector::class);
     $rectorConfig->rule(SimplifyBoolIdenticalTrueRector::class);
     $rectorConfig->rule(SimplifyConditionsRector::class);
     $rectorConfig->rule(SimplifyDeMorganBinaryRector::class);
     $rectorConfig->rule(SimplifyForeachToCoalescingRector::class);
     $rectorConfig->rule(SimplifyIfReturnBoolRector::class);
+    $rectorConfig->rule(SimplifyRegexPatternRector::class);
+    $rectorConfig->rule(SingleInArrayToCompareRector::class);
     $rectorConfig->rule(StrContainsRector::class);
     $rectorConfig->rule(StrEndsWithRector::class);
     $rectorConfig->rule(StrStartsWithRector::class);

@@ -10,7 +10,7 @@ class rex_form_element
     /** @var string|int|null */
     protected $defaultSaveValue = '';
     /** @var string */
-    protected $label;
+    protected $label = '';
     /** @var string */
     protected $tag;
     /** @var rex_form_base|null */
@@ -20,7 +20,7 @@ class rex_form_element
     /** @var bool */
     protected $separateEnding;
     /** @var string */
-    protected $fieldName;
+    protected $fieldName = '';
     /** @var string */
     protected $header;
     /** @var string */
@@ -43,8 +43,6 @@ class rex_form_element
      */
     public function __construct($tag, rex_form_base $form = null, array $attributes = [], $separateEnding = false)
     {
-        $this->value = null;
-        $this->label = '';
         $this->tag = $tag;
         $this->table = $form;
         $this->setAttributes($attributes);
@@ -54,7 +52,6 @@ class rex_form_element
         $this->setPrefix('');
         $this->setSuffix('');
         $this->setLabelOnTop(false);
-        $this->fieldName = '';
         $this->validator = rex_validator::factory();
     }
 

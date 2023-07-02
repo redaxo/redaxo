@@ -135,11 +135,7 @@ class rex_config
         if (!is_string($key)) {
             throw new InvalidArgumentException('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
         }
-
-        if (isset(self::$data[$namespace][$key])) {
-            return self::$data[$namespace][$key];
-        }
-        return $default;
+        return self::$data[$namespace][$key] ?? $default;
     }
 
     /**

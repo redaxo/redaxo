@@ -499,11 +499,7 @@ class rex_login
             $sessChecked = true;
         }
 
-        if (isset($_SESSION[static::getSessionNamespace()][$this->systemId][$varname])) {
-            return $_SESSION[static::getSessionNamespace()][$this->systemId][$varname];
-        }
-
-        return $default;
+        return $_SESSION[static::getSessionNamespace()][$this->systemId][$varname] ?? $default;
     }
 
     /**

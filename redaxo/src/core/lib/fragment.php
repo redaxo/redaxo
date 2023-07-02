@@ -60,11 +60,7 @@ class rex_fragment
      */
     public function getVar($name, $default = null)
     {
-        if (isset($this->vars[$name])) {
-            return $this->vars[$name];
-        }
-
-        return $default;
+        return $this->vars[$name] ?? $default;
     }
 
     /**

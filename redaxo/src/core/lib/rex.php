@@ -172,11 +172,7 @@ class rex
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
         /** @psalm-suppress MixedReturnStatement */
-        if (isset(self::$properties[$key])) {
-            return self::$properties[$key];
-        }
-        /** @psalm-suppress MixedReturnStatement */
-        return $default;
+        return self::$properties[$key] ?? $default;
     }
 
     /**

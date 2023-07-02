@@ -6,15 +6,15 @@
 class rex_form_prio_element extends rex_form_select_element
 {
     /** @var string */
-    private $labelField;
+    private $labelField = '';
     /** @var callable(string):string */
     private $labelCallback;
     /** @var string */
-    private $whereCondition;
+    private $whereCondition = '';
     /** @var string */
-    private $firstOptionMsg;
+    private $firstOptionMsg = 'form_field_first_priority';
     /** @var string */
-    private $optionMsg;
+    private $optionMsg = 'form_field_after_priority';
     /**
      * @var rex_form
      * @psalm-suppress NonInvariantDocblockPropertyType
@@ -31,11 +31,6 @@ class rex_form_prio_element extends rex_form_select_element
     {
         parent::__construct('', $form, $attributes);
         $this->table = $form;
-
-        $this->labelField = '';
-        $this->whereCondition = '';
-        $this->firstOptionMsg = 'form_field_first_priority';
-        $this->optionMsg = 'form_field_after_priority';
         $this->select->setSize(1);
 
         rex_extension::register('REX_FORM_SAVED', function (rex_extension_point $ep) {

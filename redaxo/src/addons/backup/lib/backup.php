@@ -84,11 +84,7 @@ class rex_backup
     {
         /** @return array{state: bool, message: string} */
         $returnError = static function (string $message): array {
-            $return = [];
-            $return['state'] = false;
-            $return['message'] = $message;
-
-            return $return;
+            return ['state' => false, 'message' => $message];
         };
 
         if ('' == $filename || !self::isFilenameValid(self::IMPORT_DB, $filename)) {

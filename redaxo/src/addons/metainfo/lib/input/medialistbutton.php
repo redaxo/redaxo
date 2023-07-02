@@ -15,7 +15,6 @@ class rex_input_medialistbutton extends rex_input
     public function __construct()
     {
         parent::__construct();
-        $this->buttonId = '';
     }
 
     /**

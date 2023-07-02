@@ -421,10 +421,6 @@ class rex_select
             return false;
         }
 
-        if (isset($this->options[$this->currentOptgroup][$parentId])) {
-            return $this->options[$this->currentOptgroup][$parentId];
-        }
-
-        return false;
+        return $this->options[$this->currentOptgroup][$parentId] ?? false;
     }
 }
