@@ -485,11 +485,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnName($columnIndex, $default = null)
     {
-        if (isset($this->columnNames[$columnIndex])) {
-            return $this->columnNames[$columnIndex];
-        }
-
-        return $default;
+        return $this->columnNames[$columnIndex] ?? $default;
     }
 
     /**
@@ -528,11 +524,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnLabel($columnName, $default = null)
     {
-        if (isset($this->columnLabels[$columnName])) {
-            return $this->columnLabels[$columnName];
-        }
-
-        return $default ?? $columnName;
+        return $this->columnLabels[$columnName] ?? $default ?? $columnName;
     }
 
     /**
@@ -559,11 +551,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnFormat($columnName, $default = null)
     {
-        if (isset($this->columnFormates[$columnName])) {
-            return $this->columnFormates[$columnName];
-        }
-
-        return $default;
+        return $this->columnFormates[$columnName] ?? $default;
     }
 
     /**

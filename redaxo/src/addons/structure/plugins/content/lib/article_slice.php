@@ -423,12 +423,7 @@ class rex_article_slice
             return $this->values[(int) $index - 1];
         }
 
-        if (isset($this->$index)) {
-            /** @var string|int */
-            return $this->$index;
-        }
-
-        return null;
+        return $this->$index ?? null;
     }
 
     public function getValueArray(int $index): ?array

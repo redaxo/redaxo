@@ -120,7 +120,7 @@ class rex_password_policy
                 'letter' => preg_match_all('/[a-zA-Z]/', $password),
                 'uppercase' => preg_match_all('/[A-Z]/', $password),
                 'lowercase' => preg_match_all('/[a-z]/', $password),
-                'digit' => preg_match_all('/[0-9]/', $password),
+                'digit' => preg_match_all('/\d/', $password),
                 'symbol' => preg_match_all('/[^a-zA-Z0-9]/', $password),
                 default => throw new rex_exception(sprintf('Unknown password_policy key "%s".', $key)),
             };

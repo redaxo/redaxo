@@ -508,10 +508,7 @@ abstract class rex_form_base
      */
     public function getParam($name, $default = null)
     {
-        if (isset($this->params[$name])) {
-            return $this->params[$name];
-        }
-        return $default;
+        return $this->params[$name] ?? $default;
     }
 
     /**
@@ -1058,11 +1055,7 @@ abstract class rex_form_base
         // name attributes are normalized
         $normalizedFieldName = rex_string::normalize($fieldName);
 
-        if (isset($fields[$normalizedFieldName])) {
-            return $fields[$normalizedFieldName];
-        }
-
-        return $default;
+        return $fields[$normalizedFieldName] ?? $default;
     }
 
     /**

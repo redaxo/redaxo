@@ -10,7 +10,7 @@ class rex_article_content extends rex_article_content_base
 {
     // bc schalter
     /** @var bool */
-    private $viasql;
+    private $viasql = false;
 
     /**
      * @var rex_article_slice|null
@@ -24,7 +24,6 @@ class rex_article_content extends rex_article_content_base
      */
     public function __construct($articleId = null, $clang = null)
     {
-        $this->viasql = false;
         parent::__construct($articleId, $clang);
     }
 

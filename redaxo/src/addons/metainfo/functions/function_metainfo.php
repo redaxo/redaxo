@@ -224,11 +224,7 @@ function rex_metainfo_meta_table(string $prefix)
 {
     $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', []);
 
-    if (isset($metaTables[$prefix])) {
-        return $metaTables[$prefix];
-    }
-
-    return false;
+    return $metaTables[$prefix] ?? false;
 }
 
 /**

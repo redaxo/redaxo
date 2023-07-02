@@ -32,7 +32,7 @@ class rex_sql implements Iterator
     public const OPT_BUFFERED = 'buffered';
 
     /** @var bool */
-    protected $debug; // debug schalter
+    protected $debug = false; // debug schalter
     /** @var array<string, scalar|null> */
     protected $values; // Werte von setValue
     /** @var array<string, string> */
@@ -94,7 +94,6 @@ class rex_sql implements Iterator
      */
     protected function __construct($db = 1)
     {
-        $this->debug = false;
         $this->flush();
 
         $this->DBID = $db;

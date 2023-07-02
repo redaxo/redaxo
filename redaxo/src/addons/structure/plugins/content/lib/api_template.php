@@ -11,12 +11,11 @@ class rex_template
     /** @var int */
     private $id;
     /** @var string|null */
-    private $key;
+    private $key = '';
 
     public function __construct($templateId)
     {
         $this->id = (int) $templateId;
-        $this->key = '';
     }
 
     /**
