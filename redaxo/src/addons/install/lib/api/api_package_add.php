@@ -35,7 +35,7 @@ class rex_api_install_package_add extends rex_api_function
 
             $message = rex_i18n::msg('install_info_addon_downloaded', $addonkey)
                 . ' <a href="' . rex_url::backendPage('packages', ['mark' => $addonkey]) . '">' . rex_i18n::msg('install_to_addon_page') . '</a>'
-                . ' | <a href="' . $packageInstallUrl . '" data-pjax="false">' . rex_i18n::msg('install_to_addon_page_install') . '</a>';
+                . ' | <a href="' . $packageInstallUrl . '">' . rex_i18n::msg('install_to_addon_page_install') . '</a>';
 
             $success = true;
             unset($_REQUEST['addonkey']);
