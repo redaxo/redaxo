@@ -152,7 +152,6 @@ $content .= '
     </script>
 ';
 
-
 if (rex_api_function::hasMessage()) {
     echo rex_api_function::getMessage();
 }
