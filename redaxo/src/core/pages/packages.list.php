@@ -38,7 +38,7 @@ $getLink = static function (rex_package $package, $function, $icon = '', $confir
     ] + rex_api_package::getUrlParams());
 
     $icon = ('' != $icon) ? '<i class="rex-icon ' . $icon . '"></i>' : '';
-    return '<a class="rex-link-expanded" href="' . $url . '"' . $onclick . '>' . $icon . ' ' . $text . '</a>';
+    return '<a class="rex-link-expanded" href="' . $url . '"' . $onclick . ' data-pjax="false">' . $icon . ' ' . $text . '</a>';
 };
 
 $getTableRow = static function (rex_package $package) use ($getLink) {
@@ -72,16 +72,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
     $class .= $package->isSystemPackage() ? ' rex-system-' . $type : '';
 
     // --------------------------------------------- API MESSAGES
-    $message = '';
-    if ($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage()) {
-        $message = '
-                <tr class="rex-package-message">
-                    <td colspan="9">
-                         ' . rex_api_function::getMessage() . '
-                    </td>
-                </tr>';
-        $class = ' mark';
-    } elseif ($package->getPackageId() == rex_get('mark', 'string')) {
+    if (($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage()) || ($package->getPackageId() == rex_get('mark', 'string'))) {
         $class = ' mark';
     }
 
@@ -107,7 +98,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
         $license = '<a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) . '" data-pjax-scroll-to="0"><i class="rex-icon rex-icon-license"></i> ' . rex_escape($firstLine) . '</a>';
     }
 
-    return $message . '
+    return '
                 <tr id="package-' . rex_escape(rex_string::normalize($packageId, '-', '_')) . '" class="rex-package-is-' . $type . $class . '">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $type . '"></i></td>
                     <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
@@ -116,7 +107,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
                         <a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" data-pjax-scroll-to="0" title="' . rex_i18n::msg('package_help') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('package_hhelp') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
                     </td>
                     <td class="rex-table-width-6" data-title="' . rex_i18n::msg('package_hlicense') . '">' . $license . '</td>
-                    <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $install . '</td>
+                    <td class="rex-table-action">' . $install . '</td>
                     <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $status . '</td>
                     <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $uninstall . '</td>
                     <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $delete . '</td>
@@ -160,6 +151,11 @@ $content .= '
     //-->
     </script>
 ';
+
+
+if (rex_api_function::hasMessage()) {
+    echo rex_api_function::getMessage();
+}
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('package_caption'), false);
