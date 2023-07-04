@@ -152,9 +152,7 @@ $content .= '
     </script>
 ';
 
-if (rex_api_function::hasMessage()) {
-    echo rex_api_function::getMessage();
-}
+echo rex_api_function::getMessage();
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('package_caption'), false);
