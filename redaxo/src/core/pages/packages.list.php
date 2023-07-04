@@ -108,9 +108,9 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
                     </td>
                     <td class="rex-table-width-6" data-title="' . rex_i18n::msg('package_hlicense') . '">' . $license . '</td>
                     <td class="rex-table-action">' . $install . '</td>
-                    <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $status . '</td>
-                    <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $uninstall . '</td>
-                    <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $delete . '</td>
+                    <td class="rex-table-action">' . $status . '</td>
+                    <td class="rex-table-action">' . $uninstall . '</td>
+                    <td class="rex-table-action">' . $delete . '</td>
                 </tr>' . "\n   ";
 };
 
