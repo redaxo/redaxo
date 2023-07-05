@@ -26,7 +26,6 @@ $bodyAttr = [];
 $bodyId = rex::isSetup() ? 'setup' : rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
 
 $bodyAttr['id'] = ['rex-page-' . $bodyId];
-$bodyAttr['onunload'] = ['closeAll();'];
 
 $bodyAttr['class'] = ['rex-is-logged-out'];
 if ($user) {
