@@ -171,7 +171,7 @@ foreach ($tables as $table) {
 
 $formElements = [];
 $n = [];
-$n['header'] = '<div id="rex-js-exporttype-sql-div"' . ($checkedsql ? '' : ' style="display: none;"') . '>';
+$n['header'] = '<div id="rex-js-exporttype-sql-div"' . ($checkedsql ? '' : ' class="rex-hidden"') . '>';
 $n['label'] = '<label for="rex-form-exporttables">' . rex_i18n::msg('backup_export_select_tables') . '</label>';
 $n['field'] = $tableSelect->get();
 $n['footer'] = '</div>';
@@ -202,7 +202,7 @@ foreach ($folders as $path => $_) {
 }
 
 $n = [];
-$n['header'] = '<div id="rex-js-exporttype-files-div"' . ($checkedfiles ? '' : ' style="display: none;"') . '>';
+$n['header'] = '<div id="rex-js-exporttype-files-div"' . ($checkedfiles ? '' : ' class="rex-hidden"') . '>';
 $n['label'] = '<label for="rex-form-exportdir">' . rex_i18n::msg('backup_export_select_dir') . '</label>';
 $n['field'] = $selDirs->get();
 $n['footer'] = '</div>';
@@ -288,11 +288,11 @@ $content = '
     (function($) {
         var currentShown = null;
         $("#rex-js-exporttype-sql, #rex-js-exporttype-files").click(function(){
-            if(currentShown) currentShown.hide();
+            if(currentShown) currentShown.addClass("rex-hidden");
 
             var effectParamsId = "#" + $(this).attr("id") + "-div";
             currentShown = $(effectParamsId);
-            currentShown.fadeIn();
+            currentShown.hide().removeClass("rex-hidden").fadeIn();
         }).filter(":checked").click();
     })(jQuery);
 
