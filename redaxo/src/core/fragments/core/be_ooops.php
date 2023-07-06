@@ -36,6 +36,9 @@
             width: 280px;
             height: 280px;
         }
+        .rex-hidden {
+            display: none;
+        }
         .rex-logo {
             display: block;
             max-width: 200px;
@@ -77,13 +80,13 @@
         <svg class="brand-svg"><title>REDAXO</title><use xlink:href="#redaxo-logo"></use></svg>
     </div>
 </div>
-<div style="display: none;">
+<div class="rex-hidden">
     <svg xmlns="http://www.w3.org/2000/svg">
         <symbol id="ooops-badge" viewBox="0 0 472.66 512.85">
             <defs>
                 <style>.cls-1 {
                         font-size: 24px;
-                        font-family: Arial, Arial;
+                        font-family: Arial, sans-serif;
                         letter-spacing: 0.1em;
                     }
 
