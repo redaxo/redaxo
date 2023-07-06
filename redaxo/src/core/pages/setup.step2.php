@@ -23,7 +23,7 @@ if (count($errorArray) > 0) {
     $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['step' => 3]) . '">' . rex_i18n::msg('setup_210') . '</a>';
 }
 
-$security = '<div class="rex-js-setup-security-message" style="display:none">' . rex_view::error(rex_i18n::msg('setup_security_msg') . '<br />' . rex_i18n::msg('setup_no_js_security_msg')) . '</div>';
+$security = '<div class="rex-js-setup-security-message rex-hidden">' . rex_view::error(rex_i18n::msg('setup_security_msg') . '<br />' . rex_i18n::msg('setup_no_js_security_msg')) . '</div>';
 $security .= '<noscript>' . rex_view::error(rex_i18n::msg('setup_no_js_security_msg')) . '</noscript>';
 
 $security .= '<script nonce="' . rex_response::getNonce() . '">
@@ -51,8 +51,8 @@ $security .= '<script nonce="' . rex_response::getNonce() . '">
                 cache: false,
                 success: function(data) {
                     if (i % 2 == 0) {
-                        $(".rex-js-setup-security-message").show();
-                        $(".rex-js-setup-section").hide();
+                        $(".rex-js-setup-security-message").removeClass("rex-hidden");
+                        $(".rex-js-setup-section").addClass("rex-hidden");
                     }
                 }
             });
