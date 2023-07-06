@@ -88,7 +88,7 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
                         <span class="label label-' . $class . '">' . rex_escape($type) . '</span>
                     </td>
                     <td data-title="' . rex_i18n::msg('syslog_message') . '">
-                        <div class="rex-word-break"><b style="font-weight: 500">' . nl2br(rex_escape($message)) . '</b></div>
+                        <div class="rex-word-break"><b>' . nl2br(rex_escape($message)) . '</b></div>
                         ' . $path . '
                         ' . $url . '
                     </td>
