@@ -305,8 +305,8 @@ abstract class rex_package implements rex_package_interface
                 }
                 if ('supportpage' !== $key) {
                     $value = rex_i18n::translateArray($value, false, $this->i18n(...));
-                } elseif (!preg_match('@^https?://@i', $value)) {
-                    $value = 'https://'.$value;
+                } elseif (null !== $value && !preg_match('@^https?://@i', $value)) {
+                    $value = 'https://' . $value;
                 }
                 $this->properties[$key] = $value;
             }
