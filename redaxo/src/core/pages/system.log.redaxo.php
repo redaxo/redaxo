@@ -56,6 +56,7 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     $line = $data[3] ?? null;
 
     $class = match (strtolower($type)) {
+        'success' => 'success',
         'debug' => 'default',
         'info', 'notice', 'deprecated' => 'info',
         'warning' => 'warning',
