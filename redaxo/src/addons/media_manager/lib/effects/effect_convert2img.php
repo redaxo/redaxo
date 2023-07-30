@@ -178,7 +178,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
 
         if (!$this->isFfmpegAvailable()) {
-            $notSupported = [] = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_videoconverternotfound') . '</strong> ';
+            $notSupported[] = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_videoconverternotfound') . '</strong> ';
         }
 
         return [
