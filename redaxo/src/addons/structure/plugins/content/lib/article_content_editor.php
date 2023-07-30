@@ -91,7 +91,7 @@ class rex_article_content_editor extends rex_article_content
             $fragment->setVar('options', $this->getSliceMenu($artDataSql), false);
             $fragment->setVar('body', $panel, false);
             $statusName = $sliceStatus ? 'online' : 'offline';
-            $sliceContent .= '<li class="rex-slice rex-slice-output rex-slice-'.$statusName.'" id="slice'.$sliceId.'">' . $fragment->parse('core/page/section.php') . '</li>';
+            $sliceContent .= '<li class="rex-slice rex-slice-output rex-slice-' . $statusName . '" id="slice' . $sliceId . '">' . $fragment->parse('core/page/section.php') . '</li>';
         }
 
         return $sliceContent;
@@ -166,10 +166,10 @@ class rex_article_content_editor extends rex_article_content
                 // status
                 $item = [];
                 $statusName = $sliceStatus ? 'online' : 'offline';
-                $item['label'] = rex_i18n::msg('status_'.$statusName);
+                $item['label'] = rex_i18n::msg('status_' . $statusName);
                 $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + rex_api_content_slice_status::getUrlParams());
                 $item['attributes']['class'][] = 'btn-default';
-                $item['attributes']['class'][] = 'rex-'.$statusName;
+                $item['attributes']['class'][] = 'rex-' . $statusName;
                 $menuStatusAction = $item;
             }
 

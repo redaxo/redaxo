@@ -69,7 +69,7 @@ class rex_webauthn
         }
 
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT public_key FROM '.rex::getTable('user_passkey').' WHERE id = ? AND user_id = ?', [$data->id, $id]);
+        $sql->setQuery('SELECT public_key FROM ' . rex::getTable('user_passkey') . ' WHERE id = ? AND user_id = ?', [$data->id, $id]);
 
         if (!$sql->getRows()) {
             return null;

@@ -18,7 +18,7 @@ class rex_command_user_set_password extends rex_console_command
         $this
             ->setDescription('Sets a new password for a user')
             ->addArgument('user', InputArgument::REQUIRED, 'Username', null, static function () {
-                return array_column(rex_sql::factory()->getArray('SELECT login FROM '.rex::getTable('user')), 'login');
+                return array_column(rex_sql::factory()->getArray('SELECT login FROM ' . rex::getTable('user')), 'login');
             })
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
             ->addOption('password-change-required', null, InputOption::VALUE_NONE, 'Require password change after login')
@@ -54,9 +54,9 @@ class rex_command_user_set_password extends rex_console_command
 
         if (!$password) {
             $description = $passwordPolicy->getDescription();
-            $description = $description ? ' ('.$description.')' : '';
+            $description = $description ? ' (' . $description . ')' : '';
 
-            $password = $io->askHidden('Password'.$description, static function ($password) use ($id, $passwordPolicy) {
+            $password = $io->askHidden('Password' . $description, static function ($password) use ($id, $passwordPolicy) {
                 if (true !== $msg = $passwordPolicy->check($password, $id)) {
                     throw new InvalidArgumentException($msg);
                 }

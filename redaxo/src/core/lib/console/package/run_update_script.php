@@ -40,7 +40,7 @@ class rex_command_package_run_update_script extends rex_console_command
 
         $package = rex_package::get($packageId);
         if (!$package->isInstalled()) {
-            $io->error('Package "'.$packageId.'" is not installed!');
+            $io->error('Package "' . $packageId . '" is not installed!');
             return 1;
         }
 

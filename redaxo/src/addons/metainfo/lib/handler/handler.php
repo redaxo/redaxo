@@ -85,7 +85,7 @@ abstract class rex_metainfo_handler
                 $label = rex_escape($name);
             }
 
-            $id = 'rex-metainfo-'.rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name));
+            $id = 'rex-metainfo-' . rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name));
             $labelIt = true;
 
             $label = '<label for="' . $id . '">' . $label . '</label>';
@@ -185,7 +185,7 @@ abstract class rex_metainfo_handler
                         if ($oneValue) {
                             $e['label'] = $label;
                         } else {
-                            $currentId .= '-'.rex_escape((string) preg_replace('/[^a-zA-Z0-9_-]/', '_', (string) $key));
+                            $currentId .= '-' . rex_escape((string) preg_replace('/[^a-zA-Z0-9_-]/', '_', (string) $key));
                             $e['label'] = '<label for="' . $currentId . '">' . rex_escape($value) . '</label>';
                         }
                         $e['field'] = '<input type="' . rex_escape($typeLabel) . '" name="' . rex_escape($name) . '" value="' . rex_escape($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
@@ -289,7 +289,7 @@ abstract class rex_metainfo_handler
                     } elseif ('datetime' == $typeLabel) {
                         $rexInput = new rex_input_datetime();
                     } else {
-                        throw new Exception('Unexpected $typeLabel "'. $typeLabel .'"');
+                        throw new Exception('Unexpected $typeLabel "' . $typeLabel . '"');
                     }
                     $tagAttr = ' class="form-control-date"';
 

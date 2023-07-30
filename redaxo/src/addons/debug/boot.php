@@ -21,7 +21,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser()?-
     }
 
     // prepend backend folder
-    $apiUrl = dirname($_SERVER['REQUEST_URI']).'/'.rex_debug_clockwork::getClockworkApiUrl();
+    $apiUrl = dirname($_SERVER['REQUEST_URI']) . '/' . rex_debug_clockwork::getClockworkApiUrl();
     $appearance = rex::getTheme();
     if (!$appearance) {
         $appearance = 'auto';
@@ -54,7 +54,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser()?-
         </script>
         EOF;
 
-    $index = str_replace('<body>', '<body>'.$injectedScript, $index);
+    $index = str_replace('<body>', '<body>' . $injectedScript, $index);
     rex_response::sendPage($index);
     exit;
 }
@@ -86,9 +86,9 @@ $shutdownFn = static function () {
     $req = $clockwork->getRequest();
 
     if (rex::isBackend()) {
-        $req->controller = 'page: '.rex_be_controller::getCurrentPage();
+        $req->controller = 'page: ' . rex_be_controller::getCurrentPage();
     } elseif (rex_plugin::get('structure', 'content')->isAvailable()) {
-        $req->controller = 'article: '.rex_article::getCurrentId().'; clang: '.rex_clang::getCurrent()->getCode();
+        $req->controller = 'article: ' . rex_article::getCurrentId() . '; clang: ' . rex_clang::getCurrent()->getCode();
     }
 
     foreach ($req->databaseQueries as $query) {

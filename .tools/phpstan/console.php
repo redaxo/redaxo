@@ -7,7 +7,7 @@ if (!defined('REX_MIN_PHP_VERSION')) {
     $REX['BACKEND_FOLDER'] = 'redaxo';
     $REX['LOAD_PAGE'] = false;
 
-    require dirname(__DIR__, 2).'/redaxo/src/core/boot.php';
+    require dirname(__DIR__, 2) . '/redaxo/src/core/boot.php';
 
     // initialize autoloader before phpstan autoload wrapper is active
     // https://github.com/redaxo/redaxo/pull/4369#issuecomment-770195916

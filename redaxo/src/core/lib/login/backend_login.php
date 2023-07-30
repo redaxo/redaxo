@@ -42,7 +42,7 @@ class rex_backend_login extends rex_login
         $qry .= ' WHERE
             status = 1
             AND login = :login
-            AND login_tries < '. $loginPolicy->getMaxTriesUntilBlock() .'
+            AND login_tries < ' . $loginPolicy->getMaxTriesUntilBlock() . '
             AND (
                 login_tries < ' . $loginPolicy->getMaxTriesUntilDelay() . '
                 OR
@@ -51,7 +51,7 @@ class rex_backend_login extends rex_login
 
         if ($blockAccountAfter = $this->passwordPolicy->getBlockAccountAfter()) {
             $datetime = (new DateTimeImmutable())->sub($blockAccountAfter);
-            $qry .= ' AND password_changed > "'.$datetime->format(rex_sql::FORMAT_DATETIME).'"';
+            $qry .= ' AND password_changed > "' . $datetime->format(rex_sql::FORMAT_DATETIME) . '"';
         }
 
         $this->setLoginQuery($qry);
@@ -191,7 +191,7 @@ class rex_backend_login extends rex_login
 
         // check if session was killed only if the user is logged in
         if ($check) {
-            $sql->setQuery('SELECT passkey_id FROM '.rex::getTable('user_session').' where session_id = ?', [session_id()]);
+            $sql->setQuery('SELECT passkey_id FROM ' . rex::getTable('user_session') . ' where session_id = ?', [session_id()]);
             if (0 === $sql->getRows()) {
                 $check = false;
                 $this->message = rex_i18n::msg('login_session_expired');
@@ -258,7 +258,7 @@ class rex_backend_login extends rex_login
         $sessionConfig = rex::getProperty('session', [])['backend']['cookie'] ?? [];
 
         rex_response::sendCookie(self::getStayLoggedInCookieName(), $cookiekey, [
-            'expires' => strtotime(rex_user_session::STAY_LOGGED_IN_DURATION.' months'),
+            'expires' => strtotime(rex_user_session::STAY_LOGGED_IN_DURATION . ' months'),
             'secure' => $sessionConfig['secure'] ?? false,
             'samesite' => $sessionConfig['samesite'] ?? 'lax',
         ]);
@@ -336,7 +336,7 @@ class rex_backend_login extends rex_login
      */
     protected static function getSessionNamespace()
     {
-        return rex::getProperty('instname'). '_backend';
+        return rex::getProperty('instname') . '_backend';
     }
 
     public function getLoginPolicy(): rex_login_policy

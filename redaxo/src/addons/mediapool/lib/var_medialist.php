@@ -77,7 +77,7 @@ class rex_var_medialist extends rex_var
         $addFunc = '';
         $deleteFunc = '';
         $viewFunc = '';
-        $quotedId = "'".rex_escape($id, 'js')."'";
+        $quotedId = "'" . rex_escape($id, 'js') . "'";
         if (rex::requireUser()->getComplexPerm('media')->hasMediaPerm()) {
             $disabled = '';
             $openFunc = 'openREXMedialist(' . $quotedId . ', \'' . $openParams . '\');';

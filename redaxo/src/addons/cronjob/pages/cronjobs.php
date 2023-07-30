@@ -153,7 +153,7 @@ if ('' == $func) {
 
     $field = $form->addCheckboxField('environment');
     $field->setLabel($addon->i18n('environment'));
-    $field->setNotice($addon->i18n('environment_notice', rex_path::bin('console').' cronjob:run'));
+    $field->setNotice($addon->i18n('environment_notice', rex_path::bin('console') . ' cronjob:run'));
     $field->getValidator()->add('notEmpty', $addon->i18n('cronjob_error_no_environment'));
     $envFieldId = rex_escape($field->getAttribute('id'), 'js');
     $field->addOption($addon->i18n('environment_frontend'), 'frontend');

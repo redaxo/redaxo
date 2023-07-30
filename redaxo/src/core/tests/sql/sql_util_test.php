@@ -32,7 +32,7 @@ class rex_sql_util_test extends TestCase
         for ($i = 1; $i < 3; ++$i) {
             $sql
                 ->setTable(self::TABLE)
-                ->setValue('title', 'Title '.$i)
+                ->setValue('title', 'Title ' . $i)
                 ->insert();
         }
 

@@ -11,7 +11,7 @@ class rex_form_raw_element extends rex_form_element
     private $html;
 
     /** @param string $html */
-    public function __construct($html = '', rex_form_base $form = null)
+    public function __construct($html = '', ?rex_form_base $form = null)
     {
         $this->html = $html;
 

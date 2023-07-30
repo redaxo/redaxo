@@ -36,7 +36,7 @@ class rex_command_db_dump_schema extends rex_console_command
         $output->write($generator->dumpTable($table));
 
         $io = $this->getStyle($input, $output)->getErrorStyle();
-        $io->success('Generated schema for table "'.$table->getName().'".');
+        $io->success('Generated schema for table "' . $table->getName() . '".');
 
         return 0;
     }

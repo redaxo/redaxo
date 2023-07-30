@@ -60,7 +60,7 @@ final class rex_mediapool
         // FIXME move structure stuff into structure addon
         $values = [];
         for ($i = 1; $i < 21; ++$i) {
-            $values[] = 'value' . $i . ' REGEXP ' . $sql->escape('(^|[^[:alnum:]+_-])'.$filename);
+            $values[] = 'value' . $i . ' REGEXP ' . $sql->escape('(^|[^[:alnum:]+_-])' . $filename);
         }
 
         $files = [];
@@ -122,7 +122,7 @@ final class rex_mediapool
         foreach ($blockedExtensions as $blockedExtension) {
             // $blockedExtensions extensions are not allowed within filenames, to prevent double extension vulnerabilities:
             // -> some webspaces execute files named file.php.txt as php
-            if (str_contains($filename, '.'. $blockedExtension)) {
+            if (str_contains($filename, '.' . $blockedExtension)) {
                 return false;
             }
         }

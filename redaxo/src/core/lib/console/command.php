@@ -16,7 +16,7 @@ abstract class rex_console_command extends Command
     /**
      * @return $this
      */
-    public function setPackage(rex_package $package = null)
+    public function setPackage(?rex_package $package = null)
     {
         $this->package = $package;
 

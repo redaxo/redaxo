@@ -61,7 +61,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      *
      * @psalm-suppress ParamNameMismatch
      */
-    public static function require(string $addon, string $plugin = null): rex_package
+    public static function require(string $addon, ?string $plugin = null): rex_package
     {
         if (null === $plugin) {
             throw new InvalidArgumentException('Missing Argument 2 for ' . __METHOD__ . '()');

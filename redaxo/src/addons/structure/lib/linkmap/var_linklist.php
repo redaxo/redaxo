@@ -68,7 +68,7 @@ class rex_var_linklist extends rex_var
         $disabled = ' disabled';
         $openFunc = '';
         $deleteFunc = '';
-        $quotedId = "'".rex_escape($id, 'js')."'";
+        $quotedId = "'" . rex_escape($id, 'js') . "'";
         if (rex::requireUser()->getComplexPerm('structure')->hasStructurePerm()) {
             $disabled = '';
             $openFunc = 'openREXLinklist(' . $quotedId . ', \'' . $openParams . '\');';

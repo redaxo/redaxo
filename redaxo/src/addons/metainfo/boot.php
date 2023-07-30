@@ -61,7 +61,7 @@ if (rex::isBackend()) {
     rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function ($ep) {
         $subject = $ep->getSubject();
         $metaSidebar = include rex_addon::get('metainfo')->getPath('pages/content.metainfo.php');
-        return $metaSidebar.$subject;
+        return $metaSidebar . $subject;
     });
 }
 
@@ -72,7 +72,7 @@ rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) 
 
     $id = $match[1];
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT `name` FROM '.rex::getTable('metainfo_field').' WHERE id = ? LIMIT 1', [$id]);
+    $sql->setQuery('SELECT `name` FROM ' . rex::getTable('metainfo_field') . ' WHERE id = ? LIMIT 1', [$id]);
 
     if (!$sql->getRows()) {
         return null;
@@ -84,8 +84,8 @@ rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) 
         'cat_' => 'categories',
         'med_' => 'media',
         'clang_' => 'clangs',
-        default => throw new LogicException('Unknown metainfo prefix "'.$prefix.'"'),
+        default => throw new LogicException('Unknown metainfo prefix "' . $prefix . '"'),
     };
 
-    return rex_url::backendPage('metainfo/'.$page, ['func' => 'edit', 'field_id' => $id]);
+    return rex_url::backendPage('metainfo/' . $page, ['func' => 'edit', 'field_id' => $id]);
 });

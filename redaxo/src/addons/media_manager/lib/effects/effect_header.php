@@ -21,7 +21,7 @@ class rex_effect_header extends rex_effect_abstract
                 default => throw new LogicException(sprintf('Unsupported cache duration "%s".', $this->params['cache'])),
             };
 
-            $cacheControl = 'proxy-revalidate, private, max-age='.$seconds;
+            $cacheControl = 'proxy-revalidate, private, max-age=' . $seconds;
 
             if ('immutable' === $this->params['cache']) {
                 $cacheControl .= ', immutable';

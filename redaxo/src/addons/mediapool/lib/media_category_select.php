@@ -19,7 +19,6 @@ class rex_media_category_select extends rex_select
     public function __construct($checkPerms = true)
     {
         $this->checkPerms = $checkPerms;
-        $this->rootId = null;
 
         parent::__construct();
     }

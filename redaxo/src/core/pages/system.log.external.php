@@ -10,7 +10,7 @@ $content = '
 
 $buttons = '';
 if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
-    $content .= '<tr><td>'. rex_i18n::msg('syslog_empty') .'</td></tr>';
+    $content .= '<tr><td>' . rex_i18n::msg('syslog_empty') . '</td></tr>';
 } else {
     // TODO make this more effienct with things like rex_log_file->next()
     $file = new SplFileObject($logFile, 'r');
@@ -40,7 +40,7 @@ if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
+        $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
