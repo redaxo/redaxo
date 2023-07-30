@@ -2,9 +2,8 @@
 /**
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
+ * @var int|null $toggleIndex
  */
-
-/** @var int|null $toggleIndex */
 $toggleIndex = $this->getVar('toggleIndex');
 $toggleAttributes = [];
 if (isset($toggleIndex)) {
