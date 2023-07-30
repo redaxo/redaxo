@@ -49,11 +49,11 @@ class rex_effect_resize extends rex_effect_abstract
             return;
         }
 
-        if (!isset($this->params['width'])) {
+        if ('' === ($this->params['width'] ?? '')) {
             $this->params['width'] = $w;
         }
 
-        if (!isset($this->params['height'])) {
+        if ('' === ($this->params['height'] ?? '')) {
             $this->params['height'] = $h;
         }
 
