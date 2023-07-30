@@ -2,13 +2,16 @@
 /**
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
+ * @var int|null $toggleIndex
  */
 $toggleIndex = $this->getVar('toggleIndex');
 $toggleAttributes = [];
 if (isset($toggleIndex)) {
-    $toggleAttributes['data-toggle'] = 'collapse';
-    $toggleAttributes['data-target'] = '#nav-pills-'.$toggleIndex;
-    $toggleAttributes['aria-expanded'] = 'true';
+    $toggleAttributes = [
+        'data-toggle' => 'collapse',
+        'data-target' => '#nav-pills-' . $toggleIndex,
+        'aria-expanded' => 'true',
+    ];
 }
 ?>
     <?php if (isset($this->headline)): ?>
@@ -17,7 +20,7 @@ if (isset($toggleIndex)) {
             <span class="rex-nav-main-title-icon rex-icon rex-icon-up"></span>
         </h4>
     <?php endif ?>
-    <ul class="rex-nav-main-list nav nav-pills nav-stacked <?= isset($toggleIndex) ? ' collapse in" id="nav-pills-'.$toggleIndex.'"' : '"' ?>>
+    <ul class="rex-nav-main-list nav nav-pills nav-stacked <?= isset($toggleIndex) ? ' collapse in" id="nav-pills-' . (int) $toggleIndex . '"' : '"' ?>>
         <?php foreach ($this->items as $item):
 
             if (isset($item['active']) && $item['active']):
