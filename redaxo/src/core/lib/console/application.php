@@ -106,7 +106,7 @@ class rex_console_application extends Application
 
         if (function_exists('posix_getuid')) {
             $currentuser = posix_getpwuid(posix_getuid());
-            $webuser = posix_getpwuid(fileowner(rex_path::backend()));
+            $webuser = posix_getpwuid(fileowner(rex_path::coreData()));
             if ($currentuser['name'] !== $webuser['name']) {
                 $io->warning([
                     'Current user: ' . $currentuser['name'] . "\nOwner of redaxo: " . $webuser['name'],
