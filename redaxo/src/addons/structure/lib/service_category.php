@@ -260,7 +260,7 @@ class rex_category_service
      */
     public static function deleteCategory($categoryId)
     {
-        $clang = 1;
+        $clang = rex_clang::getStartId();
 
         $thisCat = rex_sql::factory();
         $thisCat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id=? and clang_id=?', [$categoryId, $clang]);
