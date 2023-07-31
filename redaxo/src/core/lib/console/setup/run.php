@@ -251,10 +251,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             require_once rex_path::addon('backup', 'lib/backup.php');
 
             foreach (rex_backup::getBackupFiles('') as $file) {
-                if ('.sql' != substr($file, strlen($file) - 4)) {
-                    continue;
+                $file = preg_replace('/\.sql(?:\.gz)?$/', '', $file, -1, $count);
+                if ($count) {
+                    $backups[] = $file;
                 }
-                $backups[] = substr($file, 0, -4);
             }
         }
 

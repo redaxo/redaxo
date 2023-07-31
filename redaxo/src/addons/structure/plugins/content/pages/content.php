@@ -123,7 +123,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         if (1 != $CM->getRows()) {
             // ------------- MODUL IST NICHT VORHANDEN
             $globalWarning = rex_i18n::msg('module_not_found');
-            $sliceId = '';
+            $sliceId = 0;
             $function = '';
         } else {
             // ------------- MODUL IST VORHANDEN
@@ -131,12 +131,12 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             // ----- RECHTE AM MODUL ?
             if ('delete' != $function && !rex_template::hasModule($templateAttributes, $ctype, $moduleId)) {
                 $globalWarning = rex_i18n::msg('no_rights_to_this_function');
-                $sliceId = '';
+                $sliceId = 0;
                 $function = '';
             } elseif (!$user->getComplexPerm('modules')->hasPerm($moduleId)) {
                 // ----- RECHTE AM MODUL: NEIN
                 $globalWarning = rex_i18n::msg('no_rights_to_this_function');
-                $sliceId = '';
+                $sliceId = 0;
                 $function = '';
             } else {
                 // ----- RECHTE AM MODUL: JA

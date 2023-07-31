@@ -134,7 +134,7 @@ class rex_sql implements Iterator
                 self::$pdo[$db] = $conn;
 
                 // ggf. Strict Mode abschalten
-                self::factory()->setQuery('SET SESSION SQL_MODE="", NAMES utf8mb4');
+                self::factory($db)->setQuery('SET SESSION SQL_MODE="", NAMES utf8mb4');
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
