@@ -72,10 +72,9 @@ if (is_dir($exportDir)) {
                 continue;
             }
 
-            $isSql = ('.sql' == substr($file, strlen($file) - 4));
-            if ($isSql) {
-                // cut .sql
-                $exportSqls[] = substr($file, 0, -4);
+            $file = preg_replace('/\.sql(?:\.gz)?$/', '', $file, -1, $count);
+            if ($count) {
+                $exportSqls[] = $file;
                 $exportsFound = true;
             }
         }
