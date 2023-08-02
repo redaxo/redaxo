@@ -28,13 +28,13 @@ class rex_console_application extends Application
             $message = $e->getMessage();
 
             if ($e instanceof ParseError) {
-                $message = 'Parse error: '.$message;
+                $message = 'Parse error: ' . $message;
                 $severity = E_PARSE;
             } elseif ($e instanceof TypeError) {
-                $message = 'Type error: '.$message;
+                $message = 'Type error: ' . $message;
                 $severity = E_RECOVERABLE_ERROR;
             } else {
-                $message = 'Fatal error: '.$message;
+                $message = 'Fatal error: ' . $message;
                 $severity = E_ERROR;
             }
 
@@ -109,7 +109,7 @@ class rex_console_application extends Application
             $webuser = posix_getpwuid(fileowner(rex_path::backend()));
             if ($currentuser['name'] !== $webuser['name']) {
                 $io->warning([
-                    'Current user: ' . $currentuser['name']."\nOwner of redaxo: " . $webuser['name'],
+                    'Current user: ' . $currentuser['name'] . "\nOwner of redaxo: " . $webuser['name'],
                     'Running the console with a different user might cause unexpected side-effects.',
                 ]);
                 return false;

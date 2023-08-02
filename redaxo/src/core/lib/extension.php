@@ -39,7 +39,7 @@ abstract class rex_extension
 
         $name = $extensionPoint->getName();
 
-        rex_timer::measure('EP: '.$name, static function () use ($extensionPoint, $name) {
+        rex_timer::measure('EP: ' . $name, static function () use ($extensionPoint, $name) {
             foreach ([self::EARLY, self::NORMAL, self::LATE] as $level) {
                 if (!isset(self::$extensions[$name][$level]) || !is_array(self::$extensions[$name][$level])) {
                     continue;
@@ -84,13 +84,13 @@ abstract class rex_extension
 
         // bc
         if (is_string($level)) {
-            trigger_error(__METHOD__.': Argument $level should be one of the constants rex_extension::EARLY/NORMAL/LATE, but string "'.$level.'" given', E_USER_WARNING);
+            trigger_error(__METHOD__ . ': Argument $level should be one of the constants rex_extension::EARLY/NORMAL/LATE, but string "' . $level . '" given', E_USER_WARNING);
 
             $level = (int) $level;
         }
 
         if (!in_array($level, [self::EARLY, self::NORMAL, self::LATE], true)) {
-            throw new InvalidArgumentException('Argument $level should be one of the constants rex_extension::EARLY/NORMAL/LATE, but "'.(is_int($level) ? $level : get_debug_type($level)).'" given');
+            throw new InvalidArgumentException('Argument $level should be one of the constants rex_extension::EARLY/NORMAL/LATE, but "' . (is_int($level) ? $level : get_debug_type($level)) . '" given');
         }
 
         foreach ((array) $extensionPoint as $ep) {

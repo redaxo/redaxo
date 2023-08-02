@@ -13,7 +13,7 @@ $navigation = [
 ];
 
 if (!in_array($subPage, ['help', 'changelog', 'license'], true)) {
-    throw new rex_exception('Unknown packages subpage "'.$subPage.'"');
+    throw new rex_exception('Unknown packages subpage "' . $subPage . '"');
 }
 
 $navigation[$subPage]['active'] = true;
@@ -27,11 +27,11 @@ $fragment->setVar('left', $navigation, false);
 $subtitle = $fragment->parse('core/navigations/content.php');
 
 if ($package instanceof rex_plugin_interface) {
-    $headLine = 'PlugIn: '. $packageId;
+    $headLine = 'PlugIn: ' . $packageId;
 } else {
-    $headLine = 'AddOn: '. $packageId;
+    $headLine = 'AddOn: ' . $packageId;
 }
 
 echo rex_view::title($headLine, $subtitle);
 
-require __DIR__.'/packages.'.$subPage.'.php';
+require __DIR__ . '/packages.' . $subPage . '.php';

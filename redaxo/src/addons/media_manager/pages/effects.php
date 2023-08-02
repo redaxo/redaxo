@@ -8,7 +8,7 @@ $func = rex_request('func', 'string');
 $sql = rex_sql::factory();
 $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type WHERE id=' . $typeId);
 if (1 != $sql->getRows()) {
-    throw new Exception('Invalid type_id "'. $typeId .'"');
+    throw new Exception('Invalid type_id "' . $typeId . '"');
 }
 if (rex_media_manager::STATUS_SYSTEM_TYPE === (int) $sql->getValue('status')) {
     throw new rex_exception('System media types can not be edited.');
@@ -31,7 +31,7 @@ if ('delete' == $func && $effectId > 0) {
         rex_sql_util::organizePriorities(
             rex::getTablePrefix() . 'media_manager_type_effect',
             'priority',
-            'type_id = '.$typeId,
+            'type_id = ' . $typeId,
             'priority, updatedate desc',
         );
 

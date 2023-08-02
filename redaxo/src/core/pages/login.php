@@ -13,7 +13,7 @@ $content .= $fragment->parse('core/login_branding.php');
 
 $js = '';
 if ('' != $rexUserLoginmessage) {
-    $content .= '<div class="rex-js-login-message">'.rex_view::error($rexUserLoginmessage) . '</div>';
+    $content .= '<div class="rex-js-login-message">' . rex_view::error($rexUserLoginmessage) . '</div>';
     $js = '
         var time_el = $(".rex-js-login-message strong[data-time]");
         if(time_el.length == 1) {
@@ -114,7 +114,7 @@ $content = '
 <form id="rex-form-login" action="' . rex_url::backendController() . '" method="post" data-auth-login>
     ' . $content . '
     ' . rex_csrf_token::factory('backend_login')->getHiddenField() . '
-    <input type="hidden" name="rex_user_passkey" data-auth-passkey="'.rex_escape($webauthn->getGetArgs()).'"/>
+    <input type="hidden" name="rex_user_passkey" data-auth-passkey="' . rex_escape($webauthn->getGetArgs()) . '"/>
 </form>
 <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
      <!--

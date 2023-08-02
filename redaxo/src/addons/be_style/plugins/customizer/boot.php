@@ -20,12 +20,12 @@ if (rex::isBackend() && 'css' == rex_request('codemirror_output', 'string', ''))
     $filenames = [];
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/codemirror.min.css');
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css');
-    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/theme/' . $config['codemirror_theme'] . '.css');
     if ('' != rex_request('themes', 'string', '')) {
         $themes = explode(',', rex_request('themes', 'string', ''));
         foreach ($themes as $theme) {
             if (preg_match('/[a-z0-9\._-]+/i', $theme)) {
-                $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/theme/'.$theme.'.css');
+                $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/theme/' . $theme . '.css');
             }
         }
     }
@@ -154,7 +154,7 @@ if (rex::isBackend() && rex::getUser()) {
     if ($config['showlink']) {
         rex_view::setJsProperty(
             'customizer_showlink',
-            '<h1 class="be-style-customizer-title"><a href="'. rex_url::frontend() .'" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="fa fa-external-link"></i></a></h1>',
+            '<h1 class="be-style-customizer-title"><a href="' . rex_url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="fa fa-external-link"></i></a></h1>',
         );
     }
 }

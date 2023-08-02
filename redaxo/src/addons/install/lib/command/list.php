@@ -38,7 +38,7 @@ class rex_command_install_list extends rex_console_command
         foreach ($packages as $key => $package) {
             $rowData = [
                 'key' => $key,
-                'name' => strlen($package['name']) > 40 ? substr($package['name'], 0, 40).'...' : $package['name'],
+                'name' => strlen($package['name']) > 40 ? substr($package['name'], 0, 40) . '...' : $package['name'],
                 'author' => $package['author'],
                 'last updated' => rex_formatter::intlDate($package['updated']),
                 'latest version' => reset($package['files'])['version'],

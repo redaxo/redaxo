@@ -64,11 +64,8 @@ abstract class rex_input
         if ('value' == $name) {
             return $this->getValue();
         }
-        if (isset($this->attributes[$name])) {
-            return $this->attributes[$name];
-        }
 
-        return $default;
+        return $this->attributes[$name] ?? $default;
     }
 
     /**

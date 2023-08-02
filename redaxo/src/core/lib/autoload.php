@@ -332,7 +332,7 @@ class rex_autoload
         }
 
         // return early if there is no chance of matching anything in this file
-        if (!preg_match('{\b(?:class|interface'.$extraTypes.')\s}i', $contents)) {
+        if (!preg_match('{\b(?:class|interface' . $extraTypes . ')\s}i', $contents)) {
             return [];
         }
 
@@ -354,7 +354,7 @@ class rex_autoload
         }x';
 
         // run first assuming the file is valid unicode
-        $contentWithoutHeredoc = preg_replace($heredocRegex.'u', 'null', $contents);
+        $contentWithoutHeredoc = preg_replace($heredocRegex . 'u', 'null', $contents);
         if (null === $contentWithoutHeredoc) {
             // run again without unicode support if the file failed to be parsed
             $contents = preg_replace($heredocRegex, 'null', $contents);
@@ -386,7 +386,7 @@ class rex_autoload
 
         preg_match_all('{
             (?:
-                 \b(?<![\$:>])(?P<type>class|interface'.$extraTypes.') \s++ (?P<name>[a-zA-Z_\x7f-\xff:][a-zA-Z0-9_\x7f-\xff:\-]*+)
+                 \b(?<![\$:>])(?P<type>class|interface' . $extraTypes . ') \s++ (?P<name>[a-zA-Z_\x7f-\xff:][a-zA-Z0-9_\x7f-\xff:\-]*+)
                | \b(?<![\$:>])(?P<ns>namespace) (?P<nsname>\s++[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\s*+\\\\\s*+[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)*+)? \s*+ [\{;]
             )
         }ix', $contents, $matches);
@@ -405,7 +405,7 @@ class rex_autoload
                 }
                 if (':' === $name[0]) {
                     // This is an XHP class, https://github.com/facebook/xhp
-                    $name = 'xhp'.substr(str_replace(['-', ':'], ['_', '__'], $name), 1);
+                    $name = 'xhp' . substr(str_replace(['-', ':'], ['_', '__'], $name), 1);
                 } elseif ('enum' === $matches['type'][$i]) {
                     // In Hack, something like:
                     //   enum Foo: int { HERP = '123'; }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Redaxo\Rector\Rule;
 
 use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Property;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Naming\ValueObject\PropertyRename;
@@ -16,24 +17,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class UnderscoreToCamelCasePropertyNameRector extends AbstractRector
 {
-    /** @var PropertyRenameFactory */
-    private $propertyRenameFactory;
-
-    /** @var UnderscoreCamelCasePropertyRenamer */
-    private $underscoreCamelCasePropertyRenamer;
-
-    /** @var UnderscoreCamelCaseExpectedNameResolver */
-    private $underscoreCamelCaseExpectedNameResolver;
-
     public function __construct(
-        UnderscoreCamelCasePropertyRenamer $underscoreCamelCasePropertyRenamer,
-        PropertyRenameFactory $propertyRenameFactory,
-        UnderscoreCamelCaseExpectedNameResolver $underscoreCamelCaseExpectedNameResolver,
-    ) {
-        $this->underscoreCamelCasePropertyRenamer = $underscoreCamelCasePropertyRenamer;
-        $this->propertyRenameFactory = $propertyRenameFactory;
-        $this->underscoreCamelCaseExpectedNameResolver = $underscoreCamelCaseExpectedNameResolver;
-    }
+        private readonly UnderscoreCamelCasePropertyRenamer $underscoreCamelCasePropertyRenamer,
+        private readonly PropertyRenameFactory $propertyRenameFactory,
+        private readonly UnderscoreCamelCaseExpectedNameResolver $underscoreCamelCaseExpectedNameResolver,
+    ) {}
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -70,13 +58,28 @@ final class UnderscoreToCamelCasePropertyNameRector extends AbstractRector
      */
     public function getNodeTypes(): array
     {
-        return [Property::class];
+        return [ClassLike::class];
     }
 
     /**
-     * @param Property $node
+     * @param ClassLike $node
      */
     public function refactor(Node $node): ?Node
+    {
+        $hasChanged = false;
+
+        foreach ($node->getProperties() as $property) {
+            $property = $this->refactorProperty($node, $property);
+
+            if ($property) {
+                $hasChanged = true;
+            }
+        }
+
+        return $hasChanged ? $node : null;
+    }
+
+    public function refactorProperty(ClassLike $classLike, Property $node): ?Node
     {
         $propertyName = $this->getName($node);
         if (!str_contains($propertyName, '_')) {
@@ -88,7 +91,7 @@ final class UnderscoreToCamelCasePropertyNameRector extends AbstractRector
             return null;
         }
 
-        $propertyRename = $this->propertyRenameFactory->createFromExpectedName($node, $expectedPropertyName);
+        $propertyRename = $this->propertyRenameFactory->createFromExpectedName($classLike, $node, $expectedPropertyName);
         if (!$propertyRename instanceof PropertyRename) {
             return null;
         }

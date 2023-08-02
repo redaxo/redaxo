@@ -29,7 +29,7 @@ class rex_sql_test extends TestCase
                 ) ENGINE = InnoDB ;');
 
         $sql->setQuery('DROP VIEW IF EXISTS `' . self::VIEW . '`');
-        $sql->setQuery('CREATE VIEW `' . self::VIEW . '` AS SELECT * FROM `'.self::TABLE.'`');
+        $sql->setQuery('CREATE VIEW `' . self::VIEW . '` AS SELECT * FROM `' . self::TABLE . '`');
     }
 
     protected function tearDown(): void
@@ -428,7 +428,7 @@ class rex_sql_test extends TestCase
         $sql->update();
         static::assertEquals(1, $sql->getRows());
 
-        $sql->setQuery('SELECT * FROM '.self::TABLE);
+        $sql->setQuery('SELECT * FROM ' . self::TABLE);
         static::assertSame('def', $sql->getValue('col_str'));
         static::assertEquals(6, $sql->getValue('col_int'));
     }
@@ -483,7 +483,7 @@ class rex_sql_test extends TestCase
 
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
-        $sql->setWhere('col_str = '.$sql->escape('abc'));
+        $sql->setWhere('col_str = ' . $sql->escape('abc'));
         $sql->select();
 
         static::assertEquals(1, $sql->getRows());
@@ -510,12 +510,12 @@ class rex_sql_test extends TestCase
 
         static::assertSame('0', $sql->getLastId(), 'LastId after ->update()');
 
-        $sql->setQuery('INSERT INTO '.self::TABLE.' SET col_int = 3');
+        $sql->setQuery('INSERT INTO ' . self::TABLE . ' SET col_int = 3');
 
         static::assertSame('2', $sql->getLastId(), 'LastId after second INSERT query');
 
         $secondSql = rex_sql::factory();
-        $secondSql->setQuery('SELECT * FROM '.self::TABLE);
+        $secondSql->setQuery('SELECT * FROM ' . self::TABLE);
 
         static::assertSame('0', $secondSql->getLastId(), 'LastId after SELECT query');
         static::assertSame('2', $sql->getLastId(), 'LastId still the same in other sql object');
@@ -577,7 +577,7 @@ class rex_sql_test extends TestCase
         $this->testInsertRow();
 
         $sql = rex_sql::factory();
-        $query = 'select col_str,col_int from '. self::TABLE;
+        $query = 'select col_str,col_int from ' . self::TABLE;
         $data = $sql->getArray($query, [], PDO::FETCH_KEY_PAIR);
 
         static::assertIsArray($data);
@@ -593,7 +593,7 @@ class rex_sql_test extends TestCase
         $this->testInsertRow();
 
         $sql = rex_sql::factory();
-        $query = 'select col_str,col_int from '. self::TABLE;
+        $query = 'select col_str,col_int from ' . self::TABLE;
         $data = $sql->getDBArray($query, [], PDO::FETCH_KEY_PAIR);
 
         static::assertIsArray($data);

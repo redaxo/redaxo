@@ -20,4 +20,4 @@ $fragment->setVar('title', rex_i18n::msg('credits_changelog'), false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
-echo '<p><a class="btn btn-back" href="'.rex_url::backendPage('packages').'">' . rex_i18n::msg('package_back') . '</a></p>';
+echo '<p><a class="btn btn-back" href="' . rex_url::backendPage('packages') . '">' . rex_i18n::msg('package_back') . '</a></p>';

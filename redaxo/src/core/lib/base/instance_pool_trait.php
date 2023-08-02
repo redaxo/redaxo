@@ -56,7 +56,7 @@ trait rex_instance_pool_trait
      *
      * @return null|static
      */
-    protected static function getInstance($key, callable $createCallback = null)
+    protected static function getInstance($key, ?callable $createCallback = null)
     {
         $args = (array) $key;
         $key = self::getInstancePoolKey($args);
@@ -65,10 +65,7 @@ trait rex_instance_pool_trait
             $instance = call_user_func_array($createCallback, $args);
             self::$instances[$class][$key] = $instance instanceof static ? $instance : null;
         }
-        if (isset(self::$instances[$class][$key])) {
-            return self::$instances[$class][$key];
-        }
-        return null;
+        return self::$instances[$class][$key] ?? null;
     }
 
     /**

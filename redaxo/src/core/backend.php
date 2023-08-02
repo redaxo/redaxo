@@ -14,14 +14,14 @@ if (rex_get('asset') && rex_get('buster')) {
 
     // relative to the assets-root
     if (str_starts_with($assetFile, '/assets/')) {
-        $assetFile = '..'. $assetFile;
+        $assetFile = '..' . $assetFile;
     }
 
     $fullPath = realpath($assetFile);
     $assetDir = rex_path::assets();
 
     if (!str_starts_with($fullPath, $assetDir)) {
-        throw new Exception('Assets can only be streamed from within the assets folder. "'. $fullPath .'" is not within "'. $assetDir .'"');
+        throw new Exception('Assets can only be streamed from within the assets folder. "' . $fullPath . '" is not within "' . $assetDir . '"');
     }
 
     $ext = rex_file::extension($assetFile);
@@ -41,7 +41,7 @@ if (rex_get('asset') && rex_get('buster')) {
         $pubroot = dirname($_SERVER['PHP_SELF']) . '/' . $relativeroot;
 
         $prefix = $pubroot . dirname($assetFile) . '/';
-        $styles = preg_replace('/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', '$1' . $prefix .  '$2$3', $styles);
+        $styles = preg_replace('/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', '$1' . $prefix . '$2$3', $styles);
 
         rex_response::sendCacheControl('max-age=31536000, immutable');
         rex_response::sendContent($styles, 'text/css');

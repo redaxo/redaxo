@@ -4,7 +4,7 @@ if (!isset($userId) || 1 > $userId) {
     $userId = rex::requireUser()->getId();
 }
 
-$list = rex_list::factory('Select session_id, cookie_key, ip, useragent, starttime, last_activity from ' . rex::getTablePrefix() . 'user_session where user_id = ' . (int) $userId.' ORDER BY last_activity DESC');
+$list = rex_list::factory('Select session_id, cookie_key, ip, useragent, starttime, last_activity from ' . rex::getTablePrefix() . 'user_session where user_id = ' . (int) $userId . ' ORDER BY last_activity DESC');
 $list->addTableAttribute('class', 'table-hover');
 
 $list->addColumn('remove_session', '<i class="rex-icon rex-icon-delete"></i>', 0, ['<th class="rex-table-icon"></th>', '<td class="rex-table-icon">###VALUE###</td>']);
@@ -27,11 +27,11 @@ $list->setColumnLabel('last_activity', rex_i18n::msg('last_activity'));
 
 $list->setColumnFormat('session_id', 'custom', static function () use ($list) {
     return rex_escape((string) $list->getValue('session_id'))
-        . ($list->getValue('cookie_key') ? ' <span class="label label-warning">'.rex_i18n::msg('stay_logged_in').'</span>' : '');
+        . ($list->getValue('cookie_key') ? ' <span class="label label-warning">' . rex_i18n::msg('stay_logged_in') . '</span>' : '');
 });
 $list->setColumnFormat('last_activity', 'custom', static function () use ($list) {
     if (session_id() === $list->getValue('session_id')) {
-        return '<span class="label label-info">'.rex_i18n::msg('active_session').'</span>';
+        return '<span class="label label-info">' . rex_i18n::msg('active_session') . '</span>';
     }
     return rex_formatter::intlDateTime((string) $list->getValue('last_activity'), IntlDateFormatter::SHORT);
 });

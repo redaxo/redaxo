@@ -49,7 +49,7 @@ $panel .= '
             <fieldset>
                 <legend>' . $addon->i18n('settings_myredaxo_account') . '</legend>
 
-                <p>'.$addon->i18n('settings_myredaxo_notice').'</p>';
+                <p>' . $addon->i18n('settings_myredaxo_notice') . '</p>';
 
 $formElements = [];
 

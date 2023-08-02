@@ -18,7 +18,7 @@ class rex_category_select extends rex_select
     private $rootId;
 
     /** @var bool */
-    private $loaded;
+    private $loaded = false;
 
     public function __construct($ignoreOfflines = false, $clang = false, $checkPerms = true, $addHomepage = true)
     {
@@ -26,8 +26,6 @@ class rex_category_select extends rex_select
         $this->clang = false === $clang ? null : $clang;
         $this->checkPerms = $checkPerms;
         $this->addHomepage = $addHomepage;
-        $this->rootId = null;
-        $this->loaded = false;
 
         parent::__construct();
     }

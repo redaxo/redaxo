@@ -152,7 +152,7 @@ abstract class rex_formatter
             $dateFormat = $timeFormat = $format;
         }
 
-        $cacheKey = $pattern.'-'.$dateFormat.'-'.$timeFormat;
+        $cacheKey = $pattern . '-' . $dateFormat . '-' . $timeFormat;
         $locale = Locale::getDefault();
 
         /** @var array<string, array<string, array<string, IntlDateFormatter>>> */
@@ -517,7 +517,7 @@ abstract class rex_formatter
         }
 
         if (!is_string($value)) {
-            throw new InvalidArgumentException('$value must be a unix timestamp as int or a date(time) string, but "'.get_debug_type($value).'" given');
+            throw new InvalidArgumentException('$value must be a unix timestamp as int or a date(time) string, but "' . get_debug_type($value) . '" given');
         }
 
         if (str_starts_with($value, '0000-00-00')) {

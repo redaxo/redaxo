@@ -30,11 +30,11 @@ class rex_i18n_test extends TestCase
             LANG;
         $content .= "rex_i18n_test_5   =   abc def   \n";
 
-        rex_file::put($this->getPath().'/de_de.lang', $content ."\nmy=DE");
+        rex_file::put($this->getPath() . '/de_de.lang', $content . "\nmy=DE");
 
         $content .= "\nrex_i18n_test_6 = test6\n";
 
-        rex_file::put($this->getPath().'/en_gb.lang', $content."\nmy=EN");
+        rex_file::put($this->getPath() . '/en_gb.lang', $content . "\nmy=EN");
     }
 
     protected function tearDown(): void

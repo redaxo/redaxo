@@ -60,11 +60,7 @@ class rex_fragment
      */
     public function getVar($name, $default = null)
     {
-        if (isset($this->vars[$name])) {
-            return $this->vars[$name];
-        }
-
-        return $default;
+        return $this->vars[$name] ?? $default;
     }
 
     /**
@@ -113,7 +109,7 @@ class rex_fragment
         foreach (self::$fragmentDirs as $fragDir) {
             $fragment = $fragDir . $filename;
             if (is_readable($fragment)) {
-                $content = rex_timer::measure('Fragment: '.$filename, function () use ($fragment) {
+                $content = rex_timer::measure('Fragment: ' . $filename, function () use ($fragment) {
                     ob_start();
                     require $fragment;
 

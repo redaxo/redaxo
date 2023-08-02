@@ -130,7 +130,7 @@ $selLang->setSelected(rex::getProperty('lang'));
 $locales = rex_i18n::getLocales();
 asort($locales);
 foreach ($locales as $locale) {
-    $selLang->addOption(rex_i18n::msgInLocale('lang', $locale).' ('.$locale.')', $locale);
+    $selLang->addOption(rex_i18n::msgInLocale('lang', $locale) . ' (' . $locale . ')', $locale);
 }
 
 if (!empty($error)) {
@@ -147,12 +147,12 @@ $rexVersion = rex::getVersion();
 if (str_contains($rexVersion, '-dev')) {
     $hash = rex_version::gitHash(rex_path::base(), 'redaxo/redaxo');
     if ($hash) {
-        $rexVersion .= '#'. $hash;
+        $rexVersion .= '#' . $hash;
     }
 }
 
 if (rex_version::isUnstable($rexVersion)) {
-    $rexVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. rex_escape($rexVersion);
+    $rexVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . rex_i18n::msg('unstable_version') . '"></i> ' . rex_escape($rexVersion);
 }
 
 $mainContent = [];
@@ -170,7 +170,7 @@ $content = '
 
     <h3>' . rex_i18n::msg('debug_mode') . '</h3>
     <p>' . rex_i18n::msg('debug_mode_note') . '</p>
-    <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"'.$debugConfirm.'><i class="rex-icon rex-icon-heartbeat"></i> ' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
+    <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"' . $debugConfirm . '><i class="rex-icon rex-icon-heartbeat"></i> ' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
 
     <h3>' . rex_i18n::msg('safemode') . '</h3>
     <p>' . rex_i18n::msg('safemode_text') . '</p>';
@@ -204,9 +204,9 @@ $content = '
             <td>' . PHP_VERSION . ' <a class="rex-link-expanded" href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
         </tr>
         <tr>
-            <th>'.rex_i18n::msg('path').'</th>
+            <th>' . rex_i18n::msg('path') . '</th>
 			<td>
-			<div class="rex-word-break">'. rex_path::base() .'</div>
+			<div class="rex-word-break">' . rex_path::base() . '</div>
 			</td>
         </tr>
     </table>';
@@ -222,7 +222,7 @@ $content = '
     <table class="table">
         <tr>
             <th class="rex-table-width-3">' . rex_i18n::msg('version') . '</th>
-            <td>' .  $sql->getDbType().' '.$sql->getDbVersion() . '</td>
+            <td>' . $sql->getDbType() . ' ' . $sql->getDbVersion() . '</td>
         </tr>
         <tr>
             <th>' . rex_i18n::msg('name') . '</th>
@@ -283,7 +283,7 @@ $configYml = rex_path::coreData('config.yml');
 if ($url = $editor->getUrl($configYml, 0)) {
     $n = [];
     $n['label'] = '';
-    $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($configYml)) . '</a>';
+    $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="' . $url . '">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($configYml)) . '</a>';
     $n['note'] = rex_i18n::msg('system_edit_config_note');
     $formElements[] = $n;
 }
@@ -354,13 +354,13 @@ $class = 'rex-form-aligned';
 
 if (!$viaCookie) {
     $n = [];
-    $n['field'] = '<button class="btn btn-save '.$class.'" type="submit" name="editor[update_cookie]" value="0">' . rex_i18n::msg('system_editor_update_configyml') . '</button>';
+    $n['field'] = '<button class="btn btn-save ' . $class . '" type="submit" name="editor[update_cookie]" value="0">' . rex_i18n::msg('system_editor_update_configyml') . '</button>';
     $formElements[] = $n;
     $class = '';
 }
 
 $n = [];
-$n['field'] = '<button class="btn btn-save '.$class.'" type="submit" name="editor[update_cookie]" value="1">' . rex_i18n::msg('system_editor_update_cookie') . '</button>';
+$n['field'] = '<button class="btn btn-save ' . $class . '" type="submit" name="editor[update_cookie]" value="1">' . rex_i18n::msg('system_editor_update_cookie') . '</button>';
 $formElements[] = $n;
 
 if ($viaCookie) {

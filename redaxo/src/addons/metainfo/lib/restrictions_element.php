@@ -16,7 +16,7 @@ class rex_form_restrictons_element extends rex_form_select_element
      * @param string $tag
      * @param array<string, int|string> $attributes
      */
-    public function __construct($tag = '', rex_metainfo_table_expander $form = null, array $attributes = [])
+    public function __construct($tag = '', ?rex_metainfo_table_expander $form = null, array $attributes = [])
     {
         parent::__construct('', $form, $attributes);
 
@@ -34,8 +34,8 @@ class rex_form_restrictons_element extends rex_form_select_element
     public function get()
     {
         $id = $this->getAttribute('id');
-        $checkboxId = $id. '-checkbox';
-        $slctDivId = $id. '-div';
+        $checkboxId = $id . '-checkbox';
+        $slctDivId = $id . '-div';
 
         $checkbox = new rex_form_checkbox_element('');
         $checkbox->setAttribute('name', 'enable_restrictions');
@@ -55,7 +55,7 @@ class rex_form_restrictons_element extends rex_form_select_element
 
         jQuery(function($) {
 
-            $("#' . $checkboxId .'").click(function() {
+            $("#' . $checkboxId . '").click(function() {
                 $("#' . $slctDivId . '").slideToggle("slow");
                 if($(this).is(":checked"))
                 {
@@ -65,7 +65,7 @@ class rex_form_restrictons_element extends rex_form_select_element
                 }
             });
 
-            if($("#' . $checkboxId .'").is(":checked")) {
+            if($("#' . $checkboxId . '").is(":checked")) {
                 $("#' . $slctDivId . '").hide();
             }
         });

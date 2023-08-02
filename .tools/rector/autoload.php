@@ -8,7 +8,7 @@ spl_autoload_register(static function (string $class): void {
     }
 
     $path = substr($class, strlen($prefix));
-    $path = str_replace('\\', DIRECTORY_SEPARATOR, $path).'.php';
+    $path = str_replace('\\', DIRECTORY_SEPARATOR, $path) . '.php';
 
-    require __DIR__.DIRECTORY_SEPARATOR.$path;
+    require __DIR__ . DIRECTORY_SEPARATOR . $path;
 });

@@ -12,10 +12,10 @@ $langs = [];
 foreach (rex_i18n::getLocales() as $locale) {
     $label = rex_i18n::msgInLocale('lang', $locale);
     $active = !$initial && $current === $locale ? ' active' : '';
-    $langs[$label] = '<a class="list-group-item'.$active.'" href="' . $context->getUrl(['lang' => $locale, 'step' => 2]) . '">' . $label . '</a>';
+    $langs[$label] = '<a class="list-group-item' . $active . '" href="' . $context->getUrl(['lang' => $locale, 'step' => 2]) . '">' . $label . '</a>';
 }
 ksort($langs);
-echo rex_view::title(rex_i18n::msg('setup_100').$cancelSetupBtn);
+echo rex_view::title(rex_i18n::msg('setup_100') . $cancelSetupBtn);
 $content = '<div class="list-group">' . implode('', $langs) . '</div>';
 
 $fragment = new rex_fragment();

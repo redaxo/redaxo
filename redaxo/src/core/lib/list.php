@@ -173,7 +173,7 @@ class rex_list implements rex_url_provider_interface
 
         // --------- Pagination Attributes
         if (self::DISABLE_PAGINATION !== $rowsPerPage) {
-            $cursorName = $listName .'_start';
+            $cursorName = $listName . '_start';
             if (null === rex_request($cursorName, 'int', null) && rex_request('start', 'int')) {
                 // BC: Fallback to "start"
                 $cursorName = 'start';
@@ -387,7 +387,7 @@ class rex_list implements rex_url_provider_interface
     public function setRowAttributes($attr): void
     {
         if (!is_array($attr) && !is_callable($attr)) {
-            throw new InvalidArgumentException('$attr must be an array or a callable, but "'.get_debug_type($attr).'" given');
+            throw new InvalidArgumentException('$attr must be an array or a callable, but "' . get_debug_type($attr) . '" given');
         }
 
         $this->rowAttributes = $attr;
@@ -485,11 +485,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnName($columnIndex, $default = null)
     {
-        if (isset($this->columnNames[$columnIndex])) {
-            return $this->columnNames[$columnIndex];
-        }
-
-        return $default;
+        return $this->columnNames[$columnIndex] ?? $default;
     }
 
     /**
@@ -528,11 +524,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnLabel($columnName, $default = null)
     {
-        if (isset($this->columnLabels[$columnName])) {
-            return $this->columnLabels[$columnName];
-        }
-
-        return $default ?? $columnName;
+        return $this->columnLabels[$columnName] ?? $default ?? $columnName;
     }
 
     /**
@@ -559,11 +551,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnFormat($columnName, $default = null)
     {
-        if (isset($this->columnFormates[$columnName])) {
-            return $this->columnFormates[$columnName];
-        }
-
-        return $default;
+        return $this->columnFormates[$columnName] ?? $default;
     }
 
     /**
@@ -703,7 +691,7 @@ class rex_list implements rex_url_provider_interface
     {
         $position = array_search($columnName, $this->columnNames);
         if (false === $position) {
-            throw new InvalidArgumentException('Unkown column name "'.$columnName.'".');
+            throw new InvalidArgumentException('Unkown column name "' . $columnName . '".');
         }
         return $position;
     }
@@ -902,7 +890,7 @@ class rex_list implements rex_url_provider_interface
 
     private static function prepareCountQuery(string $query): string
     {
-        return 'SELECT COUNT(*) AS `rows` FROM ('.$query.') t';
+        return 'SELECT COUNT(*) AS `rows` FROM (' . $query . ') t';
     }
 
     /**
@@ -966,7 +954,7 @@ class rex_list implements rex_url_provider_interface
 
         $default = strtolower($default);
         if (!in_array($default, ['asc', 'desc'], true)) {
-            throw new InvalidArgumentException('Default sort type must be "asc", "desc" or null, but "'.$default.'" given');
+            throw new InvalidArgumentException('Default sort type must be "asc", "desc" or null, but "' . $default . '" given');
         }
 
         return $default;

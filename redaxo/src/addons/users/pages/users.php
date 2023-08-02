@@ -109,7 +109,7 @@ if ($save && ($fUNCADD || $fUNCUPDATE || $fUNCAPPLY)) {
 
     if ($userpsw && (true !== $msg = $passwordPolicy->check($userpsw, $userId ?: null))) {
         if ($currentUser->isAdmin()) {
-            $msg .= ' '.rex_i18n::msg('password_admin_notice');
+            $msg .= ' ' . rex_i18n::msg('password_admin_notice');
         }
         $warnings[] = $msg;
     }
@@ -417,7 +417,7 @@ if ('' != $fUNCADD || $userId > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-js-user-password" class="required">' . rex_i18n::msg('password') . '</label>';
-    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password" '.rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()).' />';
+    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password" ' . rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
     $n['note'] = $passwordPolicy->getDescription();
 
     $formElements[] = $n;
@@ -563,7 +563,7 @@ if ($SHOW) {
             IF(name <> "", name, login) as name,
             login,
             `admin`,
-            IF(`admin`, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR "'.$separator.'") FROM '.rex::getTable('user_role').' r WHERE FIND_IN_SET(r.id, u.role)), "'.$noRole.'")) as role,
+            IF(`admin`, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR "' . $separator . '") FROM ' . rex::getTable('user_role') . ' r WHERE FIND_IN_SET(r.id, u.role)), "' . $noRole . '")) as role,
             status,
             lastlogin
         FROM ' . rex::getTable('user') . ' u
@@ -571,7 +571,7 @@ if ($SHOW) {
     ');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
-    $tdIcon = '<i class="rex-icon rex-icon-user" title="'.  rex_i18n::msg('user_status_active') . '"></i>';
+    $tdIcon = '<i class="rex-icon rex-icon-user" title="' . rex_i18n::msg('user_status_active') . '"></i>';
     $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><i class="rex-icon rex-icon-add-user"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['user_id' => '###id###']);
@@ -612,13 +612,13 @@ if ($SHOW) {
     $list->setColumnFormat('role', 'custom', static function () use ($list, $noRole, $separator) {
         $roles = $list->getValue('role');
         if ($noRole === $roles) {
-            return '<span class="label label-warning">'.rex_i18n::msg('user_no_role').'</span>';
+            return '<span class="label label-warning">' . rex_i18n::msg('user_no_role') . '</span>';
         }
         if ($list->getValue('admin')) {
-            return '<span class="label label-success">'.rex_i18n::msg('user_admin').'</span>';
+            return '<span class="label label-success">' . rex_i18n::msg('user_admin') . '</span>';
         }
 
-        return '<div class="rex-docs"><ul class="small"><li>'.implode('</li><li>', explode($separator, rex_escape($roles))).'</li></ul></div>';
+        return '<div class="rex-docs"><ul class="small"><li>' . implode('</li><li>', explode($separator, rex_escape($roles))) . '</li></ul></div>';
     }, ['roles' => $roles]);
     $list->setColumnSortable('role');
 
@@ -628,7 +628,7 @@ if ($SHOW) {
 
     $colspan = $currentUser->isAdmin() ? 3 : 2;
     $list->addColumn(rex_i18n::msg('user_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
-    $list->setColumnLayout(rex_i18n::msg('user_functions'), ['<th class="rex-table-action" colspan="'.$colspan.'">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->setColumnLayout(rex_i18n::msg('user_functions'), ['<th class="rex-table-action" colspan="' . $colspan . '">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('user_functions'), ['user_id' => '###id###']);
     $list->setColumnFormat(rex_i18n::msg('user_functions'), 'custom', static function () use ($currentUser, $list) {
         $edit = '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit');

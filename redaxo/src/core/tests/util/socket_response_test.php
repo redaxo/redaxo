@@ -93,14 +93,14 @@ class rex_socket_response_test extends TestCase
 
         // Test combination with chunked with real responses from the redaxo webservice
         $decodedResponseContent =
-            file_get_contents(__DIR__.'/socket_response_testfiles/response_decoded');
+            file_get_contents(__DIR__ . '/socket_response_testfiles/response_decoded');
 
         static::assertSame($decodedResponseContent, $this->getResponse(
-            file_get_contents(__DIR__.'/socket_response_testfiles/response_chunked.testresp'),
+            file_get_contents(__DIR__ . '/socket_response_testfiles/response_chunked.testresp'),
         )->decompressContent(true)->getBody());
 
         static::assertSame($decodedResponseContent, $this->getResponse(
-            file_get_contents(__DIR__.'/socket_response_testfiles/response_chunked_gzip.testresp'),
+            file_get_contents(__DIR__ . '/socket_response_testfiles/response_chunked_gzip.testresp'),
         )->decompressContent(true)->getBody());
     }
 

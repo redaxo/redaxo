@@ -312,7 +312,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-smtp_debug">' . $addon->i18n('smtp_debug') . '</label>';
-$n['field'] = $selDebug->get().'<p class="help-block rex-note"> ' . $addon->i18n('smtp_debug_info').'</p>';
+$n['field'] = $selDebug->get() . '<p class="help-block rex-note"> ' . $addon->i18n('smtp_debug_info') . '</p>';
 $formElements[] = $n;
 
 $n = [];
@@ -323,7 +323,7 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="phpmailer-archive">' . $addon->i18n('archive') . '</label>';
 $n['field'] = $selArchive->get();
-$n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
+$n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...' . substr(rex_mailer::logFolder(), -30));
 $formElements[] = $n;
 
 if (is_dir(rex_mailer::logFolder())) {
