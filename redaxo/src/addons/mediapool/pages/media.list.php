@@ -46,7 +46,7 @@ if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
                         'filename' => $fileName,
                         'category_id' => $rexFileCategory,
                     ]));
-                } catch (rex_sql_exception $e) {
+                } catch (rex_sql_exception) {
                     $error = rex_i18n::msg('pool_selectedmedia_error');
                 }
             }
@@ -95,10 +95,9 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
 $catsSel = new rex_media_category_select();
 $catsSel->setSize(1);
 $catsSel->setStyle('class="form-control selectpicker"');
+$catsSel->setAttribute('data-live-search', 'true');
 $catsSel->setName('rex_file_category');
 $catsSel->setId('rex_file_category');
-$catsSel->setAttribute('class', 'selectpicker form-control');
-$catsSel->setAttribute('data-live-search', 'true');
 $catsSel->setSelected($rexFileCategory);
 
 if ($perm->hasAll()) {

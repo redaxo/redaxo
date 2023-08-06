@@ -17,7 +17,7 @@ class rex_module_cache
 
     public static function generateKeyMapping(): void
     {
-        $data = rex_sql::factory()->getArray('SELECT id, `key` FROM '.rex::getTable('module').' WHERE `key` IS NOT NULL');
+        $data = rex_sql::factory()->getArray('SELECT id, `key` FROM ' . rex::getTable('module') . ' WHERE `key` IS NOT NULL');
         $mapping = array_column($data, 'key', 'id');
 
         if (!rex_file::putCache(self::getKeyMappingPath(), $mapping)) {

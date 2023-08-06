@@ -11,13 +11,9 @@ use Rector\NodeNameResolver\NodeNameResolver;
 
 final class UnderscoreCamelCaseExpectedNameResolver
 {
-    /** @var NodeNameResolver */
-    private $nodeNameResolver;
-
-    public function __construct(NodeNameResolver $nodeNameResolver)
-    {
-        $this->nodeNameResolver = $nodeNameResolver;
-    }
+    public function __construct(
+        private readonly NodeNameResolver $nodeNameResolver,
+    ) {}
 
     /**
      * @param Param|Property $node

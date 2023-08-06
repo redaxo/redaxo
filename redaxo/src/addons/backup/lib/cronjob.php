@@ -44,15 +44,15 @@ class rex_cronjob_export extends rex_cronjob
                 if ($gzPath) {
                     rex_file::delete($exportFilePath);
 
-                    $message = rex_path::basename($gzPath) .' created';
+                    $message = rex_path::basename($gzPath) . ' created';
                     $exportFilePath = $gzPath;
                 }
             }
 
             if ($this->getParam('delete_interval')) {
                 $allSqlfiles = array_merge(
-                    glob(rex_path::addonData('backup', '*'.$ext), GLOB_NOSORT),
-                    glob(rex_path::addonData('backup', '*'.$ext.'.gz'), GLOB_NOSORT),
+                    glob(rex_path::addonData('backup', '*' . $ext), GLOB_NOSORT),
+                    glob(rex_path::addonData('backup', '*' . $ext . '.gz'), GLOB_NOSORT),
                 );
                 $backups = [];
                 $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat
@@ -88,7 +88,7 @@ class rex_cronjob_export extends rex_cronjob
                 }
 
                 if ($countDeleted) {
-                    $message .= ', '.$countDeleted.' old backup(s) deleted';
+                    $message .= ', ' . $countDeleted . ' old backup(s) deleted';
                 }
             }
 

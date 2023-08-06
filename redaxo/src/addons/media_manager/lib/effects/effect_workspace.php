@@ -182,13 +182,13 @@ $(function() {
                 'label' => rex_i18n::msg('media_manager_effect_resize_width'),
                 'name' => 'width',
                 'type' => 'int',
-                'suffix' => '<p class="form-control-static">'.rex_i18n::msg('media_manager_effect_workspace_bgimage_size').'</p>',
+                'suffix' => '<p class="form-control-static">' . rex_i18n::msg('media_manager_effect_workspace_bgimage_size') . '</p>',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_resize_height'),
                 'name' => 'height',
                 'type' => 'int',
-                'suffix' => '<p class="form-control-static">'.rex_i18n::msg('media_manager_effect_workspace_bgimage_size').'</p>',
+                'suffix' => '<p class="form-control-static">' . rex_i18n::msg('media_manager_effect_workspace_bgimage_size') . '</p>',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),

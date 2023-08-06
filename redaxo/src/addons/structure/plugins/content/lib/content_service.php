@@ -16,7 +16,7 @@ class rex_content_service
 
         if (!isset($data['priority'])) {
             $prevSlice = rex_sql::factory();
-            $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . rex::getTable('article_slice') . ' WHERE '.$where);
+            $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . rex::getTable('article_slice') . ' WHERE ' . $where);
 
             $data['priority'] = $prevSlice->getValue('priority');
         } elseif ($data['priority'] <= 0) {
@@ -204,7 +204,7 @@ class rex_content_service
     public static function sliceStatus(int $sliceId, int $status)
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT article_id, clang_id FROM '.rex::getTable('article_slice').' WHERE id = ?', [$sliceId]);
+        $sql->setQuery('SELECT article_id, clang_id FROM ' . rex::getTable('article_slice') . ' WHERE id = ?', [$sliceId]);
 
         if (!$sql->getRows()) {
             throw new rex_exception(sprintf('Slice with id=%d not found.', $sliceId));

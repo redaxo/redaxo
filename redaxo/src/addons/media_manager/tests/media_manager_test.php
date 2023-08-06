@@ -10,18 +10,18 @@ class rex_media_manager_test extends TestCase
 {
     public function testGetCacheFilename(): void
     {
-        $media = new rex_managed_media(__DIR__.'/foo.jpg');
+        $media = new rex_managed_media(__DIR__ . '/foo.jpg');
         $manager = new rex_media_manager($media);
 
         $cachePath = rex_path::addonCache('media_manager');
         $manager->setCachePath($cachePath);
 
-        $media->setMediaPath(__DIR__.'/bar.gif');
+        $media->setMediaPath(__DIR__ . '/bar.gif');
 
         $property = new ReflectionProperty(rex_media_manager::class, 'type');
         $property->setValue($manager, 'test');
 
-        static::assertSame($cachePath.'test/foo.jpg', $manager->getCacheFilename());
+        static::assertSame($cachePath . 'test/foo.jpg', $manager->getCacheFilename());
     }
 
     public function testGetMediaFile(): void
@@ -63,7 +63,7 @@ class rex_media_manager_test extends TestCase
         if (false === $expectedBuster) {
             static::assertStringNotContainsString('buster=', $url);
         } else {
-            static::assertStringContainsString('buster='.$expectedBuster, $url);
+            static::assertStringContainsString('buster=' . $expectedBuster, $url);
         }
     }
 
@@ -96,7 +96,7 @@ class rex_media_manager_test extends TestCase
         yield [false, $type, 'test.jpg'];
 
         $typeTimestamp = (int) rex_sql::factory()
-            ->setQuery('SELECT updatedate FROM '.rex::getTable('media_manager_type').' WHERE name = ?', [$type])
+            ->setQuery('SELECT updatedate FROM ' . rex::getTable('media_manager_type') . ' WHERE name = ?', [$type])
             ->getDateTimeValue('updatedate');
 
         foreach ([$typeTimestamp - 1000, $typeTimestamp + 1000] as $fileTimestamp) {

@@ -8,12 +8,11 @@ class rex_module
     /** @var int */
     private $id;
     /** @var string|null */
-    private $key;
+    private $key = '';
 
     public function __construct(int $moduleId)
     {
         $this->id = $moduleId;
-        $this->key = '';
     }
 
     public static function forKey(string $moduleKey): ?self

@@ -207,7 +207,7 @@ class rex_request
     private static function arrayKeyCast(array $haystack, $needle, $vartype, $default = '')
     {
         if (!is_scalar($needle)) {
-            throw new InvalidArgumentException('Scalar expected for $needle in arrayKeyCast(), got '. gettype($needle) .'!');
+            throw new InvalidArgumentException('Scalar expected for $needle in arrayKeyCast(), got ' . gettype($needle) . '!');
         }
 
         if (array_key_exists($needle, $haystack)) {
@@ -299,6 +299,6 @@ class rex_request
         // so we can e.g. clear the backend session without
         // logging out the users from the frontend
         $suffix = rex::isBackend() ? '_backend' : '';
-        return rex::getProperty('instname'). $suffix;
+        return rex::getProperty('instname') . $suffix;
     }
 }

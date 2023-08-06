@@ -57,7 +57,7 @@ class rex_command_config_set extends rex_console_command implements rex_command_
         } elseif ('octal' === $type) {
             // turns e.g. 755 into 0755
             // a leading zero marks a octal-string
-            $value = '0'. $value;
+            $value = '0' . $value;
         } else {
             $value = rex_type::cast($value, $type);
         }

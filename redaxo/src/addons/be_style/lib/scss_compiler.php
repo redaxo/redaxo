@@ -16,14 +16,13 @@ class rex_scss_compiler
     /** @var string */
     protected $css_file;
     /** @var class-string<Formatter> */
-    protected $formatter;
+    protected $formatter = Compressed::class;
 
     public function __construct()
     {
         $this->root_dir = rex_path::addon('be_style');
         $this->scss_file = rex_path::addon('be_style', 'assets') . 'styles.scss';
         $this->css_file = rex_path::addon('be_style', 'assets') . 'styles.css';
-        $this->formatter = Compressed::class;
     }
 
     /**

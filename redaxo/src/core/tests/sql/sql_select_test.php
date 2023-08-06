@@ -74,13 +74,13 @@ class rex_sql_select_test extends TestCase
         $row = $sql->getRow(PDO::FETCH_OBJ);
 
         static::assertInstanceOf(stdClass::class, $row);
-        static::assertEquals(1, $row->{self::TABLE.'.id'});
+        static::assertEquals(1, $row->{self::TABLE . '.id'});
 
         $sql->next();
         $row = $sql->getRow(PDO::FETCH_OBJ);
 
         static::assertInstanceOf(stdClass::class, $row);
-        static::assertEquals(2, $row->{self::TABLE.'.id'});
+        static::assertEquals(2, $row->{self::TABLE . '.id'});
     }
 
     public function testGetVariations(): void
@@ -229,14 +229,14 @@ class rex_sql_select_test extends TestCase
     {
         $sql = rex_sql::factory();
 
-        $sql->setQuery('SELECT * FROM '.self::TABLE);
+        $sql->setQuery('SELECT * FROM ' . self::TABLE);
 
         static::assertFalse($sql->hasError());
         static::assertEquals(0, $sql->getErrno());
 
         $exception = null;
         try {
-            $sql->setQuery('SELECT '.self::TABLE);
+            $sql->setQuery('SELECT ' . self::TABLE);
         } catch (rex_sql_exception $exception) {
         }
 
@@ -248,7 +248,7 @@ class rex_sql_select_test extends TestCase
 
         $exception = null;
         try {
-            $sql->setQuery('SELECT * FROM '.self::TABLE.' WHERE idx = ?', [1]);
+            $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE idx = ?', [1]);
         } catch (rex_sql_exception $exception) {
         }
 
@@ -283,14 +283,14 @@ class rex_sql_select_test extends TestCase
 
         static::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
 
-        $sql->setQuery('SELECT * FROM '.self::TABLE, [], [
+        $sql->setQuery('SELECT * FROM ' . self::TABLE, [], [
             rex_sql::OPT_BUFFERED => false,
         ]);
 
         static::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
 
         try {
-            $sql->setQuery('SELECT '.self::TABLE, [], [
+            $sql->setQuery('SELECT ' . self::TABLE, [], [
                 rex_sql::OPT_BUFFERED => false,
             ]);
         } catch (rex_sql_exception) {

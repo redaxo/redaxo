@@ -70,6 +70,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
                 <th class="rex-table-icon"></th>
                 <th class="rex-table-width-4">' . $package->i18n('version') . '</th>
                 <th class="rex-table-width-4"><span class="text-nowrap">' . $package->i18n('published_on') . '</span></th>
+                <th><span class="text-nowrap">' . $package->i18n('downloads') . '</span></th>
                 <th>' . $package->i18n('description') . '</th>
                 <th class="rex-table-action">' . $package->i18n('header_function') . '</th>
             </tr>
@@ -84,21 +85,22 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         $description = $markdown($file['description']);
 
         if (rex_version::isUnstable($version)) {
-            $releaseLabel = '<br><span class="label label-warning" title="'. rex_i18n::msg('unstable_version') .'">'.rex_i18n::msg('unstable_version').'</span> ';
-            $confirm = ' data-confirm="'.rex_i18n::msg('install_download_unstable').'"';
+            $releaseLabel = '<br><span class="label label-warning" title="' . rex_i18n::msg('unstable_version') . '">' . rex_i18n::msg('unstable_version') . '</span> ';
+            $confirm = ' data-confirm="' . rex_i18n::msg('install_download_unstable') . '"';
             $packageIcon = '<i class="rex-icon rex-icon-unstable-version"></i>';
         } elseif (!$latestRelease) {
-            $releaseLabel = '<br><span class="label label-success">'.rex_i18n::msg('install_latest_release').'</span>';
+            $releaseLabel = '<br><span class="label label-success">' . rex_i18n::msg('install_latest_release') . '</span>';
             $latestRelease = true;
         }
 
         $content .= '
             <tr>
-                <td class="rex-table-icon">'.$packageIcon.'</td>
-                <td data-title="' . $package->i18n('version') .'">' . $version . $releaseLabel .'</td>
+                <td class="rex-table-icon">' . $packageIcon . '</td>
+                <td data-title="' . $package->i18n('version') . '">' . $version . $releaseLabel . '</td>
                 <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::intlDate($file['created'])) . '</td>
+                <td data-title="' . $package->i18n('downloads') . '">' . $file['counter'] . '</td>
                 <td class="rex-word-break" data-title="' . $package->i18n('description') . '">' . $description . '</td>
-                <td class="rex-table-action"><a class="rex-link-expanded"'.$confirm.' href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_add::getUrlParams()) . '" data-pjax="false"><i class="rex-icon rex-icon-download"></i> ' . $package->i18n('download') . '</a></td>
+                <td class="rex-table-action"><a class="rex-link-expanded"' . $confirm . ' href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_add::getUrlParams()) . '" data-pjax="false"><i class="rex-icon rex-icon-download"></i> ' . $package->i18n('download') . '</a></td>
             </tr>';
     }
 
@@ -117,21 +119,59 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     $toolbar = $fragment->parse('core/form/search.php');
 
     $sort = rex_request('sort', 'string', '');
+    $sortType = rex_request('sort_type', 'string', '');
+    $sortByPublishedDateClass = '';
+    $sortByDownloadsClass = '';
+    $sortNextPublishedDate = '';
+    $sortNextDownloads = 'down';
+
     if ('up' === $sort) {
         $sortClass = '-up';
         $sortNext = 'down';
-        uasort($addons, static function ($addon1, $addon2) {
-            return reset($addon1['files'])['created'] <=> reset($addon2['files'])['created'];
-        });
+
+        if ('published' === $sortType) {
+            uasort($addons, static function ($addon1, $addon2) {
+                return reset($addon1['files'])['created'] <=> reset($addon2['files'])['created'];
+            });
+        } elseif ('downloads' === $sortType) {
+            uasort($addons, static function ($addon1, $addon2) {
+                return $addon1['counter'] <=> $addon2['counter'];
+            });
+        }
     } elseif ('down' === $sort) {
         $sortClass = '-down';
         $sortNext = '';
-        uasort($addons, static function ($addon1, $addon2) {
-            return reset($addon2['files'])['created'] <=> reset($addon1['files'])['created'];
-        });
+
+        if ('published' === $sortType) {
+            uasort($addons, static function ($addon1, $addon2) {
+                return reset($addon2['files'])['created'] <=> reset($addon1['files'])['created'];
+            });
+        } elseif ('downloads' === $sortType) {
+            uasort($addons, static function ($addon1, $addon2) {
+                return $addon2['counter'] <=> $addon1['counter'];
+            });
+        }
+
     } else {
         $sortClass = '';
         $sortNext = 'up';
+        $sortNextPublishedDate = $sortNext;
+    }
+
+    if ('published' === $sortType) {
+        $sortByPublishedDateClass = $sortClass;
+        $sortNextPublishedDate = $sortNext;
+    } elseif ('downloads' === $sortType) {
+        $sortByDownloadsClass = $sortClass;
+        $sortNextPublishedDate = 'up';
+
+        if ('up' === $sort) {
+            $sortNextDownloads = '';
+        } elseif ('down' === $sort) {
+            $sortNextDownloads = 'up';
+        } else {
+            $sortNextDownloads = 'down';
+        }
     }
 
     $content = '
@@ -139,9 +179,10 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
          <thead>
             <tr>
                 <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $package->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
-                <th class="rex-table-min-width-4 rex-table-sort"><a class="rex-link-expanded" href="'.rex_url::currentBackendPage().'" title="'.$package->i18n('sort_default').'">' . $package->i18n('key') . '</a></th>
+                <th class="rex-table-min-width-4 rex-table-sort"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage() . '" title="' . $package->i18n('sort_default') . '">' . $package->i18n('key') . '</a></th>
                 <th class="rex-table-min-width-4">' . $package->i18n('name') . ' / ' . $package->i18n('author') . '</th>
-                <th class="rex-table-min-width-4 rex-table-sort"><a class="rex-link-expanded" href="'.rex_url::currentBackendPage(['sort' => $sortNext]).'" title="' . $package->i18n('sort') . '"><span class="text-nowrap">' . $package->i18n('published_on') . '</span>&nbsp;<span><i class="rex-icon rex-icon-sort fa-sort'.$sortClass.'"></i></span></a></th>
+                <th class="rex-table-min-width-4 rex-table-sort"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['sort' => $sortNextPublishedDate, 'sort_type' => 'published']) . '" title="' . $package->i18n('sort') . '"><span class="text-nowrap">' . $package->i18n('published_on') . '</span>&nbsp;<span><i class="rex-icon rex-icon-sort fa-sort' . $sortByPublishedDateClass . '"></i></span></a></th>
+                <th class="rex-table-min-width-4 rex-table-sort"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['sort' => $sortNextDownloads, 'sort_type' => 'downloads']) . '" title="' . $package->i18n('sort') . '"><span class="text-nowrap">' . $package->i18n('downloads') . '</span>&nbsp;<span><i class="rex-icon rex-icon-sort fa-sort' . $sortByDownloadsClass . '"></i></span></a></th>
                 <th>' . $package->i18n('shortdescription') . '</th>
                 <th class="rex-table-action">' . $package->i18n('header_function') . '</th>
             </tr>
@@ -149,6 +190,8 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
          <tbody>';
 
     foreach ($addons as $key => $addon) {
+        $downloads = $addon['counter'] ?: 0;
+
         if (rex_addon::exists($key)) {
             $content .= '
                 <tr>
@@ -156,6 +199,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
                     <td class="rex-word-break" data-title="' . $package->i18n('key') . '">' . rex_escape($key) . '</td>
                     <td class="rex-word-break" data-title="' . $package->i18n('name') . '"><b>' . rex_escape($addon['name']) . '</b><br /><span class="text-muted">' . rex_escape($addon['author']) . '</span></td>
                     <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::intlDate(reset($addon['files'])['created'])) . '</td>
+                    <td data-title="' . $package->i18n('downloads') . '">' . $downloads . '</td>
                     <td class="rex-word-break" data-title="' . $package->i18n('shortdescription') . '">' . nl2br(rex_escape($addon['shortdescription'])) . '</td>
                     <td class="rex-table-action"><span class="text-nowrap"><i class="rex-icon rex-icon-package-exists"></i> ' . $package->i18n('addon_already_exists') . '</span></td>
                 </tr>';
@@ -167,6 +211,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
                     <td class="rex-word-break" data-title="' . $package->i18n('key') . '"><a class="rex-link-expanded" href="' . $url . '">' . rex_escape($key) . '</a></td>
                     <td class="rex-word-break" data-title="' . $package->i18n('name') . '"><b>' . rex_escape($addon['name']) . '</b><br /><span class="text-muted">' . rex_escape($addon['author']) . '</span></td>
                     <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::intlDate(reset($addon['files'])['created'])) . '</td>
+                    <td data-title="' . $package->i18n('downloads') . '">' . $downloads . '</td>
                     <td class="rex-word-break" data-title="' . $package->i18n('shortdescription') . '">' . nl2br(rex_escape($addon['shortdescription'])) . '</td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
                 </tr>';

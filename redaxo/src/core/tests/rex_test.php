@@ -9,7 +9,7 @@ class rex_rex_test extends TestCase
 {
     public function testRexConfig(): void
     {
-        $key = 'aTestKey:'. __METHOD__;
+        $key = 'aTestKey:' . __METHOD__;
         // initial test on empty config
         static::assertFalse(rex::hasConfig($key), 'the key does not exists at first');
         static::assertNull(rex::getConfig($key), 'getting non existing key returns null');
@@ -34,7 +34,7 @@ class rex_rex_test extends TestCase
 
     public function testRexProperty(): void
     {
-        $key = 'aTestKey:'. __METHOD__;
+        $key = 'aTestKey:' . __METHOD__;
         // initial test on empty config
         static::assertFalse(rex::hasProperty($key), 'the key does not exists at first');
         static::assertNull(rex::getProperty($key), 'getting non existing key returns null');

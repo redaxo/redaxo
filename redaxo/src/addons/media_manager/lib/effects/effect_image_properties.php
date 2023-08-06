@@ -55,7 +55,7 @@ class rex_effect_image_properties extends rex_effect_abstract
             ],
             [
                 'label' => rex_i18n::msg('media_manager_png_compression'),
-                'notice' => rex_i18n::msg('media_manager_effect_image_properties_png_compression_notice').' '.rex_i18n::msg('media_manager_png_compression_note'),
+                'notice' => rex_i18n::msg('media_manager_effect_image_properties_png_compression_notice') . ' ' . rex_i18n::msg('media_manager_png_compression_note'),
                 'name' => 'png_compression',
                 'type' => 'int',
             ],
@@ -90,7 +90,7 @@ class rex_effect_image_properties extends rex_effect_abstract
         var $field = $("#media-manager-rex-effect-image-properties-interlace-select");
 
         $field.on("changed.bs.select", function (event, clickedIndex, newValue, oldValue) {
-            var off = "'. self::NO_INTERLACING .'";
+            var off = "' . self::NO_INTERLACING . '";
             if (0 == clickedIndex && newValue) {
                 $field.selectpicker("val", [off]);
             }

@@ -305,8 +305,8 @@ abstract class rex_package implements rex_package_interface
                 }
                 if ('supportpage' !== $key) {
                     $value = rex_i18n::translateArray($value, false, $this->i18n(...));
-                } elseif (!preg_match('@^https?://@i', $value)) {
-                    $value = 'https://'.$value;
+                } elseif (null !== $value && !preg_match('@^https?://@i', $value)) {
+                    $value = 'https://' . $value;
                 }
                 $this->properties[$key] = $value;
             }
@@ -332,7 +332,7 @@ abstract class rex_package implements rex_package_interface
             unset($cache[$this->getPackageId()]);
 
             if ($this instanceof rex_addon) {
-                $start = $this->getPackageId().'/';
+                $start = $this->getPackageId() . '/';
                 foreach ($cache as $packageId => $_) {
                     if (str_starts_with((string) $packageId, $start)) {
                         unset($cache[$packageId]);

@@ -275,7 +275,7 @@ final class rex_media_service
         $where = [];
         $queryParams = [];
         $tables = [];
-        $tables[] = rex::getTable('media').' AS m';
+        $tables[] = rex::getTable('media') . ' AS m';
 
         $counter = 0;
         foreach ($filter as $type => $value) {
@@ -284,20 +284,20 @@ final class rex_media_service
             switch ($type) {
                 case 'category_id':
                     if (is_int($value)) {
-                        $where[] = '(m.category_id = :search_'.$counter.')';
-                        $queryParams['search_'.$counter] = $value;
+                        $where[] = '(m.category_id = :search_' . $counter . ')';
+                        $queryParams['search_' . $counter] = $value;
                     }
                     break;
                 case 'category_id_path':
                     if (is_int($value)) {
-                        $tables[] = rex::getTable('media_category').' AS c';
-                        $where[] = '(m.category_id = c.id AND (c.path LIKE "%|'.$value.'|%" OR c.id='.$value.') )';
-                        $queryParams['search_'.$counter] = $value;
+                        $tables[] = rex::getTable('media_category') . ' AS c';
+                        $where[] = '(m.category_id = c.id AND (c.path LIKE "%|' . $value . '|%" OR c.id=' . $value . ') )';
+                        $queryParams['search_' . $counter] = $value;
                     }
                     break;
                 case 'types':
                     if (is_array($value) && $value) {
-                        $where[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) IN ('.$sql->in($value).')';
+                        $where[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) IN (' . $sql->in($value) . ')';
                     }
                     break;
                 case 'term':
@@ -310,21 +310,21 @@ final class rex_media_service
                         }
                         if (str_starts_with($part, 'type:') && strlen($part) > 5) {
                             $types = explode(',', strtolower(substr($part, 5)));
-                            $where[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) IN ('.$sql->in($types).')';
+                            $where[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) IN (' . $sql->in($types) . ')';
 
                             continue;
                         }
 
                         $param = "search_{$counter}_{$i}";
-                        $where[] = '(m.filename LIKE :'.$param.' || m.title LIKE :'.$param.')';
-                        $queryParams[$param] = '%'.$sql->escapeLikeWildcards($part).'%';
+                        $where[] = '(m.filename LIKE :' . $param . ' || m.title LIKE :' . $param . ')';
+                        $queryParams[$param] = '%' . $sql->escapeLikeWildcards($part) . '%';
                     }
                     break;
             }
         }
 
-        $where = count($where) ? ' WHERE '.implode(' AND ', $where) : '';
-        $query = 'SELECT m.filename FROM '.implode(',', $tables).' '.$where;
+        $where = count($where) ? ' WHERE ' . implode(' AND ', $where) : '';
+        $query = 'SELECT m.filename FROM ' . implode(',', $tables) . ' ' . $where;
 
         $orderbys = [];
         foreach ($orderBy as $index => $orderByItem) {
@@ -334,8 +334,8 @@ final class rex_media_service
             if (!in_array($orderByItem[0], self::ORDER_BY, true)) {
                 continue;
             }
-            $orderbys[] = ':orderby_'.$index.' '.('ASC' == $orderByItem[1]) ? 'ASC' : 'DESC';
-            $queryParams['orderby_'.$index] = 'm.' . $orderByItem[0];
+            $orderbys[] = ':orderby_' . $index . ' ' . ('ASC' == $orderByItem[1]) ? 'ASC' : 'DESC';
+            $queryParams['orderby_' . $index] = 'm.' . $orderByItem[0];
         }
 
         if (0 == count($orderbys)) {
@@ -343,11 +343,11 @@ final class rex_media_service
         }
 
         if ($pager) {
-            $query .= ' ORDER BY '.implode(', ', $orderbys);
+            $query .= ' ORDER BY ' . implode(', ', $orderbys);
             $sql->setQuery(str_replace('SELECT m.filename', 'SELECT count(*)', $query), $queryParams);
             $pager->setRowCount((int) $sql->getValue('count(*)'));
 
-            $query .= ' LIMIT '.$pager->getCursor().','.$pager->getRowsPerPage();
+            $query .= ' LIMIT ' . $pager->getCursor() . ',' . $pager->getRowsPerPage();
         }
 
         // EP to modify the media list query
@@ -363,7 +363,7 @@ final class rex_media_service
         foreach ($sql->getArray($query, $queryParams) as $media) {
             $mediaObject = rex_media::get($media['filename']);
             if (!$mediaObject) {
-                throw new LogicException('Media "'.$media['filename'].'" does not exist');
+                throw new LogicException('Media "' . $media['filename'] . '" does not exist');
             }
             $items[] = $mediaObject;
         }

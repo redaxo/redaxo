@@ -33,7 +33,7 @@ class rex_form extends rex_form_base
     /** @var rex_sql */
     protected $sql;
     /** @var array */
-    protected $languageSupport;
+    protected $languageSupport = [];
 
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
@@ -53,7 +53,6 @@ class rex_form extends rex_form_base
 
         $this->tableName = $tableName;
         $this->whereCondition = $whereCondition;
-        $this->languageSupport = [];
 
         $this->db = $db;
         $this->sql = rex_sql::factory($db);

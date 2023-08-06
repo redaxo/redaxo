@@ -24,7 +24,7 @@ class rex_file
             $content = @file_get_contents($file);
 
             if (false === $content) {
-                throw new rex_exception('Unable to read file "'. $file .'"');
+                throw new rex_exception('Unable to read file "' . $file . '"');
             }
 
             return $content;
