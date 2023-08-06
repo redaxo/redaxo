@@ -51,6 +51,7 @@ class rex_setup_importer
         $importName = rex_path::basename($importName);
 
         $importSql = rex_backup::getDir() . '/' . $importName . '.sql';
+        $importSql .= is_file($importSql) ? '' : '.gz';
         $importArchiv = rex_backup::getDir() . '/' . $importName . '.tar.gz';
 
         // Nur hier zuerst die Addons installieren
