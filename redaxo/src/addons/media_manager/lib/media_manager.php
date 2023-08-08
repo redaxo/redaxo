@@ -247,7 +247,7 @@ class rex_media_manager
         $filetime = filemtime($mediapath);
 
         // cache is newer?
-        return $cachetime > $filetime;
+        return $cachetime >= $filetime;
     }
 
     /**
