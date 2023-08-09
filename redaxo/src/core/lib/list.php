@@ -1267,7 +1267,7 @@ class rex_list implements rex_url_provider_interface
                 $s .= '            </tr>' . "\n";
                 $s = rex_extension::registerPoint(new rex_extension_point('REX_LIST_TABLE_ROW', $s, [
                     'list' => $this,
-                    'sql' => $this->sql
+                    'sql' => $this->sql,
                 ]));
 
                 $this->sql->next();
@@ -1278,7 +1278,7 @@ class rex_list implements rex_url_provider_interface
 
             $s = rex_extension::registerPoint(new rex_extension_point('REX_LIST_TABLE_ROW', $s, [
                 'list' => $this,
-                'sql' => $this->sql
+                'sql' => $this->sql,
             ]));
         }
 
