@@ -1265,12 +1265,21 @@ class rex_list implements rex_url_provider_interface
                     $s .= '        ' . $columnValue . "\n";
                 }
                 $s .= '            </tr>' . "\n";
+                $s = rex_extension::registerPoint(new rex_extension_point('REX_LIST_TABLE_ROW', $s, [
+                    'list' => $this,
+                    'sql' => $this->sql
+                ]));
 
                 $this->sql->next();
             }
             $s .= '        </tbody>' . "\n";
         } else {
             $s .= '<tr class="table-no-results"><td colspan="' . count($columnNames) . '">' . $this->getNoRowsMessage() . '</td></tr>';
+
+            $s = rex_extension::registerPoint(new rex_extension_point('REX_LIST_TABLE_ROW', $s, [
+                'list' => $this,
+                'sql' => $this->sql
+            ]));
         }
 
         $s .= '    </table>' . "\n";
