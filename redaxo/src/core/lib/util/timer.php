@@ -80,7 +80,7 @@ class rex_timer
         self::$serverTimings[$label]['sum'] = $duration;
         self::$serverTimings[$label]['timings'][] = [
             'start' => $timer->start,
-            'end' => microtime(true),
+            'end' => self::now(),
         ];
     }
 
@@ -90,7 +90,7 @@ class rex_timer
      */
     public function reset()
     {
-        $this->start = microtime(true);
+        $this->start = self::now();
     }
 
     /**
@@ -99,7 +99,7 @@ class rex_timer
      */
     public function stop()
     {
-        $this->duration = microtime(true) - $this->start;
+        $this->duration = self::now() - $this->start;
     }
 
     /**
@@ -111,7 +111,7 @@ class rex_timer
      */
     public function getDelta($precision = self::MILLISEC)
     {
-        $duration = $this->duration ?? microtime(true) - $this->start;
+        $duration = $this->duration ?? self::now() - $this->start;
 
         return $duration * $precision;
     }
@@ -128,5 +128,9 @@ class rex_timer
     {
         $time = $this->getDelta($precision);
         return rex_formatter::number($time, [$decimals]);
+    }
+
+    static private function now() {
+        return hrtime(true) / 1e9;
     }
 }
