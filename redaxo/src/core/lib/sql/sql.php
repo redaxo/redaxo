@@ -749,11 +749,11 @@ class rex_sql implements Iterator
         }
 
         $decoded = @json_decode($value, true);
-        if (json_last_error() === JSON_ERROR_NONE) {
+        if (is_array($decoded)) {
             return $decoded;
         }
 
-        throw new rex_sql_exception('Failed to decode json value of column "' . $column . '"');
+        throw new rex_sql_exception('Failed to decode json value of column "' . $column . '": ' . json_last_error_msg());
     }
 
     /**
