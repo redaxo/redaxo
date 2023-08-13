@@ -130,7 +130,7 @@ class rex_timer
         return rex_formatter::number($time, [$decimals]);
     }
 
-    private static function now()
+    private static function now(): float
     {
         return hrtime(true) / 1e9;
     }
