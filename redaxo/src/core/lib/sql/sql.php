@@ -738,13 +738,11 @@ class rex_sql implements Iterator
      * @param string $column Name of the column
      *
      * @throws rex_sql_exception
-     *
-     * @return array
      */
     public function getArrayValue($column): array
     {
         $value = $this->getValue($column);
-        if ($value === null) {
+        if (null === $value) {
             return [];
         }
 
@@ -753,7 +751,7 @@ class rex_sql implements Iterator
             return $decoded;
         }
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new rex_sql_exception('Failed to decode json value of column "' . $column . '": ' . json_last_error_msg());
         }
 
