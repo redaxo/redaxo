@@ -753,7 +753,11 @@ class rex_sql implements Iterator
             return $decoded;
         }
 
-        throw new rex_sql_exception('Failed to decode json value of column "' . $column . '": ' . json_last_error_msg());
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new rex_sql_exception('Failed to decode json value of column "' . $column . '": ' . json_last_error_msg());
+        }
+
+        throw new rex_sql_exception('Failed to decode json value of column "' . $column . '" as array');
     }
 
     /**
