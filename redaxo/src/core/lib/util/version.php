@@ -151,10 +151,8 @@ class rex_version
             $gitPath = '`which git`';
         }
 
-        $gitDir = rtrim($path, '\/', ). DIRECTORY_SEPARATOR.'.git';
-
         if (null !== $repo) {
-            $command = $gitPath .' --git-dir=' . escapeshellarg($gitDir) . ' ls-remote --get-url';
+            $command = $gitPath .' -C ' . escapeshellarg($path) . ' ls-remote --get-url';
             $remote = @exec($command, $output, $exitCode);
 
             if (0 !== $exitCode || !preg_match('{github.com[:/]' . preg_quote($repo) . '\.git$}i', $remote)) {
@@ -162,7 +160,7 @@ class rex_version
             }
         }
 
-        $command = $gitPath .' --git-dir=' . escapeshellarg($gitDir) . ' log -1 --pretty=format:%h';
+        $command = $gitPath .' -C ' . escapeshellarg($path) . ' log -1 --pretty=format:%h';
         $version = @exec($command, $output, $exitCode);
 
         return 0 === $exitCode ? $version : null;
