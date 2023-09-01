@@ -54,15 +54,14 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
 
         if ($this->isVideoToImageConversionSupported()) {
-
-            $inputFile = $this->media->getMediaPath();
+            $inputFile = rex_type::notNull($this->media->getMediaPath());
 
             // Try to get the duration of the video using ffprobe
             $ffprobeCmd = 'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ' . escapeshellarg($inputFile);
             $duration = exec($ffprobeCmd);
 
             if ($duration) {
-                $timestamp = gmdate('H:i:s', (int) floor($duration / 2));
+                $timestamp = gmdate('H:i:s', (int) floor((float) $duration / 2));
             } else {
                 $timestamp = '00:00:01';
             }
