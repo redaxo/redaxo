@@ -10,13 +10,11 @@ use rex_system_report;
  */
 final class SystemReport extends Page
 {
-    public readonly array $report;
-    public readonly string $markdownReport;
+    public readonly rex_system_report $report;
 
     public function __construct()
     {
-        $this->report = rex_system_report::factory()->get();
-        $this->markdownReport = rex_system_report::factory()->asMarkdown();
+        $this->report = rex_system_report::factory();
     }
 
     protected function getPath(): string

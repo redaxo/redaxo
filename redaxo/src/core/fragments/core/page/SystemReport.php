@@ -14,7 +14,7 @@ use Redaxo\Core\Fragment\Page\SystemReport;
  */
 ?>
 
-<?php foreach ($this->report as $title => $group): ?>
+<?php foreach ($this->report->get() as $title => $group): ?>
     <?= (new Card(
         header: $title,
         body: new Html(static function () use ($title, $group) { ?>
@@ -46,10 +46,10 @@ use Redaxo\Core\Fragment\Page\SystemReport;
 <?php endforeach ?>
 <?= (new Details(
     summary: 'Markdown',
-    body: new Html(function () {
-        echo (new CopyButton(
+    body: new Html(function () { ?>
+        <?= (new CopyButton(
             from: 'rex-system-report-markdown',
-        ))->render();
-        echo '<pre><code id="rex-system-report-markdown">' . rex_escape($this->markdownReport) . '</code></pre>';
-    }),
+        ))->render() ?>
+        <pre><code id="rex-system-report-markdown"><?= rex_escape($this->report->asMarkdown()) ?></code></pre>
+    <?php }),
 ))->render() ?>
