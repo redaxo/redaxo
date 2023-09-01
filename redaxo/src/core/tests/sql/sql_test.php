@@ -203,6 +203,24 @@ class rex_sql_test extends TestCase
         static::assertEquals([1, 2, 3], $sql->getArrayValue('col_array'), 'get a previous set array');
     }
 
+    public function testNullInSetGetArrayValue(): void
+    {
+        $sql = rex_sql::factory();
+        $sql->setValue('col_array', null);
+        static::assertEquals([], $sql->getArrayValue('col_array'), 'get a previous set array');
+    }
+
+    public function testInvalidJsonInSetGetArrayValue(): void
+    {
+        $sql = rex_sql::factory();
+        $sql->setValue('col_array', 'not-a valid json string');
+
+        static::assertTrue($sql->hasValue('col_array'), 'set value exists');
+
+        self::expectException(rex_sql_exception::class);
+        $sql->getArrayValue('col_array');
+    }
+
     public function testInsertRow(): void
     {
         $sql = rex_sql::factory();

@@ -4660,7 +4660,7 @@
   </file>
   <file src="redaxo/src/core/lib/sql/sql.php">
     <ArgumentTypeCoercion>
-      <code><![CDATA[$this->getValue($column)]]></code>
+      <code>$value</code>
       <code>$value</code>
     </ArgumentTypeCoercion>
     <LessSpecificReturnStatement>
@@ -4680,6 +4680,7 @@
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code>$buffered</code>
+      <code>$decoded</code>
       <code>$field</code>
       <code>$i</code>
       <code>$key</code>
@@ -4692,7 +4693,6 @@
       <code>$version</code>
     </MixedAssignment>
     <MixedInferredReturnType>
-      <code>array</code>
       <code>scalar|null</code>
       <code>string</code>
     </MixedInferredReturnType>
@@ -4709,7 +4709,6 @@
     <MixedReturnStatement>
       <code><![CDATA[$this->lastRow[$column]]]></code>
       <code>$version</code>
-      <code><![CDATA[json_decode($this->getValue($column), true)]]></code>
     </MixedReturnStatement>
     <MixedReturnTypeCoercion>
       <code><![CDATA[$this->stmt->fetchAll($fetchType)]]></code>
@@ -4734,7 +4733,6 @@
       <code><![CDATA[$sql->getValue('Create Table')]]></code>
     </NullableReturnStatement>
     <PossiblyNullArgument>
-      <code><![CDATA[$this->getValue($column)]]></code>
       <code><![CDATA[$this->rawFieldnames]]></code>
     </PossiblyNullArgument>
     <PossiblyNullReference>
