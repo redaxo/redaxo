@@ -743,7 +743,21 @@ class rex_sql implements Iterator
      */
     public function getArrayValue($column)
     {
-        return json_decode($this->getValue($column), true);
+        $value = $this->getValue($column);
+        if (null === $value) {
+            return [];
+        }
+
+        try {
+            $decoded = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+        } catch (JsonException $e) {
+            throw new rex_sql_exception('Failed to decode json value of column "' . $column . '": ' . $e->getMessage(), $e);
+        }
+
+        throw new rex_sql_exception('Failed to decode json value of column "' . $column . '" as array');
     }
 
     /**
