@@ -226,14 +226,14 @@ class rex_effect_convert2img extends rex_effect_abstract
         return $path;
     }
 
-    /**
-     * @package redaxo\media-manager
-     * return bool
-     */
     private function isVideoToImageConversionSupported(): bool
     {
-
         $inputFile = $this->media->getMediaPath();
+
+        if (null === $inputFile) {
+            return false;
+        }
+
         $inputExt = pathinfo($inputFile, PATHINFO_EXTENSION);
 
         if ($this->isFfmpegAvailable()) {
