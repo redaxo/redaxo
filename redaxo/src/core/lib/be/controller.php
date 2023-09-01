@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Fragment\Page\SystemReport;
 use Redaxo\Core\Fragment\Page\SystemSettings;
 
 /**
@@ -192,10 +193,7 @@ class rex_be_controller
             ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setFragment(SystemSettings::class))
             ->addSubpage((new rex_be_page('lang', rex_i18n::msg('languages')))->setSubPath(rex_path::core('pages/system.clangs.php')))
             ->addSubpage($logsPage)
-            ->addSubpage((new rex_be_page('report', rex_i18n::msg('system_report')))
-                ->addSubpage((new rex_be_page('html', rex_i18n::msg('system_report')))->setSubPath(rex_path::core('pages/system.report.html.php')))
-                ->addSubpage((new rex_be_page('markdown', rex_i18n::msg('system_report_markdown')))->setSubPath(rex_path::core('pages/system.report.markdown.php'))),
-            )
+            ->addSubpage((new rex_be_page('report', rex_i18n::msg('system_report')))->setFragment(SystemReport::class))
             ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
                 ->setHidden(true)
                 ->setHasLayout(false)

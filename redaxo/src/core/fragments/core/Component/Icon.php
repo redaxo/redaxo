@@ -15,6 +15,7 @@ use Redaxo\Core\Fragment\HtmlAttributes;
         IconLibrary::AlertNeutral => 'x-diamond',
         IconLibrary::AlertSuccess => 'check-circle',
         IconLibrary::AlertWarning => 'exclamation-triangle',
+        IconLibrary::Clipboard => 'clipboard',
         IconLibrary::Debug => 'heart-pulse',
         IconLibrary::VersionUnstable => 'egg-fried',
         IconLibrary::Save => 'database-up',
