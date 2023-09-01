@@ -80,9 +80,9 @@
     <?= $this->favicon ? '<link rel="shortcut icon" href="' . $this->favicon . '" />' : '' ?>
 
     <?= $this->pageHeader ?>
-    <?php if ('dark' !== $theme): ?><link rel="stylesheet" href="<?= rex_url::coreAssets('shoelace/dist/themes/light.css') ?>" /><?php endif ?>
-    <?php if ('light' !== $theme): ?><link rel="stylesheet" href="<?= rex_url::coreAssets('shoelace/dist/themes/dark.css') ?>" /><?php endif ?>
-    <script type="module" src="<?= rex_url::coreAssets('shoelace/dist/shoelace.js') ?>"></script>
+    <?php if ('dark' !== $theme): ?><link rel="stylesheet" href="<?= rex_url::coreAssets('shoelace/cdn/themes/light.css') ?>" /><?php endif ?>
+    <?php if ('light' !== $theme): ?><link rel="stylesheet" href="<?= rex_url::coreAssets('shoelace/cdn/themes/dark.css') ?>" /><?php endif ?>
+    <script type="module" src="<?= rex_url::coreAssets('shoelace/cdn/shoelace.js') ?>"></script>
     <style nonce="<?= rex_response::getNonce() ?>">
         html {
             font-size: 1rem !important;
