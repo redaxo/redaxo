@@ -141,7 +141,7 @@ class rex_sql implements Iterator
                 self::$pdo[$db] = $conn;
 
                 // ggf. Strict Mode abschalten
-                self::factory($db)->setQuery('SET SESSION SQL_MODE=""');
+                self::factory($db)->setQuery('SET SESSION SQL_MODE="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"');
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
