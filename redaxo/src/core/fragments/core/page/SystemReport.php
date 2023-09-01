@@ -17,7 +17,7 @@ use Redaxo\Core\Fragment\Page\SystemReport;
 <?php foreach ($this->report as $title => $group): ?>
     <?= (new Card(
         header: $title,
-        body: new Html(function () use ($title, $group) { ?>
+        body: new Html(static function () use ($title, $group) { ?>
             <table class="table">
             <?php foreach ($group as $label => $value): ?>
                 <tr>
