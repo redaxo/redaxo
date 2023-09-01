@@ -64,7 +64,6 @@ final class SystemSettings extends Page
             $this->success = rex_delete_cache();
         } elseif ('updateassets' == $func) {
             rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
-            rex_dir::copy(rex_path::core('node_modules/@shoelace-style/shoelace'), rex_path::coreAssets('shoelace'));
             $this->success = 'Updated assets';
         } elseif ('debugmode' == $func) {
             $configFile = rex_path::coreData('config.yml');

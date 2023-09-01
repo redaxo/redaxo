@@ -83,7 +83,7 @@ class rex_logger extends AbstractLogger
      *
      * @throws InvalidArgumentException
      */
-    public function log($level, $message, array $context = [], $file = null, $line = null, ?string $url = null)
+    public function log($level, $message, array $context = [], $file = null, $line = null, ?string $url = null): void
     {
         if ($factoryClass = static::getExplicitFactoryClass()) {
             $factoryClass::log($level, $message, $context, $file, $line);

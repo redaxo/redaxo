@@ -142,7 +142,7 @@ if ($step > 3) {
         }
         try {
             rex::setProperty($key, $config[$key]);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $errorArray[] = rex_view::error(rex_i18n::msg($key . '_invalid'));
         }
     }
@@ -313,7 +313,7 @@ if (6 === $step) {
                 $user->setValue('status', '1');
                 try {
                     $user->insert();
-                } catch (rex_sql_exception $e) {
+                } catch (rex_sql_exception) {
                     $errors[] = rex_view::error(rex_i18n::msg('setup_504'));
                 }
             }
