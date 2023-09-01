@@ -134,7 +134,7 @@ class rex_sql implements Iterator
                 self::$pdo[$db] = $conn;
 
                 // ggf. Strict Mode abschalten
-                self::factory($db)->setQuery('SET SESSION SQL_MODE="", NAMES utf8mb4');
+                self::factory($db)->setQuery('SET SESSION SQL_MODE=""');
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
@@ -189,6 +189,7 @@ class rex_sql implements Iterator
             $dsn .= ';port=' . $port;
         }
         $dsn .= ';dbname=' . $database;
+        $dsn .= ';charset=utf8mb4';
 
         // array_merge() doesnt work because it looses integer keys
         $options += [
