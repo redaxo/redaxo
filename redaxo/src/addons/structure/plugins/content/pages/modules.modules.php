@@ -37,7 +37,7 @@ if (('' != $addAction || 'delete' == $functionAction) && !$csrfToken->isValid())
         $action->insert();
         $success = rex_i18n::msg('action_taken');
         $goon = '1';
-    } catch (rex_sql_exception $e) {
+    } catch (rex_sql_exception) {
         $error = $action->getError();
     }
 } elseif ('delete' == $functionAction) {

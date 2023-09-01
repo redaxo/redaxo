@@ -134,7 +134,7 @@ class rex_sql implements Iterator
                 self::$pdo[$db] = $conn;
 
                 // ggf. Strict Mode abschalten
-                self::factory()->setQuery('SET SESSION SQL_MODE="", NAMES utf8mb4');
+                self::factory($db)->setQuery('SET SESSION SQL_MODE=""');
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
@@ -189,6 +189,7 @@ class rex_sql implements Iterator
             $dsn .= ';port=' . $port;
         }
         $dsn .= ';dbname=' . $database;
+        $dsn .= ';charset=utf8mb4';
 
         // array_merge() doesnt work because it looses integer keys
         $options += [
@@ -743,7 +744,21 @@ class rex_sql implements Iterator
      */
     public function getArrayValue($column)
     {
-        return json_decode($this->getValue($column), true);
+        $value = $this->getValue($column);
+        if (null === $value) {
+            return [];
+        }
+
+        try {
+            $decoded = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+        } catch (JsonException $e) {
+            throw new rex_sql_exception('Failed to decode json value of column "' . $column . '": ' . $e->getMessage(), $e);
+        }
+
+        throw new rex_sql_exception('Failed to decode json value of column "' . $column . '" as array');
     }
 
     /**

@@ -46,7 +46,7 @@ if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
                         'filename' => $fileName,
                         'category_id' => $rexFileCategory,
                     ]));
-                } catch (rex_sql_exception $e) {
+                } catch (rex_sql_exception) {
                     $error = rex_i18n::msg('pool_selectedmedia_error');
                 }
             }

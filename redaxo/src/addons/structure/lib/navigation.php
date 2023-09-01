@@ -44,7 +44,7 @@ class rex_navigation
     /** @var array<int, string> */
     private array $linkclasses = [];
     /** @var list<array{metafield: string, value: int|string, type: string, depth: int|''}> */
-    private array$filter = [];
+    private array $filter = [];
     /**
      * @var list<array{
      *     callback: callable(rex_category, int, array<int|string, int|string|list<string>>,array<int|string, int|string|list<string>>, string):bool,

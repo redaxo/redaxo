@@ -268,6 +268,7 @@ class rex_mailer extends PHPMailer
         $mailBody .= '            <th>' . rex_i18n::msg('syslog_message') . '</th>';
         $mailBody .= '            <th>' . rex_i18n::msg('syslog_file') . '</th>';
         $mailBody .= '            <th>' . rex_i18n::msg('syslog_line') . '</th>';
+        $mailBody .= '            <th>' . rex_i18n::msg('syslog_url') . '</th>';
         $mailBody .= '        </tr>';
         $mailBody .= '    </thead>';
         $mailBody .= '    <tbody>';
@@ -300,6 +301,7 @@ class rex_mailer extends PHPMailer
             $mailBody .= '            <td>' . substr(rex_escape($data[1]), 0, 128) . '</td>';
             $mailBody .= '            <td>' . ($data[2] ?? '') . '</td>';
             $mailBody .= '            <td>' . ($data[3] ?? '') . '</td>';
+            $mailBody .= '            <td>' . ($data[4] ?? '') . '</td>';
             $mailBody .= '        </tr>';
         }
 
