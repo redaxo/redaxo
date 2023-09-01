@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.13.1@086b94371304750d1c673315321a55d15fc59015">
+<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument>
       <code>$column</code>
@@ -39,6 +39,14 @@
       <code>$excludedTables</code>
       <code>$filename</code>
     </MixedAssignment>
+    <PossiblyInvalidOperand>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$filename</code>
+    </PossiblyInvalidOperand>
   </file>
   <file src="redaxo/src/addons/backup/pages/export.php">
     <MixedArgument>
@@ -205,6 +213,9 @@
     <MixedAssignment>
       <code>$value</code>
     </MixedAssignment>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[str_replace($type . '_', '', $key)]]></code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/manager_sql.php">
     <ArgumentTypeCoercion>
@@ -1775,6 +1786,9 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/navigation.php">
+    <ArgumentTypeCoercion>
+      <code>(string) $va</code>
+    </ArgumentTypeCoercion>
     <MixedAssignment>
       <code>$result</code>
       <code>$result</code>
@@ -3226,6 +3240,9 @@
   </file>
   <file src="redaxo/src/core/functions/function_rex_escape.php">
     <InvalidReturnStatement>
+      <code>$string</code>
+      <code>$string</code>
+      <code>$string</code>
       <code>$value</code>
     </InvalidReturnStatement>
     <InvalidReturnType>
@@ -3994,6 +4011,12 @@
       <code><![CDATA[$this->getValue($column)]]></code>
       <code><![CDATA[$this->getValue($columnName)]]></code>
     </ArgumentTypeCoercion>
+    <InvalidReturnStatement>
+      <code><![CDATA[str_replace('###' . $varname . '###', rex_escape((string) $this->getValue($varname)), $string)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>string</code>
+    </InvalidReturnType>
     <MixedArgument>
       <code>$column</code>
       <code>$column</code>
@@ -4081,6 +4104,12 @@
       <code><![CDATA[$this->linkAttributes[$column] ?? $default]]></code>
       <code><![CDATA[json_decode($this->getValue($column), true)]]></code>
     </MixedReturnStatement>
+    <PossiblyInvalidArgument>
+      <code>$columnValue</code>
+    </PossiblyInvalidArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[str_replace('###VALUE###', $columnHead, $layout[0])]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code>$columnLayout</code>
       <code><![CDATA[$column['width'] ?? null]]></code>
@@ -4639,7 +4668,7 @@
   </file>
   <file src="redaxo/src/core/lib/sql/sql.php">
     <ArgumentTypeCoercion>
-      <code><![CDATA[$this->getValue($column)]]></code>
+      <code>$value</code>
       <code>$value</code>
     </ArgumentTypeCoercion>
     <LessSpecificReturnStatement>
@@ -4659,6 +4688,7 @@
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code>$buffered</code>
+      <code>$decoded</code>
       <code>$field</code>
       <code>$i</code>
       <code>$key</code>
@@ -4671,7 +4701,6 @@
       <code>$version</code>
     </MixedAssignment>
     <MixedInferredReturnType>
-      <code>array</code>
       <code>scalar|null</code>
       <code>string</code>
     </MixedInferredReturnType>
@@ -4688,7 +4717,6 @@
     <MixedReturnStatement>
       <code><![CDATA[$this->lastRow[$column]]]></code>
       <code>$version</code>
-      <code><![CDATA[json_decode($this->getValue($column), true)]]></code>
     </MixedReturnStatement>
     <MixedReturnTypeCoercion>
       <code><![CDATA[$this->stmt->fetchAll($fetchType)]]></code>
@@ -4713,7 +4741,6 @@
       <code><![CDATA[$sql->getValue('Create Table')]]></code>
     </NullableReturnStatement>
     <PossiblyNullArgument>
-      <code><![CDATA[$this->getValue($column)]]></code>
       <code><![CDATA[$this->rawFieldnames]]></code>
     </PossiblyNullArgument>
     <PossiblyNullReference>
@@ -5027,6 +5054,9 @@
     <MixedArgument>
       <code>$string</code>
     </MixedArgument>
+    <PossiblyInvalidArgument>
+      <code>$string</code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="redaxo/src/core/lib/util/string.php">
     <MixedArgument>
@@ -5091,6 +5121,11 @@
       <code>$var[$key]</code>
     </MixedAssignment>
   </file>
+  <file src="redaxo/src/core/lib/util/validator.php">
+    <ArgumentTypeCoercion>
+      <code>$regex</code>
+    </ArgumentTypeCoercion>
+  </file>
   <file src="redaxo/src/core/lib/util/version.php">
     <MixedArgument>
       <code>$pos</code>
@@ -5131,6 +5166,9 @@
       <code>$match[0]</code>
       <code>$match[0]</code>
     </MixedOperand>
+    <PossiblyInvalidArgument>
+      <code>$args</code>
+    </PossiblyInvalidArgument>
     <PossiblyNullOperand>
       <code>$then</code>
       <code>$then</code>

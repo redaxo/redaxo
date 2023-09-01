@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Benutzt den Konsolen convert Befehl.
+ * Benutzt den Konsolen convert oder ffmpeg Befehl.
  *
  * @author jan
  *
@@ -21,6 +21,14 @@ class rex_effect_convert2img extends rex_effect_abstract
         'ico',
         'svg',
     ];
+
+    private const VIDEO_TO_IMAGE_TYPES = [
+        'mp4',
+        'm4v',
+        'avi',
+        'mov',
+    ];
+
     private const CONVERT_TO = [
         'jpg' => [
             'ext' => 'jpg',
@@ -31,6 +39,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             'content-type' => 'image/png',
         ],
     ];
+
     private const DENSITIES = [100, 150, 200, 300, 600];
     private const DENSITY_DEFAULT = 150;
     private const CONVERT_TOS = ['jpg', 'png'];
@@ -42,6 +51,40 @@ class rex_effect_convert2img extends rex_effect_abstract
             $convertTo = self::CONVERT_TO[self::CONVERT_TO_DEFAULT];
         } else {
             $convertTo = self::CONVERT_TO[(string) $this->params['convert_to']];
+        }
+
+        if ($this->isVideoToImageConversionSupported()) {
+            $inputFile = rex_type::notNull($this->media->getMediaPath());
+
+            // Try to get the duration of the video using ffprobe
+            $ffprobeCmd = 'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ' . escapeshellarg($inputFile);
+            $duration = exec($ffprobeCmd);
+
+            if ($duration) {
+                $timestamp = gmdate('H:i:s', (int) floor((float) $duration / 2));
+            } else {
+                $timestamp = '00:00:01';
+            }
+
+            $outputFile = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($inputFile) . '.' . $convertTo['ext']);
+
+            $cmd = 'ffmpeg -y -i ' . escapeshellarg($inputFile) . ' -ss ' . escapeshellarg($timestamp) . ' -vframes 1 ' . escapeshellarg($outputFile);
+            exec($cmd, $out, $ret);
+
+            if (0 !== $ret) {
+                throw new rex_exception('Unable to exec command ' . $cmd);
+            }
+
+            $this->media->setSourcePath($outputFile);
+            $this->media->refreshImageDimensions();
+            $this->media->setFormat($convertTo['ext']);
+            $this->media->setHeader('Content-Type', $convertTo['content-type']);
+            $filename = $this->media->getMediaFilename();
+            $this->media->setMediaFilename($filename);
+            register_shutdown_function(static function () use ($outputFile) {
+                rex_file::delete($outputFile);
+            });
+            return;
         }
 
         $density = (int) $this->params['density'];
@@ -128,10 +171,15 @@ class rex_effect_convert2img extends rex_effect_abstract
 
     public function getParams()
     {
-        $imNotfound = '';
+        $notSupported = [];
         if (!class_exists(Imagick::class) && '' == self::getConvertPath()) {
-            $imNotfound = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_noimagemagick') . '</strong>';
+            $notSupported[] = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_noimagemagick') . '</strong> ';
         }
+
+        if (!$this->isFfmpegAvailable()) {
+            $notSupported[] = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_videoconverternotfound') . '</strong> ';
+        }
+
         return [
             [
                 'label' => rex_i18n::msg('media_manager_effect_convert2img_convertto'),
@@ -139,7 +187,7 @@ class rex_effect_convert2img extends rex_effect_abstract
                 'type' => 'select',
                 'options' => self::CONVERT_TOS,
                 'default' => self::CONVERT_TO_DEFAULT,
-                'prefix' => $imNotfound,
+                'prefix' => implode('<br>', $notSupported),
                 'notice' => rex_i18n::msg('media_manager_effect_convert2img_convertto_notice'),
             ],
             [
@@ -176,5 +224,34 @@ class rex_effect_convert2img extends rex_effect_abstract
             }
         }
         return $path;
+    }
+
+    private function isVideoToImageConversionSupported(): bool
+    {
+        $inputFile = $this->media->getMediaPath();
+
+        if (null === $inputFile) {
+            return false;
+        }
+
+        $inputExt = pathinfo($inputFile, PATHINFO_EXTENSION);
+
+        if ($this->isFfmpegAvailable()) {
+            return in_array($inputExt, self::VIDEO_TO_IMAGE_TYPES);
+        }
+        return false;
+    }
+
+    private function isFfmpegAvailable(): bool
+    {
+        if (!function_exists('exec')) {
+            return false;
+        }
+        $ffmpegPath = 'ffmpeg'; // change to full path if necessary
+        $output = [];
+        $returnVar = -1;
+
+        exec($ffmpegPath . ' -version', $output, $returnVar);
+        return 0 === $returnVar;
     }
 }
