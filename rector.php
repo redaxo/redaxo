@@ -90,11 +90,10 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(StrStartsWithRector::class);
     $rectorConfig->rule(TernaryToNullCoalescingRector::class);
 
-    // Util services for own rules
-    $services = $rectorConfig->services();
-    $services->set(UnderscoreCamelCaseConflictingNameGuard::class)->autowire();
-    $services->set(UnderscoreCamelCaseExpectedNameResolver::class)->autowire();
-    $services->set(UnderscoreCamelCasePropertyRenamer::class)->autowire();
+    // Util services for own rules;
+    $rectorConfig->singleton(UnderscoreCamelCaseConflictingNameGuard::class);
+    $rectorConfig->singleton(UnderscoreCamelCaseExpectedNameResolver::class);
+    $rectorConfig->singleton(UnderscoreCamelCasePropertyRenamer::class);
 
     // Own rules
     $rectorConfig->rule(UnderscoreToCamelCasePropertyNameRector::class);
