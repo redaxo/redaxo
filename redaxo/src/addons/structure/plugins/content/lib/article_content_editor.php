@@ -83,7 +83,7 @@ class rex_article_content_editor extends rex_article_content
             $content = $this->getWrappedModuleOutput($moduleId, $moduleOutput);
 
             // EP for changing the module preview
-            $panel .= rex_extension::registerPoint(new rex_extension_point('BE_MODULE_PREVIEW', $content, [
+            $panel .= rex_extension::registerPoint(new rex_extension_point('SLICE_BE_PREVIEW', $content, [
                 'moduleOutput' => $moduleOutput,
                 'moduleId' => $moduleId,
             ]));
