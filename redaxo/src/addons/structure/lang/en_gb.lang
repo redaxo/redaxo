@@ -31,6 +31,7 @@ change = change
 article_add = Add article
 article_edit = Change article
 article_save = Save article
+article_show = Show article
 article = Article
 start_article = Start-article
 no_article_available = No article available
