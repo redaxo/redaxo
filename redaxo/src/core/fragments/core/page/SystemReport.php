@@ -45,7 +45,7 @@ use Redaxo\Core\Fragment\Page\SystemReport;
     ))->render() ?>
 <?php endforeach ?>
 <?= (new Details(
-    summary: new Html(function () { ?>
+    summary: new Html(static function () { ?>
         <div>
             <?= rex_i18n::msg('system_report_markdown') ?>
             <?= (new CopyButton(
