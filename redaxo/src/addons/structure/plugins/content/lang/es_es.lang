@@ -24,7 +24,6 @@ update_metadata = Actualización de los metadatos
 move_article = Mover el artículo
 copy_article = En la categoría
 no_rights_to_edit = Usted no tiene permiso para editar!
-show = [Visualizar]
 slice_moved = Block ha sido pospuesto.
 slice_moved_error = Bloque no se pudo mover.
 slice_deleted_error = El bloque no se ha podido eliminar.
