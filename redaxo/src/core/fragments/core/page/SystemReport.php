@@ -45,11 +45,16 @@ use Redaxo\Core\Fragment\Page\SystemReport;
     ))->render() ?>
 <?php endforeach ?>
 <?= (new Details(
-    summary: 'Markdown',
+    summary: new Html(function () { ?>
+        <div>
+            <?= rex_i18n::msg('system_report_markdown') ?>
+            <?= (new CopyButton(
+                from: 'rex-system-report-markdown',
+                copyLabel: rex_i18n::msg('copy_to_clipboard'),
+            ))->render() ?>
+        </div>
+        <?php }),
     body: new Html(function () { ?>
-        <?= (new CopyButton(
-            from: 'rex-system-report-markdown',
-        ))->render() ?>
         <pre><code id="rex-system-report-markdown"><?= rex_escape($this->report->asMarkdown()) ?></code></pre>
     <?php }),
 ))->render() ?>
