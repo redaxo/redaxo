@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
+use Redaxo\Core\Fragment\Enum\TooltipPlacement;
 use Redaxo\Core\Fragment\Fragment;
 use Redaxo\Core\Fragment\HtmlAttributes;
 
@@ -66,7 +67,7 @@ final class CopyButton extends Fragment
         /**
          * The preferred placement of the tooltip.
          */
-        public CopyButtonPlacement $placement = CopyButtonPlacement::Top,
+        public TooltipPlacement $tooltipPlacement = TooltipPlacement::Top,
 
         public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
@@ -75,12 +76,4 @@ final class CopyButton extends Fragment
     {
         return 'core/Component/CopyButton.php';
     }
-}
-
-enum CopyButtonPlacement: string
-{
-    case Top = 'top';
-    case Right = 'right';
-    case Bottom = 'bottom';
-    case Left = 'left';
 }

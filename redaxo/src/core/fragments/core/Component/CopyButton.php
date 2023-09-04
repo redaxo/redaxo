@@ -13,7 +13,7 @@ use Redaxo\Core\Fragment\Fragment;
     'success-label' => $this->successLabel,
     'error-label' => $this->errorLabel,
     'disabled' => $this->disabled,
-    'tooltip-placement' => $this->placement,
+    'tooltip-placement' => $this->tooltipPlacement,
 ])->toString() ?>>
     <?= Fragment::slot($this->copyIcon, 'copy-icon') ?>
     <?= Fragment::slot($this->successIcon, 'success-icon') ?>
