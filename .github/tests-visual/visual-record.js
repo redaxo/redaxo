@@ -80,7 +80,7 @@ const allPages = {
     'system_settings.png': START_URL + '?page=system/settings',
     'system_lang.png': START_URL + '?page=system/lang',
     'system_log.png': START_URL + '?page=system/log/redaxo',
-    'system_report.png': START_URL + '?page=system/report/html',
+    'system_report.png': START_URL + '?page=system/report',
 
     'backup_export.png': START_URL + '?page=backup/export',
     'backup_import.png': START_URL + '?page=backup/import',
