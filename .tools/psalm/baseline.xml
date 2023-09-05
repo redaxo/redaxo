@@ -3150,6 +3150,19 @@
       <code><![CDATA[rex_escape($item['href'])]]></code>
     </MixedOperand>
   </file>
+  <file src="redaxo/src/core/fragments/core/page/SystemReport.php">
+    <MixedArgument>
+      <code>$value</code>
+      <code>rex_escape($value)</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code>$title</code>
+      <code>rex_escape($label)</code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code>$value</code>
+    </MixedAssignment>
+  </file>
   <file src="redaxo/src/core/fragments/core/page/docs.php">
     <MixedArgument>
       <code><![CDATA[$this->getVar('content')]]></code>
@@ -5350,18 +5363,6 @@
     <TypeDoesNotContainNull>
       <code>isset($logFile)</code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="redaxo/src/core/pages/system.report.html.php">
-    <MixedArgument>
-      <code>$value</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$value</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$value</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
     <MixedArrayAccess>
