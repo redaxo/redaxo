@@ -84,7 +84,11 @@ class rex_article_content_editor extends rex_article_content
 
             // EP for changing the module preview
             $panel .= rex_extension::registerPoint(new rex_extension_point('SLICE_BE_PREVIEW', $content, [
+                'article_id' => $this->article_id,
+                'clang' => $this->clang,
+                'ctype' => $this->ctype,
                 'module_id' => $moduleId,
+                'slice_id' => $sliceId,
             ]));
 
             $fragment = new rex_fragment();
