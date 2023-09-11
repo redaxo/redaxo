@@ -23,6 +23,8 @@
 .rex-mime-docx {
     @extend .fa-regular;
     @extend .fa-file-word;
+    position: relative;
+    font-size: 3em;    
 }
 .rex-mime-doc:after, 
 .rex-mime-docx:after {
@@ -41,6 +43,8 @@
 .rex-mime-pdf {
     @extend .fa-regular;
     @extend .fa-file-pdf;
+    position: relative;
+    font-size: 3em;    
 }
 .rex-mime-pdf:after {
     content: '';
@@ -50,6 +54,8 @@
 .rex-mime-pptx {
     @extend .fa-regular;
     @extend .fa-file-powerpoint;
+    position: relative;
+    font-size: 3em;    
 }
 .rex-mime-ppt:after, 
 .rex-mime-pptx:after {
@@ -59,6 +65,8 @@
 .rex-mime-txt {
     @extend .fa-regular;
     @extend .fa-file-lines;
+    position: relative;
+    font-size: 3em;    
 }
 .rex-mime-txt:after {
     content: '';
@@ -68,6 +76,8 @@
 .rex-mime-xlsx {
     @extend .fa-regular;
     @extend .fa-file-excel;
+    position: relative;
+    font-size: 3em;    
 }
 .rex-mime-xls:after, 
 .rex-mime-xlsx:after {
