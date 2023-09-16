@@ -121,23 +121,25 @@ class rex_file
                 return false;
             }
 
-            if (is_file($file)) {
-                $existingContent = file_get_contents($file);
-                // Append the new content in a new line
-                $content = $existingContent . "\n" . $content;
+            // Check if the file exists and has content
+            $hasContent = is_file($file) && filesize($file) > 0;
+
+            // Append the content to the file with a newline if it has existing content
+            if ($hasContent) {
+                $content = "\n" . $content;
             }
 
-            // mimic an atomic write
-            $tmpFile = @tempnam(dirname($file), rex_path::basename($file));
-            if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {
+            // Append the content to the file with FILE_APPEND and LOCK_EX flags
+            if (false !== file_put_contents($file, $content, FILE_APPEND | LOCK_EX)) {
                 @chmod($file, rex::getFilePerm());
                 return true;
             }
-            @unlink($tmpFile);
 
             return false;
         });
     }
+
+
 
     /**
      * Puts content in a config file.
