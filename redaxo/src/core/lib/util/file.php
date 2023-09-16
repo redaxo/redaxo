@@ -105,6 +105,41 @@ class rex_file
     }
 
     /**
+     * Appends content to a file.
+     *
+     * @param string $file    Path to the file
+     * @param string $content Content for the file
+     *
+     * @return bool TRUE on success, FALSE on failure
+     *
+     * @psalm-assert-if-true =non-empty-string $file
+     */
+    public static function append($file, $content)
+    {
+        return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
+            if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
+                return false;
+            }
+
+            if (is_file($file)) {
+                $existingContent = file_get_contents($file);
+                $content = $existingContent . $content;
+            }
+
+            // mimic an atomic write
+            $tmpFile = @tempnam(dirname($file), rex_path::basename($file));
+            if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {
+                @chmod($file, rex::getFilePerm());
+                return true;
+            }
+            @unlink($tmpFile);
+
+            return false;
+        });
+    }
+
+
+    /**
      * Puts content in a config file.
      *
      * @param string $file    Path to the file
