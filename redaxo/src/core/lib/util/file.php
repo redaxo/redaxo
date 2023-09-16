@@ -139,8 +139,6 @@ class rex_file
         });
     }
 
-
-
     /**
      * Puts content in a config file.
      *
