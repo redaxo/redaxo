@@ -115,7 +115,7 @@ class rex_file
      *
      * @psalm-assert-if-true =non-empty-string $file
      */
-    public static function append($file, $content, $delimiter = '')
+    public static function append(string $file, string $content, string $delimiter = '')
     {
         return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
             if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
