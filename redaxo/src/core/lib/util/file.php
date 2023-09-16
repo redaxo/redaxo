@@ -109,12 +109,13 @@ class rex_file
      *
      * @param string $file    Path to the file
      * @param string $content Content for the file
+     * @param string $delimiter delimiter for new Content
      *
      * @return bool TRUE on success, FALSE on failure
      *
      * @psalm-assert-if-true =non-empty-string $file
      */
-    public static function append($file, $content)
+    public static function append($file, $content, $delimiter = '')
     {
         return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
             if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
@@ -124,9 +125,9 @@ class rex_file
             // Check if the file exists and has content
             $hasContent = is_file($file) && filesize($file) > 0;
 
-            // Append the content to the file with a newline if it has existing content
+            // Append the content to the file with delimiter if it has existing content
             if ($hasContent) {
-                $content = "\n" . $content;
+                $content = $delimiter . $content;
             }
 
             // Append the content to the file with FILE_APPEND and LOCK_EX flags
