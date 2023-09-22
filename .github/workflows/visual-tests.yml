@@ -117,7 +117,9 @@ jobs:
                     php redaxo/bin/console cache:clear --ansi
                     node .github/tests-visual/visual-record.js regenerate-all
                     git diff --exit-code --name-only .github/tests-visual/
-
+            -   name: debug
+                run: |
+                    cat redaxo/data/log/sytem.log
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v4
                 if: failure() && env.writable == 1
