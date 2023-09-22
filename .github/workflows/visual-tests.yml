@@ -91,7 +91,7 @@ jobs:
             -   name: Setup nodejs
                 uses: actions/setup-node@v3
                 with:
-                    node-version: 19
+                    node-version: 20
             -   name: Setup Webserver
                 run: |
                     php -S localhost:8000 &
