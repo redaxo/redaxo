@@ -91,13 +91,13 @@ abstract class rex_var_dumper
 
             $dumper->setDisplayOptions([
                 'fileLinkFormat' => new class() {
-                    public function format(string $file, string $line): ?string
+                    public function format(string $file, string $line): string|false
                     {
                         /** @var rex_editor|null $editor */
                         static $editor;
                         $editor ??= rex_editor::factory();
 
-                        return $editor->getUrl($file, $line);
+                        return $editor->getUrl($file, $line) ?? false;
                     }
                 },
             ]);
