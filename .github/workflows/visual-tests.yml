@@ -118,6 +118,7 @@ jobs:
                     node .github/tests-visual/visual-record.js regenerate-all
                     git diff --exit-code --name-only .github/tests-visual/
             -   name: debug
+                if: failure()
                 run: |
                     cat redaxo/data/log/sytem.log
             -   name: Commit changed files
