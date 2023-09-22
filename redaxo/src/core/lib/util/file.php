@@ -117,7 +117,7 @@ class rex_file
      */
     public static function append(string $file, string $content, string $delimiter = '')
     {
-        return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
+        return rex_timer::measure(__METHOD__, static function () use ($file, $content, $delimiter) {
             if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
                 return false;
             }
