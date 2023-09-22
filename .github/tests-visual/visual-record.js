@@ -216,7 +216,11 @@ async function main() {
     }
 
     const browser = await puppeteer.launch(options);
-    let page = await browser.newPage();
+    let page = await browser.newPage()
+    
+    // set user agent (override the default headless User Agent)
+    await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
+
     // log browser errors into the console
     page.on('console', function(msg) {
         const text = msg.text();
