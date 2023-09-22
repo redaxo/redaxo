@@ -31,6 +31,7 @@ class rex_console_command_loader implements CommandLoaderInterface
                 'assets:sync' => rex_command_assets_sync::class,
                 'db:dump-schema' => rex_command_db_dump_schema::class,
                 'package:activate' => rex_command_package_activate::class,
+                'package:conflicts' => rex_command_package_conflicts::class,
                 'package:deactivate' => rex_command_package_deactivate::class,
                 'package:delete' => rex_command_package_delete::class,
                 'package:list' => rex_command_package_list::class,
