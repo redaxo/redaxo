@@ -136,7 +136,7 @@ async function processScreenshot(page, screenshotName) {
             'td[data-title="Letzter Login"]',
             '#rex-form-exportfilename',
             '#rex-page-system-settings .col-lg-4 td',
-            '#rex-page-system-report-html .row td',
+            '#rex-page-system-report td',
             'td[data-title="Version"]',
             'td[data-title="Erstellt am"]',
             'tr[class^="rex-state-"] td[data-title="Zeit"]', // system log items
