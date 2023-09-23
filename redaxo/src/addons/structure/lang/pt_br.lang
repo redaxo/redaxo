@@ -30,6 +30,7 @@ change = Alterar
 article_add = Adicionar produto
 article_edit = Alterar produto
 article_save = Salvar produto
+article_show = Mostrar produto
 article = Produto
 start_article = Produto inicial
 no_article_available  =  Sem produtos disponíveis
