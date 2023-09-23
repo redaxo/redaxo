@@ -126,7 +126,7 @@ async function processScreenshot(page, screenshotName) {
     mkdirp.sync(WORKING_DIR);
 
     // hide blinking cursor/icon
-    await page.addStyleTag({ content: 'input { caret-color: transparent !important; } * { animation: initial !important}' });
+    await page.addStyleTag({ content: 'input { caret-color: transparent !important; } * { animation: initial !important, font-family: sans-serif !important}' });
 
     // mask dynamic content, to make it not appear like change (visual noise)
     await page.evaluate(function() {
@@ -208,7 +208,7 @@ async function goToUrlOrThrow(page, url, options) {
 }
 
 async function main() {
-    const options = { args: ['--no-sandbox', '--disable-setuid-sandbox', '--font-render-hinting=none'] };
+    const options = { args: ['--no-sandbox', '--disable-setuid-sandbox', '--font-render-hinting=none', '--disable-gpu' ,'--force-color-profile=srgb'], headless: 'new' };
 
     if (DEBUGGING) {
         // see https://developers.google.com/web/tools/puppeteer/debugging
@@ -217,6 +217,8 @@ async function main() {
 
     const browser = await puppeteer.launch(options);
     let page = await browser.newPage();
+    await page.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
+
     // log browser errors into the console
     page.on('console', function(msg) {
         const text = msg.text();
