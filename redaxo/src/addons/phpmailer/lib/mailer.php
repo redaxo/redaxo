@@ -279,11 +279,11 @@ class rex_mailer extends PHPMailer
         foreach (new LimitIterator($file, 0, 30) as $entry) {
             $data = $entry->getData();
             $time = rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]);
-            $type = rex_type::string($data[0]);
-            $message = rex_type::string($data[1]);
-            $file = rex_type::string($data[2]);
-            $line = rex_type::string($data[3]);
-            $url = rex_type::string($data[4]);
+            $type = $data[0];
+            $message = $data[1];
+            $file = $data[2] ?? '';
+            $line = $data[3] ?? '';
+            $url = $data[4] ?? '';
 
             $style = '';
             $logtypes = [
@@ -291,8 +291,8 @@ class rex_mailer extends PHPMailer
                 'exception',
             ];
 
-            foreach ($logtypes as $type) {
-                if (false !== stripos($data[0], $type)) {
+            foreach ($logtypes as $logtype) {
+                if (false !== stripos($type, $logtype)) {
                     $logevent = true;
                     $style = ' class="errorbg"';
                     $currenterrors .= $entry->getTimestamp() . ' ';
@@ -300,7 +300,7 @@ class rex_mailer extends PHPMailer
                 }
             }
 
-            if ('logevent' == $data[0]) {
+            if ('logevent' == $type) {
                 $style = ' class="eventbg"';
                 $logevent = true;
                 $currenterrors .= $entry->getTimestamp() . ' ';
@@ -320,19 +320,23 @@ class rex_mailer extends PHPMailer
         if (!$logevent) {
             return;
         }
+
+        if ($lasterrors === $currenterrors || '' == $currenterrors) {
+            return;
+        }
+
         $mailBody .= '    </tbody>';
         $mailBody .= '</table>';
         // End - generate mailbody
-        if ($lasterrors !== $currenterrors && '' != $currenterrors) {
-            $mail = new self();
-            $mail->Subject = rex::getServerName() . ' - error report ';
-            $mail->Body = $mailBody;
-            $mail->AltBody = strip_tags($mailBody);
-            $mail->FromName = 'REDAXO error report';
-            $mail->addAddress(rex::getErrorEmail());
-            $addon->setConfig('last_errors', $currenterrors);
-            $addon->setConfig('last_log_file_send_time', time());
-            $mail->Send();
-        }
+
+        $mail = new self();
+        $mail->Subject = rex::getServerName() . ' - error report ';
+        $mail->Body = $mailBody;
+        $mail->AltBody = strip_tags($mailBody);
+        $mail->FromName = 'REDAXO error report';
+        $mail->addAddress(rex::getErrorEmail());
+        $addon->setConfig('last_errors', $currenterrors);
+        $addon->setConfig('last_log_file_send_time', time());
+        $mail->Send();
     }
 }
