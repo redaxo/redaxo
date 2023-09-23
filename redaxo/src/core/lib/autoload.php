@@ -32,6 +32,9 @@ class rex_autoload
     /** @var string[] */
     protected static $classes = [];
 
+    const SYMFONY_NON_UTF8_CLASS = '©';
+    const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexSymfonyCacheValueWrapperNonUtf8Class';
+
     /**
      * Register rex_autoload in spl autoloader.
      * @return void
@@ -86,7 +89,13 @@ class rex_autoload
         }
 
         $force = false;
-        $lowerClass = strtolower(@utf8_encode($class));
+
+        if (strlen($class) === 1 && $class === @utf8_decode(self::SYMFONY_NON_UTF8_CLASS)) {
+            $lowerClass = strtolower(self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT);
+        } else {
+            $lowerClass = strtolower($class);
+        }
+
         if (isset(self::$classes[$lowerClass])) {
             $path = rex_path::base(self::$classes[$lowerClass]);
             // we have a class path for the class, let's include it
@@ -270,7 +279,10 @@ class rex_autoload
 
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
-                $class = strtolower(@utf8_encode($class));
+                $class = strtolower($class);
+                if (strlen($class) === 1 && $class === @utf8_decode(self::SYMFONY_NON_UTF8_CLASS)) {
+                    $class = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
+                }
 
                 // Force usage of Parsedown and ParsedownExtra from core vendors (via composer autoloader)
                 // to avoid problems between incompatible version of Parsedown (from addon) and ParsedownExtra (from core)
