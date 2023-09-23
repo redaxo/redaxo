@@ -126,6 +126,7 @@ jobs:
             -   name: dump php server log
                 if: failure()
                 run: |
+                    netstat -tulpn
                     cat php.log
 
             -   name: Commit changed files
