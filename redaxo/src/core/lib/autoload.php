@@ -12,6 +12,11 @@
  */
 class rex_autoload
 {
+    // see https://github.com/redaxo/redaxo/issues/5780
+    private const SYMFONY_NON_UTF8_CLASS = "\xA9";
+
+    private const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexsymfonycachevaluewrappernonutf8class';
+
     /** @var Composer\Autoload\ClassLoader */
     protected static $composerLoader;
 
@@ -86,7 +91,13 @@ class rex_autoload
         }
 
         $force = false;
-        $lowerClass = strtolower($class);
+
+        if (self::SYMFONY_NON_UTF8_CLASS === $class) {
+            $lowerClass = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
+        } else {
+            $lowerClass = strtolower($class);
+        }
+
         if (isset(self::$classes[$lowerClass])) {
             $path = rex_path::base(self::$classes[$lowerClass]);
             // we have a class path for the class, let's include it
@@ -270,7 +281,11 @@ class rex_autoload
 
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
-                $class = strtolower($class);
+                if (self::SYMFONY_NON_UTF8_CLASS === $class) {
+                    $class = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
+                } else {
+                    $class = strtolower($class);
+                }
 
                 // Force usage of Parsedown and ParsedownExtra from core vendors (via composer autoloader)
                 // to avoid problems between incompatible version of Parsedown (from addon) and ParsedownExtra (from core)
