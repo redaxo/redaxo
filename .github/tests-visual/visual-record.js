@@ -208,7 +208,7 @@ async function goToUrlOrThrow(page, url, options) {
 }
 
 async function main() {
-    const options = { args: ['--no-sandbox', '--disable-setuid-sandbox'] };
+    const options = { args: ['--no-sandbox', '--disable-setuid-sandbox', '--font-render-hinting=none'] };
 
     if (DEBUGGING) {
         // see https://developers.google.com/web/tools/puppeteer/debugging
