@@ -14,7 +14,7 @@ class rex_autoload
 {
     private const SYMFONY_NON_UTF8_CLASS = '©';
     private const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexSymfonyCacheValueWrapperNonUtf8Class';
-    
+
     /** @var Composer\Autoload\ClassLoader */
     protected static $composerLoader;
 
