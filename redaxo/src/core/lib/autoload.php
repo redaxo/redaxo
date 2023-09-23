@@ -12,6 +12,7 @@
  */
 class rex_autoload
 {
+    // see https://github.com/redaxo/redaxo/issues/5780
     private const SYMFONY_NON_UTF8_CLASS = "\xA9";
 
     private const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexSymfonyCacheValueWrapperNonUtf8Class';
