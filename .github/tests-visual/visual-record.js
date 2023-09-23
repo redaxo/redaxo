@@ -127,7 +127,7 @@ async function processScreenshot(page, screenshotName) {
 
     // hide blinking cursor/icon
     await page.evaluate(() => {
-        document.body.insertAdjacentHTML('beforeend', `<style type="text/css">input { caret-color: transparent !important; } * { animation: initial !important;} .navbar {box-shadow: none !important; }</style>`);
+        document.body.insertAdjacentHTML('beforeend', `<style type="text/css">input { caret-color: transparent !important; } * { animation: initial !important; transition: none !important;} .navbar {box-shadow: none !important; }</style>`);
     });
 
     // mask dynamic content, to make it not appear like change (visual noise)
@@ -159,6 +159,10 @@ async function processScreenshot(page, screenshotName) {
             });
         });
     });
+
+    if(screenshotName === 'structure_slice_edit.png') {
+        // await new Promise(r => setTimeout(r, 100000));
+    }
 
     await page.screenshot({ path: WORKING_DIR + screenshotName, fullPage: true });
 
