@@ -204,7 +204,7 @@ async function goToUrlOrThrow(page, url, options, maxretries = 5) {
         process.exit(1);
         return;
     }
-  
+
     // prevent timeouts on slower pages
     options.timeout = 0;
 
@@ -225,7 +225,7 @@ async function goToUrlOrThrow(page, url, options, maxretries = 5) {
 }
 
 async function main() {
-    const options = { args: ['--no-sandbox', '--disable-setuid-sandbox', '--font-render-hinting=none'] };
+    const options = { args: ['--no-sandbox', '--disable-setuid-sandbox', '--font-render-hinting=none'], headless: 'new' };
 
     if (DEBUGGING) {
         // see https://developers.google.com/web/tools/puppeteer/debugging
@@ -238,6 +238,10 @@ async function main() {
     page.on('console', function(msg) {
         const text = msg.text();
         if (text.indexOf("Unrecognized feature: 'interest-cohort'.") !== -1) {
+            return;
+        }
+
+        if (text.indexOf("Error with Permissions-Policy header: Origin trial controlled feature not enabled: 'interest-cohort'") !== -1) {
             return;
         }
 
