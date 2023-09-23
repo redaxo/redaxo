@@ -127,7 +127,7 @@ async function processScreenshot(page, screenshotName) {
 
     // hide blinking cursor/icon
     await page.evaluate(() => {
-        document.body.insertAdjacentHTML('beforeend', `<style>input { caret-color: transparent !important; } * { animation: initial !important;} .navbar {box-shadow: none !importantf; }</style>`);
+        document.body.insertAdjacentHTML('beforeend', `<style>input { caret-color: transparent !important; } * { animation: initial !important;} .navbar {box-shadow: none !important; }</style>`);
     });
 
     // mask dynamic content, to make it not appear like change (visual noise)
