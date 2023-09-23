@@ -295,7 +295,7 @@ class rex_mailer extends PHPMailer
                 if (false !== stripos($data[0], $type)) {
                     $logevent = true;
                     $style = ' class="errorbg"';
-                    $currenterrors .= $entry->getTimestamp().' ';
+                    $currenterrors .= $entry->getTimestamp() . ' ';
                     break;
                 }
             }
@@ -303,7 +303,7 @@ class rex_mailer extends PHPMailer
             if ('logevent' == $data[0]) {
                 $style = ' class="eventbg"';
                 $logevent = true;
-                $currenterrors .= $entry->getTimestamp().' ';
+                $currenterrors .= $entry->getTimestamp() . ' ';
             }
 
             $mailBody .= '        <tr' . $style . '>';
