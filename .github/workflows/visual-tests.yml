@@ -94,7 +94,7 @@ jobs:
                     node-version: 20
             -   name: Setup Webserver
                 run: |
-                    php -S localhost:8000 &
+                    php -S localhost:8000 | tee php.log &
                     npm install puppeteer@21 pixelmatch pngjs fs mkdirp
 
             -   name: Take screenshots (differential)
@@ -117,6 +117,11 @@ jobs:
                     php redaxo/bin/console cache:clear --ansi
                     node .github/tests-visual/visual-record.js regenerate-all
                     git diff --exit-code --name-only .github/tests-visual/
+
+            -   name: dump php server log
+                if: failure()
+                run: |
+                    cat php.log
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v4
