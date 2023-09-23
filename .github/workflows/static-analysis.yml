@@ -180,6 +180,7 @@ jobs:
                     php redaxo/bin/console install:download rexstan '^1'
                     php redaxo/bin/console package:install rexstan
                     php redaxo/bin/console package:activate rexstan
+                    php .tools/phpstan/rexstan.php
 
             -   name: Run rexstan analysis
                 run: php redaxo/bin/console rexstan:analyze
