@@ -278,6 +278,13 @@ class rex_mailer extends PHPMailer
         /** @var rex_log_entry $entry */
         foreach (new LimitIterator($file, 0, 30) as $entry) {
             $data = $entry->getData();
+            $time = rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]);
+            $type = rex_type::string($data[0]);
+            $message = rex_type::string($data[1]);
+            $file = rex_type::string($data[2]);
+            $line = rex_type::string($data[3]);
+            $url = rex_type::string($data[4]);
+
             $style = '';
             $logtypes = [
                 'error',
@@ -300,12 +307,12 @@ class rex_mailer extends PHPMailer
             }
 
             $mailBody .= '        <tr' . $style . '>';
-            $mailBody .= '            <td>' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>';
-            $mailBody .= '            <td>' . $data[0] . '</td>';
-            $mailBody .= '            <td>' . substr(rex_escape($data[1]), 0, 128) . '</td>';
-            $mailBody .= '            <td>' . ($data[2] ?? '') . '</td>';
-            $mailBody .= '            <td>' . ($data[3] ?? '') . '</td>';
-            $mailBody .= '            <td>' . ($data[4] ?? '') . '</td>';
+            $mailBody .= '            <td>' . $time . '</td>';
+            $mailBody .= '            <td>' . $type . '</td>';
+            $mailBody .= '            <td>' . substr($message, 0, 128) . '</td>';
+            $mailBody .= '            <td>' . $file . '</td>';
+            $mailBody .= '            <td>' . $line . '</td>';
+            $mailBody .= '            <td>' . $url . '</td>';
             $mailBody .= '        </tr>';
         }
 
