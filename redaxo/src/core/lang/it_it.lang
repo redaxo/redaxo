@@ -322,7 +322,6 @@ invalid_email = Email non valida
 user_psw_updated = Password attualizzata
 user_psw_error =
 profile_changepsw = Modifica la password
-old_password = Password vecchia
 new_password = Password nuova
 new_password_repeat =
 profile_save_psw = Salva la password

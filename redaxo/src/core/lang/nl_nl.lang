@@ -358,7 +358,6 @@ profile_save = Sla profiel op
 invalid_email = Het opgegeven e-mail-adres is ongeldig.
 user_psw_updated = Wachtwoord is bijgewerkt
 profile_changepsw = Verander wachtwoord
-old_password = Oud wachtwoord
 new_password = Nieuw wachtwoord
 new_password_repeat = Herhaal nieuw wachtwoord
 profile_save_psw = Sla wachtwoord op
