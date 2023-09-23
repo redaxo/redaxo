@@ -160,10 +160,6 @@ async function processScreenshot(page, screenshotName) {
         });
     });
 
-    if(screenshotName === 'structure_slice_edit.png') {
-        // await new Promise(r => setTimeout(r, 100000));
-    }
-
     await page.screenshot({ path: WORKING_DIR + screenshotName, fullPage: true });
 
     // make sure we only create changes in .github/tests-visual/ on substential screenshot changes.
