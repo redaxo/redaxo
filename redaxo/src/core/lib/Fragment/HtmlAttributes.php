@@ -7,7 +7,6 @@ use rex_type;
 
 use function array_key_exists;
 use function is_array;
-use function is_int;
 use function is_string;
 
 /**
@@ -36,20 +35,20 @@ use function is_string;
 final class HtmlAttributes
 {
     public function __construct(
-        /** @var array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>> */
+        /** @var array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>|list<BackedEnum>> */
         private array $attributes = [],
     ) {}
 
     /**
      * @param literal-string $key
-     * @param null|bool|string|int|BackedEnum|array<string|int, string|bool> $value
+     * @param null|bool|string|int|BackedEnum|array<string|int, string|bool>|list<BackedEnum> $value
      */
     public function set(string $key, null|bool|string|int|BackedEnum|array $value): void
     {
         $this->attributes[$key] = $value;
     }
 
-    /** @param array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>> $attributes */
+    /** @param array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>|list<BackedEnum>> $attributes */
     public function with(array $attributes): self
     {
         foreach ($this->attributes as $key => $value) {
@@ -66,6 +65,8 @@ final class HtmlAttributes
                 $value = self::normalizeArrayValue($value);
             } elseif (is_string($value)) {
                 $value = self::normalizeArrayValue(explode(' ', $value));
+            } elseif ($value instanceof BackedEnum) {
+                $value = [rex_type::string($value->value) => true];
             } else {
                 continue;
             }
@@ -119,7 +120,7 @@ final class HtmlAttributes
 
     }
 
-    /** @param array<string|int, string|bool> $array */
+    /** @param array<string|int, string|bool>|list<BackedEnum> $array */
     private static function arrayValue(array $array): ?string
     {
         $array = self::normalizeArrayValue($array);
@@ -132,7 +133,7 @@ final class HtmlAttributes
     }
 
     /**
-     * @param array<string|int, string|bool> $array
+     * @param array<string|int, string|bool>|list<BackedEnum> $array
      * @return array<string, bool>
      */
     private static function normalizeArrayValue(array $array): array
@@ -140,12 +141,13 @@ final class HtmlAttributes
         $normalized = [];
 
         foreach ($array as $key => $value) {
-            if (is_int($key)) {
-                $normalized[rex_type::string($value)] = true;
+            if (is_string($key)) {
+                $normalized[$key] = rex_type::bool($value);
                 continue;
             }
 
-            $normalized[$key] = rex_type::bool($value);
+            $value = $value instanceof BackedEnum ? $value->value : $value;
+            $normalized[rex_type::string($value)] = true;
         }
 
         return $normalized;
