@@ -12,6 +12,8 @@
  */
 class rex_autoload
 {
+    public const SYMFONY_NON_UTF8_CLASS = '©';
+    public const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexSymfonyCacheValueWrapperNonUtf8Class';
     /** @var Composer\Autoload\ClassLoader */
     protected static $composerLoader;
 
@@ -31,9 +33,6 @@ class rex_autoload
     protected static $addedDirs = [];
     /** @var string[] */
     protected static $classes = [];
-
-    const SYMFONY_NON_UTF8_CLASS = '©';
-    const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexSymfonyCacheValueWrapperNonUtf8Class';
 
     /**
      * Register rex_autoload in spl autoloader.
@@ -90,7 +89,7 @@ class rex_autoload
 
         $force = false;
 
-        if (strlen($class) === 1 && $class === @utf8_decode(self::SYMFONY_NON_UTF8_CLASS)) {
+        if (1 === strlen($class) && $class === @utf8_decode(self::SYMFONY_NON_UTF8_CLASS)) {
             $lowerClass = strtolower(self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT);
         } else {
             $lowerClass = strtolower($class);
@@ -280,7 +279,7 @@ class rex_autoload
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
                 $class = strtolower($class);
-                if (strlen($class) === 1 && $class === @utf8_decode(self::SYMFONY_NON_UTF8_CLASS)) {
+                if (1 === strlen($class) && $class === @utf8_decode(self::SYMFONY_NON_UTF8_CLASS)) {
                     $class = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
                 }
 
