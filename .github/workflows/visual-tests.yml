@@ -94,7 +94,7 @@ jobs:
                     node-version: 20
             -   name: Setup Webserver
                 run: |
-                    php -S localhost:8000 | tee php.log &
+                    php -S localhost:8000 |& tee php.log &
                     npm install puppeteer@21 pixelmatch pngjs fs mkdirp
 
             -   name: Take screenshots (differential)
