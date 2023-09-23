@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Fragment\Page\SystemLogRedaxo;
 use Redaxo\Core\Fragment\Page\SystemReport;
 use Redaxo\Core\Fragment\Page\SystemSettings;
 
@@ -172,7 +173,8 @@ class rex_be_controller
             ->setIcon('rex-icon rex-icon-package-addon');
 
         $logsPage = (new rex_be_page('log', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.log.php'));
-        $logsPage->addSubpage((new rex_be_page('redaxo', rex_i18n::msg('syslog_redaxo')))->setSubPath(rex_path::core('pages/system.log.redaxo.php')));
+        $logsPage->addSubpage((new rex_be_page('redaxo', rex_i18n::msg('syslog_redaxo')))->setFragment(SystemLogRedaxo::class));
+
         if ('' != ini_get('error_log') && @is_readable(ini_get('error_log'))) {
             $logsPage->addSubpage((new rex_be_page('php', rex_i18n::msg('syslog_phperrors')))->setSubPath(rex_path::core('pages/system.log.external.php')));
         }
