@@ -27,7 +27,7 @@ final class Tab extends Fragment
         public string|Fragment $panel,
 
         /**
-         * Draws the tab in an active
+         * Draws the tab in an active state.
          */
         public bool $active = false,
 
