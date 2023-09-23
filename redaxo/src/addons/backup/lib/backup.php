@@ -24,7 +24,7 @@ class rex_backup
     /**
      * @param self::IMPORT_* $importType
      */
-    public static function isFilenameValid(int $importType, string $filename): bool
+    public static function isFilenameValid(int $importType, int $filename): bool
     {
         if (self::IMPORT_ARCHIVE === $importType) {
             return str_ends_with($filename, '.tar.gz');
