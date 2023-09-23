@@ -77,14 +77,19 @@ class rex_article_content_editor extends rex_article_content
                     $moduleInput = $this->replaceVars($artDataSql, $moduleInput);
                     return $sliceContent . $this->editSlice($sliceId, $moduleInput, $sliceCtype, $moduleId, $artDataSql);
                 }
-                // Modulinhalt ausgeben
-                $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
-                $panel .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
-            } else {
-                // ----- hat keine rechte an diesem modul, einfach ausgeben
-                $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
-                $panel .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
             }
+            // Modulinhalt ausgeben
+            $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
+            $content = $this->getWrappedModuleOutput($moduleId, $moduleOutput);
+
+            // EP for changing the module preview
+            $panel .= rex_extension::registerPoint(new rex_extension_point('SLICE_BE_PREVIEW', $content, [
+                'article_id' => $this->article_id,
+                'clang' => $this->clang,
+                'ctype' => $this->ctype,
+                'module_id' => $moduleId,
+                'slice_id' => $sliceId,
+            ]));
 
             $fragment = new rex_fragment();
             $fragment->setVar('title', $this->getSliceHeading($artDataSql), false);
