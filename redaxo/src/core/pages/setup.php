@@ -56,7 +56,7 @@ if (count($errors) > 0) {
         $errorArray[] = rex_view::error($error);
     }
 } else {
-    $successArray[] = rex_i18n::msg('setup_208');
+    $successArray[] = rex_i18n::msg('setup_208', PHP_VERSION);
 }
 
 $res = rex_setup::checkFilesystem();
