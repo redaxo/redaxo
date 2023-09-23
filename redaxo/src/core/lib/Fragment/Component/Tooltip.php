@@ -56,7 +56,7 @@ final class Tooltip extends Fragment
          * When manual is used, the tooltip must
          * be activated programmatically.
          *
-         * @var list<TooltipTrigger>
+         * @var list<TooltipTrigger>| TooltipTrigger
          */
         public array|TooltipTrigger $trigger = [TooltipTrigger::Hover, TooltipTrigger::Focus],
 
