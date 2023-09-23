@@ -25,19 +25,19 @@ $extensions = [
 ];
 
 $paths = [
-    'redaxo/src/core',
-    'redaxo/src/addons/backup',
-    'redaxo/src/addons/be_style',
-    'redaxo/src/addons/cronjob',
-    'redaxo/src/addons/debug',
-    'redaxo/src/addons/install',
-    'redaxo/src/addons/media_manager',
-    'redaxo/src/addons/mediapool',
-    'redaxo/src/addons/metainfo',
-    'redaxo/src/addons/phpmailer',
-    'redaxo/src/addons/project',
-    'redaxo/src/addons/structure',
-    'redaxo/src/addons/users',
+    '../../../../redaxo/src/core',
+    '../../../../redaxo/src/addons/backup',
+    '../../../../redaxo/src/addons/be_style',
+    '../../../../redaxo/src/addons/cronjob',
+    '../../../../redaxo/src/addons/debug',
+    '../../../../redaxo/src/addons/install',
+    '../../../../redaxo/src/addons/media_manager',
+    '../../../../redaxo/src/addons/mediapool',
+    '../../../../redaxo/src/addons/metainfo',
+    '../../../../redaxo/src/addons/phpmailer',
+    '../../../../redaxo/src/addons/project',
+    '../../../../redaxo/src/addons/structure',
+    '../../../../redaxo/src/addons/users',
 ];
 
 // creates a basic phpstan config file with all extensions
