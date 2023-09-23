@@ -31,6 +31,7 @@ change = ändra
 article_add = Tillfoga artikel
 article_edit = Bearbeta artikel
 article_save = Spara artikel
+article_show = Visa artikel
 article = Artikel
 start_article = Startartikel
 no_article_available = Finns ingen artikel
