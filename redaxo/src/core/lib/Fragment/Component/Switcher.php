@@ -2,7 +2,6 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
-use Redaxo\Core\Fragment\Enum\Size;
 use Redaxo\Core\Fragment\Fragment;
 use Redaxo\Core\Fragment\HtmlAttributes;
 
@@ -32,7 +31,7 @@ final class Switcher extends Fragment
         /**
          * The switch's size.
          */
-        public ?Size $size = null,
+        public ?SwitcherSize $size = null,
 
         /**
          * Disables the switch.
@@ -56,4 +55,11 @@ final class Switcher extends Fragment
     {
         return 'core/Component/Switcher.php';
     }
+}
+
+enum SwitcherSize: string
+{
+    case Small = 'small';
+    case Medium = 'medium';
+    case Large = 'large';
 }
