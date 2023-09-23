@@ -2,7 +2,6 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
-use Redaxo\Core\Fragment\Enum\Placement;
 use Redaxo\Core\Fragment\Fragment;
 use Redaxo\Core\Fragment\HtmlAttributes;
 
@@ -22,7 +21,7 @@ final class TabGroup extends Fragment
         /**
          * The placement of the tabs.
          */
-        public Placement $placement = Placement::Top,
+        public TabGroupPlacement $placement = TabGroupPlacement::Top,
 
         public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
@@ -31,4 +30,12 @@ final class TabGroup extends Fragment
     {
         return 'core/Component/TabGroup.php';
     }
+}
+
+enum TabGroupPlacement: string
+{
+    case Bottom = 'bottom';
+    case End = 'end';
+    case Top = 'top';
+    case Start = 'start';
 }
