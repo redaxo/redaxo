@@ -6,6 +6,7 @@ use BackedEnum;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Fragment\Component\ButtonSize;
+use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\HtmlAttributes;
 
 /**
@@ -13,7 +14,7 @@ use Redaxo\Core\Fragment\HtmlAttributes;
  */
 final class HtmlAttributesTest extends TestCase
 {
-    /** @param array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>> $attributes */
+    /** @param array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>|list<BackedEnum>> $attributes */
     #[DataProvider('dataConstruct')]
     public function testConstruct(string $expected, array $attributes): void
     {
@@ -22,7 +23,7 @@ final class HtmlAttributesTest extends TestCase
         static::assertSame($expected, $attributes->toString());
     }
 
-    /** @return list<array{string, array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>>}> */
+    /** @return list<array{string, array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>|list<BackedEnum>>}> */
     public static function dataConstruct(): array
     {
         return [
@@ -41,12 +42,16 @@ final class HtmlAttributesTest extends TestCase
                     'cls4' => true,
                 ]],
             ],
+            [
+                'sizes="small large"',
+                ['sizes' => [ButtonSize::Small, ButtonSize::Large]],
+            ],
         ];
     }
 
     /**
-     * @param array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>> $initial
-     * @param array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>> $with
+     * @param array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>|list<BackedEnum>> $initial
+     * @param array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>|list<BackedEnum>> $with
      */
     #[DataProvider('dataWith')]
     public function testWith(string $expected, array $initial, array $with): void
@@ -58,7 +63,7 @@ final class HtmlAttributesTest extends TestCase
         static::assertSame($expected, $with->toString());
     }
 
-    /** @return list<array{string, array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>>, array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>>}> */
+    /** @return list<array{string, array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>>, array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>|list<BackedEnum>>}> */
     public static function dataWith(): array
     {
         return [
@@ -102,6 +107,11 @@ final class HtmlAttributesTest extends TestCase
                 'class="cls1 cls2"',
                 ['class' => 'cls1 foo bar'],
                 ['class' => 'cls1 cls2'],
+            ],
+            [
+                'sizes="small large"',
+                ['sizes' => ButtonSize::Small],
+                ['sizes' => [ButtonSize::Large]],
             ],
         ];
     }
