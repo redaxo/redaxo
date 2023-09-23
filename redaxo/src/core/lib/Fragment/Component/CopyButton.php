@@ -66,7 +66,7 @@ final class CopyButton extends Fragment
         /**
          * The preferred placement of the tooltip.
          */
-        public ChoiceButtonTooltipPlacement $tooltipPlacement = ChoiceButtonTooltipPlacement::Top,
+        public CopyButtonTooltipPlacement $tooltipPlacement = CopyButtonTooltipPlacement::Top,
 
         public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
@@ -77,7 +77,7 @@ final class CopyButton extends Fragment
     }
 }
 
-enum ChoiceButtonTooltipPlacement: string
+enum CopyButtonTooltipPlacement: string
 {
     case Top = 'top';
     case Right = 'right';
