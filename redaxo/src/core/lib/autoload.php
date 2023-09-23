@@ -86,7 +86,7 @@ class rex_autoload
         }
 
         $force = false;
-        $lowerClass = strtolower($class);
+        $lowerClass = strtolower(@utf8_encode($class));
         if (isset(self::$classes[$lowerClass])) {
             $path = rex_path::base(self::$classes[$lowerClass]);
             // we have a class path for the class, let's include it
@@ -270,7 +270,7 @@ class rex_autoload
 
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
-                $class = strtolower($class);
+                $class = strtolower(@utf8_encode($class));
 
                 // Force usage of Parsedown and ParsedownExtra from core vendors (via composer autoloader)
                 // to avoid problems between incompatible version of Parsedown (from addon) and ParsedownExtra (from core)
