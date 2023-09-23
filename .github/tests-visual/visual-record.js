@@ -218,9 +218,10 @@ async function goToUrlOrThrow(page, url, options, maxretries = 5) {
       await response;
     } catch (e) {
         console.error(e);
+        console.error(response.status);
+        console.error(response.statusText());
         console.log('Request failed, retry ' + maxretries + ' more times');
-        goToUrlOrThrow(page, url, options, --maxretries);
-        return;
+        await goToUrlOrThrow(page, url, options, --maxretries);
     }
 }
 
