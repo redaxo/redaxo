@@ -6,7 +6,6 @@ use BackedEnum;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Fragment\Component\ButtonSize;
-use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\HtmlAttributes;
 
 /**

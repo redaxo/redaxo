@@ -7,7 +7,6 @@ use rex_type;
 
 use function array_key_exists;
 use function is_array;
-use function is_int;
 use function is_string;
 
 /**
