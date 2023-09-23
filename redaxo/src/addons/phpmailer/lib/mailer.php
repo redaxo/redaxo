@@ -247,7 +247,7 @@ class rex_mailer extends PHPMailer
         $addon = rex_addon::get('phpmailer');
         $logFile = rex_path::log('system.log');
         $sendTime = $addon->getConfig('last_log_file_send_time', 0);
-        $lasterrors = $addon->getConfig('last_errors', '');
+        $lasterrors = string $addon->getConfig('last_errors', '');
         $currenterrors = '';
         $timediff = time() - $sendTime;
 
@@ -303,7 +303,7 @@ class rex_mailer extends PHPMailer
             if ('logevent' == $data[0]) {
                 $style = ' class="eventbg"';
                 $logevent = true;
-                $currenterrors .= string $entry->getTimestamp() . ',' . $message;
+                $currenterrors .= $entry->getTimestamp() . ',' . $message;
             }
 
             $mailBody .= '        <tr' . $style . '>';
