@@ -247,6 +247,8 @@ class rex_mailer extends PHPMailer
         $addon = rex_addon::get('phpmailer');
         $logFile = rex_path::log('system.log');
         $sendTime = $addon->getConfig('last_log_file_send_time', 0);
+        $lasterrors = $addon->getConfig('last_errors', '');
+        $currenterrors = '';
         $timediff = time() - $sendTime;
 
         if ($timediff <= $addon->getConfig('errormail') || !filesize($logFile)) {
@@ -273,7 +275,7 @@ class rex_mailer extends PHPMailer
         $mailBody .= '    </thead>';
         $mailBody .= '    <tbody>';
 
-        /** @var rex_log_entry $entry */
+         /** @var rex_log_entry $entry */
         foreach (new LimitIterator($file, 0, 30) as $entry) {
             $data = $entry->getData();
             $style = '';
@@ -286,6 +288,7 @@ class rex_mailer extends PHPMailer
                 if (false !== stripos($data[0], $type)) {
                     $logevent = true;
                     $style = ' class="errorbg"';
+                    $currenterrors .= $entry->getTimestamp() . ',' . $data[1];
                     break;
                 }
             }
@@ -293,6 +296,7 @@ class rex_mailer extends PHPMailer
             if ('logevent' == $data[0]) {
                 $style = ' class="eventbg"';
                 $logevent = true;
+                $currenterrors .= $entry->getTimestamp() . ',' . $data[1];
             }
 
             $mailBody .= '        <tr' . $style . '>';
@@ -309,20 +313,19 @@ class rex_mailer extends PHPMailer
         if (!$logevent) {
             return;
         }
-
         $mailBody .= '    </tbody>';
         $mailBody .= '</table>';
         // End - generate mailbody
-
-        $mail = new self();
-        $mail->Subject = rex::getServerName() . ' - error report ';
-        $mail->Body = $mailBody;
-        $mail->AltBody = strip_tags($mailBody);
-        $mail->FromName = 'REDAXO error report';
-        $mail->addAddress(rex::getErrorEmail());
-
-        $addon->setConfig('last_log_file_send_time', time());
-
-        $mail->Send();
+        if ($lasterrors !== $currenterrors && $currenterrors != '') {
+            $mail = new self();
+            $mail->Subject = rex::getServerName() . ' - error report ';
+            $mail->Body = $mailBody;
+            $mail->AltBody = strip_tags($mailBody);
+            $mail->FromName = 'REDAXO error report';
+            $mail->addAddress(rex::getErrorEmail());
+            $addon->setConfig('last_errors', $currenterrors);
+            $addon->setConfig('last_log_file_send_time', time());
+            $mail->Send();
+        }
     }
 }
