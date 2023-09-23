@@ -66,7 +66,7 @@ final class HtmlAttributes
             } elseif (is_string($value)) {
                 $value = self::normalizeArrayValue(explode(' ', $value));
             } elseif ($value instanceof BackedEnum) {
-                $value = [$value->value => true];
+                $value = [rex_type::string($value->value) => true];
             } else {
                 continue;
             }
