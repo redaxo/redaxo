@@ -198,17 +198,30 @@ async function logIntoBackend(page, username = 'myusername', password = '91dfd9d
     await page.waitForTimeout(1000);
 }
 
-async function goToUrlOrThrow(page, url, options) {
+async function goToUrlOrThrow(page, url, options, maxretries = 5) {
+    if(0 === maxretries) {
+        console.error('Failing too hard.... abort');
+        process.exit(1);
+        return;
+    }
+  
     // prevent timeouts on slower pages
     options.timeout = 0;
 
-    const response = await page.goto(url, options);
-    if (!response.ok() && response.status() != 304) {
+    try {
+      const response = await page.goto(url, options);
+      if (!response.ok() && response.status() != 304) {
         const error = `Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`;
         console.error("::error ::" +error);
         exitCode = 1;
+      }
+      await response;
+    } catch (e) {
+        console.error(e);
+        console.log('Request failed, retry ' + maxretries + ' more times');
+        goToUrlOrThrow(page, url, options, --maxretries);
+        return;
     }
-    await response;
 }
 
 async function main() {
