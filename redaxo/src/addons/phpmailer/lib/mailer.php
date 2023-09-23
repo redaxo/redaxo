@@ -275,7 +275,7 @@ class rex_mailer extends PHPMailer
         $mailBody .= '    </thead>';
         $mailBody .= '    <tbody>';
 
-         /** @var rex_log_entry $entry */
+        /** @var rex_log_entry $entry */
         foreach (new LimitIterator($file, 0, 30) as $entry) {
             $data = $entry->getData();
             $style = '';
@@ -316,7 +316,7 @@ class rex_mailer extends PHPMailer
         $mailBody .= '    </tbody>';
         $mailBody .= '</table>';
         // End - generate mailbody
-        if ($lasterrors !== $currenterrors && $currenterrors != '') {
+        if ($lasterrors !== $currenterrors && '' != $currenterrors) {
             $mail = new self();
             $mail->Subject = rex::getServerName() . ' - error report ';
             $mail->Body = $mailBody;
