@@ -1587,6 +1587,7 @@
       <code>$address</code>
       <code>$bcc</code>
       <code>$detourAddress</code>
+      <code>$lasterrors</code>
       <code>$sendTime</code>
       <code><![CDATA[$this->CharSet]]></code>
       <code><![CDATA[$this->ConfirmReadingTo]]></code>
