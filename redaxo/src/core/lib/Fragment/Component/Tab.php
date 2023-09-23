@@ -42,7 +42,9 @@ final class Tab extends Fragment
          */
         public bool $disabled = false,
 
-        public HtmlAttributes $attributes = new HtmlAttributes(),
+        public HtmlAttributes $tabAttributes = new HtmlAttributes(),
+
+        public HtmlAttributes $panelAttributes = new HtmlAttributes(),
     ) {}
 
     protected function getPath(): string

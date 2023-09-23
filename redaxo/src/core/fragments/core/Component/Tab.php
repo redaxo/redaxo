@@ -6,7 +6,7 @@ use Redaxo\Core\Fragment\Fragment;
 /** @var Tab $this */
 ?>
 
-<sl-tab <?= $this->attributes->with([
+<sl-tab <?= $this->tabAttributes->with([
     'panel' => $this->name,
     'active' => $this->active,
     'closable' => $this->closable,
@@ -14,7 +14,7 @@ use Redaxo\Core\Fragment\Fragment;
 ])->toString() ?>>
     <?= Fragment::slot($this->label) ?>
 </sl-tab>
-<sl-tab-panel <?= $this->attributes->with([
+<sl-tab-panel <?= $this->panelAttributes->with([
     'name' => $this->name,
     'active' => $this->active,
 ])->toString() ?>>
