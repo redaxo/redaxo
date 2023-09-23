@@ -12,7 +12,8 @@
  */
 class rex_autoload
 {
-    private const SYMFONY_NON_UTF8_CLASS = '©';
+    private const SYMFONY_NON_UTF8_CLASS = "\xA9";
+
     private const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexSymfonyCacheValueWrapperNonUtf8Class';
 
     /** @var Composer\Autoload\ClassLoader */
@@ -90,7 +91,7 @@ class rex_autoload
 
         $force = false;
 
-        if (1 === strlen($class) && $class === @utf8_decode(self::SYMFONY_NON_UTF8_CLASS)) {
+        if ($class === self::SYMFONY_NON_UTF8_CLASS) {
             $lowerClass = strtolower(self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT);
         } else {
             $lowerClass = strtolower($class);
@@ -280,7 +281,7 @@ class rex_autoload
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
                 $class = strtolower($class);
-                if (1 === strlen($class) && $class === @utf8_decode(self::SYMFONY_NON_UTF8_CLASS)) {
+                if ($class === self::SYMFONY_NON_UTF8_CLASS) {
                     $class = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
                 }
 
