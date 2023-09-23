@@ -65,6 +65,8 @@ final class HtmlAttributes
                 $value = self::normalizeArrayValue($value);
             } elseif (is_string($value)) {
                 $value = self::normalizeArrayValue(explode(' ', $value));
+            } elseif ($value instanceof BackedEnum) {
+                $value = [$value->value => true];
             } else {
                 continue;
             }

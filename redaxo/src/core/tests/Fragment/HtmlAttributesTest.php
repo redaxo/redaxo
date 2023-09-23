@@ -108,9 +108,14 @@ final class HtmlAttributesTest extends TestCase
                 ['class' => 'cls1 cls2'],
             ],
             [
-                'sizes="small large"',
+                'sizes="large small"',
                 ['sizes' => ButtonSize::Small],
                 ['sizes' => [ButtonSize::Large]],
+            ],
+            [
+                'sizes="large small medium"',
+                ['sizes' => [ButtonSize::Small, ButtonSize::Medium]],
+                ['sizes' => [ButtonSize::Large, ButtonSize::Small, ButtonSize::Medium]],
             ],
         ];
     }
