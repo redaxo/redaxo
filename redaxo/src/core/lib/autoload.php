@@ -92,7 +92,7 @@ class rex_autoload
 
         $force = false;
 
-        if ($class === self::SYMFONY_NON_UTF8_CLASS) {
+        if (self::SYMFONY_NON_UTF8_CLASS === $class) {
             $lowerClass = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
         } else {
             $lowerClass = strtolower($class);
@@ -281,7 +281,7 @@ class rex_autoload
 
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
-                if ($class === self::SYMFONY_NON_UTF8_CLASS) {
+                if (self::SYMFONY_NON_UTF8_CLASS === $class) {
                     $class = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
                 } else {
                     $class = strtolower($class);
