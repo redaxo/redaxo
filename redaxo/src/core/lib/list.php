@@ -1081,7 +1081,8 @@ class rex_list implements rex_url_provider_interface
         return $value;
     }
 
-    protected function formatRowAttributes(): string {
+    protected function formatRowAttributes(): string
+    {
         $rowAttributesCallable = null;
         if (is_callable($this->rowAttributes)) {
             $rowAttributesCallable = $this->rowAttributes;
