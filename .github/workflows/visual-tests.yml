@@ -21,10 +21,10 @@ jobs:
         permissions:
             contents: write  # for Git to git apply
 
-        strategy:
-          fail-fast: true
-          matrix:
-            nr: [0,1,2,3,4,5,6,7,8,9]
+#        strategy:
+#          fail-fast: true
+#          matrix:
+#            nr: [0,1,2,3,4,5,6,7,8,9]
 
         steps:
             -   name: Add action run link to trigger comment
@@ -98,8 +98,18 @@ jobs:
                 with:
                     node-version: 20
             -   name: Setup Webserver
+                shell: "bash -e {0} &"
                 run: |
-                    php -S localhost:8000 |& tee php.log &
+                    #!/bin/sh
+                    while true
+                    do
+                      php -S localhost:8000 2>&1 | tee -a php.log
+                      echo "Server crashed with exit code $?.  Respawning.." >&2
+                      sleep 1
+                    done
+                    
+            -   name: Setup puppeteer
+                run: |
                     npm install puppeteer@21 pixelmatch pngjs fs mkdirp
 
             -   name: Take screenshots (differential)
