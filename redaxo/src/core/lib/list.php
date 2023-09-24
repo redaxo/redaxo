@@ -86,7 +86,7 @@ class rex_list implements rex_url_provider_interface
     private $columnNames;
     /** @var array<string, string> */
     private $columnLabels;
-    /** @var array<string, array{string, mixed, array}> */
+    /** @var array<string, array{string, mixed, array<mixed>}> */
     private $columnFormates;
     /** @var array<string, array<string|int, mixed>> */
     private $columnOptions;
@@ -500,7 +500,7 @@ class rex_list implements rex_url_provider_interface
 
     /**
      * @param string $columnName
-     * @param null|array{string, mixed, array} $columnFormat
+     * @param null|array{string, mixed, array<mixed>} $columnFormat
      * @return string
      */
     protected function getColumnValue($columnName, $columnFormat)
@@ -559,10 +559,12 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt das Format für eine Spalte zurück.
      *
-     * @param string $columnName Name der Spalte
-     * @param mixed  $default    Defaultrückgabewert, falls keine Formatierung gesetzt ist
+     * @template T
      *
-     * @return array|null
+     * @param string $columnName Name der Spalte
+     * @param T      $default    Defaultrückgabewert, falls keine Formatierung gesetzt ist
+     *
+     * @return array{string, mixed, array<mixed>}|T
      */
     public function getColumnFormat($columnName, $default = null)
     {
