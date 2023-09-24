@@ -56,8 +56,7 @@ class rex_list implements rex_url_provider_interface
 
     /** @var positive-int */
     private $db;
-    /** @var rex_sql */
-    protected $sql;
+    protected rex_sql $sql;
     /** @var bool */
     private $debug;
     /** @var string */
