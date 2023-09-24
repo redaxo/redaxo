@@ -499,6 +499,21 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
+     * @param string $columnName
+     * @param null|array{string, mixed, array} $columnFormat
+     * @return string
+     */
+    protected function getColumnValue($columnName, $columnFormat)
+    {
+        return $this->formatValue(
+            $this->getValue($columnName),
+            $columnFormat,
+            !isset($this->customColumns[$columnName]),
+            $columnName
+        );
+    }
+
+    /**
      * Setzt ein Label für eine Spalte.
      *
      * @param string $columnName Name der Spalte
@@ -1252,9 +1267,10 @@ class rex_list implements rex_url_provider_interface
 
                 $s .= '            <tr' . $rowAttributes . ">\n";
                 foreach ($columnNames as $columnName) {
-                    $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], !isset($this->customColumns[$columnName]), $columnName);
+                    $columnFormat = $columnFormates[$columnName];
+                    $columnValue = $this->getColumnValue($columnName, $columnFormat);
 
-                    if (!$this->isCustomFormat($columnFormates[$columnName]) && $this->hasColumnParams($columnName)) {
+                    if (!$this->isCustomFormat($columnFormat) && $this->hasColumnParams($columnName)) {
                         $columnValue = $this->getColumnLink($columnName, $columnValue);
                     }
 
