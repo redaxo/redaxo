@@ -903,7 +903,8 @@ class rex_list implements rex_url_provider_interface
         return $this->rows;
     }
 
-    protected function getRowsOnCurrentPage():int {
+    protected function getRowsOnCurrentPage(): int
+    {
         $nbRows = $this->getRows();
 
         if ($this->pager) {
