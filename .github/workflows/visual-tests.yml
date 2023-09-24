@@ -98,7 +98,7 @@ jobs:
                 with:
                     node-version: 20
             -   name: Setup Webserver
-                shell: 'bash -e -c "bash {0} &"'
+                shell: '/usr/bin/bash -e -c "/usr/bin/bash {0} &"'
                 run: |
                     #!/bin/sh
                     while true
