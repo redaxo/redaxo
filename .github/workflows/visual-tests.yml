@@ -98,7 +98,7 @@ jobs:
                 with:
                     node-version: 20
             -   name: Setup Webserver
-                shell: '/usr/bin/bash -e -c "/usr/bin/bash {0} &"'
+                shell: '/usr/bin/bash -e -c "/usr/bin/bash {0} &"'
                 run: |
                     #!/bin/sh
                     while true
@@ -107,7 +107,7 @@ jobs:
                       echo "Server crashed with exit code $?.  Respawning.." >&2
                       sleep 1
                     done
-                    
+
             -   name: Setup puppeteer
                 run: |
                     npm install puppeteer@21 pixelmatch pngjs fs mkdirp
