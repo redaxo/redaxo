@@ -1081,6 +1081,24 @@ class rex_list implements rex_url_provider_interface
         return $value;
     }
 
+    protected function formatRowAttributes(): string {
+        $rowAttributesCallable = null;
+        if (is_callable($this->rowAttributes)) {
+            $rowAttributesCallable = $this->rowAttributes;
+        } elseif ($this->rowAttributes) {
+            $rowAttributes = rex_string::buildAttributes($this->rowAttributes);
+            $rowAttributesCallable = function (self $list) use ($rowAttributes) {
+                return $this->replaceVariables($rowAttributes);
+            };
+        }
+
+        if ($rowAttributesCallable) {
+            return ' ' . $rowAttributesCallable($this);
+        }
+
+        return '';
+    }
+
     /**
      * @return string
      */
@@ -1233,22 +1251,9 @@ class rex_list implements rex_url_provider_interface
                 $maxRows = $nbRows;
             }
 
-            $rowAttributesCallable = null;
-            if (is_callable($this->rowAttributes)) {
-                $rowAttributesCallable = $this->rowAttributes;
-            } elseif ($this->rowAttributes) {
-                $rowAttributes = rex_string::buildAttributes($this->rowAttributes);
-                $rowAttributesCallable = function () use ($rowAttributes) {
-                    return $this->replaceVariables($rowAttributes);
-                };
-            }
-
             $s .= '        <tbody>' . "\n";
             for ($i = 0; $i < $maxRows; ++$i) {
-                $rowAttributes = '';
-                if ($rowAttributesCallable) {
-                    $rowAttributes = ' ' . $rowAttributesCallable($this);
-                }
+                $rowAttributes = $this->formatRowAttributes();
 
                 $s .= '            <tr' . $rowAttributes . ">\n";
                 foreach ($columnNames as $columnName) {
