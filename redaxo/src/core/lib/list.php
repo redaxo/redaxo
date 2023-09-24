@@ -509,7 +509,7 @@ class rex_list implements rex_url_provider_interface
             $this->getValue($columnName),
             $columnFormat,
             !isset($this->customColumns[$columnName]),
-            $columnName
+            $columnName,
         );
     }
 
