@@ -100,11 +100,9 @@ jobs:
             -   name: Setup Webserver
                 shell: '/usr/bin/bash -e -c "/usr/bin/bash {0} &"'
                 run: |
-                    #!/bin/sh
                     while true
                     do
                       php -S localhost:8000 2>&1 | tee -a php.log
-                      echo "Server crashed with exit code $?.  Respawning.." >&2
                       sleep 1
                     done
 
