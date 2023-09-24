@@ -30,8 +30,10 @@ final class Range extends Fragment
         /**
          * The current value of the range, submitted as a
          * name/value pair with form data.
+         *
+         * @var null|int|numeric-string
          */
-        public null|int|float $value = null,
+        public null|int|string $value = null,
 
         /**
          * Disables the range.
@@ -40,19 +42,25 @@ final class Range extends Fragment
 
         /**
          * The minimum acceptable value of the range.
+         *
+         * @var null|int|numeric-string
          */
-        public null|int|float $min = null,
+        public null|int|string $min = null,
 
         /**
          * The maximum acceptable value of the range.
+         *
+         * @var null|int|numeric-string
          */
-        public null|int|float $max = null,
+        public null|int|string $max = null,
 
         /**
          * The interval at which the range will
          * increase and decrease.
+         *
+         * @var null|int|numeric-string
          */
-        public null|int|float $step = null,
+        public null|int|string $step = null,
 
         /**
          * The preferred placement of the range’s tooltip.
