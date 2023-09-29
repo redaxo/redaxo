@@ -491,11 +491,26 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt alle Namen der Spalten als Array zurück.
      *
-     * @return array
+     * @return list<string>
      */
     public function getColumnNames()
     {
         return $this->columnNames;
+    }
+
+    /**
+     * @return list<string>
+     */
+    protected function getEnabledColumnNames(): array
+    {
+        $columnNames = [];
+        foreach ($this->getColumnNames() as $columnName) {
+            if (!in_array($columnName, $this->columnDisabled)) {
+                $columnNames[] = $columnName;
+            }
+        }
+
+        return $columnNames;
     }
 
     /**
@@ -1094,6 +1109,25 @@ class rex_list implements rex_url_provider_interface
         return $value;
     }
 
+    protected function formatRowAttributes(): string
+    {
+        $rowAttributesCallable = null;
+        if (is_callable($this->rowAttributes)) {
+            $rowAttributesCallable = $this->rowAttributes;
+        } elseif ($this->rowAttributes) {
+            $rowAttributes = rex_string::buildAttributes($this->rowAttributes);
+            $rowAttributesCallable = function (self $list) use ($rowAttributes) {
+                return $this->replaceVariables($rowAttributes);
+            };
+        }
+
+        if ($rowAttributesCallable) {
+            return ' ' . $rowAttributesCallable($this);
+        }
+
+        return '';
+    }
+
     /**
      * @return string
      */
@@ -1162,12 +1196,7 @@ class rex_list implements rex_url_provider_interface
 
         // Columns vars
         $columnFormates = [];
-        $columnNames = [];
-        foreach ($this->getColumnNames() as $columnName) {
-            if (!in_array($columnName, $this->columnDisabled)) {
-                $columnNames[] = $columnName;
-            }
-        }
+        $columnNames = $this->getEnabledColumnNames();
 
         // List vars
         $sortColumn = $this->getSortColumn();
@@ -1241,22 +1270,9 @@ class rex_list implements rex_url_provider_interface
         if ($this->getRows() > 0) {
             $maxRows = $this->getRowsOnCurrentPage();
 
-            $rowAttributesCallable = null;
-            if (is_callable($this->rowAttributes)) {
-                $rowAttributesCallable = $this->rowAttributes;
-            } elseif ($this->rowAttributes) {
-                $rowAttributes = rex_string::buildAttributes($this->rowAttributes);
-                $rowAttributesCallable = function () use ($rowAttributes) {
-                    return $this->replaceVariables($rowAttributes);
-                };
-            }
-
             $s .= '        <tbody>' . "\n";
             for ($i = 0; $i < $maxRows; ++$i) {
-                $rowAttributes = '';
-                if ($rowAttributesCallable) {
-                    $rowAttributes = ' ' . $rowAttributesCallable($this);
-                }
+                $rowAttributes = $this->formatRowAttributes();
 
                 $s .= '            <tr' . $rowAttributes . ">\n";
                 foreach ($columnNames as $columnName) {
