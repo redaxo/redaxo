@@ -22,7 +22,6 @@ final class SystemLogRedaxo extends Page
 {
     public readonly rex_csrf_token $csrfToken;
     public readonly rex_editor $editor;
-    public readonly rex_log_file $logFile;
     public readonly string $logFilePath;
     public ?string $success = null;
     public ?string $error = null;
