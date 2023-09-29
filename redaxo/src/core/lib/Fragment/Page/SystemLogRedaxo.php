@@ -10,7 +10,10 @@ use rex_i18n;
 use rex_log_entry;
 use rex_log_file;
 use rex_logger;
+use rex_path;
 use rex_response;
+use rex_type;
+use stdClass;
 
 /**
  * @see redaxo/src/core/fragments/core/page/SystemLogRedaxo.php
@@ -18,15 +21,10 @@ use rex_response;
 final class SystemLogRedaxo extends Page
 {
     public readonly rex_csrf_token $csrfToken;
-
     public readonly rex_editor $editor;
-
     public readonly rex_log_file $logFile;
-
     public readonly string $logFilePath;
-
     public ?string $success = null;
-
     public ?string $error = null;
 
     public function __construct()
@@ -53,8 +51,6 @@ final class SystemLogRedaxo extends Page
             rex_response::sendFile($this->logFilePath, 'application/octet-stream', 'attachment');
             exit;
         }
-
-        $this->logFile = new rex_log_file($this->logFilePath);
     }
 
     protected function getPath(): string
@@ -62,9 +58,28 @@ final class SystemLogRedaxo extends Page
         return 'core/page/SystemLogRedaxo.php';
     }
 
-    /** @return iterable<int, rex_log_entry> */
+    /** @return iterable<int, object{timestamp: int, type: string, message: string, file: ?string, line: ?int, editorUrl: ?string, url: ?string}> */
     public function getEntries(): iterable
     {
-        return new LimitIterator($this->logFile, 0, 100);
+        /** @var rex_log_entry $entry */
+        foreach (new LimitIterator(new rex_log_file($this->logFilePath), 0, 100) as $entry) {
+            $data = $entry->getData();
+
+            $element = new stdClass();
+            $element->timestamp = $entry->getTimestamp();
+            $element->type = rex_type::string($data[0]);
+            $element->message = rex_type::string($data[1]);
+            $element->file = $data[2] ?? null;
+            $element->line = $data[3] ?? null;
+            $element->editorUrl = null;
+            $element->url = $data[4] ?? null;
+
+            if ($element->file) {
+                $fullPath = str_starts_with($element->file, 'rex://') ? $element->file : rex_path::base($element->file);
+                $element->editorUrl = $this->editor->getUrl($fullPath, (int) ($element->line ?? 1));
+            }
+
+            yield $element;
+        }
     }
 }

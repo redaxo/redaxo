@@ -43,56 +43,40 @@ use Redaxo\Core\Fragment\Page\SystemLogRedaxo;
                     </tr>
                 </thead>
                 <tbody>
-                <?php
-                foreach ($this->getEntries() as $entry) {
-                    $data = $entry->getData();
-
-                    $type = rex_type::string($data[0]);
-                    $message = rex_type::string($data[1]);
-                    $file = $data[2] ?? null;
-                    $line = $data[3] ?? null;
-
-                    $class = match (strtolower($type)) {
-                        'success' => 'success',
-                        'debug' => 'default',
-                        'info', 'notice', 'deprecated' => 'info',
-                        'warning' => 'warning',
-                        default => 'danger',
-                    };
-
-                    $path = '';
-                    if ($file) {
-                        $path = rex_escape($file . (null === $line ? '' : ':' . $line));
-
-                        $fullPath = str_starts_with($file, 'rex://') ? $file : rex_path::base($file);
-                        if ($url = $this->editor->getUrl($fullPath, (int) ($line ?? 1))) {
-                            $path = '<a href="' . $url . '">' . $path . '</a>';
-                        }
-                        $path = '<small class="rex-word-break"><span class="label label-default">' . rex_i18n::msg('syslog_file') . ':</span> ' . $path . '</small><br>';
-                    }
-
-                    $url = $data[4] ?? null;
-                    if ($url) {
-                        $url = rex_escape($url);
-                        $url = '<small class="rex-word-break"><span class="label label-default">' . rex_i18n::msg('syslog_url') . ':</span> <a href="' . $url . '">' . $url . '</a></small>';
-                    } else {
-                        $url = '';
-                    }
-                    ?>
+                <?php foreach ($this->getEntries() as $entry): ?>
                     <tr>
                         <td class="rex-table-tabular-nums rex-table-date">
-                            <small><?= rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) ?></small><br>
-                            <span class="label label-<?= $class ?>"><?= rex_escape($type) ?></span>
+                            <small><?= rex_formatter::intlDateTime($entry->timestamp, [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) ?></small><br>
+                            <span class="label label-<?= match (strtolower($entry->type)) {
+                                'success' => 'success',
+                                'debug' => 'default',
+                                'info', 'notice', 'deprecated' => 'info',
+                                'warning' => 'warning',
+                                default => 'danger',
+                            } ?>"><?= rex_escape($entry->type) ?></span>
                         </td>
                         <td>
-                            <div class="rex-word-break"><b style="font-weight: 500"><?= nl2br(rex_escape($message)) ?></b></div>
-                            <?= $path ?>
-                            <?= $url ?>
+                            <div class="rex-word-break"><b style="font-weight: 500"><?= nl2br(rex_escape($entry->message)) ?></b></div>
+                            <?php if ($entry->file): ?>
+                                <?php $path = rex_escape($entry->file . (null === $entry->line ? '' : ':' . $entry->line)) ?>
+                                <small class="rex-word-break">
+                                    <span class="label label-default"><?= rex_i18n::msg('syslog_file') ?>:</span>
+                                    <?php if ($entry->editorUrl): ?>
+                                        <a href="<?= $entry->editorUrl ?>"><?= $path ?></a>
+                                    <?php else: ?>
+                                        <?= $path ?>
+                                    <?php endif ?>
+                                </small><br>
+                            <?php endif ?>
+                            <?php if ($entry->url): ?>
+                                <small class="rex-word-break">
+                                    <span class="label label-default"><?= rex_i18n::msg('syslog_url') ?>:</span>
+                                    <a href="<?= $url = rex_escape($entry->url) ?>"><?= $url ?></a>
+                                </small>
+                            <?php endif ?>
                         </td>
                     </tr>
-                    <?php
-                }
-                ?>
+                <?php endforeach ?>
                 </tbody>
             </table>
         <?php }),
@@ -107,14 +91,14 @@ use Redaxo\Core\Fragment\Page\SystemLogRedaxo;
                         'data-confirm' => rex_i18n::msg('delete') . '?',
                     ]),
                 ))->render() ?>
-                <?php if ($url = $this->editor->getUrl($this->logFilePath, 0)) { ?>
+                <?php if ($url = $this->editor->getUrl($this->logFilePath, 0)): ?>
                     <?= (new Button(
                         label: rex_i18n::rawMsg('system_editor_open_file', rex_path::basename($this->logFilePath)),
                         variant: ButtonVariant::Success,
                         href: $url,
                     ))->render() ?>
-                <?php } ?>
-                <?php if (is_file($this->logFilePath)) { ?>
+                <?php endif ?>
+                <?php if (is_file($this->logFilePath)): ?>
                     <?= (new Button(
                         label: rex_i18n::rawMsg('syslog_download', rex_path::basename($this->logFilePath)),
                         variant: ButtonVariant::Success,
@@ -123,7 +107,7 @@ use Redaxo\Core\Fragment\Page\SystemLogRedaxo;
                             'download' => true,
                         ]),
                     ))->render() ?>
-                <?php } ?>
+                <?php endif ?>
             </div>
         <?php }),
     ))->render() ?>
