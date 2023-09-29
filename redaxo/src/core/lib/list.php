@@ -918,6 +918,19 @@ class rex_list implements rex_url_provider_interface
         return $this->rows;
     }
 
+    protected function getRowsOnCurrentPage(): int
+    {
+        $nbRows = $this->getRows();
+
+        if ($this->pager) {
+            $maxRows = min($this->pager->getRowsPerPage(), $nbRows - $this->pager->getCursor());
+        } else {
+            $maxRows = $nbRows;
+        }
+
+        return $maxRows;
+    }
+
     /**
      * Returns the pager for this list.
      *
@@ -1190,7 +1203,6 @@ class rex_list implements rex_url_provider_interface
         $sortType = $this->getSortType();
         $warning = $this->getWarning();
         $message = $this->getMessage();
-        $nbRows = $this->getRows();
 
         $header = $this->getHeader();
         $footer = $this->getFooter();
@@ -1255,12 +1267,8 @@ class rex_list implements rex_url_provider_interface
             $s .= '        </tfoot>' . "\n";
         }
 
-        if ($nbRows > 0) {
-            if ($this->pager) {
-                $maxRows = min($this->pager->getRowsPerPage(), $nbRows - $this->pager->getCursor());
-            } else {
-                $maxRows = $nbRows;
-            }
+        if ($this->getRows() > 0) {
+            $maxRows = $this->getRowsOnCurrentPage();
 
             $s .= '        <tbody>' . "\n";
             for ($i = 0; $i < $maxRows; ++$i) {
