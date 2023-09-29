@@ -491,11 +491,26 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt alle Namen der Spalten als Array zurück.
      *
-     * @return array
+     * @return list<string>
      */
     public function getColumnNames()
     {
         return $this->columnNames;
+    }
+
+    /**
+     * @return list<string>
+     */
+    protected function getEnabledColumnNames(): array
+    {
+        $columnNames = [];
+        foreach ($this->getColumnNames() as $columnName) {
+            if (!in_array($columnName, $this->columnDisabled)) {
+                $columnNames[] = $columnName;
+            }
+        }
+
+        return $columnNames;
     }
 
     /**
@@ -1149,12 +1164,7 @@ class rex_list implements rex_url_provider_interface
 
         // Columns vars
         $columnFormates = [];
-        $columnNames = [];
-        foreach ($this->getColumnNames() as $columnName) {
-            if (!in_array($columnName, $this->columnDisabled)) {
-                $columnNames[] = $columnName;
-            }
-        }
+        $columnNames = $this->getEnabledColumnNames();
 
         // List vars
         $sortColumn = $this->getSortColumn();
