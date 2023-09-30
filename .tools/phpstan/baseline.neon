@@ -736,11 +736,6 @@ parameters:
 			path: ../../redaxo/src/addons/metainfo/lib/handler/clang_handler.php
 
 		-
-			message: "#^Elseif condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
-
-		-
 			message: "#^Method rex_metainfo_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
@@ -1922,11 +1917,6 @@ parameters:
 
 		-
 			message: "#^Method rex_list\\:\\:getColumnLink\\(\\) has parameter \\$params with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:getColumnNames\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 

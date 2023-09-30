@@ -4014,15 +4014,6 @@
       <code>$column</code>
       <code>$column</code>
       <code>$columnName</code>
-      <code>$columnName</code>
-      <code>$columnName</code>
-      <code>$columnName</code>
-      <code>$columnName</code>
-      <code>$columnName</code>
-      <code>$columnName</code>
-      <code>$columnName</code>
-      <code>$columnName</code>
-      <code>$columnName</code>
       <code><![CDATA[$column['span'] ?? null]]></code>
       <code><![CDATA[$column['width'] ?? null]]></code>
       <code>$format[0]</code>
@@ -4040,9 +4031,6 @@
       <code>$groupColumns[]</code>
     </MixedArrayAssignment>
     <MixedArrayOffset>
-      <code>$columnFormates[$columnName]</code>
-      <code>$columnFormates[$columnName]</code>
-      <code><![CDATA[$this->customColumns[$columnName]]]></code>
       <code><![CDATA[$this->customColumns[$column]]]></code>
       <code><![CDATA[$this->linkAttributes[$columnName]]]></code>
       <code><![CDATA[$this->linkAttributes[$columnName][$attrName]]]></code>
@@ -4050,11 +4038,6 @@
     </MixedArrayOffset>
     <MixedAssignment>
       <code>$column</code>
-      <code>$columnName</code>
-      <code>$columnName</code>
-      <code>$columnName</code>
-      <code>$columnName</code>
-      <code>$columnNames[]</code>
       <code>$columnSortType</code>
       <code>$flatParams[$name]</code>
       <code>$flatParams[$name]</code>
@@ -4074,6 +4057,7 @@
     <MixedInferredReturnType>
       <code>array</code>
       <code><![CDATA[array<string, string|int>|null]]></code>
+      <code>array|null</code>
       <code>string|null</code>
     </MixedInferredReturnType>
     <MixedOperand>
@@ -4087,6 +4071,8 @@
       <code><![CDATA[$this->linkAttributes]]></code>
     </MixedPropertyTypeCoercion>
     <MixedReturnStatement>
+      <code><![CDATA[$this->columnFormates[$columnName] ?? $default]]></code>
+      <code><![CDATA[$this->columnFormates[$columnName] ?? $default]]></code>
       <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
       <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
       <code><![CDATA[$this->linkAttributes[$column] ?? $default]]></code>
