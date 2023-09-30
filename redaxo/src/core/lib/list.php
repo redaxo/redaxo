@@ -512,7 +512,7 @@ class rex_list implements rex_url_provider_interface
 
         return $columnNames;
     }
-    
+
     /**
      * @param string $columnName
      * @param null|array{string, mixed, array<mixed>} $columnFormat
