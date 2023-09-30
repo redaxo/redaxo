@@ -23,8 +23,7 @@ class rex_extension_test extends TestCase
 
         static::assertFalse(rex_extension::isRegistered($EP), 'isRegistered() returns false for non-registered extension points');
 
-        rex_extension::register($EP, static function () {
-        });
+        rex_extension::register($EP, static function () {});
 
         static::assertTrue(rex_extension::isRegistered($EP), 'isRegistered() returns true for registered extension points');
     }
@@ -39,8 +38,7 @@ class rex_extension_test extends TestCase
             return $ep->getSubject() . ' test2';
         });
 
-        rex_extension::register($EP, static function () {
-        });
+        rex_extension::register($EP, static function () {});
 
         rex_extension::register($EP, static function (rex_extension_point $ep) {
             return $ep->getSubject() . ' test3';

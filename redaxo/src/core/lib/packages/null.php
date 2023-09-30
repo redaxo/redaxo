@@ -79,9 +79,7 @@ abstract class rex_null_package implements rex_package_interface
         return false;
     }
 
-    public function setProperty($key, $value)
-    {
-    }
+    public function setProperty($key, $value) {}
 
     public function getProperty($key, $default = null)
     {
@@ -93,9 +91,7 @@ abstract class rex_null_package implements rex_package_interface
         return false;
     }
 
-    public function removeProperty($key)
-    {
-    }
+    public function removeProperty($key) {}
 
     public function isAvailable()
     {

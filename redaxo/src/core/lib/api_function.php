@@ -397,6 +397,4 @@ class rex_api_result
  *
  * @package redaxo\core
  */
-class rex_api_exception extends rex_exception
-{
-}
+class rex_api_exception extends rex_exception {}
