@@ -9,9 +9,13 @@ updates:
         schedule:
             interval: monthly
         open-pull-requests-limit: 15
+        groups:
+            tools: { patterns: ['*'] }
 
     -   package-ecosystem: github-actions
         directory: /
         schedule:
             interval: monthly
         open-pull-requests-limit: 15
+        groups:
+            github-actions: { patterns: ['*'] }
