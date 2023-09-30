@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Fragment\Component\Choice;
 use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\HtmlAttributes;
 
 /** @var Choice $this */
 ?><?php
@@ -17,7 +18,7 @@ $counter = 1;
     'disabled' => $this->disabled,
     'placeholder' => $this->placeholder,
     'required' => $this->required,
-])->toString() ?>>
+]) ?>>
     <?php foreach ($this->getChoices() as $groupLabel => $group): ?>
         <?php if (1 !== $counter): ?>
             <sl-divider></sl-divider>
@@ -26,9 +27,9 @@ $counter = 1;
             <small><?= rex_escape($groupLabel) ?></small>
         <?php endif ?>
         <?php foreach ($group as $label => $value): ?>
-            <sl-option
-                value="<?= rex_escape($value) ?>"
-            >
+            <sl-option <?= new HtmlAttributes([
+                'value' => $value,
+            ]) ?>>
                 <?= rex_escape($label) ?>
             </sl-option>
         <?php endforeach ?>

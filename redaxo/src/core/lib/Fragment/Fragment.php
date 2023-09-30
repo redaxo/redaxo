@@ -7,10 +7,11 @@ use rex_exception;
 use rex_fragment;
 use rex_timer;
 use rex_type;
+use Stringable;
 
 use function is_string;
 
-abstract class Fragment
+abstract class Fragment implements Stringable
 {
     public function render(): string
     {
@@ -28,6 +29,11 @@ abstract class Fragment
         $ouput = rex_timer::measure('Fragment: ' . $path, $closure);
 
         return rex_type::string($ouput);
+    }
+
+    public function __toString(): string
+    {
+        return $this->render();
     }
 
     protected function getPath(): string

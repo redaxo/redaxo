@@ -24,15 +24,15 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
 ?>
 
 <?php if ($this->errors): ?>
-    <?= (new Error(
+    <?= new Error(
         body: new Html(implode('<br>', $this->errors)),
-    ))->render() ?>
+    ) ?>
 <?php endif ?>
 
 <?php if ($this->success): ?>
-    <?= (new Success(
+    <?= new Success(
         body: new Html($this->success),
-    ))->render() ?>
+    ) ?>
 <?php endif ?>
 
 <div class="row">
@@ -41,51 +41,51 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
             <input type="hidden" name="func" value="updateinfos" />
             <?= $this->csrfToken->getHiddenField() ?>
 
-            <?= (new Card(
+            <?= new Card(
                 header: rex_i18n::msg('system_settings'),
 
                 body: new Html(function () { ?>
-                    <?= (new Input(
+                    <?= new Input(
                         label: rex_i18n::msg('server'),
                         type: InputType::Url,
                         name: 'settings[server]',
                         value: rex::getServer(),
                         required: true,
-                    ))->render() ?>
+                    ) ?>
 
-                    <?= (new Input(
+                    <?= new Input(
                         label: rex_i18n::msg('servername'),
                         name: 'settings[servername]',
                         value: rex::getServerName(),
                         required: true,
-                    ))->render() ?>
+                    ) ?>
 
-                    <?= (new Choice(
+                    <?= new Choice(
                         label: rex_i18n::msg('backend_language'),
                         name: 'settings[lang]',
                         value: rex::getProperty('lang'),
                         choices: $this->getLangChoices(),
                         required: true,
-                    ))->render() ?>
+                    ) ?>
 
-                    <?= (new Input(
+                    <?= new Input(
                         label: rex_i18n::msg('error_email'),
                         name: 'settings[error_email]',
                         value: rex::getErrorEmail(),
                         required: true,
-                    ))->render() ?>
+                    ) ?>
 
                     <?php foreach ($this->getSystemSettings() as $setting): ?>
                         <?= $setting->get() ?>
                     <?php endforeach ?>
 
                     <?php if ($url = $this->editor->getUrl($this->configYml, 0)): ?>
-                        <?= (new Button(
+                        <?= new Button(
                             label: rex_i18n::rawMsg('system_editor_open_file', rex_path::basename($this->configYml)),
                             href: $url,
                             variant: ButtonVariant::Primary,
                             size: ButtonSize::Small,
-                        ))->render() ?>
+                        ) ?>
 
                         <p>
                             <?= rex_i18n::msg('system_edit_config_note') ?>
@@ -94,88 +94,88 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
                 <?php }),
 
                 footer: new Html(static function () { ?>
-                    <?= (new Button\Save(
+                    <?= new Button\Save(
                         name: 'sendit',
-                    ))->render() ?>
+                    ) ?>
                 <?php }),
-            ))->render() ?>
+            ) ?>
         </form>
 
         <form id="rex-form-system-setup" action="<?= rex_url::currentBackendPage() ?>" method="post">
             <input type="hidden" name="func" value="update_editor" />
             <?= $this->csrfToken->getHiddenField() ?>
-            <?= (new Card(
+            <?= new Card(
                 header: rex_i18n::msg('system_editor'),
 
                 body: new Html(function () { ?>
                     <p><?= rex_i18n::msg('system_editor_note') ?></p>
 
-                    <?= (new Choice(
+                    <?= new Choice(
                         label: rex_i18n::msg('system_editor_name'),
                         name: 'editor[name]',
                         value: $this->editor->getName(),
                         choices: [rex_i18n::msg('system_editor_no_editor') => ''] + array_flip($this->editor->getSupportedEditors()),
-                    ))->render() ?>
+                    ) ?>
 
-                    <?= (new Input(
+                    <?= new Input(
                         label: rex_i18n::msg('system_editor_basepath'),
                         name: 'editor[basepath]',
                         value: rex_escape($this->editor->getBasepath()),
                         notice: rex_i18n::msg('system_editor_basepath_note'),
-                    ))->render() ?>
+                    ) ?>
 
-                    <?= $this->editorViaCookie ? (new Info(
+                    <?= $this->editorViaCookie ? new Info(
                         body: rex_i18n::msg('system_editor_note_cookie'),
-                    ))->render() : '' ?>
+                    ) : '' ?>
                 <?php }),
 
                 footer: new Html(function () { ?>
                     <div>
-                        <?= (new Button\Save(
+                        <?= new Button\Save(
                             label: rex_i18n::rawMsg('system_editor_update_cookie'),
                             name: 'editor[update_cookie]',
                             value: '1',
-                        ))->render() ?>
+                        ) ?>
 
                         <?php if ($this->editorViaCookie): ?>
-                            <?= (new Button(
+                            <?= new Button(
                                 label: rex_i18n::rawMsg('system_editor_delete_cookie'),
                                 variant: ButtonVariant::Danger,
                                 type: ButtonType::Submit,
                                 name: 'editor[delete_cookie]',
                                 value: '1',
-                            ))->render() ?>
+                            ) ?>
                         <?php else: ?>
-                            <?= (new Button\Save(
+                            <?= new Button\Save(
                                 label: rex_i18n::rawMsg('system_editor_update_configyml'),
                                 name: 'editor[update_cookie]',
                                 value: '0',
-                            ))->render() ?>
+                            ) ?>
                         <?php endif ?>
                     </div>
                 <?php }),
-            ))->render() ?>
+            ) ?>
         </form>
     </div>
     <div class="col-lg-4">
-        <?= (new Card(
+        <?= new Card(
             header: rex_i18n::msg('system_features'),
 
             body: new Html(function () { ?>
                 <h3><?= rex_i18n::msg('delete_cache') ?></h3>
                 <p><?= rex_i18n::msg('delete_cache_description') ?></p>
                 <p>
-                    <?= (new Button(
+                    <?= new Button(
                         label: rex_i18n::rawMsg('delete_cache'),
                         href: rex_url::currentBackendPage(['func' => 'generate'] + $this->csrfToken->getUrlParams()),
                         variant: ButtonVariant::Danger,
-                    ))->render() ?>
+                    ) ?>
                 </p>
 
                 <h3><?= rex_i18n::msg('debug_mode') ?></h3>
                 <p><?= rex_i18n::msg('debug_mode_note') ?></p>
                 <p>
-                    <?= (new Button(
+                    <?= new Button(
                         label: rex_i18n::rawMsg('debug_mode_' . (rex::isDebugMode() ? 'off' : 'on')),
                         prefix: new Icon(IconLibrary::Debug),
                         href: (rex_url::currentBackendPage(['func' => 'debugmode'] + $this->csrfToken->getUrlParams())),
@@ -184,13 +184,13 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
                             'data-pjax' => 'false',
                             'data-confirm' => rex::isDebugMode() ? null : rex_i18n::msg('debug_confirm'),
                         ]),
-                    ))->render() ?>
+                    ) ?>
                 </p>
 
                 <h3><?= rex_i18n::msg('safemode') ?></h3>
                 <p><?= rex_i18n::msg('safemode_text') ?></p>
                 <p>
-                    <?= (new Button(
+                    <?= new Button(
                         label: rex_i18n::rawMsg('safemode_' . (rex::isSafeMode() ? 'deactivate' : 'activate')),
                         href: rex_url::currentBackendPage(['safemode' => (rex::isSafeMode() ? '0' : '1')] + $this->csrfToken->getUrlParams()),
                         variant: ButtonVariant::Warning,
@@ -198,13 +198,13 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
                             'data-pjax' => 'false',
                             'class' => 'rex-toggle-safemode',
                         ]),
-                    ))->render() ?>
+                    ) ?>
                 </p>
 
                 <h3><?= rex_i18n::msg('setup') ?></h3>
                 <p><?= rex_i18n::msg('setup_text') ?></p>
                 <p>
-                    <?= (new Button(
+                    <?= new Button(
                         label: rex_i18n::rawMsg('setup'),
                         href: rex_url::currentBackendPage(['func' => 'setup'] + $this->csrfToken->getUrlParams()),
                         variant: ButtonVariant::Primary,
@@ -212,12 +212,12 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
                             'data-pjax' => 'false',
                             'data-confirm' => rex_i18n::msg('setup_restart'),
                         ]),
-                    ))->render() ?>
+                    ) ?>
                 </p>
             <?php }),
-        ))->render() ?>
+        ) ?>
 
-        <?= (new Card(
+        <?= new Card(
             header: rex_i18n::msg('installation'),
 
             body: new Html(function () { ?>
@@ -226,10 +226,10 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
                         <th class="rex-table-width-3">REDAXO</th>
                         <td>
                             <?php if (rex_version::isUnstable($this->rexVersion)): ?>
-                                <?= (new Icon(
+                                <?= new Icon(
                                     name: IconLibrary::VersionUnstable,
                                     label: rex_i18n::msg('unstable_version'),
-                                ))->render() ?>
+                                ) ?>
                             <?php endif ?>
                             <?= rex_escape($this->rexVersion) ?>
                         </td>
@@ -237,15 +237,14 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
                     <tr>
                         <th>PHP</th>
                         <td>
-                            <?= (new Button(
+                            <?= new Button(
                                 label: PHP_VERSION,
                                 suffix: new Icon(IconLibrary::PhpInfo),
                                 href: rex_url::backendPage('system/phpinfo'),
                                 attributes: new HtmlAttributes([
                                     'onclick' => 'newWindow("phpinfo", this.href, 1000,800,",status=yes,resizable=yes"); return false;',
                                 ]),
-                            ))->render();
-                            ?>
+                            ) ?>
                         </td>
                     </tr>
                     <tr>
@@ -256,9 +255,9 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
                     </tr>
                 </table>
             <?php }),
-        ))->render() ?>
+        ) ?>
 
-        <?= (new Card(
+        <?= new Card(
             header: rex_i18n::msg('database'),
 
             body: new Html(function () { ?>
@@ -277,6 +276,6 @@ use Redaxo\Core\Fragment\Page\SystemSettings;
                     </tr>
                 </table>
             <?php }),
-        ))->render() ?>
+        ) ?>
     </div>
 </div>

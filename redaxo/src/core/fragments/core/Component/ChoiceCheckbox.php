@@ -21,7 +21,7 @@ $values = $this->getValues();
         'form-control--has-label' => (bool) $this->label,
         'form-control--has-help-text' => (bool) $this->notice,
     ],
-])->toString() ?>>
+]) ?>>
     <?php if ($this->label): ?>
         <label class="form-control__label" id="label-<?= $random ?>" aria-hidden="false">
             <?php if (is_string($this->label)): ?>
@@ -41,12 +41,12 @@ $values = $this->getValues();
                 <small><?= rex_escape($groupLabel) ?></small>
             <?php endif ?>
             <?php foreach ($group as $label => $value): ?>
-                <sl-checkbox <?= (new HtmlAttributes([
+                <sl-checkbox <?= new HtmlAttributes([
                     'value' => $value,
                     'name' => $this->name,
                     'disabled' => $this->disabled,
                     'checked' => in_array($value, $values),
-                ]))->toString() ?>>
+                ]) ?>>
                     <?= rex_escape($label) ?>
                 </sl-checkbox>
             <?php endforeach ?>

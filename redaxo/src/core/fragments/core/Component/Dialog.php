@@ -7,10 +7,8 @@ use Redaxo\Core\Fragment\Fragment;
 ?>
 <sl-dialog <?= $this->attributes->with([
     'label' => is_string($this->label) ? $this->label : null,
-])->toString() ?>>
+]) ?>>
     <?= $this->label instanceof Fragment ? Fragment::slot($this->label, 'label') : '' ?>
     <?= Fragment::slot($this->body) ?>
 </sl-dialog>
-<?php if ($this->button): ?>
-    <?= Fragment::slot($this->button) ?>
-<?php endif ?>
+<?= Fragment::slot($this->button) ?>
