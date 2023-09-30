@@ -736,11 +736,6 @@ parameters:
 			path: ../../redaxo/src/addons/metainfo/lib/handler/clang_handler.php
 
 		-
-			message: "#^Elseif condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
-
-		-
 			message: "#^Method rex_metainfo_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
