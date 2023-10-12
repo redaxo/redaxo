@@ -1,7 +1,7 @@
 /**
  * REDAXO Visual Regression testing
  *
- * 1. Start a local php-server with `php -S localhost:8000` from within the project root
+ * 1. Start a local php-server with `php -S localhost:80` from within the project root
  * 2. Make sure a database server is running
  * 3. Make sure a admin-user with login `myusername` and password `mypassword` exists
  * 4. Make sure the REDAXO instance running at START_URL is accessible and login screen appears on the url
@@ -17,7 +17,7 @@ const {mkdirp} = require('mkdirp');
 const viewportWidth = 1280;
 const viewportHeight = 800;
 
-const START_URL = 'http://localhost:8000/redaxo/index.php';
+const START_URL = 'http://localhostredaxo/index.php';
 const DEBUGGING = false;
 const WORKING_DIR = '.tests-visual/';
 const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
