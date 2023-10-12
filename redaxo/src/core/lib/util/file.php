@@ -195,10 +195,7 @@ class rex_file
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
             if (is_file($file)) {
-                if (false === unlink($file)) {
-                    debug_print_backtrace();
-                    return false;
-                }
+                return unlink($file);
             }
             return true;
         });
