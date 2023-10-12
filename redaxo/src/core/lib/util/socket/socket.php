@@ -485,6 +485,4 @@ class rex_socket
  *
  * @package redaxo\core
  */
-class rex_socket_exception extends rex_exception
-{
-}
+class rex_socket_exception extends rex_exception {}

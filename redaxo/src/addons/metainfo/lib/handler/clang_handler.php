@@ -54,9 +54,7 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
     /**
      * @return void
      */
-    protected function buildFilterCondition(array $params)
-    {
-    }
+    protected function buildFilterCondition(array $params) {}
 
     public function renderFormItem($field, $tag, $tagAttr, $id, $label, $labelIt, $inputType)
     {

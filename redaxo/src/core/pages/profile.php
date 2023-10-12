@@ -290,7 +290,7 @@ $confirmField = static function (string $id) use ($login, $webauthn): string {
         <input type="hidden" name="passkey_verify"/>
     </div>';
     } else {
-        $n['label'] = '<label for="' . $id . '">' . rex_i18n::msg('old_password') . '</label>';
+        $n['label'] = '<label for="' . $id . '">' . rex_i18n::msg('current_password') . '</label>';
         $n['field'] = '<input class="form-control rex-js-userpsw" type="password" id="' . $id . '" name="userpsw" autocomplete="current-password" required />';
     }
 
