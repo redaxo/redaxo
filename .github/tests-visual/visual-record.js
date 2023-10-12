@@ -8,7 +8,6 @@
  * 5. Start the visual recording with `node .github/tests-visual/visual-record.js`
  */
 
-
 const puppeteer = require('puppeteer');
 const pixelmatch = require('pixelmatch');
 const PNG = require('pngjs').PNG;

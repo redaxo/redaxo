@@ -134,9 +134,7 @@ class rex_dir
     {
         $state = true;
 
-        echo '<br><br><br><br><br><br><pre>';
         foreach ($iterator as $file) {
-            var_dump($file);
             if ($file->isDir()) {
                 // ignore warning "Directory not empty", there may already exist new files created by other page views
                 $state = @rmdir((string) $file) && $state;
@@ -144,7 +142,6 @@ class rex_dir
                 $state = rex_file::delete((string) $file) && $state;
             }
         }
-        echo '</pre>';
 
         return $state;
     }
