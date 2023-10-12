@@ -122,7 +122,7 @@ jobs:
                     node-version: 20
             -   name: Setup Webserver
                 run: |
-                    npm install puppeteer@21 pixelmatch pngjs fs
+                    npm install puppeteer@21 pixelmatch pngjs
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'
