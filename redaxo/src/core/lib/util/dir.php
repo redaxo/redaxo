@@ -134,6 +134,7 @@ class rex_dir
     {
         $state = true;
 
+        echo '<br><br><br><br><br><br><pre>';
         foreach ($iterator as $file) {
             var_dump($file);
             if ($file->isDir()) {
@@ -143,6 +144,7 @@ class rex_dir
                 $state = rex_file::delete((string) $file) && $state;
             }
         }
+        echo '</pre>';
 
         return $state;
     }
