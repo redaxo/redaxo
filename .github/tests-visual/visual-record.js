@@ -236,30 +236,7 @@ async function main() {
     }
 
     const browser = await puppeteer.launch(options);
-    let page = await browser.newPage();
-    // log browser errors into the console
-    page.on('console', function(msg) {
-        const text = msg.text();
-        if (text.indexOf("Unrecognized feature: 'interest-cohort'.") !== -1) {
-            return;
-        }
-
-        if (text.indexOf("Error with Permissions-Policy header: Origin trial controlled feature not enabled: 'interest-cohort'") !== -1) {
-            return;
-        }
-
-        // ajax requests
-        const origin = msg.location().url;
-        if (origin) {
-            console.log(`BROWSER-CONSOLE: "${origin}" (Ajax)`, text);
-            return;
-        }
-
-        console.log('BROWSER-CONSOLE:', text);
-    });
-
-    await page.setViewport({ width: viewportWidth, height: viewportHeight });
-    await page.setCookie(noHtaccessCheckCookie);
+    const page = await createPage(browser);
 
     switch (true) {
 
@@ -295,14 +272,7 @@ async function main() {
             await logIntoBackend(page);
             await createScreenshots(page, 'index.png');
 
-            // run through all pages
-            for (var fileName in allPages) {
-                const url = allPages[fileName]
-                await goToUrlOrThrow(page, url, { waitUntil: 'load' });
-
-                await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
-                await createScreenshots(page, fileName);
-            }
+            await processAllPages(browser);
 
             // test safe mode
             await goToUrlOrThrow(page, START_URL + '?page=system/settings', { waitUntil: 'load' });
@@ -357,6 +327,52 @@ async function main() {
     await browser.close();
 
     process.exit(exitCode);
+}
+
+async function createPage(browser) {
+    const page = await browser.newPage();
+    // log browser errors into the console
+    page.on('console', function(msg) {
+        const text = msg.text();
+        if (text.indexOf("Unrecognized feature: 'interest-cohort'.") !== -1) {
+            return;
+        }
+
+        if (text.indexOf("Error with Permissions-Policy header: Origin trial controlled feature not enabled: 'interest-cohort'") !== -1) {
+            return;
+        }
+
+        // ajax requests
+        const origin = msg.location().url;
+        if (origin) {
+            console.log(`BROWSER-CONSOLE: "${origin}" (Ajax)`, text);
+            return;
+        }
+
+        console.log('BROWSER-CONSOLE:', text);
+    });
+
+    await page.setViewport({ width: viewportWidth, height: viewportHeight });
+    await page.setCookie(noHtaccessCheckCookie);
+
+    return page;
+}
+
+async function processAllPages(browser) {
+    const pendingPages = [];
+    // run through all pages
+    for (const fileName in allPages) {
+        pendingPages.push((async () => {
+            const url = allPages[fileName]
+            const page = await createPage(browser);
+            await goToUrlOrThrow(page, url, { waitUntil: 'load' });
+
+            await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
+            await createScreenshots(page, fileName);
+        })());
+    }
+
+    await Promise.all(pendingPages);
 }
 
 // print uncaught exceptions and make github action fail
