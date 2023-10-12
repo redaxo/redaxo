@@ -8,9 +8,9 @@ class rex_error_sandbox
 {
     private static ?string $error = null;
 
-    public static function run(callable $cb) {
+    public static function run(callable $cb): mixed {
         self::$error = null;
-        set_error_handler(function (int $type, string $msg) {
+        set_error_handler(function (int $type, string $msg): void {
             self::$error = $msg;
         });
 
