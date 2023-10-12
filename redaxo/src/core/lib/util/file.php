@@ -195,7 +195,9 @@ class rex_file
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
             if (is_file($file)) {
-                return @unlink($file);
+                return self::logPermissionDenied(function () use ($file) {
+                    return unlink($file);
+                });
             }
             return true;
         });
@@ -272,5 +274,14 @@ class rex_file
         ob_start();
         require $file;
         return ob_get_clean();
+    }
+
+    private static function logPermissionDenied(callable $cb): mixed {
+        $result = rex_error_sandbox::run($cb);
+        $error = rex_error_sandbox::getError();
+        if (null !== $error && str_contains($error, 'Permission denied')) {
+            rex_logger::logError(E_WARNING, $error, __FILE__, __LINE__);
+        }
+        return $result;
     }
 }
