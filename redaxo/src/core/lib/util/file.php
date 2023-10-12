@@ -195,10 +195,11 @@ class rex_file
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
             if (is_file($file)) {
-                var_dump(stat($file));
+                echo 'Unlinking file '.$file.PHP_EOL;
+                echo 'is_file' . (is_file($file) ? 'true' : 'false') . PHP_EOL;
                 if (false === unlink($file)) {
                     echo 'unlink failed'.PHP_EOL;
-                    var_dump(stat($file));
+                    echo 'is_file' . (is_file($file) ? 'true' : 'false') . PHP_EOL;
                 }
             }
             return true;
