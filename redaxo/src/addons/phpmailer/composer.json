@@ -1,4 +1,5 @@
 {
+    "name": "redaxo/phpmailer",
     "require": { "phpmailer/phpmailer": "^6.8.1" },
 
     "config": {
