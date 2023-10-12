@@ -2,7 +2,7 @@
 
 class rex_package_conflicts
 {
-    private $requirements = [];
+    private $packages = [];
 
     public function getComposerConflicts(): ?string {
         $this->addCoreComposerJson();
@@ -24,32 +24,26 @@ class rex_package_conflicts
                 continue;
             }
 
-            $composerJson = $a->getPath('composer.json');
-            $this->addRequirements($composerJson);
+            $composerJsonPath = $a->getPath('composer.json');
+            $this->addRequirements($composerJsonPath);
         }
     }
 
-    private function addRequirements($composerJson): void {
+    private function addRequirements($composerJsonPath): void {
 
-        if(!is_file($composerJson)) {
+        if(!is_file($composerJsonPath)) {
             return;
         }
 
-        $composerJson = json_decode(file_get_contents($composerJson), true);
+        $composerJson = json_decode(file_get_contents($composerJsonPath), true);
 
-        if(!isset($composerJson['require'])) {
+        if (!array_key_exists('require', $composerJson) || !array_key_exists('name', $composerJson)) {
             return;
         }
 
-        $require = $composerJson['require'];
+        $packageName  = $composerJson['name'];
 
-        foreach($require as $package => $versionContraint) {
-            if (isset($this->requirements[$package])) {
-                $this->requirements[$package][] = $versionContraint;
-            } else {
-                $this->requirements[$package] = [$versionContraint];
-            }
-        }
+        $this->packages[$packageName] = dirname($composerJsonPath);
     }
 
     private function runComposer(): ?string
@@ -57,12 +51,18 @@ class rex_package_conflicts
         $path = rex_path::cache('composer/composer.json');
         rex_dir::create(dirname($path));
 
-        $combinedRequirements = [];
-        foreach ($this->requirements as $package => $versionContraints) {
-            $combinedRequirements[$package] = implode(',', $versionContraints);
+        $composerJson = [
+            'minimum-stability' => 'dev',
+        ];
+        foreach ($this->packages as $package => $packagePath) {
+            $composerJson['require'][$package] = '*';
+            $composerJson['repositories'][] = [
+                'type' => 'path',
+                'url' => $packagePath,
+            ];
         }
 
-        file_put_contents($path, json_encode(['require' => $combinedRequirements], JSON_PRETTY_PRINT));
+        file_put_contents($path, json_encode($composerJson, JSON_PRETTY_PRINT));
         $command =  'composer update --dry-run --no-interaction --no-progress --no-scripts --no-plugins --no-autoloader --no-install --working-dir=' . rex_path::cache('composer'). ' 2>&1';
 
         exec($command, $output, $return_var);
