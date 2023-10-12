@@ -6,12 +6,12 @@
  */
 class rex_error_sandbox
 {
-    private static ?string $error = null;
+    private ?string $error = null;
 
-    public static function run(callable $cb): mixed {
-        self::$error = null;
+    public function run(callable $cb): mixed {
+        $this->error = null;
         set_error_handler(function (int $type, string $msg): void {
-            self::$error = $msg;
+            $this->error = $msg;
         });
 
         try {
@@ -21,7 +21,7 @@ class rex_error_sandbox
         }
     }
 
-    public static function getError(): ?string {
-        return self::$error;
+    public function getError(): ?string {
+        return $this->error;
     }
 }

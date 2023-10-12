@@ -277,8 +277,9 @@ class rex_file
     }
 
     private static function logPermissionDenied(callable $cb): mixed {
-        $result = rex_error_sandbox::run($cb);
-        $error = rex_error_sandbox::getError();
+        $sandbox = new rex_error_sandbox();
+        $result = $sandbox->run($cb);
+        $error = $sandbox->getError();
         if (null !== $error && str_contains($error, 'Permission denied')) {
             rex_logger::logError(E_WARNING, $error, __FILE__, __LINE__);
         }
