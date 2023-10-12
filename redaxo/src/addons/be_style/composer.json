@@ -1,7 +1,8 @@
 {
     "name": "redaxo/be_style",
     "require": {
-        "scssphp/scssphp": "^1.11.1"
+        "scssphp/scssphp": "^1.11.1",
+        "psr/log": "^2"
     },
 
     "config": {
