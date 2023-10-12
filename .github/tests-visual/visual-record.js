@@ -12,7 +12,6 @@ const puppeteer = require('puppeteer');
 const pixelmatch = require('pixelmatch');
 const PNG = require('pngjs').PNG;
 const fs = require('fs');
-const {mkdirp} = require('mkdirp');
 
 const viewportWidth = 1280;
 const viewportHeight = 800;
@@ -123,7 +122,7 @@ function countDiffPixels(img1path, img2path ) {
 }
 
 async function processScreenshot(page, screenshotName) {
-    mkdirp.sync(WORKING_DIR);
+    fs.mkdirSync(WORKING_DIR, { recursive: true });
 
     await page.evaluate(() => {
         // disable spellchecker to prevent red wavy underlines in inputs
