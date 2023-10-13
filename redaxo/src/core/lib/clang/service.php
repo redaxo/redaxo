@@ -52,7 +52,7 @@ class rex_clang_service
      *
      * @return bool
      */
-    public static function editCLang($id, $code, $name, $priority, $status = null)
+    public static function editCLang($id, $code, $name, $priority, $status = null): rex_clang
     {
         if (!rex_clang::exists($id)) {
             throw new rex_exception('clang with id "' . $id . '" does not exist');
