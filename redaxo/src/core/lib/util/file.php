@@ -203,7 +203,7 @@ class rex_file
                     if (is_file($file)) {
                         return unlink($file);
                     }
-                }                
+                }
             }
             return true;
         });
