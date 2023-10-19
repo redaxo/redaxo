@@ -194,7 +194,7 @@ class rex_file
     public static function delete($file)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
-            if (is_file($file)) {
+            
                 $tryUnlink = @unlink($file);
 
                 // re-try without error suppression to compensate possible race conditions
@@ -204,7 +204,7 @@ class rex_file
                         return unlink($file);
                     }
                 }
-            }
+            
             return true;
         });
     }
