@@ -7,8 +7,8 @@ use Redaxo\Core\Fragment\Component\TabGroup;
 
 <sl-tab-group <?= $this->attributes->with([
     'placement' => $this->placement,
-]) ?>>
+])->toString() ?>>
     <?php foreach ($this->elements as $element): ?>
-        <?= $element ?>
+        <?= $element->render() ?>
     <?php endforeach ?>
 </sl-tab-group>

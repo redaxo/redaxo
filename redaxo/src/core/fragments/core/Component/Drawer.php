@@ -11,7 +11,7 @@ use Redaxo\Core\Fragment\Fragment;
     'open' => $this->open,
     'placement' => $this->placement,
     'contained' => $this->contained,
-]) ?>>
+])->toString() ?>>
     <?= $this->label instanceof Fragment ? Fragment::slot($this->label, 'label') : '' ?>
     <?= Fragment::slot($this->headerActions, 'header-actions') ?>
     <?= Fragment::slot($this->footer, 'footer') ?>

@@ -9,7 +9,7 @@ use Redaxo\Core\Fragment\Fragment;
     'summary' => is_string($this->summary) ? $this->summary : null,
     'open' => $this->open,
     'disabled' => $this->disabled,
-]) ?>>
+])->toString() ?>>
     <?= $this->summary instanceof Fragment ? Fragment::slot($this->summary, 'summary') : '' ?>
     <?= Fragment::slot($this->expandIcon, 'expand-icon') ?>
     <?= Fragment::slot($this->collapseIcon, 'collapse-icon') ?>

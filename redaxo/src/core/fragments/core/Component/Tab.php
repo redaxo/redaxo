@@ -11,12 +11,12 @@ use Redaxo\Core\Fragment\Fragment;
     'active' => $this->active,
     'closable' => $this->closable,
     'disabled' => $this->disabled,
-]) ?>>
+])->toString() ?>>
     <?= Fragment::slot($this->label) ?>
 </sl-tab>
 <sl-tab-panel <?= $this->panelAttributes->with([
     'name' => $this->name,
     'active' => $this->active,
-]) ?>>
+])->toString() ?>>
     <?= Fragment::slot($this->panel) ?>
 </sl-tab-panel>

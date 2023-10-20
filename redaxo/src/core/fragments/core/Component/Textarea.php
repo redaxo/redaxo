@@ -22,7 +22,7 @@ use Redaxo\Core\Fragment\Fragment;
     'autofocus' => $this->autofocus,
     'autocapitalize' => $this->autocapitalize,
     'spellcheck' => null !== $this->spellcheck ? ($this->spellcheck ? 'true' : 'false') : null,
-]) ?>>
+])->toString() ?>>
     <?= $this->label instanceof Fragment ? Fragment::slot($this->label, 'label') : '' ?>
     <?= $this->notice instanceof Fragment ? Fragment::slot($this->notice, 'help-text') : '' ?>
 </sl-textarea>

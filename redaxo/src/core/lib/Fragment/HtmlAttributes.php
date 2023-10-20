@@ -4,7 +4,6 @@ namespace Redaxo\Core\Fragment;
 
 use BackedEnum;
 use rex_type;
-use Stringable;
 
 use function array_key_exists;
 use function is_array;
@@ -33,7 +32,7 @@ use function is_string;
  * The example will result in this attributes string:
  *    ` attr1="my_value" attr2="5" attr3="my_enum_value" disabled class="cls1 cls2 cls4"`
  */
-final class HtmlAttributes implements Stringable
+final class HtmlAttributes
 {
     public function __construct(
         /** @var array<literal-string, null|bool|string|int|BackedEnum|array<string|int, string|bool>|list<BackedEnum>> */
@@ -118,11 +117,7 @@ final class HtmlAttributes implements Stringable
         }
 
         return ltrim($attr);
-    }
 
-    public function __toString(): string
-    {
-        return $this->toString();
     }
 
     /** @param array<string|int, string|bool>|list<BackedEnum> $array */

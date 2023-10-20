@@ -16,7 +16,7 @@ use Redaxo\Core\Fragment\Fragment;
     'max' => $this->max,
     'step' => $this->step,
     'tooltip' => $this->tooltipPlacement,
-]) ?>>
+])->toString() ?>>
     <?= $this->label instanceof Fragment ? Fragment::slot($this->label, 'label') : '' ?>
     <?= $this->notice instanceof Fragment ? Fragment::slot($this->notice, 'help-text') : '' ?>
 </sl-range>

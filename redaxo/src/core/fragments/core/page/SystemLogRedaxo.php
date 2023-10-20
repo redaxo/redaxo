@@ -17,22 +17,22 @@ use Redaxo\Core\Fragment\Page\SystemLogRedaxo;
 ?>
 
 <?php if ($this->error): ?>
-    <?= new Error(
+    <?= (new Error(
         body: new Html($this->error),
-    ) ?>
+    ))->render() ?>
 <?php endif ?>
 
 <?php if ($this->success): ?>
-    <?= new Success(
+    <?= (new Success(
         body: new Html($this->success),
-    ) ?>
+    ))->render() ?>
 <?php endif ?>
 
 <form action="<?= rex_url::currentBackendPage() ?>" method="post">
     <input type="hidden" name="func" value="delLog" />
     <?= $this->csrfToken->getHiddenField() ?>
 
-    <?= new Card(
+    <?= (new Card(
         header: rex_i18n::rawMsg('syslog_title', $this->logFilePath),
         body: new Html(function () { ?>
             <table class="table table-hover">
@@ -82,7 +82,7 @@ use Redaxo\Core\Fragment\Page\SystemLogRedaxo;
         <?php }),
         footer: new Html(function () { ?>
             <div>
-                <?= new Button(
+                <?= (new Button(
                     label: rex_i18n::msg('syslog_delete'),
                     name: 'del_btn',
                     variant: ButtonVariant::Danger,
@@ -90,25 +90,25 @@ use Redaxo\Core\Fragment\Page\SystemLogRedaxo;
                     attributes: new HtmlAttributes([
                         'data-confirm' => rex_i18n::msg('delete') . '?',
                     ]),
-                ) ?>
+                ))->render() ?>
                 <?php if ($url = $this->editor->getUrl($this->logFilePath, 0)): ?>
-                    <?= new Button(
+                    <?= (new Button(
                         label: rex_i18n::rawMsg('system_editor_open_file', rex_path::basename($this->logFilePath)),
                         variant: ButtonVariant::Success,
                         href: $url,
-                    ) ?>
+                    ))->render() ?>
                 <?php endif ?>
                 <?php if (is_file($this->logFilePath)): ?>
-                    <?= new Button(
+                    <?= (new Button(
                         label: rex_i18n::rawMsg('syslog_download', rex_path::basename($this->logFilePath)),
                         variant: ButtonVariant::Success,
                         href: rex_url::currentBackendPage(['func' => 'download'] + $this->csrfToken->getUrlParams()),
                         attributes: new HtmlAttributes([
                             'download' => true,
                         ]),
-                    ) ?>
+                    ))->render() ?>
                 <?php endif ?>
             </div>
         <?php }),
-    ) ?>
+    ))->render() ?>
 </form>

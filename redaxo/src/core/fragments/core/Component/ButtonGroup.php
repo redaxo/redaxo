@@ -7,8 +7,8 @@ use Redaxo\Core\Fragment\Component\ButtonGroup;
 
 <sl-button-group <?= $this->attributes->with([
     'label' => $this->label,
-]) ?>>
+])->toString() ?>>
     <?php foreach ($this->elements as $element): ?>
-        <?= $element ?>
+        <?= $element->render() ?>
     <?php endforeach ?>
 </sl-button-group>

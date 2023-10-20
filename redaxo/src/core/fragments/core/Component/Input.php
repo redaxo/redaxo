@@ -24,7 +24,7 @@ use Redaxo\Core\Fragment\Fragment;
     'step' => $this->step,
     'autocapitalize' => $this->autocapitalize,
     'spellcheck' => null !== $this->spellcheck ? ($this->spellcheck ? 'true' : 'false') : null,
-]) ?>>
+])->toString() ?>>
     <?= $this->label instanceof Fragment ? Fragment::slot($this->label, 'label') : '' ?>
     <?= $this->notice instanceof Fragment ? Fragment::slot($this->notice, 'help-text') : '' ?>
     <?= Fragment::slot($this->prefix, 'prefix') ?>
