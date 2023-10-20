@@ -6,7 +6,7 @@ use Redaxo\Core\Fragment\Fragment;
 /** @var Card $this */
 ?>
 
-<sl-card <?= $this->attributes->toString() ?>>
+<sl-card <?= $this->attributes ?>>
     <?= Fragment::slot($this->image, 'image') ?>
     <?= Fragment::slot($this->header, 'header') ?>
     <?= Fragment::slot($this->footer, 'footer') ?>

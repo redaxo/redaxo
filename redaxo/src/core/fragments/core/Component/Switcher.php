@@ -13,6 +13,6 @@ use Redaxo\Core\Fragment\Fragment;
     'disabled' => $this->disabled,
     'checked' => $this->checked,
     'required' => $this->required,
-])->toString() ?>>
+]) ?>>
     <?= Fragment::slot($this->label) ?>
 </sl-switch>

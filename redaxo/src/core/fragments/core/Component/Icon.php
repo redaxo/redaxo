@@ -6,7 +6,7 @@ use Redaxo\Core\Fragment\HtmlAttributes;
 
 /** @var Icon $this */
 ?>
-<sl-icon <?= (new HtmlAttributes([
+<sl-icon <?= new HtmlAttributes([
     'name' => match ($this->name) {
         IconLibrary::Add => 'plus-lg',
         IconLibrary::AlertError => 'exclamation-octagon',
@@ -22,5 +22,5 @@ use Redaxo\Core\Fragment\HtmlAttributes;
     },
     'label' => $this->label,
     'src' => $this->src,
-]))->toString() ?>>
+]) ?>>
 </sl-icon>

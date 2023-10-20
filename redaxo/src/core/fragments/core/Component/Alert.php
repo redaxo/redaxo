@@ -18,7 +18,7 @@ use Redaxo\Core\Fragment\Fragment;
     'open' => $this->open,
     'closeable' => $this->closeable,
     'duration' => $this->duration,
-])->toString() ?>>
+]) ?>>
     <?= Fragment::slot($this->icon, 'icon') ?>
     <?= Fragment::slot($this->body) ?>
 </sl-alert>

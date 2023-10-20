@@ -19,7 +19,7 @@ use Redaxo\Core\Fragment\Fragment;
     'value' => $this->value,
     'href' => $this->href,
     'target' => $this->target,
-])->toString() ?>>
+]) ?>>
     <?= Fragment::slot($this->prefix, 'prefix') ?>
     <?= Fragment::slot($this->suffix, 'suffix') ?>
     <?= Fragment::slot($this->label) ?>

@@ -15,7 +15,7 @@ use Redaxo\Core\Fragment\Page\SystemReport;
 ?>
 
 <?php foreach ($this->report->get() as $title => $group): ?>
-    <?= (new Card(
+    <?= new Card(
         header: $title,
         body: new Html(static function () use ($title, $group) { ?>
             <table class="table">
@@ -29,7 +29,7 @@ use Redaxo\Core\Fragment\Page\SystemReport;
                                 throw new rex_exception('Package ' . $label . ' does not define a proper version in its package.yml');
                             }
                             if (rex_version::isUnstable($value)) {
-                                echo (new Icon(IconLibrary::VersionUnstable))->render() . ' ' . rex_escape($value);
+                                echo new Icon(IconLibrary::VersionUnstable) . ' ' . rex_escape($value);
                             }
                         } elseif (is_bool($value)) {
                             echo $value ? 'yes' : 'no';
@@ -42,19 +42,19 @@ use Redaxo\Core\Fragment\Page\SystemReport;
             <?php endforeach ?>
             </table>
         <?php }),
-    ))->render() ?>
+    ) ?>
 <?php endforeach ?>
-<?= (new Details(
+<?= new Details(
     summary: new Html(static function () { ?>
         <div>
             <?= rex_i18n::msg('system_report_markdown') ?>
-            <?= (new CopyButton(
+            <?= new CopyButton(
                 from: 'rex-system-report-markdown',
                 copyLabel: rex_i18n::msg('copy_to_clipboard'),
-            ))->render() ?>
+            ) ?>
         </div>
-        <?php }),
+    <?php }),
     body: new Html(function () { ?>
         <pre><code id="rex-system-report-markdown"><?= rex_escape($this->report->asMarkdown()) ?></code></pre>
     <?php }),
-))->render() ?>
+) ?>

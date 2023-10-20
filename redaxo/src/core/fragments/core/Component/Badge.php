@@ -10,6 +10,6 @@ use Redaxo\Core\Fragment\Fragment;
     'variant' => $this->variant,
     'pill' => $this->pill,
     'pulse' => $this->pulse,
-])->toString() ?>>
+]) ?>>
     <?= Fragment::slot($this->body) ?>
 </sl-badge>

@@ -13,6 +13,6 @@ use Redaxo\Core\Fragment\Fragment;
     'checked' => $this->checked,
     'indeterminate' => $this->indeterminate,
     'required' => $this->required,
-])->toString() ?>>
+]) ?>>
     <?= $this->label instanceof Fragment ? Fragment::slot($this->label, 'label') : '' ?>
 </sl-checkbox>

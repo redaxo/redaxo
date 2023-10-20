@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Fragment\Component\Choice;
 use Redaxo\Core\Fragment\Fragment;
+use Redaxo\Core\Fragment\HtmlAttributes;
 
 /** @var Choice $this */
 ?><?php
@@ -14,7 +15,7 @@ $counter = 1;
     'label' => is_string($this->label) ? $this->label : null,
     'help-text' => is_string($this->notice) ? $this->notice : null,
     'required' => $this->required,
-])->toString() ?>>
+]) ?>>
     <?php foreach ($this->getChoices() as $groupLabel => $group): ?>
         <?php if (1 !== $counter): ?>
             <sl-divider></sl-divider>
@@ -23,10 +24,10 @@ $counter = 1;
             <small><?= rex_escape($groupLabel) ?></small>
         <?php endif ?>
         <?php foreach ($group as $label => $value): ?>
-            <sl-radio
-                value="<?= rex_escape($value) ?>"
-                <?= $this->disabled ? 'disabled' : '' ?>
-            >
+            <sl-radio <?= new HtmlAttributes([
+                'value' => $value,
+                'disabled' => $this->disabled,
+            ]) ?>>
                 <?= rex_escape($label) ?>
             </sl-radio>
         <?php endforeach ?>

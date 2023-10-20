@@ -13,7 +13,7 @@ use Redaxo\Core\Fragment\Fragment;
     'open' => $this->open,
     'skidding' => $this->skidding,
     'trigger' => $this->trigger,
-])->toString() ?>>
+]) ?>>
     <?= $this->content instanceof Fragment ? Fragment::slot($this->content, 'content') : '' ?>
     <?= Fragment::slot($this->body) ?>
 </sl-tooltip>
