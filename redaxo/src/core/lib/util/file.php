@@ -199,7 +199,7 @@ class rex_file
 
             // re-try without error suppression to compensate possible race conditions
             if (!$tryUnlink) {
-                clearstatcache($file);
+                clearstatcache(true, $file);
                 if (is_file($file)) {
                     return unlink($file);
                 }
