@@ -1,6 +1,6 @@
 {
     "dependencies": {
-        "@shoelace-style/shoelace": "^2.11.0"
+        "@shoelace-style/shoelace": "^2.11.2"
     },
     "scripts": {
         "postinstall": "cp -r node_modules/@shoelace-style/shoelace assets/core/"
