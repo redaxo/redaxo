@@ -88,6 +88,7 @@
     <TaintedFile>
       <code>$file</code>
       <code>$file</code>
+      <code>$file</code>
     </TaintedFile>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
