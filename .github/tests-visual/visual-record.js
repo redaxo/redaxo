@@ -1,7 +1,7 @@
 /**
  * REDAXO Visual Regression testing
  *
- * 1. Start a local php-server with `php -S localhost:8000` from within the project root
+ * 1. Start a local php-server with `php -S localhost:80` from within the project root
  * 2. Make sure a database server is running
  * 3. Make sure a admin-user with login `myusername` and password `mypassword` exists
  * 4. Make sure the REDAXO instance running at START_URL is accessible and login screen appears on the url
@@ -17,7 +17,7 @@ const {mkdirp} = require('mkdirp');
 const viewportWidth = 1280;
 const viewportHeight = 800;
 
-const START_URL = 'http://localhost:8000/redaxo/index.php';
+const START_URL = 'http://localhost/redaxo/index.php';
 const DEBUGGING = false;
 const WORKING_DIR = '.tests-visual/';
 const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
@@ -125,11 +125,14 @@ function countDiffPixels(img1path, img2path ) {
 async function processScreenshot(page, screenshotName) {
     mkdirp.sync(WORKING_DIR);
 
-    // hide blinking cursor/icon
-    // disable animations / transitions
-    // disable box-shadow on navbar to prevent visual noise by https://github.com/redaxo/redaxo/blob/97a08682b965cfd3f94e2a5ffa219501544cf71c/redaxo/src/addons/be_style/plugins/redaxo/assets/javascripts/redaxo.js#L211-L222
     await page.evaluate(() => {
-        document.body.insertAdjacentHTML('beforeend', `<style type="text/css">input { caret-color: transparent !important; } * { animation: initial !important; transition: none !important;} .navbar {box-shadow: none !important; }</style>`);
+        // disable spellchecker to prevent red wavy underlines in inputs
+        document.documentElement.setAttribute('spellcheck', 'false');
+        // hide blinking cursor/icon
+        // disable animations / transitions
+        // disable box-shadow on navbar to prevent visual noise by https://github.com/redaxo/redaxo/blob/97a08682b965cfd3f94e2a5ffa219501544cf71c/redaxo/src/addons/be_style/plugins/redaxo/assets/javascripts/redaxo.js#L211-L222
+
+        document.body.insertAdjacentHTML('beforeend', `<style type="text/css">input { caret-color: transparent !important; } * { animation: initial !important; transition: none !important; mix-blend-mode: unset !important;} .navbar {box-shadow: none !important; } body {font-family: sans-serif;}</style>`);
     });
 
     // mask dynamic content, to make it not appear like change (visual noise)
@@ -198,21 +201,35 @@ async function logIntoBackend(page, username = 'myusername', password = '91dfd9d
     await page.waitForTimeout(1000);
 }
 
-async function goToUrlOrThrow(page, url, options) {
+async function goToUrlOrThrow(page, url, options, maxretries = 5) {
+    if(0 === maxretries) {
+        console.error('Failing too hard.... abort');
+        process.exit(1);
+        return;
+    }
+
     // prevent timeouts on slower pages
     options.timeout = 0;
 
-    const response = await page.goto(url, options);
-    if (!response.ok() && response.status() != 304) {
+    try {
+      const response = await page.goto(url, options);
+      if (!response.ok() && response.status() != 304) {
         const error = `Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`;
         console.error("::error ::" +error);
         exitCode = 1;
+      }
+      await response;
+    } catch (e) {
+        console.error(e);
+        console.error(response.status);
+        console.error(response.statusText());
+        console.log('Request failed, retry ' + maxretries + ' more times');
+        await goToUrlOrThrow(page, url, options, --maxretries);
     }
-    await response;
 }
 
 async function main() {
-    const options = { args: ['--no-sandbox', '--disable-setuid-sandbox', '--font-render-hinting=none'] };
+    const options = { args: ['--no-sandbox', '--disable-setuid-sandbox', '--font-render-hinting=none'], headless: 'new' };
 
     if (DEBUGGING) {
         // see https://developers.google.com/web/tools/puppeteer/debugging
@@ -225,6 +242,10 @@ async function main() {
     page.on('console', function(msg) {
         const text = msg.text();
         if (text.indexOf("Unrecognized feature: 'interest-cohort'.") !== -1) {
+            return;
+        }
+
+        if (text.indexOf("Error with Permissions-Policy header: Origin trial controlled feature not enabled: 'interest-cohort'") !== -1) {
             return;
         }
 
