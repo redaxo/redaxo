@@ -117,7 +117,7 @@ jobs:
                     php redaxo/bin/console package:install structure/version --ansi
 
             -   name: Setup nodejs
-                uses: actions/setup-node@v3
+                uses: actions/setup-node@v4
                 with:
                     node-version: 20
             -   name: Setup Webserver
@@ -146,7 +146,7 @@ jobs:
                     git diff --exit-code --name-only .github/tests-visual/
 
             -   name: Commit changed files
-                uses: stefanzweifel/git-auto-commit-action@v4
+                uses: stefanzweifel/git-auto-commit-action@v5
                 if: failure() && env.writable == 1
                 with:
                     commit_message: Update screenshots
