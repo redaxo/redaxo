@@ -7,16 +7,14 @@
  */
 class rex_metainfo_media_handler extends rex_metainfo_handler
 {
-    const PREFIX = 'med_';
+    public const PREFIX = 'med_';
 
     /**
      * Extension to check whether the given media is still in use.
      *
-     * @param rex_extension_point $ep
-     *
      * @throws rex_exception
      *
-     * @return string
+     * @return string[]
      */
     public static function isMediaInUse(rex_extension_point $ep)
     {
@@ -27,7 +25,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $sql->setQuery('SELECT `name`, `type_id` FROM `' . rex::getTablePrefix() . 'metainfo_field` WHERE `type_id` IN(6,7)');
 
         $rows = $sql->getRows();
-        if ($rows == 0) {
+        if (0 == $rows) {
             return $warning;
         }
 
@@ -38,88 +36,89 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         ];
         $escapedFilename = $sql->escape($params['filename']);
         for ($i = 0; $i < $rows; ++$i) {
-            $name = $sql->getValue('name');
+            $name = (string) $sql->getValue('name');
             $prefix = rex_metainfo_meta_prefix($name);
             if (self::PREFIX === $prefix) {
                 $key = 'media';
             } elseif (rex_metainfo_clang_handler::PREFIX === $prefix) {
                 $key = 'clangs';
+            } elseif (rex_metainfo_category_handler::PREFIX === $prefix) {
+                $key = 'categories';
             } else {
                 $key = 'articles';
             }
-            switch ($sql->getValue('type_id')) {
-                case '6':
-                    $where[$key][] = $sql->escapeIdentifier($name) . ' = ' . $escapedFilename;
-                    break;
-                case '7':
-                    $where[$key][] = 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($name)  . ')';
-                    break;
-                default:
-                    throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type_id') . '"!');
-            }
+            $where[$key][] = match ((int) $sql->getValue('type_id')) {
+                rex_metainfo_default_type::REX_MEDIA_WIDGET => $sql->escapeIdentifier($name) . ' = ' . $escapedFilename,
+                rex_metainfo_default_type::REX_MEDIALIST_WIDGET => 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($name) . ')',
+                default => throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type_id') . '"!'),
+            };
             $sql->next();
         }
 
         $articles = '';
-        $categories = '';
         if (!empty($where['articles'])) {
-            $sql->setQuery('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
-            if ($sql->getRows() > 0) {
-                foreach ($sql->getArray() as $art_arr) {
-                    $aid = $art_arr['id'];
-                    $clang = $art_arr['clang_id'];
-                    $parent_id = $art_arr['parent_id'];
-                    if ($art_arr['startarticle']) {
-                        $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', ['edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $parent_id, 'clang' => $clang]) . '\')">' . $art_arr['catname'] . '</a></li>';
-                    } else {
-                        $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'meta', 'clang' => $clang]) . '\')">' . $art_arr['name'] . '</a></li>';
-                    }
-                }
-                if ($articles != '') {
-                    $warning[] = rex_i18n::msg('minfo_media_in_use_art') . '<br /><ul>' . $articles . '</ul>';
-                }
-                if ($categories != '') {
-                    $warning[] = rex_i18n::msg('minfo_media_in_use_cat') . '<br /><ul>' . $categories . '</ul>';
-                }
+            $items = $sql->getArray('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
+            foreach ($items as $artArr) {
+                $aid = (int) $artArr['id'];
+                $clang = (int) $artArr['clang_id'];
+                $parentId = (int) $artArr['parent_id'];
+                $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'meta', 'clang' => $clang]) . '\')">' . (string) $artArr['name'] . '</a></li>';
+            }
+            if ('' != $articles) {
+                $warning[] = rex_i18n::msg('minfo_media_in_use_art') . '<br /><ul>' . $articles . '</ul>';
+            }
+        }
+
+        $categories = '';
+        if (!empty($where['categories'])) {
+            $items = $sql->getArray('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['categories']));
+            foreach ($items as $artArr) {
+                $aid = (int) $artArr['id'];
+                $clang = (int) $artArr['clang_id'];
+                $parentId = (int) $artArr['parent_id'];
+                $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', ['edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $parentId, 'clang' => $clang]) . '\')">' . (string) $artArr['catname'] . '</a></li>';
+            }
+            if ('' != $categories) {
+                $warning[] = rex_i18n::msg('minfo_media_in_use_cat') . '<br /><ul>' . $categories . '</ul>';
             }
         }
 
         $media = '';
         if (!empty($where['media'])) {
-            $sql->setQuery('SELECT id, filename, category_id FROM ' . rex::getTablePrefix() . 'media WHERE ' . implode(' OR ', $where['media']));
-            if ($sql->getRows() > 0) {
-                foreach ($sql->getArray() as $med_arr) {
-                    $id = $med_arr['id'];
-                    $filename = $med_arr['filename'];
-                    $cat_id = $med_arr['category_id'];
-                    $media .= '<li><a href="' . rex_url::backendPage('mediapool/detail', ['file_id' => $id, 'rex_file_category' => $cat_id]) . '">' . $filename . '</a></li>';
-                }
-                if ($media != '') {
-                    $warning[] = rex_i18n::msg('minfo_media_in_use_med') . '<br /><ul>' . $media . '</ul>';
-                }
+            $items = $sql->getArray('SELECT id, filename, category_id FROM ' . rex::getTablePrefix() . 'media WHERE ' . implode(' OR ', $where['media']));
+            foreach ($items as $medArr) {
+                $id = (int) $medArr['id'];
+                $filename = (string) $medArr['filename'];
+                $catId = (int) $medArr['category_id'];
+                $media .= '<li><a href="' . rex_url::backendPage('mediapool/detail', ['file_id' => $id, 'rex_file_category' => $catId]) . '">' . $filename . '</a></li>';
+            }
+            if ('' != $media) {
+                $warning[] = rex_i18n::msg('minfo_media_in_use_med') . '<br /><ul>' . $media . '</ul>';
             }
         }
 
         $clangs = '';
         if (!empty($where['clangs'])) {
-            $sql->setQuery('SELECT id, name FROM ' . rex::getTablePrefix() . 'clang WHERE ' . implode(' OR ', $where['clangs']));
-            if ($sql->getRows() > 0) {
-                foreach ($sql->getArray() as $clang_arr) {
-                    if (rex::getUser() && rex::getUser()->isAdmin()) {
-                        $clangs .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('system/lang', ['clang_id' => $clang_arr['id'], 'func' => 'editclang']) . '\')">' . $clang_arr['name'] . '</a></li>';
-                    } else {
-                        $clangs .= '<li>' . $clang_arr['name'] . '</li>';
-                    }
+            $items = $sql->getArray('SELECT id, name FROM ' . rex::getTablePrefix() . 'clang WHERE ' . implode(' OR ', $where['clangs']));
+            foreach ($items as $clangArr) {
+                $name = (string) $clangArr['name'];
+                if (rex::getUser()?->isAdmin()) {
+                    $clangs .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('system/lang', ['clang_id' => $clangArr['id'], 'func' => 'editclang']) . '\')">' . $name . '</a></li>';
+                } else {
+                    $clangs .= '<li>' . $name . '</li>';
                 }
-                if ($clangs != '') {
-                    $warning[] = rex_i18n::msg('minfo_media_in_use_clang') . '<br /><ul>' . $clangs . '</ul>';
-                }
+            }
+            if ('' != $clangs) {
+                $warning[] = rex_i18n::msg('minfo_media_in_use_clang') . '<br /><ul>' . $clangs . '</ul>';
             }
         }
 
         return $warning;
     }
 
+    /**
+     * @return string
+     */
     protected function buildFilterCondition(array $params)
     {
         $restrictionsCondition = '';
@@ -129,14 +128,14 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             $catId = $params['activeItem']->getValue('category_id');
         }
 
-        if ($catId !== '') {
+        if ('' !== $catId) {
             $s = '';
-            if ($catId != 0) {
+            if (0 != $catId) {
                 $OOCat = rex_media_category::get($catId);
 
                 // Alle Metafelder des Pfades sind erlaubt
                 foreach ($OOCat->getPathAsArray() as $pathElement) {
-                    if ($pathElement != '') {
+                    if ('' != $pathElement) {
                         $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
                     }
                 }
@@ -151,9 +150,12 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         return $restrictionsCondition;
     }
 
+    /**
+     * @return array
+     */
     protected function handleSave(array $params, rex_sql $sqlFields)
     {
-        if (rex_request_method() != 'post' || !isset($params['id'])) {
+        if ('post' != rex_request_method() || !isset($params['id'])) {
             return $params;
         }
 
@@ -164,15 +166,15 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
         parent::fetchRequestValues($params, $media, $sqlFields);
 
-        // do the save only when metafields are defined
-        if ($media->hasValues()) {
+        // do the save only when EP = MEDIA_ADDED/UPDATED and metafields are defined
+        if ($params['save'] && $media->hasValues()) {
             $media->update();
         }
 
         return $params;
     }
 
-    protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+    protected function renderFormItem($field, $tag, $tagAttr, $id, $label, $labelIt, $inputType)
     {
         return $field;
     }
@@ -180,33 +182,34 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     public function extendForm(rex_extension_point $ep)
     {
         $params = $ep->getParams();
+        $params['save'] = $save = in_array($ep->getName(), ['MEDIA_ADDED', 'MEDIA_UPDATED'], true);
+
         // Nur beim EDIT gibts auch ein Medium zum bearbeiten
-        if ($ep->getName() == 'MEDIA_FORM_EDIT') {
+        if ('MEDIA_FORM_EDIT' == $ep->getName()) {
             $params['activeItem'] = $params['media'];
             unset($params['media']);
-            // Hier die category_id setzen, damit keine Warnung entsteht (REX_LINK_BUTTON)
-            // $params['activeItem']->setValue('category_id', 0);
-        } elseif ($ep->getName() == 'MEDIA_ADDED') {
+        } elseif ('MEDIA_ADDED' == $ep->getName()) {
             $sql = rex_sql::factory();
-            $qry = 'SELECT id FROM ' . rex::getTablePrefix() . 'media WHERE filename="' . $params['filename'] . '"';
-            $sql->setQuery($qry);
-            if ($sql->getRows() == 1) {
-                $params['id'] = $sql->getValue('id');
+
+            $qry = 'SELECT id FROM ' . rex::getTablePrefix() . 'media WHERE filename=:filename';
+            $sql->setQuery($qry, ['filename' => $params['filename']]);
+            if (1 == $sql->getRows()) {
+                $params['id'] = (int) $sql->getValue('id');
             } else {
                 throw new rex_exception('Error occured during file upload!');
             }
         }
 
-        return $ep->getSubject() . parent::renderFormAndSave(self::PREFIX, $params);
+        return $ep->getSubject() . parent::renderFormAndSave(self::PREFIX, $params, $save);
     }
 }
 
 $mediaHandler = new rex_metainfo_media_handler();
 
-rex_extension::register('MEDIA_FORM_EDIT', [$mediaHandler, 'extendForm']);
-rex_extension::register('MEDIA_FORM_ADD', [$mediaHandler, 'extendForm']);
+rex_extension::register('MEDIA_FORM_EDIT', $mediaHandler->extendForm(...));
+rex_extension::register('MEDIA_FORM_ADD', $mediaHandler->extendForm(...));
 
-rex_extension::register('MEDIA_ADDED', [$mediaHandler, 'extendForm']);
-rex_extension::register('MEDIA_UPDATED', [$mediaHandler, 'extendForm']);
+rex_extension::register('MEDIA_ADDED', $mediaHandler->extendForm(...), rex_extension::EARLY);
+rex_extension::register('MEDIA_UPDATED', $mediaHandler->extendForm(...), rex_extension::EARLY);
 
-rex_extension::register('MEDIA_IS_IN_USE', ['rex_metainfo_media_handler', 'isMediaInUse']);
+rex_extension::register('MEDIA_IS_IN_USE', rex_metainfo_media_handler::isMediaInUse(...));

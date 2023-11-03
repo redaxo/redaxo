@@ -7,11 +7,11 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 abstract class rex_complex_perm
 {
-    const ALL = 'all';
+    public const ALL = 'all';
 
     /**
      * User instance.
@@ -30,13 +30,11 @@ abstract class rex_complex_perm
     /**
      * Array of class names.
      *
-     * @var array
+     * @var array<string, class-string<self>>
      */
     private static $classes = [];
 
     /**
-     * Constructor.
-     *
      * @param rex_user $user  User instance
      * @param mixed    $perms Permissions
      */
@@ -53,7 +51,7 @@ abstract class rex_complex_perm
      */
     public function hasAll()
     {
-        return $this->user->isAdmin() || $this->perms == self::ALL;
+        return $this->user->isAdmin() || self::ALL == $this->perms;
     }
 
     /**
@@ -69,15 +67,15 @@ abstract class rex_complex_perm
     /**
      * Registers a new complex perm class.
      *
-     * @param string $key   Key for the complex perm
-     * @param string $class Class name
-     *
+     * @param string $key Key for the complex perm
+     * @param class-string<self> $class Class name
      * @throws InvalidArgumentException
+     * @return void
      */
     public static function register($key, $class)
     {
-        if (!is_subclass_of($class, __CLASS__)) {
-            throw new InvalidArgumentException(sprintf('$class must be a subclass of %s!', __CLASS__));
+        if (!is_subclass_of($class, self::class)) {
+            throw new InvalidArgumentException(sprintf('Class "%s" must be a subclass of "%s"!', $class, self::class));
         }
         self::$classes[$key] = $class;
     }
@@ -85,7 +83,7 @@ abstract class rex_complex_perm
     /**
      * Returns all complex perm classes.
      *
-     * @return array Class names
+     * @return array<string, class-string<self>> Class names
      */
     public static function getAll()
     {
@@ -99,7 +97,7 @@ abstract class rex_complex_perm
      * @param string   $key   Complex perm key
      * @param mixed    $perms Permissions
      *
-     * @return self
+     * @return self|null
      */
     public static function get(rex_user $user, $key, $perms = [])
     {
@@ -113,8 +111,9 @@ abstract class rex_complex_perm
     /**
      * Should be called if an item is removed.
      *
-     * @param string $key  Key
-     * @param string $item Item
+     * @param string     $key  Key
+     * @param string|int $item Item
+     * @return void
      */
     public static function removeItem($key, $item)
     {
@@ -124,9 +123,10 @@ abstract class rex_complex_perm
     /**
      * Should be called if an item is replaced.
      *
-     * @param string $key  Key
-     * @param string $item Old item
-     * @param string $new  New item
+     * @param string     $key  Key
+     * @param string|int $item Old item
+     * @param string|int $new  New item
+     * @return void
      */
     public static function replaceItem($key, $item, $new)
     {

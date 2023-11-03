@@ -1,9 +1,13 @@
 <?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
 
 $out = '';
 
 foreach ($this->elements as $element) {
-    $field = isset($element['field'])  ? $element['field'] : '';
+    $field = $element['field'] ?? '';
 
     $out .= $field;
 }

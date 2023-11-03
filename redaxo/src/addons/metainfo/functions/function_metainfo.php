@@ -12,6 +12,12 @@
  * Fügt einen neuen Feldtyp ein.
  *
  * Gibt beim Erfolg die Id des Feldes zurück, bei Fehler die Fehlermeldung
+ *
+ * @param string $label
+ * @param string $dbtype
+ * @param int $dblength
+ *
+ * @return string
  */
 function rex_metainfo_add_field_type($label, $dbtype, $dblength)
 {
@@ -30,7 +36,7 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
     $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_type WHERE label=:label LIMIT 1';
     $sql = rex_sql::factory();
     $sql->setQuery($qry, [':label' => $label]);
-    if ($sql->getRows() != 0) {
+    if (0 != $sql->getRows()) {
         return rex_i18n::msg('minfo_field_error_unique_type');
     }
 
@@ -47,23 +53,40 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
  * Löscht einen Feldtyp.
  *
  * Gibt beim Erfolg true zurück, sonst eine Fehlermeldung
+ *
+ * @param int $fieldTypeId
+ *
+ * @return bool|string
  */
-function rex_metainfo_delete_field_type($field_type_id)
+function rex_metainfo_delete_field_type($fieldTypeId)
 {
-    if (!is_int($field_type_id) || empty($field_type_id)) {
+    if (!is_int($fieldTypeId) || empty($fieldTypeId)) {
         return rex_i18n::msg('minfo_field_error_invalid_typeid');
     }
 
     $sql = rex_sql::factory();
     $sql->setTable(rex::getTablePrefix() . 'metainfo_type');
-    $sql->setWhere(['id' => $field_type_id]);
+    $sql->setWhere(['id' => $fieldTypeId]);
 
     $sql->delete();
-    return $sql->getRows() == 1;
+    return 1 == $sql->getRows();
 }
 
 /**
  * Fügt ein MetaFeld hinzu und legt dafür eine Spalte in der MetaTable an.
+ *
+ * @param string $title
+ * @param string $name
+ * @param int $priority
+ * @param string $attributes
+ * @param int $type
+ * @param string $default
+ * @param string $params
+ * @param string $validate
+ * @param string $restrictions
+ * @param string $callback
+ *
+ * @return bool|string
  */
 function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '', $callback = null)
 {
@@ -80,12 +103,12 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $sql = rex_sql::factory();
     $typeInfos = $sql->getArray($qry);
 
-    if ($sql->getRows() != 1) {
+    if (1 != $sql->getRows()) {
         return rex_i18n::msg('minfo_field_error_invalid_type');
     }
 
-    $fieldDbType = $typeInfos[0]['dbtype'];
-    $fieldDbLength = $typeInfos[0]['dblength'];
+    $fieldDbType = (string) $typeInfos[0]['dbtype'];
+    $fieldDbLength = (int) $typeInfos[0]['dblength'];
 
     // Spalte existiert schon?
     $sql->setQuery('SELECT * FROM ' . $metaTable . ' LIMIT 1');
@@ -97,7 +120,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE name=:name LIMIT 1';
     $sql = rex_sql::factory();
     $sql->setQuery($qry, [':name' => $name]);
-    if ($sql->getRows() != 0) {
+    if (0 != $sql->getRows()) {
         return rex_i18n::msg('minfo_field_error_unique_name');
     }
 
@@ -118,14 +141,19 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $sql->insert();
 
     // replace LIKE wildcards
-    $prefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
+    $prefix = $sql->escape($sql->escapeLikeWildcards($prefix) . '%');
 
-    rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE "' . $prefix . '%"', 'priority, updatedate');
+    rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE ' . $prefix, 'priority, updatedate');
 
     $tableManager = new rex_metainfo_table_manager($metaTable);
     return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);
 }
 
+/**
+ * @param string|int $fieldIdOrName
+ *
+ * @return bool|string
+ */
 function rex_metainfo_delete_field($fieldIdOrName)
 {
     // Löschen anhand der FieldId
@@ -144,15 +172,15 @@ function rex_metainfo_delete_field($fieldIdOrName)
     $sql = rex_sql::factory();
     $sql->setQuery($fieldQry, [':idOrName' => $fieldIdOrName]);
 
-    if ($sql->getRows() != 1) {
+    if (1 != $sql->getRows()) {
         return $invalidField;
     }
 
-    $name = $sql->getValue('name');
-    $field_id = $sql->getValue('id');
+    $name = (string) $sql->getValue('name');
+    $fieldId = $sql->getValue('id');
 
     $prefix = rex_metainfo_meta_prefix($name);
-    $metaTable = rex_metainfo_meta_table($prefix);
+    $metaTable = rex_type::string(rex_metainfo_meta_table($prefix));
 
     // Spalte existiert?
     $sql->setQuery('SELECT * FROM ' . $metaTable . ' LIMIT 1');
@@ -161,7 +189,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     }
 
     $sql->setTable(rex::getTablePrefix() . 'metainfo_field');
-    $sql->setWhere(['id' => $field_id]);
+    $sql->setWhere(['id' => $fieldId]);
 
     $sql->delete();
 
@@ -171,61 +199,56 @@ function rex_metainfo_delete_field($fieldIdOrName)
 
 /**
  * Extrahiert den Prefix aus dem Namen eine Spalte.
+ *
+ * @return string
  */
-function rex_metainfo_meta_prefix($name)
+function rex_metainfo_meta_prefix(string $name)
 {
-    if (!is_string($name)) {
-        return false;
+    if (false === ($pos = strpos($name, '_'))) {
+        throw new InvalidArgumentException('$name must be like "prefix_name"');
     }
 
-    if (($pos = strpos($name, '_')) !== false) {
-        return substr(strtolower($name), 0, $pos + 1);
+    $prefix = substr(strtolower($name), 0, $pos + 1);
+    if ('' === $prefix) {
+        throw new InvalidArgumentException('$name must be like "prefix_name".');
     }
 
-    return false;
+    return $prefix;
 }
 
 /**
  * Gibt die mit dem Prefix verbundenen Tabellennamen zurück.
+ * @return string|false
  */
-function rex_metainfo_meta_table($prefix)
+function rex_metainfo_meta_table(string $prefix)
 {
     $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', []);
 
-    if (isset($metaTables[$prefix])) {
-        return $metaTables[$prefix];
-    }
-
-    return false;
+    return $metaTables[$prefix] ?? false;
 }
 
 /**
  * Bindet ggf extensions ein.
- *
- * @param rex_extension_point $ep
+ * @return void
  */
 function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
     $page = $ep->getSubject();
     $mainpage = rex_be_controller::getCurrentPagePart(1);
-    $mypage = 'metainfo';
 
     // additional javascripts
-    if ($mainpage == 'metainfo' || $page == 'content/metainfo' || $page == 'structure' || $page == 'system/lang') {
-        rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'));
+    if (in_array($mainpage, ['metainfo', 'mediapool'], true) || in_array($page, ['content/metainfo', 'structure', 'system/lang'], true)) {
+        rex_view::addJsFile(rex_url::addonAssets('metainfo', 'metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
     }
 
     // include extensions
-    $curDir = __DIR__ . '/..';
-    if ($page == 'structure') {
-        require_once $curDir . '/lib/handler/category_handler.php';
-    } elseif ($mainpage == 'mediapool') {
-        require_once $curDir . '/lib/handler/media_handler.php';
-    } elseif ($page == 'system/lang') {
-        require_once $curDir . '/lib/handler/clang_handler.php';
-    } elseif ($mainpage == 'content') {
-        require_once $curDir . '/extensions/extension_content_sidebar.php';
-    } elseif ($page == 'backup') {
-        require_once $curDir . '/extensions/extension_cleanup.php';
+    if ('structure' == $page) {
+        require_once __DIR__ . '/../lib/handler/category_handler.php';
+    } elseif ('mediapool' == $mainpage) {
+        require_once __DIR__ . '/../lib/handler/media_handler.php';
+    } elseif ('system/lang' == $page) {
+        require_once __DIR__ . '/../lib/handler/clang_handler.php';
+    } elseif ('backup' == $page) {
+        require_once __DIR__ . '/../extensions/extension_cleanup.php';
     }
 }

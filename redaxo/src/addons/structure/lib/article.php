@@ -22,7 +22,7 @@ class rex_article extends rex_structure_element
      *
      * @param int $clang
      *
-     * @return self
+     * @return null|self
      */
     public static function getCurrent($clang = null)
     {
@@ -44,7 +44,7 @@ class rex_article extends rex_structure_element
      *
      * @param int $clang
      *
-     * @return self
+     * @return self|null
      */
     public static function getSiteStartArticle($clang = null)
     {
@@ -66,7 +66,7 @@ class rex_article extends rex_structure_element
      *
      * @param int $clang
      *
-     * @return self
+     * @return self|null
      */
     public static function getNotfoundArticle($clang = null)
     {
@@ -99,17 +99,17 @@ class rex_article extends rex_structure_element
     /**
      * Returns the parent category.
      *
-     * @return rex_category
+     * @return rex_category|null
      */
     public function getCategory()
     {
-        return rex_category::get($this->getCategoryId(), $this->getClang());
+        return rex_category::get($this->getCategoryId(), $this->getClangId());
     }
 
     /**
      * Returns the parent object of the article.
      *
-     * @return self
+     * @return static|null
      */
     public function getParent()
     {
@@ -130,9 +130,6 @@ class rex_article extends rex_structure_element
         return $this->path;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValue($value)
     {
         if ('category_id' === $value) {
@@ -153,9 +150,6 @@ class rex_article extends rex_structure_element
         return parent::_hasValue($value, ['art_']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isPermitted()
     {
         return (bool) rex_extension::registerPoint(new rex_extension_point('ART_IS_PERMITTED', true, ['element' => $this]));

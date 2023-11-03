@@ -5,13 +5,14 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\sql
  */
 class rex_sql_foreign_key
 {
-    const RESTRICT = 'RESTRICT';
-    const CASCADE = 'CASCADE';
-    const SET_NULL = 'SET NULL';
+    public const RESTRICT = 'RESTRICT';
+    public const NO_ACTION = 'NO ACTION';
+    public const CASCADE = 'CASCADE';
+    public const SET_NULL = 'SET NULL';
 
     /** @var string */
     private $name;
@@ -19,23 +20,24 @@ class rex_sql_foreign_key
     /** @var string */
     private $table;
 
-    /** @var string[] */
+    /** @var array<string, string> */
     private $columns;
 
-    /** @var string */
+    /** @var self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL */
     private $onUpdate;
 
-    /** @var string */
+    /** @var self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL */
     private $onDelete;
 
+    /** @var bool */
     private $modified = false;
 
     /**
-     * @param string   $name
-     * @param string   $table
-     * @param string[] $columns  Mapping of locale column to column in foreign table
-     * @param string   $onUpdate One of `rex_sql_foreign_key::RESTRICT`, `rex_sql_foreign_key::CASCADE`, `rex_sql_foreign_key::SET_NULL`
-     * @param string   $onDelete One of `rex_sql_foreign_key::RESTRICT`, `rex_sql_foreign_key::CASCADE`, `rex_sql_foreign_key::SET_NULL`
+     * @param string $name
+     * @param string $table
+     * @param array<string, string> $columns  Mapping of locale column to column in foreign table
+     * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onUpdate
+     * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onDelete
      */
     public function __construct($name, $table, array $columns, $onUpdate = self::RESTRICT, $onDelete = self::RESTRICT)
     {
@@ -107,7 +109,7 @@ class rex_sql_foreign_key
     }
 
     /**
-     * @param string[] $columns Mapping of locale column to column in foreign table
+     * @param array<string, string> $columns Mapping of locale column to column in foreign table
      *
      * @return $this
      */
@@ -119,7 +121,7 @@ class rex_sql_foreign_key
     }
 
     /**
-     * @return string[]
+     * @return array<string, string>
      */
     public function getColumns()
     {
@@ -127,7 +129,7 @@ class rex_sql_foreign_key
     }
 
     /**
-     * @param string $onUpdate
+     * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onUpdate
      *
      * @return $this
      */
@@ -139,7 +141,7 @@ class rex_sql_foreign_key
     }
 
     /**
-     * @return string
+     * @return self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL
      */
     public function getOnUpdate()
     {
@@ -147,7 +149,7 @@ class rex_sql_foreign_key
     }
 
     /**
-     * @param string $onDelete
+     * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onDelete
      *
      * @return $this
      */
@@ -159,7 +161,7 @@ class rex_sql_foreign_key
     }
 
     /**
-     * @return string
+     * @return self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL
      */
     public function getOnDelete()
     {
@@ -174,7 +176,7 @@ class rex_sql_foreign_key
         return
             $this->name === $index->name &&
             $this->table === $index->table &&
-            $this->columns == $index->columns &&
+            $this->columns === $index->columns &&
             $this->onUpdate === $index->onUpdate &&
             $this->onDelete === $index->onDelete;
     }

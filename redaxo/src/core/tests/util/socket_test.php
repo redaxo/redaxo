@@ -1,64 +1,70 @@
 <?php
 
-class rex_socket_test extends PHPUnit_Framework_TestCase
-{
-    private $proxy;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\TestCase;
 
-    protected function setUp()
+/**
+ * @internal
+ */
+class rex_socket_test extends TestCase
+{
+    private ?string $proxy = null;
+
+    protected function setUp(): void
     {
         $this->proxy = rex::getProperty('socket_proxy');
         rex::setProperty('socket_proxy', null);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         rex::setProperty('socket_proxy', $this->proxy);
     }
 
-    public function testFactory()
+    public function testFactory(): rex_socket
     {
         $socket = rex_socket::factory('www.example.com');
-        $this->assertEquals('rex_socket', get_class($socket));
-
+        $socket->setOptions([]);
+        static::assertEquals(rex_socket::class, $socket::class);
         return $socket;
     }
 
-    public function testFactoryProxy()
+    public function testFactoryProxy(): void
     {
         rex::setProperty('socket_proxy', 'proxy.example.com:8888');
         $socket = rex_socket::factory('www.example.com');
-        $this->assertEquals('rex_socket_proxy', get_class($socket));
+        $socket->setOptions([]);
+        static::assertEquals(rex_socket_proxy::class, $socket::class);
     }
 
-    public function testFactoryUrl()
+    public function testFactoryUrl(): void
     {
         $socket = rex_socket::factoryUrl('www.example.com');
-        $this->assertEquals('rex_socket', get_class($socket));
+        $socket->setOptions([]);
+        static::assertEquals(rex_socket::class, $socket::class);
     }
 
-    public function testFactoryUrlProxy()
+    public function testFactoryUrlProxy(): void
     {
         rex::setProperty('socket_proxy', 'proxy.example.com:8888');
         $socket = rex_socket::factoryUrl('www.example.com');
-        $this->assertEquals('rex_socket_proxy', get_class($socket));
+        $socket->setOptions([]);
+        static::assertEquals(rex_socket_proxy::class, $socket::class);
     }
 
-    /**
-     * @depends testFactory
-     */
-    public function testWriteRequest($socket)
+    #[Depends('testFactory')]
+    public function testWriteRequest(rex_socket $socket): void
     {
-        $class = new ReflectionClass('rex_socket');
+        $class = new ReflectionClass(rex_socket::class);
         $property = $class->getProperty('stream');
-        $property->setAccessible(true);
         $method = $class->getMethod('writeRequest');
-        $method->setAccessible(true);
 
         $stream = fopen('php://temp', 'r+');
         $property->setValue($socket, $stream);
         $response = $method->invoke($socket, 'GET', '/a/path', ['Host' => 'www.example.com', 'Connection' => 'Close'], "body1\r\nbody2");
 
-        $this->assertInstanceOf('rex_socket_response', $response);
+        static::assertInstanceOf(rex_socket_response::class, $response);
 
         $eol = "\r\n";
         $expected = 'GET /a/path HTTP/1.1' . $eol
@@ -69,11 +75,12 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
                             . 'body1' . $eol
                             . 'body2';
         fseek($stream, 0);
-        $this->assertEquals($expected, fread($stream, 1024));
+        static::assertEquals($expected, fread($stream, 1024));
         fclose($stream);
     }
 
-    public function parseUrlProvider()
+    /** @return list<array{string, string, int, bool, string}> */
+    public static function parseUrlProvider(): array
     {
         return [
             ['example.com',                             'example.com', 80,  false, '/'],
@@ -89,13 +96,10 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider parseUrlProvider
-     */
-    public function testParseUrl($url, $expectedHost, $expectedPort, $expectedSsl, $expectedPath)
+    #[DataProvider('parseUrlProvider')]
+    public function testParseUrl(string $url, string $expectedHost, int $expectedPort, bool $expectedSsl, string $expectedPath): void
     {
-        $method = new ReflectionMethod('rex_socket', 'parseUrl');
-        $method->setAccessible(true);
+        $method = new ReflectionMethod(rex_socket::class, 'parseUrl');
         $result = $method->invoke(null, $url);
         $expected = [
             'host' => $expectedHost,
@@ -103,10 +107,11 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
             'ssl' => $expectedSsl,
             'path' => $expectedPath,
         ];
-        $this->assertEquals($expected, $result);
+        static::assertEquals($expected, $result);
     }
 
-    public function parseUrlExceptionProvider()
+    /** @return list<array{string}> */
+    public static function parseUrlExceptionProvider(): array
     {
         return [
             [''],
@@ -115,15 +120,12 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider parseUrlExceptionProvider
-     */
-    public function testParseUrlException($url)
+    #[DataProvider('parseUrlExceptionProvider')]
+    public function testParseUrlException(string $url): void
     {
-        $this->setExpectedException('rex_socket_exception');
+        $this->expectException(rex_socket_exception::class);
 
-        $method = new ReflectionMethod('rex_socket', 'parseUrl');
-        $method->setAccessible(true);
+        $method = new ReflectionMethod(rex_socket::class, 'parseUrl');
         $method->invoke(null, $url);
     }
 }

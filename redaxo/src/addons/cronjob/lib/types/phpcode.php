@@ -12,21 +12,26 @@ class rex_cronjob_phpcode extends rex_cronjob
 {
     public function execute()
     {
+        /** @psalm-taint-escape eval */ // It is intended to eval code from user input (saved to db)
         $code = preg_replace('/^\<\?(?:php)?/', '', $this->getParam('code'));
-        $is = ini_set('display_errors', true);
+        $is = ini_set('display_errors', '1');
         ob_start();
-        $return = eval($code);
+        $return = false;
+
+        try {
+            $return = eval($code);
+        } catch (Throwable $exception) {
+            echo $exception::class . ': ' . $exception->getMessage();
+        }
+
         $output = ob_get_clean();
         ini_set('display_errors', $is);
         if ($output) {
             $output = str_replace(["\r\n\r\n", "\n\n"], "\n", trim(strip_tags($output)));
-            $output = preg_replace('@in ' . preg_quote(__FILE__, '@') . "\([0-9]*\) : eval\(\)'d code @", '', $output);
+            $output = preg_replace('@in ' . preg_quote(__FILE__, '@') . "\\([0-9]*\\) : eval\\(\\)'d code @", '', $output);
             $this->setMessage($output);
         }
-        if ($return !== false) {
-            return true;
-        }
-        return false;
+        return false !== $return;
     }
 
     public function getTypeName()
@@ -41,7 +46,7 @@ class rex_cronjob_phpcode extends rex_cronjob
                 'label' => rex_i18n::msg('cronjob_type_phpcode'),
                 'name' => 'code',
                 'type' => 'textarea',
-                'attributes' => ['rows' => 20],
+                'attributes' => ['rows' => 20, 'class' => 'form-control rex-code rex-js-code', 'spellcheck' => 'false'],
             ],
         ];
     }

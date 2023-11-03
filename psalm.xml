@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="1"
+    autoloader=".tools/constants.php"
+    findUnusedCode="false"
+    findUnusedPsalmSuppress="true"
+    findUnusedBaselineEntry="false"
+    errorBaseline=".tools/psalm/baseline.xml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <!-- restrict to core and core addons, ignore other locally installed addons -->
+        <directory name="redaxo/src/core"/>
+        <directory name="redaxo/src/addons/backup"/>
+        <directory name="redaxo/src/addons/be_style"/>
+        <directory name="redaxo/src/addons/cronjob"/>
+        <directory name="redaxo/src/addons/debug"/>
+        <directory name="redaxo/src/addons/install"/>
+        <directory name="redaxo/src/addons/media_manager"/>
+        <directory name="redaxo/src/addons/mediapool"/>
+        <directory name="redaxo/src/addons/metainfo"/>
+        <directory name="redaxo/src/addons/phpmailer"/>
+        <directory name="redaxo/src/addons/project"/>
+        <directory name="redaxo/src/addons/structure"/>
+        <directory name="redaxo/src/addons/users"/>
+        <ignoreFiles>
+            <directory name="redaxo/src/addons/backup/vendor/" />
+            <directory name="redaxo/src/addons/be_style/vendor/" />
+            <directory name="redaxo/src/addons/debug/vendor/" />
+            <directory name="redaxo/src/addons/phpmailer/vendor/" />
+            <directory name="redaxo/src/core/vendor/" />
+            <file name="redaxo/src/core/.phpstorm.meta.php" />
+        </ignoreFiles>
+    </projectFiles>
+    <stubs>
+        <file name="redaxo/src/core/.phpstorm.meta.php" />
+    </stubs>
+    <universalObjectCrates>
+        <class name="rex_fragment" />
+    </universalObjectCrates>
+    <forbiddenFunctions>
+        <function name="basename"/>
+        <function name="dd"/>
+        <function name="dump"/>
+    </forbiddenFunctions>
+    <plugins>
+        <pluginClass class="Redaxo\PsalmPlugin\Plugin" />
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
+    </plugins>
+    <issueHandlers>
+        <Trace errorLevel="error"/> <!-- https://psalm.dev/docs/running_psalm/issues/Trace/ -->
+        <InvalidGlobal>
+            <errorLevel type="info">
+                <file name="redaxo/src/addons/mediapool/pages/index.php"/>
+                <file name="redaxo/src/addons/mediapool/pages/upload.php"/>
+                <file name="redaxo/src/core/pages/login.php"/>
+            </errorLevel>
+        </InvalidGlobal>
+<!-- level 2 issues - slightly lazy code writing, but provably low false-negatives -->
+        <DeprecatedMethod>
+            <errorLevel type="info">
+                <referencedMethod name="rex_string::versionCompare"/>
+            </errorLevel>
+        </DeprecatedMethod>
+        <DocblockTypeContradiction errorLevel="info" />
+        <InternalClass errorLevel="info" />
+        <InternalMethod errorLevel="info" />
+        <InternalProperty errorLevel="info" />
+        <MissingClosureParamType errorLevel="info" />
+        <MissingClosureReturnType errorLevel="info" />
+        <MissingParamType errorLevel="info" />
+        <PropertyNotSetInConstructor errorLevel="info" />
+        <RawObjectIteration>
+            <errorLevel type="info">
+                <file name="redaxo/src/core/lib/api_function.php"/>
+            </errorLevel>
+        </RawObjectIteration>
+        <RedundantCastGivenDocblockType errorLevel="info" />
+        <RedundantConditionGivenDocblockType errorLevel="info" />
+        <RedundantFunctionCallGivenDocblockType errorLevel="info" />
+        <UnresolvableInclude errorLevel="suppress" />
+        <UnsafeInstantiation errorLevel="info" />
+    </issueHandlers>
+</psalm>

@@ -4,9 +4,12 @@
  * @package redaxo\metainfo
  *
  * @internal
+ *
+ * @extends rex_input<string|array<string>>
  */
 class rex_input_select extends rex_input
 {
+    /** @var rex_select */
     private $select;
 
     public function __construct()
@@ -14,7 +17,7 @@ class rex_input_select extends rex_input
         parent::__construct();
 
         $this->select = new rex_select();
-        $this->setAttribute('class', 'form-control');
+        $this->setAttribute('class', 'form-control selectpicker');
     }
 
     public function setValue($value)
@@ -25,9 +28,9 @@ class rex_input_select extends rex_input
 
     public function setAttribute($name, $value)
     {
-        if ($name == 'name') {
+        if ('name' == $name) {
             $this->select->setName($value);
-        } elseif ($name == 'id') {
+        } elseif ('id' == $name) {
             $this->select->setId($value);
         } else {
             $this->select->setAttribute($name, $value);
@@ -36,6 +39,9 @@ class rex_input_select extends rex_input
         parent::setAttribute($name, $value);
     }
 
+    /**
+     * @return rex_select
+     */
     public function getSelect()
     {
         return $this->select;

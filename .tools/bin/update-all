@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+
+printf "Update redaxo/src/core/vendor\n"
+composer update --ansi --no-dev -d redaxo/src/core/
+composer bump --ansi -d redaxo/src/core/
+
+rm -rf redaxo/src/core/vendor/bin/
+rm -rf redaxo/src/core/vendor/erusev/parsedown/test/
+rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
+rm -rf redaxo/src/core/vendor/filp/whoops/.github/
+rm -rf redaxo/src/core/vendor/lbuchs/webauthn/_test/
+rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
+rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
+rm -rf redaxo/src/core/vendor/symfony/console/Tests/
+rm -rf redaxo/src/core/vendor/symfony/http-foundation/Test/
+rm -rf redaxo/src/core/vendor/symfony/service-contracts/Test/
+rm -rf redaxo/src/core/vendor/symfony/var-dumper/Resources/bin/
+rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/
+rm -rf redaxo/src/core/vendor/symfony/var-dumper/Tests/
+rm -rf redaxo/src/core/vendor/symfony/yaml/Resources/
+rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
+rm -rf redaxo/src/core/vendor/voku/anti-xss/build/
+rm -rf redaxo/src/core/vendor/voku/portable-ascii/build/
+
+find redaxo/src/core/vendor -name ".gitattributes" -type f -delete
+find redaxo/src/core/vendor -name ".gitignore" -type f -delete
+find redaxo/src/core/vendor -name ".mailmap" -type f -delete
+find redaxo/src/core/vendor -name ".travis.yml" -type f -delete
+find redaxo/src/core/vendor -name "conventional-commits.json" -type f -delete
+find redaxo/src/core/vendor -name "phpcs.xml" -type f -delete
+find redaxo/src/core/vendor -name "phpstan.neon" -type f -delete
+find redaxo/src/core/vendor -name "phpunit.xml.dist" -type f -delete
+find redaxo/src/core/vendor -name "psalm.xml" -type f -delete
+find redaxo/src/core/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
+
+composer dumpautoload --ansi --no-dev --classmap-authoritative -d redaxo/src/core/
+
+printf "\nUpdate redaxo/src/addons/backup/vendor\n"
+composer update --ansi --no-dev -d redaxo/src/addons/backup/
+composer bump --ansi -d redaxo/src/addons/backup/
+
+rm -f redaxo/src/addons/backup/vendor/autoload.php
+rm -rf redaxo/src/addons/backup/vendor/composer/
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.github
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.gitignore
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.travis.yml
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/apigen.neon
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/generate-api.sh
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/phpunit.xml
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/tests/
+find redaxo/src/addons/backup/vendor/splitbrain/php-archive -name "*.md" ! -name "LICENSE.md" -type f -delete
+
+printf "\nUpdate redaxo/src/addons/be_style/vendor\n"
+composer update --ansi --no-dev -d redaxo/src/addons/be_style/
+composer bump --ansi -d redaxo/src/addons/be_style/
+
+rm -f redaxo/src/addons/be_style/vendor/autoload.php
+rm -rf redaxo/src/addons/be_style/vendor/composer/
+rm -rf redaxo/src/addons/be_style/vendor/bin/
+rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/bin/
+rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/example/
+rm -r redaxo/src/addons/be_style/vendor/scssphp/scssphp/scss.inc.php
+find redaxo/src/addons/be_style/vendor/scssphp -name "*.md" ! -name "LICENSE.md" -type f -delete
+
+printf "\nUpdate redaxo/src/addons/debug/vendor\n"
+composer update --ansi --no-dev -d redaxo/src/addons/debug/
+composer bump --ansi -d redaxo/src/addons/debug/
+
+rm -f redaxo/src/addons/debug/vendor/autoload.php
+rm -rf redaxo/src/addons/debug/vendor/composer/
+rm -rf redaxo/src/addons/debug/vendor/psr/
+rm -f redaxo/src/addons/debug/vendor/itsgoingd/clockwork/.editorconfig
+rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/.github/
+find redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/ -not -name Php* -not -name Xdebug* -not -name Data* -delete
+rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SqlSearch.php
+rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SqlStorage.php
+rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SymfonyStorage.php
+find redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Support/ -mindepth 1 -not -path */Vanilla* -delete
+rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Web
+find redaxo/src/addons/debug/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
+
+printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
+composer update --ansi --no-dev -d redaxo/src/addons/phpmailer/
+composer bump --ansi -d redaxo/src/addons/phpmailer/
+
+rm -f redaxo/src/addons/phpmailer/vendor/autoload.php
+rm -rf redaxo/src/addons/phpmailer/vendor/composer/
+rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.github/
+rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.phan/
+rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
+rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.php_cs
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/get_oauth_token.php
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpdoc.dist.xml
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpunit.xml.dist
+find redaxo/src/addons/phpmailer/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
+
+printf "\nUpdate root composer.json and vendor/\n"
+.tools/bin/update-root-composer
+.tools/bin/update-tools
+
+printf "\nUpdate redaxo/src/core/assets/jquery.min.js\n"
+curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.js > redaxo/src/core/assets/jquery.js
+curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.js > redaxo/src/core/assets/jquery.min.js
+curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.map > redaxo/src/core/assets/jquery.min.map
+
+# Currently we are using last 1.x version of pjax, so we do not want to update to 2.x
+#printf "\nUpdate redaxo/src/core/assets/jquery-pjax.min.js\n"
+#curl -#d output_info=compiled_code -d compilation_level=SIMPLE_OPTIMIZATIONS -d code_url=https://github.com/defunkt/jquery-pjax/raw/master/jquery.pjax.js https://closure-compiler.appspot.com/compile > redaxo/src/core/assets/jquery-pjax.min.js
+
+cp redaxo/src/core/assets/jquery-pjax.min.js assets/core
+cp redaxo/src/core/assets/jquery.js assets/core
+cp redaxo/src/core/assets/jquery.min.js assets/core
+cp redaxo/src/core/assets/jquery.min.map assets/core

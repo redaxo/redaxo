@@ -2,39 +2,39 @@
 
 // ------- Default Values
 
-$opener_input_field = rex_request('opener_input_field', 'string');
-$opener_input_field_name = rex_request('opener_input_field_name', 'string');
-$category_id = rex_request('category_id', 'int');
-$category_id = rex_category::get($category_id) ? $category_id : 0;
+$openerInputField = rex_request('opener_input_field', 'string');
+$openerInputFieldName = rex_request('opener_input_field_name', 'string');
+$categoryId = rex_request('category_id', 'int');
+$categoryId = rex_category::get($categoryId) ? $categoryId : 0;
 $clang = rex_request('clang', 'int');
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
 $pattern = '/[^a-z0-9_-]/i';
-if (preg_match($pattern, $opener_input_field, $match)) {
+if (preg_match($pattern, $openerInputField, $match)) {
     throw new InvalidArgumentException(sprintf('Invalid character "%s" in opener_input_field.', $match[0]));
 }
-if (preg_match($pattern, $opener_input_field_name, $match)) {
+if (preg_match($pattern, $openerInputFieldName, $match)) {
     throw new InvalidArgumentException(sprintf('Invalid character "%s" in opener_input_field_name.', $match[0]));
 }
 
 $context = new rex_context([
     'page' => rex_be_controller::getCurrentPage(),
-    'opener_input_field' => $opener_input_field,
-    'opener_input_field_name' => $opener_input_field_name,
-    'category_id' => $category_id,
+    'opener_input_field' => $openerInputField,
+    'opener_input_field_name' => $openerInputFieldName,
+    'category_id' => $categoryId,
     'clang' => $clang,
 ]);
 
 // ------- Build JS Functions
 
-$func_body = '';
+$funcBody = '';
 
-if ($opener_input_field != '' && $opener_input_field_name == '') {
-    $opener_input_field_name = $opener_input_field . '_NAME';
+if ('' != $openerInputField && '' == $openerInputFieldName) {
+    $openerInputFieldName = $openerInputField . '_NAME';
 }
-if (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_') {
-    $id = (int) substr($opener_input_field, 13, strlen($opener_input_field));
-    $func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
+if (str_starts_with($openerInputField, 'REX_LINKLIST_')) {
+    $id = rex_escape((string) substr($openerInputField, 13, strlen($openerInputField)), 'js');
+    $funcBody .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                              var linkid = link.replace("redaxo://","");
                  var source = opener.document.getElementById(linklist);
                  var sourcelength = source.options.length;
@@ -44,18 +44,20 @@ if (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_') {
                              option.value = linkid;
 
                  source.options.add(option, sourcelength);
-                 opener.writeREXLinklist(' . $id . ');';
+                 opener.writeREXLinklist(\'' . $id . '\');';
 } else {
-    $func_body .= <<<JS
-var event = opener.jQuery.Event("rex:selectLink");
-opener.jQuery(window).trigger(event, [link, name]);
-if (!event.isDefaultPrevented()) {
-    var linkid = link.replace("redaxo://","");
-    window.opener.document.getElementById("$opener_input_field").value = linkid;
-    window.opener.document.getElementById("$opener_input_field_name").value = name;
-    self.close();
-}
-JS;
+    $escapedOpenerInputField = rex_escape($openerInputField, 'js');
+    $escapedOpenerInputFieldName = rex_escape($openerInputFieldName, 'js');
+    $funcBody .= <<<JS
+        var event = opener.jQuery.Event("rex:selectLink");
+        opener.jQuery(window).trigger(event, [link, name]);
+        if (!event.isDefaultPrevented()) {
+            var linkid = link.replace("redaxo://","");
+            window.opener.document.getElementById("$escapedOpenerInputField").value = linkid;
+            window.opener.document.getElementById("$escapedOpenerInputFieldName").value = name;
+            self.close();
+        }
+        JS;
 }
 
 // ------------------------ Print JS Functions
@@ -66,18 +68,18 @@ if (!rex_request::isXmlHttpRequest()) {
 }
 
 ?>
-<script type="text/javascript">
-    <?php echo $retainEventHandlers ?>
+<script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
+    <?= $retainEventHandlers ?>
 
     function insertLink(link,name){
-        <?php echo $func_body . "\n" ?>
+        <?= $funcBody, "\n" ?>
     }
 </script>
 
 <?php
 
-$isRoot = $category_id === 0;
-$category = rex_category::get($category_id);
+$isRoot = 0 === $categoryId;
+$category = rex_category::get($categoryId);
 
 $navigation = [];
 if ($category) {
@@ -91,7 +93,7 @@ if ($category) {
 
 echo rex_view::title('<i class="rex-icon rex-icon-linkmap"></i> Linkmap');
 
-$title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-sitestartarticle"></i> ' . rex_i18n::msg('homepage') . '</a>';
+$title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . rex_i18n::msg('root_level') . '</a>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', $title, false);
@@ -101,7 +103,7 @@ echo $fragment->parse('core/navigations/breadcrumb.php');
 $content = [];
 
 $categoryTree = new rex_linkmap_category_tree($context);
-$panel = $categoryTree->getTree($category_id);
+$panel = $categoryTree->getTree($categoryId);
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('linkmap_categories'), false);
@@ -109,7 +111,7 @@ $fragment->setVar('content', $panel, false);
 $content[] = $fragment->parse('core/page/section.php');
 
 $articleList = new rex_linkmap_article_list($context);
-$panel = $articleList->getList($category_id);
+$panel = $articleList->getList($categoryId);
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('linkmap_articles'), false);

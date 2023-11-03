@@ -17,13 +17,13 @@ class ParsedownExtra extends Parsedown
 {
     # ~
 
-    const version = '0.7.0';
+    const version = '0.8.1';
 
     # ~
 
     function __construct()
     {
-        if (parent::version < '1.5.0')
+        if (version_compare(parent::version, '1.7.4') < 0)
         {
             throw new Exception('ParsedownExtra requires a later version of Parsedown');
         }
@@ -206,6 +206,10 @@ class ParsedownExtra extends Parsedown
     {
         $Block = parent::blockHeader($Line);
 
+        if (! isset($Block)) {
+            return null;
+        }
+
         if (preg_match('/[ #]*{('.$this->regexAttribute.'+)}[ ]*$/', $Block['element']['text'], $matches, PREG_OFFSET_CAPTURE))
         {
             $attributeString = $matches[1][0];
@@ -237,6 +241,10 @@ class ParsedownExtra extends Parsedown
     protected function blockSetextHeader($Line, array $Block = null)
     {
         $Block = parent::blockSetextHeader($Line, $Block);
+
+        if (! isset($Block)) {
+            return null;
+        }
 
         if (preg_match('/[ ]*{('.$this->regexAttribute.'+)}[ ]*$/', $Block['element']['text'], $matches, PREG_OFFSET_CAPTURE))
         {
@@ -301,6 +309,10 @@ class ParsedownExtra extends Parsedown
     protected function inlineLink($Excerpt)
     {
         $Link = parent::inlineLink($Excerpt);
+
+        if (! isset($Link)) {
+            return null;
+        }
 
         $remainder = substr($Excerpt['text'], $Link['extent']);
 
@@ -420,7 +432,7 @@ class ParsedownExtra extends Parsedown
             $Element['text'][1]['text'] []= array(
                 'name' => 'li',
                 'attributes' => array('id' => 'fn:'.$definitionId),
-                'text' => "\n".$text."\n",
+                'rawHtml' => "\n".$text."\n",
             );
         }
 

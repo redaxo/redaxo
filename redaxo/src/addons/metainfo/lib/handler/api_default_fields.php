@@ -9,7 +9,7 @@ class rex_api_metainfo_default_fields_create extends rex_api_function
 {
     public function execute()
     {
-        if (!rex::getUser()->isAdmin()) {
+        if (!rex::getUser()?->isAdmin()) {
             throw new rex_api_exception('user has no permission for this operation!');
         }
 
@@ -35,7 +35,7 @@ class rex_api_metainfo_default_fields_create extends rex_api_function
                 throw new rex_api_exception(sprintf('metainfo type "%s" does not have default field.', $type));
         }
 
-        $existing = rex_sql::factory()->getArray('SELECT name FROM '.rex::getTable('metainfo_field').' WHERE name LIKE ?', [$prefix]);
+        $existing = rex_sql::factory()->getArray('SELECT name FROM ' . rex::getTable('metainfo_field') . ' WHERE name LIKE ?', [$prefix]);
         $existing = array_column($existing, 'name', 'name');
 
         foreach ($defaultFields as $field) {

@@ -3,28 +3,29 @@
 /**
  * Manager class for packages.
  *
- * @package redaxo\core
+ * @template-covariant T as rex_package
+ *
+ * @package redaxo\core\packages
  */
 abstract class rex_package_manager
 {
     use rex_factory_trait;
 
-    /**
-     * @var rex_package
-     */
+    /** @var T */
     protected $package;
 
+    /** @var bool */
     protected $generatePackageOrder = true;
 
+    /** @var string */
     protected $message;
 
+    /** @var string */
     private $i18nPrefix;
 
     /**
-     * Constructor.
-     *
-     * @param rex_package $package    Package
-     * @param string      $i18nPrefix Prefix for i18n
+     * @param T $package Package
+     * @param string $i18nPrefix Prefix for i18n
      */
     protected function __construct(rex_package $package, $i18nPrefix)
     {
@@ -38,11 +39,15 @@ abstract class rex_package_manager
      * @param rex_package $package Package
      *
      * @return static
+     *
+     * @template TS as rex_package
+     * @psalm-param TS $package
+     * @psalm-return (TS is rex_plugin ? rex_plugin_manager : (TS is rex_addon ? rex_addon_manager : self))
      */
     public static function factory(rex_package $package)
     {
-        if (get_called_class() == __CLASS__) {
-            $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
+        if (self::class == static::class) {
+            $class = $package instanceof rex_plugin ? rex_plugin_manager::class : rex_addon_manager::class;
             return $class::factory($package);
         }
         $class = static::getFactoryClass();
@@ -72,9 +77,9 @@ abstract class rex_package_manager
     {
         try {
             // check package directory perms
-            $install_dir = $this->package->getPath();
-            if (!rex_dir::isWritable($install_dir)) {
-                throw new rex_functional_exception($this->i18n('dir_not_writable', $install_dir));
+            $installDir = $this->package->getPath();
+            if (!rex_dir::isWritable($installDir)) {
+                throw new rex_functional_exception($this->i18n('dir_not_writable', $installDir));
             }
 
             // check package.yml
@@ -88,15 +93,19 @@ abstract class rex_package_manager
                 throw new rex_functional_exception($this->i18n('invalid_yml_file') . ' ' . $e->getMessage());
             }
             $packageId = $this->package->getProperty('package');
-            if ($packageId === null) {
+            if (null === $packageId) {
                 throw new rex_functional_exception($this->i18n('missing_id', $this->package->getPackageId()));
             }
             if ($packageId != $this->package->getPackageId()) {
-                $parts = explode('/', $packageId, 2);
-                throw new rex_functional_exception($this->wrongPackageId($parts[0], isset($parts[1]) ? $parts[1] : null));
+                [$addonId, $pluginId] = rex_package::splitId($packageId);
+                throw new rex_functional_exception($this->wrongPackageId($addonId, $pluginId));
             }
-            if ($this->package->getVersion() === null) {
+            if (null === $this->package->getProperty('version')) {
                 throw new rex_functional_exception($this->i18n('missing_version'));
+            }
+
+            if ($this->package instanceof rex_plugin_interface && !$this->package->getAddon()->isAvailable()) {
+                throw new rex_functional_exception($this->i18n('requirement_error_addon', $this->package->getAddon()->getName()));
             }
 
             // check requirements and conflicts
@@ -119,10 +128,12 @@ abstract class rex_package_manager
             rex_i18n::addDirectory($this->package->getPath('lang'));
 
             // include install.php
+            $successMessage = '';
             if (is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
                 $this->package->includeFile(rex_package::FILE_INSTALL);
+                $successMessage = $this->package->getProperty('successmsg', '');
 
-                if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
+                if ('' != ($instmsg = $this->package->getProperty('installmsg', ''))) {
                     throw new rex_functional_exception($instmsg);
                 }
                 if (!$this->package->isInstalled()) {
@@ -132,16 +143,22 @@ abstract class rex_package_manager
 
             // import install.sql
             $installSql = $this->package->getPath(rex_package::FILE_INSTALL_SQL);
-            if ($installDump === true && is_readable($installSql)) {
+            if ($installDump && is_readable($installSql)) {
                 rex_sql_util::importDump($installSql);
             }
 
             if (!$reinstall) {
                 $this->package->setProperty('status', true);
             }
-            $this->saveConfig();
+            static::saveConfig();
             if ($this->generatePackageOrder) {
                 self::generatePackageOrder();
+            }
+
+            foreach ($this->package->getProperty('default_config', []) as $key => $value) {
+                if (!$this->package->hasConfig($key)) {
+                    $this->package->setConfig($key, $value);
+                }
             }
 
             // copy assets
@@ -153,6 +170,9 @@ abstract class rex_package_manager
             }
 
             $this->message = $this->i18n($reinstall ? 'reinstalled' : 'installed', $this->package->getName());
+            if ($successMessage) {
+                $this->message .= ' ' . $successMessage;
+            }
 
             return true;
         } catch (rex_functional_exception $e) {
@@ -194,7 +214,7 @@ abstract class rex_package_manager
 
                 $this->package->includeFile(rex_package::FILE_UNINSTALL);
 
-                if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
+                if ('' != ($instmsg = $this->package->getProperty('installmsg', ''))) {
                     throw new rex_functional_exception($instmsg);
                 }
                 if ($this->package->isInstalled()) {
@@ -204,7 +224,7 @@ abstract class rex_package_manager
 
             // import uninstall.sql
             $uninstallSql = $this->package->getPath(rex_package::FILE_UNINSTALL_SQL);
-            if ($installDump === true && is_readable($uninstallSql)) {
+            if ($installDump && is_readable($uninstallSql)) {
                 rex_sql_util::importDump($uninstallSql);
             }
 
@@ -214,9 +234,12 @@ abstract class rex_package_manager
                 throw new rex_functional_exception($this->i18n('install_cant_delete_files'));
             }
 
+            // clear cache of package
+            $this->package->clearCache();
+
             rex_config::removeNamespace($this->package->getPackageId());
 
-            $this->saveConfig();
+            static::saveConfig();
             $this->message = $this->i18n('uninstalled', $this->package->getName());
 
             return true;
@@ -230,7 +253,7 @@ abstract class rex_package_manager
         if ($isActivated) {
             $this->package->setProperty('status', true);
         }
-        $this->saveConfig();
+        static::saveConfig();
         $this->message = $this->i18n('no_uninstall', $this->package->getName()) . '<br />' . $this->message;
 
         return false;
@@ -253,18 +276,18 @@ abstract class rex_package_manager
             }
             $state = $state ?: true;
 
-            if ($state === true) {
+            if (true === $state) {
                 $this->package->setProperty('status', true);
-                $this->saveConfig();
+                static::saveConfig();
             }
-            if ($state === true && $this->generatePackageOrder) {
+            if (true === $state && $this->generatePackageOrder) {
                 self::generatePackageOrder();
             }
         } else {
             $state = $this->i18n('not_installed', $this->package->getName());
         }
 
-        if ($state !== true) {
+        if (true !== $state) {
             // error while config generation, rollback addon status
             $this->package->setProperty('status', false);
             $this->message = $this->i18n('no_activation', $this->package->getName()) . '<br />' . $state;
@@ -284,12 +307,13 @@ abstract class rex_package_manager
     {
         $state = $this->checkDependencies();
 
-        if ($state === true) {
+        if ($state) {
             $this->package->setProperty('status', false);
-            $this->saveConfig();
-        }
+            static::saveConfig();
 
-        if ($state === true) {
+            // clear cache of package
+            $this->package->clearCache();
+
             // reload autoload cache when addon is deactivated,
             // so the index doesn't contain outdated class definitions
             rex_autoload::removeCache();
@@ -343,9 +367,11 @@ abstract class rex_package_manager
         }
 
         if (!$ignoreState) {
-            $this->saveConfig();
+            static::saveConfig();
             $this->message = $this->i18n('deleted', $this->package->getName());
         }
+
+        $this->package->clearCache();
 
         return true;
     }
@@ -383,7 +409,7 @@ abstract class rex_package_manager
             if (!is_array($requirements['php'])) {
                 $requirements['php'] = ['version' => $requirements['php']];
             }
-            if (isset($requirements['php']['version']) && !self::matchVersionConstraints(PHP_VERSION, $requirements['php']['version'])) {
+            if (isset($requirements['php']['version']) && !rex_version::matchesConstraints(PHP_VERSION, $requirements['php']['version'])) {
                 $state[] = $this->i18n('requirement_error_php_version', PHP_VERSION, $requirements['php']['version']);
             }
             if (isset($requirements['php']['extensions']) && $requirements['php']['extensions']) {
@@ -423,7 +449,7 @@ abstract class rex_package_manager
     public function checkRedaxoRequirement($redaxoVersion)
     {
         $requirements = $this->package->getProperty('requires', []);
-        if (isset($requirements['redaxo']) && !self::matchVersionConstraints($redaxoVersion, $requirements['redaxo'])) {
+        if (isset($requirements['redaxo']) && !rex_version::matchesConstraints($redaxoVersion, $requirements['redaxo'])) {
             $this->message = $this->i18n('requirement_error_redaxo_version', $redaxoVersion, $requirements['redaxo']);
             return false;
         }
@@ -444,16 +470,49 @@ abstract class rex_package_manager
             return true;
         }
         $package = rex_package::get($packageId);
+        $requiredVersion = '';
         if (!$package->isAvailable()) {
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId);
+            if ('' != $requirements['packages'][$packageId]) {
+                $requiredVersion = ' ' . $requirements['packages'][$packageId];
+            }
+
+            if (!rex_package::exists($packageId)) {
+                [$addonId] = rex_package::splitId($packageId);
+                $jumpToInstaller = '';
+                if (rex_addon::get('install')->isAvailable() && !rex_addon::exists($addonId)) {
+                    // package need to be downloaded via installer
+                    $installUrl = rex_url::backendPage('install/packages/add', ['addonkey' => $addonId]);
+
+                    $jumpToInstaller = ' <a href="' . $installUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('search_in_installer', $addonId) . '"></i></a>';
+                }
+
+                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId . $requiredVersion) . $jumpToInstaller;
+                return false;
+            }
+
+            // this package requires a plugin from another addon.
+            // first make sure the addon itself is available.
+            $jumpPackageId = $packageId;
+            if ($package instanceof rex_plugin_interface && !$package->getAddon()->isAvailable()) {
+                $jumpPackageId = (string) $package->getAddon()->getPackageId();
+            }
+
+            $jumpPackageUrl = '#package-' . rex_string::normalize($jumpPackageId, '-', '_');
+            if ('packages' !== rex_be_controller::getCurrentPage()) {
+                // error while update/install within install-addon. x-link to packages core page
+                $jumpPackageUrl = rex_url::backendPage('packages') . $jumpPackageUrl;
+            }
+
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId . $requiredVersion) . ' <a href="' . $jumpPackageUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('jump_to', $jumpPackageId) . '"></i></a>';
             return false;
         }
-        if (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
+
+        if (!rex_version::matchesConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
             $this->message = $this->i18n(
                 'requirement_error_' . $package->getType() . '_version',
                 $package->getPackageId(),
                 $package->getVersion(),
-                $requirements['packages'][$packageId]
+                $requirements['packages'][$packageId],
             );
             return false;
         }
@@ -486,9 +545,9 @@ abstract class rex_package_manager
             }
 
             $constraints = $conflicts['packages'][$this->package->getPackageId()];
-            if (!is_string($constraints) || !$constraints || $constraints === '*') {
+            if (!is_string($constraints) || !$constraints || '*' === $constraints) {
                 $state[] = $this->i18n('reverse_conflict_error_' . $package->getType(), $package->getPackageId());
-            } elseif (self::matchVersionConstraints($this->package->getVersion(), $constraints)) {
+            } elseif (rex_version::matchesConstraints($this->package->getVersion(), $constraints)) {
                 $state[] = $this->i18n('reverse_conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
             }
         }
@@ -515,11 +574,11 @@ abstract class rex_package_manager
             return true;
         }
         $constraints = $conflicts['packages'][$packageId];
-        if (!is_string($constraints) || !$constraints || $constraints === '*') {
+        if (!is_string($constraints) || !$constraints || '*' === $constraints) {
             $this->message = $this->i18n('conflict_error_' . $package->getType(), $package->getPackageId());
             return false;
         }
-        if (self::matchVersionConstraints($package->getVersion(), $constraints)) {
+        if (rex_version::matchesConstraints($package->getVersion(), $constraints)) {
             $this->message = $this->i18n('conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
             return false;
         }
@@ -570,19 +629,25 @@ abstract class rex_package_manager
         }
         $args[0] = $key;
 
-        return call_user_func_array(['rex_i18n', 'msg'], $args);
+        return call_user_func_array(rex_i18n::msg(...), $args);
     }
 
     /**
      * Generates the package order.
+     * @return void
      */
     public static function generatePackageOrder()
     {
+        /** @var string[] $early */
         $early = [];
+        /** @var string[] $normal */
         $normal = [];
+        /** @var string[] $late */
         $late = [];
+        /** @var array<string, array<string, true>> $requires */
         $requires = [];
-        $add = function ($id) use (&$add, &$normal, &$requires) {
+
+        $add = static function ($id) use (&$add, &$normal, &$requires) {
             $normal[] = $id;
             unset($requires[$id]);
             foreach ($requires as $rp => &$ps) {
@@ -601,9 +666,9 @@ abstract class rex_package_manager
             ) {
                 $load = $addonLoad;
             }
-            if ($load === 'early') {
+            if ('early' === $load) {
                 $early[] = $id;
-            } elseif ($load === 'late') {
+            } elseif ('late' === $load) {
                 $late[] = $id;
             } else {
                 $req = $package->getProperty('requires');
@@ -613,7 +678,7 @@ abstract class rex_package_manager
                 if (isset($req['packages']) && is_array($req['packages'])) {
                     foreach ($req['packages'] as $packageId => $reqP) {
                         $package = rex_package::get($packageId);
-                        if (!in_array($package, $normal) && !in_array($package->getProperty('load'), ['early', 'late'])) {
+                        if (!in_array($packageId, $normal) && !in_array($package->getProperty('load'), ['early', 'late'])) {
                             $requires[$id][$packageId] = true;
                         }
                     }
@@ -628,6 +693,7 @@ abstract class rex_package_manager
 
     /**
      * Saves the package config.
+     * @return void
      */
     protected static function saveConfig()
     {
@@ -645,14 +711,15 @@ abstract class rex_package_manager
 
     /**
      * Synchronizes the packages with the file system.
+     * @return void
      */
     public static function synchronizeWithFileSystem()
     {
-        $config = rex::getConfig('package-config');
+        $config = rex::getPackageConfig();
         $addons = self::readPackageFolder(rex_path::src('addons'));
         $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
         foreach (array_diff($registeredAddons, $addons) as $addonName) {
-            $manager = rex_addon_manager::factory(rex_addon::get($addonName));
+            $manager = rex_addon_manager::factory(rex_addon::require($addonName));
             $manager->_delete(true);
             unset($config[$addonName]);
         }
@@ -669,7 +736,7 @@ abstract class rex_package_manager
             }
             $plugins = self::readPackageFolder(rex_path::addon($addonName, 'plugins'));
             foreach (array_diff($registeredPlugins, $plugins) as $pluginName) {
-                $manager = rex_plugin_manager::factory(rex_plugin::get($addonName, $pluginName));
+                $manager = rex_plugin_manager::factory(rex_plugin::require($addonName, $pluginName));
                 $manager->_delete(true);
                 unset($config[$addonName]['plugins'][$pluginName]);
             }
@@ -689,68 +756,11 @@ abstract class rex_package_manager
     }
 
     /**
-     * Checks the version of the requirement.
-     *
-     * @param string $version     Version
-     * @param string $constraints Constraint list, separated by comma
-     *
-     * @throws rex_exception
-     *
-     * @return bool
-     */
-    private static function matchVersionConstraints($version, $constraints)
-    {
-        $rawConstraints = array_filter(array_map('trim', explode(',', $constraints)));
-        $constraints = [];
-        foreach ($rawConstraints as $constraint) {
-            if ($constraint === '*') {
-                continue;
-            }
-
-            if (!preg_match('/^(?<op>==?|<=?|>=?|!=|~|\^|) ?(?<version>\d+(?:\.\d+)*)(?<wildcard>\.\*)?(?<prerelease>[ -.]?[a-z]+(?:[ -.]?\d+)?)?$/i', $constraint, $match)
-                || isset($match['wildcard']) && $match['wildcard'] && ($match['op'] != '' || isset($match['prerelease']) && $match['prerelease'])
-            ) {
-                throw new rex_exception('Unknown version constraint "' . $constraint . '"!');
-            }
-
-            if (isset($match['wildcard']) && $match['wildcard']) {
-                $constraints[] = ['>=', $match['version']];
-                $pos = strrpos($match['version'], '.') + 1;
-                $sub = substr($match['version'], $pos);
-                $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
-            } elseif (in_array($match['op'], ['~', '^'])) {
-                $constraints[] = ['>=', $match['version'] . (isset($match['prerelease']) ? $match['prerelease'] : '')];
-                if ('^' === $match['op'] || false === $pos = strrpos($match['version'], '.')) {
-                    $constraints[] = ['<', (int) $match['version'] + 1];
-                } else {
-                    $main = '';
-                    $sub = substr($match['version'], 0, $pos);
-                    if (($pos = strrpos($sub, '.')) !== false) {
-                        $main = substr($sub, 0, $pos + 1);
-                        $sub = substr($sub, $pos + 1);
-                    }
-                    $constraints[] = ['<', $main . ($sub + 1)];
-                }
-            } else {
-                $constraints[] = [$match['op'] ?: '=', $match['version'] . (isset($match['prerelease']) ? $match['prerelease'] : '')];
-            }
-        }
-
-        foreach ($constraints as $constraint) {
-            if (!rex_string::versionCompare($version, $constraint[1], $constraint[0])) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Returns the subfolders of the given folder.
      *
      * @param string $folder Folder
      *
-     * @return string[]
+     * @return non-empty-string[]
      */
     private static function readPackageFolder($folder)
     {

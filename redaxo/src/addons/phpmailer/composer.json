@@ -1,3 +1,10 @@
 {
-    "require": { "phpmailer/phpmailer": "~6.0" }
+    "require": { "phpmailer/phpmailer": "^6.8.1" },
+
+    "config": {
+        "platform": {
+            "php": "8.1.13"
+        },
+        "platform-check": false
+    }
 }

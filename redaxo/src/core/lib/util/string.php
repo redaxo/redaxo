@@ -31,25 +31,7 @@ class rex_string
      */
     public static function normalizeEncoding($string)
     {
-        static $normalizer;
-
-        if (null === $normalizer) {
-            if (function_exists('normalizer_normalize')) {
-                $normalizer = function ($string) {
-                    return normalizer_normalize($string, Normalizer::FORM_C);
-                };
-            } else {
-                $normalizer = function ($string) {
-                    return str_replace(
-                        ["A\xcc\x88", "a\xcc\x88", "O\xcc\x88", "o\xcc\x88", "U\xcc\x88", "u\xcc\x88"],
-                        ['Ä', 'ä', 'Ö', 'ö', 'Ü', 'ü'],
-                        $string
-                    );
-                };
-            }
-        }
-
-        return $normalizer($string);
+        return Normalizer::normalize($string, Normalizer::FORM_C);
     }
 
     /**
@@ -60,7 +42,7 @@ class rex_string
      *
      * @param string $string       Input string
      * @param string $replaceChar  Character that is used to replace not allowed chars
-     * @param string $allowedChars Character whitelist
+     * @param string $allowedChars Allowed character list
      *
      * @return string
      */
@@ -83,7 +65,7 @@ class rex_string
      *
      * @param string $string
      *
-     * @return array
+     * @return string[]
      */
     public static function split($string)
     {
@@ -91,12 +73,14 @@ class rex_string
         if (empty($string)) {
             return [];
         }
+
         $result = [];
         $spacer = '@@@REX_SPACER@@@';
         $quoted = [];
 
         $pattern = '@(?<=\s|=|^)(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1(?=\s|$)@Us';
-        $callback = function ($match) use ($spacer, &$quoted) {
+        $callback = static function (array $match) use ($spacer, &$quoted) {
+            /** @var list<string> $match */
             $quoted[] = str_replace(['\\' . $match[1], '\\\\'], [$match[1], '\\'], $match[2]);
             return $spacer;
         };
@@ -119,39 +103,30 @@ class rex_string
     }
 
     /**
-     * Splits a version string.
+     * @deprecated since 5.10, use `rex_version::split` instead
      *
-     * @param string $version Version
-     *
-     * @return array Version parts
+     * @param string $version
+     * @return list<string>
      */
+    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::split` instead', replacement: 'rex_version::split(%parameter0%)')]
     public static function versionSplit($version)
     {
-        return preg_split('/(?<=\d)(?=[a-z])|(?<=[a-z])(?=\d)|[ ._-]+/i', $version);
+        return rex_version::split($version);
     }
 
     /**
-     * Compares two version number strings.
+     * @deprecated since 5.10, use `rex_version::compare` instead
      *
-     * In contrast to version_compare() it treats "1.0" and "1.0.0" as equal and it supports a space as separator for
-     * the version parts, e.g. "1.0 beta1"
-     *
-     * @see http://www.php.net/manual/en/function.version-compare.php
-     *
-     * @param string $version1   First version number
-     * @param string $version2   Second version number
-     * @param string $comparator Optional comparator
+     * @param string $version1
+     * @param string $version2
+     * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
      *
      * @return int|bool
      */
-    public static function versionCompare($version1, $version2, $comparator = null)
+    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::compare` instead', replacement: 'rex_version::compare(%parametersList%)')]
+    public static function versionCompare($version1, $version2, $comparator = '<')
     {
-        $version1 = self::versionSplit($version1);
-        $version2 = self::versionSplit($version2);
-        $max = max(count($version1), count($version2));
-        $version1 = implode('.', array_pad($version1, $max, '0'));
-        $version2 = implode('.', array_pad($version2, $max, '0'));
-        return version_compare($version1, $version2, $comparator);
+        return rex_version::compare($version1, $version2, $comparator);
     }
 
     /**
@@ -172,23 +147,32 @@ class rex_string
      *
      * @param string $value YAML string
      *
-     * @return array
-     *
      * @throws rex_yaml_parse_exception
+     *
+     * @return array
      */
     public static function yamlDecode($value)
     {
+        if ('' === $value) {
+            return [];
+        }
+
         try {
-            return Symfony\Component\Yaml\Yaml::parse($value);
+            $result = Symfony\Component\Yaml\Yaml::parse($value);
         } catch (Symfony\Component\Yaml\Exception\ParseException $exception) {
             throw new rex_yaml_parse_exception($exception->getMessage(), $exception);
         }
+
+        if (!is_array($result)) {
+            throw new rex_yaml_parse_exception(__FUNCTION__ . ' does not support YAML content containing a single scalar value (given "' . $value . '")');
+        }
+
+        return $result;
     }
 
     /**
      * Generates URL-encoded query string.
      *
-     * @param array  $params
      * @param string $argSeparator
      *
      * @return string
@@ -196,13 +180,13 @@ class rex_string
     public static function buildQuery(array $params, $argSeparator = '&')
     {
         $query = [];
-        $func = function (array $params, $fullkey = null) use (&$query, &$func) {
+        $func = static function (array $params, ?string $fullkey = null) use (&$query, &$func) {
             foreach ($params as $key => $value) {
                 $key = $fullkey ? $fullkey . '[' . urlencode($key) . ']' : urlencode($key);
                 if (is_array($value)) {
                     $func($value, $key);
                 } else {
-                    $query[] = $key . '=' . str_replace('%2F', '/', urlencode($value));
+                    $query[] = $key . '=' . str_replace('%2F', '/', urlencode((string) $value));
                 }
             }
         };
@@ -213,8 +197,7 @@ class rex_string
     /**
      * Returns a string by key="value" pair.
      *
-     * @param array $attributes
-     *
+     * @param array<int|string, int|string|list<string>> $attributes
      * @return string
      */
     public static function buildAttributes(array $attributes)
@@ -223,12 +206,17 @@ class rex_string
 
         foreach ($attributes as $key => $value) {
             if (is_int($key)) {
-                $attr .= ' ' . $value;
+                if (is_array($value)) {
+                    throw new InvalidArgumentException('For integer keys the value can not be an array');
+                }
+                $attr .= ' ' . (string) rex_escape($value);
             } else {
                 if (is_array($value)) {
                     $value = implode(' ', $value);
                 }
-                $attr .= ' ' . $key . '="' . $value . '"';
+                // for bc reasons avoid double escaping of "&", especially in already escaped urls
+                $value = str_replace('&amp;', '&', (string) $value);
+                $attr .= ' ' . rex_escape($key) . '="' . rex_escape($value) . '"';
             }
         }
 
@@ -246,5 +234,24 @@ class rex_string
     {
         $return = str_replace(["\r", "\n"], ['', ''], highlight_string($string, true));
         return '<pre class="rex-code">' . $return . '</pre>';
+    }
+
+    /**
+     * Cleanup the given html string and removes possible malicious codes/markup.
+     */
+    public static function sanitizeHtml(string $html): string
+    {
+        /** @var voku\helper\AntiXSS|null $antiXss */
+        static $antiXss;
+
+        if (!$antiXss) {
+            $antiXss = new voku\helper\AntiXSS();
+            $antiXss->removeEvilAttributes(['style']);
+            $antiXss->removeNeverAllowedRegex(['(\(?:?document\)?|\(?:?window\)?(?:\.document)?)\.(?:location|on\w*)' => '']);
+            $antiXss->removeNeverAllowedStrAfterwards(['&lt;script&gt;', '&lt;/script&gt;']);
+        }
+
+        /** @psalm-taint-escape html */
+        return $antiXss->xss_clean($html);
     }
 }

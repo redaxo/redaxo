@@ -1,0 +1,19 @@
+# .kodiak.toml
+version = 1
+
+[merge]
+method = "squash"
+delete_branch_on_merge = true
+dont_wait_on_status_checks = ["WIP"] # handle github.com/apps/wip
+# label to use to enable Kodiak to merge a PR
+automerge_label = "automerge" # default: "automerge"
+# require that the automerge label be set for Kodiak to merge a PR. if you
+# disable this Kodiak will immediately attempt to merge every PR you create
+require_automerge_label = true
+
+[merge.message]
+title = "pull_request_title"
+body = "empty"
+include_coauthors = true
+include_pr_number = true
+strip_html_comments = true # remove html comments to auto remove PR templates

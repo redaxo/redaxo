@@ -9,37 +9,52 @@
 class rex_article_content extends rex_article_content_base
 {
     // bc schalter
-    private $viasql;
+    /** @var bool */
+    private $viasql = false;
 
-    public function __construct($article_id = null, $clang = null)
+    /**
+     * @var rex_article_slice|null
+     * @phpstan-ignore-next-line this property looks unread, but is written from content cache file
+     */
+    private $currentSlice;
+
+    /**
+     * @param int|null $articleId
+     * @param int|null $clang
+     */
+    public function __construct($articleId = null, $clang = null)
     {
-        $this->viasql = false;
-        parent::__construct($article_id, $clang);
+        parent::__construct($articleId, $clang);
     }
 
     // bc
+
+    /**
+     * @param bool $viasql
+     * @return void
+     */
     public function getContentAsQuery($viasql = true)
     {
-        if ($viasql !== true) {
+        if (!$viasql) {
             $viasql = false;
         }
         $this->viasql = $viasql;
     }
 
-    public function setArticleId($article_id)
+    public function setArticleId($articleId)
     {
         // bc
         if ($this->viasql) {
-            return parent::setArticleId($article_id);
+            return parent::setArticleId($articleId);
         }
 
-        $article_id = (int) $article_id;
-        $this->article_id = $article_id;
+        $articleId = (int) $articleId;
+        $this->article_id = $articleId;
 
-        $rex_article = rex_article::get($article_id, $this->clang);
-        if ($rex_article instanceof rex_article) {
-            $this->category_id = $rex_article->getCategoryId();
-            $this->template_id = $rex_article->getTemplateId();
+        $rexArticle = rex_article::get($articleId, $this->clang);
+        if ($rexArticle instanceof rex_article) {
+            $this->category_id = $rexArticle->getCategoryId();
+            $this->template_id = $rexArticle->getTemplateId();
             return true;
         }
 
@@ -49,16 +64,26 @@ class rex_article_content extends rex_article_content_base
         return false;
     }
 
-    protected function _getValue($value)
+    public function getValue($value)
     {
         // bc
         if ($this->viasql) {
-            return parent::_getValue($value);
+            return parent::getValue($value);
         }
 
         $value = $this->correctValue($value);
 
-        return rex_article::get($this->article_id, $this->clang)->getValue($value);
+        if (!rex_article::hasValue($value)) {
+            throw new rex_exception('Articles do not have the property "' . $value . '"');
+        }
+
+        $article = rex_article::get($this->article_id, $this->clang);
+
+        if (!$article) {
+            throw new rex_exception('Article for id=' . $this->article_id . ' and clang=' . $this->clang . ' does not exist');
+        }
+
+        return $article->getValue($value);
     }
 
     public function hasValue($value)
@@ -70,7 +95,7 @@ class rex_article_content extends rex_article_content_base
 
         $value = $this->correctValue($value);
 
-        return rex_article::get($this->article_id, $this->clang)->hasValue($value);
+        return rex_article::hasValue($value);
     }
 
     public function getArticle($curctype = -1)
@@ -82,36 +107,44 @@ class rex_article_content extends rex_article_content_base
 
         $this->ctype = $curctype;
 
-        if (!$this->getSlice && $this->article_id != 0) {
-            // ----- start: article caching
+        if (!$this->getSlice && 0 != $this->article_id) {
+            // article caching
             ob_start();
-            ob_implicit_flush(0);
+            try {
+                ob_implicit_flush(false);
 
-            $article_content_file = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
-            if (!file_exists($article_content_file)) {
-                $generated = rex_content_service::generateArticleContent($this->article_id, $this->clang);
-                if ($generated !== true) {
-                    // fehlermeldung ausgeben
-                    echo $generated;
+                $articleContentFile = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
+
+                if (!is_file($articleContentFile)) {
+                    rex_content_service::generateArticleContent($this->article_id, $this->clang);
                 }
-            }
 
-            if (file_exists($article_content_file)) {
-                require $article_content_file;
+                require $articleContentFile;
+            } finally {
+                $CONTENT = ob_get_clean();
+                assert(is_string($CONTENT));
             }
-
-            // ----- end: article caching
-            $CONTENT = ob_get_clean();
         } else {
             // Inhalt ueber sql generierens
             $CONTENT = parent::getArticle($curctype);
         }
 
-        $CONTENT = rex_extension::registerPoint(new rex_extension_point('ART_CONTENT', $CONTENT, [
+        return rex_extension::registerPoint(new rex_extension_point('ART_CONTENT', $CONTENT, [
             'ctype' => $curctype,
             'article' => $this,
         ]));
+    }
 
-        return $CONTENT;
+    public function getCurrentSlice(): rex_article_slice
+    {
+        if ($this->viasql) {
+            return parent::getCurrentSlice();
+        }
+
+        if (!$this->currentSlice) {
+            throw new rex_exception('There is no current slice; getCurrentSlice() can be called only while rendering slices');
+        }
+
+        return $this->currentSlice;
     }
 }

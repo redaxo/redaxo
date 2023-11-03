@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+    bootstrap=".tools/bootstrap.php"
+    beStrictAboutCoverageMetadata="true"
+    beStrictAboutOutputDuringTests="true"
+    failOnWarning="true"
+    failOnRisky="true"
+    colors="true"
+    stderr="true"
+    cacheDirectory=".phpunit.cache"
+>
+    <php>
+        <ini name="error_reporting" value="E_ALL"/>
+        <ini name="display_errors" value="1"/>
+    </php>
+    <testsuites>
+        <testsuite name="core">
+            <directory suffix="_test.php">redaxo/src/core/tests</directory>
+        </testsuite>
+        <testsuite name="media_manager">
+            <directory suffix="_test.php">redaxo/src/addons/media_manager/tests</directory>
+        </testsuite>
+        <testsuite name="mediapool">
+            <directory suffix="_test.php">redaxo/src/addons/mediapool/tests</directory>
+        </testsuite>
+        <testsuite name="structure">
+            <directory suffix="_test.php">redaxo/src/addons/structure/tests</directory>
+            <directory suffix="_test.php">redaxo/src/addons/structure/plugins/content/tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

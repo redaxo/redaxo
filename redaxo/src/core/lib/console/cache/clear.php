@@ -10,13 +10,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_cache_clear extends rex_console_command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Clears the redaxo core cache');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $successMsg = rex_delete_cache();
         $io = $this->getStyle($input, $output);

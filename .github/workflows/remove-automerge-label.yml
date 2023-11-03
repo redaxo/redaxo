@@ -1,0 +1,22 @@
+name: Remove automerge label
+
+on:
+    pull_request_target:
+        types: [closed]
+
+permissions:
+    contents: read
+
+jobs:
+    remove-automerge-label:
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        if: github.event.pull_request.merged == true
+        permissions:
+            contents: none
+
+        steps:
+            -   uses: actions-ecosystem/action-remove-labels@v1
+                with:
+                    github_token: ${{ secrets.BOT_TOKEN }}
+                    labels: automerge

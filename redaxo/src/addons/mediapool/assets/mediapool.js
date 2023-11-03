@@ -36,7 +36,7 @@ function newPoolWindow(link)
         var counter = 0;
     }
     // 1200 = $screen-lg
-    return newWindow( 'rexmediapopup'+counter, link, 1200,800,',status=yes,resizable=yes');
+    return newWindow( 'rexmediapopup'+counter, link, 1200, Math.max(screen.height*0.75,800), ',status=yes,resizable=yes');
 }
 
 function openMediaDetails(id, file_id, file_category_id)
@@ -83,8 +83,13 @@ function viewREXMedia(id,param)
 
 function deleteREXMedia(id)
 {
-    var a = new getObj("REX_MEDIA_"+id);
-    a.obj.value = "";
+    var input = new getObj("REX_MEDIA_" + id).obj;
+    if (input !== null) {
+        input.value = "";
+        jQuery(input).trigger('change');
+    } else {
+        console.log("Media input field not found");
+    }
 }
 
 function addREXMedia(id,params)
@@ -166,11 +171,11 @@ $(document).ready(function () {
         if($(this).hasClass("rex-js-widget-media"))
         {
             value = $("input[type=text]", this).val();
-            img_type = "rex_mediabutton_preview";
+            img_type = "rex_media_small";
         }else
         {
             value = $("select :selected", this).text();
-            img_type = "rex_medialistbutton_preview";
+            img_type = "rex_media_small";
         }
 
         var div = $(".rex-js-media-preview", this);
@@ -187,7 +192,7 @@ $(document).ready(function () {
 
         if(value && value.length != 0 && $.inArray(value.split('.').pop(), rex.imageExtensions))
         {
-            // img tag nur einmalig einf�gen, ggf erzeugen wenn nicht vorhanden
+            // img tag nur einmalig einfuegen, ggf erzeugen wenn nicht vorhanden
             var img = $('img', div);
             if(img.length == 0)
             {
@@ -220,3 +225,78 @@ $(document).ready(function () {
 
 
 });
+
+
+function selectMedia(filename, alt)
+{
+    var event = opener.jQuery.Event("rex:selectMedia");
+
+    opener.jQuery(window).trigger(event, [filename, alt]);
+    if (!event.isDefaultPrevented()) {
+        if (rex.mediapoolOpenerInputField) {
+            var input = opener.document.getElementById(rex.mediapoolOpenerInputField);
+            if (input !== null) {
+                input.value = filename;
+                opener.jQuery(input).trigger('change');
+                self.close();
+            } else {
+                console.log("Media input field not found");
+            }
+        } else {
+            self.close();
+        }
+    }
+}
+
+function selectMedialist(filename)
+{
+    if (rex.mediapoolOpenerInputField && 0 === rex.mediapoolOpenerInputField.indexOf('REX_MEDIALIST_')) {
+        var openerId = rex.mediapoolOpenerInputField.slice('REX_MEDIALIST_'.length);
+        var medialist = "REX_MEDIALIST_SELECT_" + openerId;
+
+        var source = opener.document.getElementById(medialist);
+        var sourcelength = source.options.length;
+
+        option = opener.document.createElement("OPTION");
+        option.text = filename;
+        option.value = filename;
+
+        source.options.add(option, sourcelength);
+        opener.writeREXMedialist(openerId);
+    }
+}
+
+function selectMediaListArray(files)
+{
+    if (rex.mediapoolOpenerInputField && 0 === rex.mediapoolOpenerInputField.indexOf('REX_MEDIALIST_')) {
+        var openerId = rex.mediapoolOpenerInputField.slice('REX_MEDIALIST_'.length);
+        var medialist = "REX_MEDIALIST_SELECT_" + openerId;
+
+        var source = opener.document.getElementById(medialist);
+        var sourcelength = source.options.length;
+
+        var files = getObjArray(files);
+
+        for(var i = 0; i < files.length; i++)
+        {
+            if (files[i].checked)
+            {
+                option = opener.document.createElement("OPTION");
+                option.text = files[i].value;
+                option.value = files[i].value;
+
+                source.options.add(option, sourcelength);
+                sourcelength++;
+            }
+        }
+
+        opener.writeREXMedialist(openerId);
+        self.close();
+    }
+}
+
+function openPage(src)
+{
+    window.opener.location.href = src;
+    self.close();
+}

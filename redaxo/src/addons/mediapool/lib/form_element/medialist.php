@@ -5,25 +5,44 @@
  */
 class rex_form_widget_medialist_element extends rex_form_element
 {
+    /** @var array{category?: int, types?: string, preview?: bool} */
     private $args = [];
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
+    /**
+     * @param string $tag
+     * @param array<string, int|string> $attributes
+     */
+    public function __construct($tag = '', ?rex_form_base $form = null, array $attributes = [])
     {
-        parent::__construct('', $table, $attributes);
+        parent::__construct('', $form, $attributes);
     }
 
-    public function setCategoryId($category_id)
+    /**
+     * @param int $categoryId
+     *
+     * @return void
+     */
+    public function setCategoryId($categoryId)
     {
-        $this->args['category'] = $category_id;
+        $this->args['category'] = $categoryId;
     }
 
+    /**
+     * @param string $types
+     * @return void
+     */
     public function setTypes($types)
     {
         $this->args['types'] = $types;
     }
 
+    /**
+     * @param bool $preview
+     *
+     * @return void
+     */
     public function setPreview($preview = true)
     {
         $this->args['preview'] = $preview;
@@ -31,11 +50,12 @@ class rex_form_widget_medialist_element extends rex_form_element
 
     public function formatElement()
     {
-        static $widget_counter = 1;
+        /** @var int $widgetCounter */
+        static $widgetCounter = 1;
 
-        $html = rex_var_medialist::getWidget($widget_counter, $this->getAttribute('name'), $this->getValue(), $this->args);
+        $html = rex_var_medialist::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
 
-        ++$widget_counter;
+        ++$widgetCounter;
         return $html;
     }
 }

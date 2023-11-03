@@ -1,36 +1,38 @@
 <?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
 
 /*
     Vars
-    
+
     "title" of items list will not be escaped, the caller is responsible todo so.
 */
 
 // --------------------- List Items
-$list_items = [];
+$listItems = [];
 
-if (isset($this->title) && $this->title != '') {
-    $list_items[] = '<li class="rex-breadcrumb-title">' . $this->title . '</li>';
+if (isset($this->title) && '' != $this->title) {
+    $listItems[] = '<li class="rex-breadcrumb-title">' . $this->title . '</li>';
 }
 
 $items = $this->items;
 
 if (count($items) > 0) {
     foreach ($items as $item) {
-        $list_item = '';
+        $listItem = '';
 
-        if (isset($item['title']) && $item['title'] != '') {
-            $list_item .= $item['title'];
+        if (isset($item['title']) && '' != $item['title']) {
+            $listItem .= $item['title'];
         }
 
-        if (isset($item['href']) && $item['href'] != '') {
-            $list_item = '<a href="' . $item['href'] . '">' . $list_item . '</a>';
+        if (isset($item['href']) && '' != $item['href']) {
+            $listItem = '<a class="rex-link-expanded" href="' . $item['href'] . '">' . $listItem . '</a>';
         }
 
-        $list_items[] = '<li>' . $list_item . '</li>';
+        $listItems[] = '<li>' . $listItem . '</li>';
     }
-} else {
-    $list_items[] = '<li>' . rex_i18n::msg('root_level') . '</li>';
 }
 
-echo '<div' . ((isset($this->id) && $this->id != '') ? ' id="' .  $this->id . '"' : '') . ' class="rex-breadcrumb"><ol class="breadcrumb">' . implode('', $list_items) . '</ol></div>';
+echo '<div' . ((isset($this->id) && '' != $this->id) ? ' id="' . $this->id . '"' : '') . ' class="rex-breadcrumb"><ol class="breadcrumb">' . implode('', $listItems) . '</ol></div>';

@@ -1,19 +1,24 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_control_element extends rex_form_element
 {
+    /** @var rex_form_element|null */
     private $saveElement;
+    /** @var rex_form_element|null */
     private $applyElement;
+    /** @var rex_form_element|null */
     private $deleteElement;
+    /** @var rex_form_element|null */
     private $resetElement;
+    /** @var rex_form_element|null */
     private $abortElement;
 
-    public function __construct(rex_form $table, rex_form_element $saveElement = null, rex_form_element $applyElement = null, rex_form_element $deleteElement = null, rex_form_element $resetElement = null, rex_form_element $abortElement = null)
+    public function __construct(rex_form_base $form, ?rex_form_element $saveElement = null, ?rex_form_element $applyElement = null, ?rex_form_element $deleteElement = null, ?rex_form_element $resetElement = null, ?rex_form_element $abortElement = null)
     {
-        parent::__construct('', $table);
+        parent::__construct('', $form);
 
         $this->saveElement = $saveElement;
         $this->applyElement = $applyElement;
@@ -22,6 +27,9 @@ class rex_form_control_element extends rex_form_element
         $this->abortElement = $abortElement;
     }
 
+    /**
+     * @return string
+     */
     protected function _get()
     {
         $s = '';
@@ -33,7 +41,6 @@ class rex_form_control_element extends rex_form_element
             }
 
             $e = [];
-            $e['class'] = $this->saveElement->formatClass();
             $e['field'] = $this->saveElement->formatElement();
             $elements[] = $e;
         }
@@ -44,7 +51,6 @@ class rex_form_control_element extends rex_form_element
             }
 
             $e = [];
-            $e['class'] = $this->applyElement->formatClass();
             $e['field'] = $this->applyElement->formatElement();
             $elements[] = $e;
         }
@@ -55,7 +61,6 @@ class rex_form_control_element extends rex_form_element
             }
 
             $e = [];
-            $e['class'] = $this->abortElement->formatClass();
             $e['field'] = $this->abortElement->formatElement();
             $elements[] = $e;
         }
@@ -70,7 +75,6 @@ class rex_form_control_element extends rex_form_element
             }
 
             $e = [];
-            $e['class'] = $this->deleteElement->formatClass();
             $e['field'] = $this->deleteElement->formatElement();
             $elements[] = $e;
         }
@@ -85,7 +89,6 @@ class rex_form_control_element extends rex_form_element
             }
 
             $e = [];
-            $e['class'] = $this->resetElement->formatClass();
             $e['field'] = $this->resetElement->formatElement();
             $elements[] = $e;
         }
@@ -99,31 +102,49 @@ class rex_form_control_element extends rex_form_element
         return $s;
     }
 
+    /**
+     * @return bool
+     */
     public function submitted($element)
     {
-        return is_object($element) && rex_post($element->getAttribute('name'), 'string') != '';
+        return is_object($element) && '' != rex_post($element->getAttribute('name'), 'string');
     }
 
+    /**
+     * @return bool
+     */
     public function saved()
     {
         return $this->submitted($this->saveElement);
     }
 
+    /**
+     * @return bool
+     */
     public function applied()
     {
         return $this->submitted($this->applyElement);
     }
 
+    /**
+     * @return bool
+     */
     public function deleted()
     {
         return $this->submitted($this->deleteElement);
     }
 
+    /**
+     * @return bool
+     */
     public function resetted()
     {
         return $this->submitted($this->resetElement);
     }
 
+    /**
+     * @return bool
+     */
     public function aborted()
     {
         return $this->submitted($this->abortElement);

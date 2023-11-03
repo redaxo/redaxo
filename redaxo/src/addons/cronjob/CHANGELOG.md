@@ -1,6 +1,107 @@
 Changelog
 =========
 
+Version 2.9.0 – 25.07.2022
+--------------------------
+
+### Neu
+
+* Skript-Umgebung: Auflistung der ausgeführten Jobs mit Status und Meldung (@gharlan)
+* Im Cronjob-Formular werden teils Checkboxen/Radios statt Selects verwendet (@gharlan)
+* Anzeige Logeinträge auf 100 erhöht (@staabm)
+
+
+Version 2.8.2 – 10.01.2022
+--------------------------
+
+### Bugfixes
+
+* Validierung für die Intervall-Felder korrigiert (@gharlan)
+
+
+Version 2.8.0 – 03.03.2021
+--------------------------
+
+### Neu
+
+* Der Hinweis für die Skript-Umgebung enthält den absoluten Pfad zur REDAXO-Console (@skerbis)
+* PlugIn `article_status`: Neu können die Artikel-Datumsfelder nach Statusänderung automatisch geleert werden (optional) (@tyrant88)
+
+### Bugfixes
+
+* Fehlendes Escaping ergänzt (@gharlan)
+
+
+Version 2.7.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Die Umgebung, über die ein Job ausgeführt wurde, wird mit im Log gespeichert/ausgegeben (@alexplusde)
+
+### Bugfixes
+
+* Im Log war der Button "im Editor öffnen" nie sichtbar (@staabm)
+
+
+Version 2.6.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+* Button zum Löschen des Logs (@skerbis)
+
+### Bugfixes
+
+* Die Log-Message wurde nicht escaped ausgegeben (@gharlan)
+* Plugin `optimize_tables`:
+    - Tabellennamen wurden nicht escaped (@alexplusde)
+    - Fehlermeldungen wurden nicht ins Log geschrieben (@alexplusde)
+
+
+Version 2.5.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Das Log wird auch unter System/Log eingebunden (@staabm)
+
+
+Version 2.4.1 – 01.04.2019
+--------------------------
+
+### Bugfixes
+
+* Typ "PHP-Code": Bei Fehlern wurde das Backend teils nur halb, ohne Layout dargestellt (@gharlan)
+
+
+Version 2.4.0 – 12.03.2019
+--------------------------
+
+### Neu
+
+* Typabhängige Felder erscheinen direkt unterhalb der Typauswahl (@skerbis)
+
+### Bugfixes
+
+* Bei Uhrzeit/Zeitzonen-Differenzen zwischen PHP und DB wurden die Cronjobs zu einem falschen Zeitpunkt ausgeführt (@dergel)
+* optimize_tables: Views wurden fälschlich versucht auch zu optimieren (@gharlan)
+* Plugins: Bei vorinstallierten Cronjobs wurde das Intervall nicht richtig gesetzt (@gharlan)
+
+
+Version 2.3.0 – 05.06.2018
+--------------------------
+
+### Neu
+
+* Command `cronjob:run`: Es kann ein einzelner Job direkt ausgeführt werden (`--job`) (@gharlan)
+
+### Bugfixes
+
+* Status-Toggle-Link war nicht nutzbar (CSRF-Token fehlte) (@gharlan)
+
+
 Version 2.2.0 – 21.12.2017
 --------------------------
 
@@ -37,7 +138,7 @@ Version 2.1.0 – 30.09.2016
 
 ### Neu
 
-* Neue Cronjob-Umgebung "Skript", insbesondere um die Redaxo-Cronjobs über 
+* Neue Cronjob-Umgebung "Skript", insbesondere um die Redaxo-Cronjobs über
   einen echten Cronjob laufen zu lassen
 * Flexiblere Intervallauswahl
 

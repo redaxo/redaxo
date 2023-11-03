@@ -1,10 +1,17 @@
 <?php
 
-class rex_type_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_type_test extends TestCase
 {
-    public function castProvider()
+    /** @return list<array{mixed, string|callable(mixed):mixed|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}>, mixed}> */
+    public static function castProvider(): array
     {
-        $callback = function ($var) {
+        $callback = static function ($var) {
             return $var . 'b';
         };
 
@@ -21,6 +28,9 @@ class rex_type_test extends PHPUnit_Framework_TestCase
             ['a', '', 'a'],
             [1, 'string', '1'],
             [1, 'bool', true],
+            [[], 'bool', false],
+            [['foo'], 'bool', true],
+            [['foo'], 'string', ''],
             ['', 'array', []],
             [1, 'array', [1]],
             [[1, '2'], 'array[int]', [1, 2]],
@@ -34,15 +44,15 @@ class rex_type_test extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider castProvider
-     */
-    public function testCast($var, $vartype, $expectedResult)
+    /** @param string|callable(mixed):mixed|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype */
+    #[DataProvider('castProvider')]
+    public function testCast(mixed $var, string|callable|array $vartype, mixed $expectedResult): void
     {
-        $this->assertSame($expectedResult, rex_type::cast($var, $vartype));
+        static::assertSame($expectedResult, rex_type::cast($var, $vartype));
     }
 
-    public function castWrongVartypeProvider()
+    /** @return list<array{mixed}> */
+    public static function castWrongVartypeProvider(): array
     {
         return [
             ['wrongVartype'],
@@ -55,12 +65,12 @@ class rex_type_test extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider castWrongVartypeProvider
-     */
-    public function testCastWrongVartype($vartype)
+    #[DataProvider('castWrongVartypeProvider')]
+    public function testCastWrongVartype(mixed $vartype): void
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
+
+        /** @psalm-suppress MixedArgument */
         rex_type::cast(1, $vartype);
     }
 }

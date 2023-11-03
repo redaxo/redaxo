@@ -6,23 +6,35 @@
  * @author staabm
  * @author gharlan
  *
+ * @implements IteratorAggregate<string, SplFileInfo>
+ *
  * @package redaxo\core
  */
 class rex_finder implements IteratorAggregate, Countable
 {
     use rex_factory_trait;
 
-    const ALL = '__ALL__';
+    public const ALL = '__ALL__';
 
+    /** @var string */
     private $dir;
+    /** @var bool */
     private $recursive = false;
+    /** @var RecursiveIteratorIterator::SELF_FIRST|RecursiveIteratorIterator::CHILD_FIRST|RecursiveIteratorIterator::LEAVES_ONLY */
     private $recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
+    /** @var bool */
     private $dirsOnly = false;
+    /** @var string[] */
     private $ignoreFiles = [];
+    /** @var string[] */
     private $ignoreFilesRecursive = [];
+    /** @var string[] */
     private $ignoreDirs = [];
+    /** @var string[] */
     private $ignoreDirsRecursive = [];
+    /** @var bool */
     private $ignoreSystemStuff = true;
+    /** @var false|rex_sortable_iterator::*|callable(mixed, mixed): int */
     private $sort = false;
 
     /**
@@ -119,7 +131,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Ignore all files which match the given glob pattern.
      *
-     * @param string|array $glob      Glob pattern or an array of glob patterns
+     * @param string|string[] $glob      Glob pattern or an array of glob patterns
      * @param bool         $recursive When FALSE the patterns won't be checked in child directories
      *
      * @return $this
@@ -130,7 +142,7 @@ class rex_finder implements IteratorAggregate, Countable
         if (is_array($glob)) {
             $this->$var += $glob;
         } else {
-            array_push($this->$var, $glob);
+            $this->$var[] = $glob;
         }
 
         return $this;
@@ -139,7 +151,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Ignore all directories which match the given glob pattern.
      *
-     * @param string|array $glob      Glob pattern or an array of glob patterns
+     * @param string|string[] $glob      Glob pattern or an array of glob patterns
      * @param bool         $recursive When FALSE the patterns won't be checked in child directories
      *
      * @return $this
@@ -150,7 +162,7 @@ class rex_finder implements IteratorAggregate, Countable
         if (is_array($glob)) {
             $this->$var += $glob;
         } else {
-            array_push($this->$var, $glob);
+            $this->$var[] = $glob;
         }
 
         return $this;
@@ -173,7 +185,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Sorts the elements.
      *
-     * @param int|callable $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
+     * @param rex_sortable_iterator::*|callable(mixed, mixed): int $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
      *
      * @return $this
      */
@@ -184,19 +196,19 @@ class rex_finder implements IteratorAggregate, Countable
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @return Traversable<string, SplFileInfo> */
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
+        /** @var RecursiveIterator<string, SplFileInfo> $iterator */
         $iterator = new RecursiveDirectoryIterator($this->dir, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS);
 
         $iterator = new RecursiveCallbackFilterIterator($iterator, function (SplFileInfo $current, $key, $currentIterator) use ($iterator) {
             $filename = $current->getFilename();
             $isRoot = $currentIterator === $iterator;
 
-            $match = function ($pattern, $filename) {
-                $regex = '/^'.strtr(preg_quote($pattern, '/'), ['\*' => '.*', '\?' => '.']).'$/i';
+            $match = static function ($pattern, $filename) {
+                $regex = '/^' . strtr(preg_quote($pattern, '/'), ['\*' => '.*', '\?' => '.']) . '$/i';
                 return preg_match($regex, $filename);
             };
 
@@ -213,7 +225,7 @@ class rex_finder implements IteratorAggregate, Countable
             }
 
             if ($current->isDir()) {
-                if (!$this->recursive && $this->recursiveMode === RecursiveIteratorIterator::LEAVES_ONLY) {
+                if (!$this->recursive && RecursiveIteratorIterator::LEAVES_ONLY === $this->recursiveMode) {
                     return false;
                 }
                 $ignoreDirs = $isRoot ? array_merge($this->ignoreDirs, $this->ignoreDirsRecursive) : $this->ignoreDirsRecursive;
@@ -225,9 +237,8 @@ class rex_finder implements IteratorAggregate, Countable
             }
 
             if ($this->ignoreSystemStuff) {
-                static $systemStuff = ['.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
-                foreach ($systemStuff as $systemStuffFile) {
-                    if (stripos($filename, $systemStuffFile) === 0) {
+                foreach (['.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'] as $systemStuffFile) {
+                    if (0 === stripos($filename, $systemStuffFile)) {
                         return false;
                     }
                 }
@@ -237,6 +248,7 @@ class rex_finder implements IteratorAggregate, Countable
         });
 
         if ($this->recursive) {
+            /** @var Traversable<string, SplFileInfo> */
             $iterator = new RecursiveIteratorIterator($iterator, $this->recursiveMode);
         }
 
@@ -247,9 +259,7 @@ class rex_finder implements IteratorAggregate, Countable
         return $iterator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return iterator_count($this->getIterator());

@@ -1,35 +1,30 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 $success = '';
 $error = '';
 
 // ------------------------------ Requestvars
 $function = rex_request('function', 'string');
 $impname = rex_request('impname', 'string');
-$exporttype = rex_post('exporttype', 'string');
-$exportdl = rex_post('exportdl', 'boolean');
-$EXPDIR = rex_post('EXPDIR', 'array');
 
 @set_time_limit(0);
 
-if ($impname != '') {
-    $impname = basename($impname);
+if ('' != $impname) {
+    $impname = rex_path::basename($impname);
+    $validDump = rex_backup::isFilenameValid(rex_backup::IMPORT_DB, $impname);
+    $validArchive = rex_backup::isFilenameValid(rex_backup::IMPORT_ARCHIVE, $impname);
 
-    if ($function == 'dbimport' && substr($impname, -4, 4) != '.sql') {
+    if ('dbimport' == $function && !$validDump) {
         $impname = '';
-    } elseif ($function == 'fileimport' && substr($impname, -7, 7) != '.tar.gz') {
+    } elseif ('fileimport' == $function && !$validArchive) {
         $impname = '';
-    } elseif (($function == 'delete' || $function == 'download') && substr($impname, -4, 4) != '.sql' && substr($impname, -7, 7) != '.tar.gz') {
+    } elseif (('delete' == $function || 'download' == $function) && !$validDump && !$validArchive) {
         $impname = '';
     }
 }
 
-if ($function == 'download' && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
-    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, substr($impname, -7, 7) != '.tar.gz' ? 'tar/gzip' : 'plain/test', 'attachment');
+if ('download' == $function && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
+    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, str_ends_with($impname, '.gz') ? 'application/gzip' : 'plain/text', 'attachment');
     exit;
 }
 
@@ -37,26 +32,29 @@ $csrfToken = rex_csrf_token::factory('backup_import');
 
 if ($function && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
-} elseif ($function == 'delete' && $impname) {
+} elseif ('delete' == $function && $impname) {
     // ------------------------------ FUNC DELETE
-    if (rex_file::delete(rex_backup::getDir() . '/' . $impname));
-    $success = rex_i18n::msg('backup_file_deleted');
-} elseif ($function == 'dbimport') {
+    if (rex_file::delete(rex_backup::getDir() . '/' . $impname)) {
+        $success = rex_i18n::msg('backup_file_deleted');
+    } else {
+        $error = rex_i18n::msg('backup_file_error_while_delete');
+    }
+} elseif ('dbimport' == $function) {
     // ------------------------------ FUNC DBIMPORT
 
     // noch checken das nicht alle tabellen geloescht werden
     // install/temp.sql aendern
-    if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == '') {
+    if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && '' == $impname) {
         $error = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
     } else {
-        if ($impname != '') {
-            $file_temp = rex_backup::getDir() . '/' . $impname;
+        if ('' != $impname) {
+            $fileTemp = rex_backup::getDir() . '/' . $impname;
         } else {
-            $file_temp = rex_backup::getDir() . '/temp.sql';
+            $fileTemp = rex_backup::getDir() . '/temp.sql';
         }
 
-        if ($impname != '' || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
-            $state = rex_backup::importDb($file_temp);
+        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $fileTemp)) {
+            $state = rex_backup::importDb($fileTemp);
             if ($state['state']) {
                 $success = $state['message'];
             } else {
@@ -64,27 +62,27 @@ if ($function && !$csrfToken->isValid()) {
             }
 
             // temp datei löschen
-            if ($impname == '') {
-                rex_file::delete($file_temp);
+            if ('' == $impname) {
+                rex_file::delete($fileTemp);
             }
         } else {
             $error = rex_i18n::msg('backup_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('backup_you_have_no_write_permission_in', 'data/addons/backup/') . ' <br>';
         }
     }
-} elseif ($function == 'fileimport') {
+} elseif ('fileimport' == $function) {
     // ------------------------------ FUNC FILEIMPORT
 
-    if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == '') {
+    if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && '' == $impname) {
         $error = rex_i18n::msg('backup_no_import_file_chosen') . '<br/>';
     } else {
-        if ($impname == '') {
-            $file_temp = rex_backup::getDir() . '/temp.tar.gz';
+        if ('' == $impname) {
+            $fileTemp = rex_backup::getDir() . '/temp.tar.gz';
         } else {
-            $file_temp = rex_backup::getDir() . '/' . $impname;
+            $fileTemp = rex_backup::getDir() . '/' . $impname;
         }
 
-        if ($impname != '' || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
-            $return = rex_backup::importFiles($file_temp);
+        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $fileTemp)) {
+            $return = rex_backup::importFiles($fileTemp);
             if ($return['state']) {
                 $success = $return['message'];
             } else {
@@ -92,25 +90,38 @@ if ($function && !$csrfToken->isValid()) {
             }
 
             // temp datei löschen
-            if ($impname == '') {
-                rex_file::delete($file_temp);
+            if ('' == $impname) {
+                rex_file::delete($fileTemp);
             }
         } else {
             $error = rex_i18n::msg('backup_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('backup_you_have_no_write_permission_in', 'data/addons/backup/') . ' <br>';
         }
     }
 }
-if ($success != '') {
+if ('' != $success) {
     echo rex_view::success($success);
 }
-if ($error != '') {
+if ('' != $error) {
     echo rex_view::error($error);
 }
+
+$body = '<p>' . rex_i18n::msg('backup_intro_import') . '</p>';
+$body .= '<p>' . rex_i18n::msg('backup_intro_import_files') . '</p>';
+$body .= '<p>' . rex_i18n::msg('backup_version_warning') . '</p>';
+
+$body .= ' <hr><p>
+                <strong>' . rex_i18n::msg('phpini_settings') . '</strong>
+                        <dl class="dl-horizontal text-left">
+                        ' . ((0 == rex_ini_get('file_uploads')) ? '<dt><span class="text-danger">' . rex_i18n::msg('backup_warning') . '</span></dt><dd><span class="text-danger">' . rex_i18n::msg('backup_upload_disabled') . '</span></dd>' : '') . '
+                            <dt>' . rex_i18n::msg('backup_max_uploadsize') . ':</dt><dd>' . rex_formatter::bytes(rex_ini_get('upload_max_filesize')) . '</dd>
+                            <dt>' . rex_i18n::msg('backup_max_uploadtime') . ':</dt><dd>' . rex_ini_get('max_input_time') . 's</dd>
+                        </dl>
+            </p>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'info');
 $fragment->setVar('title', rex_i18n::msg('backup_note'), false);
-$fragment->setVar('body', '<p>' . rex_i18n::msg('backup_intro_import') . '</p>', false);
+$fragment->setVar('body', $body, false);
 echo $fragment->parse('core/page/section.php');
 
 $content = '
@@ -139,7 +150,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 $content .= '</fieldset>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('backup_database_export'), false);
+$fragment->setVar('title', rex_i18n::msg('backup_export_db_caption'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
@@ -152,7 +163,7 @@ $content = '
 
 echo $content;
 
-//echo '<h2>' . rex_i18n::msg('backup_files') . '</h2>';
+// echo '<h2>' . rex_i18n::msg('backup_files') . '</h2>';
 
 $content = '<fieldset>
                 <input type="hidden" name="function" value="fileimport" />';
@@ -181,7 +192,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 $content .= '</fieldset>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('backup_file_export'), false);
+$fragment->setVar('title', rex_i18n::msg('backup_export_file_caption'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

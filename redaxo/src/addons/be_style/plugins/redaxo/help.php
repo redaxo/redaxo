@@ -4,7 +4,7 @@ $content = rex_file::getOutput(rex_path::plugin('be_style', 'redaxo', 'assets/cs
 
 preg_match_all('@\.rex-icon-(\w+):before@im', $content, $matches, PREG_SET_ORDER);
 
-$icons_used = '';
+$iconsUsed = '';
 if (count($matches) > 0) {
     $list = [];
     foreach ($matches as $match) {
@@ -13,12 +13,12 @@ if (count($matches) > 0) {
 
     ksort($list);
 
-    $icons_used = '<ul class="rex-list-inline">' . implode('', $list) . '</ul>';
+    $iconsUsed = '<ul class="rex-list-inline">' . implode('', $list) . '</ul>';
 }
 
 preg_match_all('@\.fa-(\w+):before@im', $content, $matches, PREG_SET_ORDER);
 
-$icons_complete = '';
+$iconsComplete = '';
 if (count($matches) > 0) {
     $list = [];
     foreach ($matches as $match) {
@@ -27,13 +27,13 @@ if (count($matches) > 0) {
 
     ksort($list);
 
-    $icons_complete = '<ul class="rex-list-inline">' . implode('', $list) . '</ul>';
+    $iconsComplete = '<ul class="rex-list-inline">' . implode('', $list) . '</ul>';
 }
 
 $fragment = new rex_fragment();
-$fragment->setVar('content', '<h3>REDAXO Icons</h3>' . $icons_used, false);
+$fragment->setVar('content', '<h3>REDAXO Icons</h3>' . $iconsUsed, false);
 echo $fragment->parse('core/page/section.php');
 
 $fragment = new rex_fragment();
-$fragment->setVar('content', '<h3>Font-Awesome Icons</h3>' . $icons_complete, false);
+$fragment->setVar('content', '<h3>Font-Awesome Icons</h3>' . $iconsComplete, false);
 echo $fragment->parse('core/page/section.php');

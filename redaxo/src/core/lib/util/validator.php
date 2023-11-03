@@ -11,12 +11,11 @@ class rex_validator
 {
     use rex_factory_trait;
 
-    private $types = [];
+    /** @var list<rex_validation_rule> */
+    private $rules = [];
+    /** @var string|null */
     private $message;
 
-    /**
-     * Constructor.
-     */
     protected function __construct()
     {
         // noop
@@ -34,24 +33,47 @@ class rex_validator
     }
 
     /**
-     * Adds a validator.
+     * Adds a validation rule.
      *
      * @param string      $type    Validator type (any static method name of this class)
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
      *
-     * @return $this
-     *
      * @throws InvalidArgumentException
+     *
+     * @return $this
      */
     public function add($type, $message = null, $option = null)
     {
+        return $this->addRule(new rex_validation_rule($type, $message, $option));
+    }
+
+    /**
+     * Adds a validation rule.
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return $this
+     */
+    public function addRule(rex_validation_rule $rule)
+    {
+        $type = $rule->getType();
+
         if (!method_exists($this, $type)) {
             throw new InvalidArgumentException('Unknown validator type: ' . $type);
         }
-        $this->types[] = [$type, $message, $option];
+
+        $this->rules[] = $rule;
 
         return $this;
+    }
+
+    /**
+     * @return list<rex_validation_rule>
+     */
+    public function getRules(): array
+    {
+        return $this->rules;
     }
 
     /**
@@ -64,17 +86,15 @@ class rex_validator
     public function isValid($value)
     {
         $this->message = null;
-        foreach ($this->types as $type) {
-            list($type, $message, $option) = $type;
+        foreach ($this->rules as $rule) {
+            $type = $rule->getType();
 
-            if ($value === '') {
-                if (strtolower($type) !== 'notempty') {
-                    continue;
-                }
+            if ('' === $value && 'notempty' !== strtolower($type)) {
+                continue;
             }
 
-            if (!$this->$type($value, $option)) {
-                $this->message = $message;
+            if (!$this->$type($value, $rule->getOption())) {
+                $this->message = $rule->getMessage();
                 return false;
             }
         }
@@ -84,7 +104,7 @@ class rex_validator
     /**
      * Returns the message.
      *
-     * @return string[]
+     * @return string|null
      */
     public function getMessage()
     {
@@ -100,7 +120,7 @@ class rex_validator
      */
     public function notEmpty($value)
     {
-        return 0 !== strlen($value);
+        return '' !== $value;
     }
 
     /**
@@ -115,18 +135,11 @@ class rex_validator
      */
     public function type($value, $type)
     {
-        switch ($type) {
-            case 'int':
-            case 'integer':
-                return $this->match($value, '/^\d+$/');
-
-            case 'float':
-            case 'real':
-                return is_numeric($value);
-
-            default:
-                throw new InvalidArgumentException('Unknown $type:' . $type);
-        }
+        return match ($type) {
+            'int', 'integer' => $this->match($value, '/^\d+$/'),
+            'float', 'real' => is_numeric($value),
+            default => throw new InvalidArgumentException('Unknown $type:' . $type),
+        };
     }
 
     /**
@@ -235,7 +248,6 @@ class rex_validator
      * Checks whether the value is one of the given valid values.
      *
      * @param string $value
-     * @param array  $validValues
      *
      * @return bool
      */
@@ -247,8 +259,8 @@ class rex_validator
     /**
      * Checks the value by using the given callable.
      *
-     * @param string   $value
-     * @param callable $callback
+     * @param string $value
+     * @param callable(string):bool $callback
      *
      * @return bool
      */

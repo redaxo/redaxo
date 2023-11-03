@@ -9,14 +9,9 @@
  */
 trait rex_instance_pool_trait
 {
-    /**
-     * @var static[][]
-     */
+    /** @var array<class-string, array<string, null|static>> */
     private static $instances = [];
 
-    /**
-     * Constructor.
-     */
     private function __construct()
     {
         // noop
@@ -27,11 +22,12 @@ trait rex_instance_pool_trait
      *
      * @param mixed $key      Key
      * @param self  $instance Instance
+     * @return void
      */
     protected static function addInstance($key, self $instance)
     {
         $key = self::getInstancePoolKey($key);
-        $class = get_called_class();
+        $class = static::class;
         self::$instances[$class][$key] = $instance;
     }
 
@@ -45,7 +41,7 @@ trait rex_instance_pool_trait
     protected static function hasInstance($key)
     {
         $key = self::getInstancePoolKey($key);
-        $class = get_called_class();
+        $class = static::class;
         return isset(self::$instances[$class][$key]);
     }
 
@@ -56,42 +52,42 @@ trait rex_instance_pool_trait
      *
      * @param mixed    $key            Key
      * @param callable $createCallback Callback, will be called to create a new instance
+     * @psalm-param callable(mixed...):?static $createCallback
      *
      * @return null|static
      */
-    protected static function getInstance($key, callable $createCallback = null)
+    protected static function getInstance($key, ?callable $createCallback = null)
     {
         $args = (array) $key;
         $key = self::getInstancePoolKey($args);
-        $class = get_called_class();
+        $class = static::class;
         if (!isset(self::$instances[$class][$key]) && $createCallback) {
             $instance = call_user_func_array($createCallback, $args);
             self::$instances[$class][$key] = $instance instanceof static ? $instance : null;
         }
-        if (isset(self::$instances[$class][$key])) {
-            return self::$instances[$class][$key];
-        }
-        return null;
+        return self::$instances[$class][$key] ?? null;
     }
 
     /**
      * Removes the instance of the given key.
      *
      * @param mixed $key Key
+     * @return void
      */
     public static function clearInstance($key)
     {
         $key = self::getInstancePoolKey($key);
-        $class = get_called_class();
+        $class = static::class;
         unset(self::$instances[$class][$key]);
     }
 
     /**
      * Clears the instance pool.
+     * @return void
      */
     public static function clearInstancePool()
     {
-        $calledClass = get_called_class();
+        $calledClass = static::class;
         // unset instances of calledClass and of all subclasses of calledClass
         foreach (self::$instances as $class => $_) {
             if ($class === $calledClass || is_subclass_of($class, $calledClass)) {

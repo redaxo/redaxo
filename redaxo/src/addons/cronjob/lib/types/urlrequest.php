@@ -14,10 +14,10 @@ class rex_cronjob_urlrequest extends rex_cronjob
     {
         try {
             $socket = rex_socket::factoryUrl($this->getParam('url'));
-            if ($this->getParam('http-auth') == '|1|') {
+            if ('|1|' == $this->getParam('http-auth')) {
                 $socket->addBasicAuthorization($this->getParam('user'), $this->getParam('password'));
             }
-            if (($post = $this->getParam('post')) != '') {
+            if ('' != ($post = $this->getParam('post'))) {
                 $response = $socket->doPost($post);
             } else {
                 $response = $socket->doGet();
@@ -60,7 +60,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_url'),
                 'name' => 'url',
                 'type' => 'text',
-                'default' => 'http://',
+                'default' => 'https://',
             ],
             [
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_post'),

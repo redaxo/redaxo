@@ -12,21 +12,34 @@
  */
 class rex_autoload
 {
-    /**
-     * @var Composer\Autoload\ClassLoader
-     */
+    // see https://github.com/redaxo/redaxo/issues/5780
+    private const SYMFONY_NON_UTF8_CLASS = "\xA9";
+
+    private const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexsymfonycachevaluewrappernonutf8class';
+
+    /** @var Composer\Autoload\ClassLoader */
     protected static $composerLoader;
 
+    /** @var bool */
     protected static $registered = false;
-    protected static $cacheFile = null;
+    /** @var null|string */
+    protected static $cacheFile;
+    /** @var bool */
     protected static $cacheChanged = false;
+    /** @var bool remember the cache was deleted, to make sure we don't generate a stale cache file */
+    protected static $cacheDeleted = false;
+    /** @var bool */
     protected static $reloaded = false;
+    /** @var string[][] */
     protected static $dirs = [];
+    /** @var string[] */
     protected static $addedDirs = [];
+    /** @var string[] */
     protected static $classes = [];
 
     /**
      * Register rex_autoload in spl autoloader.
+     * @return void
      */
     public static function register()
     {
@@ -42,23 +55,24 @@ class rex_autoload
             self::$composerLoader->unregister();
         }
 
-        if (false === spl_autoload_register([__CLASS__, 'autoload'])) {
-            throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
+        if (!spl_autoload_register(self::autoload(...))) {
+            throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', self::class));
         }
 
         self::$cacheFile = rex_path::coreCache('autoload.cache');
         self::loadCache();
-        register_shutdown_function([__CLASS__, 'saveCache']);
+        register_shutdown_function([self::class, 'saveCache']);
 
         self::$registered = true;
     }
 
     /**
      * Unregister rex_autoload from spl autoloader.
+     * @return void
      */
     public static function unregister()
     {
-        spl_autoload_unregister([__CLASS__, 'autoload']);
+        spl_autoload_unregister(self::autoload(...));
         self::$registered = false;
     }
 
@@ -77,12 +91,17 @@ class rex_autoload
         }
 
         $force = false;
-        $lowerClass = strtolower($class);
+
+        if (self::SYMFONY_NON_UTF8_CLASS === $class) {
+            $lowerClass = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
+        } else {
+            $lowerClass = strtolower($class);
+        }
+
         if (isset(self::$classes[$lowerClass])) {
             $path = rex_path::base(self::$classes[$lowerClass]);
             // we have a class path for the class, let's include it
-            if (is_readable($path)) {
-                require_once $path;
+            if (@include_once $path) {
                 if (self::classExists($class)) {
                     return true;
                 }
@@ -104,7 +123,7 @@ class rex_autoload
         // but only if an admin is logged in
         if (
             (!self::$reloaded || $force) &&
-            (rex::getConsole() || ($user = rex_backend_login::createUser()) && $user->isAdmin())
+            (rex::isSetup() || rex::getConsole() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())
         ) {
             self::reload($force);
             return self::autoload($class);
@@ -119,6 +138,8 @@ class rex_autoload
      * @param string $class
      *
      * @return bool
+     *
+     * @phpstan-impure
      */
     private static function classExists($class)
     {
@@ -127,22 +148,31 @@ class rex_autoload
 
     /**
      * Loads the cache.
+     * @return void
      */
     private static function loadCache()
     {
-        if (!self::$cacheFile || !is_readable(self::$cacheFile)) {
+        if (!self::$cacheFile || !($cache = @file_get_contents(self::$cacheFile))) {
             return;
         }
 
-        list(self::$classes, self::$dirs) = json_decode(file_get_contents(self::$cacheFile), true);
+        [self::$classes, self::$dirs] = json_decode($cache, true);
     }
 
     /**
      * Saves the cache.
+     * @return void
      */
     public static function saveCache()
     {
-        if (!self::$cacheChanged) {
+        if (!self::$cacheChanged || self::$cacheDeleted) {
+            return;
+        }
+
+        // dont persist a possible incomplete cache, because requests of end-users (which are not allowed to regenerate a existing cache)
+        // can error in some crazy class-not-found errors which are hard to debug.
+        $error = error_get_last();
+        if (is_array($error) && in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
             return;
         }
 
@@ -163,6 +193,7 @@ class rex_autoload
      * Reanalyses all added directories.
      *
      * @param bool $force If true, all files are reanalysed, otherwise only new and changed files
+     * @return void
      */
     public static function reload($force = false)
     {
@@ -178,28 +209,30 @@ class rex_autoload
 
     /**
      * Removes the cache.
+     * @return void
      */
     public static function removeCache()
     {
         rex_file::delete(self::$cacheFile);
+        self::$cacheDeleted = true;
     }
 
     /**
      * Adds a directory to the autoloading system if not yet present.
      *
      * @param string $dir The directory to look for classes
+     * @return void
      */
     public static function addDirectory($dir)
     {
         $dir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
-        $dir = self::normalizePath($dir);
+        $dir = rex_path::relative($dir);
         if (in_array($dir, self::$addedDirs)) {
             return;
         }
         self::$addedDirs[] = $dir;
         if (!isset(self::$dirs[$dir])) {
             self::_addDirectory($dir);
-            self::$cacheChanged = true;
         }
     }
 
@@ -214,19 +247,8 @@ class rex_autoload
     }
 
     /**
-     * Returns path relative to project root.
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    private static function normalizePath($path)
-    {
-        return substr($path, strlen(rex_path::base()));
-    }
-
-    /**
      * @param string $dir
+     * @return void
      */
     private static function _addDirectory($dir)
     {
@@ -238,6 +260,7 @@ class rex_autoload
 
         if (!isset(self::$dirs[$dir])) {
             self::$dirs[$dir] = [];
+            self::$cacheChanged = true;
         }
         $files = self::$dirs[$dir];
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, RecursiveDirectoryIterator::SKIP_DOTS));
@@ -247,10 +270,10 @@ class rex_autoload
                 continue;
             }
 
-            $file = self::normalizePath($path);
+            $file = rex_path::relative($path);
             unset($files[$file]);
-            $checksum = md5_file($path);
-            if (isset(self::$dirs[$dir][$file]) && self::$dirs[$dir][$file] === $checksum) {
+            $checksum = (string) filemtime($path);
+            if (!$checksum || isset(self::$dirs[$dir][$file]) && self::$dirs[$dir][$file] === $checksum) {
                 continue;
             }
             self::$dirs[$dir][$file] = $checksum;
@@ -258,7 +281,18 @@ class rex_autoload
 
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
-                $class = strtolower($class);
+                if (self::SYMFONY_NON_UTF8_CLASS === $class) {
+                    $class = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
+                } else {
+                    $class = strtolower($class);
+                }
+
+                // Force usage of Parsedown and ParsedownExtra from core vendors (via composer autoloader)
+                // to avoid problems between incompatible version of Parsedown (from addon) and ParsedownExtra (from core)
+                if (in_array($class, ['parsedown', 'parsedownextra'], true)) {
+                    continue;
+                }
+
                 if (!isset(self::$classes[$class])) {
                     self::$classes[$class] = $file;
                 }
@@ -274,21 +308,28 @@ class rex_autoload
      * Extract the classes in the given file.
      *
      * The method is copied from Composer (with little changes):
-     * https://github.com/composer/composer/blob/a2a70380c14a20b3f611d849eae7342f2e35c763/src/Composer/Autoload/ClassMapGenerator.php#L89-L146
+     * https://github.com/composer/composer/blob/d99b200cf3b9d24a166141420ca28c6a99f27bf5/src/Composer/Autoload/ClassMapGenerator.php#L215
      *
      * @param string $path The file to check
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      *
      * @return array The found classes
      */
     private static function findClasses($path)
     {
-        // Use @ here instead of Silencer to actively suppress 'unhelpful' output
-        // @link https://github.com/composer/composer/pull/4886
+        $extraTypes = PHP_VERSION_ID < 50400 ? '' : '|trait';
+        if (PHP_VERSION_ID >= 80100 || (defined('HHVM_VERSION') && version_compare(HHVM_VERSION, '3.3', '>='))) {
+            $extraTypes .= '|enum';
+        }
+
+        /**
+         * Use @ here instead of Silencer to actively suppress 'unhelpful' output.
+         * @see https://github.com/composer/composer/pull/4886
+         */
         $contents = @php_strip_whitespace($path);
         if (!$contents) {
-            if (!file_exists($path)) {
+            if (!is_file($path)) {
                 $message = 'File at "%s" does not exist, check your classmap definitions';
             } elseif (!is_readable($path)) {
                 $message = 'File at "%s" is not readable, check its permissions';
@@ -302,36 +343,65 @@ class rex_autoload
             if (isset($error['message'])) {
                 $message .= PHP_EOL . 'The following message may be helpful:' . PHP_EOL . $error['message'];
             }
-            throw new \RuntimeException(sprintf($message, $path));
+            throw new RuntimeException(sprintf($message, $path));
         }
 
         // return early if there is no chance of matching anything in this file
-        if (!preg_match('{\b(?:class|interface|trait)\s}i', $contents)) {
+        if (!preg_match('{\b(?:class|interface' . $extraTypes . ')\s}i', $contents)) {
             return [];
         }
 
         // strip heredocs/nowdocs
-        $contents = preg_replace('{<<<\s*(\'?)(\w+)\\1(?:\r\n|\n|\r)(?:.*?)(?:\r\n|\n|\r)\\2(?=\r\n|\n|\r|;)}s', 'null', $contents);
+        $heredocRegex = '{
+            # opening heredoc/nowdoc delimiter (word-chars)
+            <<<[ \t]*+([\'"]?)(\w++)\\1
+            # needs to be followed by a newline
+            (?:\r\n|\n|\r)
+            # the meat of it, matching line by line until end delimiter
+            (?:
+                # a valid line is optional white-space (possessive match) not followed by the end delimiter, then anything goes for the rest of the line
+                [\t ]*+(?!\\2 \b)[^\r\n]*+
+                # end of line(s)
+                [\r\n]++
+            )*
+            # end delimiter
+            [\t ]*+ \\2 (?=\b)
+        }x';
+
+        // run first assuming the file is valid unicode
+        $contentWithoutHeredoc = preg_replace($heredocRegex . 'u', 'null', $contents);
+        if (null === $contentWithoutHeredoc) {
+            // run again without unicode support if the file failed to be parsed
+            $contents = preg_replace($heredocRegex, 'null', $contents);
+        } else {
+            $contents = $contentWithoutHeredoc;
+        }
+        unset($contentWithoutHeredoc);
+
         // strip strings
         $contents = preg_replace('{"[^"\\\\]*+(\\\\.[^"\\\\]*+)*+"|\'[^\'\\\\]*+(\\\\.[^\'\\\\]*+)*+\'}s', 'null', $contents);
         // strip leading non-php code if needed
-        if (substr($contents, 0, 2) !== '<?') {
+        if (!str_starts_with($contents, '<?')) {
             $contents = preg_replace('{^.+?<\?}s', '<?', $contents, 1, $replacements);
-            if ($replacements === 0) {
+            if (0 === $replacements) {
                 return [];
             }
         }
         // strip non-php blocks in the file
-        $contents = preg_replace('{\?>.+<\?}s', '?><?', $contents);
+        $contents = preg_replace('{\?>(?:[^<]++|<(?!\?))*+<\?}s', '?><?', $contents);
         // strip trailing non-php code if needed
         $pos = strrpos($contents, '?>');
-        if (false !== $pos && false === strpos(substr($contents, $pos), '<?')) {
+        if (false !== $pos && !str_contains(substr($contents, $pos), '<?')) {
             $contents = substr($contents, 0, $pos);
+        }
+        // strip comments if short open tags are in the file
+        if (preg_match('{(<\?)(?!(php|hh))}i', $contents)) {
+            $contents = preg_replace('{//.* | /\*(?:[^*]++|\*(?!/))*\*/}x', '', $contents);
         }
 
         preg_match_all('{
             (?:
-                 \b(?<![\$:>])(?P<type>class|interface|trait) \s++ (?P<name>[a-zA-Z_\x7f-\xff:][a-zA-Z0-9_\x7f-\xff:\-]*+)
+                 \b(?<![\$:>])(?P<type>class|interface' . $extraTypes . ') \s++ (?P<name>[a-zA-Z_\x7f-\xff:][a-zA-Z0-9_\x7f-\xff:\-]*+)
                | \b(?<![\$:>])(?P<ns>namespace) (?P<nsname>\s++[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\s*+\\\\\s*+[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)*+)? \s*+ [\{;]
             )
         }ix', $contents, $matches);
@@ -345,13 +415,13 @@ class rex_autoload
             } else {
                 $name = $matches['name'][$i];
                 // skip anon classes extending/implementing
-                if ($name === 'extends' || $name === 'implements') {
+                if ('extends' === $name || 'implements' === $name) {
                     continue;
                 }
-                if ($name[0] === ':') {
+                if (':' === $name[0]) {
                     // This is an XHP class, https://github.com/facebook/xhp
-                    $name = 'xhp'.substr(str_replace(['-', ':'], ['_', '__'], $name), 1);
-                } elseif ($matches['type'][$i] === 'enum') {
+                    $name = 'xhp' . substr(str_replace(['-', ':'], ['_', '__'], $name), 1);
+                } elseif ('enum' === $matches['type'][$i]) {
                     // In Hack, something like:
                     //   enum Foo: int { HERP = '123'; }
                     // The regex above captures the colon, which isn't part of

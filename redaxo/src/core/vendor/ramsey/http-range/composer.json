@@ -1,0 +1,56 @@
+{
+    "name": "ramsey/http-range",
+    "type": "library",
+    "description": "A PHP library for parsing and handling HTTP range requests.",
+    "keywords": [
+        "http",
+        "range",
+        "requests"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ben Ramsey",
+            "email": "ben@benramsey.com",
+            "homepage": "https://benramsey.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "psr/http-message": "^1.0",
+        "ramsey/collection": "^1.0",
+        "symfony/polyfill-ctype": "^1.23"
+    },
+    "require-dev": {
+        "ramsey/devtools": "^1.7"
+    },
+    "suggest": {
+        "ext-ctype": "Support for ctype_* functions."
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "captainhook": {
+            "force-install": true
+        },
+        "ramsey/conventional-commits": {
+            "configFile": "conventional-commits.json"
+        },
+        "ramsey/devtools": {
+            "command-prefix": "dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Ramsey\\Http\\Range\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ramsey\\Http\\Range\\Test\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

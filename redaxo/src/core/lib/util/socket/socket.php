@@ -5,16 +5,28 @@
  *
  * Example:
  * <code>
- *     try {
- *         $socket = rex_socket::factory('www.example.com');
- *         $socket->setPath('/path/index.php?param=1');
- *         $response = $socket->doGet();
- *         if($response->isOk()) {
- *             $body = $response->getBody();
- *         }
- *     } catch(rex_socket_exception $e) {
- *         // error message: $e->getMessage()
- *     }
+ *  try {
+ *      //Open socket connection. (Host, Port, SSL)
+ *      $socket = rex_socket::factory('www.example.com','443', true);
+ *      //set path to rex_socket
+ *      $socket->setPath('/url/to/my/resource?param=1');
+ *      //set PHP Context-Option
+ *      $socket->setOptions([
+ *          'ssl' => [
+ *              'verify_peer' => false,
+ *              'verify_peer_name' => false
+ *          ]
+ *      ]);
+ *      //make request and get rex_socket_request-Objekt back
+ *      $response = $socket->doGet();
+ *      //check if status code is 200
+ *      if($response->isOk()) {
+ *          //get file body
+ *          $body = $response->getBody();
+ *      }
+ *  } catch(rex_socket_exception $e) {
+ *      //error message: $e->getMessage()
+ *  }
  * </code>
  *
  * @author gharlan
@@ -23,18 +35,28 @@
  */
 class rex_socket
 {
+    /** @var string */
     protected $host;
+    /** @var int */
     protected $port;
+    /** @var bool */
     protected $ssl;
+    /** @var string */
     protected $path = '/';
+    /** @var int */
     protected $timeout = 15;
+    /** @var false|int */
     protected $followRedirects = false;
+    /** @var array<string, string> */
     protected $headers = [];
+    /** @var resource */
     protected $stream;
+    /** @var array<array-key, mixed> */
+    protected $options = [];
+    /** @var bool */
+    protected $acceptCompression = false;
 
     /**
-     * Constructor.
-     *
      * @param string $host Host name
      * @param int    $port Port number
      * @param bool   $ssl  SSL flag
@@ -63,7 +85,7 @@ class rex_socket
      */
     public static function factory($host, $port = 80, $ssl = false)
     {
-        if (get_called_class() === __CLASS__ && ($proxy = rex::getProperty('socket_proxy'))) {
+        if (self::class === static::class && ($proxy = rex::getProperty('socket_proxy'))) {
             return rex_socket_proxy::factoryUrl($proxy)->setDestination($host, $port, $ssl);
         }
 
@@ -89,6 +111,16 @@ class rex_socket
     }
 
     /**
+     * @return $this
+     */
+    public function acceptCompression(): self
+    {
+        $this->acceptCompression = true;
+        $this->addHeader('Accept-Encoding', 'gzip, deflate');
+        return $this;
+    }
+
+    /**
      * Sets the path.
      *
      * @param string $path
@@ -98,6 +130,20 @@ class rex_socket
     public function setPath($path)
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Sets the socket context options.
+     *
+     * Available options can be found on https://www.php.net/manual/en/context.php
+     *
+     * @return $this Current socket
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
 
         return $this;
     }
@@ -125,7 +171,7 @@ class rex_socket
      *
      * @return $this Current socket
      */
-    public function addBasicAuthorization($user, $password)
+    public function addBasicAuthorization(#[SensitiveParameter] $user, #[SensitiveParameter] $password)
     {
         $this->addHeader('Authorization', 'Basic ' . base64_encode($user . ':' . $password));
 
@@ -157,8 +203,8 @@ class rex_socket
      */
     public function followRedirects($redirects)
     {
-        if ($redirects < 0) {
-            throw new InvalidArgumentException(sprintf('$redirects must be `null` or an int >= 0, given "%s".', $redirects));
+        if (false !== $redirects && $redirects < 0) {
+            throw new InvalidArgumentException(sprintf('$redirects must be `false` or an int >= 0, given "%s".', $redirects));
         }
 
         $this->followRedirects = $redirects;
@@ -169,9 +215,9 @@ class rex_socket
     /**
      * Makes a GET request.
      *
-     * @return rex_socket_response Response
-     *
      * @throws rex_socket_exception
+     *
+     * @return rex_socket_response Response
      */
     public function doGet()
     {
@@ -181,17 +227,17 @@ class rex_socket
     /**
      * Makes a POST request.
      *
-     * @param string|array|callable $data  Body data as string or array (POST parameters) or a callback for writing the body
-     * @param array                 $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
-     *
-     * @return rex_socket_response Response
+     * @param string|array<string, string>|callable(resource): void $data Body data as string or array (POST parameters) or a callback for writing the body
+     * @param array<string, array{path: string, type: string}> $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
      *
      * @throws rex_socket_exception
+     *
+     * @return rex_socket_response Response
      */
     public function doPost($data = '', array $files = [])
     {
         if (is_array($data) && !empty($files)) {
-            $data = function ($stream) use ($data, $files) {
+            $data = static function ($stream) use ($data, $files) {
                 $boundary = '----------6n2Yd9bk2liD6piRHb5xF6';
                 $eol = "\r\n";
                 fwrite($stream, 'Content-Type: multipart/form-data; boundary=' . $boundary . $eol);
@@ -203,13 +249,13 @@ class rex_socket
                 $data = [];
                 $partLength = rex_string::size(sprintf($dataFormat, '') . $eol);
                 foreach ($temp as $t) {
-                    list($key, $value) = array_map('urldecode', explode('=', $t, 2));
+                    [$key, $value] = array_map('urldecode', explode('=', $t, 2));
                     $data[$key] = $value;
                     $length += $partLength + rex_string::size($key) + rex_string::size($value);
                 }
                 $partLength = rex_string::size(sprintf($fileFormat, '', '', '') . $eol);
                 foreach ($files as $key => $file) {
-                    $length += $partLength + rex_string::size($key) + rex_string::size(basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
+                    $length += $partLength + rex_string::size($key) + rex_string::size(rex_path::basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
                 }
                 $length += rex_string::size($end);
                 fwrite($stream, 'Content-Length: ' . $length . $eol . $eol);
@@ -217,8 +263,8 @@ class rex_socket
                     fwrite($stream, sprintf($dataFormat, $key) . $value . $eol);
                 }
                 foreach ($files as $key => $file) {
-                    fwrite($stream, sprintf($fileFormat, $key, basename($file['path']), $file['type']));
-                    $file = fopen($file['path'], 'rb');
+                    fwrite($stream, sprintf($fileFormat, $key, rex_path::basename($file['path']), $file['type']));
+                    $file = fopen($file['path'], 'r');
                     while (!feof($file)) {
                         fwrite($stream, fread($file, 1024));
                     }
@@ -239,9 +285,9 @@ class rex_socket
     /**
      * Makes a DELETE request.
      *
-     * @return rex_socket_response Response
-     *
      * @throws rex_socket_exception
+     *
+     * @return rex_socket_response Response
      */
     public function doDelete()
     {
@@ -251,76 +297,82 @@ class rex_socket
     /**
      * Makes a request.
      *
-     * @param string          $method HTTP method, e.g. "GET"
-     * @param string|callable $data   Body data as string or a callback for writing the body
-     *
-     * @return rex_socket_response Response
+     * @param string $method HTTP method, e.g. "GET"
+     * @param string|callable(resource): void $data Body data as string or a callback for writing the body
      *
      * @throws InvalidArgumentException
+     *
+     * @return rex_socket_response Response
      */
     public function doRequest($method, $data = '')
     {
-        if (!is_string($data) && !is_callable($data)) {
-            throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
-        }
+        return rex_timer::measure('Socket request: ' . $this->host . $this->path, function () use ($method, $data) {
+            if (!is_string($data) && !is_callable($data)) {
+                throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
+            }
 
-        if (!$this->ssl) {
-            rex_logger::logError(E_WARNING, 'You should not use non-secure socket connections while connecting to "'. $this->host .'"!', __FILE__, __LINE__);
-        }
+            if (!$this->ssl) {
+                rex_logger::logError(E_WARNING, 'You should not use non-secure socket connections while connecting to "' . $this->host . '"!', __FILE__, __LINE__);
+            }
 
-        $this->openConnection();
-        $response = $this->writeRequest($method, $this->path, $this->headers, $data);
+            $this->openConnection();
+            $response = $this->writeRequest($method, $this->path, $this->headers, $data);
 
-        if ('GET' !== $method || !$this->followRedirects || !$response->isRedirection()) {
-            return $response;
-        }
-
-        $location = $response->getHeader('location');
-
-        if (!$location) {
-            return $response;
-        }
-
-        if (false === strpos($location, '//')) {
-            $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
-        } else {
-            $socket = self::factoryUrl($location);
-
-            if ($this->ssl && !$socket->ssl) {
+            if ('GET' !== $method || !$this->followRedirects || !$response->isRedirection()) {
                 return $response;
             }
-        }
 
-        $socket->setTimeout($this->timeout);
-        $socket->followRedirects($this->followRedirects - 1);
+            $location = $response->getHeader('location');
 
-        foreach ($this->headers as $key => $value) {
-            if ('Host' !== $key) {
-                $socket->addHeader($key, $value);
+            if (!$location) {
+                return $response;
             }
-        }
 
-        return $socket->doGet();
+            if (!str_contains($location, '//')) {
+                $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
+            } else {
+                $socket = self::factoryUrl($location);
+
+                if ($this->ssl && !$socket->ssl) {
+                    return $response;
+                }
+            }
+
+            $socket->setTimeout($this->timeout);
+            $socket->followRedirects($this->followRedirects - 1);
+
+            foreach ($this->headers as $key => $value) {
+                if ('Host' !== $key) {
+                    $socket->addHeader($key, $value);
+                }
+            }
+
+            return $socket->doGet();
+        });
     }
 
     /**
      * Opens the socket connection.
      *
      * @throws rex_socket_exception
+     * @return void
      */
     protected function openConnection()
     {
         $host = ($this->ssl ? 'ssl://' : '') . $this->host;
 
+        $errno = 0;
+        $errstr = '';
         $prevError = null;
-        set_error_handler(function ($errno, $errstr) use (&$prevError) {
+        set_error_handler(static function ($errno, $errstr) use (&$prevError) {
             if (null === $prevError) {
                 $prevError = $errstr;
             }
         });
 
         try {
-            $this->stream = @fsockopen($host, $this->port, $errno, $errstr);
+            $context = stream_context_create($this->options);
+            $this->stream = stream_socket_client($host . ':' . $this->port, $errno, $errstr, (float) ini_get('default_socket_timeout'), STREAM_CLIENT_CONNECT, $context);
         } finally {
             restore_error_handler();
         }
@@ -348,7 +400,7 @@ class rex_socket
      * @param string          $method  HTTP method, e.g. "GET"
      * @param string          $path    Path
      * @param array           $headers Headers
-     * @param string|callable $data    Body data as string or a callback for writing the body
+     * @param string|callable(resource): void $data Body data as string or a callback for writing the body
      *
      * @throws rex_socket_exception
      *
@@ -377,7 +429,7 @@ class rex_socket
             throw new rex_socket_exception('Timeout!');
         }
 
-        return new rex_socket_response($this->stream);
+        return (new rex_socket_response($this->stream))->decompressContent($this->acceptCompression);
     }
 
     /**
@@ -385,17 +437,17 @@ class rex_socket
      *
      * @param string $url Full URL
      *
-     * @return array URL parts
-     *
      * @throws rex_socket_exception
+     *
+     * @return array URL parts
      */
     protected static function parseUrl($url)
     {
         $parts = parse_url($url);
-        if ($parts !== false && !isset($parts['host']) && strpos($url, 'http') !== 0) {
+        if (false !== $parts && !isset($parts['host']) && !str_starts_with($url, 'http')) {
             $parts = parse_url('http://' . $url);
         }
-        if ($parts === false || !isset($parts['host'])) {
+        if (false === $parts || !isset($parts['host'])) {
             throw new rex_socket_exception('It isn\'t possible to parse the URL "' . $url . '"!');
         }
 
@@ -406,14 +458,14 @@ class rex_socket
             if (!in_array($parts['scheme'], $supportedProtocols)) {
                 throw new rex_socket_exception('Unsupported protocol "' . $parts['scheme'] . '". Supported protocols are ' . implode(', ', $supportedProtocols) . '.');
             }
-            if ($parts['scheme'] == 'https') {
+            if ('https' == $parts['scheme']) {
                 $ssl = true;
                 $port = 443;
             }
         }
-        $port = isset($parts['port']) ? (int) $parts['port'] : $port;
+        $port = $parts['port'] ?? $port;
 
-        $path = (isset($parts['path']) ? $parts['path'] : '/')
+        $path = ($parts['path'] ?? '/')
             . (isset($parts['query']) ? '?' . $parts['query'] : '')
             . (isset($parts['fragment']) ? '#' . $parts['fragment'] : '');
 
@@ -433,6 +485,4 @@ class rex_socket
  *
  * @package redaxo\core
  */
-class rex_socket_exception extends rex_exception
-{
-}
+class rex_socket_exception extends rex_exception {}

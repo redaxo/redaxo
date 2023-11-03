@@ -13,19 +13,19 @@ class rex_effect_insert_image extends rex_effect_abstract
 
         // -------------------------------------- CONFIG
         $brandimage = rex_path::media($this->params['brandimage']);
-        if (!file_exists($brandimage) || !is_file($brandimage)) {
+        if (!is_file($brandimage)) {
             return;
         }
 
         // Abstand vom Rand
-        $padding_x = -10;
+        $paddingX = -10;
         if (isset($this->params['padding_x'])) {
-            $padding_x = (int) $this->params['padding_x'];
+            $paddingX = (int) $this->params['padding_x'];
         }
 
-        $padding_y = -10;
+        $paddingY = -10;
         if (isset($this->params['padding_y'])) {
-            $padding_y = (int) $this->params['padding_y'];
+            $paddingY = (int) $this->params['padding_y'];
         }
 
         // horizontale ausrichtung: left/center/right
@@ -46,37 +46,25 @@ class rex_effect_insert_image extends rex_effect_abstract
         $gdbrand = $brand->getImage();
         $gdimage = $this->media->getImage();
 
-        $image_width = $this->media->getWidth();
-        $image_height = $this->media->getHeight();
-        $brand_width = $brand->getWidth();
-        $brand_height = $brand->getHeight();
+        $imageWidth = (int) $this->media->getWidth();
+        $imageHeight = (int) $this->media->getHeight();
+        $brandWidth = (int) $brand->getWidth();
+        $brandHeight = (int) $brand->getHeight();
 
-        switch ($hpos) {
-            case 'left':
-                $dstX = 0;
-                break;
-            case 'center':
-                $dstX = (int) (($image_width - $brand_width) / 2);
-                break;
-            case 'right':
-            default:
-                $dstX = $image_width - $brand_width;
-        }
+        $dstX = match ($hpos) {
+            'left' => $paddingX,
+            'center' => (int) (($imageWidth - $brandWidth) / 2) + $paddingX,
+            default => $imageWidth - $brandWidth - $paddingX,
+        };
 
-        switch ($vpos) {
-            case 'top':
-                $dstY = 0;
-                break;
-            case 'middle':
-                $dstY = (int) (($image_height - $brand_height) / 2);
-                break;
-            case 'bottom':
-            default:
-                $dstY = $image_height - $brand_height;
-        }
+        $dstY = match ($vpos) {
+            'top' => $paddingY,
+            'middle' => (int) (($imageHeight - $brandHeight) / 2) + $paddingY,
+            default => $imageHeight - $brandHeight - $paddingY,
+        };
 
         imagealphablending($gdimage, true);
-        imagecopy($gdimage, $gdbrand, $dstX + $padding_x, $dstY + $padding_y, 0, 0, $brand_width, $brand_height);
+        imagecopy($gdimage, $gdbrand, $dstX, $dstY, 0, 0, $brandWidth, $brandHeight);
 
         $this->media->setImage($gdimage);
     }

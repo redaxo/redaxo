@@ -1,15 +1,19 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_checkbox_element extends rex_form_options_element
 {
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
+    /**
+     * @param string $tag
+     * @param array<string, int|string> $attributes
+     */
+    public function __construct($tag = '', ?rex_form_base $form = null, array $attributes = [])
     {
-        parent::__construct('', $table, $attributes);
+        parent::__construct('', $form, $attributes);
         // Jede checkbox bekommt eingenes Label
         $this->setLabel('');
     }
@@ -19,50 +23,51 @@ class rex_form_checkbox_element extends rex_form_options_element
         // Da Jedes Feld schon ein Label hat, hier nur eine "Ueberschrift" anbringen
         $label = $this->getLabel();
 
-        if ($label != '') {
+        if ('' != $label) {
             $label = '<label class="control-label">' . $label . '</label>';
         }
 
         return $label;
     }
 
+    /**
+     * @return string
+     */
     public function formatElement()
     {
-        $s = '';
-        $values = explode('|', trim($this->getValue(), '|'));
+        $values = explode('|', trim($this->getValue() ?? '', '|'));
         $options = $this->getOptions();
         $name = $this->getAttribute('name');
         $id = $this->getAttribute('id');
 
         $attr = '';
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            if ($attributeName == 'name' || $attributeName == 'id') {
+            if ('name' == $attributeName || 'id' == $attributeName) {
                 continue;
             }
-            $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
         }
 
         $formElements = [];
 
-        foreach ($options as $opt_name => $opt_value) {
-            $opt_id = $id;
-            if ($opt_value != '') {
-                $opt_id .= '-' . rex_string::normalize($opt_value, '-');
+        foreach ($options as $optName => $optValue) {
+            $optId = $id;
+            if ('' != $optValue) {
+                $optId .= '-' . rex_string::normalize($optValue, '-');
             }
-            $opt_attr = $attr . ' id="' . htmlspecialchars($opt_id) . '"';
-            $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';
+            $optAttr = $attr . ' id="' . rex_escape($optId) . '"';
+            $checked = in_array($optValue, $values) ? ' checked="checked"' : '';
 
             $n = [];
-            $n['label'] = '<label class="control-label" for="' . htmlspecialchars($opt_id) . '">' . htmlspecialchars($opt_name) . '</label>';
-            $n['field'] = '<input type="checkbox" name="' . htmlspecialchars($name) . '[' . htmlspecialchars($opt_value) . ']" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />';
+            $n['label'] = '<label class="control-label" for="' . rex_escape($optId) . '">' . rex_escape($optName) . '</label>';
+            $n['field'] = '<input type="checkbox" name="' . rex_escape($name) . '[' . rex_escape($optValue) . ']" value="' . rex_escape($optValue) . '"' . $optAttr . $checked . ' />';
             $formElements[] = $n;
         }
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
         $fragment->setVar('grouped', true);
-        $s = $fragment->parse('core/form/checkbox.php');
 
-        return $s;
+        return $fragment->parse('core/form/checkbox.php');
     }
 }

@@ -8,13 +8,14 @@ class rex_api_category_edit extends rex_api_function
 {
     public function execute()
     {
+        if (!rex::requireUser()->hasPerm('editCategory[]')) {
+            throw new rex_api_exception('User has no permission to edit categories!');
+        }
+
         $catId = rex_request('category-id', 'int');
         $clangId = rex_request('clang', 'int');
 
-        /**
-         * @var rex_user
-         */
-        $user = rex::getUser();
+        $user = rex::requireUser();
 
         // check permissions
         if (!$user->getComplexPerm('structure')->hasCategoryPerm($catId)) {
@@ -25,9 +26,7 @@ class rex_api_category_edit extends rex_api_function
         $data = [];
         $data['catpriority'] = rex_post('category-position', 'int');
         $data['catname'] = rex_post('category-name', 'string');
-
-        $result = new rex_api_result(true, rex_category_service::editCategory($catId, $clangId, $data));
-        return $result;
+        return new rex_api_result(true, rex_category_service::editCategory($catId, $clangId, $data));
     }
 
     protected function requiresCsrfProtection()

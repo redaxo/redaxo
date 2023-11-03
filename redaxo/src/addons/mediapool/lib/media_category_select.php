@@ -7,19 +7,18 @@
  */
 class rex_media_category_select extends rex_select
 {
-    private $check_perms;
+    /** @var bool */
+    private $checkPerms;
 
-    /**
-     * @var int|int[]
-     */
+    /** @var int|int[]|null */
     private $rootId;
 
+    /** @var bool */
     private $loaded = false;
 
-    public function __construct($check_perms = true)
+    public function __construct($checkPerms = true)
     {
-        $this->check_perms = $check_perms;
-        $this->rootId = null;
+        $this->checkPerms = $checkPerms;
 
         parent::__construct();
     }
@@ -27,16 +26,20 @@ class rex_media_category_select extends rex_select
     /**
      * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
      *
-     * @param mixed $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
+     * @param int|int[]|null $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
+     * @return void
      */
     public function setRootId($rootId)
     {
         $this->rootId = $rootId;
     }
 
+    /**
+     * @return void
+     */
     protected function addCatOptions()
     {
-        if ($this->rootId !== null) {
+        if (null !== $this->rootId) {
             if (is_array($this->rootId)) {
                 foreach ($this->rootId as $rootId) {
                     if ($rootCat = rex_media_category::get($rootId)) {
@@ -57,21 +60,23 @@ class rex_media_category_select extends rex_select
         }
     }
 
-    protected function addCatOption(rex_media_category $mediacat)
+    /**
+     * @return void
+     */
+    protected function addCatOption(rex_media_category $mediacat, int $parentId = 0)
     {
-        if (!$this->check_perms ||
-                $this->check_perms && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())
+        if (!$this->checkPerms || rex::requireUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())
         ) {
             $mid = $mediacat->getId();
-            $mname = $mediacat->getName() . ' [' . $mid . ']';
+            $mname = $mediacat->getName();
 
-            $this->addOption($mname, $mid, $mid, $mediacat->getParentId());
-            $childs = $mediacat->getChildren();
-            if (is_array($childs)) {
-                foreach ($childs as $child) {
-                    $this->addCatOption($child);
-                }
-            }
+            $this->addOption($mname, $mid, $mid, $parentId);
+
+            $parentId = $mediacat->getId();
+        }
+
+        foreach ($mediacat->getChildren() as $child) {
+            $this->addCatOption($child, $parentId);
         }
     }
 

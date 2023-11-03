@@ -23,7 +23,7 @@ class XmlResponseHandler extends Handler
 
     /**
      * @param  bool|null  $returnFrames
-     * @return bool|$this
+     * @return bool|static
      */
     public function addTraceToOutput($returnFrames = null)
     {
@@ -43,11 +43,12 @@ class XmlResponseHandler extends Handler
         $response = [
             'error' => Formatter::formatExceptionAsDataArray(
                 $this->getInspector(),
-                $this->addTraceToOutput()
+                $this->addTraceToOutput(),
+                $this->getRun()->getFrameFilters()
             ),
         ];
 
-        echo $this->toXml($response);
+        echo self::toXml($response);
 
         return Handler::QUIT;
     }
@@ -67,7 +68,7 @@ class XmlResponseHandler extends Handler
      */
     private static function addDataToNode(\SimpleXMLElement $node, $data)
     {
-        assert('is_array($data) || $node instanceof Traversable');
+        assert(is_array($data) || $data instanceof Traversable);
 
         foreach ($data as $key => $value) {
             if (is_numeric($key)) {
@@ -98,7 +99,7 @@ class XmlResponseHandler extends Handler
      */
     private static function toXml($data)
     {
-        assert('is_array($data) || $node instanceof Traversable');
+        assert(is_array($data) || $data instanceof Traversable);
 
         $node = simplexml_load_string("<?xml version='1.0' encoding='utf-8'?><root />");
 

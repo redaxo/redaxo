@@ -14,3 +14,9 @@ structure_history_button_delete_history = Historie komplett löschen
 structure_history_deleted = Historie wurde komplett gelöscht.
 structure_history_savedby = gesichert durch
 structure_history_close = Abbrechen
+
+structure_history_cleanup = Artikel-Historie aufräumen
+structure_history_cleanup_after = Historie löschen wenn älter als
+structure_history_days = {0} Tage
+structure_history_months = {0} Monate
+structure_history_years = {0} Jahre

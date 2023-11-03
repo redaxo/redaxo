@@ -104,7 +104,7 @@ class TemplateHelper
     {
         $parts = explode($delimiter, $s);
         foreach ($parts as &$part) {
-            $part = '<div class="delimiter">' . $part . '</div>';
+            $part = '<span class="delimiter">' . $part . '</span>';
         }
 
         return implode($delimiter, $parts);
@@ -232,7 +232,6 @@ class TemplateHelper
      * passed to the template.
      *
      * @param string $template
-     * @param array  $additionalVariables
      */
     public function render($template, array $additionalVariables = null)
     {
@@ -254,8 +253,6 @@ class TemplateHelper
     /**
      * Sets the variables to be passed to all templates rendered
      * by this template helper.
-     *
-     * @param array $variables
      */
     public function setVariables(array $variables)
     {

@@ -30,12 +30,14 @@ class rex_type
      *      ...
      *    )
      *
-     * @param mixed $var     Variable to cast
-     * @param mixed $vartype Variable type
+     * @param mixed $var Variable to cast
+     * @param string|callable(mixed):mixed|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype Variable type
      *
      * @throws InvalidArgumentException
      *
-     * @return mixed Castet value
+     * @return mixed Casted value
+     *
+     * @psalm-taint-specialize
      */
     public static function cast($var, $vartype)
     {
@@ -52,14 +54,16 @@ class rex_type
                     $var = (int) $var;
                     break;
                 case 'double':
-                    $var = (float) $var;
-                    break;
                 case 'float':
                 case 'real':
                     $var = (float) $var;
                     break;
                 case 'string':
-                    $var = (string) $var;
+                    if (is_array($var)) { // https://github.com/redaxo/redaxo/issues/2900
+                        $var = '';
+                    } else {
+                        $var = (string) $var;
+                    }
                     break;
                 case 'object':
                     $var = (object) $var;
@@ -74,10 +78,9 @@ class rex_type
 
                     // kein Cast, nichts tun
                 case '': break;
-
                 default:
                     // check for array with generic type
-                    if (strpos($vartype, 'array[') === 0) {
+                    if (str_starts_with($vartype, 'array[')) {
                         if (empty($var)) {
                             $var = [];
                         } else {
@@ -90,7 +93,7 @@ class rex_type
                             foreach ($var as $key => $value) {
                                 try {
                                     $var[$key] = self::cast($value, $matches[1]);
-                                } catch (InvalidArgumentException $e) {
+                                } catch (InvalidArgumentException) {
                                     // Evtl Typo im vartype, mit urspr. typ als fehler melden
                                     throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
                                 }
@@ -117,7 +120,7 @@ class rex_type
                     throw new InvalidArgumentException('Unexpected vartype in cast()!');
                 }
                 $key = $cast[0];
-                $innerVartype = isset($cast[1]) ? $cast[1] : '';
+                $innerVartype = $cast[1] ?? '';
                 if (array_key_exists($key, $var)) {
                     $newVar[$key] = self::cast($var[$key], $innerVartype);
                 } elseif (!isset($cast[2])) {
@@ -134,5 +137,122 @@ class rex_type
         }
 
         return $var;
+    }
+
+    /**
+     * @template T
+     * @param T|null $value
+     * @return T
+     * @psalm-assert !null $value
+     * @psalm-pure
+     */
+    public static function notNull(mixed $value): mixed
+    {
+        if (null === $value) {
+            throw new InvalidArgumentException('Exptected a value other than null');
+        }
+
+        return $value;
+    }
+
+    /**
+     * @psalm-assert bool $value
+     * @psalm-pure
+     */
+    public static function bool(mixed $value): bool
+    {
+        if (!is_bool($value)) {
+            throw new InvalidArgumentException('Exptected a boolean, but got ' . get_debug_type($value));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @psalm-assert ?bool $value
+     * @psalm-pure
+     */
+    public static function nullOrBool(mixed $value): ?bool
+    {
+        return null === $value ? null : self::bool($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert string $value
+     * @psalm-pure
+     */
+    public static function string($value): string
+    {
+        if (!is_string($value)) {
+            throw new InvalidArgumentException('Exptected a string, but got ' . get_debug_type($value));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert ?string $value
+     * @psalm-pure
+     */
+    public static function nullOrString($value): ?string
+    {
+        return null === $value ? null : self::string($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert int $value
+     * @psalm-pure
+     */
+    public static function int($value): int
+    {
+        if (!is_int($value)) {
+            throw new InvalidArgumentException('Exptected an integer, but got ' . get_debug_type($value));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert ?int $value
+     * @psalm-pure
+     */
+    public static function nullOrInt($value): ?int
+    {
+        return null === $value ? null : self::int($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert array $value
+     * @psalm-pure
+     */
+    public static function array($value): array
+    {
+        if (!is_array($value)) {
+            throw new InvalidArgumentException('Exptected an array, but got ' . get_debug_type($value));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @template T of object
+     * @param mixed $value
+     * @param class-string<T> $class
+     * @return T
+     * @psalm-assert T $value
+     * @psalm-pure
+     */
+    public static function instanceOf($value, string $class): object
+    {
+        if (!$value instanceof $class) {
+            throw new InvalidArgumentException('Exptected a ' . $class . ', but got ' . get_debug_type($value));
+        }
+
+        return $value;
     }
 }

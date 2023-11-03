@@ -1,0 +1,19 @@
+version: "3"
+services:
+
+    redaxo:
+        image: friendsofredaxo/redaxo:5
+        ports:
+            - ${REDAXO_PORT:-80}:80
+        volumes:
+            - .:/var/www/html:cached
+
+    db:
+        image: mysql:8
+        volumes:
+            - ./.docker/db:/var/lib/mysql:cached
+        environment:
+            MYSQL_DATABASE: redaxo
+            MYSQL_USER: redaxo
+            MYSQL_PASSWORD: redaxo   # do not use for production!
+            MYSQL_RANDOM_ROOT_PASSWORD: 'yes'

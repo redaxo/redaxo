@@ -3,25 +3,31 @@
 /**
  * Extension Point Class.
  *
+ * @template T
+ *
  * @author gharlan
  *
  * @package redaxo\core
+ *
+ * @psalm-taint-specialize
  */
 class rex_extension_point
 {
+    /** @var string */
     private $name;
+    /** @var T */
     private $subject;
+    /** @var array */
     private $params = [];
+    /** @var array */
     private $extensionParams = [];
+    /** @var bool */
     private $readonly = false;
 
     /**
-     * Constructor.
-     *
      * @param string $name
-     * @param mixed  $subject
-     * @param array  $params
-     * @param bool   $readonly
+     * @param T $subject
+     * @param bool $readonly
      */
     public function __construct($name, $subject = null, array $params = [], $readonly = false)
     {
@@ -44,9 +50,9 @@ class rex_extension_point
     /**
      * Sets the subject.
      *
-     * @param mixed $subject
-     *
+     * @param T $subject
      * @throws rex_exception
+     * @return void
      */
     public function setSubject($subject)
     {
@@ -59,7 +65,7 @@ class rex_extension_point
     /**
      * Returns the subject.
      *
-     * @return mixed
+     * @return T
      */
     public function getSubject()
     {
@@ -73,6 +79,7 @@ class rex_extension_point
      * @param mixed  $value
      *
      * @throws rex_exception
+     * @return void
      */
     public function setParam($key, $value)
     {
@@ -84,8 +91,7 @@ class rex_extension_point
 
     /**
      * Sets the specific params for the next extension.
-     *
-     * @param array $params
+     * @return void
      */
     public function setExtensionParams(array $params)
     {
@@ -114,13 +120,7 @@ class rex_extension_point
      */
     public function getParam($key, $default = null)
     {
-        if (isset($this->extensionParams[$key])) {
-            return $this->extensionParams[$key];
-        }
-        if (isset($this->params[$key])) {
-            return $this->params[$key];
-        }
-        return $default;
+        return $this->extensionParams[$key] ?? $this->params[$key] ?? $default;
     }
 
     /**

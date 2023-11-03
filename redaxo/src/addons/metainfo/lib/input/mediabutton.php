@@ -4,34 +4,51 @@
  * @package redaxo\metainfo
  *
  * @internal
+ *
+ * @extends rex_input<string>
  */
 class rex_input_mediabutton extends rex_input
 {
-    private $buttonId;
-    private $args = [];
+    private string $buttonId = '';
+    private array $args = [];
 
     public function __construct()
     {
         parent::__construct();
-        $this->buttonId = '';
     }
 
+    /**
+     * @param int $buttonId
+     * @return void
+     */
     public function setButtonId($buttonId)
     {
-        $this->buttonId = $buttonId;
-        $this->setAttribute('id', 'REX_MEDIA_' . $buttonId);
+        $this->buttonId = 'METAINFO_' . $buttonId;
+        $this->setAttribute('id', 'REX_MEDIA_' . $this->buttonId);
     }
 
+    /**
+     * @param int|null $categoryId
+     * @return void
+     */
     public function setCategoryId($categoryId)
     {
         $this->args['category'] = $categoryId;
     }
 
+    /**
+     * @param string $types
+     * @return void
+     */
     public function setTypes($types)
     {
         $this->args['types'] = $types;
     }
 
+    /**
+     * @param bool $preview
+     * @return void
+     */
     public function setPreview($preview = true)
     {
         $this->args['preview'] = $preview;
@@ -40,12 +57,10 @@ class rex_input_mediabutton extends rex_input
     public function getHtml()
     {
         $buttonId = $this->buttonId;
-        $value = htmlspecialchars($this->value);
+        $value = rex_escape($this->value);
         $name = $this->attributes['name'];
         $args = $this->args;
 
-        $field = rex_var_media::getWidget($buttonId, $name, $value, $args);
-
-        return $field;
+        return rex_var_media::getWidget($buttonId, $name, $value, $args);
     }
 }

@@ -8,22 +8,22 @@ class rex_api_article_copy extends rex_api_function
 {
     public function execute()
     {
-        $article_id = rex_request('article_id', 'int');
+        $articleId = rex_request('article_id', 'int');
         $clang = rex_request('clang', 'int', 1);
         // The destination category in which the given article will be copied
-        $category_copy_id_new = rex_request('category_copy_id_new', 'int');
-        $user = rex::getUser();
+        $categoryCopyIdNew = rex_request('category_copy_id_new', 'int');
+        $user = rex::requireUser();
 
         $context = new rex_context([
             'page' => rex_be_controller::getCurrentPage(),
             'clang' => $clang,
         ]);
 
-        if ($user->hasPerm('copyArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($category_copy_id_new)) {
-            if (($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new)) !== false) {
+        if ($user->hasPerm('copyArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryCopyIdNew)) {
+            if (false !== ($newId = rex_article_service::copyArticle($articleId, $categoryCopyIdNew))) {
                 $result = new rex_api_result(true, rex_i18n::msg('content_articlecopied'));
                 rex_response::sendRedirect($context->getUrl([
-                    'article_id' => $new_id,
+                    'article_id' => $newId,
                     'info' => $result->getMessage(),
                 ], false));
             } else {

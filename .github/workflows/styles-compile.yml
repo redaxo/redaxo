@@ -1,0 +1,69 @@
+name: Compile Styles
+
+on:
+    push:
+        branches: [main, bugfix, temp]
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
+
+permissions:
+    contents: read
+
+jobs:
+    compile:
+        name: be_style:compile
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+            contents: write  # for Git to git apply
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+                if: env.writable == 1
+                with:
+                    ref: ${{ github.head_ref }}
+                    token: ${{ secrets.BOT_TOKEN }}
+            -   name: Checkout fork
+                uses: actions/checkout@v4
+                if: env.writable == 0
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 8.1
+                    extensions: pdo_mysql
+                    coverage: none # disable xdebug, pcov
+                    tools: cs2pr
+
+            -   name: Setup REDAXO
+                run: |
+                    sudo /etc/init.d/mysql start
+                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
+                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo5 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
+                    php redaxo/bin/console config:set --type boolean debug.enabled true
+                    php redaxo/bin/console config:set --type boolean debug.throw_always_exception true
+
+            -   name: Compile styles
+                run: php redaxo/bin/console be_style:compile --ansi
+
+            -   name: Commit changed files
+                uses: stefanzweifel/git-auto-commit-action@v5
+                if: env.writable == 1
+                with:
+                    commit_message: Apply be_style:compile
+                    commit_user_name: rex-bot
+                    commit_user_email: rex-bot@users.noreply.github.com
+                    file_pattern: "*.css"
+
+            -   name: Check diff
+                if: env.writable == 0
+                run: |
+                    # revert changes made initially
+                    git checkout -- redaxo/src/core/default.config.yml
+
+                    # check if compiling the scss lead to uncommitted changes
+                    git diff HEAD --exit-code --output=/dev/null || (echo "::error::It seems you missed to commit the compiled css files, run 'redaxo/bin/console be_style:compile' and push the changes." && exit 1)

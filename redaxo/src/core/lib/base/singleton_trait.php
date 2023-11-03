@@ -23,7 +23,7 @@ trait rex_singleton_trait
      */
     public static function getInstance()
     {
-        $class = get_called_class();
+        $class = static::class;
         if (!isset(self::$instances[$class])) {
             self::$instances[$class] = new static();
         }
@@ -37,6 +37,6 @@ trait rex_singleton_trait
      */
     final public function __clone()
     {
-        throw new BadMethodCallException('Cloning "' . get_class($this) . '" is not allowed!');
+        throw new BadMethodCallException('Cloning "' . static::class . '" is not allowed!');
     }
 }

@@ -7,9 +7,12 @@
  */
 class rex_metainfo_clang_handler extends rex_metainfo_handler
 {
-    const PREFIX = 'clang_';
-    const CONTAINER = 'rex-clang-metainfo';
+    public const PREFIX = 'clang_';
+    public const CONTAINER = 'rex-clang-metainfo';
 
+    /**
+     * @return string
+     */
     public function renderToggleButton(rex_extension_point $ep)
     {
         $fields = parent::getSqlFields(self::PREFIX);
@@ -22,9 +25,12 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
         return $ep->getSubject();
     }
 
+    /**
+     * @return array
+     */
     public function handleSave(array $params, rex_sql $sqlFields)
     {
-        if (rex_request_method() != 'post' || !isset($params['id'])) {
+        if ('post' != rex_request_method() || !isset($params['id'])) {
             return $params;
         }
 
@@ -45,19 +51,18 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
         return $params;
     }
 
-    protected function buildFilterCondition(array $params)
-    {
-    }
+    /**
+     * @return void
+     */
+    protected function buildFilterCondition(array $params) {}
 
-    public function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+    public function renderFormItem($field, $tag, $tagAttr, $id, $label, $labelIt, $inputType)
     {
-        $element = $field;
-
-        if ($typeLabel == 'legend') {
-            $element = '<h3 class="form-legend">' . $label . '</h3>';
+        if ('legend' == $inputType) {
+            return '<h3 class="form-legend">' . $label . '</h3>';
         }
 
-        return $element;
+        return $field;
     }
 
     public function extendForm(rex_extension_point $ep)
@@ -87,10 +92,10 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
 
 $clangHandler = new rex_metainfo_clang_handler();
 
-rex_extension::register('CLANG_FORM_ADD', [$clangHandler, 'extendForm']);
-rex_extension::register('CLANG_FORM_EDIT', [$clangHandler, 'extendForm']);
+rex_extension::register('CLANG_FORM_ADD', $clangHandler->extendForm(...));
+rex_extension::register('CLANG_FORM_EDIT', $clangHandler->extendForm(...));
 
-rex_extension::register('CLANG_ADDED', [$clangHandler, 'extendForm']);
-rex_extension::register('CLANG_UPDATED', [$clangHandler, 'extendForm']);
+rex_extension::register('CLANG_ADDED', $clangHandler->extendForm(...), rex_extension::EARLY);
+rex_extension::register('CLANG_UPDATED', $clangHandler->extendForm(...), rex_extension::EARLY);
 
-rex_extension::register('CLANG_FORM_BUTTONS', [$clangHandler, 'renderToggleButton']);
+rex_extension::register('CLANG_FORM_BUTTONS', $clangHandler->renderToggleButton(...));

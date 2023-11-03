@@ -1,0 +1,46 @@
+includes:
+	- .tools/phpstan/baseline.neon
+
+parameters:
+    level: 6
+    phpVersion: 80100 # PHP 8.1
+    treatPhpDocTypesAsCertain: false
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+    paths:
+        # restrict to core and core addons, ignore other locally installed addons
+        - redaxo/src/core
+        - redaxo/src/addons/backup
+        - redaxo/src/addons/be_style
+        - redaxo/src/addons/cronjob
+        - redaxo/src/addons/debug
+        - redaxo/src/addons/install
+        - redaxo/src/addons/media_manager
+        - redaxo/src/addons/mediapool
+        - redaxo/src/addons/metainfo
+        - redaxo/src/addons/phpmailer
+        - redaxo/src/addons/project
+        - redaxo/src/addons/structure
+        - redaxo/src/addons/users
+    excludePaths:
+        analyse:
+            - redaxo/src/addons/backup/vendor/
+            - redaxo/src/addons/be_style/vendor/
+            - redaxo/src/addons/debug/vendor/
+            - redaxo/src/addons/phpmailer/vendor/
+            - redaxo/src/core/vendor/
+    # https://phpstan.org/config-reference#universal-object-crates
+    universalObjectCratesClasses:
+        - rex_fragment
+    symfony:
+        console_application_loader: .tools/phpstan/console.php
+    ignoreErrors:
+        - '#Access to an undefined property rex_media::\$med_foo\.#'
+        - '#Access to an undefined property rex_article::\$art_foo\.#'
+        - '#Access to an undefined property rex_category::\$cat_foo\.#'
+        - '#Access to an undefined property rex_clang::\$clang_foo\.#'
+        - '#Unsafe usage of new static\(\)\.#'
+        - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
+        - '#^Offset .* on .* always exists#'
+        -
+            message: '#.*deprecated.*#'
+            path: '*/update.php'

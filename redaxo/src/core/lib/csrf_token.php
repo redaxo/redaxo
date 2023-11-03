@@ -11,11 +11,12 @@ class rex_csrf_token
 {
     use rex_factory_trait;
 
-    const PARAM = '_csrf_token';
+    public const PARAM = '_csrf_token';
 
+    /** @var string */
     private $id;
 
-    private function __construct($tokenId)
+    private function __construct(string $tokenId)
     {
         $this->id = $tokenId;
     }
@@ -92,6 +93,9 @@ class rex_csrf_token
         return hash_equals($tokens[$this->id], $token);
     }
 
+    /**
+     * @return void
+     */
     public function remove()
     {
         $tokens = self::getTokens();
@@ -105,14 +109,20 @@ class rex_csrf_token
         rex_set_session(self::getSessionKey(), $tokens);
     }
 
+    /**
+     * @return void
+     */
     public static function removeAll()
     {
         rex_login::startSession();
 
         rex_unset_session(self::getBaseSessionKey());
-        rex_unset_session(self::getBaseSessionKey().'_https');
+        rex_unset_session(self::getBaseSessionKey() . '_https');
     }
 
+    /**
+     * @return array<string, string>
+     */
     private static function getTokens()
     {
         rex_login::startSession();
@@ -120,20 +130,29 @@ class rex_csrf_token
         return rex_session(self::getSessionKey(), 'array');
     }
 
+    /**
+     * @return string
+     */
     private static function getSessionKey()
     {
         // use separate tokens for http/https
-        // http://symfony.com/blog/cve-2017-16653-csrf-protection-does-not-use-different-tokens-for-http-and-https
+        // https://symfony.com/blog/cve-2017-16653-csrf-protection-does-not-use-different-tokens-for-http-and-https
         $suffix = rex_request::isHttps() ? '_https' : '';
 
-        return self::getBaseSessionKey().$suffix;
+        return self::getBaseSessionKey() . $suffix;
     }
 
+    /**
+     * @return string
+     */
     private static function getBaseSessionKey()
     {
-        return 'csrf_tokens_'.rex::getEnvironment();
+        return 'csrf_tokens_' . rex::getEnvironment();
     }
 
+    /**
+     * @return string
+     */
     private static function generateToken()
     {
         $bytes = random_bytes(32);

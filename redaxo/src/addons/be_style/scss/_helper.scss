@@ -21,6 +21,7 @@
     display: inline-block;
     max-width: 150px;
     overflow: hidden;
+    vertical-align: top;
     white-space: nowrap;
 
     .rex-truncate-expandable&:hover,
@@ -55,5 +56,6 @@
     @include hyphens();
 }
 .rex-word-break {
-    word-break: break-all;
+    word-break: break-word; // deprecated
+    overflow-wrap: anywhere;
 }

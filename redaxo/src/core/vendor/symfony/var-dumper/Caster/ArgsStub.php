@@ -20,28 +20,28 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class ArgsStub extends EnumStub
 {
-    private static $parameters = array();
+    private static array $parameters = [];
 
-    public function __construct(array $args, $function, $class)
+    public function __construct(array $args, string $function, ?string $class)
     {
-        list($variadic, $params) = self::getParameters($function, $class);
+        [$variadic, $params] = self::getParameters($function, $class);
 
-        $values = array();
+        $values = [];
         foreach ($args as $k => $v) {
-            $values[$k] = !is_scalar($v) && !$v instanceof Stub ? new CutStub($v) : $v;
+            $values[$k] = !\is_scalar($v) && !$v instanceof Stub ? new CutStub($v) : $v;
         }
         if (null === $params) {
             parent::__construct($values, false);
 
             return;
         }
-        if (count($values) < count($params)) {
-            $params = array_slice($params, 0, count($values));
-        } elseif (count($values) > count($params)) {
-            $values[] = new EnumStub(array_splice($values, count($params)), false);
+        if (\count($values) < \count($params)) {
+            $params = \array_slice($params, 0, \count($values));
+        } elseif (\count($values) > \count($params)) {
+            $values[] = new EnumStub(array_splice($values, \count($params)), false);
             $params[] = $variadic;
         }
-        if (array('...') === $params) {
+        if (['...'] === $params) {
             $this->dumpKeys = false;
             $this->value = $values[0]->value;
         } else {
@@ -49,7 +49,7 @@ class ArgsStub extends EnumStub
         }
     }
 
-    private static function getParameters($function, $class)
+    private static function getParameters(string $function, ?string $class): array
     {
         if (isset(self::$parameters[$k = $class.'::'.$function])) {
             return self::$parameters[$k];
@@ -57,24 +57,24 @@ class ArgsStub extends EnumStub
 
         try {
             $r = null !== $class ? new \ReflectionMethod($class, $function) : new \ReflectionFunction($function);
-        } catch (\ReflectionException $e) {
-            return array(null, null);
+        } catch (\ReflectionException) {
+            return [null, null];
         }
 
         $variadic = '...';
-        $params = array();
+        $params = [];
         foreach ($r->getParameters() as $v) {
             $k = '$'.$v->name;
             if ($v->isPassedByReference()) {
                 $k = '&'.$k;
             }
-            if (method_exists($v, 'isVariadic') && $v->isVariadic()) {
+            if ($v->isVariadic()) {
                 $variadic .= $k;
             } else {
                 $params[] = $k;
             }
         }
 
-        return self::$parameters[$k] = array($variadic, $params);
+        return self::$parameters[$k] = [$variadic, $params];
     }
 }

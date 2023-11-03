@@ -27,6 +27,7 @@ body:after {
 .rex-slice {
   iframe, img, svg, video, object, embed {
     max-width: 100%;
+    height: auto;
   }
 }
 
@@ -181,6 +182,9 @@ body:after {
 .btn-reset {
     @extend .btn-default;
 }
+.btn-safemode-activate {
+    @extend .btn-danger;
+}
 // save and quit a form with data
 .btn-save {
     @extend .btn-primary;
@@ -230,6 +234,10 @@ body:after {
     }
 }
 .rex-nav-top {
+
+    .navbar-toggle {
+        display: none;
+    }
 
     .rex-is-popup & {
         min-height: $top-popup-navbar-height;
@@ -324,8 +332,9 @@ body:after {
 }
 
 .rex-state-success,
-.rex-state-info
-.rex-state-warnign,
+.rex-state-info,
+.rex-state-notice,
+.rex-state-warning,
 .rex-state-danger,
 .rex-state-error {
     a {
@@ -344,7 +353,8 @@ body:after {
         background-color: darken($alert-success-bg, 10%);
     }
 }
-.rex-state-info {
+.rex-state-info,
+.rex-state-notice {
     background-color: $alert-info-bg;
 
     &, a {
@@ -402,7 +412,7 @@ body:after {
     z-index: 2000;
     background: rgba(#000, .5);
 
-    .rex-ajax-loader-element1
+    .rex-ajax-loader-element1,
     .rex-ajax-loader-element2,
     .rex-ajax-loader-element3,
     .rex-ajax-loader-element4,
@@ -415,6 +425,8 @@ body:after {
     > li {
         > a {
             padding-left: 30px;
+            padding-top: 8px;
+            padding-bottom: 8px;
         }
 
         &.rex-has-icon {
@@ -476,6 +488,10 @@ body:after {
 .rex-slice-output {
     .container {
         width: 100%;
+    }
+    .panel-body {
+        position: relative;
+        overflow: auto;
     }
 }
 

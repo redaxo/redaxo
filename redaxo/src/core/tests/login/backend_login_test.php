@@ -1,109 +1,98 @@
 <?php
 
-class rex_backend_login_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_backend_login_test extends TestCase
 {
-    private $skipped = false;
+    private const LOGIN = 'testusr';
+    private const PASSWORD = 'test1234';
 
-    private $login = 'testusr';
-    private $password = 'test1234';
-    private $cookiekey = 'mycookie';
-
-    public function setUp()
+    protected function setUp(): void
     {
-        if (rex::getUser()) {
-            $this->skipped = true;
-            $this->markTestSkipped('The rex_backend_login class can not be tested when test suite is running in redaxo backend.');
-        }
-
         $adduser = rex_sql::factory();
         $adduser->setTable(rex::getTablePrefix() . 'user');
         $adduser->setValue('name', 'test user');
-        $adduser->setValue('login', $this->login);
-        $adduser->setValue('password', rex_login::passwordHash($this->password));
+        $adduser->setValue('login', self::LOGIN);
+        $adduser->setValue('password', rex_login::passwordHash(self::PASSWORD));
         $adduser->setValue('status', '1');
         $adduser->setValue('login_tries', '0');
-        $adduser->setValue('cookiekey', $this->cookiekey);
         $adduser->insert();
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
-        if ($this->skipped) {
-            return;
-        }
-
         $deleteuser = rex_sql::factory();
-        $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE login = '". $this->login ."' LIMIT 1");
-
-        // make sure we don't mess up the global scope
-        session_destroy();
+        $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE login = '" . self::LOGIN . "' LIMIT 1");
     }
 
-    public function testSuccessfullLogin()
+    public function testSuccessfullLogin(): void
     {
         $login = new rex_backend_login();
-        $login->setLogin($this->login, $this->password, false);
-        $this->assertTrue($login->checkLogin());
+        $login->setLogin(self::LOGIN, self::PASSWORD, false);
+        static::assertTrue($login->checkLogin());
     }
 
-    public function testFailedLogin()
+    public function testFailedLogin(): void
     {
         $login = new rex_backend_login();
-        $login->setLogin($this->login, 'somethingwhichisnotcorrect', false);
-        $this->assertFalse($login->checkLogin());
+        $login->setLogin(self::LOGIN, 'somethingwhichisnotcorrect', false);
+        static::assertFalse($login->checkLogin());
     }
 
     /**
      * Test if a login is allowed after one failure before.
      */
-    public function testSuccessfullReLogin()
+    public function testSuccessfullReLogin(): void
     {
         $login = new rex_backend_login();
 
-        $login->setLogin($this->login, 'somethingwhichisnotcorrect', false);
-        $this->assertFalse($login->checkLogin());
+        $login->setLogin(self::LOGIN, 'somethingwhichisnotcorrect', false);
+        static::assertFalse($login->checkLogin());
 
-        $login->setLogin($this->login, $this->password, false);
-        $this->assertTrue($login->checkLogin());
+        $login->setLogin(self::LOGIN, self::PASSWORD, false);
+        static::assertTrue($login->checkLogin());
     }
 
     /**
-     * After LOGIN_TRIES_1 requests, the account should be not accessible for RELOGIN_DELAY_1 seconds.
+     * After LOGIN_TRIES requests, the account should be not accessible for RELOGIN_DELAY seconds.
      */
-    public function testSuccessfullReLoginAfterLoginTries1Seconds()
+    public function testSuccessfullReLoginAfterLoginTriesSeconds(): void
     {
         $login = new rex_backend_login();
+        $tries = $login->getLoginPolicy()->getMaxTriesUntilDelay();
 
-        for ($i = 0; $i < rex_backend_login::LOGIN_TRIES_1; ++$i) {
-            $login->setLogin($this->login, 'somethingwhichisnotcorrect', false);
-            $this->assertFalse($login->checkLogin());
+        for ($i = 0; $i < $tries; ++$i) {
+            $login->setLogin(self::LOGIN, 'somethingwhichisnotcorrect', false);
+            static::assertFalse($login->checkLogin());
         }
 
         // we need to re-create login-objects because the time component is static in their sql queries
         $login = new rex_backend_login();
-        $login->setLogin($this->login, $this->password, false);
-        $this->assertFalse($login->checkLogin(), 'account locked after fast login attempts');
+        $login->setLogin(self::LOGIN, self::PASSWORD, false);
+        static::assertFalse($login->checkLogin(), 'account locked after fast login attempts');
 
         sleep(1);
 
         $login = new rex_backend_login();
-        $login->setLogin($this->login, $this->password, false);
-        $this->assertFalse($login->checkLogin(), 'even seconds later account is locked');
+        $login->setLogin(self::LOGIN, self::PASSWORD, false);
+        static::assertFalse($login->checkLogin(), 'even seconds later account is locked');
 
-        // FIXME Does not work at travis
-        //sleep(rex_backend_login::RELOGIN_DELAY_1 + 2);
+        sleep($login->getLoginPolicy()->getReloginDelay() + 1);
 
-        //$login = new rex_backend_login();
-        //$login->setLogin($this->login, $this->password, false);
-        //$this->assertTrue($login->checkLogin(), 'after waiting the account should be unlocked');
+        $login = new rex_backend_login();
+        $login->setLogin(self::LOGIN, self::PASSWORD, false);
+        static::assertTrue($login->checkLogin(), 'after waiting the account should be unlocked');
     }
 
-    public function testLogout()
+    public function testLogout(): void
     {
         $login = new rex_backend_login();
-        $login->setLogin($this->login, $this->password, false);
-        $this->assertTrue($login->checkLogin());
+        $login->setLogin(self::LOGIN, self::PASSWORD, false);
+        static::assertTrue($login->checkLogin());
         $login->setLogout(true);
-        $this->assertFalse($login->checkLogin());
+        static::assertFalse($login->checkLogin());
     }
 }

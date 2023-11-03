@@ -49,27 +49,25 @@ interface rex_context_provider_interface extends rex_url_provider_interface
  */
 class rex_context implements rex_context_provider_interface
 {
+    /** @var array<string, mixed> */
     private $globalParams;
 
     /**
      * Constructs a rex_context with the given global parameters.
      *
-     * @param array $globalParams A array containing only scalar values for key/value
+     * @param array<string, mixed> $globalParams A array containing only scalar values for key/value
      */
     public function __construct(array $globalParams = [])
     {
         $this->globalParams = $globalParams;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUrl(array $params = [], $escape = true)
     {
         // combine global params with local
-        $_params = array_merge($this->globalParams, $params);
+        $params = array_merge($this->globalParams, $params);
 
-        return rex::isBackend() ? rex_url::backendController($_params, $escape) : rex_url::frontendController($_params, $escape);
+        return rex::isBackend() ? rex_url::backendController($params, $escape) : rex_url::frontendController($params, $escape);
     }
 
     /**
@@ -77,6 +75,7 @@ class rex_context implements rex_context_provider_interface
      *
      * @param string $name
      * @param mixed  $value
+     * @return void
      */
     public function setParam($name, $value)
     {
@@ -88,13 +87,39 @@ class rex_context implements rex_context_provider_interface
      * When no value is set, $default will be returned.
      *
      * @param string $name
-     * @param string $default
+     * @param mixed  $default
      *
      * @return mixed
      */
     public function getParam($name, $default = null)
     {
-        return isset($this->globalParams[$name]) ? $this->globalParams[$name] : $default;
+        return $this->globalParams[$name] ?? $default;
+    }
+
+    /**
+     * Returns the global parameters.
+     *
+     * @return array<string, mixed>
+     */
+    public function getParams(): array
+    {
+        return $this->globalParams;
+    }
+
+    /**
+     * Returns whether the given parameter exists.
+     */
+    public function hasParam(string $name): bool
+    {
+        return isset($this->globalParams[$name]);
+    }
+
+    /**
+     * Removes a global parameter.
+     */
+    public function removeParam(string $name): void
+    {
+        unset($this->globalParams[$name]);
     }
 
     /**
@@ -103,9 +128,9 @@ class rex_context implements rex_context_provider_interface
     public function getHiddenInputFields(array $params = [])
     {
         // combine global params with local
-        $_params = array_merge($this->globalParams, $params);
+        $params = array_merge($this->globalParams, $params);
 
-        return self::array2inputStr($_params);
+        return self::array2inputStr($params);
     }
 
     /**
@@ -152,10 +177,10 @@ class rex_context implements rex_context_provider_interface
         foreach ($array as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $valName => $valVal) {
-                    $inputString .= '<input type="hidden" name="' . $name . '[' . $valName . ']" value="' . htmlspecialchars($valVal) . '" />';
+                    $inputString .= '<input type="hidden" name="' . rex_escape($name) . '[' . rex_escape($valName) . ']" value="' . rex_escape($valVal) . '" />';
                 }
             } else {
-                $inputString .= '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value) . '" />';
+                $inputString .= '<input type="hidden" name="' . rex_escape($name) . '" value="' . rex_escape($value) . '" />';
             }
         }
 

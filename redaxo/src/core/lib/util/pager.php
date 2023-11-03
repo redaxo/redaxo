@@ -10,9 +10,14 @@
  */
 class rex_pager
 {
+    /** @var int */
     private $rowCount;
+    /** @var int */
     private $rowsPerPage;
+    /** @var string */
     private $cursorName;
+    /** @var int|null */
+    private $cursor;
 
     /**
      * Constructs a rex_pager.
@@ -22,7 +27,7 @@ class rex_pager
      */
     public function __construct($rowsPerPage = 30, $cursorName = 'start')
     {
-        $this->rowsPerPage = $rowsPerPage;
+        $this->rowsPerPage = (int) $rowsPerPage;
         $this->cursorName = $cursorName;
     }
 
@@ -30,10 +35,11 @@ class rex_pager
      * Sets the row count.
      *
      * @param int $rowCount
+     * @return void
      */
     public function setRowCount($rowCount)
     {
-        $this->rowCount = $rowCount;
+        $this->rowCount = (int) $rowCount;
     }
 
     /**
@@ -67,6 +73,16 @@ class rex_pager
         return $this->rowsPerPage;
     }
 
+    public function setPage(int $page): void
+    {
+        $this->cursor = $page * $this->rowsPerPage;
+    }
+
+    public function setCursor(int $cursor): void
+    {
+        $this->cursor = $cursor;
+    }
+
     /**
      * Returns the current pagination position.
      *
@@ -79,13 +95,19 @@ class rex_pager
      */
     public function getCursor($pageNo = null)
     {
-        if (null === $pageNo) {
-            $cursor = rex_request($this->cursorName, 'int', 0);
-        } else {
-            $cursor = $pageNo * $this->rowsPerPage;
+        if (null !== $pageNo) {
+            return $pageNo * $this->rowsPerPage;
         }
 
-        return $cursor;
+        if (null === $this->cursor) {
+            $this->cursor = rex_request($this->cursorName, 'int', 0);
+
+            if (null !== $this->rowCount) {
+                $this->cursor = $this->validateCursor($this->cursor);
+            }
+        }
+
+        return $this->cursor;
     }
 
     /**
@@ -148,7 +170,7 @@ class rex_pager
      */
     public function getCurrentPage()
     {
-        $cursor = rex_request($this->cursorName, 'int', null);
+        $cursor = $this->cursor ?? rex_request($this->cursorName, 'int', null);
 
         if (null === $cursor) {
             return $this->getFirstPage();
@@ -178,7 +200,7 @@ class rex_pager
      */
     public function getLastPage()
     {
-        return ceil($this->rowCount / $this->rowsPerPage) - 1;
+        return (int) (ceil($this->rowCount / $this->rowsPerPage) - 1);
     }
 
     /**

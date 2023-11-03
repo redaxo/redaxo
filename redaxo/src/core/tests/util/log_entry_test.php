@@ -1,48 +1,53 @@
 <?php
 
-class rex_log_entry_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_log_entry_test extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $time = time();
         $data = ['test1', 'test2'];
         $entry = new rex_log_entry($time, $data);
 
-        $this->assertSame($time, $entry->getTimestamp());
-        $this->assertSame($data, $entry->getData());
+        static::assertSame($time, $entry->getTimestamp());
+        static::assertSame($data, $entry->getData());
     }
 
-    public function testCreateFromString()
+    public function testCreateFromString(): void
     {
         $time = time();
-        $entry = rex_log_entry::createFromString(date('Y-m-d H:i:s', $time) . ' | test1 |  |  test2\nt');
+        $entry = rex_log_entry::createFromString(date(rex_log_entry::DATE_FORMAT, $time) . ' | test1 |  |  test2\nt \| test3 |');
 
-        $this->assertInstanceOf('rex_log_entry', $entry);
-        $this->assertSame($time, $entry->getTimestamp());
-        $this->assertSame(['test1', '', "test2\nt"], $entry->getData());
+        static::assertInstanceOf(rex_log_entry::class, $entry);
+        static::assertSame($time, $entry->getTimestamp());
+        static::assertSame(['test1', '', "test2\nt | test3", ''], $entry->getData());
     }
 
-    /**
-     * @depends testConstruct
-     */
-    public function testGetTimestamp()
+    #[Depends('testConstruct')]
+    public function testGetTimestamp(): void
     {
         $time = time();
         $entry = new rex_log_entry($time, []);
 
-        $this->assertSame($time, $entry->getTimestamp());
+        static::assertSame($time, $entry->getTimestamp());
         $format = '%d.%m.%Y %H:%M:%S';
-        $this->assertSame(strftime($format, $time), $entry->getTimestamp($format));
+
+        $expected = @strftime($format, $time); /** @phpstan-ignore-line */
+
+        static::assertSame($expected, @$entry->getTimestamp($format));
     }
 
-    /**
-     * @depends testConstruct
-     */
-    public function testToString()
+    #[Depends('testConstruct')]
+    public function testToString(): void
     {
         $time = time();
-        $entry = new rex_log_entry($time, ['test1', ' ', " test2\nt "]);
+        $entry = new rex_log_entry($time, ['test1', ' ', " test2\nt | test3\r\ntest4 "]);
 
-        $this->assertSame(date('Y-m-d H:i:s', $time) . ' | test1 |  | test2\nt', $entry->__toString());
+        static::assertSame(date(rex_log_entry::DATE_FORMAT, $time) . ' | test1 |  | test2\nt \| test3\ntest4', $entry->__toString());
     }
 }

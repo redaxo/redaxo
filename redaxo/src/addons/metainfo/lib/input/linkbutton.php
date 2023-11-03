@@ -4,25 +4,33 @@
  * @package redaxo\metainfo
  *
  * @internal
+ *
+ * @extends rex_input<int>
  */
 class rex_input_linkbutton extends rex_input
 {
-    private $buttonId;
-    private $categoryId;
+    private string $buttonId = '';
+    private ?int $categoryId = null;
 
     public function __construct()
     {
         parent::__construct();
-        $this->buttonId = '';
-        $this->categoryId = '';
     }
 
+    /**
+     * @param int $buttonId
+     * @return void
+     */
     public function setButtonId($buttonId)
     {
-        $this->buttonId = $buttonId;
-        $this->setAttribute('id', 'LINK_' . $buttonId);
+        $this->buttonId = 'METAINFO_' . $buttonId;
+        $this->setAttribute('id', 'REX_LINK_' . $this->buttonId);
     }
 
+    /**
+     * @param int|null $categoryId
+     * @return void
+     */
     public function setCategoryId($categoryId)
     {
         $this->categoryId = $categoryId;
@@ -32,11 +40,9 @@ class rex_input_linkbutton extends rex_input
     {
         $buttonId = $this->buttonId;
         $categoryId = $this->categoryId;
-        $value = htmlspecialchars($this->value);
+        $value = rex_escape($this->value);
         $name = $this->attributes['name'];
 
-        $field = rex_var_link::getWidget($buttonId, $name, $value, ['category' => $categoryId]);
-
-        return $field;
+        return rex_var_link::getWidget($buttonId, $name, $value, ['category' => $categoryId]);
     }
 }

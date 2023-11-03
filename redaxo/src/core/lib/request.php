@@ -11,10 +11,12 @@ class rex_request
      * Returns the variable $varname of $_GET and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed  $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
+     *
+     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
     public static function get($varname, $vartype = '', $default = '')
     {
@@ -25,10 +27,12 @@ class rex_request
      * Returns the variable $varname of $_POST and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed  $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
+     *
+     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
     public static function post($varname, $vartype = '', $default = '')
     {
@@ -39,10 +43,12 @@ class rex_request
      * Returns the variable $varname of $_REQUEST and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed  $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
+     *
+     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
     public static function request($varname, $vartype = '', $default = '')
     {
@@ -53,7 +59,7 @@ class rex_request
      * Returns the variable $varname of $_SERVER and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed  $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
@@ -67,7 +73,7 @@ class rex_request
      * Returns the variable $varname of $_SESSION and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed  $vartype Variable type
      * @param mixed  $default Default value
      *
      * @throws rex_exception
@@ -80,11 +86,11 @@ class rex_request
             throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
-        if (isset($_SESSION[rex::getProperty('instname')][$varname])) {
-            return rex_type::cast($_SESSION[rex::getProperty('instname')][$varname], $vartype);
+        if (isset($_SESSION[self::getSessionNamespace()][$varname])) {
+            return rex_type::cast($_SESSION[self::getSessionNamespace()][$varname], $vartype);
         }
 
-        if ($default === '') {
+        if ('' === $default) {
             return rex_type::cast($default, $vartype);
         }
         return $default;
@@ -97,6 +103,7 @@ class rex_request
      * @param mixed  $value   Value
      *
      * @throws rex_exception
+     * @return void
      */
     public static function setSession($varname, $value)
     {
@@ -104,7 +111,7 @@ class rex_request
             throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
-        $_SESSION[rex::getProperty('instname')][$varname] = $value;
+        $_SESSION[self::getSessionNamespace()][$varname] = $value;
     }
 
     /**
@@ -113,6 +120,7 @@ class rex_request
      * @param string $varname Variable name
      *
      * @throws rex_exception
+     * @return void
      */
     public static function unsetSession($varname)
     {
@@ -120,17 +128,34 @@ class rex_request
             throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
-        unset($_SESSION[rex::getProperty('instname')][$varname]);
+        unset($_SESSION[self::getSessionNamespace()][$varname]);
+    }
+
+    /**
+     * clear redaxo session contents within the current namespace (the session itself stays alive).
+     *
+     * @throws rex_exception
+     * @return void
+     */
+    public static function clearSession()
+    {
+        if (PHP_SESSION_ACTIVE != session_status()) {
+            throw new rex_exception('Session not started, call rex_login::startSession() before!');
+        }
+
+        unset($_SESSION[self::getSessionNamespace()]);
     }
 
     /**
      * Returns the variable $varname of $_COOKIE and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed  $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
+     *
+     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
     public static function cookie($varname, $vartype = '', $default = '')
     {
@@ -141,7 +166,7 @@ class rex_request
      * Returns the variable $varname of $_FILES and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed  $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
@@ -155,7 +180,7 @@ class rex_request
      * Returns the variable $varname of $_ENV and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed  $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
@@ -170,24 +195,26 @@ class rex_request
      *
      * @param array      $haystack Array
      * @param string|int $needle   Value to search
-     * @param string     $vartype  Variable type
+     * @param mixed      $vartype  Variable type
      * @param mixed      $default  Default value
      *
      * @throws InvalidArgumentException
      *
      * @return mixed
+     *
+     * @psalm-taint-specialize
      */
     private static function arrayKeyCast(array $haystack, $needle, $vartype, $default = '')
     {
         if (!is_scalar($needle)) {
-            throw new InvalidArgumentException('Scalar expected for $needle in arrayKeyCast()!');
+            throw new InvalidArgumentException('Scalar expected for $needle in arrayKeyCast(), got ' . gettype($needle) . '!');
         }
 
         if (array_key_exists($needle, $haystack)) {
             return rex_type::cast($haystack[$needle], $vartype);
         }
 
-        if ($default === '') {
+        if ('' === $default) {
             return rex_type::cast($default, $vartype);
         }
         return $default;
@@ -197,10 +224,11 @@ class rex_request
      * Returns the HTTP method of the current request.
      *
      * @return string HTTP method in lowercase (head,get,post,put,delete)
+     * @psalm-return lowercase-string
      */
     public static function requestMethod()
     {
-        return isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'get';
+        return strtolower(rex::getRequest()->getMethod());
     }
 
     /**
@@ -215,17 +243,23 @@ class rex_request
      */
     public static function isXmlHttpRequest()
     {
-        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+        return rex::getRequest()->isXmlHttpRequest();
     }
 
     /**
      * Returns true if the request is a PJAX-Request.
      *
      * @see http://pjax.heroku.com/
+     *
+     * @return bool
      */
     public static function isPJAXRequest()
     {
-        return isset($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] == 'true';
+        if ('cli' === PHP_SAPI) {
+            return false;
+        }
+
+        return 'true' == rex::getRequest()->headers->get('X-Pjax');
     }
 
     /**
@@ -241,16 +275,30 @@ class rex_request
             return false;
         }
 
-        return isset($_SERVER['HTTP_X_PJAX_CONTAINER']) && $_SERVER['HTTP_X_PJAX_CONTAINER'] == $containerId;
+        return $containerId === rex::getRequest()->headers->get('X-Pjax-Container');
     }
 
     /**
      * Returns whether the current request is served via https/ssl.
      *
-     * @return bool true when https/ssl, otherwise false.
+     * @return bool true when https/ssl, otherwise false
      */
     public static function isHttps()
     {
-        return !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']);
+        return rex::getRequest()->isSecure();
+    }
+
+    /**
+     * Returns the session namespace for the current http request.
+     *
+     * @return string
+     */
+    public static function getSessionNamespace()
+    {
+        // separate backend from frontend namespace,
+        // so we can e.g. clear the backend session without
+        // logging out the users from the frontend
+        $suffix = rex::isBackend() ? '_backend' : '';
+        return rex::getProperty('instname') . $suffix;
     }
 }

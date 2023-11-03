@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+# refreshes the redaxo installation.
+# most of the time this is required when working on the REDAXO sources after checking out a Pull Request via GitHub.com
+
+cp -R redaxo/src/core/assets/* assets/core/
+
+if [ "true" = $(redaxo/bin/console config:get setup) ]; then
+    redaxo/bin/console cache:clear --ansi
+
+    echo "Addons can not be re-installed, because the REDAXO setup is not done yet."
+
+    exit
+fi
+
+packages="
+backup
+be_style
+be_style/customizer
+be_style/redaxo
+cronjob
+debug
+install
+media_manager
+mediapool
+metainfo
+phpmailer
+structure
+structure/content
+structure/history
+structure/version
+users
+"
+
+for package in $packages; do
+    if redaxo/bin/console package:list --package $package --installed-only --error-when-empty --quiet; then
+        redaxo/bin/console package:install --ansi --re-install $package
+    fi
+done
+
+redaxo/bin/console cache:clear --ansi
+
+composer update --ansi # update dev-tools

@@ -1,5 +1,7 @@
 setup: true
-debug: false
+debug:
+    enabled: false
+    throw_always_exception: false # `true` for all error levels, `[E_WARNING, E_NOTICE]` for subset
 instname: null
 server: https://www.redaxo.org/
 servername: REDAXO
@@ -8,33 +10,54 @@ fileperm: '0664'
 dirperm: '0775'
 session_duration: 7200
 session_keep_alive: 21600
+session_max_overall_duration: 2419200 # 4 weeks
+backend_login_policy:
+    login_tries_until_blocked: 50
+    login_tries_until_delay: 3
+    relogin_delay: 5
+    enable_stay_logged_in: true
 # using separate cookie domains for frontend and backend is more secure,
 # but be warned that some features like detecting a backend user in the frontend
 # will no longer work.
 session:
     backend:
+        # save_path:
+        # sid_length:
+        # sid_bits_per_character:
         cookie:
             lifetime: null
             path: null
             domain: null
             secure: null
             httponly: true
-            samesite: 'Strict'
+            samesite: 'Lax'
     frontend:
+        # save_path:
+        # sid_length:
+        # sid_bits_per_character:
         cookie:
             lifetime: null
             path: null
             domain: null
             secure: null
             httponly: true
-            samesite: 'Strict'
+            samesite: 'Lax'
 password_policy:
-    length: {min: 8}
+    length: {min: 8, max: 4096}
     lowercase: {min: 0}
     uppercase: {min: 0}
     digit: {min: 0}
-lang: de_de
-use_gzip: true
+    # no_reuse_of_last: 6
+    # format analog https://www.php.net/manual/de/dateinterval.construct.php
+    # no_reuse_within: P6W
+    # force_renew_after: P6W
+    # block_account_after: P3M
+lang: en_gb
+lang_fallback: [en_gb, de_de]
+use_https: false
+use_hsts: false
+hsts_max_age: 31536000 # 1 year
+use_gzip: false
 use_etag: true
 use_last_modified: false
 start_page: structure
@@ -43,6 +66,7 @@ socket_proxy: null
 setup_addons:
     - backup
     - be_style
+    - install
 system_addons:
     - backup
     - mediapool
@@ -60,14 +84,20 @@ db:
         host: localhost
         login: root
         password: ''
-        name: redaxo_5_0
+        name: redaxo5
         persistent: false
+        ssl_key: null
+        ssl_cert: null
+        ssl_ca: null
     2:
         host: ''
         login: ''
         password: ''
         name: ''
         persistent: false
+        ssl_key: null
+        ssl_cert: null
+        ssl_ca: null
 use_accesskeys: true
 accesskeys:
     save: s
@@ -75,3 +105,6 @@ accesskeys:
     delete: d
     add: a
     add_2: y
+editor: null
+editor_basepath: null
+theme: null

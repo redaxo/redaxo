@@ -1,0 +1,166 @@
+{
+    "name": "redaxo/source",
+    "type": "library",
+    "description": "REDAXO CMS source repository (for static analysis)",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.1",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-intl": "*",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "v3.37.1",
+        "friendsofredaxo/linter": "1.4.0",
+        "jetbrains/phpstorm-attributes": "^1.0",
+        "phpstan/extension-installer": "1.3.1",
+        "phpstan/phpstan": "1.10.40",
+        "phpstan/phpstan-deprecation-rules": "1.1.4",
+        "phpstan/phpstan-phpunit": "1.3.15",
+        "phpstan/phpstan-symfony": "1.3.5",
+        "phpunit/phpunit": "^10.0.7",
+        "psalm/plugin-phpunit": "0.18.4",
+        "psalm/plugin-symfony": "v5.0.3",
+        "rector/rector": "0.18.6",
+        "redaxo/php-cs-fixer-config": "2.3.0",
+        "redaxo/psalm-plugin": "2.0.0",
+        "vimeo/psalm": "5.15.0"
+    },
+    "replace": {
+        "erusev/parsedown": "1.7.4",
+        "erusev/parsedown-extra": "0.8.1",
+        "filp/whoops": "2.15.3",
+        "itsgoingd/clockwork": "v5.1.12",
+        "lbuchs/webauthn": "v1.1.3",
+        "phpmailer/phpmailer": "v6.8.1",
+        "psr/container": "2.0.2",
+        "psr/http-message": "1.1",
+        "psr/log": "1.1.4",
+        "ramsey/collection": "1.3.0",
+        "ramsey/http-range": "1.1.0",
+        "scssphp/scssphp": "v1.11.1",
+        "splitbrain/php-archive": "1.3.1",
+        "symfony/console": "v6.3.4",
+        "symfony/deprecation-contracts": "v3.3.0",
+        "symfony/http-foundation": "v6.3.7",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php83": "v1.28.0",
+        "symfony/service-contracts": "v3.3.0",
+        "symfony/string": "v6.3.5",
+        "symfony/var-dumper": "v6.3.6",
+        "symfony/yaml": "v6.3.7",
+        "voku/anti-xss": "4.1.42",
+        "voku/portable-ascii": "2.0.1",
+        "voku/portable-utf8": "6.0.13"
+    },
+    "autoload": {
+        "classmap": [
+            "redaxo/src/addons/backup/lib/",
+            "redaxo/src/addons/backup/vendor/",
+            "redaxo/src/addons/be_style/lib/",
+            "redaxo/src/addons/be_style/vendor/scssphp/",
+            "redaxo/src/addons/cronjob/lib/",
+            "redaxo/src/addons/cronjob/plugins/article_status/lib/",
+            "redaxo/src/addons/cronjob/plugins/optimize_tables/lib/",
+            "redaxo/src/addons/debug/lib/",
+            "redaxo/src/addons/debug/vendor/",
+            "redaxo/src/addons/install/lib/",
+            "redaxo/src/addons/media_manager/lib/",
+            "redaxo/src/addons/mediapool/lib/",
+            "redaxo/src/addons/metainfo/lib/",
+            "redaxo/src/addons/phpmailer/lib/",
+            "redaxo/src/addons/phpmailer/vendor/",
+            "redaxo/src/addons/structure/lib/",
+            "redaxo/src/addons/structure/plugins/content/lib/",
+            "redaxo/src/addons/structure/plugins/history/lib/",
+            "redaxo/src/addons/structure/plugins/version/lib/",
+            "redaxo/src/addons/users/lib/",
+            "redaxo/src/core/lib/"
+        ],
+        "files": [
+            "redaxo/src/addons/mediapool/functions/function_rex_mediapool.php",
+            "redaxo/src/addons/metainfo/extensions/extension_cleanup.php",
+            "redaxo/src/addons/metainfo/functions/function_metainfo.php",
+            "redaxo/src/addons/structure/functions/function_rex_url.php",
+            "redaxo/src/core/functions/function_rex_escape.php",
+            "redaxo/src/core/functions/function_rex_globals.php",
+            "redaxo/src/core/functions/function_rex_other.php",
+            "redaxo/src/core/vendor/autoload.php"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "redaxo/src/addons/media_manager/tests/",
+            "redaxo/src/addons/mediapool/tests/",
+            "redaxo/src/addons/structure/tests/",
+            "redaxo/src/addons/structure/plugins/content/tests/",
+            "redaxo/src/core/tests/"
+        ]
+    },
+    "bin": [
+        "redaxo/bin/console"
+    ],
+    "scripts": {
+        "clone-addon": ".tools/bin/clone-addon",
+        "rebase-to-bugfix": "bash .tools/bin/rebase-to-bugfix",
+        "refresh": "bash .tools/bin/refresh",
+        "release": ".tools/bin/release",
+        "update-all": "bash .tools/bin/update-all",
+        "update-tools": "bash .tools/bin/update-tools",
+        "cs": "php-cs-fixer fix -v --ansi",
+        "phpunit": "phpunit --colors=always",
+        "phpstan": "phpstan analyse --ansi",
+        "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
+        "psalm": "psalm --use-baseline=.tools/psalm/baseline.xml",
+        "psalm-baseline": "psalm --set-baseline=.tools/psalm/baseline.xml",
+        "rector": [
+            "Composer\\Config::disableProcessTimeout",
+            "rector process --ansi"
+        ],
+        "taint": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1",
+        "taint-baseline": [
+            "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1",
+            "git checkout -- psalm.xml"
+        ],
+        "sa": [
+            "@phpstan",
+            "@psalm"
+        ],
+        "check": [
+            "@cs",
+            "@sa",
+            "@phpunit",
+            "@taint"
+        ]
+    },
+    "scripts-descriptions": {
+        "clone-addon": "Clone given addon (by user/repo or github url) into addon directory",
+        "rebase-to-bugfix": "Rebase current branch onto bugfix",
+        "refresh": "Refresh local instance (refresh core assets, re-install system addons, clear cache, update dev tools)",
+        "release": "Create release zip for given version number",
+        "update-all": "Update all vendor libs (php and js) in core, system addons and dev tools",
+        "update-tools": "Update dev tools",
+        "cs": "Fix code style via php-cs-fixer",
+        "phpunit": "Run phpunit",
+        "phpstan": "Run static analysis via phpstan",
+        "phpstan-baseline": "Regenerate the phpstan baseline",
+        "psalm": "Run static analysis via psalm",
+        "psalm-baseline": "Regenerate the psalm static analysis baseline",
+        "rector": "Fix code style via rector",
+        "taint": "Run taint analysis via psalm",
+        "taint-baseline": "Regenerate the psalm taint  analysis baseline",
+        "sa": "Run all static analyses (psalm and phpstan)",
+        "check": "Check all (code style, static analysis, unit tests)"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "phpstan/extension-installer": true
+        }
+    }
+}

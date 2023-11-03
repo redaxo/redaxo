@@ -13,9 +13,6 @@
  */
 class rex_var_clang extends rex_var
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getOutput()
     {
         $field = $this->getParsedArg('field', null, true);

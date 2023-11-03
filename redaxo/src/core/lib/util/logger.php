@@ -14,9 +14,7 @@ class rex_logger extends AbstractLogger
 {
     use rex_factory_trait;
 
-    /**
-     * @var rex_log_file
-     */
+    /** @var rex_log_file|null */
     private static $file;
 
     /**
@@ -26,21 +24,22 @@ class rex_logger extends AbstractLogger
      */
     public static function getPath()
     {
-        return rex_path::coreData('system.log');
+        return rex_path::log('system.log');
     }
 
     /**
      * Shorthand: Logs the given Exception.
      *
      * @param Throwable|Exception $exception The Exception to log
+     * @return void
      */
-    public static function logException($exception)
+    public static function logException($exception, ?string $url = null)
     {
         if ($exception instanceof ErrorException) {
-            self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
+            self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $url);
         } else {
             $logger = self::factory();
-            $logger->log(get_class($exception), $exception->getMessage(), [], $exception->getFile(), $exception->getLine());
+            $logger->log($exception::class, $exception->getMessage(), [], $exception->getFile(), $exception->getLine(), $url);
         }
     }
 
@@ -53,8 +52,9 @@ class rex_logger extends AbstractLogger
      * @param int    $errline The line of the file in which the error occured
      *
      * @throws InvalidArgumentException
+     * @return void
      */
-    public static function logError($errno, $errstr, $errfile, $errline)
+    public static function logError($errno, $errstr, $errfile, $errline, ?string $url = null)
     {
         if (!is_int($errno)) {
             throw new InvalidArgumentException('Expecting $errno to be integer, but ' . gettype($errno) . ' given!');
@@ -70,24 +70,23 @@ class rex_logger extends AbstractLogger
         }
 
         $logger = self::factory();
-        $logger->log(rex_error_handler::getErrorType($errno), $errstr, [], $errfile, $errline);
+        $logger->log(rex_error_handler::getErrorType($errno), $errstr, [], $errfile, $errline, $url);
     }
 
     /**
      * Logs with an arbitrary level.
      *
-     * @param mixed  $level
+     * @param mixed  $level   either one of LogLevel::* or also any other string
      * @param string $message
-     * @param array  $context
      * @param string $file
      * @param int    $line
      *
      * @throws InvalidArgumentException
      */
-    public function log($level, $message, array $context = [], $file = null, $line = null)
+    public function log($level, $message, array $context = [], $file = null, $line = null, ?string $url = null): void
     {
-        if (static::hasFactoryClass()) {
-            static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getExplicitFactoryClass()) {
+            $factoryClass::log($level, $message, $context, $file, $line);
             return;
         }
 
@@ -105,25 +104,37 @@ class rex_logger extends AbstractLogger
         // interpolate replacement values into the message and return
         $message = strtr($message, $replace);
 
+        if (!str_starts_with($level, 'rex_')) {
+            $level = ucfirst($level);
+        }
+
         $logData = [$level, $message];
-        if ($file && $line) {
-            $logData[] = str_replace(rex_path::base(), '', $file);
-            $logData[] = $line;
+        if ($file && $line || $url) {
+            $logData[] = $file ? rex_path::relative($file) : '';
+            $logData[] = $line ?? '';
+            if ($url) {
+                $logData[] = $url;
+            }
         }
         self::$file->add($logData);
 
-        // forward the error into phps' error log
-        error_log($message, 0);
+        // forward the error into phps' error log if error_log function is not disabled
+        if (function_exists('error_log')) {
+            error_log($message, 0);
+        }
     }
 
     /**
      * Prepares the logifle for later use.
+     *
+     * @psalm-assert !null self::$file
+     * @return void
      */
     public static function open()
     {
         // check if already opened
         if (!self::$file) {
-            self::$file = new rex_log_file(self::getPath(), 2000000);
+            self::$file = new rex_log_file(self::getPath(), 2_000_000);
         }
     }
 
@@ -131,6 +142,7 @@ class rex_logger extends AbstractLogger
      * Closes the logfile. The logfile is not be able to log further message after beeing closed.
      *
      * You dont need to close the logfile manually when it was registered during the request.
+     * @return void
      */
     public static function close()
     {
@@ -146,24 +158,11 @@ class rex_logger extends AbstractLogger
      */
     public static function getLogLevel($errno)
     {
-        switch ($errno) {
-            case E_STRICT:
-
-            case E_USER_DEPRECATED:
-            case E_DEPRECATED:
-
-            case E_USER_WARNING:
-            case E_WARNING:
-            case E_COMPILE_WARNING:
-                return LogLevel::WARNING;
-
-            case E_USER_NOTICE:
-            case E_NOTICE:
-                return LogLevel::NOTICE;
-
-            default:
-                return LogLevel::ERROR;
-        }
+        return match ($errno) {
+            E_STRICT, E_USER_DEPRECATED, E_DEPRECATED, E_USER_WARNING, E_WARNING, E_COMPILE_WARNING => LogLevel::WARNING,
+            E_USER_NOTICE, E_NOTICE => LogLevel::NOTICE,
+            default => LogLevel::ERROR,
+        };
     }
 
     /**

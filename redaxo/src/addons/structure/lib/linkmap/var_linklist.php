@@ -39,32 +39,40 @@ class rex_var_linklist extends rex_var
         return self::quote($value);
     }
 
+    /**
+     * @param int|string $id
+     * @return string
+     */
     public static function getWidget($id, $name, $value, array $args = [])
     {
-        $open_params = '&clang=' . rex_clang::getCurrentId();
-        if (isset($args['category']) && ($category = (int) $args['category'])) {
-            $open_params .= '&amp;category_id=' . $category;
+        $category = rex_category::getCurrent() ? rex_category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
+
+        // Falls ein Kategorie-Parameter angegeben wurde, die Linkmap in dieser Kategorie öffnen
+        if (isset($args['category'])) {
+            $category = (int) $args['category'];
         }
 
+        $openParams = '&clang=' . rex_clang::getCurrentId() . '&category_id=' . $category;
+
         $options = '';
-        $linklistarray = explode(',', $value);
-        if (is_array($linklistarray)) {
-            foreach ($linklistarray as $link) {
-                if ($link != '') {
-                    if ($article = rex_article::get($link)) {
-                        $options .= '<option value="' . $link . '">' . htmlspecialchars($article->getName()) . '</option>';
-                    }
-                }
+        $linklistarray = null === $value ? [] : explode(',', $value);
+        foreach ($linklistarray as $link) {
+            if ('' == $link) {
+                continue;
+            }
+            if ($article = rex_article::get((int) $link)) {
+                $options .= '<option value="' . $link . '">' . rex_escape(trim(sprintf('%s [%s]', $article->getName(), $article->getId()))) . '</option>';
             }
         }
 
         $disabled = ' disabled';
-        $open_func = '';
-        $delete_func = '';
-        if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm()) {
+        $openFunc = '';
+        $deleteFunc = '';
+        $quotedId = "'" . rex_escape($id, 'js') . "'";
+        if (rex::requireUser()->getComplexPerm('structure')->hasStructurePerm()) {
             $disabled = '';
-            $open_func = 'openREXLinklist(' . $id . ', \'' . $open_params . '\');';
-            $delete_func = 'deleteREXLinklist(' . $id . ');';
+            $openFunc = 'openREXLinklist(' . $quotedId . ', \'' . $openParams . '\');';
+            $deleteFunc = 'deleteREXLinklist(' . $quotedId . ');';
         }
 
         $e = [];
@@ -74,18 +82,17 @@ class rex_var_linklist extends rex_var
                 </select>
                 <input type="hidden" name="' . $name . '" id="REX_LINKLIST_' . $id . '" value="' . $value . '" />';
         $e['moveButtons'] = '
-                    <a href="#" class="btn btn-popup" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_linklist_move_top') . '"><i class="rex-icon rex-icon-top"></i></a>
-                    <a href="#" class="btn btn-popup" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_linklist_move_up') . '"><i class="rex-icon rex-icon-up"></i></a>
-                    <a href="#" class="btn btn-popup" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_linklist_move_down') . '"><i class="rex-icon rex-icon-down"></i></a>
-                    <a href="#" class="btn btn-popup" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_linklist_move_bottom') . '"><i class="rex-icon rex-icon-bottom"></i></a>';
+                    <a href="#" class="btn btn-popup" onclick="moveREXLinklist(' . $quotedId . ',\'top\');return false;" title="' . rex_i18n::msg('var_linklist_move_top') . '"><i class="rex-icon rex-icon-top"></i></a>
+                    <a href="#" class="btn btn-popup" onclick="moveREXLinklist(' . $quotedId . ',\'up\');return false;" title="' . rex_i18n::msg('var_linklist_move_up') . '"><i class="rex-icon rex-icon-up"></i></a>
+                    <a href="#" class="btn btn-popup" onclick="moveREXLinklist(' . $quotedId . ',\'down\');return false;" title="' . rex_i18n::msg('var_linklist_move_down') . '"><i class="rex-icon rex-icon-down"></i></a>
+                    <a href="#" class="btn btn-popup" onclick="moveREXLinklist(' . $quotedId . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_linklist_move_bottom') . '"><i class="rex-icon rex-icon-bottom"></i></a>';
         $e['functionButtons'] = '
-                    <a href="#" class="btn btn-popup" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"' . $disabled . '><i class="rex-icon rex-icon-open-linkmap"></i></a>
-                    <a href="#" class="btn btn-popup" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"' . $disabled . '><i class="rex-icon rex-icon-delete-link"></i></a>';
+                    <a href="#" class="btn btn-popup" onclick="' . $openFunc . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"' . $disabled . '><i class="rex-icon rex-icon-open-linkmap"></i></a>
+                    <a href="#" class="btn btn-popup" onclick="' . $deleteFunc . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"' . $disabled . '><i class="rex-icon rex-icon-delete-link"></i></a>';
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', [$e], false);
-        $link = $fragment->parse('core/form/widget_list.php');
 
-        return $link;
+        return $fragment->parse('core/form/widget_list.php');
     }
 }

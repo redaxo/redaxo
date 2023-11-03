@@ -15,6 +15,7 @@ pool_sync_no_diffs = Kunde inte fastställa några skillnader!
 pool_sync_files_synced = Filerna synkroniserades.
 pool_file_not_found = Filen kunde inte hittas
 pool_file_upload_error = Fel vid filuppladdningen
+pool_file_upload_error_size = Filen överskrider den maximala uppladdningsstorleken {0}!
 pool_file_upload_errortype = Denna fil kan inte användas för filbyte eftersom den är av en annan typ av filformat.
 pool_file_title = Titel
 pool_file_file = Fil
@@ -57,8 +58,9 @@ pool_file_category = Filkategori
 pool_file_description = Beskrivning
 pool_file_deleted = Filen raderades
 pool_files_deleted = {0} Filerna raderades.
-pool_file_delete_error_1 = Filen "{0}" kunde inte raderas!
-pool_file_delete_error_2 = Användes f.n. av följande objekt:
+pool_file_delete_error = Filen "{0}" kunde inte raderas!
+pool_kat_delete_error = Filkategori "{0}" kunde inte raderas!
+pool_object_in_use_by = Användes f.n. av följande objekt:
 pool_file_in_use_articles = Artikel (Innehåll)
 pool_file_changed = Filen byttes ut!
 pool_file_added = Filen tillfogades.
@@ -95,9 +97,6 @@ pool_upload = Filupload
 all_mediafolder = Alla filmappar
 mediafolder = Filmapp
 
-be_search_mpool_media = Filnamn
-be_search_mpool_search = Sök
-
 var_media_open = Välj fil
 var_media_new = Tillfoga ny fil
 var_media_remove = Radera vald fil
@@ -105,4 +104,6 @@ var_media_view = Visa vald fil
 var_medialist_move_top = Flytta utvald fil till början
 var_medialist_move_up = Flytta utvald fil uppåt
 var_medialist_move_down = Flytta utvald fil neråt
-var_medialist_move_bottom  = Flytta utvald fil till ändan
+var_medialist_move_bottom = Flytta utvald fil till ändan
+
+perm_general_media[sync] = Mediapool: synkronisera filer

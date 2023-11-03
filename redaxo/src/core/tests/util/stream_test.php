@@ -1,8 +1,13 @@
 <?php
 
-class rex_stream_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_stream_test extends TestCase
 {
-    public function testStreamInclude()
+    public function testStreamInclude(): void
     {
         $content = 'foo <?php echo "bar";';
         $streamUrl = rex_stream::factory('test-stream/1', $content);
@@ -10,13 +15,12 @@ class rex_stream_test extends PHPUnit_Framework_TestCase
         require $streamUrl;
         $result = ob_get_clean();
 
-        $this->assertEquals('foo bar', $result);
+        static::assertEquals('foo bar', $result);
     }
 
-    public function testStreamIncludeWithRealFile()
+    public function testStreamIncludeWithRealFile(): void
     {
-        $property = new ReflectionProperty('rex_stream', 'useRealFiles');
-        $property->setAccessible(true);
+        $property = new ReflectionProperty(rex_stream::class, 'useRealFiles');
         $property->setValue(true);
 
         $content = 'foo <?php echo "bar";';
@@ -25,7 +29,7 @@ class rex_stream_test extends PHPUnit_Framework_TestCase
         require $streamUrl;
         $result = ob_get_clean();
 
-        $this->assertEquals('foo bar', $result);
+        static::assertEquals('foo bar', $result);
 
         $property->setValue(null);
     }

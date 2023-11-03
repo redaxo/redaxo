@@ -7,9 +7,12 @@
  */
 class rex_metainfo_category_handler extends rex_metainfo_handler
 {
-    const PREFIX = 'cat_';
-    const CONTAINER = 'rex-structure-category-metainfo';
+    public const PREFIX = 'cat_';
+    public const CONTAINER = 'rex-structure-category-metainfo';
 
+    /**
+     * @return string
+     */
     public function renderToggleButton(rex_extension_point $ep)
     {
         $restrictionsCondition = $this->buildFilterCondition($ep->getParams());
@@ -24,9 +27,12 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         return $ep->getSubject();
     }
 
+    /**
+     * @return array
+     */
     public function handleSave(array $params, rex_sql $sqlFields)
     {
-        if (rex_request_method() != 'post') {
+        if ('post' != rex_request_method()) {
             return $params;
         }
 
@@ -48,6 +54,9 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         return $params;
     }
 
+    /**
+     * @return string
+     */
     protected function buildFilterCondition(array $params)
     {
         $s = '';
@@ -57,7 +66,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
             // Alle Metafelder des Pfades sind erlaubt
             foreach ($OOCat->getPathAsArray() as $pathElement) {
-                if ($pathElement != '') {
+                if ('' != $pathElement) {
                     $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
                 }
             }
@@ -66,20 +75,16 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             $s .= ' OR `p`.`restrictions` LIKE "%|' . $params['id'] . '|%"';
         }
 
-        $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ')';
-
-        return $restrictionsCondition;
+        return 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ')';
     }
 
-    public function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+    public function renderFormItem($field, $tag, $tagAttr, $id, $label, $labelIt, $inputType)
     {
-        $element = $field;
-
-        if ($typeLabel == 'legend') {
-            $element = '<h3 class="form-legend">' . $label . '</h3>';
+        if ('legend' == $inputType) {
+            return '<h3 class="form-legend">' . $label . '</h3>';
         }
 
-        return $element;
+        return $field;
     }
 
     public function extendForm(rex_extension_point $ep)
@@ -112,10 +117,10 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
 $catHandler = new rex_metainfo_category_handler();
 
-rex_extension::register('CAT_FORM_ADD', [$catHandler, 'extendForm']);
-rex_extension::register('CAT_FORM_EDIT', [$catHandler, 'extendForm']);
+rex_extension::register('CAT_FORM_ADD', $catHandler->extendForm(...));
+rex_extension::register('CAT_FORM_EDIT', $catHandler->extendForm(...));
 
-rex_extension::register('CAT_ADDED', [$catHandler, 'extendForm']);
-rex_extension::register('CAT_UPDATED', [$catHandler, 'extendForm']);
+rex_extension::register('CAT_ADDED', $catHandler->extendForm(...), rex_extension::EARLY);
+rex_extension::register('CAT_UPDATED', $catHandler->extendForm(...), rex_extension::EARLY);
 
-rex_extension::register('CAT_FORM_BUTTONS', [$catHandler, 'renderToggleButton']);
+rex_extension::register('CAT_FORM_BUTTONS', $catHandler->renderToggleButton(...));

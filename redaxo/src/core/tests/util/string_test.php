@@ -1,13 +1,20 @@
 <?php
 
-class rex_string_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_string_test extends TestCase
 {
-    public function testSize()
+    public function testSize(): void
     {
-        $this->assertEquals(3, rex_string::size('aä'));
+        static::assertEquals(3, rex_string::size('aä'));
     }
 
-    public function normalizeProvider()
+    /** @return list<array{0: string, 1: string, 2?: string, 3?: string}> */
+    public static function normalizeProvider(): array
     {
         return [
             [
@@ -20,21 +27,20 @@ class rex_string_test extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider normalizeProvider
-     */
-    public function testNormalize($expected, $string, $replaceChar = '_', $allowedChars = '')
+    #[DataProvider('normalizeProvider')]
+    public function testNormalize(string $expected, string $string, string $replaceChar = '_', string $allowedChars = ''): void
     {
-        $this->assertEquals($expected, rex_string::normalize($string, $replaceChar, $allowedChars));
+        static::assertEquals($expected, rex_string::normalize($string, $replaceChar, $allowedChars));
     }
 
-    public function splitProvider()
+    /** @return list<array{string, array<int|string, string|int>}> */
+    public static function splitProvider(): array
     {
         return [
             ['',                                          []],
             ['a b c',                                     ['a', 'b', 'c']],
             ['"a b" cdef \'ghi kl\'',                     ['a b', 'cdef', 'ghi kl']],
-            ['a=1 b=xyz c="hu hu" 123=\'he he\'',         ['a' => 1, 'b' => 'xyz', 'c' => 'hu hu', '123' => 'he he']],
+            ['a=1 b=xyz c="hu hu" 123=\'he he\'',         ['a' => '1', 'b' => 'xyz', 'c' => 'hu hu', '123' => 'he he']],
             ['a="a \"b\" c" b=\'a \\\'b\\\'\' c="a\\\\"', ['a' => 'a "b" c', 'b' => "a 'b'", 'c' => 'a\\']],
             ["\n a=1\n b='aa\nbb'\n c='a'\n ",            ['a' => '1', 'b' => "aa\nbb", 'c' => 'a']],
             ['"a b" c "d e',                              ['a b', 'c', '"d', 'e']],
@@ -42,70 +48,14 @@ class rex_string_test extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider splitProvider
-     */
-    public function testSplit($string, $expectedArray)
+    #[DataProvider('splitProvider')]
+    public function testSplit(string $string, array $expectedArray): void
     {
-        $this->assertEquals($expectedArray, rex_string::split($string));
+        static::assertSame($expectedArray, rex_string::split($string));
     }
 
-    public function versionSplitProvider()
-    {
-        return [
-            ['1.1.2',      ['1', '1', '2']],
-            ['1.2alpha1',  ['1', '2', 'alpha', '1']],
-            ['1_2 beta 2', ['1', '2', 'beta', '2']],
-            ['2.2.3-dev',  ['2', '2', '3', 'dev']],
-        ];
-    }
-
-    /**
-     * @dataProvider versionSplitProvider
-     */
-    public function testVersionSplit($version, $expected)
-    {
-        $this->assertEquals($expected, rex_string::versionSplit($version));
-    }
-
-    public function versionCompareProvider()
-    {
-        return [
-            ['1',      '1',      '='],
-            ['1.0',    '1.0',    '='],
-            ['1',      '1.0',    '='],
-            ['1.0 a1', '1.0.a1', '='],
-            ['1.0a1',  '1.0.a1', '='],
-            ['1.0 alpha 1', '1.0.a1', '='],
-
-            ['1',      '2',        '<'],
-            ['1',      '1.1',      '<'],
-            ['1.0',    '1.1',      '<'],
-            ['1.1',    '1.2',      '<'],
-            ['1.2',    '1.10',     '<'],
-            ['1.a1',   '1',        '<'],
-            ['1.a1',   '1.0',      '<'],
-            ['1.a1',   '1.a2',     '<'],
-            ['1.a1',   '1.b1',     '<'],
-            ['1.0.a1', '1',        '<'],
-            ['1.0.a1', '1.0.0.0.', '<'],
-            ['1.0a1',  '1.0',      '<'],
-            ['1.0a1',  '1.0.1',    '<'],
-            ['1.0a1',  '1.0a2',    '<'],
-            ['1.0',    '1.1a1',    '<'],
-            ['1.0.1',  '1.1a1',    '<'],
-        ];
-    }
-
-    /**
-     * @dataProvider versionCompareProvider
-     */
-    public function testVersionCompare($version1, $version2, $comparator)
-    {
-        $this->assertTrue(rex_string::versionCompare($version1, $version2, $comparator));
-    }
-
-    public function buildQueryProvider()
+    /** @return list<array{0: string, 1: array, 2?: string}> */
+    public static function buildQueryProvider(): array
     {
         return [
             ['', []],
@@ -115,19 +65,66 @@ class rex_string_test extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider buildQueryProvider
-     */
-    public function testBuildQuery($expected, $params, $argSeparator = '&')
+    #[DataProvider('buildQueryProvider')]
+    public function testBuildQuery(string $expected, array $params, string $argSeparator = '&'): void
     {
-        $this->assertEquals($expected, rex_string::buildQuery($params, $argSeparator));
+        static::assertEquals($expected, rex_string::buildQuery($params, $argSeparator));
     }
 
-    public function testBuildAttributes()
+    public function testBuildAttributes(): void
     {
-        $this->assertEquals(
-            ' id="rex-test" class="a b" alt="" checked',
-            rex_string::buildAttributes(['id' => 'rex-test', 'class' => ['a', 'b'], 'alt' => '', 'checked'])
+        static::assertEquals(
+            ' id="rex-test" class="a b" alt="" checked data-foo="&lt;foo&gt; &amp; &quot;bar&quot;" href="index.php?foo=1&amp;bar=2"',
+            rex_string::buildAttributes([
+                'id' => 'rex-test',
+                'class' => ['a', 'b'],
+                'alt' => '',
+                'checked',
+                'data-foo' => '<foo> & "bar"',
+                'href' => 'index.php?foo=1&amp;bar=2',
+            ]),
         );
+    }
+
+    public function testSanitizeHtml(): void
+    {
+        $input = <<<'INPUT'
+            <p align=center><img src="foo.jpg" style="width: 200px"></p>
+            <a name="test"></a>
+
+            <script>
+                alert(1);
+                window.location.replace(my_link);
+            </script>
+            <a href="javascript:alert(1)">Foo</a>
+            <a href="index.php" onclick="alert(1)">Foo</a>
+            <img src="foo.jpg" onmouseover="alert(1)"/>
+
+            <pre><code>
+                &lt;script&gt;
+                    foo();
+                    window.location.replace(my_link);
+                &lt;/script&gt;
+            </code></pre>
+            INPUT;
+
+        $expected = <<<'EXPECTED'
+            <p align=center><img src="foo.jpg" style="width: 200px"></p>
+            <a name="test"></a>
+
+
+            <a href="(1)">Foo</a>
+            <a href="index.php">Foo</a>
+            <img src="foo.jpg" />
+
+            <pre><code>
+                &lt;script&gt;
+                    foo();
+                    window.location.replace(my_link);
+                &lt;/script&gt;
+            </code></pre>
+            EXPECTED;
+
+        static::assertSame($expected, rex_string::sanitizeHtml($input));
     }
 }

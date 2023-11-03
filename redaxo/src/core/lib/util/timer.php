@@ -9,15 +9,24 @@
  */
 class rex_timer
 {
-    const SEC = 1;
-    const MILLISEC = 1000;
-    const MICROSEC = 1000000;
-
-    private $start;
+    public const SEC = 1;
+    public const MILLISEC = 1_000;
+    public const MICROSEC = 1_000_000;
 
     /**
-     * Constructor.
+     * @internal
      *
+     * @var array<string, array{sum: mixed, timings: list<array{start: float, end: float}>}>
+     */
+    public static $serverTimings = [];
+
+    /** @var float */
+    private $start;
+
+    /** @var null|float */
+    private $duration;
+
+    /**
      * @param float $start Start time
      */
     public function __construct($start = null)
@@ -30,11 +39,67 @@ class rex_timer
     }
 
     /**
+     * Measures the runtime of the given callable.
+     *
+     * On sufficient user permissions - or in debug mode - this timings will be sent over the wire to the browser via server timing api http headers.
+     *
+     * @template T
+     *
+     * @param string $label
+     * @param callable():T $callable
+     *
+     * @return T result of callable
+     */
+    public static function measure($label, callable $callable)
+    {
+        if (!rex::isDebugMode()) {
+            return $callable();
+        }
+
+        $timer = new self();
+
+        try {
+            return $callable();
+        } finally {
+            $timer->stop();
+
+            self::measured($label, $timer);
+        }
+    }
+
+    /**
+     * Saves the measurement of the given timer.
+     *
+     * This method should be used only if the measured code can not be wrapped inside a callable, otherwise use `measure()`.
+     */
+    public static function measured(string $label, self $timer): void
+    {
+        $duration = self::$serverTimings[$label]['sum'] ?? 0;
+        $duration += $timer->getDelta(self::MILLISEC);
+
+        self::$serverTimings[$label]['sum'] = $duration;
+        self::$serverTimings[$label]['timings'][] = [
+            'start' => $timer->start,
+            'end' => microtime(true),
+        ];
+    }
+
+    /**
      * Resets the timer.
+     * @return void
      */
     public function reset()
     {
         $this->start = microtime(true);
+    }
+
+    /**
+     * Stops the timer.
+     * @return void
+     */
+    public function stop()
+    {
+        $this->duration = microtime(true) - $this->start;
     }
 
     /**
@@ -46,7 +111,9 @@ class rex_timer
      */
     public function getDelta($precision = self::MILLISEC)
     {
-        return (microtime(true) - $this->start) * $precision;
+        $duration = $this->duration ?? microtime(true) - $this->start;
+
+        return $duration * $precision;
     }
 
     /**

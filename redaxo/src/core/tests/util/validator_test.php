@@ -1,16 +1,23 @@
 <?php
 
-class rex_validator_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_validator_test extends TestCase
 {
-    public function testNotEmpty()
+    public function testNotEmpty(): void
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->notEmpty(''));
-        $this->assertTrue($validator->notEmpty('0'));
-        $this->assertTrue($validator->notEmpty('aaa'));
+        static::assertFalse($validator->notEmpty(''));
+        static::assertTrue($validator->notEmpty('0'));
+        static::assertTrue($validator->notEmpty('aaa'));
     }
 
-    public function dataType()
+    /** @return list<array{string, string, bool}> */
+    public static function dataType(): array
     {
         return [
             ['',      'int', false],
@@ -26,43 +33,42 @@ class rex_validator_test extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataType
-     */
-    public function testType($value, $type, $expected)
+    #[DataProvider('dataType')]
+    public function testType(string $value, string $type, bool $expected): void
     {
-        $this->assertEquals($expected, rex_validator::factory()->type($value, $type));
+        static::assertEquals($expected, rex_validator::factory()->type($value, $type));
     }
 
-    public function testMinLength()
+    public function testMinLength(): void
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->minLength('ab', 3));
-        $this->assertTrue($validator->minLength('abc', 3));
+        static::assertFalse($validator->minLength('ab', 3));
+        static::assertTrue($validator->minLength('abc', 3));
     }
 
-    public function testMaxLength()
+    public function testMaxLength(): void
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->maxLength('abc', 2));
-        $this->assertTrue($validator->maxLength('ab', 2));
+        static::assertFalse($validator->maxLength('abc', 2));
+        static::assertTrue($validator->maxLength('ab', 2));
     }
 
-    public function testMin()
+    public function testMin(): void
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->min('4', 5));
-        $this->assertTrue($validator->min('5', 5));
+        static::assertFalse($validator->min('4', 5));
+        static::assertTrue($validator->min('5', 5));
     }
 
-    public function testMax()
+    public function testMax(): void
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->max('5', 4));
-        $this->assertTrue($validator->max('4', 4));
+        static::assertFalse($validator->max('5', 4));
+        static::assertTrue($validator->max('4', 4));
     }
 
-    public function dataUrl()
+    /** @return list<array{string, bool}> */
+    public static function dataUrl(): array
     {
         return [
             ['', false],
@@ -74,15 +80,14 @@ class rex_validator_test extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataUrl
-     */
-    public function testUrl($value, $isValid)
+    #[DataProvider('dataUrl')]
+    public function testUrl(string $value, bool $isValid): void
     {
-        $this->assertEquals($isValid, rex_validator::factory()->url($value));
+        static::assertEquals($isValid, rex_validator::factory()->url($value));
     }
 
-    public function dataEmail()
+    /** @return list<array{string, bool}> */
+    public static function dataEmail(): array
     {
         return [
             ['', false],
@@ -93,73 +98,89 @@ class rex_validator_test extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataEmail
-     */
-    public function testEmail($value, $isValid)
+    #[DataProvider('dataEmail')]
+    public function testEmail(string $value, bool $isValid): void
     {
-        $this->assertEquals($isValid, rex_validator::factory()->email($value));
+        static::assertEquals($isValid, rex_validator::factory()->email($value));
     }
 
-    public function testMatch()
+    public function testMatch(): void
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->match('aa', '/^.$/'));
-        $this->assertTrue($validator->match('a', '/^.$/'));
+        static::assertFalse($validator->match('aa', '/^.$/'));
+        static::assertTrue($validator->match('a', '/^.$/'));
     }
 
-    public function testNotMatch()
+    public function testNotMatch(): void
     {
         $validator = rex_validator::factory();
-        $this->assertTrue($validator->notMatch('aa', '/^.$/'));
-        $this->assertFalse($validator->notMatch('a', '/^.$/'));
+        static::assertTrue($validator->notMatch('aa', '/^.$/'));
+        static::assertFalse($validator->notMatch('a', '/^.$/'));
     }
 
-    public function testValues()
+    public function testValues(): void
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->values('abc', ['def', 'ghi']));
-        $this->assertTrue($validator->values('ghi', ['def', 'ghi']));
+        static::assertFalse($validator->values('abc', ['def', 'ghi']));
+        static::assertTrue($validator->values('ghi', ['def', 'ghi']));
     }
 
-    public function testCustom()
+    #[DataProvider('dataCustom')]
+    public function testCustom(bool $expected, string $value): void
     {
         $validator = rex_validator::factory();
 
-        $callback = function ($v) use (&$value, &$isCalled) {
+        $isCalled = false;
+
+        $callback = function ($v) use ($value, &$isCalled) {
             $isCalled = true;
             $this->assertEquals($value, $v);
-            return $value === 'abc';
+            return 'abc' === $value;
         };
 
-        $isCalled = false;
-        $value = 'abc';
-        $this->assertTrue($validator->custom($value, $callback));
-        $this->assertTrue($isCalled, 'Custom callback is called');
-
-        $isCalled = false;
-        $value = 'def';
-        $this->assertFalse($validator->custom($value, $callback));
-        $this->assertTrue($isCalled, 'Custom callback is called');
+        static::assertSame($expected, $validator->custom($value, $callback));
+        static::assertTrue($isCalled, 'Custom callback is called');
     }
 
-    public function testIsValid()
+    /** @return iterable<int, array{bool, string}> */
+    public static function dataCustom(): iterable
+    {
+        return [
+            [true, 'abc'],
+            [false, 'def'],
+        ];
+    }
+
+    public function testIsValid(): void
     {
         $validator = rex_validator::factory();
 
-        $this->assertTrue($validator->isValid(''));
-        $this->assertNull($validator->getMessage());
+        static::assertTrue($validator->isValid(''));
+        static::assertNull($validator->getMessage());
 
         $validator->add('notEmpty', 'not-empty');
         $validator->add('minLength', 'min-length', 3);
 
-        $this->assertFalse($validator->isValid(''));
-        $this->assertEquals('not-empty', $validator->getMessage());
+        static::assertFalse($validator->isValid(''));
+        static::assertEquals('not-empty', $validator->getMessage());
 
-        $this->assertFalse($validator->isValid('ab'));
-        $this->assertEquals('min-length', $validator->getMessage());
+        static::assertFalse($validator->isValid('ab'));
+        static::assertEquals('min-length', $validator->getMessage());
 
-        $this->assertTrue($validator->isValid('abc'));
-        $this->assertNull($validator->getMessage());
+        static::assertTrue($validator->isValid('abc'));
+        static::assertNull($validator->getMessage());
+    }
+
+    public function testGetRules(): void
+    {
+        $validator = rex_validator::factory();
+        // mix of add/addRule should be returned in getRules()
+        $validator->add(rex_validation_rule::NOT_EMPTY, 'not-empty');
+        $validator->addRule(new rex_validation_rule('minLength', 'min-length', 3));
+
+        static::assertCount(2, $validator->getRules());
+        static::assertIsArray($validator->getRules());
+        static::assertArrayHasKey(0, $validator->getRules());
+        static::assertArrayHasKey(1, $validator->getRules());
     }
 }

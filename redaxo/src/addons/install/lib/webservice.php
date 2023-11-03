@@ -7,14 +7,24 @@
  */
 class rex_install_webservice
 {
-    const HOST = 'www.redaxo.org';
-    const PORT = 443;
-    const SSL = true;
-    const PATH = '/de/ws/';
-    const REFRESH_CACHE = 600;
+    public const HOST = 'www.redaxo.org';
+    public const PORT = 443;
+    public const SSL = true;
+    public const PATH = '/de/ws/';
+    public const REFRESH_CACHE = 600;
 
+    /** @var array<string, array{stamp: int, data: array}> */
     private static $cache;
 
+    /**
+     * Retrieves the json-decoded content of the given path.
+     *
+     * @param string $path path to local cache-file
+     *
+     * @throws rex_functional_exception
+     *
+     * @return array
+     */
     public static function getJson($path)
     {
         if (is_array($cache = self::getCache($path))) {
@@ -47,14 +57,23 @@ class rex_install_webservice
         throw new rex_functional_exception($error);
     }
 
+    /**
+     * Download the content of the given url and make it available as a local file.
+     *
+     * @param string $url Url to a resource to download
+     *
+     * @throws rex_functional_exception
+     *
+     * @return string Returns a local path to the downloaded archive
+     */
     public static function getArchive($url)
     {
         try {
             $socket = rex_socket::factoryUrl($url);
             $response = $socket->doGet();
             if ($response->isOk()) {
-                $filename = basename($url);
-                $file = rex_path::addonCache('install', md5($filename) . '.' . rex_file::extension($filename));
+                $filename = rex_path::basename($url);
+                $file = rex_path::addonCache('install', rtrim(md5($filename) . '.' . rex_file::extension($filename), '.'));
                 $response->writeBodyTo($file);
                 return $file;
             }
@@ -65,6 +84,14 @@ class rex_install_webservice
         throw new rex_functional_exception(rex_i18n::msg('install_archive_unreachable'));
     }
 
+    /**
+     * POSTs the given data to the redaxo.org webservice.
+     *
+     * @param string      $path
+     * @param string|null $archive Path to archive
+     * @throws rex_functional_exception
+     * @return void
+     */
     public static function post($path, array $data, $archive = null)
     {
         $fullpath = self::PATH . self::getPath($path);
@@ -96,6 +123,13 @@ class rex_install_webservice
         throw new rex_functional_exception($error);
     }
 
+    /**
+     * Issues a http DELETE to the given path.
+     *
+     * @param string $path
+     * @throws rex_functional_exception
+     * @return void
+     */
     public static function delete($path)
     {
         $fullpath = self::PATH . self::getPath($path);
@@ -122,13 +156,22 @@ class rex_install_webservice
         throw new rex_functional_exception($error);
     }
 
+    /**
+     * Appends api login credentials to the given path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
     private static function getPath($path)
     {
-        $path = strpos($path, '?') === false ? rtrim($path, '/') . '/?' : $path . '&';
+        $path = !str_contains($path, '?') ? rtrim($path, '/') . '/?' : $path . '&';
         $path .= 'rex_version=' . rex::getVersion();
 
+        /** @var array<string, string>|null $config */
         static $config;
         if (null === $config) {
+            /** @var array<string, string> $config */
             $config = rex_file::getCache(rex_path::addonData('install', 'config.json'));
         }
 
@@ -139,12 +182,18 @@ class rex_install_webservice
         return $path;
     }
 
+    /**
+     * Deletes the local webservice cache.
+     *
+     * @param string|null $pathBegin
+     * @return void
+     */
     public static function deleteCache($pathBegin = null)
     {
         self::loadCache();
         if ($pathBegin) {
-            foreach (self::$cache as $path => $cache) {
-                if (strpos($path, $pathBegin) === 0) {
+            foreach (self::$cache as $path => $_) {
+                if (str_starts_with($path, $pathBegin)) {
                     unset(self::$cache[$path]);
                 }
             }
@@ -154,6 +203,13 @@ class rex_install_webservice
         rex_file::putCache(rex_path::addonCache('install', 'webservice.cache'), self::$cache);
     }
 
+    /**
+     * Returns the content for the given path out of the local cache.
+     *
+     * @param string $path
+     *
+     * @return array|null
+     */
     private static function getCache($path)
     {
         self::loadCache();
@@ -163,17 +219,30 @@ class rex_install_webservice
         return null;
     }
 
+    /**
+     * Loads the local cached data into memory (only fresh data will be loaded).
+     * @return void
+     */
     private static function loadCache()
     {
-        if (self::$cache === null) {
-            foreach ((array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache')) as $path => $cache) {
-                if ($cache['stamp'] > time() - self::REFRESH_CACHE) {
-                    self::$cache[$path] = $cache;
+        if (null === self::$cache) {
+            /** @var array<string, array{stamp: int, data: array}> $cache */
+            $cache = (array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache'));
+            foreach ($cache as $path => $pathCache) {
+                if ($pathCache['stamp'] > time() - self::REFRESH_CACHE) {
+                    self::$cache[$path] = $pathCache;
                 }
             }
         }
     }
 
+    /**
+     * Writes the given data into the local cache.
+     *
+     * @param string $path
+     * @param array  $data
+     * @return void
+     */
     private static function setCache($path, $data)
     {
         self::$cache[$path]['stamp'] = time();

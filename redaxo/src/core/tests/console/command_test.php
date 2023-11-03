@@ -1,24 +1,39 @@
 <?php
 
-class rex_console_command_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+/**
+ * @internal
+ */
+class rex_console_command_test extends TestCase
 {
-    public function testDecodeMessage()
+    public function testDecodeMessage(): void
     {
         $method = new ReflectionMethod(rex_console_command::class, 'decodeMessage');
-        $method->setAccessible(true);
 
-        $command = $this->getMockForAbstractClass(rex_console_command::class);
+        $command = new class() extends rex_console_command {
+            public function execute(InputInterface $input, OutputInterface $output): int
+            {
+                return 0;
+            }
+        };
 
-        $this->assertSame("\"Foo\"\nbar\nbaz\nabc\ndef", $method->invoke($command, "&quot;Foo&quot;<br><b>bar</b><br />\nbaz<br/>\rabc<br>\r\ndef"));
+        static::assertSame("\"Foo\"\nbar\nbaz\nabc\ndef", $method->invoke($command, "&quot;Foo&quot;<br><b>bar</b><br />\nbaz<br/>\rabc<br>\r\ndef"));
     }
 
-    public function testDecodeMessageSingleQuotes()
+    public function testDecodeMessageSingleQuotes(): void
     {
         $method = new ReflectionMethod(rex_console_command::class, 'decodeMessage');
-        $method->setAccessible(true);
 
-        $command = $this->getMockForAbstractClass(rex_console_command::class);
+        $command = new class() extends rex_console_command {
+            public function execute(InputInterface $input, OutputInterface $output): int
+            {
+                return 0;
+            }
+        };
 
-        $this->assertSame("Couldn't find the required PHP extension module session!", $method->invoke($command, 'Couldn&#039;t find the required PHP extension module session!'));
+        static::assertSame("Couldn't find the required PHP extension module session!", $method->invoke($command, 'Couldn&#039;t find the required PHP extension module session!'));
     }
 }

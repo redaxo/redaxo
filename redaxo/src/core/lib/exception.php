@@ -7,9 +7,8 @@ class rex_exception extends Exception
 {
     /**
      * @param string    $message
-     * @param Exception $previous
      */
-    public function __construct($message, Exception $previous = null)
+    public function __construct($message, ?Exception $previous = null)
     {
         parent::__construct($message, 0, $previous);
     }
@@ -20,9 +19,11 @@ class rex_exception extends Exception
  */
 class rex_sql_exception extends rex_exception
 {
+    /** @var null|rex_sql */
     private $sql;
 
-    public function __construct($message, Exception $previous = null, rex_sql $sql = null)
+    /** @param string $message */
+    public function __construct($message, ?Exception $previous = null, ?rex_sql $sql = null)
     {
         parent::__construct($message, $previous);
 
@@ -36,16 +37,33 @@ class rex_sql_exception extends rex_exception
     {
         return $this->sql;
     }
+
+    /**
+     * Returns the mysql native error code.
+     */
+    public function getErrorCode(): ?int
+    {
+        $previous = $this->getPrevious();
+        if ($previous instanceof PDOException) {
+            return $previous->errorInfo[1] ?? null;
+        }
+        return null;
+    }
 }
+
+/**
+ * Exception class when redaxo is unable to connect to the database.
+ *
+ * @package redaxo\core
+ */
+class rex_sql_could_not_connect_exception extends rex_sql_exception {}
 
 /**
  * Exception class for user-friendly error messages.
  *
  * @package redaxo\core
  */
-class rex_functional_exception extends rex_exception
-{
-}
+class rex_functional_exception extends rex_exception {}
 
 /**
  * Exception class for http-status code handling.
@@ -54,20 +72,20 @@ class rex_functional_exception extends rex_exception
  */
 class rex_http_exception extends rex_exception
 {
+    /** @var string */
     private $httpCode;
 
     /**
-     * @param Exception $cause
-     * @param int       $httpCode
+     * @param string $httpCode
      */
     public function __construct(Exception $cause, $httpCode)
     {
-        parent::__construct(null, $cause);
+        parent::__construct($cause->getMessage(), $cause);
         $this->httpCode = $httpCode;
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getHttpCode()
     {
@@ -80,6 +98,4 @@ class rex_http_exception extends rex_exception
  *
  * @package redaxo\core
  */
-class rex_yaml_parse_exception extends rex_exception
-{
-}
+class rex_yaml_parse_exception extends rex_exception {}

@@ -9,9 +9,7 @@
  */
 trait rex_instance_list_pool_trait
 {
-    /**
-     * @var mixed[]
-     */
+    /** @var array<string, array> */
     private static $instanceLists = [];
 
     /**
@@ -19,6 +17,7 @@ trait rex_instance_list_pool_trait
      *
      * @param mixed $key             Key
      * @param array $instanceKeyList Array of instance keys
+     * @return void
      */
     protected static function addInstanceList($key, array $instanceKeyList)
     {
@@ -44,13 +43,18 @@ trait rex_instance_list_pool_trait
      *
      * If the instance list does not exist it will be created by calling the $createListCallback
      *
-     * @param mixed    $key                 Key
-     * @param callable $getInstanceCallback Callback, will be called for every list item to get the instance
-     * @param callable $createListCallback  Callback, will be called to create the list of instance keys
+     * @param mixed         $key                 Key
+     * @param callable      $getInstanceCallback Callback, will be called for every list item to get the instance
+     * @param callable|null $createListCallback  Callback, will be called to create the list of instance keys
      *
      * @return array
+     *
+     * @template T as object
+     * @psalm-param callable(mixed...):?T $getInstanceCallback
+     * @psalm-param callable(mixed...):mixed[]|null $createListCallback
+     * @psalm-return T[]
      */
-    protected static function getInstanceList($key, callable $getInstanceCallback, callable $createListCallback = null)
+    protected static function getInstanceList($key, callable $getInstanceCallback, ?callable $createListCallback = null)
     {
         $args = (array) $key;
         $key = self::getInstanceListPoolKey($args);
@@ -75,6 +79,7 @@ trait rex_instance_list_pool_trait
      * Clears the instance list of the given key.
      *
      * @param mixed $key Key
+     * @return void
      */
     public static function clearInstanceList($key)
     {
@@ -84,6 +89,7 @@ trait rex_instance_list_pool_trait
 
     /**
      * Clears the instance list pool.
+     * @return void
      */
     public static function clearInstanceListPool()
     {

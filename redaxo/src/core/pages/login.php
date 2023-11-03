@@ -1,18 +1,19 @@
 <?php
 
-/**
- * @package redaxo5
- */
+global $rexUserLoginmessage;
 
-global $rex_user_loginmessage;
-
-$rex_user_login = rex_post('rex_user_login', 'string');
+$rexUserLogin = rex_post('rex_user_login', 'string');
 
 echo rex_view::title(rex_i18n::msg('login'));
 
+$content = '';
+
+$fragment = new rex_fragment();
+$content .= $fragment->parse('core/login_branding.php');
+
 $js = '';
-if ($rex_user_loginmessage != '') {
-    echo '<div class="rex-js-login-message">'.rex_view::error($rex_user_loginmessage) . "</div>\n";
+if ('' != $rexUserLoginmessage) {
+    $content .= '<div class="rex-js-login-message">' . rex_view::error($rexUserLoginmessage) . '</div>';
     $js = '
         var time_el = $(".rex-js-login-message strong[data-time]");
         if(time_el.length == 1) {
@@ -37,7 +38,6 @@ if ($rex_user_loginmessage != '') {
         }';
 }
 
-$content = '';
 $content .= '
     <fieldset>
         <input type="hidden" name="javascript" value="0" id="javascript" />';
@@ -46,7 +46,7 @@ $formElements = [];
 
 $inputGroups = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
+$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($rexUserLogin) . '" id="rex-id-login-user" name="rex_user_login" autocomplete="username webauthn" autofocus />';
 $n['left'] = '<i class="rex-icon rex-icon-user"></i>';
 $inputGroups[] = $n;
 
@@ -62,7 +62,7 @@ $formElements[] = $n;
 
 $inputGroups = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="password" name="rex_user_psw" id="rex-id-login-password" />';
+$n['field'] = '<input class="form-control" type="password" name="rex_user_psw" id="rex-id-login-password" autocomplete="current-password" />';
 $n['left'] = '<i class="rex-icon rex-icon-password"></i>';
 $inputGroups[] = $n;
 
@@ -81,10 +81,12 @@ $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
-$n = [];
-$n['label'] = '<label for="rex-id-login-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
-$n['field'] = '<input type="checkbox" name="rex_user_stay_logged_in" id="rex-id-login-stay-logged-in" value="1" />';
-$formElements[] = $n;
+if (rex::getProperty('login')->getLoginPolicy()->isStayLoggedInEnabled()) {
+    $n = [];
+    $n['label'] = '<label for="rex-id-login-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
+    $n['field'] = '<input type="checkbox" name="rex_user_stay_logged_in" id="rex-id-login-stay-logged-in" value="1" />';
+    $formElements[] = $n;
+}
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
@@ -94,7 +96,7 @@ $content .= '</fieldset>';
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-primary" type="submit"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login') . ' </button>';
+$n['field'] = '<button class="btn btn-primary btn-block" type="submit"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login') . ' </button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -102,17 +104,19 @@ $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('login_welcome'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
+$webauthn = new rex_webauthn();
+
 $content = '
-<form id="rex-form-login" action="' . rex_url::backendController() . '" method="post">
+<form id="rex-form-login" action="' . rex_url::backendController() . '" method="post" data-auth-login>
     ' . $content . '
     ' . rex_csrf_token::factory('backend_login')->getHiddenField() . '
+    <input type="hidden" name="rex_user_passkey" data-auth-passkey="' . rex_escape($webauthn->getGetArgs()) . '"/>
 </form>
-<script type="text/javascript">
+<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
      <!--
     jQuery(function($) {
         $("#rex-form-login")
@@ -128,5 +132,8 @@ $content = '
     });
      //-->
 </script>';
+
+$fragment = new rex_fragment();
+$content .= $fragment->parse('core/login_background.php');
 
 echo $content;

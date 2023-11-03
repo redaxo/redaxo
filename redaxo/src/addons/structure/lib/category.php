@@ -12,11 +12,13 @@ class rex_category extends rex_structure_element
      *
      * @param int $clang
      *
-     * @return self
+     * @return null|self
      */
     public static function getCurrent($clang = null)
     {
-        return rex_article::getCurrent($clang)->getCategory();
+        $article = rex_article::getCurrent($clang);
+
+        return $article ? $article->getCategory() : null;
     }
 
     /**
@@ -38,9 +40,6 @@ class rex_category extends rex_structure_element
         return self::getChildElements(0, 'clist', $ignoreOfflines, $clang);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPriority()
     {
         return $this->catpriority;
@@ -66,7 +65,7 @@ class rex_category extends rex_structure_element
     /**
      * Returns the parent category.
      *
-     * @return self
+     * @return static|null
      */
     public function getParent()
     {
@@ -77,14 +76,12 @@ class rex_category extends rex_structure_element
      * Returns TRUE if this category is the direct
      * parent of the other category.
      *
-     * @param self $otherCat
-     *
      * @return bool
      */
     public function isParent(self $otherCat)
     {
         return $this->getId() == $otherCat->getParentId() &&
-             $this->getClang() == $otherCat->getClang();
+             $this->getClangId() == $otherCat->getClangId();
     }
 
     /**
@@ -111,7 +108,9 @@ class rex_category extends rex_structure_element
      */
     public function getStartArticle()
     {
-        return rex_article::get($this->id, $this->clang_id);
+        $article = rex_article::get($this->id, $this->clang_id);
+        assert($article instanceof rex_article);
+        return $article;
     }
 
     /**
@@ -144,9 +143,6 @@ class rex_category extends rex_structure_element
         return parent::_hasValue($value, ['cat_']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isPermitted()
     {
         return (bool) rex_extension::registerPoint(new rex_extension_point('CAT_IS_PERMITTED', true, ['element' => $this]));

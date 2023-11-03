@@ -12,6 +12,7 @@ class rex_clang_service
      * @param string $name     Name
      * @param int    $priority Priority
      * @param bool   $status   Status
+     * @return void
      */
     public static function addCLang($code, $name, $priority, $status = false)
     {
@@ -23,7 +24,7 @@ class rex_clang_service
         $sql->setValue('priority', $priority);
         $sql->setValue('status', $status);
         $sql->insert();
-        $id = $sql->getLastId();
+        $id = (int) $sql->getLastId();
 
         rex_sql_util::organizePriorities(rex::getTable('clang'), 'priority', '', 'priority, id != ' . $id);
 
@@ -47,9 +48,9 @@ class rex_clang_service
      * @param int       $priority Priority
      * @param bool|null $status   Status
      *
-     * @return bool
-     *
      * @throws rex_exception
+     *
+     * @return bool
      */
     public static function editCLang($id, $code, $name, $priority, $status = null)
     {
@@ -92,6 +93,7 @@ class rex_clang_service
      * @param int $id Zu löschende ClangId
      *
      * @throws rex_exception
+     * @return void
      */
     public static function deleteCLang($id)
     {
@@ -125,6 +127,7 @@ class rex_clang_service
      * Schreibt Spracheigenschaften in die Datei include/clang.php.
      *
      * @throws rex_exception
+     * @return void
      */
     public static function generateCache()
     {
@@ -133,14 +136,14 @@ class rex_clang_service
 
         $clangs = [];
         foreach ($lg as $lang) {
-            $id = $lang->getValue('id');
+            $id = (int) $lang->getValue('id');
             foreach ($lg->getFieldnames() as $field) {
                 $clangs[$id][$field] = $lang->getValue($field);
             }
         }
 
         $file = rex_path::coreCache('clang.cache');
-        if (rex_file::putCache($file, $clangs) === false) {
+        if (!rex_file::putCache($file, $clangs)) {
             throw new rex_exception('Clang cache file could not be generated');
         }
     }

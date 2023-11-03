@@ -34,6 +34,8 @@ abstract class rex_system_setting
      * Sets the new value.
      *
      * @param mixed $value
+     *
+     * @return string|bool True, when everything went well. String a errormessage in case of failure.
      */
     abstract public function setValue($value);
 
@@ -41,6 +43,7 @@ abstract class rex_system_setting
      * Registers a setting object.
      *
      * @param self $setting Setting object
+     * @return void
      */
     public static function register(self $setting)
     {

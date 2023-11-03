@@ -10,7 +10,6 @@
  *   - field    => Feld der Kategorie, das ausgegeben werden soll
  *   - clang    => ClangId der Kategorie
  *
- *
  * @package redaxo\structure
  */
 class rex_var_category extends rex_var
@@ -25,20 +24,25 @@ class rex_var_category extends rex_var
             return false;
         }
 
-        $category_id = $this->getParsedArg('id', '$this->getValue(\'category_id\')');
+        $categoryId = $this->getParsedArg('id', '$this->getValue(\'category_id\')');
         $clang = $this->getParsedArg('clang', 'null');
 
-        return __CLASS__ . '::getCategoryValue(' . $category_id . ', ' . $field . ', ' . $clang . ')';
+        return self::class . '::getCategoryValue(' . $categoryId . ', ' . $field . ', ' . $clang . ')';
     }
 
+    /**
+     * @return string|int|null
+     */
     public static function getCategoryValue($id, $field, $clang = null)
     {
-        if ($clang === null) {
+        if (null === $clang) {
             $clang = rex_clang::getCurrentId();
         }
         $cat = rex_category::get($id, $clang);
         if ($cat) {
-            return htmlspecialchars($cat->getValue($field));
+            return rex_escape($cat->getValue($field));
         }
+
+        return null;
     }
 }

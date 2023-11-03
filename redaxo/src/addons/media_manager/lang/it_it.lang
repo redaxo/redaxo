@@ -102,7 +102,9 @@ media_manager_effect_rotate =
 
 media_manager_error_type_name_not_unique = 
 
-media_manager_effect_mirror_height = 
+media_manager_effect_mirror_height =
+media_manager_effect_mirror_opacity = Opacità della riflessione (0 - 100)
+media_manager_effect_mirror_opacity_notice = 0% riflessione completamente invisibile, 100% riflessione completamente visibile
 media_manager_effect_mirror_background_color = 
 media_manager_effect_mirror_background_r = 
 media_manager_effect_mirror_background_g = 

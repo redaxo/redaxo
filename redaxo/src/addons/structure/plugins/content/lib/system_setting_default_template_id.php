@@ -29,18 +29,21 @@ class rex_system_setting_default_template_id extends rex_system_setting
         if (empty($templates)) {
             $select->addOption(rex_i18n::msg('option_no_template'), 0);
         } else {
-            $select->addArrayOptions($templates);
+            $select->addArrayOptions(array_map(rex_i18n::translate(...), $templates));
         }
         return $field;
     }
 
+    /**
+     * @return string|true
+     */
     public function setValue($value)
     {
         $value = (int) $value;
 
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id=? AND active=1', [$value]);
-        if ($sql->getRows() != 1 && $value != 0) {
+        if (1 != $sql->getRows() && 0 != $value) {
             return rex_i18n::msg('system_setting_default_template_id_invalid');
         }
 
