@@ -535,11 +535,12 @@ abstract class rex_metainfo_handler
      * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt.
      *
      * @param array   $params
-     * @param rex_sql $sqlSave   rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
-     * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+     * @param rex_sql $sqlSave            rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
+     * @param rex_sql $sqlFields          rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+     * @param bool    $includeEmtpyFields Leeere Felder ignorieren.
      * @return void
      */
-    public static function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
+    public static function fetchRequestValues(&$params, &$sqlSave, $sqlFields, $includeEmtpyFields = true)
     {
         if ('post' != rex_request_method()) {
             return;
@@ -561,7 +562,10 @@ abstract class rex_metainfo_handler
 
             // Wert in SQL zum speichern
             $saveValue = self::getSaveValue($fieldName, $fieldType, $fieldAttributes);
-            $sqlSave->setValue($fieldName, $saveValue);
+            if($saveValue || $includeEmtpyFields) {
+                //Feld nur hinzufügen, wenn es einen Wert enthält oder leere Werte übernommen werden sollen.
+                $sqlSave->setValue($fieldName, $saveValue);
+            }
 
             // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
             if (isset($params['activeItem'])) {
