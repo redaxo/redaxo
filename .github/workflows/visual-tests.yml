@@ -35,16 +35,16 @@ jobs:
                         ```
 
             -   name: Checkout
-                uses: actions/checkout@v3
+                uses: actions/checkout@v4
                 if: env.writable == 1 && github.event_name != 'repository_dispatch'
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
-                uses: actions/checkout@v3
+                uses: actions/checkout@v4
                 if: env.writable == 0
             -   name: Checkout on chat commnad
-                uses: actions/checkout@v3
+                uses: actions/checkout@v4
                 if: github.event_name == 'repository_dispatch'
                 with:
                     token: ${{ secrets.BOT_TOKEN }}
@@ -59,6 +59,34 @@ jobs:
                     extensions: gd, pdo_mysql
                     coverage: none # disable xdebug, pcov
                     tools: cs2pr
+
+            - name: Set apache2 vhost
+              shell: sudo cp {0} /etc/apache2/sites-available/000-default.conf
+              run: |
+                  <VirtualHost *:80>
+                      ServerName localhost
+                      DocumentRoot ${{ github.workspace }}
+                      ErrorLog ${APACHE_LOG_DIR}/error.log
+                      CustomLog ${APACHE_LOG_DIR}/access.log combined
+                      <Directory />
+                         Options FollowSymLinks
+                         AllowOverride All
+                      </Directory>
+                      <Directory ${{ github.workspace }}>
+                         Options Indexes FollowSymLinks MultiViews
+                         AllowOverride All
+                         Order allow,deny
+                         Allow from all
+                         Require all granted
+                      </Directory>
+                    </VirtualHost>
+            - name: Setup apache2
+              run: |
+                  sudo apt install libapache2-mod-php
+                  echo "export APACHE_RUN_USER=`id -un`" | sudo tee -a /etc/apache2/envvars
+                  echo "export APACHE_RUN_GROUP=`id -gn`" | sudo tee -a /etc/apache2/envvars
+                  sudo a2enmod rewrite
+                  sudo /etc/init.d/apache2 start
 
             -   name: Init database
                 run: |
@@ -89,13 +117,12 @@ jobs:
                     php redaxo/bin/console package:install structure/version --ansi
 
             -   name: Setup nodejs
-                uses: actions/setup-node@v3
+                uses: actions/setup-node@v4
                 with:
-                    node-version: 19
+                    node-version: 20
             -   name: Setup Webserver
                 run: |
-                    php -S localhost:8000 &
-                    npm install puppeteer@6 pixelmatch pngjs fs mkdirp
+                    npm install puppeteer@21 pixelmatch pngjs fs mkdirp
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'
@@ -119,7 +146,7 @@ jobs:
                     git diff --exit-code --name-only .github/tests-visual/
 
             -   name: Commit changed files
-                uses: stefanzweifel/git-auto-commit-action@v4
+                uses: stefanzweifel/git-auto-commit-action@v5
                 if: failure() && env.writable == 1
                 with:
                     commit_message: Update screenshots

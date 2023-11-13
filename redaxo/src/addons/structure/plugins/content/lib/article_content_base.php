@@ -34,7 +34,7 @@ class rex_article_content_base
     protected $function;
 
     /** @var int */
-    protected $ctype;
+    protected $ctype = -1;
     /** @var int */
     protected $clang;
 
@@ -56,8 +56,6 @@ class rex_article_content_base
      */
     public function __construct($articleId = null, $clang = null)
     {
-        $this->ctype = -1;
-
         if (null !== $clang) {
             $this->setCLang($clang);
         } else {

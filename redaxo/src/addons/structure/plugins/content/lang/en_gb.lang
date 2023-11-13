@@ -24,7 +24,6 @@ update_metadata = update metadata
 move_article = Move article
 copy_article = to categorie
 no_rights_to_edit = No editing permissions for this block!
-show = Show
 slice_moved = Slice moved.
 slice_moved_error = Error. Slice not moved.
 slice_deleted_error = Error. Slice not deleted.

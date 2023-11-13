@@ -15,13 +15,9 @@ class rex_test_instance_pool_base
     public function __construct() {}
 }
 
-final class rex_test_instance_pool_1 extends rex_test_instance_pool_base
-{
-}
+final class rex_test_instance_pool_1 extends rex_test_instance_pool_base {}
 
-final class rex_test_instance_pool_2 extends rex_test_instance_pool_base
-{
-}
+final class rex_test_instance_pool_2 extends rex_test_instance_pool_base {}
 
 /**
  * @internal

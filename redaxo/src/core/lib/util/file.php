@@ -105,6 +105,42 @@ class rex_file
     }
 
     /**
+     * Appends content to a file.
+     *
+     * @param string $file    Path to the file
+     * @param string $content Content for the file
+     * @param string $delimiter delimiter for new Content
+     *
+     * @return bool TRUE on success, FALSE on failure
+     *
+     * @psalm-assert-if-true =non-empty-string $file
+     */
+    public static function append(string $file, string $content, string $delimiter = '')
+    {
+        return rex_timer::measure(__METHOD__, static function () use ($file, $content, $delimiter) {
+            if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
+                return false;
+            }
+
+            // Check if the file exists and has content
+            $hasContent = is_file($file) && filesize($file) > 0;
+
+            // Append the content to the file with delimiter if it has existing content
+            if ($hasContent) {
+                $content = $delimiter . $content;
+            }
+
+            // Append the content to the file with FILE_APPEND and LOCK_EX flags
+            if (false !== file_put_contents($file, $content, FILE_APPEND | LOCK_EX)) {
+                @chmod($file, rex::getFilePerm());
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+    /**
      * Puts content in a config file.
      *
      * @param string $file    Path to the file
@@ -194,9 +230,17 @@ class rex_file
     public static function delete($file)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
-            if (is_file($file)) {
-                return unlink($file);
+
+            $tryUnlink = @unlink($file);
+
+            // re-try without error suppression to compensate possible race conditions
+            if (!$tryUnlink) {
+                clearstatcache(true, $file);
+                if (is_file($file)) {
+                    return unlink($file);
+                }
             }
+
             return true;
         });
     }

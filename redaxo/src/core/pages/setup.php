@@ -29,7 +29,7 @@ if (!rex_setup::isInitialSetup()) {
             }
         }
     </style>
-    <a href="' . $context->getUrl(['func' => 'abort']) . '" data-confirm="Cancel Setup?" class="btn btn-delete rex-cancel-setup">' . rex_i18n::msg('setup_cancel') . '</a>';
+    <a href="' . $context->getUrl(['func' => 'abort']) . '" data-confirm="' . rex_i18n::msg('setup_cancel') . '?" class="btn btn-delete rex-cancel-setup">' . rex_i18n::msg('setup_cancel') . '</a>';
 
     if ('abort' === $func) {
         rex_setup::markSetupCompleted();
@@ -56,7 +56,7 @@ if (count($errors) > 0) {
         $errorArray[] = rex_view::error($error);
     }
 } else {
-    $successArray[] = rex_i18n::msg('setup_208');
+    $successArray[] = rex_i18n::msg('setup_208', PHP_VERSION);
 }
 
 $res = rex_setup::checkFilesystem();

@@ -56,8 +56,8 @@ class rex_list implements rex_url_provider_interface
 
     /** @var positive-int */
     private $db;
-    /** @var rex_sql */
-    private $sql;
+
+    protected rex_sql $sql;
     /** @var bool */
     private $debug;
     /** @var string */
@@ -86,7 +86,7 @@ class rex_list implements rex_url_provider_interface
     private $columnNames;
     /** @var array<string, string> */
     private $columnLabels;
-    /** @var array<string, array{string, mixed, array}> */
+    /** @var array<string, array{string, mixed, array<mixed>}> */
     private $columnFormates;
     /** @var array<string, array<string|int, mixed>> */
     private $columnOptions;
@@ -491,11 +491,41 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt alle Namen der Spalten als Array zurück.
      *
-     * @return array
+     * @return list<string>
      */
     public function getColumnNames()
     {
         return $this->columnNames;
+    }
+
+    /**
+     * @return list<string>
+     */
+    protected function getEnabledColumnNames(): array
+    {
+        $columnNames = [];
+        foreach ($this->getColumnNames() as $columnName) {
+            if (!in_array($columnName, $this->columnDisabled)) {
+                $columnNames[] = $columnName;
+            }
+        }
+
+        return $columnNames;
+    }
+
+    /**
+     * @param string $columnName
+     * @param null|array{string, mixed, array<mixed>} $columnFormat
+     * @return string
+     */
+    protected function getColumnValue($columnName, $columnFormat)
+    {
+        return $this->formatValue(
+            $this->getValue($columnName),
+            $columnFormat,
+            !isset($this->customColumns[$columnName]),
+            $columnName,
+        );
     }
 
     /**
@@ -544,10 +574,12 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt das Format für eine Spalte zurück.
      *
-     * @param string $columnName Name der Spalte
-     * @param mixed  $default    Defaultrückgabewert, falls keine Formatierung gesetzt ist
+     * @template T
      *
-     * @return array|null
+     * @param string $columnName Name der Spalte
+     * @param T      $default    Defaultrückgabewert, falls keine Formatierung gesetzt ist
+     *
+     * @return array{string, mixed, array<mixed>}|T
      */
     public function getColumnFormat($columnName, $default = null)
     {
@@ -903,6 +935,19 @@ class rex_list implements rex_url_provider_interface
         return $this->rows;
     }
 
+    protected function getRowsOnCurrentPage(): int
+    {
+        $nbRows = $this->getRows();
+
+        if ($this->pager) {
+            $maxRows = min($this->pager->getRowsPerPage(), $nbRows - $this->pager->getCursor());
+        } else {
+            $maxRows = $nbRows;
+        }
+
+        return $maxRows;
+    }
+
     /**
      * Returns the pager for this list.
      *
@@ -1081,6 +1126,25 @@ class rex_list implements rex_url_provider_interface
         return $value;
     }
 
+    protected function formatRowAttributes(): string
+    {
+        $rowAttributesCallable = null;
+        if (is_callable($this->rowAttributes)) {
+            $rowAttributesCallable = $this->rowAttributes;
+        } elseif ($this->rowAttributes) {
+            $rowAttributes = rex_string::buildAttributes($this->rowAttributes);
+            $rowAttributesCallable = function (self $list) use ($rowAttributes) {
+                return $this->replaceVariables($rowAttributes);
+            };
+        }
+
+        if ($rowAttributesCallable) {
+            return ' ' . $rowAttributesCallable($this);
+        }
+
+        return '';
+    }
+
     /**
      * @return string
      */
@@ -1149,19 +1213,13 @@ class rex_list implements rex_url_provider_interface
 
         // Columns vars
         $columnFormates = [];
-        $columnNames = [];
-        foreach ($this->getColumnNames() as $columnName) {
-            if (!in_array($columnName, $this->columnDisabled)) {
-                $columnNames[] = $columnName;
-            }
-        }
+        $columnNames = $this->getEnabledColumnNames();
 
         // List vars
         $sortColumn = $this->getSortColumn();
         $sortType = $this->getSortType();
         $warning = $this->getWarning();
         $message = $this->getMessage();
-        $nbRows = $this->getRows();
 
         $header = $this->getHeader();
         $footer = $this->getFooter();
@@ -1226,35 +1284,19 @@ class rex_list implements rex_url_provider_interface
             $s .= '        </tfoot>' . "\n";
         }
 
-        if ($nbRows > 0) {
-            if ($this->pager) {
-                $maxRows = min($this->pager->getRowsPerPage(), $nbRows - $this->pager->getCursor());
-            } else {
-                $maxRows = $nbRows;
-            }
-
-            $rowAttributesCallable = null;
-            if (is_callable($this->rowAttributes)) {
-                $rowAttributesCallable = $this->rowAttributes;
-            } elseif ($this->rowAttributes) {
-                $rowAttributes = rex_string::buildAttributes($this->rowAttributes);
-                $rowAttributesCallable = function () use ($rowAttributes) {
-                    return $this->replaceVariables($rowAttributes);
-                };
-            }
+        if ($this->getRows() > 0) {
+            $maxRows = $this->getRowsOnCurrentPage();
 
             $s .= '        <tbody>' . "\n";
             for ($i = 0; $i < $maxRows; ++$i) {
-                $rowAttributes = '';
-                if ($rowAttributesCallable) {
-                    $rowAttributes = ' ' . $rowAttributesCallable($this);
-                }
+                $rowAttributes = $this->formatRowAttributes();
 
                 $s .= '            <tr' . $rowAttributes . ">\n";
                 foreach ($columnNames as $columnName) {
-                    $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], !isset($this->customColumns[$columnName]), $columnName);
+                    $columnFormat = $columnFormates[$columnName];
+                    $columnValue = $this->getColumnValue($columnName, $columnFormat);
 
-                    if (!$this->isCustomFormat($columnFormates[$columnName]) && $this->hasColumnParams($columnName)) {
+                    if (!$this->isCustomFormat($columnFormat) && $this->hasColumnParams($columnName)) {
                         $columnValue = $this->getColumnLink($columnName, $columnValue);
                     }
 

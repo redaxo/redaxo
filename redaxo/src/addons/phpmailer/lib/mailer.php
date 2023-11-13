@@ -247,6 +247,8 @@ class rex_mailer extends PHPMailer
         $addon = rex_addon::get('phpmailer');
         $logFile = rex_path::log('system.log');
         $sendTime = $addon->getConfig('last_log_file_send_time', 0);
+        $lasterrors = $addon->getConfig('last_errors', '');
+        $currenterrors = '';
         $timediff = time() - $sendTime;
 
         if ($timediff <= $addon->getConfig('errormail') || !filesize($logFile)) {
@@ -276,37 +278,50 @@ class rex_mailer extends PHPMailer
         /** @var rex_log_entry $entry */
         foreach (new LimitIterator($file, 0, 30) as $entry) {
             $data = $entry->getData();
+            $time = rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]);
+            $type = $data[0];
+            $message = $data[1];
+            $file = $data[2] ?? '';
+            $line = $data[3] ?? '';
+            $url = $data[4] ?? '';
+
             $style = '';
             $logtypes = [
                 'error',
                 'exception',
             ];
 
-            foreach ($logtypes as $type) {
-                if (false !== stripos($data[0], $type)) {
+            foreach ($logtypes as $logtype) {
+                if (false !== stripos($type, $logtype)) {
                     $logevent = true;
                     $style = ' class="errorbg"';
+                    $currenterrors .= $entry->getTimestamp() . ' ';
                     break;
                 }
             }
 
-            if ('logevent' == $data[0]) {
+            if ('logevent' == $type) {
                 $style = ' class="eventbg"';
                 $logevent = true;
+                $currenterrors .= $entry->getTimestamp() . ' ';
             }
 
             $mailBody .= '        <tr' . $style . '>';
-            $mailBody .= '            <td>' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>';
-            $mailBody .= '            <td>' . $data[0] . '</td>';
-            $mailBody .= '            <td>' . substr(rex_escape($data[1]), 0, 128) . '</td>';
-            $mailBody .= '            <td>' . ($data[2] ?? '') . '</td>';
-            $mailBody .= '            <td>' . ($data[3] ?? '') . '</td>';
-            $mailBody .= '            <td>' . ($data[4] ?? '') . '</td>';
+            $mailBody .= '            <td>' . $time . '</td>';
+            $mailBody .= '            <td>' . $type . '</td>';
+            $mailBody .= '            <td>' . substr($message, 0, 128) . '</td>';
+            $mailBody .= '            <td>' . $file . '</td>';
+            $mailBody .= '            <td>' . $line . '</td>';
+            $mailBody .= '            <td>' . $url . '</td>';
             $mailBody .= '        </tr>';
         }
 
         // check if logevent occured then send mail
         if (!$logevent) {
+            return;
+        }
+
+        if ($lasterrors === $currenterrors || '' == $currenterrors) {
             return;
         }
 
@@ -320,9 +335,8 @@ class rex_mailer extends PHPMailer
         $mail->AltBody = strip_tags($mailBody);
         $mail->FromName = 'REDAXO error report';
         $mail->addAddress(rex::getErrorEmail());
-
+        $addon->setConfig('last_errors', $currenterrors);
         $addon->setConfig('last_log_file_send_time', time());
-
         $mail->Send();
     }
 }

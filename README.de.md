@@ -46,11 +46,7 @@ Aktuelle Demo-Websites: [Basis](https://github.com/FriendsOfREDAXO/demo_base), [
 Du wirst einen Haufen von Community-Mitgliedern im Slack vorfinden. Und auch die Entwickler. Hier ist die beste Möglichkeit, Fragen zu stellen und Leute kennenzulernen.
 — Wir freuen uns, dich zu sehen. Eine Einladung bekommst du hier: [redaxo.org/slack](https://redaxo.org/slack/)!
 
-### 3. Kontakte uns bei Twitter
-
-Folge [@REDAXO](https://twitter.com/REDAXO) bei Twitter, um aktuelle Themen zu lesen und Fragen zu stellen. Wir helfen gerne!
-
-### 4. Finde Leute auf der Community-Weltkarte
+### 3. Finde Leute auf der Community-Weltkarte
 
 Wo überall auf der Welt nutzen Menschen REDAXO? [Die Karte zeigt es](https://friendsofredaxo.github.io/community/). 🌎
 Bist du noch nicht drauf? [So kannst du deinen Eintrag hinzufügen](https://github.com/FriendsOfREDAXO/community/tree/master/_directory).
