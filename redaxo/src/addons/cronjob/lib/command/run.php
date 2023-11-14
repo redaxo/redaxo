@@ -19,6 +19,7 @@ class rex_command_cronjob_run extends rex_console_command
         $this
             ->setDescription('Executes cronjobs of the "script" environment')
             ->addOption('job', null, InputOption::VALUE_OPTIONAL, 'Execute single job (selected interactively or given by id)', false)
+            ->addOption('ignore-nexttime', null, InputOption::VALUE_NONE, 'Ignore the current cronjob nexttime')
         ;
     }
 
@@ -36,8 +37,12 @@ class rex_command_cronjob_run extends rex_console_command
         }
 
         $nexttime = rex_package::get('cronjob')->getConfig('nexttime', 0);
+        $ignore_nexttime = $input->getOption('ignore-nexttime');
 
-        if (0 != $nexttime && time() >= $nexttime) {
+        if (
+            1 === $ignore_nexttime
+            || (0 != $nexttime && time() >= $nexttime)
+        ) {
             $manager = rex_cronjob_manager_sql::factory();
 
             $errors = 0;
