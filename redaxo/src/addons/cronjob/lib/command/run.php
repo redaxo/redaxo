@@ -37,10 +37,10 @@ class rex_command_cronjob_run extends rex_console_command
         }
 
         $nexttime = rex_package::get('cronjob')->getConfig('nexttime', 0);
-        $ignore_nexttime = $input->getOption('ignore-nexttime');
+        $ignoreNexttime = $input->getOption('ignore-nexttime');
 
         if (
-            1 === $ignore_nexttime
+            1 === $ignoreNexttime
             || (0 != $nexttime && time() >= $nexttime)
         ) {
             $manager = rex_cronjob_manager_sql::factory();
