@@ -120,7 +120,7 @@ jobs:
             -   name: Setup nodejs
                 uses: actions/setup-node@v3
                 with:
-                    node-version: 21
+                    node-version: 20
             -   name: Setup Webserver
                 run: |
                     npm install playwright pixelmatch pngjs fs mkdirp
