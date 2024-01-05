@@ -364,14 +364,26 @@ class Table
                 $maxRows = max(\count($headers), \count($row));
                 for ($i = 0; $i < $maxRows; ++$i) {
                     $cell = (string) ($row[$i] ?? '');
-                    if ($headers && !$containsColspan) {
-                        $rows[] = [sprintf(
-                            '<comment>%s</>: %s',
-                            str_pad($headers[$i] ?? '', $maxHeaderLength, ' ', \STR_PAD_LEFT),
-                            $cell
-                        )];
-                    } elseif ('' !== $cell) {
-                        $rows[] = [$cell];
+
+                    $parts = explode("\n", $cell);
+                    foreach ($parts as $idx => $part) {
+                        if ($headers && !$containsColspan) {
+                            if (0 === $idx) {
+                                $rows[] = [sprintf(
+                                    '<comment>%s</>: %s',
+                                    str_pad($headers[$i] ?? '', $maxHeaderLength, ' ', \STR_PAD_LEFT),
+                                    $part
+                                )];
+                            } else {
+                                $rows[] = [sprintf(
+                                    '%s  %s',
+                                    str_pad('', $maxHeaderLength, ' ', \STR_PAD_LEFT),
+                                    $part
+                                )];
+                            }
+                        } elseif ('' !== $cell) {
+                            $rows[] = [$part];
+                        }
                     }
                 }
             }
@@ -411,7 +423,7 @@ class Table
 
                 if ($isHeader && !$isHeaderSeparatorRendered) {
                     $this->renderRowSeparator(
-                        $isHeader ? self::SEPARATOR_TOP : self::SEPARATOR_TOP_BOTTOM,
+                        self::SEPARATOR_TOP,
                         $hasTitle ? $this->headerTitle : null,
                         $hasTitle ? $this->style->getHeaderTitleFormat() : null
                     );
@@ -421,7 +433,7 @@ class Table
 
                 if ($isFirstRow) {
                     $this->renderRowSeparator(
-                        $isHeader ? self::SEPARATOR_TOP : self::SEPARATOR_TOP_BOTTOM,
+                        $horizontal ? self::SEPARATOR_TOP : self::SEPARATOR_TOP_BOTTOM,
                         $hasTitle ? $this->headerTitle : null,
                         $hasTitle ? $this->style->getHeaderTitleFormat() : null
                     );
