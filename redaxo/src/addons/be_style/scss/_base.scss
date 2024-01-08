@@ -173,7 +173,7 @@ body:after {
 }
 // e.g. Slice move
 .btn-move {
-    @extend .btn-default;
+    @extend .btn-default;    
 }
 // e.g. Widget
 .btn-popup {
@@ -606,3 +606,16 @@ body:after {
         border-bottom-right-radius: $btn-border-radius-base;
     }
 }
+
+// correcting bootstrap vendor regarding Quick fix for badges in buttons
+// https://github.com/redaxo/redaxo/blob/80925bba7235e5866c3eb99c881db8ddeab4ee25/redaxo/src/addons/be_style/vendor/bootstrap/assets/stylesheets/bootstrap/_badges.scss#L26
+  .btn & {
+    position: relative;
+    top: 0px;
+  }
+
+  .btn-xs &,
+  .btn-group-xs > .btn & {
+    top: 0;
+    padding: 1px 5px;
+  }

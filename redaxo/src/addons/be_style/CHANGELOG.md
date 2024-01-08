@@ -4,7 +4,8 @@ Changelog
 Version X.X.X – TT.MM.JJJJ
 --------------------------
 
-* Font Awesome: Vendor-Update auf v6.4.2, Achtung: FA4-icons depricated
+* Font Awesome: Vendor-Update auf v6.5.1, Achtung: FA4-icons depricated
+    Change-Log FA: [https://fontawesome.com/docs/changelog/](https://fontawesome.com/docs/changelog/)
 
 
 Version 3.2.0 – 28.02.2023
