@@ -7,5 +7,5 @@ use Redaxo\Core\Fragment\Fragment;
 ?>
 
 <sl-menu-label <?= $this->attributes->toString() ?>>
-    <?= Fragment::slot($this->label) ?>
+    <?= Fragment::slot($this->content) ?>
 </sl-menu-label>
