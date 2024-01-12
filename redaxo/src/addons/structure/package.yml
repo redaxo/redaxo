@@ -32,3 +32,9 @@ requires:
 default_config:
     start_article_id: 1
     notfound_article_id: 1
+
+extensions:
+    history:
+        available: false
+    version:
+        available: true
