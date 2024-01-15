@@ -409,10 +409,7 @@ abstract class rex_var
      */
     public static function toArray($value)
     {
-        if (null === $value) {
-            return null;
-        }
-        $value = json_decode(htmlspecialchars_decode($value, ENT_QUOTES), true);
+        $value = json_decode(htmlspecialchars_decode($value ?? '', ENT_QUOTES), true);
         return is_array($value) ? $value : null;
     }
 
