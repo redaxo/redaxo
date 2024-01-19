@@ -244,7 +244,7 @@ abstract class rex_package implements rex_package_interface
      * Loads the properties of package.yml.
      * @return void
      */
-    public function loadProperties()
+    public function loadProperties(bool $force = false)
     {
         $file = $this->getPath(self::FILE_PACKAGE);
         if (!is_file($file)) {
@@ -259,6 +259,10 @@ abstract class rex_package implements rex_package_interface
             $cache = rex_file::getCache(rex_path::coreCache(self::PROPERTIES_CACHE_FILE));
         }
         $id = $this->getPackageId();
+
+        if ($force) {
+            unset($cache[$id]);
+        }
 
         $isCached = isset($cache[$id]);
         $isBackendAdmin = rex::isBackend() && rex::getUser()?->isAdmin();
@@ -301,8 +305,8 @@ abstract class rex_package implements rex_package_interface
                 }
                 if ('supportpage' !== $key) {
                     $value = rex_i18n::translateArray($value, false, $this->i18n(...));
-                } elseif (!preg_match('@^https?://@i', $value)) {
-                    $value = 'https://'.$value;
+                } elseif (null !== $value && !preg_match('@^https?://@i', $value)) {
+                    $value = 'https://' . $value;
                 }
                 $this->properties[$key] = $value;
             }
@@ -328,7 +332,7 @@ abstract class rex_package implements rex_package_interface
             unset($cache[$this->getPackageId()]);
 
             if ($this instanceof rex_addon) {
-                $start = $this->getPackageId().'/';
+                $start = $this->getPackageId() . '/';
                 foreach ($cache as $packageId => $_) {
                     if (str_starts_with((string) $packageId, $start)) {
                         unset($cache[$packageId]);

@@ -13,7 +13,7 @@ abstract class rex_install_package_download
     /** @var int */
     protected $fileId;
 
-    /** @var array{version: string, description: string, path: string, checksum: string, created: string, updated: string} */
+    /** @var array{version: string, description: string, path: string, checksum: string, counter: int, created: string, updated: string} */
     protected $file;
 
     /** @var string */
@@ -68,7 +68,7 @@ abstract class rex_install_package_download
     }
 
     /**
-     * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>
+     * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, counter: int, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, counter: int, created: string, updated: string}>}>
      */
     abstract protected function getPackages();
 
@@ -90,7 +90,7 @@ abstract class rex_install_package_download
             if (true === $zip->open($file)) {
                 for ($i = 0; $i < $zip->numFiles; ++$i) {
                     $filename = $zip->getNameIndex($i);
-                    if (!str_starts_with($filename, $this->addonkey.'/')) {
+                    if (!str_starts_with($filename, $this->addonkey . '/')) {
                         $zip->deleteIndex($i);
                     } else {
                         $success = true;
@@ -101,6 +101,6 @@ abstract class rex_install_package_download
             return $success;
         }
 
-        return is_dir("phar://$file/" . $this->addonkey);
+        return is_dir("phar://$file" . DIRECTORY_SEPARATOR . $this->addonkey);
     }
 }

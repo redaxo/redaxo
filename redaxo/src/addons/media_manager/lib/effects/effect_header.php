@@ -21,7 +21,7 @@ class rex_effect_header extends rex_effect_abstract
                 default => throw new LogicException(sprintf('Unsupported cache duration "%s".', $this->params['cache'])),
             };
 
-            $cacheControl = 'proxy-revalidate, private, max-age='.$seconds;
+            $cacheControl = 'proxy-revalidate, private, max-age=' . $seconds;
 
             if ('immutable' === $this->params['cache']) {
                 $cacheControl .= ', immutable';
@@ -37,7 +37,7 @@ class rex_effect_header extends rex_effect_abstract
             $disposition .= "; filename*=utf-8''" . rawurldecode(rex_media::get($this->media->getMediaFilename())->getOriginalFileName());
         }
 
-        if ('noindex' === $this->params['index']) {
+        if ('noindex' === ($this->params['index'] ?? null)) {
             $this->media->setHeader('X-Robots-Tag', 'noindex');
         }
 

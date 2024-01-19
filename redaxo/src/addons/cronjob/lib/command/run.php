@@ -44,16 +44,16 @@ class rex_command_cronjob_run extends rex_console_command
             $manager->check(static function (string $name, bool $success, string $message) use ($io, &$errors) {
                 /** @var int $errors */
                 if ($success) {
-                    $io->success($name.': '.$message);
+                    $io->success($name . ': ' . $message);
                 } else {
-                    $io->error($name.': '.$message);
+                    $io->error($name . ': ' . $message);
                     ++$errors;
                 }
             });
 
             if ($errors) {
                 /** @var int $errors */
-                $io->error('Cronjobs checked, '.$errors.' failed.');
+                $io->error('Cronjobs checked, ' . $errors . ' failed.');
                 return 1;
             }
 
@@ -102,7 +102,7 @@ class rex_command_cronjob_run extends rex_console_command
 
         $msg = '';
         if ($manager->hasMessage()) {
-            $msg = ': '.$manager->getMessage();
+            $msg = ': ' . $manager->getMessage();
         }
 
         if ($success) {

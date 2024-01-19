@@ -25,7 +25,7 @@ class rex_backend_login_test extends TestCase
     protected function tearDown(): void
     {
         $deleteuser = rex_sql::factory();
-        $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE login = '". self::LOGIN ."' LIMIT 1");
+        $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE login = '" . self::LOGIN . "' LIMIT 1");
     }
 
     public function testSuccessfullLogin(): void

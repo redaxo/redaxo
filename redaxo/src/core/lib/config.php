@@ -59,7 +59,7 @@ class rex_config
      * The set-method returns TRUE when an existing value was overridden, otherwise FALSE is returned.
      *
      * @param string       $namespace The namespace e.g. an addon name
-     * @param string|array $key       The associated key or an associative array of key/value pairs
+     * @param string|array<string, mixed> $key       The associated key or an associative array of key/value pairs
      * @param mixed        $value     The value to save
      *
      * @throws InvalidArgumentException
@@ -135,11 +135,7 @@ class rex_config
         if (!is_string($key)) {
             throw new InvalidArgumentException('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
         }
-
-        if (isset(self::$data[$namespace][$key])) {
-            return self::$data[$namespace][$key];
-        }
-        return $default;
+        return self::$data[$namespace][$key] ?? $default;
     }
 
     /**
@@ -392,7 +388,7 @@ class rex_config
                     continue;
                 }
                 $params[] = $namespace;
-                $where[] = 'namespace = ? AND `key` IN ('.$sql->in(array_keys($nsData)).')';
+                $where[] = 'namespace = ? AND `key` IN (' . $sql->in(array_keys($nsData)) . ')';
             }
             if (count($where) > 0) {
                 $sql->setWhere(implode("\n    OR ", $where), $params);

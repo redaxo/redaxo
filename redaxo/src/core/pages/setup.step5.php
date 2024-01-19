@@ -7,7 +7,7 @@ assert(isset($cancelSetupBtn));
 $userSql = rex_sql::factory();
 $userSql->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
 
-$headline = rex_view::title(rex_i18n::msg('setup_500').$cancelSetupBtn);
+$headline = rex_view::title(rex_i18n::msg('setup_500') . $cancelSetupBtn);
 
 $submitMessage = rex_i18n::msg('setup_510');
 if (count($errors) > 0) {
@@ -52,7 +52,7 @@ $formElements[] = $n;
 $passwordPolicy = rex_backend_password_policy::factory();
 $n = [];
 $n['label'] = '<label for="rex-form-redaxo-user-pass" class="required">' . rex_i18n::msg('setup_508') . '</label>';
-$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" autocomplete="new-password" '.rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()).' />';
+$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" autocomplete="new-password" ' . rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
 $n['note'] = $passwordPolicy->getDescription();
 $formElements[] = $n;
 
@@ -74,7 +74,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 $content .= '
 
-    <script type="text/javascript" nonce="'.rex_response::getNonce().'">
+    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
          <!--
         jQuery(function($) {
             $(".rex-js-createadminform .rex-js-noadmin").on("change",function (){

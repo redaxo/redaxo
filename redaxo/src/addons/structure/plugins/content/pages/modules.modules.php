@@ -37,7 +37,7 @@ if (('' != $addAction || 'delete' == $functionAction) && !$csrfToken->isValid())
         $action->insert();
         $success = rex_i18n::msg('action_taken');
         $goon = '1';
-    } catch (rex_sql_exception $e) {
+    } catch (rex_sql_exception) {
         $error = $action->getError();
     }
 } elseif ('delete' == $functionAction) {
@@ -425,7 +425,7 @@ if ($OUT) {
         return $list->getColumnLink('name', rex_i18n::translate($list->getValue('name')));
     });
 
-    $slices = rex_sql::factory()->getArray('SELECT `module_id` FROM '.rex::getTable('article_slice').' GROUP BY `module_id`');
+    $slices = rex_sql::factory()->getArray('SELECT `module_id` FROM ' . rex::getTable('article_slice') . ' GROUP BY `module_id`');
     if (count($slices) > 0) {
         $usedIds = array_flip(array_map(static function ($slice) {
             return $slice['module_id'];

@@ -14,8 +14,8 @@ if (is_readable($package->getPath('help.php'))) {
     ob_start();
     $package->includeFile('help.php');
     $content .= ob_get_clean();
-} elseif (is_readable($package->getPath('README.'. rex_i18n::getLanguage() .'.md'))) {
-    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('README.'. rex_i18n::getLanguage() .'.md')), 2, 3, [
+} elseif (is_readable($package->getPath('README.' . rex_i18n::getLanguage() . '.md'))) {
+    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('README.' . rex_i18n::getLanguage() . '.md')), 2, 3, [
         rex_markdown::SOFT_LINE_BREAKS => false,
         rex_markdown::HIGHLIGHT_PHP => true,
     ]);
@@ -62,4 +62,4 @@ $fragment->setVar('title', rex_i18n::msg('credits'), false);
 $fragment->setVar('body', $credits, false);
 echo $fragment->parse('core/page/section.php');
 
-echo '<p><a class="btn btn-back" href="'.rex_url::backendPage('packages').'">' . rex_i18n::msg('package_back') . '</a></p>';
+echo '<p><a class="btn btn-back" href="' . rex_url::backendPage('packages') . '">' . rex_i18n::msg('package_back') . '</a></p>';

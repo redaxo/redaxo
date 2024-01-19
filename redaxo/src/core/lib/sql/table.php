@@ -118,7 +118,7 @@ class rex_sql_table
         $this->primaryKeyExisting = $this->primaryKey;
 
         /** @var list<array<string, string>> $indexParts */
-        $indexParts = $this->sql->getArray('SHOW INDEXES FROM '.$this->sql->escapeIdentifier($name));
+        $indexParts = $this->sql->getArray('SHOW INDEXES FROM ' . $this->sql->escapeIdentifier($name));
         $indexes = [];
         foreach ($indexParts as $part) {
             if ('PRIMARY' !== $part['Key_name']) {
@@ -662,7 +662,7 @@ class rex_sql_table
         }
 
         if (self::$explicitCharset) {
-            $this->sql->setQuery('ALTER TABLE '.$this->sql->escapeIdentifier($this->originalName).' CONVERT TO CHARACTER SET '.self::$explicitCharset.' COLLATE '.self::$explicitCharset.'_unicode_ci;');
+            $this->sql->setQuery('ALTER TABLE ' . $this->sql->escapeIdentifier($this->originalName) . ' CONVERT TO CHARACTER SET ' . self::$explicitCharset . ' COLLATE ' . self::$explicitCharset . '_unicode_ci;');
         }
 
         $positions = $this->positions;
@@ -739,7 +739,7 @@ class rex_sql_table
         }
 
         if ($this->primaryKey) {
-            $parts[] = 'PRIMARY KEY '.$this->getKeyColumnsDefintion($this->primaryKey);
+            $parts[] = 'PRIMARY KEY ' . $this->getKeyColumnsDefintion($this->primaryKey);
         }
 
         foreach ($this->indexes as $index) {
@@ -752,7 +752,7 @@ class rex_sql_table
 
         $charset = self::$explicitCharset ?? (rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8');
 
-        $query = 'CREATE TABLE '.$this->sql->escapeIdentifier($this->name)." (\n    ";
+        $query = 'CREATE TABLE ' . $this->sql->escapeIdentifier($this->name) . " (\n    ";
         $query .= implode(",\n    ", $parts);
         $query .= "\n) ENGINE=InnoDB DEFAULT CHARSET=$charset COLLATE={$charset}_unicode_ci;";
 
@@ -777,7 +777,7 @@ class rex_sql_table
         $dropForeignKeys = [];
 
         if ($this->name !== $this->originalName) {
-            $parts[] = 'RENAME '.$this->sql->escapeIdentifier($this->name);
+            $parts[] = 'RENAME ' . $this->sql->escapeIdentifier($this->name);
         }
 
         if ($this->primaryKeyExisting && $this->primaryKeyExisting !== $this->primaryKey) {
@@ -786,13 +786,13 @@ class rex_sql_table
 
         foreach ($this->indexesExisting as $newName => $oldName) {
             if (!isset($this->indexes[$newName]) || $this->indexes[$newName]->isModified()) {
-                $parts[] = 'DROP INDEX '.$this->sql->escapeIdentifier($oldName);
+                $parts[] = 'DROP INDEX ' . $this->sql->escapeIdentifier($oldName);
             }
         }
 
         foreach ($this->foreignKeysExisting as $newName => $oldName) {
             if (!isset($this->foreignKeys[$newName]) || $this->foreignKeys[$newName]->isModified()) {
-                $dropForeignKeys[] = 'DROP FOREIGN KEY '.$this->sql->escapeIdentifier($oldName);
+                $dropForeignKeys[] = 'DROP FOREIGN KEY ' . $this->sql->escapeIdentifier($oldName);
             }
         }
 
@@ -814,13 +814,13 @@ class rex_sql_table
             if (self::FIRST === $after) {
                 $definition .= ' FIRST';
             } elseif (null !== $after) {
-                $definition .= ' AFTER '.$this->sql->escapeIdentifier($after);
+                $definition .= ' AFTER ' . $this->sql->escapeIdentifier($after);
             }
 
             if ($new) {
-                $parts[] = 'ADD '.$definition;
+                $parts[] = 'ADD ' . $definition;
             } else {
-                $parts[] = 'CHANGE '.$this->sql->escapeIdentifier($oldName).' '.$definition;
+                $parts[] = 'CHANGE ' . $this->sql->escapeIdentifier($oldName) . ' ' . $definition;
             }
         };
 
@@ -851,11 +851,11 @@ class rex_sql_table
         }
 
         foreach ($columnsExisting as $oldName) {
-            $parts[] = 'DROP '.$this->sql->escapeIdentifier($oldName);
+            $parts[] = 'DROP ' . $this->sql->escapeIdentifier($oldName);
         }
 
         if ($this->primaryKey && $this->primaryKey !== $this->primaryKeyExisting) {
-            $parts[] = 'ADD PRIMARY KEY '.$this->getKeyColumnsDefintion($this->primaryKey);
+            $parts[] = 'ADD PRIMARY KEY ' . $this->getKeyColumnsDefintion($this->primaryKey);
         }
 
         $fulltextIndexes = [];
@@ -867,7 +867,7 @@ class rex_sql_table
 
             if (rex_sql_index::FULLTEXT === $index->getType()) {
                 if ($fulltextAdded) {
-                    $fulltextIndexes[] = 'ADD '.$this->getIndexDefinition($index);
+                    $fulltextIndexes[] = 'ADD ' . $this->getIndexDefinition($index);
 
                     continue;
                 }
@@ -875,12 +875,12 @@ class rex_sql_table
                 $fulltextAdded = true;
             }
 
-            $parts[] = 'ADD '.$this->getIndexDefinition($index);
+            $parts[] = 'ADD ' . $this->getIndexDefinition($index);
         }
 
         foreach ($this->foreignKeys as $foreignKey) {
             if ($foreignKey->isModified() || !isset($this->foreignKeysExisting[$foreignKey->getName()])) {
-                $parts[] = 'ADD '.$this->getForeignKeyDefinition($foreignKey);
+                $parts[] = 'ADD ' . $this->getForeignKeyDefinition($foreignKey);
             }
         }
 
@@ -892,7 +892,7 @@ class rex_sql_table
 
         foreach ([$dropForeignKeys, $parts] as $stepParts) {
             if ($stepParts) {
-                $query = 'ALTER TABLE '.$this->sql->escapeIdentifier($this->originalName)."\n    ";
+                $query = 'ALTER TABLE ' . $this->sql->escapeIdentifier($this->originalName) . "\n    ";
                 $query .= implode(",\n    ", $stepParts);
                 $query .= ';';
 
@@ -901,7 +901,7 @@ class rex_sql_table
         }
 
         foreach ($fulltextIndexes as $fulltextIndex) {
-            $this->sql->setQuery('ALTER TABLE '.$this->sql->escapeIdentifier($this->originalName).' '.$fulltextIndex.';');
+            $this->sql->setQuery('ALTER TABLE ' . $this->sql->escapeIdentifier($this->originalName) . ' ' . $fulltextIndex . ';');
         }
 
         $this->sortColumns();
@@ -934,14 +934,14 @@ class rex_sql_table
             in_array(strtolower($column->getType()), ['timestamp', 'datetime'], true) &&
             in_array(strtolower($default), ['current_timestamp', 'current_timestamp()'], true)
         ) {
-            $default = 'DEFAULT '.$default;
+            $default = 'DEFAULT ' . $default;
         } else {
-            $default = 'DEFAULT '.$this->sql->escape($default);
+            $default = 'DEFAULT ' . $this->sql->escape($default);
         }
 
         $comment = $column->getComment() ?? '';
         if ('' !== $comment) {
-            $comment = 'COMMENT '. $this->sql->escape($comment);
+            $comment = 'COMMENT ' . $this->sql->escape($comment);
         }
 
         return sprintf(
@@ -982,7 +982,7 @@ class rex_sql_table
     {
         $columns = array_map($this->sql->escapeIdentifier(...), $columns);
 
-        return '('.implode(', ', $columns).')';
+        return '(' . implode(', ', $columns) . ')';
     }
 
     private function sortColumns(): void

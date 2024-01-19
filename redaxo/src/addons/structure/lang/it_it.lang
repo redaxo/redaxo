@@ -30,6 +30,7 @@ change = modificare
 article_add = Aggiungere articolo
 article_edit = Modificare articolo
 article_save = Salvare articolo
+article_show = Visualizza articolo
 article = Articolo
 start_article = Articolo di partenza
 no_article_available  =  Nessun articolo disponibile

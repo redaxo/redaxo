@@ -1,16 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/backup/lib/backup.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/backup/lib/backup.php
-
-		-
 			message: "#^Method rex_cronjob_export\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/backup/lib/cronjob.php
@@ -506,12 +496,12 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_media\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_media\\)\\|null\\)\\|null, Closure\\(mixed\\)\\: static\\(rex_media\\)\\|null given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_media\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: \\(static\\|null\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_media\\)\\|null, callable\\(string\\)\\: static\\(rex_media\\) given\\.$#"
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\), callable\\(string\\)\\: static given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
 
@@ -531,22 +521,22 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_media_category\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_media_category\\)\\|null\\)\\|null, Closure\\(mixed\\)\\: static\\(rex_media_category\\)\\|null given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_media_category\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: \\(static\\|null\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: rex_media\\|null, Closure\\(string\\)\\: rex_media\\|null given\\.$#"
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(rex_media\\|null\\), Closure\\(string\\)\\: \\(rex_media\\|null\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_media_category\\)\\|null, Closure\\(int\\)\\: static\\(rex_media_category\\)\\|null given\\.$#"
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\), Closure\\(int\\)\\: \\(static\\|null\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
 		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed\\)\\: array given\\.$#"
+			message: "#^Parameter \\#3 \\$createListCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed\\)\\: array given\\.$#"
 			count: 2
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
@@ -612,11 +602,6 @@ parameters:
 
 		-
 			message: "#^Method rex_media_category_service\\:\\:editCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/service_media_category.php
-
-		-
-			message: "#^Variable \\$warning in empty\\(\\) always exists and is always falsy\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/service_media_category.php
 
@@ -749,11 +734,6 @@ parameters:
 			message: "#^Return type \\(void\\) of method rex_metainfo_clang_handler\\:\\:buildFilterCondition\\(\\) should be compatible with return type \\(string\\) of method rex_metainfo_handler\\:\\:buildFilterCondition\\(\\)$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/handler/clang_handler.php
-
-		-
-			message: "#^Elseif condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
 
 		-
 			message: "#^Method rex_metainfo_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
@@ -1166,17 +1146,17 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_structure_element\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_structure_element\\)\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_structure_element\\)\\|null given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_structure_element\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(mixed, mixed\\)\\: \\(static\\|null\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_structure_element\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_structure_element\\)\\|null, Closure\\(mixed\\)\\: static\\(rex_structure_element\\)\\|null given\\.$#"
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_structure_element\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\), Closure\\(mixed\\)\\: \\(static\\|null\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
 		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_structure_element\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array given\\.$#"
+			message: "#^Parameter \\#3 \\$createListCallback of static method rex_structure_element\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
@@ -1506,16 +1486,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/tests/category_test.php
 
 		-
-			message: "#^Method rex_category_test\\:\\:dataGetClosestValue\\(\\) return type has no value type specified in iterable type iterable\\<int, mixed\\>\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/tests/category_test.php
-
-		-
-			message: "#^PHPDoc tag @return contains unresolvable type\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/tests/category_test.php
-
-		-
 			message: "#^Method rex_user_role\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/users/lib/role.php
@@ -1604,11 +1574,6 @@ parameters:
 			message: "#^Method rex_clang_perm\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/clang/perm.php
-
-		-
-			message: "#^Method rex_config\\:\\:set\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/config.php
 
 		-
 			message: "#^Method rex_config_db\\:\\:__construct\\(\\) has parameter \\$dbConfig with no value type specified in iterable type array\\.$#"
@@ -1936,11 +1901,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Method rex_list\\:\\:getColumnFormat\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
 			message: "#^Method rex_list\\:\\:getColumnLayout\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
@@ -1957,11 +1917,6 @@ parameters:
 
 		-
 			message: "#^Method rex_list\\:\\:getColumnLink\\(\\) has parameter \\$params with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:getColumnNames\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
@@ -2031,11 +1986,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Property rex_list\\:\\:\\$columnFormates type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
 			message: "#^Property rex_list\\:\\:\\$columnParams type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
@@ -2091,7 +2041,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_user\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_user\\)\\|null\\)\\|null, Closure\\(int\\)\\: static\\(rex_user\\)\\|null given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_user\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(int\\)\\: \\(static\\|null\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/user.php
 
@@ -2102,11 +2052,6 @@ parameters:
 
 		-
 			message: "#^Method rex_package_interface\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/interface.php
-
-		-
-			message: "#^Method rex_package_interface\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/interface.php
 
@@ -2136,17 +2081,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/null.php
 
 		-
-			message: "#^Method rex_null_package\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/null.php
-
-		-
 			message: "#^Method rex_package\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
-
-		-
-			message: "#^Method rex_package\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/package.php
 
@@ -2174,11 +2109,6 @@ parameters:
 			message: "#^Property rex_response\\:\\:\\$preloadFiles type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex\\:\\:setConfig\\(\\) has parameter \\$key with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/rex.php
 
 		-
 			message: "#^Method rex_select\\:\\:addArrayOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
@@ -2536,7 +2466,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_sql_table\\)\\|null\\)\\|null, Closure\\(int, string\\)\\: static\\(rex_sql_table\\) given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(int, string\\)\\: static given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
 
@@ -2597,16 +2527,6 @@ parameters:
 
 		-
 			message: "#^Method rex_finder\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/finder.php
-
-		-
-			message: "#^Method rex_finder\\:\\:ignoreDirs\\(\\) has parameter \\$glob with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/finder.php
-
-		-
-			message: "#^Method rex_finder\\:\\:ignoreFiles\\(\\) has parameter \\$glob with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/finder.php
 
@@ -2816,22 +2736,22 @@ parameters:
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: object\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(object\\|null\\), Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_list_pool\\|null, Closure\\(int\\)\\: rex_test_instance_list_pool given\\.$#"
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(rex_test_instance_list_pool\\|null\\), Closure\\(int\\)\\: rex_test_instance_list_pool given\\.$#"
 			count: 4
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed\\)\\: array\\{1, 2\\} given\\.$#"
+			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed\\)\\: array\\{1, 2\\} given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array\\{\\} given\\.$#"
+			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array\\{\\} given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
@@ -2846,17 +2766,17 @@ parameters:
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_pool_1\\|null\\)\\|null, Closure\\(mixed\\)\\: rex_test_instance_pool_1 given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(rex_test_instance_pool_1\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: rex_test_instance_pool_1 given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_pool_1\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(rex_test_instance_pool_1\\|null\\)\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_pool_2\\|null\\)\\|null, Closure\\(mixed\\)\\: rex_test_instance_pool_2 given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(rex_test_instance_pool_2\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: rex_test_instance_pool_2 given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
 

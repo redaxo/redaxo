@@ -45,7 +45,7 @@ function rex_getUrl($id = null, $clang = null, array $params = [])
         }
 
         $params = rex_string::buildQuery($params);
-        $params = $params ? '&'.$params : '';
+        $params = $params ? '&' . $params : '';
 
         $url = rex_url::frontendController() . '?article_id=' . $id . $clang . $params;
     }

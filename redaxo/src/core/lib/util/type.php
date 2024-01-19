@@ -31,7 +31,7 @@ class rex_type
      *    )
      *
      * @param mixed $var Variable to cast
-     * @param string|callable(mixed):mixed|list<array{string, string, mixed}> $vartype Variable type
+     * @param string|callable(mixed):mixed|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype Variable type
      *
      * @throws InvalidArgumentException
      *
@@ -162,7 +162,7 @@ class rex_type
     public static function bool(mixed $value): bool
     {
         if (!is_bool($value)) {
-            throw new InvalidArgumentException('Exptected a boolean, but got '.get_debug_type($value));
+            throw new InvalidArgumentException('Exptected a boolean, but got ' . get_debug_type($value));
         }
 
         return $value;
@@ -185,7 +185,7 @@ class rex_type
     public static function string($value): string
     {
         if (!is_string($value)) {
-            throw new InvalidArgumentException('Exptected a string, but got '.get_debug_type($value));
+            throw new InvalidArgumentException('Exptected a string, but got ' . get_debug_type($value));
         }
 
         return $value;
@@ -209,7 +209,7 @@ class rex_type
     public static function int($value): int
     {
         if (!is_int($value)) {
-            throw new InvalidArgumentException('Exptected an integer, but got '.get_debug_type($value));
+            throw new InvalidArgumentException('Exptected an integer, but got ' . get_debug_type($value));
         }
 
         return $value;
@@ -233,7 +233,7 @@ class rex_type
     public static function array($value): array
     {
         if (!is_array($value)) {
-            throw new InvalidArgumentException('Exptected an array, but got '.get_debug_type($value));
+            throw new InvalidArgumentException('Exptected an array, but got ' . get_debug_type($value));
         }
 
         return $value;
@@ -250,7 +250,7 @@ class rex_type
     public static function instanceOf($value, string $class): object
     {
         if (!$value instanceof $class) {
-            throw new InvalidArgumentException('Exptected a '.$class.', but got '.get_debug_type($value));
+            throw new InvalidArgumentException('Exptected a ' . $class . ', but got ' . get_debug_type($value));
         }
 
         return $value;

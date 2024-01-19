@@ -79,7 +79,7 @@ interface rex_package_interface
 
     /**
      * @see rex_config::set()
-     * @param string|array $key The associated key or an associative array of key/value pairs
+     * @param string|array<string, mixed> $key The associated key or an associative array of key/value pairs
      * @param mixed $value The value to save
      * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */

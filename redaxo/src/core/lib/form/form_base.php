@@ -71,7 +71,7 @@ abstract class rex_form_base
 
         $this->debug = $debug;
 
-        $this->csrfToken = rex_csrf_token::factory('rex_form_'.$this->getName());
+        $this->csrfToken = rex_csrf_token::factory('rex_form_' . $this->getName());
     }
 
     /**
@@ -506,10 +506,7 @@ abstract class rex_form_base
      */
     public function getParam($name, $default = null)
     {
-        if (isset($this->params[$name])) {
-            return $this->params[$name];
-        }
-        return $default;
+        return $this->params[$name] ?? $default;
     }
 
     /**
@@ -926,7 +923,7 @@ abstract class rex_form_base
         }
 
         $normalizedName = rex_string::normalize($fieldsetName);
-        $normalizedName .= '['.rex_string::normalize($elementName).']';
+        $normalizedName .= '[' . rex_string::normalize($elementName) . ']';
 
         for ($i = 0; $i < count($this->elements[$fieldsetName]); ++$i) {
             if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $normalizedName) {
@@ -1056,11 +1053,7 @@ abstract class rex_form_base
         // name attributes are normalized
         $normalizedFieldName = rex_string::normalize($fieldName);
 
-        if (isset($fields[$normalizedFieldName])) {
-            return $fields[$normalizedFieldName];
-        }
-
-        return $default;
+        return $fields[$normalizedFieldName] ?? $default;
     }
 
     /**
@@ -1151,7 +1144,7 @@ abstract class rex_form_base
             $params[$listName . '_warning'] = $listWarning;
         }
 
-        $paramString = '&'.rex_string::buildQuery($params);
+        $paramString = '&' . rex_string::buildQuery($params);
 
         if ($this->debug) {
             echo 'redirect to: ' . rex_escape($this->applyUrl . $paramString);
@@ -1252,7 +1245,7 @@ abstract class rex_form_base
 
         $id = '';
         if ($this->formId) {
-            $id = ' id="'.rex_escape($this->formId).'"';
+            $id = ' id="' . rex_escape($this->formId) . '"';
         }
 
         $s .= sprintf('<form %s %s action="%s" method="%s">' . "\n",
@@ -1263,7 +1256,7 @@ abstract class rex_form_base
         );
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $attributes = $this->fieldsetAttributes[$fieldsetName] ?? [];
-            $s .= '<fieldset '.rex_string::buildAttributes($attributes).'>' . "\n";
+            $s .= '<fieldset ' . rex_string::buildAttributes($attributes) . '>' . "\n";
 
             if ('' != $fieldsetName && $fieldsetName != $this->name) {
                 $s .= '<legend>' . rex_escape($fieldsetName) . '</legend>' . "\n";

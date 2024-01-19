@@ -22,13 +22,13 @@ jobs:
 
         steps:
             -   name: Checkout
-                uses: actions/checkout@v3
+                uses: actions/checkout@v4
                 if: env.writable == 1
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
-                uses: actions/checkout@v3
+                uses: actions/checkout@v4
                 if: env.writable == 0
 
             -   name: Setup PHP
@@ -51,7 +51,7 @@ jobs:
                 run: php redaxo/bin/console be_style:compile --ansi
 
             -   name: Commit changed files
-                uses: stefanzweifel/git-auto-commit-action@v4
+                uses: stefanzweifel/git-auto-commit-action@v5
                 if: env.writable == 1
                 with:
                     commit_message: Apply be_style:compile

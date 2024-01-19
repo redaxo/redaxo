@@ -283,15 +283,15 @@ $confirmField = static function (string $id) use ($login, $webauthn): string {
     $n = [];
 
     if ($login->getPasskey()) {
-        $n['label'] = '<label for="'.$id.'">' . rex_i18n::msg('passkey_current') . '</label>';
-        $n['field'] = '<div data-auth-passkey-verify="'.rex_escape($webauthn->getGetArgs($login->getPasskey())).'">
-        <button type="button" class="btn btn-primary" id="'.$id.'">' . rex_i18n::msg('passkey_current_verify') . '</button>
+        $n['label'] = '<label for="' . $id . '">' . rex_i18n::msg('passkey_current') . '</label>';
+        $n['field'] = '<div data-auth-passkey-verify="' . rex_escape($webauthn->getGetArgs($login->getPasskey())) . '">
+        <button type="button" class="btn btn-primary" id="' . $id . '">' . rex_i18n::msg('passkey_current_verify') . '</button>
         <i class="fa fa-check-circle-o text-success hidden"></i>
         <input type="hidden" name="passkey_verify"/>
     </div>';
     } else {
-        $n['label'] = '<label for="'.$id.'">' . rex_i18n::msg('old_password') . '</label>';
-        $n['field'] = '<input class="form-control rex-js-userpsw" type="password" id="'.$id.'" name="userpsw" autocomplete="current-password" required />';
+        $n['label'] = '<label for="' . $id . '">' . rex_i18n::msg('current_password') . '</label>';
+        $n['field'] = '<input class="form-control rex-js-userpsw" type="password" id="' . $id . '" name="userpsw" autocomplete="current-password" required />';
     }
 
     $formElements[] = $n;
@@ -304,13 +304,13 @@ $confirmField = static function (string $id) use ($login, $webauthn): string {
     return $fragment->parse('core/form/form.php');
 };
 
-$content = '<fieldset>'.$confirmField('rex-id-userpsw');
+$content = '<fieldset>' . $confirmField('rex-id-userpsw');
 
 $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw-new-1">' . rex_i18n::msg('new_password') . '</label>';
-$n['field'] = '<input class="form-control rex-js-userpsw-new-1" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="new-password" required '.rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()).' />';
+$n['field'] = '<input class="form-control rex-js-userpsw-new-1" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="new-password" required ' . rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
 $n['note'] = $passwordPolicy->getDescription();
 $formElements[] = $n;
 
@@ -344,8 +344,8 @@ $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $changePassword = $fragment->parse('core/page/section.php');
 
-$content = '<fieldset>'.$confirmField('rex-id-user-passkey');
-$content .= '<input type="hidden" name="passkey" data-auth-passkey="'.rex_escape($webauthn->getCreateArgs()).'"/>';
+$content = '<fieldset>' . $confirmField('rex-id-user-passkey');
+$content .= '<input type="hidden" name="passkey" data-auth-passkey="' . rex_escape($webauthn->getCreateArgs()) . '"/>';
 $content .= '</fieldset>';
 
 $formElements = [];

@@ -171,7 +171,7 @@ abstract class rex_package_manager
 
             $this->message = $this->i18n($reinstall ? 'reinstalled' : 'installed', $this->package->getName());
             if ($successMessage) {
-                $this->message .= ' '. $successMessage;
+                $this->message .= ' ' . $successMessage;
             }
 
             return true;
@@ -473,7 +473,7 @@ abstract class rex_package_manager
         $requiredVersion = '';
         if (!$package->isAvailable()) {
             if ('' != $requirements['packages'][$packageId]) {
-                $requiredVersion = ' '.$requirements['packages'][$packageId];
+                $requiredVersion = ' ' . $requirements['packages'][$packageId];
             }
 
             if (!rex_package::exists($packageId)) {
@@ -483,10 +483,10 @@ abstract class rex_package_manager
                     // package need to be downloaded via installer
                     $installUrl = rex_url::backendPage('install/packages/add', ['addonkey' => $addonId]);
 
-                    $jumpToInstaller = ' <a href="'. $installUrl .'"><i class="rex-icon fa-arrow-circle-right" title="'. $this->i18n('search_in_installer', $addonId) .'"></i></a>';
+                    $jumpToInstaller = ' <a href="' . $installUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('search_in_installer', $addonId) . '"></i></a>';
                 }
 
-                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$requiredVersion).$jumpToInstaller;
+                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId . $requiredVersion) . $jumpToInstaller;
                 return false;
             }
 
@@ -497,13 +497,13 @@ abstract class rex_package_manager
                 $jumpPackageId = (string) $package->getAddon()->getPackageId();
             }
 
-            $jumpPackageUrl = '#package-'.  rex_string::normalize($jumpPackageId, '-', '_');
+            $jumpPackageUrl = '#package-' . rex_string::normalize($jumpPackageId, '-', '_');
             if ('packages' !== rex_be_controller::getCurrentPage()) {
                 // error while update/install within install-addon. x-link to packages core page
-                $jumpPackageUrl = rex_url::backendPage('packages').$jumpPackageUrl;
+                $jumpPackageUrl = rex_url::backendPage('packages') . $jumpPackageUrl;
             }
 
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$requiredVersion) . ' <a href="'. $jumpPackageUrl .'"><i class="rex-icon fa-arrow-circle-right" title="'. $this->i18n('jump_to', $jumpPackageId) .'"></i></a>';
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId . $requiredVersion) . ' <a href="' . $jumpPackageUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('jump_to', $jumpPackageId) . '"></i></a>';
             return false;
         }
 

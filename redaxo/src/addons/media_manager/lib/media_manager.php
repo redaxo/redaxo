@@ -187,7 +187,7 @@ class rex_media_manager
      */
     public static function setCacheDirectory(string $path): void
     {
-        self::$cacheDirectory = rtrim($path, '/\\').DIRECTORY_SEPARATOR;
+        self::$cacheDirectory = rtrim($path, '/\\') . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -247,7 +247,7 @@ class rex_media_manager
         $filetime = filemtime($mediapath);
 
         // cache is newer?
-        return $cachetime > $filetime;
+        return $cachetime >= $filetime;
     }
 
     /**
@@ -257,7 +257,7 @@ class rex_media_manager
     {
         assert(null !== $this->cachePath);
         assert(null !== $this->type);
-        return $this->cachePath.$this->type.'/'.$this->originalFilename;
+        return $this->cachePath . $this->type . '/' . $this->originalFilename;
     }
 
     /**
@@ -314,7 +314,7 @@ class rex_media_manager
             rex_file::delete(rex_path::addonCache('media_manager', 'types.cache'));
         }
 
-        $filename = ($filename ?: '').'*';
+        $filename = ($filename ?: '') . '*';
 
         if (!$type) {
             $type = '*';
@@ -323,7 +323,7 @@ class rex_media_manager
         $counter = 0;
         $folder = self::$cacheDirectory ?? rex_path::addonCache('media_manager');
 
-        $glob = glob($folder.$type.'/'.$filename, GLOB_NOSORT);
+        $glob = glob($folder . $type . '/' . $filename, GLOB_NOSORT);
         if ($glob) {
             foreach ($glob as $file) {
                 if (rex_file::delete($file)) {
@@ -466,10 +466,10 @@ class rex_media_manager
             FROM `' . rex::getTable('media_manager_type_effect') . '` AS effect
             LEFT JOIN `' . rex::getTable('media_manager_type') . '` AS type ON effect.type_id = type.id
             WHERE parameters LIKE ?
-        ', ['%'.$sql->escapeLikeWildcards(json_encode($filename)).'%']);
+        ', ['%' . $sql->escapeLikeWildcards(json_encode($filename)) . '%']);
 
         for ($i = 0; $i < $sql->getRows(); ++$i) {
-            $message = '<a href="javascript:openPage(\''. rex_url::backendPage('media_manager/types', ['effects' => 1, 'type_id' => $sql->getValue('type_id'), 'effect_id' => $sql->getValue('effect_id'), 'func' => 'edit']) .'\')">'. rex_i18n::msg('media_manager') .' '. rex_i18n::msg('media_manager_effect_name') .': '. (string) $sql->getValue('name') .'</a>';
+            $message = '<a href="javascript:openPage(\'' . rex_url::backendPage('media_manager/types', ['effects' => 1, 'type_id' => $sql->getValue('type_id'), 'effect_id' => $sql->getValue('effect_id'), 'func' => 'edit']) . '\')">' . rex_i18n::msg('media_manager') . ' ' . rex_i18n::msg('media_manager_effect_name') . ': ' . (string) $sql->getValue('name') . '</a>';
 
             if (!in_array($message, $warning)) {
                 $warning[] = $message;
@@ -595,7 +595,7 @@ class rex_media_manager
         $cache = [];
 
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT name, updatedate FROM '.rex::getTable('media_manager_type'));
+        $sql->setQuery('SELECT name, updatedate FROM ' . rex::getTable('media_manager_type'));
 
         foreach ($sql as $row) {
             $cache[(string) $row->getValue('name')] = (int) $row->getDateTimeValue('updatedate');

@@ -49,7 +49,7 @@ class rex_sql_util
         }
 
         $sql = rex_sql::factory();
-        $sql->setQuery('CREATE TABLE '.$sql->escapeIdentifier($destinationTable).' LIKE '.$sql->escapeIdentifier($sourceTable));
+        $sql->setQuery('CREATE TABLE ' . $sql->escapeIdentifier($destinationTable) . ' LIKE ' . $sql->escapeIdentifier($sourceTable));
 
         rex_sql_table::clearInstance($destinationTable);
     }
@@ -67,7 +67,7 @@ class rex_sql_util
         self::copyTable($sourceTable, $destinationTable);
 
         $sql = rex_sql::factory();
-        $sql->setQuery('INSERT '.$sql->escapeIdentifier($destinationTable).' SELECT * FROM '.$sql->escapeIdentifier($sourceTable));
+        $sql->setQuery('INSERT ' . $sql->escapeIdentifier($destinationTable) . ' SELECT * FROM ' . $sql->escapeIdentifier($sourceTable));
     }
 
     /**
@@ -115,7 +115,7 @@ class rex_sql_util
     public static function importDump($file, $debug = false)
     {
         if (!str_ends_with($file, '.sql')) {
-            throw new rex_exception('Expecting a .sql file, "'. $file .'" given.');
+            throw new rex_exception('Expecting a .sql file, "' . $file . '" given.');
         }
 
         $sql = rex_sql::factory();
@@ -177,7 +177,7 @@ class rex_sql_util
             return $ret;
         }
 
-        throw new rex_exception('File "'.$file.'" could not be read.');
+        throw new rex_exception('File "' . $file . '" could not be read.');
     }
 
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)

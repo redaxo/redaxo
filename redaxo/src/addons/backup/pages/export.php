@@ -162,7 +162,7 @@ foreach ($tables as $table) {
         continue;
     }
     // skip rex_tmp_ tables
-    if (str_starts_with($table, rex::getTablePrefix().rex::getTempPrefix())) {
+    if (str_starts_with($table, rex::getTablePrefix() . rex::getTempPrefix())) {
         continue;
     }
 
@@ -171,7 +171,7 @@ foreach ($tables as $table) {
 
 $formElements = [];
 $n = [];
-$n['header'] = '<div id="rex-js-exporttype-sql-div"'.($checkedsql ? '' : ' style="display: none;"').'>';
+$n['header'] = '<div id="rex-js-exporttype-sql-div"' . ($checkedsql ? '' : ' style="display: none;"') . '>';
 $n['label'] = '<label for="rex-form-exporttables">' . rex_i18n::msg('backup_export_select_tables') . '</label>';
 $n['field'] = $tableSelect->get();
 $n['footer'] = '</div>';
@@ -202,7 +202,7 @@ foreach ($folders as $path => $_) {
 }
 
 $n = [];
-$n['header'] = '<div id="rex-js-exporttype-files-div"'.($checkedfiles ? '' : ' style="display: none;"').'>';
+$n['header'] = '<div id="rex-js-exporttype-files-div"' . ($checkedfiles ? '' : ' style="display: none;"') . '>';
 $n['label'] = '<label for="rex-form-exportdir">' . rex_i18n::msg('backup_export_select_dir') . '</label>';
 $n['field'] = $selDirs->get();
 $n['footer'] = '</div>';

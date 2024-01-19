@@ -11,12 +11,11 @@ class rex_template
     /** @var int */
     private $id;
     /** @var string|null */
-    private $key;
+    private $key = '';
 
     public function __construct($templateId)
     {
         $this->id = (int) $templateId;
-        $this->key = '';
     }
 
     /**
@@ -33,7 +32,7 @@ class rex_template
 
         if (false !== $id = array_search($templateKey, $mapping, true)) {
             $template = new self($id);
-            $template->key == $templateKey;
+            $template->key = $templateKey;
 
             return $template;
         }
@@ -278,7 +277,7 @@ class rex_template
         }
 
         if (null == $templatename) {
-            $check->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$templateId);
+            $check->setQuery('SELECT name FROM ' . rex::getTable('template') . ' WHERE id = ' . $templateId);
             $templatename = $check->getValue('name');
         }
 
@@ -293,7 +292,7 @@ class rex_template
     public static function exists(int $templateId): bool
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT 1 FROM '.rex::getTable('template').' WHERE id = ?', [$templateId]);
+        $sql->setQuery('SELECT 1 FROM ' . rex::getTable('template') . ' WHERE id = ?', [$templateId]);
         return 1 === $sql->getRows();
     }
 }

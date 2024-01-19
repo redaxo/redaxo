@@ -43,7 +43,7 @@ class rex_extension_debug extends rex_extension
         $data['listeners'] = self::$listeners[$extensionPoint->getName()] ?? [];
 
         rex_debug_clockwork::getInstance()
-            ->event('EP: '.$extensionPoint->getName(), [
+            ->event('EP: ' . $extensionPoint->getName(), [
                 'subject' => $extensionPoint->getSubject(),
                 'params' => $extensionPoint->getParams(),
                 'result' => $res,
@@ -65,7 +65,7 @@ class rex_extension_debug extends rex_extension
         }
 
         foreach ($extensionPoint as $ep) {
-            self::$listeners[$ep][] = $trace['file'].':'.$trace['line'];
+            self::$listeners[$ep][] = $trace['file'] . ':' . $trace['line'];
 
             self::$extensions[] = [
                 '#' => count(self::$extensions),

@@ -13,36 +13,36 @@ class rex_article_content_base
     /** @var string */
     public $info;
     /** @var bool */
-    public $debug;
+    public $debug = false;
 
     /** @var int */
-    public $template_id;
+    public $template_id = 0;
     /** @var array */
     public $template_attributes;
 
     /** @var int */
     protected $category_id;
     /** @var int */
-    protected $article_id;
+    protected $article_id = 0;
     /** @var int */
-    protected $slice_id;
+    protected $slice_id = 0;
     /** @var int */
-    protected $getSlice;
+    protected $getSlice = 0;
     /** @var 'view'|'edit' */
-    protected $mode;
+    protected $mode = 'view';
     /** @var 'add'|'edit' */
     protected $function;
 
     /** @var int */
-    protected $ctype;
+    protected $ctype = -1;
     /** @var int */
     protected $clang;
 
     /** @var bool */
-    protected $eval;
+    protected $eval = false;
 
     /** @var int */
-    protected $slice_revision;
+    protected $slice_revision = 0;
 
     /** @var rex_sql|null */
     protected $ARTICLE;
@@ -56,19 +56,6 @@ class rex_article_content_base
      */
     public function __construct($articleId = null, $clang = null)
     {
-        $this->article_id = 0;
-        $this->template_id = 0;
-        $this->ctype = -1; // zeigt alles an
-        $this->slice_id = 0;
-        $this->getSlice = 0;
-
-        $this->mode = 'view';
-        $this->eval = false;
-
-        $this->slice_revision = 0;
-
-        $this->debug = false;
-
         if (null !== $clang) {
             $this->setCLang($clang);
         } else {
@@ -285,7 +272,7 @@ class rex_article_content_base
             }
         }
 
-        throw new rex_exception('Articles do not have the property "'.$value.'"');
+        throw new rex_exception('Articles do not have the property "' . $value . '"');
     }
 
     /**
@@ -450,7 +437,7 @@ class rex_article_content_base
 
                 $TEMPLATE = new rex_template($this->template_id);
 
-                rex_timer::measure('Template: '.($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
+                rex_timer::measure('Template: ' . ($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
                     $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
 
                     require rex_stream::factory('template/' . $this->template_id, $tplContent);
@@ -664,21 +651,21 @@ class rex_article_content_base
             $artDataSql->reset();
             $rows = $artDataSql->getRows();
             for ($i = 0; $i < $rows; ++$i) {
-                $sliceId = (int) $artDataSql->getValue($prefix.'article_slice.id');
-                $sliceCtypeId = (int) $artDataSql->getValue($prefix.'article_slice.ctype_id');
-                $sliceModuleId = (int) $artDataSql->getValue($prefix.'module.id');
+                $sliceId = (int) $artDataSql->getValue($prefix . 'article_slice.id');
+                $sliceCtypeId = (int) $artDataSql->getValue($prefix . 'article_slice.ctype_id');
+                $sliceModuleId = (int) $artDataSql->getValue($prefix . 'module.id');
 
                 // ----- ctype unterscheidung
                 if ('edit' != $this->mode && !$this->eval) {
                     if (0 == $i) {
-                        $articleContent = "<?php\n\nif (\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1') {\n";
+                        $articleContent = "<?php\n\nif (\$this->ctype == '" . $sliceCtypeId . "' || \$this->ctype == '-1') {\n";
                     } elseif (null !== $prevCtype && $sliceCtypeId != $prevCtype) {
                         // ----- zwischenstand: ctype .. wenn ctype neu dann if
-                        $articleContent .= "}\n\nif (\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1') {\n";
+                        $articleContent .= "}\n\nif (\$this->ctype == '" . $sliceCtypeId . "' || \$this->ctype == '-1') {\n";
                     }
 
                     $slice = rex_article_slice::fromSql($artDataSql);
-                    $articleContent .= '$this->currentSlice = '.var_export($slice, true).";\n";
+                    $articleContent .= '$this->currentSlice = ' . var_export($slice, true) . ";\n";
                 }
 
                 // ------------- EINZELNER SLICE - AUSGABE

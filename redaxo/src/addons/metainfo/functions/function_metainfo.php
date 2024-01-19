@@ -141,7 +141,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $sql->insert();
 
     // replace LIKE wildcards
-    $prefix = $sql->escape($sql->escapeLikeWildcards($prefix).'%');
+    $prefix = $sql->escape($sql->escapeLikeWildcards($prefix) . '%');
 
     rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE ' . $prefix, 'priority, updatedate');
 
@@ -224,11 +224,7 @@ function rex_metainfo_meta_table(string $prefix)
 {
     $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', []);
 
-    if (isset($metaTables[$prefix])) {
-        return $metaTables[$prefix];
-    }
-
-    return false;
+    return $metaTables[$prefix] ?? false;
 }
 
 /**

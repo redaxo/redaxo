@@ -453,7 +453,7 @@ class rex_article_service
             rex_article_cache::deleteLists($parentId);
             rex_article_cache::deleteMeta($parentId);
 
-            $ids = rex_sql::factory()->getArray('SELECT id FROM '.rex::getTable('article').' WHERE startarticle=0 AND parent_id = ? GROUP BY id', [$parentId]);
+            $ids = rex_sql::factory()->getArray('SELECT id FROM ' . rex::getTable('article') . ' WHERE startarticle=0 AND parent_id = ? GROUP BY id', [$parentId]);
             foreach ($ids as $id) {
                 rex_article_cache::deleteMeta((int) $id['id']);
             }
@@ -528,8 +528,8 @@ class rex_article_service
         foreach (rex_clang::getAllIds() as $clang) {
             // artikel
             $sql->setQuery('
-                select parent_id, (select catname FROM '.rex::getTable('article').' parent WHERE parent.id = category.parent_id AND parent.clang_id = category.clang_id) as catname
-                from '.rex::getTable('article').' category
+                select parent_id, (select catname FROM ' . rex::getTable('article') . ' parent WHERE parent.id = category.parent_id AND parent.clang_id = category.clang_id) as catname
+                from ' . rex::getTable('article') . ' category
                 where id=? and startarticle=1 and clang_id=?
             ', [$artId, $clang]);
 

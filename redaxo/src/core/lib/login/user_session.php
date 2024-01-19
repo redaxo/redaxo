@@ -33,7 +33,7 @@ class rex_user_session
                 ->select();
             if ($sql->getRows()) {
                 if ($userId !== (int) $sql->getValue('user_id')) {
-                    throw new rex_exception('Cookie key "'.$cookieKey.'" does not belong to current user "'.$userId.'", it belongs to user "'.(string) $sql->getValue('user_id').'"');
+                    throw new rex_exception('Cookie key "' . $cookieKey . '" does not belong to current user "' . $userId . '", it belongs to user "' . (string) $sql->getValue('user_id') . '"');
                 }
 
                 $updateByCookieKey = true;
@@ -112,7 +112,7 @@ class rex_user_session
             ->setTable(rex::getTable('user_session'))
             ->setWhere('UNIX_TIMESTAMP(last_activity) < IF(cookie_key IS NULL, ?, ?)', [
                 time() - (int) rex::getProperty('session_duration'),
-                strtotime('-'.self::STAY_LOGGED_IN_DURATION.' months'),
+                strtotime('-' . self::STAY_LOGGED_IN_DURATION . ' months'),
             ])
             ->delete();
     }

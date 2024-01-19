@@ -40,10 +40,10 @@ $list->setColumnFormat('id', 'custom', static function () use ($list) {
     $id = $list->getValue('id');
 
     if (null === $id) {
-        return '<span class="label label-default">'.rex_i18n::msg('password').'</span>';
+        return '<span class="label label-default">' . rex_i18n::msg('password') . '</span>';
     }
 
-    return '<span class="label label-default">'.rex_i18n::msg('passkey').'</span> '.rex_escape($id);
+    return '<span class="label label-default">' . rex_i18n::msg('passkey') . '</span> ' . rex_escape($id);
 });
 $list->setColumnFormat('createdate', 'custom', static function () use ($list) {
     return rex_formatter::intlDateTime((string) $list->getValue('createdate'), IntlDateFormatter::SHORT);

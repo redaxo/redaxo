@@ -218,7 +218,7 @@ class rex_path
     {
         // BC
         if (!method_exists(self::$pathprovider, 'log')) {
-            return self::data('log/'.$file);
+            return self::data('log/' . $file);
         }
 
         return self::$pathprovider->log($file);
@@ -375,7 +375,7 @@ class rex_path
         }
 
         $basePath = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $basePath);
-        $basePath = rtrim($basePath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+        $basePath = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
         $baseLength = strlen($basePath);
 
@@ -416,7 +416,7 @@ class rex_path
         }
 
         $out = [];
-        $cmd = sprintf('command -v %s || which %s', $commandName, $commandName);
+        $cmd = sprintf('command -v %s || which %1$s', escapeshellarg($commandName));
         exec($cmd, $out, $ret);
 
         if (0 === $ret) {

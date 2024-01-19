@@ -77,21 +77,26 @@ class rex_article_content_editor extends rex_article_content
                     $moduleInput = $this->replaceVars($artDataSql, $moduleInput);
                     return $sliceContent . $this->editSlice($sliceId, $moduleInput, $sliceCtype, $moduleId, $artDataSql);
                 }
-                // Modulinhalt ausgeben
-                $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
-                $panel .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
-            } else {
-                // ----- hat keine rechte an diesem modul, einfach ausgeben
-                $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
-                $panel .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
             }
+            // Modulinhalt ausgeben
+            $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
+            $content = $this->getWrappedModuleOutput($moduleId, $moduleOutput);
+
+            // EP for changing the module preview
+            $panel .= rex_extension::registerPoint(new rex_extension_point('SLICE_BE_PREVIEW', $content, [
+                'article_id' => $this->article_id,
+                'clang' => $this->clang,
+                'ctype' => $this->ctype,
+                'module_id' => $moduleId,
+                'slice_id' => $sliceId,
+            ]));
 
             $fragment = new rex_fragment();
             $fragment->setVar('title', $this->getSliceHeading($artDataSql), false);
             $fragment->setVar('options', $this->getSliceMenu($artDataSql), false);
             $fragment->setVar('body', $panel, false);
             $statusName = $sliceStatus ? 'online' : 'offline';
-            $sliceContent .= '<li class="rex-slice rex-slice-output rex-slice-'.$statusName.'" id="slice'.$sliceId.'">' . $fragment->parse('core/page/section.php') . '</li>';
+            $sliceContent .= '<li class="rex-slice rex-slice-output rex-slice-' . $statusName . '" id="slice' . $sliceId . '">' . $fragment->parse('core/page/section.php') . '</li>';
         }
 
         return $sliceContent;
@@ -166,10 +171,10 @@ class rex_article_content_editor extends rex_article_content
                 // status
                 $item = [];
                 $statusName = $sliceStatus ? 'online' : 'offline';
-                $item['label'] = rex_i18n::msg('status_'.$statusName);
+                $item['label'] = rex_i18n::msg('status_' . $statusName);
                 $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + rex_api_content_slice_status::getUrlParams());
                 $item['attributes']['class'][] = 'btn-default';
-                $item['attributes']['class'][] = 'rex-'.$statusName;
+                $item['attributes']['class'][] = 'rex-' . $statusName;
                 $menuStatusAction = $item;
             }
 

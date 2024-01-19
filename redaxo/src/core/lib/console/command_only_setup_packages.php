@@ -9,6 +9,4 @@
  *
  * @internal Only usable in rex core commands
  */
-interface rex_command_only_setup_packages
-{
-}
+interface rex_command_only_setup_packages {}

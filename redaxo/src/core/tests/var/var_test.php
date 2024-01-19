@@ -24,7 +24,7 @@ class rex_var_2nd_test_var extends rex_var
     }
 }
 
-require_once __DIR__.'/var_test_base.php';
+require_once __DIR__ . '/var_test_base.php';
 
 class rex_var_test extends rex_var_test_base
 {
@@ -34,7 +34,7 @@ class rex_var_test extends rex_var_test_base
         return [
             ['aREX_TEST_VAR[content=b]c', 'abc'],
             ['a<?php echo \'bREX_TEST_VAR[content=c]d\'; ?>e', 'abcde'],
-            ['a<?php echo "bREX_TEST_VAR[content=c]d"; ?>e', 'abcde'],
+            ['a<?php $foo = "123"; echo "REX_TEST_VAR[content=b]$foo"; ?>', 'ab123'],
             ['a<?php echo REX_TEST_VAR[content=b]; ?>c', 'abc'],
             ['REX_2ND_TEST_VAR[]', '2'],
             ['a<?php echo <<<EOT
@@ -166,10 +166,10 @@ c', "a\nb\nc"],
 
         $array = ['1', '3', 'test'];
 
-        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(json_encode($array), '[]"')  . '\']"));';
+        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
         $this->assertParseOutputEquals(print_r($array, true), $content, 'toArray() works with non-htmlspecialchar\'ed data');
 
-        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(htmlspecialchars(json_encode($array)), '[]"')  . '\']"));';
+        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(htmlspecialchars(json_encode($array)), '[]"') . '\']"));';
         $this->assertParseOutputEquals(print_r($array, true), $content, 'toArray() works with htmlspecialchar\'ed data');
 
         $array = ['&#039;', '\&quot;']; // [code for ', code for "]

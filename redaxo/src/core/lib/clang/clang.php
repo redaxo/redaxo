@@ -184,15 +184,7 @@ class rex_clang
      */
     public function getValue($key)
     {
-        if (isset($this->$key)) {
-            return $this->$key;
-        }
-
-        if (isset($this->{'clang_' . $key})) {
-            return $this->{'clang_' . $key};
-        }
-
-        return null;
+        return $this->$key ?? $this->{'clang_' . $key} ?? null;
     }
 
     /**

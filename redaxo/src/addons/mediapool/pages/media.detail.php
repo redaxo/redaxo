@@ -140,11 +140,11 @@ if ($isImage) {
     $fragment->setVar('elements', [$e], false);
     $addExtInfo = $fragment->parse('core/form/form.php');
 
-    $imgn = rex_url::media($fname).'?buster='.$gf->getDateTimeValue('updatedate');
+    $imgn = rex_url::media($fname) . '?buster=' . $gf->getDateTimeValue('updatedate');
     $width = '';
 
     if ($rfwidth > 0) {
-        $width = ' width="'.$rfwidth.'"';
+        $width = ' width="' . $rfwidth . '"';
     }
     $imgMax = rex_url::media($fname);
 

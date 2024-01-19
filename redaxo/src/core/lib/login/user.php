@@ -45,7 +45,7 @@ class rex_user
     public static function get(int $id): ?self
     {
         return static::getInstance($id, static function (int $id) {
-            $sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$id]);
+            $sql = rex_sql::factory()->setQuery('SELECT * FROM ' . rex::getTable('user') . ' WHERE id = ?', [$id]);
 
             if ($sql->getRows()) {
                 $user = new static($sql);
@@ -60,7 +60,7 @@ class rex_user
     public static function forLogin(#[SensitiveParameter] string $login): ?self
     {
         return static::getInstance('login_' . $login, static function () use ($login) {
-            $sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE login = ?', [$login]);
+            $sql = rex_sql::factory()->setQuery('SELECT * FROM ' . rex::getTable('user') . ' WHERE login = ?', [$login]);
 
             if ($sql->getRows()) {
                 $user = new static($sql);
@@ -262,6 +262,6 @@ class rex_user
         }
 
         static::baseClearInstance($user->getId());
-        static::baseClearInstance('login_'.$user->getLogin());
+        static::baseClearInstance('login_' . $user->getLogin());
     }
 }

@@ -50,7 +50,7 @@ class rex_password_policy
                 continue;
             }
 
-            $parts[] = rex_i18n::msg('password_rule_'.$key, $constraint);
+            $parts[] = rex_i18n::msg('password_rule_' . $key, $constraint);
         }
 
         return $parts ? implode('; ', $parts) : null;
@@ -85,13 +85,13 @@ class rex_password_policy
         $allowed = $mapping;
         foreach ($mapping as $rexKey => $htmlKey) {
             if (($this->options[$rexKey]['min'] ?? 0) > 0) {
-                $rules[] = 'required: '.$htmlKey;
+                $rules[] = 'required: ' . $htmlKey;
             }
             if (($this->options[$rexKey]['max'] ?? 1) <= 0) {
                 unset($allowed[$rexKey]);
             }
         }
-        $rules[] = 'allowed: '.implode(', ', $allowed);
+        $rules[] = 'allowed: ' . implode(', ', $allowed);
         $attr['passwordrules'] = implode('; ', $rules);
 
         return $attr;
@@ -120,7 +120,7 @@ class rex_password_policy
                 'letter' => preg_match_all('/[a-zA-Z]/', $password),
                 'uppercase' => preg_match_all('/[A-Z]/', $password),
                 'lowercase' => preg_match_all('/[a-z]/', $password),
-                'digit' => preg_match_all('/[0-9]/', $password),
+                'digit' => preg_match_all('/\d/', $password),
                 'symbol' => preg_match_all('/[^a-zA-Z0-9]/', $password),
                 default => throw new rex_exception(sprintf('Unknown password_policy key "%s".', $key)),
             };

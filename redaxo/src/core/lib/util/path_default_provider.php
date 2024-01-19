@@ -242,7 +242,7 @@ class rex_path_default_provider
      */
     public function log(string $file): string
     {
-        return $this->data('log/'.$file);
+        return $this->data('log/' . $file);
     }
 
     /**

@@ -131,7 +131,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Ignore all files which match the given glob pattern.
      *
-     * @param string|array $glob      Glob pattern or an array of glob patterns
+     * @param string|string[] $glob      Glob pattern or an array of glob patterns
      * @param bool         $recursive When FALSE the patterns won't be checked in child directories
      *
      * @return $this
@@ -151,7 +151,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Ignore all directories which match the given glob pattern.
      *
-     * @param string|array $glob      Glob pattern or an array of glob patterns
+     * @param string|string[] $glob      Glob pattern or an array of glob patterns
      * @param bool         $recursive When FALSE the patterns won't be checked in child directories
      *
      * @return $this
@@ -208,7 +208,7 @@ class rex_finder implements IteratorAggregate, Countable
             $isRoot = $currentIterator === $iterator;
 
             $match = static function ($pattern, $filename) {
-                $regex = '/^'.strtr(preg_quote($pattern, '/'), ['\*' => '.*', '\?' => '.']).'$/i';
+                $regex = '/^' . strtr(preg_quote($pattern, '/'), ['\*' => '.*', '\?' => '.']) . '$/i';
                 return preg_match($regex, $filename);
             };
 

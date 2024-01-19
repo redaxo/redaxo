@@ -13,7 +13,7 @@ class rex_install_archive
         rex_dir::delete($dir);
 
         if (!class_exists(ZipArchive::class)) {
-            $archive = 'phar://' . $archive . '/' . $basename;
+            $archive = 'phar://' . $archive . DIRECTORY_SEPARATOR . $basename;
             return rex_dir::copy($archive, $dir);
         }
 
@@ -41,7 +41,7 @@ class rex_install_archive
                     return false;
                 }
 
-                if (!is_dir($tempdir.DIRECTORY_SEPARATOR.$basename) || !rename($tempdir.DIRECTORY_SEPARATOR.$basename, $dir.DIRECTORY_SEPARATOR)) {
+                if (!is_dir($tempdir . DIRECTORY_SEPARATOR . $basename) || !rename($tempdir . DIRECTORY_SEPARATOR . $basename, $dir . DIRECTORY_SEPARATOR)) {
                     return false;
                 }
 

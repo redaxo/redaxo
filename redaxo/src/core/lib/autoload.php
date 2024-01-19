@@ -12,6 +12,11 @@
  */
 class rex_autoload
 {
+    // see https://github.com/redaxo/redaxo/issues/5780
+    private const SYMFONY_NON_UTF8_CLASS = "\xA9";
+
+    private const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexsymfonycachevaluewrappernonutf8class';
+
     /** @var Composer\Autoload\ClassLoader */
     protected static $composerLoader;
 
@@ -86,7 +91,13 @@ class rex_autoload
         }
 
         $force = false;
-        $lowerClass = strtolower($class);
+
+        if (self::SYMFONY_NON_UTF8_CLASS === $class) {
+            $lowerClass = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
+        } else {
+            $lowerClass = strtolower($class);
+        }
+
         if (isset(self::$classes[$lowerClass])) {
             $path = rex_path::base(self::$classes[$lowerClass]);
             // we have a class path for the class, let's include it
@@ -270,7 +281,11 @@ class rex_autoload
 
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
-                $class = strtolower($class);
+                if (self::SYMFONY_NON_UTF8_CLASS === $class) {
+                    $class = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
+                } else {
+                    $class = strtolower($class);
+                }
 
                 // Force usage of Parsedown and ParsedownExtra from core vendors (via composer autoloader)
                 // to avoid problems between incompatible version of Parsedown (from addon) and ParsedownExtra (from core)
@@ -332,7 +347,7 @@ class rex_autoload
         }
 
         // return early if there is no chance of matching anything in this file
-        if (!preg_match('{\b(?:class|interface'.$extraTypes.')\s}i', $contents)) {
+        if (!preg_match('{\b(?:class|interface' . $extraTypes . ')\s}i', $contents)) {
             return [];
         }
 
@@ -354,7 +369,7 @@ class rex_autoload
         }x';
 
         // run first assuming the file is valid unicode
-        $contentWithoutHeredoc = preg_replace($heredocRegex.'u', 'null', $contents);
+        $contentWithoutHeredoc = preg_replace($heredocRegex . 'u', 'null', $contents);
         if (null === $contentWithoutHeredoc) {
             // run again without unicode support if the file failed to be parsed
             $contents = preg_replace($heredocRegex, 'null', $contents);
@@ -386,7 +401,7 @@ class rex_autoload
 
         preg_match_all('{
             (?:
-                 \b(?<![\$:>])(?P<type>class|interface'.$extraTypes.') \s++ (?P<name>[a-zA-Z_\x7f-\xff:][a-zA-Z0-9_\x7f-\xff:\-]*+)
+                 \b(?<![\$:>])(?P<type>class|interface' . $extraTypes . ') \s++ (?P<name>[a-zA-Z_\x7f-\xff:][a-zA-Z0-9_\x7f-\xff:\-]*+)
                | \b(?<![\$:>])(?P<ns>namespace) (?P<nsname>\s++[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\s*+\\\\\s*+[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)*+)? \s*+ [\{;]
             )
         }ix', $contents, $matches);
@@ -405,7 +420,7 @@ class rex_autoload
                 }
                 if (':' === $name[0]) {
                     // This is an XHP class, https://github.com/facebook/xhp
-                    $name = 'xhp'.substr(str_replace(['-', ':'], ['_', '__'], $name), 1);
+                    $name = 'xhp' . substr(str_replace(['-', ':'], ['_', '__'], $name), 1);
                 } elseif ('enum' === $matches['type'][$i]) {
                     // In Hack, something like:
                     //   enum Foo: int { HERP = '123'; }

@@ -139,28 +139,16 @@ class rex_version
         $output = [];
         $exitCode = -1;
 
-        if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
-            $command = 'where git';
-        } else {
-            $command = 'which git';
-        }
-
-        $git = @exec($command, $output, $exitCode);
-
-        if (0 !== $exitCode) {
-            return null;
-        }
-
         if (null !== $repo) {
-            $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' ls-remote --get-url';
+            $command = 'git -C ' . escapeshellarg($path) . ' ls-remote --get-url';
             $remote = @exec($command, $output, $exitCode);
 
-            if (0 !== $exitCode || !preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
+            if (0 !== $exitCode || !preg_match('{github.com[:/]' . preg_quote($repo) . '\.git$}i', $remote)) {
                 return null;
             }
         }
 
-        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' log -1 --pretty=format:%h';
+        $command = 'git -C ' . escapeshellarg($path) . ' log -1 --pretty=format:%h';
         $version = @exec($command, $output, $exitCode);
 
         return 0 === $exitCode ? $version : null;

@@ -122,7 +122,7 @@ class rex_api_install_core_update extends rex_api_function
                         }
                     }
                     foreach ($addon->getAvailablePlugins() as $plugin) {
-                        $config = rex_file::getConfig($temppath.'addons/'.$addon->getName().'/plugins/'.$plugin->getName().'/'.rex_package::FILE_PACKAGE);
+                        $config = rex_file::getConfig($temppath . 'addons/' . $addon->getName() . '/plugins/' . $plugin->getName() . '/' . rex_package::FILE_PACKAGE);
                         foreach ($config['default_config'] ?? [] as $key => $value) {
                             if (!$plugin->hasConfig($key)) {
                                 $plugin->setConfig($key, $value);
@@ -161,8 +161,8 @@ class rex_api_install_core_update extends rex_api_function
             $pathOld = rex_path::src('core.old');
             // move current core to temp path
             if (!@rename($pathCore, $pathOld)) {
-                $message = $pathCore.' could not be moved to '.$pathOld;
-                $message .= ($error = error_get_last()) ? ': '.$error['message'] : '.';
+                $message = $pathCore . ' could not be moved to ' . $pathOld;
+                $message .= ($error = error_get_last()) ? ': ' . $error['message'] : '.';
                 throw new rex_functional_exception($message);
             }
             // move new core to main core path
@@ -173,8 +173,8 @@ class rex_api_install_core_update extends rex_api_function
                 // revert to old core
                 rename($pathOld, $pathCore);
 
-                $message = $temppath . 'core could not be moved to '.$pathCore;
-                $message .= ($error = error_get_last()) ? ': '.$error['message'] : '.';
+                $message = $temppath . 'core could not be moved to ' . $pathCore;
+                $message .= ($error = error_get_last()) ? ': ' . $error['message'] : '.';
                 throw new rex_functional_exception($message);
             }
 
@@ -183,7 +183,7 @@ class rex_api_install_core_update extends rex_api_function
             }
             foreach ($coreAddons as $addonkey) {
                 if (isset($updateAddons[$addonkey])) {
-                    $pathOld = rex_path::addon($addonkey.'.old');
+                    $pathOld = rex_path::addon($addonkey . '.old');
                     // move whole old addon to a temp dir (high priority to get the free space for new addon version)
                     // and try to delete it afterwards (lower priority)
                     rename(rex_path::addon($addonkey), $pathOld);
@@ -207,7 +207,7 @@ class rex_api_install_core_update extends rex_api_function
             $message = $installAddon->i18n('warning_core_not_updated') . '<br />' . $message;
             $success = false;
         } else {
-            $logger->info('REDAXO Core updated from '. rex::getVersion() .' to version '. $version['version']);
+            $logger->info('REDAXO Core updated from ' . rex::getVersion() . ' to version ' . $version['version']);
 
             $message = $installAddon->i18n('info_core_updated');
             $success = true;
@@ -220,9 +220,9 @@ class rex_api_install_core_update extends rex_api_function
             /** @var rex_addon $addon */
             foreach ($updateAddons as $addon) {
                 if ($addon->isAvailable()) {
-                    $addon->loadProperties();
+                    $addon->loadProperties(true);
                     foreach ($addon->getAvailablePlugins() as $plugin) {
-                        $plugin->loadProperties();
+                        $plugin->loadProperties(true);
                     }
                 }
             }
@@ -319,12 +319,12 @@ class rex_api_install_core_update extends rex_api_function
         }
 
         if (!empty($messages)) {
-            throw new rex_functional_exception('<ul><li>'.implode('</li><li>', $messages).'</li></ul>');
+            throw new rex_functional_exception('<ul><li>' . implode('</li><li>', $messages) . '</li></ul>');
         }
     }
 
     private function messageFromPackage(rex_package $package, rex_package_manager $manager): string
     {
-        return rex_i18n::msg('install_warning_message_from_'.$package->getType(), $package->getPackageId()).' '.$manager->getMessage();
+        return rex_i18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
     }
 }

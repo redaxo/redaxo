@@ -170,11 +170,7 @@ function rex_escape($value, $strategy = 'html')
                         62 => '&gt;',   /* greater-than sign */
                     ];
 
-                    if (isset($entityMap[$ord])) {
-                        return $entityMap[$ord];
-                    }
-
-                    return sprintf('&#x%02X;', $ord);
+                    return $entityMap[$ord] ?? sprintf('&#x%02X;', $ord);
                 }
 
                 /*

@@ -137,7 +137,7 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
     $toolbar = '';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('button_prefix', '<b>'.$currentRevision.'</b>', false);
+    $fragment->setVar('button_prefix', '<b>' . $currentRevision . '</b>', false);
     $fragment->setVar('items', $items, false);
     $fragment->setVar('toolbar', true);
 

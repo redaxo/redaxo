@@ -93,7 +93,7 @@ class rex_response
     private static function sendAdditionalHeaders()
     {
         foreach (self::$additionalHeaders as $name => $value) {
-            header($name .': ' . $value);
+            header($name . ': ' . $value);
         }
     }
 
@@ -120,7 +120,7 @@ class rex_response
     private static function sendPreloadHeaders()
     {
         foreach (self::$preloadFiles as $preloadFile) {
-            header('Link: <' . $preloadFile['file'] . '>; rel=preload; as=' . $preloadFile['type'] . '; type="' . $preloadFile['mimeType'].'"; crossorigin; nopush', false);
+            header('Link: <' . $preloadFile['file'] . '>; rel=preload; as=' . $preloadFile['type'] . '; type="' . $preloadFile['mimeType'] . '"; crossorigin; nopush', false);
         }
     }
 
@@ -218,6 +218,12 @@ class rex_response
 
                         fseek($handle, $range->getStart());
                         while (ftell($handle) < $range->getEnd()) {
+                            // Abort on client disconnect.
+                            // With ignore_user_abort(true), the script is not aborted on client disconnect.
+                            // To avoid reading the entire stream and dismissing the data afterward, check between the chunks if the client is still there.
+                            if (1 === ignore_user_abort() && 1 === connection_aborted()) {
+                                break 2;
+                            }
                             echo fread($handle, $chunkSize);
                         }
                     }
@@ -539,20 +545,20 @@ class rex_response
             throw new InvalidArgumentException('The "sameSite" parameter value is not valid.');
         }
 
-        $str = 'Set-Cookie: '. ($raw ? $name : urlencode($name)).'=';
+        $str = 'Set-Cookie: ' . ($raw ? $name : urlencode($name)) . '=';
         if ('' === (string) $value) {
-            $str .= 'deleted; expires='.gmdate('D, d-M-Y H:i:s T', time() - 31_536_001).'; Max-Age=0';
+            $str .= 'deleted; expires=' . gmdate('D, d-M-Y H:i:s T', time() - 31_536_001) . '; Max-Age=0';
         } else {
             $str .= $raw ? $value : rawurlencode($value);
             if (0 !== $expire) {
-                $str .= '; expires='.gmdate('D, d-M-Y H:i:s T', $expire).'; Max-Age='.$maxAge;
+                $str .= '; expires=' . gmdate('D, d-M-Y H:i:s T', $expire) . '; Max-Age=' . $maxAge;
             }
         }
         if ($path) {
-            $str .= '; path='.$path;
+            $str .= '; path=' . $path;
         }
         if ($domain) {
-            $str .= '; domain='.$domain;
+            $str .= '; domain=' . $domain;
         }
         if ($secure) {
             $str .= '; secure';
@@ -561,7 +567,7 @@ class rex_response
             $str .= '; httponly';
         }
         if ($sameSite) {
-            $str .= '; samesite='.$sameSite;
+            $str .= '; samesite=' . $sameSite;
         }
 
         header($str, false);
@@ -610,7 +616,7 @@ class rex_response
     {
         if (!rex_request::isHttps()) {
             self::setStatus(self::HTTP_MOVED_PERMANENTLY);
-            self::sendRedirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+            self::sendRedirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
         }
     }
 }

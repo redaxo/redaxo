@@ -172,7 +172,7 @@ if (rex::isBackend() && rex::getUser()?->hasPerm('history[article_rollback]')) {
                 $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [rex_history_login::class => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime]);
             }
 
-            echo '<script nonce="'.rex_response::getNonce().'">
+            echo '<script nonce="' . rex_response::getNonce() . '">
                     var history_article_id = ' . rex_article::getCurrentId() . ';
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';

@@ -18,7 +18,7 @@ class rex_sql_schema_dumper
      */
     public function dumpTable(rex_sql_table $table)
     {
-        $code = 'rex_sql_table::get('.$this->tableName($table->getName()).')';
+        $code = 'rex_sql_table::get(' . $this->tableName($table->getName()) . ')';
 
         $setPrimaryKey = true;
         $primaryKeyIsId = ['id'] === $table->getPrimaryKey();
@@ -32,7 +32,7 @@ class rex_sql_schema_dumper
                 continue;
             }
 
-            $code .= "\n    ->ensureColumn(".$this->getColumn($column).')';
+            $code .= "\n    ->ensureColumn(" . $this->getColumn($column) . ')';
         }
 
         $code = str_replace(
@@ -47,15 +47,15 @@ class rex_sql_schema_dumper
         );
 
         if ($setPrimaryKey && $primaryKey = $table->getPrimaryKey()) {
-            $code .= "\n    ->setPrimaryKey(".$this->getPrimaryKey($primaryKey).')';
+            $code .= "\n    ->setPrimaryKey(" . $this->getPrimaryKey($primaryKey) . ')';
         }
 
         foreach ($table->getIndexes() as $index) {
-            $code .= "\n    ->ensureIndex(".$this->getIndex($index).')';
+            $code .= "\n    ->ensureIndex(" . $this->getIndex($index) . ')';
         }
 
         foreach ($table->getForeignKeys() as $foreignKey) {
-            $code .= "\n    ->ensureForeignKey(".$this->getForeignKey($foreignKey).')';
+            $code .= "\n    ->ensureForeignKey(" . $this->getForeignKey($foreignKey) . ')';
         }
 
         $code .= "\n    ->ensure();\n";
@@ -90,7 +90,7 @@ class rex_sql_schema_dumper
         $parameters[] = $this->scalar($column->getType());
         $parameters[] = $this->scalar($column->getName());
 
-        return 'new rex_sql_column('.implode(', ', array_reverse($parameters)).')';
+        return 'new rex_sql_column(' . implode(', ', array_reverse($parameters)) . ')';
     }
 
     private function getIndex(rex_sql_index $index): string
@@ -107,7 +107,7 @@ class rex_sql_schema_dumper
             };
         }
 
-        return 'new rex_sql_index('.implode(', ', $parameters).')';
+        return 'new rex_sql_index(' . implode(', ', $parameters) . ')';
     }
 
     private function getForeignKey(rex_sql_foreign_key $foreignKey): string
@@ -135,7 +135,7 @@ class rex_sql_schema_dumper
             $parameters[] = $options[$foreignKey->getOnDelete()];
         }
 
-        return 'new rex_sql_foreign_key('.implode(', ', $parameters).')';
+        return 'new rex_sql_foreign_key(' . implode(', ', $parameters) . ')';
     }
 
     /** @param list<string> $primaryKey */
@@ -156,7 +156,7 @@ class rex_sql_schema_dumper
 
         $name = substr($name, strlen(rex::getTablePrefix()));
 
-        return 'rex::getTable('.$this->scalar($name).')';
+        return 'rex::getTable(' . $this->scalar($name) . ')';
     }
 
     /** @param scalar|null $scalar */
@@ -181,7 +181,7 @@ class rex_sql_schema_dumper
             $parts[] = $this->scalar($value);
         }
 
-        return '['.implode(', ', $parts).']';
+        return '[' . implode(', ', $parts) . ']';
     }
 
     /** @param array<string, scalar> $map */
@@ -190,9 +190,9 @@ class rex_sql_schema_dumper
         $parts = [];
 
         foreach ($map as $key => $value) {
-            $parts[] = $this->scalar($key).' => '.$this->scalar($value);
+            $parts[] = $this->scalar($key) . ' => ' . $this->scalar($value);
         }
 
-        return '['.implode(', ', $parts).']';
+        return '[' . implode(', ', $parts) . ']';
     }
 }

@@ -24,7 +24,6 @@ update_metadata = Aktualisera metadata
 move_article = Flytta artikeln
 copy_article = till kategorien
 no_rights_to_edit = Du inga redigeringsrättigheter!
-show = visa
 slice_moved = Avsnittet flyttades.
 slice_moved_error = Avsnittet kunde inte flyttas.
 slice_deleted_error = Avsnittet kunde inte raderas.
