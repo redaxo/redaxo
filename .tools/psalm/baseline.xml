@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.18.0@b113f3ed0259fd6e212d87c3df80eec95a6abf19">
+<files psalm-version="5.20.0@3f284e96c9d9be6fe6b15c79416e1d1903dcfef4">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument>
       <code>$column</code>
@@ -433,6 +433,9 @@
       <code><![CDATA[$req->databaseUpdates]]></code>
       <code><![CDATA[rex_debug_clockwork::getInstance()->getRequest()->id]]></code>
     </MixedPropertyFetch>
+    <PossiblyNullArgument>
+      <code><![CDATA[$_SERVER['REQUEST_URI']]]></code>
+    </PossiblyNullArgument>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$_SERVER['REQUEST_URI']]]></code>
       <code><![CDATA[$_SERVER['REQUEST_URI']]]></code>
@@ -458,6 +461,9 @@
     <MixedReturnStatement>
       <code><![CDATA[self::getHelper()->getClockwork()]]></code>
     </MixedReturnStatement>
+    <PossiblyNullArgument>
+      <code><![CDATA[$_SERVER['REQUEST_URI']]]></code>
+    </PossiblyNullArgument>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
       <code><![CDATA[$_SERVER['REQUEST_URI']]]></code>
@@ -1628,6 +1634,7 @@
     </MixedOperand>
     <PossiblyNullArgument>
       <code>$address</code>
+      <code><![CDATA[$this->xHeader['to']]]></code>
     </PossiblyNullArgument>
     <PossiblyNullOperand>
       <code>$sendTime</code>
@@ -1656,6 +1663,9 @@
     <PossiblyNullArgument>
       <code><![CDATA[$addon->getConfig('test_address')]]></code>
     </PossiblyNullArgument>
+    <PossiblyNullOperand>
+      <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
+    </PossiblyNullOperand>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
     </PossiblyUndefinedArrayOffset>
@@ -2197,6 +2207,13 @@
     </MixedPropertyTypeCoercion>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_slice.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$data['link']]]></code>
+      <code><![CDATA[$data['linklist']]]></code>
+      <code><![CDATA[$data['media']]]></code>
+      <code><![CDATA[$data['medialist']]]></code>
+      <code><![CDATA[$data['value']]]></code>
+    </PossiblyNullArgument>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$data['link']]]></code>
       <code><![CDATA[$data['linklist']]]></code>
@@ -2727,6 +2744,9 @@
       <code>$assetFile</code>
       <code>$userAgent</code>
     </MixedAssignment>
+    <PossiblyNullArgument>
+      <code><![CDATA[$_SERVER['PHP_SELF']]]></code>
+    </PossiblyNullArgument>
     <PossiblyNullReference>
       <code>getLanguage</code>
     </PossiblyNullReference>
@@ -4434,6 +4454,9 @@
     <MoreSpecificReturnType>
       <code>non-empty-string[]</code>
     </MoreSpecificReturnType>
+    <PossiblyNullArrayAccess>
+      <code><![CDATA[$config[$addonName]['plugins'][$pluginName]]]></code>
+    </PossiblyNullArrayAccess>
   </file>
   <file src="redaxo/src/core/lib/packages/null.php">
     <MixedArgument>
@@ -4449,9 +4472,6 @@
       <code>string</code>
     </LessSpecificImplementedReturnType>
     <MixedArgument>
-      <code>$__file</code>
-      <code>$__file</code>
-      <code>$__file</code>
       <code>$dir</code>
       <code>$value</code>
     </MixedArgument>
@@ -4534,6 +4554,8 @@
       <code>$value</code>
     </PossiblyNullArgument>
     <PossiblyNullOperand>
+      <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
+      <code><![CDATA[$_SERVER['REQUEST_URI']]]></code>
       <code>$filename</code>
       <code>$raw ? $value : rawurlencode($value)</code>
     </PossiblyNullOperand>
