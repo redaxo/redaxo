@@ -196,10 +196,17 @@ final class rex_parsedown extends ParsedownExtra
             $text = '<?php '.$text;
         }
 
-        $text = str_replace("\n", '', highlight_string($text, true));
+       $text = highlight_string($text, true);
+        if (str_starts_with($text, '<pre>')) {
+            $text = substr($text, 5, -6);
+        }
+
+        // php 8.3 fix
+        $text = preg_replace('@<span style="color:[^"]+">\n(<span style="color:[^"]+">)@', '$1', $text, 1);
+        $text = preg_replace('@<\/span>\n(<\/span>\n<\/code>)$@', '$1', $text, 1);
 
         if ($missingPhpStart) {
-            $text = preg_replace('@(<span style="color:[^"]+">)&lt;\?php&nbsp;@', '$1', $text, 1);
+            $text = preg_replace('@(<span style="color:[^"]+">)(?:&lt;|<)\?php(?:&nbsp;|\s)@', '$1', $text, 1);
         }
 
         /** @psalm-suppress MixedArrayAssignment */
