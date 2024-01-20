@@ -320,7 +320,7 @@ async function main() {
             ]);
 
             // test debug
-            const interceptClockworkRequest = request => {
+            /*const interceptClockworkRequest = request => {
                 const url = request.url();
                 if (url.indexOf('rex-api-call=debug') !== -1) {
                     console.log('ABORT REQUEST:', url);
@@ -334,7 +334,7 @@ async function main() {
             await goToUrlOrThrow(page, START_URL + '?page=debug', { waitUntil: 'load' });
             await createScreenshots(page, 'debug_clockwork.png');
             await page.setRequestInterception(false);
-            page.off('request', interceptClockworkRequest);
+            page.off('request', interceptClockworkRequest);*/
 
             // test customizer
             await goToUrlOrThrow(page, START_URL + '?page=packages', { waitUntil: 'load' });
