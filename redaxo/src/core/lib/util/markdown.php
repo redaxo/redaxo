@@ -196,7 +196,7 @@ final class rex_parsedown extends ParsedownExtra
             $text = '<?php '.$text;
         }
 
-       $text = highlight_string($text, true);
+        $text = highlight_string($text, true);
         if (str_starts_with($text, '<pre>')) {
             $text = substr($text, 5, -6);
         }
