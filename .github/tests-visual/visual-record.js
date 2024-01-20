@@ -8,7 +8,7 @@
  * 5. Start the visual recording with `node .github/tests-visual/visual-record.js`
  */
 
-const puppeteer = require('puppeteer');
+const playwright = require('playwright');
 const pixelmatch = require('pixelmatch');
 const PNG = require('pngjs').PNG;
 const fs = require('fs');
@@ -124,7 +124,7 @@ function countDiffPixels(img1path, img2path ) {
 
 async function processScreenshot(page, screenshotName) {
     mkdirp.sync(WORKING_DIR);
-
+/*
     await page.evaluate(() => {
         // disable spellchecker to prevent red wavy underlines in inputs
         document.documentElement.setAttribute('spellcheck', 'false');
@@ -134,7 +134,7 @@ async function processScreenshot(page, screenshotName) {
 
         document.body.insertAdjacentHTML('beforeend', `<style type="text/css">input { caret-color: transparent !important; } * { animation: initial !important; transition: none !important; mix-blend-mode: unset !important;} .navbar {box-shadow: none !important; } body {font-family: sans-serif;}</style>`);
     });
-
+*/
     // mask dynamic content, to make it not appear like change (visual noise)
     await page.evaluate(function() {
         var changingElements = [
@@ -236,7 +236,7 @@ async function main() {
         options.headless = false;
     }
 
-    const browser = await puppeteer.launch(options);
+    const browser = await playwright.chromium.launch();
     let page = await browser.newPage();
     // log browser errors into the console
     page.on('console', function(msg) {

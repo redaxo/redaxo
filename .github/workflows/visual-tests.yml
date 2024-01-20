@@ -123,7 +123,8 @@ jobs:
                     node-version: 20
             -   name: Setup Webserver
                 run: |
-                    npm install puppeteer@21 pixelmatch pngjs fs mkdirp
+                    npm install plywright pixelmatch pngjs fs mkdirp
+                    npx playwright install --with-deps
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'
