@@ -237,7 +237,9 @@ async function main() {
     }
 
     const browser = await playwright.chromium.launch();
-    let page = await browser.newPage();
+    const context = await browser.newContext();
+    await context.addCookies([noHtaccessCheckCookie]);
+    let page = await context.newPage();
     // log browser errors into the console
     page.on('console', function(msg) {
         const text = msg.text();
@@ -260,7 +262,6 @@ async function main() {
     });
 
     await page.setViewportSize({ width: viewportWidth, height: viewportHeight });
-    await page.setCookie(noHtaccessCheckCookie);
 
     switch (true) {
 
@@ -355,6 +356,7 @@ async function main() {
     }
 
     await page.close();
+    await context.close();
     await browser.close();
 
     process.exit(exitCode);
