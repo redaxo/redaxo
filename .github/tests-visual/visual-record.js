@@ -166,7 +166,7 @@ async function processScreenshot(page, screenshotName) {
         });
     });
 
-    await page.screenshot({ path: WORKING_DIR + screenshotName, fullPage: true });
+    await page.screenshot({ path: WORKING_DIR + screenshotName, fullPage: true, animations: 'disabled' });
 
     // make sure we only create changes in .github/tests-visual/ on substential screenshot changes.
     // this makes sure to prevent endless loops within the github action
