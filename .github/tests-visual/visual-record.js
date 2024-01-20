@@ -259,7 +259,7 @@ async function main() {
         console.log('BROWSER-CONSOLE:', text);
     });
 
-    await page.setViewport({ width: viewportWidth, height: viewportHeight });
+    await page.setViewportSize({ width: viewportWidth, height: viewportHeight });
     await page.setCookie(noHtaccessCheckCookie);
 
     switch (true) {
