@@ -125,7 +125,7 @@ function countDiffPixels(img1path, img2path ) {
 
 async function processScreenshot(page, screenshotName) {
     mkdirp.sync(WORKING_DIR);
-/*
+
     await page.evaluate(() => {
         // disable spellchecker to prevent red wavy underlines in inputs
         document.documentElement.setAttribute('spellcheck', 'false');
@@ -133,9 +133,9 @@ async function processScreenshot(page, screenshotName) {
         // disable animations / transitions
         // disable box-shadow on navbar to prevent visual noise by https://github.com/redaxo/redaxo/blob/97a08682b965cfd3f94e2a5ffa219501544cf71c/redaxo/src/addons/be_style/plugins/redaxo/assets/javascripts/redaxo.js#L211-L222
 
-        document.body.insertAdjacentHTML('beforeend', `<style type="text/css">input { caret-color: transparent !important; } * { animation: initial !important; transition: none !important; mix-blend-mode: unset !important;} .navbar {box-shadow: none !important; } body {font-family: sans-serif;}</style>`);
+        document.body.insertAdjacentHTML('beforeend', `<style type="text/css">input { caret-color: transparent !important; } * { animation: initial !important; transition: none !important; mix-blend-mode: unset !important;} .navbar {box-shadow: none !important; } body {font-family: sans-serif;} #rex-js-main-sidebar{opacity: 1 !important;} #rex-js-nav-top{transform: none !important;}</style>`);
     });
-*/
+
     // mask dynamic content, to make it not appear like change (visual noise)
     await page.evaluate(function() {
         var changingElements = [
