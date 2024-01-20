@@ -183,13 +183,13 @@ async function createScreenshots(page, screenshotName) {
 
 async function createLightScreenshot(page, screenshotName) {
     await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'light' }]);
-    await page.waitForTimeout(200); // wait for UI update
+    await page.waitForTimeout(1000); // wait for UI update
     await processScreenshot(page, screenshotName);
 }
 
 async function createDarkScreenshot(page, screenshotName) {
     await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'dark' }]);
-    await page.waitForTimeout(200); // wait for UI update
+    await page.waitForTimeout(1000); // wait for UI update
     await processScreenshot(page, screenshotName.replace('.png', '--dark.png'));
 }
 
@@ -273,7 +273,7 @@ async function main() {
             for (var step = 2; step <= 5; step++) {
                 // step 2: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
                 await goToUrlOrThrow(page, START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 2 ? 'networkidle0' : 'load'});
-                await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
+                await page.waitForTimeout(1000); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshots(page, 'setup_' + step + '.png');
             }
 
@@ -301,7 +301,7 @@ async function main() {
                 const url = allPages[fileName]
                 await goToUrlOrThrow(page, url, { waitUntil: 'load' });
 
-                await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
+                await page.waitForTimeout(1000); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshots(page, fileName);
             }
 
@@ -342,7 +342,7 @@ async function main() {
             ]);
             await createScreenshots(page, 'packages_customizer_installed.png');
             await goToUrlOrThrow(page, START_URL + '?page=system/customizer', { waitUntil: 'load' });
-            await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
+            await page.waitForTimeout(1000); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshots(page, 'system_customizer.png');
 
             // logout
