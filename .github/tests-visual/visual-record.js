@@ -43,6 +43,7 @@ const noHtaccessCheckCookie = {
     name: 'rex_htaccess_check',
     value: '1',
     domain: 'localhost',
+    path: '/',
     httpOnly: false,
     secure: false
 };
