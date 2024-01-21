@@ -54,7 +54,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.2'
+                    php-version: '8.3'
                     ini-values: 'error_reporting=E_ALL, display_errors=On, display_startup_errors=On'
                     extensions: gd, pdo_mysql
                     coverage: none # disable xdebug, pcov
@@ -82,6 +82,7 @@ jobs:
                     </VirtualHost>
             - name: Setup apache2
               run: |
+                  sudo apt update
                   sudo apt install libapache2-mod-php
                   echo "export APACHE_RUN_USER=`id -un`" | sudo tee -a /etc/apache2/envvars
                   echo "export APACHE_RUN_GROUP=`id -gn`" | sudo tee -a /etc/apache2/envvars
@@ -122,7 +123,8 @@ jobs:
                     node-version: 20
             -   name: Setup Webserver
                 run: |
-                    npm install puppeteer@21 pixelmatch pngjs fs mkdirp
+                    npm install playwright pixelmatch pngjs fs mkdirp
+                    npx playwright install --with-deps
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'
