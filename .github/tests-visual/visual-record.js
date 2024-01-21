@@ -184,13 +184,13 @@ async function createScreenshots(page, screenshotName) {
 
 async function createLightScreenshot(page, screenshotName) {
     await page.emulateMedia({ colorScheme: 'light' });
-    //await page.waitForTimeout(1000); // wait for UI update
+    await page.waitForTimeout(200); // wait for UI update
     await processScreenshot(page, screenshotName);
 }
 
 async function createDarkScreenshot(page, screenshotName) {
     await page.emulateMedia({ colorScheme: 'dark' });
-    //await page.waitForTimeout(1000); // wait for UI update
+    await page.waitForTimeout(200); // wait for UI update
     await processScreenshot(page, screenshotName.replace('.png', '--dark.png'));
 }
 
