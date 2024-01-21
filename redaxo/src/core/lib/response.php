@@ -203,7 +203,7 @@ class rex_response
         if ($rangeHeader) {
             try {
                 $filesize = filesize($file);
-                $unitFactory = new \Ramsey\Http\Range\UnitFactory();
+                $unitFactory = new Ramsey\Http\Range\UnitFactory();
                 $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
                 $handle = fopen($file, 'r');
                 if (is_resource($handle)) {
@@ -232,7 +232,7 @@ class rex_response
                     // Send Error if file couldn't be read
                     header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
                 }
-            } catch (\Ramsey\Http\Range\Exception\HttpRangeException) {
+            } catch (Ramsey\Http\Range\Exception\HttpRangeException) {
                 header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
             }
             return;
