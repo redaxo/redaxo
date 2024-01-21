@@ -6,7 +6,7 @@
  */
 class rex_debug_clockwork
 {
-    /** @var \Clockwork\Support\Vanilla\Clockwork|null */
+    /** @var Clockwork\Support\Vanilla\Clockwork|null */
     private static $instance;
 
     /**
@@ -14,7 +14,7 @@ class rex_debug_clockwork
      */
     private static function init(): void
     {
-        $clockwork = \Clockwork\Support\Vanilla\Clockwork::init([
+        $clockwork = Clockwork\Support\Vanilla\Clockwork::init([
             'storage_files_path' => self::getStoragePath(),
             'storage_files_compress' => true,
 
@@ -22,7 +22,7 @@ class rex_debug_clockwork
             'storage_expiration' => 60 * 24 * 2,
         ]);
         if (extension_loaded('xdebug')) {
-            $clockwork->getClockwork()->addDataSource(new \Clockwork\DataSource\XdebugDataSource());
+            $clockwork->getClockwork()->addDataSource(new Clockwork\DataSource\XdebugDataSource());
         }
 
         self::$instance = $clockwork;

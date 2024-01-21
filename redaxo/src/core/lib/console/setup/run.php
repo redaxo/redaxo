@@ -14,7 +14,7 @@ use Symfony\Component\Console\Question\Question;
  */
 class rex_command_setup_run extends rex_console_command implements rex_command_only_setup_packages
 {
-    /** @var \Symfony\Component\Console\Style\SymfonyStyle */
+    /** @var Symfony\Component\Console\Style\SymfonyStyle */
     private $io;
 
     /** @var InputInterface */

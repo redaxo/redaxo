@@ -29,10 +29,13 @@ jobs:
                         php-version: '8.3'
                         db-image: 'mysql:8.0'
                     -   os: ubuntu-latest
+                        php-version: '8.4'
+                        db-image: 'mysql:8.2'
+                    -   os: ubuntu-latest
                         php-version: '8.1'
                         db-image: 'mariadb:10.1'
                     -   os: ubuntu-latest
-                        php-version: '8.2'
+                        php-version: '8.3'
                         db-image: 'mariadb:latest'
 
         # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
@@ -59,7 +62,7 @@ jobs:
             -   name: Composer install
                 uses: ramsey/composer-install@v2
                 with:
-                    composer-options: ${{ matrix.php-version == '8.3' && '--ansi --prefer-dist --ignore-platform-req=php' || '--ansi --prefer-dist' }}
+                    composer-options: ${{ matrix.php-version == '8.4' && '--ansi --prefer-dist --ignore-platform-req=php' || '--ansi --prefer-dist' }}
 
             -   name: Setup Problem Matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
