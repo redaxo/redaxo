@@ -81,6 +81,7 @@
         <RedundantCastGivenDocblockType errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
         <RedundantFunctionCallGivenDocblockType errorLevel="info" />
+        <RiskyTruthyFalsyComparison errorLevel="info" />
         <UnresolvableInclude errorLevel="suppress" />
         <UnsafeInstantiation errorLevel="info" />
     </issueHandlers>
