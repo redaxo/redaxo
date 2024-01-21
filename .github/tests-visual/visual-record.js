@@ -8,7 +8,7 @@
  * 5. Start the visual recording with `node .github/tests-visual/visual-record.js`
  */
 
-const puppeteer = require('puppeteer');
+const playwright = require('playwright');
 const pixelmatch = require('pixelmatch');
 const PNG = require('pngjs').PNG;
 const fs = require('fs');
@@ -43,6 +43,7 @@ const noHtaccessCheckCookie = {
     name: 'rex_htaccess_check',
     value: '1',
     domain: 'localhost',
+    path: '/',
     httpOnly: false,
     secure: false
 };
@@ -132,7 +133,7 @@ async function processScreenshot(page, screenshotName) {
         // disable animations / transitions
         // disable box-shadow on navbar to prevent visual noise by https://github.com/redaxo/redaxo/blob/97a08682b965cfd3f94e2a5ffa219501544cf71c/redaxo/src/addons/be_style/plugins/redaxo/assets/javascripts/redaxo.js#L211-L222
 
-        document.body.insertAdjacentHTML('beforeend', `<style type="text/css">input { caret-color: transparent !important; } * { animation: initial !important; transition: none !important; mix-blend-mode: unset !important;} .navbar {box-shadow: none !important; } body {font-family: sans-serif;}</style>`);
+        document.body.insertAdjacentHTML('beforeend', `<style type="text/css">input { caret-color: transparent !important; } * { animation: initial !important; transition: none !important; mix-blend-mode: unset !important;} .navbar {box-shadow: none !important; } body {font-family: sans-serif;} #rex-js-main-sidebar{opacity: 1 !important;} #rex-js-nav-top{position: absolute; transform: none !important;}</style>`);
     });
 
     // mask dynamic content, to make it not appear like change (visual noise)
@@ -165,7 +166,7 @@ async function processScreenshot(page, screenshotName) {
         });
     });
 
-    await page.screenshot({ path: WORKING_DIR + screenshotName, fullPage: true });
+    await page.screenshot({ path: WORKING_DIR + screenshotName, fullPage: true, animations: 'disabled' });
 
     // make sure we only create changes in .github/tests-visual/ on substential screenshot changes.
     // this makes sure to prevent endless loops within the github action
@@ -182,13 +183,13 @@ async function createScreenshots(page, screenshotName) {
 }
 
 async function createLightScreenshot(page, screenshotName) {
-    await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'light' }]);
+    await page.emulateMedia({ colorScheme: 'light' });
     await page.waitForTimeout(200); // wait for UI update
     await processScreenshot(page, screenshotName);
 }
 
 async function createDarkScreenshot(page, screenshotName) {
-    await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'dark' }]);
+    await page.emulateMedia({ colorScheme: 'dark' });
     await page.waitForTimeout(200); // wait for UI update
     await processScreenshot(page, screenshotName.replace('.png', '--dark.png'));
 }
@@ -198,7 +199,7 @@ async function logIntoBackend(page, username = 'myusername', password = '91dfd9d
     await page.type('#rex-id-login-user', username);
     await page.type('#rex-id-login-password', password); // sha1('mypassword')
     await page.$eval('#rex-form-login', form => form.submit());
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(200);
 }
 
 async function goToUrlOrThrow(page, url, options, maxretries = 5) {
@@ -236,8 +237,10 @@ async function main() {
         options.headless = false;
     }
 
-    const browser = await puppeteer.launch(options);
-    let page = await browser.newPage();
+    const browser = await playwright.chromium.launch();
+    const context = await browser.newContext();
+    await context.addCookies([noHtaccessCheckCookie]);
+    let page = await context.newPage();
     // log browser errors into the console
     page.on('console', function(msg) {
         const text = msg.text();
@@ -259,8 +262,7 @@ async function main() {
         console.log('BROWSER-CONSOLE:', text);
     });
 
-    await page.setViewport({ width: viewportWidth, height: viewportHeight });
-    await page.setCookie(noHtaccessCheckCookie);
+    await page.setViewportSize({ width: viewportWidth, height: viewportHeight });
 
     switch (true) {
 
@@ -273,14 +275,14 @@ async function main() {
             for (var step = 2; step <= 5; step++) {
                 // step 2: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
                 await goToUrlOrThrow(page, START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 2 ? 'networkidle0' : 'load'});
-                await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
+                await page.waitForTimeout(200); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshots(page, 'setup_' + step + '.png');
             }
 
             // step 6
             // requires form in step 5 to be submitted
             await page.$eval('.rex-js-createadminform', form => form.submit());
-            await page.waitForTimeout(1000);
+            await page.waitForTimeout(200);
             await createScreenshots(page, 'setup_6.png');
 
             break;
@@ -289,7 +291,7 @@ async function main() {
             // login page
             await goToUrlOrThrow(page, START_URL, { waitUntil: 'load' });
             await page.waitForSelector('.rex-background--ready');
-            await page.waitForTimeout(1000); // wait for bg image to fade in
+            await page.waitForTimeout(200); // wait for bg image to fade in
             await createScreenshots(page, 'login.png');
 
             // login successful
@@ -301,7 +303,7 @@ async function main() {
                 const url = allPages[fileName]
                 await goToUrlOrThrow(page, url, { waitUntil: 'load' });
 
-                await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
+                await page.waitForTimeout(200); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshots(page, fileName);
             }
 
@@ -318,7 +320,7 @@ async function main() {
             ]);
 
             // test debug
-            const interceptClockworkRequest = request => {
+            /*const interceptClockworkRequest = request => {
                 const url = request.url();
                 if (url.indexOf('rex-api-call=debug') !== -1) {
                     console.log('ABORT REQUEST:', url);
@@ -332,7 +334,7 @@ async function main() {
             await goToUrlOrThrow(page, START_URL + '?page=debug', { waitUntil: 'load' });
             await createScreenshots(page, 'debug_clockwork.png');
             await page.setRequestInterception(false);
-            page.off('request', interceptClockworkRequest);
+            page.off('request', interceptClockworkRequest);*/
 
             // test customizer
             await goToUrlOrThrow(page, START_URL + '?page=packages', { waitUntil: 'load' });
@@ -342,19 +344,20 @@ async function main() {
             ]);
             await createScreenshots(page, 'packages_customizer_installed.png');
             await goToUrlOrThrow(page, START_URL + '?page=system/customizer', { waitUntil: 'load' });
-            await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
+            await page.waitForTimeout(200); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshots(page, 'system_customizer.png');
 
             // logout
             await page.click('#rex-js-nav-top .rex-logout');
             await page.waitForSelector('.rex-background--ready');
-            await page.waitForTimeout(1000); // wait for bg image to fade in
+            await page.waitForTimeout(200); // wait for bg image to fade in
             await createScreenshots(page, 'logout.png');
 
             break;
     }
 
     await page.close();
+    await context.close();
     await browser.close();
 
     process.exit(exitCode);
