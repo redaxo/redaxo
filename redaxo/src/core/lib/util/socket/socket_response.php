@@ -208,7 +208,7 @@ class rex_socket_response
         if (!$this->streamFiltersInitialized) {
             if ($this->chunked) {
                 if (!is_resource(stream_filter_append($this->stream, 'dechunk', STREAM_FILTER_READ))) {
-                    throw new \rex_exception('Could not add dechunk filter to socket stream');
+                    throw new rex_exception('Could not add dechunk filter to socket stream');
                 }
             }
 
@@ -253,15 +253,15 @@ class rex_socket_response
     private function addZlibStreamFilter($stream, int $mode)
     {
         if (!is_resource($stream)) {
-            throw new \rex_exception('The stream has to be a resource.');
+            throw new rex_exception('The stream has to be a resource.');
         }
 
         if (!in_array('zlib.*', stream_get_filters())) {
-            throw new \rex_exception('The zlib filter for streams is missing.');
+            throw new rex_exception('The zlib filter for streams is missing.');
         }
 
         if (!in_array($mode, [STREAM_FILTER_READ, STREAM_FILTER_WRITE])) {
-            throw new \rex_exception('Invalid stream filter mode.');
+            throw new rex_exception('Invalid stream filter mode.');
         }
 
         $appendedZlibStreamFilter = stream_filter_append(
@@ -272,7 +272,7 @@ class rex_socket_response
         );
 
         if (!is_resource($appendedZlibStreamFilter)) {
-            throw new \rex_exception('Could not add stream filter for gzip support.');
+            throw new rex_exception('Could not add stream filter for gzip support.');
         }
 
         return $appendedZlibStreamFilter;
