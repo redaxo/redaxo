@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 3.3.0 – XX.XX.2024
+--------------------------
+
+* Font Awesome: Vendor-Update auf v6.5.1, Achtung: FA4-icons deprecated
+    Change-Log FA: [https://fontawesome.com/docs/changelog/](https://fontawesome.com/docs/changelog/)
+
+
 Version 3.2.0 – 28.02.2023
 --------------------------
 

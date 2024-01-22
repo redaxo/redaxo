@@ -1,70 +1,64 @@
+$mime-icons: (
+    "doc": $fa-var-file-word,
+    "docx": $fa-var-file-word,
+    "pdf": $fa-var-file-pdf,
+    "ppt": $fa-var-file-powerpoint,
+    "pptx": $fa-var-file-powerpoint,
+    "txt": $fa-var-file-text,
+    "xls": $fa-var-file-excel,
+    "xlsx": $fa-var-file-excel,
+);
+
 .rex-mime {
-    @extend .fa;
-    @extend .fa-file-o;
+    // From _core.scss
+    font-family: var(--#{$fa-css-prefix}-style-family, '#{$fa-style-family}');
+    font-weight: var(--#{$fa-css-prefix}-style, #{$fa-style});
+
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: var(--#{$fa-css-prefix}-display, #{$fa-display});
+    font-style: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-rendering: auto;
+    // End _core.scss
+
     position: relative;
     font-size: 3em;
-}
+    font-weight: 400;
 
-.rex-mime:after {
-    content: attr(data-extension);
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 1.5em;
-    width: 100%;
-    text-align: center;
-    font-family: $font-family-monospace;
-    font-size: $font-size-small;
-    text-transform: uppercase;
-}
-.rex-mime-default {
-}
-.rex-mime-doc, 
-.rex-mime-docx {
-    @extend .fa-file-word-o;
-}
-.rex-mime-doc:after, 
-.rex-mime-docx:after {
-    content: '';
-}
+    &::before {
+        content: unquote("\"#{ $fa-var-file }\"");
+    }
 
+    &::after {
+        content: attr(data-extension);
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 1.5em;
+        width: 100%;
+        text-align: center;
+        font-family: $font-family-monospace;
+        font-size: $font-size-small;
+        text-transform: uppercase;
+    }
+}
 .rex-mime-error {
     color: $state-danger-text;
-}
-.rex-mime-error:after {
-    content: '!';
-    top: .8em;
-    font-size: $font-size-large;
+
+    &::after {
+        content: '!';
+        top: .8em;
+        font-size: $font-size-large;
+    }
 }
 
-.rex-mime-pdf {
-    @extend .fa-file-pdf-o;
-}
-.rex-mime-pdf:after {
-    content: '';
-}
-
-.rex-mime-ppt, 
-.rex-mime-pptx {
-    @extend .fa-file-powerpoint-o;
-}
-.rex-mime-ppt:after, 
-.rex-mime-pptx:after {
-    content: '';
-}
-
-.rex-mime-txt {
-    @extend .fa-file-text-o;
-}
-.rex-mime-txt:after {
-    content: '';
-}
-
-.rex-mime-xls, 
-.rex-mime-xlsx {
-    @extend .fa-file-excel-o;
-}
-.rex-mime-xls:after, 
-.rex-mime-xlsx:after {
-    content: '';
+@each $name, $icon in $mime-icons {
+    .rex-mime-#{$name}::before {
+        content: unquote("\"#{ $icon }\"");
+    }
+    .rex-mime-#{$name}::after {
+        content: '';
+    }
 }
