@@ -7,17 +7,17 @@
 <picture class="rex-background">
     <source
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_2400.avif') ?> 2400w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_3500.avif') ?> 3500w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/flow_wallpaper_mac-2400.avif') ?> 2400w,
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/flow_wallpaper_mac-3500.avif') ?> 3500w"
         sizes="100vw"
         type="image/avif"
     />
     <img
         alt=""
-        src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_2400.webp') ?>"
+        src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/flow_wallpaper_mac-2400.webp') ?>"
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_2400.webp') ?> 2400w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_3500.webp') ?> 3500w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/flow_wallpaper_mac-2400.webp') ?> 2400w,
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/flow_wallpaper_mac-3500.webp') ?> 3500w"
         sizes="100vw"
     />
 </picture>
