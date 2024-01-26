@@ -264,23 +264,23 @@ if (rex::isBackend()) {
         }
 
         $icons = [];
-        $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="'.$addon->getAssetsUrl(
-            'icons/apple-touch-icon.png'
-        ).'">';
-        $icons[] = '<link rel="icon" type="image/png" sizes="32x32" href="'.$addon->getAssetsUrl(
-            'icons/favicon-32x32.png'
-        ).'">';
-        $icons[] = '<link rel="icon" type="image/png" sizes="16x16" href="'.$addon->getAssetsUrl(
-            'icons/favicon-16x16.png'
-        ).'">';
-        $icons[] = '<link rel="manifest" href="'.$addon->getAssetsUrl('icons/site.webmanifest').'">';
-        $icons[] = '<link rel="mask-icon" href="'.$addon->getAssetsUrl(
-            'icons/safari-pinned-tab.svg'
-        ).'" color="'.$themeColor.'">';
+        $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="' . $addon->getAssetsUrl(
+            'icons/apple-touch-icon.png',
+        ) . '">';
+        $icons[] = '<link rel="icon" type="image/png" sizes="32x32" href="' . $addon->getAssetsUrl(
+            'icons/favicon-32x32.png',
+        ) . '">';
+        $icons[] = '<link rel="icon" type="image/png" sizes="16x16" href="' . $addon->getAssetsUrl(
+            'icons/favicon-16x16.png',
+        ) . '">';
+        $icons[] = '<link rel="manifest" href="' . $addon->getAssetsUrl('icons/site.webmanifest') . '">';
+        $icons[] = '<link rel="mask-icon" href="' . $addon->getAssetsUrl(
+            'icons/safari-pinned-tab.svg',
+        ) . '" color="' . $themeColor . '">';
         $icons[] = '<meta name="msapplication-TileColor" content="#2d89ef">';
 
         $icons = implode("\n    ", $icons);
-        $ep->setSubject($icons.$ep->getSubject());
+        $ep->setSubject($icons . $ep->getSubject());
     });
 
     // add theme-information to js-variable rex as rex.theme

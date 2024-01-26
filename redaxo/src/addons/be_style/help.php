@@ -53,4 +53,3 @@ echo $fragment->parse('core/page/section.php');
 $fragment = new rex_fragment();
 $fragment->setVar('content', '<h3>Font-Awesome Icons</h3>' . $iconsComplete, false);
 echo $fragment->parse('core/page/section.php');
-
