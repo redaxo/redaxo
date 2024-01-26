@@ -62,7 +62,7 @@
         <ul class="list-inline">
             <li><a href="https://www.yakamara.de" target="_blank" rel="noreferrer noopener">yakamara.de</a></li>
             <li><a href="https://www.redaxo.org" target="_blank" rel="noreferrer noopener">redaxo.org</a></li>
-            <li class="rex-background-credits"><a href="https://unsplash.com/@planetvolumes" target="_blank" rel="noreferrer noopener">Photo by Planet Volumes on Unsplash</a></li>
+            <li class="rex-background-credits"><a href="https://basicappleguy.com/haberdashery/flow" target="_blank" rel="noreferrer noopener">Photo by BasicAppleGuy</a></li>
         </ul>
     </nav>
 </footer>
