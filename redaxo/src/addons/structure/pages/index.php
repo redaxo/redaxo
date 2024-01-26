@@ -1,6 +1,10 @@
 <?php
 
 $addon = rex_addon::get('structure');
+/** @Todo Review a better solution and replace the variables in this file if necessary */
+$extensions = $addon->getProperty('extensions', []);
+$contentIsAvailable = isset($extensions['content']['available']) && $extensions['content']['available'];
+
 $structureContext = new rex_structure_context([
     'category_id' => rex_request('category_id', 'int'),
     'article_id' => rex_request('article_id', 'int'),
@@ -316,7 +320,7 @@ $echo = '';
 // --------------------- READ TEMPLATES
 
 $templateSelect = null;
-if ($addon->getPlugin('content')->isAvailable()) {
+if ($contentIsAvailable) {
     $templateSelect = new rex_template_select($categoryId, $clang);
 }
 

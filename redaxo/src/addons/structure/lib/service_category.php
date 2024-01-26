@@ -46,8 +46,11 @@ class rex_category_service
         }
 
         $templates = [];
-        $contentAvailable = rex_plugin::get('structure', 'content')->isAvailable();
-        if ($contentAvailable) {
+        $addon = rex_addon::get('structure');
+        /** @Todo Review a better solution and replace the variables in this file if necessary */
+        $extensions = $addon->getProperty('extensions', []);
+        $contentIsAvailable = isset($extensions['content']['available']) && $extensions['content']['available'];
+        if ($contentIsAvailable) {
             $startpageTemplates = [];
             if ('' != $categoryId) {
                 // TemplateId vom Startartikel der jeweiligen Sprache vererben
@@ -68,7 +71,7 @@ class rex_category_service
         // Kategorie in allen Sprachen anlegen
         $AART = rex_sql::factory();
         foreach (rex_clang::getAllIds() as $key) {
-            if ($contentAvailable) {
+            if ($contentIsAvailable) {
                 $templateId = rex_template::getDefaultId();
                 if (isset($startpageTemplates[$key]) && '' != $startpageTemplates[$key]) {
                     $templateId = $startpageTemplates[$key];

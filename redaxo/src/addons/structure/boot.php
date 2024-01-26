@@ -7,6 +7,7 @@
  */
 
 $addon = rex_addon::get('structure');
+/** @Todo Review a better solution and replace the variables in this file if necessary */
 $extensions = $addon->getProperty('extensions', []);
 $historyIsAvailable = isset($extensions['history']['available']) && $extensions['history']['available'];
 $versionIsAvailable = isset($extensions['version']['available']) && $extensions['version']['available'];

@@ -37,7 +37,11 @@ class rex_article_service
             $path = '|';
         }
 
-        if (rex_plugin::get('structure', 'content')->isAvailable()) {
+        $addon = rex_addon::get('structure');
+        /** @Todo Review a better solution and replace the variables in this file if necessary */
+        $extensions = $addon->getProperty('extensions', []);
+        $contentIsAvailable = isset($extensions['content']['available']) && $extensions['content']['available'];
+        if ($contentIsAvailable) {
             $templates = rex_template::getTemplatesForCategory($data['category_id']);
 
             // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
@@ -138,7 +142,11 @@ class rex_article_service
         $ooArt = rex_article::get($articleId, $clang);
         $data['category_id'] = $ooArt->getCategoryId();
 
-        if (rex_plugin::get('structure', 'content')->isAvailable()) {
+        $addon = rex_addon::get('structure');
+        /** @Todo Review a better solution and replace the variables in this file if necessary */
+        $extensions = $addon->getProperty('extensions', []);
+        $contentIsAvailable = isset($extensions['content']['available']) && $extensions['content']['available'];
+        if ($contentIsAvailable) {
             $templates = rex_template::getTemplatesForCategory($data['category_id']);
 
             // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen

@@ -63,21 +63,21 @@ pages:
         pjax: true
         icon: rex-icon rex-icon-template
 
-system_plugins: [content]
-
 requires:
     php: '>=8.1'
     redaxo: ^5.15.0
 
 conflicts:
     packages:
-        bloecks/status: '<3'
+        bloecks: '<3'
 
 default_config:
     start_article_id: 1
     notfound_article_id: 1
 
 extensions:
+    content:
+        available: true
     history:
         available: true
     version:
