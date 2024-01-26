@@ -22,6 +22,17 @@ pages:
         hidden: true
         perm: structure/hasStructurePerm
         pjax: true
+    content/history:
+        title: ' '
+        icon: 'fa fa-history'
+        href: '#'
+        itemAttr:
+            left: true
+        linkAttr:
+            data-history-layer: open
+        perm: history[article_rollback]
+    system/history:
+        title: translate:structure_history
 
 system_plugins: [content]
 
@@ -35,6 +46,6 @@ default_config:
 
 extensions:
     history:
-        available: false
+        available: true
     version:
         available: true
