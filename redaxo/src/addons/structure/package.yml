@@ -14,14 +14,16 @@ page:
     icon: rex-icon rex-icon-open-category
 
 pages:
-    linkmap:
-        title: translate:linkmap
+    content:
+        title: translate:content
         main: true
         block: system
-        popup: true
         hidden: true
         perm: structure/hasStructurePerm
-        pjax: true
+        pjax: false
+        subpages:
+            edit: { title: translate:edit_mode, icon: rex-icon rex-icon-editmode, itemAttr: { left: true } }
+            functions: { title: translate:metafuncs, icon: rex-icon rex-icon-metafuncs }
     content/history:
         title: ' '
         icon: 'fa fa-history'
@@ -31,14 +33,45 @@ pages:
         linkAttr:
             data-history-layer: open
         perm: history[article_rollback]
+    linkmap:
+        title: translate:linkmap
+        main: true
+        block: system
+        popup: true
+        hidden: true
+        perm: structure/hasStructurePerm
+        pjax: true
+    modules:
+        title: translate:modules
+        main: true
+        block: system
+        prio: 40
+        perm: admin
+        pjax: true
+        icon: rex-icon rex-icon-module
+        subpages:
+            modules: { title: translate:modules }
+            actions: { title: translate:actions }
     system/history:
         title: translate:structure_history
+    templates:
+        title: translate:templates
+        main: true
+        block: system
+        prio: 30
+        perm: admin
+        pjax: true
+        icon: rex-icon rex-icon-template
 
 system_plugins: [content]
 
 requires:
     php: '>=8.1'
     redaxo: ^5.15.0
+
+conflicts:
+    packages:
+        bloecks/status: '<3'
 
 default_config:
     start_article_id: 1

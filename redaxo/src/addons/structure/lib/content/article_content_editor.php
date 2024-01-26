@@ -152,7 +152,7 @@ class rex_article_content_editor extends rex_article_content
                 // edit
                 $item = [];
                 $item['label'] = rex_i18n::msg('edit');
-                $item['url'] = $context->getUrl(['function' => 'edit']) . $fragment;
+                $item['url'] = $context->getUrl(['function' => 'edit']).$fragment;
                 $item['attributes']['class'][] = 'btn-edit';
                 $item['attributes']['title'] = rex_i18n::msg('edit');
                 $menuEditAction = $item;
@@ -161,7 +161,7 @@ class rex_article_content_editor extends rex_article_content
             // delete
             $item = [];
             $item['label'] = rex_i18n::msg('delete');
-            $item['url'] = $context->getUrl(['function' => 'delete', 'save' => 1]) . $fragment;
+            $item['url'] = $context->getUrl(['function' => 'delete', 'save' => 1]).$fragment;
             $item['attributes']['class'][] = 'btn-delete';
             $item['attributes']['title'] = rex_i18n::msg('delete');
             $item['attributes']['data-confirm'] = rex_i18n::msg('confirm_delete_block');
@@ -181,8 +181,10 @@ class rex_article_content_editor extends rex_article_content
             if ($templateHasModule && rex::requireUser()->hasPerm('moveSlice[]')) {
                 // moveup
                 $item = [];
-                $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_up');
-                $item['url'] = $context->getUrl(['upd' => time(), 'direction' => 'moveup'] + rex_api_content_move_slice::getUrlParams()) . $fragment;
+                $item['hidden_label'] = rex_i18n::msg('module').' article_content_editor.php'. $moduleName . ' ' . rex_i18n::msg('move_slice_up');
+                $item['url'] = $context->getUrl(
+                        ['upd' => time(), 'direction' => 'moveup'] + rex_api_content_move_slice::getUrlParams()
+                    ).$fragment;
                 $item['attributes']['class'][] = 'btn-move';
                 $item['attributes']['title'] = rex_i18n::msg('move_slice_up');
                 $item['icon'] = 'up';
@@ -190,8 +192,10 @@ class rex_article_content_editor extends rex_article_content
 
                 // movedown
                 $item = [];
-                $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_down');
-                $item['url'] = $context->getUrl(['upd' => time(), 'direction' => 'movedown'] + rex_api_content_move_slice::getUrlParams()) . $fragment;
+                $item['hidden_label'] = rex_i18n::msg('module').' article_content_editor.php'. $moduleName . ' ' . rex_i18n::msg('move_slice_down');
+                $item['url'] = $context->getUrl(
+                        ['upd' => time(), 'direction' => 'movedown'] + rex_api_content_move_slice::getUrlParams()
+                    ).$fragment;
                 $item['attributes']['class'][] = 'btn-move';
                 $item['attributes']['title'] = rex_i18n::msg('move_slice_down');
                 $item['icon'] = 'down';
@@ -228,19 +232,19 @@ class rex_article_content_editor extends rex_article_content
         if (count($actionItems) > 0) {
             $fragment = new rex_fragment();
             $fragment->setVar('items', $actionItems, false);
-            $headerRight .= $fragment->parse('slice_menu_action.php');
+            $headerRight .= $fragment->parse('structure/content/slice_menu_action.php');
         }
 
         if ($ep->getMenuStatusAction()) {
             $fragment = new rex_fragment();
             $fragment->setVar('items', [$ep->getMenuStatusAction()], false);
-            $headerRight .= $fragment->parse('slice_menu_action.php');
+            $headerRight .= $fragment->parse('structure/content/slice_menu_action.php');
         }
 
         if (count($ep->getAdditionalActions()) > 0) {
             $fragment = new rex_fragment();
             $fragment->setVar('items', $ep->getAdditionalActions(), false);
-            $headerRight .= $fragment->parse('slice_menu_ep.php');
+            $headerRight .= $fragment->parse('structure/content/slice_menu_ep.php');
         }
 
         $moveItems = [];
@@ -253,7 +257,7 @@ class rex_article_content_editor extends rex_article_content
         if (count($moveItems) > 0) {
             $fragment = new rex_fragment();
             $fragment->setVar('items', $moveItems, false);
-            $headerRight .= $fragment->parse('slice_menu_move.php');
+            $headerRight .= $fragment->parse('structure/content/slice_menu_move.php');
         }
 
         // $header_right = $header_right != '' ? '<div class="col-md-4 text-right">' . $header_right . '</div>' : '';
@@ -314,7 +318,7 @@ class rex_article_content_editor extends rex_article_content
         $fragment->setVar('block', true);
         $fragment->setVar('button_label', rex_i18n::msg('add_block'));
         $fragment->setVar('items', $items, false);
-        $select = $fragment->parse('module_select.php');
+        $select = $fragment->parse('structure/content/module_select.php');
         $select = rex_extension::registerPoint(new rex_extension_point(
             'STRUCTURE_CONTENT_MODULE_SELECT',
             $select,
