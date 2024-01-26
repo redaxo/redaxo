@@ -7,17 +7,17 @@
 <picture class="rex-background">
     <source
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_2400.avif') ?> 2400w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_3500.avif') ?> 3500w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/flow_wallpaper_mac-2400.avif') ?> 2400w,
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/flow_wallpaper_mac-3500.avif') ?> 3500w"
         sizes="100vw"
         type="image/avif"
     />
     <img
         alt=""
-        src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_2400.webp') ?>"
+        src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/flow_wallpaper_mac-2400.webp') ?>"
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_2400.webp') ?> 2400w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/planet-volumes-dHJs9frcsT8-unsplash_3500.webp') ?> 3500w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/flow_wallpaper_mac-2400.webp') ?> 2400w,
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/flow_wallpaper_mac-3500.webp') ?> 3500w"
         sizes="100vw"
     />
 </picture>
@@ -62,7 +62,7 @@
         <ul class="list-inline">
             <li><a href="https://www.yakamara.de" target="_blank" rel="noreferrer noopener">yakamara.de</a></li>
             <li><a href="https://www.redaxo.org" target="_blank" rel="noreferrer noopener">redaxo.org</a></li>
-            <li class="rex-background-credits"><a href="https://unsplash.com/@planetvolumes" target="_blank" rel="noreferrer noopener">Photo by Planet Volumes on Unsplash</a></li>
+            <li class="rex-background-credits"><a href="https://basicappleguy.com/" target="_blank" rel="noreferrer noopener">Photo by BasicAppleGuy</a></li>
         </ul>
     </nav>
 </footer>
