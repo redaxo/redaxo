@@ -21,5 +21,9 @@ requires:
     php: '>=8.1'
     redaxo: ^6.0.0-dev
 
+packages:
+    structure: '^3.0.0-dev'
+    metainfo: '^3.0.0-dev'
+
 console_commands:
     cronjob:run: rex_command_cronjob_run

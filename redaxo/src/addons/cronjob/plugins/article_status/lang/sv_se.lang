@@ -1,3 +1,0 @@
-cronjob_article_status = Artikelstatus
-cronjob_article_reset_date = Rensa artikeldatumfält efter statusändring
-cronjob_article_reset_date_info = Med detta alternativ raderas "online_from" -datumet eller "online_to" -datumet i metadata för artikeln efter statusändringen.

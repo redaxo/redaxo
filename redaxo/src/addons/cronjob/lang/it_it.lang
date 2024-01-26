@@ -20,7 +20,7 @@ cronjob_description = Descrizione
 cronjob_examples = Esempi
 
 cronjob_type = Tipo
-cronjob_type_not_found = 
+cronjob_type_not_found =
 cronjob_type_phpcode = Codice PHP
 cronjob_type_phpcallback = PHP-Callback
 cronjob_type_urlrequest = Richiesta URL
@@ -29,8 +29,8 @@ cronjob_type_urlrequest_post = Paramatri POST
 cronjob_type_urlrequest_httpauth = Authenticazione HTTP
 cronjob_type_urlrequest_user = Utente
 cronjob_type_urlrequest_password = Passowrd
-cronjob_type_parameters = 
-cronjob_type_no_parameters = 
+cronjob_type_parameters =
+cronjob_type_no_parameters =
 
 cronjob_interval = Intervallo
 cronjob_interval_minutes = Minuti
@@ -45,7 +45,7 @@ cronjob_interval_months = Mesi
 cronjob_interval_months_all = Ogni mese
 
 cronjob_environment = Ambiente
-cronjob_environment_notice = 
+cronjob_environment_notice =
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
 cronjob_environment_script = Script
@@ -82,3 +82,9 @@ cronjob_log_no_data = Nessun informazione log disponibile.
 cronjob_log_caption_1 = Elenco di cron eseguiti nel {0} {1}
 cronjob_log_caption_2 = Elenco dei cron eseguiti di recente
 cronjob_log_message = Messaggio
+
+cronjob_article_status = Stato articolo
+cronjob_article_reset_date =
+cronjob_article_reset_date_info =
+
+cronjob_optimize_tables = Ottimizzazione tabelle

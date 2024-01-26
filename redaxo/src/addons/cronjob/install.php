@@ -14,3 +14,41 @@ rex_sql_table::get(rex::getTable('cronjob'))
     ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
     ->ensureGlobalColumns()
     ->ensure();
+
+/**
+ * Cronjob article_status.
+ */
+
+$sql = rex_sql::factory();
+$sql->setQuery('SELECT id FROM ' . rex::getTablePrefix() . 'cronjob WHERE type="rex_cronjob_article_status" LIMIT 1');
+if (0 == $sql->getRows()) {
+    $sql->setTable(rex::getTablePrefix() . 'cronjob');
+    $sql->setValue('name', 'Artikel-Status');
+    $sql->setValue('type', rex_cronjob_article_status::class);
+    $sql->setValue('interval', '{"minutes":[0],"hours":[0],"days":"all","weekdays":"all","months":"all"}');
+    $sql->setValue('environment', '|frontend|backend|script|');
+    $sql->setValue('execution_moment', 1);
+    $sql->setValue('status', 0);
+    $sql->addGlobalCreateFields();
+    $sql->addGlobalUpdateFields();
+    $sql->insert();
+}
+
+/**
+ * Cronjob optimize_tables.
+ */
+
+$sql = rex_sql::factory();
+$sql->setQuery('SELECT id FROM ' . rex::getTablePrefix() . 'cronjob WHERE type="rex_cronjob_optimize_tables" LIMIT 1');
+if (0 == $sql->getRows()) {
+    $sql->setTable(rex::getTablePrefix() . 'cronjob');
+    $sql->setValue('name', 'Tabellen-Optimierung');
+    $sql->setValue('type', rex_cronjob_optimize_tables::class);
+    $sql->setValue('interval', '{"minutes":[0],"hours":[0],"days":"all","weekdays":"all","months":"all"}');
+    $sql->setValue('environment', '|frontend|backend|script|');
+    $sql->setValue('execution_moment', 0);
+    $sql->setValue('status', 0);
+    $sql->addGlobalCreateFields();
+    $sql->addGlobalUpdateFields();
+    $sql->insert();
+}
