@@ -20,3 +20,39 @@ foreach ($files as $source => $destination) {
     // ignore errors, because this file is included very early in setup, before the regular file permissions check
     rex_file::copy(__DIR__ . '/' . $source, $addon->getAssetsPath($destination));
 }
+
+// ---------------------------------- Codemirror ----------------------------------
+// TODO
+
+$addon = rex_addon::get('be_style');
+
+/* Codemirror-Assets entpacken */
+$message = '';
+$zipArchive = new ZipArchive();
+
+// use path relative to __DIR__ to get correct path in update temp dir
+$path = __DIR__ . '/assets/vendor/codemirror.zip';
+
+try {
+    if (true === $zipArchive->open($path)
+        && $zipArchive->extractTo($addon->getAssetsPath('vendor/'))
+    ) {
+        $zipArchive->close();
+    } else {
+        $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $path;
+    }
+} catch (Exception $e) {
+    $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $path;
+    $message .= '<br>' . $e->getMessage();
+}
+
+if (!$addon->hasConfig('codemirror_darktheme')) {
+    $addon->setConfig('codemirror_darktheme', 'dracula');
+}
+if (!$addon->hasConfig('codemirror-options')) {
+    $addon->setConfig('codemirror-options', '');
+}
+
+if ('' != $message) {
+    throw new rex_functional_exception($message);
+}
