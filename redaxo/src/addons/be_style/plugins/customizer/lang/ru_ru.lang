@@ -1,0 +1,35 @@
+customizer = Кастомайзер
+customizer_features = Функции
+
+customizer_codemirror = CodeMirror
+customizer_codemirror_check = Активировать CodeMirror
+customizer_codemirror_selectors = Дополнительные селекторы jQuery для CodeMirror
+customizer_codemirror_selectors_info = Список селекторов jQuery для использования с CodeMirror, разделенный запятыми.<br>По умолчанию это <code>textarea.rex-js-code</code> и <code>textarea.codemirror</code>.
+customizer_codemirror_theme = Тема CodeMirror
+customizer_codemirror_darktheme = Темная тема CodeMirror
+customizer_codemirror_langs = Дополнительная подсветка синтаксиса
+customizer_codemirror_langs_text = (markdown, textile, gfm, yaml, sql ...)
+customizer_codemirror_tools = Дополнительные фичи
+customizer_codemirror_tools_text = (Свертывание кода, сопоставление скобок, сопоставление тегов, закрытие скобок, поиск)
+customizer_codemirror_autoresize = Автоматическое изменение размера
+customizer_codemirror_autoresize_text = (CodeMirror автоматически регулирует высоту)
+customizer_codemirror_options = Дополнительные опции для CodeMirror
+customizer_codemirror_options_info = Внимание! Параметры должны быть указаны в правильном формате JSON! Ошибки отображаются в консоли JavaScript. Пример: <code>{"indentWithTabs": true, "lineNumbers": true}</code>
+
+customizer_codemirror_info = Как только CodeMirror активирован, он автоматически используется для шаблонов, модулей, действий и cronjobs.<br><br> Если вы хотите использовать CodeMirror, пожалуйста, самостоятельно, воспользуйтесь следующей формой:<br><br><code><textarea class="codemirror" data-codemirror-theme="themename" data-codemirror-mode="php" data-codemirror-options='{"indentWithTabs": true, "lineNumbers": false}'></textarea></code><br><br>Параметры <code>data-codemirror-theme</code>, <code>data-codemirror-mode</code> und <code>data-codemirror-options</code> опциональны.<br><br>Полноэкранный режим можно вызвать с помощью клавиш F11 и ESC.
+
+customizer_labeling = Дополнительно
+customizer_labelcolor = Цвет
+customizer_labelcolor_notice = Любое корректное выражение цвета в css (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0.5)</code> и т.д.)
+customizer_showlink = Показать ссылку на веб-сайт?
+
+customizer_config_updated = Настройки сохранены
+customizer_config_update_failed = Настройки не сохранены
+
+customizer_update = Сохранить настройки
+customizer_error_unzip = При распаковке файлов в архиве CodeMirror произошла ошибка!
+
+customizer_projectname = Наименование проекта
+customizer_textarea = Ширина текстовой области в шаблонах и модулях
+customizer_liquid = Резиновая верстка
+customizer_nav_flyout = Навигация с выпадающими пунктами

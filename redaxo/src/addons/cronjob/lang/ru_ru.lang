@@ -1,0 +1,89 @@
+cronjob_title = Cronjobs
+
+cronjob_add = Добавить cronjob
+cronjob_edit = Редактировать cronjob
+
+cronjob_caption = Список созданных cronjobs
+cronjob_no_cronjobs = Нет созданных cronjobs
+
+cronjob_delete = удалить
+cronjob_really_delete = Вы действительно хотите удалить этот cronjob?
+cronjob_delete_success = Cronjob "{0}" было успешно удалено!
+cronjob_delete_error = Cronjob "{0}" konnte nicht gelöscht werden!
+
+cronjob_execute = выполнить
+cronjob_execute_success = Cronjob "{0}" был успешно выполнен!
+cronjob_execute_error = Cronjob "{0}" не был выполнен!
+
+cronjob_name = Наименование
+cronjob_description = Описание
+cronjob_examples = Примеры
+
+cronjob_type = Тип
+cronjob_type_not_found = Cronjob "{0}" не может быть изменен из-за отсутствия класса "{1}". Убедитесь, что соответствующий аддон или плагин активны!
+cronjob_type_phpcode = PHP-код
+cronjob_type_phpcallback = PHP-Callback
+cronjob_type_urlrequest = URL-запрос
+cronjob_type_urlrequest_url = URL
+cronjob_type_urlrequest_post = Параметры POST-запроса
+cronjob_type_urlrequest_httpauth = HTTP-Аутентификация
+cronjob_type_urlrequest_user = Пользователь
+cronjob_type_urlrequest_password = Пароль
+cronjob_type_parameters = Специфичные параметры для данного типа
+cronjob_type_no_parameters = Никаких других параметров для этого типа не требуется!
+
+cronjob_interval = Интервал
+cronjob_interval_minutes = Минут
+cronjob_interval_minutes_all = Каждые 5 минут
+cronjob_interval_hours = Часы
+cronjob_interval_hours_all = Каждый час
+cronjob_interval_days = Дни
+cronjob_interval_days_all = Каждый день
+cronjob_interval_weekdays = Недели
+cronjob_interval_weekdays_all = Каждую неделю
+cronjob_interval_months = Месяц
+cronjob_interval_months_all = Каждый месяц
+
+cronjob_environment = Окружение
+cronjob_environment_notice = Скрипт: Выполнение через <code>{0}</code>. Скрипт должен вызываться настоящим cronjob.
+cronjob_environment_frontend = Фронтенд
+cronjob_environment_backend = Бэкенд
+cronjob_environment_script = Скрипт
+cronjob_environment_console = Скрипт
+cronjob_environment_backend_manual = Бэкенд (вручную)
+
+cronjob_execution = Выполнение
+cronjob_execution_beginning = Начало выполнения
+cronjob_execution_ending = Завершение выполнения
+
+cronjob_nexttime = Следующее выполнение
+
+cronjob_status_function = Статус/Функция
+cronjob_status = Статус
+cronjob_status_activated = активен
+cronjob_status_deactivated = неактивен
+cronjob_status_invalid = недействительный
+cronjob_status_activate_success = Cronjob "{0}" был активирован!
+cronjob_status_activate_error = Cronjob "{0}" не может быть активирован!
+cronjob_status_deactivate_success = Cronjob "{0}" был деактивирован!
+cronjob_status_deactivate_error = Cronjob "{0}" не может быть деактивирован!
+
+cronjob_error_no_name = Наименование не должно быть пустым!
+cronjob_error_no_environment = Необходимо выбрать хотя бы одно окружение!
+cronjob_error_interval_incomplete = Для интервала необходимо выбрать значение в каждой категории!
+
+cronjob_not_found = Cronjob не найден!
+cronjob_not_editable = Cronjob не может быть модифицирован!
+
+cronjob_log = Логи
+cronjob_log_date = Дата
+cronjob_log_year = Год
+cronjob_log_month = Месяц
+cronjob_log_ok = ОК
+cronjob_no_log_files = Лог-файлы отсутствуют.
+cronjob_log_no_data = Данные отсутствуют.
+cronjob_log_caption_1 = Список выполненных cronjobs в {0} {1}
+cronjob_log_caption_2 = Список последних выполненных cronjobs
+cronjob_log_message = Сообщение
+
+cronjob_delete_log_msg = Удалять cronjob-логи?
