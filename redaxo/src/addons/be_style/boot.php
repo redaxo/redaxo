@@ -7,6 +7,15 @@
  * @author <a href="https://www.yakamara.de">www.yakamara.de</a>
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="https://www.redaxo.org">www.redaxo.org</a>
+ *
+ *  REDAXO Default-Theme.
+ *
+ * @author Design
+ * @author ralph.zumkeller[at]yakamara[dot]de Ralph Zumkeller
+ * @author <a href="https://www.yakamara.de">www.yakamara.de</a>
+ * @author Umsetzung
+ * @author thomas.blum[at]redaxo[dot]org Thomas Blum
+ * @author <a href="https://www.yakamara.de">www.yakamara.de</a>
  */
 
 $addon = rex_addon::get('be_style');
@@ -22,11 +31,19 @@ if (rex::isBackend()) {
     rex_extension::register('BE_STYLE_SCSS_COMPILE', static function (rex_extension_point $ep) use ($addon) {
         $scssFiles = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', []));
 
+        /** @var list<array{root_dir?: string, scss_files: string|list<string>, css_file: string, copy_dest?: string}> */
         $subject = $ep->getSubject();
         $subject[] = [
+            'root_dir' => $addon->getPath('scss/'),
             'scss_files' => array_merge($scssFiles, [$addon->getPath('scss/master.scss')]),
             'css_file' => $addon->getPath('assets/css/styles.css'),
             'copy_dest' => $addon->getAssetsPath('css/styles.css'),
+        ];
+        $subject[] = [
+            'root_dir' => $addon->getPath('scss/'),
+            'scss_files' => $addon->getPath('scss/redaxo.scss'),
+            'css_file' => $addon->getPath('assets/css/redaxo.css'),
+            'copy_dest' => $addon->getAssetsPath('css/redaxo.css'),
         ];
         return $subject;
     });
@@ -215,44 +232,7 @@ if (rex::isBackend() && rex::getUser()) {
     }
 }
 
-// ---------------------------------- REDAXO ----------------------------------
-
-/**
- * REDAXO Default-Theme.
- *
- * @author Design
- * @author ralph.zumkeller[at]yakamara[dot]de Ralph Zumkeller
- * @author <a href="https://www.yakamara.de">www.yakamara.de</a>
- * @author Umsetzung
- * @author thomas[dot]blum[at]redaxo[dot]org Thomas Blum
- */
-
-$addon = rex_addon::get('be_style');
-
 if (rex::isBackend()) {
-    rex_extension::register('BE_STYLE_SCSS_FILES', static function (rex_extension_point $ep) use ($addon) {
-        $subject = $ep->getSubject();
-        $file = $addon->getPath('scss/default.scss');
-        array_unshift($subject, $file);
-        return $subject;
-    }, rex_extension::EARLY);
-
-    rex_extension::register('BE_STYLE_SCSS_COMPILE', static function (rex_extension_point $ep) use ($addon) {
-        $subject = $ep->getSubject();
-        $subject[] = [
-            'root_dir' => $addon->getPath('scss/'),
-            'scss_files' => $addon->getPath('scss/master.scss'),
-            'css_file' => $addon->getPath('assets/css/styles.css'),
-            'copy_dest' => $addon->getAssetsPath('css/styles.css'),
-        ];
-        return $subject;
-    });
-
-    $user = rex::getUser();
-    if ($user && $addon->getProperty('compile')) {
-        rex_addon::get('be_style')->setProperty('compile', true);
-    }
-
     rex_view::addCssFile($addon->getAssetsUrl('css/redaxo.css'));
     rex_view::addJsFile($addon->getAssetsUrl('js/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
 
@@ -285,6 +265,7 @@ if (rex::isBackend()) {
 
     // add theme-information to js-variable rex as rex.theme
     // (1) System-Settings (2) no systemforced mode: user-mode (3) fallback: "auto"
+    $user = rex::getUser();
     $theme = (string) rex::getProperty('theme');
     if ('' === $theme && $user) {
         $theme = (string) $user->getValue('theme');
