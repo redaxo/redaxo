@@ -381,6 +381,8 @@ plugin_systemplugin = System PlugIn
 plugin_systempackage_delete_not_allowed = System PlugIns dürfen nicht gelöscht werden!
 plugin_dir_not_writable = Der PlugIn-Ordner hat keine Schreibrechte.
 plugin_cache_not_writable = Der PlugIn-Cache-Ordner hat keine Schreibrechte.
+package_active = Aktiviert
+package_disabled = Deaktiviert
 
 # src\core\pages\credits.php
 credits = Credits
