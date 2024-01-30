@@ -46,44 +46,36 @@ class rex_category_service
         }
 
         $templates = [];
-        $addon = rex_addon::get('structure');
-        /** @Todo Review a better solution and replace the variables in this file if necessary */
-        $extensions = $addon->getProperty('extensions', []);
-        $contentIsAvailable = isset($extensions['content']['available']) && $extensions['content']['available'];
-        if ($contentIsAvailable) {
-            $startpageTemplates = [];
-            if ('' != $categoryId) {
-                // TemplateId vom Startartikel der jeweiligen Sprache vererben
-                $sql = rex_sql::factory();
-                // $sql->setDebug();
-                $sql->setQuery('select clang_id,template_id from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1', [$categoryId]);
-                for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
-                    $startpageTemplates[(int) $sql->getValue('clang_id')] = $sql->getValue('template_id');
-                }
+        $startpageTemplates = [];
+        if ('' != $categoryId) {
+            // TemplateId vom Startartikel der jeweiligen Sprache vererben
+            $sql = rex_sql::factory();
+            // $sql->setDebug();
+            $sql->setQuery('select clang_id,template_id from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1', [$categoryId]);
+            for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
+                $startpageTemplates[(int) $sql->getValue('clang_id')] = $sql->getValue('template_id');
             }
-
-            // Alle Templates der Kategorie
-            $templates = rex_template::getTemplatesForCategory($categoryId);
         }
+
+        // Alle Templates der Kategorie
+        $templates = rex_template::getTemplatesForCategory($categoryId);
 
         $user = self::getUser();
 
         // Kategorie in allen Sprachen anlegen
         $AART = rex_sql::factory();
         foreach (rex_clang::getAllIds() as $key) {
-            if ($contentIsAvailable) {
-                $templateId = rex_template::getDefaultId();
-                if (isset($startpageTemplates[$key]) && '' != $startpageTemplates[$key]) {
-                    $templateId = $startpageTemplates[$key];
-                }
+            $templateId = rex_template::getDefaultId();
+            if (isset($startpageTemplates[$key]) && '' != $startpageTemplates[$key]) {
+                $templateId = $startpageTemplates[$key];
+            }
 
-                // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
-                // oder leer setzen.
-                if (!isset($templates[$templateId])) {
-                    $templateId = 0;
-                    if (count($templates) > 0) {
-                        $templateId = key($templates);
-                    }
+            // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
+            // oder leer setzen.
+            if (!isset($templates[$templateId])) {
+                $templateId = 0;
+                if (count($templates) > 0) {
+                    $templateId = key($templates);
                 }
             }
 

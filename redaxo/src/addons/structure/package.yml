@@ -78,7 +78,3 @@ default_config:
     notfound_article_id: 1
     history: false
     version: false
-
-extensions:
-    content:
-        available: true

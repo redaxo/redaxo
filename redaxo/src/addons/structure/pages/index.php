@@ -1,9 +1,6 @@
 <?php
 
 $addon = rex_addon::get('structure');
-/** @Todo Review a better solution and replace the variables in this file if necessary */
-$extensions = $addon->getProperty('extensions', []);
-$contentIsAvailable = isset($extensions['content']['available']) && $extensions['content']['available'];
 
 $structureContext = new rex_structure_context([
     'category_id' => rex_request('category_id', 'int'),
@@ -319,23 +316,17 @@ $echo = '';
 
 // --------------------- READ TEMPLATES
 
-$templateSelect = null;
-if ($contentIsAvailable) {
-    $templateSelect = new rex_template_select($categoryId, $clang);
-}
-
+$templateSelect = new rex_template_select($categoryId, $clang);
 if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCategoryId() && !$user->getComplexPerm('structure')->hasMountpoints())) {
     $tmplHead = '';
-    if ($templateSelect) {
-        $templateSelect->setName('template_id');
-        $templateSelect->setSize(1);
-        $templateSelect->setStyle('class="form-control selectpicker"');
+    $templateSelect->setName('template_id');
+    $templateSelect->setSize(1);
+    $templateSelect->setStyle('class="form-control selectpicker"');
 
-        $tEMPLATENAME = $templateSelect->getTemplates();
-        $tEMPLATENAME[0] = rex_i18n::msg('template_default_name');
+    $tEMPLATENAME = $templateSelect->getTemplates();
+    $tEMPLATENAME[0] = rex_i18n::msg('template_default_name');
 
-        $tmplHead = '<th class="rex-table-template">' . rex_i18n::msg('header_template') . '</th>';
-    }
+    $tmplHead = '<th class="rex-table-template">' . rex_i18n::msg('header_template') . '</th>';
 
     // --------------------- ARTIKEL LIST
     $artAddLink = '';
@@ -420,12 +411,8 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     // --------------------- ARTIKEL ADD FORM
     if ('add_art' == $structureContext->getFunction() && $user->hasPerm('addArticle[]') && $structureContext->hasCategoryPermission()) {
-        $tmplTd = '';
-        if ($templateSelect) {
-            $templateSelect->setSelectedFromStartArticle();
-
-            $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $templateSelect->get() . '</td>';
-        }
+        $templateSelect->setSelectedFromStartArticle();
+        $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $templateSelect->get() . '</td>';
 
         $echo .= '<tr class="mark">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-article"></i></td>
@@ -469,11 +456,9 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         // --------------------- ARTIKEL EDIT FORM
 
         if ($canEdit && 'edit_art' == $structureContext->getFunction() && $sql->getValue('id') == $structureContext->getArticleId() && $structureContext->hasCategoryPermission()) {
-            $tmplTd = '';
-            if ($templateSelect) {
-                $templateSelect->setSelected($sql->getValue('template_id'));
-                $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $templateSelect->get() . '</td>';
-            }
+            $templateSelect->setSelected($sql->getValue('template_id'));
+            $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $templateSelect->get() . '</td>';
+
             $echo .= '<tr class="mark' . $classStartarticle . ' ' . $trStatusClass . '">
                             <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id')]) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
                             <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . (int) $sql->getValue('id') . '</td>
@@ -532,11 +517,9 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             $editModeUrl = $structureContext->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id'), 'mode' => 'edit']);
 
             $tmplTd = '';
-            if ($templateSelect) {
-                $tmpl = $tEMPLATENAME[(int) $sql->getValue('template_id')] ?? '';
-                $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">
-                <div class="rex-truncate rex-truncate-target" title="' . $tmpl . '" >' . $tmpl . '</div></td>';
-            }
+            $tmpl = $tEMPLATENAME[(int) $sql->getValue('template_id')] ?? '';
+            $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">
+            <div class="rex-truncate rex-truncate-target" title="' . $tmpl . '" >' . $tmpl . '</div></td>';
 
             $echo .= '<tr ' . $dataArtStatus . ' ' . $dataArtid . (('' != $classStartarticle) ? ' class="' . trim($classStartarticle) . ' ' . $trStatusClass . '"' : ' class="' . $trStatusClass . '"') . '>
                             <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $editModeUrl . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
@@ -556,11 +539,8 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             $artStatusClass = $artStatusTypes[$status][1];
             $artStatusIcon = $artStatusTypes[$status][2];
 
-            $tmplTd = '';
-            if ($templateSelect) {
-                $tmpl = $tEMPLATENAME[$sql->getValue('template_id')] ?? '';
-                $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
-            }
+            $tmpl = $tEMPLATENAME[$sql->getValue('template_id')] ?? '';
+            $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
 
             $echo .= '<tr ' . $dataArtStatus . ' ' . $dataArtid . ' class="' . $trStatusClass . '">
                             <td class="rex-table-icon"><i class="rex-icon' . $class . '"></i></td>
