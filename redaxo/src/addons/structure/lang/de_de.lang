@@ -296,3 +296,7 @@ version_info_live_version_to_working = Liveversion wurde in die Arbeitsversion k
 version_warning_working_version_to_live = Arbeitsversion kann nicht live gestellt werden, da sie leer ist
 version_info_clear_workingversion = Arbeitsversion erfolgreich geleert
 version_confirm_clear_workingversion = Arbeitsversion zurücksetzen? Alle bestehenden Inhalte der Arbeitsversion werden unwiderruflich gelöscht.
+
+
+system_setting_history = Historie
+system_setting_version = Version

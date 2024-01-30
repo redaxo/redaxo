@@ -26,6 +26,7 @@ pages:
             functions: { title: translate:metafuncs, icon: rex-icon rex-icon-metafuncs }
     content/history:
         title: ' '
+        hidden: true
         icon: 'fa fa-history'
         href: '#'
         itemAttr:
@@ -54,6 +55,7 @@ pages:
             actions: { title: translate:actions }
     system/history:
         title: translate:structure_history
+        hidden: true
     templates:
         title: translate:templates
         main: true
@@ -74,11 +76,9 @@ conflicts:
 default_config:
     start_article_id: 1
     notfound_article_id: 1
+    history: false
+    version: false
 
 extensions:
     content:
-        available: true
-    history:
-        available: true
-    version:
         available: true

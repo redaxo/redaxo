@@ -7,10 +7,6 @@
  */
 
 $addon = rex_addon::get('structure');
-/** @Todo Review a better solution and replace the variables in this file if necessary */
-$extensions = $addon->getProperty('extensions', []);
-$historyIsAvailable = isset($extensions['history']['available']) && $extensions['history']['available'];
-$versionIsAvailable = isset($extensions['version']['available']) && $extensions['version']['available'];
 
 rex_perm::register('addArticle[]', null, rex_perm::OPTIONS);
 rex_perm::register('addCategory[]', null, rex_perm::OPTIONS);
@@ -48,6 +44,9 @@ if (rex::isBackend() && rex::getUser()) {
     if ('system' == rex_be_controller::getCurrentPagePart(1)) {
         rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
         rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
+        rex_system_setting::register(new rex_system_setting_default_template_id());
+        rex_system_setting::register(new rex_system_setting_package_status('history'));
+        rex_system_setting::register(new rex_system_setting_package_status('version'));
     }
 }
 
@@ -104,10 +103,6 @@ if (rex::isBackend()) {
             rex_be_controller::getPageObject('structure')->setIsActive(true);
         }
     });
-
-    if ('system' == rex_be_controller::getCurrentPagePart(1)) {
-        rex_system_setting::register(new rex_system_setting_default_template_id());
-    }
 
     if ('content' == rex_be_controller::getCurrentPagePart(1)) {
         rex_view::addJsFile(rex_url::addonAssets('structure', 'content.js'), [rex_view::JS_IMMUTABLE => true]);
@@ -181,8 +176,17 @@ rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) 
 /**
  * History
  */
-
-if ($historyIsAvailable) {
+if (true === $addon->getConfig('history', false)) {
+    rex_extension::register('PAGE_CHECKED', static function (rex_extension_point $ep) {
+        $page = rex_be_controller::getPageObject('content');
+        if ($page && $historyPage = $page->getSubpage('history')) {
+            $historyPage->setHidden(false);
+        }
+        $page = rex_be_controller::getPageObject('system');
+        if ($page && $historyPage = $page->getSubpage('history')) {
+            $historyPage->setHidden(false);
+        }
+    });
     $historyDate = rex_request('rex_history_date', 'string');
 
     rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
@@ -313,7 +317,7 @@ if ($historyIsAvailable) {
                 $select1[] = '<option value="0" selected="selected" data-revision="0">'.$addon->i18n(
                         'structure_history_current_version'
                     ).'</option>';
-                if ($versionIsAvailable) {
+                if (true === $addon->getConfig('version', false)) {
                     $select1[] = '<option value="1" data-revision="1">'.rex_i18n::msg(
                             'version_workingversion'
                         ).'</option>';
@@ -404,7 +408,7 @@ if ($historyIsAvailable) {
 }
 
 // Version extension
-if ($versionIsAvailable) {
+if (true === $addon->getConfig('version', false)) {
     rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 
     // ***** an EPs andocken
@@ -458,7 +462,7 @@ if ($versionIsAvailable) {
         $params['slice_revision'] = $version;
     });
 
-    rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_extension_point $ep) use ($historyIsAvailable) {
+    rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_extension_point $ep) use ($addon) {
         if ('content/edit' !== $ep->getParam('page')) {
             return null;
         }
@@ -486,7 +490,7 @@ if ($versionIsAvailable) {
                 if ($workingVersionEmpty) {
                     $return .= rex_view::error(rex_i18n::msg('version_warning_working_version_to_live'));
                 } elseif ($user->hasPerm('version[live_version]')) {
-                    if ($historyIsAvailable) {
+                    if (true === $addon->getConfig('history', false)) {
                         rex_article_slice_history::makeSnapshot($articleId, $clangId, 'work_to_live');
                     }
 
