@@ -58,6 +58,10 @@
                 }
             ]
         },
+        "safemode": {
+            "description": "Safe mode",
+            "type": "boolean"
+        },
         "instname": {
             "description": "Unique instance name",
             "type": ["null", "string"]

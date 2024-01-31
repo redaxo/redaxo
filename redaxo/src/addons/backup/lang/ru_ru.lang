@@ -1,0 +1,86 @@
+backup_information = Информация
+backup_title = Бэкап
+backup_file_deleted = Файл был удален
+backup_file_error_while_delete = Не удалось удалить файл
+backup_no_import_file_chosen_or_wrong_version = Не выбран файл импорта или выбрана неправильная версия
+backup_no_valid_import_file = Неверный файл импорта
+backup_utf8mb4_not_supported = Эта резервная копия использует кодировку <code>utf8mb4</code>, которая не поддерживается вашей базой данных (<b>{0}</b>) (минимальные требования MySQL 5.7.7 или MariaDB 10.2).
+backup_database_imported = База данных импортирована
+backup_entry_count = ({0} записей)
+backup_file_could_not_be_uploaded = Не удалось загрузить файл.
+backup_you_have_no_write_permission_in = Нет прав на запись для папки {0}.
+backup_no_import_file_chosen = Пожалуйста, выберите файл для импорта.
+backup_file_imported = Файл был импортирован.
+backup_import = Импорт
+backup_to_import = Импорт
+backup_export = Экспорт
+backup_to_export = Экспорт
+backup_download = скачать
+backup_db_import = Импорт
+backup_db_export = Экспорт
+backup_filename_updated = Имя файла обновлено из-за недопустимых символов. Пожалуйста, нажмите на экспорт еще раз
+backup_please_choose_folder = Выберите папки, которые вы хотите экспортировать
+backup_intro_import = Обратите внимание, что текущая база данных <b>будет удалена</b> при импорте новой. Для безопасности создайте резервную копию существующей базы данных, предварительно экспортировав ее.
+backup_intro_import_files = При импорте файлов существующие файлы с тем же именем будут заменены, файлы во вложенных папках не будут изменены.
+backup_version_warning = Резервные копии из старых версий REDAXO и/или аддонов могут быть не полностью совместимы и могут привести к проблемам после импорта.
+backup_database = Импорт базы данных
+backup_filename = Имя файла
+backup_filename_notice = Переменные: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> и переменные даты, как и в strftime(); расширение файла: <code>.cronjob.sql</code> (добавляется автоматически)
+backup_filesize = Размер файла
+backup_delete = Удалить
+backup_files = Импорт файла
+backup_intro_export = Здесь вы можете создать резервную копию базы данных и файлов текущей установки REDAXO. Чтобы создать полную резервную копию, вам нужно экспортировать <b>базу данных и файлы</b> отдельно. Если вы планируете повторно импортировать эту резервную копию, полезно сохранить резервные копии файлов непосредственно на сервере, чтобы их можно было легко импортировать позже.
+backup_database_export = Создать резервную копию базы данных
+backup_file_export = Создать резервную копию файла
+backup_save_on_server = Сохранить на сервере
+backup_download_as_file = Скачать как файл
+backup_createdate = Дата создания
+
+backup_import_file = Импортировать файл
+backup_delete_file = Удалить файл
+backup_download_file = Скачать файл
+backup_check_rights_in_directory = Резервное копирование не смогло прочитать папку/папки или они не были выбраны.
+backup_file_could_not_be_generated = Не удалось создать файл.
+backup_file_generated_in = Файл был сохранен в
+
+backup_proceed_db_import = Существующие данные (статьи, шаблоны, модули...) будут удалены. Вы хотите продолжить?
+backup_proceed_file_import = Текущие файлы будут удалены. Вы хотите продолжить?
+
+backup_export_db_caption = Восстановление резервной копии базы данных
+backup_export_file_caption = Восстановление резервной копии файла
+
+backup_function = Функция
+
+backup_send_mail = Отправить по электронной почте
+backup_send_mail_notice = Для использования этой опции необходимо установить addon "phpmailer".
+backup_mailaddress = Адрес эл. почты
+backup_mail_subject = Новая резервная копия базы данных
+backup_mail_body = Во вложении вы найдете последнюю резервную копию базы данных с сайта "{0}".
+
+backup_compress = Сжатие резервной копии
+
+backup_delete_interval = Удалить старые резервные копии
+backup_delete_interval_off = Откл.
+backup_delete_interval_weekly = Хранить одну резервную копию в неделю
+backup_delete_interval_monthly = Хранить одну резервную копию в месяц
+backup_delete_interval_notice = Удаляться будут только резервные копии старше одного месяца, а имя файла должно заканчиваться на <code>.cronjob.sql</code>.
+backup_exclude_tables = Исключить из резервного копирования
+backup_exclude_tables_notice = Выбранные таблицы не будут включены в резервное копирование. Таблицы с префиксом <coderex_tmp_*</code будут исключены автоматически.
+
+perm_general_backup[export] = Веб-сайт для экспорта
+
+backup_export_select = Тип экспорта
+backup_export_select_tables = Выбор таблиц
+backup_export_select_dir = Выбор директорий
+backup_export_select_location = Выбор места для сохранения
+backup_export_select_filename = Выбор имени файла
+
+backup_file = Файл
+backup_note = Уведомление
+backup_upload = Загрузка
+backup_load_from_server = Скачать с сервера
+
+backup_warning = Предупреждение
+backup_upload_disabled = Загрузка не разрешена
+backup_max_uploadsize = Макс. размер файла
+backup_max_uploadtime = Макс. время загрузки

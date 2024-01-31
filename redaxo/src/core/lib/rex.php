@@ -288,7 +288,15 @@ class rex
      */
     public static function isSafeMode()
     {
-        return self::isBackend() && PHP_SESSION_ACTIVE == session_status() && rex_session('safemode', 'boolean', false);
+        if (!self::isBackend()) {
+            return false;
+        }
+
+        if (self::getProperty('safemode')) {
+            return true;
+        }
+
+        return PHP_SESSION_ACTIVE == session_status() && rex_session('safemode', 'boolean', false);
     }
 
     /**
