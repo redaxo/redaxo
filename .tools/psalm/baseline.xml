@@ -156,7 +156,6 @@
     <MixedAssignment>
       <code>$id</code>
       <code>$name</code>
-      <code>$nexttime</code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/form.php">
