@@ -15,7 +15,7 @@ INSERT IGNORE INTO `rex_clang` VALUES
 (1,'de','deutsch',1,1,0),
 (2,'en','english',2,0,0);
 
-INSERT IGNORE INTO `rex_config` VALUES
+REPLACE INTO `rex_config` VALUES
 ('structure','history','true'),
 ('structure','version','true');
 
