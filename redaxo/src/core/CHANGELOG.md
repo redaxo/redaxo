@@ -1,6 +1,44 @@
 Changelog
 =========
 
+Version 5.16.0 – XX.XX.2024
+---------------------------
+
+### Neu
+
+* Setup: PHP-Version wird ausgegeben (@staabm)
+* Safemode ist nur noch als eingeloggter Admin aktivierbar, oder neu alternativ global über die `config.yml` (@gharlan)
+* Packages installieren/aktivieren etc. wird ohne PJAX durchgeführt (@tbaddade)
+* `rex_sql`: `getArrayValue` liefert bei `null` ein leeres Array und behandelt ungültiges JSON besser (@staabm)
+* `rex_file`: Neue Methode `append` (@skerbis)
+* `rex_list`: Neue Methoden um das Markup via Kindklassen leichter anpassen zu können (@staabm)
+* `rex_response`: `sendFile` abbrechen, wenn die Verbindung zum Client abgebrochen wurde (@staabm)
+* `rex_version`: `gitHash` beschleunigt (@staabm)
+* Text-Optimierungen (@Koala, @skerbis, @staabm)
+* Übersetzungen:
+    - Russisch hinzugefügt (@cosmopolityan)
+    - Italienisch korrigiert/ergänzt (@michael-kreatif)
+* JS: AJAX-Loader-Indicator als `rex_loader`-API ausgelagert (@staabm)
+* Schema für `package.yml` optimiert (@staabm, @gharlan)
+* Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @bloep, @gharlan)
+
+### Bugfixes
+
+* Escaping korrigiert/ergänzt (@staabm, @gharlan)
+* Core-Update stabilisiert (@gharlan)
+* Setup: gz-komprimierte Backups wurden nicht zum Import angeboten (@gharlan)
+* Systemlog: Farbe für `success`-Meldungen korrigiert (@danspringer)
+* `rex_sql`: Bei zusätzlichen Datenbanken wurde die Verbindung nicht korrekt initialisiert bzgl. SQL-Mode und Charset (@alxndr-w)
+* `rex_markdown`: PHP-Highlighting mit PHP 8.3 korrigiert (@bloep)
+* `rex_file`: `delete`-Methode stabilisiert (@staabm)
+* `rex_autoload`: Kompatibilität zu symfony/cache hergestellt (@staabm)
+* `dump()`: Layout in Kombination mit UiKit korrigiert (@skerbis)
+* `package.yml`: Deprecated-Meldunge vermeiden, wenn `supportpage` gleich `null` ist (@tbaddade)
+* Popup-Schließung korrigiert (@tbaddade)
+* `rex_logger`: Kompatibilität zu neueren PSR-Log-Versionen hergestellt (@michael-kreatif)
+* Whoops-Page bei sehr großen Fehlermeldungen korrigiert (@staabm)
+
+
 Version 5.15.1 – 18.03.2023
 ---------------------------
 

@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 2.15.0 – XX.XX.2024
+---------------------------
+
+### Neu
+
+* Effekt `convert2image`: Unterstützung für Videos (erfordert `ffmpeg`) (@skerbis)
+
+### Bugfixes
+
+* Auf Windows wurden Bilder teils neu generiert, obwohl sie bereits im Cache waren (@AndiLeni)
+* Effekt `resize`: Fehler vermeiden, wenn ein Werte (Breite/Höhe) leer gelassen wurden (@gharlan)
+* Effekt `header`: Fehler vermeiden bei Updates von älteren Versionen (@gharlan)
+
+
 Version 2.14.0 – 28.02.2023
 ---------------------------
 

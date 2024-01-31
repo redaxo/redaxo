@@ -1,0 +1,180 @@
+media_manager = Медиаменеджер
+media_manager_overview_title = Аддон Медиаменеджер <small>(Version {0})</small>
+
+media_manager_subpage_desc = Описание
+media_manager_subpage_config = Конфигурация
+media_manager_subpage_types = Редактирование типов изображений
+media_manager_subpage_clear_cache = Очистить кэш
+
+media_manager_cache_files_removed = Удалено кэш-файлов: {0}
+
+media_manager_config_saved = Конфигурация обновлена!
+media_manager_config_not_saved = Конфигурация не может быть сохранена!
+media_manager_config_not_writable = Файл конфигурации "{0}" не может быть записан!
+
+media_manager_max_resizekb = Максимальный размер изображения в килобайтах, который медиаменеджеру разрешено обрабатывать
+media_manager_max_resizepx = Максимальный размер изображения в пикселях, который медиаменеджеру разрешено обрабатывать
+media_manager_jpg_quality = Качество JPG
+media_manager_png_compression = Сжатие PNG
+media_manager_png_compression_note = Значения выше 6-7 сильно замедляют создание изображения.
+media_manager_webp_quality = Качество WebP
+media_manager_avif_quality = Качество AVIF
+media_manager_avif_speed = Скорость AVIF
+media_manager_interlace = Интерлейс/прогрессив режим
+
+media_manager_id = ID
+media_manager_name = Наименование
+media_manager_edittype = Редактирование типов изображений
+media_manager_settings = Настройки
+
+media_manager_yes = Да
+media_manager_no = Нет
+media_manager_back = Назад
+
+media_manager_error_name = Пожалуйста, введите наименование.
+media_manager_error_settings = Пожалуйста, проверьте настройки медиаменеджера.
+media_manager_error_type_name_not_unique = Тип изображения с таким именем уже существует!
+media_manager_error_type_name_invalid = Наименование не может содержать символы "/" и "\"!
+
+media_manager_type_caption = Список типов изображений
+media_manager_type_no_types = Не найдено ни одного типа изображения
+media_manager_type_create = Создать тип изображения
+media_manager_type_edit = Редактировать тип изображения
+media_manager_type_copy = Копировать тип изображения
+media_manager_type_effekts_edit = Редактировать эффект
+media_manager_type_delete = Удалить тип изображения
+media_manager_type_name = Наименование
+media_manager_type_name_copy = Копия
+media_manager_type_priority = Приоритет
+media_manager_type_description = Описание
+media_manager_type_functions = Функции
+media_manager_type_cache_delete = Очистить кэш
+media_manager_type_system = Системный тип изображения
+media_manager_type_delete = Удалить тип изображения
+media_manager_type_deleted = Тип изображения удален
+media_manager_type_copied = Тип изображения скопирован
+
+media_manager_effect_list_header = Эффект типа изображения "{0}"
+media_manager_effect_edit_header = Редактирование эффекта для типа изображения "{0}"
+media_manager_effect_create_header = Создание эффекта для типа изображения "{0}"
+media_manager_effect_caption = Список добавленных эффектов для типа изображения "{0}"
+media_manager_effect_no_effects = Нет эффектов
+media_manager_effect_create = Создать эффект
+media_manager_effect_edit = Редактировать эффект
+media_manager_effect_delete = Удалить эффект
+media_manager_effect_name = Эффект
+media_manager_effect_priority = Порядок эффектов
+media_manager_effect_parameters = Параметр
+media_manager_effect_functions = Функции
+media_manager_effect_deleted = Эффект удален
+
+media_manager_effect_insert_image = Изображение: поместить изображение / водяной знак
+media_manager_effect_brand_image = Изображение
+media_manager_effect_brand_hpos = Горизонтальное положение
+media_manager_effect_brand_vpos = Вертикальное положение
+media_manager_effect_brand_padding_x = Горизонтальный внутренний отступ (padding)
+media_manager_effect_brand_padding_y = Вертикальный внутренний отступ (padding)
+
+media_manager_effect_blur = Изображение: размыть
+media_manager_effect_blur_repeats = Повторы
+media_manager_effect_blur_type = Тиа размытия
+media_manager_effect_blur_smoothit = Сглаживание (отрицательные значения для повышения резкости)
+
+media_manager_effect_colorize = Изображение: раскрасить
+media_manager_effect_colorize_r = Значение красного
+media_manager_effect_colorize_g = Значение зеленого
+media_manager_effect_colorize_b = Значение синего
+
+media_manager_effect_sharpen = Изображение: увеличить резкость
+media_manager_effect_sharpen_amount = Уровень резкости
+media_manager_effect_sharpen_radius = Радиус резкости
+media_manager_effect_sharpen_threshold = Пороговое значение
+
+media_manager_effect_resize = Изображение: масштабировать
+media_manager_effect_resize_width = Целевая ширина
+media_manager_effect_resize_height = Целевая высота
+media_manager_effect_resize_style = Режим
+media_manager_effect_resize_imgtosmall = Если изображение слишком маленькое
+
+media_manager_effect_crop = Изображение: обрезать
+media_manager_effect_crop_width = Целевая ширина
+media_manager_effect_crop_height = Целевая высота
+media_manager_effect_crop_offset_width = Смещение по горизонтали
+media_manager_effect_crop_offset_height = Смещение по вертикали
+media_manager_effect_crop_position = Позиция обрезки
+
+media_manager_effect_rounded_corners = Изображение: закруглить углы
+media_manager_effect_rounded_corners_topleft = Сверху слева
+media_manager_effect_rounded_corners_topright = Сверху справа
+media_manager_effect_rounded_corners_bottomleft = Снизу слева
+media_manager_effect_rounded_corners_bottomright = Снизу справа
+
+media_manager_effect_flip = Изображение: отзеркалить по горизонтали/по вертикали
+media_manager_effect_flip_direction = Направление
+
+media_manager_effect_rotate = Изображение: повернуть
+media_manager_effect_rotate_degree = Поворот (в градусах)
+
+media_manager_effect_mirror = Изображение: добавить отражение в воде
+media_manager_effect_mirror_height = Высота отражения (50 / 10%)
+media_manager_effect_mirror_opacity = Непрозрачность отражения (0 - 100)
+media_manager_effect_mirror_opacity_notice = 0% полностью невидимого отражения, 100% полностью видимого отражения
+media_manager_effect_mirror_background_color = Цвет фона
+media_manager_effect_mirror_background_r = Цвет фона красный (0-255)
+media_manager_effect_mirror_background_g = Цвет фона зеленый (0-255)
+media_manager_effect_mirror_background_b = Цвет фона синий (0-255)
+
+media_manager_effect_workspace = Изображение: площадь полотна
+media_manager_effect_workspace_pos = Позиция
+media_manager_effect_workspace_bg = Фон
+media_manager_effect_workspace_bgimage = Фоновое изображение
+media_manager_effect_workspace_bgimage_size = определяется фоновым изображением
+
+media_manager_effect_folder = Альтернативный путь по умолчанию: "media"
+
+media_manager_effect_mediapath = Файл: изменить путь
+media_manager_effect_mediapath_path = Директория для мультимедиа
+media_manager_effect_mediapath_path_notice = Путь к источнику изображения относительно установки REDAXO вместо <code>media</code>, т.е. <code>images</code>. Косые черты (слэши) в начале и конце пути не нужны.
+
+media_manager_effect_header = Файл: настроить header
+media_manager_effect_header_download = Скачивание
+media_manager_effect_header_cache = Cache control
+media_manager_effect_header_filename = Источник для наименования файла
+media_manager_effect_header_filename_notice = <code>filename</code> — нормализованное имя файла на сервере, т.е. <code>mein-download.pdf</code>, <code>originalname</code> — оригинальное имя файла на момент загрузки (с пробелами, с использованием заглавных/строчных букв и т.д.), т.е. <code>My Download.pdf</code>
+media_manager_effect_header_index = SEO: Индексация
+media_manager_effect_header_index_notice = <code>index</code>: поисковые системы должны просматривать этот файл и, возможно, включать его в индекс (по умолчанию) | <code>noindex</code>: поисковые системы не должны просматривать этот файл и включать его в индекс
+
+
+
+media_manager_effect_convert2img = Файл: конвертировать в изображение
+media_manager_effect_convert2img_density = Плотность
+media_manager_effect_convert2img_convertto = Целевой формат
+media_manager_effect_convert2img_density_notice = Плотность пикселей в ppi (пикселей на дюйм).
+media_manager_effect_convert2img_convertto_notice = Целевой формат файла, в который будет преобразован файл. Возможны следующие типы файлов: <code>.avi,.mp4,m4v,mov,.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico,.svg</code>.
+media_manager_effect_convert2img_noimagemagick = Предупреждение: ImageMagick не найден. Для этого эффекта необходимо либо php-расширение "imagick", либо ImageMagick в качестве "бинарного файла командной строки", который может быть выполнен с помощью exec().
+media_manager_effect_convert2img_color = Цвет для прозрачности
+media_manager_effect_convert2img_color_notice = Синтаксис "#ffffff". Если цвет не задан, вместо него будет использоваться прозрачность. Если это JPG, необходимо ввести значение цвета.
+media_manager_effect_convert2img_videoconverternotfound = ffmpeg (через exec()) не найден в этой системе. Видео не может быть преобразовано.
+
+media_manager_effect_image_properties = Изображение: настройки (качество, интерлейс, ...)
+media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Оставьте пустым для значения по умолчанию.
+media_manager_effect_image_properties_png_compression_notice = [0-9]. Оставьте пустым для значения по умолчанию.
+media_manager_effect_image_properties_webp_quality_notice = [0-101]. Оставьте пустым для значения по умолчанию.
+media_manager_effect_image_properties_avif_quality_notice = [0-100]. Оставьте пустым для значения по умолчанию.
+media_manager_effect_image_properties_avif_speed_notice = [0-10]. Оставьте пустым для значения по умолчанию.
+media_manager_effect_image_properties_interlace_notice = Оставьте пустым для значения по умолчанию.
+
+media_manager_effect_brightness = Изображение: яркость
+media_manager_effect_brightness_value = Яркость
+media_manager_effect_brightness_notice = [от -255 до 255]. Оставьте пустым для значения по умолчанию (0).
+
+media_manager_effect_contrast = Изображение: контраст
+media_manager_effect_contrast_value = Контраст
+media_manager_effect_contrast_notice = [от -100 до 100]. Оставьте пустым для значения по умолчанию (0).
+
+media_manager_effect_sepia = Изображение: сепия
+
+media_manager_effect_greyscale = Изображение: оттенки серого
+
+media_manager_effect_image_format = Изображение: конвертировать в JPEG/PNG/GIF/WEBP/AVIF
+media_manager_effect_image_format_convertto = Целевой формат

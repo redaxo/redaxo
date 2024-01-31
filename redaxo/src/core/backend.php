@@ -155,19 +155,28 @@ if (rex::isSetup()) {
         }
 
         rex::setProperty('user', $user);
+
+        // Safe Mode
+        if ($user->isAdmin() && null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
+            if ($safeMode) {
+                rex_set_session('safemode', true);
+            } else {
+                rex_unset_session('safemode');
+                if (rex::getProperty('safemode')) {
+                    $configFile = rex_path::coreData('config.yml');
+                    $config = array_merge(
+                        rex_file::getConfig(rex_path::core('default.config.yml')),
+                        rex_file::getConfig($configFile),
+                    );
+                    $config['safemode'] = false;
+                    rex_file::putConfig($configFile, $config);
+                }
+            }
+        }
     }
 
     if ('' === $rexUserLoginmessage && rex_get('rex_logged_out', 'boolean')) {
         $rexUserLoginmessage = rex_i18n::msg('login_logged_out');
-    }
-
-    // Safe Mode
-    if (null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
-        if ($safeMode) {
-            rex_set_session('safemode', true);
-        } else {
-            rex_unset_session('safemode');
-        }
     }
 }
 
