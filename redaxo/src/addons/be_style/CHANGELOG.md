@@ -4,8 +4,8 @@ Changelog
 Version 3.3.0 – XX.XX.2024
 --------------------------
 
-* Font Awesome: Vendor-Update auf v6.5.1, Achtung: FA4-icons deprecated
-    Change-Log FA: [https://fontawesome.com/docs/changelog/](https://fontawesome.com/docs/changelog/)
+* Font Awesome: Major-Update auf v6.5.1 (FA4-icons deprecated; Changelog FA: https://fontawesome.com/docs/changelog/) (@madiko, @tbaddade)
+* Login-Seite: Neues Hintergrundbild (@tbaddade, @gharlan)
 
 
 Version 3.2.0 – 28.02.2023

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.12.0 – XX.XX.2023
+---------------------------
+
+### Neu
+
+* Anzeige der Download-Anzahl und optional Sortierung danach (@eaCe)
+
+
 Version 2.11.1 – 18.03.2023
 ---------------------------
 
