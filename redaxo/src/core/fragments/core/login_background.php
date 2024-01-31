@@ -24,19 +24,19 @@
 
 <style nonce="<?= rex_response::getNonce() ?>">
     #rex-page-login {
-        /*background-color: #593960;*/
+        background-color: #004eaa;
     }
     #rex-page-login .panel-default {
         background-color: rgba(24, 28, 30, 0.97);
     }
 
     #rex-page-login .btn-primary {
-        background-color: #008eff;
+        background-color: #006ec6;
         border-color: rgba(0, 0, 0, 0.5);
     }
     #rex-page-login .btn-primary:hover,
     #rex-page-login .btn-primary:focus {
-        background-color: #44abfe;
+        background-color: #0387cc;
     }
 
     #rex-page-login .rex-global-footer {
