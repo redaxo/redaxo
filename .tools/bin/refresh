@@ -16,8 +16,6 @@ fi
 packages="
 backup
 be_style
-be_style/customizer
-be_style/redaxo
 cronjob
 debug
 install
