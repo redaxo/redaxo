@@ -7,24 +7,24 @@
 <picture class="rex-background">
     <source
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/steve-johnson-5Oe8KFH5998-unsplash-2400.avif') ?> 2400w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/steve-johnson-5Oe8KFH5998-unsplash-3500.avif') ?> 3500w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/richard-horvath-cPccYbPrF-A-unsplash-2400.avif') ?> 2400w,
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/richard-horvath-cPccYbPrF-A-unsplash-3500.avif') ?> 3500w"
         sizes="100vw"
         type="image/avif"
     />
     <img
         alt=""
-        src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/steve-johnson-5Oe8KFH5998-unsplash-2400.webp') ?>"
+        src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/richard-horvath-cPccYbPrF-A-unsplash-2400.webp') ?>"
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/steve-johnson-5Oe8KFH5998-unsplash-2400.webp') ?> 2400w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/steve-johnson-5Oe8KFH5998-unsplash-3500.webp') ?> 3500w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/richard-horvath-cPccYbPrF-A-unsplash-2400.webp') ?> 2400w,
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/richard-horvath-cPccYbPrF-A-unsplash-3500.webp') ?> 3500w"
         sizes="100vw"
     />
 </picture>
 
 <style nonce="<?= rex_response::getNonce() ?>">
     #rex-page-login {
-        background-color: #593960;
+        /*background-color: #593960;*/
     }
     #rex-page-login .panel-default {
         background-color: rgba(24, 28, 30, 0.97);
@@ -62,7 +62,7 @@
         <ul class="list-inline">
             <li><a href="https://www.yakamara.de" target="_blank" rel="noreferrer noopener">yakamara.de</a></li>
             <li><a href="https://www.redaxo.org" target="_blank" rel="noreferrer noopener">redaxo.org</a></li>
-            <li class="rex-background-credits"><a href="https://unsplash.com/@steve_j" target="_blank" rel="noreferrer noopener">Photo by Steve Johnson on Unsplash</a></li>
+            <li class="rex-background-credits"><a href="https://unsplash.com/@ricvath" target="_blank" rel="noreferrer noopener">Photo by Richard Horvath on Unsplash</a></li>
         </ul>
     </nav>
 </footer>
