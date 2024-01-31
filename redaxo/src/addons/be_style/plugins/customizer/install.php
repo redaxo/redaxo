@@ -29,6 +29,6 @@ if (!$plugin->hasConfig('codemirror-options')) {
     $plugin->setConfig('codemirror-options', '');
 }
 
- if ('' != $message) {
-     throw new rex_functional_exception($message);
- }
+if ('' != $message) {
+    throw new rex_functional_exception($message);
+}

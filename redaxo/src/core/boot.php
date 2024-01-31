@@ -37,8 +37,7 @@ if ('cli' !== PHP_SAPI) {
 
 ini_set('session.use_strict_mode', '1');
 
-// set arg_separator to get valid html output if session.use_trans_sid is activated
-ini_set('arg_separator.output', '&amp;');
+ini_set('arg_separator.output', '&');
 // disable html_errors to avoid html in exceptions and log files
 if (ini_get('html_errors')) {
     ini_set('html_errors', '0');
@@ -90,7 +89,7 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.15.2-dev');
+rex::setProperty('version', '6.0.0-dev');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');

@@ -331,7 +331,7 @@ class Response
     /**
      * Sends HTTP headers.
      *
-     * @param null|positive-int $statusCode The status code to use, override the statusCode property if set and not null
+     * @param positive-int|null $statusCode The status code to use, override the statusCode property if set and not null
      *
      * @return $this
      */
@@ -372,7 +372,7 @@ class Response
                 $newValues = null === $previousValues ? $values : array_diff($values, $previousValues);
             }
 
-            foreach ($newValues  as $value) {
+            foreach ($newValues as $value) {
                 header($name.': '.$value, $replace, $this->statusCode);
             }
 
@@ -415,18 +415,25 @@ class Response
     /**
      * Sends HTTP headers and content.
      *
+     * @param bool $flush Whether output buffers should be flushed
+     *
      * @return $this
      */
-    public function send(): static
+    public function send(/* bool $flush = true */): static
     {
         $this->sendHeaders();
         $this->sendContent();
+
+        $flush = 1 <= \func_num_args() ? func_get_arg(0) : true;
+        if (!$flush) {
+            return $this;
+        }
 
         if (\function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
         } elseif (\function_exists('litespeed_finish_request')) {
             litespeed_finish_request();
-        } elseif (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true)) {
+        } elseif (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
             static::closeOutputBuffers(0, true);
             flush();
         }
@@ -490,7 +497,7 @@ class Response
      *
      * @final
      */
-    public function setStatusCode(int $code, string $text = null): static
+    public function setStatusCode(int $code, ?string $text = null): static
     {
         $this->statusCode = $code;
         if ($this->isInvalid()) {
@@ -499,12 +506,6 @@ class Response
 
         if (null === $text) {
             $this->statusText = self::$statusTexts[$code] ?? 'unknown status';
-
-            return $this;
-        }
-
-        if (false === $text) {
-            $this->statusText = '';
 
             return $this;
         }
@@ -687,7 +688,7 @@ class Response
      *
      * @final
      */
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeImmutable
     {
         return $this->headers->getDate('Date');
     }
@@ -701,10 +702,7 @@ class Response
      */
     public function setDate(\DateTimeInterface $date): static
     {
-        if ($date instanceof \DateTime) {
-            $date = \DateTimeImmutable::createFromMutable($date);
-        }
-
+        $date = \DateTimeImmutable::createFromInterface($date);
         $date = $date->setTimezone(new \DateTimeZone('UTC'));
         $this->headers->set('Date', $date->format('D, d M Y H:i:s').' GMT');
 
@@ -745,13 +743,13 @@ class Response
      *
      * @final
      */
-    public function getExpires(): ?\DateTimeInterface
+    public function getExpires(): ?\DateTimeImmutable
     {
         try {
             return $this->headers->getDate('Expires');
         } catch (\RuntimeException) {
             // according to RFC 2616 invalid date formats (e.g. "0" and "-1") must be treated as in the past
-            return \DateTime::createFromFormat('U', time() - 172800);
+            return \DateTimeImmutable::createFromFormat('U', time() - 172800);
         }
     }
 
@@ -764,7 +762,7 @@ class Response
      *
      * @final
      */
-    public function setExpires(\DateTimeInterface $date = null): static
+    public function setExpires(?\DateTimeInterface $date = null): static
     {
         if (1 > \func_num_args()) {
             trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
@@ -775,10 +773,7 @@ class Response
             return $this;
         }
 
-        if ($date instanceof \DateTime) {
-            $date = \DateTimeImmutable::createFromMutable($date);
-        }
-
+        $date = \DateTimeImmutable::createFromInterface($date);
         $date = $date->setTimezone(new \DateTimeZone('UTC'));
         $this->headers->set('Expires', $date->format('D, d M Y H:i:s').' GMT');
 
@@ -934,7 +929,7 @@ class Response
      *
      * @final
      */
-    public function getLastModified(): ?\DateTimeInterface
+    public function getLastModified(): ?\DateTimeImmutable
     {
         return $this->headers->getDate('Last-Modified');
     }
@@ -948,7 +943,7 @@ class Response
      *
      * @final
      */
-    public function setLastModified(\DateTimeInterface $date = null): static
+    public function setLastModified(?\DateTimeInterface $date = null): static
     {
         if (1 > \func_num_args()) {
             trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
@@ -959,10 +954,7 @@ class Response
             return $this;
         }
 
-        if ($date instanceof \DateTime) {
-            $date = \DateTimeImmutable::createFromMutable($date);
-        }
-
+        $date = \DateTimeImmutable::createFromInterface($date);
         $date = $date->setTimezone(new \DateTimeZone('UTC'));
         $this->headers->set('Last-Modified', $date->format('D, d M Y H:i:s').' GMT');
 
@@ -989,7 +981,7 @@ class Response
      *
      * @final
      */
-    public function setEtag(string $etag = null, bool $weak = false): static
+    public function setEtag(?string $etag = null, bool $weak = false): static
     {
         if (1 > \func_num_args()) {
             trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
@@ -1292,7 +1284,7 @@ class Response
      *
      * @final
      */
-    public function isRedirect(string $location = null): bool
+    public function isRedirect(?string $location = null): bool
     {
         return \in_array($this->statusCode, [201, 301, 302, 303, 307, 308]) && (null === $location ?: $location == $this->headers->get('Location'));
     }

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.10.1 – XX.XX.2024
+---------------------------
+
+### Bugfixes
+
+* Löschen von Medien: Verwendungsprüfung und Verlinkung korrigiert (@TobiasKrais)
+
+
 Version 2.9.1 – 20.02.2023
 --------------------------
 
@@ -209,4 +217,3 @@ Version 2.0.1 – 09.02.2016
 ### Bugfixes
 
 * Bei Datumsfeldern war es nicht möglich, den Monat zu ändern (Gort)
-

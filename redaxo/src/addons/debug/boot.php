@@ -66,7 +66,7 @@ rex_logger::setFactoryClass(rex_logger_debug::class);
 rex_api_function::setFactoryClass(rex_api_function_debug::class);
 
 rex_response::setHeader('X-Clockwork-Id', rex_debug_clockwork::getInstance()->getRequest()->id);
-rex_response::setHeader('X-Clockwork-Version', \Clockwork\Clockwork::VERSION);
+rex_response::setHeader('X-Clockwork-Version', Clockwork\Clockwork::VERSION);
 
 rex_response::setHeader('X-Clockwork-Path', rex_debug_clockwork::getClockworkApiUrl());
 

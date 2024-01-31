@@ -34,7 +34,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.2'
+                    php-version: '8.3'
                     extensions: gd, intl, imagick
                     coverage: none # disable xdebug, pcov
 
@@ -83,7 +83,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.2'
+                    php-version: '8.3'
                     extensions: gd, intl, imagick
                     coverage: none # disable xdebug, pcov
 
@@ -124,7 +124,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.2'
+                    php-version: '8.3'
                     extensions: gd, intl, imagick, pdo_mysql
                     coverage: none # disable xdebug, pcov
 
@@ -136,8 +136,8 @@ jobs:
             -   name: Setup REDAXO
                 run: |
                     sudo /etc/init.d/mysql start
-                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
-                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo5 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
+                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo6;'
+                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo6 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
                     php redaxo/bin/console config:set --type boolean debug.enabled true
                     php redaxo/bin/console config:set --type boolean debug.throw_always_exception true
 

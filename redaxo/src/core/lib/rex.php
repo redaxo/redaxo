@@ -288,7 +288,15 @@ class rex
      */
     public static function isSafeMode()
     {
-        return self::isBackend() && PHP_SESSION_ACTIVE == session_status() && rex_session('safemode', 'boolean', false);
+        if (!self::isBackend()) {
+            return false;
+        }
+
+        if (self::getProperty('safemode')) {
+            return true;
+        }
+
+        return PHP_SESSION_ACTIVE == session_status() && rex_session('safemode', 'boolean', false);
     }
 
     /**
@@ -461,7 +469,7 @@ class rex
      * @param string $path
      * @return non-empty-string|false
      */
-    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(%parametersList%)')]
+    #[JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(%parametersList%)')]
     public static function getVersionHash($path, ?string $repo = null)
     {
         return rex_version::gitHash($path, $repo) ?? false;

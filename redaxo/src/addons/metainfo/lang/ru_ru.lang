@@ -1,0 +1,85 @@
+media = Медиа
+categories = Категории
+articles = Статьи
+
+minfo_title = Развернуть метаинформацию
+minfo_metainfos_not_found = Не найдено метаинформации
+
+minfo_field_list_caption = Список полей
+
+minfo_field_fieldset = Редактировать/создать поле
+minfo_field_label_prefix = Префикс
+minfo_field_label_title = Наименование поля
+minfo_field_label_name = Наименование метки
+minfo_field_label_function = Функция
+minfo_field_label_functions = Функции
+minfo_field_label_id = ID
+minfo_field_label_type = Тип поля
+minfo_field_label_attributes = Атрибуты поля
+minfo_field_label_callback = Callback
+minfo_field_label_callback_templates = Шаблоны Callback
+minfo_field_label_default = Значение по умолчанию
+minfo_field_label_nullable = Обязательное поле
+minfo_field_label_params = Параметр
+minfo_field_label_priority = Позиция поля
+minfo_field_label_restrictions = Доступно только для следующих категорий
+minfo_field_label_no_restrictions = Доступно во всех категориях
+minfo_field_label_all_templates = Доступно для всех шаблонов
+minfo_field_label_templates = Доступно только для следующих шаблонов
+
+minfo_field_notice_title = Префикс "translate:" переводит значение через I18N
+
+minfo_field_first_priority = В начале
+minfo_field_after_priority = После поля "{0}"
+
+minfo_field_params_notice_3 = Примеры:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>
+minfo_field_params_notice_4 = Примеры:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>
+minfo_field_params_notice_5 = Примеры:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>
+minfo_field_params_notice_6 = Пример:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
+minfo_field_params_notice_7 = Пример:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
+minfo_field_params_notice_8 = Пример:<br /> <code>category="1"</code>
+minfo_field_params_notice_9 = Пример:<br /> <code>category="1"</code>
+minfo_field_params_notice_10 = Пример:<br /> <code>start-year="1990" end-year="2030"</code>
+minfo_field_params_notice_11 = Пример:<br /> <code>start-year="1990" end-year="2030"</code>
+
+minfo_field_attributes_notice = HTML-атрибуты для поля ввода и разрешения, например:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]" note="Notiz"</code>
+minfo_field_label_notice = Код, выполняемый при изменении значения поля. .<br /> Читаемые переменные: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name = Пожалуйста, введите наименование столбца!
+minfo_field_error_unique_name = Это наименование столбца уже существует!
+minfo_field_error_unique_type = Это наименование типа уже существует!
+minfo_field_error_chars_name = Имя столбца содержит недопустимые символы (допустимые символы: <b>A-Z, 0-9 и _</b> )!
+minfo_field_error_invalid_prefix = Этот префикс недопустим!
+minfo_field_error_invalid_type = Этот тип недопустим!
+minfo_field_error_invalid_length = Эта длина поля недопустима!
+minfo_field_error_invalid_name = Это наименование столбца недопустимо!
+minfo_field_error_invalid_fieldid = Этот ID поля недопустим!
+minfo_field_error_invalid_typeid = Этот ID типа недопустим!
+minfo_field_error_deleted = Поле не было удалено!
+minfo_field_successfull_deleted = Поле было удалено!
+minfo_field_successfull_saved = Поле успешно сохранено!
+
+minfo_default_fields_create = Создать поля по умолчанию
+minfo_default_fields_created = Поля по умолчанию успешно созданы!
+
+minfo_edit_metadata = Редактировать метаинформацию
+minfo_metadata_saved = Метаинформация была сохранена.
+
+minfo_media_in_use_art = Статьи (Метаданные)
+minfo_media_in_use_cat = Категории (Метаданные)
+minfo_media_in_use_med = Файлы (Метаданные)
+minfo_media_in_use_clang = Языки (Метаданные)
+
+minfo_callback_lang_indep_field = Поле, не зависящее от языка
+
+# bc: labels aus dem core
+online_from = Онлайн с
+online_to = до
+description = Описание
+keywords = Ключевые слова
+header_article_type = Тип статьи
+metadata_image = Метафайл/Изображение
+teaser = Тизер
+pool_file_copyright = Copyright
+
+metadata = Метаданные

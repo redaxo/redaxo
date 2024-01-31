@@ -21,6 +21,7 @@ class rex_cronjob_export extends rex_cronjob
         $file = $filename;
         $dir = rex_backup::getDir() . '/';
         $ext = '.cronjob.sql';
+        $filename .= $ext;
 
         $excludedTables = $this->getParam('exclude_tables');
         $excludedTables = $excludedTables ? explode('|', $excludedTables) : [];
@@ -46,6 +47,7 @@ class rex_cronjob_export extends rex_cronjob
 
                     $message = rex_path::basename($gzPath) . ' created';
                     $exportFilePath = $gzPath;
+                    $filename .= '.gz';
                 }
             }
 
@@ -102,7 +104,7 @@ class rex_cronjob_export extends rex_cronjob
                 $mail->addAddress($this->getParam('mailaddress'));
                 $mail->Subject = rex_i18n::rawMsg('backup_mail_subject');
                 $mail->Body = rex_i18n::rawMsg('backup_mail_body', rex::getServerName());
-                $mail->addAttachment($exportFilePath, $filename . $ext);
+                $mail->addAttachment($exportFilePath, $filename);
                 if ($mail->send()) {
                     $this->setMessage($message . ', mail sent');
 

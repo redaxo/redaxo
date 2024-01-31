@@ -69,7 +69,7 @@ $hasNavigation = $curPage->hasNavigation();
 
 $metaItems = [];
 if ($user && $hasNavigation) {
-    if (rex::isSafeMode()) {
+    if (rex::isSafeMode() && $user->isAdmin()) {
         $item = [];
         $item['title'] = rex_i18n::msg('safemode_deactivate');
         $item['href'] = rex_url::backendController(['safemode' => 0]);
@@ -125,7 +125,7 @@ if ($user && $hasNavigation) {
             }
 
             if (!$pageObj->getHref()) {
-                $pageObj->setHref(rex_url::backendPage($p, [], false));
+                $pageObj->setHref(rex_url::backendPage($p));
             }
             /*
              if(isset ($REX['ACKEY']['ADDON'][$page]))

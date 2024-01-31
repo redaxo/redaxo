@@ -1,0 +1,15 @@
+version = Версия
+
+version_liveversion = Live-версия
+version_workingversion = Черновик
+version_working_to_live = Опубликовать
+version_preview = Предпросмотр
+version_clear_workingversion = Пустая версия черновика
+version_copy_live_to_workingversion = Скопировать в черновик
+version_copy_from_liveversion = Из Live-версии
+version_confirm_copy_live_to_workingversion = Скопировать Live-версию в черновик? Все существующее содержимое черновика будет перезаписано.
+version_info_working_version_to_live = Черновик теперь Live-версия
+version_info_live_version_to_working = Live-версия была скопирована в черновик
+version_warning_working_version_to_live = Черновик нельзя скопировать, потому что он пуст
+version_info_clear_workingversion = Черновик не пуст
+version_confirm_clear_workingversion = Очистить черновик? Все существующее содержимое черновика будет безвозвратно удалено.

@@ -98,7 +98,7 @@ if ($update && !$error) {
         ], true));
 
         // trigger a fullpage-reload which immediately reflects a possible changed language
-        rex_response::sendRedirect(rex_url::currentBackendPage(['rex_user_updated' => true], false));
+        rex_response::sendRedirect(rex_url::currentBackendPage(['rex_user_updated' => true]));
     } catch (rex_sql_exception $e) {
         $error = $e->getMessage();
     }

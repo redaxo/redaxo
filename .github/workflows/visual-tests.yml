@@ -54,7 +54,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.2'
+                    php-version: '8.3'
                     ini-values: 'error_reporting=E_ALL, display_errors=On, display_startup_errors=On'
                     extensions: gd, pdo_mysql
                     coverage: none # disable xdebug, pcov
@@ -82,6 +82,7 @@ jobs:
                     </VirtualHost>
             - name: Setup apache2
               run: |
+                  sudo apt update
                   sudo apt install libapache2-mod-php
                   echo "export APACHE_RUN_USER=`id -un`" | sudo tee -a /etc/apache2/envvars
                   echo "export APACHE_RUN_GROUP=`id -gn`" | sudo tee -a /etc/apache2/envvars
@@ -91,8 +92,8 @@ jobs:
             -   name: Init database
                 run: |
                     sudo /etc/init.d/mysql start
-                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
-                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo5 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
+                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo6;'
+                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo6 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
                     php redaxo/bin/console config:set --type boolean debug.enabled true
                     php redaxo/bin/console config:set --type boolean debug.throw_always_exception true
 
@@ -118,10 +119,11 @@ jobs:
             -   name: Setup nodejs
                 uses: actions/setup-node@v4
                 with:
-                    node-version: 20
+                    node-version: 21
             -   name: Setup Webserver
                 run: |
-                    npm install puppeteer@21 pixelmatch pngjs fs mkdirp
+                    npm install playwright pixelmatch pngjs fs mkdirp
+                    npx playwright install --with-deps
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'

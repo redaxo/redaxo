@@ -366,7 +366,7 @@ if (true === $addon->getConfig('history', false)) {
             'STRUCTURE_CONTENT_HEADER',
             static function (rex_extension_point $ep) {
                 if ('content/edit' == $ep->getParam('page')) {
-                    $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [], '&');
+                    $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId());
                     if (str_starts_with($articleLink, 'http')) {
                         $user = rex::requireUser();
                         $userLogin = $user->getLogin();
@@ -385,9 +385,8 @@ if (true === $addon->getConfig('history', false)) {
                             [
                                 rex_history_login::class => $userLogin,
                                 'rex_history_session' => $userHistorySession,
-                                'rex_history_validtime' => $historyValidTime
+                                'rex_history_validtime' => $historyValidTime,
                             ],
-                            '&'
                         );
                     }
 

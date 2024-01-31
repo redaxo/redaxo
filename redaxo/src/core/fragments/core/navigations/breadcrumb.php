@@ -28,7 +28,7 @@ if (count($items) > 0) {
         }
 
         if (isset($item['href']) && '' != $item['href']) {
-            $listItem = '<a class="rex-link-expanded" href="' . $item['href'] . '">' . $listItem . '</a>';
+            $listItem = '<a class="rex-link-expanded" href="' . rex_escape($item['href']) . '">' . $listItem . '</a>';
         }
 
         $listItems[] = '<li>' . $listItem . '</li>';

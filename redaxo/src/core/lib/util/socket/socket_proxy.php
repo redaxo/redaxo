@@ -25,7 +25,7 @@ class rex_socket_proxy extends rex_socket
      *
      * @return $this Current socket
      */
-    public function setDestination($host, $port = 80, $ssl = false)
+    public function setDestination($host, $port = 443, $ssl = true)
     {
         $this->destinationHost = $host;
         $this->destinationPort = $port;

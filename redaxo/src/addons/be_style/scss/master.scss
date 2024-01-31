@@ -3,13 +3,18 @@ $top-popup-navbar-height: 50px;
 $helper-factor-spacing: 40px;
 
 @import "vendor/bootstrap/assets/stylesheets/bootstrap";
-@import "vendor/font-awesome/scss/font-awesome";
+
+@import "vendor/font-awesome/scss/fontawesome";
+@import "vendor/font-awesome/scss/brands";
+@import "vendor/font-awesome/scss/regular";
+@import "vendor/font-awesome/scss/solid";
+@import "vendor/font-awesome/scss/v4-shims";
 
 @import "scss/mixins/buttons";
 @import "scss/mixins/form";
 @import "scss/mixins/helper";
 
-@import "scss/base";
-@import "scss/helper";
-@import "scss/icon";
-@import "scss/mime";
+@import "scss/_base";
+@import "scss/_helper";
+@import "scss/_icon";
+@import "scss/_mime";

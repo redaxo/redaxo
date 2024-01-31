@@ -355,7 +355,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
     foreach (rex_be_controller::getPageObject('content')->getSubpages() as $subpage) {
         if (!$subpage->hasHref()) {
-            $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()], false));
+            $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()]));
         }
         // If the user has none of the content function permissions the page 'functions' will not be displayed
         if (

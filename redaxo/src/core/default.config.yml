@@ -2,6 +2,7 @@ setup: true
 debug:
     enabled: false
     throw_always_exception: false # `true` for all error levels, `[E_WARNING, E_NOTICE]` for subset
+safemode: false
 instname: null
 server: https://www.redaxo.org/
 servername: REDAXO
@@ -84,7 +85,7 @@ db:
         host: localhost
         login: root
         password: ''
-        name: redaxo5
+        name: redaxo6
         persistent: false
         ssl_key: null
         ssl_cert: null

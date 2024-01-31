@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.10.1 – XX.XX.2024
+---------------------------
+
+### Bugfixes
+
+* Bei Aufruf über Console wird `nexttime` nicht mehr beachtet (da überflüssig und problematisch) (@gharlan)
+
+
 Version 2.9.0 – 25.07.2022
 --------------------------
 

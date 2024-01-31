@@ -32,7 +32,7 @@ foreach ($this->buttons as $button) {
     $href = '';
     if (isset($button['url'])) {
         $tag = 'a';
-        $href = ' href="' . $button['url'] . '"';
+        $href = ' href="' . rex_escape($button['url']) . '"';
     }
     echo '<' . $tag . $href . rex_string::buildAttributes($button['attributes']) . '>' . $icon . $button['label'] . '</' . $tag . '>';
 }

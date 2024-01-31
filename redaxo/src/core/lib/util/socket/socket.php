@@ -61,7 +61,7 @@ class rex_socket
      * @param int    $port Port number
      * @param bool   $ssl  SSL flag
      */
-    protected function __construct($host, $port = 80, $ssl = false)
+    protected function __construct($host, $port = 443, $ssl = true)
     {
         $this->host = $host;
         $this->port = $port;
@@ -83,7 +83,7 @@ class rex_socket
      *
      * @see rex_socket::factoryUrl()
      */
-    public static function factory($host, $port = 80, $ssl = false)
+    public static function factory($host, $port = 443, $ssl = true)
     {
         if (self::class === static::class && ($proxy = rex::getProperty('socket_proxy'))) {
             return rex_socket_proxy::factoryUrl($proxy)->setDestination($host, $port, $ssl);
@@ -445,7 +445,7 @@ class rex_socket
     {
         $parts = parse_url($url);
         if (false !== $parts && !isset($parts['host']) && !str_starts_with($url, 'http')) {
-            $parts = parse_url('http://' . $url);
+            $parts = parse_url('https://' . $url);
         }
         if (false === $parts || !isset($parts['host'])) {
             throw new rex_socket_exception('It isn\'t possible to parse the URL "' . $url . '"!');

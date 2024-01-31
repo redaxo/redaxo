@@ -116,11 +116,11 @@ abstract class rex_error_handler
      */
     private static function renderWhoops($exception)
     {
-        $whoops = new \Whoops\Run();
+        $whoops = new Whoops\Run();
         $whoops->writeToOutput(false);
         $whoops->allowQuit(false);
 
-        $handler = new \Whoops\Handler\PrettyPageHandler();
+        $handler = new Whoops\Handler\PrettyPageHandler();
         $handler->setApplicationRootPath(rtrim(rex_path::base(), '/\\'));
 
         $handler->setEditor([rex_editor::factory(), 'getUrl']);
