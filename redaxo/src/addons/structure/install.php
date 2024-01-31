@@ -36,7 +36,6 @@ rex_sql_table::get(rex::getTable('article'))
     ->removeIndex('id')
     ->ensure();
 
-
 rex_sql_table::get(rex::getTable('article_slice'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
     ->ensureColumn(new rex_sql_column('article_id', 'int(10) unsigned'))
