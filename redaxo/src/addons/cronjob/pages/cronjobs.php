@@ -196,9 +196,6 @@ if ('' == $func) {
     }
     $activeType = $field->getValue();
 
-    // dump($types);
-    // dump($activeType);exit;
-
     if ('add' != $func && !in_array($activeType, $types)) {
         if (!$activeType && !$field->getValue()) {
             $warning = rex_i18n::rawMsg('cronjob_not_found');
