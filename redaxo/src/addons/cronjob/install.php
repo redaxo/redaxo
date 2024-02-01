@@ -14,4 +14,3 @@ rex_sql_table::get(rex::getTable('cronjob'))
     ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
     ->ensureGlobalColumns()
     ->ensure();
-
