@@ -45,8 +45,8 @@ if (rex::isBackend() && rex::getUser()) {
         rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
         rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
         rex_system_setting::register(new rex_system_setting_default_template_id());
-        rex_system_setting::register(new rex_system_setting_package_status('history'));
-        rex_system_setting::register(new rex_system_setting_package_status('version'));
+        rex_system_setting::register(new rex_system_setting_structure_package_status('history'));
+        rex_system_setting::register(new rex_system_setting_structure_package_status('version'));
     }
 }
 
