@@ -10,7 +10,8 @@
         "symfony/http-foundation": "^6.4.3",
         "symfony/var-dumper": "^6.4.3",
         "symfony/yaml": "^6.4.3",
-        "voku/anti-xss": "^4.1.42"
+        "voku/anti-xss": "^4.1.42",
+        "splitbrain/php-archive": "^1.3.1"
     },
 
     "replace": {

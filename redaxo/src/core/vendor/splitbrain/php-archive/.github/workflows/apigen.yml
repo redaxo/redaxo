@@ -1,0 +1,21 @@
+name: ApiGen
+
+on:
+  workflow_run:
+    workflows: ["Unit Tests"]
+    branches: [master]
+    types:
+      - completed
+
+jobs:
+  Document_Generator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 📝 ApiGen PHP Document Generator
+        uses: varunsridharan/action-apigen@2.1
+        with:
+          cached_apigen: 'no'
+          source_folder: 'src'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
