@@ -17,13 +17,13 @@ if (rex::getConsole()) {
     return;
 }
 
-$nexttime = $addon->getConfig('nexttime', 0);
+$nexttime = (int) $addon->getConfig('nexttime', 0);
 
-if (0 != $nexttime && time() >= $nexttime) {
+if (0 !== $nexttime && time() >= $nexttime) {
     $env = rex_cronjob_manager::getCurrentEnvironment();
     $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
     rex_extension::register($EP, static function () use ($env) {
-        if ('backend' !== $env || !in_array(rex_be_controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'])) {
+        if ('backend' !== $env || !in_array(rex_be_controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'], true)) {
             rex_cronjob_manager_sql::factory()->check();
         }
     });

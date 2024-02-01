@@ -39,6 +39,7 @@ abstract class rex_cronjob
     }
 
     /**
+     * @api
      * @param array<string, mixed> $params
      * @return void
      */
@@ -57,6 +58,7 @@ abstract class rex_cronjob
     }
 
     /**
+     * @api
      * @return array<string, mixed>
      */
     public function getParams()

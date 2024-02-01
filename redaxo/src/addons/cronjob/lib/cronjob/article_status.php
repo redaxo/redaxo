@@ -51,20 +51,20 @@ class rex_cronjob_article_status extends rex_cronjob
             WHERE
                 (     ' . $sql->escapeIdentifier($from['field']) . ' > 0
                 AND   ' . $sql->escapeIdentifier($from['field']) . ' < :time
-                AND   status IN (' . $sql->in($from['before']) . ')
+                AND   status IN (' . $sql->in([$from['before']]) . ')
                 AND   (' . $sql->escapeIdentifier($to['field']) . ' > :time OR ' . $sql->escapeIdentifier($to['field']) . ' = 0 OR ' . $sql->escapeIdentifier($to['field']) . ' = "")
                 )
             OR
                 (     ' . $sql->escapeIdentifier($to['field']) . ' > 0
                 AND   ' . $sql->escapeIdentifier($to['field']) . ' < :time
-                AND   status IN (' . $sql->in($to['before']) . ')
+                AND   status IN (' . $sql->in([$to['before']]) . ')
                 )',
             ['time' => $time],
         );
         $rows = $sql->getRows();
 
         for ($i = 0; $i < $rows; ++$i) {
-            if (in_array($sql->getValue('status'), $from['before'])) {
+            if (in_array($sql->getValue('status'), [$from['before']])) {
                 $status = $from['after'];
             } else {
                 $status = $to['after'];
