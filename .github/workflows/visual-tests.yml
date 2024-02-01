@@ -111,8 +111,6 @@ jobs:
                 run: |
                     php redaxo/bin/console package:install phpmailer --ansi
                     php redaxo/bin/console package:install cronjob --ansi
-                    php redaxo/bin/console package:install cronjob/article_status --ansi
-                    php redaxo/bin/console package:install cronjob/optimize_tables --ansi
                     php redaxo/bin/console package:install debug --ansi
                     php redaxo/bin/console package:install structure/history --ansi
                     php redaxo/bin/console package:install structure/version --ansi
