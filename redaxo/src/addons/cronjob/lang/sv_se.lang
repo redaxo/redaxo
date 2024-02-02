@@ -20,7 +20,7 @@ cronjob_description = Beskrivning
 cronjob_examples = Exempel
 
 cronjob_type = Typ
-cronjob_type_not_found = Cronjobb "{0}" kunde inte bearbetas eftersom klass "{1}" inte kunde hittas. Kolla om det tillhöriga AddOn/PlugIn:et är aktiverad.
+cronjob_type_not_found = Cronjobb "{0}" kunde inte bearbetas eftersom klass "{1}" inte kunde hittas. Kolla om det tillhöriga AddOn:et är aktiverad.
 cronjob_type_phpcode = PHP-kod
 cronjob_type_phpcallback = PHP-callback
 cronjob_type_urlrequest = URL-upprop
@@ -87,3 +87,9 @@ cronjob_log_caption_2 = Lista över senast utförda cronjobb
 cronjob_log_message = Meddelande
 
 cronjob_delete_log_msg = Radera Cronjob-Log?
+
+cronjob_article_status = Artikelstatus
+cronjob_article_reset_date = Rensa artikeldatumfält efter statusändring
+cronjob_article_reset_date_info = Med detta alternativ raderas "online_from" -datumet eller "online_to" -datumet i metadata för artikeln efter statusändringen.
+
+cronjob_optimize_tables = Tabelloptimering

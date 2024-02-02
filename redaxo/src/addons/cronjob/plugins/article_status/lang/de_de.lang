@@ -1,3 +1,0 @@
-cronjob_article_status = Artikel-Status
-cronjob_article_reset_date = Artikel-Datumsfelder nach Statusänderung leeren
-cronjob_article_reset_date_info = Mit dieser Option wird das "online_from"-Datum bzw. "online_to"-Datum<br>in den Metadaten des Artikels nach der Statusänderung gelöscht.

@@ -42,6 +42,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
+     * @api
      * @return bool
      */
     public function hasManager()
@@ -50,6 +51,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
+     * @api
      * @param string $message
      * @return void
      */
@@ -270,6 +272,9 @@ class rex_cronjob_manager_sql
     private function tryExecuteJob(array $job, $log = true, $resetExecutionStart = false)
     {
         $params = $job['parameters'] ? json_decode($job['parameters'], true) : [];
+        if (!is_array($params)) {
+            $params = [];
+        }
 
         /** @psalm-taint-escape callable */ // It is intended that the class name is coming from database
         $type = $job['type'];
