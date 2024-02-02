@@ -82,3 +82,14 @@ rex_sql_table::get(rex::getTable('user_session'))
     ->ensureForeignKey(new rex_sql_foreign_key(rex::getTable('user_session') . '_user_id', rex::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensureForeignKey(new rex_sql_foreign_key(rex::getTable('user_session') . '_passkey_id', rex::getTable('user_passkey'), ['passkey_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensure();
+
+# --------------- Users
+
+rex_sql_table::get(rex::getTable('user_role'))
+    ->ensurePrimaryIdColumn()
+    ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
+    ->ensureColumn(new rex_sql_column('description', 'text', true))
+    ->ensureColumn(new rex_sql_column('perms', 'text'))
+    ->ensureGlobalColumns()
+    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
+    ->ensure();

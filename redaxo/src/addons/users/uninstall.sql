@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS `%TABLE_PREFIX%user_role`;
