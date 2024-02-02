@@ -22,9 +22,6 @@ foreach ($files as $source => $destination) {
 }
 
 // ---------------------------------- Codemirror ----------------------------------
-// TODO
-
-$addon = rex_addon::get('be_style');
 
 /* Codemirror-Assets entpacken */
 $message = '';
@@ -44,13 +41,6 @@ try {
 } catch (Exception $e) {
     $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $path;
     $message .= '<br>' . $e->getMessage();
-}
-
-if (!$addon->hasConfig('codemirror_darktheme')) {
-    $addon->setConfig('codemirror_darktheme', 'dracula');
-}
-if (!$addon->hasConfig('codemirror-options')) {
-    $addon->setConfig('codemirror-options', '');
 }
 
 if ('' != $message) {
