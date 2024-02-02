@@ -26,7 +26,6 @@
         </testsuite>
         <testsuite name="structure">
             <directory suffix="_test.php">redaxo/src/addons/structure/tests</directory>
-            <directory suffix="_test.php">redaxo/src/addons/structure/plugins/content/tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

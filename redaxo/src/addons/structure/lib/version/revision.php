@@ -31,7 +31,7 @@ class rex_article_revision
         $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=? ORDER by ctype_id, priority', [$articleId, $clang, $fromRevisionId]);
 
         $cols = rex_sql::factory();
-        $cols->setquery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
+        $cols->setQuery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
         foreach ($gc as $slice) {
             $ins = rex_sql::factory();
             // $ins->setDebug();
