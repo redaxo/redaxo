@@ -24,7 +24,6 @@
 !/redaxo/src/addons/phpmailer/
 !/redaxo/src/addons/project/
 !/redaxo/src/addons/structure/
-!/redaxo/src/addons/users/
 
 # PhpStorm setting
 /.idea/*

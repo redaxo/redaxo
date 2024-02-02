@@ -24,7 +24,6 @@
         <directory name="redaxo/src/addons/phpmailer"/>
         <directory name="redaxo/src/addons/project"/>
         <directory name="redaxo/src/addons/structure"/>
-        <directory name="redaxo/src/addons/users"/>
         <ignoreFiles>
             <directory name="redaxo/src/addons/backup/vendor/" />
             <directory name="redaxo/src/addons/be_style/vendor/" />

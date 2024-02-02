@@ -52,7 +52,6 @@ return static function (RectorConfig $rectorConfig): void {
         'redaxo/src/addons/phpmailer/',
         'redaxo/src/addons/project/',
         'redaxo/src/addons/structure/',
-        'redaxo/src/addons/users/',
     ]);
 
     $rectorConfig->skip([
