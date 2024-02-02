@@ -71,6 +71,10 @@ if (rex::isBackend()) {
     rex_view::addJsFile($addon->getAssetsUrl('js/main.js'), [rex_view::JS_IMMUTABLE => true]);
 }
 
+if (rex::isSetup()) {
+    return;
+}
+
 // ---------------------------------- Codemirror ----------------------------------
 // TODO
 
