@@ -190,15 +190,39 @@ class rex_be_controller
             ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setSubPath(rex_path::core('pages/system.settings.php')))
             ->addSubpage((new rex_be_page('lang', rex_i18n::msg('languages')))->setSubPath(rex_path::core('pages/system.clangs.php')))
             ->addSubpage($logsPage)
-            ->addSubpage((new rex_be_page('report', rex_i18n::msg('system_report')))
+            ->addSubpage(
+                (new rex_be_page('report', rex_i18n::msg('system_report')))
                 ->addSubpage((new rex_be_page('html', rex_i18n::msg('system_report')))->setSubPath(rex_path::core('pages/system.report.html.php')))
                 ->addSubpage((new rex_be_page('markdown', rex_i18n::msg('system_report_markdown')))->setSubPath(rex_path::core('pages/system.report.markdown.php'))),
             )
-            ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
+            ->addSubpage(
+                (new rex_be_page('phpinfo', 'phpinfo'))
                 ->setHidden(true)
                 ->setHasLayout(false)
                 ->setPath(rex_path::core('pages/system.phpinfo.php')),
             );
+
+        // ---------- Backup
+        self::$pages['backup'] = (new rex_be_page_main('addons', 'backup', rex_i18n::msg('backup_title')))
+            ->setPath(rex_path::core('pages/backup.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(80)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-backup')
+            ->addSubpage(
+                (new rex_be_page('export', rex_i18n::msg('backup_export')))
+                    ->setSubPath(rex_path::core('pages/backup.export.php'))
+                    ->setRequiredPermissions('backup[export]')
+            )
+            ->addSubpage(
+                (new rex_be_page('import', rex_i18n::msg('backup_import')))
+                    ->addSubpage((new rex_be_page('upload', rex_i18n::msg('backup_upload')))
+                        ->setSubPath(rex_path::core('pages/backup.import.upload.php')))
+                    ->addSubpage((new rex_be_page('server', rex_i18n::msg('backup_load_from_server')))
+                        ->setSubPath(rex_path::core('pages/backup.import.server.php')))
+            )
+        ;
+
     }
 
     /**
@@ -261,7 +285,7 @@ class rex_be_controller
      *
      * @return null|rex_be_page
      */
-    private static function pageCreate($page, rex_package $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
+    private static function pageCreate($page, rex_package $package, $createMainPage, rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
     {
         if (is_array($page) && isset($page['title'])) {
             $pageArray = $page;
@@ -442,8 +466,6 @@ class rex_be_controller
 
     /**
      * Includes the sub-path of current page.
-     *
-     * @return mixed
      */
     public static function includeCurrentPageSubPath(array $context = [])
     {
@@ -479,8 +501,6 @@ class rex_be_controller
      * Includes a path in correct package context.
      *
      * @param string $path
-     *
-     * @return mixed
      */
     private static function includePath($path, array $context = [])
     {
