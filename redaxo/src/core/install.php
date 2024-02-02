@@ -83,9 +83,7 @@ rex_sql_table::get(rex::getTable('user_session'))
     ->ensureForeignKey(new rex_sql_foreign_key(rex::getTable('user_session') . '_passkey_id', rex::getTable('user_passkey'), ['passkey_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensure();
 
-
 // ----------- Cronjob
-
 
 // ----------- Backup
 // TODO: Cronjob muss vorher installiert sein
