@@ -28,6 +28,3 @@ if (0 !== $nexttime && time() >= $nexttime) {
         }
     });
 }
-
-rex_cronjob_manager::registerType(rex_cronjob_article_status::class);
-rex_cronjob_manager::registerType(rex_cronjob_optimize_tables::class);

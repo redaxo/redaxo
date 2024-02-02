@@ -14,6 +14,8 @@ class rex_cronjob_manager
         rex_cronjob_phpcode::class,
         rex_cronjob_phpcallback::class,
         rex_cronjob_urlrequest::class,
+        rex_cronjob_optimize_tables::class,
+        rex_cronjob_article_status::class,
     ];
 
     /** @var string */
