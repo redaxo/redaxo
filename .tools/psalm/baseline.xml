@@ -1693,12 +1693,60 @@
   </file>
   <file src="redaxo/src/addons/structure/boot.php">
     <MixedArgument>
+      <code>$articleId</code>
+      <code>$clangId</code>
       <code><![CDATA[$ep->getParam('clang')->getId()]]></code>
+      <code><![CDATA[$ep->getParam('file')]]></code>
+      <code><![CDATA[$version['history_date']]]></code>
     </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$version['history_date']]]></code>
+      <code><![CDATA[$version['history_date']]]></code>
+      <code><![CDATA[$version['history_date']]]></code>
+      <code><![CDATA[$version['history_date']]]></code>
+      <code><![CDATA[$version['history_user']]]></code>
+      <code><![CDATA[$version['history_user']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code>$article</code>
+      <code>$article</code>
+      <code>$articleId</code>
+      <code>$clangId</code>
+      <code>$content</code>
+      <code>$historyInfo</code>
+      <code>$sliceRevision</code>
+      <code>$version</code>
+    </MixedAssignment>
     <MixedMethodCall>
       <code>getId</code>
       <code>getId</code>
+      <code>getId</code>
+      <code>setEval</code>
     </MixedMethodCall>
+    <MixedOperand>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code><![CDATA[$ep->getParam('direction')]]></code>
+      <code><![CDATA[$version['history_date']]]></code>
+      <code><![CDATA[$version['history_user']]]></code>
+      <code>rex_escape($historyInfo)</code>
+      <code><![CDATA[rex_escape($version['history_date'])]]></code>
+    </MixedOperand>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$article->getValue('updatedate')]]></code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullReference>
+      <code>setIsActive</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/fragments/structure/history/layer.php">
+    <MixedArgument>
+      <code><![CDATA[$this->getVar('content1iframe')]]></code>
+      <code><![CDATA[$this->getVar('content1select')]]></code>
+      <code><![CDATA[$this->getVar('content2iframe')]]></code>
+      <code><![CDATA[$this->getVar('content2select')]]></code>
+    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/structure/lib/api_functions/api_article2category.php">
     <PossiblyNullReference>
@@ -1736,6 +1784,270 @@
       <code><![CDATA[rex_addon::get('structure')->getProperty('notfound_article_id', 1)]]></code>
       <code><![CDATA[rex_addon::get('structure')->getProperty('start_article_id', 1)]]></code>
     </MixedReturnStatement>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/api_module.php">
+    <MixedInferredReturnType>
+      <code><![CDATA[array<int, string>]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code>$mapping</code>
+    </MixedReturnStatement>
+    <MixedReturnTypeCoercion>
+      <code>$mapping</code>
+      <code>$mapping = rex_file::getCache($file)</code>
+    </MixedReturnTypeCoercion>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/api_template.php">
+    <MixedArgument>
+      <code>$templateId</code>
+    </MixedArgument>
+    <MixedArrayOffset>
+      <code>$templateModules[$ctype]</code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code>$categories</code>
+      <code>$categories</code>
+      <code>$templateModules</code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[array<int, string>]]></code>
+      <code>int</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code>$mapping</code>
+      <code><![CDATA[rex_config::get('structure/content', 'default_template_id', 1)]]></code>
+      <code><![CDATA[rex_config::get('structure/content', 'default_template_id', 1)]]></code>
+    </MixedReturnStatement>
+    <MixedReturnTypeCoercion>
+      <code>$mapping</code>
+      <code>$mapping = rex_file::getCache($file)</code>
+    </MixedReturnTypeCoercion>
+    <NullableReturnStatement>
+      <code><![CDATA[rex_config::get('structure/content', 'default_template_id', 1)]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/article_action.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->sql->getValue('link' . $id)]]></code>
+      <code><![CDATA[$this->sql->getValue('linklist' . $id)]]></code>
+      <code><![CDATA[$this->sql->getValue('media' . $id)]]></code>
+      <code><![CDATA[$this->sql->getValue('medialist' . $id)]]></code>
+      <code><![CDATA[$this->sql->getValue('value' . $id)]]></code>
+    </LessSpecificReturnStatement>
+    <MixedArgument>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$values[$i]</code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$this->event]]></code>
+      <code><![CDATA[$this->moduleId]]></code>
+      <code><![CDATA[$this->save]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+    </MixedOperand>
+    <MoreSpecificReturnType>
+      <code>string|null</code>
+      <code>string|null</code>
+      <code>string|null</code>
+      <code>string|null</code>
+      <code>string|null</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/article_content_base.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
+      <code><![CDATA[$template->getKey()]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/article_content_editor.php">
+    <MixedArgument>
+      <code>$templateCtypes</code>
+    </MixedArgument>
+    <MixedArrayOffset>
+      <code><![CDATA[$this->MODULESELECT[$ctId]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code>$ctId</code>
+      <code>$ctName</code>
+      <code>$templateCtypes</code>
+    </MixedAssignment>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$this->MODULESELECT]]></code>
+    </MixedPropertyTypeCoercion>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/article_slice.php">
+    <MixedInferredReturnType>
+      <code>(T is int ? string|null : int|string|null)</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->$index ?? null]]></code>
+      <code><![CDATA[$this->$index ?? null]]></code>
+    </MixedReturnStatement>
+    <PossiblyNullArgument>
+      <code><![CDATA[$data['link']]]></code>
+      <code><![CDATA[$data['linklist']]]></code>
+      <code><![CDATA[$data['media']]]></code>
+      <code><![CDATA[$data['medialist']]]></code>
+      <code><![CDATA[$data['value']]]></code>
+    </PossiblyNullArgument>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$data['link']]]></code>
+      <code><![CDATA[$data['linklist']]]></code>
+      <code><![CDATA[$data['media']]]></code>
+      <code><![CDATA[$data['medialist']]]></code>
+      <code><![CDATA[$data['value']]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/cache_template.php">
+    <ArgumentTypeCoercion>
+      <code>$content</code>
+    </ArgumentTypeCoercion>
+    <PossiblyNullArgument>
+      <code>$content</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/content_service.php">
+    <ArgumentTypeCoercion>
+      <code>$articleId</code>
+      <code>$articleId</code>
+      <code>$colname</code>
+      <code>$colname</code>
+      <code>$colname</code>
+      <code><![CDATA[$sql->getValue('article_id')]]></code>
+      <code><![CDATA[$sql->getValue('clang_id')]]></code>
+    </ArgumentTypeCoercion>
+    <InvalidArrayOffset>
+      <code>$maxPriority[$ctypeId]</code>
+    </InvalidArrayOffset>
+    <InvalidOperand>
+      <code><![CDATA[$CM->getValue('priority')]]></code>
+      <code><![CDATA[$CM->getValue('priority')]]></code>
+    </InvalidOperand>
+    <MixedArgument>
+      <code>$value</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code>$key</code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$data['revision']]]></code>
+      <code>$value</code>
+    </MixedAssignment>
+    <PossiblyNullArgument>
+      <code>$article</code>
+      <code>$article</code>
+      <code>$articleId</code>
+      <code>$articleId</code>
+      <code>$colname</code>
+      <code>$colname</code>
+      <code>$colname</code>
+      <code><![CDATA[$sql->getValue('article_id')]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayOffset>
+      <code>$ctypes</code>
+    </PossiblyNullArrayOffset>
+    <PossiblyNullOperand>
+      <code><![CDATA[$CM->getValue('priority')]]></code>
+      <code><![CDATA[$CM->getValue('priority')]]></code>
+    </PossiblyNullOperand>
+    <PossiblyNullReference>
+      <code>getCategoryId</code>
+      <code>getId</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/event_select.php">
+    <MixedArgument>
+      <code>$options</code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$key</code>
+      <code>$value</code>
+    </MixedAssignment>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/extension_point/slice_menu.php">
+    <MissingTemplateParam>
+      <code>rex_extension_point_slice_menu</code>
+    </MissingTemplateParam>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/select_template.php">
+    <InvalidArrayOffset>
+      <code>$templates[$selected]</code>
+      <code>$templates[$selected]</code>
+    </InvalidArrayOffset>
+    <MixedArgument>
+      <code>$templateName</code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$templateName</code>
+    </MixedAssignment>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/var_template.php">
+    <PossiblyFalseArgument>
+      <code>$tmpl</code>
+      <code>$tmpl</code>
+    </PossiblyFalseArgument>
+    <PossiblyInvalidArgument>
+      <code>$id</code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument>
+      <code>$tmpl</code>
+      <code>$tmpl</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/content/var_value.php">
+    <MixedArgument>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$value</code>
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code>getValue</code>
+    </MixedMethodCall>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/history/cronjob.php">
+    <MixedAssignment>
+      <code>$period</code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code>$period</code>
+      <code>$period</code>
+      <code>$period</code>
+    </MixedOperand>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/history/history_login.php">
+    <MixedArgument>
+      <code>$key1</code>
+      <code>$key2</code>
+    </MixedArgument>
+    <MixedOperand>
+      <code>$historyLogin</code>
+      <code>$historyValidtime</code>
+      <code>$login</code>
+      <code>$validtime</code>
+    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/structure/lib/linkmap/linkmap.php">
     <MixedArgument>
@@ -1938,6 +2250,9 @@
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/structure/lib/service_category.php">
+    <InvalidArrayOffset>
+      <code>$templates[$templateId]</code>
+    </InvalidArrayOffset>
     <MixedArgument>
       <code><![CDATA[$data['catname']]]></code>
       <code><![CDATA[$data['catname']]]></code>
@@ -1951,15 +2266,8 @@
       <code><![CDATA[$data['status']]]></code>
       <code>$id</code>
     </MixedArgument>
-    <MixedArrayOffset>
-      <code>$templates[$templateId]</code>
-    </MixedArrayOffset>
-    <MixedArrayTypeCoercion>
-      <code>$templates[$templateId]</code>
-    </MixedArrayTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$data['name']]]></code>
-      <code>$templateId</code>
     </MixedAssignment>
     <MixedInferredReturnType>
       <code>int</code>
@@ -2041,319 +2349,18 @@
       <code>$id</code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/addons/structure/pages/index.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$structureContext->getMountpoints()]]></code>
-      <code><![CDATA[$structureContext->getMountpoints()]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$tEMPLATENAME[$sql->getValue('template_id')]]]></code>
-      <code><![CDATA[$tEMPLATENAME[(int) $sql->getValue('template_id')]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code>$tmpl</code>
-      <code>$tmpl</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$tmpl</code>
-      <code>$tmpl</code>
-      <code>$tmpl</code>
-    </MixedOperand>
-    <NullOperand>
-      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catpriority'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catpriority'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catpriority'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
-    </NullOperand>
-    <PossiblyNullArrayOffset>
-      <code>$tEMPLATENAME</code>
-    </PossiblyNullArrayOffset>
-    <PossiblyNullOperand>
-      <code><![CDATA[$sql->getValue('id')]]></code>
-    </PossiblyNullOperand>
+  <file src="redaxo/src/addons/structure/lib/version/revision.php">
+    <NoValue>
+      <code>$fromRevisionId</code>
+    </NoValue>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/boot.php">
-    <MixedArgument>
-      <code><![CDATA[$ep->getParam('file')]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$content</code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code>getId</code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-    </MixedOperand>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$article->getValue('updatedate')]]></code>
-    </PossiblyInvalidArgument>
-    <PossiblyNullReference>
-      <code>setIsActive</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/api_module.php">
-    <MixedInferredReturnType>
-      <code><![CDATA[array<int, string>]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code>$mapping</code>
-    </MixedReturnStatement>
-    <MixedReturnTypeCoercion>
-      <code>$mapping</code>
-      <code>$mapping = rex_file::getCache($file)</code>
-    </MixedReturnTypeCoercion>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/api_template.php">
-    <MixedArgument>
-      <code>$templateId</code>
-    </MixedArgument>
-    <MixedArrayOffset>
-      <code>$templateModules[$ctype]</code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code>$categories</code>
-      <code>$categories</code>
-      <code>$templateModules</code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[array<int, string>]]></code>
-      <code>int</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code>$mapping</code>
-      <code><![CDATA[rex_config::get('structure/content', 'default_template_id', 1)]]></code>
-      <code><![CDATA[rex_config::get('structure/content', 'default_template_id', 1)]]></code>
-    </MixedReturnStatement>
-    <MixedReturnTypeCoercion>
-      <code>$mapping</code>
-      <code>$mapping = rex_file::getCache($file)</code>
-    </MixedReturnTypeCoercion>
-    <NullableReturnStatement>
-      <code><![CDATA[rex_config::get('structure/content', 'default_template_id', 1)]]></code>
-    </NullableReturnStatement>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/article_action.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->sql->getValue('link' . $id)]]></code>
-      <code><![CDATA[$this->sql->getValue('linklist' . $id)]]></code>
-      <code><![CDATA[$this->sql->getValue('media' . $id)]]></code>
-      <code><![CDATA[$this->sql->getValue('medialist' . $id)]]></code>
-      <code><![CDATA[$this->sql->getValue('value' . $id)]]></code>
-    </LessSpecificReturnStatement>
-    <MixedArgument>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$values[$i]</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$this->event]]></code>
-      <code><![CDATA[$this->moduleId]]></code>
-      <code><![CDATA[$this->save]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-    </MixedOperand>
-    <MoreSpecificReturnType>
-      <code>string|null</code>
-      <code>string|null</code>
-      <code>string|null</code>
-      <code>string|null</code>
-      <code>string|null</code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
-    <PossiblyFalseArgument>
-      <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
-    </PossiblyFalseArgument>
-    <PossiblyNullArgument>
-      <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
-      <code><![CDATA[$template->getKey()]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_editor.php">
-    <MixedArgument>
-      <code>$templateCtypes</code>
-    </MixedArgument>
-    <MixedArrayOffset>
-      <code><![CDATA[$this->MODULESELECT[$ctId]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code>$ctId</code>
-      <code>$ctName</code>
-      <code>$templateCtypes</code>
-    </MixedAssignment>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$this->MODULESELECT]]></code>
-    </MixedPropertyTypeCoercion>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/article_slice.php">
-    <MixedInferredReturnType>
-      <code>(T is int ? string|null : int|string|null)</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->$index ?? null]]></code>
-      <code><![CDATA[$this->$index ?? null]]></code>
-    </MixedReturnStatement>
-    <PossiblyNullArgument>
-      <code><![CDATA[$data['link']]]></code>
-      <code><![CDATA[$data['linklist']]]></code>
-      <code><![CDATA[$data['media']]]></code>
-      <code><![CDATA[$data['medialist']]]></code>
-      <code><![CDATA[$data['value']]]></code>
-    </PossiblyNullArgument>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$data['link']]]></code>
-      <code><![CDATA[$data['linklist']]]></code>
-      <code><![CDATA[$data['media']]]></code>
-      <code><![CDATA[$data['medialist']]]></code>
-      <code><![CDATA[$data['value']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/cache_template.php">
-    <ArgumentTypeCoercion>
-      <code>$content</code>
-    </ArgumentTypeCoercion>
-    <PossiblyNullArgument>
-      <code>$content</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/content_service.php">
-    <ArgumentTypeCoercion>
-      <code>$articleId</code>
-      <code>$articleId</code>
-      <code>$colname</code>
-      <code>$colname</code>
-      <code>$colname</code>
-      <code><![CDATA[$sql->getValue('article_id')]]></code>
-      <code><![CDATA[$sql->getValue('clang_id')]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidArrayOffset>
-      <code>$maxPriority[$ctypeId]</code>
-    </InvalidArrayOffset>
-    <InvalidOperand>
-      <code><![CDATA[$CM->getValue('priority')]]></code>
-      <code><![CDATA[$CM->getValue('priority')]]></code>
-    </InvalidOperand>
-    <MixedArgument>
-      <code>$value</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code>$key</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$data['revision']]]></code>
-      <code>$value</code>
-    </MixedAssignment>
-    <PossiblyNullArgument>
-      <code>$article</code>
-      <code>$article</code>
-      <code>$articleId</code>
-      <code>$articleId</code>
-      <code>$colname</code>
-      <code>$colname</code>
-      <code>$colname</code>
-      <code><![CDATA[$sql->getValue('article_id')]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullArrayOffset>
-      <code>$ctypes</code>
-    </PossiblyNullArrayOffset>
-    <PossiblyNullOperand>
-      <code><![CDATA[$CM->getValue('priority')]]></code>
-      <code><![CDATA[$CM->getValue('priority')]]></code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference>
-      <code>getCategoryId</code>
-      <code>getId</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/event_select.php">
-    <MixedArgument>
-      <code>$options</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$key</code>
-      <code>$value</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/extension_point/slice_menu.php">
-    <MissingTemplateParam>
-      <code>rex_extension_point_slice_menu</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/select_template.php">
-    <InvalidArrayOffset>
-      <code>$templates[$selected]</code>
-      <code>$templates[$selected]</code>
-    </InvalidArrayOffset>
-    <MixedArgument>
-      <code>$templateName</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$templateName</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/var_template.php">
-    <PossiblyFalseArgument>
-      <code>$tmpl</code>
-      <code>$tmpl</code>
-    </PossiblyFalseArgument>
-    <PossiblyInvalidArgument>
-      <code>$id</code>
-    </PossiblyInvalidArgument>
-    <PossiblyNullArgument>
-      <code>$tmpl</code>
-      <code>$tmpl</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/var_value.php">
-    <MixedArgument>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$value</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code>getValue</code>
-    </MixedMethodCall>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/pages/content.edit.php">
+  <file src="redaxo/src/addons/structure/pages/content.edit.php">
     <PossiblyNullPropertyAssignmentValue>
       <code>$info</code>
       <code>$warning</code>
     </PossiblyNullPropertyAssignmentValue>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/pages/content.functions.php">
+  <file src="redaxo/src/addons/structure/pages/content.functions.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$article->getValue('parent_id')]]></code>
       <code><![CDATA[$article->getValue('parent_id')]]></code>
@@ -2378,7 +2385,7 @@
       <code>getName</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/pages/content.php">
+  <file src="redaxo/src/addons/structure/pages/content.php">
     <ArgumentTypeCoercion>
       <code>$moduleId</code>
     </ArgumentTypeCoercion>
@@ -2419,7 +2426,39 @@
       <code>getSubpages</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/pages/modules.actions.php">
+  <file src="redaxo/src/addons/structure/pages/index.php">
+    <InvalidArrayOffset>
+      <code><![CDATA[$tEMPLATENAME[$sql->getValue('template_id')]]]></code>
+    </InvalidArrayOffset>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$structureContext->getMountpoints()]]></code>
+      <code><![CDATA[$structureContext->getMountpoints()]]></code>
+    </MixedArgumentTypeCoercion>
+    <NullOperand>
+      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
+      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
+      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
+      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
+      <code><![CDATA[rex_escape($KAT->getValue('catpriority'))]]></code>
+      <code><![CDATA[rex_escape($KAT->getValue('catpriority'))]]></code>
+      <code><![CDATA[rex_escape($KAT->getValue('catpriority'))]]></code>
+      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
+      <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
+      <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
+    </NullOperand>
+    <PossiblyNullArrayOffset>
+      <code>$tEMPLATENAME</code>
+    </PossiblyNullArrayOffset>
+    <PossiblyNullOperand>
+      <code><![CDATA[$sql->getValue('id')]]></code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/addons/structure/pages/modules.actions.php">
     <ArgumentTypeCoercion>
       <code>$actionName</code>
     </ArgumentTypeCoercion>
@@ -2475,7 +2514,7 @@
       <code><![CDATA[$sql->getValue('previewmode')]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/pages/modules.modules.php">
+  <file src="redaxo/src/addons/structure/pages/modules.modules.php">
     <ArgumentTypeCoercion>
       <code>$aid</code>
       <code>$clangId</code>
@@ -2514,7 +2553,7 @@
       <code>getName</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/pages/templates.php">
+  <file src="redaxo/src/addons/structure/pages/templates.php">
     <ArgumentTypeCoercion>
       <code>$templatename</code>
     </ArgumentTypeCoercion>
@@ -2546,12 +2585,12 @@
       <code>$templatename</code>
     </PossiblyNullArgument>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/tests/article_content_test.php">
+  <file src="redaxo/src/addons/structure/tests/article_content_test.php">
     <MixedArgument>
       <code><![CDATA[$classVarsProperty->getValue()]]></code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/tests/article_slice_test.php">
+  <file src="redaxo/src/addons/structure/tests/article_slice_test.php">
     <PossiblyNullReference>
       <code>getId</code>
       <code>getId</code>
@@ -2560,75 +2599,6 @@
       <code>getNextSlice</code>
       <code>getPreviousSlice</code>
     </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/history/boot.php">
-    <MixedArgument>
-      <code>$articleId</code>
-      <code>$clangId</code>
-      <code><![CDATA[$version['history_date']]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$version['history_date']]]></code>
-      <code><![CDATA[$version['history_date']]]></code>
-      <code><![CDATA[$version['history_date']]]></code>
-      <code><![CDATA[$version['history_date']]]></code>
-      <code><![CDATA[$version['history_user']]]></code>
-      <code><![CDATA[$version['history_user']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code>$article</code>
-      <code>$article</code>
-      <code>$articleId</code>
-      <code>$clangId</code>
-      <code>$historyInfo</code>
-      <code>$sliceRevision</code>
-      <code>$version</code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code>setEval</code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$ep->getParam('direction')]]></code>
-      <code><![CDATA[$version['history_date']]]></code>
-      <code><![CDATA[$version['history_user']]]></code>
-      <code>rex_escape($historyInfo)</code>
-      <code><![CDATA[rex_escape($version['history_date'])]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php">
-    <MixedArgument>
-      <code><![CDATA[$this->getVar('content1iframe')]]></code>
-      <code><![CDATA[$this->getVar('content1select')]]></code>
-      <code><![CDATA[$this->getVar('content2iframe')]]></code>
-      <code><![CDATA[$this->getVar('content2select')]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/history/lib/cronjob.php">
-    <MixedAssignment>
-      <code>$period</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$period</code>
-      <code>$period</code>
-      <code>$period</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/history/lib/history_login.php">
-    <MixedArgument>
-      <code>$key1</code>
-      <code>$key2</code>
-    </MixedArgument>
-    <MixedOperand>
-      <code>$historyLogin</code>
-      <code>$historyValidtime</code>
-      <code>$login</code>
-      <code>$validtime</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/version/lib/revision.php">
-    <NoValue>
-      <code>$fromRevisionId</code>
-    </NoValue>
   </file>
   <file src="redaxo/src/addons/structure/tests/article_test.php">
     <MixedArgument>
