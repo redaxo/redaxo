@@ -20,7 +20,7 @@ cronjob_description = Beschreibung
 cronjob_examples = Beispiele
 
 cronjob_type = Typ
-cronjob_type_not_found = Cronjob "{0}" kann nicht bearbeitet werden, da die Klasse "{1}" nicht gefunden wurde. Prüfen Sie, ob das zugehörige AddOn/PlugIn aktiviert ist!
+cronjob_type_not_found = Cronjob "{0}" kann nicht bearbeitet werden, da die Klasse "{1}" nicht gefunden wurde. Prüfen Sie, ob das zugehörige AddOn aktiviert ist!
 cronjob_type_phpcode = PHP-Code
 cronjob_type_phpcallback = PHP-Callback
 cronjob_type_urlrequest = URL-Aufruf
@@ -87,3 +87,9 @@ cronjob_log_caption_2 = Liste der zuletzt ausgeführten Cronjobs
 cronjob_log_message = Meldung
 
 cronjob_delete_log_msg = Das Cronjob-Log löschen?
+
+cronjob_article_status = Artikel-Status
+cronjob_article_reset_date = Artikel-Datumsfelder nach Statusänderung leeren
+cronjob_article_reset_date_info = Mit dieser Option wird das "online_from"-Datum bzw. "online_to"-Datum<br>in den Metadaten des Artikels nach der Statusänderung gelöscht.
+
+cronjob_optimize_tables = Tabellen-Optimierung

@@ -240,7 +240,7 @@ if ('' == $func) {
 
         $params = $cronjob->getParamFields();
 
-        if (!is_array($params) || empty($params)) {
+        if (empty($params)) {
             $field = $fieldContainer->addGroupedField($group, 'readonly', 'noparams', $addon->i18n('type_no_parameters'));
             $field->setLabel('&nbsp;');
         } else {

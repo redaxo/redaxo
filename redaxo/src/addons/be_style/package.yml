@@ -11,6 +11,26 @@ console_commands:
     be_style:compile: rex_be_style_command_compile
     styles:compile: rex_be_style_command_compile
 
+pages:
+    system/customizer:
+        title: 'translate:customizer'
+        icon: rex-icon rex-icon-customizer
+        perm: admin[]
+        pjax: true
+
 requires:
-    php: '>=8.1'
     redaxo: ^6.0.0-dev
+    php:
+        version: '>=8.1'
+        extensions: [zip]
+
+default_config:
+    labelcolor: '#3bb594'
+    codemirror_theme: 'eclipse'
+    codemirror_darktheme: 'dracula'
+    codemirror-selectors: ''
+    codemirror-options: ''
+    codemirror: 1
+    codemirror-langs: 0
+    codemirror-tools: 0
+    showlink: 1
