@@ -14,6 +14,26 @@ page:
     icon: rex-icon rex-icon-open-category
 
 pages:
+    content:
+        title: translate:content
+        main: true
+        block: system
+        hidden: true
+        perm: structure/hasStructurePerm
+        pjax: false
+        subpages:
+            edit: { title: translate:edit_mode, icon: rex-icon rex-icon-editmode, itemAttr: { left: true } }
+            functions: { title: translate:metafuncs, icon: rex-icon rex-icon-metafuncs }
+    content/history:
+        title: ' '
+        hidden: true
+        icon: 'fa fa-history'
+        href: '#'
+        itemAttr:
+            left: true
+        linkAttr:
+            data-history-layer: open
+        perm: history[article_rollback]
     linkmap:
         title: translate:linkmap
         main: true
@@ -22,13 +42,39 @@ pages:
         hidden: true
         perm: structure/hasStructurePerm
         pjax: true
-
-system_plugins: [content]
+    modules:
+        title: translate:modules
+        main: true
+        block: system
+        prio: 40
+        perm: admin
+        pjax: true
+        icon: rex-icon rex-icon-module
+        subpages:
+            modules: { title: translate:modules }
+            actions: { title: translate:actions }
+    system/history:
+        title: translate:structure_history
+        hidden: true
+    templates:
+        title: translate:templates
+        main: true
+        block: system
+        prio: 30
+        perm: admin
+        pjax: true
+        icon: rex-icon rex-icon-template
 
 requires:
     php: '>=8.1'
     redaxo: ^6.0.0-dev
 
+conflicts:
+    packages:
+        bloecks: '<3'
+
 default_config:
     start_article_id: 1
     notfound_article_id: 1
+    history: false
+    version: false

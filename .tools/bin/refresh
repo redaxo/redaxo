@@ -26,9 +26,6 @@ mediapool
 metainfo
 phpmailer
 structure
-structure/content
-structure/history
-structure/version
 users
 "
 
