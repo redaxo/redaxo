@@ -7,7 +7,7 @@ if ('' != rex_post('btn_save', 'string')) {
     // set config
 
     $newConfig = rex_post('settings', 'array');
-    $tempConfig = rex_plugin::get('be_style', 'customizer')->getConfig();
+    $tempConfig = rex_addon::get('be_style')->getConfig();
 
     $tempConfig['codemirror'] = 0;
     if (isset($newConfig['codemirror']) && 1 == $newConfig['codemirror']) {
@@ -56,7 +56,7 @@ if ('' != rex_post('btn_save', 'string')) {
     }
 
     // save config
-    if (rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
+    if (rex_addon::get('be_style')->setConfig($tempConfig)) {
         $success = rex_i18n::msg('customizer_config_updated');
     } else {
         $error = rex_i18n::msg('customizer_config_update_failed');
@@ -68,7 +68,7 @@ if ('' != rex_post('btn_save', 'string')) {
 // load config
 
 /** @var array{codemirror_theme: string, codemirror_darktheme: string, codemirror-selectors: string, codemirror-options: string, codemirror: int, codemirror-langs: int, codemirror-tools: int, labelcolor: string, showlink: int, codemirror-autoresize?: bool} $config */
-$config = rex_plugin::get('be_style', 'customizer')->getConfig();
+$config = rex_addon::get('be_style')->getConfig();
 
 if (!isset($config['codemirror_darktheme'])) {
     $config['codemirror_darktheme'] = $config['codemirror_theme'];
@@ -91,8 +91,8 @@ if (!isset($config['codemirror-options'])) {
 
 // build elements
 
-$plugin = rex_plugin::get('be_style', 'customizer');
-$curDir = $plugin->getAssetsUrl('vendor/');
+$addon = rex_addon::get('be_style');
+$curDir = $addon->getAssetsUrl('vendor/');
 
 $themes = [];
 foreach (glob($curDir . '/codemirror/theme/*.css') as $filename) {

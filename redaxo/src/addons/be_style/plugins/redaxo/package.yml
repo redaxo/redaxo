@@ -1,8 +1,0 @@
-package: be_style/redaxo
-version: '4.0.0-dev'
-author: 'Ralph Zumkeller, Thomas Blum'
-supportpage: https://github.com/redaxo/redaxo
-compile: 0
-
-requires:
-    redaxo: ^6.0.0-dev

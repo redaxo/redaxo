@@ -94,43 +94,23 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/addons/be_style/boot.php">
-    <MixedArrayAssignment>
-      <code>$subject[]</code>
-    </MixedArrayAssignment>
     <MixedAssignment>
-      <code>$subject</code>
+      <code>$themeColor</code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/be_style/lib/scss_compiler.php">
-    <MixedOperand>
-      <code>$path</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/be_style/plugins/customizer/boot.php">
     <MixedOperand>
       <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
       <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
+      <code><![CDATA[$ep->getSubject()]]></code>
+      <code>$themeColor</code>
     </MixedOperand>
     <PossiblyNullOperand>
       <code>rex_file::get($filename)</code>
       <code>rex_file::get($filename)</code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/addons/be_style/plugins/redaxo/boot.php">
-    <MixedArgument>
-      <code>$subject</code>
-    </MixedArgument>
-    <MixedArrayAssignment>
-      <code>$subject[]</code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code>$subject</code>
-      <code>$subject</code>
-      <code>$themeColor</code>
-    </MixedAssignment>
+  <file src="redaxo/src/addons/be_style/lib/scss_compiler.php">
     <MixedOperand>
-      <code><![CDATA[$ep->getSubject()]]></code>
-      <code>$themeColor</code>
+      <code>$path</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/command/run.php">

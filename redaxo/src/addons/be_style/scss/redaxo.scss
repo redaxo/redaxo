@@ -1,8 +1,8 @@
 
-@import "../../../vendor/bootstrap/assets/stylesheets/bootstrap/_mixins";
-@import "../../../scss/mixins/buttons";
-@import "../../../scss/mixins/form";
-@import "../../../scss/mixins/helper";
+@import "../vendor/bootstrap/assets/stylesheets/bootstrap/_mixins";
+@import "mixins/buttons";
+@import "mixins/form";
+@import "mixins/helper";
 
 
 @import "reset";

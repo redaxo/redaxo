@@ -1,6 +1,22 @@
 <?php
 
-$content = rex_file::getOutput(rex_path::plugin('be_style', 'redaxo', 'assets/css/styles.css'));
+/**
+ * Page Content Addon.
+ *
+ * @author thiel[dot]peter[at]googlemail[dot]com Peter Thiel
+ */
+
+?>
+<h3>Backend Style Addon - Customizer</h3>
+
+<p>
+    Customizer bindet den Editor CodeMirror Version 5.65.5 (<a target="_blank" rel="noreferrer noopener" href="https://codemirror.net/">https://codemirror.net/</a>) ein.
+</p>
+
+
+<?php
+
+$content = rex_file::getOutput(rex_path::addon('be_style', 'assets/css/styles.css'));
 
 preg_match_all('@\.rex-icon-(\w+):before@im', $content, $matches, PREG_SET_ORDER);
 
