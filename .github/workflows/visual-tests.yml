@@ -112,8 +112,6 @@ jobs:
                     php redaxo/bin/console package:install phpmailer --ansi
                     php redaxo/bin/console package:install cronjob --ansi
                     php redaxo/bin/console package:install debug --ansi
-                    php redaxo/bin/console package:install structure/history --ansi
-                    php redaxo/bin/console package:install structure/version --ansi
 
             -   name: Setup nodejs
                 uses: actions/setup-node@v4

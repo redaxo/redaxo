@@ -72,9 +72,6 @@
             "redaxo/src/addons/phpmailer/lib/",
             "redaxo/src/addons/phpmailer/vendor/",
             "redaxo/src/addons/structure/lib/",
-            "redaxo/src/addons/structure/plugins/content/lib/",
-            "redaxo/src/addons/structure/plugins/history/lib/",
-            "redaxo/src/addons/structure/plugins/version/lib/",
             "redaxo/src/addons/users/lib/",
             "redaxo/src/core/lib/"
         ],
@@ -94,7 +91,6 @@
             "redaxo/src/addons/media_manager/tests/",
             "redaxo/src/addons/mediapool/tests/",
             "redaxo/src/addons/structure/tests/",
-            "redaxo/src/addons/structure/plugins/content/tests/",
             "redaxo/src/core/tests/"
         ]
     },

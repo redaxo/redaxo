@@ -37,16 +37,14 @@ class rex_article_service
             $path = '|';
         }
 
-        if (rex_plugin::get('structure', 'content')->isAvailable()) {
-            $templates = rex_template::getTemplatesForCategory($data['category_id']);
+        $templates = rex_template::getTemplatesForCategory($data['category_id']);
 
-            // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
-            // oder leer setzen.
-            if (!isset($templates[$data['template_id']])) {
-                $data['template_id'] = 0;
-                if (count($templates) > 0) {
-                    $data['template_id'] = key($templates);
-                }
+        // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
+        // oder leer setzen.
+        if (!isset($templates[$data['template_id']])) {
+            $data['template_id'] = 0;
+            if (count($templates) > 0) {
+                $data['template_id'] = key($templates);
             }
         }
 
@@ -138,16 +136,14 @@ class rex_article_service
         $ooArt = rex_article::get($articleId, $clang);
         $data['category_id'] = $ooArt->getCategoryId();
 
-        if (rex_plugin::get('structure', 'content')->isAvailable()) {
-            $templates = rex_template::getTemplatesForCategory($data['category_id']);
+        $templates = rex_template::getTemplatesForCategory($data['category_id']);
 
-            // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
-            // oder leer setzen.
-            if (!isset($templates[$data['template_id']])) {
-                $data['template_id'] = 0;
-                if (count($templates) > 0) {
-                    $data['template_id'] = key($templates);
-                }
+        // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
+        // oder leer setzen.
+        if (!isset($templates[$data['template_id']])) {
+            $data['template_id'] = 0;
+            if (count($templates) > 0) {
+                $data['template_id'] = key($templates);
             }
         }
 
