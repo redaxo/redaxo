@@ -318,15 +318,12 @@ $echo = '';
 
 $templateSelect = new rex_template_select($categoryId, $clang);
 if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCategoryId() && !$user->getComplexPerm('structure')->hasMountpoints())) {
-    $tmplHead = '';
     $templateSelect->setName('template_id');
     $templateSelect->setSize(1);
     $templateSelect->setStyle('class="form-control selectpicker"');
 
     $tEMPLATENAME = $templateSelect->getTemplates();
     $tEMPLATENAME[0] = rex_i18n::msg('template_default_name');
-
-    $tmplHead = '<th class="rex-table-template">' . rex_i18n::msg('header_template') . '</th>';
 
     // --------------------- ARTIKEL LIST
     $artAddLink = '';
@@ -396,7 +393,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                         <th class="rex-table-icon">' . $artAddLink . '</th>
                         <th class="rex-table-id">' . rex_i18n::msg('header_id') . '</th>
                         <th class="rex-table-article-name">' . rex_i18n::msg('header_article_name') . '</th>
-                        ' . $tmplHead . '
+                        <th class="rex-table-template">' . rex_i18n::msg('header_template') . '</th>
                         <th class="rex-table-date">' . rex_i18n::msg('header_date') . '</th>
                         <th class="rex-table-priority">' . rex_i18n::msg('header_priority') . '</th>
                         <th class="rex-table-action" colspan="3">' . rex_i18n::msg('header_status') . '</th>
@@ -429,7 +426,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             <td>&nbsp;</td>
             <td></td>
             <td></td>
-            ' . ('' !== $tmplHead ? '<td></td>' : '') . '
+            <td></td>
             <td></td>
             <td></td>
             <td colspan="' . $colspan . '"></td>
