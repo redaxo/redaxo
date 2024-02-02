@@ -113,15 +113,6 @@
       <code>$path</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/addons/cronjob/boot.php">
-    <MixedArgument>
-      <code>$type</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$nexttime</code>
-      <code>$type</code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/addons/cronjob/lib/command/run.php">
     <MixedArgument>
       <code>$id</code>
@@ -137,6 +128,11 @@
       <code>$id</code>
       <code>$name</code>
     </MixedAssignment>
+  </file>
+  <file src="redaxo/src/addons/cronjob/lib/cronjob/article_status.php">
+    <PossiblyNullOperand>
+      <code>$rows</code>
+    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/form.php">
     <MixedArgument>
@@ -218,7 +214,6 @@
       <code><![CDATA[$this->sql->getValue('name')]]></code>
     </LessSpecificReturnStatement>
     <MixedArgument>
-      <code>$params</code>
       <code>$status</code>
       <code>$value</code>
       <code>json_decode($interval, true)</code>
@@ -340,22 +335,6 @@
       <code>$envFieldId</code>
       <code>$typeFieldId</code>
       <code><![CDATA[rex_escape($field->getAttribute('id'), 'js')]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/cronjob/plugins/article_status/lib/cronjob.php">
-    <MixedArgument>
-      <code>$status</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$from['before']]]></code>
-      <code><![CDATA[$to['before']]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code>$status</code>
-      <code>$status</code>
-    </MixedAssignment>
-    <PossiblyNullOperand>
-      <code>$rows</code>
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/debug/boot.php">
