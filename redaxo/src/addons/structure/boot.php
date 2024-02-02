@@ -246,16 +246,11 @@ if (true === $addon->getConfig('history', false)) {
 
                 $sliceDate = ' AND ' . rex::getTablePrefix() . 'article_slice.history_date = ' . $escapeSql->escape($historyDate);
 
-                return 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix(
-                ) . 'module.key,' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix(
-                ) . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix(
-                ) . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
+                return 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.key,' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
                     FROM
                         ' . rex_article_slice_history::getTable() . ' as ' . rex::getTablePrefix() . 'article_slice
-                    LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix(
-                ) . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
-                    LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix(
-                ) . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
+                    LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
+                    LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix() . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
                     WHERE
                         ' . rex::getTablePrefix() . "article_slice.clang_id='" . $article->getClangId() . "' AND
                         " . rex::getTablePrefix() . "article.clang_id='" . $article->getClangId() . "' AND
@@ -470,12 +465,7 @@ if (true === $addon->getConfig('version', false)) {
                         rex_article_slice_history::makeSnapshot($articleId, $clangId, 'work_to_live');
                     }
 
-                    rex_article_revision::copyContent(
-                        $articleId,
-                        $clangId,
-                        rex_article_revision::WORK,
-                        rex_article_revision::LIVE,
-                    );
+                    rex_article_revision::copyContent($articleId, $clangId, rex_article_revision::WORK, rex_article_revision::LIVE);
                     $return .= rex_view::success(rex_i18n::msg('version_info_working_version_to_live'));
 
                     $article = rex_type::instanceOf(rex_article::get($articleId, $clangId), rex_article::class);
