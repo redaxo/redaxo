@@ -212,14 +212,14 @@ class rex_be_controller
             ->addSubpage(
                 (new rex_be_page('export', rex_i18n::msg('backup_export')))
                     ->setSubPath(rex_path::core('pages/backup.export.php'))
-                    ->setRequiredPermissions('backup[export]')
+                    ->setRequiredPermissions('backup[export]'),
             )
             ->addSubpage(
                 (new rex_be_page('import', rex_i18n::msg('backup_import')))
                     ->addSubpage((new rex_be_page('upload', rex_i18n::msg('backup_upload')))
                         ->setSubPath(rex_path::core('pages/backup.import.upload.php')))
                     ->addSubpage((new rex_be_page('server', rex_i18n::msg('backup_load_from_server')))
-                        ->setSubPath(rex_path::core('pages/backup.import.server.php')))
+                        ->setSubPath(rex_path::core('pages/backup.import.server.php'))),
             )
         ;
 

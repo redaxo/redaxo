@@ -41,7 +41,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
         // restrict to core and core addons, ignore other locally installed addons
         'redaxo/src/core/',
-        'redaxo/src/addons/backup/',
         'redaxo/src/addons/be_style/',
         'redaxo/src/addons/cronjob/',
         'redaxo/src/addons/debug/',
@@ -57,7 +56,6 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         'redaxo/src/core/vendor',
-        'redaxo/src/addons/backup/vendor',
         'redaxo/src/addons/be_style/vendor',
         'redaxo/src/addons/debug/vendor',
         'redaxo/src/addons/phpmailer/vendor',

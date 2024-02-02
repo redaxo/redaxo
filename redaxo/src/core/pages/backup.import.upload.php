@@ -66,7 +66,7 @@ if ($function && !$csrfToken->isValid()) {
                 rex_file::delete($fileTemp);
             }
         } else {
-            $error = rex_i18n::msg('backup_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('backup_you_have_no_write_permission_in', 'data/addons/backup/') . ' <br>';
+            $error = rex_i18n::msg('backup_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('backup_you_have_no_write_permission_in', 'data/core/backup/') . ' <br>';
         }
     }
 } elseif ('fileimport' == $function) {
@@ -94,7 +94,7 @@ if ($function && !$csrfToken->isValid()) {
                 rex_file::delete($fileTemp);
             }
         } else {
-            $error = rex_i18n::msg('backup_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('backup_you_have_no_write_permission_in', 'data/addons/backup/') . ' <br>';
+            $error = rex_i18n::msg('backup_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('backup_you_have_no_write_permission_in', 'data/core/backup/') . ' <br>';
         }
     }
 }

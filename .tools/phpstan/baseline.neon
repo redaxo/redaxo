@@ -3,7 +3,7 @@ parameters:
 		-
 			message: "#^Method rex_cronjob_export\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../redaxo/src/addons/backup/lib/cronjob.php
+			path: ../../redaxo/src/core/addons/backup/lib/cronjob.php
 
 		-
 			message: "#^Method rex_command_cronjob_run\\:\\:executeSingleJob\\(\\) has parameter \\$id with no type specified\\.$#"
