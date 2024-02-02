@@ -285,7 +285,7 @@ class rex_be_controller
      *
      * @return null|rex_be_page
      */
-    private static function pageCreate($page, rex_package $package, $createMainPage, rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
+    private static function pageCreate($page, rex_package $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
     {
         if (is_array($page) && isset($page['title'])) {
             $pageArray = $page;
