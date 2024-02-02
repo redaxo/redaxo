@@ -212,11 +212,11 @@ class rex_be_controller
             ->addSubpage(
                 (new rex_be_page('roles', rex_i18n::msg('roles')))
                     ->setSubPath(rex_path::core('pages/users.roles.php'))
-                    ->setRequiredPermissions('isAdmin')
+                    ->setRequiredPermissions('isAdmin'),
             )
             ->addSubpage(
                 (new rex_be_page('users', rex_i18n::msg('users')))
-                    ->setSubPath(rex_path::core('pages/users.users.php'))
+                    ->setSubPath(rex_path::core('pages/users.users.php')),
             )
         ;
     }
@@ -281,7 +281,7 @@ class rex_be_controller
      *
      * @return null|rex_be_page
      */
-    private static function pageCreate($page, rex_package $package, $createMainPage, rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
+    private static function pageCreate($page, rex_package $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
     {
         if (is_array($page) && isset($page['title'])) {
             $pageArray = $page;

@@ -18,7 +18,6 @@ $finder = PhpCsFixer\Finder::create()
         $src . '/addons/phpmailer',
         $src . '/addons/project',
         $src . '/addons/structure',
-        $src . '/addons/users',
         $tools,
     ])
     ->append([

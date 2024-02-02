@@ -77,7 +77,6 @@
             "redaxo/src/addons/structure/plugins/content/lib/",
             "redaxo/src/addons/structure/plugins/history/lib/",
             "redaxo/src/addons/structure/plugins/version/lib/",
-            "redaxo/src/addons/users/lib/",
             "redaxo/src/core/lib/"
         ],
         "files": [
