@@ -244,9 +244,7 @@ if (true === $addon->getConfig('history', false)) {
 
                 $escapeSql = rex_sql::factory();
 
-                $sliceDate = ' AND ' . rex::getTablePrefix() . 'article_slice.history_date = ' . $escapeSql->escape(
-                    $historyDate,
-                );
+                $sliceDate = ' AND ' . rex::getTablePrefix() . 'article_slice.history_date = ' . $escapeSql->escape($historyDate);
 
                 return 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix(
                 ) . 'module.key,' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix(
@@ -315,36 +313,22 @@ if (true === $addon->getConfig('history', false)) {
                     'structure_history_current_version',
                 ) . '</option>';
                 if (true === $addon->getConfig('version', false)) {
-                    $select1[] = '<option value="1" data-revision="1">' . rex_i18n::msg(
-                        'version_workingversion',
-                    ) . '</option>';
+                    $select1[] = '<option value="1" data-revision="1">' . rex_i18n::msg('version_workingversion') . '</option>';
                 }
 
                 $select2 = [];
-                $select2[] = '<option value="" selected="selected">' . $addon->i18n(
-                    'structure_history_current_version',
-                ) . '</option>';
+                $select2[] = '<option value="" selected="selected">' . $addon->i18n('structure_history_current_version') . '</option>';
                 foreach ($versions as $version) {
                     $historyInfo = $version['history_date'];
                     if ('' != $version['history_user']) {
                         $historyInfo = $version['history_date'] . ' [' . $version['history_user'] . ']';
                     }
-                    $select2[] = '<option value="' . strtotime(
-                        $version['history_date'],
-                    ) . '" data-history-date="' . rex_escape(
-                        $version['history_date'],
-                    ) . '">' . rex_escape($historyInfo) . '</option>';
+                    $select2[] = '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . rex_escape($version['history_date']) . '">' . rex_escape($historyInfo) . '</option>';
                 }
 
-                $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . implode(
-                    '',
-                    $select1,
-                ) . '</select>';
+                $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . implode('', $select1) . '</select>';
                 $content1iframe = '<iframe id="content-history-iframe-1" class="history-iframe"></iframe>';
-                $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . implode(
-                    '',
-                    $select2,
-                ) . '</select>';
+                $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . implode('', $select2) . '</select>';
                 $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';
 
                 // fragment holen und ausgeben
@@ -471,11 +455,7 @@ if (true === $addon->getConfig('version', false)) {
 
         $workingVersionEmpty = true;
         $gw = rex_sql::factory();
-        $gw->setQuery(
-            'select * from ' . rex::getTablePrefix(
-            ) . 'article_slice where article_id=? and clang_id=? and revision=1 LIMIT 1',
-            [$articleId, $clangId],
-        );
+        $gw->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=1 LIMIT 1', [$articleId, $clangId]);
         if ($gw->getRows() > 0) {
             $workingVersionEmpty = false;
         }
@@ -564,34 +544,18 @@ if (true === $addon->getConfig('version', false)) {
 
         if (!$user->hasPerm('version[live_version]')) {
             if ($revision > 0) {
-                $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work'],
-                ) . '">' . rex_i18n::msg('version_copy_from_liveversion') . '</a></li>';
-                $toolbar .= '<li><a href="' . rex_getUrl(
-                    $articleId,
-                    $clangId,
-                    ['rex_version' => rex_article_revision::WORK],
-                ) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
+                $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '">' . rex_i18n::msg('version_copy_from_liveversion') . '</a></li>';
+                $toolbar .= '<li><a href="' . rex_getUrl($articleId, $clangId, ['rex_version' => rex_article_revision::WORK]) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
             }
         } else {
             if ($revision > 0) {
                 if (!$workingVersionEmpty) {
-                    $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'clear_work'],
-                    ) . '" data-confirm="' . rex_i18n::msg('version_confirm_clear_workingversion') . '">' . rex_i18n::msg(
-                        'version_clear_workingversion',
-                    ) . '</a></li>';
-                    $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_work_to_live'],
-                    ) . '">' . rex_i18n::msg('version_working_to_live') . '</a></li>';
+                    $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'clear_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_clear_workingversion') . '">' . rex_i18n::msg('version_clear_workingversion') . '</a></li>';
+                    $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_work_to_live']) . '">' . rex_i18n::msg('version_working_to_live') . '</a></li>';
                 }
-                $toolbar .= '<li><a href="' . rex_getUrl(
-                    $articleId,
-                    $clangId,
-                    ['rex_version' => rex_article_revision::WORK],
-                ) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
+                $toolbar .= '<li><a href="' . rex_getUrl($articleId, $clangId, ['rex_version' => rex_article_revision::WORK]) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
             } else {
-                $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work'],
-                ) . '" data-confirm="' . rex_i18n::msg(
-                    'version_confirm_copy_live_to_workingversion',
-                ) . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';
+                $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';
             }
         }
 
