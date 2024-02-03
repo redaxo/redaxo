@@ -9,7 +9,6 @@ $finder = PhpCsFixer\Finder::create()
         $src . '/core',
         $src . '/addons/backup',
         $src . '/addons/be_style',
-        $src . '/addons/cronjob',
         $src . '/addons/debug',
         $src . '/addons/install',
         $src . '/addons/media_manager',

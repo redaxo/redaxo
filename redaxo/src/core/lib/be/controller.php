@@ -181,6 +181,8 @@ class rex_be_controller
             }
         }
 
+        $logsPage->addSubpage((new rex_be_page('cronjob', rex_i18n::msg('cronjob_title')))->setSubPath(rex_path::core('pages/system.log.cronjob.php')));
+
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
             ->setPath(rex_path::core('pages/system.php'))
             ->setRequiredPermissions('isAdmin')
@@ -190,15 +192,27 @@ class rex_be_controller
             ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setSubPath(rex_path::core('pages/system.settings.php')))
             ->addSubpage((new rex_be_page('lang', rex_i18n::msg('languages')))->setSubPath(rex_path::core('pages/system.clangs.php')))
             ->addSubpage($logsPage)
-            ->addSubpage((new rex_be_page('report', rex_i18n::msg('system_report')))
+            ->addSubpage(
+                (new rex_be_page('report', rex_i18n::msg('system_report')))
                 ->addSubpage((new rex_be_page('html', rex_i18n::msg('system_report')))->setSubPath(rex_path::core('pages/system.report.html.php')))
                 ->addSubpage((new rex_be_page('markdown', rex_i18n::msg('system_report_markdown')))->setSubPath(rex_path::core('pages/system.report.markdown.php'))),
             )
-            ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
+            ->addSubpage(
+                (new rex_be_page('phpinfo', 'phpinfo'))
                 ->setHidden(true)
                 ->setHasLayout(false)
                 ->setPath(rex_path::core('pages/system.phpinfo.php')),
             );
+
+        self::$pages['cronjob'] = (new rex_be_page_main('system', 'cronjob', rex_i18n::msg('cronjob_title')))
+            ->setPath(rex_path::core('pages/cronjob.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(120)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-cronjob')
+            ->addSubpage((new rex_be_page('cronjobs', rex_i18n::msg('cronjob_title')))->setSubPath(rex_path::core('pages/cronjob.cronjobs.php')))
+            ->addSubpage((new rex_be_page('log', rex_i18n::msg('cronjob_log')))->setSubPath(rex_path::core('pages/cronjob.log.php')));
+
     }
 
     /**
@@ -442,8 +456,6 @@ class rex_be_controller
 
     /**
      * Includes the sub-path of current page.
-     *
-     * @return mixed
      */
     public static function includeCurrentPageSubPath(array $context = [])
     {
@@ -479,8 +491,6 @@ class rex_be_controller
      * Includes a path in correct package context.
      *
      * @param string $path
-     *
-     * @return mixed
      */
     private static function includePath($path, array $context = [])
     {

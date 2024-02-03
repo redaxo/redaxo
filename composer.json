@@ -62,7 +62,6 @@
             "redaxo/src/addons/backup/vendor/",
             "redaxo/src/addons/be_style/lib/",
             "redaxo/src/addons/be_style/vendor/scssphp/",
-            "redaxo/src/addons/cronjob/lib/",
             "redaxo/src/addons/debug/lib/",
             "redaxo/src/addons/debug/vendor/",
             "redaxo/src/addons/install/lib/",

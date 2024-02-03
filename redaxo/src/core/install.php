@@ -82,3 +82,20 @@ rex_sql_table::get(rex::getTable('user_session'))
     ->ensureForeignKey(new rex_sql_foreign_key(rex::getTable('user_session') . '_user_id', rex::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensureForeignKey(new rex_sql_foreign_key(rex::getTable('user_session') . '_passkey_id', rex::getTable('user_passkey'), ['passkey_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensure();
+
+// ---------- Cronjob
+
+rex_sql_table::get(rex::getTable('cronjob'))
+    ->ensurePrimaryIdColumn()
+    ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
+    ->ensureColumn(new rex_sql_column('description', 'varchar(255)', true))
+    ->ensureColumn(new rex_sql_column('type', 'varchar(255)', true))
+    ->ensureColumn(new rex_sql_column('parameters', 'text', true))
+    ->ensureColumn(new rex_sql_column('interval', 'text'))
+    ->ensureColumn(new rex_sql_column('nexttime', 'datetime', true))
+    ->ensureColumn(new rex_sql_column('environment', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('execution_moment', 'tinyint(1)'))
+    ->ensureColumn(new rex_sql_column('execution_start', 'datetime'))
+    ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
+    ->ensureGlobalColumns()
+    ->ensure();

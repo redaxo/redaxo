@@ -19,7 +19,7 @@ if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
 
-foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
+foreach (['HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO'] as $key) {
     if (!isset($REX[$key])) {
         throw new Exception('Missing required global variable $REX[\'' . $key . "']");
     }
@@ -109,7 +109,7 @@ if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
  * @var mixed $value
  */
 foreach ($config as $key => $value) {
-    if (in_array($key, array('fileperm', 'dirperm'))) {
+    if (in_array($key, ['fileperm', 'dirperm'])) {
         $value = octdec((string) $value);
     }
     rex::setProperty($key, $value);
@@ -152,4 +152,23 @@ rex_extension::register('SESSION_REGENERATED', [rex_backend_login::class, 'sessi
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
     require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
+}
+
+// ----------------- Cronjob
+
+if (rex::getConsole()) {
+    // don't run cronjobs while running console commands
+    return;
+}
+
+$nexttime = (int) rex_config::get('core', 'cronjob', 0);
+
+if (0 !== $nexttime && time() >= $nexttime) {
+    $env = rex_cronjob_manager::getCurrentEnvironment();
+    $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
+    rex_extension::register($EP, static function () use ($env) {
+        if ('backend' !== $env || !in_array(rex_be_controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'], true)) {
+            rex_cronjob_manager_sql::factory()->check();
+        }
+    });
 }
