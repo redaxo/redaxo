@@ -80,10 +80,12 @@ jobs:
                          Require all granted
                       </Directory>
                     </VirtualHost>
+            -    name: Setup apache2
+                 uses: awalsh128/cache-apt-pkgs-action@v1
+                 with:
+                     packages: libapache2-mod-php
             - name: Setup apache2
               run: |
-                  sudo apt update
-                  sudo apt install libapache2-mod-php
                   echo "export APACHE_RUN_USER=`id -un`" | sudo tee -a /etc/apache2/envvars
                   echo "export APACHE_RUN_GROUP=`id -gn`" | sudo tee -a /etc/apache2/envvars
                   sudo a2enmod rewrite
