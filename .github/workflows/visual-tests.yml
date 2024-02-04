@@ -112,7 +112,7 @@ jobs:
                 if: steps.playwright-cache.outputs.cache-hit != 'true'
 
             -   name: Start php server
-                run: nohup php -S localhost:80 &
+                run: sudo nohup php -S localhost:80 &
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'
