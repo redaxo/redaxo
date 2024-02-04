@@ -123,10 +123,21 @@ jobs:
                     node-version: 21
                     cache: npm
                     cache-dependency-path: .github/workflows/visual-tests.yml
-            -   name: Setup Webserver
-                run: |
-                    npm install playwright pixelmatch pngjs fs mkdirp
-                    npx playwright install chromium --with-deps
+
+            -   name: Install npm packages
+                run: npm install playwright pixelmatch pngjs fs mkdirp
+            -   name: Get installed Playwright version (used in cache key)
+                id: playwright-version
+                run: echo "PLAYWRIGHT_VERSION=$(node -e "process.stdout.write(require('@playwright/test/package.json').version)")" >> $GITHUB_ENV
+            -   name: Cache Playwright browser binaries
+                uses: actions/cache@v3
+                id: playwright-cache
+                with:
+                    path: ~/.cache/ms-playwright
+                    key: playwright-${{ env.PLAYWRIGHT_VERSION }}
+            -   name: Install Playwright browsers binaries if cache missed
+                run: npx playwright install chromium --with-deps
+                if: steps.playwright-cache.outputs.cache-hit != 'true'
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'
