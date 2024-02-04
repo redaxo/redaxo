@@ -126,7 +126,7 @@ jobs:
             -   name: Setup Webserver
                 run: |
                     npm install playwright pixelmatch pngjs fs mkdirp
-                    npx playwright install --with-deps
+                    npx playwright install chromium --with-deps
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'
