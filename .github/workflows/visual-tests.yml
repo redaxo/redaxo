@@ -112,7 +112,13 @@ jobs:
                 if: steps.playwright-cache.outputs.cache-hit != 'true'
 
             -   name: Start php server
-                run: php -S localhost:8080 &
+                run: |
+                    cat <<EOF > router.php
+                    <?php
+                    if (preg_match('@redaxo/(?:bin|data|cache|src)@', \$_SERVER['REQUEST_URI'])) http_response_code(403);
+                    else return false;
+                    EOF
+                    php -S localhost:8080 router.php &
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'
