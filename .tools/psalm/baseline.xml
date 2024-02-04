@@ -4570,7 +4570,7 @@
     </MixedAssignment>
     <MixedInferredReturnType>
       <code>Symfony\Component\HttpFoundation\Request</code>
-      <code>null|rex_user</code>
+      <code>rex_user|null</code>
     </MixedInferredReturnType>
     <MixedMethodCall>
       <code>getImpersonator</code>
@@ -4959,7 +4959,7 @@
       <code>(string) $out[0]</code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>null|non-empty-string</code>
+      <code>non-empty-string|null</code>
     </MoreSpecificReturnType>
   </file>
   <file src="redaxo/src/core/lib/util/path_default_provider.php">
