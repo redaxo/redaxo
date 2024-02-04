@@ -229,7 +229,7 @@ class rex_content_service
      * @param int $toId ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
      * @param int $fromClang ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
      * @param int $toClang ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
-     * @param null|int $revision If null, slices of all revisions are copied
+     * @param int|null $revision If null, slices of all revisions are copied
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */

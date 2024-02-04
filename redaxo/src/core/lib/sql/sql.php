@@ -51,7 +51,7 @@ class rex_sql implements Iterator
     /**
      * Where condition as string or as nested array (see `setWhere` for examples).
      *
-     * @var null|string|array
+     * @var string|array|null
      */
     protected $wherevar;
 
@@ -874,7 +874,7 @@ class rex_sql implements Iterator
     /**
      * Gibt die Anzahl der Zeilen zurueck.
      *
-     * @return null|int
+     * @return int|null
      * @phpstan-impure
      */
     public function getRows()
@@ -1719,7 +1719,7 @@ class rex_sql implements Iterator
      * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
      *
      * @param positive-int $db Id der Datenbankverbindung
-     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
      * @throws rex_sql_exception
      *
@@ -1736,7 +1736,7 @@ class rex_sql implements Iterator
      * Sucht alle Tabellen/Views der Datenbankverbindung $DBID.
      * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
      *
-     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
      * @throws rex_sql_exception
      *
@@ -1751,7 +1751,7 @@ class rex_sql implements Iterator
      * Sucht alle Tabellen der Datenbankverbindung $DBID.
      * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
      *
-     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
      * @throws rex_sql_exception
      *
@@ -1766,7 +1766,7 @@ class rex_sql implements Iterator
      * Sucht alle Views der Datenbankverbindung $DBID.
      * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Views gesucht.
      *
-     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
      * @throws rex_sql_exception
      *
@@ -1778,8 +1778,8 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @param null|string $tablePrefix
-     * @param null|string $where
+     * @param string|null $tablePrefix
+     * @param string|null $where
      *
      * @throws rex_sql_exception
      *

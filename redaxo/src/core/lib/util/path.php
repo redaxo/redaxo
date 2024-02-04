@@ -364,7 +364,7 @@ class rex_path
      * If the path is outside of the base path, the absolute path will be kept.
      *
      * @param string $absPath
-     * @param null|string $basePath Defaults to `rex_path::base()`
+     * @param string|null $basePath Defaults to `rex_path::base()`
      *
      * @return string
      */
@@ -407,7 +407,7 @@ class rex_path
     }
 
     /**
-     * @return null|non-empty-string
+     * @return non-empty-string|null
      */
     public static function findBinaryPath(string $commandName): ?string
     {

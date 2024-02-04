@@ -32,14 +32,14 @@ class rex_backend_login_test extends TestCase
     {
         $login = new rex_backend_login();
         $login->setLogin(self::LOGIN, self::PASSWORD, false);
-        static::assertTrue($login->checkLogin());
+        self::assertTrue($login->checkLogin());
     }
 
     public function testFailedLogin(): void
     {
         $login = new rex_backend_login();
         $login->setLogin(self::LOGIN, 'somethingwhichisnotcorrect', false);
-        static::assertFalse($login->checkLogin());
+        self::assertFalse($login->checkLogin());
     }
 
     /**
@@ -50,10 +50,10 @@ class rex_backend_login_test extends TestCase
         $login = new rex_backend_login();
 
         $login->setLogin(self::LOGIN, 'somethingwhichisnotcorrect', false);
-        static::assertFalse($login->checkLogin());
+        self::assertFalse($login->checkLogin());
 
         $login->setLogin(self::LOGIN, self::PASSWORD, false);
-        static::assertTrue($login->checkLogin());
+        self::assertTrue($login->checkLogin());
     }
 
     /**
@@ -66,33 +66,33 @@ class rex_backend_login_test extends TestCase
 
         for ($i = 0; $i < $tries; ++$i) {
             $login->setLogin(self::LOGIN, 'somethingwhichisnotcorrect', false);
-            static::assertFalse($login->checkLogin());
+            self::assertFalse($login->checkLogin());
         }
 
         // we need to re-create login-objects because the time component is static in their sql queries
         $login = new rex_backend_login();
         $login->setLogin(self::LOGIN, self::PASSWORD, false);
-        static::assertFalse($login->checkLogin(), 'account locked after fast login attempts');
+        self::assertFalse($login->checkLogin(), 'account locked after fast login attempts');
 
         sleep(1);
 
         $login = new rex_backend_login();
         $login->setLogin(self::LOGIN, self::PASSWORD, false);
-        static::assertFalse($login->checkLogin(), 'even seconds later account is locked');
+        self::assertFalse($login->checkLogin(), 'even seconds later account is locked');
 
         sleep($login->getLoginPolicy()->getReloginDelay() + 1);
 
         $login = new rex_backend_login();
         $login->setLogin(self::LOGIN, self::PASSWORD, false);
-        static::assertTrue($login->checkLogin(), 'after waiting the account should be unlocked');
+        self::assertTrue($login->checkLogin(), 'after waiting the account should be unlocked');
     }
 
     public function testLogout(): void
     {
         $login = new rex_backend_login();
         $login->setLogin(self::LOGIN, self::PASSWORD, false);
-        static::assertTrue($login->checkLogin());
+        self::assertTrue($login->checkLogin());
         $login->setLogout(true);
-        static::assertFalse($login->checkLogin());
+        self::assertFalse($login->checkLogin());
     }
 }

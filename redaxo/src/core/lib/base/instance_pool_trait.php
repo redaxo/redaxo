@@ -9,7 +9,7 @@
  */
 trait rex_instance_pool_trait
 {
-    /** @var array<class-string, array<string, null|static>> */
+    /** @var array<class-string, array<string, static|null>> */
     private static $instances = [];
 
     private function __construct()
@@ -54,7 +54,7 @@ trait rex_instance_pool_trait
      * @param callable $createCallback Callback, will be called to create a new instance
      * @psalm-param callable(mixed...):?static $createCallback
      *
-     * @return null|static
+     * @return static|null
      */
     protected static function getInstance($key, ?callable $createCallback = null)
     {

@@ -279,7 +279,7 @@ class rex_view
      * Returns the formatted title.
      *
      * @param string $head
-     * @param null|string|array $subtitle
+     * @param string|array|null $subtitle
      *
      * @throws InvalidArgumentException
      *

@@ -101,7 +101,7 @@ class rex_version
      *
      * @param string $version1 First version number
      * @param string $version2 Second version number
-     * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator Optional comparator
+     * @param '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>='|null $comparator Optional comparator
      *
      * @return bool
      */
@@ -127,7 +127,7 @@ class rex_version
      * Returns the current git version hash for the given path.
      *
      * @param string $path A local filesystem path
-     * @param null|string $repo If given, the version hash is returned only if the remote repository matches the
+     * @param string|null $repo If given, the version hash is returned only if the remote repository matches the
      *                          given github repo (e.g. `redaxo/redaxo`)
      */
     public static function gitHash($path, ?string $repo = null): ?string

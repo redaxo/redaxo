@@ -161,7 +161,7 @@ class rex_response
      * @param string $file File path
      * @param string $contentType Content type
      * @param string $contentDisposition Content disposition ("inline" or "attachment")
-     * @param null|string $filename Custom Filename
+     * @param string|null $filename Custom Filename
      * @return void|never
      */
     public static function sendFile($file, $contentType, $contentDisposition = 'inline', $filename = null)
@@ -245,11 +245,11 @@ class rex_response
      * Sends a resource to the client.
      *
      * @param string $content Content
-     * @param null|string $contentType Content type
-     * @param null|int $lastModified HTTP Last-Modified Timestamp
-     * @param null|string $etag HTTP Cachekey to identify the cache
-     * @param null|string $contentDisposition Content disposition ("inline" or "attachment")
-     * @param null|string $filename Filename
+     * @param string|null $contentType Content type
+     * @param int|null $lastModified HTTP Last-Modified Timestamp
+     * @param string|null $etag HTTP Cachekey to identify the cache
+     * @param string|null $contentDisposition Content disposition ("inline" or "attachment")
+     * @param string|null $filename Filename
      * @return void
      */
     public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null)

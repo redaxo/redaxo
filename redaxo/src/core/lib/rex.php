@@ -337,7 +337,7 @@ class rex
     /**
      * Returns the current user.
      *
-     * @return null|rex_user
+     * @return rex_user|null
      */
     public static function getUser()
     {
@@ -363,7 +363,7 @@ class rex
     /**
      * Returns the current impersonator user.
      *
-     * @return null|rex_user
+     * @return rex_user|null
      */
     public static function getImpersonator()
     {
@@ -375,7 +375,7 @@ class rex
     /**
      * Returns the console application.
      *
-     * @return null|rex_console_application
+     * @return rex_console_application|null
      */
     public static function getConsole()
     {
@@ -414,7 +414,7 @@ class rex
     /**
      * Returns the server URL.
      *
-     * @param null|string $protocol
+     * @param string|null $protocol
      *
      * @return string
      */

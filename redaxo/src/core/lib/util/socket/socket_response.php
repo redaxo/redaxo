@@ -21,7 +21,7 @@ class rex_socket_response
     private $header = '';
     /** @var array */
     private $headers = [];
-    /** @var null|string */
+    /** @var string|null */
     private $body;
     /** @var bool */
     private $decompressContent = false;

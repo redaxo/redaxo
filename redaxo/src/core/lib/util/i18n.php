@@ -345,7 +345,7 @@ class rex_i18n
      *
      * @param string $text The text for translation
      * @param bool $escape Flag whether the translated text should be escaped
-     * @param null|callable(string):string $i18nFunction Function that returns the translation for the i18n key
+     * @param callable(string):string|null $i18nFunction Function that returns the translation for the i18n key
      *
      * @throws InvalidArgumentException
      *

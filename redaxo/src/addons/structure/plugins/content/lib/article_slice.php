@@ -414,7 +414,7 @@ class rex_article_slice
     /**
      * @template T of int|string
      * @param T $index
-     * @return null|int|string
+     * @return int|string|null
      * @psalm-return (T is int ? string|null : int|string|null)
      */
     public function getValue($index)
@@ -472,7 +472,7 @@ class rex_article_slice
     }
 
     /**
-     * @return null|list<int>
+     * @return list<int>|null
      */
     public function getLinkListArray(int $index): ?array
     {
@@ -515,7 +515,7 @@ class rex_article_slice
     }
 
     /**
-     * @return null|list<string>
+     * @return list<string>|null
      */
     public function getMediaListArray(int $index): ?array
     {

@@ -119,7 +119,7 @@ class rex_string
      *
      * @param string $version1
      * @param string $version2
-     * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
+     * @param '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>='|null $comparator
      *
      * @return int|bool
      */

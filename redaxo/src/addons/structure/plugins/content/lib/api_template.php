@@ -102,7 +102,7 @@ class rex_template
     }
 
     /**
-     * @return false|null|string
+     * @return false|string|null
      */
     public function getTemplate()
     {
