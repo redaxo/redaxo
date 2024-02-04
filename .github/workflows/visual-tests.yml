@@ -121,6 +121,7 @@ jobs:
                 uses: actions/setup-node@v4
                 with:
                     node-version: 21
+                    cache: npm
             -   name: Setup Webserver
                 run: |
                     npm install playwright pixelmatch pngjs fs mkdirp
