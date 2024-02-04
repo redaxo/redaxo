@@ -95,7 +95,7 @@ class rex_view
      * Sets a JS property.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      * @return void
      */
     public static function setJsProperty($key, $value)
@@ -278,7 +278,7 @@ class rex_view
     /**
      * Returns the formatted title.
      *
-     * @param string            $head
+     * @param string $head
      * @param null|string|array $subtitle
      *
      * @throws InvalidArgumentException

@@ -77,7 +77,7 @@ class rex_article extends rex_structure_element
      * Return a list of top-level articles.
      *
      * @param bool $ignoreOfflines
-     * @param int  $clang
+     * @param int $clang
      *
      * @return self[]
      */

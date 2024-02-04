@@ -8,10 +8,10 @@ class rex_clang_service
     /**
      * Erstellt eine Clang.
      *
-     * @param string $code     Clang Code
-     * @param string $name     Name
-     * @param int    $priority Priority
-     * @param bool   $status   Status
+     * @param string $code Clang Code
+     * @param string $name Name
+     * @param int $priority Priority
+     * @param bool $status Status
      * @return void
      */
     public static function addCLang($code, $name, $priority, $status = false)
@@ -42,11 +42,11 @@ class rex_clang_service
     /**
      * Ändert eine Clang.
      *
-     * @param int       $id       Id der Clang
-     * @param string    $code     Clang Code
-     * @param string    $name     Name der Clang
-     * @param int       $priority Priority
-     * @param bool|null $status   Status
+     * @param int $id Id der Clang
+     * @param string $code Clang Code
+     * @param string $name Name der Clang
+     * @param int $priority Priority
+     * @param bool|null $status Status
      *
      * @throws rex_exception
      *

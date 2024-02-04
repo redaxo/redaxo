@@ -15,7 +15,7 @@ trait rex_instance_list_pool_trait
     /**
      * Adds an instance list.
      *
-     * @param mixed $key             Key
+     * @param mixed $key Key
      * @param array $instanceKeyList Array of instance keys
      * @return void
      */
@@ -43,9 +43,9 @@ trait rex_instance_list_pool_trait
      *
      * If the instance list does not exist it will be created by calling the $createListCallback
      *
-     * @param mixed         $key                 Key
-     * @param callable      $getInstanceCallback Callback, will be called for every list item to get the instance
-     * @param callable|null $createListCallback  Callback, will be called to create the list of instance keys
+     * @param mixed $key Key
+     * @param callable $getInstanceCallback Callback, will be called for every list item to get the instance
+     * @param callable|null $createListCallback Callback, will be called to create the list of instance keys
      *
      * @return array
      *

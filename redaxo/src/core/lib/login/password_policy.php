@@ -19,7 +19,7 @@ class rex_password_policy
     }
 
     /**
-     * @param string   $password
+     * @param string $password
      * @param null|int $id
      *
      * @throws rex_exception

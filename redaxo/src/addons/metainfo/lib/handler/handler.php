@@ -11,7 +11,7 @@ abstract class rex_metainfo_handler
      * Erstellt den nötigen HTML Code um ein Formular zu erweitern.
      *
      * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
-     * @param array   $epParams  Array of all EP parameters
+     * @param array $epParams Array of all EP parameters
      *
      * @return string
      */
@@ -534,8 +534,8 @@ abstract class rex_metainfo_handler
     /**
      * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt.
      *
-     * @param array   $params
-     * @param rex_sql $sqlSave   rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
+     * @param array $params
+     * @param rex_sql $sqlSave rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
      * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
      * @return void
      */
@@ -573,8 +573,8 @@ abstract class rex_metainfo_handler
     /**
      * Retrieves the posted value for the given field and converts it into a saveable format.
      *
-     * @param string $fieldName       The name of the field
-     * @param int    $fieldType       One of the rex_metainfo_table_manager::FIELD_* constants
+     * @param string $fieldName The name of the field
+     * @param int $fieldType One of the rex_metainfo_table_manager::FIELD_* constants
      * @param string $fieldAttributes The attributes of the field
      *
      * @return string|int|null
@@ -634,7 +634,7 @@ abstract class rex_metainfo_handler
     /**
      * Ermittelt die metainfo felder mit dem Prefix $prefix limitiert auf die Kategorien $restrictions.
      *
-     * @param string $prefix          Feldprefix
+     * @param string $prefix Feldprefix
      * @param string $filterCondition SQL Where-Bedingung zum einschränken der Metafelder
      *
      * @return rex_sql Metainfofelder
@@ -666,7 +666,7 @@ abstract class rex_metainfo_handler
      * Erweitert das Meta-Formular um die neuen Meta-Felder.
      *
      * @param string $prefix Feldprefix
-     * @param array  $params EP Params
+     * @param array $params EP Params
      *
      * @return string
      */
@@ -719,12 +719,12 @@ abstract class rex_metainfo_handler
     /**
      * Renders a field of the metaform. The rendered html will be returned.
      *
-     * @param string $field     The html-source of the field itself
-     * @param string $tag       The html-tag for the elements container, e.g. "p"
-     * @param string $tagAttr  Attributes for the elements container, e.g. " class='rex-widget'"
-     * @param string $id        The id of the field, used for current label or field-specific javascripts
-     * @param string $label     The textlabel of the field
-     * @param bool   $labelIt   True when an additional label needs to be rendered, otherweise False
+     * @param string $field The html-source of the field itself
+     * @param string $tag The html-tag for the elements container, e.g. "p"
+     * @param string $tagAttr Attributes for the elements container, e.g. " class='rex-widget'"
+     * @param string $id The id of the field, used for current label or field-specific javascripts
+     * @param string $label The textlabel of the field
+     * @param bool $labelIt True when an additional label needs to be rendered, otherweise False
      * @param string $inputType The input type, e.g. "checkbox", "radio",..
      *
      * @return string The rendered html

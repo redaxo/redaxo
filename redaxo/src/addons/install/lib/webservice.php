@@ -87,7 +87,7 @@ class rex_install_webservice
     /**
      * POSTs the given data to the redaxo.org webservice.
      *
-     * @param string      $path
+     * @param string $path
      * @param string|null $archive Path to archive
      * @throws rex_functional_exception
      * @return void
@@ -240,7 +240,7 @@ class rex_install_webservice
      * Writes the given data into the local cache.
      *
      * @param string $path
-     * @param array  $data
+     * @param array $data
      * @return void
      */
     private static function setCache($path, $data)

@@ -27,7 +27,7 @@ final class rex_validation_rule
     /**
      * @param rex_validation_rule::*|string $type Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory
      * @param null|string $message Message which is used if this validator type does not match
-     * @param mixed       $option  Type specific option
+     * @param mixed $option Type specific option
      */
     public function __construct(string $type, ?string $message = null, $option = null)
     {

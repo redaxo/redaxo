@@ -70,8 +70,8 @@ class rex
     /**
      * Sets a property. Changes will not be persisted accross http request boundaries.
      *
-     * @param string $key   Key of the property
-     * @param mixed  $value Value for the property
+     * @param string $key Key of the property
+     * @param mixed $value Value for the property
      *
      * @throws InvalidArgumentException on invalid parameters
      *
@@ -128,8 +128,8 @@ class rex
     /**
      * Returns a property.
      *
-     * @param string $key     Key of the property
-     * @param mixed  $default Default value, will be returned if the property isn't set
+     * @param string $key Key of the property
+     * @param mixed $default Default value, will be returned if the property isn't set
      *
      * @throws InvalidArgumentException on invalid parameters
      *
@@ -496,7 +496,7 @@ class rex
      * Returns the title tag and if the property "use_accesskeys" is true, the accesskey tag.
      *
      * @param string $title Title
-     * @param string $key   Key for the accesskey
+     * @param string $key Key for the accesskey
      *
      * @return string
      */

@@ -35,8 +35,8 @@ abstract class rex_complex_perm
     private static $classes = [];
 
     /**
-     * @param rex_user $user  User instance
-     * @param mixed    $perms Permissions
+     * @param rex_user $user User instance
+     * @param mixed $perms Permissions
      */
     protected function __construct(rex_user $user, $perms)
     {
@@ -93,9 +93,9 @@ abstract class rex_complex_perm
     /**
      * Returns the complex perm.
      *
-     * @param rex_user $user  User instance
-     * @param string   $key   Complex perm key
-     * @param mixed    $perms Permissions
+     * @param rex_user $user User instance
+     * @param string $key Complex perm key
+     * @param mixed $perms Permissions
      *
      * @return self|null
      */
@@ -111,7 +111,7 @@ abstract class rex_complex_perm
     /**
      * Should be called if an item is removed.
      *
-     * @param string     $key  Key
+     * @param string $key Key
      * @param string|int $item Item
      * @return void
      */
@@ -123,9 +123,9 @@ abstract class rex_complex_perm
     /**
      * Should be called if an item is replaced.
      *
-     * @param string     $key  Key
+     * @param string $key Key
      * @param string|int $item Old item
-     * @param string|int $new  New item
+     * @param string|int $new New item
      * @return void
      */
     public static function replaceItem($key, $item, $new)

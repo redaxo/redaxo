@@ -121,7 +121,7 @@ class rex_cronjob_manager
     }
 
     /**
-     * @param bool   $success
+     * @param bool $success
      * @param string $message
      * @return void
      */

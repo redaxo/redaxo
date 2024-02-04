@@ -13,7 +13,7 @@ interface rex_url_provider_interface
      * Returns a Url which contains the given parameters.
      *
      * @param array $params A scalar array containing key value pairs for the parameter and its value
-     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
+     * @param bool $escape Flag whether the argument separator "&" should be escaped (&amp;)
      *
      * @return string The generated Url
      */
@@ -74,7 +74,7 @@ class rex_context implements rex_context_provider_interface
      * Set a global parameter.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      * @return void
      */
     public function setParam($name, $value)
@@ -87,7 +87,7 @@ class rex_context implements rex_context_provider_interface
      * When no value is set, $default will be returned.
      *
      * @param string $name
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */

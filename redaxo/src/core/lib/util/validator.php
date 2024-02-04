@@ -35,9 +35,9 @@ class rex_validator
     /**
      * Adds a validation rule.
      *
-     * @param string      $type    Validator type (any static method name of this class)
+     * @param string $type Validator type (any static method name of this class)
      * @param null|string $message Message which is used if this validator type does not match
-     * @param mixed       $option  Type specific option
+     * @param mixed $option Type specific option
      *
      * @throws InvalidArgumentException
      *
@@ -146,7 +146,7 @@ class rex_validator
      * Checks whether the value has the given min length.
      *
      * @param string $value
-     * @param int    $minLength
+     * @param int $minLength
      *
      * @return bool
      */
@@ -159,7 +159,7 @@ class rex_validator
      * Checks whether the value has the given max value.
      *
      * @param string $value
-     * @param int    $maxLength
+     * @param int $maxLength
      *
      * @return bool
      */
@@ -172,7 +172,7 @@ class rex_validator
      * Checks whether the value is equal or greater than the given min value.
      *
      * @param string $value
-     * @param int    $min
+     * @param int $min
      *
      * @return bool
      */
@@ -185,7 +185,7 @@ class rex_validator
      * Checks whether the value is equal or lower than the given max value.
      *
      * @param string $value
-     * @param int    $max
+     * @param int $max
      *
      * @return bool
      */

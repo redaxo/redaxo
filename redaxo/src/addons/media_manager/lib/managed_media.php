@@ -519,7 +519,7 @@ class rex_managed_media
     }
 
     /**
-     * @param string $src             Source content
+     * @param string $src Source content
      * @param string $sourceCachePath
      * @param string $headerCachePath
      * @return void

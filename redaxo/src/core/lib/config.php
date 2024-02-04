@@ -58,9 +58,9 @@ class rex_config
      *
      * The set-method returns TRUE when an existing value was overridden, otherwise FALSE is returned.
      *
-     * @param string       $namespace The namespace e.g. an addon name
-     * @param string|array<string, mixed> $key       The associated key or an associative array of key/value pairs
-     * @param mixed        $value     The value to save
+     * @param string $namespace The namespace e.g. an addon name
+     * @param string|array<string, mixed> $key The associated key or an associative array of key/value pairs
+     * @param mixed $value The value to save
      *
      * @throws InvalidArgumentException
      *
@@ -115,7 +115,7 @@ class rex_config
      * @template T as ?string
      * @param string $namespace The namespace e.g. an addon name
      * @param T $key The associated key
-     * @param mixed $default   Default return value if no associated-value can be found
+     * @param mixed $default Default return value if no associated-value can be found
      * @throws InvalidArgumentException
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      * @psalm-return (T is string ? mixed|null : array<string, mixed>)
@@ -141,8 +141,8 @@ class rex_config
     /**
      * Returns if the given key is set.
      *
-     * @param string      $namespace The namespace e.g. an addon name
-     * @param string|null $key       The associated key
+     * @param string $namespace The namespace e.g. an addon name
+     * @param string|null $key The associated key
      *
      * @throws InvalidArgumentException
      *
@@ -171,7 +171,7 @@ class rex_config
      * Removes the setting associated with the given namespace and key.
      *
      * @param string $namespace The namespace e.g. an addon name
-     * @param string $key       The associated key
+     * @param string $key The associated key
      *
      * @throws InvalidArgumentException
      *
