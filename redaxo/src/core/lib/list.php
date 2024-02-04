@@ -120,10 +120,10 @@ class rex_list implements rex_url_provider_interface
     /**
      * Erstellt ein rex_list Objekt.
      *
-     * @param string      $query       SELECT Statement
+     * @param string $query SELECT Statement
      * @param int|self::DISABLE_PAGINATION $rowsPerPage
-     * @param string|null $listName    Name der Liste
-     * @param bool        $debug
+     * @param string|null $listName Name der Liste
+     * @param bool $debug
      * @param positive-int $db
      */
     protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
@@ -205,10 +205,10 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string      $query
+     * @param string $query
      * @param int|self::DISABLE_PAGINATION $rowsPerPage
      * @param string|null $listName
-     * @param bool        $debug
+     * @param bool $debug
      * @param positive-int $db DB connection ID
      *
      * @return static
@@ -299,7 +299,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string     $name
+     * @param string $name
      * @param string|int $value
      * @return void
      */
@@ -325,7 +325,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string     $name
+     * @param string $name
      * @param string|int $value
      * @return void
      */
@@ -343,7 +343,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string     $name
+     * @param string $name
      * @param string|int $value
      * @return void
      */
@@ -409,10 +409,10 @@ class rex_list implements rex_url_provider_interface
     /**
      * Methode, um eine Spalte einzufügen.
      *
-     * @param string $columnHead   Titel der Spalte
-     * @param string $columnBody   Text/Format der Spalte
-     * @param int    $columnIndex  Stelle, an der die neue Spalte erscheinen soll
-     * @param array  $columnLayout Layout der Spalte
+     * @param string $columnHead Titel der Spalte
+     * @param string $columnBody Text/Format der Spalte
+     * @param int $columnIndex Stelle, an der die neue Spalte erscheinen soll
+     * @param array $columnLayout Layout der Spalte
      * @return void
      */
     public function addColumn($columnHead, $columnBody, $columnIndex = -1, $columnLayout = null)
@@ -441,8 +441,8 @@ class rex_list implements rex_url_provider_interface
     /**
      * Methode, um das Layout einer Spalte zu setzen.
      *
-     * @param string $columnHead   Titel der Spalte
-     * @param array  $columnLayout Layout der Spalte
+     * @param string $columnHead Titel der Spalte
+     * @param array $columnLayout Layout der Spalte
      * @return void
      */
     public function setColumnLayout($columnHead, $columnLayout)
@@ -478,8 +478,8 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt den Namen einer Spalte zurück.
      *
-     * @param int   $columnIndex Nummer der Spalte
-     * @param mixed $default     Defaultrückgabewert, falls keine Spalte mit der angegebenen Nummer vorhanden ist
+     * @param int $columnIndex Nummer der Spalte
+     * @param mixed $default Defaultrückgabewert, falls keine Spalte mit der angegebenen Nummer vorhanden ist
      *
      * @return string|null
      */
@@ -532,7 +532,7 @@ class rex_list implements rex_url_provider_interface
      * Setzt ein Label für eine Spalte.
      *
      * @param string $columnName Name der Spalte
-     * @param string $label      Label für die Spalte
+     * @param string $label Label für die Spalte
      * @return void
      */
     public function setColumnLabel($columnName, $label)
@@ -562,8 +562,8 @@ class rex_list implements rex_url_provider_interface
      *
      * @param string $columnName Name der Spalte
      * @param string $formatType Formatierungstyp
-     * @param mixed  $format     Zu verwendentes Format
-     * @param array  $params     Custom params für callback func bei format_type 'custom'
+     * @param mixed $format Zu verwendentes Format
+     * @param array $params Custom params für callback func bei format_type 'custom'
      * @return void
      */
     public function setColumnFormat($columnName, $formatType, $format = '', array $params = [])
@@ -577,7 +577,7 @@ class rex_list implements rex_url_provider_interface
      * @template T
      *
      * @param string $columnName Name der Spalte
-     * @param T      $default    Defaultrückgabewert, falls keine Formatierung gesetzt ist
+     * @param T $default Defaultrückgabewert, falls keine Formatierung gesetzt ist
      *
      * @return array{string, mixed, array<mixed>}|T
      */
@@ -590,7 +590,7 @@ class rex_list implements rex_url_provider_interface
      * Markiert eine Spalte als sortierbar.
      *
      * @param string $columnName Name der Spalte
-     * @param string $direction  Startsortierrichtung der Spalte [ASC|DESC]
+     * @param string $direction Startsortierrichtung der Spalte [ASC|DESC]
      * @return void
      */
     public function setColumnSortable($columnName, $direction = 'asc')
@@ -603,9 +603,9 @@ class rex_list implements rex_url_provider_interface
      * Setzt eine Option für eine Spalte
      * (z.b. Sortable,..).
      *
-     * @param string     $columnName Name der Spalte
-     * @param string|int $option     Name/Id der Option
-     * @param mixed      $value      Wert der Option
+     * @param string $columnName Name der Spalte
+     * @param string|int $option Name/Id der Option
+     * @param mixed $value Wert der Option
      * @return void
      */
     public function setColumnOption($columnName, $option, $value)
@@ -616,9 +616,9 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt den Wert einer Option für eine Spalte zurück.
      *
-     * @param string     $columnName Name der Spalte
-     * @param string|int $option     Name/Id der Option
-     * @param mixed      $default    Defaultrückgabewert, falls die Option nicht gesetzt ist
+     * @param string $columnName Name der Spalte
+     * @param string|int $option Name/Id der Option
+     * @param mixed $default Defaultrückgabewert, falls die Option nicht gesetzt ist
      *
      * @return mixed|null
      */
@@ -633,8 +633,8 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt zurück, ob für eine Spalte eine Option gesetzt wurde.
      *
-     * @param string     $columnName Name der Spalte
-     * @param string|int $option     Name/Id der Option
+     * @param string $columnName Name der Spalte
+     * @param string|int $option Name/Id der Option
      *
      * @return bool
      */
@@ -647,7 +647,7 @@ class rex_list implements rex_url_provider_interface
      * Verlinkt eine Spalte mit den übergebenen Parametern.
      *
      * @param string $columnName Name der Spalte
-     * @param array  $params     Array von Parametern
+     * @param array $params Array von Parametern
      * @return void
      */
     public function setColumnParams($columnName, array $params = [])
@@ -685,11 +685,11 @@ class rex_list implements rex_url_provider_interface
     /**
      * Verschiebt eine Spalte an eine andere Position in der Spaltenliste.
      *
-     * @param string        $columnName   Name der Spalte
-     * @param int|string    $columnIndex  Einfügen vor der angegebenen Spalte
-     *                                    (Spalten-Index analog zu addColumn oder Spaltenname)
+     * @param string $columnName Name der Spalte
+     * @param int|string $columnIndex Einfügen vor der angegebenen Spalte
+     *                                (Spalten-Index analog zu addColumn oder Spaltenname)
      *
-     * @return int          Spaltennummer der neuen Position
+     * @return int Spaltennummer der neuen Position
      */
     public function setColumnPosition(string $columnName, $columnIndex): int
     {
@@ -713,11 +713,11 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt die Position einer Spalte zurück.
      *
-     * @param string     $columnName   Name der Spalte
+     * @param string $columnName Name der Spalte
      *
-     * @throws InvalidArgumentException   $columnName kommt in $this->columnNames nicht vor
+     * @throws InvalidArgumentException $columnName kommt in $this->columnNames nicht vor
      *
-     * @return int       Index der Spalte
+     * @return int Index der Spalte
      */
     public function getColumnPosition(string $columnName): int
     {
@@ -753,8 +753,8 @@ class rex_list implements rex_url_provider_interface
      *     ['class' => 'classname-c']
      * ]);
      *
-     * @param array $columns         Array von Spalten
-     * @param int   $columnGroupSpan Span der Columngroup
+     * @param array $columns Array von Spalten
+     * @param int $columnGroupSpan Span der Columngroup
      * @return void
      */
     public function addTableColumnGroup(array $columns, $columnGroupSpan = null)
@@ -786,7 +786,7 @@ class rex_list implements rex_url_provider_interface
      * Fügt der zuletzte eingefügten TableColumnGroup eine weitere Spalte hinzu.
      *
      * @param int|'*' $width Breite der Spalte
-     * @param int     $span  Span der Spalte
+     * @param int $span Span der Spalte
      * @return void
      */
     public function addTableColumn($width, $span = null, $class = null)
@@ -857,7 +857,7 @@ class rex_list implements rex_url_provider_interface
      * @see #replaceVariable, #replaceVariables
      *
      * @param array $params
-     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
+     * @param bool $escape Flag whether the argument separator "&" should be escaped (&amp;)
      *
      * @return string
      */
@@ -1099,10 +1099,10 @@ class rex_list implements rex_url_provider_interface
     /**
      * Formatiert einen übergebenen String anhand der rexFormatter Klasse.
      *
-     * @param string     $value  Zu formatierender String
+     * @param string $value Zu formatierender String
      * @param null|array $format mit den Formatierungsinformationen
-     * @param bool       $escape Flag, Ob escapen von $value erlaubt ist
-     * @param string     $field
+     * @param bool $escape Flag, Ob escapen von $value erlaubt ist
+     * @param string $field
      *
      * @return string
      */

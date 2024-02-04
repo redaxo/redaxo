@@ -255,9 +255,9 @@ class rex_be_controller
 
     /**
      * @param rex_be_page|array $page
-     * @param bool              $createMainPage
-     * @param string            $pageKey
-     * @param bool|string       $prefix
+     * @param bool $createMainPage
+     * @param string $pageKey
+     * @param bool|string $prefix
      *
      * @return null|rex_be_page
      */

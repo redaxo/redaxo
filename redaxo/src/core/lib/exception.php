@@ -6,7 +6,7 @@
 class rex_exception extends Exception
 {
     /**
-     * @param string    $message
+     * @param string $message
      */
     public function __construct($message, ?Exception $previous = null)
     {

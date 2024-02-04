@@ -21,7 +21,7 @@ class rex_version
     /**
      * Checks the version of the requirement.
      *
-     * @param string $version     Version
+     * @param string $version Version
      * @param string $constraints Constraint list, separated by comma
      *
      * @throws rex_exception
@@ -99,8 +99,8 @@ class rex_version
      *
      * @see https://www.php.net/manual/en/function.version-compare.php
      *
-     * @param string $version1   First version number
-     * @param string $version2   Second version number
+     * @param string $version1 First version number
+     * @param string $version2 Second version number
      * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator Optional comparator
      *
      * @return bool
@@ -126,7 +126,7 @@ class rex_version
     /**
      * Returns the current git version hash for the given path.
      *
-     * @param string      $path A local filesystem path
+     * @param string $path A local filesystem path
      * @param null|string $repo If given, the version hash is returned only if the remote repository matches the
      *                          given github repo (e.g. `redaxo/redaxo`)
      */

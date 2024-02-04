@@ -46,10 +46,10 @@ class rex_logger extends AbstractLogger
     /**
      * Shorthand: Logs a error message.
      *
-     * @param int    $errno   The error code to log, e.g. E_WARNING
-     * @param string $errstr  The error message
+     * @param int $errno The error code to log, e.g. E_WARNING
+     * @param string $errstr The error message
      * @param string $errfile The file in which the error occured
-     * @param int    $errline The line of the file in which the error occured
+     * @param int $errline The line of the file in which the error occured
      *
      * @throws InvalidArgumentException
      * @return void
@@ -76,10 +76,10 @@ class rex_logger extends AbstractLogger
     /**
      * Logs with an arbitrary level.
      *
-     * @param mixed  $level   either one of LogLevel::* or also any other string
+     * @param mixed $level either one of LogLevel::* or also any other string
      * @param string $message
      * @param string $file
-     * @param int    $line
+     * @param int $line
      *
      * @throws InvalidArgumentException
      */

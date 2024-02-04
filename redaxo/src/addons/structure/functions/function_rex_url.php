@@ -10,9 +10,9 @@
  * Gibt eine Url zu einem Artikel zurück.
  *
  * @param int|string|null $id
- * @param int|string|null $clang     SprachId des Artikels
- * @param array           $params    Array von Parametern
- * @param string          $separator
+ * @param int|string|null $clang SprachId des Artikels
+ * @param array $params Array von Parametern
+ * @param string $separator
  *
  * @return string
  *
@@ -58,7 +58,7 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
  * Leitet auf einen anderen Artikel weiter.
  *
  * @param null|int|string $articleId
- * @param null|int|string $clang      SprachId des Artikels
+ * @param null|int|string $clang SprachId des Artikels
  *
  * @throws InvalidArgumentException
  * @return never

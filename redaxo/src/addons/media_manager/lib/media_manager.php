@@ -539,11 +539,11 @@ class rex_media_manager
     }
 
     /**
-     * @param string           $type      Media type
-     * @param string|rex_media $file      Media file
-     * @param null|int         $timestamp Last change timestamp of given file, for cache buster parameter
-     *                                    (not nessary when the file is given by a `rex_media` object)
-     * @param bool             $escape
+     * @param string $type Media type
+     * @param string|rex_media $file Media file
+     * @param null|int $timestamp Last change timestamp of given file, for cache buster parameter
+     *                            (not nessary when the file is given by a `rex_media` object)
+     * @param bool $escape
      *
      * @return string
      */

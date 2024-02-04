@@ -31,7 +31,7 @@ class rex_category extends rex_structure_element
      * excempt from this list!
      *
      * @param bool $ignoreOfflines
-     * @param int  $clang
+     * @param int $clang
      *
      * @return self[]
      */

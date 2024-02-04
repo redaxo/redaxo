@@ -19,9 +19,9 @@ class rex_path_default_provider
     /**
      * Initializes the class.
      *
-     * @param non-empty-string $htdocs           Htdocs path
-     * @param non-empty-string $backend          Backend folder name
-     * @param bool   $provideAbsolutes Flag whether to return absolute path, or relative ones
+     * @param non-empty-string $htdocs Htdocs path
+     * @param non-empty-string $backend Backend folder name
+     * @param bool $provideAbsolutes Flag whether to return absolute path, or relative ones
      */
     public function __construct($htdocs, $backend, $provideAbsolutes)
     {
@@ -145,7 +145,7 @@ class rex_path_default_provider
      * Returns the path to the assets folder of the given addon, which contains all assets required by the addon to work properly.
      *
      * @param string $addon Addon
-     * @param string $file  File
+     * @param string $file File
      *
      * @return non-empty-string
      *
@@ -159,9 +159,9 @@ class rex_path_default_provider
     /**
      * Returns the path to the assets folder of the given plugin of the given addon.
      *
-     * @param string $addon  Addon
+     * @param string $addon Addon
      * @param string $plugin Plugin
-     * @param string $file   File
+     * @param string $file File
      *
      * @return non-empty-string
      *
@@ -212,7 +212,7 @@ class rex_path_default_provider
      * Returns the path to the data folder of the given addon.
      *
      * @param non-empty-string $addon Addon
-     * @param string $file  File
+     * @param string $file File
      *
      * @return non-empty-string
      */
@@ -224,9 +224,9 @@ class rex_path_default_provider
     /**
      * Returns the path to the data folder of the given plugin of the given addon.
      *
-     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $addon Addon
      * @param non-empty-string $plugin Plugin
-     * @param string $file   File
+     * @param string $file File
      *
      * @return non-empty-string
      */
@@ -273,7 +273,7 @@ class rex_path_default_provider
      * Returns the path to the cache folder of the given addon.
      *
      * @param string $addon Addon
-     * @param string $file  File
+     * @param string $file File
      *
      * @return non-empty-string
      */
@@ -285,9 +285,9 @@ class rex_path_default_provider
     /**
      * Returns the path to the cache folder of the given plugin.
      *
-     * @param string $addon  Addon
+     * @param string $addon Addon
      * @param string $plugin Plugin
-     * @param string $file   File
+     * @param string $file File
      *
      * @return non-empty-string
      */
@@ -324,7 +324,7 @@ class rex_path_default_provider
      * Returns the base path to the folder of the given addon.
      *
      * @param non-empty-string $addon Addon
-     * @param string $file  File
+     * @param string $file File
      *
      * @return non-empty-string
      */
@@ -336,9 +336,9 @@ class rex_path_default_provider
     /**
      * Returns the base path to the folder of the plugin of the given addon.
      *
-     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $addon Addon
      * @param non-empty-string $plugin Plugin
-     * @param string $file   File
+     * @param string $file File
      *
      * @return non-empty-string
      */

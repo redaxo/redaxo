@@ -15,9 +15,9 @@ abstract class rex_formatter
     /**
      * Formats a string by the given format type.
      *
-     * @param string $value      Value
+     * @param string $value Value
      * @param string $formatType Format type (any method name of this class)
-     * @param mixed  $format     For possible values look at the other methods of this class
+     * @param mixed $format For possible values look at the other methods of this class
      *
      * @throws InvalidArgumentException
      *
@@ -36,8 +36,8 @@ abstract class rex_formatter
      *
      * @see https://www.php.net/manual/en/function.date.php
      *
-     * @param string|int|null $value  Unix timestamp or datetime string for `strtotime`
-     * @param string     $format Default format is `d.m.Y`
+     * @param string|int|null $value Unix timestamp or datetime string for `strtotime`
+     * @param string $format Default format is `d.m.Y`
      *
      * @return string
      */
@@ -65,8 +65,8 @@ abstract class rex_formatter
      *
      * @see https://www.php.net/manual/en/function.strftime.php
      *
-     * @param string|int|null $value  Unix timestamp or datetime string for `strtotime`
-     * @param string     $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
+     * @param string|int|null $value Unix timestamp or datetime string for `strtotime`
+     * @param string $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
      *
      * @return string
      *
@@ -111,7 +111,7 @@ abstract class rex_formatter
      *
      * @see https://www.php.net/manual/en/class.intldateformatter.php
      *
-     * @param string|int|DateTimeInterface|null $value  Unix timestamp, datetime string for `strtotime` or DateTimeInterface object
+     * @param string|int|DateTimeInterface|null $value Unix timestamp, datetime string for `strtotime` or DateTimeInterface object
      * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|array{0: IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE, 1: IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE}|string|null $format
      *              Possible format values:
      *                  - `IntlDateFormatter` constant, like `IntlDateFormatter::MEDIUM`
@@ -187,7 +187,7 @@ abstract class rex_formatter
      *
      * @see https://www.php.net/manual/en/class.intldateformatter.php
      *
-     * @param string|int|DateTimeInterface|null $value  Unix timestamp, date string for `strtotime` or DateTimeInterface object
+     * @param string|int|DateTimeInterface|null $value Unix timestamp, date string for `strtotime` or DateTimeInterface object
      * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|string|null $format
      *              Possible format values:
      *                  - `IntlDateFormatter` constant, like `IntlDateFormatter::MEDIUM`
@@ -208,7 +208,7 @@ abstract class rex_formatter
      *
      * @see https://www.php.net/manual/en/class.intldateformatter.php
      *
-     * @param string|int|DateTimeInterface|null $value  Unix timestamp, time string for `strtotime` or DateTimeInterface object
+     * @param string|int|DateTimeInterface|null $value Unix timestamp, time string for `strtotime` or DateTimeInterface object
      * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|string|null $format
      *              Possible format values:
      *                  - `IntlDateFormatter` constant, like `IntlDateFormatter::MEDIUM`
@@ -229,8 +229,8 @@ abstract class rex_formatter
      *
      * @see https://www.php.net/manual/en/function.number-format.php
      *
-     * @param string|float $value  Value
-     * @param array        $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
+     * @param string|float $value Value
+     * @param array $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
      *
      * @return string
      */
@@ -258,8 +258,8 @@ abstract class rex_formatter
     /**
      * Formats a string as bytes.
      *
-     * @param string|int $value  Value
-     * @param array      $format Same as {@link rex_formatter::number()}
+     * @param string|int $value Value
+     * @param array $format Same as {@link rex_formatter::number()}
      *
      * @return string
      */
@@ -295,7 +295,7 @@ abstract class rex_formatter
      *
      * @see https://www.php.net/manual/en/function.sprintf.php
      *
-     * @param string $value  Value
+     * @param string $value Value
      * @param string $format
      *
      * @return string
@@ -325,7 +325,7 @@ abstract class rex_formatter
     /**
      * Truncates a string.
      *
-     * @param string $value  Value
+     * @param string $value Value
      * @param array{length?: int, etc?: string, break_words?: bool} $format Default format is `['length' => 80, 'etc' => '…', 'break_words' => false]`
      *
      * @return string
@@ -386,7 +386,7 @@ abstract class rex_formatter
      *
      * @see https://www.php.net/manual/en/function.sprintf.php
      *
-     * @param string $value  Version
+     * @param string $value Version
      * @param string $format Version format, e.g. "%s.%s"
      *
      * @return string
@@ -399,8 +399,8 @@ abstract class rex_formatter
     /**
      * Formats a string as link.
      *
-     * @param string $value  URL
-     * @param array  $format Array with link attributes and params
+     * @param string $value URL
+     * @param array $format Array with link attributes and params
      *
      * @return string Link
      */
@@ -437,8 +437,8 @@ abstract class rex_formatter
     /**
      * Formats a string as email link.
      *
-     * @param string $value  Email
-     * @param array  $format Array with link attributes and params
+     * @param string $value Email
+     * @param array $format Array with link attributes and params
      *
      * @return string Email link
      */
@@ -467,7 +467,7 @@ abstract class rex_formatter
     /**
      * Formats a string by a custom callable.
      *
-     * @param string         $value  Value
+     * @param string $value Value
      * @param callable|array $format A callable or an array of a callable and additional params
      * @psalm-param callable(string):string|array{0: callable(non-empty-array):string, 1: mixed} $format
      *

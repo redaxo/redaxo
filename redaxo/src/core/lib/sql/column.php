@@ -31,9 +31,9 @@ class rex_sql_column
     private $modified = false;
 
     /**
-     * @param string      $name
-     * @param string      $type
-     * @param bool        $nullable
+     * @param string $name
+     * @param string $type
+     * @param bool $nullable
      * @param null|string $default
      * @param null|string $extra
      * @param null|string $comment

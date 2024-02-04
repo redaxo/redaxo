@@ -20,8 +20,8 @@ trait rex_instance_pool_trait
     /**
      * Adds an instance.
      *
-     * @param mixed $key      Key
-     * @param self  $instance Instance
+     * @param mixed $key Key
+     * @param self $instance Instance
      * @return void
      */
     protected static function addInstance($key, self $instance)
@@ -50,7 +50,7 @@ trait rex_instance_pool_trait
      *
      * If the instance does not exist it will be created by calling the $createCallback
      *
-     * @param mixed    $key            Key
+     * @param mixed $key Key
      * @param callable $createCallback Callback, will be called to create a new instance
      * @psalm-param callable(mixed...):?static $createCallback
      *
