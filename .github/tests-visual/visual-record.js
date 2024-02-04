@@ -17,7 +17,7 @@ const {mkdirp} = require('mkdirp');
 const viewportWidth = 1280;
 const viewportHeight = 800;
 
-const START_URL = 'http://localhost/redaxo/index.php';
+const START_URL = 'http://localhost:8080/redaxo/index.php';
 const DEBUGGING = false;
 const WORKING_DIR = '.tests-visual/';
 const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
