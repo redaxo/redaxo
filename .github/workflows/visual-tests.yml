@@ -60,34 +60,34 @@ jobs:
                     coverage: none # disable xdebug, pcov
                     tools: cs2pr
 
-            - name: Set apache2 vhost
-              shell: sudo cp {0} /etc/apache2/sites-available/000-default.conf
-              run: |
-                  <VirtualHost *:80>
-                      ServerName localhost
-                      DocumentRoot ${{ github.workspace }}
-                      ErrorLog ${APACHE_LOG_DIR}/error.log
-                      CustomLog ${APACHE_LOG_DIR}/access.log combined
-                      <Directory />
-                         Options FollowSymLinks
-                         AllowOverride All
-                      </Directory>
-                      <Directory ${{ github.workspace }}>
-                         Options Indexes FollowSymLinks MultiViews
-                         AllowOverride All
-                         Order allow,deny
-                         Allow from all
-                         Require all granted
-                      </Directory>
-                    </VirtualHost>
-            - name: Setup apache2
-              run: |
-                  sudo apt update
-                  sudo apt install libapache2-mod-php
-                  echo "export APACHE_RUN_USER=`id -un`" | sudo tee -a /etc/apache2/envvars
-                  echo "export APACHE_RUN_GROUP=`id -gn`" | sudo tee -a /etc/apache2/envvars
-                  sudo a2enmod rewrite
-                  sudo /etc/init.d/apache2 start
+            -    name: Set apache2 vhost
+                 shell: sudo cp {0} /etc/apache2/sites-available/000-default.conf
+                 run: |
+                     <VirtualHost *:80>
+                         ServerName localhost
+                         DocumentRoot ${{ github.workspace }}
+                         ErrorLog ${APACHE_LOG_DIR}/error.log
+                         CustomLog ${APACHE_LOG_DIR}/access.log combined
+                         <Directory />
+                            Options FollowSymLinks
+                            AllowOverride All
+                         </Directory>
+                         <Directory ${{ github.workspace }}>
+                            Options Indexes FollowSymLinks MultiViews
+                            AllowOverride All
+                            Order allow,deny
+                            Allow from all
+                            Require all granted
+                         </Directory>
+                       </VirtualHost>
+            -    name: Setup apache2
+                 run: |
+                     sudo apt update
+                     sudo apt install libapache2-mod-php
+                     echo "export APACHE_RUN_USER=`id -un`" | sudo tee -a /etc/apache2/envvars
+                     echo "export APACHE_RUN_GROUP=`id -gn`" | sudo tee -a /etc/apache2/envvars
+                     sudo a2enmod rewrite
+                     sudo /etc/init.d/apache2 start
 
             -   name: Init database
                 run: |
