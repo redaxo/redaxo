@@ -14,11 +14,11 @@ class rex_media_test extends TestCase
         /** @psalm-suppress UndefinedPropertyAssignment */
         $media->med_foo = 'teststring';
 
-        static::assertTrue($media->hasValue('med_foo'));
-        static::assertTrue($media->hasValue('foo'));
+        self::assertTrue($media->hasValue('med_foo'));
+        self::assertTrue($media->hasValue('foo'));
 
-        static::assertFalse($media->hasValue('bar'));
-        static::assertFalse($media->hasValue('med_bar'));
+        self::assertFalse($media->hasValue('bar'));
+        self::assertFalse($media->hasValue('med_bar'));
     }
 
     public function testGetValue(): void
@@ -28,11 +28,11 @@ class rex_media_test extends TestCase
         /** @psalm-suppress UndefinedPropertyAssignment */
         $media->med_foo = 'teststring';
 
-        static::assertEquals('teststring', $media->getValue('med_foo'));
-        static::assertEquals('teststring', $media->getValue('foo'));
+        self::assertEquals('teststring', $media->getValue('med_foo'));
+        self::assertEquals('teststring', $media->getValue('foo'));
 
-        static::assertNull($media->getValue('bar'));
-        static::assertNull($media->getValue('med_bar'));
+        self::assertNull($media->getValue('bar'));
+        self::assertNull($media->getValue('med_bar'));
     }
 
     private function createMediaWithoutConstructor(): rex_media

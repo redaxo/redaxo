@@ -12,7 +12,7 @@ class rex_package_test extends TestCase
     #[DataProvider('dataSplitId')]
     public function testSplitId(array $expected, string $packageId): void
     {
-        static::assertSame($expected, rex_package::splitId($packageId));
+        self::assertSame($expected, rex_package::splitId($packageId));
     }
 
     /** @return list<array{array{string, ?string}, string}> */

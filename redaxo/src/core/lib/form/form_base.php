@@ -26,19 +26,19 @@ abstract class rex_form_base
     /** @var bool */
     protected $debug;
 
-    /** @var null|string */
+    /** @var string|null */
     protected $applyUrl;
 
-    /** @var null|string */
+    /** @var string|null */
     protected $message;
 
     /** @var array<int, string> */
     protected $errorMessages = [];
 
-    /** @var null|string */
+    /** @var string|null */
     protected $warning;
 
-    /** @var null|string */
+    /** @var string|null */
     protected $formId;
 
     /** @var array<string, string> */

@@ -19,10 +19,10 @@ abstract class rex_var
     /** @var array<string, class-string<self>> */
     private static $vars = [];
 
-    /** @var null|int */
+    /** @var int|null */
     private static $env;
 
-    /** @var null|string */
+    /** @var string|null */
     private static $context;
 
     /** @var mixed */

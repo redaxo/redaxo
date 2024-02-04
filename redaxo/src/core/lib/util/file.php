@@ -230,7 +230,6 @@ class rex_file
     public static function delete($file)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
-
             $tryUnlink = @unlink($file);
 
             // re-try without error suppression to compensate possible race conditions
@@ -264,7 +263,7 @@ class rex_file
      *
      * @param string $file Path to the file
      *
-     * @return null|string Mime type or `null` if the type could not be detected
+     * @return string|null Mime type or `null` if the type could not be detected
      */
     public static function mimeType($file): ?string
     {

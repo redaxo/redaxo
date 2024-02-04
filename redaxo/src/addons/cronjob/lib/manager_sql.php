@@ -150,7 +150,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @param null|callable(string,bool,string):void $callback Callback is called after every job execution (params: job name, success status, message)
+     * @param callable(string,bool,string):void|null $callback Callback is called after every job execution (params: job name, success status, message)
      * @return void
      */
     public function check(?callable $callback = null)

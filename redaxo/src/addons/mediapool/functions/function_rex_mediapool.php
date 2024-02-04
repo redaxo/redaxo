@@ -109,9 +109,9 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
  * @param string $physicalFilename
  * @param int $categoryId
  * @param string $title
- * @param null|int $filesize
- * @param null|string $filetype
- * @param null|string $userlogin
+ * @param int|null $filesize
+ * @param string|null $filetype
+ * @param string|null $userlogin
  *
  * @return array
  * @deprecated since 2.11, use `rex_media_service::addMedia` instead
@@ -339,7 +339,7 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
  * Checks file against optional property `allowed_mime_types`.
  *
  * @param string $path Path to the physical file
- * @param null|string $filename Optional filename, will be used for extracting the file extension.
+ * @param string|null $filename Optional filename, will be used for extracting the file extension.
  *                              If not given, the extension is extracted from `$path`.
  *
  * @return bool

@@ -36,7 +36,7 @@ class rex_validator
      * Adds a validation rule.
      *
      * @param string $type Validator type (any static method name of this class)
-     * @param null|string $message Message which is used if this validator type does not match
+     * @param string|null $message Message which is used if this validator type does not match
      * @param mixed $option Type specific option
      *
      * @throws InvalidArgumentException

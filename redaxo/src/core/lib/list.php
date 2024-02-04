@@ -515,7 +515,7 @@ class rex_list implements rex_url_provider_interface
 
     /**
      * @param string $columnName
-     * @param null|array{string, mixed, array<mixed>} $columnFormat
+     * @param array{string, mixed, array<mixed>}|null $columnFormat
      * @return string
      */
     protected function getColumnValue($columnName, $columnFormat)
@@ -1100,7 +1100,7 @@ class rex_list implements rex_url_provider_interface
      * Formatiert einen übergebenen String anhand der rexFormatter Klasse.
      *
      * @param string $value Zu formatierender String
-     * @param null|array $format mit den Formatierungsinformationen
+     * @param array|null $format mit den Formatierungsinformationen
      * @param bool $escape Flag, Ob escapen von $value erlaubt ist
      * @param string $field
      *

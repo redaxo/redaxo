@@ -23,7 +23,7 @@ class rex_timer
     /** @var float */
     private $start;
 
-    /** @var null|float */
+    /** @var float|null */
     private $duration;
 
     /**

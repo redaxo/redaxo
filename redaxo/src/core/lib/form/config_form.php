@@ -14,7 +14,7 @@ class rex_config_form extends rex_form_base
 
     /**
      * @param string $namespace `rex_config` namespace, usually the package key
-     * @param null|string $fieldset
+     * @param string|null $fieldset
      * @param bool $debug
      */
     protected function __construct($namespace, $fieldset = null, $debug = false)
@@ -31,7 +31,7 @@ class rex_config_form extends rex_form_base
 
     /**
      * @param string $namespace `rex_config` namespace, usually the package key
-     * @param null|string $fieldset
+     * @param string|null $fieldset
      * @param bool $debug
      *
      * @return static
