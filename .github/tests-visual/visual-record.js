@@ -140,6 +140,7 @@ async function processScreenshot(page, screenshotName) {
     await page.evaluate(function() {
         var changingElements = [
             '.rex-js-script-time',
+            '#rex-page-setup .panel-success li:first-child b',
             '.rex-js-setup-step-4 .form-control-static',
             'td[data-title="Letzter Login"]',
             '#rex-form-exportfilename',
