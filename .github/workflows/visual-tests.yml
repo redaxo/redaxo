@@ -122,6 +122,7 @@ jobs:
                 with:
                     node-version: 21
                     cache: npm
+                    cache-dependency-path: .github/workflows/visual-tests.yml
             -   name: Setup Webserver
                 run: |
                     npm install playwright pixelmatch pngjs fs mkdirp
