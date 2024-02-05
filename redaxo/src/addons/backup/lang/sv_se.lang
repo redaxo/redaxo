@@ -52,7 +52,6 @@ backup_export_file_caption = Återskapa filbackup
 backup_function = Funktion
 
 backup_send_mail = Skicka med e-post
-backup_send_mail_notice = Addon "phpmailer" krävs för den här optionen.
 backup_mailaddress = E-postadress
 backup_mail_subject = Ny datenbassäkerhetskopia
 backup_mail_body = Bifogat finns en ny säkerhetskopia av databasen från webbsajten "{0}".
