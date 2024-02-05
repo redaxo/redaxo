@@ -65,11 +65,9 @@ start_page: structure
 timezone: Europe/Berlin
 socket_proxy: null
 setup_addons:
-    - backup
     - be_style
     - install
 system_addons:
-    - backup
     - mediapool
     - structure
     - metainfo
