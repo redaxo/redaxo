@@ -222,7 +222,6 @@ class rex_be_controller
                         ->setSubPath(rex_path::core('pages/backup.import.server.php'))),
             )
         ;
-
     }
 
     /**
