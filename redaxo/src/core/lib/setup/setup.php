@@ -192,6 +192,7 @@ class rex_setup
         $deprecatedVersions = [
             '8.1' => '2024-11-01',
             '8.2' => '2025-12-01',
+            '8.3' => '2026-12-01',
         ];
 
         $versionNumber = rex_formatter::version(PHP_VERSION, '%s.%s');
@@ -234,6 +235,9 @@ class rex_setup
                 '10.9' => '2023-08-01',
                 '10.10' => '2023-11-01',
                 '10.11' => '2028-02-01', // LTS
+                '11.0' => '2024-06-01',
+                '11.1' => '2024-08-01',
+                '11.2' => '2024-11-01',
             ];
 
             $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
@@ -250,6 +254,9 @@ class rex_setup
                 '5.6' => '2021-12-01',
                 '5.7' => '2023-10-01',
                 '8.0' => '2026-04-01',
+                '8.1' => '2023-10-01',
+                '8.2' => '2024-01-01',
+                '8.3' => '2024-04-01',
             ];
 
             $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
