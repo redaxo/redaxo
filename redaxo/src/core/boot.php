@@ -149,10 +149,8 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
 
 rex_extension::register('SESSION_REGENERATED', [rex_backend_login::class, 'sessionRegenerated']);
 
-if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
-    unset($REX);
-    require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
-}
+// ----------------- Backup AddOn
+rex_cronjob_manager::registerType(rex_cronjob_export::class);
 
 // ----------------- Cronjob
 
@@ -171,4 +169,9 @@ if (0 !== $nexttime && time() >= $nexttime) {
             rex_cronjob_manager_sql::factory()->check();
         }
     });
+}
+
+if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
+    unset($REX);
+    require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
 }
