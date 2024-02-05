@@ -11,6 +11,6 @@ abstract class rex_var_test_base extends TestCase
 
     protected function assertParseOutputEquals(string $expected, string $content, string $msg = 'Parsed content has not expected output.'): void
     {
-        static::assertEquals($expected, $this->getParseOutput($content), $msg);
+        self::assertEquals($expected, $this->getParseOutput($content), $msg);
     }
 }

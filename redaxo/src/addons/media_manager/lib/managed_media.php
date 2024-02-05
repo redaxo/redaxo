@@ -61,7 +61,7 @@ class rex_managed_media
      *
      * To get the current source path (can be changed by effects) use `getSourcePath` instead.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getMediaPath()
     {
@@ -415,7 +415,7 @@ class rex_managed_media
     /**
      * @param string $name
      * @param mixed $default
-     * @return null|mixed
+     * @return mixed|null
      */
     public function getImageProperty($name, $default = null)
     {
@@ -519,7 +519,7 @@ class rex_managed_media
     }
 
     /**
-     * @param string $src             Source content
+     * @param string $src Source content
      * @param string $sourceCachePath
      * @param string $headerCachePath
      * @return void

@@ -22,7 +22,7 @@ class rex_autoload
 
     /** @var bool */
     protected static $registered = false;
-    /** @var null|string */
+    /** @var string|null */
     protected static $cacheFile;
     /** @var bool */
     protected static $cacheChanged = false;

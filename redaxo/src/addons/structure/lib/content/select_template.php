@@ -6,16 +6,16 @@ class rex_template_select extends rex_select
 {
     /** @var bool */
     private $loaded = false;
-    /** @var null|int */
+    /** @var int|null */
     private $categoryId;
-    /** @var null|string[] */
+    /** @var string[]|null */
     private $templates;
     /** @var int */
     private $clangId;
 
     /**
-     * @param null|int $categoryId
-     * @param null|int $clangId
+     * @param int|null $categoryId
+     * @param int|null $clangId
      */
     public function __construct($categoryId = null, $clangId = null)
     {

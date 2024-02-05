@@ -240,7 +240,7 @@ class rex_sql_table
     /**
      * @param string $name
      *
-     * @return null|rex_sql_column
+     * @return rex_sql_column|null
      */
     public function getColumn($name)
     {
@@ -260,7 +260,7 @@ class rex_sql_table
     }
 
     /**
-     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param string|null $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -280,7 +280,7 @@ class rex_sql_table
     }
 
     /**
-     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param string|null $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -316,7 +316,7 @@ class rex_sql_table
     }
 
     /**
-     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param string|null $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -384,7 +384,7 @@ class rex_sql_table
     }
 
     /**
-     * @return null|non-empty-list<string> Column names
+     * @return non-empty-list<string>|null Column names
      */
     public function getPrimaryKey()
     {
@@ -392,7 +392,7 @@ class rex_sql_table
     }
 
     /**
-     * @param null|string|list<string> $columns Column name(s)
+     * @param string|list<string>|null $columns Column name(s)
      *
      * @throws rex_exception
      *
@@ -428,7 +428,7 @@ class rex_sql_table
     /**
      * @param string $name
      *
-     * @return null|rex_sql_index
+     * @return rex_sql_index|null
      */
     public function getIndex($name)
     {
@@ -545,7 +545,7 @@ class rex_sql_table
     /**
      * @param string $name
      *
-     * @return null|rex_sql_foreign_key
+     * @return rex_sql_foreign_key|null
      */
     public function getForeignKey($name)
     {

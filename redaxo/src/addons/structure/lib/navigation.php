@@ -80,9 +80,9 @@ class rex_navigation
     /**
      * Generiert eine Navigation.
      *
-     * @param int  $categoryId     Id der Wurzelkategorie
-     * @param int  $depth           Anzahl der Ebenen die angezeigt werden sollen
-     * @param bool $open            True, wenn nur Elemente der aktiven Kategorie angezeigt werden sollen, sonst FALSE
+     * @param int $categoryId Id der Wurzelkategorie
+     * @param int $depth Anzahl der Ebenen die angezeigt werden sollen
+     * @param bool $open True, wenn nur Elemente der aktiven Kategorie angezeigt werden sollen, sonst FALSE
      * @param bool $ignoreOfflines FALSE, wenn offline Elemente angezeigt werden, sonst TRUE
      *
      * @return string
@@ -120,8 +120,8 @@ class rex_navigation
      * Generiert eine Breadcrumb-Navigation.
      *
      * @param string|false $startPageLabel Label der Startseite, falls FALSE keine Start-Page anzeigen
-     * @param bool   $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
-     * @param int    $categoryId    Id der Wurzelkategorie
+     * @param bool $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
+     * @param int $categoryId Id der Wurzelkategorie
      *
      * @return string
      */
@@ -225,10 +225,10 @@ class rex_navigation
     /**
      * Fügt einen Filter hinzu.
      *
-     * @param string     $metafield Datenbankfeld der Kategorie
-     * @param int|string $value    Wert für den Vergleich
-     * @param string     $type     art des Vergleichs =/</
-     * @param int|''     $depth    "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
+     * @param string $metafield Datenbankfeld der Kategorie
+     * @param int|string $value Wert für den Vergleich
+     * @param string $type art des Vergleichs =/</
+     * @param int|'' $depth "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
      * @return void
      */
     public function addFilter($metafield = 'id', $value = '1', $type = '=', $depth = '')
@@ -240,7 +240,7 @@ class rex_navigation
      * Fügt einen Callback hinzu.
      *
      * @param callable(rex_category,int,array<int|string, int|string|list<string>>,array<int|string, int|string|list<string>>,string):bool $callback z.B. myFunc oder myClass::myMethod
-     * @param int|''  $depth    "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
+     * @param int|'' $depth "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
      *
      * @return $this
      */

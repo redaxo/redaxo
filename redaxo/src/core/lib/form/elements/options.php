@@ -20,7 +20,7 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @param string     $name
+     * @param string $name
      * @param string|int $value
      * @return void
      */
@@ -31,7 +31,7 @@ abstract class rex_form_options_element extends rex_form_element
 
     /**
      * @param array<string|array{0: string, 1?: string|int}> $options
-     * @param bool                                           $useOnlyValues
+     * @param bool $useOnlyValues
      * @return void
      */
     public function addOptions(array $options, $useOnlyValues = false)
@@ -52,7 +52,7 @@ abstract class rex_form_options_element extends rex_form_element
 
     /**
      * @param string[] $options
-     * @param bool     $useKeys
+     * @param bool $useKeys
      * @return void
      */
     public function addArrayOptions(array $options, $useKeys = true)

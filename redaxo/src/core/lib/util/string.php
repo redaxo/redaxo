@@ -40,8 +40,8 @@ class rex_string
      * Makes the string lowercase, replaces umlauts by their ascii representation (ä -> ae etc.), and replaces all
      * other chars that do not match a-z, 0-9 or $allowedChars by $replaceChar.
      *
-     * @param string $string       Input string
-     * @param string $replaceChar  Character that is used to replace not allowed chars
+     * @param string $string Input string
+     * @param string $replaceChar Character that is used to replace not allowed chars
      * @param string $allowedChars Allowed character list
      *
      * @return string
@@ -119,7 +119,7 @@ class rex_string
      *
      * @param string $version1
      * @param string $version2
-     * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
+     * @param '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>='|null $comparator
      *
      * @return int|bool
      */
@@ -132,8 +132,8 @@ class rex_string
     /**
      * Returns a string containing the YAML representation of $value.
      *
-     * @param array $value  The value being encoded
-     * @param int   $inline The level where you switch to inline YAML
+     * @param array $value The value being encoded
+     * @param int $inline The level where you switch to inline YAML
      *
      * @return string
      */

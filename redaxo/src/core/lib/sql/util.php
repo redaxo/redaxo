@@ -74,11 +74,11 @@ class rex_sql_util
      * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
      * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte.
      *
-     * @param non-empty-string $tableName      Name der Datenbanktabelle
+     * @param non-empty-string $tableName Name der Datenbanktabelle
      * @param non-empty-string $prioColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
      * @param string $whereCondition Where-Bedingung zur Einschränkung des ResultSets
-     * @param string $orderBy        Sortierung des ResultSets
-     * @param int    $startBy        Startpriorität
+     * @param string $orderBy Sortierung des ResultSets
+     * @param int $startBy Startpriorität
      * @return void
      */
     public static function organizePriorities($tableName, $prioColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
@@ -106,7 +106,7 @@ class rex_sql_util
      * Importiert die gegebene SQL-Datei in die Datenbank.
      *
      * @param non-empty-string $file
-     * @param bool   $debug
+     * @param bool $debug
      *
      * @throws rex_sql_exception
      *
@@ -187,10 +187,10 @@ class rex_sql_util
      *
      * Last revision: September 23, 2001 - gandon
      *
-     * @param array  $queries the splitted sql commands
-     * @param string $sql     the sql commands
-     * @param int    $release the MySQL release number (because certains php3 versions
-     *                        can't get the value of a constant from within a function)
+     * @param array $queries the splitted sql commands
+     * @param string $sql the sql commands
+     * @param int $release the MySQL release number (because certains php3 versions
+     *                     can't get the value of a constant from within a function)
      *
      * @return bool always true
      */
@@ -211,7 +211,7 @@ class rex_sql_util
             // We are in a string, check for not escaped end of strings except for
             // backquotes that can't be escaped
             if ($inString) {
-                for (;;) {
+                while (true) {
                     $i = strpos($sql, $stringStart, $i);
                     // No end of string found -> add the current substring to the
                     // returned array

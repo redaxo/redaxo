@@ -11,7 +11,7 @@ class rex_markdown_test extends TestCase
     #[DataProvider('parseProvider')]
     public function testParse(string $expected, string $code): void
     {
-        static::assertSame($expected, rex_markdown::factory()->parse($code));
+        self::assertSame($expected, rex_markdown::factory()->parse($code));
     }
 
     /** @return list<array{string, string}> */
@@ -129,6 +129,6 @@ class rex_markdown_test extends TestCase
 
             HTML;
 
-        static::assertSame($expected, $toc);
+        self::assertSame($expected, $toc);
     }
 }

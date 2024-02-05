@@ -16,11 +16,11 @@ class rex_article_content_base_test extends TestCase
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
 
-        static::assertTrue($instance->hasValue('foo'));
-        static::assertTrue($instance->hasValue('art_foo'));
+        self::assertTrue($instance->hasValue('foo'));
+        self::assertTrue($instance->hasValue('art_foo'));
 
-        static::assertFalse($instance->hasValue('bar'));
-        static::assertFalse($instance->hasValue('art_bar'));
+        self::assertFalse($instance->hasValue('bar'));
+        self::assertFalse($instance->hasValue('art_bar'));
     }
 
     public function testGetValue(): void
@@ -31,8 +31,8 @@ class rex_article_content_base_test extends TestCase
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
 
-        static::assertEquals('teststring', $instance->getValue('foo'));
-        static::assertEquals('teststring', $instance->getValue('art_foo'));
+        self::assertEquals('teststring', $instance->getValue('foo'));
+        self::assertEquals('teststring', $instance->getValue('art_foo'));
     }
 
     #[DataProvider('dataGetValueNonExisting')]

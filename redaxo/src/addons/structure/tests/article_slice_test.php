@@ -23,10 +23,10 @@ class rex_article_slice_test extends TestCase
 
         $slice = rex_article_slice::getArticleSliceById($id);
 
-        static::assertNotNull($slice);
-        static::assertSame('foo', $slice->getValue(1));
-        static::assertNull($slice->getValue(2));
-        static::assertSame(1, $slice->getValue('priority'));
+        self::assertNotNull($slice);
+        self::assertSame('foo', $slice->getValue(1));
+        self::assertNull($slice->getValue(2));
+        self::assertSame(1, $slice->getValue('priority'));
     }
 
     public function testGetNextSlice(): void
@@ -39,8 +39,8 @@ class rex_article_slice_test extends TestCase
 
         $slice = rex_article_slice::getArticleSliceById($id);
 
-        static::assertSame($next, $slice->getNextSlice()->getId());
-        static::assertSame($nextOnline, $slice->getNextSlice(true)->getId());
+        self::assertSame($next, $slice->getNextSlice()->getId());
+        self::assertSame($nextOnline, $slice->getNextSlice(true)->getId());
     }
 
     public function testGetPreviousSlice(): void
@@ -53,8 +53,8 @@ class rex_article_slice_test extends TestCase
 
         $slice = rex_article_slice::getArticleSliceById($id);
 
-        static::assertSame($previous, $slice->getPreviousSlice()->getId());
-        static::assertSame($previousOnline, $slice->getPreviousSlice(true)->getId());
+        self::assertSame($previous, $slice->getPreviousSlice()->getId());
+        self::assertSame($previousOnline, $slice->getPreviousSlice(true)->getId());
     }
 
     private function addSlice(int $priority, int $status): int

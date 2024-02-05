@@ -321,7 +321,7 @@ class rex_api_result
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getFormattedMessage()
     {
