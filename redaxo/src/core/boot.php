@@ -158,7 +158,7 @@ if (rex::isSetup()) {
     return;
 }
 
-if (!rex::isBackend() && 0 != rex_config::get('core', 'phpmailer_errormail')) {
+if (!rex::isBackend() && 0 != rex::getConfig('phpmailer_errormail')) {
     rex_extension::register('RESPONSE_SHUTDOWN', static function () {
         rex_mailer::errorMail();
     });
@@ -169,7 +169,7 @@ if ('system' == rex_be_controller::getCurrentPagePart(1)) {
 }
 
 // make the phpmailer addon icon orange if detour_mode is active
-if (true == rex_config::get('core', 'phpmailer_detour_mode')) {
+if (true == rex::getConfig('phpmailer_detour_mode')) {
     $page = rex_be_controller::getPageObject('phpmailer');
     $page->setIcon($page->getIcon() . ' text-danger');
 }

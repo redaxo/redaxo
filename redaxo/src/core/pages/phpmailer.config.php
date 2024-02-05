@@ -63,7 +63,7 @@ $selMailer->setId('phpmailer-mailer');
 $selMailer->setName('settings[phpmailer_mailer]');
 $selMailer->setSize(1);
 $selMailer->setAttribute('class', 'form-control selectpicker');
-$selMailer->setSelected(rex_config::get('core', 'phpmailer_mailer'));
+$selMailer->setSelected(rex::getConfig('phpmailer_mailer'));
 $mta = [];
 if (function_exists('mail')) {
     $mta[] = 'mail';
@@ -79,7 +79,7 @@ $selSecurityMode->setId('security_mode');
 $selSecurityMode->setName('settings[phpmailer_security_mode]');
 $selSecurityMode->setSize(1);
 $selSecurityMode->setAttribute('class', 'form-control selectpicker');
-$selSecurityMode->setSelected(rex_config::get('core', 'phpmailer_security_mode'));
+$selSecurityMode->setSelected(rex::getConfig('phpmailer_security_mode'));
 foreach ([0 => rex_i18n::msg('phpmailer_security_mode_manual'), 1 => rex_i18n::msg('phpmailer_security_mode_auto')] as $i => $type) {
     $selSecurityMode->addOption($type, $i);
 }
@@ -89,7 +89,7 @@ $selSmtpauth->setId('phpmailer-smtpauth');
 $selSmtpauth->setName('settings[phpmailer_smtpauth]');
 $selSmtpauth->setSize(1);
 $selSmtpauth->setAttribute('class', 'form-control selectpicker');
-$selSmtpauth->setSelected(rex_config::get('core', 'phpmailer_smtpauth'));
+$selSmtpauth->setSelected(rex::getConfig('phpmailer_smtpauth'));
 foreach ([0 => rex_i18n::msg('phpmailer_disabled'), 1 => rex_i18n::msg('phpmailer_enabled')] as $i => $type) {
     $selSmtpauth->addOption($type, $i);
 }
@@ -99,7 +99,7 @@ $selSmtpsecure->setId('phpmailer-smtpsecure');
 $selSmtpsecure->setName('settings[phpmailer_smtpsecure]');
 $selSmtpsecure->setSize(1);
 $selSmtpsecure->setAttribute('class', 'form-control selectpicker');
-$selSmtpsecure->setSelected(rex_config::get('core', 'phpmailer_smtpsecure'));
+$selSmtpsecure->setSelected(rex::getConfig('phpmailer_smtpsecure'));
 foreach (['' => rex_i18n::msg('phpmailer_no'), 'ssl' => 'ssl', 'tls' => 'tls'] as $type => $name) {
     $selSmtpsecure->addOption($name, $type);
 }
@@ -109,7 +109,7 @@ $selEncoding->setId('phpmailer-encoding');
 $selEncoding->setName('settings[phpmailer_encoding]');
 $selEncoding->setSize(1);
 $selEncoding->setAttribute('class', 'form-control selectpicker');
-$selEncoding->setSelected(rex_config::get('core', 'phpmailer_encoding'));
+$selEncoding->setSelected(rex::getConfig('phpmailer_encoding'));
 foreach (['7bit', '8bit', 'binary', 'base64', 'quoted-printable'] as $enc) {
     $selEncoding->addOption($enc, $enc);
 }
@@ -119,7 +119,7 @@ $selPriority->setId('phpmailer-priority');
 $selPriority->setName('settings[phpmailer_priority]');
 $selPriority->setSize(1);
 $selPriority->setAttribute('class', 'form-control selectpicker');
-$selPriority->setSelected(rex_config::get('core', 'phpmailer_priority'));
+$selPriority->setSelected(rex::getConfig('phpmailer_priority'));
 foreach ([0 => rex_i18n::msg('phpmailer_disabled'), 1 => rex_i18n::msg('phpmailer_high'), 3 => rex_i18n::msg('phpmailer_normal'), 5 => rex_i18n::msg('phpmailer_low')] as $no => $name) {
     $selPriority->addOption($name, $no);
 }
@@ -129,7 +129,7 @@ $selLog->setId('phpmailer-log');
 $selLog->setName('settings[phpmailer_logging]');
 $selLog->setSize(1);
 $selLog->setAttribute('class', 'form-control selectpicker');
-$selLog->setSelected(rex_config::get('core', 'phpmailer_logging'));
+$selLog->setSelected(rex::getConfig('phpmailer_logging'));
 $selLog->addOption(rex_i18n::msg('phpmailer_log_no'), 0);
 $selLog->addOption(rex_i18n::msg('phpmailer_log_errors'), rex_mailer::LOG_ERRORS);
 $selLog->addOption(rex_i18n::msg('phpmailer_log_all'), rex_mailer::LOG_ALL);
@@ -139,7 +139,7 @@ $selArchive->setId('phpmailer-archive');
 $selArchive->setName('settings[phpmailer_archive]');
 $selArchive->setSize(1);
 $selArchive->setAttribute('class', 'form-control selectpicker');
-$selArchive->setSelected((int) rex_config::get('core', 'phpmailer_archive'));
+$selArchive->setSelected((int) rex::getConfig('phpmailer_archive'));
 $selArchive->addOption(rex_i18n::msg('phpmailer_log_no'), 0);
 $selArchive->addOption(rex_i18n::msg('phpmailer_log_yes'), 1);
 
@@ -148,7 +148,7 @@ $selDebug->setId('phpmailer-smtp_debug');
 $selDebug->setName('settings[phpmailer_smtp_debug]');
 $selDebug->setSize(1);
 $selDebug->setAttribute('class', 'form-control selectpicker');
-$selDebug->setSelected(rex_config::get('core', 'phpmailer_smtp_debug'));
+$selDebug->setSelected(rex::getConfig('phpmailer_smtp_debug'));
 foreach ([0 => rex_i18n::msg('phpmailer_smtp_debug_0'), 1 => rex_i18n::msg('phpmailer_smtp_debug_1'), 2 => rex_i18n::msg('phpmailer_smtp_debug_2'), 3 => rex_i18n::msg('phpmailer_smtp_debug_3'), 4 => rex_i18n::msg('phpmailer_smtp_debug_4')] as $no => $name) {
     $selDebug->addOption($name, $no);
 }
@@ -165,17 +165,17 @@ $content .= '<fieldset><legend>' . rex_i18n::msg('phpmailer_email_options') . '<
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-fromname">' . rex_i18n::msg('phpmailer_sender_name') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-fromname" type="text" name="settings[phpmailer_fromname]" value="' . rex_escape(rex_config::get('core', 'phpmailer_fromname')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-fromname" type="text" name="settings[phpmailer_fromname]" value="' . rex_escape(rex::getConfig('phpmailer_fromname')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-from">' . rex_i18n::msg('phpmailer_sender_email') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-from" type="email" name="settings[phpmailer_from]" placeholder="name@example.tld" value="' . rex_escape(rex_config::get('core', 'phpmailer_from')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-from" type="email" name="settings[phpmailer_from]" placeholder="name@example.tld" value="' . rex_escape(rex::getConfig('phpmailer_from')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-testaddress">' . rex_i18n::msg('phpmailer_checkmail_test_address') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="email" name="settings[phpmailer_test_address]" placeholder="test@example.tld" value="' . rex_escape(rex_config::get('core', 'phpmailer_test_address')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="email" name="settings[phpmailer_test_address]" placeholder="test@example.tld" value="' . rex_escape(rex::getConfig('phpmailer_test_address')) . '" />';
 $formElements[] = $n;
 
 $selDetourMode = new rex_select();
@@ -184,12 +184,12 @@ $selDetourMode->setName('settings[phpmailer_detour_mode]');
 $selDetourMode->setSize(1);
 $selDetourMode->setAttribute('class', 'form-control selectpicker');
 
-$selDetourMode->setSelected(rex_config::get('core', 'phpmailer_detour_mode') ?: 0);
+$selDetourMode->setSelected(rex::getConfig('phpmailer_detour_mode') ?: 0);
 foreach ([rex_i18n::msg('phpmailer_disabled'), rex_i18n::msg('phpmailer_enabled')] as $key => $value) {
     $selDetourMode->addOption($value, $key);
 }
 
-$detourModeLabelClass = rex_config::get('core', 'phpmailer_detour_mode') ? 'text-danger' : '';
+$detourModeLabelClass = rex::getConfig('phpmailer_detour_mode') ? 'text-danger' : '';
 
 $n = [];
 $n['label'] = '<label for="phpmailer-detour-mode" class="' . $detourModeLabelClass . '">' . rex_i18n::msg('phpmailer_detour_email_redirect') . '</label>';
@@ -198,12 +198,12 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-confirmto">' . rex_i18n::msg('phpmailer_confirm') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-confirmto" type="email" name="settings[phpmailer_confirmto]" placeholder="confirm@example.tld" value="' . rex_escape(rex_config::get('core', 'phpmailer_confirmto')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-confirmto" type="email" name="settings[phpmailer_confirmto]" placeholder="confirm@example.tld" value="' . rex_escape(rex::getConfig('phpmailer_confirmto')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-bcc">' . rex_i18n::msg('phpmailer_bcc') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-bcc" type="email" name="settings[phpmailer_bcc]" placeholder="bcc@example.tld" value="' . rex_escape(rex_config::get('core', 'phpmailer_bcc')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-bcc" type="email" name="settings[phpmailer_bcc]" placeholder="bcc@example.tld" value="' . rex_escape(rex::getConfig('phpmailer_bcc')) . '" />';
 $formElements[] = $n;
 
 $n = [];
@@ -221,12 +221,12 @@ $content .= '<fieldset id="smtpsettings"><legend>' . rex_i18n::msg('phpmailer_sm
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-host">' . rex_i18n::msg('phpmailer_host') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-host" placeholder="smtp.example.tld" type="text" name="settings[phpmailer_host]" value="' . rex_escape(rex_config::get('core', 'phpmailer_host')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-host" placeholder="smtp.example.tld" type="text" name="settings[phpmailer_host]" value="' . rex_escape(rex::getConfig('phpmailer_host')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-port">' . rex_i18n::msg('phpmailer_port') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-port" type="number" name="settings[phpmailer_port]" value="' . rex_escape(rex_config::get('core', 'phpmailer_port')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-port" type="number" name="settings[phpmailer_port]" value="' . rex_escape(rex::getConfig('phpmailer_port')) . '" />';
 $formElements[] = $n;
 
 $n = [];
@@ -265,12 +265,12 @@ $content .= '<div id="smtpauthlogin">';
 
 $n = [];
 $n['label'] = '<label for="phpmailer-username">' . rex_i18n::msg('phpmailer_smtp_username') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-username" type="text" name="settings[phpmailer_username]" value="' . rex_escape(rex_config::get('core', 'phpmailer_username')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-username" type="text" name="settings[phpmailer_username]" value="' . rex_escape(rex::getConfig('phpmailer_username')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-password">' . rex_i18n::msg('smtp_password') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-password" type="password" name="settings[phpmailer_password]" value="' . rex_escape(rex_config::get('core', 'phpmailer_password')) . '" autocomplete="new-password" />';
+$n['field'] = '<input class="form-control" id="phpmailer-password" type="password" name="settings[phpmailer_password]" value="' . rex_escape(rex::getConfig('phpmailer_password')) . '" autocomplete="new-password" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -290,12 +290,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="phpmailer-charset">' . rex_i18n::msg('phpmailer_charset') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-charset" type="text" name="settings[phpmailer_charset]" value="' . rex_escape(rex_config::get('core', 'phpmailer_charset')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-charset" type="text" name="settings[phpmailer_charset]" value="' . rex_escape(rex::getConfig('phpmailer_charset')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-wordwrap">' . rex_i18n::msg('phpmailer_wordwrap') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-wordwrap" type="number" name="settings[phpmailer_wordwrap]" value="' . rex_escape(rex_config::get('core', 'phpmailer_wordwrap')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-wordwrap" type="number" name="settings[phpmailer_wordwrap]" value="' . rex_escape(rex::getConfig('phpmailer_wordwrap')) . '" />';
 $formElements[] = $n;
 
 $n = [];
@@ -403,4 +403,3 @@ echo '
     });
 
 </script>
-

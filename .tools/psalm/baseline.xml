@@ -5071,22 +5071,22 @@
   <file src="redaxo/src/core/pages/phpmailer.checkmail.php">
     <MixedArgument>
       <code>$str</code>
-      <code><![CDATA[rex_config::get('core', 'phpmailer_test_address')]]></code>
+      <code><![CDATA[rex::getConfig('phpmailer_test_address')]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code>$securityMode</code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[rex_config::get('core', 'phpmailer_mailer')]]></code>
-      <code><![CDATA[rex_config::get('core', 'phpmailer_smtpsecure')]]></code>
+      <code><![CDATA[rex::getConfig('phpmailer_mailer')]]></code>
+      <code><![CDATA[rex::getConfig('phpmailer_smtpsecure')]]></code>
     </MixedOperand>
     <NullOperand>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_host'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_port'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_test_address'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_host'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_port'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_test_address'))]]></code>
     </NullOperand>
     <PossiblyNullArgument>
-      <code><![CDATA[rex_config::get('core', 'phpmailer_test_address')]]></code>
+      <code><![CDATA[rex::getConfig('phpmailer_test_address')]]></code>
     </PossiblyNullArgument>
     <PossiblyNullOperand>
       <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
@@ -5097,17 +5097,17 @@
   </file>
   <file src="redaxo/src/core/pages/phpmailer.config.php">
     <NullOperand>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_bcc'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_charset'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_confirmto'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_from'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_fromname'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_host'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_password'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_port'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_test_address'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_username'))]]></code>
-      <code><![CDATA[rex_escape(rex_config::get('core', 'phpmailer_wordwrap'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_bcc'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_charset'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_confirmto'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_from'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_fromname'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_host'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_password'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_port'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_test_address'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_username'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_wordwrap'))]]></code>
     </NullOperand>
   </file>
   <file src="redaxo/src/core/pages/setup.php">
