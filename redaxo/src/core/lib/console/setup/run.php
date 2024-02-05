@@ -248,7 +248,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         if (rex_addon::exists('backup')) {
             // force loading rex_backup class, even if backup addon is not installed
-            require_once rex_path::addon('backup', 'lib/backup.php');
+            require_once rex_path::core('lib/backup/backup.php');
 
             foreach (rex_backup::getBackupFiles('') as $file) {
                 $file = preg_replace('/\.sql(?:\.gz)?$/', '', $file, -1, $count);
