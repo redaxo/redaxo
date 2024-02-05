@@ -109,7 +109,7 @@ $defaultConfig = [
 ];
 
 foreach ($defaultConfig as $key => $value) {
-    if (rex_config::has('core', $key)) {
+    if (!rex_config::has('core', $key)) {
         rex_config::set('core', $key, $value);
     }
 }
