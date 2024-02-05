@@ -114,21 +114,3 @@ foreach ($defaultConfig as $key => $value) {
         rex::setConfig($key, $value);
     }
 }
-
-/**
- * PHPMailer Addon.
- *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- */
-if (rex_config::has('phpmailer', 'log')) {
-    if (rex_config::get('phpmailer', 'log')) {
-        rex_config::set('phpmailer', 'archive', true);
-    }
-    rex_config::remove('phpmailer', 'log');
-}
-
-$oldBackUpFolder = rex_path::coreData('phpmailer/mail_backup');
-$logFolder = rex_path::coreData('phpmailer/mail_log');
-if (is_dir($oldBackUpFolder) && !is_dir($logFolder)) {
-    rename($oldBackUpFolder, $logFolder);
-}
