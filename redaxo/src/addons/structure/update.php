@@ -2,7 +2,7 @@
 
 $addon = rex_addon::get('structure');
 
-if (rex_addon::get('users')->isInstalled() && rex_string::versionCompare($addon->getVersion(), '2.9.0-beta1', '<')) {
+if (rex_string::versionCompare($addon->getVersion(), '2.9.0-beta1', '<')) {
     $sql = rex_sql::factory();
     $sql->transactional(static function () use ($sql) {
         $roles = rex_sql::factory()->setQuery('SELECT * FROM ' . rex::getTable('user_role'));
@@ -20,7 +20,7 @@ if (rex_addon::get('users')->isInstalled() && rex_string::versionCompare($addon-
     });
 }
 
-if (rex_addon::get('users')->isInstalled() && $addon->getPlugin('content')->isInstalled() && rex_string::versionCompare($addon->getVersion(), '2.11.0-beta1', '<')) {
+if ($addon->getPlugin('content')->isInstalled() && rex_string::versionCompare($addon->getVersion(), '2.11.0-beta1', '<')) {
     $sql = rex_sql::factory();
     $sql->transactional(static function () use ($sql) {
         $roles = rex_sql::factory()->setQuery('SELECT * FROM ' . rex::getTable('user_role'));
