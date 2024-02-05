@@ -821,16 +821,6 @@ parameters:
 			path: ../../redaxo/src/addons/metainfo/lib/input/medialistbutton.php
 
 		-
-			message: "#^Method rex_cronjob_mailer_purge\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/phpmailer/lib/cronjob.php
-
-		-
-			message: "#^Property rex_mailer\\:\\:\\$xHeader type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/phpmailer/lib/mailer.php
-
-		-
 			message: "#^Function rex_getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/functions/function_rex_url.php
@@ -2089,6 +2079,16 @@ parameters:
 			message: "#^Property rex_package\\:\\:\\$properties type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/package.php
+
+		-
+			message: "#^Method rex_cronjob_mailer_purge\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/phpmailer/cronjob.php
+
+		-
+			message: "#^Property rex_mailer\\:\\:\\$xHeader type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
 
 		-
 			message: "#^Method rex_request\\:\\:arrayKeyCast\\(\\) has parameter \\$haystack with no value type specified in iterable type array\\.$#"
