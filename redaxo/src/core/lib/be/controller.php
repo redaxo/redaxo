@@ -223,7 +223,7 @@ class rex_be_controller
                         ->setSubPath(rex_path::core('pages/backup.import.server.php'))),
             )
         ;
-        
+
         // ---------- Phpmailer
         self::$pages['phpmailer'] = (new rex_be_page_main('system', 'phpmailer', rex_i18n::msg('phpmailer_title')))
             ->setPath(rex_path::core('pages/phpmailer.php'))
