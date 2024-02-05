@@ -202,7 +202,7 @@ class rex_be_controller
             );
 
         // ---------- Phpmailer
-        self::$pages['phpmailer'] = (new rex_be_page_main('addons', 'phpmailer', rex_i18n::msg('phpmailer_title')))
+        self::$pages['phpmailer'] = (new rex_be_page_main('system', 'phpmailer', rex_i18n::msg('phpmailer_title')))
             ->setPath(rex_path::core('pages/phpmailer.php'))
             ->setRequiredPermissions('phpmailer[]')
             ->setPrio(80)
