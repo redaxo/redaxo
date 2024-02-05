@@ -462,6 +462,8 @@ class rex_be_controller
 
     /**
      * Includes the sub-path of current page.
+     *
+     * @return mixed
      */
     public static function includeCurrentPageSubPath(array $context = [])
     {
@@ -497,6 +499,8 @@ class rex_be_controller
      * Includes a path in correct package context.
      *
      * @param string $path
+     *
+     * @return mixed
      */
     private static function includePath($path, array $context = [])
     {
