@@ -95,11 +95,6 @@ class rex_cronjob_export extends rex_cronjob
             }
 
             if ($this->getParam('sendmail')) {
-                if (!rex_addon::get('phpmailer')->isAvailable()) {
-                    $this->setMessage($message . ', mail not sent (addon "phpmailer" isn\'t activated)');
-
-                    return false;
-                }
                 $mail = new rex_mailer();
                 $mail->addAddress($this->getParam('mailaddress'));
                 $mail->Subject = rex_i18n::rawMsg('backup_mail_subject');
@@ -156,17 +151,12 @@ class rex_cronjob_export extends rex_cronjob
             ],
         ];
 
-        if (rex_addon::get('phpmailer')->isAvailable()) {
-            $fields[] = [
-                'label' => rex_i18n::msg('backup_mailaddress'),
-                'name' => 'mailaddress',
-                'type' => 'text',
-                'visible_if' => ['sendmail' => 1],
-            ];
-        } else {
-            $fields[2]['notice'] = rex_i18n::msg('backup_send_mail_notice');
-            $fields[2]['attributes'] = ['disabled' => 'disabled'];
-        }
+        $fields[] = [
+            'label' => rex_i18n::msg('backup_mailaddress'),
+            'name' => 'mailaddress',
+            'type' => 'text',
+            'visible_if' => ['sendmail' => 1],
+        ];
 
         $fields[] = [
             'name' => 'compress',

@@ -52,7 +52,6 @@ backup_export_file_caption = Datei-Backup wiederherstellen
 backup_function = Funktion
 
 backup_send_mail = Per Mail versenden
-backup_send_mail_notice = Für diese Option wird das Addon "phpmailer" benötigt.
 backup_mailaddress = Mailadresse
 backup_mail_subject = Neue Datenbank-Sicherung
 backup_mail_body = Im Anhang befindet sich eine neue Datenbank-Sicherung der Website "{0}".
