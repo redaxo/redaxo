@@ -154,6 +154,10 @@ if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
 }
 
+if (rex::isSetup()) {
+    return;
+}
+
 if (!rex::isBackend() && 0 != rex_config::get('core', 'phpmailer_errormail')) {
     rex_extension::register('RESPONSE_SHUTDOWN', static function () {
         rex_mailer::errorMail();
