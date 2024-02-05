@@ -3283,10 +3283,6 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[str_replace($package->getPath(), '', $path)]]></code>
     </ArgumentTypeCoercion>
-    <MissingReturnType>
-      <code>includeCurrentPageSubPath</code>
-      <code>includePath</code>
-    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$addon->getProperty('page')]]></code>
       <code>$page</code>
