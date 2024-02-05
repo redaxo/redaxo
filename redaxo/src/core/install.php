@@ -84,12 +84,3 @@ rex_sql_table::get(rex::getTable('user_session'))
     ->ensure();
 
 // ----------- Cronjob
-
-// ----------- Backup
-// TODO: Cronjob muss vorher installiert sein
-
-rex_sql::factory()
-    ->setTable(rex::getTable('cronjob'))
-    ->setWhere(['type' => rex_cronjob_export::class])
-    ->setRawValue('parameters', 'REPLACE(parameters, \'"rex_cronjob_export_blacklist_tables":\', \'"rex_cronjob_export_exclude_tables":\')')
-    ->update();
