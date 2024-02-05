@@ -269,7 +269,7 @@ $n['field'] = '<input class="form-control" id="phpmailer-username" type="text" n
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="phpmailer-password">' . rex_i18n::msg('smtp_password') . '</label>';
+$n['label'] = '<label for="phpmailer-password">' . rex_i18n::msg('phpmailer_smtp_password') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-password" type="password" name="settings[phpmailer_password]" value="' . rex_escape(rex::getConfig('phpmailer_password')) . '" autocomplete="new-password" />';
 $formElements[] = $n;
 
