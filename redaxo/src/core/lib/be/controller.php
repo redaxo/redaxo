@@ -173,6 +173,7 @@ class rex_be_controller
         if ('' != ini_get('error_log') && @is_readable(ini_get('error_log'))) {
             $logsPage->addSubpage((new rex_be_page('php', rex_i18n::msg('syslog_phperrors')))->setSubPath(rex_path::core('pages/system.log.external.php')));
         }
+        $logsPage->addSubpage((new rex_be_page('phpmailer', rex_i18n::msg('phpmailer_title')))->setSubPath(rex_path::core('pages/phpmailer.log.php')));
 
         if ('system' === self::getCurrentPagePart(1) && 'log' === self::getCurrentPagePart(2)) {
             $slowQueryLogPath = rex_sql_util::slowQueryLogPath();
@@ -204,14 +205,27 @@ class rex_be_controller
                 ->setPath(rex_path::core('pages/system.phpinfo.php')),
             );
 
+        self::$pages['phpmailer'] = (new rex_be_page_main('system', 'phpmailer', rex_i18n::msg('phpmailer_title')))
+            ->setPath(rex_path::core('pages/phpmailer.php'))
+            ->setRequiredPermissions('phpmailer[]')
+            ->setPrio(80)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-envelope')
+            ->addSubpage((new rex_be_page('config', rex_i18n::msg('phpmailer_configuration')))->setSubPath(rex_path::core('pages/phpmailer.config.php')))
+            ->addSubpage((new rex_be_page('log', rex_i18n::msg('phpmailer_logging')))->setSubPath(rex_path::core('pages/phpmailer.log.php')))
+            ->addSubpage((new rex_be_page('help', rex_i18n::msg('phpmailer_help')))->setSubPath(rex_path::core('pages/phpmailer.README.md')))
+            ->addSubpage((new rex_be_page('checkmail', rex_i18n::msg('phpmailer_checkmail')))->setSubPath(rex_path::core('pages/phpmailer.checkmail.php'))->setHidden(true))
+        ;
+
         self::$pages['cronjob'] = (new rex_be_page_main('system', 'cronjob', rex_i18n::msg('cronjob_title')))
             ->setPath(rex_path::core('pages/cronjob.php'))
             ->setRequiredPermissions('isAdmin')
-            ->setPrio(120)
+            ->setPrio(90)
             ->setPjax()
             ->setIcon('rex-icon rex-icon-cronjob')
             ->addSubpage((new rex_be_page('cronjobs', rex_i18n::msg('cronjob_title')))->setSubPath(rex_path::core('pages/cronjob.cronjobs.php')))
-            ->addSubpage((new rex_be_page('log', rex_i18n::msg('cronjob_log')))->setSubPath(rex_path::core('pages/cronjob.log.php')));
+            ->addSubpage((new rex_be_page('log', rex_i18n::msg('cronjob_log')))->setSubPath(rex_path::core('pages/cronjob.log.php')))
+        ;
     }
 
     /**

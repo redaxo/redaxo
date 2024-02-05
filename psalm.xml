@@ -21,7 +21,6 @@
         <directory name="redaxo/src/addons/media_manager"/>
         <directory name="redaxo/src/addons/mediapool"/>
         <directory name="redaxo/src/addons/metainfo"/>
-        <directory name="redaxo/src/addons/phpmailer"/>
         <directory name="redaxo/src/addons/project"/>
         <directory name="redaxo/src/addons/structure"/>
         <directory name="redaxo/src/addons/users"/>
@@ -29,7 +28,6 @@
             <directory name="redaxo/src/addons/backup/vendor/" />
             <directory name="redaxo/src/addons/be_style/vendor/" />
             <directory name="redaxo/src/addons/debug/vendor/" />
-            <directory name="redaxo/src/addons/phpmailer/vendor/" />
             <directory name="redaxo/src/core/vendor/" />
             <file name="redaxo/src/core/.phpstorm.meta.php" />
         </ignoreFiles>
