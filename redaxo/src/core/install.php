@@ -108,6 +108,7 @@ $defaultConfig = [
     'phpmailer_detour_mode' => false,
 ];
 
+rex_config::refresh();
 foreach ($defaultConfig as $key => $value) {
     if (!rex_config::has('core', $key)) {
         rex_config::set('core', $key, $value);
