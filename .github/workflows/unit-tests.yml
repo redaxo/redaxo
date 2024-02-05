@@ -30,7 +30,7 @@ jobs:
                         db-image: 'mysql:8.0'
                     -   os: ubuntu-latest
                         php-version: '8.4'
-                        db-image: 'mysql:8.2'
+                        db-image: 'mysql:latest'
                     -   os: ubuntu-latest
                         php-version: '8.1'
                         db-image: 'mariadb:10.1'
@@ -70,10 +70,10 @@ jobs:
             -   name: Setup REDAXO
                 run: |
                     mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo6;'
-                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo6 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
-                    php redaxo/bin/console config:set --type boolean debug.enabled true
-                    php redaxo/bin/console config:set --type boolean debug.throw_always_exception true
-                    redaxo/bin/console system:report
+                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo6 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi -v
+                    php redaxo/bin/console config:set --type boolean debug.enabled true -v
+                    php redaxo/bin/console config:set --type boolean debug.throw_always_exception true -v
+                    redaxo/bin/console system:report -v
 
             -   name: Run phpunit
                 run: vendor/bin/phpunit --colors=always

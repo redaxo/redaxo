@@ -43,12 +43,12 @@ jobs:
                 run: |
                     sudo /etc/init.d/mysql start
                     mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo6;'
-                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo6 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
-                    php redaxo/bin/console config:set --type boolean debug.enabled true
-                    php redaxo/bin/console config:set --type boolean debug.throw_always_exception true
+                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo6 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi -v
+                    php redaxo/bin/console config:set --type boolean debug.enabled true -v
+                    php redaxo/bin/console config:set --type boolean debug.throw_always_exception true -v
 
             -   name: Compile styles
-                run: php redaxo/bin/console be_style:compile --ansi
+                run: php redaxo/bin/console be_style:compile --ansi -v
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v5
