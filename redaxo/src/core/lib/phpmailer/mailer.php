@@ -15,47 +15,43 @@ class rex_mailer extends PHPMailer
     public const LOG_ERRORS = 1;
     public const LOG_ALL = 2;
 
-    /** @var bool */
-    private $archive;
+    private bool $archive;
 
     /**
      * used to store information if detour mode is enabled.
-     *
-     * @var array
      */
-    private $xHeader = [];
+    private array $xHeader = [];
 
     public function __construct($exceptions = false)
     {
-        $addon = rex_addon::get('phpmailer');
         $this->Timeout = 10;
-        $this->setLanguage(rex_i18n::getLanguage(), $addon->getPath('vendor/phpmailer/phpmailer/language/'));
+        $this->setLanguage(rex_i18n::getLanguage(), rex_path::core('vendor/phpmailer/phpmailer/language/'));
         $this->XMailer = 'REXMailer';
-        $this->From = $addon->getConfig('from');
-        $this->FromName = $addon->getConfig('fromname');
-        $this->ConfirmReadingTo = $addon->getConfig('confirmto');
-        $this->Mailer = $addon->getConfig('mailer');
-        $this->Host = $addon->getConfig('host');
-        $this->Port = $addon->getConfig('port');
-        $this->CharSet = $addon->getConfig('charset');
-        $this->WordWrap = $addon->getConfig('wordwrap');
-        $this->Encoding = $addon->getConfig('encoding');
-        if (0 == $addon->getConfig('priority')) {
+        $this->From = rex_config::get('core', 'phpmailer_from');
+        $this->FromName = rex_config::get('core', 'phpmailer_fromname');
+        $this->ConfirmReadingTo = rex_config::get('core', 'phpmailer_confirmto');
+        $this->Mailer = rex_config::get('core', 'phpmailer_mailer');
+        $this->Host = rex_config::get('core', 'phpmailer_host');
+        $this->Port = rex_config::get('core', 'phpmailer_port');
+        $this->CharSet = rex_config::get('core', 'phpmailer_charset');
+        $this->WordWrap = rex_config::get('core', 'phpmailer_wordwrap');
+        $this->Encoding = rex_config::get('core', 'phpmailer_encoding');
+        if (0 == rex_config::get('core', 'phpmailer_priority')) {
             $this->Priority = null;
         } else {
-            $this->Priority = $addon->getConfig('priority');
+            $this->Priority = rex_config::get('core', 'phpmailer_priority');
         }
-        $this->SMTPDebug = $addon->getConfig('smtp_debug');
-        $this->SMTPSecure = $addon->getConfig('smtpsecure');
-        $this->SMTPAuth = $addon->getConfig('smtpauth');
-        $this->SMTPAutoTLS = $addon->getConfig('security_mode');
-        $this->Username = $addon->getConfig('username');
-        $this->Password = $addon->getConfig('password');
+        $this->SMTPDebug = rex_config::get('core', 'phpmailer_smtp_debug');
+        $this->SMTPSecure = rex_config::get('core', 'phpmailer_smtpsecure');
+        $this->SMTPAuth = rex_config::get('core', 'phpmailer_smtpauth');
+        $this->SMTPAutoTLS = rex_config::get('core', 'phpmailer_security_mode');
+        $this->Username = rex_config::get('core', 'phpmailer_username');
+        $this->Password = rex_config::get('core', 'phpmailer_password');
 
-        if ($bcc = $addon->getConfig('bcc')) {
+        if ($bcc = rex_config::get('core', 'phpmailer_bcc')) {
             $this->addBCC($bcc);
         }
-        $this->archive = $addon->getConfig('archive');
+        $this->archive = rex_config::get('core', 'phpmailer_archive');
         parent::__construct($exceptions);
 
         rex_extension::registerPoint(new rex_extension_point('PHPMAILER_CONFIG', $this));
@@ -63,11 +59,9 @@ class rex_mailer extends PHPMailer
 
     protected function addOrEnqueueAnAddress($kind, $address, $name)
     {
-        $addon = rex_addon::get('phpmailer');
-
-        if ($addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address')) {
+        if (rex_config::get('core', 'phpmailer_detour_mode') && '' != rex_config::get('core', 'phpmailer_test_address')) {
             if ('to' == $kind) {
-                $detourAddress = $addon->getConfig('test_address');
+                $detourAddress = rex_config::get('core', 'phpmailer_test_address');
 
                 // store the address so we can use it in the subject later
 
@@ -102,11 +96,9 @@ class rex_mailer extends PHPMailer
     public function send()
     {
         return rex_timer::measure(__METHOD__, function () {
-            $addon = rex_addon::get('phpmailer');
-
             rex_extension::registerPoint(new rex_extension_point('PHPMAILER_PRE_SEND', $this));
 
-            $detour = $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
+            $detour = rex_config::get('core', 'phpmailer_detour_mode') && '' != rex_config::get('core', 'phpmailer_test_address');
 
             // Clears the CCs and BCCs if detour mode is active
             // Sets Subject of E-Mail to [DETOUR] $subject [$this->xHeader['to']]
@@ -121,14 +113,14 @@ class rex_mailer extends PHPMailer
                     }
                 }
 
-                $this->Subject = $addon->i18n('detour_subject', $this->Subject, $this->xHeader['to']);
+                $this->Subject = rex_i18n::msg('phpmailer_detour_subject', $this->Subject, $this->xHeader['to']);
 
                 // unset xHeader so it can be used again
                 $this->xHeader = [];
             }
 
             if (!parent::send()) {
-                if ($addon->getConfig('logging')) {
+                if (rex_config::get('core', 'phpmailer_logging')) {
                     $this->log('ERROR');
                 }
                 if ($this->archive) {
@@ -141,7 +133,7 @@ class rex_mailer extends PHPMailer
                 $this->archive($this->getSentMIMEMessage());
             }
 
-            if (self::LOG_ALL == $addon->getConfig('logging')) {
+            if (self::LOG_ALL == rex_config::get('core', 'phpmailer_logging')) {
                 $this->log('OK');
             }
 
@@ -213,7 +205,7 @@ class rex_mailer extends PHPMailer
 
     private function archive(string $archivedata = '', string $status = ''): void
     {
-        $dir = self::logFolder() . '/' . date('Y') . '/' . date('m');
+        $dir = self::logFolder() . 'mailer.php/' . date('Y') . '/' . date('m');
         $count = 1;
         $archiveFile = $dir . '/' . $status . date('Y-m-d_H_i_s') . '.eml';
         while (is_file($archiveFile)) {
@@ -228,7 +220,7 @@ class rex_mailer extends PHPMailer
      */
     public static function logFolder(): string
     {
-        return rex_path::addonData('phpmailer', 'mail_log');
+        return rex_path::coreData('phpmailer/mail_log');
     }
 
     /**
@@ -244,14 +236,13 @@ class rex_mailer extends PHPMailer
      */
     public static function errorMail(): void
     {
-        $addon = rex_addon::get('phpmailer');
         $logFile = rex_path::log('system.log');
-        $sendTime = $addon->getConfig('last_log_file_send_time', 0);
-        $lasterrors = $addon->getConfig('last_errors', '');
+        $sendTime = rex_config::get('core', 'phpmailer_last_log_file_send_time', 0);
+        $lasterrors = rex_config::get('core', 'phpmailer_last_errors', '');
         $currenterrors = '';
         $timediff = time() - $sendTime;
 
-        if ($timediff <= $addon->getConfig('errormail') || !filesize($logFile)) {
+        if ($timediff <= rex_config::get('core', 'phpmailer_errormail') || !filesize($logFile)) {
             return;
         }
 
@@ -295,7 +286,7 @@ class rex_mailer extends PHPMailer
                 if (false !== stripos($type, $logtype)) {
                     $logevent = true;
                     $style = ' class="errorbg"';
-                    $currenterrors .= $entry->getTimestamp() . ' ';
+                    $currenterrors .= $entry->getTimestamp() . ' mailer.php';
                     break;
                 }
             }
@@ -303,7 +294,7 @@ class rex_mailer extends PHPMailer
             if ('logevent' == $type) {
                 $style = ' class="eventbg"';
                 $logevent = true;
-                $currenterrors .= $entry->getTimestamp() . ' ';
+                $currenterrors .= $entry->getTimestamp() . ' mailer.php';
             }
 
             $mailBody .= '        <tr' . $style . '>';
@@ -335,8 +326,8 @@ class rex_mailer extends PHPMailer
         $mail->AltBody = strip_tags($mailBody);
         $mail->FromName = 'REDAXO error report';
         $mail->addAddress(rex::getErrorEmail());
-        $addon->setConfig('last_errors', $currenterrors);
-        $addon->setConfig('last_log_file_send_time', time());
+        rex_config::get('core', 'phpmailer_last_errors', $currenterrors);
+        rex_config::get('core', 'phpmailer_last_log_file_send_time', time());
         $mail->Send();
     }
 }
