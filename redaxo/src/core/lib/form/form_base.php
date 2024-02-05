@@ -26,19 +26,19 @@ abstract class rex_form_base
     /** @var bool */
     protected $debug;
 
-    /** @var null|string */
+    /** @var string|null */
     protected $applyUrl;
 
-    /** @var null|string */
+    /** @var string|null */
     protected $message;
 
     /** @var array<int, string> */
     protected $errorMessages = [];
 
-    /** @var null|string */
+    /** @var string|null */
     protected $warning;
 
-    /** @var null|string */
+    /** @var string|null */
     protected $formId;
 
     /** @var array<string, string> */
@@ -137,8 +137,8 @@ abstract class rex_form_base
      *
      * @param string $tag
      * @param string $name
-     * @param mixed  $value
-     * @param bool   $addElement
+     * @param mixed $value
+     * @param bool $addElement
      *
      * @return rex_form_element
      */
@@ -160,7 +160,7 @@ abstract class rex_form_base
      * Ein Container-Feld wiederrum kann weitere Felder enthalten.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_container_element
      */
@@ -181,8 +181,8 @@ abstract class rex_form_base
      *
      * @param string $type
      * @param string $name
-     * @param mixed  $value
-     * @param bool   $addElement
+     * @param mixed $value
+     * @param bool $addElement
      *
      * @return rex_form_element
      */
@@ -196,7 +196,7 @@ abstract class rex_form_base
      * Fuegt dem Formular ein Text-Feld hinzu.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_element
      */
@@ -213,7 +213,7 @@ abstract class rex_form_base
      * Dazu wird ein input-Element verwendet.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_element
      */
@@ -231,7 +231,7 @@ abstract class rex_form_base
      * Dazu wird ein span-Element verwendet.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_element
      */
@@ -252,7 +252,7 @@ abstract class rex_form_base
      * Fuegt dem Fomular ein Hidden-Feld hinzu.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_element
      */
@@ -266,7 +266,7 @@ abstract class rex_form_base
      * Dies ermoeglicht die Mehrfach-Selektion aus einer vorgegeben Auswahl an Werten.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_checkbox_element
      */
@@ -283,7 +283,7 @@ abstract class rex_form_base
      * Dies ermoeglicht eine Einfache-Selektion aus einer vorgegeben Auswahl an Werten.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_radio_element
      */
@@ -299,7 +299,7 @@ abstract class rex_form_base
      * Fuegt dem Formular ein Textarea-Feld hinzu.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_element
      */
@@ -324,7 +324,7 @@ abstract class rex_form_base
      * Fuegt dem Formular ein Select/Auswahl-Feld hinzu.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_select_element
      */
@@ -344,7 +344,7 @@ abstract class rex_form_base
      * Es kann nur ein Element aus dem Medienpool eingefuegt werden.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @throws rex_exception
      *
@@ -366,7 +366,7 @@ abstract class rex_form_base
      * Damit koennen mehrere Elemente aus dem Medienpool eingefuegt werden.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @throws rex_exception
      *
@@ -388,7 +388,7 @@ abstract class rex_form_base
      * Es kann nur ein Element aus der Struktur eingefuegt werden.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @throws rex_exception
      *
@@ -410,7 +410,7 @@ abstract class rex_form_base
      * Damit koennen mehrere Elemente aus der Struktur eingefuegt werden.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @throws rex_exception
      *
@@ -476,7 +476,7 @@ abstract class rex_form_base
      * Fuegt dem Formular einen Parameter hinzu.
      * Diese an den Stellen eingefuegt, an denen das Fomular neue Requests erzeugt.
      *
-     * @param string          $name
+     * @param string $name
      * @param string|int|bool $value
      * @return void
      */
@@ -500,7 +500,7 @@ abstract class rex_form_base
      * oder $default kein Parameter mit dem Namen exisitiert.
      *
      * @param string $name
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */
@@ -525,7 +525,7 @@ abstract class rex_form_base
      *
      * @param string $inputType
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_element
      */
@@ -544,7 +544,7 @@ abstract class rex_form_base
      *
      * @param string $tag
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_element
      */
@@ -1040,8 +1040,8 @@ abstract class rex_form_base
     }
 
     /**
-     * @param string      $fieldsetName
-     * @param string      $fieldName
+     * @param string $fieldsetName
+     * @param string $fieldName
      * @param string|null $default
      *
      * @return string|null

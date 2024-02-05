@@ -51,7 +51,7 @@ class rex_sql implements Iterator
     /**
      * Where condition as string or as nested array (see `setWhere` for examples).
      *
-     * @var null|string|array
+     * @var string|array|null
      */
     protected $wherevar;
 
@@ -159,11 +159,11 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @param string $host       the host. might optionally include a port.
+     * @param string $host the host. might optionally include a port.
      * @param string $database
      * @param string $login
      * @param string $password
-     * @param bool   $persistent
+     * @param bool $persistent
      *
      * @return PDO
      */
@@ -292,9 +292,9 @@ class rex_sql implements Iterator
      *
      * Beispiel-Query: '(DB1) SELECT * FROM my_table WHERE my_col_int = 5'
      *
-     * @param string $query   The sql-query
-     * @param array  $params  An optional array of statement parameter
-     * @param array  $options For possible option keys view `rex_sql::OPT_*` constants
+     * @param string $query The sql-query
+     * @param array $params An optional array of statement parameter
+     * @param array $options For possible option keys view `rex_sql::OPT_*` constants
      *
      * @throws rex_sql_exception on errors
      *
@@ -363,7 +363,7 @@ class rex_sql implements Iterator
     /**
      * Executes the prepared statement with the given input parameters.
      *
-     * @param array $params  Array of input parameters
+     * @param array $params Array of input parameters
      * @param array $options For possible option keys view `rex_sql::OPT_*` constants
      *
      * @throws rex_sql_exception
@@ -427,9 +427,9 @@ class rex_sql implements Iterator
      *
      * NOTE: named-parameters/?-placeholders are not supported in LIMIT clause!
      *
-     * @param string $query   The sql-query
-     * @param array  $params  An optional array of statement parameter
-     * @param array  $options For possible option keys view `rex_sql::OPT_*` constants
+     * @param string $query The sql-query
+     * @param array $params An optional array of statement parameter
+     * @param array $options For possible option keys view `rex_sql::OPT_*` constants
      *
      * @throws rex_sql_exception on errors
      *
@@ -469,7 +469,7 @@ class rex_sql implements Iterator
      * Sets the raw value of a column.
      *
      * @param string $column Name of the column
-     * @param string $value  The raw value
+     * @param string $value The raw value
      *
      * @return $this the current rex_sql object
      *
@@ -487,7 +487,7 @@ class rex_sql implements Iterator
      * Set the value of a column.
      *
      * @param string $column Name of the column
-     * @param scalar|null  $value  The value
+     * @param scalar|null $value The value
      *
      * @return $this the current rex_sql object
      */
@@ -503,7 +503,7 @@ class rex_sql implements Iterator
      * Set the array value of a column (json encoded).
      *
      * @param string $column Name of the column
-     * @param array  $value  The value
+     * @param array $value The value
      *
      * @return $this the current rex_sql object
      */
@@ -515,7 +515,7 @@ class rex_sql implements Iterator
     /**
      * Sets the datetime value of a column.
      *
-     * @param string   $column    Name of the column
+     * @param string $column Name of the column
      * @param int|null $timestamp Unix timestamp (if `null` is given, the current time is used)
      *
      * @return $this the current rex_sql object
@@ -555,7 +555,7 @@ class rex_sql implements Iterator
      * Prueft den Wert der Spalte $column der aktuellen Zeile, ob $value enthalten ist.
      *
      * @param string $column Spaltenname des zu pruefenden Feldes
-     * @param string $value  Wert, der enthalten sein soll
+     * @param string $value Wert, der enthalten sein soll
      *
      * @throws rex_sql_exception
      *
@@ -610,7 +610,7 @@ class rex_sql implements Iterator
      *    $sql->setWhere('myid="35" OR abc="zdf"');
      *
      * @param string|array $where
-     * @param array        $params
+     * @param array $params
      *
      * @throws rex_sql_exception
      *
@@ -874,7 +874,7 @@ class rex_sql implements Iterator
     /**
      * Gibt die Anzahl der Zeilen zurueck.
      *
-     * @return null|int
+     * @return int|null
      * @phpstan-impure
      */
     public function getRows()
@@ -1178,8 +1178,8 @@ class rex_sql implements Iterator
      *
      * @template TFetchType as PDO::FETCH_ASSOC|PDO::FETCH_NUM|PDO::FETCH_KEY_PAIR
      *
-     * @param string $query     The sql-query
-     * @param array  $params    An optional array of statement parameter
+     * @param string $query The sql-query
+     * @param array $params An optional array of statement parameter
      * @param TFetchType $fetchType
      *
      * @throws rex_sql_exception on errors
@@ -1216,8 +1216,8 @@ class rex_sql implements Iterator
      *
      * @template TFetchType as PDO::FETCH_ASSOC|PDO::FETCH_NUM|PDO::FETCH_KEY_PAIR
      *
-     * @param string $query     The sql-query
-     * @param array  $params    An optional array of statement parameter
+     * @param string $query The sql-query
+     * @param array $params An optional array of statement parameter
      * @param TFetchType $fetchType
      *
      * @throws rex_sql_exception on errors
@@ -1296,7 +1296,7 @@ class rex_sql implements Iterator
      * Gibt die letzte Fehlermeldung aus.
      *
      * @param string $query
-     * @param array  $params
+     * @param array $params
      * @return void
      */
     protected function printError($query, $params)
@@ -1343,8 +1343,8 @@ class rex_sql implements Iterator
     /**
      * Setzt eine Spalte auf den naechst moeglich auto_increment Wert.
      *
-     * @param string $column  Name der Spalte
-     * @param int    $startId
+     * @param string $column Name der Spalte
+     * @param int $startId
      *
      * @throws rex_sql_exception
      *
@@ -1719,7 +1719,7 @@ class rex_sql implements Iterator
      * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
      *
      * @param positive-int $db Id der Datenbankverbindung
-     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
      * @throws rex_sql_exception
      *
@@ -1736,7 +1736,7 @@ class rex_sql implements Iterator
      * Sucht alle Tabellen/Views der Datenbankverbindung $DBID.
      * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
      *
-     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
      * @throws rex_sql_exception
      *
@@ -1751,7 +1751,7 @@ class rex_sql implements Iterator
      * Sucht alle Tabellen der Datenbankverbindung $DBID.
      * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
      *
-     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
      * @throws rex_sql_exception
      *
@@ -1766,7 +1766,7 @@ class rex_sql implements Iterator
      * Sucht alle Views der Datenbankverbindung $DBID.
      * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Views gesucht.
      *
-     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
      * @throws rex_sql_exception
      *
@@ -1778,8 +1778,8 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @param null|string $tablePrefix
-     * @param null|string $where
+     * @param string|null $tablePrefix
+     * @param string|null $where
      *
      * @throws rex_sql_exception
      *
@@ -1928,11 +1928,11 @@ class rex_sql implements Iterator
      * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
      * Datenbank an.
      *
-     * @param string $host     the host. might optionally include a port.
+     * @param string $host the host. might optionally include a port.
      * @param string $login
      * @param string $password
      * @param string $database
-     * @param bool   $createDb
+     * @param bool $createDb
      *
      * @return true|string
      */
@@ -2035,7 +2035,7 @@ class rex_sql implements Iterator
 
     /**
      * @param string $verb
-     * @param bool   $onDuplicateKeyUpdate
+     * @param bool $onDuplicateKeyUpdate
      *
      * @throws rex_sql_exception
      *

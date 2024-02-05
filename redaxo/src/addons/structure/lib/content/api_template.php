@@ -102,7 +102,7 @@ class rex_template
     }
 
     /**
-     * @return false|null|string
+     * @return false|string|null
      */
     public function getTemplate()
     {
@@ -145,7 +145,7 @@ class rex_template
      * if the category_id is non-positive all templates in the system are returned.
      * if the category_id is invalid an empty array is returned.
      *
-     * @param int  $categoryId
+     * @param int $categoryId
      * @param bool $ignoreInactive
      *
      * @return array<int, string>

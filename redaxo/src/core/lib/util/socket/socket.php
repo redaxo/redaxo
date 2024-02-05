@@ -58,8 +58,8 @@ class rex_socket
 
     /**
      * @param string $host Host name
-     * @param int    $port Port number
-     * @param bool   $ssl  SSL flag
+     * @param int $port Port number
+     * @param bool $ssl SSL flag
      */
     protected function __construct($host, $port = 443, $ssl = true)
     {
@@ -76,8 +76,8 @@ class rex_socket
      * Factory method.
      *
      * @param string $host Host name
-     * @param int    $port Port number
-     * @param bool   $ssl  SSL flag
+     * @param int $port Port number
+     * @param bool $ssl SSL flag
      *
      * @return static Socket instance
      *
@@ -397,9 +397,9 @@ class rex_socket
     /**
      * Writes a request to the opened connection.
      *
-     * @param string          $method  HTTP method, e.g. "GET"
-     * @param string          $path    Path
-     * @param array           $headers Headers
+     * @param string $method HTTP method, e.g. "GET"
+     * @param string $path Path
+     * @param array $headers Headers
      * @param string|callable(resource): void $data Body data as string or a callback for writing the body
      *
      * @throws rex_socket_exception

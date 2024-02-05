@@ -89,8 +89,8 @@ trait rex_factory_trait
     /**
      * Calls the factory class with the given method and arguments.
      *
-     * @param string $method    Method name
-     * @param array  $arguments Array of arguments
+     * @param string $method Method name
+     * @param array $arguments Array of arguments
      *
      * @return mixed Result of the callback
      *

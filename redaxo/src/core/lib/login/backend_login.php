@@ -3,8 +3,8 @@
 /**
  * @package redaxo\core\login
  *
- * @method null|rex_user getUser()
- * @method null|rex_user getImpersonator()
+ * @method rex_user|null getUser()
+ * @method rex_user|null getImpersonator()
  */
 class rex_backend_login extends rex_login
 {

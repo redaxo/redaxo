@@ -42,7 +42,7 @@ class rex_form extends rex_form_base
      * @param string $fieldset
      * @param string $whereCondition
      * @param 'post'|'get' $method
-     * @param bool   $debug
+     * @param bool $debug
      * @param positive-int $db DB connection ID
      */
     protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
@@ -86,7 +86,7 @@ class rex_form extends rex_form_base
      * @param string $fieldset
      * @param string $whereCondition
      * @param 'post'|'get' $method
-     * @param bool   $debug
+     * @param bool $debug
      * @param positive-int $db DB connection ID
      *
      * @return static a rex_form instance
@@ -157,7 +157,7 @@ class rex_form extends rex_form_base
      * Fuegt dem Formular ein Feld hinzu mitdem die Prioritaet von Datensaetzen verwaltet werden kann.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return rex_form_prio_element
      */
@@ -254,8 +254,8 @@ class rex_form extends rex_form_base
      * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
      * kurz vorm speichern.
      *
-     * @param string          $fieldsetName
-     * @param string          $fieldName
+     * @param string $fieldsetName
+     * @param string $fieldName
      * @param string|int|null $fieldValue
      *
      * @return string|int|null

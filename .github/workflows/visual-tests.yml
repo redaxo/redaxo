@@ -60,35 +60,6 @@ jobs:
                     coverage: none # disable xdebug, pcov
                     tools: cs2pr
 
-            - name: Set apache2 vhost
-              shell: sudo cp {0} /etc/apache2/sites-available/000-default.conf
-              run: |
-                  <VirtualHost *:80>
-                      ServerName localhost
-                      DocumentRoot ${{ github.workspace }}
-                      ErrorLog ${APACHE_LOG_DIR}/error.log
-                      CustomLog ${APACHE_LOG_DIR}/access.log combined
-                      <Directory />
-                         Options FollowSymLinks
-                         AllowOverride All
-                      </Directory>
-                      <Directory ${{ github.workspace }}>
-                         Options Indexes FollowSymLinks MultiViews
-                         AllowOverride All
-                         Order allow,deny
-                         Allow from all
-                         Require all granted
-                      </Directory>
-                    </VirtualHost>
-            - name: Setup apache2
-              run: |
-                  sudo apt update
-                  sudo apt install libapache2-mod-php
-                  echo "export APACHE_RUN_USER=`id -un`" | sudo tee -a /etc/apache2/envvars
-                  echo "export APACHE_RUN_GROUP=`id -gn`" | sudo tee -a /etc/apache2/envvars
-                  sudo a2enmod rewrite
-                  sudo /etc/init.d/apache2 start
-
             -   name: Init database
                 run: |
                     sudo /etc/init.d/mysql start
@@ -117,10 +88,33 @@ jobs:
                 uses: actions/setup-node@v4
                 with:
                     node-version: 21
-            -   name: Setup Webserver
+                    cache: npm
+                    cache-dependency-path: .github/workflows/visual-tests.yml
+
+            -   name: Install npm packages
+                run: npm install playwright pixelmatch pngjs fs mkdirp
+
+            -   name: Get installed Playwright version (used in cache key)
+                id: playwright-version
+                run: echo "PLAYWRIGHT_VERSION=$(node -e "process.stdout.write(require('playwright/package.json').version)")" >> $GITHUB_ENV
+            -   name: Cache Playwright browser binaries
+                uses: actions/cache@v4
+                id: playwright-cache
+                with:
+                    path: ~/.cache/ms-playwright
+                    key: playwright-${{ env.PLAYWRIGHT_VERSION }}
+            -   name: Install Playwright browsers binaries if cache missed
+                run: npx playwright install chromium --with-deps
+                if: steps.playwright-cache.outputs.cache-hit != 'true'
+
+            -   name: Start php server
                 run: |
-                    npm install playwright pixelmatch pngjs fs mkdirp
-                    npx playwright install --with-deps
+                    cat <<EOF > router.php
+                    <?php
+                    if (preg_match('@redaxo/(?:bin|data|cache|src)@', \$_SERVER['REQUEST_URI'])) http_response_code(403);
+                    else return false;
+                    EOF
+                    php -S localhost:8080 router.php &
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'

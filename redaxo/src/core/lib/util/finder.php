@@ -131,8 +131,8 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Ignore all files which match the given glob pattern.
      *
-     * @param string|string[] $glob      Glob pattern or an array of glob patterns
-     * @param bool         $recursive When FALSE the patterns won't be checked in child directories
+     * @param string|string[] $glob Glob pattern or an array of glob patterns
+     * @param bool $recursive When FALSE the patterns won't be checked in child directories
      *
      * @return $this
      */
@@ -151,8 +151,8 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Ignore all directories which match the given glob pattern.
      *
-     * @param string|string[] $glob      Glob pattern or an array of glob patterns
-     * @param bool         $recursive When FALSE the patterns won't be checked in child directories
+     * @param string|string[] $glob Glob pattern or an array of glob patterns
+     * @param bool $recursive When FALSE the patterns won't be checked in child directories
      *
      * @return $this
      */

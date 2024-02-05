@@ -47,10 +47,10 @@ class rex_sql_util_test extends TestCase
 
         $table2 = rex_sql_table::get(self::TABLE2);
 
-        static::assertEquals($table2->getColumns(), $table->getColumns());
-        static::assertEquals($table2->getIndexes(), $table->getIndexes());
+        self::assertEquals($table2->getColumns(), $table->getColumns());
+        self::assertEquals($table2->getIndexes(), $table->getIndexes());
 
-        static::assertSame(0, rex_sql::factory()->setTable(self::TABLE2)->select()->getRows());
+        self::assertSame(0, rex_sql::factory()->setTable(self::TABLE2)->select()->getRows());
     }
 
     public function testCopyTableWithData(): void
@@ -61,9 +61,9 @@ class rex_sql_util_test extends TestCase
 
         $table2 = rex_sql_table::get(self::TABLE2);
 
-        static::assertEquals($table2->getColumns(), $table->getColumns());
-        static::assertEquals($table2->getIndexes(), $table->getIndexes());
+        self::assertEquals($table2->getColumns(), $table->getColumns());
+        self::assertEquals($table2->getIndexes(), $table->getIndexes());
 
-        static::assertSame(2, rex_sql::factory()->setTable(self::TABLE2)->select()->getRows());
+        self::assertSame(2, rex_sql::factory()->setTable(self::TABLE2)->select()->getRows());
     }
 }

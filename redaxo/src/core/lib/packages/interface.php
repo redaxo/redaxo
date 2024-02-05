@@ -114,8 +114,8 @@ interface rex_package_interface
     /**
      * Sets a property.
      *
-     * @param non-empty-string $key   Key of the property
-     * @param mixed  $value New value for the property
+     * @param non-empty-string $key Key of the property
+     * @param mixed $value New value for the property
      * @return void
      */
     public function setProperty($key, $value);
@@ -123,8 +123,8 @@ interface rex_package_interface
     /**
      * Returns a property.
      *
-     * @param non-empty-string $key     Key of the property
-     * @param mixed  $default Default value, will be returned if the property isn't set
+     * @param non-empty-string $key Key of the property
+     * @param mixed $default Default value, will be returned if the property isn't set
      *
      * @return mixed
      */
@@ -198,8 +198,8 @@ interface rex_package_interface
     /**
      * Includes a file in the package context.
      *
-     * @param non-empty-string $file    Filename
-     * @param array  $context Context values, available as variables in given file
+     * @param non-empty-string $file Filename
+     * @param array $context Context values, available as variables in given file
      * @return mixed
      */
     public function includeFile($file, array $context = []);
@@ -207,7 +207,7 @@ interface rex_package_interface
     /**
      * Adds the package prefix to the given key and returns the translation for it.
      *
-     * @param string     $key             Key
+     * @param string $key Key
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved messag
      *
      * @return non-empty-string Translation for the key

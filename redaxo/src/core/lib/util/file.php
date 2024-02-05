@@ -65,8 +65,8 @@ class rex_file
      * Returns the content of a cache file.
      *
      * @template T
-     * @param string $file    Path to the file
-     * @param T  $default Default value
+     * @param string $file Path to the file
+     * @param T $default Default value
      * @return array|T Content of the file or default value if the file isn't readable
      */
     public static function getCache($file, $default = [])
@@ -78,7 +78,7 @@ class rex_file
     /**
      * Puts content in a file.
      *
-     * @param string $file    Path to the file
+     * @param string $file Path to the file
      * @param string $content Content for the file
      *
      * @return bool TRUE on success, FALSE on failure
@@ -107,7 +107,7 @@ class rex_file
     /**
      * Appends content to a file.
      *
-     * @param string $file    Path to the file
+     * @param string $file Path to the file
      * @param string $content Content for the file
      * @param string $delimiter delimiter for new Content
      *
@@ -143,9 +143,9 @@ class rex_file
     /**
      * Puts content in a config file.
      *
-     * @param string $file    Path to the file
-     * @param array  $content Content for the file
-     * @param int    $inline  The level where you switch to inline YAML
+     * @param string $file Path to the file
+     * @param array $content Content for the file
+     * @param int $inline The level where you switch to inline YAML
      *
      * @return bool TRUE on success, FALSE on failure
      *
@@ -159,8 +159,8 @@ class rex_file
     /**
      * Puts content in a cache file.
      *
-     * @param string $file    Path to the file
-     * @param array  $content Content for the file
+     * @param string $file Path to the file
+     * @param array $content Content for the file
      *
      * @return bool TRUE on success, FALSE on failure
      *
@@ -230,7 +230,6 @@ class rex_file
     public static function delete($file)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
-
             $tryUnlink = @unlink($file);
 
             // re-try without error suppression to compensate possible race conditions
@@ -264,7 +263,7 @@ class rex_file
      *
      * @param string $file Path to the file
      *
-     * @return null|string Mime type or `null` if the type could not be detected
+     * @return string|null Mime type or `null` if the type could not be detected
      */
     public static function mimeType($file): ?string
     {
@@ -294,8 +293,8 @@ class rex_file
     /**
      * Formates the filesize of the given file into a userfriendly form.
      *
-     * @param string $file   Path to the file
-     * @param array  $format
+     * @param string $file Path to the file
+     * @param array $format
      *
      * @return string Formatted filesize
      */

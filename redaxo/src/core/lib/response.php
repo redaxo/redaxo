@@ -158,10 +158,10 @@ class rex_response
     /**
      * Sends a file to client.
      *
-     * @param string      $file               File path
-     * @param string      $contentType        Content type
-     * @param string      $contentDisposition Content disposition ("inline" or "attachment")
-     * @param null|string $filename           Custom Filename
+     * @param string $file File path
+     * @param string $contentType Content type
+     * @param string $contentDisposition Content disposition ("inline" or "attachment")
+     * @param string|null $filename Custom Filename
      * @return void|never
      */
     public static function sendFile($file, $contentType, $contentDisposition = 'inline', $filename = null)
@@ -244,12 +244,12 @@ class rex_response
     /**
      * Sends a resource to the client.
      *
-     * @param string      $content            Content
-     * @param null|string $contentType        Content type
-     * @param null|int    $lastModified       HTTP Last-Modified Timestamp
-     * @param null|string $etag               HTTP Cachekey to identify the cache
-     * @param null|string $contentDisposition Content disposition ("inline" or "attachment")
-     * @param null|string $filename           Filename
+     * @param string $content Content
+     * @param string|null $contentType Content type
+     * @param int|null $lastModified HTTP Last-Modified Timestamp
+     * @param string|null $etag HTTP Cachekey to identify the cache
+     * @param string|null $contentDisposition Content disposition ("inline" or "attachment")
+     * @param string|null $filename Filename
      * @return void
      */
     public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null)
@@ -269,8 +269,8 @@ class rex_response
      *
      * The page content can be modified by the Extension Point OUTPUT_FILTER
      *
-     * @param string $content      Content of page
-     * @param int    $lastModified HTTP Last-Modified Timestamp
+     * @param string $content Content of page
+     * @param int $lastModified HTTP Last-Modified Timestamp
      * @return void
      */
     public static function sendPage($content, $lastModified = null)
@@ -297,10 +297,10 @@ class rex_response
     /**
      * Sends content to the client.
      *
-     * @param string      $content      Content
-     * @param string|null $contentType  Content type
-     * @param int|null    $lastModified HTTP Last-Modified Timestamp
-     * @param string|null $etag         HTTP Cachekey to identify the cache
+     * @param string $content Content
+     * @param string|null $contentType Content type
+     * @param int|null $lastModified HTTP Last-Modified Timestamp
+     * @param string|null $etag HTTP Cachekey to identify the cache
      * @return void
      */
     public static function sendContent($content, $contentType = null, $lastModified = null, $etag = null)
@@ -353,9 +353,9 @@ class rex_response
     }
 
     /**
-     * @param mixed       $data         data to be json encoded and sent
-     * @param int|null    $lastModified HTTP Last-Modified Timestamp
-     * @param string|null $etag         HTTP Cachekey to identify the cache
+     * @param mixed $data data to be json encoded and sent
+     * @param int|null $lastModified HTTP Last-Modified Timestamp
+     * @param string|null $etag HTTP Cachekey to identify the cache
      */
     public static function sendJson($data, ?int $lastModified = null, ?string $etag = null): void
     {
@@ -492,8 +492,8 @@ class rex_response
     // method inspired by https://github.com/symfony/symfony/blob/master/src/Symfony/Component/HttpFoundation/Cookie.php
 
     /**
-     * @param string      $name    The name of the cookie
-     * @param string|null $value   the value of the cookie, a empty value to delete the cookie
+     * @param string $name The name of the cookie
+     * @param string|null $value the value of the cookie, a empty value to delete the cookie
      * @param array{expires?: int|string|DateTimeInterface, path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string, raw?: bool} $options Different cookie Options. Supported keys are:
      *                             "expires" int|string|DateTimeInterface The time the cookie expires
      *                             "path" string                          The path on the server in which the cookie will be available on
@@ -578,7 +578,7 @@ class rex_response
      *
      * You might pass additional options in case the name is not unique or the cookie is not stored on the current domain.
      *
-     * @param string $name    The name of the cookie
+     * @param string $name The name of the cookie
      * @param array{path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string} $options Different cookie Options. Supported keys are:
      *                        "path" string          The path on the server in which the cookie will be available on
      *                        "domain" string|null   The domain that the cookie is available to

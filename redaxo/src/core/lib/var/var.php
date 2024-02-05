@@ -19,10 +19,10 @@ abstract class rex_var
     /** @var array<string, class-string<self>> */
     private static $vars = [];
 
-    /** @var null|int */
+    /** @var int|null */
     private static $env;
 
-    /** @var null|string */
+    /** @var string|null */
     private static $context;
 
     /** @var mixed */
@@ -37,10 +37,10 @@ abstract class rex_var
     /**
      * Parses all REX_VARs in the given content.
      *
-     * @param string $content     Content
-     * @param int    $env         Environment
-     * @param string $context     Context
-     * @param mixed  $contextData Context data
+     * @param string $content Content
+     * @param int $env Environment
+     * @param string $context Context
+     * @param mixed $contextData Context data
      *
      * @return string
      */
@@ -157,7 +157,7 @@ abstract class rex_var
      *
      * @param string $content
      * @param string $format
-     * @param bool   $useVariables
+     * @param bool $useVariables
      * @param string $stripslashes
      *
      * @return string
@@ -247,7 +247,7 @@ abstract class rex_var
      * Checks whether the given arguments exists.
      *
      * @param string $key
-     * @param bool   $defaultArg
+     * @param bool $defaultArg
      *
      * @return bool
      */
