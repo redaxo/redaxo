@@ -170,11 +170,11 @@ class rex_setup_importer
     {
         $errMsg = '';
 
-        if (!is_dir(rex_path::addon('backup'))) {
+        if (!is_dir(rex_path::core('backup'))) {
             $errMsg .= rex_i18n::msg('setup_410') . '<br />';
         } else {
             if (is_file($importSql)) {
-                rex_i18n::addDirectory(rex_path::addon('backup', 'lang/'));
+                rex_i18n::addDirectory(rex_path::core('backup/lang/'));
 
                 // DB Import
                 $stateDb = rex_backup::importDb($importSql);
