@@ -1,1 +1,138 @@
-{"version":"2.1.0","$schema":"https:\/\/json.schemastore.org\/sarif-2.1.0.json","runs":[{"tool":{"driver":{"name":"Psalm","informationUri":"https:\/\/psalm.dev","version":"5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494"}},"results":[]}]}
+{
+    "version": "2.1.0",
+    "$schema": "https:\/\/json.schemastore.org\/sarif-2.1.0.json",
+    "runs": [
+        {
+            "tool": {
+                "driver": {
+                    "name": "Psalm",
+                    "informationUri": "https:\/\/psalm.dev",
+                    "version": "5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494",
+                    "rules": [
+                        {
+                            "id": "255",
+                            "name": "TaintedFile",
+                            "shortDescription": {
+                                "text": "TaintedFile"
+                            },
+                            "properties": {
+                                "tags": [
+                                    "security"
+                                ]
+                            },
+                            "helpUri": "https:\/\/psalm.dev\/255",
+                            "help": {
+                                "markdown": "# TaintedFile\n\nThis rule is emitted when user-controlled input can be passed into a sensitive file operation.\n\n## Risk\n\nThe risk here depends on the actual operation that contains user-controlled input, and how it is later on processed.\n\nIt could range from:\n\n- Creating files\n    - Example: `file_put_contents`\n    - Risk: Depending on the server configuration this may result in remote code execution. (e.g. writing a file in the web root)\n- Modifying files\n    - Example: `file_put_contents`\n    - Risk: Depending on the server configuration this may result in remote code execution. (e.g. modifying a PHP file)\n- Reading files\n    - Example: `file_get_contents`\n    - Risk: Sensitive data could be exposed from the filesystem. (e.g. config values, source code, user-submitted files)\n- Deleting files\n    - Example: `unlink`\n    - Risk: Denial of Service or potentially RCE. (e.g. deleting application code, removing a .htaccess file)\n\n## Example\n\n```php\n<?php\n\n$content = file_get_contents($_GET['header']);\necho $content;\n```\n\n## Mitigations\n\nUse an allowlist approach where possible to verify names on file operations.\n\nSanitize user-controlled filenames by stripping `..`, `\\` and `\/`.\n\n## Further resources\n\n- [File Upload Cheat Sheet](https:\/\/cheatsheetseries.owasp.org\/cheatsheets\/File_Upload_Cheat_Sheet.html)\n- [OWASP Wiki for Unrestricted FIle Upload](https:\/\/owasp.org\/www-community\/vulnerabilities\/Unrestricted_File_Upload)\n- [CWE-73](https:\/\/cwe.mitre.org\/data\/definitions\/73.html)\n",
+                                "text": "# TaintedFile\n\nThis rule is emitted when user-controlled input can be passed into a sensitive file operation.\n\n## Risk\n\nThe risk here depends on the actual operation that contains user-controlled input, and how it is later on processed.\n\nIt could range from:\n\n- Creating files\n    - Example: `file_put_contents`\n    - Risk: Depending on the server configuration this may result in remote code execution. (e.g. writing a file in the web root)\n- Modifying files\n    - Example: `file_put_contents`\n    - Risk: Depending on the server configuration this may result in remote code execution. (e.g. modifying a PHP file)\n- Reading files\n    - Example: `file_get_contents`\n    - Risk: Sensitive data could be exposed from the filesystem. (e.g. config values, source code, user-submitted files)\n- Deleting files\n    - Example: `unlink`\n    - Risk: Denial of Service or potentially RCE. (e.g. deleting application code, removing a .htaccess file)\n\n## Example\n\n```php\n<?php\n\n$content = file_get_contents($_GET['header']);\necho $content;\n```\n\n## Mitigations\n\nUse an allowlist approach where possible to verify names on file operations.\n\nSanitize user-controlled filenames by stripping `..`, `\\` and `\/`.\n\n## Further resources\n\n- [File Upload Cheat Sheet](https:\/\/cheatsheetseries.owasp.org\/cheatsheets\/File_Upload_Cheat_Sheet.html)\n- [OWASP Wiki for Unrestricted FIle Upload](https:\/\/owasp.org\/www-community\/vulnerabilities\/Unrestricted_File_Upload)\n- [CWE-73](https:\/\/cwe.mitre.org\/data\/definitions\/73.html)\n"
+                            }
+                        },
+                        {
+                            "id": "243",
+                            "name": "TaintedCallable",
+                            "shortDescription": {
+                                "text": "TaintedCallable"
+                            },
+                            "properties": {
+                                "tags": [
+                                    "security"
+                                ]
+                            },
+                            "helpUri": "https:\/\/psalm.dev\/243",
+                            "help": {
+                                "markdown": "# TaintedCallable\n\nEmitted when tainted text is used in an arbitrary function call.\n\nThis can lead to dangerous situations, like running arbitrary functions.\n\n```php\n<?php\n\n$name = $_GET[\"name\"];\n\nevalCode($name);\n\nfunction evalCode(string $name) {\n    if (is_callable($name)) {\n        $name();\n    }\n}\n```\n",
+                                "text": "# TaintedCallable\n\nEmitted when tainted text is used in an arbitrary function call.\n\nThis can lead to dangerous situations, like running arbitrary functions.\n\n```php\n<?php\n\n$name = $_GET[\"name\"];\n\nevalCode($name);\n\nfunction evalCode(string $name) {\n    if (is_callable($name)) {\n        $name();\n    }\n}\n```\n"
+                            }
+                        },
+                        {
+                            "id": "251",
+                            "name": "TaintedInclude",
+                            "shortDescription": {
+                                "text": "TaintedInclude"
+                            },
+                            "properties": {
+                                "tags": [
+                                    "security"
+                                ]
+                            },
+                            "helpUri": "https:\/\/psalm.dev\/251",
+                            "help": {
+                                "markdown": "# TaintedInclude\n\nEmitted when user-controlled input can be passed into to an `include` or `require` expression.\n\nPassing untrusted user input to `include` calls is dangerous, as it can allow an attacker to execute arbitrary scripts on your server.\n\n```php\n<?php\n\n$name = $_GET[\"name\"];\n\nincludeCode($name);\n\nfunction includeCode(string $name) : void {\n    include($name . '.php');\n}\n```\n",
+                                "text": "# TaintedInclude\n\nEmitted when user-controlled input can be passed into to an `include` or `require` expression.\n\nPassing untrusted user input to `include` calls is dangerous, as it can allow an attacker to execute arbitrary scripts on your server.\n\n```php\n<?php\n\n$name = $_GET[\"name\"];\n\nincludeCode($name);\n\nfunction includeCode(string $name) : void {\n    include($name . '.php');\n}\n```\n"
+                            }
+                        },
+                        {
+                            "id": "245",
+                            "name": "TaintedHtml",
+                            "shortDescription": {
+                                "text": "TaintedHtml"
+                            },
+                            "properties": {
+                                "tags": [
+                                    "security"
+                                ]
+                            },
+                            "helpUri": "https:\/\/psalm.dev\/245",
+                            "help": {
+                                "markdown": "# TaintedHtml\n\nEmitted when user-controlled input that can contain HTML can be passed into to an `echo` statement.\n\n## Risk\n\nThis could lead to a potential Cross Site Scripting (XSS) vulnerability. Using a XSS vulnerability, an attacker could inject malicious JavaScript and execute any action JavaScript could do. Examples include:\n\n- Stealing authentication material (e.g. cookies, JWT tokens)\n- Exfiltrate sensitive information by reading the DOM\n- Keylog entries on the website (e.g. fake login form)\n\nWhether this is exploitable or not depends on a few conditions:\n\n- Is an executable mimetype set? (e.g. `text\/html`)\n- Is the content served inline or as attachment? (`Content-Disposition`)\n- Is the output properly sanitized? (e.g. stripping all HTML tags or having an allowlist of allowed characters)\n\n## Example\n\n```php\n<?php\n\n$name = $_GET[\"name\"];\n\nprintName($name);\n\nfunction printName(string $name) {\n    echo $name;\n}\n```\n\n## Mitigations\n\n- Sanitize user-input by using functions such as `htmlentities` or use an allowlist.\n- Set all cookies to `HTTPOnly`.\n- Consider using Content Security Policy (CSP), to limit the risk of XSS vulnerabilities.\n- If user input itself is HTML, see [Sanitizing HTML User Input](..\/..\/security_analysis\/avoiding_false_positives.md#sanitizing-html-user-input)\n\n## Further resources\n\n- [OWASP Wiki for Cross Site Scripting (XSS)](https:\/\/owasp.org\/www-community\/attacks\/xss\/)\n- [Content-Security-Policy - Web Fundamentals](https:\/\/developers.google.com\/web\/fundamentals\/security\/csp)\n",
+                                "text": "# TaintedHtml\n\nEmitted when user-controlled input that can contain HTML can be passed into to an `echo` statement.\n\n## Risk\n\nThis could lead to a potential Cross Site Scripting (XSS) vulnerability. Using a XSS vulnerability, an attacker could inject malicious JavaScript and execute any action JavaScript could do. Examples include:\n\n- Stealing authentication material (e.g. cookies, JWT tokens)\n- Exfiltrate sensitive information by reading the DOM\n- Keylog entries on the website (e.g. fake login form)\n\nWhether this is exploitable or not depends on a few conditions:\n\n- Is an executable mimetype set? (e.g. `text\/html`)\n- Is the content served inline or as attachment? (`Content-Disposition`)\n- Is the output properly sanitized? (e.g. stripping all HTML tags or having an allowlist of allowed characters)\n\n## Example\n\n```php\n<?php\n\n$name = $_GET[\"name\"];\n\nprintName($name);\n\nfunction printName(string $name) {\n    echo $name;\n}\n```\n\n## Mitigations\n\n- Sanitize user-input by using functions such as `htmlentities` or use an allowlist.\n- Set all cookies to `HTTPOnly`.\n- Consider using Content Security Policy (CSP), to limit the risk of XSS vulnerabilities.\n- If user input itself is HTML, see [Sanitizing HTML User Input](..\/..\/security_analysis\/avoiding_false_positives.md#sanitizing-html-user-input)\n\n## Further resources\n\n- [OWASP Wiki for Cross Site Scripting (XSS)](https:\/\/owasp.org\/www-community\/attacks\/xss\/)\n- [Content-Security-Policy - Web Fundamentals](https:\/\/developers.google.com\/web\/fundamentals\/security\/csp)\n"
+                            }
+                        },
+                        {
+                            "id": "274",
+                            "name": "TaintedTextWithQuotes",
+                            "shortDescription": {
+                                "text": "TaintedTextWithQuotes"
+                            },
+                            "properties": {
+                                "tags": [
+                                    "security"
+                                ]
+                            },
+                            "helpUri": "https:\/\/psalm.dev\/274",
+                            "help": {
+                                "markdown": "# TaintedTextWithQuotes\n\nEmitted when user-controlled input that can contain quotation marks can be passed into to an `echo` statement.\n\n## Risk\n\nThis could lead to a potential Cross Site Scripting (XSS) vulnerability. Using a XSS vulnerability, an attacker could inject malicious JavaScript and execute any action JavaScript could do. Examples include:\n\n- Stealing authentication material (e.g. cookies, JWT tokens)\n- Exfiltrate sensitive information by reading the DOM\n- Keylog entries on the website (e.g. fake login form)\n\nWhether this is exploitable or not depends on a few conditions:\n\n- Is an executable mimetype set? (e.g. `text\/html`)\n- Is the content served inline or as attachment? (`Content-Disposition`)\n- Is the output properly sanitized? (e.g. stripping all HTML tags or having an allowlist of allowed characters)\n\n## Example\n\n```php\n<?php\n$param = strip_tags($_GET['param']);\n?>\n\n<script>\n    console.log('<?=$param?>')\n<\/script>\n```\n\nPassing `');alert('injection');\/\/` as a `GET` param here would cause the `alert` to trigger.\n\n## Mitigations\n\n- Sanitize user input by using functions such as `htmlentities` with the `ENT_QUOTES` flag or use an allowlist.\n- Set all cookies to `HTTPOnly`.\n- Consider using Content Security Policy (CSP), to limit the risk of XSS vulnerabilities.\n- If user input itself is HTML, see [Sanitizing HTML User Input](..\/..\/security_analysis\/avoiding_false_positives.md#sanitizing-html-user-input)\n\n## Further resources\n\n- [OWASP Wiki for Cross Site Scripting (XSS)](https:\/\/owasp.org\/www-community\/attacks\/xss\/)\n- [Content-Security-Policy - Web Fundamentals](https:\/\/developers.google.com\/web\/fundamentals\/security\/csp)\n",
+                                "text": "# TaintedTextWithQuotes\n\nEmitted when user-controlled input that can contain quotation marks can be passed into to an `echo` statement.\n\n## Risk\n\nThis could lead to a potential Cross Site Scripting (XSS) vulnerability. Using a XSS vulnerability, an attacker could inject malicious JavaScript and execute any action JavaScript could do. Examples include:\n\n- Stealing authentication material (e.g. cookies, JWT tokens)\n- Exfiltrate sensitive information by reading the DOM\n- Keylog entries on the website (e.g. fake login form)\n\nWhether this is exploitable or not depends on a few conditions:\n\n- Is an executable mimetype set? (e.g. `text\/html`)\n- Is the content served inline or as attachment? (`Content-Disposition`)\n- Is the output properly sanitized? (e.g. stripping all HTML tags or having an allowlist of allowed characters)\n\n## Example\n\n```php\n<?php\n$param = strip_tags($_GET['param']);\n?>\n\n<script>\n    console.log('<?=$param?>')\n<\/script>\n```\n\nPassing `');alert('injection');\/\/` as a `GET` param here would cause the `alert` to trigger.\n\n## Mitigations\n\n- Sanitize user input by using functions such as `htmlentities` with the `ENT_QUOTES` flag or use an allowlist.\n- Set all cookies to `HTTPOnly`.\n- Consider using Content Security Policy (CSP), to limit the risk of XSS vulnerabilities.\n- If user input itself is HTML, see [Sanitizing HTML User Input](..\/..\/security_analysis\/avoiding_false_positives.md#sanitizing-html-user-input)\n\n## Further resources\n\n- [OWASP Wiki for Cross Site Scripting (XSS)](https:\/\/owasp.org\/www-community\/attacks\/xss\/)\n- [Content-Security-Policy - Web Fundamentals](https:\/\/developers.google.com\/web\/fundamentals\/security\/csp)\n"
+                            }
+                        },
+                        {
+                            "id": "256",
+                            "name": "TaintedHeader",
+                            "shortDescription": {
+                                "text": "TaintedHeader"
+                            },
+                            "properties": {
+                                "tags": [
+                                    "security"
+                                ]
+                            },
+                            "helpUri": "https:\/\/psalm.dev\/256",
+                            "help": {
+                                "markdown": "# TaintedHeader\n\nPotential header injection. This rule is emitted when user-controlled input can be passed into a HTTP header.\n\n## Risk\n\nThe risk of a header injection depends hugely on your environment.\n\nIf your webserver supports something like [`XSendFile`](https:\/\/www.nginx.com\/resources\/wiki\/start\/topics\/examples\/xsendfile\/) \/ [`X-Accel`](https:\/\/www.nginx.com\/resources\/wiki\/start\/topics\/examples\/x-accel\/), an attacker could potentially access arbitrary files on the systems.\n\nIf your system does not do that, there may be other concerns, such as:\n\n- Cookie Injection\n- Open Redirects\n- Proxy Cache Poisoning\n\n## Example\n\n```php\n<?php\n\nheader($_GET['header']);\n```\n\n## Mitigations\n\nMake sure only the value and not the key can be set by an attacker. (e.g. `header('Location: ' . $_GET['target']);`)\n\nVerify the set values are sensible. Consider using an allow list. (e.g. for redirections)\n\n## Further resources\n\n- [Unvalidated Redirects and Forwards Cheat Sheet](https:\/\/cheatsheetseries.owasp.org\/cheatsheets\/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html)\n- [OWASP Wiki for Cache Poisoning](https:\/\/owasp.org\/www-community\/attacks\/Cache_Poisoning)\n- [CWE-601](https:\/\/cwe.mitre.org\/data\/definitions\/601.html)\n- [CWE-644](https:\/\/cwe.mitre.org\/data\/definitions\/644.html)\n",
+                                "text": "# TaintedHeader\n\nPotential header injection. This rule is emitted when user-controlled input can be passed into a HTTP header.\n\n## Risk\n\nThe risk of a header injection depends hugely on your environment.\n\nIf your webserver supports something like [`XSendFile`](https:\/\/www.nginx.com\/resources\/wiki\/start\/topics\/examples\/xsendfile\/) \/ [`X-Accel`](https:\/\/www.nginx.com\/resources\/wiki\/start\/topics\/examples\/x-accel\/), an attacker could potentially access arbitrary files on the systems.\n\nIf your system does not do that, there may be other concerns, such as:\n\n- Cookie Injection\n- Open Redirects\n- Proxy Cache Poisoning\n\n## Example\n\n```php\n<?php\n\nheader($_GET['header']);\n```\n\n## Mitigations\n\nMake sure only the value and not the key can be set by an attacker. (e.g. `header('Location: ' . $_GET['target']);`)\n\nVerify the set values are sensible. Consider using an allow list. (e.g. for redirections)\n\n## Further resources\n\n- [Unvalidated Redirects and Forwards Cheat Sheet](https:\/\/cheatsheetseries.owasp.org\/cheatsheets\/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html)\n- [OWASP Wiki for Cache Poisoning](https:\/\/owasp.org\/www-community\/attacks\/Cache_Poisoning)\n- [CWE-601](https:\/\/cwe.mitre.org\/data\/definitions\/601.html)\n- [CWE-644](https:\/\/cwe.mitre.org\/data\/definitions\/644.html)\n"
+                            }
+                        },
+                        {
+                            "id": "244",
+                            "name": "TaintedSql",
+                            "shortDescription": {
+                                "text": "TaintedSql"
+                            },
+                            "properties": {
+                                "tags": [
+                                    "security"
+                                ]
+                            },
+                            "helpUri": "https:\/\/psalm.dev\/244",
+                            "help": {
+                                "markdown": "# TaintedSql\n\nEmitted when user-controlled input can be passed into to a SQL command.\n\n```php\n<?php\n\nclass A {\n    public function deleteUser(PDO $pdo) : void {\n        $userId = self::getUserId();\n        $pdo->exec(\"delete from users where user_id = \" . $userId);\n    }\n\n    public static function getUserId() : string {\n        return (string) $_GET[\"user_id\"];\n    }\n}\n```\n",
+                                "text": "# TaintedSql\n\nEmitted when user-controlled input can be passed into to a SQL command.\n\n```php\n<?php\n\nclass A {\n    public function deleteUser(PDO $pdo) : void {\n        $userId = self::getUserId();\n        $pdo->exec(\"delete from users where user_id = \" . $userId);\n    }\n\n    public static function getUserId() : string {\n        return (string) $_GET[\"user_id\"];\n    }\n}\n```\n"
+                            }
+                        }
+                    ]
+                }
+            },
+            "results": [
+            ]
+        }
+    ]
+}
