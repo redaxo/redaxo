@@ -1,98 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494">
-  <file src="redaxo/src/addons/backup/lib/backup.php">
-    <MixedArgument>
-      <code>$column</code>
-      <code>$column</code>
-      <code>$column</code>
-      <code><![CDATA[$line['query']]]></code>
-      <code>$table</code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code>$array[$idx]</code>
-      <code><![CDATA[$line['query']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code>$array</code>
-      <code>$column</code>
-      <code>$line</code>
-      <code>$table</code>
-      <code>$tables[]</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$column</code>
-      <code>$column</code>
-    </MixedOperand>
-    <MixedReturnTypeCoercion>
-      <code>$tables</code>
-      <code><![CDATA[list<string>]]></code>
-    </MixedReturnTypeCoercion>
-  </file>
-  <file src="redaxo/src/addons/backup/lib/cronjob.php">
-    <MixedArgument>
-      <code>$excludedTables</code>
-      <code>$filename</code>
-      <code><![CDATA[$this->getParam('delete_interval')]]></code>
-      <code><![CDATA[$this->getParam('mailaddress')]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$excludedTables</code>
-      <code>$filename</code>
-    </MixedAssignment>
-    <PossiblyInvalidOperand>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$filename</code>
-    </PossiblyInvalidOperand>
-  </file>
-  <file src="redaxo/src/addons/backup/pages/export.php">
-    <MixedArgument>
-      <code>$table</code>
-      <code>$table</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code>$EXPDIR</code>
-      <code>$EXPTABLES</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code>$EXPTABLE</code>
-      <code>$table</code>
-    </MixedAssignment>
-    <NullOperand>
-      <code>rex_escape($exportfilename)</code>
-    </NullOperand>
-  </file>
-  <file src="redaxo/src/addons/backup/pages/import.server.php">
-    <InvalidArrayAccess>
-      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
-    </InvalidArrayAccess>
-    <InvalidArrayOffset>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-    </InvalidArrayOffset>
-    <MixedArgument>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/addons/backup/pages/import.upload.php">
-    <InvalidArrayAccess>
-      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
-    </InvalidArrayAccess>
-    <InvalidArrayOffset>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-    </InvalidArrayOffset>
-    <MixedArgument>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/addons/be_style/boot.php">
     <MixedAssignment>
       <code>$themeColor</code>
@@ -643,10 +550,22 @@
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
     <MixedArgument>
       <code>$color</code>
+      <code><![CDATA[$imagick->getImageBlob()]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code>$color</code>
+      <code>$imagick</code>
     </MixedAssignment>
+    <MixedMethodCall>
+      <code>getImageBlob</code>
+      <code>mergeImageLayers</code>
+      <code>readImage</code>
+      <code>setImageAlphaChannel</code>
+      <code>setImageBackgroundColor</code>
+      <code>setImageFormat</code>
+      <code>setResolution</code>
+      <code>transformImageColorspace</code>
+    </MixedMethodCall>
     <PossiblyNullArgument>
       <code><![CDATA[$this->media->getMediaPath()]]></code>
       <code><![CDATA[$this->media->getMediaPath()]]></code>
@@ -3417,6 +3336,54 @@
       <code>self::$cacheFile</code>
     </PossiblyNullOperand>
   </file>
+  <file src="redaxo/src/core/lib/backup/backup.php">
+    <MixedArgument>
+      <code>$column</code>
+      <code>$column</code>
+      <code>$column</code>
+      <code><![CDATA[$line['query']]]></code>
+      <code>$table</code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code>$array[$idx]</code>
+      <code><![CDATA[$line['query']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code>$array</code>
+      <code>$column</code>
+      <code>$line</code>
+      <code>$table</code>
+      <code>$tables[]</code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code>$column</code>
+      <code>$column</code>
+    </MixedOperand>
+    <MixedReturnTypeCoercion>
+      <code>$tables</code>
+      <code><![CDATA[list<string>]]></code>
+    </MixedReturnTypeCoercion>
+  </file>
+  <file src="redaxo/src/core/lib/backup/cronjob.php">
+    <MixedArgument>
+      <code>$excludedTables</code>
+      <code>$filename</code>
+      <code><![CDATA[$this->getParam('delete_interval')]]></code>
+      <code><![CDATA[$this->getParam('mailaddress')]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$excludedTables</code>
+      <code>$filename</code>
+    </MixedAssignment>
+    <PossiblyInvalidOperand>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$filename</code>
+    </PossiblyInvalidOperand>
+  </file>
   <file src="redaxo/src/core/lib/base/instance_list_pool_trait.php">
     <MixedArgumentTypeCoercion>
       <code>(array) $key</code>
@@ -3434,6 +3401,10 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[str_replace($package->getPath(), '', $path)]]></code>
     </ArgumentTypeCoercion>
+    <MissingReturnType>
+      <code>includeCurrentPageSubPath</code>
+      <code>includePath</code>
+    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$addon->getProperty('page')]]></code>
       <code>$page</code>
@@ -5093,6 +5064,51 @@
     <PossiblyNullReference>
       <code>getSubpages</code>
     </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/pages/backup.export.php">
+    <MixedArgument>
+      <code>$table</code>
+      <code>$table</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code>$EXPDIR</code>
+      <code>$EXPTABLES</code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code>$EXPTABLE</code>
+      <code>$table</code>
+    </MixedAssignment>
+    <NullOperand>
+      <code>rex_escape($exportfilename)</code>
+    </NullOperand>
+  </file>
+  <file src="redaxo/src/core/pages/backup.import.server.php">
+    <InvalidArrayAccess>
+      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
+    </InvalidArrayAccess>
+    <InvalidArrayOffset>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+    </InvalidArrayOffset>
+    <MixedArgument>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+    </MixedArgument>
+  </file>
+  <file src="redaxo/src/core/pages/backup.import.upload.php">
+    <InvalidArrayAccess>
+      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
+    </InvalidArrayAccess>
+    <InvalidArrayOffset>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+    </InvalidArrayOffset>
+    <MixedArgument>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+    </MixedArgument>
   </file>
   <file src="redaxo/src/core/pages/login.php">
     <MixedArgument>
