@@ -51,7 +51,6 @@ backup_export_file_caption = Restaurar copia de seguridad de archivos
 backup_function = Función
 
 backup_send_mail = Enviar por Email
-backup_send_mail_notice = El addon "phpmailer" es necesario para usar esta opción.
 backup_mailaddress = Dirección de correo electrónico
 backup_mail_subject = Nueva copia de seguridad de base de datos
 backup_mail_body = Encontrar adjunto una copia de seguridad nueva base de datos del sitio web "{0}".

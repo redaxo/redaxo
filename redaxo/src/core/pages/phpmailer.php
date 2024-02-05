@@ -6,8 +6,6 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  */
 
-$addon = rex_addon::get('phpmailer');
-
-echo rex_view::title($addon->i18n('title'));
+echo rex_view::title(rex_i18n::msg('phpmailer_title'));
 
 rex_be_controller::includeCurrentPageSubPath();

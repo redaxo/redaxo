@@ -19,7 +19,7 @@ if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
 
-foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
+foreach (['HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO'] as $key) {
     if (!isset($REX[$key])) {
         throw new Exception('Missing required global variable $REX[\'' . $key . "']");
     }
@@ -100,7 +100,7 @@ if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
 } else {
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
-        rex_file::getConfig($configFile)
+        rex_file::getConfig($configFile),
     );
     rex_file::putCache($cacheFile, $config);
 }
@@ -109,7 +109,7 @@ if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
  * @var mixed $value
  */
 foreach ($config as $key => $value) {
-    if (in_array($key, array('fileperm', 'dirperm'))) {
+    if (in_array($key, ['fileperm', 'dirperm'])) {
         $value = octdec((string) $value);
     }
     rex::setProperty($key, $value);
@@ -143,7 +143,7 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
     }
 
     if (true === rex::getProperty('use_hsts') && rex_request::isHttps()) {
-        rex_response::setHeader('Strict-Transport-Security', 'max-age='.(int) rex::getProperty('hsts_max_age', 31536000)); // default 1 year
+        rex_response::setHeader('Strict-Transport-Security', 'max-age=' . (int) rex::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }
 
@@ -154,10 +154,33 @@ if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
 }
 
-// ----------------- Users AddOn
+if (rex::isSetup()) {
+    return;
+}
+
 rex_user::setRoleClass(rex_user_role::class);
 
 rex_perm::register('users[]');
 
 rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
 rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
+
+if (!rex::isBackend() && 0 != rex::getConfig('phpmailer_errormail')) {
+    rex_extension::register('RESPONSE_SHUTDOWN', static function () {
+        rex_mailer::errorMail();
+    });
+}
+
+if ('system' == rex_be_controller::getCurrentPagePart(1)) {
+    rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
+}
+
+// make the phpmailer addon icon orange if detour_mode is active
+if (true == rex::getConfig('phpmailer_detour_mode')) {
+    $page = rex_be_controller::getPageObject('phpmailer');
+    $page->setIcon($page->getIcon() . ' text-danger');
+}
+
+if (rex_addon::get('cronjob')->isAvailable()) {
+    rex_cronjob_manager::registerType(rex_cronjob_mailer_purge::class);
+}

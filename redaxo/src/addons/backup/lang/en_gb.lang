@@ -52,7 +52,6 @@ backup_export_file_caption = Restore file backup
 backup_function = Function
 
 backup_send_mail = Send by e-mail
-backup_send_mail_notice = The AddOn "phpmailer" is required to use this option.
 backup_mailaddress = E-mail address
 backup_mail_subject = New database backup
 backup_mail_body = Attached you'll find the latest database backup from the website "{0}".

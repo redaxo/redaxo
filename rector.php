@@ -49,7 +49,6 @@ return static function (RectorConfig $rectorConfig): void {
         'redaxo/src/addons/media_manager/',
         'redaxo/src/addons/mediapool/',
         'redaxo/src/addons/metainfo/',
-        'redaxo/src/addons/phpmailer/',
         'redaxo/src/addons/project/',
         'redaxo/src/addons/structure/',
     ]);
@@ -59,7 +58,6 @@ return static function (RectorConfig $rectorConfig): void {
         'redaxo/src/addons/backup/vendor',
         'redaxo/src/addons/be_style/vendor',
         'redaxo/src/addons/debug/vendor',
-        'redaxo/src/addons/phpmailer/vendor',
 
         FirstClassCallableRector::class => ['redaxo/src/core/boot.php'],
     ]);
