@@ -17,10 +17,10 @@ class rex_functions_test extends TestCase
         $escapped = rex_escape($obj);
 
         /** @psalm-suppress RedundantCondition */
-        static::assertSame($str, $obj->str);
+        self::assertSame($str, $obj->str);
 
-        static::assertInstanceOf(stdClass::class, $escapped);
-        static::assertSame(1, $escapped->num);
-        static::assertSame('&lt;b&gt;foo&lt;/b&gt;', $escapped->str);
+        self::assertInstanceOf(stdClass::class, $escapped);
+        self::assertSame(1, $escapped->num);
+        self::assertSame('&lt;b&gt;foo&lt;/b&gt;', $escapped->str);
     }
 }

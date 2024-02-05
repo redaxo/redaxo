@@ -1,3 +1,0 @@
-cronjob_article_status = Article status
-cronjob_article_reset_date = Set the article's date fields empty after a status change
-cronjob_article_reset_date_info = With this option the "online_from" resp. "online_to"-date<br>in the article's metadata will be set empty after a status change.

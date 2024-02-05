@@ -28,10 +28,9 @@ class rex_setup
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
      *
      * @param string $skinAddon
-     * @param string $skinPlugin
      * @return void
      */
-    public static function init($skinAddon = 'be_style', $skinPlugin = 'redaxo')
+    public static function init($skinAddon = 'be_style')
     {
         // initial purge all generated files
         rex_delete_cache();
@@ -47,14 +46,9 @@ class rex_setup
 
         // copy skins files/assets
         $skinAddon = rex_addon::get($skinAddon);
-        $skinPlugin = $skinAddon->getPlugin($skinPlugin);
         rex_dir::copy($skinAddon->getPath('assets'), $skinAddon->getAssetsPath());
-        rex_dir::copy($skinPlugin->getPath('assets'), $skinPlugin->getAssetsPath());
         if (is_file($skinAddon->getPath('install.php'))) {
             $skinAddon->includeFile('install.php');
-        }
-        if (is_file($skinPlugin->getPath('install.php'))) {
-            $skinPlugin->includeFile('install.php');
         }
     }
 
@@ -136,8 +130,8 @@ class rex_setup
      * Checks the version of the connected database server.
      * When validation of the database configs succeeds the settings will be used for rex_sql.
      *
-     * @param array $config   array of database config
-     * @param bool  $createDb Should the database be created, if it not exists
+     * @param array $config array of database config
+     * @param bool $createDb Should the database be created, if it not exists
      *
      * @return string Error message
      */

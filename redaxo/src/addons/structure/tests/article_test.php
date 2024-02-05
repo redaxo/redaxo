@@ -38,11 +38,11 @@ class rex_article_test extends TestCase
         /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->art_foo = 'teststring';
 
-        static::assertTrue($instance->hasValue('foo'));
-        static::assertTrue($instance->hasValue('art_foo'));
+        self::assertTrue($instance->hasValue('foo'));
+        self::assertTrue($instance->hasValue('art_foo'));
 
-        static::assertFalse($instance->hasValue('bar'));
-        static::assertFalse($instance->hasValue('art_bar'));
+        self::assertFalse($instance->hasValue('bar'));
+        self::assertFalse($instance->hasValue('art_bar'));
     }
 
     public function testGetValue(): void
@@ -52,11 +52,11 @@ class rex_article_test extends TestCase
         /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->art_foo = 'teststring';
 
-        static::assertEquals('teststring', $instance->getValue('foo'));
-        static::assertEquals('teststring', $instance->getValue('art_foo'));
+        self::assertEquals('teststring', $instance->getValue('foo'));
+        self::assertEquals('teststring', $instance->getValue('art_foo'));
 
-        static::assertNull($instance->getValue('bar'));
-        static::assertNull($instance->getValue('art_bar'));
+        self::assertNull($instance->getValue('bar'));
+        self::assertNull($instance->getValue('art_bar'));
     }
 
     private function createArticleWithoutConstructor(): rex_article

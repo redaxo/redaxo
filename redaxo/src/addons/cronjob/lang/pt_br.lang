@@ -82,3 +82,9 @@ cronjob_log_no_data = Não há dados log disponíveis.
 cronjob_log_caption_1 = Lista de cronjobs executados em {0} {1}
 cronjob_log_caption_2 = Lista dos últimos cronjobs executados
 cronjob_log_message = Mensagem
+
+cronjob_article_status = Status do artigo
+cronjob_article_reset_date =
+cronjob_article_reset_date_info =
+
+cronjob_optimize_tables = Otimizar tabelas

@@ -1,9 +1,0 @@
-package: structure/version
-version: '3.0.0-dev'
-author: Jan Kristinus
-supportpage: https://github.com/redaxo/redaxo
-
-requires:
-    packages:
-        structure: '^3.0.0-dev'
-        structure/content: '^3.0.0-dev'

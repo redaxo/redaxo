@@ -20,7 +20,7 @@ cronjob_description = Description
 cronjob_examples = Examples
 
 cronjob_type = Type
-cronjob_type_not_found = Cronjob "{0}" can not be modified due to a missing class "{1}". Make sure the associated AddOn or plugin is active!
+cronjob_type_not_found = Cronjob "{0}" can not be modified due to a missing class "{1}". Make sure the associated AddOn is active!
 cronjob_type_phpcode = PHP-Code
 cronjob_type_phpcallback = PHP-Callback
 cronjob_type_urlrequest = URL-Request
@@ -87,3 +87,9 @@ cronjob_log_caption_2 = List of latest executed cronjobs
 cronjob_log_message = Log message
 
 cronjob_delete_log_msg = Delete the cronjob log?
+
+cronjob_article_status = Article status
+cronjob_article_reset_date = Set the article's date fields empty after a status change
+cronjob_article_reset_date_info = With this option the "online_from" resp. "online_to"-date<br>in the article's metadata will be set empty after a status change.
+
+cronjob_optimize_tables = Optimize tables

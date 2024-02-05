@@ -40,7 +40,7 @@ class rex_stream
     /**
      * Prepares a new stream.
      *
-     * @param string $path    Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
+     * @param string $path Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
      * @param string $content Content which will be included
      *
      * @throws InvalidArgumentException

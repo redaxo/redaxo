@@ -166,7 +166,6 @@ class rex_release
 
         $addon = rex_addon::get('be_style');
         $this->addDir($complete, $addon->getPath('assets'), 'assets/addons/be_style');
-        $this->addDir($complete, $addon->getPlugin('redaxo')->getPath('assets'), 'assets/addons/be_style/plugins/redaxo');
 
         $files = require $addon->getPath('vendor_files.php');
         foreach ($files as $source => $destination) {

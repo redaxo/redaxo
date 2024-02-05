@@ -7,7 +7,7 @@ class rex_category_select extends rex_select
 {
     /** @var bool */
     private $ignoreOfflines;
-    /** @var null|int */
+    /** @var int|null */
     private $clang;
     /** @var bool */
     private $checkPerms;

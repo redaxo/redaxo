@@ -253,7 +253,7 @@ class rex_backup
      * Dieser wird in der Datei $filename gespeichert.
      *
      * @param string $filename
-     * @param string[]  $tables
+     * @param string[] $tables
      *
      * @return bool TRUE wenn ein Dump erstellt wurde, sonst FALSE
      */

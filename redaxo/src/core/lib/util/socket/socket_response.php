@@ -21,7 +21,7 @@ class rex_socket_response
     private $header = '';
     /** @var array */
     private $headers = [];
-    /** @var null|string */
+    /** @var string|null */
     private $body;
     /** @var bool */
     private $decompressContent = false;
@@ -154,7 +154,7 @@ class rex_socket_response
     /**
      * Returns the header for the given key, or the entire header if no key is given.
      *
-     * @param string $key     Header key
+     * @param string $key Header key
      * @param string $default Default value (is returned if the header is not set)
      *
      * @return string|null

@@ -22,7 +22,7 @@ class rex_article extends rex_structure_element
      *
      * @param int $clang
      *
-     * @return null|self
+     * @return self|null
      */
     public static function getCurrent($clang = null)
     {
@@ -77,7 +77,7 @@ class rex_article extends rex_structure_element
      * Return a list of top-level articles.
      *
      * @param bool $ignoreOfflines
-     * @param int  $clang
+     * @param int $clang
      *
      * @return self[]
      */

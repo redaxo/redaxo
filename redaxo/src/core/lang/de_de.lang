@@ -188,7 +188,7 @@ setup_204 = Die folgenden Verzeichnisse sind nicht beschreibbar:
 setup_205 = Die folgenden Dateien sind nicht beschreibbar:
 setup_206 = Die folgenden Verzeichnisse sind nicht vorhanden oder es fehlt die Berechtigung:
 setup_207 = PHP-Versionscheck | Rechteüberprüfung
-setup_208 = PHP-Version {0} ok
+setup_208 = PHP-Version <b>{0}</b> ok
 setup_209 = Ordnerrechte ok
 setup_210 = Weiter mit Schritt 3
 setup_211 = Die folgenden Dateien/Verzeichnisse sind für alle Anwender auf dem Server veränderbar (Others-Mode-Bit 7). Die Berechtigungen sollten restriktiver sein:
@@ -381,6 +381,8 @@ plugin_systemplugin = System PlugIn
 plugin_systempackage_delete_not_allowed = System PlugIns dürfen nicht gelöscht werden!
 plugin_dir_not_writable = Der PlugIn-Ordner hat keine Schreibrechte.
 plugin_cache_not_writable = Der PlugIn-Cache-Ordner hat keine Schreibrechte.
+package_active = Aktiviert
+package_disabled = Deaktiviert
 
 # src\core\pages\credits.php
 credits = Credits

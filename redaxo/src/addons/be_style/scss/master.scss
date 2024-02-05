@@ -1,20 +1,23 @@
+@import "variables";
+
 $top-navbar-height: 70px;
 $top-popup-navbar-height: 50px;
 $helper-factor-spacing: 40px;
 
-@import "vendor/bootstrap/assets/stylesheets/bootstrap";
+@import "../vendor/bootstrap/assets/stylesheets/bootstrap";
 
-@import "vendor/font-awesome/scss/fontawesome";
-@import "vendor/font-awesome/scss/brands";
-@import "vendor/font-awesome/scss/regular";
-@import "vendor/font-awesome/scss/solid";
-@import "vendor/font-awesome/scss/v4-shims";
+@import "../vendor/font-awesome/scss/fontawesome";
+@import "../vendor/font-awesome/scss/brands";
+@import "../vendor/font-awesome/scss/regular";
+@import "../vendor/font-awesome/scss/solid";
+@import "../vendor/font-awesome/scss/v4-shims";
 
-@import "scss/mixins/buttons";
-@import "scss/mixins/form";
-@import "scss/mixins/helper";
+@import "mixins/buttons";
+@import "mixins/form";
+@import "mixins/helper";
 
-@import "scss/_base";
-@import "scss/_helper";
-@import "scss/_icon";
-@import "scss/_mime";
+@import "base";
+@import "helper";
+@import "icon";
+@import "mime";
+

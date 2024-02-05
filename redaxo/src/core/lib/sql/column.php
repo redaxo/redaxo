@@ -18,25 +18,25 @@ class rex_sql_column
     /** @var bool */
     private $nullable;
 
-    /** @var null|string */
+    /** @var string|null */
     private $default;
 
-    /** @var null|string */
+    /** @var string|null */
     private $extra;
 
-    /** @var null|string */
+    /** @var string|null */
     private $comment;
 
     /** @var bool */
     private $modified = false;
 
     /**
-     * @param string      $name
-     * @param string      $type
-     * @param bool        $nullable
-     * @param null|string $default
-     * @param null|string $extra
-     * @param null|string $comment
+     * @param string $name
+     * @param string $type
+     * @param bool $nullable
+     * @param string|null $default
+     * @param string|null $extra
+     * @param string|null $comment
      */
     public function __construct($name, $type, $nullable = false, $default = null, $extra = null, $comment = null)
     {
@@ -129,7 +129,7 @@ class rex_sql_column
     }
 
     /**
-     * @param null|string $default
+     * @param string|null $default
      *
      * @return $this
      */
@@ -141,7 +141,7 @@ class rex_sql_column
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getDefault()
     {
@@ -149,7 +149,7 @@ class rex_sql_column
     }
 
     /**
-     * @param null|string $extra
+     * @param string|null $extra
      *
      * @return $this
      */
@@ -161,7 +161,7 @@ class rex_sql_column
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getExtra()
     {
@@ -169,7 +169,7 @@ class rex_sql_column
     }
 
     /**
-     * @param null|string $comment
+     * @param string|null $comment
      *
      * @return $this
      */
@@ -181,7 +181,7 @@ class rex_sql_column
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getComment()
     {

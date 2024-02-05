@@ -10,8 +10,8 @@ class rex_category_service
     /**
      * Erstellt eine neue Kategorie.
      *
-     * @param int   $categoryId KategorieId in der die neue Kategorie erstellt werden soll
-     * @param array $data        Array mit den Daten der Kategorie
+     * @param int $categoryId KategorieId in der die neue Kategorie erstellt werden soll
+     * @param array $data Array mit den Daten der Kategorie
      *
      * @throws rex_api_exception
      *
@@ -46,41 +46,36 @@ class rex_category_service
         }
 
         $templates = [];
-        $contentAvailable = rex_plugin::get('structure', 'content')->isAvailable();
-        if ($contentAvailable) {
-            $startpageTemplates = [];
-            if ('' != $categoryId) {
-                // TemplateId vom Startartikel der jeweiligen Sprache vererben
-                $sql = rex_sql::factory();
-                // $sql->setDebug();
-                $sql->setQuery('select clang_id,template_id from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1', [$categoryId]);
-                for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
-                    $startpageTemplates[(int) $sql->getValue('clang_id')] = $sql->getValue('template_id');
-                }
+        $startpageTemplates = [];
+        if ('' != $categoryId) {
+            // TemplateId vom Startartikel der jeweiligen Sprache vererben
+            $sql = rex_sql::factory();
+            // $sql->setDebug();
+            $sql->setQuery('select clang_id,template_id from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1', [$categoryId]);
+            for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
+                $startpageTemplates[(int) $sql->getValue('clang_id')] = $sql->getValue('template_id');
             }
-
-            // Alle Templates der Kategorie
-            $templates = rex_template::getTemplatesForCategory($categoryId);
         }
+
+        // Alle Templates der Kategorie
+        $templates = rex_template::getTemplatesForCategory($categoryId);
 
         $user = self::getUser();
 
         // Kategorie in allen Sprachen anlegen
         $AART = rex_sql::factory();
         foreach (rex_clang::getAllIds() as $key) {
-            if ($contentAvailable) {
-                $templateId = rex_template::getDefaultId();
-                if (isset($startpageTemplates[$key]) && '' != $startpageTemplates[$key]) {
-                    $templateId = $startpageTemplates[$key];
-                }
+            $templateId = rex_template::getDefaultId();
+            if (isset($startpageTemplates[$key]) && '' != $startpageTemplates[$key]) {
+                $templateId = $startpageTemplates[$key];
+            }
 
-                // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
-                // oder leer setzen.
-                if (!isset($templates[$templateId])) {
-                    $templateId = 0;
-                    if (count($templates) > 0) {
-                        $templateId = key($templates);
-                    }
+            // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
+            // oder leer setzen.
+            if (!isset($templates[$templateId])) {
+                $templateId = 0;
+                if (count($templates) > 0) {
+                    $templateId = key($templates);
                 }
             }
 
@@ -145,9 +140,9 @@ class rex_category_service
     /**
      * Bearbeitet einer Kategorie.
      *
-     * @param int   $categoryId Id der Kategorie die verändert werden soll
-     * @param int   $clang       Id der Sprache
-     * @param array $data        Array mit den Daten der Kategorie
+     * @param int $categoryId Id der Kategorie die verändert werden soll
+     * @param int $clang Id der Sprache
+     * @param array $data Array mit den Daten der Kategorie
      *
      * @throws rex_api_exception
      *
@@ -315,9 +310,9 @@ class rex_category_service
     /**
      * Ändert den Status der Kategorie.
      *
-     * @param int      $categoryId Id der Kategorie die gelöscht werden soll
-     * @param int      $clang       Id der Sprache
-     * @param int|null $status      Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
+     * @param int $categoryId Id der Kategorie die gelöscht werden soll
+     * @param int $clang Id der Sprache
+     * @param int|null $status Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
      * @throws rex_api_exception
      *
@@ -413,7 +408,7 @@ class rex_category_service
      * Kopiert eine Kategorie in eine andere.
      *
      * @param int $fromCat KategorieId der Kategorie, die kopiert werden soll (Quelle)
-     * @param int $toCat   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
+     * @param int $toCat KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
      * @return void
      */
     public static function copyCategory($fromCat, $toCat)
@@ -425,9 +420,9 @@ class rex_category_service
      * Berechnet die Prios der Kategorien in einer Kategorie neu.
      *
      * @param int $parentId KategorieId der Kategorie, die erneuert werden soll
-     * @param int $clang     ClangId der Kategorie, die erneuert werden soll
-     * @param int $newPrio  Neue PrioNr der Kategorie
-     * @param int $oldPrio  Alte PrioNr der Kategorie
+     * @param int $clang ClangId der Kategorie, die erneuert werden soll
+     * @param int $newPrio Neue PrioNr der Kategorie
+     * @param int $oldPrio Alte PrioNr der Kategorie
      * @return void
      */
     public static function newCatPrio($parentId, $clang, $newPrio, $oldPrio)
@@ -460,7 +455,7 @@ class rex_category_service
      * Verschieben einer Kategorie in eine andere.
      *
      * @param int $fromCat KategorieId der Kategorie, die verschoben werden soll (Quelle)
-     * @param int $toCat   KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
+     * @param int $toCat KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
@@ -568,7 +563,7 @@ class rex_category_service
     /**
      * Checks whether the required array key $keyName isset.
      *
-     * @param array  $array   The array
+     * @param array $array The array
      * @param string $keyName The key
      *
      * @throws rex_api_exception

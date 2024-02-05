@@ -17,7 +17,7 @@ const {mkdirp} = require('mkdirp');
 const viewportWidth = 1280;
 const viewportHeight = 800;
 
-const START_URL = 'http://localhost/redaxo/index.php';
+const START_URL = 'http://localhost:8080/redaxo/index.php';
 const DEBUGGING = false;
 const WORKING_DIR = '.tests-visual/';
 const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
@@ -140,6 +140,7 @@ async function processScreenshot(page, screenshotName) {
     await page.evaluate(function() {
         var changingElements = [
             '.rex-js-script-time',
+            '#rex-page-setup .panel-success li:first-child b',
             '.rex-js-setup-step-4 .form-control-static',
             'td[data-title="Letzter Login"]',
             '#rex-form-exportfilename',
@@ -340,9 +341,9 @@ async function main() {
             await goToUrlOrThrow(page, START_URL + '?page=packages', { waitUntil: 'load' });
             await Promise.all([
                 page.waitForNavigation({ waitUntil: 'networkidle0' }),
-                page.click('#package-be_style-customizer .rex-table-action > a:first-child') // install
+                page.click('#package-be_style .rex-table-action > a:first-child') // install
             ]);
-            await createScreenshots(page, 'packages_customizer_installed.png');
+            await createScreenshots(page, 'packages_be_style_reinstalled.png');
             await goToUrlOrThrow(page, START_URL + '?page=system/customizer', { waitUntil: 'load' });
             await page.waitForTimeout(200); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshots(page, 'system_customizer.png');

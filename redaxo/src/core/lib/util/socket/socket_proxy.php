@@ -20,8 +20,8 @@ class rex_socket_proxy extends rex_socket
      * Sets the destination.
      *
      * @param string $host Host name
-     * @param int    $port Port number
-     * @param bool   $ssl  SSL flag
+     * @param int $port Port number
+     * @param bool $ssl SSL flag
      *
      * @return $this Current socket
      */
