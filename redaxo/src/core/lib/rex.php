@@ -70,8 +70,8 @@ class rex
     /**
      * Sets a property. Changes will not be persisted accross http request boundaries.
      *
-     * @param string $key   Key of the property
-     * @param mixed  $value Value for the property
+     * @param string $key Key of the property
+     * @param mixed $value Value for the property
      *
      * @throws InvalidArgumentException on invalid parameters
      *
@@ -128,8 +128,8 @@ class rex
     /**
      * Returns a property.
      *
-     * @param string $key     Key of the property
-     * @param mixed  $default Default value, will be returned if the property isn't set
+     * @param string $key Key of the property
+     * @param mixed $default Default value, will be returned if the property isn't set
      *
      * @throws InvalidArgumentException on invalid parameters
      *
@@ -337,7 +337,7 @@ class rex
     /**
      * Returns the current user.
      *
-     * @return null|rex_user
+     * @return rex_user|null
      */
     public static function getUser()
     {
@@ -363,7 +363,7 @@ class rex
     /**
      * Returns the current impersonator user.
      *
-     * @return null|rex_user
+     * @return rex_user|null
      */
     public static function getImpersonator()
     {
@@ -375,7 +375,7 @@ class rex
     /**
      * Returns the console application.
      *
-     * @return null|rex_console_application
+     * @return rex_console_application|null
      */
     public static function getConsole()
     {
@@ -414,7 +414,7 @@ class rex
     /**
      * Returns the server URL.
      *
-     * @param null|string $protocol
+     * @param string|null $protocol
      *
      * @return string
      */
@@ -496,7 +496,7 @@ class rex
      * Returns the title tag and if the property "use_accesskeys" is true, the accesskey tag.
      *
      * @param string $title Title
-     * @param string $key   Key for the accesskey
+     * @param string $key Key for the accesskey
      *
      * @return string
      */

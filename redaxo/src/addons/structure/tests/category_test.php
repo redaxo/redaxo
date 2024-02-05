@@ -39,11 +39,11 @@ class rex_category_test extends TestCase
         /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->cat_foo = 'teststring';
 
-        static::assertTrue($instance->hasValue('foo'));
-        static::assertTrue($instance->hasValue('cat_foo'));
+        self::assertTrue($instance->hasValue('foo'));
+        self::assertTrue($instance->hasValue('cat_foo'));
 
-        static::assertFalse($instance->hasValue('bar'));
-        static::assertFalse($instance->hasValue('cat_bar'));
+        self::assertFalse($instance->hasValue('bar'));
+        self::assertFalse($instance->hasValue('cat_bar'));
     }
 
     public function testGetValue(): void
@@ -53,17 +53,17 @@ class rex_category_test extends TestCase
         /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->cat_foo = 'teststring';
 
-        static::assertEquals('teststring', $instance->getValue('foo'));
-        static::assertEquals('teststring', $instance->getValue('cat_foo'));
+        self::assertEquals('teststring', $instance->getValue('foo'));
+        self::assertEquals('teststring', $instance->getValue('cat_foo'));
 
-        static::assertNull($instance->getValue('bar'));
-        static::assertNull($instance->getValue('cat_bar'));
+        self::assertNull($instance->getValue('bar'));
+        self::assertNull($instance->getValue('cat_bar'));
     }
 
     #[DataProvider('dataGetClosestValue')]
     public function testGetClosestValue(string|int|null $expectedValue, rex_category $category): void
     {
-        static::assertSame($expectedValue, $category->getClosestValue('cat_foo'));
+        self::assertSame($expectedValue, $category->getClosestValue('cat_foo'));
     }
 
     /** @return iterable<int, array{int|string|null, rex_category}> */
@@ -96,7 +96,7 @@ class rex_category_test extends TestCase
     #[DataProvider('dataIsOnlineIncludingParents')]
     public function testIsOnlineIncludingParents(bool $expected, rex_category $category): void
     {
-        static::assertSame($expected, $category->isOnlineIncludingParents());
+        self::assertSame($expected, $category->isOnlineIncludingParents());
     }
 
     /** @return iterable<int, array{bool, rex_category}> */
@@ -123,7 +123,7 @@ class rex_category_test extends TestCase
     #[DataProvider('dataGetClosest')]
     public function testGetClosest(?rex_category $expected, rex_category $category, callable $callback): void
     {
-        static::assertSame($expected, $category->getClosest($callback));
+        self::assertSame($expected, $category->getClosest($callback));
     }
 
     /** @return iterable<int, array{?rex_category, rex_category, callable}> */

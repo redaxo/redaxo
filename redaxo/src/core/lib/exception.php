@@ -6,7 +6,7 @@
 class rex_exception extends Exception
 {
     /**
-     * @param string    $message
+     * @param string $message
      */
     public function __construct($message, ?Exception $previous = null)
     {
@@ -19,7 +19,7 @@ class rex_exception extends Exception
  */
 class rex_sql_exception extends rex_exception
 {
-    /** @var null|rex_sql */
+    /** @var rex_sql|null */
     private $sql;
 
     /** @param string $message */
@@ -31,7 +31,7 @@ class rex_sql_exception extends rex_exception
     }
 
     /**
-     * @return null|rex_sql
+     * @return rex_sql|null
      */
     public function getSql()
     {

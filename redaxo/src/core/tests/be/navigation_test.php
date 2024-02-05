@@ -29,8 +29,8 @@ class rex_be_navigation_test extends TestCase
             rex::setProperty('user', $user);
         }
 
-        static::assertSame('System', $navi[0]['headline']['title']);
-        static::assertSame('Test', $navi[1]['headline']['title']);
-        static::assertSame('Addons', $navi[2]['headline']['title']);
+        self::assertSame('System', $navi[0]['headline']['title']);
+        self::assertSame('Test', $navi[1]['headline']['title']);
+        self::assertSame('Addons', $navi[2]['headline']['title']);
     }
 }

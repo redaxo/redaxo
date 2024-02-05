@@ -151,7 +151,6 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
                 return $addon2['counter'] <=> $addon1['counter'];
             });
         }
-
     } else {
         $sortClass = '';
         $sortNext = 'up';

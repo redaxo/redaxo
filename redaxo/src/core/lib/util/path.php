@@ -119,7 +119,7 @@ class rex_path
      * Returns the path to the public assets folder of the given addon.
      *
      * @param non-empty-string $addon Addon
-     * @param string $file  File
+     * @param string $file File
      *
      * @return non-empty-string
      *
@@ -133,9 +133,9 @@ class rex_path
     /**
      * Returns the path to the public assets folder of the given plugin of the given addon.
      *
-     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $addon Addon
      * @param non-empty-string $plugin Plugin
-     * @param string $file   File
+     * @param string $file File
      *
      * @return non-empty-string
      *
@@ -186,7 +186,7 @@ class rex_path
      * Returns the path to the data folder of the given addon.
      *
      * @param non-empty-string $addon Addon
-     * @param string $file  File
+     * @param string $file File
      *
      * @return non-empty-string
      */
@@ -198,9 +198,9 @@ class rex_path
     /**
      * Returns the path to the data folder of the given plugin of the given addon.
      *
-     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $addon Addon
      * @param non-empty-string $plugin Plugin
-     * @param string $file   File
+     * @param string $file File
      *
      * @return non-empty-string
      */
@@ -252,7 +252,7 @@ class rex_path
      * Returns the path to the cache folder of the given addon.
      *
      * @param non-empty-string $addon Addon
-     * @param string $file  File
+     * @param string $file File
      *
      * @return non-empty-string
      */
@@ -264,9 +264,9 @@ class rex_path
     /**
      * Returns the path to the cache folder of the given plugin.
      *
-     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $addon Addon
      * @param non-empty-string $plugin Plugin
-     * @param string $file   File
+     * @param string $file File
      *
      * @return non-empty-string
      */
@@ -303,7 +303,7 @@ class rex_path
      * Returns the base path to the folder of the given addon.
      *
      * @param non-empty-string $addon Addon
-     * @param string $file  File
+     * @param string $file File
      *
      * @return non-empty-string
      */
@@ -315,9 +315,9 @@ class rex_path
     /**
      * Returns the base path to the folder of the plugin of the given addon.
      *
-     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $addon Addon
      * @param non-empty-string $plugin Plugin
-     * @param string $file   File
+     * @param string $file File
      *
      * @return non-empty-string
      */
@@ -363,8 +363,8 @@ class rex_path
      *
      * If the path is outside of the base path, the absolute path will be kept.
      *
-     * @param string      $absPath
-     * @param null|string $basePath Defaults to `rex_path::base()`
+     * @param string $absPath
+     * @param string|null $basePath Defaults to `rex_path::base()`
      *
      * @return string
      */
@@ -407,7 +407,7 @@ class rex_path
     }
 
     /**
-     * @return null|non-empty-string
+     * @return non-empty-string|null
      */
     public static function findBinaryPath(string $commandName): ?string
     {
