@@ -1,5 +1,5 @@
 package: phpmailer
-version: '2.13.0-beta1'
+version: '3.0.0-dev'
 author: 'Markus Staab, Thomas Skerbis, Jan Kristinus, Brent R. Matzelle'
 supportpage: https://github.com/redaxo/redaxo
 
@@ -21,7 +21,7 @@ pages:
 
 requires:
     php: '>=8.1'
-    redaxo: ^5.13.0
+    redaxo: ^6.0.0-dev
 
 default_config:
     from: ''

@@ -14,6 +14,8 @@ class rex_cronjob_manager
         rex_cronjob_phpcode::class,
         rex_cronjob_phpcallback::class,
         rex_cronjob_urlrequest::class,
+        rex_cronjob_optimize_tables::class,
+        rex_cronjob_article_status::class,
     ];
 
     /** @var string */
@@ -59,6 +61,7 @@ class rex_cronjob_manager
     }
 
     /**
+     * @api
      * @param rex_cronjob|class-string<rex_cronjob> $cronjob
      * @return void
      */
@@ -89,13 +92,10 @@ class rex_cronjob_manager
             $this->id = $id;
             $this->cronjob = $cronjob;
             $type = $cronjob->getType();
-            if (is_array($params)) {
-                foreach ($params as $key => $value) {
-                    $cronjob->setParam(str_replace($type . '_', '', $key), $value);
-                }
+            foreach ($params as $key => $value) {
+                $cronjob->setParam(str_replace($type . '_', '', $key), $value);
             }
 
-            $message = '';
             try {
                 $success = $cronjob->execute();
                 $message = $cronjob->getMessage();

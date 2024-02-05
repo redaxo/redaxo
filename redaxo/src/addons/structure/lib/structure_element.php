@@ -276,13 +276,11 @@ abstract class rex_structure_element
     /**
      * Returns a url for linking to this article.
      *
-     * @param string $divider
-     *
      * @return string
      */
-    public function getUrl(array $params = [], $divider = '&amp;')
+    public function getUrl(array $params = [])
     {
-        return rex_getUrl($this->getId(), $this->getClangId(), $params, $divider);
+        return rex_getUrl($this->getId(), $this->getClangId(), $params);
     }
 
     /**

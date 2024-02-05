@@ -83,9 +83,9 @@ class rex_socket_test extends TestCase
     public static function parseUrlProvider(): array
     {
         return [
-            ['example.com',                             'example.com', 80,  false, '/'],
+            ['example.com',                             'example.com', 443,  true, '/'],
             ['example.com:81',                          'example.com', 81,  false, '/'],
-            ['example.com/a/path/?key=value',           'example.com', 80,  false, '/a/path/?key=value'],
+            ['example.com/a/path/?key=value',           'example.com', 443,  true, '/a/path/?key=value'],
             ['example.com:81/a/path/?key=value',        'example.com', 81,  false, '/a/path/?key=value'],
             ['http://example.com',                      'example.com', 80,  false, '/'],
             ['https://example.com',                     'example.com', 443, true,  '/'],

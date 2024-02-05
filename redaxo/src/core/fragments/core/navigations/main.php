@@ -32,6 +32,6 @@
             $linkAttr = isset($item['linkAttr']) ? rex_string::buildAttributes($item['linkAttr']) : '';
         ?>
 
-        <li<?= $itemAttr ?>><a href="<?= $item['href'] ?>"<?= $linkAttr ?>><?= $icon . $item['title'] ?></a></li>
+        <li<?= $itemAttr ?>><a href="<?= rex_escape($item['href']) ?>"<?= $linkAttr ?>><?= $icon . $item['title'] ?></a></li>
         <?php endforeach ?>
     </ul>

@@ -20,7 +20,7 @@ if (rex_string::versionCompare($addon->getVersion(), '2.9.0-beta1', '<')) {
     });
 }
 
-if ($addon->getPlugin('content')->isInstalled() && rex_string::versionCompare($addon->getVersion(), '2.11.0-beta1', '<')) {
+if (rex_string::versionCompare($addon->getVersion(), '2.11.0-beta1', '<')) {
     $sql = rex_sql::factory();
     $sql->transactional(static function () use ($sql) {
         $roles = rex_sql::factory()->setQuery('SELECT * FROM ' . rex::getTable('user_role'));
@@ -40,11 +40,3 @@ if ($addon->getPlugin('content')->isInstalled() && rex_string::versionCompare($a
 
 // use path relative to __DIR__ to get correct path in update temp dir
 $addon->includeFile(__DIR__ . '/install.php');
-
-foreach ($addon->getInstalledPlugins() as $plugin) {
-    $file = __DIR__ . '/plugins/' . $plugin->getName() . '/install.php';
-
-    if (is_file($file)) {
-        $plugin->includeFile($file);
-    }
-}

@@ -202,7 +202,7 @@ if ('' == $func) {
         } else {
             $warning = rex_i18n::rawMsg('cronjob_type_not_found', $field->getValue(), $activeType);
         }
-        rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning], false));
+        rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning]));
     }
 
     $form->addFieldset($addon->i18n('type_parameters'));
@@ -240,7 +240,7 @@ if ('' == $func) {
 
         $params = $cronjob->getParamFields();
 
-        if (!is_array($params) || empty($params)) {
+        if (empty($params)) {
             $field = $fieldContainer->addGroupedField($group, 'readonly', 'noparams', $addon->i18n('type_no_parameters'));
             $field->setLabel('&nbsp;');
         } else {

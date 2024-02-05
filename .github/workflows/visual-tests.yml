@@ -92,15 +92,16 @@ jobs:
             -   name: Init database
                 run: |
                     sudo /etc/init.d/mysql start
-                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
-                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo5 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
+                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo6;'
+                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo6 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
                     php redaxo/bin/console config:set --type boolean debug.enabled true
                     php redaxo/bin/console config:set --type boolean debug.throw_always_exception true
 
-            -   name: Create user, update config
+            -   name: Create user, update config, install cronjob
                 run: |
                     php redaxo/bin/console user:create myusername mypassword --admin --ansi
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+                    php redaxo/bin/console package:install cronjob --ansi
             -   name: Import mock data
                 run: |
                     mkdir -p $GITHUB_WORKSPACE/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/addons/backup/
@@ -110,12 +111,7 @@ jobs:
             -   name: Install packages
                 run: |
                     php redaxo/bin/console package:install phpmailer --ansi
-                    php redaxo/bin/console package:install cronjob --ansi
-                    php redaxo/bin/console package:install cronjob/article_status --ansi
-                    php redaxo/bin/console package:install cronjob/optimize_tables --ansi
                     php redaxo/bin/console package:install debug --ansi
-                    php redaxo/bin/console package:install structure/history --ansi
-                    php redaxo/bin/console package:install structure/version --ansi
 
             -   name: Setup nodejs
                 uses: actions/setup-node@v4

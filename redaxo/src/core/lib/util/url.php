@@ -51,13 +51,11 @@ class rex_url
      * Returns the url to the frontend-controller (index.php from frontend).
      *
      * @param array $params Params
-     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
-     *
      * @return non-empty-string
      */
-    public static function frontendController(array $params = [], $escape = true)
+    public static function frontendController(array $params = [])
     {
-        $query = rex_string::buildQuery($params, $escape ? '&amp;' : '&');
+        $query = rex_string::buildQuery($params);
         $query = $query ? '?' . $query : '';
         return self::$pathprovider->frontendController() . $query;
     }
@@ -78,13 +76,11 @@ class rex_url
      * Returns the url to the backend-controller (index.php from backend).
      *
      * @param array $params Params
-     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
-     *
      * @return non-empty-string
      */
-    public static function backendController(array $params = [], $escape = true)
+    public static function backendController(array $params = [])
     {
-        $query = rex_string::buildQuery($params, $escape ? '&amp;' : '&');
+        $query = rex_string::buildQuery($params);
         $query = $query ? '?' . $query : '';
         return self::$pathprovider->backendController() . $query;
     }
@@ -94,26 +90,22 @@ class rex_url
      *
      * @param string $page   Page
      * @param array  $params Params
-     * @param bool   $escape Flag whether the argument separator "&" should be escaped (&amp;)
-     *
      * @return non-empty-string
      */
-    public static function backendPage($page, array $params = [], $escape = true)
+    public static function backendPage($page, array $params = [])
     {
-        return self::backendController(array_merge(['page' => $page], $params), $escape);
+        return self::backendController(array_merge(['page' => $page], $params));
     }
 
     /**
      * Returns the url to the current backend page.
      *
      * @param array $params Params
-     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
-     *
      * @return non-empty-string
      */
-    public static function currentBackendPage(array $params = [], $escape = true)
+    public static function currentBackendPage(array $params = [])
     {
-        return self::backendPage(rex_be_controller::getCurrentPage(), $params, $escape);
+        return self::backendPage(rex_be_controller::getCurrentPage(), $params);
     }
 
     /**

@@ -85,7 +85,7 @@ db:
         host: localhost
         login: root
         password: ''
-        name: redaxo5
+        name: redaxo6
         persistent: false
         ssl_key: null
         ssl_cert: null

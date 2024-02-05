@@ -152,6 +152,6 @@ class rex_rex_test extends TestCase
         static::assertTrue('' != rex::getVersion(), 'a version string is returned');
         $vers = rex::getVersion();
         $versParts = explode('.', $vers);
-        static::assertTrue(5 == $versParts[0], 'the major version is 5');
+        static::assertTrue(6 == $versParts[0], 'the major version is 5');
     }
 }

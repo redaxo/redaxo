@@ -56,7 +56,7 @@ class rex_debug_clockwork
 
     public static function getClockworkApiUrl(): string
     {
-        return rex_url::backendPage('debug', rex_api_debug::getUrlParams(), false);
+        return rex_url::backendPage('debug', rex_api_debug::getUrlParams());
     }
 
     /**

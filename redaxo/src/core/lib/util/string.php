@@ -173,11 +173,9 @@ class rex_string
     /**
      * Generates URL-encoded query string.
      *
-     * @param string $argSeparator
-     *
      * @return string
      */
-    public static function buildQuery(array $params, $argSeparator = '&')
+    public static function buildQuery(array $params)
     {
         $query = [];
         $func = static function (array $params, ?string $fullkey = null) use (&$query, &$func) {
@@ -191,7 +189,7 @@ class rex_string
             }
         };
         $func($params);
-        return implode($argSeparator, $query);
+        return implode('&', $query);
     }
 
     /**

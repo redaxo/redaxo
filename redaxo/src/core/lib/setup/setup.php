@@ -28,10 +28,9 @@ class rex_setup
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
      *
      * @param string $skinAddon
-     * @param string $skinPlugin
      * @return void
      */
-    public static function init($skinAddon = 'be_style', $skinPlugin = 'redaxo')
+    public static function init($skinAddon = 'be_style')
     {
         // initial purge all generated files
         rex_delete_cache();
@@ -47,14 +46,9 @@ class rex_setup
 
         // copy skins files/assets
         $skinAddon = rex_addon::get($skinAddon);
-        $skinPlugin = $skinAddon->getPlugin($skinPlugin);
         rex_dir::copy($skinAddon->getPath('assets'), $skinAddon->getAssetsPath());
-        rex_dir::copy($skinPlugin->getPath('assets'), $skinPlugin->getAssetsPath());
         if (is_file($skinAddon->getPath('install.php'))) {
             $skinAddon->includeFile('install.php');
-        }
-        if (is_file($skinPlugin->getPath('install.php'))) {
-            $skinPlugin->includeFile('install.php');
         }
     }
 
@@ -310,7 +304,7 @@ class rex_setup
             return false;
         }
 
-        return rex_url::backendPage('setup', ['setup_token' => $token], false);
+        return rex_url::backendPage('setup', ['setup_token' => $token]);
     }
 
     public static function isEnabled(): bool

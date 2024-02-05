@@ -20,7 +20,7 @@ cronjob_description = Descripción
 cronjob_examples = Ejemplos
 
 cronjob_type = Tipo
-cronjob_type_not_found = Cronjob "{0}" no se puede modificar debido a una clase que falta "{1}". ¡Asegúrese de que el AddOn o plugin asociado está activo!
+cronjob_type_not_found = Cronjob "{0}" no se puede modificar debido a una clase que falta "{1}". ¡Asegúrese de que el AddOn asociado está activo!
 cronjob_type_phpcode = Código PHP
 cronjob_type_phpcallback = PHP-devolución de llamada
 cronjob_type_urlrequest = Solicitud de URL
@@ -86,3 +86,9 @@ cronjob_log_caption_2 = Lista de los últimos cronjobs ejecutados
 cronjob_log_message = Mensaje de registro
 
 cronjob_delete_log_msg = ¿Eliminar el registro cronjob?
+
+cronjob_article_status = Estado del artículo
+cronjob_article_reset_date =
+cronjob_article_reset_date_info =
+
+cronjob_optimize_tables = Optimizar tablas
