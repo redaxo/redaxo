@@ -65,18 +65,18 @@ class rex_article_slice
     private $linklists;
 
     /**
-     * @param int    $id
-     * @param int    $articleId
-     * @param int    $clang
-     * @param int    $ctype
-     * @param int    $moduleId
-     * @param int    $priority
-     * @param int    $status
-     * @param int    $createdate
-     * @param int    $updatedate
+     * @param int $id
+     * @param int $articleId
+     * @param int $clang
+     * @param int $ctype
+     * @param int $moduleId
+     * @param int $priority
+     * @param int $status
+     * @param int $createdate
+     * @param int $updatedate
      * @param string $createuser
      * @param string $updateuser
-     * @param int    $revision
+     * @param int $revision
      * @param array<int, string|null> $values
      * @param array<int, string|null> $media
      * @param array<int, string|null> $medialists
@@ -146,9 +146,9 @@ class rex_article_slice
     /**
      * Return an ArticleSlice by its id.
      *
-     * @param int      $anId
+     * @param int $anId
      * @param false|int $clang
-     * @param int      $revision
+     * @param int $revision
      *
      * @return self|null
      */
@@ -170,10 +170,10 @@ class rex_article_slice
      * slices in the order as they appear using the
      * getNextSlice() function.
      *
-     * @param int      $anArticleId
+     * @param int $anArticleId
      * @param false|int $clang
-     * @param int      $revision
-     * @param bool     $ignoreOfflines
+     * @param int $revision
+     * @param bool $ignoreOfflines
      *
      * @return self|null
      */
@@ -196,11 +196,11 @@ class rex_article_slice
     /**
      * Returns the first slice of the given ctype of an article.
      *
-     * @param int      $ctype
-     * @param int      $anArticleId
+     * @param int $ctype
+     * @param int $anArticleId
      * @param false|int $clang
-     * @param int      $revision
-     * @param bool     $ignoreOfflines
+     * @param int $revision
+     * @param bool $ignoreOfflines
      *
      * @return self|null
      */
@@ -220,10 +220,10 @@ class rex_article_slice
      * Return all slices for an article that have a certain
      * clang or revision.
      *
-     * @param int      $anArticleId
+     * @param int $anArticleId
      * @param false|int $clang
-     * @param int      $revision
-     * @param bool     $ignoreOfflines
+     * @param int $revision
+     * @param bool $ignoreOfflines
      *
      * @return self[]
      */
@@ -243,11 +243,11 @@ class rex_article_slice
      * Return all slices for an article that have a certain
      * module type.
      *
-     * @param int      $anArticleId
-     * @param int      $aModuletypeId
+     * @param int $anArticleId
+     * @param int $aModuletypeId
      * @param false|int $clang
-     * @param int      $revision
-     * @param bool     $ignoreOfflines
+     * @param int $revision
+     * @param bool $ignoreOfflines
      *
      * @return self[]
      */
@@ -414,7 +414,7 @@ class rex_article_slice
     /**
      * @template T of int|string
      * @param T $index
-     * @return null|int|string
+     * @return int|string|null
      * @psalm-return (T is int ? string|null : int|string|null)
      */
     public function getValue($index)
@@ -472,7 +472,7 @@ class rex_article_slice
     }
 
     /**
-     * @return null|list<int>
+     * @return list<int>|null
      */
     public function getLinkListArray(int $index): ?array
     {
@@ -515,7 +515,7 @@ class rex_article_slice
     }
 
     /**
-     * @return null|list<string>
+     * @return list<string>|null
      */
     public function getMediaListArray(int $index): ?array
     {

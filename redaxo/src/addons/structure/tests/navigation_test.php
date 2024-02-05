@@ -20,7 +20,7 @@ class rex_navigation_test extends TestCase
     {
         $nav = rex_navigation::factory();
 
-        static::assertInstanceOf(rex_navigation::class, $nav);
+        self::assertInstanceOf(rex_navigation::class, $nav);
     }
 
     #[DoesNotPerformAssertions]

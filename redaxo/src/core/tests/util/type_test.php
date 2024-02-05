@@ -48,7 +48,7 @@ class rex_type_test extends TestCase
     #[DataProvider('castProvider')]
     public function testCast(mixed $var, string|callable|array $vartype, mixed $expectedResult): void
     {
-        static::assertSame($expectedResult, rex_type::cast($var, $vartype));
+        self::assertSame($expectedResult, rex_type::cast($var, $vartype));
     }
 
     /** @return list<array{mixed}> */

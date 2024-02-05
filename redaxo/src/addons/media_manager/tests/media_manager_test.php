@@ -21,16 +21,16 @@ class rex_media_manager_test extends TestCase
         $property = new ReflectionProperty(rex_media_manager::class, 'type');
         $property->setValue($manager, 'test');
 
-        static::assertSame($cachePath . 'test/foo.jpg', $manager->getCacheFilename());
+        self::assertSame($cachePath . 'test/foo.jpg', $manager->getCacheFilename());
     }
 
     public function testGetMediaFile(): void
     {
         $_GET['rex_media_file'] = '../foo/bar/baz.jpg';
-        static::assertSame('baz.jpg', rex_media_manager::getMediaFile());
+        self::assertSame('baz.jpg', rex_media_manager::getMediaFile());
 
         $_GET['rex_media_file'] = '..\\foo\\bar\\baz.jpg';
-        static::assertSame('baz.jpg', rex_media_manager::getMediaFile());
+        self::assertSame('baz.jpg', rex_media_manager::getMediaFile());
     }
 
     public function testCreate(): void
@@ -43,13 +43,13 @@ class rex_media_manager_test extends TestCase
         try {
             $manager = rex_media_manager::create('rex_media_small', $filename);
 
-            static::assertFileExists($manager->getCacheFilename());
-            static::assertFileExists($manager->getHeaderCacheFilename());
+            self::assertFileExists($manager->getCacheFilename());
+            self::assertFileExists($manager->getHeaderCacheFilename());
 
             $manager = rex_media_manager::create('non_existing_type', $filename);
 
-            static::assertFileDoesNotExist($manager->getCacheFilename());
-            static::assertFileDoesNotExist($manager->getHeaderCacheFilename());
+            self::assertFileDoesNotExist($manager->getCacheFilename());
+            self::assertFileDoesNotExist($manager->getHeaderCacheFilename());
         } finally {
             @unlink($path);
         }
@@ -61,9 +61,9 @@ class rex_media_manager_test extends TestCase
         $url = rex_media_manager::getUrl($type, $file, $timestamp);
 
         if (false === $expectedBuster) {
-            static::assertStringNotContainsString('buster=', $url);
+            self::assertStringNotContainsString('buster=', $url);
         } else {
-            static::assertStringContainsString('buster=' . $expectedBuster, $url);
+            self::assertStringContainsString('buster=' . $expectedBuster, $url);
         }
     }
 

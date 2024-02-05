@@ -38,7 +38,7 @@ class rex_log_file implements Iterator
     private $bufferPos;
 
     /**
-     * @param string   $path        File path
+     * @param string $path File path
      * @param int|null $maxFileSize Maximum file size
      */
     public function __construct($path, $maxFileSize = null)

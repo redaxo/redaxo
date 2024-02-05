@@ -39,7 +39,7 @@ class rex_be_controller
     /**
      * @template T of positive-int|null
      * @param T $part Part index, beginning with 1. If $part is null, an array of all current parts will be returned
-     * @param null|string $default Default value
+     * @param string|null $default Default value
      * @return list<string>|string|null
      * @psalm-return (T is null ? list<string> : string|null)
      */
@@ -275,11 +275,11 @@ class rex_be_controller
 
     /**
      * @param rex_be_page|array $page
-     * @param bool              $createMainPage
-     * @param string            $pageKey
-     * @param bool|string       $prefix
+     * @param bool $createMainPage
+     * @param string $pageKey
+     * @param bool|string $prefix
      *
-     * @return null|rex_be_page
+     * @return rex_be_page|null
      */
     private static function pageCreate($page, rex_package $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
     {

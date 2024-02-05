@@ -10,7 +10,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 abstract class rex_console_command extends Command
 {
-    /** @var null|rex_package */
+    /** @var rex_package|null */
     protected $package;
 
     /**
@@ -24,7 +24,7 @@ abstract class rex_console_command extends Command
     }
 
     /**
-     * @return null|rex_package In core commands it returns `null`, otherwise the corresponding package object
+     * @return rex_package|null In core commands it returns `null`, otherwise the corresponding package object
      */
     public function getPackage()
     {

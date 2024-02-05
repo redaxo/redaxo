@@ -76,7 +76,7 @@ class rex_extension_point
      * Sets a param.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @throws rex_exception
      * @return void
@@ -114,7 +114,7 @@ class rex_extension_point
      * Returns the param for the given key.
      *
      * @param string $key
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */

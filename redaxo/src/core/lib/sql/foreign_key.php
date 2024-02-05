@@ -35,7 +35,7 @@ class rex_sql_foreign_key
     /**
      * @param string $name
      * @param string $table
-     * @param array<string, string> $columns  Mapping of locale column to column in foreign table
+     * @param array<string, string> $columns Mapping of locale column to column in foreign table
      * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onUpdate
      * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onDelete
      */

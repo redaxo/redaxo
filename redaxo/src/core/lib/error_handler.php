@@ -287,10 +287,10 @@ abstract class rex_error_handler
     /**
      * Handles a error message.
      *
-     * @param int    $errno   The error code to handle
-     * @param string $errstr  The error message
+     * @param int $errno The error code to handle
+     * @param string $errstr The error message
      * @param string $errfile The file in which the error occured
-     * @param int    $errline The line of the file in which the error occured
+     * @param int $errline The line of the file in which the error occured
      *
      * @throws ErrorException
      * @return bool
