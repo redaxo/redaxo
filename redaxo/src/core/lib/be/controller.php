@@ -173,6 +173,7 @@ class rex_be_controller
         if ('' != ini_get('error_log') && @is_readable(ini_get('error_log'))) {
             $logsPage->addSubpage((new rex_be_page('php', rex_i18n::msg('syslog_phperrors')))->setSubPath(rex_path::core('pages/system.log.external.php')));
         }
+        $logsPage->addSubpage((new rex_be_page('phpmailer', rex_i18n::msg('phpmailer_title')))->setSubPath(rex_path::core('pages/phpmailer.log.php')));
 
         if ('system' === self::getCurrentPagePart(1) && 'log' === self::getCurrentPagePart(2)) {
             $slowQueryLogPath = rex_sql_util::slowQueryLogPath();
@@ -221,6 +222,19 @@ class rex_be_controller
                     ->addSubpage((new rex_be_page('server', rex_i18n::msg('backup_load_from_server')))
                         ->setSubPath(rex_path::core('pages/backup.import.server.php'))),
             )
+        ;
+        
+        // ---------- Phpmailer
+        self::$pages['phpmailer'] = (new rex_be_page_main('system', 'phpmailer', rex_i18n::msg('phpmailer_title')))
+            ->setPath(rex_path::core('pages/phpmailer.php'))
+            ->setRequiredPermissions('phpmailer[]')
+            ->setPrio(80)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-envelope')
+            ->addSubpage((new rex_be_page('config', rex_i18n::msg('phpmailer_configuration')))->setSubPath(rex_path::core('pages/phpmailer.config.php')))
+            ->addSubpage((new rex_be_page('log', rex_i18n::msg('phpmailer_logging')))->setSubPath(rex_path::core('pages/phpmailer.log.php')))
+            ->addSubpage((new rex_be_page('help', rex_i18n::msg('phpmailer_help')))->setSubPath(rex_path::core('pages/phpmailer.README.md')))
+            ->addSubpage((new rex_be_page('checkmail', rex_i18n::msg('phpmailer_checkmail')))->setSubPath(rex_path::core('pages/phpmailer.checkmail.php'))->setHidden(true))
         ;
     }
 
@@ -465,6 +479,8 @@ class rex_be_controller
 
     /**
      * Includes the sub-path of current page.
+     *
+     * @return mixed
      */
     public static function includeCurrentPageSubPath(array $context = [])
     {
@@ -500,6 +516,8 @@ class rex_be_controller
      * Includes a path in correct package context.
      *
      * @param string $path
+     *
+     * @return mixed
      */
     private static function includePath($path, array $context = [])
     {

@@ -71,12 +71,52 @@ if (rex::isBackend()) {
     rex_view::addJsFile($addon->getAssetsUrl('js/main.js'), [rex_view::JS_IMMUTABLE => true]);
 }
 
+if (rex::isBackend()) {
+    rex_view::addCssFile($addon->getAssetsUrl('css/redaxo.css'));
+    rex_view::addJsFile($addon->getAssetsUrl('js/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
+
+    rex_extension::register('PAGE_HEADER', static function (rex_extension_point $ep) use ($addon) {
+        $themeColor = '#4d99d3';
+        $config = $addon->getConfig();
+        if (!empty($config['labelcolor'])) {
+            $themeColor = $config['labelcolor'];
+        }
+
+        $icons = [];
+        $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="' . $addon->getAssetsUrl(
+            'icons/apple-touch-icon.png',
+        ) . '">';
+        $icons[] = '<link rel="icon" type="image/png" sizes="32x32" href="' . $addon->getAssetsUrl(
+            'icons/favicon-32x32.png',
+        ) . '">';
+        $icons[] = '<link rel="icon" type="image/png" sizes="16x16" href="' . $addon->getAssetsUrl(
+            'icons/favicon-16x16.png',
+        ) . '">';
+        $icons[] = '<link rel="manifest" href="' . $addon->getAssetsUrl('icons/site.webmanifest') . '">';
+        $icons[] = '<link rel="mask-icon" href="' . $addon->getAssetsUrl(
+            'icons/safari-pinned-tab.svg',
+        ) . '" color="' . $themeColor . '">';
+        $icons[] = '<meta name="msapplication-TileColor" content="#2d89ef">';
+
+        $icons = implode("\n    ", $icons);
+        $ep->setSubject($icons . $ep->getSubject());
+    });
+
+    // add theme-information to js-variable rex as rex.theme
+    // (1) System-Settings (2) no systemforced mode: user-mode (3) fallback: "auto"
+    $user = rex::getUser();
+    $theme = (string) rex::getProperty('theme');
+    if ('' === $theme && $user) {
+        $theme = (string) $user->getValue('theme');
+    }
+    rex_view::setJsProperty('theme', $theme ?: 'auto');
+}
+
 if (rex::isSetup()) {
     return;
 }
 
 // ---------------------------------- Codemirror ----------------------------------
-// TODO
 
 /**
  * REDAXO customizer.
@@ -234,45 +274,4 @@ if (rex::isBackend() && rex::getUser()) {
             '<h1 class="be-style-customizer-title"><a href="' . rex_url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="fa fa-external-link"></i></a></h1>',
         );
     }
-}
-
-if (rex::isBackend()) {
-    rex_view::addCssFile($addon->getAssetsUrl('css/redaxo.css'));
-    rex_view::addJsFile($addon->getAssetsUrl('js/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
-
-    rex_extension::register('PAGE_HEADER', static function (rex_extension_point $ep) use ($addon) {
-        $themeColor = '#4d99d3';
-        $config = $addon->getConfig();
-        if (!empty($config['labelcolor'])) {
-            $themeColor = $config['labelcolor'];
-        }
-
-        $icons = [];
-        $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="' . $addon->getAssetsUrl(
-            'icons/apple-touch-icon.png',
-        ) . '">';
-        $icons[] = '<link rel="icon" type="image/png" sizes="32x32" href="' . $addon->getAssetsUrl(
-            'icons/favicon-32x32.png',
-        ) . '">';
-        $icons[] = '<link rel="icon" type="image/png" sizes="16x16" href="' . $addon->getAssetsUrl(
-            'icons/favicon-16x16.png',
-        ) . '">';
-        $icons[] = '<link rel="manifest" href="' . $addon->getAssetsUrl('icons/site.webmanifest') . '">';
-        $icons[] = '<link rel="mask-icon" href="' . $addon->getAssetsUrl(
-            'icons/safari-pinned-tab.svg',
-        ) . '" color="' . $themeColor . '">';
-        $icons[] = '<meta name="msapplication-TileColor" content="#2d89ef">';
-
-        $icons = implode("\n    ", $icons);
-        $ep->setSubject($icons . $ep->getSubject());
-    });
-
-    // add theme-information to js-variable rex as rex.theme
-    // (1) System-Settings (2) no systemforced mode: user-mode (3) fallback: "auto"
-    $user = rex::getUser();
-    $theme = (string) rex::getProperty('theme');
-    if ('' === $theme && $user) {
-        $theme = (string) $user->getValue('theme');
-    }
-    rex_view::setJsProperty('theme', $theme ?: 'auto');
 }

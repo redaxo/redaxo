@@ -1444,119 +1444,6 @@
       <code>!is_string($metaTable)</code>
     </TypeDoesNotContainType>
   </file>
-  <file src="redaxo/src/addons/phpmailer/boot.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$page['icon']]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$page['icon']]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code>$page</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$page['icon']]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/phpmailer/lib/mailer.php">
-    <MixedArgument>
-      <code>$address</code>
-      <code>$bcc</code>
-      <code>$exceptions</code>
-      <code>$kind</code>
-      <code><![CDATA[$this->xHeader[$kind]]]></code>
-      <code><![CDATA[$this->xHeader['to']]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[array_column($this->getReplyToAddresses(), 0)]]></code>
-      <code><![CDATA[array_column($this->getToAddresses(), 0)]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayOffset>
-      <code><![CDATA[$this->xHeader[$kind]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code>$address</code>
-      <code>$bcc</code>
-      <code>$detourAddress</code>
-      <code>$lasterrors</code>
-      <code>$sendTime</code>
-      <code><![CDATA[$this->CharSet]]></code>
-      <code><![CDATA[$this->ConfirmReadingTo]]></code>
-      <code><![CDATA[$this->Encoding]]></code>
-      <code><![CDATA[$this->From]]></code>
-      <code><![CDATA[$this->FromName]]></code>
-      <code><![CDATA[$this->Host]]></code>
-      <code><![CDATA[$this->Mailer]]></code>
-      <code><![CDATA[$this->Password]]></code>
-      <code><![CDATA[$this->Port]]></code>
-      <code><![CDATA[$this->Priority]]></code>
-      <code><![CDATA[$this->SMTPAuth]]></code>
-      <code><![CDATA[$this->SMTPAutoTLS]]></code>
-      <code><![CDATA[$this->SMTPDebug]]></code>
-      <code><![CDATA[$this->SMTPSecure]]></code>
-      <code><![CDATA[$this->Username]]></code>
-      <code><![CDATA[$this->WordWrap]]></code>
-      <code><![CDATA[$this->archive]]></code>
-      <code>$timediff</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$sendTime</code>
-      <code><![CDATA[$this->xHeader[$kind]]]></code>
-      <code><![CDATA[$this->xHeader['to']]]></code>
-    </MixedOperand>
-    <PossiblyNullArgument>
-      <code>$address</code>
-      <code><![CDATA[$this->xHeader['to']]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$sendTime</code>
-    </PossiblyNullOperand>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$this->xHeader['to']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/addons/phpmailer/pages/checkmail.php">
-    <MixedArgument>
-      <code><![CDATA[$addon->getConfig('test_address')]]></code>
-      <code>$str</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$securityMode</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$addon->getConfig('mailer')]]></code>
-      <code><![CDATA[$addon->getConfig('smtpsecure')]]></code>
-    </MixedOperand>
-    <NullOperand>
-      <code><![CDATA[rex_escape($addon->getConfig('host'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('port'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('test_address'))]]></code>
-    </NullOperand>
-    <PossiblyNullArgument>
-      <code><![CDATA[$addon->getConfig('test_address')]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
-    </PossiblyNullOperand>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/addons/phpmailer/pages/config.php">
-    <NullOperand>
-      <code><![CDATA[rex_escape($addon->getConfig('bcc'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('charset'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('confirmto'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('from'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('fromname'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('host'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('password'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('port'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('test_address'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('username'))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('wordwrap'))]]></code>
-    </NullOperand>
-  </file>
   <file src="redaxo/src/addons/structure/boot.php">
     <MixedArgument>
       <code>$articleId</code>
@@ -2613,6 +2500,13 @@
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
     </PossiblyInvalidArgument>
+    <PossiblyNullOperand>
+      <code><![CDATA[$page->getIcon()]]></code>
+    </PossiblyNullOperand>
+    <PossiblyNullReference>
+      <code>getIcon</code>
+      <code>setIcon</code>
+    </PossiblyNullReference>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
@@ -4377,6 +4271,63 @@
       <code>$plugin</code>
     </PossiblyNullArgument>
   </file>
+  <file src="redaxo/src/core/lib/phpmailer/mailer.php">
+    <MixedArgument>
+      <code>$address</code>
+      <code>$bcc</code>
+      <code>$exceptions</code>
+      <code>$kind</code>
+      <code><![CDATA[$this->xHeader[$kind]]]></code>
+      <code><![CDATA[$this->xHeader['to']]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[array_column($this->getReplyToAddresses(), 0)]]></code>
+      <code><![CDATA[array_column($this->getToAddresses(), 0)]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayOffset>
+      <code><![CDATA[$this->xHeader[$kind]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code>$address</code>
+      <code>$bcc</code>
+      <code>$detourAddress</code>
+      <code>$lasterrors</code>
+      <code>$sendTime</code>
+      <code><![CDATA[$this->CharSet]]></code>
+      <code><![CDATA[$this->ConfirmReadingTo]]></code>
+      <code><![CDATA[$this->Encoding]]></code>
+      <code><![CDATA[$this->From]]></code>
+      <code><![CDATA[$this->FromName]]></code>
+      <code><![CDATA[$this->Host]]></code>
+      <code><![CDATA[$this->Mailer]]></code>
+      <code><![CDATA[$this->Password]]></code>
+      <code><![CDATA[$this->Port]]></code>
+      <code><![CDATA[$this->Priority]]></code>
+      <code><![CDATA[$this->SMTPAuth]]></code>
+      <code><![CDATA[$this->SMTPAutoTLS]]></code>
+      <code><![CDATA[$this->SMTPDebug]]></code>
+      <code><![CDATA[$this->SMTPSecure]]></code>
+      <code><![CDATA[$this->Username]]></code>
+      <code><![CDATA[$this->WordWrap]]></code>
+      <code><![CDATA[$this->archive]]></code>
+      <code>$timediff</code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code>$sendTime</code>
+      <code><![CDATA[$this->xHeader[$kind]]]></code>
+      <code><![CDATA[$this->xHeader['to']]]></code>
+    </MixedOperand>
+    <PossiblyNullArgument>
+      <code>$address</code>
+      <code><![CDATA[$this->xHeader['to']]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand>
+      <code>$sendTime</code>
+    </PossiblyNullOperand>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$this->xHeader['to']]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
   <file src="redaxo/src/core/lib/request.php">
     <MixedArgument>
       <code>$vartype</code>
@@ -5120,6 +5071,48 @@
       <code>$icon</code>
       <code>$key ?: $function</code>
     </MixedOperand>
+  </file>
+  <file src="redaxo/src/core/pages/phpmailer.checkmail.php">
+    <MixedArgument>
+      <code>$str</code>
+      <code><![CDATA[rex::getConfig('phpmailer_test_address')]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$securityMode</code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[rex::getConfig('phpmailer_mailer')]]></code>
+      <code><![CDATA[rex::getConfig('phpmailer_smtpsecure')]]></code>
+    </MixedOperand>
+    <NullOperand>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_host'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_port'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_test_address'))]]></code>
+    </NullOperand>
+    <PossiblyNullArgument>
+      <code><![CDATA[rex::getConfig('phpmailer_test_address')]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand>
+      <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
+    </PossiblyNullOperand>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="redaxo/src/core/pages/phpmailer.config.php">
+    <NullOperand>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_bcc'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_charset'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_confirmto'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_from'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_fromname'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_host'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_password'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_port'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_test_address'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_username'))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_wordwrap'))]]></code>
+    </NullOperand>
   </file>
   <file src="redaxo/src/core/pages/setup.php">
     <MixedArgument>

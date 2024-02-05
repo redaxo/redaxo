@@ -16,7 +16,6 @@ parameters:
         - redaxo/src/addons/media_manager
         - redaxo/src/addons/mediapool
         - redaxo/src/addons/metainfo
-        - redaxo/src/addons/phpmailer
         - redaxo/src/addons/project
         - redaxo/src/addons/structure
         - redaxo/src/addons/users
@@ -24,7 +23,6 @@ parameters:
         analyse:
             - redaxo/src/addons/be_style/vendor/
             - redaxo/src/addons/debug/vendor/
-            - redaxo/src/addons/phpmailer/vendor/
             - redaxo/src/core/vendor/
     # https://phpstan.org/config-reference#universal-object-crates
     universalObjectCratesClasses:

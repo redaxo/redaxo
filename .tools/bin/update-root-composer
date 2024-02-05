@@ -13,7 +13,6 @@ $baseDir = dirname(__DIR__, 2);
 $dirs = [
     $baseDir . '/redaxo/src/addons/be_style',
     $baseDir . '/redaxo/src/addons/debug',
-    $baseDir . '/redaxo/src/addons/phpmailer',
     $baseDir . '/redaxo/src/core',
 ];
 

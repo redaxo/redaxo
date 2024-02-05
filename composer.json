@@ -67,8 +67,6 @@
             "redaxo/src/addons/media_manager/lib/",
             "redaxo/src/addons/mediapool/lib/",
             "redaxo/src/addons/metainfo/lib/",
-            "redaxo/src/addons/phpmailer/lib/",
-            "redaxo/src/addons/phpmailer/vendor/",
             "redaxo/src/addons/structure/lib/",
             "redaxo/src/addons/users/lib/",
             "redaxo/src/core/lib/"

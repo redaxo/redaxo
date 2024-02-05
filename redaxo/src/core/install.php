@@ -83,4 +83,34 @@ rex_sql_table::get(rex::getTable('user_session'))
     ->ensureForeignKey(new rex_sql_foreign_key(rex::getTable('user_session') . '_passkey_id', rex::getTable('user_passkey'), ['passkey_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensure();
 
-// ----------- Cronjob
+$defaultConfig = [
+    'phpmailer_from' => '',
+    'phpmailer_test_address' => '',
+    'phpmailer_fromname' => 'Mailer',
+    'phpmailer_confirmto' => '',
+    'phpmailer_bcc' => '',
+    'phpmailer_mailer' => 'smtp',
+    'phpmailer_host' => 'localhost',
+    'phpmailer_port' => 587,
+    'phpmailer_charset' => 'utf-8',
+    'phpmailer_wordwrap' => 120,
+    'phpmailer_encoding' => '8bit',
+    'phpmailer_priority' => 0,
+    'phpmailer_security_mode' => false,
+    'phpmailer_smtpsecure' => 'tls',
+    'phpmailer_smtpauth' => true,
+    'phpmailer_username' => '',
+    'phpmailer_password' => '',
+    'phpmailer_smtp_debug' => '0',
+    'phpmailer_logging' => 0,
+    'phpmailer_errormail' => 0,
+    'phpmailer_archive' => false,
+    'phpmailer_detour_mode' => false,
+];
+
+rex_config::refresh();
+foreach ($defaultConfig as $key => $value) {
+    if (!rex::hasConfig($key)) {
+        rex::setConfig($key, $value);
+    }
+}
