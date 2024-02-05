@@ -212,7 +212,6 @@ class rex_be_controller
             ->setIcon('rex-icon rex-icon-cronjob')
             ->addSubpage((new rex_be_page('cronjobs', rex_i18n::msg('cronjob_title')))->setSubPath(rex_path::core('pages/cronjob.cronjobs.php')))
             ->addSubpage((new rex_be_page('log', rex_i18n::msg('cronjob_log')))->setSubPath(rex_path::core('pages/cronjob.log.php')));
-
     }
 
     /**
