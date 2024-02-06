@@ -168,15 +168,15 @@ if ('' == $func) {
 
     $field = $form->addRadioField('status');
     $field->setLabel(rex_i18n::msg('status'));
-    $field->addOption(rex_i18n::msg('status_activated'), 1);
-    $field->addOption(rex_i18n::msg('status_deactivated'), 0);
+    $field->addOption(rex_i18n::msg('cronjob_status_activated'), 1);
+    $field->addOption(rex_i18n::msg('cronjob_status_deactivated'), 0);
     if ('add' == $func) {
         $field->setValue(1);
     }
 
     $field = $form->addSelectField('type');
     $field->setAttribute('class', 'form-control selectpicker');
-    $field->setLabel(rex_i18n::msg('type'));
+    $field->setLabel(rex_i18n::msg('cronjob_type'));
     $select = $field->getSelect();
     $select->setSize(1);
     $typeFieldId = rex_escape($field->getAttribute('id'), 'js');
