@@ -1,3 +1,0 @@
-debug=Debug
-debug_activate_debugmode = Aktiviere den Debug-Modus, um das Debug-Addon verwenden zu können.
-debug_error_unzip = Beim Entpacken der Assets aus dem Clockwork-Frontend-Archiv ist ein Fehler aufgetreten!
