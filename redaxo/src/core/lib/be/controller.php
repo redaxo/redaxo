@@ -211,13 +211,13 @@ class rex_be_controller
             ->setPjax()
             ->setIcon('rex-icon rex-icon-user')
             ->addSubpage(
+                (new rex_be_page('users', rex_i18n::msg('users')))
+                    ->setSubPath(rex_path::core('pages/users.users.php')),
+            )
+            ->addSubpage(
                 (new rex_be_page('roles', rex_i18n::msg('roles')))
                     ->setSubPath(rex_path::core('pages/users.roles.php'))
                     ->setRequiredPermissions('isAdmin'),
-            )
-            ->addSubpage(
-                (new rex_be_page('users', rex_i18n::msg('users')))
-                    ->setSubPath(rex_path::core('pages/users.users.php')),
             )
         ;
 
