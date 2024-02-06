@@ -2472,93 +2472,6 @@
       <code><![CDATA[$perms['options']]]></code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/addons/users/lib/role.php">
-    <MixedArgument>
-      <code>$perms[$key]</code>
-      <code>$role[$key]</code>
-      <code>$role[$key]</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code>$roles</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayOffset>
-      <code>$perms[$key]</code>
-      <code>$perms[$key]</code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code>$key</code>
-      <code>$roles[]</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$params['item']]]></code>
-      <code><![CDATA[$params['new']]]></code>
-    </MixedOperand>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$this->complexPermParams]]></code>
-      <code><![CDATA[$this->complexPermParams]]></code>
-      <code><![CDATA[$this->complexPermParams]]></code>
-    </MixedPropertyTypeCoercion>
-    <ParamNameMismatch>
-      <code>$ids</code>
-    </ParamNameMismatch>
-    <PossiblyUndefinedArrayOffset>
-      <code>$role[$key]</code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/addons/users/lib/select_element.php">
-    <InvalidScalarArgument>
-      <code>$value</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="redaxo/src/addons/users/pages/roles.php">
-    <MixedArgument>
-      <code><![CDATA[$params['all_label']]]></code>
-      <code><![CDATA[$params['label']]]></code>
-      <code><![CDATA[$params['options']]]></code>
-      <code><![CDATA[$params['select']]]></code>
-      <code>$perm</code>
-      <code>$perm</code>
-      <code>$perm</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$page</code>
-      <code>$perm</code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code>getRequiredPermissions</code>
-      <code>getSubpages</code>
-    </MixedMethodCall>
-  </file>
-  <file src="redaxo/src/addons/users/pages/users.php">
-    <ArgumentTypeCoercion>
-      <code>$userrole</code>
-    </ArgumentTypeCoercion>
-    <MixedArgumentTypeCoercion>
-      <code>$userrole</code>
-      <code>$userrole</code>
-    </MixedArgumentTypeCoercion>
-    <NullArgument>
-      <code>rex_escape($roles)</code>
-    </NullArgument>
-    <NullOperand>
-      <code>$login</code>
-      <code>rex_escape($userdesc)</code>
-      <code>rex_escape($useremail)</code>
-      <code>rex_escape($username)</code>
-    </NullOperand>
-    <PossiblyNullArgument>
-      <code>$userrole</code>
-    </PossiblyNullArgument>
-    <PossiblyNullArrayOffset>
-      <code>$roles</code>
-    </PossiblyNullArrayOffset>
-    <PossiblyNullReference>
-      <code>getLogin</code>
-      <code>getValue</code>
-      <code>isAdmin</code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/backend.php">
     <MixedArgument>
       <code>$assetFile</code>
@@ -3791,6 +3704,11 @@
       <code><![CDATA[$sql->getDBArray($query, [], PDO::FETCH_NUM)]]></code>
     </ArgumentTypeCoercion>
   </file>
+  <file src="redaxo/src/core/lib/form/elements/perm_select.php">
+    <InvalidScalarArgument>
+      <code>$value</code>
+    </InvalidScalarArgument>
+  </file>
   <file src="redaxo/src/core/lib/form/elements/prio.php">
     <ArgumentTypeCoercion>
       <code>$label</code>
@@ -4156,6 +4074,40 @@
     </PossiblyNullReference>
     <PossiblyUndefinedArrayOffset>
       <code>$method</code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="redaxo/src/core/lib/login/user_role.php">
+    <MixedArgument>
+      <code>$perms[$key]</code>
+      <code>$role[$key]</code>
+      <code>$role[$key]</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code>$roles</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayOffset>
+      <code>$perms[$key]</code>
+      <code>$perms[$key]</code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code>$key</code>
+      <code>$roles[]</code>
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$params['item']]]></code>
+      <code><![CDATA[$params['new']]]></code>
+    </MixedOperand>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$this->complexPermParams]]></code>
+      <code><![CDATA[$this->complexPermParams]]></code>
+      <code><![CDATA[$this->complexPermParams]]></code>
+    </MixedPropertyTypeCoercion>
+    <ParamNameMismatch>
+      <code>$ids</code>
+    </ParamNameMismatch>
+    <PossiblyUndefinedArrayOffset>
+      <code>$role[$key]</code>
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/core/lib/packages/addons/addon.php">
@@ -5248,6 +5200,54 @@
     <NullOperand>
       <code><![CDATA[rex_escape($editor->getBasepath())]]></code>
     </NullOperand>
+  </file>
+  <file src="redaxo/src/core/pages/users.roles.php">
+    <MixedArgument>
+      <code><![CDATA[$params['all_label']]]></code>
+      <code><![CDATA[$params['label']]]></code>
+      <code><![CDATA[$params['options']]]></code>
+      <code><![CDATA[$params['select']]]></code>
+      <code>$perm</code>
+      <code>$perm</code>
+      <code>$perm</code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$page</code>
+      <code>$perm</code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code>getRequiredPermissions</code>
+      <code>getSubpages</code>
+    </MixedMethodCall>
+  </file>
+  <file src="redaxo/src/core/pages/users.users.php">
+    <ArgumentTypeCoercion>
+      <code>$userrole</code>
+    </ArgumentTypeCoercion>
+    <MixedArgumentTypeCoercion>
+      <code>$userrole</code>
+      <code>$userrole</code>
+    </MixedArgumentTypeCoercion>
+    <NullArgument>
+      <code>rex_escape($roles)</code>
+    </NullArgument>
+    <NullOperand>
+      <code>$login</code>
+      <code>rex_escape($userdesc)</code>
+      <code>rex_escape($useremail)</code>
+      <code>rex_escape($username)</code>
+    </NullOperand>
+    <PossiblyNullArgument>
+      <code>$userrole</code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayOffset>
+      <code>$roles</code>
+    </PossiblyNullArrayOffset>
+    <PossiblyNullReference>
+      <code>getLogin</code>
+      <code>getValue</code>
+      <code>isAdmin</code>
+    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
     <MixedArrayAccess>

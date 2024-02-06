@@ -191,15 +191,35 @@ class rex_be_controller
             ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setSubPath(rex_path::core('pages/system.settings.php')))
             ->addSubpage((new rex_be_page('lang', rex_i18n::msg('languages')))->setSubPath(rex_path::core('pages/system.clangs.php')))
             ->addSubpage($logsPage)
-            ->addSubpage((new rex_be_page('report', rex_i18n::msg('system_report')))
+            ->addSubpage(
+                (new rex_be_page('report', rex_i18n::msg('system_report')))
                 ->addSubpage((new rex_be_page('html', rex_i18n::msg('system_report')))->setSubPath(rex_path::core('pages/system.report.html.php')))
                 ->addSubpage((new rex_be_page('markdown', rex_i18n::msg('system_report_markdown')))->setSubPath(rex_path::core('pages/system.report.markdown.php'))),
             )
-            ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
+            ->addSubpage(
+                (new rex_be_page('phpinfo', 'phpinfo'))
                 ->setHidden(true)
                 ->setHasLayout(false)
                 ->setPath(rex_path::core('pages/system.phpinfo.php')),
             );
+
+        // ---------- Users
+        self::$pages['users'] = (new rex_be_page_main('system', 'users', rex_i18n::msg('users')))
+            ->setPath(rex_path::core('pages/users.php'))
+            ->setRequiredPermissions('users[]')
+            ->setPrio(50)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-user')
+            ->addSubpage(
+                (new rex_be_page('users', rex_i18n::msg('users')))
+                    ->setSubPath(rex_path::core('pages/users.users.php')),
+            )
+            ->addSubpage(
+                (new rex_be_page('roles', rex_i18n::msg('roles')))
+                    ->setSubPath(rex_path::core('pages/users.roles.php'))
+                    ->setRequiredPermissions('isAdmin'),
+            )
+        ;
 
         // ---------- Phpmailer
         self::$pages['phpmailer'] = (new rex_be_page_main('system', 'phpmailer', rex_i18n::msg('phpmailer_title')))
@@ -212,6 +232,7 @@ class rex_be_controller
             ->addSubpage((new rex_be_page('log', rex_i18n::msg('phpmailer_logging')))->setSubPath(rex_path::core('pages/phpmailer.log.php')))
             ->addSubpage((new rex_be_page('help', rex_i18n::msg('phpmailer_help')))->setSubPath(rex_path::core('pages/phpmailer.README.md')))
             ->addSubpage((new rex_be_page('checkmail', rex_i18n::msg('phpmailer_checkmail')))->setSubPath(rex_path::core('pages/phpmailer.checkmail.php'))->setHidden(true))
+
         ;
     }
 

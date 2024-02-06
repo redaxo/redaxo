@@ -19,7 +19,6 @@ parameters:
         - redaxo/src/addons/metainfo
         - redaxo/src/addons/project
         - redaxo/src/addons/structure
-        - redaxo/src/addons/users
     excludePaths:
         analyse:
             - redaxo/src/addons/backup/vendor/

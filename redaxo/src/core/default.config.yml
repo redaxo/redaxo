@@ -75,7 +75,6 @@ system_addons:
     - metainfo
     - be_style
     - media_manager
-    - users
     - install
     - project
 table_prefix: rex_
