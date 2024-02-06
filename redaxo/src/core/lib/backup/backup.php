@@ -15,7 +15,7 @@ class rex_backup
      */
     public static function getDir()
     {
-        $dir = rex_path::addonData('backup');
+        $dir = rex_path::coreData('backup');
         rex_dir::create($dir);
 
         return $dir;

@@ -20,6 +20,10 @@ class ComposerStaticInitRedaxoCore
             'voku\\helper\\' => 12,
             'voku\\' => 5,
         ),
+        's' => 
+        array (
+            'splitbrain\\PHPArchive\\' => 22,
+        ),
         'l' => 
         array (
             'lbuchs\\WebAuthn\\' => 16,
@@ -61,6 +65,10 @@ class ComposerStaticInitRedaxoCore
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
             1 => __DIR__ . '/..' . '/voku/portable-utf8/src/voku',
+        ),
+        'splitbrain\\PHPArchive\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/splitbrain/php-archive/src',
         ),
         'lbuchs\\WebAuthn\\' => 
         array (
@@ -573,6 +581,14 @@ class ComposerStaticInitRedaxoCore
         'lbuchs\\WebAuthn\\CBOR\\CborDecoder' => __DIR__ . '/..' . '/lbuchs/webauthn/src/CBOR/CborDecoder.php',
         'lbuchs\\WebAuthn\\WebAuthn' => __DIR__ . '/..' . '/lbuchs/webauthn/src/WebAuthn.php',
         'lbuchs\\WebAuthn\\WebAuthnException' => __DIR__ . '/..' . '/lbuchs/webauthn/src/WebAuthnException.php',
+        'splitbrain\\PHPArchive\\Archive' => __DIR__ . '/..' . '/splitbrain/php-archive/src/Archive.php',
+        'splitbrain\\PHPArchive\\ArchiveCorruptedException' => __DIR__ . '/..' . '/splitbrain/php-archive/src/ArchiveCorruptedException.php',
+        'splitbrain\\PHPArchive\\ArchiveIOException' => __DIR__ . '/..' . '/splitbrain/php-archive/src/ArchiveIOException.php',
+        'splitbrain\\PHPArchive\\ArchiveIllegalCompressionException' => __DIR__ . '/..' . '/splitbrain/php-archive/src/ArchiveIllegalCompressionException.php',
+        'splitbrain\\PHPArchive\\FileInfo' => __DIR__ . '/..' . '/splitbrain/php-archive/src/FileInfo.php',
+        'splitbrain\\PHPArchive\\FileInfoException' => __DIR__ . '/..' . '/splitbrain/php-archive/src/FileInfoException.php',
+        'splitbrain\\PHPArchive\\Tar' => __DIR__ . '/..' . '/splitbrain/php-archive/src/Tar.php',
+        'splitbrain\\PHPArchive\\Zip' => __DIR__ . '/..' . '/splitbrain/php-archive/src/Zip.php',
         'voku\\helper\\ASCII' => __DIR__ . '/..' . '/voku/portable-ascii/src/voku/helper/ASCII.php',
         'voku\\helper\\AntiXSS' => __DIR__ . '/..' . '/voku/anti-xss/src/voku/helper/AntiXSS.php',
         'voku\\helper\\Bootup' => __DIR__ . '/..' . '/voku/portable-utf8/src/voku/helper/Bootup.php',

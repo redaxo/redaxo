@@ -185,7 +185,7 @@ class rex_be_controller
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
             ->setPath(rex_path::core('pages/system.php'))
             ->setRequiredPermissions('isAdmin')
-            ->setPrio(80)
+            ->setPrio(90)
             ->setPjax()
             ->setIcon('rex-icon rex-icon-system')
             ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setSubPath(rex_path::core('pages/system.settings.php')))
@@ -203,7 +203,6 @@ class rex_be_controller
                 ->setPath(rex_path::core('pages/system.phpinfo.php')),
             );
 
-        // ---------- Users
         self::$pages['users'] = (new rex_be_page_main('system', 'users', rex_i18n::msg('users')))
             ->setPath(rex_path::core('pages/users.php'))
             ->setRequiredPermissions('users[]')
@@ -221,7 +220,6 @@ class rex_be_controller
             )
         ;
 
-        // ---------- Phpmailer
         self::$pages['phpmailer'] = (new rex_be_page_main('system', 'phpmailer', rex_i18n::msg('phpmailer_title')))
             ->setPath(rex_path::core('pages/phpmailer.php'))
             ->setRequiredPermissions('phpmailer[]')
@@ -232,7 +230,24 @@ class rex_be_controller
             ->addSubpage((new rex_be_page('log', rex_i18n::msg('phpmailer_logging')))->setSubPath(rex_path::core('pages/phpmailer.log.php')))
             ->addSubpage((new rex_be_page('help', rex_i18n::msg('phpmailer_help')))->setSubPath(rex_path::core('pages/phpmailer.README.md')))
             ->addSubpage((new rex_be_page('checkmail', rex_i18n::msg('phpmailer_checkmail')))->setSubPath(rex_path::core('pages/phpmailer.checkmail.php'))->setHidden(true))
+        ;
 
+        self::$pages['backup'] = (new rex_be_page_main('system', 'backup', rex_i18n::msg('backup_title')))
+            ->setPath(rex_path::core('pages/backup.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(100)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-backup')
+            ->addSubpage(
+                (new rex_be_page('export', rex_i18n::msg('backup_export')))
+                    ->setSubPath(rex_path::core('pages/backup.export.php'))
+                    ->setRequiredPermissions('backup[export]'),
+            )
+            ->addSubpage(
+                (new rex_be_page('import', rex_i18n::msg('backup_import')))
+                    ->addSubpage((new rex_be_page('upload', rex_i18n::msg('backup_upload')))->setSubPath(rex_path::core('pages/backup.import.upload.php')))
+                    ->addSubpage((new rex_be_page('server', rex_i18n::msg('backup_load_from_server')))->setSubPath(rex_path::core('pages/backup.import.server.php'))),
+            )
         ;
     }
 
