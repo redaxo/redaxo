@@ -43,7 +43,6 @@ return static function (RectorConfig $rectorConfig): void {
         'redaxo/src/core/',
         'redaxo/src/addons/backup/',
         'redaxo/src/addons/be_style/',
-        'redaxo/src/addons/cronjob/',
         'redaxo/src/addons/debug/',
         'redaxo/src/addons/install/',
         'redaxo/src/addons/media_manager/',

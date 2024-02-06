@@ -15,7 +15,6 @@
         <directory name="redaxo/src/core"/>
         <directory name="redaxo/src/addons/backup"/>
         <directory name="redaxo/src/addons/be_style"/>
-        <directory name="redaxo/src/addons/cronjob"/>
         <directory name="redaxo/src/addons/debug"/>
         <directory name="redaxo/src/addons/install"/>
         <directory name="redaxo/src/addons/media_manager"/>
