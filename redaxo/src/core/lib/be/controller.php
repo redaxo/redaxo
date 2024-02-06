@@ -204,7 +204,7 @@ class rex_be_controller
             );
 
         // ---------- Backup
-        self::$pages['backup'] = (new rex_be_page_main('addons', 'backup', rex_i18n::msg('backup_title')))
+        self::$pages['backup'] = (new rex_be_page_main('system', 'backup', rex_i18n::msg('backup_title')))
             ->setPath(rex_path::core('pages/backup.php'))
             ->setRequiredPermissions('isAdmin')
             ->setPrio(80)
