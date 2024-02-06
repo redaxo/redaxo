@@ -170,28 +170,24 @@ class rex_setup_importer
     {
         $errMsg = '';
 
-        if (!is_dir(rex_path::core('backup'))) {
-            $errMsg .= rex_i18n::msg('setup_410') . '<br />';
-        } else {
-            if (is_file($importSql)) {
-                rex_i18n::addDirectory(rex_path::core('backup/lang/'));
+        if (is_file($importSql)) {
+            rex_i18n::addDirectory(rex_path::core('backup/lang/'));
 
-                // DB Import
-                $stateDb = rex_backup::importDb($importSql);
-                if (!$stateDb['state']) {
-                    $errMsg .= nl2br($stateDb['message']) . '<br />';
-                }
-
-                // Archiv optional importieren
-                if ($stateDb['state'] && null !== $importArchive && is_file($importArchive)) {
-                    $stateArchiv = rex_backup::importFiles($importArchive);
-                    if (!$stateArchiv['state']) {
-                        $errMsg .= $stateArchiv['message'] . '<br />';
-                    }
-                }
-            } else {
-                $errMsg .= rex_i18n::msg('setup_409') . '<br />';
+            // DB Import
+            $stateDb = rex_backup::importDb($importSql);
+            if (!$stateDb['state']) {
+                $errMsg .= nl2br($stateDb['message']) . '<br />';
             }
+
+            // Archiv optional importieren
+            if ($stateDb['state'] && null !== $importArchive && is_file($importArchive)) {
+                $stateArchiv = rex_backup::importFiles($importArchive);
+                if (!$stateArchiv['state']) {
+                    $errMsg .= $stateArchiv['message'] . '<br />';
+                }
+            }
+        } else {
+            $errMsg .= rex_i18n::msg('setup_409') . '<br />';
         }
 
         // Reload config from imported data

@@ -223,7 +223,6 @@ setup_407 = Import existing database export:
 setup_407_note = Import demo
 setup_408 = Please choose a database export!
 setup_409 = No exported files found!
-setup_410 = Backup addon could not be found!
 setup_411 = Continue with step 5
 setup_412 = Repeat step 4
 setup_413 = System AddOn(s) could not be installed

@@ -216,7 +216,6 @@ setup_407 = Importar exportación de base de datos existente:
 setup_407_note = Importar demo
 setup_408 = ¡Elija una exportación de base de datos!
 setup_409 = ¡No se pudo encontrar archivos de exportación!
-setup_410 = No se pudo encontrar el complemento de copia de seguridad.
 setup_411 = Continúe con el paso 5
 setup_412 = Repita el paso 4
 setup_413 = Sistema AddOn(s) no se pudo instalar

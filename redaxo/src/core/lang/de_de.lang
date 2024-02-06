@@ -224,7 +224,6 @@ setup_407 = Vorhandenen Export einspielen:
 setup_407_note = Demo einspielen
 setup_408 = Bitte wählen Sie einen Export aus!
 setup_409 = Export-Dateien konnten nicht gefunden werden!
-setup_410 = Backup-AddOn wurde nicht gefunden!
 setup_411 = Weiter zu Schritt 5
 setup_412 = Schritt 4 erneut durchführen
 setup_413 = System AddOn(s) konnte nicht installiert werden

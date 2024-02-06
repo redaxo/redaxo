@@ -169,7 +169,6 @@ setup_407 = Installare l'export esistente:
 setup_407_note = Installare demo
 setup_408 = Prego selezionare un export!
 setup_409 = I file da esportare non sono stati trovati!
-setup_410 = Backup-Addon non è stato trovato!
 setup_411 = Proseguire con passo 5
 setup_412 = Ripetere passo 4
 setup_413 = Non era possibile installare l'/gli addon(s) del sistema

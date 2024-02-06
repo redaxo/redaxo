@@ -222,7 +222,6 @@ setup_407 = Spela in en redan existerande databasexport:
 setup_407_note = Spela in demo:n
 setup_408 = Vänligen välja en databasexport!
 setup_409 = Export-filerna kunde inte hittas!
-setup_410 = Backup-addOn kunde inte hittas!
 setup_411 = Vidare med steg 5
 setup_412 = Upprepa steg 4
 setup_413 = System addOn(s) kunde inte installeras
