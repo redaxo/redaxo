@@ -1,3 +1,0 @@
-debug=Debug
-debug_activate_debugmode = Aktivera debug-modus för att kunna använda Ddebug-addon:et
-debug_error_unzip = Ett fel uppstod när assets extraherades från Clockwork frontend-arkivet!

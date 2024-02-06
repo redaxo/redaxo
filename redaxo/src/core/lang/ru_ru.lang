@@ -822,3 +822,722 @@ phpmailer_errormail_60min = 60-минутный интервал
 
 system_setting_errormail = Отправка сообщений об ошибках по эл. почте
 perm_general_phpmailer[] = Настройки PHPMailer
+
+# be_style
+customizer = Кастомайзер
+customizer_features = Функции
+
+customizer_codemirror = CodeMirror
+customizer_codemirror_check = Активировать CodeMirror
+customizer_codemirror_selectors = Дополнительные селекторы jQuery для CodeMirror
+customizer_codemirror_selectors_info = Список селекторов jQuery для использования с CodeMirror, разделенный запятыми.<br>По умолчанию это <code>textarea.rex-js-code</code> и <code>textarea.codemirror</code>.
+customizer_codemirror_theme = Тема CodeMirror
+customizer_codemirror_darktheme = Темная тема CodeMirror
+customizer_codemirror_langs = Дополнительная подсветка синтаксиса
+customizer_codemirror_langs_text = (markdown, textile, gfm, yaml, sql ...)
+customizer_codemirror_tools = Дополнительные фичи
+customizer_codemirror_tools_text = (Свертывание кода, сопоставление скобок, сопоставление тегов, закрытие скобок, поиск)
+customizer_codemirror_autoresize = Автоматическое изменение размера
+customizer_codemirror_autoresize_text = (CodeMirror автоматически регулирует высоту)
+customizer_codemirror_options = Дополнительные опции для CodeMirror
+customizer_codemirror_options_info = Внимание! Параметры должны быть указаны в правильном формате JSON! Ошибки отображаются в консоли JavaScript. Пример: <code>{"indentWithTabs": true, "lineNumbers": true}</code>
+
+customizer_codemirror_info = Как только CodeMirror активирован, он автоматически используется для шаблонов, модулей, действий и cronjobs.<br><br> Если вы хотите использовать CodeMirror, пожалуйста, самостоятельно, воспользуйтесь следующей формой:<br><br><code><textarea class="codemirror" data-codemirror-theme="themename" data-codemirror-mode="php" data-codemirror-options='{"indentWithTabs": true, "lineNumbers": false}'></textarea></code><br><br>Параметры <code>data-codemirror-theme</code>, <code>data-codemirror-mode</code> und <code>data-codemirror-options</code> опциональны.<br><br>Полноэкранный режим можно вызвать с помощью клавиш F11 и ESC.
+
+customizer_labeling = Дополнительно
+customizer_labelcolor = Цвет
+customizer_labelcolor_notice = Любое корректное выражение цвета в css (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0.5)</code> и т.д.)
+customizer_showlink = Показать ссылку на веб-сайт?
+
+customizer_config_updated = Настройки сохранены
+customizer_config_update_failed = Настройки не сохранены
+
+customizer_update = Сохранить настройки
+customizer_error_unzip = При распаковке файлов в архиве CodeMirror произошла ошибка!
+
+customizer_projectname = Наименование проекта
+customizer_textarea = Ширина текстовой области в шаблонах и модулях
+customizer_liquid = Резиновая верстка
+customizer_nav_flyout = Навигация с выпадающими пунктами
+
+# debug
+debug=Отладка
+debug_activate_debugmode = Активируйте режим отладки для работы с аддоном отладки.
+debug_error_unzip = При распаковке файлов из архива фронтенда Clockwork произошла ошибка!
+
+# media_manager
+media_manager = Медиаменеджер
+media_manager_overview_title = Аддон Медиаменеджер <small>(Version {0})</small>
+
+media_manager_subpage_desc = Описание
+media_manager_subpage_config = Конфигурация
+media_manager_subpage_types = Редактирование типов изображений
+media_manager_subpage_clear_cache = Очистить кэш
+
+media_manager_cache_files_removed = Удалено кэш-файлов: {0}
+
+media_manager_config_saved = Конфигурация обновлена!
+media_manager_config_not_saved = Конфигурация не может быть сохранена!
+media_manager_config_not_writable = Файл конфигурации "{0}" не может быть записан!
+
+media_manager_max_resizekb = Максимальный размер изображения в килобайтах, который медиаменеджеру разрешено обрабатывать
+media_manager_max_resizepx = Максимальный размер изображения в пикселях, который медиаменеджеру разрешено обрабатывать
+media_manager_jpg_quality = Качество JPG
+media_manager_png_compression = Сжатие PNG
+media_manager_png_compression_note = Значения выше 6-7 сильно замедляют создание изображения.
+media_manager_webp_quality = Качество WebP
+media_manager_avif_quality = Качество AVIF
+media_manager_avif_speed = Скорость AVIF
+media_manager_interlace = Интерлейс/прогрессив режим
+
+media_manager_id = ID
+media_manager_name = Наименование
+media_manager_edittype = Редактирование типов изображений
+media_manager_settings = Настройки
+
+media_manager_yes = Да
+media_manager_no = Нет
+media_manager_back = Назад
+
+media_manager_error_name = Пожалуйста, введите наименование.
+media_manager_error_settings = Пожалуйста, проверьте настройки медиаменеджера.
+media_manager_error_type_name_not_unique = Тип изображения с таким именем уже существует!
+media_manager_error_type_name_invalid = Наименование не может содержать символы "/" и "\"!
+
+media_manager_type_caption = Список типов изображений
+media_manager_type_no_types = Не найдено ни одного типа изображения
+media_manager_type_create = Создать тип изображения
+media_manager_type_edit = Редактировать тип изображения
+media_manager_type_copy = Копировать тип изображения
+media_manager_type_effekts_edit = Редактировать эффект
+media_manager_type_delete = Удалить тип изображения
+media_manager_type_name = Наименование
+media_manager_type_name_copy = Копия
+media_manager_type_priority = Приоритет
+media_manager_type_description = Описание
+media_manager_type_functions = Функции
+media_manager_type_cache_delete = Очистить кэш
+media_manager_type_system = Системный тип изображения
+media_manager_type_delete = Удалить тип изображения
+media_manager_type_deleted = Тип изображения удален
+media_manager_type_copied = Тип изображения скопирован
+
+media_manager_effect_list_header = Эффект типа изображения "{0}"
+media_manager_effect_edit_header = Редактирование эффекта для типа изображения "{0}"
+media_manager_effect_create_header = Создание эффекта для типа изображения "{0}"
+media_manager_effect_caption = Список добавленных эффектов для типа изображения "{0}"
+media_manager_effect_no_effects = Нет эффектов
+media_manager_effect_create = Создать эффект
+media_manager_effect_edit = Редактировать эффект
+media_manager_effect_delete = Удалить эффект
+media_manager_effect_name = Эффект
+media_manager_effect_priority = Порядок эффектов
+media_manager_effect_parameters = Параметр
+media_manager_effect_functions = Функции
+media_manager_effect_deleted = Эффект удален
+
+media_manager_effect_insert_image = Изображение: поместить изображение / водяной знак
+media_manager_effect_brand_image = Изображение
+media_manager_effect_brand_hpos = Горизонтальное положение
+media_manager_effect_brand_vpos = Вертикальное положение
+media_manager_effect_brand_padding_x = Горизонтальный внутренний отступ (padding)
+media_manager_effect_brand_padding_y = Вертикальный внутренний отступ (padding)
+
+media_manager_effect_blur = Изображение: размыть
+media_manager_effect_blur_repeats = Повторы
+media_manager_effect_blur_type = Тиа размытия
+media_manager_effect_blur_smoothit = Сглаживание (отрицательные значения для повышения резкости)
+
+media_manager_effect_colorize = Изображение: раскрасить
+media_manager_effect_colorize_r = Значение красного
+media_manager_effect_colorize_g = Значение зеленого
+media_manager_effect_colorize_b = Значение синего
+
+media_manager_effect_sharpen = Изображение: увеличить резкость
+media_manager_effect_sharpen_amount = Уровень резкости
+media_manager_effect_sharpen_radius = Радиус резкости
+media_manager_effect_sharpen_threshold = Пороговое значение
+
+media_manager_effect_resize = Изображение: масштабировать
+media_manager_effect_resize_width = Целевая ширина
+media_manager_effect_resize_height = Целевая высота
+media_manager_effect_resize_style = Режим
+media_manager_effect_resize_imgtosmall = Если изображение слишком маленькое
+
+media_manager_effect_crop = Изображение: обрезать
+media_manager_effect_crop_width = Целевая ширина
+media_manager_effect_crop_height = Целевая высота
+media_manager_effect_crop_offset_width = Смещение по горизонтали
+media_manager_effect_crop_offset_height = Смещение по вертикали
+media_manager_effect_crop_position = Позиция обрезки
+
+media_manager_effect_rounded_corners = Изображение: закруглить углы
+media_manager_effect_rounded_corners_topleft = Сверху слева
+media_manager_effect_rounded_corners_topright = Сверху справа
+media_manager_effect_rounded_corners_bottomleft = Снизу слева
+media_manager_effect_rounded_corners_bottomright = Снизу справа
+
+media_manager_effect_flip = Изображение: отзеркалить по горизонтали/по вертикали
+media_manager_effect_flip_direction = Направление
+
+media_manager_effect_rotate = Изображение: повернуть
+media_manager_effect_rotate_degree = Поворот (в градусах)
+
+media_manager_effect_mirror = Изображение: добавить отражение в воде
+media_manager_effect_mirror_height = Высота отражения (50 / 10%)
+media_manager_effect_mirror_opacity = Непрозрачность отражения (0 - 100)
+media_manager_effect_mirror_opacity_notice = 0% полностью невидимого отражения, 100% полностью видимого отражения
+media_manager_effect_mirror_background_color = Цвет фона
+media_manager_effect_mirror_background_r = Цвет фона красный (0-255)
+media_manager_effect_mirror_background_g = Цвет фона зеленый (0-255)
+media_manager_effect_mirror_background_b = Цвет фона синий (0-255)
+
+media_manager_effect_workspace = Изображение: площадь полотна
+media_manager_effect_workspace_pos = Позиция
+media_manager_effect_workspace_bg = Фон
+media_manager_effect_workspace_bgimage = Фоновое изображение
+media_manager_effect_workspace_bgimage_size = определяется фоновым изображением
+
+media_manager_effect_folder = Альтернативный путь по умолчанию: "media"
+
+media_manager_effect_mediapath = Файл: изменить путь
+media_manager_effect_mediapath_path = Директория для мультимедиа
+media_manager_effect_mediapath_path_notice = Путь к источнику изображения относительно установки REDAXO вместо <code>media</code>, т.е. <code>images</code>. Косые черты (слэши) в начале и конце пути не нужны.
+
+media_manager_effect_header = Файл: настроить header
+media_manager_effect_header_download = Скачивание
+media_manager_effect_header_cache = Cache control
+media_manager_effect_header_filename = Источник для наименования файла
+media_manager_effect_header_filename_notice = <code>filename</code> — нормализованное имя файла на сервере, т.е. <code>mein-download.pdf</code>, <code>originalname</code> — оригинальное имя файла на момент загрузки (с пробелами, с использованием заглавных/строчных букв и т.д.), т.е. <code>My Download.pdf</code>
+media_manager_effect_header_index = SEO: Индексация
+media_manager_effect_header_index_notice = <code>index</code>: поисковые системы должны просматривать этот файл и, возможно, включать его в индекс (по умолчанию) | <code>noindex</code>: поисковые системы не должны просматривать этот файл и включать его в индекс
+
+
+
+media_manager_effect_convert2img = Файл: конвертировать в изображение
+media_manager_effect_convert2img_density = Плотность
+media_manager_effect_convert2img_convertto = Целевой формат
+media_manager_effect_convert2img_density_notice = Плотность пикселей в ppi (пикселей на дюйм).
+media_manager_effect_convert2img_convertto_notice = Целевой формат файла, в который будет преобразован файл. Возможны следующие типы файлов: <code>.avi,.mp4,m4v,mov,.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico,.svg</code>.
+media_manager_effect_convert2img_noimagemagick = Предупреждение: ImageMagick не найден. Для этого эффекта необходимо либо php-расширение "imagick", либо ImageMagick в качестве "бинарного файла командной строки", который может быть выполнен с помощью exec().
+media_manager_effect_convert2img_color = Цвет для прозрачности
+media_manager_effect_convert2img_color_notice = Синтаксис "#ffffff". Если цвет не задан, вместо него будет использоваться прозрачность. Если это JPG, необходимо ввести значение цвета.
+media_manager_effect_convert2img_videoconverternotfound = ffmpeg (через exec()) не найден в этой системе. Видео не может быть преобразовано.
+
+media_manager_effect_image_properties = Изображение: настройки (качество, интерлейс, ...)
+media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Оставьте пустым для значения по умолчанию.
+media_manager_effect_image_properties_png_compression_notice = [0-9]. Оставьте пустым для значения по умолчанию.
+media_manager_effect_image_properties_webp_quality_notice = [0-101]. Оставьте пустым для значения по умолчанию.
+media_manager_effect_image_properties_avif_quality_notice = [0-100]. Оставьте пустым для значения по умолчанию.
+media_manager_effect_image_properties_avif_speed_notice = [0-10]. Оставьте пустым для значения по умолчанию.
+media_manager_effect_image_properties_interlace_notice = Оставьте пустым для значения по умолчанию.
+
+media_manager_effect_brightness = Изображение: яркость
+media_manager_effect_brightness_value = Яркость
+media_manager_effect_brightness_notice = [от -255 до 255]. Оставьте пустым для значения по умолчанию (0).
+
+media_manager_effect_contrast = Изображение: контраст
+media_manager_effect_contrast_value = Контраст
+media_manager_effect_contrast_notice = [от -100 до 100]. Оставьте пустым для значения по умолчанию (0).
+
+media_manager_effect_sepia = Изображение: сепия
+
+media_manager_effect_greyscale = Изображение: оттенки серого
+
+media_manager_effect_image_format = Изображение: конвертировать в JPEG/PNG/GIF/WEBP/AVIF
+media_manager_effect_image_format_convertto = Целевой формат
+
+# mediapool
+pool_name = Медиабаза
+pool_kats = Категории
+pool_kats_no = Нет категорий
+pool_search = Поиск
+pool_media = Медиабаза
+pool_file_list = Файлы
+pool_file_insert = Добавить файл
+pool_cat_list = Редактировать категории
+pool_select_cat = Выбор категории
+pool_sync_files = Синхронизация файлов
+pool_sync_button = Синхронизировать
+pool_sync_title = Синхронизация файлов
+pool_sync_affected_files = Затрагиваемые файлы
+pool_sync_no_diffs = Отличий нет!
+pool_sync_files_synced = Файлы были синхронизированы.
+pool_file_not_found = Файлы не найдены
+pool_file_upload_error = Ошибка при загрузке файла
+pool_file_upload_error_size = Файл превышает максимальный размер загрузки {0}!
+pool_file_upload_errortype = Этот файл нельзя использовать для обновления существующего файла, поскольку типы файлов не совпадают
+pool_file_title = Заголовок
+pool_file_file = Файл
+pool_file_infos_updated = Информация о файле обновлена!
+pool_file_upload = Добавить
+pool_file_upload_get = Добавить и сохранить
+pool_file_filter = Видны только файлы следующего типа: {0}!
+pool_kat_saved = Добавлена категория "{0}"
+pool_kat_updated = Категория "{0}" обновлена
+pool_kat_deleted = Категория удалена
+pool_kat_create_label = Добавить новую категорию
+pool_kat_create = Добавить категорию
+pool_kat_edit = Редактировать
+pool_kat_not_deleted = Категория не может быть удалена, потому что она не пуста!
+pool_kat_name = Наименование
+pool_kat_function = Функция
+pool_kat_update = Обновить
+pool_kat_edit = Редактировать
+pool_kat_delete = Удалить
+pool_kat_start = Начальная
+pool_kat_path = Путь
+pool_kat_caption = Список категорий
+pool_file_detail = Медиа: Детали
+pool_filename = Наименование файла
+pool_file_exchange = Замена файла
+pool_file_update = Обновить
+pool_file_delete = Удалить
+pool_file_edit = Редактировать
+pool_file_details = Детали файла
+pool_file_thumbnail = Миниатюра
+pool_file_info = Информация файла
+pool_file_description = Описание
+pool_file_functions = Функции
+mediapool = Медиабаза
+
+pool_file_notitle = Наименование не введено
+pool_file_edit = Редактировать
+pool_file_caption = Список медиа в категории "{0}"
+pool_file_category = Категория
+pool_file_description = Описание
+pool_file_deleted = Файл удален
+pool_files_deleted = Удалено файлов: {0}.
+pool_file_delete_error = Файл "{0}" не может быть удален!
+pool_kat_delete_error = Категория "{0}" не может быть удалена!
+pool_object_in_use_by = Используется следующими объектами:
+pool_file_in_use_articles = Статья (содержание)
+pool_file_changed = Файл заменен!
+pool_file_added = Файл заменен!
+pool_file_movefailed = Загрузка не удалась.
+pool_file_renamed = Оригинальное имя файла <code>{0}</code> было изменено на: <code>{1}</code>
+pool_file_mediatype_not_allowed = Тип файла не разрешен:
+pool_file_allowed_mediatypes = Разрешенные типы файлов:
+pool_file_banned_mediatypes = Запрещенные типы файлов:
+pool_file_does_not_exist = Файл не существует
+pool_img_width = Ширина
+pool_img_height = Высота
+pool_selectedmedia = Выбранные файлы:
+pool_delete_selectedmedia = Удалить
+pool_changecat_selectedmedia_prefix = в категорию
+pool_changecat_selectedmedia_suffix = переместить
+pool_get_selectedmedia = Подтвердить
+pool_selectedmedia_error = Нет выбранных файлов
+pool_selectedmedia_moved = Выбранные файлы перемещены
+pool_select_all = Выбрать все
+pool_nomediafound = Нет файлов в этой категории
+pool_image_get = Вставить изображение
+pool_link_get = Вставить ссылку
+pool_file_get = Datei übernehmen
+pool_last_update = Последнее обновление
+pool_created = Создан
+pool_select_all = Выбрать все
+pool_file_not_writable = Файл недоступен для записи!
+pool_files_not_writable = Файлы недоступны для записи!
+pool_max_uploadsize = Макс. размер файла
+pool_max_uploadtime = Макс. время загрузки
+pool_upload_disabled = Отключено!
+pool_upload = Загрузка файлов
+
+all_mediafolder = Все категории
+mediafolder = Категории
+
+var_media_open = Выбор файла
+var_media_new = Добавить файл
+var_media_remove = Удалить выбранные файлы
+var_media_view = Просмотреть выбранные файлы
+var_medialist_move_top = Переместить выбранные файлы в начало
+var_medialist_move_up = Переместить выбранные файлы вверх
+var_medialist_move_down = Переместить выбранные файлы вниз
+var_medialist_move_bottom = Переместить выбранные файлы в конец
+
+perm_general_media[sync] = Медиабаза: Синхронизация файлов
+
+# metainfo
+media = Медиа
+categories = Категории
+articles = Статьи
+
+minfo_title = Развернуть метаинформацию
+minfo_metainfos_not_found = Не найдено метаинформации
+
+minfo_field_list_caption = Список полей
+
+minfo_field_fieldset = Редактировать/создать поле
+minfo_field_label_prefix = Префикс
+minfo_field_label_title = Наименование поля
+minfo_field_label_name = Наименование метки
+minfo_field_label_function = Функция
+minfo_field_label_functions = Функции
+minfo_field_label_id = ID
+minfo_field_label_type = Тип поля
+minfo_field_label_attributes = Атрибуты поля
+minfo_field_label_callback = Callback
+minfo_field_label_callback_templates = Шаблоны Callback
+minfo_field_label_default = Значение по умолчанию
+minfo_field_label_nullable = Обязательное поле
+minfo_field_label_params = Параметр
+minfo_field_label_priority = Позиция поля
+minfo_field_label_restrictions = Доступно только для следующих категорий
+minfo_field_label_no_restrictions = Доступно во всех категориях
+minfo_field_label_all_templates = Доступно для всех шаблонов
+minfo_field_label_templates = Доступно только для следующих шаблонов
+
+minfo_field_notice_title = Префикс "translate:" переводит значение через I18N
+
+minfo_field_first_priority = В начале
+minfo_field_after_priority = После поля "{0}"
+
+minfo_field_params_notice_3 = Примеры:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>
+minfo_field_params_notice_4 = Примеры:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>
+minfo_field_params_notice_5 = Примеры:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>
+minfo_field_params_notice_6 = Пример:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
+minfo_field_params_notice_7 = Пример:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
+minfo_field_params_notice_8 = Пример:<br /> <code>category="1"</code>
+minfo_field_params_notice_9 = Пример:<br /> <code>category="1"</code>
+minfo_field_params_notice_10 = Пример:<br /> <code>start-year="1990" end-year="2030"</code>
+minfo_field_params_notice_11 = Пример:<br /> <code>start-year="1990" end-year="2030"</code>
+
+minfo_field_attributes_notice = HTML-атрибуты для поля ввода и разрешения, например:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]" note="Notiz"</code>
+minfo_field_label_notice = Код, выполняемый при изменении значения поля. .<br /> Читаемые переменные: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name = Пожалуйста, введите наименование столбца!
+minfo_field_error_unique_name = Это наименование столбца уже существует!
+minfo_field_error_unique_type = Это наименование типа уже существует!
+minfo_field_error_chars_name = Имя столбца содержит недопустимые символы (допустимые символы: <b>A-Z, 0-9 и _</b> )!
+minfo_field_error_invalid_prefix = Этот префикс недопустим!
+minfo_field_error_invalid_type = Этот тип недопустим!
+minfo_field_error_invalid_length = Эта длина поля недопустима!
+minfo_field_error_invalid_name = Это наименование столбца недопустимо!
+minfo_field_error_invalid_fieldid = Этот ID поля недопустим!
+minfo_field_error_invalid_typeid = Этот ID типа недопустим!
+minfo_field_error_deleted = Поле не было удалено!
+minfo_field_successfull_deleted = Поле было удалено!
+minfo_field_successfull_saved = Поле успешно сохранено!
+
+minfo_default_fields_create = Создать поля по умолчанию
+minfo_default_fields_created = Поля по умолчанию успешно созданы!
+
+minfo_edit_metadata = Редактировать метаинформацию
+minfo_metadata_saved = Метаинформация была сохранена.
+
+minfo_media_in_use_art = Статьи (Метаданные)
+minfo_media_in_use_cat = Категории (Метаданные)
+minfo_media_in_use_med = Файлы (Метаданные)
+minfo_media_in_use_clang = Языки (Метаданные)
+
+minfo_callback_lang_indep_field = Поле, не зависящее от языка
+
+# bc: labels aus dem core
+online_from = Онлайн с
+online_to = до
+description = Описание
+keywords = Ключевые слова
+header_article_type = Тип статьи
+metadata_image = Метафайл/Изображение
+teaser = Тизер
+pool_file_copyright = Copyright
+
+metadata = Метаданные
+
+# structure
+structure = Структура
+
+title_structure = Управление структурой
+root_level = Корень проекта
+no_such_category = Категория не найдена!
+category_updated = Категория обновлена.
+category_could_not_be_deleted = Ошибка. Категория не удалена!
+category_still_contains_articles = Категория все еще содержит статьи.
+category_still_contains_subcategories = Категория все еще содержит подкатегории.
+category_status_updated = Статус категории обновлен.
+category_added_and_startarticle_created = Добавлена категория и создана начальная статья!
+article_doesnt_exist = Статья не существует!
+article_status_updated = Статус статьи обновлен.
+article_updated = Статья обновлена.
+article_added = Статья добавлена.
+header_category = Категория
+header_priority = Приоритет
+header_status = Статус/Функция
+header_id = ID
+add_category = Добавить категорию
+edit_category = Изменить категорию
+save_category = Сохранить категорию
+status_online = онлайн
+status_offline = офлайн
+option_no_template = Нет шаблона
+template_default_name = НЕТ ШАБЛОНА
+header_article_name = Наименование статьи
+header_template = Шаблон
+header_date = Создано
+change = изменить
+article_add = Добавить статью
+article_edit = Редактировать статью
+article_save = Сохранить статью
+article_show = Показать статью
+article = Статья
+start_article = Начальная статья
+no_article_available = Нет доступных статей
+structure_categories_caption = Список подкатегорий в категории "{0}"
+structure_articles_caption = Список статей в категории "{0}"
+structure_root_level_articles_caption = Список статей в "Корне проекта"
+structure_root_level_categories_caption = Список категорий в "Корне проекта"
+article_deleted = Статья удалена!
+article_could_not_be_generated = Статья не может быть создана.
+category_deleted = Категория удалена!
+category_doesnt_exist = Категория не существует!
+article_doesnt_exist = Статья не существует!
+cant_delete_sitestartarticle = Начальная статья не может быть удалена!
+cant_delete_notfoundarticle = Статья "Не найдено" не может быть удалена!
+structure_copy = Копия
+category_has_child_elements = Категория имеет дочерние элементы
+category_without_child_elements = Категория без дочерних элементов
+structure_delete_all_clangs = Удалить на всех языках?
+
+all_categories = Все категории
+categories = Категории
+
+perm_options_addArticle[] = Добавить статью
+perm_options_addCategory[] = Добавить категорию
+perm_options_editArticle[] = Редактировать статью
+perm_options_editCategory[] = Редактировать категорию
+perm_options_deleteArticle[] = Удалить статью
+perm_options_deleteCategory[] = Удалить категорию
+perm_options_article2category[] = Преобразовать статью в категорию
+perm_options_article2startarticle[] = Преобразовать статью в начальную статью
+perm_options_copyArticle[] = Копировать статью
+perm_options_copyContent[] = Копировать содержание статьи
+perm_options_moveArticle[] = Переместить статью
+perm_options_moveCategory[] = Переместить категорию
+perm_options_publishArticle[] = Опубликовать статью
+perm_options_publishCategory[] = публиковать категорию
+
+system_setting_start_article_id = Начальная статья
+system_setting_notfound_article_id = Статья "Не найдено"
+system_setting_default_template_id = Шаблон по умолчанию
+system_setting_start_article_id_invalid = Недопустимая начальная статья!
+system_setting_notfound_article_id_invalid = Недопустимая статья Не найдено"!
+system_setting_default_template_id_invalid = Недопустимый шаблон по умолчанию!
+
+linkmap = Карта связей
+linkmap_categories = Категории
+linkmap_articles = Статьи
+linkmap_has_no_template = не имеет шаблона
+
+var_link_open = Выбрать ссылку
+var_link_delete = Удалить выбранную ссылку
+var_linklist_move_top = Переместить выбранную ссылку в начало
+var_linklist_move_up = Переместить выбранную ссылку вверх
+var_linklist_move_down = Переместить выбранную ссылку вниз
+var_linklist_move_bottom = Переместить выбранную ссылку в конец
+
+
+content = Статья
+
+add_block = Добавить блок
+article_doesnt_exist = Статья не существует!
+module_doesnt_exist = Модуль не существует!
+update_block = Обновить блок
+save_block = Сохранить блок
+edit_block = Редактировать блок
+move_slice_up = Вверх
+move_slice_down = Вниз
+block_updated = Блок обновлен!
+block_added = Блок добавлен!
+no_rights_to_this_function = У вас нет прав на выполнение этого действия!
+module_not_found = Ошибка! Модуль не найден.
+confirm_delete_block = Удалить блок?
+block_deleted = Блок удален!
+block_not_deleted = Блок не был удален.
+edit_mode = Режим редактирования
+metafuncs = Функции
+metadata_updated = Метаданные обновлены
+name_description = Наименование/Описание
+description = Описание
+update_metadata = Обновить метаданные
+move_article = Переместить статью
+copy_article = в категорию
+no_rights_to_edit = Нет прав на редактирование этого блока!
+slice_moved = Блок перемещен.
+slice_moved_error = Ошибка. Блок не перемещен.
+slice_deleted_error = Ошибка. Блок не удален.
+slice_saved_error = Ошибка. Блок не сохранен.
+content_contentcopy = Содержание скопировано.
+content_errorcopy = Нельзя копировать содержание статей на один и тот же язык.
+content_contentoflang = с языка
+content_to = на язык
+content_submitcopycontent = Копировать содержание
+content_submitmovearticle = Переместить статью
+content_errormovearticle = Ошибка. Статья на скопирована.
+content_articlemoved = Статья перемещена.
+content_submitcopyarticle = Копировать статью
+content_articlecopied = Статья скопирована.
+content_errorcopyarticle = Ошибка. Статья не скопирована.
+content_error_movecategory = Ошибка. Категория не перемещена.
+content_submitmovecategory = Переместить категорию
+content_startarticle = Начальная статья
+content_isstartarticle = Статья является начальной
+content_tostartarticle = Сделать начальной статьей
+content_nottostartarticle = Невозможно преобразовать эту статью в начальную.
+content_tostartarticle_failed = Ошибка. Статья не может быть преобразована в начальную статью.
+content_tostartarticle_ok = Статья была преобразована в начальную статью.
+content_category = Категория
+content_tocategory = Преобразовать статью в категорию
+content_tocategory_failed = Статья не может быть преобразована в категорию
+content_tocategory_ok = Статья успешно преобразована в категорию
+content_article = Статья
+content_toarticle = Преобразовать категорию в статью
+content_nottoarticle = Эта категория не может быть преобразована в статью, поскольку она содержит другие статьи или подкатегории
+content_toarticle_failed = Категория не может быть преобразована в статью
+content_toarticle_ok = Категория успешно преобразована в статью
+move_category = в
+category_moved = Категория перемещена
+content_types = Столбцы и модули
+content_type = Столбец
+
+perm_options_moveSlice[] = Переместить блок
+perm_options_publishSlice[] = Опубликовать блок
+
+templates = Шаблоны
+
+templates_not_found = Шаблоны не найдены
+title_templates = Шаблоны
+cant_delete_template_because_its_in_use = Шаблон '{0}' не может быть удален, потому что он используется следующими статьями:
+cant_delete_template_because_its_default_template = Шаблон '{0}' не может быть удален, поскольку он является шаблоном по умолчанию.
+cant_inactivate_template_because_its_in_use = Шаблон '{0}' не может быть отключен, потому что он используется следующими статьями:
+cant_inactivate_template_because_its_default_template = Шаблон '{0}' не может быть отключен, поскольку он является шаблоном по умолчанию.
+template_deleted = Шаблон удален.
+template_added = Шаблон добавлен.
+template_updated = Шаблон обновлен.
+template_categories = Права в категориях
+template_categories_all = Доступно во всех категориях
+template_categories_custom = Доступно только в следующих категориях
+edit_template = Редактировать шаблон
+create_template = Создать шаблон
+template_name = Наименование
+template_key = Ключ
+template_key_notice = Ключ должен быть уникальным или оставаться пустым.
+template_key_exists = Ключ уже существует.
+checkbox_template_active = Активен
+checkbox_template_active_info = [Доступен для выбора в статьях]
+save_template_and_quit = Сохранить шаблон
+save_template_and_continue = Обновить шаблон
+header_template = Шаблон
+header_template_description = Описание шаблона
+header_template_key = Ключен
+header_template_active = Активен
+header_template_functions = Функции
+delete_template = Удалить шаблон
+header_template_caption = Список доступных шаблонов
+modules_available = Доступны только следующие модули
+modules_available_all = Все модули доступны
+confirm_delete_template = Удалить шаблон?
+
+modules = Модули
+module = Модуль
+module_not_found = Ошибка! Модуль не найден.
+modules_not_found = Модули не найдены.
+module_cannot_be_deleted = Модуль '{0}' не удален, потому что он используется следующими статьями:
+module_deleted = Модуль удален!
+module_added = Модуль добавлен
+module_updated = Модуль обновлен
+module_caption = Список доступных модулей
+module_in_use = Используется
+articel_updated = Статьи обновлены
+create_module = Создать модуль
+input = Ввод
+output = Вывод
+module_name = Наименование
+module_key = Ключ
+module_key_notice = Ключи должны быть уникальными или оставаться пустыми
+module_key_exists = Ключ уже существует.
+module_actions_notice = Совет: с помощью Действий вы можете проверять вводимые пользователем данные или запускать пользовательские php-скрипты.
+save_module_and_quit = Сохранить модуль
+save_module_and_continue = Обновить модуль
+module_description = Описание модуля
+module_functions = Функции
+delete_module = Удалить модуль
+module_edit = Редактировать модуль
+action_taken = Действие используется
+action_deleted_from_modul = Действие удалено из модуля!
+action = Действие
+actions = Действия
+action_cannot_be_deleted = Действие '{0}' не может быть удалено, его используют следующие модули:
+action_deleted = Действие удалено
+action_added = Действие добавлено
+action_updated = Действие обновлено
+action_create = Действие создано
+action_name = Наименование действия
+save_action_and_quit = Сохранить действие
+save_action_and_continue = Обновить действие
+action_functions = Функции
+action_event_all = Активно для всех событий
+action_event_edit = редактирование модуля
+action_event_delete = удаление модуля
+action_event_add = добавление модуля
+action_event = назначенное(-ые) событие(-я)
+action_mode_preview = Выполняется перед предварительным просмотром модуля
+action_mode_presave = Выполняется перед сохранением модуля
+action_mode_postsave = Выполняется после сохранения модуля
+action_delete = Удалить действие
+action_edit = Редактировать действие
+action_add = Добавить действие
+action_hint = Все значения доступны в $REX_ACTION
+action_caption = Список доступных действий
+actions_added_caption = Список назначенных действий
+actions_not_found = Действия не найдены
+all_modules = Все модули
+confirm_delete_module = Удалить модуль?
+confirm_delete_action = Удалить действие?
+action_header_preview = Событие(-я) - Предпросмотр
+action_header_presave = Событие(-я) - Пресейв
+action_header_postsave = Событие(-я) - Постсейв
+action_heading_preview = Предпросмотр-Действие
+action_heading_presave = Пресейв-Действие
+action_heading_postsave = Постсейв-Действие
+
+
+structure_history = История
+structure_history_title_info = Краткое пояснение
+structure_history_snapshot_reactivate = Вернуться к этой версии
+structure_history_snapshot_reactivated = Версия была изменена
+structure_history_overview_versions = Обзор истории
+structure_history_current_version = Текущая версия
+structure_history_info_content = <p>Плагин History PlugIn записывает все изменения, внесенные в статью, и создает снэпшоты, которые впоследствии можно использовать для восстановления предыдущего состояния конкретной статьи.</p>
+structure_history_todos = Сделать
+structure_history_todos_content = <ul><li>Подготовить cronjob</li><li>Разрешить отключение истории</li><li>Настройки сборки, позволяющие уменьшить количество версий. Пример: хранить только одну версию через месяц/неделю/день.</li><li>Установить значения масштабирования для сайта</li><li>Cделать визуальный вид более красивым, похожим на Time Machine?</li></ul>
+
+perm_options_history[article_rollback] = Восстановить статью (История)
+
+structure_history_button_delete_history = Удаление всех снэпшотов из истории
+structure_history_deleted = Все снэпшоты были удалены
+structure_history_savedby = Сохранено
+structure_history_close = Закрыть
+
+structure_history_cleanup = Очистка истории статьи
+structure_history_cleanup_after = Удалите историю, если она старше
+structure_history_days = {0} дней
+structure_history_months = {0} месяцев
+structure_history_years = {0} лет
+
+
+version = Версия
+
+version_liveversion = Live-версия
+version_workingversion = Черновик
+version_working_to_live = Опубликовать
+version_preview = Предпросмотр
+version_clear_workingversion = Пустая версия черновика
+version_copy_live_to_workingversion = Скопировать в черновик
+version_copy_from_liveversion = Из Live-версии
+version_confirm_copy_live_to_workingversion = Скопировать Live-версию в черновик? Все существующее содержимое черновика будет перезаписано.
+version_info_working_version_to_live = Черновик теперь Live-версия
+version_info_live_version_to_working = Live-версия была скопирована в черновик
+version_warning_working_version_to_live = Черновик нельзя скопировать, потому что он пуст
+version_info_clear_workingversion = Черновик не пуст
+version_confirm_clear_workingversion = Очистить черновик? Все существующее содержимое черновика будет безвозвратно удалено.

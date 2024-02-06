@@ -792,3 +792,716 @@ phpmailer_errormail_60min = 60 minute interval
 
 system_setting_errormail = Send e-mail on errors
 perm_general_phpmailer[] = PHPMailer settings
+
+# be_style
+customizer = customizer
+customizer_features = Functions
+
+customizer_codemirror = CodeMirror
+customizer_codemirror_check = Activate CodeMirror
+customizer_codemirror_selectors = Additional jQuery selectors for CodeMirror
+customizer_codemirror_selectors_info = Comma separated list of jQuery selectors for usage with CodeMirror.<br>Defaults are <code>textarea.rex-js-code</code> and <code>textarea.codemirror</code>.
+customizer_codemirror_theme = CodeMirror Theme
+customizer_codemirror_langs = Additional Highlighters
+customizer_codemirror_langs_text = (markdown, textile, gfm, yaml)
+customizer_codemirror_tools = Additional features
+customizer_codemirror_tools_text = (Code-Folding, Bracket-Matching, Tag-Matching, Close-Brackets)
+customizer_codemirror_autoresize = AutoResize
+customizer_codemirror_autoresize_text = (CodeMirror automatically adjusts height)
+
+customizer_codemirror_info = Once CodeMirror is activated it will be used for templates, modules, actions and cronjobs automatically. If you'd like to use CodeMirror for your own forms, use this syntax: <br><br><code><textarea class="codemirror" data-codemirror-theme="themename" data-codemirror-mode="php/htmlmixed"></textarea></code><br><br>The parameters <i>data-codemirror-theme</i> and <i>data-codemirror-mode</i> are optional.<br><br>Use the F11 and ESC keys to enter and exit fullscreen mode.
+
+customizer_labeling = Additions
+customizer_labelcolor = Color
+customizer_labelcolor_notice = Any valid css color expression (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0.5)</code> etc.)
+customizer_showlink = Show link to website?
+
+customizer_config_updated = Settings have been saved
+customizer_config_update_failed = Settings were not saved
+
+customizer_update = Save settings
+customizer_error_unzip = An error occured while unpacking the assets in the CodeMirror archive!
+
+customizer_projectname = Project name
+customizer_textarea = Width of textarea in templates and modules
+customizer_liquid = Liquid layout
+customizer_nav_flyout = Navigation with flyout
+
+# debug
+debug=Debug
+debug_activate_debugmode = Activate the debug mode to work with the debug addon.
+debug_error_unzip = An error occurred during unpacking the assets from the Clockwork frontend archive!
+
+# media_manager
+media_manager = Media Manager
+media_manager_overview_title = Media Manager AddOn (Version {0})
+
+media_manager_subpage_desc = Description
+media_manager_subpage_config = Configuration
+media_manager_subpage_types = Edit image types
+media_manager_subpage_clear_cache = Delete cache
+
+media_manager_cache_files_removed = {0} cache files deleted
+
+media_manager_config_saved = configuration updated!
+media_manager_config_not_saved = configuration could not be saved!
+media_manager_config_not_writable = configuration file "{0}" cannot be written!
+
+media_manager_max_resizekb = Maximum size of an image in kilobyte, which media-manager is allowed to process
+media_manager_max_resizepx = Maximum size of a image in pixel, which media-manager is allowed to process
+media_manager_jpg_quality = JPG quality
+media_manager_png_compression = PNG compression
+media_manager_png_compression_note = Values above 6-7 massively slow down the image creation.
+media_manager_webp_quality = WebP quality
+media_manager_avif_quality = AVIF quality
+media_manager_avif_speed = AVIF speed
+media_manager_interlace = Interlace/progressive mode
+
+media_manager_id = ID
+media_manager_name = Name
+media_manager_edittype = Edit image types
+media_manager_settings = Settings
+
+media_manager_yes = Yes
+media_manager_no = No
+media_manager_back = Back
+
+media_manager_error_name = Please enter a name.
+media_manager_error_settings = Please check the media-manager settings.
+media_manager_error_type_name_not_unique = An imagetype with this name already exists!
+media_manager_error_type_name_invalid = The name can not contain the characters "/" and "\"!
+
+media_manager_type_caption = List of image types
+media_manager_type_no_types = No image types found
+media_manager_type_create = Create image type
+media_manager_type_edit = Edit image type
+media_manager_type_copy = Copy image type
+media_manager_type_effekts_edit = Edit effect
+media_manager_type_delete = Delete image type
+media_manager_type_name = Name
+media_manager_type_name_copy = Copy
+media_manager_type_priority = Prio
+media_manager_type_description = Description
+media_manager_type_functions = Functions
+media_manager_type_cache_delete = Delete cache
+media_manager_type_system = System image type
+media_manager_type_delete = Delete image type
+media_manager_type_deleted = Image type deleted
+media_manager_type_copied = Image type copied
+
+media_manager_effect_list_header = Effect of image type "{0}"
+media_manager_effect_edit_header = Image type "{0}": edit effect
+media_manager_effect_create_header = Image type "{0}": create effect
+media_manager_effect_caption = List of added effects for image type "{0}"
+media_manager_effect_no_effects = No effects found
+media_manager_effect_create = Create effect
+media_manager_effect_edit = Edit effect
+media_manager_effect_delete = Delete effect
+media_manager_effect_name = Effect
+media_manager_effect_priority = Order of effects
+media_manager_effect_parameters = Parameter
+media_manager_effect_functions = Functions
+media_manager_effect_deleted = Delete effect
+
+media_manager_effect_insert_image = Image: place image/watermark
+media_manager_effect_brand_image = Image
+media_manager_effect_brand_hpos = Horizontal position
+media_manager_effect_brand_vpos = Vertical position
+media_manager_effect_brand_padding_x = Horizontal padding
+media_manager_effect_brand_padding_y = Vertical padding
+
+media_manager_effect_blur = Image: unsharp
+media_manager_effect_blur_repeats = Repeats
+media_manager_effect_blur_type = Blur type
+media_manager_effect_blur_smoothit = smoothing (negative values for sharpening)
+
+media_manager_effect_colorize = Image: colorize
+media_manager_effect_colorize_r = Red value
+media_manager_effect_colorize_g = Green value
+media_manager_effect_colorize_b = Blue value
+
+media_manager_effect_sharpen = Image: sharpen
+media_manager_effect_sharpen_amount = Sharpen amount
+media_manager_effect_sharpen_radius = Sharpen radius
+media_manager_effect_sharpen_threshold = Threshold
+
+media_manager_effect_resize = Image: scale
+media_manager_effect_resize_width = Target width
+media_manager_effect_resize_height = Target Height
+media_manager_effect_resize_style = Mode
+media_manager_effect_resize_imgtosmall = If image is to small
+
+media_manager_effect_crop = Image: crop
+media_manager_effect_crop_width = Target width
+media_manager_effect_crop_height = Target height
+media_manager_effect_crop_offset_width = Horizontal offset
+media_manager_effect_crop_offset_height = Vertical offset
+media_manager_effect_crop_position = Crop position
+
+media_manager_effect_rounded_corners = Image: round corners
+media_manager_effect_rounded_corners_topleft = Top left
+media_manager_effect_rounded_corners_topright = Top right
+media_manager_effect_rounded_corners_bottomleft = Bottom left
+media_manager_effect_rounded_corners_bottomright = Bottom right
+
+media_manager_effect_flip = Image: mirror horizontal/vertical
+media_manager_effect_flip_direction = Direction
+
+media_manager_effect_rotate = Image: rotate
+media_manager_effect_rotate_degree = Rotate (degrees)
+
+media_manager_effect_mirror = Image: add water reflection
+media_manager_effect_mirror_height = Refl. height (50 / 10%)
+media_manager_effect_mirror_opacity = Reflection opacity (0 - 100)
+media_manager_effect_mirror_opacity_notice = 0% completely invisible reflection, 100% completely visible reflection
+media_manager_effect_mirror_background_color = Background color
+media_manager_effect_mirror_background_r = Background R (0-255)
+media_manager_effect_mirror_background_g = Background G (0-255)
+media_manager_effect_mirror_background_b = Background B (0-255)
+
+media_manager_effect_workspace = Image: canvas area
+media_manager_effect_workspace_pos = Position
+
+media_manager_effect_folder = Alternative path default: "media"
+
+media_manager_effect_mediapath = File: adjust path
+media_manager_effect_mediapath_path = Media folder
+media_manager_effect_mediapath_path_notice = Path to image source relative to the REDAXO installation instead of <code>media</code>, i.e. <code>images</code>. Leading/trailing slashes are not needed.
+
+media_manager_effect_header = File: customize header
+media_manager_effect_header_download = Download
+media_manager_effect_header_cache = Cache control
+media_manager_effect_header_filename = Source for filename
+media_manager_effect_header_filename_notice = <code>filename</code> is the normalized filename on the server, i.e <code>mein-download.pdf</code>, <code>originalname</code> is the original filename at the moment of upload (with whitespace, using uppercase/lowercase letters, etc.), i.e. <code>My Download.pdf</code>
+media_manager_effect_header_index = SEO: Indexing
+media_manager_effect_header_index_notice = <code>index</code>: search engines should crawl the file and possibly include it in the index (default) | <code>noindex</code>: search engines should <b>not</b> crawl the file or include it in the index
+
+
+
+media_manager_effect_convert2img = File: convert to image
+media_manager_effect_convert2img_density = Resolution density
+media_manager_effect_convert2img_convertto = Target format
+media_manager_effect_convert2img_density_notice = Pixel density in ppi (pixel per inch)
+media_manager_effect_convert2img_convertto_notice = Target file type the file will be converted into. Following file types are possible: <code>.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico,.svg</code>.
+media_manager_effect_convert2img_noimagemagick = Warning: ImageMagick could not be found. This effect needs either the php extension "imagick" or ImageMagick as a "commandline binary" which can be executed by exec().
+media_manager_effect_convert2img_color = Color for transparency
+media_manager_effect_convert2img_color_notice = Syntax "#ffffff". If no color is set transparency will be used instead. If it's a JPG a color value needs to be entered.
+
+
+media_manager_effect_image_properties = Image: settings (quality, interlace, ...)
+media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leave empty for default value.
+media_manager_effect_image_properties_png_compression_notice = [0-9]. Leave empty for default value.
+media_manager_effect_image_properties_webp_quality_notice = [0-101]. Leave empty for default value.
+media_manager_effect_image_properties_avif_quality_notice = [0-100]. Leave empty for default value.
+media_manager_effect_image_properties_avif_speed_notice = [0-10]. Leave empty for default value.
+media_manager_effect_image_properties_interlace_notice = Leave empty for default value.
+
+media_manager_effect_brightness = Image: brightness
+media_manager_effect_brightness_value = Brightness
+media_manager_effect_brightness_notice = [-255 to 255]. Leave empty for default value. (0).
+
+media_manager_effect_contrast = Image: contrast
+media_manager_effect_contrast_value = Contrast
+media_manager_effect_contrast_notice = [-100 to 100]. Leave empty for default value (0).
+
+media_manager_effect_sepia = Image: sepia
+
+media_manager_effect_greyscale = Image: greyscale
+
+media_manager_effect_image_format = Image: convert to JPEG/PNG/GIF/WEBP/AVIF
+media_manager_effect_image_format_convertto = Target format
+
+# mediapool
+pool_name = Mediapool
+pool_kats = Categories
+pool_kats_no = No category
+pool_search = search
+pool_media = Mediapool
+pool_file_list = Files
+pool_file_insert = Add file
+pool_cat_list = Manage categories
+pool_select_cat = Select category
+pool_sync_files = Synchronise files
+pool_sync_button = Synchronise
+pool_sync_title = Synchronise files
+pool_sync_affected_files = Affected Files
+pool_sync_no_diffs = no differences!
+pool_sync_files_synced = Files have been synchronised.
+pool_file_not_found = File not found
+pool_file_upload_error = Error uploading file
+pool_file_upload_error_size = The file exceeds the maximum upload size {0}!
+pool_file_upload_errortype = This file cannot be used to update the existing file because the file types do not match
+pool_file_title = Title
+pool_file_file = File
+pool_file_infos_updated = File information updated!
+pool_file_upload = Add
+pool_file_upload_get = Add and save
+pool_file_filter = Only files with following type are visible {0}!
+pool_kat_saved = Media category "{0}" added
+pool_kat_updated = Media category "{0}" updated
+pool_kat_deleted = Media category deleted
+pool_kat_create_label = Add new category
+pool_kat_create = Add category
+pool_kat_edit = Edit
+pool_kat_not_deleted = Category cannot be deleted, because it is not empty!
+pool_kat_name = Name
+pool_kat_function = Function
+pool_kat_update = Update
+pool_kat_edit = Edit
+pool_kat_delete = Delete
+pool_kat_start = Beginning
+pool_kat_path = Path
+pool_kat_caption = List of media categories
+pool_file_detail = Media: Details
+pool_filename = Filename
+pool_file_exchange = Replace file
+pool_file_update = Update
+pool_file_delete = Delete
+pool_file_edit = Edit media
+pool_file_details = File details
+pool_file_thumbnail = Thumbnail
+pool_file_info = File info
+pool_file_description = Description
+pool_file_functions = Functions
+mediapool = Mediapool
+
+pool_file_notitle = No title entered
+pool_file_edit = Edit media
+pool_file_caption = List of media in category "{0}"
+pool_file_category = Category
+pool_file_description = Description
+pool_file_deleted = File deleted
+pool_files_deleted = {0} Files have been deleted.
+pool_file_delete_error = File "{0}" cannot be deleted
+pool_object_in_use_by = It is used by following objects:
+pool_kat_delete_error = Category "{0}" cannot be deleted
+pool_file_in_use_articles = Article (Content)
+pool_file_changed = File exchanged!
+pool_file_added = File added!
+pool_file_movefailed = Upload failed.
+pool_file_renamed = Original filename <code>{0}</code> has been changed: <code>{1}</code>
+pool_file_mediatype_not_allowed = File type not allowed:
+pool_file_allowed_mediatypes = Allowed file types:
+pool_file_banned_mediatypes = Prohibited file types:
+pool_file_does_not_exist = File does not exist
+pool_img_width = Width
+pool_img_height = Height
+pool_selectedmedia = Selected media:
+pool_delete_selectedmedia = delete
+pool_changecat_selectedmedia_prefix = in category
+pool_changecat_selectedmedia_suffix = move
+pool_get_selectedmedia = apply
+pool_selectedmedia_error = No media selected
+pool_selectedmedia_moved = Moved selected media
+pool_select_all = Select all
+pool_nomediafound = No files in this category
+pool_image_get = Insert image
+pool_link_get = Insert link
+pool_file_get = Get file
+pool_last_update = Last update
+pool_created = Created
+pool_select_all = Select all
+pool_file_not_writable = File is not writable
+pool_files_not_writable = Files are not writable!
+pool_max_uploadsize = Max. upload size
+pool_max_uploadtime = Max. uploadtime
+pool_upload_disabled = deactivated
+pool_upload = Fileupload
+
+all_mediafolder = All media categories
+mediafolder = Media categories
+
+var_media_open = Choose media
+var_media_new = Add media
+var_media_remove = Delete selected media
+var_media_view = Show selected media
+var_medialist_move_top = Move selected media to top
+var_medialist_move_up = move selected media up
+var_medialist_move_down = move selected media down
+var_medialist_move_bottom  = move selected media to bottom
+
+perm_general_media[sync] = Mediapool: Synchronise files
+
+# metainfo
+media = Media
+categories = Categories
+articles = Articles
+
+minfo_title = Expand metainfos
+minfo_metainfos_not_found = No metainfo found
+
+minfo_field_list_caption = Field list
+
+minfo_field_fieldset = Edit/create field
+minfo_field_label_prefix = Prefix
+minfo_field_label_title = Field title
+minfo_field_label_name = Label name
+minfo_field_label_function = Function
+minfo_field_label_functions = Functions
+minfo_field_label_id = ID
+minfo_field_label_type = Field type
+minfo_field_label_attributes = Field attributes
+minfo_field_label_callback = Callback
+minfo_field_label_callback_templates = Callback templates
+minfo_field_label_default = Default value
+minfo_field_label_nullable = Mandatory field
+minfo_field_label_params = Parameter
+minfo_field_label_priority = Field position
+minfo_field_label_restrictions = Available only in the following categories
+minfo_field_label_no_restrictions = Available in all categories
+minfo_field_label_all_templates = Available for all templates
+minfo_field_label_templates = Available only for the following templates
+
+minfo_field_notice_title = prefix "translate:" translates the value via I18N
+
+minfo_field_first_priority = At the beginning
+minfo_field_after_priority = After the field "{0}"
+
+minfo_field_params_notice_3 = Examples:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_4 = Examples:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_5 = Examples:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_6 = Example:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
+minfo_field_params_notice_7 = Example:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
+minfo_field_params_notice_8 = Example:<br /> <code>category="1"</code>
+minfo_field_params_notice_9 = Example:<br /> <code>category="1"</code>
+minfo_field_params_notice_10 = Example:<br /> <code>start-year="1990" end-year="2030"</code>
+minfo_field_params_notice_11 = Example:<br /> <code>start-year="1990" end-year="2030"</code>
+
+minfo_field_attributes_notice = Example:<br /> style=color:red multiple=multiple class=my_css_class perm=admin[]
+minfo_field_label_notice = Code executed when the value of the field has changed.<br /> Readable variables: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name = Please enter the columns name!
+minfo_field_error_unique_name = This column name already exists!
+minfo_field_error_unique_type = This type name already exists!
+minfo_field_error_chars_name = This column name hat unallowed characters (allowed chars are A-Z, 0-9 and _)!
+minfo_field_error_invalid_prefix = This prefix is not valid!
+minfo_field_error_invalid_type = This type is not valid!
+minfo_field_error_invalid_length = This field length is not valid!
+minfo_field_error_invalid_name = This column name is not valid!
+minfo_field_error_invalid_fieldid = This field-id is not valid!
+minfo_field_error_invalid_typeid = This type-id is not valid!
+minfo_field_error_deleted = Field has not been deleted!
+minfo_field_successfull_deleted = Field has been deleted!
+minfo_field_successfull_saved = Field has been successfully saved!
+
+minfo_default_fields_create = Create default fields
+minfo_default_fields_created = Default fields successfully created!
+
+minfo_edit_metadata = Edit metainfo
+minfo_metadata_saved = Metainfos have been saved.
+
+minfo_media_in_use_art = Article (metadata)
+minfo_media_in_use_cat = Categories (metadata)
+minfo_media_in_use_med = Languages (metadata)
+minfo_media_in_use_clang = Languages (metadata)
+
+minfo_callback_lang_indep_field = Language independent field
+
+# bc: labels aus dem core
+online_from = Online from
+online_to = to
+description = Description
+keywords = Keywords
+header_article_type = Article type
+metadata_image = Metafile/Image
+teaser = Teaser
+pool_file_copyright = Copyright
+
+metadata = Metadata/Others
+
+# structure
+structure = Structure
+
+title_structure = Structure management
+root_level = Root
+no_such_category = Category not found!
+category_updated = Category updated.
+category_could_not_be_deleted = Error. Category not deleted!
+category_still_contains_articles = Category still contains articles.
+category_still_contains_subcategories = Category still contains subcategories.
+category_status_updated = Category status updated.
+category_added_and_startarticle_created = Category added and start article created!
+article_doesnt_exist = Article doesn't exist!
+article_status_updated = Article status updated.
+article_updated = Article updated.
+article_added = Article added.
+header_category = Category
+header_priority = Priority
+header_status = Status/Function
+header_id = Id
+add_category = Add category
+edit_category = Change category
+save_category = Save category
+status_online = online
+status_offline = offline
+option_no_template = No template
+template_default_name = NO TEMPLATE
+header_article_name = Article name
+header_template = Template
+header_date = Created
+change = change
+article_add = Add article
+article_edit = Change article
+article_save = Save article
+article_show = Show article
+article = Article
+start_article = Start-article
+no_article_available = No article available
+structure_categories_caption = List of subcategories in "{0}"
+structure_articles_caption = List of articles in "{0}"
+structure_root_level_articles_caption = List of articles in "Root level"
+structure_root_level_categories_caption = List of categories in "Root level"
+article_deleted = Article deleted!
+article_could_not_be_generated = Article could not be generated.
+category_deleted = Category deleted!
+category_doesnt_exist = Category doesn't exist!
+article_doesnt_exist = Article doesn't exist!
+cant_delete_sitestartarticle = The start article can not be deleted!
+cant_delete_notfoundarticle = Not-found article can not be deleted
+structure_copy = Copy
+category_has_child_elements = Category has child elements
+category_without_child_elements = Category without child elements
+structure_delete_all_clangs = Delete in all languages?
+
+all_categories = All categories
+categories = Categories
+
+perm_options_addArticle[] = Add article
+perm_options_addCategory[] = Add category
+perm_options_editArticle[] = Edit article
+perm_options_editCategory[] = Edit category
+perm_options_deleteArticle[] = Delete article
+perm_options_deleteCategory[] = Delete category
+perm_options_article2category[] = Convert article into category
+perm_options_article2startarticle[] = Convert article into start article
+perm_options_copyArticle[] = Copy article
+perm_options_copyContent[] = Copy article content
+perm_options_moveArticle[] = Move article
+perm_options_moveCategory[] = Move category
+perm_options_publishArticle[] = Publish article
+perm_options_publishCategory[] = Publish category
+
+system_setting_start_article_id = Start article
+system_setting_notfound_article_id = Not-found article
+system_setting_default_template_id = Default template
+system_setting_start_article_id_invalid = Invalid start article!
+system_setting_notfound_article_id_invalid = Invalid not-found article!
+system_setting_default_template_id_invalid = Invalid default template!
+
+linkmap = Linkmap
+linkmap_categories = Categories
+linkmap_articles = Article
+linkmap_has_no_template = has no template
+
+var_link_open = Select Link
+var_link_delete = Delete selected link
+var_linklist_move_top = Move selected link to top
+var_linklist_move_up = Move selected link up
+var_linklist_move_down = Move selected link down
+var_linklist_move_bottom = Move selected link to bottom
+
+
+content = Article
+
+add_block = Add slice
+article_doesnt_exist = Article doesn't exist
+module_doesnt_exist = Module doesn't exist
+update_block = Update slice
+save_block = Save slice
+edit_block = Edit slice
+move_slice_up = Move up
+move_slice_down = Move down
+block_updated = Block updated!
+block_added = Block added!
+no_rights_to_this_function = You do not have permissions to complete this action!
+module_not_found = Error! Module not found.
+confirm_delete_block = Delete block?
+block_deleted = Block deleted!
+block_not_deleted = Block not deleted.
+edit_mode = Edit mode
+metafuncs = Functions
+metadata_updated = Metadata updated
+name_description = Name/Description
+description = Description
+update_metadata = update metadata
+move_article = Move article
+copy_article = to categorie
+no_rights_to_edit = No editing permissions for this block!
+slice_moved = Slice moved.
+slice_moved_error = Error. Slice not moved.
+slice_deleted_error = Error. Slice not deleted.
+slice_saved_error = Error. Slice not saved.
+content_contentcopy = Content copied.
+content_errorcopy = You cannot copy article content to the same language.
+content_contentoflang = from language
+content_to = to language
+content_submitcopycontent = Copy content
+content_submitmovearticle = Move article
+content_errormovearticle = Error. Article not moved.
+content_articlemoved = Article moved.
+content_submitcopyarticle = Copy article
+content_articlecopied = Article copied.
+content_errorcopyarticle = Error. Article not copied.
+content_error_movecategory = Error. Category not moved.
+content_submitmovecategory = Move category
+content_startarticle = Start article
+content_isstartarticle = Article is a start article
+content_tostartarticle = Make this a start article
+content_nottostartarticle = Cannot convert this article into a start article.
+content_tostartarticle_failed = Error. Article could not be converted into a start article.
+content_tostartarticle_ok = Article was converted to a start article.
+content_category = Category
+content_tocategory = Convert article to category
+content_tocategory_failed = Article cannot be converted to category
+content_tocategory_ok = Article successfully converted to category
+content_article = Article
+content_toarticle = Convert category to article
+content_nottoarticle = This category cannot be converted to article as it contains other articles or sub-categories
+content_toarticle_failed = Category could not be converted to article
+content_toarticle_ok = Category was successfully converted to article
+move_category = to
+category_moved = Category moved
+content_types = Columns and modules
+content_type = Column
+
+perm_options_moveSlice[] = Move block
+perm_options_publishSlice[] = Publish block
+
+templates = Templates
+
+templates_not_found = Templates not found
+title_templates = Templates
+cant_delete_template_because_its_in_use = Template '{0}' cannot be deleted because it is used by following articles:
+cant_delete_template_because_its_default_template = Template '{0}' cannot be deleted because it its the default template.
+cant_inactivate_template_because_its_in_use = Template '{0}' cannot be inactivated because it is used by following articles:
+cant_inactivate_template_because_its_default_template = Template '{0}' cannot be inactivated because it its the default template.
+template_deleted = Template deleted.
+template_added = Template added.
+template_updated = Template updated.
+template_categories = Category rights
+template_categories_all = Availiable in all categories
+template_categories_custom = Only available in the following categories
+edit_template = Edit template
+create_template = Create template
+template_name = Name
+template_key = Key
+template_key_notice = The key should be uniquely assigned or not filled in.
+template_key_exists = The key already exists.
+checkbox_template_active = Active
+checkbox_template_active_info = [Selectable for articles]
+save_template_and_quit = Save template
+save_template_and_continue = Update template
+header_template = Template
+header_template_description = Template description
+header_template_key = Key
+header_template_active = Active
+header_template_functions = Functions
+delete_template = Delete template
+header_template_caption = List of available templates
+modules_available = Only following Modules are available
+modules_available_all = All Modules are available
+confirm_delete_template = Delete template?
+
+modules = Modules
+module = Modules
+module_not_found = Error! Module not found.
+modules_not_found = Modules not found
+module_cannot_be_deleted = Module '{0}' not deleted, because it is used by following articles:
+module_deleted = Module deleted!
+module_added = Module added
+module_updated = Module updated
+module_caption = List of available modules
+module_in_use = In use
+articel_updated = Articles updated
+create_module = Create module
+input = Input
+output = Output
+module_name = Name
+module_key = Key
+module_key_notice = Keys should be unique or left empty
+module_key_exists = Key already exists.
+module_actions_notice = Tip: Using Actions you might validate user input or trigger custom php scripts
+save_module_and_quit = Save module
+save_module_and_continue = Update module
+module_description = Module description
+module_functions = Functions
+delete_module = Delete module
+module_edit = Edit module
+action_taken = Action taken
+action_deleted_from_modul = Action deleted from module!
+action = Action
+actions = Actions
+action_cannot_be_deleted = Action '{0}' cannot be deleted, following modules use it:
+action_deleted = Action deleted
+action_added = Action added
+action_updated = Action updated
+action_create = Create action
+action_name = Action name
+save_action_and_quit = Save action
+save_action_and_continue = Update action
+action_functions = Functions
+action_event_all = Active for all events
+action_event_edit = editing the module
+action_event_delete = deleting the module
+action_event_add = adding the module
+action_event = assigned event(s)
+action_mode_preview = Executed before previewing the module
+action_mode_presave = Executed before saving the module
+action_mode_postsave = Executed after saving the module
+action_delete = Delete action
+action_edit = Edit action
+action_add = Add action
+action_hint = All values are available in $REX_ACTION
+action_caption = List of available actions
+actions_added_caption = List of assigned actions
+actions_not_found = No actions found
+all_modules = All modules
+confirm_delete_module = Delete module?
+confirm_delete_action = Delete action?
+action_header_preview = Preview-Event(s)
+action_header_presave = Presave-Event(s)
+action_header_postsave = Postsave-Event(s)
+action_heading_preview = Preview-Action
+action_heading_presave = Presave-Action
+action_heading_postsave = Postsave-Action
+
+
+structure_history = History
+structure_history_title_info = Short explanation
+structure_history_snapshot_reactivate = Revert to this version
+structure_history_snapshot_reactivated = Version has been revertet
+structure_history_overview_versions = History overview
+structure_history_current_version = Current version
+structure_history_info_content = <p>The History extension records all changes made to an article and creates snapshots which can later be used to restore a specific article to a previous state.</p>
+structure_history_todos = To do
+structure_history_todos_content = <ul><li>prepare cronjob</li><li>allow History to be turned off</li><li>Build settings, to reduce the number of version. Example: keep only one version after a month/week/day.</li><li>set scaling values for the website</li><li>make the visual appearance prettier similar to Time Machine?</li></ul>
+
+perm_options_history[article_rollback] = Restore article (History)
+
+structure_history_button_delete_history = Delete all snapshots from History
+structure_history_deleted = All snapshots have been deleted.
+structure_history_savedby = Saved by
+structure_history_close = Close
+
+structure_history_cleanup = Article-History Cleanup
+structure_history_cleanup_after = Delete Historie if older than
+structure_history_days = {0} days
+structure_history_months = {0} months
+structure_history_years = {0} years
+
+
+version = Version
+
+version_liveversion = Live version
+version_workingversion = Draft version
+version_working_to_live = Publish
+version_preview = Preview
+version_clear_workingversion = Empty draft version
+version_copy_live_to_workingversion = Copy to draft version
+version_copy_from_liveversion = Get from live version
+version_confirm_copy_live_to_workingversion = Copy live version to draft version? All existing content in the draft version will be overwritten.
+version_info_working_version_to_live = Draft version is now live
+version_info_live_version_to_working = Live version has been copied to draft version
+version_warning_working_version_to_live = Draft version cannot be copied, because it is empty
+version_info_clear_workingversion = Draft version is now empty
+version_confirm_clear_workingversion = Empty draft version? All existing content in the draft version will be irrevocably deleted.

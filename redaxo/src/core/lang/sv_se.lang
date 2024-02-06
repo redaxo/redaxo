@@ -789,3 +789,707 @@ phpmailer_errormail_60min = 60 minuters check-interval
 
 system_setting_errormail = Skicka felmeddelanden
 perm_general_phpmailer[] = PHPMailer inställningar
+
+# be_style
+customizer = Customizer
+customizer_features = Funktioner
+
+customizer_codemirror = CodeMirror
+customizer_codemirror_check = Aktivera CodeMirror
+customizer_codemirror_selectors = Ytterligare jQuery-selektorer för CodeMirror
+customizer_codemirror_selectors_info = Kommaseparerad lista över jQuery-selektorer för vilken CodeMirror tillämpas. <br> Standard är <code> textarea.rex-js-code </ code> och <code> textarea.codemirror </ code>.
+customizer_codemirror_theme = CodeMirror theme
+customizer_codemirror_langs = Ytterligare highlighter
+customizer_codemirror_langs_text = (markdown, textile, gfm, yaml)
+customizer_codemirror_tools = Ytterligare funktioner
+customizer_codemirror_tools_text = (Code-Folding, Bracket-Matching, Tag-Matching, Close-Brackets)
+customizer_codemirror_autoresize = AutoResize
+customizer_codemirror_autoresize_text = (CodeMirror anpassar sig i höjd till innehållet)
+
+customizer_codemirror_info = Så snart CodeMirror aktiveras, används den automatiskt för mallar, moduler, aktioner och cron-jobb. Om du vill använda CodeMirror själv, använd följande sätt: <br> <br> <code> <textarea class = "codemirror" data-codemirror-theme = "themename" data-codemirror-mode = "php / htmlmixed"> </textarea> </code> <br> <br> Parametrarna <i> data-codemirror-theme </i> och <i> data-codemirror-mode </i> är valfria. <br> <br> Med knapparna F11 och ESC kan fullskärmsläget anropas.
+
+customizer_labeling = Tillägg
+customizer_labelcolor = Detekteringsfärg (t.ex. #43a047)
+customizer_labelcolor_notice = Giltig CSS-färgspecifikation (som t.ex. <code> # 03f0ab </ code>, <code> rgba (255, 100, 0, 0,5) </ code> etc.)
+customizer_showlink = Visa länk till webbsidan ?
+
+customizer_config_updated = Inställningarna har sparats
+customizer_config_update_failed = Inställningarna har inte sparats
+
+customizer_update = Spara inställningar
+customizer_error_unzip = Uppackning av tillgångarna från CodeMirror-arkivet misslyckades!
+
+customizer_projectname = Projektnamn
+customizer_textarea = Bredd av textarea i mallar och moduler
+customizer_liquid = Liquid layout
+customizer_nav_flyout = Navigation med flyout
+
+# debug
+debug=Debug
+debug_activate_debugmode = Aktivera debug-modus för att kunna använda Ddebug-addon:et
+debug_error_unzip = Ett fel uppstod när assets extraherades från Clockwork frontend-arkivet!
+
+# media_manager
+media_manager = Media Manager
+media_manager_overview_title = Media Manager Addon <small>(Version {0})</small>
+
+media_manager_subpage_desc = Förklaring
+media_manager_subpage_config = Konfiguration
+media_manager_subpage_types = Bearbeta mediatyper
+media_manager_subpage_clear_cache = Radera cachen
+
+media_manager_cache_files_removed = {0} Cachefiler raderades
+
+media_manager_config_saved = Konfigurationen sparades!
+media_manager_config_not_saved = Konfigurationen kunde inte sparas!
+media_manager_config_not_writable = Konfigurationsfilen "{0}" kan inte skrivas!
+
+media_manager_max_resizekb = Maximal filstorlek i kilobyte som får omvandlas med mediamanagern
+media_manager_max_resizepx = Maximal filstorlek i pixel som får omvandlas med mediamanagern
+media_manager_jpg_quality = JPG/JPEG output kvalité
+media_manager_png_compression = PNG-kompression
+media_manager_png_compression_note = Värden högre än 6-7 slöa ner bildvisningen enormt!
+media_manager_webp_quality = WebP-kvalité
+media_manager_interlace = Interlace/progressive-modus
+
+media_manager_id = Id
+media_manager_name = Namn
+media_manager_edittype = Redigera mediatyper
+media_manager_settings = Inställningar
+
+media_manager_yes = Ja
+media_manager_no = Nej
+media_manager_back = Tillbaka
+
+media_manager_error_name = Vänligen ange ett namn.
+media_manager_error_settings = Vänligen mata in innehåll vid inställningar.
+media_manager_error_type_name_not_unique = Det finns redan en mediatyp med detta namnet!
+media_manager_error_type_name_invalid = Namnet kan inte innehålla tecknen "/" och "\"!
+
+media_manager_type_caption = Lista av mediatyper
+media_manager_type_no_types = Inga mediatyper tillgängliga
+media_manager_type_create = Skapa mediatyp
+media_manager_type_edit = Redigera
+media_manager_type_copy = dublicera
+media_manager_type_effekts_edit = Redigera effekter
+media_manager_type_delete = radera
+media_manager_type_name = Namn
+media_manager_type_name_copy = Kopia
+media_manager_type_priority = Priorität
+media_manager_type_description = Beskrivning
+media_manager_type_functions = Funktioner
+media_manager_type_cache_delete = Radera cachen
+media_manager_type_system = System Mediatyp
+media_manager_type_delete = radera
+media_manager_type_deleted = Mediatyp raderades
+media_manager_type_copied = Mediatyp dublicerades
+
+media_manager_effect_list_header = Mediatypens effekter {0}
+media_manager_effect_edit_header = Mediatyp <mark>{0}</mark>: Redigera effekt
+media_manager_effect_create_header = Mediatyp <mark>{0}</mark>: Skapa effekt
+media_manager_effect_caption = Lista av alla effekter av mediatypen <mark>{0}</mark>
+media_manager_effect_no_effects = Inga effekter tillgängliga
+media_manager_effect_create = Skapa effekt
+media_manager_effect_edit = Redigera effekt
+media_manager_effect_delete = Radera effekt
+media_manager_effect_name = Effekt
+media_manager_effect_priority = Effektrangföljd
+media_manager_effect_parameters = Parametrar
+media_manager_effect_functions = Funktioner
+media_manager_effect_deleted = Effekt raderades
+
+media_manager_effect_insert_image = Bild: placera bild / vattenstämpel
+media_manager_effect_brand_image = Bild
+media_manager_effect_brand_hpos = horizontal ställning
+media_manager_effect_brand_vpos = vertikal ställning
+media_manager_effect_brand_padding_x = horizontal avstånd till kanten
+media_manager_effect_brand_padding_y = vertikal avstånd till kanten
+
+media_manager_effect_blur = Bild: oskärpa
+media_manager_effect_blur_repeats = Upprepningar
+media_manager_effect_blur_type = Typ av oskärpa
+media_manager_effect_blur_smoothit = släta (negativa värden skärpar bilderna)
+
+media_manager_effect_colorize = Bild: färga
+media_manager_effect_colorize_r = Röd-värde
+media_manager_effect_colorize_g = Grön-värde
+media_manager_effect_colorize_b = Blå-värde
+
+media_manager_effect_sharpen = Bild: skärpa
+media_manager_effect_sharpen_amount = nivå av skärpan
+media_manager_effect_sharpen_radius = Storleken av skärpamatrixen
+media_manager_effect_sharpen_threshold = Gränsvärde
+
+media_manager_effect_resize = Bild: skala
+media_manager_effect_resize_width = Målbredden
+media_manager_effect_resize_height = Målhöjden
+media_manager_effect_resize_style = Modus
+media_manager_effect_resize_imgtosmall = Om bilden är för lite
+
+media_manager_effect_crop = Bild: beskära
+media_manager_effect_crop_width = Målbredden
+media_manager_effect_crop_height = Målhöjden
+media_manager_effect_crop_offset_width = Horizontal förskjutning/offset
+media_manager_effect_crop_offset_height = Vertikal förskjutning/offset
+media_manager_effect_crop_position = Referenspunkt
+
+media_manager_effect_rounded_corners = Bild: rundade hörn
+media_manager_effect_rounded_corners_topleft = Uppe vänster
+media_manager_effect_rounded_corners_topright = Uppe höger
+media_manager_effect_rounded_corners_bottomleft = Nedre vänster
+media_manager_effect_rounded_corners_bottomright = Nedre höger
+
+media_manager_effect_flip = Bild: Riktning
+media_manager_effect_flip_direction = Riktning
+
+media_manager_effect_rotate = Bild: Vrida
+media_manager_effect_rotate_degree = Vrida med (vinkel)
+
+media_manager_effect_mirror = Bild: tillfoga vattenspegling
+media_manager_effect_mirror_height = Refl. höjd (50 / 10%)
+media_manager_effect_mirror_opacity = Speglings genomskinlighet (0-100)
+media_manager_effect_mirror_opacity_notice = 0% helt osynlig reflektion, 100% helt synlig reflektion
+media_manager_effect_mirror_background_color = Bakgrundsfärg
+media_manager_effect_mirror_background_r = Bakgrund R (0-255)
+media_manager_effect_mirror_background_g = Bakgrund G (0-255)
+media_manager_effect_mirror_background_b = Bakgrund B (0-255)
+
+media_manager_effect_workspace = Bild: arbetsyta
+media_manager_effect_workspace_pos = Position
+
+media_manager_effect_folder = Alternativ mapp default: "media"
+
+media_manager_effect_mediapath = Fil: Anpassa sökväg
+media_manager_effect_mediapath_path = Mediamapp
+media_manager_effect_mediapath_path_notice = Vägen till bildkällan i förhållande till REDAXO-installationen istället för <code> media </ code>, t.ex. katalogen <code> images </ code>. Ledande / avslutande snedstreck (<code> / </ code>) krävs inte.
+
+media_manager_effect_header = Fil: anpassa headern
+media_manager_effect_header_download = Download
+media_manager_effect_header_cache = Cache-Control
+media_manager_effect_header_filename = Källa för filnamn
+media_manager_effect_header_filename_notice = <code> filnamn </ code> är det normaliserade filnamnet på servern, t.ex. <code> my-download.pdf </ code>, <code> originalnamn </ code> är det ursprungliga filnamnet vid uppladdningstidpunkten (med mellanslag, stor / små bokstäver, etc.), t.ex. <code> Min Download.pdf </ code>
+
+
+
+media_manager_effect_convert2img = Fil: konvertera till bild
+media_manager_effect_convert2img_density = Upplösnings densitet
+media_manager_effect_convert2img_convertto = Målformat
+media_manager_effect_convert2img_density_notice = Upplösningstäthet i ppi (pixel per tum).
+media_manager_effect_convert2img_convertto_notice = Målformat som filen ska konverteras till. Följande filtillägg accepteras: <code> .pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico, .svg </ code>.
+media_manager_effect_convert2img_noimagemagick = Varning: ImageMagick kunde inte hittas. Denna effekt kräver antingen PHP-extension "imagick" eller ImageMagick som "kommandorad binär", körbar via exec ().
+media_manager_effect_convert2img_color = Färg till transparensen
+media_manager_effect_convert2img_color_notice = Formatera "#ffffff", om ingenting anges används transparens. Ange absolut en färg för JPG.
+
+
+media_manager_effect_image_properties = Bild: inställningar (kvalité, interlace, ...)
+media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Lämna tom för standardvärdet.
+media_manager_effect_image_properties_png_compression_notice = [0-9]. Lämna tom för standardvärdet.
+media_manager_effect_image_properties_webp_quality_notice = [0-101]. Lämna tom för standardvärdet.
+media_manager_effect_image_properties_interlace_notice = Lämna tom för standardvärdet.
+
+media_manager_effect_brightness = Bild: Ljusstyrka
+media_manager_effect_brightness_value = Ljusstyrka
+media_manager_effect_brightness_notice = [-255 to 255]. Lämna tom för standardvärdet. (0)
+
+media_manager_effect_contrast = Bild: Kontrast
+media_manager_effect_contrast_value = Kontrast
+media_manager_effect_contrast_notice = [-100 to 100].  Lämna tom för standardvärdet. (0)
+
+media_manager_effect_sepia = Bild: sepia
+
+media_manager_effect_greyscale = Bild: grånyanser
+
+media_manager_effect_image_format = Bild: konvertera till JPEG/PNG/GIF/WEBP/AVIF
+media_manager_effect_image_format_convertto = Målformat
+
+# mediapool
+pool_name = Filhanterare
+pool_kats = Kategorier
+pool_kats_no = Ingen kategori
+pool_search = sök
+pool_media = Filhanterare
+pool_file_list = Filer
+pool_file_insert = Tillfoga fil
+pool_cat_list = Förvalta filkategorierna
+pool_select_cat = Välj filkategori
+pool_sync_files = Synkronisera filer
+pool_sync_button = Synkronisera
+pool_sync_title = Synkronisera filer
+pool_sync_affected_files = Berörda filer
+pool_sync_no_diffs = Kunde inte fastställa några skillnader!
+pool_sync_files_synced = Filerna synkroniserades.
+pool_file_not_found = Filen kunde inte hittas
+pool_file_upload_error = Fel vid filuppladdningen
+pool_file_upload_error_size = Filen överskrider den maximala uppladdningsstorleken {0}!
+pool_file_upload_errortype = Denna fil kan inte användas för filbyte eftersom den är av en annan typ av filformat.
+pool_file_title = Titel
+pool_file_file = Fil
+pool_file_infos_updated = Filinformationen aktualiserades!
+pool_file_upload = Tillfoga
+pool_file_upload_get = Tillfoga och välj ut
+pool_file_filter = Förhandsvisning begränsad på filer av typ:
+pool_kat_saved = Filkategori "{0}" skapades
+pool_kat_updated = Filkategori "{0}" aktualiserades
+pool_kat_deleted = Filkategori raderades
+pool_kat_create_label = Skapa ny filkategori
+pool_kat_create = Tillfoga filkategori
+pool_kat_edit = ändra
+pool_kat_not_deleted = Kategori kan inte raderas eftersom den innehåller filer!
+pool_kat_name = Namn
+pool_kat_function = Funktion
+pool_kat_update = aktualisera
+pool_kat_edit = ändra
+pool_kat_delete = radera
+pool_kat_start = Start
+pool_kat_path = Led
+pool_kat_caption = List av filkategorier
+pool_file_detail = Filer: Detajlvisning
+pool_filename = Filnamn
+pool_file_exchange = Byta fil
+pool_file_update = aktualisera
+pool_file_delete = radera
+pool_file_edit = Bearbeta fil
+pool_file_details = Detailinformation
+pool_file_thumbnail = Tumnagel
+pool_file_info = Filinfo
+pool_file_description = Beskrivning
+pool_file_functions = Funktioner
+mediapool = Filhanterare
+
+pool_file_notitle = Finns ingen titel
+pool_file_edit = Bearbeta fil
+pool_file_caption = List av filer i filkategorien "{0}"
+pool_file_category = Filkategori
+pool_file_description = Beskrivning
+pool_file_deleted = Filen raderades
+pool_files_deleted = {0} Filerna raderades.
+pool_file_delete_error = Filen "{0}" kunde inte raderas!
+pool_kat_delete_error = Filkategori "{0}" kunde inte raderas!
+pool_object_in_use_by = Användes f.n. av följande objekt:
+pool_file_in_use_articles = Artikel (Innehåll)
+pool_file_changed = Filen byttes ut!
+pool_file_added = Filen tillfogades.
+pool_file_movefailed = Filuppladdningen gick fel.
+pool_file_renamed = Det ursprungliga filnamnet <code>{0}</code> ändrades: <code>{1}</code>
+pool_file_mediatype_not_allowed = Filtyp inte tillåten:
+pool_file_allowed_mediatypes = Tillåtna filtyper:
+pool_file_banned_mediatypes = Otillåtna filtyper:
+pool_file_does_not_exist = Filen finns inte
+pool_img_width = Bredd
+pool_img_height = Höjd
+pool_selectedmedia = Utvalda filer:
+pool_delete_selectedmedia = radera
+pool_changecat_selectedmedia_prefix = i kategori
+pool_changecat_selectedmedia_suffix = flytta
+pool_get_selectedmedia = välj ut
+pool_selectedmedia_error = inga filer valda
+pool_selectedmedia_moved = Utvalda filer flyttades
+pool_select_all = markera alla
+pool_nomediafound = Kunde inte hitta filer i denna filkategori
+pool_image_get = Infoga bild
+pool_link_get = Infoga länk
+pool_file_get = Välj ut fil
+pool_last_update = Senaste update
+pool_created = Skapat den
+pool_select_all = markera alla
+pool_file_not_writable = Filen kan inte ändras!
+pool_files_not_writable = Filerna kan inte ändras!
+pool_max_uploadsize = Maximal storlek för uplladdning
+pool_max_uploadtime = Maximal tid för uppladdning
+pool_upload_disabled = Deaktiverad!
+pool_upload = Filupload
+
+all_mediafolder = Alla filmappar
+mediafolder = Filmapp
+
+var_media_open = Välj fil
+var_media_new = Tillfoga ny fil
+var_media_remove = Radera vald fil
+var_media_view = Visa vald fil
+var_medialist_move_top = Flytta utvald fil till början
+var_medialist_move_up = Flytta utvald fil uppåt
+var_medialist_move_down = Flytta utvald fil neråt
+var_medialist_move_bottom = Flytta utvald fil till ändan
+
+perm_general_media[sync] = Mediapool: synkronisera filer
+
+# metainfo
+media = Filer
+categories = Kategorier
+articles = Artiklar
+
+minfo_title = Utöka metainformationen
+minfo_metainfos_not_found = Inga metainformationer hittades
+
+minfo_field_list_caption = Lista av metafält
+
+minfo_field_fieldset = redigera/skapa fält
+minfo_field_label_prefix = Prefix
+minfo_field_label_title = Fältbeteckning
+minfo_field_label_name = Spaltnamn
+minfo_field_label_function = Funktion
+minfo_field_label_functions = Funktioner
+minfo_field_label_id = Id
+minfo_field_label_type = Fälttyp
+minfo_field_label_attributes = Fältattribut
+minfo_field_label_callback = Callback
+minfo_field_label_callback_templates = Callback-förlaga
+minfo_field_label_default = Standardvärde
+minfo_field_label_nullable = Obligatorisk fält
+minfo_field_label_params = Parametrar
+minfo_field_label_priority = Fältposition
+minfo_field_label_restrictions = Bara tillgänglig i följande kategorier
+minfo_field_label_no_restrictions = Tillgänglig i alla kategorier
+minfo_field_label_all_templates = Finns till alla mallar
+minfo_field_label_templates = Endast tillgängligt till följande mallar
+
+minfo_field_notice_title = Prefix "translate:" översätta värdet via I18N
+
+minfo_field_first_priority = Vid början
+minfo_field_after_priority = Efter fält "{0}"
+
+minfo_field_params_notice_3 = Exempel:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>
+minfo_field_params_notice_4 = Exempel:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>
+minfo_field_params_notice_5 = Exempel:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>
+minfo_field_params_notice_6 = Exempel:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
+minfo_field_params_notice_7 = Exempel:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
+minfo_field_params_notice_8 = Exempel:<br /> <code>category="1"</code>
+minfo_field_params_notice_9 = Exempel:<br /> <code>category="1"</code>
+minfo_field_params_notice_10 = Exempel:<br /> <code>start-year="1990" end-year="2030"</code>
+minfo_field_params_notice_11 = Exempel:<br /> <code>start-year="1990" end-year="2030"</code>
+
+minfo_field_attributes_notice = Exempel:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]" note="note"</code>
+minfo_field_label_notice = Kod som utförs om värdet av fältet ändras.<br /> Läsbara variablar: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name = Vänligen ange ett spaltnamn!
+minfo_field_error_unique_name = Spaltnamnet existerar redan!
+minfo_field_error_unique_type = Det angivna typnamnet existerar redan!
+minfo_field_error_chars_name = Spaltnamnet innehåller ogiltiga tecknen (tillåtna är A-Z, 0-9 och _)!
+minfo_field_error_invalid_prefix = Den angivna präfixen är ogiltig!
+minfo_field_error_invalid_type = Den angivna typen är ogiltig!
+minfo_field_error_invalid_length = Den angivna längden av fältet är ogiltig!
+minfo_field_error_invalid_name = Splatnamnet är ogiltig!
+minfo_field_error_invalid_fieldid = Den angivna fält-id är ogiltig!
+minfo_field_error_invalid_typeid = Den angivna type-id är ogiltig!
+minfo_field_error_deleted = Fältet raderades inte!
+minfo_field_successfull_deleted = Fältet raderades!
+minfo_field_successfull_saved = Data sparades!
+
+minfo_default_fields_create = Skapa standardfält
+minfo_default_fields_created = Standardfält skapades!
+
+minfo_edit_metadata = Bearbeta metadata
+minfo_metadata_saved = Metadata sparades.
+
+minfo_media_in_use_art = Artiklar (Metadata)
+minfo_media_in_use_cat = Kategorier (Metadata)
+minfo_media_in_use_med = Medier (Metadata)
+minfo_media_in_use_clang = Språk (Metadata)
+
+minfo_callback_lang_indep_field = Språkoberoende fält
+
+# bc: labels aus dem core
+online_from = Online från
+online_to = till
+description = Beskrivning
+keywords = Sökord
+header_article_type = Artikeltyp
+metadata_image = Metafile/bild
+teaser = Teaser
+pool_file_copyright = Copyright
+
+metadata = Metadata
+
+# structure
+structure = Struktur
+
+title_structure = Strukturförvaltning
+root_level = Huvudnivå
+no_such_category = Kategorien finns inte!
+category_updated = Kategorien aktualiserades.
+category_could_not_be_deleted = Kategorien kunde inte raderas!
+category_still_contains_articles = Kategorien innehåller artiklar.
+category_still_contains_subcategories = Kategorien innehåller underkategorier.
+category_status_updated = Kategoristatus har aktualiseras!
+category_added_and_startarticle_created = Kategori tillfogades och startartikel skapades!
+article_doesnt_exist = Artikeln finns inte!
+article_status_updated = Artikelstatus aktualiserades.
+article_updated = Artikeln aktualiserades.
+article_added = Artikeln tillfogades.
+header_category = Kategorinamn
+header_priority = Prioritet
+header_status = Status/funktion
+header_id = Id
+add_category = Tillfoga kategori
+edit_category = Bearbeta kategorin
+save_category = Spara kategorin
+status_online = online
+status_offline = offline
+option_no_template = Ingen mall
+template_default_name = INGEN MALL
+header_article_name = Artikelnamn
+header_template = Mall
+header_date = Skapat den
+change = ändra
+article_add = Tillfoga artikel
+article_edit = Bearbeta artikel
+article_save = Spara artikel
+article_show = Visa artikel
+article = Artikel
+start_article = Startartikel
+no_article_available = Finns ingen artikel
+structure_categories_caption = Upplistning underkategorierna av kategorien "{0}"
+structure_articles_caption = Upplistning artiklarna av kategorien "{0}"
+structure_root_level_articles_caption = Lista över "huvudnivå" artiklar
+structure_root_level_categories_caption = Förteckning över huvudnivåkategorier
+article_deleted = Artiken raderades!
+article_could_not_be_generated = Kunde inte skapa artikel.
+category_deleted = Kategorien raderades!
+category_doesnt_exist = Kategorien finns inte!
+article_doesnt_exist = Artikeln finns inte!
+cant_delete_sitestartarticle = Startartikeln kan inte raderas!
+cant_delete_notfoundarticle = "Inte hittat"-artikeln kan inte raderas!
+structure_copy = Kopia
+category_has_child_elements = Kategori innehåller underordnade element
+category_without_child_elements = Kategori utan underordnade element
+
+all_categories = Alla kategorier
+categories = Kategorier
+
+perm_options_addArticle[] = Skapa artikel
+perm_options_addCategory[] = Skapa kategori
+perm_options_editArticle[] = Redigera artikel
+perm_options_editCategory[] = Redigera kategori
+perm_options_deleteArticle[] = Radera artikel
+perm_options_deleteCategory[] = Radera kategori
+perm_options_article2category[] = Omvandla artikel till en kategori
+perm_options_article2startarticle[] = Omvandla artikel till en startartikel
+perm_options_copyArticle[] = Kopiera artikeln
+perm_options_copyContent[] = Kopiera artikelns innehåll
+perm_options_moveArticle[] = Flytta artikel
+perm_options_moveCategory[] = Flytta kategori
+perm_options_publishArticle[] = Publicera artikeln
+perm_options_publishCategory[] = Publicera kategorien
+
+system_setting_start_article_id = Startartikel
+system_setting_notfound_article_id = Felartikel [404]
+system_setting_default_template_id = Standardmall
+system_setting_start_article_id_invalid = Ogiltig startartikel!
+system_setting_notfound_article_id_invalid = Ogiltig felartikel!
+system_setting_default_template_id_invalid = Ogiltig standardmall!
+
+linkmap = Linkmap
+linkmap_categories = Kategorier
+linkmap_articles = Artiklar
+linkmap_has_no_template = har ingen mall
+
+var_link_open = Välja länk
+var_link_delete = Radera vald länk
+var_linklist_move_top = Flytta vald länk till början
+var_linklist_move_up = Flytta vald länk uppåt
+var_linklist_move_down = Flytta vald länk neråt
+var_linklist_move_bottom = Flytta vald länk fram till ändan
+
+
+content = Artikel
+
+add_block = Tillfoga ett avsnitt
+article_doesnt_exist = Den här artikeln finns inte!
+module_doesnt_exist = Den här modulen finns inte
+update_block = spara och fortsätt
+save_block = spara
+edit_block = Redigera sektionen
+move_slice_up = Flytta uppåt
+move_slice_down = Flytta neråt
+block_updated = Avsnittet aktualiserades
+block_added = Avsnittet tillfogades
+no_rights_to_this_function = Du har inga rättigheter till den här funktionen!
+module_not_found = Modul kunde inte hittas
+confirm_delete_block = Radera avsnittet?
+block_deleted = Avsnittet raderades!
+block_not_deleted = Avsnittet raderades inte.
+edit_mode = Redigeringsläge
+metafuncs = Funktioner
+metadata_updated = Metadata aktualiserades
+name_description = Namn/beteckning
+description = Beskrivning
+update_metadata = Aktualisera metadata
+move_article = Flytta artikeln
+copy_article = till kategorien
+no_rights_to_edit = Du inga redigeringsrättigheter!
+slice_moved = Avsnittet flyttades.
+slice_moved_error = Avsnittet kunde inte flyttas.
+slice_deleted_error = Avsnittet kunde inte raderas.
+slice_saved_error = Avsnittet sparades inte.
+content_contentcopy = Innehåll kopierades.
+content_errorcopy = Du kan inte kopiera innehållet till samma språk.
+content_contentoflang = från språk
+content_to = till språk
+content_submitcopycontent = kopiera innehåll
+content_submitmovearticle = Flytta artikeln
+content_errormovearticle = Artikeln kunde inte flyttas.
+content_articlemoved = Artikeln flyttades
+content_submitcopyarticle = Kopiera artikeln
+content_articlecopied = Artikeln kopierades.
+content_errorcopyarticle = Artikeln kunde inte kopieras.
+content_error_movecategory = Kategorien kunde inte flyttas.
+content_submitmovecategory = Flytta kategorien
+content_startarticle = Startartikel
+content_isstartarticle = Denna artikel är en startartikel
+content_tostartarticle = Gör om artikeln till en startartikel
+content_nottostartarticle = Artikeln kunde inte göras till en startartikel
+content_tostartarticle_failed = Artikeln kunde inte göras om till en startartikel
+content_tostartarticle_ok = Artikeln gjordes om till en startartikel
+content_category = Kategori
+content_tocategory = Konvertera artikeln till en kategori
+content_tocategory_failed = Artikeln kunde inte konverteras till en kategori
+content_tocategory_ok = Artikeln konverterades till en kategori
+content_article = Artikel
+content_toarticle = Konvertera kategorien till en artikel
+content_nottoarticle = Kategorien kunde inte konverteras till en artikel eftersom den innehåller artiklar och/eller underkategorier
+content_toarticle_failed = Kategorien kunde inte konverteras till en artikel
+content_toarticle_ok = Kategorien konverterades till en artikel
+move_category = till
+category_moved = Kategorien flyttades
+content_types = Spalter
+content_type = Spalt
+
+perm_options_moveSlice[] = Flytta avsnitt
+perm_options_publishSlice[] = Publicera block
+
+templates = Mallar
+
+templates_not_found = Inga mallar hittades
+title_templates = Mallar
+cant_delete_template_because_its_in_use = Mallen <b>{0}</b>  kunde inte raderas eftersom den används av artiklar eller är default-mallen.
+cant_delete_template_because_its_default_template = Mallen <b>{0}</b>  kunde inte raderas eftersom den används som default-mallen.
+template_deleted = Mallen raderades
+template_added = Mallen tillfogades
+template_updated = Mallen aktualiserades
+template_categories = Kategorirättigheter
+template_categories_all = Tillgänglig i alla kategorier
+template_categories_custom = Bara i följande kategorier tillgänglig
+edit_template = Redigera mallen
+create_template = Skapa ny mall
+template_name = Namn
+template_key = Nyckel
+template_key_notice = Nyckeln ska tydligt tilldelas eller inte vara ifylld.
+template_key_exists = Nyckeln finns redan
+checkbox_template_active = Aktiv
+checkbox_template_active_info = [Erscheint bei den Artikeln als Auswahl]
+save_template_and_quit = [Syns bland artiklarna som ett urval]
+save_template_and_continue = Spara och fortsätt
+header_template = Mall
+header_template_description = Mallbeteckning
+header_template_key = Nyckel
+header_template_active = Aktiv
+header_template_functions = Funktioner
+delete_template = Radera mallen
+header_template_caption = Lista över tillgängliga mallar
+modules_available = Endast följande moduler är tillgängliga
+modules_available_all = Alla moduler är tillgängliga
+confirm_delete_template = Radera mallen?
+
+modules = Moduler
+module = Modul
+module_not_found = Modul kunde inte hittas
+modules_not_found = Inga moduler hittades
+module_cannot_be_deleted = Modul <b>(0)</b> kunde inte raderas eftersom den används av följande artiklar:
+module_deleted = Modulen raderades!
+module_added = Modulen tillfogades
+module_updated = Modulen aktualiserades
+module_caption = Lista över alla sparade moduler
+module_in_use = Används
+articel_updated = Artikeln aktualiserades
+create_module = Skapa ny modul
+input = Inmatning
+output = output
+module_name = Namn
+module_key = Nyckel
+module_key_notice = Nyckeln ska tydligt tilldelas eller inte fyllas i.
+module_key_exists = Nyckeln finns redan.
+module_actions_notice = Tips: PHP-kod kan köras med actions. Till exempel för att validera modulposter.
+save_module_and_quit = Spara modulen
+save_module_and_continue = Spara och fortsätt
+module_description = Nodulbeteckning
+module_functions = Funktioner
+delete_module = Radera modulen
+module_edit = Redigera modulen
+action_taken = Aktionen genomfördes
+action_deleted_from_modul = Aktionen raderades ur modulen!
+action = Aktion
+actions = Aktioner
+action_cannot_be_deleted = Aktionen <b>(0)</b> kunde inte raderas eftersom den används av följande moduler:
+action_deleted = Aktionen raderades
+action_added = Aktion tillfogades
+action_updated = Aktionen aktualiserades
+action_create = Skapa aktion
+action_name = Aktionsnamn
+save_action_and_quit = Spara aktionen
+save_action_and_continue = Spara och fortsätt
+action_functions = Funktioner
+action_event_all = Aktiverat till alla events
+action_event_edit = Vid redigering av modulen
+action_event_delete = När modulen raderas
+action_event_add = När modulen skapas
+action_event = tillordnad(e) event(s)
+action_mode_preview = Utförs före visning av modulen
+action_mode_presave = Utförs före sparandes av modulen
+action_mode_postsave = Utförs efter sparandes av modulen
+action_delete = Radera aktionen
+action_edit = Redigera aktionen
+action_add = Tillfoga en aktion
+action_hint = Alla värden i (0) är tillgängliga
+action_caption = Lista av alla sparade aktioner
+actions_added_caption = Lista av alla tillordnade aktioner
+actions_not_found = Inga aktioner hittades
+all_modules = Alla moduler
+confirm_delete_module = Radera modulen?
+confirm_delete_action = Radera aktionen?
+action_header_preview = Preview-Event(s)
+action_header_presave = Presave-Event(s)
+action_header_postsave = Postsave-Event(s)
+action_heading_preview = Preview-Action
+action_heading_presave = Presave-Action
+action_heading_postsave = Postsave-Action
+
+
+structure_history = Historia
+structure_history_title_info = Kort förklaring
+structure_history_snapshot_reactivate = Spara den här versionen
+structure_history_snapshot_reactivated = Versionen har sparas
+structure_history_overview_versions = Historiköversikt
+structure_history_current_version = Aktuell version
+structure_history_info_content = <P> Historik PlugIn registrerar alla ändringar som gjorts i en artikel och skapar ögonblicksbilder som senare kan användas för att återställa en specifik artikel till ett tidigare tillstånd. </ P>
+structure_history_todos = Att göra
+structure_history_todos_content = <Ul> <li> Förbered cronjob </ li> <li> Tillåta historiken att stängas av </ li> <li> Gör inställningar för att minska antalet versioner. Exempel: Behåll bara en version efter en månad / vecka / dag. </ Li> <li> Ange skalvärden för webbplatsen </ li> <li> Gör det visuella utseendet snyggare som t.ex. Time Machine? </ Li> </ ul>
+
+perm_options_history[article_rollback] = återskapa artikeln fån historiken
+
+structure_history_button_delete_history = Radera historik totalt.
+structure_history_deleted = Alla historik har tagits bort.
+structure_history_savedby = Sparad av
+structure_history_close = Stänga
+
+structure_history_cleanup = Städa artikelhistorien
+structure_history_cleanup_after = Radera historien om den är äldre än
+structure_history_days = {0} dagar
+structure_history_months = {0} månader
+structure_history_years = {0} år
+
+
+version = Version
+
+version_liveversion = Live version
+version_workingversion = Utkastversion
+version_working_to_live = Publicera
+version_preview = Förhandsvisning
+version_clear_workingversion = Tömma arbetsversionen
+version_copy_live_to_workingversion = Kopiera till utkastsversion
+version_copy_from_liveversion = Få från live version
+version_confirm_copy_live_to_workingversion = Kopiera liveversion till utkastsversion? Allt befintligt innehåll i utkastet kommer att skrivas över.
+version_info_working_version_to_live = Utkastet är nu live
+version_info_live_version_to_working = Live version har kopierats till utkastsversion
+version_warning_working_version_to_live = Utkastet kan inte kopieras, eftersom det är tomt
+version_info_clear_workingversion = Arbetsversionen tömdes
+version_confirm_clear_workingversion = Återställ arbetsversion? Allt befintligt innehåll i arbetsversionen kommer att tas bort oåterkalleligt.
