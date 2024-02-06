@@ -42,7 +42,6 @@ return static function (RectorConfig $rectorConfig): void {
         // restrict to core and core addons, ignore other locally installed addons
         'redaxo/src/core/',
         'redaxo/src/addons/be_style/',
-        'redaxo/src/addons/cronjob/',
         'redaxo/src/addons/debug/',
         'redaxo/src/addons/install/',
         'redaxo/src/addons/media_manager/',

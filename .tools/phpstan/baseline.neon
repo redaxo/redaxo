@@ -1,106 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method rex_command_cronjob_run\\:\\:executeSingleJob\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/command/run.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:__set\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:getParam\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:setParam\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob_article_status\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob/article_status.php
-
-		-
-			message: "#^Method rex_cronjob_form\\:\\:addIntervalField\\(\\) has parameter \\$attributes with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/form.php
-
-		-
-			message: "#^Method rex_cronjob_form\\:\\:addIntervalField\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/form.php
-
-		-
-			message: "#^Method rex_cronjob_form_interval_element\\:\\:formatField\\(\\) has parameter \\$group with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/form.php
-
-		-
-			message: "#^Method rex_cronjob_form_interval_element\\:\\:formatField\\(\\) has parameter \\$optionAll with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/form.php
-
-		-
-			message: "#^Method rex_cronjob_form_interval_element\\:\\:formatField\\(\\) has parameter \\$options with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/form.php
-
-		-
-			message: "#^Method rex_cronjob_form_interval_element\\:\\:getIntervalElements\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/form.php
-
-		-
-			message: "#^Property rex_cronjob_form_interval_element\\:\\:\\$intervalElements type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/form.php
-
-		-
-			message: "#^Method rex_cronjob_manager\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Method rex_cronjob_manager_sql\\:\\:calculateNextTime\\(\\) has parameter \\$interval with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager_sql.php
-
-		-
-			message: "#^Method rex_cronjob_manager_sql\\:\\:setExecutionStart\\(\\) has parameter \\$reset with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager_sql.php
-
-		-
-			message: "#^Method rex_cronjob_manager_sql\\:\\:setStatus\\(\\) has parameter \\$status with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager_sql.php
-
-		-
-			message: "#^Method rex_cronjob_phpcallback\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/types/phpcallback.php
-
-		-
-			message: "#^Method rex_cronjob_phpcode\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/types/phpcode.php
-
-		-
-			message: "#^Method rex_cronjob_urlrequest\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/types/urlrequest.php
-
-		-
 			message: "#^Method rex_api_debug\\:\\:getUrlParams\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/debug/lib/api_debug.php
@@ -1589,6 +1489,106 @@ parameters:
 			message: "#^Method rex_url_provider_interface\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/context.php
+
+		-
+			message: "#^Method rex_command_cronjob_run\\:\\:executeSingleJob\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/command/run.php
+
+		-
+			message: "#^Method rex_cronjob\\:\\:__set\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/cronjob.php
+
+		-
+			message: "#^Method rex_cronjob\\:\\:getParam\\(\\) has parameter \\$default with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/cronjob.php
+
+		-
+			message: "#^Method rex_cronjob\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/cronjob.php
+
+		-
+			message: "#^Method rex_cronjob\\:\\:setParam\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/cronjob.php
+
+		-
+			message: "#^Method rex_cronjob_article_status\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/cronjob/article_status.php
+
+		-
+			message: "#^Method rex_cronjob_form\\:\\:addIntervalField\\(\\) has parameter \\$attributes with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/form.php
+
+		-
+			message: "#^Method rex_cronjob_form\\:\\:addIntervalField\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/form.php
+
+		-
+			message: "#^Method rex_cronjob_form_interval_element\\:\\:formatField\\(\\) has parameter \\$group with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/form.php
+
+		-
+			message: "#^Method rex_cronjob_form_interval_element\\:\\:formatField\\(\\) has parameter \\$optionAll with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/form.php
+
+		-
+			message: "#^Method rex_cronjob_form_interval_element\\:\\:formatField\\(\\) has parameter \\$options with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/form.php
+
+		-
+			message: "#^Method rex_cronjob_form_interval_element\\:\\:getIntervalElements\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/form.php
+
+		-
+			message: "#^Property rex_cronjob_form_interval_element\\:\\:\\$intervalElements type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/form.php
+
+		-
+			message: "#^Method rex_cronjob_manager\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/manager.php
+
+		-
+			message: "#^Method rex_cronjob_manager_sql\\:\\:calculateNextTime\\(\\) has parameter \\$interval with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/manager_sql.php
+
+		-
+			message: "#^Method rex_cronjob_manager_sql\\:\\:setExecutionStart\\(\\) has parameter \\$reset with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/manager_sql.php
+
+		-
+			message: "#^Method rex_cronjob_manager_sql\\:\\:setStatus\\(\\) has parameter \\$status with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/manager_sql.php
+
+		-
+			message: "#^Method rex_cronjob_phpcallback\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/types/phpcallback.php
+
+		-
+			message: "#^Method rex_cronjob_phpcode\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/types/phpcode.php
+
+		-
+			message: "#^Method rex_cronjob_urlrequest\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/cronjob/types/urlrequest.php
 
 		-
 			message: "#^Method rex_csrf_token\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"

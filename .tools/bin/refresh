@@ -15,7 +15,6 @@ fi
 
 packages="
 be_style
-cronjob
 debug
 install
 media_manager

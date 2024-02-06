@@ -638,6 +638,104 @@ user_role_caption = Liste der angelegten Rollen
 user_no_role = keine Rolle
 
 
+# cronjob
+cronjob_title = Cronjobs
+
+cronjob_add = Cronjob hinzufügen
+cronjob_edit = Cronjob editieren
+
+cronjob_caption = Liste der angelegten Cronjobs
+cronjob_no_cronjobs = Keine Cronjobs vorhanden
+
+cronjob_delete = löschen
+cronjob_really_delete = Cronjob wirklich löschen?
+cronjob_delete_success = Cronjob "{0}" wurde erfolgreich gelöscht!
+cronjob_delete_error = Cronjob "{0}" konnte nicht gelöscht werden!
+
+cronjob_execute = ausführen
+cronjob_execute_success = Cronjob "{0}" wurde erfolgreich ausgeführt!
+cronjob_execute_error = Cronjob "{0}" wurde nicht erfolgreich ausgeführt!
+
+cronjob_name = Name
+cronjob_description = Beschreibung
+cronjob_examples = Beispiele
+
+cronjob_type = Typ
+cronjob_type_not_found = Cronjob "{0}" kann nicht bearbeitet werden, da die Klasse "{1}" nicht gefunden wurde. Prüfen Sie, ob das zugehörige AddOn aktiviert ist!
+cronjob_type_phpcode = PHP-Code
+cronjob_type_phpcallback = PHP-Callback
+cronjob_type_urlrequest = URL-Aufruf
+cronjob_type_urlrequest_url = URL
+cronjob_type_urlrequest_post = POST-Parameter
+cronjob_type_urlrequest_httpauth = HTTP-Authentifizierung
+cronjob_type_urlrequest_user = Benutzer
+cronjob_type_urlrequest_password = Passwort
+cronjob_type_parameters = Typspezifische Parameter
+cronjob_type_no_parameters = Für diesen Typ sind keine weiteren Parameter notwendig!
+
+cronjob_interval = Intervall
+cronjob_interval_minutes = Minuten
+cronjob_interval_minutes_all = Alle 5 Minuten
+cronjob_interval_hours = Stunden
+cronjob_interval_hours_all = Jede Stunde
+cronjob_interval_days = Tage
+cronjob_interval_days_all = Jeden Tag
+cronjob_interval_weekdays = Wochentage
+cronjob_interval_weekdays_all = Beliebiger Wochentag
+cronjob_interval_months = Monate
+cronjob_interval_months_all = Jeden Monat
+
+cronjob_environment = Umgebung
+cronjob_environment_notice = Skript: Ausführung über <code>{0}</code>. Das Skript sollte mittels eines echten Cronjobs regelmäßig aufgerufen werden.
+cronjob_environment_frontend = Frontend
+cronjob_environment_backend = Backend
+cronjob_environment_script = Skript
+cronjob_environment_console = Skript
+cronjob_environment_backend_manual = Backend (manuell)
+
+cronjob_execution = Ausführung
+cronjob_execution_beginning = Skriptanfang
+cronjob_execution_ending = Skriptende
+
+cronjob_nexttime = Nächste Ausführung
+
+cronjob_status_function = Status/Funktion
+cronjob_status = Status
+cronjob_status_activated = aktiviert
+cronjob_status_deactivated = deaktiviert
+cronjob_status_invalid = fehlerhaft
+cronjob_status_activate_success = Cronjob "{0}" wurde aktiviert!
+cronjob_status_activate_error = Cronjob "{0}" konnte nicht aktiviert werden!
+cronjob_status_deactivate_success = Cronjob "{0}" wurde deaktiviert!
+cronjob_status_deactivate_error = Cronjob "{0}" konnte nicht deaktiviert werden!
+
+cronjob_error_no_name = Der Name darf nicht leer sein!
+cronjob_error_no_environment = Mindestens eine Umgebung muss ausgewählt werden!
+cronjob_error_interval_incomplete = Beim Intervall muss in jeder Kategorie ein Wert ausgewählt werden!
+
+cronjob_not_found = Cronjob nicht gefunden!
+cronjob_not_editable = Cronjob ist nicht editierbar!
+
+cronjob_log = Log
+cronjob_log_date = Datum
+cronjob_log_year = Jahr
+cronjob_log_month = Monat
+cronjob_log_ok = OK
+cronjob_no_log_files = Keine Log-Dateien vorhanden.
+cronjob_log_no_data = Keine Daten vorhanden.
+cronjob_log_caption_1 = Liste der ausgeführten Cronjobs im {0} {1}
+cronjob_log_caption_2 = Liste der zuletzt ausgeführten Cronjobs
+cronjob_log_message = Meldung
+
+cronjob_delete_log_msg = Das Cronjob-Log löschen?
+
+cronjob_article_status = Artikel-Status
+cronjob_article_reset_date = Artikel-Datumsfelder nach Statusänderung leeren
+cronjob_article_reset_date_info = Mit dieser Option wird das "online_from"-Datum bzw. "online_to"-Datum<br>in den Metadaten des Artikels nach der Statusänderung gelöscht.
+
+cronjob_optimize_tables = Tabellen-Optimierung
+
+
 phpmailer_title = PHPMailer
 phpmailer_configuration = Konfiguration
 phpmailer_help = Hilfe

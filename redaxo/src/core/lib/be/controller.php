@@ -182,10 +182,12 @@ class rex_be_controller
             }
         }
 
+        $logsPage->addSubpage((new rex_be_page('cronjob', rex_i18n::msg('cronjob_title')))->setSubPath(rex_path::core('pages/system.log.cronjob.php')));
+
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
             ->setPath(rex_path::core('pages/system.php'))
             ->setRequiredPermissions('isAdmin')
-            ->setPrio(90)
+            ->setPrio(100)
             ->setPjax()
             ->setIcon('rex-icon rex-icon-system')
             ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setSubPath(rex_path::core('pages/system.settings.php')))
@@ -220,10 +222,20 @@ class rex_be_controller
             )
         ;
 
+        self::$pages['cronjob'] = (new rex_be_page_main('system', 'cronjob', rex_i18n::msg('cronjob_title')))
+            ->setPath(rex_path::core('pages/cronjob.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(80)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-cronjob')
+            ->addSubpage((new rex_be_page('cronjobs', rex_i18n::msg('cronjob_title')))->setSubPath(rex_path::core('pages/cronjob.cronjobs.php')))
+            ->addSubpage((new rex_be_page('log', rex_i18n::msg('cronjob_log')))->setSubPath(rex_path::core('pages/cronjob.log.php')))
+        ;
+
         self::$pages['phpmailer'] = (new rex_be_page_main('system', 'phpmailer', rex_i18n::msg('phpmailer_title')))
             ->setPath(rex_path::core('pages/phpmailer.php'))
             ->setRequiredPermissions('phpmailer[]')
-            ->setPrio(80)
+            ->setPrio(90)
             ->setPjax()
             ->setIcon('rex-icon rex-icon-envelope')
             ->addSubpage((new rex_be_page('config', rex_i18n::msg('phpmailer_configuration')))->setSubPath(rex_path::core('pages/phpmailer.config.php')))
@@ -235,7 +247,7 @@ class rex_be_controller
         self::$pages['backup'] = (new rex_be_page_main('system', 'backup', rex_i18n::msg('backup_title')))
             ->setPath(rex_path::core('pages/backup.php'))
             ->setRequiredPermissions('isAdmin')
-            ->setPrio(100)
+            ->setPrio(110)
             ->setPjax()
             ->setIcon('rex-icon rex-icon-backup')
             ->addSubpage(
