@@ -50,7 +50,6 @@ return static function (RectorConfig $rectorConfig): void {
         'redaxo/src/addons/metainfo/',
         'redaxo/src/addons/project/',
         'redaxo/src/addons/structure/',
-        'redaxo/src/addons/users/',
     ]);
 
     $rectorConfig->skip([
