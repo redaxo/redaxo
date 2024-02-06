@@ -1,98 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494">
-  <file src="redaxo/src/addons/backup/lib/backup.php">
-    <MixedArgument>
-      <code>$column</code>
-      <code>$column</code>
-      <code>$column</code>
-      <code><![CDATA[$line['query']]]></code>
-      <code>$table</code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code>$array[$idx]</code>
-      <code><![CDATA[$line['query']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code>$array</code>
-      <code>$column</code>
-      <code>$line</code>
-      <code>$table</code>
-      <code>$tables[]</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$column</code>
-      <code>$column</code>
-    </MixedOperand>
-    <MixedReturnTypeCoercion>
-      <code>$tables</code>
-      <code><![CDATA[list<string>]]></code>
-    </MixedReturnTypeCoercion>
-  </file>
-  <file src="redaxo/src/addons/backup/lib/cronjob.php">
-    <MixedArgument>
-      <code>$excludedTables</code>
-      <code>$filename</code>
-      <code><![CDATA[$this->getParam('delete_interval')]]></code>
-      <code><![CDATA[$this->getParam('mailaddress')]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$excludedTables</code>
-      <code>$filename</code>
-    </MixedAssignment>
-    <PossiblyInvalidOperand>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$filename</code>
-    </PossiblyInvalidOperand>
-  </file>
-  <file src="redaxo/src/addons/backup/pages/export.php">
-    <MixedArgument>
-      <code>$table</code>
-      <code>$table</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code>$EXPDIR</code>
-      <code>$EXPTABLES</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code>$EXPTABLE</code>
-      <code>$table</code>
-    </MixedAssignment>
-    <NullOperand>
-      <code>rex_escape($exportfilename)</code>
-    </NullOperand>
-  </file>
-  <file src="redaxo/src/addons/backup/pages/import.server.php">
-    <InvalidArrayAccess>
-      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
-    </InvalidArrayAccess>
-    <InvalidArrayOffset>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-    </InvalidArrayOffset>
-    <MixedArgument>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/addons/backup/pages/import.upload.php">
-    <InvalidArrayAccess>
-      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
-    </InvalidArrayAccess>
-    <InvalidArrayOffset>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-    </InvalidArrayOffset>
-    <MixedArgument>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/addons/be_style/boot.php">
     <MixedAssignment>
       <code>$themeColor</code>
@@ -2248,93 +2155,6 @@
       <code><![CDATA[$perms['options']]]></code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/addons/users/lib/role.php">
-    <MixedArgument>
-      <code>$perms[$key]</code>
-      <code>$role[$key]</code>
-      <code>$role[$key]</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code>$roles</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayOffset>
-      <code>$perms[$key]</code>
-      <code>$perms[$key]</code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code>$key</code>
-      <code>$roles[]</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$params['item']]]></code>
-      <code><![CDATA[$params['new']]]></code>
-    </MixedOperand>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$this->complexPermParams]]></code>
-      <code><![CDATA[$this->complexPermParams]]></code>
-      <code><![CDATA[$this->complexPermParams]]></code>
-    </MixedPropertyTypeCoercion>
-    <ParamNameMismatch>
-      <code>$ids</code>
-    </ParamNameMismatch>
-    <PossiblyUndefinedArrayOffset>
-      <code>$role[$key]</code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/addons/users/lib/select_element.php">
-    <InvalidScalarArgument>
-      <code>$value</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="redaxo/src/addons/users/pages/roles.php">
-    <MixedArgument>
-      <code><![CDATA[$params['all_label']]]></code>
-      <code><![CDATA[$params['label']]]></code>
-      <code><![CDATA[$params['options']]]></code>
-      <code><![CDATA[$params['select']]]></code>
-      <code>$perm</code>
-      <code>$perm</code>
-      <code>$perm</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$page</code>
-      <code>$perm</code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code>getRequiredPermissions</code>
-      <code>getSubpages</code>
-    </MixedMethodCall>
-  </file>
-  <file src="redaxo/src/addons/users/pages/users.php">
-    <ArgumentTypeCoercion>
-      <code>$userrole</code>
-    </ArgumentTypeCoercion>
-    <MixedArgumentTypeCoercion>
-      <code>$userrole</code>
-      <code>$userrole</code>
-    </MixedArgumentTypeCoercion>
-    <NullArgument>
-      <code>rex_escape($roles)</code>
-    </NullArgument>
-    <NullOperand>
-      <code>$login</code>
-      <code>rex_escape($userdesc)</code>
-      <code>rex_escape($useremail)</code>
-      <code>rex_escape($username)</code>
-    </NullOperand>
-    <PossiblyNullArgument>
-      <code>$userrole</code>
-    </PossiblyNullArgument>
-    <PossiblyNullArrayOffset>
-      <code>$roles</code>
-    </PossiblyNullArrayOffset>
-    <PossiblyNullReference>
-      <code>getLogin</code>
-      <code>getValue</code>
-      <code>isAdmin</code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/backend.php">
     <MixedArgument>
       <code>$assetFile</code>
@@ -3087,6 +2907,54 @@
       <code>self::$cacheFile</code>
     </PossiblyNullOperand>
   </file>
+  <file src="redaxo/src/core/lib/backup/backup.php">
+    <MixedArgument>
+      <code>$column</code>
+      <code>$column</code>
+      <code>$column</code>
+      <code><![CDATA[$line['query']]]></code>
+      <code>$table</code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code>$array[$idx]</code>
+      <code><![CDATA[$line['query']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code>$array</code>
+      <code>$column</code>
+      <code>$line</code>
+      <code>$table</code>
+      <code>$tables[]</code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code>$column</code>
+      <code>$column</code>
+    </MixedOperand>
+    <MixedReturnTypeCoercion>
+      <code>$tables</code>
+      <code><![CDATA[list<string>]]></code>
+    </MixedReturnTypeCoercion>
+  </file>
+  <file src="redaxo/src/core/lib/backup/cronjob.php">
+    <MixedArgument>
+      <code>$excludedTables</code>
+      <code>$filename</code>
+      <code><![CDATA[$this->getParam('delete_interval')]]></code>
+      <code><![CDATA[$this->getParam('mailaddress')]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$excludedTables</code>
+      <code>$filename</code>
+    </MixedAssignment>
+    <PossiblyInvalidOperand>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$filename</code>
+    </PossiblyInvalidOperand>
+  </file>
   <file src="redaxo/src/core/lib/base/instance_list_pool_trait.php">
     <MixedArgumentTypeCoercion>
       <code>(array) $key</code>
@@ -3104,10 +2972,6 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[str_replace($package->getPath(), '', $path)]]></code>
     </ArgumentTypeCoercion>
-    <MissingReturnType>
-      <code>includeCurrentPageSubPath</code>
-      <code>includePath</code>
-    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$addon->getProperty('page')]]></code>
       <code>$page</code>
@@ -3719,6 +3583,11 @@
       <code><![CDATA[$sql->getDBArray($query, [], PDO::FETCH_NUM)]]></code>
     </ArgumentTypeCoercion>
   </file>
+  <file src="redaxo/src/core/lib/form/elements/perm_select.php">
+    <InvalidScalarArgument>
+      <code>$value</code>
+    </InvalidScalarArgument>
+  </file>
   <file src="redaxo/src/core/lib/form/elements/prio.php">
     <ArgumentTypeCoercion>
       <code>$label</code>
@@ -4084,6 +3953,40 @@
     </PossiblyNullReference>
     <PossiblyUndefinedArrayOffset>
       <code>$method</code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="redaxo/src/core/lib/login/user_role.php">
+    <MixedArgument>
+      <code>$perms[$key]</code>
+      <code>$role[$key]</code>
+      <code>$role[$key]</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code>$roles</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayOffset>
+      <code>$perms[$key]</code>
+      <code>$perms[$key]</code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code>$key</code>
+      <code>$roles[]</code>
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$params['item']]]></code>
+      <code><![CDATA[$params['new']]]></code>
+    </MixedOperand>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$this->complexPermParams]]></code>
+      <code><![CDATA[$this->complexPermParams]]></code>
+      <code><![CDATA[$this->complexPermParams]]></code>
+    </MixedPropertyTypeCoercion>
+    <ParamNameMismatch>
+      <code>$ids</code>
+    </ParamNameMismatch>
+    <PossiblyUndefinedArrayOffset>
+      <code>$role[$key]</code>
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/core/lib/packages/addons/addon.php">
@@ -4973,6 +4876,51 @@
       <code>getSubpages</code>
     </PossiblyNullReference>
   </file>
+  <file src="redaxo/src/core/pages/backup.export.php">
+    <MixedArgument>
+      <code>$table</code>
+      <code>$table</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code>$EXPDIR</code>
+      <code>$EXPTABLES</code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code>$EXPTABLE</code>
+      <code>$table</code>
+    </MixedAssignment>
+    <NullOperand>
+      <code>rex_escape($exportfilename)</code>
+    </NullOperand>
+  </file>
+  <file src="redaxo/src/core/pages/backup.import.server.php">
+    <InvalidArrayAccess>
+      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
+    </InvalidArrayAccess>
+    <InvalidArrayOffset>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+    </InvalidArrayOffset>
+    <MixedArgument>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+    </MixedArgument>
+  </file>
+  <file src="redaxo/src/core/pages/backup.import.upload.php">
+    <InvalidArrayAccess>
+      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['size']['importfile']]]></code>
+    </InvalidArrayAccess>
+    <InvalidArrayOffset>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+    </InvalidArrayOffset>
+    <MixedArgument>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+      <code><![CDATA[$_FILES['FORM']['tmp_name']['importfile']]]></code>
+    </MixedArgument>
+  </file>
   <file src="redaxo/src/core/pages/cronjob.cronjobs.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$list->getValue('environment')]]></code>
@@ -5252,6 +5200,54 @@
     <NullOperand>
       <code><![CDATA[rex_escape($editor->getBasepath())]]></code>
     </NullOperand>
+  </file>
+  <file src="redaxo/src/core/pages/users.roles.php">
+    <MixedArgument>
+      <code><![CDATA[$params['all_label']]]></code>
+      <code><![CDATA[$params['label']]]></code>
+      <code><![CDATA[$params['options']]]></code>
+      <code><![CDATA[$params['select']]]></code>
+      <code>$perm</code>
+      <code>$perm</code>
+      <code>$perm</code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$page</code>
+      <code>$perm</code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code>getRequiredPermissions</code>
+      <code>getSubpages</code>
+    </MixedMethodCall>
+  </file>
+  <file src="redaxo/src/core/pages/users.users.php">
+    <ArgumentTypeCoercion>
+      <code>$userrole</code>
+    </ArgumentTypeCoercion>
+    <MixedArgumentTypeCoercion>
+      <code>$userrole</code>
+      <code>$userrole</code>
+    </MixedArgumentTypeCoercion>
+    <NullArgument>
+      <code>rex_escape($roles)</code>
+    </NullArgument>
+    <NullOperand>
+      <code>$login</code>
+      <code>rex_escape($userdesc)</code>
+      <code>rex_escape($useremail)</code>
+      <code>rex_escape($username)</code>
+    </NullOperand>
+    <PossiblyNullArgument>
+      <code>$userrole</code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayOffset>
+      <code>$roles</code>
+    </PossiblyNullArrayOffset>
+    <PossiblyNullReference>
+      <code>getLogin</code>
+      <code>getValue</code>
+      <code>isAdmin</code>
+    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
     <MixedArrayAccess>
