@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494">
-  <file src="redaxo/src/addons/backup/lib/backup.php">
-    <TaintedFile>
-      <code>$filename</code>
-      <code>$filename</code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/addons/backup/lib/compressor.php">
-    <TaintedFile>
-      <code>$source</code>
-    </TaintedFile>
-  </file>
   <file src="redaxo/src/addons/cronjob/lib/cronjob.php">
     <TaintedCallable>
       <code>$class</code>
@@ -78,6 +67,17 @@
     <TaintedTextWithQuotes>
       <code><![CDATA[$this->getVar('content')]]></code>
     </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/lib/backup/backup.php">
+    <TaintedFile>
+      <code>$filename</code>
+      <code>$filename</code>
+    </TaintedFile>
+  </file>
+  <file src="redaxo/src/core/lib/backup/compressor.php">
+    <TaintedFile>
+      <code>$source</code>
+    </TaintedFile>
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
     <TaintedHeader>
