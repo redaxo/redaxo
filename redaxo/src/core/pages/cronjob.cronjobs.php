@@ -158,7 +158,7 @@ if ('' == $func) {
     $field->addOption(rex_i18n::msg('cronjob_environment_backend'), 'backend');
     $field->addOption(rex_i18n::msg('cronjob_environment_script'), 'script');
 
-    $field = $form->addRadioField('cronjob_execution_moment');
+    $field = $form->addRadioField('execution_moment');
     $field->setLabel(rex_i18n::msg('cronjob_execution'));
     $field->addOption(rex_i18n::msg('cronjob_execution_beginning'), 1);
     $field->addOption(rex_i18n::msg('cronjob_execution_ending'), 0);

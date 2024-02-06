@@ -17,6 +17,7 @@ class rex_cronjob_manager
         rex_cronjob_export::class,
         rex_cronjob_optimize_tables::class,
         rex_cronjob_article_status::class,
+        rex_cronjob_mailer_purge::class,
     ];
 
     /** @var string */

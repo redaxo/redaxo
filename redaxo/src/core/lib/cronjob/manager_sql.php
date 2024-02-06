@@ -344,7 +344,7 @@ class rex_cronjob_manager_sql
             $nexttime = max(1, $nexttime);
         }
 
-        rex_config::set('cronjob', 'nexttime', $nexttime);
+        rex::setConfig('cronjob_nexttime', $nexttime);
         return true;
     }
 

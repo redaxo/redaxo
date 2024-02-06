@@ -149,28 +149,6 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
 
 rex_extension::register('SESSION_REGENERATED', [rex_backend_login::class, 'sessionRegenerated']);
 
-// ----------------- Backup AddOn
-rex_cronjob_manager::registerType(rex_cronjob_export::class);
-
-// ----------------- Cronjob
-
-if (rex::getConsole()) {
-    // don't run cronjobs while running console commands
-    return;
-}
-
-$nexttime = (int) rex_config::get('core', 'cronjob', 0);
-
-if (0 !== $nexttime && time() >= $nexttime) {
-    $env = rex_cronjob_manager::getCurrentEnvironment();
-    $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
-    rex_extension::register($EP, static function () use ($env) {
-        if ('backend' !== $env || !in_array(rex_be_controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'], true)) {
-            rex_cronjob_manager_sql::factory()->check();
-        }
-    });
-}
-
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
     require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
@@ -187,6 +165,21 @@ rex_perm::register('users[]');
 rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
 rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
 
+if (rex::getConsole()) {
+    return;
+}
+
+$nexttime = (int) rex::getConfig('cronjob_nexttime', 0);
+if (0 !== $nexttime && time() >= $nexttime) {
+    $env = rex_cronjob_manager::getCurrentEnvironment();
+    $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
+    rex_extension::register($EP, static function () use ($env) {
+        if ('backend' !== $env || !in_array(rex_be_controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'], true)) {
+            rex_cronjob_manager_sql::factory()->check();
+        }
+    });
+}
+
 if (!rex::isBackend() && 0 != rex::getConfig('phpmailer_errormail')) {
     rex_extension::register('RESPONSE_SHUTDOWN', static function () {
         rex_mailer::errorMail();
@@ -200,9 +193,5 @@ if ('system' == rex_be_controller::getCurrentPagePart(1)) {
 // make the phpmailer addon icon orange if detour_mode is active
 if (true == rex::getConfig('phpmailer_detour_mode')) {
     $page = rex_be_controller::getPageObject('phpmailer');
-    $page->setIcon($page->getIcon() . ' text-danger');
-}
-
-if (rex_addon::get('cronjob')->isAvailable()) {
-    rex_cronjob_manager::registerType(rex_cronjob_mailer_purge::class);
+    $page->setIcon($page->getIcon().' text-danger');
 }
