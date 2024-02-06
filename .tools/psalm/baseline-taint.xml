@@ -11,11 +11,6 @@
       <code>$source</code>
     </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/cronjob/lib/cronjob.php">
-    <TaintedCallable>
-      <code>$class</code>
-    </TaintedCallable>
-  </file>
   <file src="redaxo/src/addons/structure/fragments/structure/history/layer.php">
     <TaintedHtml>
       <code><![CDATA[$this->getVar('content1iframe')]]></code>
@@ -78,6 +73,11 @@
     <TaintedTextWithQuotes>
       <code><![CDATA[$this->getVar('content')]]></code>
     </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/lib/cronjob/cronjob.php">
+    <TaintedCallable>
+      <code>$class</code>
+    </TaintedCallable>
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
     <TaintedHeader>
