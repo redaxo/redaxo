@@ -113,230 +113,6 @@
       <code>$path</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/addons/cronjob/lib/command/run.php">
-    <MixedArgument>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$selected</code>
-    </MixedArgument>
-    <MixedArrayOffset>
-      <code>$jobs[$id]</code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code>$id</code>
-      <code>$name</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/cronjob/lib/cronjob/article_status.php">
-    <PossiblyNullOperand>
-      <code>$rows</code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/cronjob/lib/form.php">
-    <MixedArgument>
-      <code>$attributes</code>
-      <code>$high</code>
-      <code>$low</code>
-      <code>$step</code>
-      <code>$value[$key]</code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code>$value[$key]</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$attributes['class']]]></code>
-      <code><![CDATA[$attributes['internal::fieldClass']]]></code>
-    </MixedArrayAssignment>
-    <MixedArrayOffset>
-      <code>$value[$group]</code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code>$key</code>
-      <code>$label</code>
-      <code><![CDATA[$this->intervalElements]]></code>
-      <code>$value</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$group</code>
-      <code>$group</code>
-      <code>$group</code>
-      <code>$group</code>
-      <code>$group</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$label</code>
-      <code>$optionAll</code>
-    </MixedOperand>
-    <PossiblyNullOperand>
-      <code><![CDATA[$this->getAttribute('id')]]></code>
-      <code><![CDATA[$this->getAttribute('id')]]></code>
-      <code><![CDATA[$this->getAttribute('name')]]></code>
-      <code><![CDATA[$this->getAttribute('name')]]></code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference>
-      <code>getIntervalElements</code>
-      <code>setValue</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/cronjob/lib/manager.php">
-    <MixedArgumentTypeCoercion>
-      <code>$key</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$cronjob::class</code>
-    </MixedOperand>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[str_replace($type . '_', '', $key)]]></code>
-    </PossiblyInvalidArgument>
-  </file>
-  <file src="redaxo/src/addons/cronjob/lib/manager_sql.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['interval']]]></code>
-      <code><![CDATA[$job['name']]]></code>
-      <code><![CDATA[$job['type']]]></code>
-      <code>$jobs[0]</code>
-      <code><![CDATA[$jobs[0]['name']]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidArgument>
-      <code>$job</code>
-      <code>$jobs[0]</code>
-    </InvalidArgument>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->sql->getValue('name')]]></code>
-    </LessSpecificReturnStatement>
-    <MixedArgument>
-      <code>$status</code>
-      <code>$value</code>
-      <code>json_decode($interval, true)</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$params</code>
-    </MixedAssignment>
-    <MoreSpecificReturnType>
-      <code>string</code>
-    </MoreSpecificReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->sql->getValue('name')]]></code>
-    </NullableReturnStatement>
-    <PossiblyNullArgument>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['interval']]]></code>
-      <code><![CDATA[$job['name']]]></code>
-      <code><![CDATA[$job['type']]]></code>
-      <code><![CDATA[$jobs[0]['name']]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/addons/cronjob/lib/types/phpcallback.php">
-    <MixedArgument>
-      <code><![CDATA[$this->getParam('callback')]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/addons/cronjob/lib/types/phpcode.php">
-    <MixedArgument>
-      <code><![CDATA[$this->getParam('code')]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$return</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/cronjob/lib/types/urlrequest.php">
-    <MixedArgument>
-      <code>$post</code>
-      <code><![CDATA[$this->getParam('password')]]></code>
-      <code><![CDATA[$this->getParam('url')]]></code>
-      <code><![CDATA[$this->getParam('user')]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$post</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$list->getValue('environment')]]></code>
-      <code><![CDATA[$list->getValue('type')]]></code>
-      <code><![CDATA[$list->getValue('type')]]></code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code>$attributes</code>
-      <code>$attributes</code>
-      <code>$attributes</code>
-      <code>$label</code>
-      <code>$label</code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['options']]]></code>
-      <code><![CDATA[$param['options']]]></code>
-      <code><![CDATA[$param['type']]]></code>
-      <code>$type</code>
-      <code>$type</code>
-      <code>$type</code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$param['attributes']]]></code>
-      <code><![CDATA[$param['default']]]></code>
-      <code><![CDATA[$param['label']]]></code>
-      <code><![CDATA[$param['name']]]></code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['options']]]></code>
-      <code><![CDATA[$param['options']]]></code>
-      <code><![CDATA[$param['type']]]></code>
-      <code><![CDATA[$param['type']]]></code>
-      <code><![CDATA[$param['value']]]></code>
-    </MixedArrayAccess>
-    <MixedArrayOffset>
-      <code>$visible[$key][$value]</code>
-      <code>$visible[$key][$value]</code>
-      <code>$visible[$key][$value]</code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code>$attributes</code>
-      <code>$label</code>
-      <code>$param</code>
-      <code>$type</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$param['name']]]></code>
-    </MixedOperand>
-    <PossiblyInvalidArgument>
-      <code>$activeType</code>
-    </PossiblyInvalidArgument>
-    <PossiblyNullArgument>
-      <code>$activeType</code>
-      <code><![CDATA[$field->getValue()]]></code>
-      <code><![CDATA[$list->getValue('environment')]]></code>
-      <code><![CDATA[$list->getValue('type')]]></code>
-      <code><![CDATA[$list->getValue('type')]]></code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code>$envFieldId</code>
-      <code>$envFieldId</code>
-      <code>$typeFieldId</code>
-      <code><![CDATA[rex_escape($field->getAttribute('id'), 'js')]]></code>
-    </PossiblyNullOperand>
-  </file>
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
       <code><![CDATA[$query['query']]]></code>
@@ -3328,6 +3104,10 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[str_replace($package->getPath(), '', $path)]]></code>
     </ArgumentTypeCoercion>
+    <MissingReturnType>
+      <code>includeCurrentPageSubPath</code>
+      <code>includePath</code>
+    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$addon->getProperty('page')]]></code>
       <code>$page</code>
@@ -3679,6 +3459,154 @@
       <code>rex_escape($valVal)</code>
       <code>rex_escape($value)</code>
     </MixedOperand>
+  </file>
+  <file src="redaxo/src/core/lib/cronjob/command/run.php">
+    <MixedArgument>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$name</code>
+      <code>$name</code>
+      <code>$selected</code>
+    </MixedArgument>
+    <MixedArrayOffset>
+      <code>$jobs[$id]</code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code>$id</code>
+      <code>$name</code>
+    </MixedAssignment>
+  </file>
+  <file src="redaxo/src/core/lib/cronjob/cronjob/article_status.php">
+    <PossiblyNullOperand>
+      <code>$rows</code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/lib/cronjob/form.php">
+    <MixedArgument>
+      <code>$attributes</code>
+      <code>$high</code>
+      <code>$low</code>
+      <code>$step</code>
+      <code>$value[$key]</code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code>$value[$key]</code>
+    </MixedArrayAccess>
+    <MixedArrayAssignment>
+      <code><![CDATA[$attributes['class']]]></code>
+      <code><![CDATA[$attributes['internal::fieldClass']]]></code>
+    </MixedArrayAssignment>
+    <MixedArrayOffset>
+      <code>$value[$group]</code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code>$key</code>
+      <code>$label</code>
+      <code><![CDATA[$this->intervalElements]]></code>
+      <code>$value</code>
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code>$group</code>
+      <code>$group</code>
+      <code>$group</code>
+      <code>$group</code>
+      <code>$group</code>
+      <code>$key</code>
+      <code>$key</code>
+      <code>$label</code>
+      <code>$optionAll</code>
+    </MixedOperand>
+    <PossiblyNullOperand>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+    </PossiblyNullOperand>
+    <PossiblyNullReference>
+      <code>getIntervalElements</code>
+      <code>setValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/cronjob/manager.php">
+    <MixedArgumentTypeCoercion>
+      <code>$key</code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code>$cronjob::class</code>
+    </MixedOperand>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[str_replace($type . '_', '', $key)]]></code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="redaxo/src/core/lib/cronjob/manager_sql.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['interval']]]></code>
+      <code><![CDATA[$job['name']]]></code>
+      <code><![CDATA[$job['type']]]></code>
+      <code>$jobs[0]</code>
+      <code><![CDATA[$jobs[0]['name']]]></code>
+    </ArgumentTypeCoercion>
+    <InvalidArgument>
+      <code>$job</code>
+      <code>$jobs[0]</code>
+    </InvalidArgument>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->sql->getValue('name')]]></code>
+    </LessSpecificReturnStatement>
+    <MixedArgument>
+      <code>$status</code>
+      <code>$value</code>
+      <code>json_decode($interval, true)</code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$params</code>
+    </MixedAssignment>
+    <MoreSpecificReturnType>
+      <code>string</code>
+    </MoreSpecificReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->sql->getValue('name')]]></code>
+    </NullableReturnStatement>
+    <PossiblyNullArgument>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['interval']]]></code>
+      <code><![CDATA[$job['name']]]></code>
+      <code><![CDATA[$job['type']]]></code>
+      <code><![CDATA[$jobs[0]['name']]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/cronjob/types/phpcallback.php">
+    <MixedArgument>
+      <code><![CDATA[$this->getParam('callback')]]></code>
+    </MixedArgument>
+  </file>
+  <file src="redaxo/src/core/lib/cronjob/types/phpcode.php">
+    <MixedArgument>
+      <code><![CDATA[$this->getParam('code')]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$return</code>
+    </MixedAssignment>
+  </file>
+  <file src="redaxo/src/core/lib/cronjob/types/urlrequest.php">
+    <MixedArgument>
+      <code>$post</code>
+      <code><![CDATA[$this->getParam('password')]]></code>
+      <code><![CDATA[$this->getParam('url')]]></code>
+      <code><![CDATA[$this->getParam('user')]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$post</code>
+    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/csrf_token.php">
     <MixedReturnTypeCoercion>
@@ -5044,6 +4972,82 @@
     <PossiblyNullReference>
       <code>getSubpages</code>
     </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/pages/cronjob.cronjobs.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$list->getValue('environment')]]></code>
+      <code><![CDATA[$list->getValue('type')]]></code>
+      <code><![CDATA[$list->getValue('type')]]></code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code>$attributes</code>
+      <code>$attributes</code>
+      <code>$attributes</code>
+      <code>$label</code>
+      <code>$label</code>
+      <code><![CDATA[$param['notice']]]></code>
+      <code><![CDATA[$param['notice']]]></code>
+      <code><![CDATA[$param['notice']]]></code>
+      <code><![CDATA[$param['options']]]></code>
+      <code><![CDATA[$param['options']]]></code>
+      <code><![CDATA[$param['type']]]></code>
+      <code>$type</code>
+      <code>$type</code>
+      <code>$type</code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$param['attributes']]]></code>
+      <code><![CDATA[$param['default']]]></code>
+      <code><![CDATA[$param['label']]]></code>
+      <code><![CDATA[$param['name']]]></code>
+      <code><![CDATA[$param['notice']]]></code>
+      <code><![CDATA[$param['notice']]]></code>
+      <code><![CDATA[$param['notice']]]></code>
+      <code><![CDATA[$param['options']]]></code>
+      <code><![CDATA[$param['options']]]></code>
+      <code><![CDATA[$param['type']]]></code>
+      <code><![CDATA[$param['type']]]></code>
+      <code><![CDATA[$param['value']]]></code>
+    </MixedArrayAccess>
+    <MixedArrayOffset>
+      <code>$visible[$key][$value]</code>
+      <code>$visible[$key][$value]</code>
+      <code>$visible[$key][$value]</code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code>$attributes</code>
+      <code>$label</code>
+      <code>$param</code>
+      <code>$type</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$param['name']]]></code>
+    </MixedOperand>
+    <PossiblyInvalidArgument>
+      <code>$activeType</code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument>
+      <code>$activeType</code>
+      <code><![CDATA[$field->getValue()]]></code>
+      <code><![CDATA[$list->getValue('environment')]]></code>
+      <code><![CDATA[$list->getValue('type')]]></code>
+      <code><![CDATA[$list->getValue('type')]]></code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand>
+      <code>$envFieldId</code>
+      <code>$envFieldId</code>
+      <code>$typeFieldId</code>
+      <code><![CDATA[rex_escape($field->getAttribute('id'), 'js')]]></code>
+    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/pages/login.php">
     <MixedArgument>
