@@ -192,7 +192,6 @@ setup_407 = Importeer een bestaande database-export:
 setup_407_note = Importeer demo
 setup_408 = Kies een database-export!
 setup_409 = Geen database-exports gevonden!
-setup_410 = Backup AddOn kon niet worden gevonden!
 setup_411 = Doorgaan met stap 5
 setup_412 = Herhaal stap 4
 setup_413 = Systeem AddOn(s) konden niet worden geïnstalleerd

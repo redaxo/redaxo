@@ -13,7 +13,6 @@
     <projectFiles>
         <!-- restrict to core and core addons, ignore other locally installed addons -->
         <directory name="redaxo/src/core"/>
-        <directory name="redaxo/src/addons/backup"/>
         <directory name="redaxo/src/addons/be_style"/>
         <directory name="redaxo/src/addons/debug"/>
         <directory name="redaxo/src/addons/install"/>
@@ -22,9 +21,7 @@
         <directory name="redaxo/src/addons/metainfo"/>
         <directory name="redaxo/src/addons/project"/>
         <directory name="redaxo/src/addons/structure"/>
-        <directory name="redaxo/src/addons/users"/>
         <ignoreFiles>
-            <directory name="redaxo/src/addons/backup/vendor/" />
             <directory name="redaxo/src/addons/be_style/vendor/" />
             <directory name="redaxo/src/addons/debug/vendor/" />
             <directory name="redaxo/src/core/vendor/" />

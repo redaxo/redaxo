@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method rex_cronjob_export\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/backup/lib/cronjob.php
-
-		-
 			message: "#^Method rex_command_cronjob_run\\:\\:executeSingleJob\\(\\) has parameter \\$id with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/cronjob/lib/command/run.php
@@ -1476,16 +1471,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/tests/category_test.php
 
 		-
-			message: "#^Method rex_user_role\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/users/lib/role.php
-
-		-
-			message: "#^Method rex_user_role\\:\\:removeOrReplaceItem\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/users/lib/role.php
-
-		-
 			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/api_function.php
@@ -1509,6 +1494,11 @@ parameters:
 			message: "#^Parameter \\#1 \\$callback of function spl_autoload_register expects \\(callable\\(string\\)\\: void\\)\\|null, Closure\\(string\\)\\: bool given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
+
+		-
+			message: "#^Method rex_cronjob_export\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/backup/cronjob.php
 
 		-
 			message: "#^Method rex_be_controller\\:\\:includeCurrentPageSubPath\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
@@ -2039,6 +2029,16 @@ parameters:
 			message: "#^Static property rex_user\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_user\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_user\\|null\\>\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/user.php
+
+		-
+			message: "#^Method rex_user_role\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/login/user_role.php
+
+		-
+			message: "#^Method rex_user_role\\:\\:removeOrReplaceItem\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/login/user_role.php
 
 		-
 			message: "#^Method rex_package_interface\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"

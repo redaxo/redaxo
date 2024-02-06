@@ -58,8 +58,6 @@
     },
     "autoload": {
         "classmap": [
-            "redaxo/src/addons/backup/lib/",
-            "redaxo/src/addons/backup/vendor/",
             "redaxo/src/addons/be_style/lib/",
             "redaxo/src/addons/be_style/vendor/scssphp/",
             "redaxo/src/addons/debug/lib/",
@@ -69,7 +67,6 @@
             "redaxo/src/addons/mediapool/lib/",
             "redaxo/src/addons/metainfo/lib/",
             "redaxo/src/addons/structure/lib/",
-            "redaxo/src/addons/users/lib/",
             "redaxo/src/core/lib/"
         ],
         "files": [

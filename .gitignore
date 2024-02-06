@@ -13,7 +13,6 @@
 
 # Addons
 /redaxo/src/addons/*
-!/redaxo/src/addons/backup/
 !/redaxo/src/addons/be_style/
 !/redaxo/src/addons/cronjob/
 !/redaxo/src/addons/debug/
@@ -23,7 +22,6 @@
 !/redaxo/src/addons/metainfo/
 !/redaxo/src/addons/project/
 !/redaxo/src/addons/structure/
-!/redaxo/src/addons/users/
 
 # PhpStorm setting
 /.idea/*
