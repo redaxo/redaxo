@@ -377,9 +377,7 @@ if (true === $addon->getConfig('history', false)) {
         );
     }
 
-    if (rex_addon::get('cronjob')->isAvailable()) {
-        rex_cronjob_manager::registerType(rex_cronjob_structure_history::class);
-    }
+    rex_cronjob_manager::registerType(rex_cronjob_structure_history::class);
 }
 
 // Version extension

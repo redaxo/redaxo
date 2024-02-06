@@ -68,11 +68,10 @@ jobs:
                     php redaxo/bin/console config:set --type boolean debug.enabled true -v
                     php redaxo/bin/console config:set --type boolean debug.throw_always_exception true -v
 
-            -   name: Create user, update config, install cronjob
+            -   name: Create user, update config
                 run: |
                     php redaxo/bin/console user:create myusername mypassword --admin --ansi -v
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi -v
-                    php redaxo/bin/console package:install cronjob --ansi -v
             -   name: Import mock data
                 run: |
                     mkdir -p $GITHUB_WORKSPACE/redaxo/data/core/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/core/backup/

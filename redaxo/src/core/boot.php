@@ -149,7 +149,7 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
 
 rex_extension::register('SESSION_REGENERATED', [rex_backend_login::class, 'sessionRegenerated']);
 
-$nexttime = rex::getConsole() ? 0 : (int) rex::getConfig('cronjob_nexttime', 0);
+$nexttime = rex::isSetup() || rex::getConsole() ? 0 : (int) rex::getConfig('cronjob_nexttime', 0);
 if (0 !== $nexttime && time() >= $nexttime) {
     $env = rex_cronjob_manager::getCurrentEnvironment();
     $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
