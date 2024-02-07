@@ -85,6 +85,7 @@ return array(
     'Ramsey\\Http\\Range\\Unit\\UnitInterface' => $vendorDir . '/ramsey/http-range/src/Unit/UnitInterface.php',
     'Ramsey\\Http\\Range\\Unit\\UnitRangeInterface' => $vendorDir . '/ramsey/http-range/src/Unit/UnitRangeInterface.php',
     'Ramsey\\Http\\Range\\Unit\\UnitRangesCollection' => $vendorDir . '/ramsey/http-range/src/Unit/UnitRangesCollection.php',
+    'SQLite3Exception' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
     'Symfony\\Component\\Console\\Application' => $vendorDir . '/symfony/console/Application.php',
     'Symfony\\Component\\Console\\Attribute\\AsCommand' => $vendorDir . '/symfony/console/Attribute/AsCommand.php',
     'Symfony\\Component\\Console\\CI\\GithubActionReporter' => $vendorDir . '/symfony/console/CI/GithubActionReporter.php',
