@@ -4,7 +4,7 @@
         "erusev/parsedown-extra": "^0.8.1",
         "filp/whoops": "^2.15.4",
         "lbuchs/webauthn": "^2.1.1",
-        "psr/log": "^1.1.4",
+        "psr/log": "^3",
         "ramsey/http-range": "^1.1",
         "symfony/console": "^6.4.3",
         "symfony/http-foundation": "^6.4.3",
