@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2838f2a989b272860e5636a698f27772",
+    "content-hash": "0353f0cd4bddd00b01789948ea106c36",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -180,20 +180,20 @@
         },
         {
             "name": "lbuchs/webauthn",
-            "version": "v1.1.3",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lbuchs/WebAuthn.git",
-                "reference": "4780c7b017ccc74a023c6ae05b5847e478f5b97d"
+                "reference": "e73ff007e8a1099e72e0dbdd9d0884057409fc54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lbuchs/WebAuthn/zipball/4780c7b017ccc74a023c6ae05b5847e478f5b97d",
-                "reference": "4780c7b017ccc74a023c6ae05b5847e478f5b97d",
+                "url": "https://api.github.com/repos/lbuchs/WebAuthn/zipball/e73ff007e8a1099e72e0dbdd9d0884057409fc54",
+                "reference": "e73ff007e8a1099e72e0dbdd9d0884057409fc54",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=8.0.0"
             },
             "type": "library",
             "autoload": {
@@ -219,9 +219,9 @@
             ],
             "support": {
                 "issues": "https://github.com/lbuchs/WebAuthn/issues",
-                "source": "https://github.com/lbuchs/WebAuthn/tree/v1.1.3"
+                "source": "https://github.com/lbuchs/WebAuthn/tree/v2.1.1"
             },
-            "time": "2022-11-21T08:46:34+00:00"
+            "time": "2024-01-15T15:46:57+00:00"
         },
         {
             "name": "psr/container",
