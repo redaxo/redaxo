@@ -78,8 +78,9 @@ class rex_logger extends AbstractLogger
      *
      * @param mixed $level either one of LogLevel::* or also any other string
      * @param string|\Stringable $message
-     * @param string $file
-     * @param int $line
+     * @param array<mixed> $context
+     * @param string|null $file
+     * @param int|null $line
      *
      * @throws InvalidArgumentException
      */
