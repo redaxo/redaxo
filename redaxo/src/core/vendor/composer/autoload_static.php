@@ -213,6 +213,7 @@ class ComposerStaticInitRedaxoCore
         'Ramsey\\Http\\Range\\Unit\\UnitInterface' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/UnitInterface.php',
         'Ramsey\\Http\\Range\\Unit\\UnitRangeInterface' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/UnitRangeInterface.php',
         'Ramsey\\Http\\Range\\Unit\\UnitRangesCollection' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/UnitRangesCollection.php',
+        'SQLite3Exception' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\Attribute\\AsCommand' => __DIR__ . '/..' . '/symfony/console/Attribute/AsCommand.php',
         'Symfony\\Component\\Console\\CI\\GithubActionReporter' => __DIR__ . '/..' . '/symfony/console/CI/GithubActionReporter.php',

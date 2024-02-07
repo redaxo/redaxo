@@ -22,7 +22,7 @@
         "phpunit/phpunit": "^10.0.7",
         "psalm/plugin-phpunit": "0.18.4",
         "psalm/plugin-symfony": "v5.1.0",
-        "rector/rector": "0.19.6",
+        "rector/rector": "1.0.0",
         "redaxo/php-cs-fixer-config": "2.5.0",
         "redaxo/psalm-plugin": "2.0.0",
         "vimeo/psalm": "5.21.1"
@@ -47,7 +47,7 @@
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-php80": "*",
         "symfony/polyfill-php81": "*",
-        "symfony/polyfill-php83": "v1.28.0",
+        "symfony/polyfill-php83": "v1.29.0",
         "symfony/service-contracts": "v3.4.1",
         "symfony/string": "v6.4.3",
         "symfony/var-dumper": "v6.4.3",
