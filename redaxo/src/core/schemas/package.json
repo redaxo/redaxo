@@ -6,7 +6,7 @@
     "required": ["package", "version"],
     "properties": {
         "package": {
-            "description": "The name of the package (addon or addon/plugin)",
+            "description": "The name of the addon",
             "type": "string"
         },
         "version": {
@@ -37,14 +37,6 @@
             },
             "additionalProperties": {
                 "$ref": "#/definitions/page"
-            }
-        },
-        "system_plugins": {
-            "description": "Array of plugin names",
-            "type": "array",
-            "items": {
-                "type": "string",
-                "pattern": "^[^/]+$"
             }
         },
         "requires": {

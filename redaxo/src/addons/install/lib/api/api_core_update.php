@@ -121,14 +121,6 @@ class rex_api_install_core_update extends rex_api_function
                             $addon->setConfig($key, $value);
                         }
                     }
-                    foreach ($addon->getAvailablePlugins() as $plugin) {
-                        $config = rex_file::getConfig($temppath . 'addons/' . $addon->getName() . '/plugins/' . $plugin->getName() . '/' . rex_package::FILE_PACKAGE);
-                        foreach ($config['default_config'] ?? [] as $key => $value) {
-                            if (!$plugin->hasConfig($key)) {
-                                $plugin->setConfig($key, $value);
-                            }
-                        }
-                    }
                 }
             }
 
@@ -141,18 +133,6 @@ class rex_api_install_core_update extends rex_api_function
                 rex_install_archive::copyDirToArchive($pathCore, $archive);
                 foreach ($updateAddons as $addonkey => $addon) {
                     rex_install_archive::copyDirToArchive($addon->getPath(), $archive, 'addons/' . $addonkey);
-                }
-            }
-
-            // copy plugins to new addon dirs
-            foreach ($updateAddons as $addonkey => $addon) {
-                foreach ($addon->getRegisteredPlugins() as $plugin) {
-                    $pluginPath = $temppath . 'addons/' . $addonkey . '/plugins/' . $plugin->getName();
-                    if (!is_dir($pluginPath)) {
-                        rex_dir::copy($plugin->getPath(), $pluginPath);
-                    } elseif ($plugin->isInstalled() && is_dir($pluginPath . '/assets')) {
-                        rex_dir::copy($pluginPath . '/assets', $plugin->getAssetsPath());
-                    }
                 }
             }
 
@@ -221,9 +201,6 @@ class rex_api_install_core_update extends rex_api_function
             foreach ($updateAddons as $addon) {
                 if ($addon->isAvailable()) {
                     $addon->loadProperties(true);
-                    foreach ($addon->getAvailablePlugins() as $plugin) {
-                        $plugin->loadProperties(true);
-                    }
                 }
             }
             rex_package_manager::generatePackageOrder();
@@ -278,21 +255,6 @@ class rex_api_install_core_update extends rex_api_function
 
             $versions[$addon] = $addon->getVersion();
             $addon->setProperty('version', $config['version']);
-
-            foreach ($addon->getAvailablePlugins() as $plugin) {
-                if (is_dir($addonPath . 'plugins/' . $plugin->getName())) {
-                    $config = rex_file::getConfig($addonPath . 'plugins/' . $plugin->getName() . '/' . rex_package::FILE_PACKAGE);
-
-                    $requirements[$plugin] = $plugin->getProperty('requires', []);
-                    $plugin->setProperty('requires', $config['requires'] ?? []);
-
-                    $conflicts[$plugin] = $plugin->getProperty('conflicts', []);
-                    $plugin->setProperty('conflicts', $config['conflicts'] ?? []);
-
-                    $versions[$plugin] = $plugin->getProperty('version');
-                    $plugin->setProperty('version', $config['version'] ?? null);
-                }
-            }
         }
 
         // ---- check requirements

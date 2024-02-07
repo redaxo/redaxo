@@ -11,7 +11,7 @@ Bei Änderungen müssen die Styles neu kompiliert werden. Hierfür stellt **be_s
 Über die Konsole von REDAXO können die Styles neu kompiliert werden. Hierfür benutzt man den von **be_style** bereitgestellten Kompilierungsvorgang via `be_style:compile` oder `styles:compile`.
 
 ### 2. via package.yml
-In der `package.yml` von dem PlugIn **redaxo** kann der Wert von `compile` von `0` auf `1` gesetzt werden.
+In der `package.yml` des AddOns kann der Wert von `compile` von `0` auf `1` gesetzt werden.
 Beim nächsten Aufruf als eingeloggter Backend Benutzer werden die Styles neu kompiliert.
 
 ##### Hinweis

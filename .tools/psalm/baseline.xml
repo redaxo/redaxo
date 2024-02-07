@@ -154,12 +154,7 @@
       <code><![CDATA[$config['version']]]></code>
       <code>$key</code>
       <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
       <code>$msg</code>
-      <code><![CDATA[$plugin->getProperty('conflicts', [])]]></code>
-      <code><![CDATA[$plugin->getProperty('requires', [])]]></code>
-      <code><![CDATA[$plugin->getProperty('version')]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code>$addonkey</code>
@@ -172,15 +167,10 @@
     <MixedAssignment>
       <code>$config</code>
       <code>$conflicts[$addon]</code>
-      <code>$conflicts[$plugin]</code>
-      <code>$key</code>
       <code>$key</code>
       <code>$msg</code>
       <code>$requirements[$addon]</code>
-      <code>$requirements[$plugin]</code>
       <code>$value</code>
-      <code>$value</code>
-      <code>$versions[$plugin]</code>
     </MixedAssignment>
     <MixedReturnTypeCoercion>
       <code><![CDATA[array<int, array{version: string, description: string, path: string, checksum: string}>]]></code>
@@ -221,9 +211,6 @@
     <MixedArgument>
       <code>$key</code>
       <code>$key</code>
-      <code><![CDATA[$plugin->getProperty('conflicts', [])]]></code>
-      <code><![CDATA[$plugin->getProperty('requires', [])]]></code>
-      <code><![CDATA[$plugin->getProperty('version')]]></code>
       <code><![CDATA[$this->addon->getProperty('conflicts', [])]]></code>
       <code><![CDATA[$this->addon->getProperty('requires', [])]]></code>
     </MixedArgument>
@@ -233,13 +220,10 @@
       <code><![CDATA[$config['version']]]></code>
     </MixedArrayAccess>
     <MixedAssignment>
-      <code>$conflicts[$plugin]</code>
       <code><![CDATA[$conflicts[$this->addon]]]></code>
       <code>$key</code>
-      <code>$requirements[$plugin]</code>
       <code><![CDATA[$requirements[$this->addon]]]></code>
       <code>$value</code>
-      <code>$versions[$plugin]</code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/install/lib/packages.php">
@@ -2976,18 +2960,14 @@
       <code><![CDATA[$addon->getProperty('page')]]></code>
       <code>$page</code>
       <code>$page</code>
-      <code>$page</code>
       <code><![CDATA[$pageArray['title']]]></code>
       <code><![CDATA[$pageArray['title']]]></code>
-      <code><![CDATA[$plugin->getProperty('page')]]></code>
       <code>$subProperties</code>
       <code><![CDATA[$subProperties['title']]]></code>
       <code>$value</code>
       <code>$value</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
-      <code>$key</code>
-      <code>$key</code>
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
@@ -3003,8 +2983,6 @@
       <code>$k</code>
       <code>$page</code>
       <code>$page</code>
-      <code>$page</code>
-      <code>$pages</code>
       <code>$pages</code>
       <code>$subProperties</code>
       <code>$v</code>
@@ -3997,22 +3975,6 @@
       <code>$args</code>
       <code>$args</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code>$pluginName</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayOffset>
-      <code><![CDATA[$config[$addonName]['plugins'][$plugin]]]></code>
-    </MixedArrayOffset>
-    <MixedArrayTypeCoercion>
-      <code>$plugins[$pluginName]</code>
-    </MixedArrayTypeCoercion>
-    <MixedAssignment>
-      <code>$plugin</code>
-      <code>$plugins</code>
-    </MixedAssignment>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$addon->plugins]]></code>
-    </MixedPropertyTypeCoercion>
     <ParamNameMismatch>
       <code>$addon</code>
       <code>$addon</code>
@@ -4043,7 +4005,6 @@
       <code><![CDATA[$conflicts['packages']]]></code>
       <code><![CDATA[$conflicts['packages'][$packageId]]]></code>
       <code><![CDATA[$conflicts['packages'][$this->package->getPackageId()]]]></code>
-      <code><![CDATA[$req['packages']]]></code>
       <code><![CDATA[$requirements['packages']]]></code>
       <code><![CDATA[$requirements['packages']]]></code>
       <code><![CDATA[$requirements['packages']]]></code>
@@ -4053,23 +4014,15 @@
       <code><![CDATA[$requirements['packages'][$packageId]]]></code>
       <code><![CDATA[$requirements['packages'][$packageId]]]></code>
     </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$req['packages']]]></code>
-      <code><![CDATA[$req['packages'][$package->getAddon()->getPackageId()]]]></code>
-    </MixedArrayAssignment>
     <MixedArrayOffset>
       <code>$ps[$id]</code>
       <code>$requires[$id]</code>
     </MixedArrayOffset>
     <MixedAssignment>
-      <code>$addonLoad</code>
-      <code><![CDATA[$config[$addonName]['plugins'][$pluginName]['status']]]></code>
-      <code><![CDATA[$config[$addonName]['plugins'][$pluginName]['status']]]></code>
       <code>$conflicts</code>
       <code>$conflicts</code>
       <code>$constraints</code>
       <code>$key</code>
-      <code>$load</code>
       <code>$load</code>
       <code>$normal[]</code>
       <code>$packageId</code>
@@ -4092,9 +4045,6 @@
     <MoreSpecificReturnType>
       <code>non-empty-string[]</code>
     </MoreSpecificReturnType>
-    <PossiblyNullArrayAccess>
-      <code><![CDATA[$config[$addonName]['plugins'][$pluginName]]]></code>
-    </PossiblyNullArrayAccess>
   </file>
   <file src="redaxo/src/core/lib/packages/null.php">
     <MixedArgument>
@@ -4115,33 +4065,12 @@
     </MixedArgument>
     <MixedAssignment>
       <code>$dir</code>
-      <code>$plugin</code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedOperand>
       <code>$value</code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/packages/plugins/plugin.php">
-    <ArgumentTypeCoercion>
-      <code>$name</code>
-    </ArgumentTypeCoercion>
-    <LessSpecificImplementedReturnType>
-      <code>string</code>
-    </LessSpecificImplementedReturnType>
-    <MixedArgument>
-      <code>$args</code>
-    </MixedArgument>
-    <MixedInferredReturnType>
-      <code>i18n</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[call_user_func_array([$this->getAddon(), 'i18n'], $args)]]></code>
-    </MixedReturnStatement>
-    <PossiblyNullArgument>
-      <code>$plugin</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/phpmailer/mailer.php">
     <MixedArgument>
@@ -5004,7 +4933,6 @@
   </file>
   <file src="redaxo/src/core/pages/packages.details.php">
     <PossiblyNullOperand>
-      <code>$packageId</code>
       <code>$packageId</code>
     </PossiblyNullOperand>
   </file>

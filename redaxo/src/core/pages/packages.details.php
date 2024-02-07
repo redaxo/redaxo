@@ -26,11 +26,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('left', $navigation, false);
 $subtitle = $fragment->parse('core/navigations/content.php');
 
-if ($package instanceof rex_plugin_interface) {
-    $headLine = 'PlugIn: ' . $packageId;
-} else {
-    $headLine = 'AddOn: ' . $packageId;
-}
+$headLine = 'AddOn: ' . $packageId;
 
 echo rex_view::title($headLine, $subtitle);
 

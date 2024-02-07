@@ -11,7 +11,7 @@ If changes are made, the styles must be recompiled. For this purpose **be_style*
 Using the console of REDAXO the styles can be recompiled. For this option you use the compilation process provided by **be_style** via `be_style:compile` or `styles:compile`.
 
 ### 2. via package.yml
-In the `package.yml` of the PlugIn **redaxo** the value of `compile` can be set from `0` to `1`.
+In the `package.yml` of the AddOn the value of `compile` can be set from `0` to `1`.
 At the next request as a logged in backend user the styles will be recompiled.
 
 ##### Note
