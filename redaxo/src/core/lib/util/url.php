@@ -158,20 +158,4 @@ class rex_url
     {
         return self::$pathprovider->addonAssets($addon, $file);
     }
-
-    /**
-     * Returns the url to the assets folder of the given plugin of the given addon.
-     *
-     * @param string $addon Addon
-     * @param string $plugin Plugin
-     * @param string $file File
-     *
-     * @return non-empty-string
-     *
-     * @see assets()
-     */
-    public static function pluginAssets($addon, $plugin, $file = '')
-    {
-        return self::$pathprovider->pluginAssets($addon, $plugin, $file);
-    }
 }

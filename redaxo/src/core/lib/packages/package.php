@@ -49,7 +49,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * Returns the package (addon or plugin) by the given package id.
+     * Returns the addon by the given package id.
      *
      * @param string $packageId Package ID
      *
@@ -63,31 +63,17 @@ abstract class rex_package implements rex_package_interface
             throw new InvalidArgumentException('Expecting $packageId to be string, but ' . gettype($packageId) . ' given!');
         }
 
-        [$addonId, $pluginId] = self::splitId($packageId);
-        $addon = rex_addon::get($addonId);
-
-        if ($pluginId) {
-            return $addon->getPlugin($pluginId);
-        }
-
-        return $addon;
+        return rex_addon::get($packageId);
     }
 
     /**
-     * Returns the package (addon or plugin) by the given package id.
+     * Returns the addon by the given package id.
      *
      * @throws RuntimeException if the package does not exist
      */
     public static function require(string $packageId): self
     {
-        [$addonId, $pluginId] = self::splitId($packageId);
-        $addon = rex_addon::require($addonId);
-
-        if ($pluginId) {
-            return $addon->requirePlugin($pluginId);
-        }
-
-        return $addon;
+        return rex_addon::require($packageId);
     }
 
     /**
@@ -99,26 +85,7 @@ abstract class rex_package implements rex_package_interface
      */
     public static function exists($packageId)
     {
-        [$addonId, $pluginId] = self::splitId($packageId);
-
-        if ($pluginId) {
-            return rex_plugin::exists($addonId, $pluginId);
-        }
-
-        return rex_addon::exists($addonId);
-    }
-
-    /**
-     * Splits the package id into a tuple of addon id and plugin id (if existing).
-     *
-     * @return array{string, ?string}
-     */
-    public static function splitId(string $packageId): array
-    {
-        $parts = explode('/', $packageId, 2);
-        $parts[1] ??= null;
-
-        return $parts;
+        return rex_addon::exists($packageId);
     }
 
     /**
@@ -433,7 +400,7 @@ abstract class rex_package implements rex_package_interface
      */
     public static function getSetupPackages()
     {
-        return self::getPackages('Setup', 'System');
+        return self::getPackages('Setup');
     }
 
     /**
@@ -450,22 +417,16 @@ abstract class rex_package implements rex_package_interface
      * Returns the packages by the given method.
      *
      * @param string $method Method
-     * @param string|null $pluginMethod Optional other method for plugins
      *
      * @return array<string, self>
      */
-    private static function getPackages($method, $pluginMethod = null)
+    private static function getPackages($method)
     {
         $packages = [];
         $addonMethod = 'get' . $method . 'Addons';
-        $pluginMethod = 'get' . ($pluginMethod ?: $method) . 'Plugins';
         foreach (rex_addon::$addonMethod() as $addon) {
             assert($addon instanceof rex_addon);
             $packages[$addon->getPackageId()] = $addon;
-            foreach ($addon->$pluginMethod() as $plugin) {
-                assert($plugin instanceof rex_plugin);
-                $packages[$plugin->getPackageId()] = $plugin;
-            }
         }
         return $packages;
     }

@@ -63,10 +63,6 @@ class rex_release
         foreach (self::$addons as $addon) {
             $addon = rex_addon::get($addon);
             $updateVersion($addon);
-
-            foreach ($addon->getRegisteredPlugins() as $plugin) {
-                $updateVersion($plugin);
-            }
         }
     }
 

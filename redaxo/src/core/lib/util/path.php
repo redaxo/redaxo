@@ -131,22 +131,6 @@ class rex_path
     }
 
     /**
-     * Returns the path to the public assets folder of the given plugin of the given addon.
-     *
-     * @param non-empty-string $addon Addon
-     * @param non-empty-string $plugin Plugin
-     * @param string $file File
-     *
-     * @return non-empty-string
-     *
-     * @see assets()
-     */
-    public static function pluginAssets($addon, $plugin, $file = '')
-    {
-        return self::$pathprovider->pluginAssets($addon, $plugin, $file);
-    }
-
-    /**
      * Returns the path to the bin folder.
      *
      * @param string $file File
@@ -193,20 +177,6 @@ class rex_path
     public static function addonData($addon, $file = '')
     {
         return self::$pathprovider->addonData($addon, $file);
-    }
-
-    /**
-     * Returns the path to the data folder of the given plugin of the given addon.
-     *
-     * @param non-empty-string $addon Addon
-     * @param non-empty-string $plugin Plugin
-     * @param string $file File
-     *
-     * @return non-empty-string
-     */
-    public static function pluginData($addon, $plugin, $file = '')
-    {
-        return self::$pathprovider->pluginData($addon, $plugin, $file);
     }
 
     /**
@@ -262,20 +232,6 @@ class rex_path
     }
 
     /**
-     * Returns the path to the cache folder of the given plugin.
-     *
-     * @param non-empty-string $addon Addon
-     * @param non-empty-string $plugin Plugin
-     * @param string $file File
-     *
-     * @return non-empty-string
-     */
-    public static function pluginCache($addon, $plugin, $file = '')
-    {
-        return self::$pathprovider->pluginCache($addon, $plugin, $file);
-    }
-
-    /**
      * Returns the path to the src folder.
      *
      * @param string $file File
@@ -310,20 +266,6 @@ class rex_path
     public static function addon($addon, $file = '')
     {
         return self::$pathprovider->addon($addon, $file);
-    }
-
-    /**
-     * Returns the base path to the folder of the plugin of the given addon.
-     *
-     * @param non-empty-string $addon Addon
-     * @param non-empty-string $plugin Plugin
-     * @param string $file File
-     *
-     * @return non-empty-string
-     */
-    public static function plugin($addon, $plugin, $file = '')
-    {
-        return self::$pathprovider->plugin($addon, $plugin, $file);
     }
 
     /**

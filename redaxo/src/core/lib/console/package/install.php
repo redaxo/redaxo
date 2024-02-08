@@ -16,7 +16,7 @@ class rex_command_package_install extends rex_console_command
     {
         $this
             ->setDescription('Installs the selected package')
-            ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the package (addon or plugin); e.g. "cronjob" or "structure/content"', null, static function () {
+            ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the addon, e.g. "yform"', null, static function () {
                 $packageNames = [];
 
                 foreach (rex_package::getRegisteredPackages() as $package) {

@@ -157,22 +157,6 @@ class rex_path_default_provider
     }
 
     /**
-     * Returns the path to the assets folder of the given plugin of the given addon.
-     *
-     * @param string $addon Addon
-     * @param string $plugin Plugin
-     * @param string $file File
-     *
-     * @return non-empty-string
-     *
-     * @see assets()
-     */
-    public function pluginAssets($addon, $plugin, $file)
-    {
-        return $this->addonAssets($addon, 'plugins/' . $plugin . '/' . $file);
-    }
-
-    /**
      * Returns the path to the bin folder.
      *
      * @param string $file File
@@ -219,20 +203,6 @@ class rex_path_default_provider
     public function addonData($addon, $file)
     {
         return $this->data('addons/' . $addon . '/' . $file);
-    }
-
-    /**
-     * Returns the path to the data folder of the given plugin of the given addon.
-     *
-     * @param non-empty-string $addon Addon
-     * @param non-empty-string $plugin Plugin
-     * @param string $file File
-     *
-     * @return non-empty-string
-     */
-    public function pluginData($addon, $plugin, $file)
-    {
-        return $this->addonData($addon, 'plugins/' . $plugin . '/' . $file);
     }
 
     /**
@@ -283,20 +253,6 @@ class rex_path_default_provider
     }
 
     /**
-     * Returns the path to the cache folder of the given plugin.
-     *
-     * @param string $addon Addon
-     * @param string $plugin Plugin
-     * @param string $file File
-     *
-     * @return non-empty-string
-     */
-    public function pluginCache($addon, $plugin, $file)
-    {
-        return $this->addonCache($addon, 'plugins/' . $plugin . '/' . $file);
-    }
-
-    /**
      * Returns the path to the src folder.
      *
      * @param string $file File
@@ -331,19 +287,5 @@ class rex_path_default_provider
     public function addon($addon, $file)
     {
         return $this->src('addons/' . $addon . '/' . $file);
-    }
-
-    /**
-     * Returns the base path to the folder of the plugin of the given addon.
-     *
-     * @param non-empty-string $addon Addon
-     * @param non-empty-string $plugin Plugin
-     * @param string $file File
-     *
-     * @return non-empty-string
-     */
-    public function plugin($addon, $plugin, $file)
-    {
-        return $this->addon($addon, 'plugins/' . $plugin . '/' . $file);
     }
 }

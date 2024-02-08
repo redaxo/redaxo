@@ -18,7 +18,7 @@ class rex_command_assets_sync extends rex_console_command
         $this
             ->setDescription('Sync assets within the assets-dir with the sources-dir')
             ->setHelp(sprintf(
-                'Sync folders and files of /%s with /%s (or plugin) respectively /%s folders',
+                'Sync folders and files of /%s with /%s respectively /%s folders',
                 rtrim(rex_path::relative(rex_path::assets()), '/'),
                 rex_path::relative(rex_path::addon('my-addon', 'assets')),
                 rex_path::relative(rex_path::core('assets')),
@@ -103,11 +103,9 @@ class rex_command_assets_sync extends rex_console_command
 
         $finder = rex_finder::factory($folder1)
             ->recursive()
-            ->ignoreDirs('plugins')
             ->ignoreFiles('.redaxo')
             ->filesOnly();
 
-        // make sure we dont sync plugin assets into a addons asset-dir
         foreach ($finder as $f1Fileinfo) {
             $f1File = (string) $f1Fileinfo;
             $relativePath = str_replace($folder1, '', $f1File);

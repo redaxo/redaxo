@@ -93,18 +93,6 @@ class rex_install_package_update extends rex_install_package_download
             }
         }
 
-        // ---- copy plugins to new addon dir
-        foreach ($this->addon->getRegisteredPlugins() as $plugin) {
-            $pluginPath = $temppath . '/plugins/' . $plugin->getName();
-            if (!is_dir($pluginPath)) {
-                if (is_dir($plugin->getPath())) {
-                    rex_dir::copy($plugin->getPath(), $pluginPath);
-                }
-            } elseif ($plugin->isInstalled() && is_dir($pluginPath . '/assets')) {
-                rex_dir::copy($pluginPath . '/assets', $plugin->getAssetsPath());
-            }
-        }
-
         // ---- update main addon dir
         $pathOld = rex_path::addon($this->addonkey . '.old');
         error_clear_last();
@@ -136,9 +124,6 @@ class rex_install_package_update extends rex_install_package_download
         // ---- update package order
         if ($this->addon->isAvailable()) {
             $this->addon->loadProperties(true);
-            foreach ($this->addon->getAvailablePlugins() as $plugin) {
-                $plugin->loadProperties(true);
-            }
             rex_package_manager::generatePackageOrder();
         }
 
@@ -179,22 +164,6 @@ class rex_install_package_update extends rex_install_package_download
         $versions[$this->addon] = $this->addon->getVersion();
         $this->addon->setProperty('version', $config['version'] ?? $this->file['version']);
 
-        $availablePlugins = $this->addon->getAvailablePlugins();
-        foreach ($availablePlugins as $plugin) {
-            if (is_dir($temppath . '/plugins/' . $plugin->getName())) {
-                $config = rex_file::getConfig($temppath . '/plugins/' . $plugin->getName() . '/' . rex_package::FILE_PACKAGE);
-
-                $requirements[$plugin] = $plugin->getProperty('requires', []);
-                $plugin->setProperty('requires', $config['requires'] ?? []);
-
-                $conflicts[$plugin] = $plugin->getProperty('conflicts', []);
-                $plugin->setProperty('conflicts', $config['conflicts'] ?? []);
-
-                $versions[$plugin] = $plugin->getProperty('version');
-                $plugin->setProperty('version', $config['version'] ?? null);
-            }
-        }
-
         // ---- check requirements
         $messages = [];
         $manager = rex_addon_manager::factory($this->addon);
@@ -206,15 +175,6 @@ class rex_install_package_update extends rex_install_package_download
         }
 
         if (empty($messages)) {
-            foreach ($availablePlugins as $plugin) {
-                $manager = rex_plugin_manager::factory($plugin);
-                if (!$manager->checkRequirements()) {
-                    $messages[] = $this->messageFromPackage($plugin, $manager);
-                }
-                if (!$manager->checkConflicts()) {
-                    $messages[] = $this->messageFromPackage($plugin, $manager);
-                }
-            }
             foreach (rex_package::getAvailablePackages() as $package) {
                 if ($package->getAddon() === $this->addon) {
                     continue;
@@ -222,12 +182,6 @@ class rex_install_package_update extends rex_install_package_download
                 $manager = rex_package_manager::factory($package);
                 if (!$manager->checkPackageRequirement($this->addon->getPackageId())) {
                     $messages[] = $this->messageFromPackage($package, $manager);
-                } else {
-                    foreach ($versions as $reqPlugin) {
-                        if (!$manager->checkPackageRequirement($reqPlugin->getPackageId())) {
-                            $messages[] = $this->messageFromPackage($package, $manager);
-                        }
-                    }
                 }
             }
         }

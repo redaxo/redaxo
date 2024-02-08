@@ -42,13 +42,12 @@ abstract class rex_package_manager
      *
      * @template TS as rex_package
      * @psalm-param TS $package
-     * @psalm-return (TS is rex_plugin ? rex_plugin_manager : (TS is rex_addon ? rex_addon_manager : self))
+     * @psalm-return (TS is rex_addon ? rex_addon_manager : self)
      */
     public static function factory(rex_package $package)
     {
         if (self::class == static::class) {
-            $class = $package instanceof rex_plugin ? rex_plugin_manager::class : rex_addon_manager::class;
-            return $class::factory($package);
+            return rex_addon_manager::factory($package);
         }
         $class = static::getFactoryClass();
         return new $class($package);
@@ -97,15 +96,10 @@ abstract class rex_package_manager
                 throw new rex_functional_exception($this->i18n('missing_id', $this->package->getPackageId()));
             }
             if ($packageId != $this->package->getPackageId()) {
-                [$addonId, $pluginId] = rex_package::splitId($packageId);
-                throw new rex_functional_exception($this->wrongPackageId($addonId, $pluginId));
+                throw new rex_functional_exception($this->wrongPackageId($packageId));
             }
             if (null === $this->package->getProperty('version')) {
                 throw new rex_functional_exception($this->i18n('missing_version'));
-            }
-
-            if ($this->package instanceof rex_plugin_interface && !$this->package->getAddon()->isAvailable()) {
-                throw new rex_functional_exception($this->i18n('requirement_error_addon', $this->package->getAddon()->getName()));
             }
 
             // check requirements and conflicts
@@ -378,11 +372,10 @@ abstract class rex_package_manager
 
     /**
      * @param string $addonName
-     * @param string $pluginName
      *
      * @return string
      */
-    abstract protected function wrongPackageId($addonName, $pluginName = null);
+    abstract protected function wrongPackageId($addonName);
 
     /**
      * Checks whether the requirements are met.
@@ -477,33 +470,25 @@ abstract class rex_package_manager
             }
 
             if (!rex_package::exists($packageId)) {
-                [$addonId] = rex_package::splitId($packageId);
                 $jumpToInstaller = '';
-                if (rex_addon::get('install')->isAvailable() && !rex_addon::exists($addonId)) {
+                if (rex_addon::get('install')->isAvailable() && !rex_addon::exists($packageId)) {
                     // package need to be downloaded via installer
-                    $installUrl = rex_url::backendPage('install/packages/add', ['addonkey' => $addonId]);
+                    $installUrl = rex_url::backendPage('install/packages/add', ['addonkey' => $packageId]);
 
-                    $jumpToInstaller = ' <a href="' . $installUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('search_in_installer', $addonId) . '"></i></a>';
+                    $jumpToInstaller = ' <a href="' . $installUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('search_in_installer', $packageId) . '"></i></a>';
                 }
 
                 $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId . $requiredVersion) . $jumpToInstaller;
                 return false;
             }
 
-            // this package requires a plugin from another addon.
-            // first make sure the addon itself is available.
-            $jumpPackageId = $packageId;
-            if ($package instanceof rex_plugin_interface && !$package->getAddon()->isAvailable()) {
-                $jumpPackageId = (string) $package->getAddon()->getPackageId();
-            }
-
-            $jumpPackageUrl = '#package-' . rex_string::normalize($jumpPackageId, '-', '_');
+            $jumpPackageUrl = '#package-' . rex_string::normalize($packageId, '-', '_');
             if ('packages' !== rex_be_controller::getCurrentPage()) {
                 // error while update/install within install-addon. x-link to packages core page
                 $jumpPackageUrl = rex_url::backendPage('packages') . $jumpPackageUrl;
             }
 
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId . $requiredVersion) . ' <a href="' . $jumpPackageUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('jump_to', $jumpPackageId) . '"></i></a>';
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId . $requiredVersion) . ' <a href="' . $jumpPackageUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('jump_to', $packageId) . '"></i></a>';
             return false;
         }
 
@@ -660,21 +645,12 @@ abstract class rex_package_manager
         foreach (rex_package::getAvailablePackages() as $package) {
             $id = $package->getPackageId();
             $load = $package->getProperty('load');
-            if ($package instanceof rex_plugin
-                && !in_array($load, ['early', 'normal', 'late'])
-                && in_array($addonLoad = $package->getAddon()->getProperty('load'), ['early', 'late'])
-            ) {
-                $load = $addonLoad;
-            }
             if ('early' === $load) {
                 $early[] = $id;
             } elseif ('late' === $load) {
                 $late[] = $id;
             } else {
                 $req = $package->getProperty('requires');
-                if ($package instanceof rex_plugin) {
-                    $req['packages'][$package->getAddon()->getPackageId()] = true;
-                }
                 if (isset($req['packages']) && is_array($req['packages'])) {
                     foreach ($req['packages'] as $packageId => $reqP) {
                         $package = rex_package::get($packageId);
@@ -701,10 +677,6 @@ abstract class rex_package_manager
         foreach (rex_addon::getRegisteredAddons() as $addonName => $addon) {
             $config[$addonName]['install'] = $addon->isInstalled();
             $config[$addonName]['status'] = $addon->isAvailable();
-            foreach ($addon->getRegisteredPlugins() as $pluginName => $plugin) {
-                $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
-                $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->getProperty('status');
-            }
         }
         rex::setConfig('package-config', $config);
     }
@@ -727,26 +699,10 @@ abstract class rex_package_manager
             if (!rex_addon::exists($addonName)) {
                 $config[$addonName]['install'] = false;
                 $config[$addonName]['status'] = false;
-                $registeredPlugins = [];
             } else {
                 $addon = rex_addon::get($addonName);
                 $config[$addonName]['install'] = $addon->isInstalled();
                 $config[$addonName]['status'] = $addon->isAvailable();
-                $registeredPlugins = array_keys($addon->getRegisteredPlugins());
-            }
-            $plugins = self::readPackageFolder(rex_path::addon($addonName, 'plugins'));
-            foreach (array_diff($registeredPlugins, $plugins) as $pluginName) {
-                $manager = rex_plugin_manager::factory(rex_plugin::require($addonName, $pluginName));
-                $manager->_delete(true);
-                unset($config[$addonName]['plugins'][$pluginName]);
-            }
-            foreach ($plugins as $pluginName) {
-                $plugin = rex_plugin::get($addonName, $pluginName);
-                $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
-                $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->getProperty('status');
-            }
-            if (isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins'])) {
-                ksort($config[$addonName]['plugins']);
             }
         }
         ksort($config);

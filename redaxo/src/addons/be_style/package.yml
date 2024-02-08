@@ -4,7 +4,6 @@ author: 'Jan Kristinus, Markus Staab, Thomas Blum'
 supportpage: https://github.com/redaxo/redaxo
 
 load: early
-system_plugins: [redaxo]
 compile: 0
 
 console_commands:

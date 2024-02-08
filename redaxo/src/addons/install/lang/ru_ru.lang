@@ -53,7 +53,6 @@ install_info_addon_uploaded = Аддон <b>{0}</b> был загружен!
 install_info_addon_deleted = Версия аддона <b>{0}</b> была удалена!
 install_warning_addon_zip_not_extracted = zip-файл не удалось извлечь в директорию Аддонов. Возможно, у вас отсутствуют права на запись или имя папки в zip-файле не соответствует AddOn-Key.
 install_warning_message_from_addon = Сообщение по аддону <b>{0}</b>:
-install_warning_message_from_plugin = Сообщение по плагину <b>{0}</b>:
 
 install_warning_directory_not_writable = Директория <b>{0}</b> недоступна для записи!
 install_warning_zip_wrong_checksum = Контрольная сумма загруженного zip-файла не совпадает. Пожалуйста, повторите попытку через несколько минут!
