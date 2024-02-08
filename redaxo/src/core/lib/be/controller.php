@@ -267,7 +267,7 @@ class rex_be_controller
      */
     private static function pageCreate($page, rex_package $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
     {
-        if (is_array($page) && isset($page['title']) && false !== ($page['live_mode'] ?? null)) {
+        if (is_array($page) && isset($page['title']) && (false !== ($page['live_mode'] ?? null) || !rex::isLiveMode())) {
             $pageArray = $page;
             $pageKey = $pageKey ?: $package->getName();
             if ($createMainPage || isset($pageArray['main']) && $pageArray['main']) {
@@ -325,7 +325,7 @@ class rex_be_controller
                 case 'subpages':
                     if (is_array($value)) {
                         foreach ($value as $pageKey => $subProperties) {
-                            if (isset($subProperties['title']) && false !== ($subProperties['live_mode'] ?? null)) {
+                            if (isset($subProperties['title']) && (false !== ($subProperties['live_mode'] ?? null) || !rex::isLiveMode())) {
                                 $subpage = new rex_be_page($pageKey, $subProperties['title']);
                                 $page->addSubpage($subpage);
                                 self::pageAddProperties($subpage, $subProperties, $package);
