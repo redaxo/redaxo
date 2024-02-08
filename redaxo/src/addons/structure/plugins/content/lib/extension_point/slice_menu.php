@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * @extends rex_extension_point<null>
  * @package redaxo\structure\content
  */
 class rex_extension_point_slice_menu extends rex_extension_point
