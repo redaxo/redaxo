@@ -4,6 +4,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/** @extends rex_extension_point<null> */
 class rex_extension_point_console_shutdown extends rex_extension_point
 {
     public const NAME = 'CONSOLE_SHUTDOWN';
