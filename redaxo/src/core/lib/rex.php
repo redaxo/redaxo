@@ -300,6 +300,14 @@ class rex
     }
 
     /**
+     * Returns if the live mode is active.
+     */
+    public static function isLiveMode(): bool
+    {
+        return (bool) self::getProperty('live_mode');
+    }
+
+    /**
      * Returns the table prefix.
      *
      * @return non-empty-string

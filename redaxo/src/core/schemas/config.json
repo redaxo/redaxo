@@ -62,6 +62,10 @@
             "description": "Safe mode",
             "type": "boolean"
         },
+        "live_mode": {
+            "description": "Safe mode",
+            "type": "boolean"
+        },
         "instname": {
             "description": "Unique instance name",
             "type": ["null", "string"]

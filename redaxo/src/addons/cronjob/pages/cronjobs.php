@@ -102,7 +102,7 @@ if ('' == $func) {
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->setColumnLayout('status', ['<th class="rex-table-action" colspan="4">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnFormat('status', 'custom', static function () use ($list) {
-        if (!class_exists($list->getValue('type'))) {
+        if (!class_exists($list->getValue('type')) || !in_array($list->getValue('type'), rex_cronjob_manager::getTypes())) {
             $str = rex_i18n::msg('cronjob_status_invalid');
         } elseif (1 == $list->getValue('status')) {
             $str = $list->getColumnLink('status', '<span class="rex-online"><i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('cronjob_status_activated') . '</span>');

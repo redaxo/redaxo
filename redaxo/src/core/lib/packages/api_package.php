@@ -9,6 +9,10 @@ class rex_api_package extends rex_api_function
 {
     public function execute()
     {
+        if (rex::isLiveMode()) {
+            throw new rex_api_exception('Package management is not available in live mode!');
+        }
+
         $function = rex_request('function', 'string');
         if (!in_array($function, ['install', 'uninstall', 'activate', 'deactivate', 'delete'])) {
             throw new rex_api_exception('Unknown package function "' . $function . '"!');

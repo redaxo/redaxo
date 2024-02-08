@@ -6,6 +6,7 @@ supportpage: https://github.com/redaxo/redaxo
 page:
     title: 'Media Manager'
     perm: admin
+    live_mode: false
     pjax: true
     icon: rex-icon rex-icon-media
     subpages:
@@ -18,7 +19,7 @@ requires:
     php:
         version: '>=8.1'
         extensions: [gd]
-    redaxo: ^5.15.0
+    redaxo: ^5.16.0-beta1
 
 default_config:
     jpg_quality: 80

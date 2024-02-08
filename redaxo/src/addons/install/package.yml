@@ -6,6 +6,7 @@ supportpage: https://github.com/redaxo/redaxo
 page:
     title: 'translate:title'
     perm: admin[]
+    live_mode: false
     block: system
     prio: 70
     pjax: true
@@ -23,7 +24,7 @@ requires:
     php:
         version: '>=8.1'
         extensions: [zlib]
-    redaxo: ^5.15.0
+    redaxo: ^5.16.0-beta1
 
 
 console_commands:
