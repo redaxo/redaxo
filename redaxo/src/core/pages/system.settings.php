@@ -169,7 +169,7 @@ $content = '
     <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>';
 
 if (!rex::isLiveMode()) {
-    $content = '
+    $content .= '
         <h3>' . rex_i18n::msg('debug_mode') . '</h3>
         <p>' . rex_i18n::msg('debug_mode_note') . '</p>
         <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"' . $debugConfirm . '><i class="rex-icon rex-icon-heartbeat"></i> ' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
