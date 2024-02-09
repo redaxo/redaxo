@@ -250,18 +250,16 @@ rex_view::addCssFile(rex_url::coreAssets('css/redaxo.css'));
 rex_view::addJsFile(rex_url::coreAssets('js/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
 
 rex_extension::register('PAGE_HEADER', static function (rex_extension_point $ep) {
-    $themeColor = rex::getConfig('be_style_labelcolor', '#4d99d3');
-
     $icons = [];
     $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="' . rex_url::coreAssets('icons/apple-touch-icon.png') . '">';
     $icons[] = '<link rel="icon" type="image/png" sizes="32x32" href="' . rex_url::coreAssets('icons/favicon-32x32.png') . '">';
     $icons[] = '<link rel="icon" type="image/png" sizes="16x16" href="' . rex_url::coreAssets('icons/favicon-16x16.png') . '">';
     $icons[] = '<link rel="manifest" href="' . rex_url::coreAssets('icons/site.webmanifest') . '">';
-    $icons[] = '<link rel="mask-icon" href="' . rex_url::coreAssets('icons/safari-pinned-tab.svg') . '" color="' . rex_escape($themeColor) . '">';
+    $icons[] = '<link rel="mask-icon" href="' . rex_url::coreAssets('icons/safari-pinned-tab.svg') . '" color="' . rex_escape((string) rex::getConfig('be_style_labelcolor', '#4d99d3')) . '">';
     $icons[] = '<meta name="msapplication-TileColor" content="#2d89ef">';
 
     $icons = implode("\n    ", $icons);
-    $ep->setSubject($icons . $ep->getSubject());
+    $ep->setSubject($icons . rex_type::string($ep->getSubject()));
 });
 
 // add theme-information to js-variable rex as rex.theme

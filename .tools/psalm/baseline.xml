@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494">
-  <file src="redaxo/src/addons/be_style/boot.php">
-    <MixedAssignment>
-      <code>$themeColor</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
-      <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
-      <code><![CDATA[$ep->getSubject()]]></code>
-      <code>$themeColor</code>
-    </MixedOperand>
-    <PossiblyNullOperand>
-      <code>rex_file::get($filename)</code>
-      <code>rex_file::get($filename)</code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/be_style/lib/scss_compiler.php">
-    <MixedOperand>
-      <code>$path</code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
       <code><![CDATA[$query['query']]]></code>
@@ -2167,14 +2147,26 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[rex::getProperty('timezone', 'Europe/Berlin')]]></code>
     </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[rex::getConfig('be_style_codemirror_options', '')]]></code>
+    </MixedArgument>
+    <MixedOperand>
+      <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
+      <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
+    </MixedOperand>
     <PossiblyInvalidArgument>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
     </PossiblyInvalidArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[rex::getConfig('be_style_codemirror_options', '')]]></code>
+    </PossiblyNullArgument>
     <PossiblyNullOperand>
       <code><![CDATA[$page->getIcon()]]></code>
+      <code>rex_file::get($filename)</code>
+      <code>rex_file::get($filename)</code>
     </PossiblyNullOperand>
     <PossiblyNullReference>
       <code>getIcon</code>
@@ -3022,6 +3014,11 @@
       <code>isActive</code>
       <code>isActive</code>
     </MixedMethodCall>
+  </file>
+  <file src="redaxo/src/core/lib/be_style/scss_compiler.php">
+    <MixedOperand>
+      <code>$path</code>
+    </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/clang/clang.php">
     <MixedArrayAccess>
@@ -4300,10 +4297,12 @@
       <code><![CDATA[$config['db'][1]['login']]]></code>
       <code><![CDATA[$config['db'][1]['name']]]></code>
       <code><![CDATA[$config['db'][1]['password']]]></code>
+      <code>$destination</code>
       <code>$dir</code>
       <code>$dir</code>
       <code>$func($path)</code>
       <code>$path</code>
+      <code>$source</code>
       <code>self::MIN_PHP_VERSION</code>
       <code>self::MIN_PHP_VERSION</code>
     </MixedArgument>
@@ -4317,6 +4316,11 @@
       <code><![CDATA[$config['db'][1]['name']]]></code>
       <code><![CDATA[$config['db'][1]['password']]]></code>
     </MixedArrayAccess>
+    <MixedAssignment>
+      <code>$destination</code>
+      <code>$files</code>
+      <code>$source</code>
+    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/sql/schema_dumper.php">
     <RedundantCondition>
@@ -5073,6 +5077,21 @@
     <MixedOperand>
       <code>$cancelSetupBtn</code>
     </MixedOperand>
+  </file>
+  <file src="redaxo/src/core/pages/system.be_style.customizer.php">
+    <NoValue>
+      <code>$error</code>
+    </NoValue>
+    <NullOperand>
+      <code><![CDATA[rex_escape(rex::getConfig('be_style_codemirror_options', ''))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('be_style_codemirror_selectors', ''))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('be_style_labelcolor', ''))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('be_style_labelcolor', ''))]]></code>
+    </NullOperand>
+    <TypeDoesNotContainType>
+      <code>$error</code>
+      <code>$error</code>
+    </TypeDoesNotContainType>
   </file>
   <file src="redaxo/src/core/pages/system.clangs.php">
     <NullOperand>

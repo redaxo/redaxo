@@ -209,7 +209,7 @@ if (rex::isBackend() && 'css' == rex_request('codemirror_output', 'string', ''))
     $filenames = [];
     $filenames[] = rex_url::coreAssets('vendor/codemirror/codemirror.min.css');
     $filenames[] = rex_url::coreAssets('vendor/codemirror/addon/display/fullscreen.css');
-    $filenames[] = rex_url::coreAssets('vendor/codemirror/theme/' . rex::getConfig('be_style_codemirror_theme') . '.css');
+    $filenames[] = rex_url::coreAssets('vendor/codemirror/theme/' . ((string) rex::getConfig('be_style_codemirror_theme', 'eclipse')) . '.css');
     if ('' != rex_request('themes', 'string', '')) {
         $themes = explode(',', rex_request('themes', 'string', ''));
         foreach ($themes as $theme) {
@@ -312,8 +312,8 @@ if (rex::isBackend() && rex::getUser()) {
         rex_view::setJsProperty('customizer_codemirror_defaultdarktheme', rex::getConfig('be_style_codemirror_darktheme', 'dracula'));
         // JsProperty CodeMirror-Selectors
         $selectors = 'textarea.rex-code, textarea.rex-js-code, textarea.codemirror';
-        if ('' != rex::getConfig('be_style_codemirror_selectors')) {
-            $selectors = $selectors . ', ' . rex::getConfig('be_style_codemirror_selectors');
+        if ('' != rex::getConfig('be_style_codemirror_selectors', '')) {
+            $selectors = $selectors . ', ' . ((string) rex::getConfig('be_style_codemirror_selectors'));
         }
         rex_view::setJsProperty('customizer_codemirror_selectors', $selectors);
         // JsProperty CodeMirror-Autoresize
