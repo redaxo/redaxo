@@ -145,11 +145,11 @@ class rex_file_test extends TestCase
     public static function dataTestMimeType(): array
     {
         return [
-            ['image/png', rex_path::addonAssets('be_style', 'icons/apple-touch-icon.png')],
-            ['text/xml', rex_path::addonAssets('be_style', 'icons/browserconfig.xml')],
-            ['text/css', rex_path::addonAssets('be_style', 'css/styles.css')],
-            ['application/javascript', rex_path::addonAssets('be_style', 'js/redaxo.js')],
-            ['image/svg+xml', rex_path::addonAssets('be_style', 'images/redaxo-logo.svg')],
+            ['image/png', rex_path::coreAssets('icons/apple-touch-icon.png')],
+            ['text/xml', rex_path::coreAssets('icons/browserconfig.xml')],
+            ['text/css', rex_path::coreAssets('css/styles.css')],
+            ['application/javascript', rex_path::coreAssets('js/redaxo.js')],
+            ['image/svg+xml', rex_path::coreAssets('images/redaxo-logo.svg')],
         ];
     }
 
