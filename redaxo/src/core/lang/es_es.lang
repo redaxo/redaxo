@@ -766,6 +766,10 @@ phpmailer_errormail_60min = 60 Minutos de verificación de intervalo
 system_setting_errormail = Enviar mensajes de error
 
 # be_style
+be_style = Backend style
+be_style_help = Ayuda
+be_style_icons = Icons
+be_style_themes = Themes
 customizer = Personalizador
 customizer_features = funciones
 

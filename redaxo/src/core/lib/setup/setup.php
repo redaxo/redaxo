@@ -9,7 +9,7 @@ class rex_setup
 {
     // These values must be synchronized with the values in redaxo/src/core/update.php
     public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
-    public const MIN_PHP_EXTENSIONS = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
+    public const MIN_PHP_EXTENSIONS = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer', 'zip'];
     public const MIN_MYSQL_VERSION = '5.6';
     public const MIN_MARIADB_VERSION = '10.1';
 
@@ -30,7 +30,7 @@ class rex_setup
      * @param string $skinAddon
      * @return void
      */
-    public static function init($skinAddon = 'be_style')
+    public static function init($skinAddon = '')
     {
         // initial purge all generated files
         rex_delete_cache();
@@ -44,11 +44,43 @@ class rex_setup
             throw new rex_exception('Unable to copy assets to "' . rex_path::coreAssets() . '". Is the folder writable for the webserver?');
         }
 
+        // ---------------------------------- Be style ----------------------------------
+        // use path relative to __DIR__ to get correct path in update temp dir
+        $files = require rex_path::core('/vendor_files.php');
+        foreach ($files as $source => $destination) {
+            // ignore errors, because this file is included very early in setup, before the regular file permissions check
+            rex_file::copy(rex_path::core($source), rex_path::coreAssets($destination));
+        }
+
+        // ---------------------------------- Codemirror ----------------------------------
+        /* Codemirror-Assets entpacken */
+        $message = '';
+        $zipArchive = new ZipArchive();
+
+        // use path relative to __DIR__ to get correct path in update temp dir
+        $path = rex_path::core('/assets/vendor/codemirror.zip');
+
+        try {
+            if (true === $zipArchive->open($path) && $zipArchive->extractTo(rex_path::coreAssets('vendor/'))) {
+                $zipArchive->close();
+            } else {
+                $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $path;
+            }
+        } catch (Exception $e) {
+            $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $path . '<br>' . $e->getMessage();
+        }
+
+        if ('' != $message) {
+            throw new rex_functional_exception($message);
+        }
+
         // copy skins files/assets
-        $skinAddon = rex_addon::get($skinAddon);
-        rex_dir::copy($skinAddon->getPath('assets'), $skinAddon->getAssetsPath());
-        if (is_file($skinAddon->getPath('install.php'))) {
-            $skinAddon->includeFile('install.php');
+        if ('' !== $skinAddon) {
+            $skinAddon = rex_addon::get($skinAddon);
+            rex_dir::copy($skinAddon->getPath('assets'), $skinAddon->getAssetsPath());
+            if (is_file($skinAddon->getPath('install.php'))) {
+                $skinAddon->includeFile('install.php');
+            }
         }
     }
 

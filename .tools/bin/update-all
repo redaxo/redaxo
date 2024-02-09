@@ -12,6 +12,9 @@ rm -rf redaxo/src/core/vendor/lbuchs/webauthn/_test/
 rm -f redaxo/src/core/vendor/phpmailer/phpmailer/get_oauth_token.php
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
 rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
+rm -rf redaxo/src/core/vendor/scssphp/scssphp/bin/
+rm -rf redaxo/src/core/vendor/scssphp/scssphp/example/
+rm -r redaxo/src/core/vendor/scssphp/scssphp/scss.inc.php
 rm -rf redaxo/src/core/vendor/splitbrain/php-archive/.github/
 rm -f redaxo/src/core/vendor/splitbrain/php-archive/generate-api.sh
 rm -rf redaxo/src/core/vendor/splitbrain/php-archive/tests/
@@ -40,18 +43,6 @@ find redaxo/src/core/vendor -name "psalm.xml" -type f -delete
 find redaxo/src/core/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 composer dumpautoload --ansi --no-dev --classmap-authoritative -d redaxo/src/core/
-
-printf "\nUpdate redaxo/src/addons/be_style/vendor\n"
-composer update --ansi --no-dev -d redaxo/src/addons/be_style/
-composer bump --ansi -d redaxo/src/addons/be_style/
-
-rm -f redaxo/src/addons/be_style/vendor/autoload.php
-rm -rf redaxo/src/addons/be_style/vendor/composer/
-rm -rf redaxo/src/addons/be_style/vendor/bin/
-rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/bin/
-rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/example/
-rm -r redaxo/src/addons/be_style/vendor/scssphp/scssphp/scss.inc.php
-find redaxo/src/addons/be_style/vendor/scssphp -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate redaxo/src/addons/debug/vendor\n"
 composer update --ansi --no-dev -d redaxo/src/addons/debug/

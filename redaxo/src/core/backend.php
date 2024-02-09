@@ -204,6 +204,75 @@ rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
 rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
 rex_view::setJsProperty('cookie_params', rex_login::getCookieParams());
 
+rex_extension::register('BE_STYLE_SCSS_COMPILE', static function (rex_extension_point $ep) {
+    $scssFiles = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', []));
+
+    /** @var list<array{root_dir?: string, scss_files: string|list<string>, css_file: string, copy_dest?: string}> $subject */
+    $subject = $ep->getSubject();
+    $subject[] = [
+        'root_dir' => rex_path::core('assets_files/scss/'),
+        'scss_files' => array_merge($scssFiles, [rex_path::core('assets_files/scss/master.scss')]),
+        'css_file' => rex_path::core('assets/css/styles.css'),
+        'copy_dest' => rex_path::coreAssets('css/styles.css'),
+    ];
+    $subject[] = [
+        'root_dir' => rex_path::core('assets_files/scss/'),
+        'scss_files' => rex_path::core('assets_files/scss/redaxo.scss'),
+        'css_file' => rex_path::core('assets/css/redaxo.css'),
+        'copy_dest' => rex_path::coreAssets('css/redaxo.css'),
+    ];
+    return $subject;
+});
+
+rex_extension::register('PACKAGES_INCLUDED', static function () {
+    if (rex::getUser() && rex::getConfig('be_style_compile')) {
+        rex_be_style::compile();
+    }
+});
+
+rex_view::addCssFile(rex_url::coreAssets('css/styles.css'));
+rex_view::addCssFile(rex_url::coreAssets('css/bootstrap-select.min.css'));
+rex_view::addJsFile(rex_url::coreAssets('js/bootstrap.js'), [rex_view::JS_IMMUTABLE => true]);
+rex_view::addJsFile(rex_url::coreAssets('js/bootstrap-select.min.js'), [rex_view::JS_IMMUTABLE => true]);
+$bootstrapSelectLang = [
+    'de_de' => 'de_DE',
+    'en_gb' => 'en_US',
+    'es_es' => 'de_DE',
+    'it_it' => 'it_IT',
+    'nl_nl' => 'nl_NL',
+    'pt_br' => 'pt_BR',
+    'sv_se' => 'sv_SE',
+][rex_i18n::getLocale()] ?? 'en_US';
+rex_view::addJsFile(rex_url::coreAssets('js/bootstrap-select-defaults-' . $bootstrapSelectLang . '.min.js'), [rex_view::JS_IMMUTABLE => true]);
+rex_view::addJsFile(rex_url::coreAssets('js/main.js'), [rex_view::JS_IMMUTABLE => true]);
+
+rex_view::addCssFile(rex_url::coreAssets('css/redaxo.css'));
+rex_view::addJsFile(rex_url::coreAssets('js/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
+
+rex_extension::register('PAGE_HEADER', static function (rex_extension_point $ep) {
+    $themeColor = rex::getConfig('be_style_labelcolor', '#4d99d3');
+
+    $icons = [];
+    $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="' . rex_url::coreAssets('icons/apple-touch-icon.png') . '">';
+    $icons[] = '<link rel="icon" type="image/png" sizes="32x32" href="' . rex_url::coreAssets('icons/favicon-32x32.png') . '">';
+    $icons[] = '<link rel="icon" type="image/png" sizes="16x16" href="' . rex_url::coreAssets('icons/favicon-16x16.png') . '">';
+    $icons[] = '<link rel="manifest" href="' . rex_url::coreAssets('icons/site.webmanifest') . '">';
+    $icons[] = '<link rel="mask-icon" href="' . rex_url::coreAssets('icons/safari-pinned-tab.svg') . '" color="' . rex_escape($themeColor) . '">';
+    $icons[] = '<meta name="msapplication-TileColor" content="#2d89ef">';
+
+    $icons = implode("\n    ", $icons);
+    $ep->setSubject($icons . $ep->getSubject());
+});
+
+// add theme-information to js-variable rex as rex.theme
+// (1) System-Settings (2) no systemforced mode: user-mode (3) fallback: "auto"
+$user = rex::getUser();
+$theme = (string) rex::getProperty('theme');
+if ('' === $theme && $user) {
+    $theme = (string) $user->getValue('theme');
+}
+rex_view::setJsProperty('theme', $theme ?: 'auto');
+
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
 

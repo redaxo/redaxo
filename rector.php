@@ -41,7 +41,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
         // restrict to core and core addons, ignore other locally installed addons
         'redaxo/src/core/',
-        'redaxo/src/addons/be_style/',
         'redaxo/src/addons/debug/',
         'redaxo/src/addons/install/',
         'redaxo/src/addons/media_manager/',
@@ -53,7 +52,6 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         'redaxo/src/core/vendor',
-        'redaxo/src/addons/be_style/vendor',
         'redaxo/src/addons/debug/vendor',
 
         FirstClassCallableRector::class => ['redaxo/src/core/boot.php'],

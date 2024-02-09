@@ -794,6 +794,10 @@ system_setting_errormail = Send e-mail on errors
 perm_general_phpmailer[] = PHPMailer settings
 
 # be_style
+be_style = Backend style
+be_style_help = Help
+be_style_icons = Icons
+be_style_themes = Themes
 customizer = customizer
 customizer_features = Functions
 

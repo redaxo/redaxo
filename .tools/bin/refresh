@@ -14,7 +14,6 @@ if [ "true" = $(redaxo/bin/console config:get setup) ]; then
 fi
 
 packages="
-be_style
 debug
 install
 media_manager

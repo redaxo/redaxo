@@ -40,6 +40,7 @@ class rex_console_command_loader implements CommandLoaderInterface
                 'system:report' => rex_command_system_report::class,
                 'user:set-password' => rex_command_user_set_password::class,
                 'cronjob:run' => rex_command_cronjob_run::class,
+                'styles:compile' => rex_command_be_style_compile::class,
             ]);
         }
 

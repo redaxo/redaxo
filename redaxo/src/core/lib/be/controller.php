@@ -184,6 +184,18 @@ class rex_be_controller
 
         $logsPage->addSubpage((new rex_be_page('cronjob', rex_i18n::msg('cronjob_title')))->setSubPath(rex_path::core('pages/system.log.cronjob.php')));
 
+        $beStylePage = (new rex_be_page('be_style', rex_i18n::msg('be_style')));
+        $beStylePage
+            ->addSubpage((new rex_be_page('customizer', rex_i18n::msg('customizer')))->setSubPath(rex_path::core('pages/system.be_style.customizer.php')))
+            ->addSubpage((new rex_be_page('icons', rex_i18n::msg('be_style_icons')))->setSubPath(rex_path::core('pages/system.be_style.icons.php')))
+            ->addSubpage((new rex_be_page('help', rex_i18n::msg('be_style_help')))->setSubPath(rex_path::core('pages/system.be_style.README.md')));
+
+        rex_extension::register('PACKAGES_INCLUDED', static function () use ($beStylePage) {
+            if (rex_extension::isRegistered('BE_STYLE_PAGE_CONTENT')) {
+                $beStylePage->addSubpage((new rex_be_page('themes', rex_i18n::msg('be_style_themes')))->setSubPath(rex_path::core('pages/system.be_style.themes.php')));
+            }
+        });
+
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
             ->setPath(rex_path::core('pages/system.php'))
             ->setRequiredPermissions('isAdmin')
@@ -198,6 +210,7 @@ class rex_be_controller
                 ->addSubpage((new rex_be_page('html', rex_i18n::msg('system_report')))->setSubPath(rex_path::core('pages/system.report.html.php')))
                 ->addSubpage((new rex_be_page('markdown', rex_i18n::msg('system_report_markdown')))->setSubPath(rex_path::core('pages/system.report.markdown.php'))),
             )
+            ->addSubpage($beStylePage)
             ->addSubpage(
                 (new rex_be_page('phpinfo', 'phpinfo'))
                 ->setHidden(true)

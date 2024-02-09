@@ -827,6 +827,10 @@ system_setting_errormail = E-Mail-Benachrichtigung bei Fehlern
 perm_general_phpmailer[] = PHPMailer-Einstellungen
 
 # be_style
+be_style = Backend style
+be_style_help = Hilfe
+be_style_icons = Icons
+be_style_themes = Themes
 customizer = Customizer
 customizer_features = CodeMirror
 

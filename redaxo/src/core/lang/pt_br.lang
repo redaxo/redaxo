@@ -612,6 +612,10 @@ phpmailer_low = Baixa
 phpmailer_no = não
 
 # be_style
+be_style = Backend style
+be_style_help = Ajuda
+be_style_icons = Icons
+be_style_themes = Themes
 customizer = customizar
 customizer_features = Funções
 
