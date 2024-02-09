@@ -3636,6 +3636,7 @@
       <code><![CDATA[$this->sslCa]]></code>
       <code><![CDATA[$this->sslCert]]></code>
       <code><![CDATA[$this->sslKey]]></code>
+      <code><![CDATA[$this->sslVerifyServerCert]]></code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/console/application.php">
