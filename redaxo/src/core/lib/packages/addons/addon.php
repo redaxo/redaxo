@@ -17,13 +17,6 @@ class rex_addon extends rex_package implements rex_addon_interface
     private static $addons = [];
 
     /**
-     * Array of all child plugins.
-     *
-     * @var array<non-empty-string, rex_plugin>
-     */
-    private $plugins = [];
-
-    /**
      * Returns the addon by the given name.
      *
      * @param string $addon Name of the addon
@@ -131,71 +124,6 @@ class rex_addon extends rex_package implements rex_addon_interface
         return call_user_func_array(rex_i18n::msg(...), $args);
     }
 
-    public function getPlugin($plugin)
-    {
-        if (!is_string($plugin)) {
-            throw new InvalidArgumentException('Expecting $plugin to be string, but ' . gettype($plugin) . ' given!');
-        }
-        if (!isset($this->plugins[$plugin])) {
-            return rex_null_plugin::getInstance();
-        }
-        return $this->plugins[$plugin];
-    }
-
-    /**
-     * Returns the child plugin by the given name.
-     *
-     * @throws RuntimeException if the plugin does not exist
-     */
-    public function requirePlugin(string $plugin): rex_plugin
-    {
-        if (!isset($this->plugins[$plugin])) {
-            throw new RuntimeException(sprintf('Required plugin "%s/%s" does not exist.', $this->getName(), $plugin));
-        }
-
-        return $this->plugins[$plugin];
-    }
-
-    public function pluginExists($plugin)
-    {
-        return is_string($plugin) && isset($this->plugins[$plugin]);
-    }
-
-    public function getRegisteredPlugins()
-    {
-        return $this->plugins;
-    }
-
-    public function getInstalledPlugins()
-    {
-        return self::filterPackages($this->plugins, 'isInstalled');
-    }
-
-    public function getAvailablePlugins()
-    {
-        return self::filterPackages($this->plugins, 'isAvailable');
-    }
-
-    public function getSystemPlugins()
-    {
-        if (rex::isSetup() || rex::isSafeMode()) {
-            // in setup and safemode this method is called before the package .lang files are added to rex_i18n
-            // so don't use getProperty(), to avoid loading all properties without translations
-            $properties = rex_file::getConfig($this->getPath(parent::FILE_PACKAGE));
-            $systemPlugins = isset($properties['system_plugins']) ? (array) $properties['system_plugins'] : [];
-        } else {
-            $systemPlugins = (array) $this->getProperty('system_plugins', []);
-        }
-        $plugins = [];
-        /** @var string $plugin */
-        foreach ($systemPlugins as $plugin) {
-            if ($this->pluginExists($plugin)) {
-                $plugins[$plugin] = $this->requirePlugin($plugin);
-            }
-        }
-        return $plugins;
-    }
-
     /**
      * Returns the registered addons.
      *
@@ -280,21 +208,6 @@ class rex_addon extends rex_package implements rex_addon_interface
             $addon->setProperty('install', $addonConfig['install'] ?? false);
             $addon->setProperty('status', $addonConfig['status'] ?? false);
             self::$addons[$addonName] = $addon;
-            if (!$dbExists && is_array($plugins = $addon->getProperty('system_plugins'))) {
-                foreach ($plugins as $plugin) {
-                    $config[$addonName]['plugins'][$plugin]['install'] = false;
-                }
-            }
-            if (isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins'])) {
-                $plugins = $addon->plugins;
-                $addon->plugins = [];
-                foreach ($config[$addonName]['plugins'] as $pluginName => $pluginConfig) {
-                    $plugin = $plugins[$pluginName] ?? new rex_plugin($pluginName, $addon);
-                    $plugin->setProperty('install', $pluginConfig['install'] ?? false);
-                    $plugin->setProperty('status', $pluginConfig['status'] ?? false);
-                    $addon->plugins[$pluginName] = $plugin;
-                }
-            }
         }
     }
 

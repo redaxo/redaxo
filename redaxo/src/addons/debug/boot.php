@@ -87,7 +87,7 @@ $shutdownFn = static function () {
 
     if (rex::isBackend()) {
         $req->controller = 'page: ' . rex_be_controller::getCurrentPage();
-    } elseif (rex_plugin::get('structure', 'content')->isAvailable()) {
+    } elseif (rex_addon::get('structure')->isAvailable()) {
         $req->controller = 'article: ' . rex_article::getCurrentId() . '; clang: ' . rex_clang::getCurrent()->getCode();
     }
 

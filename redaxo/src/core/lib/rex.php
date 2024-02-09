@@ -476,7 +476,7 @@ class rex
     }
 
     /**
-     * @return array<non-empty-string, array{install: bool, status: bool, plugins?: array<string, array{install: bool, status: bool}>}>
+     * @return array<non-empty-string, array{install: bool, status: bool}>
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function getPackageConfig(): array

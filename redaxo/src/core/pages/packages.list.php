@@ -116,12 +116,6 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
 
 foreach (rex_addon::getRegisteredAddons() as $addon) {
     $content .= $getTableRow($addon);
-
-    if ($addon->isAvailable()) {
-        foreach ($addon->getRegisteredPlugins() as $plugin) {
-            $content .= $getTableRow($plugin);
-        }
-    }
 }
 
 $content .= '</tbody>

@@ -33,7 +33,7 @@ interface rex_package_interface
     /**
      * Returns the package type as string.
      *
-     * @return 'addon'|'plugin'
+     * @return 'addon'
      */
     public function getType();
 

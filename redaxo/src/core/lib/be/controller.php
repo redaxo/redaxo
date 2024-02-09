@@ -295,22 +295,6 @@ class rex_be_controller
                     }
                 }
             }
-
-            // handle plugins
-            $plugins = rex::isSafeMode() ? $addon->getSystemPlugins() : $addon->getAvailablePlugins();
-            foreach ($plugins as $plugin) {
-                self::pageCreate($plugin->getProperty('page'), $plugin, false, $mainPage);
-
-                if (is_array($pages = $plugin->getProperty('pages'))) {
-                    foreach ($pages as $key => $page) {
-                        if (str_contains($key, '/')) {
-                            $insertPages[$key] = [$plugin, $page];
-                        } else {
-                            self::pageCreate($page, $plugin, false, $mainPage, $key, true);
-                        }
-                    }
-                }
-            }
         }
         foreach ($insertPages as $key => $packagePage) {
             [$package, $page] = $packagePage;
@@ -491,7 +475,7 @@ class rex_be_controller
     }
 
     /**
-     * Includes the current page. A page may be provided by the core, an addon or plugin.
+     * Includes the current page. A page may be provided by the core or an addon.
      * @return void
      */
     public static function includeCurrentPage()
@@ -560,7 +544,7 @@ class rex_be_controller
     private static function includePath($path, array $context = [])
     {
         return rex_timer::measure('Page: ' . rex_path::relative($path, rex_path::src()), function () use ($path, $context) {
-            $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
+            $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)@';
 
             if (!preg_match($pattern, $path, $matches)) {
                 $__context = $context;
@@ -574,9 +558,6 @@ class rex_be_controller
             }
 
             $package = rex_addon::get($matches[1]);
-            if (isset($matches[2])) {
-                $package = $package->getPlugin($matches[2]);
-            }
             return $package->includeFile(str_replace($package->getPath(), '', $path), $context);
         });
     }
