@@ -2,7 +2,7 @@ setup: true
 debug:
     enabled: false
     throw_always_exception: false # `true` for all error levels, `[E_WARNING, E_NOTICE]` for subset
-safemode: false
+safe_mode: false
 instname: null
 server: https://www.redaxo.org/
 servername: REDAXO

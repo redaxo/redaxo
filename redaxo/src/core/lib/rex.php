@@ -292,7 +292,7 @@ class rex
             return false;
         }
 
-        if (self::getProperty('safemode')) {
+        if (self::getProperty('safe_mode')) {
             return true;
         }
 

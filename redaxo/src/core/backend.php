@@ -162,13 +162,13 @@ if (rex::isSetup()) {
                 rex_set_session('safemode', true);
             } else {
                 rex_unset_session('safemode');
-                if (rex::getProperty('safemode')) {
+                if (rex::getProperty('safe_mode')) {
                     $configFile = rex_path::coreData('config.yml');
                     $config = array_merge(
                         rex_file::getConfig(rex_path::core('default.config.yml')),
                         rex_file::getConfig($configFile),
                     );
-                    $config['safemode'] = false;
+                    $config['safe_mode'] = false;
                     rex_file::putConfig($configFile, $config);
                 }
             }
