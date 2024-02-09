@@ -118,6 +118,31 @@ class rex_rex_test extends TestCase
         }
     }
 
+    public function testLiveModeFlag(): void
+    {
+        $origLiveMode = rex::getProperty('live_mode');
+        $origSafeMode = rex::getProperty('safe_mode');
+        $origDebug = rex::getProperty('debug');
+
+        try {
+            rex::setProperty('live_mode', false);
+            rex::setProperty('safe_mode', true);
+            rex::setProperty('debug', true);
+            self::assertFalse(rex::isLiveMode());
+            self::assertTrue(rex::isSafeMode());
+            self::assertTrue(rex::isDebugMode());
+
+            rex::setProperty('live_mode', true);
+            self::assertTrue(rex::isLiveMode());
+            self::assertFalse(rex::isSafeMode());
+            self::assertFalse(rex::isDebugMode());
+        } finally {
+            rex::setProperty('live_mode', $origLiveMode);
+            rex::setProperty('safe_mode', $origSafeMode);
+            rex::setProperty('debug', $origDebug);
+        }
+    }
+
     public function testGetTablePrefix(): void
     {
         self::assertEquals(rex::getTablePrefix(), 'rex_', 'table prefix defauts to rex_');

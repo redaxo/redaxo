@@ -28,6 +28,14 @@
                 }
             ]
         },
+        "live_mode": {
+            "description": "Live mode",
+            "type": "boolean"
+        },
+        "safe_mode": {
+            "description": "Safe mode",
+            "type": "boolean"
+        },
         "debug": {
             "description": "Debug mode",
             "oneOf": [
@@ -57,14 +65,6 @@
                     "additionalProperties": false
                 }
             ]
-        },
-        "safe_mode": {
-            "description": "Safe mode",
-            "type": "boolean"
-        },
-        "live_mode": {
-            "description": "Safe mode",
-            "type": "boolean"
         },
         "instname": {
             "description": "Unique instance name",
