@@ -13,7 +13,7 @@ if (rex_request('rex_debug_updated', 'bool', false)) {
 
 if ($func && !$csrfToken->isValid()) {
     $error[] = rex_i18n::msg('csrf_token_invalid');
-} elseif ('setup' == $func) {
+} elseif ('setup' == $func && !rex::isLiveMode()) {
     // REACTIVATE SETUP
     if (false !== $url = rex_setup::startWithToken()) {
         header('Location:' . $url);
@@ -23,10 +23,10 @@ if ($func && !$csrfToken->isValid()) {
 } elseif ('generate' == $func) {
     // generate all articles,cats,templates,caches
     $success = rex_delete_cache();
-} elseif ('updateassets' == $func) {
+} elseif ('updateassets' == $func && !rex::isLiveMode()) {
     rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
     $success = 'Updated assets';
-} elseif ('debugmode' == $func) {
+} elseif ('debugmode' == $func && !rex::isLiveMode()) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
@@ -166,28 +166,30 @@ if (!rex::isDebugMode()) {
 $content = '
     <h3>' . rex_i18n::msg('delete_cache') . '</h3>
     <p>' . rex_i18n::msg('delete_cache_description') . '</p>
-    <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
+    <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>';
 
-    <h3>' . rex_i18n::msg('debug_mode') . '</h3>
-    <p>' . rex_i18n::msg('debug_mode_note') . '</p>
-    <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"' . $debugConfirm . '><i class="rex-icon rex-icon-heartbeat"></i> ' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
+if (!rex::isLiveMode()) {
+    $content .= '
+        <h3>' . rex_i18n::msg('debug_mode') . '</h3>
+        <p>' . rex_i18n::msg('debug_mode_note') . '</p>
+        <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"' . $debugConfirm . '><i class="rex-icon rex-icon-heartbeat"></i> ' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
 
-    <h3>' . rex_i18n::msg('safemode') . '</h3>
-    <p>' . rex_i18n::msg('safemode_text') . '</p>';
+        <h3>' . rex_i18n::msg('safemode') . '</h3>
+        <p>' . rex_i18n::msg('safemode_text') . '</p>';
 
-$safemodeUrl = rex_url::currentBackendPage(['safemode' => '1'] + $csrfToken->getUrlParams());
-if (rex::isSafeMode()) {
-    $safemodeUrl = rex_url::currentBackendPage(['safemode' => '0'] + $csrfToken->getUrlParams());
+    $safemodeUrl = rex_url::currentBackendPage(['safemode' => '1'] + $csrfToken->getUrlParams());
+    if (rex::isSafeMode()) {
+        $safemodeUrl = rex_url::currentBackendPage(['safemode' => '0'] + $csrfToken->getUrlParams());
+    }
+
+    $content .= '
+        <p><a class="btn btn-safemode-activate" href="' . $safemodeUrl . '" data-pjax="false">' . (rex::isSafeMode() ? rex_i18n::msg('safemode_deactivate') : rex_i18n::msg('safemode_activate')) . '</a></p>
+
+
+        <h3>' . rex_i18n::msg('setup') . '</h3>
+        <p>' . rex_i18n::msg('setup_text') . '</p>
+        <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
 }
-
-$content .= '
-    <p><a class="btn btn-safemode-activate" href="' . $safemodeUrl . '" data-pjax="false">' . (rex::isSafeMode() ? rex_i18n::msg('safemode_deactivate') : rex_i18n::msg('safemode_activate')) . '</a></p>
-
-
-    <h3>' . rex_i18n::msg('setup') . '</h3>
-    <p>' . rex_i18n::msg('setup_text') . '</p>
-    <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
-
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('system_features'));
 $fragment->setVar('body', $content, false);

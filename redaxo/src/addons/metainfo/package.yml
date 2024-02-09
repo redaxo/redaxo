@@ -6,6 +6,7 @@ supportpage: https://github.com/redaxo/redaxo
 page:
     title: Meta Infos
     perm: admin[]
+    live_mode: false
     pjax: true
     icon: rex-icon rex-icon-metainfo
     subpages:
@@ -16,7 +17,7 @@ page:
 
 requires:
     php: '>=8.1'
-    redaxo: ^5.15.0
+    redaxo: ^5.16.0-beta1
     packages:
         structure: '^2.12.1'
         mediapool: '^2.10.1'

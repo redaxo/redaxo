@@ -136,6 +136,8 @@ class rex
      * @return mixed The value for $key or $default if $key cannot be found
      * @psalm-return (
      *     $key is 'login' ? rex_backend_login|null :
+     *     ($key is 'live_mode' ? bool :
+     *     ($key is 'safe_mode' ? bool :
      *     ($key is 'debug' ? array{enabled: bool, throw_always_exception: bool|int} :
      *     ($key is 'lang_fallback' ? string[] :
      *     ($key is 'use_accesskeys' ? bool :
@@ -162,7 +164,7 @@ class rex
      *     ($key is 'system_addons' ? non-empty-string[] :
      *     ($key is 'setup_addons' ? non-empty-string[] :
      *     mixed|null
-     *     )))))))))))))))))))))))))
+     *     )))))))))))))))))))))))))))
      * )
      */
     public static function getProperty($key, $default = null)
@@ -261,6 +263,10 @@ class rex
      */
     public static function isDebugMode()
     {
+        if (self::isLiveMode()) {
+            return false;
+        }
+
         $debug = self::getDebugFlags();
 
         return $debug['enabled'];
@@ -288,7 +294,7 @@ class rex
      */
     public static function isSafeMode()
     {
-        if (!self::isBackend()) {
+        if (!self::isBackend() || self::isLiveMode()) {
             return false;
         }
 
@@ -297,6 +303,14 @@ class rex
         }
 
         return PHP_SESSION_ACTIVE == session_status() && rex_session('safemode', 'boolean', false);
+    }
+
+    /**
+     * Returns if the live mode is active.
+     */
+    public static function isLiveMode(): bool
+    {
+        return (bool) self::getProperty('live_mode');
     }
 
     /**

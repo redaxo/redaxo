@@ -157,7 +157,7 @@ if (rex::isSetup()) {
         rex::setProperty('user', $user);
 
         // Safe Mode
-        if ($user->isAdmin() && null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
+        if (!rex::isLiveMode() && $user->isAdmin() && null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
             if ($safeMode) {
                 rex_set_session('safemode', true);
             } else {

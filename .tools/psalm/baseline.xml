@@ -3508,7 +3508,6 @@
       <code><![CDATA[$pageArray['title']]]></code>
       <code><![CDATA[$pageArray['title']]]></code>
       <code><![CDATA[$plugin->getProperty('page')]]></code>
-      <code>$subProperties</code>
       <code><![CDATA[$subProperties['title']]]></code>
       <code>$value</code>
       <code>$value</code>
@@ -3524,9 +3523,6 @@
       <code>$key</code>
       <code>$pageKey</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$subProperties['title']]]></code>
-    </MixedArrayAccess>
     <MixedAssignment>
       <code>$k</code>
       <code>$page</code>
@@ -3539,6 +3535,9 @@
       <code>$v</code>
       <code>$value</code>
     </MixedAssignment>
+    <PossiblyInvalidArgument>
+      <code>$subProperties</code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="redaxo/src/core/lib/be/navigation.php">
     <MixedArgumentTypeCoercion>
