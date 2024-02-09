@@ -4153,7 +4153,6 @@
     </PossiblyNullArgument>
     <PossiblyNullOperand>
       <code>$sortType</code>
-      <code>$sortType</code>
     </PossiblyNullOperand>
     <PropertyTypeCoercion>
       <code><![CDATA[$this->columnLayouts]]></code>
