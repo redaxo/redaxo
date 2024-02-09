@@ -24,6 +24,8 @@ final class rex_config_db
     public $sslCert;
     /** @var string|null */
     public $sslCa;
+    /** @var bool */
+    public $sslVerifyServerCert;
 
     public function __construct(array $dbConfig)
     {
@@ -36,5 +38,6 @@ final class rex_config_db
         $this->sslKey = $dbConfig['ssl_key'] ?? null;
         $this->sslCert = $dbConfig['ssl_cert'] ?? null;
         $this->sslCa = $dbConfig['ssl_ca'] ?? null;
+        $this->sslVerifyServerCert = $dbConfig['ssl_verfiy_server_cert'] ?? true;
     }
 }
