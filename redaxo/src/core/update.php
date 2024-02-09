@@ -98,3 +98,7 @@ if (rex_version::compare(rex::getVersion(), '5.15.0-dev', '<') && $user = rex::g
         }
     }
 }
+
+if (rex_version::compare(rex::getVersion(), '5.16.0', '<')) {
+    class_exists(Psr\Log\LogLevel::class);
+}
