@@ -1,19 +1,25 @@
 Changelog
 =========
 
-Version 5.16.0 – XX.XX.2024
+Version 5.16.0 – 09.02.2024
 ---------------------------
 
 ### Neu
 
+* Neuer Live-Mode (über die `config.yml` aktivierbar), der problematische Bereiche im Backend für Produktivumgebungen sperrt (@gharlan)
+* Safe-Mode ist nur noch als eingeloggter Admin aktivierbar, oder neu alternativ global über die `config.yml` (@gharlan)
 * Setup: PHP-Version wird ausgegeben (@staabm)
-* Safemode ist nur noch als eingeloggter Admin aktivierbar, oder neu alternativ global über die `config.yml` (@gharlan)
+* DB-Config: Neue Option `ssl_verify_server_cert` (@gharlan)
 * Packages installieren/aktivieren etc. wird ohne PJAX durchgeführt (@tbaddade)
+* `rex_list`:
+    - Default-Sortierung soll nicht mehr über die Query übergeben werden, sondern über neuen separaten Parameter (@gharlan)
+      ACHTUNG: Bei Übergabe über die Query funktioniert aus Sicherheitsgründen die Sortierung bei Klick auf eine Spalte nicht mehr
+    - Neue Methoden um das Markup via Kindklassen leichter anpassen zu können (@staabm)
 * `rex_sql`: `getArrayValue` liefert bei `null` ein leeres Array und behandelt ungültiges JSON besser (@staabm)
 * `rex_file`: Neue Methode `append` (@skerbis)
-* `rex_list`: Neue Methoden um das Markup via Kindklassen leichter anpassen zu können (@staabm)
 * `rex_response`: `sendFile` abbrechen, wenn die Verbindung zum Client abgebrochen wurde (@staabm)
 * `rex_version`: `gitHash` beschleunigt (@staabm)
+* `Permissions-Policy`-Header wird nicht mehr gesetzt, da Google FLoC beerdigt hat (@eznix86)
 * Text-Optimierungen (@Koala, @skerbis, @staabm)
 * Übersetzungen:
     - Russisch hinzugefügt (@cosmopolityan)
