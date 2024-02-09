@@ -191,7 +191,7 @@ $n['field'] = '
         <div class="input-group-addon">
             <input id="customizer-labelcolor-picker" type="color" value="' . rex_escape(rex::getConfig('be_style_labelcolor', '')) . '" oninput="jQuery(\'#customizer-labelcolor\').val(this.value)" />
         </div>
-        <input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" value="' . rex_escape(rex::getConfig('be_style_labelcolor', '')) . '" oninput="jQuery(\'#customizer-labelcolor-picker\').val(this.value)" />
+        <input class="form-control" id="customizer-labelcolor" type="text" name="settings[be_style_labelcolor]" value="' . rex_escape(rex::getConfig('be_style_labelcolor', '')) . '" oninput="jQuery(\'#customizer-labelcolor-picker\').val(this.value)" />
     </div>
 ';
 $n['note'] = rex_i18n::msg('customizer_labelcolor_notice');
