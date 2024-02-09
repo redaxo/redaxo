@@ -567,8 +567,7 @@ if ($SHOW) {
             status,
             lastlogin
         FROM ' . rex::getTable('user') . ' u
-        ORDER BY name
-    ');
+    ', defaultSort: ['name' => 'asc']);
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-user" title="' . rex_i18n::msg('user_status_active') . '"></i>';
