@@ -85,7 +85,7 @@ abstract class rex_error_handler
             }
             rex_response::setStatus($status);
 
-            if (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+            if (rex::isSetup() || rex::isDebugMode() || !rex::isLiveMode() && rex_backend_login::createUser()?->isAdmin()) {
                 [$errPage, $contentType] = self::renderWhoops($exception);
                 rex_response::sendContent($errPage, $contentType);
                 exit(1);
@@ -316,7 +316,7 @@ abstract class rex_error_handler
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
 
-        if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
+        if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || !rex::isLiveMode() && rex_backend_login::createUser()?->isAdmin())) {
             $file = rex_path::relative($errfile);
             if ('cli' === PHP_SAPI) {
                 echo self::getErrorType($errno) . ": $errstr in $file on line $errline";

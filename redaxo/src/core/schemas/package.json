@@ -190,6 +190,11 @@
                     "type": "string",
                     "default": "admin"
                 },
+                "live_mode": {
+                    "description": "Live mode",
+                    "type": "boolean",
+                    "default": true
+                },
                 "icon": {
                     "description": "Icon class name(s)",
                     "type": "string"

@@ -689,6 +689,11 @@ abstract class rex_metainfo_handler
      */
     protected function fireCallbacks(rex_sql $sqlFields)
     {
+        if (rex::isLiveMode()) {
+            // Metainfo callbacks are not supported in live mode
+            return;
+        }
+
         foreach ($sqlFields as $row) {
             if ('' != $row->getValue('callback')) {
                 // use a small sandbox, so the callback cannot affect our local variables

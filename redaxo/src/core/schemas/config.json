@@ -28,6 +28,14 @@
                 }
             ]
         },
+        "live_mode": {
+            "description": "Live mode",
+            "type": "boolean"
+        },
+        "safe_mode": {
+            "description": "Safe mode",
+            "type": "boolean"
+        },
         "debug": {
             "description": "Debug mode",
             "oneOf": [
@@ -57,10 +65,6 @@
                     "additionalProperties": false
                 }
             ]
-        },
-        "safe_mode": {
-            "description": "Safe mode",
-            "type": "boolean"
         },
         "instname": {
             "description": "Unique instance name",
@@ -366,6 +370,11 @@
                         "ssl_ca": {
                             "description": "File path to the ssl certificate authority",
                             "type": ["null", "string"]
+                        },
+                        "ssl_verify_server_cert": {
+                            "description": "Verification of the server SSL certificate",
+                            "type": "boolean",
+                            "default": true
                         }
                     },
                     "additionalProperties": false,
