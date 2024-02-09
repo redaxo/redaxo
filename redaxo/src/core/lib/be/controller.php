@@ -161,13 +161,6 @@ class rex_be_controller
         self::$pages['credits'] = (new rex_be_page('credits', rex_i18n::msg('credits')))
             ->setPath(rex_path::core('pages/credits.php'));
 
-        self::$pages['packages'] = (new rex_be_page_main('system', 'packages', rex_i18n::msg('addons')))
-            ->setPath(rex_path::core('pages/packages.php'))
-            ->setRequiredPermissions('isAdmin')
-            ->setPrio(60)
-            ->setPjax()
-            ->setIcon('rex-icon rex-icon-package-addon');
-
         $logsPage = (new rex_be_page('log', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.log.php'));
         $logsPage->addSubpage((new rex_be_page('redaxo', rex_i18n::msg('syslog_redaxo')))->setSubPath(rex_path::core('pages/system.log.redaxo.php')));
         if ('' != ini_get('error_log') && @is_readable(ini_get('error_log'))) {
@@ -244,7 +237,7 @@ class rex_be_controller
             ->addSubpage((new rex_be_page('checkmail', rex_i18n::msg('phpmailer_checkmail')))->setSubPath(rex_path::core('pages/phpmailer.checkmail.php'))->setHidden(true))
         ;
 
-        self::$pages['backup'] = (new rex_be_page_main('system', 'backup', rex_i18n::msg('backup_title')))
+        self::$pages['backup'] = $backup = (new rex_be_page_main('system', 'backup', rex_i18n::msg('backup_title')))
             ->setPath(rex_path::core('pages/backup.php'))
             ->setRequiredPermissions('isAdmin')
             ->setPrio(110)
@@ -255,12 +248,23 @@ class rex_be_controller
                     ->setSubPath(rex_path::core('pages/backup.export.php'))
                     ->setRequiredPermissions('backup[export]'),
             )
-            ->addSubpage(
-                (new rex_be_page('import', rex_i18n::msg('backup_import')))
-                    ->addSubpage((new rex_be_page('upload', rex_i18n::msg('backup_upload')))->setSubPath(rex_path::core('pages/backup.import.upload.php')))
-                    ->addSubpage((new rex_be_page('server', rex_i18n::msg('backup_load_from_server')))->setSubPath(rex_path::core('pages/backup.import.server.php'))),
-            )
         ;
+
+        if (rex::isLiveMode()) {
+            return;
+        }
+
+        $backup->addSubpage((new rex_be_page('import', rex_i18n::msg('backup_import')))
+            ->addSubpage((new rex_be_page('upload', rex_i18n::msg('backup_upload')))->setSubPath(rex_path::core('pages/backup.import.upload.php')))
+            ->addSubpage((new rex_be_page('server', rex_i18n::msg('backup_load_from_server')))->setSubPath(rex_path::core('pages/backup.import.server.php'))),
+        );
+
+        self::$pages['packages'] = (new rex_be_page_main('system', 'packages', rex_i18n::msg('addons')))
+            ->setPath(rex_path::core('pages/packages.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(60)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-package-addon');
     }
 
     /**
@@ -309,7 +313,7 @@ class rex_be_controller
      */
     private static function pageCreate($page, rex_package $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
     {
-        if (is_array($page) && isset($page['title'])) {
+        if (is_array($page) && isset($page['title']) && (false !== ($page['live_mode'] ?? null) || !rex::isLiveMode())) {
             $pageArray = $page;
             $pageKey = $pageKey ?: $package->getName();
             if ($createMainPage || isset($pageArray['main']) && $pageArray['main']) {
@@ -367,7 +371,7 @@ class rex_be_controller
                 case 'subpages':
                     if (is_array($value)) {
                         foreach ($value as $pageKey => $subProperties) {
-                            if (isset($subProperties['title'])) {
+                            if (isset($subProperties['title']) && (false !== ($subProperties['live_mode'] ?? null) || !rex::isLiveMode())) {
                                 $subpage = new rex_be_page($pageKey, $subProperties['title']);
                                 $page->addSubpage($subpage);
                                 self::pageAddProperties($subpage, $subProperties, $package);

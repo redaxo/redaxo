@@ -46,7 +46,7 @@ class WebAuthn {
         $supportedFormats = array('android-key', 'android-safetynet', 'apple', 'fido-u2f', 'none', 'packed', 'tpm');
 
         if (!\function_exists('\openssl_open')) {
-            throw new WebAuthnException('OpenSSL-Module not installed');;
+            throw new WebAuthnException('OpenSSL-Module not installed');
         }
 
         if (!\in_array('SHA256', \array_map('\strtoupper', \openssl_get_md_methods()))) {
@@ -73,7 +73,7 @@ class WebAuthn {
      */
     public function addRootCertificates($path, $certFileExtensions=null) {
         if (!\is_array($this->_caFiles)) {
-            $this->_caFiles = array();
+            $this->_caFiles = [];
         }
         if ($certFileExtensions === null) {
             $certFileExtensions = array('pem', 'crt', 'cer', 'der');
@@ -122,16 +122,7 @@ class WebAuthn {
      * @param array $excludeCredentialIds a array of ids, which are already registered, to prevent re-registration
      * @return \stdClass
      */
-    public function getCreateArgs($userId, $userName, $userDisplayName, $timeout=20, $requireResidentKey=false, $requireUserVerification=false, $crossPlatformAttachment=null, $excludeCredentialIds=array()) {
-
-        // validate User Verification Requirement
-        if (\is_bool($requireUserVerification)) {
-            $requireUserVerification = $requireUserVerification ? 'required' : 'preferred';
-        } else if (\is_string($requireUserVerification) && \in_array(\strtolower($requireUserVerification), ['required', 'preferred', 'discouraged'])) {
-            $requireUserVerification = \strtolower($requireUserVerification);
-        } else {
-            $requireUserVerification = 'preferred';
-        }
+    public function getCreateArgs($userId, $userName, $userDisplayName, $timeout=20, $requireResidentKey=false, $requireUserVerification=false, $crossPlatformAttachment=null, $excludeCredentialIds=[]) {
 
         $args = new \stdClass();
         $args->publicKey = new \stdClass();
@@ -142,15 +133,29 @@ class WebAuthn {
         $args->publicKey->rp->id = $this->_rpId;
 
         $args->publicKey->authenticatorSelection = new \stdClass();
-        $args->publicKey->authenticatorSelection->userVerification = $requireUserVerification;
+        $args->publicKey->authenticatorSelection->userVerification = 'preferred';
+
+        // validate User Verification Requirement
+        if (\is_bool($requireUserVerification)) {
+            $args->publicKey->authenticatorSelection->userVerification = $requireUserVerification ? 'required' : 'preferred';
+
+        } else if (\is_string($requireUserVerification) && \in_array(\strtolower($requireUserVerification), ['required', 'preferred', 'discouraged'])) {
+            $args->publicKey->authenticatorSelection->userVerification = \strtolower($requireUserVerification);
+        }
+
+        // validate Resident Key Requirement
         if (\is_bool($requireResidentKey) && $requireResidentKey) {
             $args->publicKey->authenticatorSelection->requireResidentKey = true;
+            $args->publicKey->authenticatorSelection->residentKey = 'required';
+
         } else if (\is_string($requireResidentKey) && \in_array(\strtolower($requireResidentKey), ['required', 'preferred', 'discouraged'])) {
             $requireResidentKey = \strtolower($requireResidentKey);
             $args->publicKey->authenticatorSelection->residentKey = $requireResidentKey;
             $args->publicKey->authenticatorSelection->requireResidentKey = $requireResidentKey === 'required';
         }
-        if (is_bool($crossPlatformAttachment)) {
+
+        // filte authenticators attached with the specified authenticator attachment modality
+        if (\is_bool($crossPlatformAttachment)) {
             $args->publicKey->authenticatorSelection->authenticatorAttachment = $crossPlatformAttachment ? 'cross-platform' : 'platform';
         }
 
@@ -160,12 +165,24 @@ class WebAuthn {
         $args->publicKey->user->name = $userName;
         $args->publicKey->user->displayName = $userDisplayName;
 
-        $args->publicKey->pubKeyCredParams = array();
-        $tmp = new \stdClass();
-        $tmp->type = 'public-key';
-        $tmp->alg = -7; // ES256
-        $args->publicKey->pubKeyCredParams[] = $tmp;
-        unset ($tmp);
+        // supported algorithms
+        $args->publicKey->pubKeyCredParams = [];
+
+        if (function_exists('sodium_crypto_sign_verify_detached') || \in_array('ed25519', \openssl_get_curve_names(), true)) {
+            $tmp = new \stdClass();
+            $tmp->type = 'public-key';
+            $tmp->alg = -8; // EdDSA
+            $args->publicKey->pubKeyCredParams[] = $tmp;
+            unset ($tmp);
+        }
+
+        if (\in_array('prime256v1', \openssl_get_curve_names(), true)) {
+            $tmp = new \stdClass();
+            $tmp->type = 'public-key';
+            $tmp->alg = -7; // ES256
+            $args->publicKey->pubKeyCredParams[] = $tmp;
+            unset ($tmp);
+        }
 
         $tmp = new \stdClass();
         $tmp->type = 'public-key';
@@ -188,14 +205,14 @@ class WebAuthn {
         $args->publicKey->challenge = $this->_createChallenge(); // binary
 
         //prevent re-registration by specifying existing credentials
-        $args->publicKey->excludeCredentials = array();
+        $args->publicKey->excludeCredentials = [];
 
         if (is_array($excludeCredentialIds)) {
             foreach ($excludeCredentialIds as $id) {
                 $tmp = new \stdClass();
                 $tmp->id = $id instanceof ByteBuffer ? $id : new ByteBuffer($id);  // binary
                 $tmp->type = 'public-key';
-                $tmp->transports = array('usb', 'ble', 'nfc', 'internal');
+                $tmp->transports = array('usb', 'nfc', 'ble', 'hybrid', 'internal');
                 $args->publicKey->excludeCredentials[] = $tmp;
                 unset ($tmp);
             }
@@ -212,6 +229,7 @@ class WebAuthn {
      * @param bool $allowUsb allow removable USB
      * @param bool $allowNfc allow Near Field Communication (NFC)
      * @param bool $allowBle allow Bluetooth
+     * @param bool $allowHybrid allow a combination of (often separate) data-transport and proximity mechanisms.
      * @param bool $allowInternal allow client device-specific transport. These authenticators are not removable from the client device.
      * @param bool|string $requireUserVerification indicates that you require user verification and will fail the operation
      *                                             if the response does not have the UV flag set.
@@ -221,7 +239,7 @@ class WebAuthn {
      *                                             string 'required' 'preferred' 'discouraged'
      * @return \stdClass
      */
-    public function getGetArgs($credentialIds=array(), $timeout=20, $allowUsb=true, $allowNfc=true, $allowBle=true, $allowInternal=true, $requireUserVerification=false) {
+    public function getGetArgs($credentialIds=[], $timeout=20, $allowUsb=true, $allowNfc=true, $allowBle=true, $allowHybrid=true, $allowInternal=true, $requireUserVerification=false) {
 
         // validate User Verification Requirement
         if (\is_bool($requireUserVerification)) {
@@ -240,12 +258,12 @@ class WebAuthn {
         $args->publicKey->rpId = $this->_rpId;
 
         if (\is_array($credentialIds) && \count($credentialIds) > 0) {
-            $args->publicKey->allowCredentials = array();
+            $args->publicKey->allowCredentials = [];
 
             foreach ($credentialIds as $id) {
                 $tmp = new \stdClass();
                 $tmp->id = $id instanceof ByteBuffer ? $id : new ByteBuffer($id);  // binary
-                $tmp->transports = array();
+                $tmp->transports = [];
 
                 if ($allowUsb) {
                     $tmp->transports[] = 'usb';
@@ -255,6 +273,9 @@ class WebAuthn {
                 }
                 if ($allowBle) {
                     $tmp->transports[] = 'ble';
+                }
+                if ($allowHybrid) {
+                    $tmp->transports[] = 'hybrid';
                 }
                 if ($allowInternal) {
                     $tmp->transports[] = 'internal';
@@ -286,10 +307,11 @@ class WebAuthn {
      * @param bool $requireUserVerification true, if the device must verify user (e.g. by biometric data or pin)
      * @param bool $requireUserPresent false, if the device must NOT check user presence (e.g. by pressing a button)
      * @param bool $failIfRootMismatch false, if there should be no error thrown if root certificate doesn't match
+     * @param bool $requireCtsProfileMatch false, if you don't want to check if the device is approved as a Google-certified Android device.
      * @return \stdClass
      * @throws WebAuthnException
      */
-    public function processCreate($clientDataJSON, $attestationObject, $challenge, $requireUserVerification=false, $requireUserPresent=true, $failIfRootMismatch=true) {
+    public function processCreate($clientDataJSON, $attestationObject, $challenge, $requireUserVerification=false, $requireUserPresent=true, $failIfRootMismatch=true, $requireCtsProfileMatch=true) {
         $clientDataHash = \hash('sha256', $clientDataJSON, true);
         $clientData = \json_decode($clientDataJSON);
         $challenge = $challenge instanceof ByteBuffer ? $challenge : new ByteBuffer($challenge);
@@ -328,6 +350,13 @@ class WebAuthn {
         // 14. Verify that attStmt is a correct attestation statement, conveying a valid attestation signature
         if (!$attestationObject->validateAttestation($clientDataHash)) {
             throw new WebAuthnException('invalid certificate signature', WebAuthnException::INVALID_SIGNATURE);
+        }
+
+        // Android-SafetyNet: if required, check for Compatibility Testing Suite (CTS).
+        if ($requireCtsProfileMatch && $attestationObject->getAttestationFormat() instanceof Attestation\Format\AndroidSafetyNet) {
+            if (!$attestationObject->getAttestationFormat()->ctsProfileMatch()) {
+                 throw new WebAuthnException('invalid ctsProfileMatch: device is not approved as a Google-certified Android device.', WebAuthnException::ANDROID_NOT_TRUSTED);
+            }
         }
 
         // 15. If validation is successful, obtain a list of acceptable trust anchors
@@ -450,12 +479,7 @@ class WebAuthn {
         $dataToVerify .= $authenticatorData;
         $dataToVerify .= $clientDataHash;
 
-        $publicKey = \openssl_pkey_get_public($credentialPublicKey);
-        if ($publicKey === false) {
-            throw new WebAuthnException('public key invalid', WebAuthnException::INVALID_PUBLIC_KEY);
-        }
-
-        if (\openssl_verify($dataToVerify, $signature, $publicKey, OPENSSL_ALGO_SHA256) !== 1) {
+        if (!$this->_verifySignature($dataToVerify, $signature, $credentialPublicKey)) {
             throw new WebAuthnException('invalid signature', WebAuthnException::INVALID_SIGNATURE);
         }
 
@@ -483,7 +507,7 @@ class WebAuthn {
      * Downloads root certificates from FIDO Alliance Metadata Service (MDS) to a specific folder
      * https://fidoalliance.org/metadata/
      * @param string $certFolder Folder path to save the certificates in PEM format.
-     * @param bool $deleteCerts=true
+     * @param bool $deleteCerts delete certificates in the target folder before adding the new ones.
      * @return int number of cetificates
      * @throws WebAuthnException
      */
@@ -604,5 +628,50 @@ class WebAuthn {
             $this->_challenge = ByteBuffer::randomBuffer($length);
         }
         return $this->_challenge;
+    }
+
+    /**
+     * check if the signature is valid.
+     * @param string $dataToVerify
+     * @param string $signature
+     * @param string $credentialPublicKey PEM format
+     * @return bool
+     */
+    private function _verifySignature($dataToVerify, $signature, $credentialPublicKey) {
+
+        // Use Sodium to verify EdDSA 25519 as its not yet supported by openssl
+        if (\function_exists('sodium_crypto_sign_verify_detached') && !\in_array('ed25519', \openssl_get_curve_names(), true)) {
+            $pkParts = [];
+            if (\preg_match('/BEGIN PUBLIC KEY\-+(?:\s|\n|\r)+([^\-]+)(?:\s|\n|\r)*\-+END PUBLIC KEY/i', $credentialPublicKey, $pkParts)) {
+                $rawPk = \base64_decode($pkParts[1]);
+
+                // 30        = der sequence
+                // 2a        = length 42 byte
+                // 30        = der sequence
+                // 05        = lenght 5 byte
+                // 06        = der OID
+                // 03        = OID length 3 byte
+                // 2b 65 70  = OID 1.3.101.112 curveEd25519 (EdDSA 25519 signature algorithm)
+                // 03        = der bit string
+                // 21        = length 33 byte
+                // 00        = null padding
+                // [...]     = 32 byte x-curve
+                $okpPrefix = "\x30\x2a\x30\x05\x06\x03\x2b\x65\x70\x03\x21\x00";
+
+                if ($rawPk && \strlen($rawPk) === 44 && \substr($rawPk,0, \strlen($okpPrefix)) === $okpPrefix) {
+                    $publicKeyXCurve = \substr($rawPk, \strlen($okpPrefix));
+
+                    return \sodium_crypto_sign_verify_detached($signature, $dataToVerify, $publicKeyXCurve);
+                }
+            }
+        }
+
+        // verify with openSSL
+        $publicKey = \openssl_pkey_get_public($credentialPublicKey);
+        if ($publicKey === false) {
+            throw new WebAuthnException('public key invalid', WebAuthnException::INVALID_PUBLIC_KEY);
+        }
+
+        return \openssl_verify($dataToVerify, $signature, $publicKey, OPENSSL_ALGO_SHA256) === 1;
     }
 }

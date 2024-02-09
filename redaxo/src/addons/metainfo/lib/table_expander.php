@@ -270,7 +270,7 @@ class rex_metainfo_table_expander extends rex_form
 
             $sql = rex_sql::factory();
             $sql->setDebug($this->debug);
-            $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `' . rex::getTablePrefix() . 'metainfo_type` WHERE id=' . $fieldType);
+            $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `' . rex::getTablePrefix() . 'metainfo_type` WHERE id = ?', [$fieldType]);
             $fieldDbType = (string) $result[0]['dbtype'];
             $fieldDbLength = (int) $result[0]['dblength'];
 

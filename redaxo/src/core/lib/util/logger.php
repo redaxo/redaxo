@@ -77,9 +77,10 @@ class rex_logger extends AbstractLogger
      * Logs with an arbitrary level.
      *
      * @param mixed $level either one of LogLevel::* or also any other string
-     * @param string $message
-     * @param string $file
-     * @param int $line
+     * @param string|\Stringable $message
+     * @param array<mixed> $context
+     * @param string|null $file
+     * @param int|null $line
      *
      * @throws InvalidArgumentException
      */
@@ -90,8 +91,10 @@ class rex_logger extends AbstractLogger
             return;
         }
 
-        if (!is_string($message)) {
-            throw new InvalidArgumentException('Expecting $message to be string, but ' . gettype($message) . ' given!');
+        if ($message instanceof Stringable) {
+            $message = (string) $message;
+        } elseif (!is_string($message)) {
+            throw new InvalidArgumentException('Expecting $message to be string or \Stringable, but ' . gettype($message) . ' given!');
         }
 
         self::open();

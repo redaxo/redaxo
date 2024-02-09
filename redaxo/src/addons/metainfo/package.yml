@@ -6,6 +6,7 @@ supportpage: https://github.com/redaxo/redaxo
 page:
     title: Meta Infos
     perm: admin[]
+    live_mode: false
     pjax: true
     icon: rex-icon rex-icon-metainfo
     subpages:
