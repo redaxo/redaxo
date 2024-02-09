@@ -13,7 +13,6 @@
     <projectFiles>
         <!-- restrict to core and core addons, ignore other locally installed addons -->
         <directory name="redaxo/src/core"/>
-        <directory name="redaxo/src/addons/be_style"/>
         <directory name="redaxo/src/addons/debug"/>
         <directory name="redaxo/src/addons/install"/>
         <directory name="redaxo/src/addons/media_manager"/>
@@ -22,7 +21,6 @@
         <directory name="redaxo/src/addons/project"/>
         <directory name="redaxo/src/addons/structure"/>
         <ignoreFiles>
-            <directory name="redaxo/src/addons/be_style/vendor/" />
             <directory name="redaxo/src/addons/debug/vendor/" />
             <directory name="redaxo/src/core/vendor/" />
             <file name="redaxo/src/core/.phpstorm.meta.php" />
