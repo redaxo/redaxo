@@ -3,8 +3,6 @@
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
 header("Content-Security-Policy: frame-ancestors 'self'");
-// Opt out of google FLoC
-header('Permissions-Policy: interest-cohort=()');
 
 // assets which are passed with a cachebuster will be cached very long,
 // as we assume their url will change when the underlying content changes
@@ -157,18 +155,18 @@ if (rex::isSetup()) {
         rex::setProperty('user', $user);
 
         // Safe Mode
-        if ($user->isAdmin() && null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
+        if (!rex::isLiveMode() && $user->isAdmin() && null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
             if ($safeMode) {
                 rex_set_session('safemode', true);
             } else {
                 rex_unset_session('safemode');
-                if (rex::getProperty('safemode')) {
+                if (rex::getProperty('safe_mode')) {
                     $configFile = rex_path::coreData('config.yml');
                     $config = array_merge(
                         rex_file::getConfig(rex_path::core('default.config.yml')),
                         rex_file::getConfig($configFile),
                     );
-                    $config['safemode'] = false;
+                    $config['safe_mode'] = false;
                     rex_file::putConfig($configFile, $config);
                 }
             }

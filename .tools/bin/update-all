@@ -10,7 +10,6 @@ rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
 rm -rf redaxo/src/core/vendor/filp/whoops/.github/
 rm -rf redaxo/src/core/vendor/lbuchs/webauthn/_test/
 rm -f redaxo/src/core/vendor/phpmailer/phpmailer/get_oauth_token.php
-rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
 rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
 rm -rf redaxo/src/core/vendor/scssphp/scssphp/bin/
 rm -rf redaxo/src/core/vendor/scssphp/scssphp/example/

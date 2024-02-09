@@ -26,6 +26,10 @@ abstract class rex_cronjob
             return $class;
         }
 
+        if (!in_array($class, rex_cronjob_manager::getTypes())) {
+            return $class;
+        }
+
         return rex_type::instanceOf(new $class(), self::class);
     }
 

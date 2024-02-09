@@ -891,11 +891,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/content/extension_point/art_content_updated.php
 
 		-
-			message: "#^Class rex_extension_point_slice_menu extends generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/content/extension_point/slice_menu.php
-
-		-
 			message: "#^Method rex_extension_point_slice_menu\\:\\:addAdditionalActions\\(\\) has parameter \\$additionalActions with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/content/extension_point/slice_menu.php
@@ -1459,11 +1454,6 @@ parameters:
 			message: "#^Method rex_config_db\\:\\:__construct\\(\\) has parameter \\$dbConfig with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/config_db.php
-
-		-
-			message: "#^Class rex_extension_point_console_shutdown extends generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/console/extension_point_console_shutdown.php
 
 		-
 			message: "#^Method rex_context\\:\\:array2inputStr\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"

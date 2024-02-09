@@ -1474,11 +1474,6 @@
       <code>$value</code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/addons/structure/lib/content/extension_point/slice_menu.php">
-    <MissingTemplateParam>
-      <code>rex_extension_point_slice_menu</code>
-    </MissingTemplateParam>
-  </file>
   <file src="redaxo/src/addons/structure/lib/content/select_template.php">
     <InvalidArrayOffset>
       <code>$templates[$selected]</code>
@@ -2954,7 +2949,6 @@
       <code>$page</code>
       <code><![CDATA[$pageArray['title']]]></code>
       <code><![CDATA[$pageArray['title']]]></code>
-      <code>$subProperties</code>
       <code><![CDATA[$subProperties['title']]]></code>
       <code>$value</code>
       <code>$value</code>
@@ -2968,9 +2962,6 @@
       <code>$key</code>
       <code>$pageKey</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$subProperties['title']]]></code>
-    </MixedArrayAccess>
     <MixedAssignment>
       <code>$k</code>
       <code>$page</code>
@@ -2981,6 +2972,9 @@
       <code>$v</code>
       <code>$value</code>
     </MixedAssignment>
+    <PossiblyInvalidArgument>
+      <code>$subProperties</code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="redaxo/src/core/lib/be/navigation.php">
     <MixedArgumentTypeCoercion>
@@ -3084,6 +3078,7 @@
       <code><![CDATA[$this->sslCa]]></code>
       <code><![CDATA[$this->sslCert]]></code>
       <code><![CDATA[$this->sslKey]]></code>
+      <code><![CDATA[$this->sslVerifyServerCert]]></code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/console/application.php">
@@ -3154,11 +3149,6 @@
     <MixedOperand>
       <code><![CDATA[$config['db'][1] ?? []]]></code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/extension_point_console_shutdown.php">
-    <MissingTemplateParam>
-      <code>rex_extension_point_console_shutdown</code>
-    </MissingTemplateParam>
   </file>
   <file src="redaxo/src/core/lib/console/package/install.php">
     <UndefinedInterfaceMethod>
@@ -3757,7 +3747,6 @@
       <code><![CDATA[$this->getValue($columnName)]]></code>
     </PossiblyNullArgument>
     <PossiblyNullOperand>
-      <code>$sortType</code>
       <code>$sortType</code>
     </PossiblyNullOperand>
     <PropertyTypeCoercion>

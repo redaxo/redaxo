@@ -6,6 +6,7 @@ supportpage: https://github.com/redaxo/redaxo
 page:
     title: 'translate:title'
     perm: admin[]
+    live_mode: false
     block: system
     prio: 70
     pjax: true

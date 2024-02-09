@@ -125,8 +125,9 @@ class rex_list implements rex_url_provider_interface
      * @param string|null $listName Name der Liste
      * @param bool $debug
      * @param positive-int $db
+     * @param array<string, 'asc'|'desc'> $defaultSort
      */
-    protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
+    protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1, array $defaultSort = [])
     {
         // --------- Validation
         if (!$listName) {
@@ -187,7 +188,7 @@ class rex_list implements rex_url_provider_interface
         }
 
         // --------- Load Data
-        $this->sql->setQuery($this->prepareQuery($query));
+        $this->sql->setQuery($this->prepareQuery($query, $defaultSort));
         if (self::DISABLE_PAGINATION === $rowsPerPage) {
             $this->rows = (int) $this->sql->getRows();
         }
@@ -210,13 +211,14 @@ class rex_list implements rex_url_provider_interface
      * @param string|null $listName
      * @param bool $debug
      * @param positive-int $db DB connection ID
+     * @param array<string, 'asc'|'desc'> $defaultSort
      *
      * @return static
      */
-    public static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
+    public static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1, array $defaultSort = [])
     {
         $class = static::getFactoryClass();
-        return new $class($query, $rowsPerPage, $listName, $debug, $db);
+        return new $class($query, $rowsPerPage, $listName, $debug, $db, $defaultSort);
     }
 
     /**
@@ -892,10 +894,11 @@ class rex_list implements rex_url_provider_interface
      * Prepariert das SQL Statement vorm anzeigen der Liste.
      *
      * @param string $query SQL Statement
+     * @param array<string, 'asc'|'desc'> $defaultSort
      *
      * @return string
      */
-    protected function prepareQuery($query)
+    protected function prepareQuery($query, array $defaultSort = [])
     {
         $sortColumn = $this->getSortColumn();
         if ('' != $sortColumn) {
@@ -904,11 +907,22 @@ class rex_list implements rex_url_provider_interface
             $sql = rex_sql::factory($this->db);
             $sortColumn = $sql->escapeIdentifier($sortColumn);
 
-            if (false === stripos($query, ' ORDER BY ')) {
+            if ($defaultSort || false === stripos($query, ' ORDER BY ')) {
                 $query .= ' ORDER BY ' . $sortColumn . ' ' . $sortType;
-            } else {
-                $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY ' . $sortColumn . ' ' . $sortType, $query);
             }
+        } elseif ($defaultSort) {
+            $sort = [];
+
+            $sql = rex_sql::factory($this->db);
+            foreach ($defaultSort as $column => $type) {
+                $type = strtolower($type);
+                if (!in_array($type, ['asc', 'desc'], true)) {
+                    throw new InvalidArgumentException('Default sort type must be "asc" or "desc", but "' . $type . '" given');
+                }
+                $sort[] = $sql->escapeIdentifier($column) . ' ' . $type;
+            }
+
+            $query .= ' ORDER BY ' . implode(', ', $sort);
         }
 
         if ($this->pager && false === stripos($query, ' LIMIT ')) {
