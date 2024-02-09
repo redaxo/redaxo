@@ -66,13 +66,11 @@ start_page: structure
 timezone: Europe/Berlin
 socket_proxy: null
 setup_addons:
-    - be_style
     - install
 system_addons:
     - mediapool
     - structure
     - metainfo
-    - be_style
     - media_manager
     - install
     - project
