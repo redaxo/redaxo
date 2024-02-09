@@ -38,6 +38,6 @@ final class rex_config_db
         $this->sslKey = $dbConfig['ssl_key'] ?? null;
         $this->sslCert = $dbConfig['ssl_cert'] ?? null;
         $this->sslCa = $dbConfig['ssl_ca'] ?? null;
-        $this->sslVerifyServerCert = $dbConfig['ssl_verfiy_server_cert'] ?? true;
+        $this->sslVerifyServerCert = $dbConfig['ssl_verify_server_cert'] ?? true;
     }
 }
