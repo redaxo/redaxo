@@ -90,6 +90,7 @@ db:
         ssl_key: null
         ssl_cert: null
         ssl_ca: null
+        ssl_verify_server_cert: true
     2:
         host: ''
         login: ''
@@ -99,6 +100,7 @@ db:
         ssl_key: null
         ssl_cert: null
         ssl_ca: null
+        ssl_verify_server_cert: true
 use_accesskeys: true
 accesskeys:
     save: s
