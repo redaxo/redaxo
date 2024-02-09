@@ -58,7 +58,7 @@
                 }
             ]
         },
-        "safemode": {
+        "safe_mode": {
             "description": "Safe mode",
             "type": "boolean"
         },
