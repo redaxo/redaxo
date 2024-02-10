@@ -185,9 +185,9 @@ if ('' == $func) {
     $cronjobs = [];
 
     $types = [];
-    foreach(rex_cronjob_manager::getTypes() as $class) {
+    foreach (rex_cronjob_manager::getTypes() as $class) {
         $cronjob = rex_cronjob::factory($class);
-        $types[$cronjob->getTypeName().$class] = $class;
+        $types[$cronjob->getTypeName() . $class] = $class;
     }
     ksort($types);
 
