@@ -182,8 +182,15 @@ if ('' == $func) {
     $select = $field->getSelect();
     $select->setSize(1);
     $typeFieldId = rex_escape($field->getAttribute('id'), 'js');
-    $types = rex_cronjob_manager::getTypes();
     $cronjobs = [];
+
+    $types = [];
+    foreach(rex_cronjob_manager::getTypes() as $class) {
+        $cronjob = rex_cronjob::factory($class);
+        $types[$cronjob->getTypeName().$class] = $class;
+    }
+    ksort($types);
+
     foreach ($types as $class) {
         $cronjob = rex_cronjob::factory($class);
         if ($cronjob instanceof rex_cronjob) {
