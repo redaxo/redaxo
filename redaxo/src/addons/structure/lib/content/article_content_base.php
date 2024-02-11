@@ -137,15 +137,6 @@ class rex_article_content_base
     }
 
     /**
-     * @deprecated since redaxo 5.6, use getClangId() instead
-     * @return int
-     */
-    public function getClang()
-    {
-        return $this->clang;
-    }
-
-    /**
      * @param int $articleId
      * @return bool
      */
