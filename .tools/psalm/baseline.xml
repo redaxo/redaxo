@@ -566,23 +566,16 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
-    <InvalidArgument>
-      <code>$data</code>
-    </InvalidArgument>
     <MixedArgument>
-      <code><![CDATA[$FILEINFOS['filename']]]></code>
-      <code><![CDATA[$FILE['name']]]></code>
       <code>$buttonTitle</code>
       <code>$info</code>
       <code>$warning</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
-      <code>$data</code>
       <code>$info</code>
       <code>$warning</code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
-      <code><![CDATA[$RETURN['title']]]></code>
       <code>$argValue</code>
     </MixedAssignment>
     <MixedOperand>
