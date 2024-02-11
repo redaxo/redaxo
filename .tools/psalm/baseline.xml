@@ -1311,9 +1311,6 @@
     </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/addons/structure/lib/content/api_template.php">
-    <MixedArgument>
-      <code>$templateId</code>
-    </MixedArgument>
     <MixedArrayOffset>
       <code>$templateModules[$ctype]</code>
     </MixedArrayOffset>
