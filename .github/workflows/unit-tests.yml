@@ -21,6 +21,7 @@ jobs:
                 include:
                     -   os: ubuntu-latest
                         php-version: '8.1'
+                        composer-flags: '--prefer-lowest'
                         db-image: 'mysql:5.6'
                     -   os: ubuntu-latest
                         php-version: '8.2'
@@ -30,6 +31,7 @@ jobs:
                         db-image: 'mysql:8.0'
                     -   os: ubuntu-latest
                         php-version: '8.4'
+                        composer-flags: '--ignore-platform-req=php'
                         db-image: 'mysql:latest'
                     -   os: ubuntu-latest
                         php-version: '8.1'
@@ -62,7 +64,7 @@ jobs:
             -   name: Composer install
                 uses: ramsey/composer-install@v2
                 with:
-                    composer-options: ${{ matrix.php-version == '8.4' && '--ansi --prefer-dist --ignore-platform-req=php' || '--ansi --prefer-dist' }}
+                    composer-options: --ansi --prefer-dist ${{ matrix.composer-flags }}
 
             -   name: Setup Problem Matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
