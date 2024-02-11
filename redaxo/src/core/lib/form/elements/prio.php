@@ -68,15 +68,6 @@ class rex_form_prio_element extends rex_form_select_element
         $this->whereCondition = $whereCondition;
     }
 
-    /**
-     * @deprecated this method has no effect
-     * @return void
-     */
-    public function setPrimaryKey()
-    {
-        // nothing todo.. left here for BC reasons
-    }
-
     public function formatElement()
     {
         $name = $this->getFieldName();

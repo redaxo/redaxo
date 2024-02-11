@@ -4155,7 +4155,6 @@
   <file src="redaxo/src/core/lib/rex.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[rex_type::array(self::getConfig('package-order', []))]]></code>
-      <code>rex_version::gitHash($path, $repo) ?? false</code>
     </LessSpecificReturnStatement>
     <MixedArgument>
       <code>$value</code>
@@ -4186,7 +4185,6 @@
     </MixedReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[list<non-empty-string>]]></code>
-      <code>non-empty-string|false</code>
     </MoreSpecificReturnType>
     <PossiblyUndefinedArrayOffset>
       <code>$server</code>

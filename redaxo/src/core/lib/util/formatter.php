@@ -61,52 +61,6 @@ abstract class rex_formatter
     }
 
     /**
-     * Formats a string by `strftime()`.
-     *
-     * @see https://www.php.net/manual/en/function.strftime.php
-     *
-     * @param string|int|null $value Unix timestamp or datetime string for `strtotime`
-     * @param string $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
-     *
-     * @return string
-     *
-     * @deprecated since 5.13.0
-     */
-    public static function strftime($value, $format = '')
-    {
-        if (empty($value)) {
-            return '';
-        }
-
-        $timestamp = self::getTimestamp($value);
-
-        if (null === $timestamp) {
-            return '';
-        }
-
-        if ('' === $format || 'date' === $format) {
-            return self::intlDate($timestamp);
-        }
-        if ('datetime' === $format) {
-            return self::intlDateTime($timestamp);
-        }
-        if ('time' === $format) {
-            return self::intlTime($timestamp);
-        }
-
-        if (function_exists('strftime')) {
-            return strftime($format, $timestamp);
-        }
-
-        // strftime does not exist anymore, return unformatted datetime string
-        if (is_int($value) || ctype_digit($value)) {
-            return date('Y-m-d H:i:s', (int) $value);
-        }
-
-        return $value;
-    }
-
-    /**
      * Formats a datetime by `IntlDateFormmater`.
      *
      * @see https://www.php.net/manual/en/class.intldateformatter.php

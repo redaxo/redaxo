@@ -1,10 +1,5 @@
 <?php
 
-/*
- * @deprecated use rex_form::ERROR_VIOLATE_UNIQUE_KEY instead
- */
-define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
-
 /**
  * rex_form repraesentiert ein Formular in REDAXO.
  * Diese Klasse kann in Frontend u. Backend eingesetzt werden.
