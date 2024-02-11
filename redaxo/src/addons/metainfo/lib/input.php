@@ -142,37 +142,4 @@ abstract class rex_input
      * @return string
      */
     abstract public function getHtml();
-
-    /**
-     * Factory-Methode um rex_input_*-Elemente anhand des Types $inputType zu erstellen.
-     *
-     * @param string $inputType
-     *
-     * @return self|null
-     *
-     * @deprecated instantiate the concrete classes directly instead
-     */
-    public static function factory($inputType)
-    {
-        switch ($inputType) {
-            case 'text':
-            case 'textarea':
-            case 'select':
-            case 'categoryselect':
-            case 'mediacategoryselect':
-            case 'radio':
-            case 'checkbox':
-            case 'date':
-            case 'time':
-            case 'datetime':
-            case 'mediabutton':
-            case 'medialistbutton':
-            case 'linkbutton':
-            case 'linklistbutton':
-                /** @var class-string<rex_input> $class */
-                $class = 'rex_input_' . $inputType;
-                return new $class();
-        }
-        return null;
-    }
 }
