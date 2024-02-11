@@ -51,9 +51,9 @@ class rex_password_policy_test extends TestCase
         yield [$options, false, 'abcdef123!%ABuegrouwouewhifggreigeioger'];
     }
 
-    public function testGetRule(): void
+    public function testGetDescription(): void
     {
-        $getRule = new ReflectionMethod(rex_password_policy::class, 'getRule');
+        $getRule = new ReflectionMethod(rex_password_policy::class, 'getDescription');
 
         $policy = new rex_password_policy(['length' => ['min' => 5, 'max' => 25]]);
         $rule = $getRule->invoke($policy);
@@ -70,7 +70,7 @@ class rex_password_policy_test extends TestCase
         $policy = new rex_password_policy(['length' => ['min' => 0]]);
         $rule = $getRule->invoke($policy);
 
-        self::assertSame('', $rule);
+        self::assertNull($rule);
     }
 
     /**
