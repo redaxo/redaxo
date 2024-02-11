@@ -182,17 +182,6 @@ class rex_mailer extends PHPMailer
     }
 
     /**
-     * @param bool $status
-     *
-     * @deprecated use `setArchive` instead
-     * @return void
-     */
-    public function setLog($status)
-    {
-        $this->setArchive($status);
-    }
-
-    /**
      * Enable/disable the mail archive.
      *
      * It overwrites the global `archive` configuration for the current mailer object.

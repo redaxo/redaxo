@@ -85,20 +85,4 @@ trait rex_factory_trait
         $calledClass = static::class;
         return isset(self::$factoryClasses[$calledClass]) && self::$factoryClasses[$calledClass] != $calledClass;
     }
-
-    /**
-     * Calls the factory class with the given method and arguments.
-     *
-     * @param string $method Method name
-     * @param array $arguments Array of arguments
-     *
-     * @return mixed Result of the callback
-     *
-     * @deprecated since 5.13, call the method on the factory class by yourself instead.
-     */
-    protected static function callFactoryClass($method, array $arguments)
-    {
-        $class = static::getFactoryClass();
-        return call_user_func_array([$class, $method], $arguments);
-    }
 }

@@ -103,21 +103,6 @@ class rex_string
     }
 
     /**
-     * @deprecated since 5.10, use `rex_version::compare` instead
-     *
-     * @param string $version1
-     * @param string $version2
-     * @param '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>='|null $comparator
-     *
-     * @return int|bool
-     */
-    #[JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::compare` instead', replacement: 'rex_version::compare(%parametersList%)')]
-    public static function versionCompare($version1, $version2, $comparator = '<')
-    {
-        return rex_version::compare($version1, $version2, $comparator);
-    }
-
-    /**
      * Returns a string containing the YAML representation of $value.
      *
      * @param array $value The value being encoded

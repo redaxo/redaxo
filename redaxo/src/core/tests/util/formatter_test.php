@@ -22,44 +22,6 @@ class rex_formatter_test extends TestCase
         );
     }
 
-    public function testStrftime(): void
-    {
-        $oldLocale = rex_i18n::getLocale();
-        rex_i18n::setLocale('en_gb');
-
-        $strftime = static function (string|int $value, string $format): string {
-            /** @psalm-suppress DeprecatedMethod */
-            return @rex_formatter::strftime($value, $format); /** @phpstan-ignore-line */
-        };
-
-        $value = 1336811080;
-
-        $format = '%d.%m.%Y %H:%M';
-        self::assertEquals(
-            '12.05.2012 10:24',
-            $strftime($value, $format),
-        );
-
-        self::assertEquals(
-            '27.06.2016 21:40',
-            $strftime('2016-06-27 21:40:00', $format),
-        );
-
-        $format = 'date';
-        self::assertEquals(
-            '12 May 2012',
-            $strftime($value, $format),
-        );
-
-        $format = 'datetime';
-        self::assertEquals(
-            '12 May 2012, 10:24',
-            $strftime($value, $format),
-        );
-
-        rex_i18n::setLocale($oldLocale);
-    }
-
     /** @param int|array{int, int}|string|null $format */
     #[DataProvider('dataIntlDateTime')]
     public function testIntlDateTime(string $expected, string|int|DateTimeInterface|null $value, int|array|string|null $format = null): void
