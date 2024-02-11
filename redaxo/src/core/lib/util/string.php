@@ -103,18 +103,6 @@ class rex_string
     }
 
     /**
-     * @deprecated since 5.10, use `rex_version::split` instead
-     *
-     * @param string $version
-     * @return list<string>
-     */
-    #[JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::split` instead', replacement: 'rex_version::split(%parameter0%)')]
-    public static function versionSplit($version)
-    {
-        return rex_version::split($version);
-    }
-
-    /**
      * @deprecated since 5.10, use `rex_version::compare` instead
      *
      * @param string $version1
