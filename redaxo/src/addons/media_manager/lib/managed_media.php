@@ -439,24 +439,6 @@ class rex_managed_media
     }
 
     /**
-     * @deprecated since 2.3.0, use `getWidth()` instead
-     * @return int|null
-     */
-    public function getImageWidth()
-    {
-        return $this->getWidth();
-    }
-
-    /**
-     * @deprecated since 2.3.0, use `getHeight()` instead
-     * @return int|null
-     */
-    public function getImageHeight()
-    {
-        return $this->getHeight();
-    }
-
-    /**
      * @return void
      */
     private function fixOrientation()
