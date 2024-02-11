@@ -862,14 +862,6 @@
       <code>$allowedMimeTypes</code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/addons/mediapool/update.php">
-    <MixedAssignment>
-      <code><![CDATA[$perms['general']]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$perms['general']]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/addons/metainfo/boot.php">
     <MixedArgument>
       <code><![CDATA[$ep->getParam('file')]]></code>
@@ -2113,16 +2105,6 @@
     <MixedAssignment>
       <code>$value</code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/structure/update.php">
-    <MixedAssignment>
-      <code><![CDATA[$perms['options']]]></code>
-      <code><![CDATA[$perms['options']]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$perms['options']]]></code>
-      <code><![CDATA[$perms['options']]]></code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/backend.php">
     <MixedArgument>
@@ -5242,16 +5224,5 @@
       <code><![CDATA[$params['suffix']]]></code>
       <code><![CDATA[$params['var']]]></code>
     </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/update.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$_SESSION[rex::getProperty('instname')]['backend_login']]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$config['setup_addons'][]]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$_SESSION[$sessionKey]['backend_login']]]></code>
-    </MixedAssignment>
   </file>
 </files>
