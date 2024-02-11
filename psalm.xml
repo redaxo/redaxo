@@ -22,9 +22,6 @@
         <directory name="redaxo/src/addons/project"/>
         <directory name="redaxo/src/addons/structure"/>
         <ignoreFiles>
-            <directory name="redaxo/src/addons/be_style/vendor/" />
-            <directory name="redaxo/src/addons/debug/vendor/" />
-            <directory name="redaxo/src/core/vendor/" />
             <file name="redaxo/src/core/.phpstorm.meta.php" />
         </ignoreFiles>
     </projectFiles>

@@ -39,6 +39,11 @@ jobs:
                     coverage: none # disable xdebug, pcov
                     tools: cs2pr
 
+            -   name: Composer install
+                uses: ramsey/composer-install@v2
+                with:
+                    composer-options: --ansi --prefer-dist
+
             -   name: Setup REDAXO
                 run: |
                     sudo /etc/init.d/mysql start
