@@ -226,7 +226,6 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
                                 // ----- EXTENSION POINT
                                 $info = rex_extension::registerPoint(new rex_extension_point('SLICE_UPDATED', $info, $epParams));
-                                /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_UPDATED', $info, $epParams));
                                 $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_updated', $info));
                             } catch (rex_sql_exception $e) {
                                 $warning = $actionMessage . $e->getMessage();
@@ -269,7 +268,6 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
                                 // ----- EXTENSION POINT
                                 $info = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $info, $epParams));
-                                /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_ADDED', $info, $epParams));
                                 $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_added', $info));
                             } catch (rex_sql_exception $e) {
                                 $warning = $actionMessage . $e->getMessage();
@@ -295,7 +293,6 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
                             // ----- EXTENSION POINT
                             $globalInfo = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $globalInfo, $epParams));
-                            /* deprecated */ $globalInfo = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_DELETED', $globalInfo, $epParams));
                             $globalInfo = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_deleted', $globalInfo));
                         } else {
                             $globalWarning = rex_i18n::msg('block_not_deleted');

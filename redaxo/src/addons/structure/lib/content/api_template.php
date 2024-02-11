@@ -78,30 +78,6 @@ class rex_template
     }
 
     /**
-     * @deprecated since structure 2.11, use `rex_template_cache::getPath` instead
-     *
-     * @return false|string
-     */
-    public static function getFilePath($templateId)
-    {
-        if ($templateId < 1) {
-            return false;
-        }
-
-        return rex_template_cache::getPath($templateId);
-    }
-
-    /**
-     * @deprecated since structure 2.11, use `rex_template_cache` instead
-     *
-     * @return string
-     */
-    public static function getTemplatesDir()
-    {
-        return rex_path::addonCache('structure', 'templates');
-    }
-
-    /**
      * @return false|string|null
      */
     public function getTemplate()
@@ -112,32 +88,6 @@ class rex_template
         }
 
         return rex_file::get($file);
-    }
-
-    /**
-     * @deprecated since structure 2.11, use `rex_template_cache::generate` instead
-     *
-     * @return bool
-     */
-    public function generate()
-    {
-        rex_template_cache::generate($this->id);
-        return true;
-    }
-
-    /**
-     * @deprecated since structure 2.11, use `rex_template_cache::delete` instead
-     *
-     * @return bool
-     */
-    public function deleteCache()
-    {
-        if ($this->id < 1) {
-            return false;
-        }
-
-        rex_template_cache::delete($this->id);
-        return true;
     }
 
     /**

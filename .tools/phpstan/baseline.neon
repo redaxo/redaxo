@@ -666,11 +666,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/content/api_template.php
 
 		-
-			message: "#^Method rex_template\\:\\:getFilePath\\(\\) has parameter \\$templateId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/content/api_template.php
-
-		-
 			message: "#^Method rex_template\\:\\:hasModule\\(\\) has parameter \\$ctype with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/content/api_template.php
