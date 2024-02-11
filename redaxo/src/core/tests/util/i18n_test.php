@@ -19,7 +19,7 @@ class rex_i18n_test extends TestCase
 
     protected function setUp(): void
     {
-        $this->previousLocale = rex_i18n::setLocale('de_de');
+        $this->previousLocale = rex_i18n::setLocale('de_de', false);
 
         $content = <<<'LANG'
             rex_i18n_test_foo = abc def

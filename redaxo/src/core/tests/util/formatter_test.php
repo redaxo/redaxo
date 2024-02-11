@@ -8,6 +8,18 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_formatter_test extends TestCase
 {
+    private string $previousLocale;
+
+    protected function setUp(): void
+    {
+        $this->previousLocale = rex_i18n::setLocale('de_de');
+    }
+
+    protected function tearDown(): void
+    {
+        rex_i18n::setLocale($this->previousLocale);
+    }
+
     public function testDate(): void
     {
         $format = 'd.m.Y H:i';
