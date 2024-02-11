@@ -636,17 +636,7 @@ parameters:
 			path: ../../redaxo/src/addons/metainfo/lib/handler/media_handler.php
 
 		-
-			message: "#^Method rex_input\\:\\:factory\\(\\) return type with generic class rex_input does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input.php
-
-		-
 			message: "#^Method rex_input\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$class contains generic class rex_input but does not specify its types\\: T$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input.php
 
