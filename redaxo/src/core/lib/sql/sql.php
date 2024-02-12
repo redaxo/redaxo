@@ -122,7 +122,11 @@ class rex_sql implements Iterator
                         PDO::MYSQL_ATTR_SSL_CA => $dbconfig->sslCa,
                     ];
                 }
-                $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $dbconfig->sslVerifyServerCert;
+
+                // available only with mysqlnd
+                if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+                    $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $dbconfig->sslVerifyServerCert;
+                }
 
                 $conn = self::createConnection(
                     $dbconfig->host,
