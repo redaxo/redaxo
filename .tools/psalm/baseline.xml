@@ -4262,8 +4262,6 @@
       <code>$func($path)</code>
       <code>$path</code>
       <code>$source</code>
-      <code>self::MIN_PHP_VERSION</code>
-      <code>self::MIN_PHP_VERSION</code>
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$config['db'][1]]]></code>
