@@ -346,7 +346,7 @@ async function main() {
             await createScreenshots(page, 'packages_project_reinstalled.png');
 
             // test customizer
-            await goToUrlOrThrow(page, START_URL + '?page=system/customizer', { waitUntil: 'load' });
+            await goToUrlOrThrow(page, START_URL + '?page=system/be_style/customizer', { waitUntil: 'load' });
             await page.waitForTimeout(200); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshots(page, 'system_customizer.png');
 
