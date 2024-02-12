@@ -187,9 +187,13 @@ if ('' == $func) {
     foreach ($types as $class) {
         $cronjob = rex_cronjob::factory($class);
         if ($cronjob instanceof rex_cronjob) {
-            $cronjobs[$class] = $cronjob;
-            $select->addOption($cronjob->getTypeName(), $class);
+            $cronjobs[$cronjob->getTypeName() . $class] = $cronjob;
         }
+    }
+    ksort($cronjobs);
+    foreach ($cronjobs as $cronjob) {
+        $class = $cronjob::class;
+        $select->addOption($cronjob->getTypeName(), $class, 0, 0, ['data-cronjob_id' => rex_string::normalize($class)]);
     }
     if ('add' == $func) {
         $select->setSelected(rex_cronjob_phpcode::class);
@@ -211,7 +215,7 @@ if ('' == $func) {
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setMultiple(false);
     if ($activeType) {
-        $fieldContainer->setActive($activeType);
+        $fieldContainer->setActive(rex_string::normalize($activeType));
     }
 
     $form->addFieldset($addon->i18n('interval'));
@@ -229,7 +233,9 @@ if ('' == $func) {
 
     $envJs = '';
     $visible = [];
-    foreach ($cronjobs as $group => $cronjob) {
+    foreach ($cronjobs as $cronjob) {
+        $group = rex_string::normalize($cronjob::class);
+
         $disabled = array_diff(['frontend', 'backend', 'script'], (array) $cronjob->getEnvironments());
         if (count($disabled) > 0) {
             $envJs .= '
@@ -347,7 +353,10 @@ if ('' == $func) {
         jQuery(function($){
             var currentShown = null;
             $("#<?= $typeFieldId ?>").change(function(){
-                var next = $("#rex-"+ $(this).val());
+
+                var cronjob_id = $(this).find('option:selected').data('cronjob_id');
+
+                var next = $("#rex-"+ cronjob_id);
 
                 if (next.is(currentShown)) {
                     return;
