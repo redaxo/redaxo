@@ -1,0 +1,29 @@
+name: Linting
+
+on:
+    push:
+        branches: [main, bugfix, temp]
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+    contents: read
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        if: github.event.pull_request.draft == false
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Run rexlint
+                uses: super-linter/super-linter/slim@v6
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                    VALIDATE_PHP: false
+                    VALIDATE_PHP_BUILTIN: false
+                    VALIDATE_PHP_PHPCS: false
+                    VALIDATE_PHP_PHPSTAN: false
+                    VALIDATE_PHP_PSALM: false

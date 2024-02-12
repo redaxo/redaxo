@@ -2,7 +2,6 @@
 
 composer require --dev --ansi --fixed \
     friendsofphp/php-cs-fixer \
-    friendsofredaxo/linter \
     phpstan/extension-installer \
     phpstan/phpstan \
     phpstan/phpstan-deprecation-rules \
