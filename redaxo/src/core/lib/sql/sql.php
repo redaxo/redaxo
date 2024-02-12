@@ -115,12 +115,14 @@ class rex_sql implements Iterator
                 $options = [];
                 $dbconfig = rex::getDbConfig($db);
 
-                if ($dbconfig->sslKey && $dbconfig->sslCert && $dbconfig->sslCa) {
+                if ($dbconfig->sslKey && $dbconfig->sslCert) {
                     $options = [
                         PDO::MYSQL_ATTR_SSL_KEY => $dbconfig->sslKey,
                         PDO::MYSQL_ATTR_SSL_CERT => $dbconfig->sslCert,
-                        PDO::MYSQL_ATTR_SSL_CA => $dbconfig->sslCa,
                     ];
+                }
+                if ($dbconfig->sslCa) {
+                    $options[PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
                 }
 
                 // available only with mysqlnd
