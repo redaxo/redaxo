@@ -11,7 +11,7 @@ permissions:
 
 jobs:
     phpunit:
-        runs-on: ${{ matrix.os }}
+        runs-on: ${{ matrix.os || 'ubuntu-latest' }}
         timeout-minutes: 30
         permissions:
             contents: write  # for Git to git apply
@@ -19,23 +19,18 @@ jobs:
         strategy:
             matrix:
                 include:
-                    -   os: ubuntu-latest
-                        php-version: '8.1'
+                    -   php-version: '8.1'
                         db-image: 'mysql:5.6'
-                    -   os: ubuntu-latest
-                        php-version: '8.2'
+                    -   php-version: '8.2'
                         db-image: 'mysql:5.7'
-                    -   os: ubuntu-latest
-                        php-version: '8.3'
+                    -   php-version: '8.3'
                         db-image: 'mysql:8.0'
-                    -   os: ubuntu-latest
-                        php-version: '8.4'
+                    -   php-version: '8.4'
                         db-image: 'mysql:latest'
-                    -   os: ubuntu-latest
-                        php-version: '8.1'
+                        composer-flags: '--ignore-platform-req=php'
+                    -   php-version: '8.1'
                         db-image: 'mariadb:10.1'
-                    -   os: ubuntu-latest
-                        php-version: '8.3'
+                    -   php-version: '8.3'
                         db-image: 'mariadb:latest'
 
         # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
@@ -62,7 +57,7 @@ jobs:
             -   name: Composer install
                 uses: ramsey/composer-install@v2
                 with:
-                    composer-options: ${{ matrix.php-version == '8.4' && '--ansi --prefer-dist --ignore-platform-req=php' || '--ansi --prefer-dist' }}
+                    composer-options: --ansi --prefer-dist ${{ matrix.composer-flags }}
 
             -   name: Setup Problem Matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
