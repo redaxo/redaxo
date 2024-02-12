@@ -51,9 +51,6 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->skip([
-        'redaxo/src/core/vendor',
-        'redaxo/src/addons/debug/vendor',
-
         FirstClassCallableRector::class => ['redaxo/src/core/boot.php'],
     ]);
 
