@@ -50,7 +50,7 @@ class rex_autoload
         ini_set('unserialize_callback_func', 'spl_autoload_call');
 
         if (!self::$composerLoader) {
-            self::$composerLoader = require rex_path::core('vendor/autoload.php');
+            self::$composerLoader = require rex_path::base('vendor/autoload.php');
             // Unregister Composer Autoloader because we call self::$composerLoader->loadClass() manually
             self::$composerLoader->unregister();
         }
