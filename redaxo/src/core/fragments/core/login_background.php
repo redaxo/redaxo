@@ -7,17 +7,17 @@
 <picture class="rex-background">
     <source
         srcset="
-            <?= rex_url::addonAssets('be_style', 'images/richard-horvath-cPccYbPrF-A-unsplash-2400.avif') ?> 2400w,
-            <?= rex_url::addonAssets('be_style', 'images/richard-horvath-cPccYbPrF-A-unsplash-3500.avif') ?> 3500w"
+            <?= rex_url::coreAssets('images/richard-horvath-cPccYbPrF-A-unsplash-2400.avif') ?> 2400w,
+            <?= rex_url::coreAssets('images/richard-horvath-cPccYbPrF-A-unsplash-3500.avif') ?> 3500w"
         sizes="100vw"
         type="image/avif"
     />
     <img
         alt=""
-        src="<?= rex_url::addonAssets('be_style', 'images/richard-horvath-cPccYbPrF-A-unsplash-2400.webp') ?>"
+        src="<?= rex_url::coreAssets('images/richard-horvath-cPccYbPrF-A-unsplash-2400.webp') ?>"
         srcset="
-            <?= rex_url::addonAssets('be_style', 'images/richard-horvath-cPccYbPrF-A-unsplash-2400.webp') ?> 2400w,
-            <?= rex_url::addonAssets('be_style', 'images/richard-horvath-cPccYbPrF-A-unsplash-3500.webp') ?> 3500w"
+            <?= rex_url::coreAssets('images/richard-horvath-cPccYbPrF-A-unsplash-2400.webp') ?> 2400w,
+            <?= rex_url::coreAssets('images/richard-horvath-cPccYbPrF-A-unsplash-3500.webp') ?> 3500w"
         sizes="100vw"
     />
 </picture>
