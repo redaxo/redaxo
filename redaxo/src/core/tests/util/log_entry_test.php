@@ -35,11 +35,6 @@ class rex_log_entry_test extends TestCase
         $entry = new rex_log_entry($time, []);
 
         self::assertSame($time, $entry->getTimestamp());
-        $format = '%d.%m.%Y %H:%M:%S';
-
-        $expected = @strftime($format, $time); /** @phpstan-ignore-line */
-
-        self::assertSame($expected, @$entry->getTimestamp($format));
     }
 
     #[Depends('testConstruct')]

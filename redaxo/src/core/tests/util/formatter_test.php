@@ -8,6 +8,18 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_formatter_test extends TestCase
 {
+    private string $previousLocale;
+
+    protected function setUp(): void
+    {
+        $this->previousLocale = rex_i18n::setLocale('de_de');
+    }
+
+    protected function tearDown(): void
+    {
+        rex_i18n::setLocale($this->previousLocale);
+    }
+
     public function testDate(): void
     {
         $format = 'd.m.Y H:i';
@@ -20,44 +32,6 @@ class rex_formatter_test extends TestCase
             '27.06.2016 21:40',
             rex_formatter::date('2016-06-27 21:40:00', $format),
         );
-    }
-
-    public function testStrftime(): void
-    {
-        $oldLocale = rex_i18n::getLocale();
-        rex_i18n::setLocale('en_gb');
-
-        $strftime = static function (string|int $value, string $format): string {
-            /** @psalm-suppress DeprecatedMethod */
-            return @rex_formatter::strftime($value, $format); /** @phpstan-ignore-line */
-        };
-
-        $value = 1336811080;
-
-        $format = '%d.%m.%Y %H:%M';
-        self::assertEquals(
-            '12.05.2012 10:24',
-            $strftime($value, $format),
-        );
-
-        self::assertEquals(
-            '27.06.2016 21:40',
-            $strftime('2016-06-27 21:40:00', $format),
-        );
-
-        $format = 'date';
-        self::assertEquals(
-            '12 May 2012',
-            $strftime($value, $format),
-        );
-
-        $format = 'datetime';
-        self::assertEquals(
-            '12 May 2012, 10:24',
-            $strftime($value, $format),
-        );
-
-        rex_i18n::setLocale($oldLocale);
     }
 
     /** @param int|array{int, int}|string|null $format */

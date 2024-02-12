@@ -26,20 +26,6 @@ class rex_test_factory
         }
         return 'static-base';
     }
-
-    /** @psalm-suppress MixedInferredReturnType */
-    public static function staticCallDeprecated(): string
-    {
-        if (static::hasFactoryClass()) {
-            /**
-             * @psalm-suppress DeprecatedMethod
-             * @psalm-suppress MixedReturnStatement
-             * @phpstan-ignore-next-line
-             */
-            return static::callFactoryClass(__FUNCTION__, func_get_args());
-        }
-        return 'static-base';
-    }
 }
 class rex_alternative_test_factory extends rex_test_factory
 {
@@ -49,11 +35,6 @@ class rex_alternative_test_factory extends rex_test_factory
     }
 
     public static function staticCall(): string
-    {
-        return 'static-overridden';
-    }
-
-    public static function staticCallDeprecated(): string
     {
         return 'static-overridden';
     }
@@ -73,7 +54,6 @@ class rex_factory_trait_test extends TestCase
         $obj = new $clazz();
         self::assertEquals('base', $obj->doSomething(), 'call method of the original impl');
         self::assertEquals('static-base', rex_test_factory::staticCall(), 'static method of original impl');
-        self::assertEquals('static-base', rex_test_factory::staticCallDeprecated(), 'static method of original impl');
 
         rex_test_factory::setFactoryClass(rex_alternative_test_factory::class);
 
@@ -84,6 +64,5 @@ class rex_factory_trait_test extends TestCase
         $obj = new $clazz();
         self::assertEquals('overridden', $obj->doSomething(), 'call method of the alternative impl');
         self::assertEquals('static-overridden', rex_test_factory::staticCall(), 'static method of alternative impl');
-        self::assertEquals('static-overridden', rex_test_factory::staticCallDeprecated(), 'static method of alternative impl');
     }
 }

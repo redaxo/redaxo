@@ -33,6 +33,3 @@ parameters:
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
         - '#^Offset .* on .* always exists#'
-        -
-            message: '#.*deprecated.*#'
-            path: '*/update.php'

@@ -39,9 +39,7 @@ rex_sql_table::get(rex::getTable('cronjob'))
     ->ensureGlobalColumns()
     ->ensure();
 
-$table = rex_sql_table::get(rex::getTable('user'));
-$hasPasswordChanged = $table->hasColumn('password_changed');
-$table
+rex_sql_table::get(rex::getTable('user'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('description', 'text', true))
@@ -66,13 +64,6 @@ $table
     ->ensureIndex(new rex_sql_index('login', ['login'], rex_sql_index::UNIQUE))
     ->removeColumn('cookiekey')
     ->ensure();
-
-if (!$hasPasswordChanged) {
-    rex_sql::factory()
-        ->setTable(rex::getTable('user'))
-        ->setRawValue('password_changed', 'updatedate')
-        ->update();
-}
 
 rex_sql_table::get(rex::getTable('user_passkey'))
     ->ensureColumn(new rex_sql_column('id', 'varchar(255)'))

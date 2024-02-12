@@ -378,15 +378,6 @@ class rex_article_slice
         return $this->clang;
     }
 
-    /**
-     * @return int
-     * @deprecated since redaxo 5.6, use getClangId() instead
-     */
-    public function getClang()
-    {
-        return $this->clang;
-    }
-
     /** @return int */
     public function getCtype()
     {

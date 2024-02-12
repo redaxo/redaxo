@@ -1719,24 +1719,6 @@ class rex_sql implements Iterator
      * Sucht alle Tabellen/Views der Datenbankverbindung $DBID.
      * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
      *
-     * @param positive-int $db Id der Datenbankverbindung
-     * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
-     *
-     * @throws rex_sql_exception
-     *
-     * @return array Ein Array von Tabellennamen
-     *
-     * @deprecated since 5.6.2, use non-static getTablesAndViews instead.
-     */
-    public static function showTables($db = 1, $tablePrefix = null)
-    {
-        return self::factory($db)->getTablesAndViews($tablePrefix);
-    }
-
-    /**
-     * Sucht alle Tabellen/Views der Datenbankverbindung $DBID.
-     * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
-     *
      * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
      * @throws rex_sql_exception

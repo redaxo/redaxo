@@ -546,23 +546,16 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
-    <InvalidArgument>
-      <code>$data</code>
-    </InvalidArgument>
     <MixedArgument>
-      <code><![CDATA[$FILEINFOS['filename']]]></code>
-      <code><![CDATA[$FILE['name']]]></code>
       <code>$buttonTitle</code>
       <code>$info</code>
       <code>$warning</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
-      <code>$data</code>
       <code>$info</code>
       <code>$warning</code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
-      <code><![CDATA[$RETURN['title']]]></code>
       <code>$argValue</code>
     </MixedAssignment>
     <MixedOperand>
@@ -848,14 +841,6 @@
     <MixedAssignment>
       <code>$allowedMimeTypes</code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/mediapool/update.php">
-    <MixedAssignment>
-      <code><![CDATA[$perms['general']]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$perms['general']]]></code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/boot.php">
     <MixedArgument>
@@ -1291,9 +1276,6 @@
     </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/addons/structure/lib/content/api_template.php">
-    <MixedArgument>
-      <code>$templateId</code>
-    </MixedArgument>
     <MixedArrayOffset>
       <code>$templateModules[$ctype]</code>
     </MixedArrayOffset>
@@ -2103,16 +2085,6 @@
     <MixedAssignment>
       <code>$value</code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/structure/update.php">
-    <MixedAssignment>
-      <code><![CDATA[$perms['options']]]></code>
-      <code><![CDATA[$perms['options']]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$perms['options']]]></code>
-      <code><![CDATA[$perms['options']]]></code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/backend.php">
     <MixedArgument>
@@ -4180,7 +4152,6 @@
   <file src="redaxo/src/core/lib/rex.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[rex_type::array(self::getConfig('package-order', []))]]></code>
-      <code>rex_version::gitHash($path, $repo) ?? false</code>
     </LessSpecificReturnStatement>
     <MixedArgument>
       <code>$value</code>
@@ -4211,7 +4182,6 @@
     </MixedReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[list<non-empty-string>]]></code>
-      <code>non-empty-string|false</code>
     </MoreSpecificReturnType>
     <PossiblyUndefinedArrayOffset>
       <code>$server</code>
@@ -5271,16 +5241,5 @@
       <code><![CDATA[$params['suffix']]]></code>
       <code><![CDATA[$params['var']]]></code>
     </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/update.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$_SESSION[rex::getProperty('instname')]['backend_login']]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$config['setup_addons'][]]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$_SESSION[$sessionKey]['backend_login']]]></code>
-    </MixedAssignment>
   </file>
 </files>
