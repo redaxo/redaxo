@@ -2561,19 +2561,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/view.php
 
 		-
-<<<<<<< HEAD
 			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/pages/system.be_style.customizer.php
 
 		-
-			message: "#^Method rex_test_factory\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/factory_trait_test.php
-
-		-
-=======
->>>>>>> 6.x
 			message: "#^Method rex_test_instance_list_pool\\:\\:addInstanceList\\(\\) has parameter \\$instanceKeyList with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
