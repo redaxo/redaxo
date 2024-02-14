@@ -55,6 +55,10 @@ class rex_api_install_core_update extends rex_api_function
             if ($version['checksum'] != md5_file($archivefile)) {
                 throw new rex_functional_exception($installAddon->i18n('warning_zip_wrong_checksum'));
             }
+
+            // remove temp dir very late otherwise Whoops could not find source files in case of errors
+            register_shutdown_function(static fn () => rex_dir::delete($temppath));
+
             if (!rex_install_archive::extract($archivefile, $temppath)) {
                 throw new rex_functional_exception($installAddon->i18n('warning_core_zip_not_extracted'));
             }
@@ -203,7 +207,6 @@ class rex_api_install_core_update extends rex_api_function
             $message = 'SQL error: ' . $e->getMessage();
         } finally {
             rex_file::delete($archivefile);
-            rex_dir::delete($temppath);
         }
 
         if ($message) {
