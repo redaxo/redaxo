@@ -83,21 +83,12 @@ if (rex::isBackend()) {
         }
 
         $icons = [];
-        $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="' . $addon->getAssetsUrl(
-            'icons/apple-touch-icon.png',
-        ) . '">';
-        $icons[] = '<link rel="icon" type="image/png" sizes="32x32" href="' . $addon->getAssetsUrl(
-            'icons/favicon-32x32.png',
-        ) . '">';
-        $icons[] = '<link rel="icon" type="image/png" sizes="16x16" href="' . $addon->getAssetsUrl(
-            'icons/favicon-16x16.png',
-        ) . '">';
+        $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="' . $addon->getAssetsUrl('icons/apple-touch-icon.png') . '">';
+        $icons[] = '<link rel="icon" type="image/png" sizes="32x32" href="' . $addon->getAssetsUrl('icons/favicon-32x32.png') . '">';
+        $icons[] = '<link rel="icon" type="image/png" sizes="16x16" href="' . $addon->getAssetsUrl('icons/favicon-16x16.png') . '">';
         $icons[] = '<link rel="manifest" href="' . $addon->getAssetsUrl('icons/site.webmanifest') . '">';
-        $icons[] = '<link rel="mask-icon" href="' . $addon->getAssetsUrl(
-            'icons/safari-pinned-tab.svg',
-        ) . '" color="' . $themeColor . '">';
+        $icons[] = '<link rel="mask-icon" href="' . $addon->getAssetsUrl('icons/safari-pinned-tab.svg') . '" color="' . $themeColor . '">';
         $icons[] = '<meta name="msapplication-TileColor" content="#2d89ef">';
-
         $icons = implode("\n    ", $icons);
         $ep->setSubject($icons . $ep->getSubject());
     });
@@ -116,150 +107,10 @@ if (rex::isSetup()) {
     return;
 }
 
-// ---------------------------------- Codemirror ----------------------------------
-
-/**
- * REDAXO customizer.
- *
- * Codemirror by : http://codemirror.net/
- * Marijn Haverbeke <marijnh@gmail.com>
- */
-
-/** @var array{codemirror_theme: string, codemirror_darktheme: string, codemirror-selectors: string, codemirror-options: string, codemirror: int, codemirror-langs: int, codemirror-tools: int, labelcolor: string, showlink: int, codemirror-autoresize?: bool} $config */
+/** @var array{labelcolor: string, showlink: int} $config */
 $config = $addon->getConfig();
 
-/* Output CodeMirror-CSS */
-if (rex::isBackend() && 'css' == rex_request('codemirror_output', 'string', '')) {
-    rex_response::cleanOutputBuffers();
-    header('Content-type: text/css');
-
-    $filenames = [];
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/codemirror.min.css');
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css');
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/theme/' . $config['codemirror_theme'] . '.css');
-    if ('' != rex_request('themes', 'string', '')) {
-        $themes = explode(',', rex_request('themes', 'string', ''));
-        foreach ($themes as $theme) {
-            if (preg_match('/[a-z0-9\._-]+/i', $theme)) {
-                $filenames[] = $addon->getAssetsUrl('vendor/codemirror/theme/' . $theme . '.css');
-            }
-        }
-    }
-    if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.css');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/dialog/dialog.css');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/search/matchesonscrollbar.css');
-    }
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/codemirror-additional.css');
-    if (isset($config['codemirror-autoresize']) && $config['codemirror-autoresize']) {
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/codemirror-autoresize.css');
-    }
-
-    $content = '';
-    foreach ($filenames as $filename) {
-        $content .= '/* ' . $filename . ' */' . "\n" . rex_file::get($filename) . "\n";
-    }
-
-    header('Pragma: cache');
-    header('Cache-Control: public');
-    header('Expires: ' . date('D, j M Y', strtotime('+1 week')) . ' 00:00:00 GMT');
-    echo $content;
-
-    exit;
-}
-
-/* Output CodeMirror-JavaScript */
-if (rex::isBackend() && 'javascript' == rex_request('codemirror_output', 'string', '')) {
-    rex_response::cleanOutputBuffers();
-    header('Content-Type: application/javascript');
-
-    $filenames = [];
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/codemirror.min.js');
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/display/autorefresh.js');
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.js');
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/selection/active-line.js');
-
-    if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/fold/foldcode.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/fold/brace-fold.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/fold/xml-fold.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/fold/indent-fold.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/fold/markdown-fold.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/fold/comment-fold.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/edit/closebrackets.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/edit/matchtags.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/edit/matchbrackets.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/mode/overlay.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/dialog/dialog.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/search/searchcursor.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/search/search.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/scroll/annotatescrollbar.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/search/matchesonscrollbar.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/addon/search/jump-to-line.js');
-    }
-
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/xml/xml.js');
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/htmlmixed/htmlmixed.js');
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/htmlembedded/htmlembedded.js');
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/javascript/javascript.js');
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/css/css.js');
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/clike/clike.js');
-    $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/php/php.js');
-
-    if (isset($config['codemirror-langs']) && $config['codemirror-langs']) {
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/markdown/markdown.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/textile/textile.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/gfm/gfm.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/yaml/yaml.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/yaml-frontmatter/yaml-frontmatter.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/meta.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/properties/properties.js');
-        $filenames[] = $addon->getAssetsUrl('vendor/codemirror/mode/sql/sql.js');
-    }
-
-    $content = '';
-    foreach ($filenames as $filename) {
-        $content .= '/* ' . $filename . ' */' . "\n" . rex_file::get($filename) . "\n";
-    }
-
-    header('Pragma: cache');
-    header('Cache-Control: public');
-    header('Expires: ' . date('D, j M Y', strtotime('+1 week')) . ' 00:00:00 GMT');
-    echo $content;
-
-    exit;
-}
-
 if (rex::isBackend() && rex::getUser()) {
-    /* Codemirror */
-    if ($config['codemirror']) {
-        // JsProperty CodeMirror-Theme
-        rex_view::setJsProperty('customizer_codemirror_defaulttheme', $config['codemirror_theme']);
-        rex_view::setJsProperty('customizer_codemirror_defaultdarktheme', $config['codemirror_darktheme'] ?? 'dracula');
-        // JsProperty CodeMirror-Selectors
-        $selectors = 'textarea.rex-code, textarea.rex-js-code, textarea.codemirror';
-        if (isset($config['codemirror-selectors']) && '' != $config['codemirror-selectors']) {
-            $selectors = $selectors . ', ' . $config['codemirror-selectors'];
-        }
-        rex_view::setJsProperty('customizer_codemirror_selectors', $selectors);
-        // JsProperty CodeMirror-Autoresize
-        if (isset($config['codemirror-autoresize'])) {
-            rex_view::setJsProperty('customizer_codemirror_autoresize', $config['codemirror-autoresize']);
-        }
-        // JsProperty Codemirror-Options
-        rex_view::setJsProperty('customizer_codemirror_options', str_replace(["\n", "\r"], '', trim($config['codemirror-options'] ?? '')));
-        // JsProperty JS/CSS-Buster
-        $mtimejs = filemtime($addon->getAssetsUrl('vendor/codemirror/codemirror.min.js'));
-        $mtimecss = filemtime($addon->getAssetsUrl('vendor/codemirror/codemirror.min.css'));
-        if (isset($_SESSION['codemirror_reload'])) {
-            $mtimejs .= $_SESSION['codemirror_reload'];
-            $mtimecss .= $_SESSION['codemirror_reload'];
-        }
-        rex_view::setJsProperty('customizer_codemirror_jsbuster', $mtimejs);
-        rex_view::setJsProperty('customizer_codemirror_cssbuster', $mtimecss);
-    }
-
     /* Customizer Ergänzungen */
     rex_view::addCssFile($addon->getAssetsUrl('css/customizer.css'));
     rex_view::addJsFile($addon->getAssetsUrl('js/customizer.js'), [rex_view::JS_IMMUTABLE => true]);
