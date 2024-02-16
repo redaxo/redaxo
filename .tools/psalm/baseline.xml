@@ -2114,26 +2114,14 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[rex::getProperty('timezone', 'Europe/Berlin')]]></code>
     </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[rex::getConfig('be_style_codemirror_options', '')]]></code>
-    </MixedArgument>
-    <MixedOperand>
-      <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
-      <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
-    </MixedOperand>
     <PossiblyInvalidArgument>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
     </PossiblyInvalidArgument>
-    <PossiblyNullArgument>
-      <code><![CDATA[rex::getConfig('be_style_codemirror_options', '')]]></code>
-    </PossiblyNullArgument>
     <PossiblyNullOperand>
       <code><![CDATA[$page->getIcon()]]></code>
-      <code>rex_file::get($filename)</code>
-      <code>rex_file::get($filename)</code>
     </PossiblyNullOperand>
     <PossiblyNullReference>
       <code>getIcon</code>
@@ -5040,8 +5028,6 @@
       <code>$error</code>
     </NoValue>
     <NullOperand>
-      <code><![CDATA[rex_escape(rex::getConfig('be_style_codemirror_options', ''))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('be_style_codemirror_selectors', ''))]]></code>
       <code><![CDATA[rex_escape(rex::getConfig('be_style_labelcolor', ''))]]></code>
       <code><![CDATA[rex_escape(rex::getConfig('be_style_labelcolor', ''))]]></code>
     </NullOperand>
