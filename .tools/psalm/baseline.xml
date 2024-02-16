@@ -5,20 +5,20 @@
       <code>$themeColor</code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
-      <code><![CDATA[$_SESSION['codemirror_reload']]]></code>
       <code><![CDATA[$ep->getSubject()]]></code>
       <code>$themeColor</code>
     </MixedOperand>
-    <PossiblyNullOperand>
-      <code>rex_file::get($filename)</code>
-      <code>rex_file::get($filename)</code>
-    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/be_style/lib/scss_compiler.php">
     <MixedOperand>
       <code>$path</code>
     </MixedOperand>
+  </file>
+  <file src="redaxo/src/addons/be_style/pages/system.customizer.php">
+    <NullOperand>
+      <code><![CDATA[rex_escape($addon->getConfig('labelcolor', ''))]]></code>
+      <code><![CDATA[rex_escape($addon->getConfig('labelcolor', ''))]]></code>
+    </NullOperand>
   </file>
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
