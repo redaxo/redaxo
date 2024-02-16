@@ -260,6 +260,22 @@ rex_extension::register('PAGE_HEADER', static function (rex_extension_point $ep)
     $ep->setSubject($icons . rex_type::string($ep->getSubject()));
 });
 
+if (rex::getUser()) {
+    /* Customizer Ergänzungen */
+    rex_view::addCssFile(rex_url::coreAssets('css/customizer.css'));
+    rex_view::addJsFile(rex_url::coreAssets('js/customizer.js'), [rex_view::JS_IMMUTABLE => true]);
+
+    if ('' != rex::getConfig('be_style_labelcolor')) {
+        rex_view::setJsProperty('customizer_labelcolor', rex::getConfig('be_style_labelcolor'));
+    }
+    if (rex::getConfig('be_style_showlink')) {
+        rex_view::setJsProperty(
+            'customizer_showlink',
+            '<h1 class="be-style-customizer-title"><a href="' . rex_url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="fa fa-external-link"></i></a></h1>',
+        );
+    }
+}
+
 // add theme-information to js-variable rex as rex.theme
 // (1) System-Settings (2) no systemforced mode: user-mode (3) fallback: "auto"
 $user = rex::getUser();

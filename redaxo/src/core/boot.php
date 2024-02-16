@@ -168,19 +168,3 @@ if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
     require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
 }
-
-if (rex::isBackend() && rex::getUser()) {
-    /* Customizer Ergänzungen */
-    rex_view::addCssFile(rex_url::coreAssets('css/customizer.css'));
-    rex_view::addJsFile(rex_url::coreAssets('js/customizer.js'), [rex_view::JS_IMMUTABLE => true]);
-
-    if ('' != rex::getConfig('be_style_labelcolor')) {
-        rex_view::setJsProperty('customizer_labelcolor', rex::getConfig('be_style_labelcolor'));
-    }
-    if (rex::getConfig('be_style_showlink')) {
-        rex_view::setJsProperty(
-            'customizer_showlink',
-            '<h1 class="be-style-customizer-title"><a href="' . rex_url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="fa fa-external-link"></i></a></h1>',
-        );
-    }
-}
