@@ -127,7 +127,6 @@ rex_var_dumper::register();
 // ----------------- REX PERMS
 
 rex_user::setRoleClass(rex_user_role::class);
-rex_perm::register('users[]');
 rex_complex_perm::register('clang', rex_clang_perm::class);
 
 rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
