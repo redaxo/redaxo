@@ -8,6 +8,12 @@ if (rex::isDebugMode()) {
     header('X-Robots-Tag: noindex, nofollow, noarchive');
 }
 
+if (0 != rex::getConfig('phpmailer_errormail')) {
+    rex_extension::register('RESPONSE_SHUTDOWN', static function () {
+        rex_mailer::errorMail();
+    });
+}
+
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
 
