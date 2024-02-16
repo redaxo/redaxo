@@ -269,6 +269,12 @@ if ('' === $theme && $user) {
 }
 rex_view::setJsProperty('theme', $theme ?: 'auto');
 
+if ('system' == rex_be_controller::getCurrentPagePart(1)) {
+    rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
+}
+
+rex_perm::register('users[]');
+
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
 

@@ -243,7 +243,7 @@ class rex_be_controller
             ->setRequiredPermissions('phpmailer[]')
             ->setPrio(90)
             ->setPjax()
-            ->setIcon('rex-icon rex-icon-envelope')
+            ->setIcon('rex-icon rex-icon-envelope' . (rex::getConfig('phpmailer_detour_mode') ? ' text-danger' : ''))
             ->addSubpage((new rex_be_page('config', rex_i18n::msg('phpmailer_configuration')))->setSubPath(rex_path::core('pages/phpmailer.config.php')))
             ->addSubpage((new rex_be_page('log', rex_i18n::msg('phpmailer_logging')))->setSubPath(rex_path::core('pages/phpmailer.log.php')))
             ->addSubpage((new rex_be_page('help', rex_i18n::msg('phpmailer_help')))->setSubPath(rex_path::core('pages/phpmailer.README.md')))

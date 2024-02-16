@@ -2120,13 +2120,6 @@
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
     </PossiblyInvalidArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$page->getIcon()]]></code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference>
-      <code>getIcon</code>
-      <code>setIcon</code>
-    </PossiblyNullReference>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
