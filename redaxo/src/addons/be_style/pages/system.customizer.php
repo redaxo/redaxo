@@ -6,11 +6,11 @@ $success = '';
 if ('' != rex_post('btn_save', 'string')) {
     // set config
     $settings = rex_post('settings', [
-        ['be_style_labelcolor', 'string'],
-        ['be_style_showlink', 'boolean'],
+        ['labelcolor', 'string'],
+        ['showlink', 'boolean'],
     ]);
 
-    rex_config::set('core', $settings);
+    $addon->setConfig($settings);
     $success = rex_i18n::msg('customizer_config_updated');
 }
 
