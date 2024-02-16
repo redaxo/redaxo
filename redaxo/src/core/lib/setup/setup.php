@@ -52,28 +52,6 @@ class rex_setup
             rex_file::copy(rex_path::core($source), rex_path::coreAssets($destination));
         }
 
-        // ---------------------------------- Codemirror ----------------------------------
-        /* Codemirror-Assets entpacken */
-        $message = '';
-        $zipArchive = new ZipArchive();
-
-        // use path relative to __DIR__ to get correct path in update temp dir
-        $path = rex_path::core('/assets/vendor/codemirror.zip');
-
-        try {
-            if (true === $zipArchive->open($path) && $zipArchive->extractTo(rex_path::coreAssets('vendor/'))) {
-                $zipArchive->close();
-            } else {
-                $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $path;
-            }
-        } catch (Exception $e) {
-            $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $path . '<br>' . $e->getMessage();
-        }
-
-        if ('' != $message) {
-            throw new rex_functional_exception($message);
-        }
-
         // copy skins files/assets
         if ('' !== $skinAddon) {
             $skinAddon = rex_addon::get($skinAddon);

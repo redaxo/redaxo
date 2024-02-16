@@ -550,11 +550,6 @@ be_style_icons = Icons
 be_style_themes = Themes
 customizer = Customizer
 customizer_features = Funzioni
-
-customizer_codemirror = CodeMirror
-customizer_codemirror_check = Attivare CodeMirror
-customizer_codemirror_theme = Thema del CodeMirror
-
 customizer_labeling = Supplemento
 customizer_labelcolor = Colore di riconoscimento (p.e. #43a047)
 customizer_labelcolor_error = Codice color non valido (p.e. #43a o #43a047)
