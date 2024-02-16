@@ -588,11 +588,6 @@ phpmailer_no = não
 # be_style
 customizer = customizar
 customizer_features = Funções
-
-customizer_codemirror = CodeMirror
-customizer_codemirror_check = Ativar CodeMirror
-customizer_codemirror_theme = Tema CodeMirror
-
 customizer_labeling = Complementos
 customizer_labelcolor = Cor (por exemplo: #43a047)
 customizer_labelcolor_error = Código de cor inválido (#43a ou #43a047)

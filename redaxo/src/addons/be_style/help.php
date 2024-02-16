@@ -9,11 +9,6 @@
 ?>
 <h3>Backend Style Addon - Customizer</h3>
 
-<p>
-    Customizer bindet den Editor CodeMirror Version 5.65.5 (<a target="_blank" rel="noreferrer noopener" href="https://codemirror.net/">https://codemirror.net/</a>) ein.
-</p>
-
-
 <?php
 
 $content = rex_file::getOutput(rex_path::addon('be_style', 'assets/css/styles.css'));
