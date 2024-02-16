@@ -21,7 +21,6 @@ requires:
     redaxo: ^6.0.0-dev
     php:
         version: '>=8.1'
-        extensions: [zip]
 
 default_config:
     labelcolor: '#3bb594'

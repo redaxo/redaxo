@@ -1,6 +1,6 @@
 <?php
 
-$addon = rex_addon::get('be_style');
+$addon = rex_addon::require('be_style');
 
 $success = '';
 
