@@ -126,7 +126,11 @@ rex_var_dumper::register();
 
 // ----------------- REX PERMS
 
+rex_user::setRoleClass(rex_user_role::class);
 rex_complex_perm::register('clang', rex_clang_perm::class);
+
+rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
+rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
 
 // ----- SET CLANG
 if (!rex::isSetup()) {
@@ -163,31 +167,4 @@ if (0 !== $nexttime && time() >= $nexttime) {
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
     require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
-}
-
-if (rex::isSetup()) {
-    return;
-}
-
-rex_user::setRoleClass(rex_user_role::class);
-
-rex_perm::register('users[]');
-
-rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
-rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
-
-if (!rex::isBackend() && 0 != rex::getConfig('phpmailer_errormail')) {
-    rex_extension::register('RESPONSE_SHUTDOWN', static function () {
-        rex_mailer::errorMail();
-    });
-}
-
-if ('system' == rex_be_controller::getCurrentPagePart(1)) {
-    rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
-}
-
-// make the phpmailer addon icon orange if detour_mode is active
-if (true == rex::getConfig('phpmailer_detour_mode')) {
-    $page = rex_be_controller::getPageObject('phpmailer');
-    $page->setIcon($page->getIcon().' text-danger');
 }

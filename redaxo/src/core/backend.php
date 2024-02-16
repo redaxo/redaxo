@@ -202,6 +202,12 @@ rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
 rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
 rex_view::setJsProperty('cookie_params', rex_login::getCookieParams());
 
+if ('system' == rex_be_controller::getCurrentPagePart(1)) {
+    rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
+}
+
+rex_perm::register('users[]');
+
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
 
