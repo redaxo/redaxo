@@ -56,7 +56,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->parallel();
 
-    $rectorConfig->phpVersion(PhpVersion::PHP_81);
+    $rectorConfig->phpVersion(PhpVersion::PHP_83);
 
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)

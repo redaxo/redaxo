@@ -8,8 +8,8 @@ if (version_compare(rex::getVersion(), '5.16', '<')) {
     throw new rex_functional_exception(sprintf('The REDAXO version "%s" is too old for this update, please update to 5.16 before.', rex::getVersion()));
 }
 
-if (PHP_VERSION_ID < 80100) {
-    throw new rex_functional_exception(rex_i18n::msg('setup_201', PHP_VERSION, '8.1'));
+if (PHP_VERSION_ID < 80300) {
+    throw new rex_functional_exception(rex_i18n::msg('setup_201', PHP_VERSION, '8.3'));
 }
 
 $minExtensions = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
@@ -20,8 +20,8 @@ if ($missing) {
     throw new rex_functional_exception('Missing required php extension(s): ' . implode(', ', $missing));
 }
 
-$minMysqlVersion = '5.6';
-$minMariaDbVersion = '10.1';
+$minMysqlVersion = '8.0';
+$minMariaDbVersion = '10.4';
 
 $minVersion = $minMysqlVersion;
 $dbType = 'MySQL';
