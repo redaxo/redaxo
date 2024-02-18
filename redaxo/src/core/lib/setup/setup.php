@@ -27,10 +27,9 @@ class rex_setup
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
      *
-     * @param string $skinAddon
      * @return void
      */
-    public static function init($skinAddon = '')
+    public static function init()
     {
         // initial purge all generated files
         rex_delete_cache();
@@ -44,21 +43,10 @@ class rex_setup
             throw new rex_exception('Unable to copy assets to "' . rex_path::coreAssets() . '". Is the folder writable for the webserver?');
         }
 
-        // ---------------------------------- Be style ----------------------------------
-        // use path relative to __DIR__ to get correct path in update temp dir
-        $files = require rex_path::core('/vendor_files.php');
+        $files = require rex_path::core('vendor_files.php');
         foreach ($files as $source => $destination) {
             // ignore errors, because this file is included very early in setup, before the regular file permissions check
             rex_file::copy(rex_path::core($source), rex_path::coreAssets($destination));
-        }
-
-        // copy skins files/assets
-        if ('' !== $skinAddon) {
-            $skinAddon = rex_addon::get($skinAddon);
-            rex_dir::copy($skinAddon->getPath('assets'), $skinAddon->getAssetsPath());
-            if (is_file($skinAddon->getPath('install.php'))) {
-                $skinAddon->includeFile('install.php');
-            }
         }
     }
 
