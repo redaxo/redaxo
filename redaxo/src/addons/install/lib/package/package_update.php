@@ -36,6 +36,9 @@ class rex_install_package_update extends rex_install_package_download
         $temppath = rex_path::addon('.new.' . $this->addonkey);
         $oldVersion = $this->addon->getVersion();
 
+        // remove temp dir very late otherwise Whoops could not find source files in case of errors
+        register_shutdown_function(static fn () => rex_dir::delete($temppath));
+
         if (true !== ($msg = $this->extractArchiveTo($temppath))) {
             return $msg;
         }
@@ -203,10 +206,5 @@ class rex_install_package_update extends rex_install_package_download
     private function messageFromPackage(rex_package $package, rex_package_manager $manager): string
     {
         return rex_i18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
-    }
-
-    public function __destruct()
-    {
-        rex_dir::delete(rex_path::addon('.new.' . $this->addonkey));
     }
 }

@@ -115,14 +115,20 @@ class rex_sql implements Iterator
                 $options = [];
                 $dbconfig = rex::getDbConfig($db);
 
-                if ($dbconfig->sslKey && $dbconfig->sslCert && $dbconfig->sslCa) {
+                if ($dbconfig->sslKey && $dbconfig->sslCert) {
                     $options = [
                         PDO::MYSQL_ATTR_SSL_KEY => $dbconfig->sslKey,
                         PDO::MYSQL_ATTR_SSL_CERT => $dbconfig->sslCert,
-                        PDO::MYSQL_ATTR_SSL_CA => $dbconfig->sslCa,
                     ];
                 }
-                $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $dbconfig->sslVerifyServerCert;
+                if ($dbconfig->sslCa) {
+                    $options[PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
+                }
+
+                // available only with mysqlnd
+                if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+                    $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $dbconfig->sslVerifyServerCert;
+                }
 
                 $conn = self::createConnection(
                     $dbconfig->host,
@@ -301,7 +307,7 @@ class rex_sql implements Iterator
      *
      * @return $this
      *
-     * @psalm-taint-sink $query
+     * @psalm-taint-sink sql $query
      * @psalm-taint-specialize
      */
     public function setDBQuery($query, array $params = [], array $options = [])
