@@ -337,14 +337,16 @@ async function main() {
             await page.setRequestInterception(false);
             page.off('request', interceptClockworkRequest);*/
 
-            // test customizer
+            // reinstall addon
             await goToUrlOrThrow(page, START_URL + '?page=packages', { waitUntil: 'load' });
             await Promise.all([
                 page.waitForNavigation({ waitUntil: 'networkidle0' }),
-                page.click('#package-be_style .rex-table-action > a:first-child') // install
+                page.click('#package-project .rex-table-action > a:first-child') // install
             ]);
-            await createScreenshots(page, 'packages_be_style_reinstalled.png');
-            await goToUrlOrThrow(page, START_URL + '?page=system/customizer', { waitUntil: 'load' });
+            await createScreenshots(page, 'packages_project_reinstalled.png');
+
+            // test customizer
+            await goToUrlOrThrow(page, START_URL + '?page=system/be_style/customizer', { waitUntil: 'load' });
             await page.waitForTimeout(200); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshots(page, 'system_customizer.png');
 

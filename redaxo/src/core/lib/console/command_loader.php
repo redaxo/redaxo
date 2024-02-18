@@ -29,6 +29,8 @@ class rex_console_command_loader implements CommandLoaderInterface
         if (!rex::isSetup()) {
             $commands = array_merge($commands, [
                 'assets:sync' => rex_command_assets_sync::class,
+                'be_style:compile' => rex_command_be_style_compile::class,
+                'cronjob:run' => rex_command_cronjob_run::class,
                 'db:dump-schema' => rex_command_db_dump_schema::class,
                 'package:activate' => rex_command_package_activate::class,
                 'package:deactivate' => rex_command_package_deactivate::class,
@@ -39,7 +41,6 @@ class rex_console_command_loader implements CommandLoaderInterface
                 'package:uninstall' => rex_command_package_uninstall::class,
                 'system:report' => rex_command_system_report::class,
                 'user:set-password' => rex_command_user_set_password::class,
-                'cronjob:run' => rex_command_cronjob_run::class,
             ]);
         }
 

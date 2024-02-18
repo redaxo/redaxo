@@ -13,7 +13,7 @@ ini_set('pcre.jit', 0);
  */
 class rex_release
 {
-    private static $addons = ['be_style', 'debug', 'install', 'media_manager', 'mediapool', 'metainfo', 'structure'];
+    private static $addons = ['debug', 'install', 'media_manager', 'mediapool', 'metainfo', 'structure'];
 
     private $version;
     private $path;
@@ -160,12 +160,9 @@ class rex_release
 
         $this->addDir($complete, rex_path::core('assets'), 'assets/core');
 
-        $addon = rex_addon::get('be_style');
-        $this->addDir($complete, $addon->getPath('assets'), 'assets/addons/be_style');
-
-        $files = require $addon->getPath('vendor_files.php');
+        $files = require rex_path::core('vendor_files.php');
         foreach ($files as $source => $destination) {
-            $complete->addFile($addon->getPath($source), 'assets/addons/be_style/' . $destination);
+            $complete->addFile(rex_path::core('assets_files/' . $source), 'assets/core/' . $destination);
         }
 
         $complete->close();

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @internal
  */
-class rex_be_style_command_compile extends rex_console_command
+class rex_command_be_style_compile extends rex_console_command
 {
     protected function configure(): void
     {

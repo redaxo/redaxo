@@ -6,12 +6,7 @@
  * @author thiel[dot]peter[at]googlemail[dot]com Peter Thiel
  */
 
-?>
-<h3>Backend Style Addon - Customizer</h3>
-
-<?php
-
-$content = rex_file::getOutput(rex_path::addon('be_style', 'assets/css/styles.css'));
+$content = rex_file::getOutput(rex_path::coreAssets('css/styles.css'));
 
 preg_match_all('@\.rex-icon-(\w+):before@im', $content, $matches, PREG_SET_ORDER);
 

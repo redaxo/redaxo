@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494">
-  <file src="redaxo/src/addons/be_style/boot.php">
-    <MixedAssignment>
-      <code>$themeColor</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$ep->getSubject()]]></code>
-      <code>$themeColor</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/be_style/lib/scss_compiler.php">
-    <MixedOperand>
-      <code>$path</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/be_style/pages/system.customizer.php">
-    <NullOperand>
-      <code><![CDATA[rex_escape($addon->getConfig('labelcolor', ''))]]></code>
-      <code><![CDATA[rex_escape($addon->getConfig('labelcolor', ''))]]></code>
-    </NullOperand>
-  </file>
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
       <code><![CDATA[$query['query']]]></code>
@@ -2982,6 +2962,11 @@
       <code>isActive</code>
     </MixedMethodCall>
   </file>
+  <file src="redaxo/src/core/lib/be_style/scss_compiler.php">
+    <MixedOperand>
+      <code>$path</code>
+    </MixedOperand>
+  </file>
   <file src="redaxo/src/core/lib/clang/clang.php">
     <MixedArrayAccess>
       <code><![CDATA[$data['priority']]]></code>
@@ -4252,6 +4237,7 @@
       <code><![CDATA[$config['db'][1]['login']]]></code>
       <code><![CDATA[$config['db'][1]['name']]]></code>
       <code><![CDATA[$config['db'][1]['password']]]></code>
+      <code>$destination</code>
       <code>$dir</code>
       <code>$dir</code>
       <code>$func($path)</code>
@@ -4267,6 +4253,14 @@
       <code><![CDATA[$config['db'][1]['name']]]></code>
       <code><![CDATA[$config['db'][1]['password']]]></code>
     </MixedArrayAccess>
+    <MixedAssignment>
+      <code>$destination</code>
+      <code>$files</code>
+      <code>$source</code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code>$source</code>
+    </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/sql/schema_dumper.php">
     <RedundantCondition>
@@ -5024,6 +5018,12 @@
       <code>$cancelSetupBtn</code>
     </MixedOperand>
   </file>
+  <file src="redaxo/src/core/pages/system.be_style.customizer.php">
+    <NullOperand>
+      <code><![CDATA[rex_escape(rex::getConfig('be_style_labelcolor', ''))]]></code>
+      <code><![CDATA[rex_escape(rex::getConfig('be_style_labelcolor', ''))]]></code>
+    </NullOperand>
+  </file>
   <file src="redaxo/src/core/pages/system.clangs.php">
     <NullOperand>
       <code><![CDATA[rex_escape($sql->getValue('code'))]]></code>
@@ -5072,9 +5072,18 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/system.settings.php">
+    <MixedArgument>
+      <code>$destination</code>
+    </MixedArgument>
     <MixedAssignment>
       <code>$config[$key]</code>
+      <code>$destination</code>
+      <code>$files</code>
+      <code>$source</code>
     </MixedAssignment>
+    <MixedOperand>
+      <code>$source</code>
+    </MixedOperand>
     <NullOperand>
       <code><![CDATA[rex_escape($editor->getBasepath())]]></code>
     </NullOperand>

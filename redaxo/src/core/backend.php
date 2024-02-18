@@ -202,6 +202,50 @@ rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
 rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
 rex_view::setJsProperty('cookie_params', rex_login::getCookieParams());
 
+rex_view::addCssFile(rex_url::coreAssets('css/styles.css'));
+rex_view::addCssFile(rex_url::coreAssets('css/bootstrap-select.min.css'));
+rex_view::addJsFile(rex_url::coreAssets('js/bootstrap.js'), [rex_view::JS_IMMUTABLE => true]);
+rex_view::addJsFile(rex_url::coreAssets('js/bootstrap-select.min.js'), [rex_view::JS_IMMUTABLE => true]);
+$bootstrapSelectLang = [
+    'de_de' => 'de_DE',
+    'en_gb' => 'en_US',
+    'es_es' => 'de_DE',
+    'it_it' => 'it_IT',
+    'nl_nl' => 'nl_NL',
+    'pt_br' => 'pt_BR',
+    'sv_se' => 'sv_SE',
+][rex_i18n::getLocale()] ?? 'en_US';
+rex_view::addJsFile(rex_url::coreAssets('js/bootstrap-select-defaults-' . $bootstrapSelectLang . '.min.js'), [rex_view::JS_IMMUTABLE => true]);
+rex_view::addJsFile(rex_url::coreAssets('js/main.js'), [rex_view::JS_IMMUTABLE => true]);
+
+rex_view::addCssFile(rex_url::coreAssets('css/redaxo.css'));
+rex_view::addJsFile(rex_url::coreAssets('js/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
+
+if (rex::getUser()) {
+    /* Customizer Ergänzungen */
+    rex_view::addCssFile(rex_url::coreAssets('css/customizer.css'));
+    rex_view::addJsFile(rex_url::coreAssets('js/customizer.js'), [rex_view::JS_IMMUTABLE => true]);
+
+    if ('' != rex::getConfig('be_style_labelcolor')) {
+        rex_view::setJsProperty('customizer_labelcolor', rex::getConfig('be_style_labelcolor'));
+    }
+    if (rex::getConfig('be_style_showlink')) {
+        rex_view::setJsProperty(
+            'customizer_showlink',
+            '<h1 class="be-style-customizer-title"><a href="' . rex_url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="fa fa-external-link"></i></a></h1>',
+        );
+    }
+}
+
+// add theme-information to js-variable rex as rex.theme
+// (1) System-Settings (2) no systemforced mode: user-mode (3) fallback: "auto"
+$user = rex::getUser();
+$theme = (string) rex::getProperty('theme');
+if ('' === $theme && $user) {
+    $theme = (string) $user->getValue('theme');
+}
+rex_view::setJsProperty('theme', $theme ?: 'auto');
+
 if ('system' == rex_be_controller::getCurrentPagePart(1)) {
     rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
 }
@@ -210,6 +254,10 @@ rex_perm::register('users[]');
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
+
+if (rex::getUser() && rex::getConfig('be_style_compile')) {
+    rex_be_style::compile();
+}
 
 // ----- Prepare AddOn Pages
 if (rex::getUser()) {

@@ -25,6 +25,12 @@ if ($func && !$csrfToken->isValid()) {
     $success = rex_delete_cache();
 } elseif ('updateassets' == $func && !rex::isLiveMode()) {
     rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
+
+    $files = require rex_path::core('vendor_files.php');
+    foreach ($files as $source => $destination) {
+        rex_file::copy(rex_path::core('assets_files/' . $source), rex_path::coreAssets($destination));
+    }
+
     $success = 'Updated assets';
 } elseif ('debugmode' == $func && !rex::isLiveMode()) {
     $configFile = rex_path::coreData('config.yml');

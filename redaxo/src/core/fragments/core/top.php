@@ -78,6 +78,13 @@
 
     <?= $this->favicon ? '<link rel="shortcut icon" href="' . $this->favicon . '" />' : '' ?>
 
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= rex_url::coreAssets('icons/apple-touch-icon.png') ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= rex_url::coreAssets('icons/favicon-32x32.png') ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= rex_url::coreAssets('icons/favicon-16x16.png') ?>">
+    <link rel="manifest" href="<?= rex_url::coreAssets('icons/site.webmanifest') ?>">
+    <link rel="mask-icon" href="<?= rex_url::coreAssets('icons/safari-pinned-tab.svg') ?>" color="<?= rex_escape((string) rex::getConfig('be_style_labelcolor', '#4d99d3')) ?>">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+
     <?= $this->pageHeader ?>
 
 </head>

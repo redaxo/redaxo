@@ -99,6 +99,9 @@ rex_sql_table::get(rex::getTable('user_session'))
     ->ensure();
 
 $defaultConfig = [
+    'be_style_compile' => false,
+    'be_style_labelcolor' => '#3bb594',
+    'be_style_showlink' => true,
     'phpmailer_from' => '',
     'phpmailer_test_address' => '',
     'phpmailer_fromname' => 'Mailer',

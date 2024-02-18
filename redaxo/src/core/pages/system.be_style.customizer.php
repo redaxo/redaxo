@@ -1,17 +1,15 @@
 <?php
 
-$addon = rex_addon::require('be_style');
-
 $success = '';
 
 if ('' != rex_post('btn_save', 'string')) {
     // set config
     $settings = rex_post('settings', [
-        ['labelcolor', 'string'],
-        ['showlink', 'boolean'],
+        ['be_style_labelcolor', 'string'],
+        ['be_style_showlink', 'boolean'],
     ]);
 
-    $addon->setConfig($settings);
+    rex::setConfig($settings);
     $success = rex_i18n::msg('customizer_config_updated');
 }
 
@@ -19,7 +17,7 @@ if ('' != $success) {
     echo rex_view::success($success);
 }
 
-// output
+// form
 
 $content = '<fieldset><legend>' . rex_i18n::msg('customizer_labeling') . '</legend>';
 
@@ -29,19 +27,18 @@ $n = [];
 $n['label'] = '<label for="customizer-labelcolor">' . rex_i18n::msg('customizer_labelcolor') . '</label>';
 $n['field'] = '
     <div class="input-group">
-    <div class="input-group-addon">
-        <input id="customizer-labelcolor-picker" type="color" value="' . rex_escape($addon->getConfig('labelcolor', '')) . '"
-            oninput="jQuery(\'#customizer-labelcolor\').val(this.value)" />
+        <div class="input-group-addon">
+            <input id="customizer-labelcolor-picker" type="color" value="' . rex_escape(rex::getConfig('be_style_labelcolor', '')) . '" oninput="jQuery(\'#customizer-labelcolor\').val(this.value)" />
+        </div>
+        <input class="form-control" id="customizer-labelcolor" type="text" name="settings[be_style_labelcolor]" value="' . rex_escape(rex::getConfig('be_style_labelcolor', '')) . '" oninput="jQuery(\'#customizer-labelcolor-picker\').val(this.value)" />
     </div>
-    <input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" value="' . rex_escape($addon->getConfig('labelcolor', '')) . '" oninput="jQuery(\'#customizer-labelcolor-picker\').val(this.value)" />
-</div>
 ';
 $n['note'] = rex_i18n::msg('customizer_labelcolor_notice');
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="customizer-showlink">' . rex_i18n::msg('customizer_showlink') . '</label>';
-$n['field'] = '<input type="checkbox" id="customizer-showlink" name="settings[showlink]" value="1" ' . ($addon->getConfig('showlink', '') ? 'checked="checked" ' : '') . ' />';
+$n['field'] = '<input type="checkbox" id="customizer-showlink" name="settings[be_style_showlink]" value="1" ' . (rex::getConfig('be_style_showlink') ? 'checked="checked" ' : '') . ' />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
