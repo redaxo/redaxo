@@ -5017,17 +5017,10 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/system.be_style.customizer.php">
-    <NoValue>
-      <code>$error</code>
-    </NoValue>
     <NullOperand>
       <code><![CDATA[rex_escape(rex::getConfig('be_style_labelcolor', ''))]]></code>
       <code><![CDATA[rex_escape(rex::getConfig('be_style_labelcolor', ''))]]></code>
     </NullOperand>
-    <TypeDoesNotContainType>
-      <code>$error</code>
-      <code>$error</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="redaxo/src/core/pages/system.clangs.php">
     <NullOperand>
@@ -5077,8 +5070,15 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/system.settings.php">
+    <MixedArgument>
+      <code>$destination</code>
+      <code>$source</code>
+    </MixedArgument>
     <MixedAssignment>
       <code>$config[$key]</code>
+      <code>$destination</code>
+      <code>$files</code>
+      <code>$source</code>
     </MixedAssignment>
     <NullOperand>
       <code><![CDATA[rex_escape($editor->getBasepath())]]></code>

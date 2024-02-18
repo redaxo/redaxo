@@ -1,7 +1,6 @@
 <?php
 
 $success = '';
-$error = '';
 
 if ('' != rex_post('btn_save', 'string')) {
     // set config
@@ -12,12 +11,6 @@ if ('' != rex_post('btn_save', 'string')) {
 
     rex::setConfig($settings);
     $success = rex_i18n::msg('customizer_config_updated');
-}
-
-// messages
-
-if ($error) {
-    echo rex_view::error($error);
 }
 
 if ('' != $success) {
