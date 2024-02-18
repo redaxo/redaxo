@@ -202,26 +202,6 @@ rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
 rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
 rex_view::setJsProperty('cookie_params', rex_login::getCookieParams());
 
-rex_extension::register('BE_STYLE_SCSS_COMPILE', static function (rex_extension_point $ep) {
-    $scssFiles = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', []));
-
-    /** @var list<array{root_dir?: string, scss_files: string|list<string>, css_file: string, copy_dest?: string}> $subject */
-    $subject = $ep->getSubject();
-    $subject[] = [
-        'root_dir' => rex_path::core('assets_files/scss/'),
-        'scss_files' => array_merge($scssFiles, [rex_path::core('assets_files/scss/master.scss')]),
-        'css_file' => rex_path::core('assets/css/styles.css'),
-        'copy_dest' => rex_path::coreAssets('css/styles.css'),
-    ];
-    $subject[] = [
-        'root_dir' => rex_path::core('assets_files/scss/'),
-        'scss_files' => rex_path::core('assets_files/scss/redaxo.scss'),
-        'css_file' => rex_path::core('assets/css/redaxo.css'),
-        'copy_dest' => rex_path::coreAssets('css/redaxo.css'),
-    ];
-    return $subject;
-});
-
 rex_extension::register('PACKAGES_INCLUDED', static function () {
     if (rex::getUser() && rex::getConfig('be_style_compile')) {
         rex_be_style::compile();
@@ -246,19 +226,6 @@ rex_view::addJsFile(rex_url::coreAssets('js/main.js'), [rex_view::JS_IMMUTABLE =
 
 rex_view::addCssFile(rex_url::coreAssets('css/redaxo.css'));
 rex_view::addJsFile(rex_url::coreAssets('js/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
-
-rex_extension::register('PAGE_HEADER', static function (rex_extension_point $ep) {
-    $icons = [];
-    $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="' . rex_url::coreAssets('icons/apple-touch-icon.png') . '">';
-    $icons[] = '<link rel="icon" type="image/png" sizes="32x32" href="' . rex_url::coreAssets('icons/favicon-32x32.png') . '">';
-    $icons[] = '<link rel="icon" type="image/png" sizes="16x16" href="' . rex_url::coreAssets('icons/favicon-16x16.png') . '">';
-    $icons[] = '<link rel="manifest" href="' . rex_url::coreAssets('icons/site.webmanifest') . '">';
-    $icons[] = '<link rel="mask-icon" href="' . rex_url::coreAssets('icons/safari-pinned-tab.svg') . '" color="' . rex_escape((string) rex::getConfig('be_style_labelcolor', '#4d99d3')) . '">';
-    $icons[] = '<meta name="msapplication-TileColor" content="#2d89ef">';
-
-    $icons = implode("\n    ", $icons);
-    $ep->setSubject($icons . rex_type::string($ep->getSubject()));
-});
 
 if (rex::getUser()) {
     /* Customizer Ergänzungen */
