@@ -4242,7 +4242,6 @@
       <code>$dir</code>
       <code>$func($path)</code>
       <code>$path</code>
-      <code>$source</code>
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$config['db'][1]]]></code>
@@ -4259,6 +4258,9 @@
       <code>$files</code>
       <code>$source</code>
     </MixedAssignment>
+    <MixedOperand>
+      <code>$source</code>
+    </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/sql/schema_dumper.php">
     <RedundantCondition>
@@ -5072,7 +5074,6 @@
   <file src="redaxo/src/core/pages/system.settings.php">
     <MixedArgument>
       <code>$destination</code>
-      <code>$source</code>
     </MixedArgument>
     <MixedAssignment>
       <code>$config[$key]</code>
@@ -5080,6 +5081,9 @@
       <code>$files</code>
       <code>$source</code>
     </MixedAssignment>
+    <MixedOperand>
+      <code>$source</code>
+    </MixedOperand>
     <NullOperand>
       <code><![CDATA[rex_escape($editor->getBasepath())]]></code>
     </NullOperand>
