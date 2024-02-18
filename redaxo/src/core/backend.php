@@ -202,12 +202,6 @@ rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
 rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
 rex_view::setJsProperty('cookie_params', rex_login::getCookieParams());
 
-rex_extension::register('PACKAGES_INCLUDED', static function () {
-    if (rex::getUser() && rex::getConfig('be_style_compile')) {
-        rex_be_style::compile();
-    }
-});
-
 rex_view::addCssFile(rex_url::coreAssets('css/styles.css'));
 rex_view::addCssFile(rex_url::coreAssets('css/bootstrap-select.min.css'));
 rex_view::addJsFile(rex_url::coreAssets('js/bootstrap.js'), [rex_view::JS_IMMUTABLE => true]);
@@ -260,6 +254,10 @@ rex_perm::register('users[]');
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
+
+if (rex::getUser() && rex::getConfig('be_style_compile')) {
+    rex_be_style::compile();
+}
 
 // ----- Prepare AddOn Pages
 if (rex::getUser()) {
