@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494">
+<files psalm-version="5.22.1@e9dad66e11274315dac27e08349c628c7d6a1a43">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <TaintedFile>
-      <code>$filename</code>
-      <code>$filename</code>
+      <code><![CDATA[$filename]]></code>
+      <code><![CDATA[$filename]]></code>
     </TaintedFile>
   </file>
   <file src="redaxo/src/addons/backup/lib/compressor.php">
     <TaintedFile>
-      <code>$source</code>
+      <code><![CDATA[$source]]></code>
     </TaintedFile>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/cronjob.php">
     <TaintedCallable>
-      <code>$class</code>
+      <code><![CDATA[$class]]></code>
     </TaintedCallable>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_action.php">
@@ -81,37 +81,29 @@
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
     <TaintedHeader>
-      <code>$rawHeader</code>
+      <code><![CDATA[$rawHeader]]></code>
     </TaintedHeader>
   </file>
   <file src="redaxo/src/core/lib/response.php">
     <TaintedHeader>
       <code><![CDATA[$name . ': ' . $value]]></code>
-      <code>$str</code>
+      <code><![CDATA[$str]]></code>
       <code><![CDATA['Location: ' . $url]]></code>
       <code><![CDATA['Location: ' . $url]]></code>
     </TaintedHeader>
   </file>
-  <file src="redaxo/src/core/lib/sql/sql.php">
-    <TaintedSql>
-      <code>$query</code>
-      <code>$query</code>
-      <code>$query</code>
-      <code>$query</code>
-    </TaintedSql>
-  </file>
   <file src="redaxo/src/core/lib/util/file.php">
     <TaintedFile>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
     </TaintedFile>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <TaintedCallable>
-      <code>$data</code>
-      <code>$data</code>
+      <code><![CDATA[$data]]></code>
+      <code><![CDATA[$data]]></code>
     </TaintedCallable>
   </file>
 </files>

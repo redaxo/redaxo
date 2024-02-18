@@ -307,7 +307,7 @@ class rex_sql implements Iterator
      *
      * @return $this
      *
-     * @psalm-taint-sink $query
+     * @psalm-taint-sink sql $query
      * @psalm-taint-specialize
      */
     public function setDBQuery($query, array $params = [], array $options = [])
