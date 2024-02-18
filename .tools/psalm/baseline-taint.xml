@@ -92,6 +92,18 @@
       <code><![CDATA['Location: ' . $url]]></code>
     </TaintedHeader>
   </file>
+  <file src="redaxo/src/core/lib/sql/sql.php">
+    <TaintedSql>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+    </TaintedSql>
+  </file>
   <file src="redaxo/src/core/lib/util/file.php">
     <TaintedFile>
       <code><![CDATA[$file]]></code>
