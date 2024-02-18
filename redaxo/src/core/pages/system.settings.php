@@ -28,7 +28,7 @@ if ($func && !$csrfToken->isValid()) {
 
     $files = require rex_path::core('vendor_files.php');
     foreach ($files as $source => $destination) {
-        rex_file::copy(rex_path::core($source), rex_path::coreAssets($destination));
+        rex_file::copy(rex_path::core('assets_files/' . $source), rex_path::coreAssets($destination));
     }
 
     $success = 'Updated assets';

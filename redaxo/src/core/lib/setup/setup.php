@@ -46,7 +46,7 @@ class rex_setup
         $files = require rex_path::core('vendor_files.php');
         foreach ($files as $source => $destination) {
             // ignore errors, because this file is included very early in setup, before the regular file permissions check
-            rex_file::copy(rex_path::core($source), rex_path::coreAssets($destination));
+            rex_file::copy(rex_path::core('assets_files/' . $source), rex_path::coreAssets($destination));
         }
     }
 

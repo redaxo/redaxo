@@ -162,7 +162,7 @@ class rex_release
 
         $files = require rex_path::core('vendor_files.php');
         foreach ($files as $source => $destination) {
-            $complete->addFile(rex_path::core($source), 'assets/core/' . $destination);
+            $complete->addFile(rex_path::core('assets_files/' . $source), 'assets/core/' . $destination);
         }
 
         $complete->close();
