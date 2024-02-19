@@ -187,7 +187,7 @@ class rex_media_manager
      */
     public static function setCacheDirectory(string $path): void
     {
-        self::$cacheDirectory = rtrim($path, '/\\').DIRECTORY_SEPARATOR;
+        self::$cacheDirectory = rtrim($path, '/\\') . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -394,7 +394,7 @@ class rex_media_manager
     public static function getSupportedEffects()
     {
         $dirs = [
-            __DIR__.'/effects/',
+            __DIR__ . '/effects/',
         ];
 
         $effects = [];
