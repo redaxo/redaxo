@@ -1113,9 +1113,12 @@ var_medialist_move_bottom = Переместить выбранные файлы
 perm_general_media[sync] = Медиабаза: Синхронизация файлов
 
 # metainfo
-media = Медиа
-categories = Категории
-articles = Статьи
+metainfo = Mетаинфо
+metainfo_media = Медиа
+metainfo_categories = Категории
+metainfo_articles = Статьи
+metainfo_clangs = Языки
+metainfo_help = Справка
 
 minfo_title = Развернуть метаинформацию
 minfo_metainfos_not_found = Не найдено метаинформации

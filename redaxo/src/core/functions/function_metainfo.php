@@ -222,7 +222,7 @@ function rex_metainfo_meta_prefix(string $name)
  */
 function rex_metainfo_meta_table(string $prefix)
 {
-    $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', []);
+    $metaTables = rex::getProperty('metainfo_metaTables', []);
 
     return $metaTables[$prefix] ?? false;
 }
@@ -238,17 +238,17 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
 
     // additional javascripts
     if (in_array($mainpage, ['metainfo', 'mediapool'], true) || in_array($page, ['content/metainfo', 'structure', 'system/lang'], true)) {
-        rex_view::addJsFile(rex_url::addonAssets('metainfo', 'metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
+        rex_view::addJsFile(rex_url::coreAssets('js/metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
     }
 
     // include extensions
     if ('structure' == $page) {
-        require_once __DIR__ . '/../lib/handler/category_handler.php';
+        require_once __DIR__ . '/../lib/metainfo/handler/category_handler.php';
     } elseif ('mediapool' == $mainpage) {
-        require_once __DIR__ . '/../lib/handler/media_handler.php';
+        require_once __DIR__ . '/../lib/metainfo/handler/media_handler.php';
     } elseif ('system/lang' == $page) {
-        require_once __DIR__ . '/../lib/handler/clang_handler.php';
+        require_once __DIR__ . '/../lib/metainfo/handler/clang_handler.php';
     } elseif ('backup' == $page) {
-        require_once __DIR__ . '/../extensions/extension_cleanup.php';
+        require_once __DIR__ . '/function_metainfo_extension_cleanup.php';
     }
 }

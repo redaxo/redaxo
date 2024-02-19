@@ -481,176 +481,6 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/tests/mediapool_test.php
 
 		-
-			message: "#^Function rex_metainfo_cleanup\\(\\) has parameter \\$epOrParams with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/extensions/extension_cleanup.php
-
-		-
-			message: "#^Function rex_metainfo_cleanup\\(\\) has parameter \\$epOrParams with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/extensions/extension_cleanup.php
-
-		-
-			message: "#^Function rex_metainfo_extensions_handler\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/functions/function_metainfo.php
-
-		-
-			message: "#^Method rex_metainfo_article_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/article_handler.php
-
-		-
-			message: "#^Method rex_metainfo_article_handler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/article_handler.php
-
-		-
-			message: "#^Method rex_metainfo_article_handler\\:\\:getForm\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/article_handler.php
-
-		-
-			message: "#^Method rex_metainfo_article_handler\\:\\:handleSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/article_handler.php
-
-		-
-			message: "#^Method rex_metainfo_article_handler\\:\\:handleSave\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/article_handler.php
-
-		-
-			message: "#^Method rex_metainfo_category_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/category_handler.php
-
-		-
-			message: "#^Method rex_metainfo_category_handler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/category_handler.php
-
-		-
-			message: "#^Method rex_metainfo_category_handler\\:\\:handleSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/category_handler.php
-
-		-
-			message: "#^Method rex_metainfo_category_handler\\:\\:handleSave\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/category_handler.php
-
-		-
-			message: "#^Method rex_metainfo_category_handler\\:\\:renderToggleButton\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/category_handler.php
-
-		-
-			message: "#^Method rex_metainfo_clang_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/clang_handler.php
-
-		-
-			message: "#^Method rex_metainfo_clang_handler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/clang_handler.php
-
-		-
-			message: "#^Method rex_metainfo_clang_handler\\:\\:handleSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/clang_handler.php
-
-		-
-			message: "#^Method rex_metainfo_clang_handler\\:\\:handleSave\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/clang_handler.php
-
-		-
-			message: "#^Method rex_metainfo_clang_handler\\:\\:renderToggleButton\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/clang_handler.php
-
-		-
-			message: "#^Return type \\(void\\) of method rex_metainfo_clang_handler\\:\\:buildFilterCondition\\(\\) should be compatible with return type \\(string\\) of method rex_metainfo_handler\\:\\:buildFilterCondition\\(\\)$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/clang_handler.php
-
-		-
-			message: "#^Method rex_metainfo_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
-
-		-
-			message: "#^Method rex_metainfo_handler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
-
-		-
-			message: "#^Method rex_metainfo_handler\\:\\:fetchRequestValues\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
-
-		-
-			message: "#^Method rex_metainfo_handler\\:\\:handleSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
-
-		-
-			message: "#^Method rex_metainfo_handler\\:\\:handleSave\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
-
-		-
-			message: "#^Method rex_metainfo_handler\\:\\:renderFormAndSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
-
-		-
-			message: "#^Method rex_metainfo_handler\\:\\:renderMetaFields\\(\\) has parameter \\$epParams with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
-
-		-
-			message: "#^Method rex_metainfo_media_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/media_handler.php
-
-		-
-			message: "#^Method rex_metainfo_media_handler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/media_handler.php
-
-		-
-			message: "#^Method rex_metainfo_media_handler\\:\\:handleSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/media_handler.php
-
-		-
-			message: "#^Method rex_metainfo_media_handler\\:\\:handleSave\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/media_handler.php
-
-		-
-			message: "#^Method rex_metainfo_media_handler\\:\\:isMediaInUse\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/handler/media_handler.php
-
-		-
-			message: "#^Method rex_input\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input.php
-
-		-
-			message: "#^Property rex_input_mediabutton\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/mediabutton.php
-
-		-
-			message: "#^Property rex_input_medialistbutton\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/medialistbutton.php
-
-		-
 			message: "#^Function rex_getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/functions/function_rex_url.php
@@ -1291,6 +1121,21 @@ parameters:
 			path: ../../redaxo/src/addons/structure/tests/category_test.php
 
 		-
+			message: "#^Function rex_metainfo_extensions_handler\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/functions/function_metainfo.php
+
+		-
+			message: "#^Function rex_metainfo_cleanup\\(\\) has parameter \\$epOrParams with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/functions/function_metainfo_extension_cleanup.php
+
+		-
+			message: "#^Function rex_metainfo_cleanup\\(\\) has parameter \\$epOrParams with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/functions/function_metainfo_extension_cleanup.php
+
+		-
 			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/api_function.php
@@ -1914,6 +1759,161 @@ parameters:
 			message: "#^Method rex_user_role\\:\\:removeOrReplaceItem\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/user_role.php
+
+		-
+			message: "#^Method rex_metainfo_article_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/article_handler.php
+
+		-
+			message: "#^Method rex_metainfo_article_handler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/article_handler.php
+
+		-
+			message: "#^Method rex_metainfo_article_handler\\:\\:getForm\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/article_handler.php
+
+		-
+			message: "#^Method rex_metainfo_article_handler\\:\\:handleSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/article_handler.php
+
+		-
+			message: "#^Method rex_metainfo_article_handler\\:\\:handleSave\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/article_handler.php
+
+		-
+			message: "#^Method rex_metainfo_category_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/category_handler.php
+
+		-
+			message: "#^Method rex_metainfo_category_handler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/category_handler.php
+
+		-
+			message: "#^Method rex_metainfo_category_handler\\:\\:handleSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/category_handler.php
+
+		-
+			message: "#^Method rex_metainfo_category_handler\\:\\:handleSave\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/category_handler.php
+
+		-
+			message: "#^Method rex_metainfo_category_handler\\:\\:renderToggleButton\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/category_handler.php
+
+		-
+			message: "#^Method rex_metainfo_clang_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/clang_handler.php
+
+		-
+			message: "#^Method rex_metainfo_clang_handler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/clang_handler.php
+
+		-
+			message: "#^Method rex_metainfo_clang_handler\\:\\:handleSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/clang_handler.php
+
+		-
+			message: "#^Method rex_metainfo_clang_handler\\:\\:handleSave\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/clang_handler.php
+
+		-
+			message: "#^Method rex_metainfo_clang_handler\\:\\:renderToggleButton\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/clang_handler.php
+
+		-
+			message: "#^Return type \\(void\\) of method rex_metainfo_clang_handler\\:\\:buildFilterCondition\\(\\) should be compatible with return type \\(string\\) of method rex_metainfo_handler\\:\\:buildFilterCondition\\(\\)$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/clang_handler.php
+
+		-
+			message: "#^Method rex_metainfo_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/handler.php
+
+		-
+			message: "#^Method rex_metainfo_handler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/handler.php
+
+		-
+			message: "#^Method rex_metainfo_handler\\:\\:fetchRequestValues\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/handler.php
+
+		-
+			message: "#^Method rex_metainfo_handler\\:\\:handleSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/handler.php
+
+		-
+			message: "#^Method rex_metainfo_handler\\:\\:handleSave\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/handler.php
+
+		-
+			message: "#^Method rex_metainfo_handler\\:\\:renderFormAndSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/handler.php
+
+		-
+			message: "#^Method rex_metainfo_handler\\:\\:renderMetaFields\\(\\) has parameter \\$epParams with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/handler.php
+
+		-
+			message: "#^Method rex_metainfo_media_handler\\:\\:buildFilterCondition\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/media_handler.php
+
+		-
+			message: "#^Method rex_metainfo_media_handler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/media_handler.php
+
+		-
+			message: "#^Method rex_metainfo_media_handler\\:\\:handleSave\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/media_handler.php
+
+		-
+			message: "#^Method rex_metainfo_media_handler\\:\\:handleSave\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/media_handler.php
+
+		-
+			message: "#^Method rex_metainfo_media_handler\\:\\:isMediaInUse\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/handler/media_handler.php
+
+		-
+			message: "#^Method rex_input\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/input.php
+
+		-
+			message: "#^Property rex_input_mediabutton\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/input/mediabutton.php
+
+		-
+			message: "#^Property rex_input_medialistbutton\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/metainfo/input/medialistbutton.php
 
 		-
 			message: "#^Method rex_package_interface\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"

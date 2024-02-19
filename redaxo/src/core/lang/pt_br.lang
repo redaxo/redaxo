@@ -853,9 +853,12 @@ var_medialist_move_down = Mover a mídia selecionada para baixo
 var_medialist_move_bottom  = Mover a mídia selecionada para baixa
 
 # metainfo
-media = Mídia
-categories = Categorias
-articles = Artigos
+metainfo = Metainfo
+metainfo_media = Mídia
+metainfo_categories = Categorias
+metainfo_articles = Artigos
+metainfo_clangs = Idiomas
+metainfo_help = Ajuda
 
 minfo_title = Expandir meta-informações
 minfo_metainfos_not_found = Nenhuma meta informação foi encontrada

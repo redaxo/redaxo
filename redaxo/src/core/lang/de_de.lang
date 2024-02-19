@@ -1120,9 +1120,12 @@ var_medialist_move_bottom = Ausgewähltes Medium an das Ende verschieben
 perm_general_media[sync] = Medienpool: Dateien synchronisieren
 
 # metainfo
-media = Medien
-categories = Kategorien
-articles = Artikel
+metainfo = Metainfo
+metainfo_media = Medien
+metainfo_categories = Kategorien
+metainfo_articles = Artikel
+metainfo_clangs = Sprachen
+metainfo_help = Hilfe
 
 minfo_title = Metainformationen erweitern
 minfo_metainfos_not_found = Es wurden keine Metainformationen gefunden

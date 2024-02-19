@@ -842,333 +842,6 @@
       <code><![CDATA[$allowedMimeTypes]]></code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/addons/metainfo/boot.php">
-    <MixedArgument>
-      <code><![CDATA[$ep->getParam('file')]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$metaSidebar]]></code>
-      <code><![CDATA[$subject]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$metaSidebar]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/metainfo/extensions/extension_cleanup.php">
-    <MixedArgument>
-      <code><![CDATA[$params['content']]]></code>
-      <code><![CDATA[$params['content']]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/addons/metainfo/functions/function_metainfo.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$metaTables[$prefix]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$metaTables]]></code>
-      <code><![CDATA[$page]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string|false]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$metaTables[$prefix] ?? false]]></code>
-      <code><![CDATA[$metaTables[$prefix] ?? false]]></code>
-    </MixedReturnStatement>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/handler/api_default_fields.php">
-    <MixedAssignment>
-      <code><![CDATA[$return]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/handler/article_handler.php">
-    <MixedArgument>
-      <code><![CDATA[$params['clang']]]></code>
-      <code><![CDATA[$params['clang']]]></code>
-      <code><![CDATA[$params['clang']]]></code>
-      <code><![CDATA[$params['id']]]></code>
-      <code><![CDATA[$params['id']]]></code>
-      <code><![CDATA[$params['id']]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$params['activeItem']]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[setValue]]></code>
-    </MixedMethodCall>
-    <PossiblyNullOperand>
-      <code><![CDATA[$OOArt->getValue('template_id')]]></code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference>
-      <code><![CDATA[getCategoryId]]></code>
-      <code><![CDATA[getPathAsArray]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/handler/category_handler.php">
-    <MixedArgument>
-      <code><![CDATA[$params['clang']]]></code>
-      <code><![CDATA[$params['clang']]]></code>
-      <code><![CDATA[$params['id']]]></code>
-      <code><![CDATA[$params['id']]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$catHandler->extendForm(...)]]></code>
-      <code><![CDATA[$catHandler->extendForm(...)]]></code>
-      <code><![CDATA[$catHandler->extendForm(...)]]></code>
-      <code><![CDATA[$catHandler->extendForm(...)]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$params['activeItem']]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[extendForm]]></code>
-      <code><![CDATA[string]]></code>
-    </MixedInferredReturnType>
-    <MixedMethodCall>
-      <code><![CDATA[setValue]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$ep->getSubject()]]></code>
-      <code><![CDATA[$ep->getSubject()]]></code>
-      <code><![CDATA[$params['id']]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$ep->getSubject()]]></code>
-      <code><![CDATA[$ep->getSubject()]]></code>
-    </MixedReturnStatement>
-    <PossiblyNullReference>
-      <code><![CDATA[getPathAsArray]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/handler/clang_handler.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[void]]></code>
-    </ImplementedReturnTypeMismatch>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$clangHandler->extendForm(...)]]></code>
-      <code><![CDATA[$clangHandler->extendForm(...)]]></code>
-      <code><![CDATA[$clangHandler->extendForm(...)]]></code>
-      <code><![CDATA[$clangHandler->extendForm(...)]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$params['activeItem']]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[extendForm]]></code>
-      <code><![CDATA[string]]></code>
-    </MixedInferredReturnType>
-    <MixedOperand>
-      <code><![CDATA[$ep->getSubject()]]></code>
-      <code><![CDATA[$ep->getSubject()]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$ep->getSubject()]]></code>
-      <code><![CDATA[$ep->getSubject()]]></code>
-    </MixedReturnStatement>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/handler/handler.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$dbvalues[0]]]></code>
-      <code><![CDATA[$dbvalues[0]]]></code>
-      <code><![CDATA[$dbvalues[0]]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[$activeItem->getValue($name)]]></code>
-      <code><![CDATA[$activeItem->getValue($name)]]></code>
-      <code><![CDATA[$field->getValue('callback')]]></code>
-      <code><![CDATA[$fieldAttributes]]></code>
-      <code><![CDATA[$fieldName]]></code>
-      <code><![CDATA[$fieldType]]></code>
-      <code><![CDATA[$itemValue]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$attrArray]]></code>
-      <code><![CDATA[$attrArray]]></code>
-      <code><![CDATA[$attrArray]]></code>
-      <code><![CDATA[$attrArray]]></code>
-      <code><![CDATA[$attrArray]]></code>
-      <code><![CDATA[$attrArray]]></code>
-      <code><![CDATA[$attrArray]]></code>
-      <code><![CDATA[$postValue]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$activeItem]]></code>
-      <code><![CDATA[$category]]></code>
-      <code><![CDATA[$category]]></code>
-      <code><![CDATA[$fieldAttributes]]></code>
-      <code><![CDATA[$fieldName]]></code>
-      <code><![CDATA[$fieldType]]></code>
-      <code><![CDATA[$itemValue]]></code>
-      <code><![CDATA[$postValue]]></code>
-      <code><![CDATA[$saveValue]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string|int|null]]></code>
-    </MixedInferredReturnType>
-    <MixedMethodCall>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[setValue]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$postValue]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$saveValue]]></code>
-      <code><![CDATA[$saveValue]]></code>
-    </MixedReturnStatement>
-    <NullOperand>
-      <code><![CDATA[rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name))]]></code>
-    </NullOperand>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$dbvalues[0]]]></code>
-      <code><![CDATA[$dbvalues[0]]]></code>
-      <code><![CDATA[$dbvalues[0]]]></code>
-      <code><![CDATA[$dbvalues[0]]]></code>
-      <code><![CDATA[$temp[1]]]></code>
-      <code><![CDATA[$temp[1]]]></code>
-    </PossiblyUndefinedArrayOffset>
-    <RedundantCondition>
-      <code><![CDATA['datetime' == $typeLabel]]></code>
-    </RedundantCondition>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/handler/media_handler.php">
-    <MixedArgument>
-      <code><![CDATA[$catId]]></code>
-      <code><![CDATA[$params['filename']]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$mediaHandler->extendForm(...)]]></code>
-      <code><![CDATA[$mediaHandler->extendForm(...)]]></code>
-      <code><![CDATA[$mediaHandler->extendForm(...)]]></code>
-      <code><![CDATA[$mediaHandler->extendForm(...)]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAssignment>
-      <code><![CDATA[$warning[]]]></code>
-      <code><![CDATA[$warning[]]]></code>
-      <code><![CDATA[$warning[]]]></code>
-      <code><![CDATA[$warning[]]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$catId]]></code>
-      <code><![CDATA[$params['activeItem']]]></code>
-      <code><![CDATA[$warning]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string[]]]></code>
-    </MixedInferredReturnType>
-    <MixedMethodCall>
-      <code><![CDATA[getValue]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$catId]]></code>
-      <code><![CDATA[$ep->getSubject()]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$warning]]></code>
-      <code><![CDATA[$warning]]></code>
-      <code><![CDATA[$warning]]></code>
-    </MixedReturnStatement>
-    <PossiblyNullOperand>
-      <code><![CDATA[$sql->getValue('type_id')]]></code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference>
-      <code><![CDATA[getPathAsArray]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/input.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$value]]></code>
-    </InvalidPropertyAssignmentValue>
-    <MixedInferredReturnType>
-      <code><![CDATA[string|int|null]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->attributes[$name] ?? $default]]></code>
-      <code><![CDATA[$this->attributes[$name] ?? $default]]></code>
-    </MixedReturnStatement>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[$this->getValue()]]></code>
-    </MixedReturnTypeCoercion>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/input/date.php">
-    <InvalidArgument>
-      <code><![CDATA[$value]]></code>
-    </InvalidArgument>
-    <MixedArgument>
-      <code><![CDATA[$end]]></code>
-      <code><![CDATA[$start]]></code>
-    </MixedArgument>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$value['day']]]></code>
-      <code><![CDATA[$value['month']]]></code>
-      <code><![CDATA[$value['year']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/input/time.php">
-    <InvalidArgument>
-      <code><![CDATA[$value]]></code>
-    </InvalidArgument>
-    <MixedArgument>
-      <code><![CDATA[$end]]></code>
-      <code><![CDATA[$start]]></code>
-    </MixedArgument>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$value['hour']]]></code>
-      <code><![CDATA[$value['minute']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/restrictions_element.php">
-    <PossiblyNullOperand>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/table_expander.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$tableName]]></code>
-    </ArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$params['id']]]></code>
-    </MixedAssignment>
-    <PossiblyNullArgument>
-      <code><![CDATA[$fieldAttributes]]></code>
-      <code><![CDATA[$fieldDefault]]></code>
-      <code><![CDATA[$fieldDefault]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$field->getAttribute('id')]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/metainfo/pages/content.metainfo.php">
-    <MixedArgument>
-      <code><![CDATA[$ctypes]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$ctypes]]></code>
-    </MixedAssignment>
-    <PossiblyNullOperand>
-      <code><![CDATA[rex_escape($article->getValue('createuser'))]]></code>
-      <code><![CDATA[rex_escape($article->getValue('updateuser'))]]></code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getValue]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/metainfo/pages/field.php">
-    <TypeDoesNotContainType>
-      <code><![CDATA[!is_string($metaTable)]]></code>
-    </TypeDoesNotContainType>
-  </file>
   <file src="redaxo/src/addons/structure/boot.php">
     <MixedArgument>
       <code><![CDATA[$articleId]]></code>
@@ -2093,13 +1766,19 @@
       <code><![CDATA[$assetFile]]></code>
       <code><![CDATA[$assetFile]]></code>
       <code><![CDATA[$assetFile]]></code>
+      <code><![CDATA[$ep->getParam('file')]]></code>
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$userAgent]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$assetFile]]></code>
+      <code><![CDATA[$metaSidebar]]></code>
+      <code><![CDATA[$subject]]></code>
       <code><![CDATA[$userAgent]]></code>
     </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$metaSidebar]]></code>
+    </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$_SERVER['PHP_SELF']]]></code>
     </PossiblyNullArgument>
@@ -2650,6 +2329,37 @@
       <code><![CDATA[$this->favicon]]></code>
       <code><![CDATA[$this->jsProperties]]></code>
     </MixedOperand>
+  </file>
+  <file src="redaxo/src/core/functions/function_metainfo.php">
+    <MixedArrayAccess>
+      <code><![CDATA[$metaTables[$prefix]]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$metaTables]]></code>
+      <code><![CDATA[$page]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[string|false]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$metaTables[$prefix] ?? false]]></code>
+      <code><![CDATA[$metaTables[$prefix] ?? false]]></code>
+    </MixedReturnStatement>
+    <NullableReturnStatement>
+      <code><![CDATA[$metaTables[$prefix] ?? false]]></code>
+    </NullableReturnStatement>
+    <PossiblyNullArrayAccess>
+      <code><![CDATA[$metaTables[$prefix]]]></code>
+    </PossiblyNullArrayAccess>
+  </file>
+  <file src="redaxo/src/core/functions/function_metainfo_extension_cleanup.php">
+    <MissingFile>
+      <code><![CDATA[require_once __DIR__ . '/../lib/table_manager.php']]></code>
+    </MissingFile>
+    <MixedArgument>
+      <code><![CDATA[$params['content']]]></code>
+      <code><![CDATA[$params['content']]]></code>
+    </MixedArgument>
   </file>
   <file src="redaxo/src/core/functions/function_rex_escape.php">
     <InvalidCast>
@@ -3906,6 +3616,278 @@
       <code><![CDATA[$role[$key]]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
+  <file src="redaxo/src/core/lib/metainfo/handler/api_default_fields.php">
+    <MixedAssignment>
+      <code><![CDATA[$return]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="redaxo/src/core/lib/metainfo/handler/article_handler.php">
+    <MixedArgument>
+      <code><![CDATA[$params['clang']]]></code>
+      <code><![CDATA[$params['clang']]]></code>
+      <code><![CDATA[$params['clang']]]></code>
+      <code><![CDATA[$params['id']]]></code>
+      <code><![CDATA[$params['id']]]></code>
+      <code><![CDATA[$params['id']]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$params['activeItem']]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[setValue]]></code>
+    </MixedMethodCall>
+    <PossiblyNullOperand>
+      <code><![CDATA[$OOArt->getValue('template_id')]]></code>
+    </PossiblyNullOperand>
+    <PossiblyNullReference>
+      <code><![CDATA[getCategoryId]]></code>
+      <code><![CDATA[getPathAsArray]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/metainfo/handler/category_handler.php">
+    <MixedArgument>
+      <code><![CDATA[$params['clang']]]></code>
+      <code><![CDATA[$params['clang']]]></code>
+      <code><![CDATA[$params['id']]]></code>
+      <code><![CDATA[$params['id']]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$catHandler->extendForm(...)]]></code>
+      <code><![CDATA[$catHandler->extendForm(...)]]></code>
+      <code><![CDATA[$catHandler->extendForm(...)]]></code>
+      <code><![CDATA[$catHandler->extendForm(...)]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$params['activeItem']]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[extendForm]]></code>
+      <code><![CDATA[string]]></code>
+    </MixedInferredReturnType>
+    <MixedMethodCall>
+      <code><![CDATA[setValue]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$ep->getSubject()]]></code>
+      <code><![CDATA[$ep->getSubject()]]></code>
+      <code><![CDATA[$params['id']]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$ep->getSubject()]]></code>
+      <code><![CDATA[$ep->getSubject()]]></code>
+    </MixedReturnStatement>
+    <PossiblyNullReference>
+      <code><![CDATA[getPathAsArray]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/metainfo/handler/clang_handler.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[void]]></code>
+    </ImplementedReturnTypeMismatch>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$clangHandler->extendForm(...)]]></code>
+      <code><![CDATA[$clangHandler->extendForm(...)]]></code>
+      <code><![CDATA[$clangHandler->extendForm(...)]]></code>
+      <code><![CDATA[$clangHandler->extendForm(...)]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$params['activeItem']]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[extendForm]]></code>
+      <code><![CDATA[string]]></code>
+    </MixedInferredReturnType>
+    <MixedOperand>
+      <code><![CDATA[$ep->getSubject()]]></code>
+      <code><![CDATA[$ep->getSubject()]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$ep->getSubject()]]></code>
+      <code><![CDATA[$ep->getSubject()]]></code>
+    </MixedReturnStatement>
+  </file>
+  <file src="redaxo/src/core/lib/metainfo/handler/handler.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$dbvalues[0]]]></code>
+      <code><![CDATA[$dbvalues[0]]]></code>
+      <code><![CDATA[$dbvalues[0]]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$activeItem->getValue($name)]]></code>
+      <code><![CDATA[$activeItem->getValue($name)]]></code>
+      <code><![CDATA[$field->getValue('callback')]]></code>
+      <code><![CDATA[$fieldAttributes]]></code>
+      <code><![CDATA[$fieldName]]></code>
+      <code><![CDATA[$fieldType]]></code>
+      <code><![CDATA[$itemValue]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$attrArray]]></code>
+      <code><![CDATA[$attrArray]]></code>
+      <code><![CDATA[$attrArray]]></code>
+      <code><![CDATA[$attrArray]]></code>
+      <code><![CDATA[$attrArray]]></code>
+      <code><![CDATA[$attrArray]]></code>
+      <code><![CDATA[$attrArray]]></code>
+      <code><![CDATA[$postValue]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$activeItem]]></code>
+      <code><![CDATA[$category]]></code>
+      <code><![CDATA[$category]]></code>
+      <code><![CDATA[$fieldAttributes]]></code>
+      <code><![CDATA[$fieldName]]></code>
+      <code><![CDATA[$fieldType]]></code>
+      <code><![CDATA[$itemValue]]></code>
+      <code><![CDATA[$postValue]]></code>
+      <code><![CDATA[$saveValue]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[string|int|null]]></code>
+    </MixedInferredReturnType>
+    <MixedMethodCall>
+      <code><![CDATA[getValue]]></code>
+      <code><![CDATA[getValue]]></code>
+      <code><![CDATA[getValue]]></code>
+      <code><![CDATA[getValue]]></code>
+      <code><![CDATA[getValue]]></code>
+      <code><![CDATA[getValue]]></code>
+      <code><![CDATA[getValue]]></code>
+      <code><![CDATA[getValue]]></code>
+      <code><![CDATA[getValue]]></code>
+      <code><![CDATA[getValue]]></code>
+      <code><![CDATA[setValue]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$postValue]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$saveValue]]></code>
+      <code><![CDATA[$saveValue]]></code>
+    </MixedReturnStatement>
+    <NullOperand>
+      <code><![CDATA[rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name))]]></code>
+    </NullOperand>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$dbvalues[0]]]></code>
+      <code><![CDATA[$dbvalues[0]]]></code>
+      <code><![CDATA[$dbvalues[0]]]></code>
+      <code><![CDATA[$dbvalues[0]]]></code>
+      <code><![CDATA[$temp[1]]]></code>
+      <code><![CDATA[$temp[1]]]></code>
+    </PossiblyUndefinedArrayOffset>
+    <RedundantCondition>
+      <code><![CDATA['datetime' == $typeLabel]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="redaxo/src/core/lib/metainfo/handler/media_handler.php">
+    <MixedArgument>
+      <code><![CDATA[$catId]]></code>
+      <code><![CDATA[$params['filename']]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$mediaHandler->extendForm(...)]]></code>
+      <code><![CDATA[$mediaHandler->extendForm(...)]]></code>
+      <code><![CDATA[$mediaHandler->extendForm(...)]]></code>
+      <code><![CDATA[$mediaHandler->extendForm(...)]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAssignment>
+      <code><![CDATA[$warning[]]]></code>
+      <code><![CDATA[$warning[]]]></code>
+      <code><![CDATA[$warning[]]]></code>
+      <code><![CDATA[$warning[]]]></code>
+    </MixedArrayAssignment>
+    <MixedAssignment>
+      <code><![CDATA[$catId]]></code>
+      <code><![CDATA[$params['activeItem']]]></code>
+      <code><![CDATA[$warning]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[string[]]]></code>
+    </MixedInferredReturnType>
+    <MixedMethodCall>
+      <code><![CDATA[getValue]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$catId]]></code>
+      <code><![CDATA[$ep->getSubject()]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$warning]]></code>
+      <code><![CDATA[$warning]]></code>
+      <code><![CDATA[$warning]]></code>
+    </MixedReturnStatement>
+    <PossiblyNullOperand>
+      <code><![CDATA[$sql->getValue('type_id')]]></code>
+    </PossiblyNullOperand>
+    <PossiblyNullReference>
+      <code><![CDATA[getPathAsArray]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/metainfo/input.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$value]]></code>
+    </InvalidPropertyAssignmentValue>
+    <MixedInferredReturnType>
+      <code><![CDATA[string|int|null]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->attributes[$name] ?? $default]]></code>
+      <code><![CDATA[$this->attributes[$name] ?? $default]]></code>
+    </MixedReturnStatement>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$this->getValue()]]></code>
+    </MixedReturnTypeCoercion>
+  </file>
+  <file src="redaxo/src/core/lib/metainfo/input/date.php">
+    <InvalidArgument>
+      <code><![CDATA[$value]]></code>
+    </InvalidArgument>
+    <MixedArgument>
+      <code><![CDATA[$end]]></code>
+      <code><![CDATA[$start]]></code>
+    </MixedArgument>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$value['day']]]></code>
+      <code><![CDATA[$value['month']]]></code>
+      <code><![CDATA[$value['year']]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="redaxo/src/core/lib/metainfo/input/time.php">
+    <InvalidArgument>
+      <code><![CDATA[$value]]></code>
+    </InvalidArgument>
+    <MixedArgument>
+      <code><![CDATA[$end]]></code>
+      <code><![CDATA[$start]]></code>
+    </MixedArgument>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$value['hour']]]></code>
+      <code><![CDATA[$value['minute']]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="redaxo/src/core/lib/metainfo/restrictions_element.php">
+    <PossiblyNullOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/lib/metainfo/table_expander.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$tableName]]></code>
+    </ArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$params['id']]]></code>
+    </MixedAssignment>
+    <PossiblyNullArgument>
+      <code><![CDATA[$fieldAttributes]]></code>
+      <code><![CDATA[$fieldDefault]]></code>
+      <code><![CDATA[$fieldDefault]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand>
+      <code><![CDATA[$field->getAttribute('id')]]></code>
+    </PossiblyNullOperand>
+  </file>
   <file src="redaxo/src/core/lib/packages/addons/addon.php">
     <InvalidScalarArgument>
       <code><![CDATA[$args]]></code>
@@ -4874,6 +4856,27 @@
     <MixedArgument>
       <code><![CDATA[$rexUserLoginmessage]]></code>
     </MixedArgument>
+  </file>
+  <file src="redaxo/src/core/pages/metainfo.content.php">
+    <MixedArgument>
+      <code><![CDATA[$ctypes]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$ctypes]]></code>
+    </MixedAssignment>
+    <PossiblyNullOperand>
+      <code><![CDATA[rex_escape($article->getValue('createuser'))]]></code>
+      <code><![CDATA[rex_escape($article->getValue('updateuser'))]]></code>
+    </PossiblyNullOperand>
+    <PossiblyNullReference>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getValue]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/pages/metainfo.field.php">
+    <TypeDoesNotContainType>
+      <code><![CDATA[!is_string($metaTable)]]></code>
+    </TypeDoesNotContainType>
   </file>
   <file src="redaxo/src/core/pages/packages.details.php">
     <PossiblyNullOperand>
