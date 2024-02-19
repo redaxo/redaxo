@@ -71,7 +71,6 @@ system_addons:
     - mediapool
     - structure
     - metainfo
-    - media_manager
     - install
     - project
 table_prefix: rex_
