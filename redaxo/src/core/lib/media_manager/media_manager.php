@@ -57,7 +57,7 @@ class rex_media_manager
     public static function create($type, $file)
     {
         $mediaPath = rex_path::media($file);
-        $cachePath = rex_path::addonCache('media_manager');
+        $cachePath = rex_path::coreCache('media_manager/');
 
         $media = new rex_managed_media($mediaPath);
         $manager = new self($media);
@@ -187,7 +187,7 @@ class rex_media_manager
      */
     public static function setCacheDirectory(string $path): void
     {
-        self::$cacheDirectory = rtrim($path, '/\\') . DIRECTORY_SEPARATOR;
+        self::$cacheDirectory = rtrim($path, '/\\').DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -298,7 +298,7 @@ class rex_media_manager
             $counter += self::deleteCache(null, (string) $row->getValue('name'));
         }
 
-        rex_file::delete(rex_path::addonCache('media_manager', 'types.cache'));
+        rex_file::delete(rex_path::coreCache('media_manager/types.cache'));
 
         return $counter;
     }
@@ -311,7 +311,7 @@ class rex_media_manager
     public static function deleteCache($filename = null, $type = null)
     {
         if (null === $filename) {
-            rex_file::delete(rex_path::addonCache('media_manager', 'types.cache'));
+            rex_file::delete(rex_path::coreCache('media_manager/types.cache'));
         }
 
         $filename = ($filename ?: '') . '*';
@@ -321,7 +321,7 @@ class rex_media_manager
         }
 
         $counter = 0;
-        $folder = self::$cacheDirectory ?? rex_path::addonCache('media_manager');
+        $folder = self::$cacheDirectory ?? rex_path::coreCache('media_manager/');
 
         $glob = glob($folder . $type . '/' . $filename, GLOB_NOSORT);
         if ($glob) {
@@ -394,7 +394,7 @@ class rex_media_manager
     public static function getSupportedEffects()
     {
         $dirs = [
-            __DIR__ . '/effects/',
+            __DIR__.'/effects/',
         ];
 
         $effects = [];
@@ -498,7 +498,7 @@ class rex_media_manager
 
         if ('' != $rexMediaManagerFile && '' != $rexMediaManagerType) {
             $mediaPath = rex_path::media($rexMediaManagerFile);
-            $cachePath = self::$cacheDirectory ?? rex_path::addonCache('media_manager');
+            $cachePath = self::$cacheDirectory ?? rex_path::coreCache('media_manager/');
 
             $media = new rex_managed_media($mediaPath);
             $mediaManager = new self($media);
@@ -571,7 +571,7 @@ class rex_media_manager
      */
     private static function getTypeCache(): array
     {
-        $file = rex_path::addonCache('media_manager', 'types.cache');
+        $file = rex_path::coreCache('media_manager/types.cache');
 
         /** @var array<string, int>|null $cache */
         $cache = rex_file::getCache($file, null);

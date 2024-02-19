@@ -6,7 +6,7 @@ $typeId = rex_request('type_id', 'int');
 $func = rex_request('func', 'string');
 
 if (rex_request('effects', 'boolean')) {
-    include __DIR__ . '/effects.php';
+    include __DIR__.'/media_manager.effects.php';
     return;
 }
 
