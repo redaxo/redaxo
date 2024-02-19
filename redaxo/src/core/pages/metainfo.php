@@ -24,4 +24,3 @@ if ('' === $prefix) {
     $metaTable = rex_metainfo_meta_table($prefix);
     require __DIR__ . '/metainfo.field.php';
 }
-

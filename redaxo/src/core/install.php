@@ -167,25 +167,25 @@ $data = [
         'id' => rex_metainfo_default_type::REX_MEDIA_WIDGET,
         'label' => 'REX_MEDIA_WIDGET',
         'dbtype' => 'varchar',
-        'dblength' => 255
+        'dblength' => 255,
     ],
     [
         'id' => rex_metainfo_default_type::REX_MEDIALIST_WIDGET,
         'label' => 'REX_MEDIALIST_WIDGET',
         'dbtype' => 'text',
-        'dblength' => 0
+        'dblength' => 0,
     ],
     [
         'id' => rex_metainfo_default_type::REX_LINK_WIDGET,
         'label' => 'REX_LINK_WIDGET',
         'dbtype' => 'varchar',
-        'dblength' => 255
+        'dblength' => 255,
     ],
     [
         'id' => rex_metainfo_default_type::REX_LINKLIST_WIDGET,
         'label' => 'REX_LINKLIST_WIDGET',
         'dbtype' => 'text',
-        'dblength' => 0
+        'dblength' => 0,
     ],
     ['id' => rex_metainfo_default_type::DATE, 'label' => 'date', 'dbtype' => 'text', 'dblength' => 0],
     ['id' => rex_metainfo_default_type::DATETIME, 'label' => 'datetime', 'dbtype' => 'text', 'dblength' => 0],
@@ -215,7 +215,7 @@ foreach ($tablePrefixes as $table => $prefixes) {
 }
 
 $sql = rex_sql::factory();
-$sql->setQuery('SELECT p.name, p.default, t.dbtype, t.dblength FROM '.rex::getTable('metainfo_field').' p, '.rex::getTable('metainfo_type').' t WHERE p.type_id = t.id');
+$sql->setQuery('SELECT p.name, p.default, t.dbtype, t.dblength FROM ' . rex::getTable('metainfo_field') . ' p, ' . rex::getTable('metainfo_type') . ' t WHERE p.type_id = t.id');
 $managers = [
     'article' => new rex_metainfo_table_manager(rex::getTable('article')),
     'media' => new rex_metainfo_table_manager(rex::getTable('media')),

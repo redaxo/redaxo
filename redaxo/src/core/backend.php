@@ -300,7 +300,6 @@ rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) 
     return rex_url::backendPage('metainfo/' . $page, ['func' => 'edit', 'field_id' => $id]);
 });
 
-
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
 
