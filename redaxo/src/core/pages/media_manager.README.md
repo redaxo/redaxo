@@ -9,7 +9,7 @@ This AddOn allows the customization of graphics and handling of files based on m
 ### By PHP method
 
 ```php
-$url = media_manager_README.mdrex_url::frontend().rex_media_manager::getUrl($type,$file); 
+$url = rex_url::frontend().rex_media_manager::getUrl($type,$file); 
 ```
 > The path to the medium does not have to be specified.  
 
