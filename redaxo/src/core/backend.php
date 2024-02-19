@@ -252,10 +252,6 @@ if ('system' == rex_be_controller::getCurrentPagePart(1)) {
 
 rex_perm::register('users[]');
 
-rex_extension::register('MEDIA_UPDATED', [rex_media_manager::class, 'mediaUpdated']);
-rex_extension::register('MEDIA_DELETED', [rex_media_manager::class, 'mediaUpdated']);
-rex_extension::register('MEDIA_IS_IN_USE', [rex_media_manager::class, 'mediaIsInUse']);
-
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
 
