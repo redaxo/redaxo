@@ -17,7 +17,6 @@
         <directory name="redaxo/src/addons/install"/>
         <directory name="redaxo/src/addons/media_manager"/>
         <directory name="redaxo/src/addons/mediapool"/>
-        <directory name="redaxo/src/addons/metainfo"/>
         <directory name="redaxo/src/addons/project"/>
         <directory name="redaxo/src/addons/structure"/>
         <ignoreFiles>
