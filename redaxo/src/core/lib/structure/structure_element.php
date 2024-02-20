@@ -130,7 +130,7 @@ abstract class rex_structure_element
             self::$classVars = [];
 
             $startId = rex_article::getSiteStartArticleId();
-            $file = rex_path::addonCache('structure', $startId . '.1.article');
+            $file = rex_path::coreCache('structure/' . $startId . '.1.article');
             if (!rex::isBackend() && is_file($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
                 $genVars = rex_file::getCache($file, []);
@@ -182,7 +182,7 @@ abstract class rex_structure_element
 
         $class = static::class;
         return static::getInstance([$id, $clang], static function ($id, $clang) use ($class) {
-            $articlePath = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
+            $articlePath = rex_path::coreCache('structure/' . $id . '.' . $clang . '.article');
 
             // load metadata from cache
             $metadata = rex_file::getCache($articlePath);
@@ -239,7 +239,7 @@ abstract class rex_structure_element
             },
             // callback to create the list of IDs
             static function ($parentId, $listType) {
-                $listFile = rex_path::addonCache('structure', $parentId . '.' . $listType);
+                $listFile = rex_path::coreCache('structure/' . $parentId . '.' . $listType);
 
                 $list = rex_file::getCache($listFile, null);
                 if (null === $list) {
