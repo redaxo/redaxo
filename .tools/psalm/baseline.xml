@@ -3549,10 +3549,23 @@
       <code><![CDATA[int]]></code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
-      <code><![CDATA[rex_addon::get('structure')->getProperty('article_id', 1)]]></code>
-      <code><![CDATA[rex_addon::get('structure')->getProperty('notfound_article_id', 1)]]></code>
-      <code><![CDATA[rex_addon::get('structure')->getProperty('start_article_id', 1)]]></code>
+      <code><![CDATA[rex::getProperty('article_id', 1)]]></code>
+      <code><![CDATA[rex::getProperty('article_id', 1)]]></code>
+      <code><![CDATA[rex::getProperty('notfound_article_id', 1)]]></code>
+      <code><![CDATA[rex::getProperty('notfound_article_id', 1)]]></code>
+      <code><![CDATA[rex::getProperty('start_article_id', 1)]]></code>
+      <code><![CDATA[rex::getProperty('start_article_id', 1)]]></code>
     </MixedReturnStatement>
+    <NullableReturnStatement>
+      <code><![CDATA[rex::getProperty('article_id', 1)]]></code>
+      <code><![CDATA[rex::getProperty('notfound_article_id', 1)]]></code>
+      <code><![CDATA[rex::getProperty('start_article_id', 1)]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="redaxo/src/core/lib/structure/cache_article.php">
+    <PossiblyNullOperand>
+      <code><![CDATA[$clang]]></code>
+    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/structure/content/api_module.php">
     <MixedInferredReturnType>
@@ -3581,15 +3594,15 @@
     </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$mapping]]></code>
-      <code><![CDATA[rex_config::get('structure/content', 'default_template_id', 1)]]></code>
-      <code><![CDATA[rex_config::get('structure/content', 'default_template_id', 1)]]></code>
+      <code><![CDATA[rex::getConfig('default_template_id', 1)]]></code>
+      <code><![CDATA[rex::getConfig('default_template_id', 1)]]></code>
     </MixedReturnStatement>
     <MixedReturnTypeCoercion>
       <code><![CDATA[$mapping]]></code>
       <code><![CDATA[$mapping = rex_file::getCache($file)]]></code>
     </MixedReturnTypeCoercion>
     <NullableReturnStatement>
-      <code><![CDATA[rex_config::get('structure/content', 'default_template_id', 1)]]></code>
+      <code><![CDATA[rex::getConfig('default_template_id', 1)]]></code>
     </NullableReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/structure/content/article_action.php">
@@ -4087,7 +4100,7 @@
   </file>
   <file src="redaxo/src/core/lib/structure/system_setting_article_id.php">
     <MixedArgument>
-      <code><![CDATA[rex_config::get('structure', $this->key, 1)]]></code>
+      <code><![CDATA[rex::getConfig($this->key, 1)]]></code>
     </MixedArgument>
   </file>
   <file src="redaxo/src/core/lib/structure/var_article.php">
