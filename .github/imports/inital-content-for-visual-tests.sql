@@ -17,7 +17,7 @@ INSERT IGNORE INTO `rex_clang` VALUES
 
 REPLACE INTO `rex_config` VALUES
 ('structure','history','true'),
-('structure','version','true');
+('structure','structure_version','true');
 
 INSERT IGNORE INTO `rex_cronjob` VALUES
 (1,'Artikel-Status',NULL,'rex_cronjob_article_status',NULL,'{\"minutes\":[0],\"hours\":[0],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}',NULL,'|frontend|backend|script|',1,'0000-00-00 00:00:00',0,'2022-07-17 21:08:53','admin','2022-07-18 00:03:20','admin'),
