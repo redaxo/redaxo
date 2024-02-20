@@ -15,7 +15,6 @@ parameters:
         - redaxo/src/addons/mediapool
         - redaxo/src/addons/metainfo
         - redaxo/src/addons/project
-        - redaxo/src/addons/structure
     # https://phpstan.org/config-reference#universal-object-crates
     universalObjectCratesClasses:
         - rex_fragment
