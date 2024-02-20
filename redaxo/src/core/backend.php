@@ -347,7 +347,7 @@ if (true === rex::getConfig('history', false) && rex::getUser()?->hasPerm('histo
             $historyDate = rex_request('history_date', 'string');
             rex_article_slice_history::restoreSnapshot($historyDate, $articleId, $clangId);
 
-        // no break
+            // no break
         case 'layer':
             $articleId = rex_request('history_article_id', 'int');
             $clangId = rex_request('history_clang_id', 'int');
@@ -421,7 +421,6 @@ if (true === rex::getConfig('history', false) && rex::getUser()?->hasPerm('histo
         }
     });
 }
-
 
 // add theme-information to js-variable rex as rex.theme
 // (1) System-Settings (2) no systemforced mode: user-mode (3) fallback: "auto"

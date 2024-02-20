@@ -154,7 +154,7 @@ class rex_article_cache
                 };
             }
 
-            $articleFile = rex_path::coreCache('structure/'.$articleId.'.'.$clang.'.article');
+            $articleFile = rex_path::coreCache('structure/' . $articleId . '.' . $clang . '.article');
             if (!rex_file::putCache($articleFile, $params)) {
                 return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::coreCache('structure/');
             }

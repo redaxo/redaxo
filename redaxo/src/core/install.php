@@ -249,9 +249,9 @@ rex_sql_table::get(rex::getTable('template'))
     ->ensure();
 
 $sql = rex_sql::factory();
-$sql->setQuery('UPDATE '.rex::getTablePrefix().'article_slice set revision=0 where revision<1 or revision IS NULL');
-$sql->setQuery('UPDATE '.rex::getTablePrefix().'article set revision=0 where revision<1 or revision IS NULL');
-$sql->setQuery('SELECT 1 FROM '.rex::getTable('template').' LIMIT 1');
+$sql->setQuery('UPDATE ' . rex::getTablePrefix() . 'article_slice set revision=0 where revision<1 or revision IS NULL');
+$sql->setQuery('UPDATE ' . rex::getTablePrefix() . 'article set revision=0 where revision<1 or revision IS NULL');
+$sql->setQuery('SELECT 1 FROM ' . rex::getTable('template') . ' LIMIT 1');
 if (!$sql->getRows()) {
     $sql
         ->setTable(rex::getTable('template'))
