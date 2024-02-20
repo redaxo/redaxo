@@ -382,7 +382,7 @@ if (true === rex::getConfig('history', false) && rex::getUser()?->hasPerm('histo
             $fragment->setVar('content2select', $content2select, false);
             $fragment->setVar('content2iframe', $content2iframe, false);
 
-            echo $fragment->parse('structure/history/layer.php');
+            echo $fragment->parse('core/structure/history/layer.php');
             exit;
     }
 
