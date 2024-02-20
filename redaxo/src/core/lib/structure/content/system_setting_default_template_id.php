@@ -47,7 +47,7 @@ class rex_system_setting_default_template_id extends rex_system_setting
             return rex_i18n::msg('system_setting_default_template_id_invalid');
         }
 
-        rex_config::set('structure/content', 'default_template_id', $value);
+        rex::setConfig('default_template_id', $value);
         return true;
     }
 }
