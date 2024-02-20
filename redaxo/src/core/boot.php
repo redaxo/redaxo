@@ -308,7 +308,7 @@ if (true === rex::getConfig('history', false)) {
 }
 
 // Version extension
-if (true === rex::getConfig('version', false)) {
+if (true === rex::getConfig('structure_version', false)) {
     rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 
     // ***** an EPs andocken

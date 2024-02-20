@@ -245,7 +245,7 @@ if (rex::isBackend() && rex::getUser()) {
         rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
         rex_system_setting::register(new rex_system_setting_default_template_id());
         rex_system_setting::register(new rex_system_setting_structure_package_status('history'));
-        rex_system_setting::register(new rex_system_setting_structure_package_status('version'));
+        rex_system_setting::register(new rex_system_setting_structure_package_status('structure_version'));
     }
 }
 
@@ -355,7 +355,7 @@ if (true === rex::getConfig('history', false) && rex::getUser()?->hasPerm('histo
 
             $select1 = [];
             $select1[] = '<option value="0" selected="selected" data-revision="0">' . rex_i18n::msg('structure_history_current_version') . '</option>';
-            if (true === rex::getConfig('version', false)) {
+            if (true === rex::getConfig('structure_version', false)) {
                 $select1[] = '<option value="1" data-revision="1">' . rex_i18n::msg('version_workingversion') . '</option>';
             }
 
