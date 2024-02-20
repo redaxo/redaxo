@@ -189,6 +189,63 @@ class rex_be_controller
             }
         });
 
+        self::$pages['structure'] = (new rex_be_page_main('system', 'structure', rex_i18n::msg('structure')))
+            ->setPath(rex_path::core('pages/structure.php'))
+            ->setRequiredPermissions('structure/hasStructurePerm')
+            ->setPrio(10)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-open-category')
+        ;
+        self::$pages['modules'] = (new rex_be_page_main('system', 'modules', rex_i18n::msg('modules')))
+            ->setPath(rex_path::core('pages/structure.modules.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(40)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-module')
+            ->addSubpage((new rex_be_page('modules', rex_i18n::msg('modules')))->setSubPath(rex_path::core('pages/structure.modules.modules.php')))
+            ->addSubpage((new rex_be_page('modules', rex_i18n::msg('actions')))->setSubPath(rex_path::core('pages/structure.modules.actions.php')))
+        ;
+        self::$pages['templates'] = (new rex_be_page_main('system', 'templates', rex_i18n::msg('templates')))
+            ->setPath(rex_path::core('pages/structure.templates.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(30)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-template')
+        ;
+        self::$pages['content'] = (new rex_be_page_main('system', 'content', rex_i18n::msg('content')))
+            ->setPath(rex_path::core('pages/structure.content.php'))
+            ->setRequiredPermissions('structure/hasStructurePerm')
+            ->setPjax(false)
+            ->setHidden()
+            ->addSubpage(
+                (new rex_be_page('edit', rex_i18n::msg('edit_mode')))
+                ->setSubPath(rex_path::core('pages/structure.content.edit.php'))
+                ->setIcon('rex-icon rex-icon-editmode')
+                ->setItemAttr('left', 'true'),
+            )
+            ->addSubpage(
+                (new rex_be_page('functions', rex_i18n::msg('metafuncs')))
+                ->setSubPath(rex_path::core('pages/structure.content.functions.php'))
+                ->setIcon('rex-icon rex-icon-metafuncs'),
+            )
+            ->addSubpage(
+                (new rex_be_page('history', ''))
+                ->setRequiredPermissions('history[article_rollback]')
+                ->setHidden()
+                ->setIcon('fa fa-history')
+                ->setHref('#')
+                ->setItemAttr('left', 'true')
+                ->setLinkAttr('data-history-layer', 'open'),
+            )
+        ;
+        self::$pages['linkmap'] = (new rex_be_page_main('system', 'linkmap', rex_i18n::msg('linkmap')))
+            ->setPath(rex_path::core('pages/structure.linkmap.php'))
+            ->setRequiredPermissions('structure/hasStructurePerm')
+            ->setPjax()
+            ->setPopup(true)
+            ->setHidden()
+        ;
+
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
             ->setPath(rex_path::core('pages/system.php'))
             ->setRequiredPermissions('isAdmin')
@@ -206,9 +263,13 @@ class rex_be_controller
             ->addSubpage($beStylePage)
             ->addSubpage(
                 (new rex_be_page('phpinfo', 'phpinfo'))
-                ->setHidden(true)
-                ->setHasLayout(false)
-                ->setPath(rex_path::core('pages/system.phpinfo.php')),
+                    ->setHidden(true)
+                    ->setHasLayout(false)
+                    ->setPath(rex_path::core('pages/system.phpinfo.php')),
+            )
+            ->addSubpage(
+                (new rex_be_page('history', rex_i18n::msg('structure_history')))
+                    ->setHidden(),
             );
 
         self::$pages['users'] = (new rex_be_page_main('system', 'users', rex_i18n::msg('users')))

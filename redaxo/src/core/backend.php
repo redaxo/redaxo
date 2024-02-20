@@ -237,6 +237,192 @@ if (rex::getUser()) {
     }
 }
 
+if (rex::isBackend() && rex::getUser()) {
+    rex_view::addJsFile(rex_url::coreAssets('js/linkmap.js'), [rex_view::JS_IMMUTABLE => true]);
+
+    if ('system' == rex_be_controller::getCurrentPagePart(1)) {
+        rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
+        rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
+        rex_system_setting::register(new rex_system_setting_default_template_id());
+        rex_system_setting::register(new rex_system_setting_structure_package_status('history'));
+        rex_system_setting::register(new rex_system_setting_structure_package_status('version'));
+    }
+}
+
+rex_extension::register('CLANG_ADDED', static function (rex_extension_point $ep) {
+    $firstLang = rex_sql::factory();
+    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=?', [rex_clang::getStartId()]);
+    $fields = $firstLang->getFieldnames();
+
+    $newLang = rex_sql::factory();
+    // $newLang->setDebug();
+    foreach ($firstLang as $firstLangArt) {
+        $newLang->setTable(rex::getTablePrefix() . 'article');
+
+        foreach ($fields as $value) {
+            if ('pid' == $value) {
+                echo '';
+            } // nix passiert
+            elseif ('clang_id' == $value) {
+                $newLang->setValue('clang_id', $ep->getParam('clang')->getId());
+            } elseif ('status' == $value) {
+                $newLang->setValue('status', '0');
+            } // Alle neuen Artikel offline
+            else {
+                $newLang->setValue($value, $firstLangArt->getValue($value));
+            }
+        }
+
+        $newLang->insert();
+    }
+});
+
+rex_extension::register('CLANG_DELETED', static function (rex_extension_point $ep) {
+    $del = rex_sql::factory();
+    $del->setQuery('delete from ' . rex::getTablePrefix() . 'article where clang_id=?', [$ep->getParam('clang')->getId()]);
+});
+
+rex_extension::register('CACHE_DELETED', static function () {
+    rex_structure_element::clearInstancePool();
+    rex_structure_element::clearInstanceListPool();
+    rex_structure_element::resetClassVars();
+});
+
+/**
+ * Content.
+ */
+rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
+rex_perm::register('publishSlice[]', null, rex_perm::OPTIONS);
+rex_complex_perm::register('modules', rex_module_perm::class);
+
+if (rex::isBackend()) {
+    rex_extension::register('PAGE_CHECKED', static function () {
+        if ('content' == rex_be_controller::getCurrentPagePart(1)) {
+            rex_be_controller::getPageObject('structure')->setIsActive(true);
+        }
+    });
+
+    if ('content' == rex_be_controller::getCurrentPagePart(1)) {
+        rex_view::addJsFile(rex_url::coreAssets('js/content.js'), [rex_view::JS_IMMUTABLE => true]);
+    }
+
+    rex_extension::register('CLANG_DELETED', static function (rex_extension_point $ep) {
+        $del = rex_sql::factory();
+        $del->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where clang_id=?', [$ep->getParam('clang')->getId()]);
+    });
+}
+
+/**
+ * History.
+ */
+if (true === rex::getConfig('history', false) && rex::getUser()?->hasPerm('history[article_rollback]')) {
+    rex_extension::register(
+        ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
+        static function (rex_extension_point $ep) {
+            $type = match ($ep->getName()) {
+                'ART_SLICES_COPY' => 'slices_copy',
+                'SLICE_MOVE' => 'slice_' . $ep->getParam('direction'),
+                default => strtolower($ep->getName()),
+            };
+
+            $articleId = $ep->getParam('article_id');
+            $clangId = $ep->getParam('clang_id');
+            $sliceRevision = $ep->getParam('slice_revision');
+
+            if (0 == $sliceRevision) {
+                rex_article_slice_history::makeSnapshot($articleId, $clangId, $type);
+            }
+        },
+    );
+
+    rex_view::addCssFile(rex_url::coreAssets('noUiSlider/nouislider.css'));
+    rex_view::addJsFile(rex_url::coreAssets('noUiSlider/nouislider.js'), [rex_view::JS_IMMUTABLE => true]);
+    rex_view::addCssFile(rex_url::coreAssets('css/history.css'));
+    rex_view::addJsFile(rex_url::coreAssets('js/history.js'), [rex_view::JS_IMMUTABLE => true]);
+
+    switch (rex_request('rex_history_function', 'string')) {
+        case 'snap':
+            $articleId = rex_request('history_article_id', 'int');
+            $clangId = rex_request('history_clang_id', 'int');
+            $historyDate = rex_request('history_date', 'string');
+            rex_article_slice_history::restoreSnapshot($historyDate, $articleId, $clangId);
+
+        // no break
+        case 'layer':
+            $articleId = rex_request('history_article_id', 'int');
+            $clangId = rex_request('history_clang_id', 'int');
+            $versions = rex_article_slice_history::getSnapshots($articleId, $clangId);
+
+            $select1 = [];
+            $select1[] = '<option value="0" selected="selected" data-revision="0">' . rex_i18n::msg('structure_history_current_version') . '</option>';
+            if (true === rex::getConfig('version', false)) {
+                $select1[] = '<option value="1" data-revision="1">' . rex_i18n::msg('version_workingversion') . '</option>';
+            }
+
+            $select2 = [];
+            $select2[] = '<option value="" selected="selected">' . rex_i18n::msg('structure_history_current_version') . '</option>';
+            foreach ($versions as $version) {
+                $historyInfo = $version['history_date'];
+                if ('' != $version['history_user']) {
+                    $historyInfo = $version['history_date'] . ' [' . $version['history_user'] . ']';
+                }
+                $select2[] = '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . rex_escape($version['history_date']) . '">' . rex_escape($historyInfo) . '</option>';
+            }
+
+            $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . implode('', $select1) . '</select>';
+            $content1iframe = '<iframe id="content-history-iframe-1" class="history-iframe"></iframe>';
+            $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . implode('', $select2) . '</select>';
+            $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';
+
+            // fragment holen und ausgeben
+            $fragment = new rex_fragment();
+            $fragment->setVar('title', rex_i18n::msg('structure_history_overview_versions'));
+            $fragment->setVar('content1select', $content1select, false);
+            $fragment->setVar('content1iframe', $content1iframe, false);
+            $fragment->setVar('content2select', $content2select, false);
+            $fragment->setVar('content2iframe', $content2iframe, false);
+
+            echo $fragment->parse('structure/history/layer.php');
+            exit;
+    }
+
+    rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
+        if ('content/edit' == $ep->getParam('page')) {
+            $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId());
+            if (str_starts_with($articleLink, 'http')) {
+                $user = rex::requireUser();
+                $userLogin = $user->getLogin();
+                $historyValidTime = new DateTime();
+                $historyValidTime = $historyValidTime->modify('+10 Minutes')->format(
+                    'YmdHis',
+                ); // 10 minutes valid key
+                $userHistorySession = rex_history_login::createSessionKey(
+                    $userLogin,
+                    $user->getValue('session_id'),
+                    $historyValidTime,
+                );
+                $articleLink = rex_getUrl(
+                    rex_article::getCurrentId(),
+                    rex_clang::getCurrentId(),
+                    [
+                        rex_history_login::class => $userLogin,
+                        'rex_history_session' => $userHistorySession,
+                        'rex_history_validtime' => $historyValidTime,
+                    ],
+                );
+            }
+
+            echo '<script nonce="' . rex_response::getNonce() . '">
+                    var history_article_id = ' . rex_article::getCurrentId() . ';
+                    var history_clang_id = ' . rex_clang::getCurrentId() . ';
+                    var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
+                    var history_article_link = "' . $articleLink . '";
+                    </script>';
+        }
+    });
+}
+
+
 // add theme-information to js-variable rex as rex.theme
 // (1) System-Settings (2) no systemforced mode: user-mode (3) fallback: "auto"
 $user = rex::getUser();

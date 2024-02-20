@@ -19,7 +19,6 @@
         <directory name="redaxo/src/addons/mediapool"/>
         <directory name="redaxo/src/addons/metainfo"/>
         <directory name="redaxo/src/addons/project"/>
-        <directory name="redaxo/src/addons/structure"/>
         <ignoreFiles>
             <directory name="vendor"/>
             <file name="redaxo/src/core/.phpstorm.meta.php" />

@@ -19,7 +19,6 @@
 !/redaxo/src/addons/mediapool/
 !/redaxo/src/addons/metainfo/
 !/redaxo/src/addons/project/
-!/redaxo/src/addons/structure/
 
 # PhpStorm setting
 /.idea/*

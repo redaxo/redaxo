@@ -13,7 +13,6 @@ $finder = PhpCsFixer\Finder::create()
         $src . '/addons/mediapool',
         $src . '/addons/metainfo',
         $src . '/addons/project',
-        $src . '/addons/structure',
         $tools,
     ])
     ->append([

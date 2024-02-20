@@ -1,7 +1,5 @@
 <?php
 
-$addon = rex_addon::get('structure');
-
 $structureContext = new rex_structure_context([
     'category_id' => rex_request('category_id', 'int'),
     'article_id' => rex_request('article_id', 'int'),
@@ -11,7 +9,7 @@ $structureContext = new rex_structure_context([
     'catstart' => rex_request('catstart', 'int'),
     'edit_id' => rex_request('edit_id', 'int'),
     'function' => rex_request('function', 'string'),
-    'rows_per_page' => $addon->getProperty('rows_per_page', 50),
+    'rows_per_page' => rex::getProperty('rows_per_page', 50),
 ]);
 
 $user = rex::requireUser();
@@ -40,7 +38,7 @@ echo rex_view::clangSwitchAsButtons($structureContext->getContext());
 $articleId = $structureContext->getArticleId();
 $categoryId = $structureContext->getCategoryId();
 $clang = $structureContext->getClangId();
-require __DIR__ . '/../functions/function_rex_category.php';
+require __DIR__ . '/../functions/function_structure_rex_category.php';
 
 // -------------- STATUS_TYPE Map
 $catStatusTypes = rex_category_service::statusTypes();
