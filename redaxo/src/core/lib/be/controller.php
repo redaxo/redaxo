@@ -203,7 +203,7 @@ class rex_be_controller
             ->setPjax()
             ->setIcon('rex-icon rex-icon-module')
             ->addSubpage((new rex_be_page('modules', rex_i18n::msg('modules')))->setSubPath(rex_path::core('pages/structure.modules.modules.php')))
-            ->addSubpage((new rex_be_page('modules', rex_i18n::msg('actions')))->setSubPath(rex_path::core('pages/structure.modules.actions.php')))
+            ->addSubpage((new rex_be_page('actions', rex_i18n::msg('actions')))->setSubPath(rex_path::core('pages/structure.modules.actions.php')))
         ;
         self::$pages['templates'] = (new rex_be_page_main('system', 'templates', rex_i18n::msg('templates')))
             ->setPath(rex_path::core('pages/structure.templates.php'))
