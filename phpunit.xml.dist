@@ -21,9 +21,6 @@
         <testsuite name="media_manager">
             <directory suffix="_test.php">redaxo/src/addons/media_manager/tests</directory>
         </testsuite>
-        <testsuite name="mediapool">
-            <directory suffix="_test.php">redaxo/src/addons/mediapool/tests</directory>
-        </testsuite>
         <testsuite name="structure">
             <directory suffix="_test.php">redaxo/src/addons/structure/tests</directory>
         </testsuite>
