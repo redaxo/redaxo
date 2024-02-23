@@ -3654,14 +3654,14 @@
     </MixedOperand>
     <MixedReturnStatement>
       <code><![CDATA[$this->$value]]></code>
-      <code><![CDATA[rex::getConfig('allowed_doctypes', [])]]></code>
-      <code><![CDATA[rex::getConfig('allowed_doctypes', [])]]></code>
-      <code><![CDATA[rex::getConfig('image_extensions', [])]]></code>
-      <code><![CDATA[rex::getConfig('image_extensions', [])]]></code>
+      <code><![CDATA[rex::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[rex::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[rex::getProperty('image_extensions', [])]]></code>
+      <code><![CDATA[rex::getProperty('image_extensions', [])]]></code>
     </MixedReturnStatement>
     <NullableReturnStatement>
-      <code><![CDATA[rex::getConfig('allowed_doctypes', [])]]></code>
-      <code><![CDATA[rex::getConfig('image_extensions', [])]]></code>
+      <code><![CDATA[rex::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[rex::getProperty('image_extensions', [])]]></code>
     </NullableReturnStatement>
     <PossiblyInvalidArgument>
       <code><![CDATA[$getInstance]]></code>
@@ -3722,11 +3722,11 @@
       <code><![CDATA[$blockedExtension]]></code>
     </MixedOperand>
     <MixedReturnStatement>
-      <code><![CDATA[rex::getConfig('blocked_extensions', [])]]></code>
-      <code><![CDATA[rex::getConfig('blocked_extensions', [])]]></code>
+      <code><![CDATA[rex::getProperty('blocked_extensions', [])]]></code>
+      <code><![CDATA[rex::getProperty('blocked_extensions', [])]]></code>
     </MixedReturnStatement>
     <NullableReturnStatement>
-      <code><![CDATA[rex::getConfig('blocked_extensions', [])]]></code>
+      <code><![CDATA[rex::getProperty('blocked_extensions', [])]]></code>
     </NullableReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/mediapool/service_media.php">
