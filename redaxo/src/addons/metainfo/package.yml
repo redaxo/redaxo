@@ -18,5 +18,3 @@ page:
 requires:
     php: '>=8.1'
     redaxo: ^6.0.0-dev
-    packages:
-        mediapool: '^3.0.0-dev'
