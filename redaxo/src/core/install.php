@@ -67,7 +67,6 @@ rex_sql_table::get(rex::getTable('media_category'))
     ->ensureIndex(new rex_sql_index('parent_id', ['parent_id']))
     ->ensure();
 
-
 rex_sql_table::get(rex::getTable('user'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
