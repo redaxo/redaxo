@@ -87,6 +87,7 @@ rex_fragment::addDirectory(rex_path::core('fragments/'));
 require_once rex_path::core('functions/function_rex_escape.php');
 require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
+require_once rex_path::core('functions/function_rex_mediapool.php');
 
 // ----------------- VERSION
 rex::setProperty('version', '6.0.0-dev');
@@ -128,6 +129,8 @@ rex_var_dumper::register();
 
 rex_user::setRoleClass(rex_user_role::class);
 rex_complex_perm::register('clang', rex_clang_perm::class);
+rex_complex_perm::register('media', rex_media_perm::class);
+
 
 rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
 rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);

@@ -58,10 +58,7 @@ class rex_var_medialist extends rex_var
 
         $wdgtClass = ' rex-js-widget-medialist';
         if (isset($args['preview']) && $args['preview']) {
-            $wdgtClass .= ' rex-js-widget-preview';
-            if (rex_addon::get('media_manager')->isAvailable()) {
-                $wdgtClass .= ' rex-js-widget-preview-media-manager';
-            }
+            $wdgtClass .= ' rex-js-widget-preview rex-js-widget-preview-media-manager';
         }
 
         $options = '';

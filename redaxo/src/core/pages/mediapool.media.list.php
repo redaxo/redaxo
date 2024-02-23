@@ -228,7 +228,7 @@ $mediaName = rex_request('media_name', 'string');
 if ('' != $mediaName) {
     $filter['term'] = $mediaName;
 
-    if ('global' != rex_addon::get('mediapool')->getConfig('searchmode', 'local') && 0 != $rexFileCategory) {
+    if ('global' != rex::getConfig('searchmode', 'local') && 0 != $rexFileCategory) {
         $filter['category_id_path'] = $rexFileCategory;
     }
 } else {
@@ -240,11 +240,7 @@ if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
     $filter['types'] = $types;
 }
 
-if (!rex_addon::get('media_manager')->isAvailable()) {
-    $mediaManagerUrl = null;
-} else {
-    $mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
-}
+$mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
 
 $pager = new rex_pager(5000);
 

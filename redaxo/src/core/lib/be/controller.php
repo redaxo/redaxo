@@ -238,6 +238,19 @@ class rex_be_controller
             ->addSubpage((new rex_be_page('log', rex_i18n::msg('cronjob_log')))->setSubPath(rex_path::core('pages/cronjob.log.php')))
         ;
 
+        self::$pages['mediapool'] = (new rex_be_page_main('system', 'mediapool', rex_i18n::msg('mediapool')))
+            ->setPath(rex_path::core('pages/mediapool.php'))
+            ->setRequiredPermissions('media/hasMediaPerm')
+            ->setPrio(20)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-media')
+            ->setPopup('openMediaPool(); return false;')
+            ->addSubpage((new rex_be_page('media', rex_i18n::msg('pool_file_list')))->setSubPath(rex_path::core('pages/mediapool.media.php')))
+            ->addSubpage((new rex_be_page('upload', rex_i18n::msg('pool_file_insert')))->setSubPath(rex_path::core('pages/mediapool.upload.php')))
+            ->addSubpage((new rex_be_page('structure', rex_i18n::msg('pool_cat_list')))->setRequiredPermissions('media/hasAll')->setSubPath(rex_path::core('pages/mediapool.structure.php')))
+            ->addSubpage((new rex_be_page('sync', rex_i18n::msg('pool_sync_files')))->setRequiredPermissions('media[sync]')->setSubPath(rex_path::core('pages/mediapool.sync.php')))
+        ;
+
         self::$pages['phpmailer'] = (new rex_be_page_main('system', 'phpmailer', rex_i18n::msg('phpmailer_title')))
             ->setPath(rex_path::core('pages/phpmailer.php'))
             ->setRequiredPermissions('phpmailer[]')

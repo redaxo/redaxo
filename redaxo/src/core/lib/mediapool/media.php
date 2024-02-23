@@ -55,7 +55,7 @@ class rex_media
         }
 
         return static::getInstance($name, static function ($name) {
-            $mediaPath = rex_path::addonCache('mediapool', $name . '.media');
+            $mediaPath = rex_path::coreCache('mediapool/' . $name . '.media');
 
             $cache = rex_file::getCache($mediaPath, []);
             if (!$cache) {
@@ -116,7 +116,7 @@ class rex_media
         $getInstance = static::get(...);
 
         return static::getInstanceList('root_media', $getInstance, static function () {
-            $listPath = rex_path::addonCache('mediapool', '0.mlist');
+            $listPath = rex_path::coreCache('mediapool/0.mlist');
 
             $list = rex_file::getCache($listPath, null);
             if (null === $list) {
@@ -333,7 +333,7 @@ class rex_media
      */
     public static function getDocTypes()
     {
-        return rex_addon::get('mediapool')->getProperty('allowed_doctypes');
+        return rex::getConfig('allowed_doctypes', []);
     }
 
     /**
@@ -350,7 +350,7 @@ class rex_media
      */
     public static function getImageTypes()
     {
-        return rex_addon::get('mediapool')->getProperty('image_extensions');
+        return rex::getConfig('image_extensions', []);
     }
 
     /**
