@@ -35,17 +35,15 @@ class rex_mediapool_test extends TestCase
     #[DataProvider('provideIsAllowedMimeType')]
     public function testIsAllowedMimeType(bool $expected, string $path, ?string $filename = null): void
     {
-        $addon = rex_addon::get('mediapool');
+        $allowedMimeTypes = rex::getProperty('allowed_mime_types');
 
-        $allowedMimeTypes = $addon->getProperty('allowed_mime_types');
-
-        $addon->setProperty('allowed_mime_types', [
+        rex::setProperty('allowed_mime_types', [
             'md' => ['text/plain'],
         ]);
 
         self::assertSame($expected, rex_mediapool::isAllowedMimeType($path, $filename));
 
-        $addon->setProperty('allowed_mime_types', $allowedMimeTypes);
+        rex::setProperty('allowed_mime_types', $allowedMimeTypes);
     }
 
     /** @return list<array{0: bool, 1: string, 2?: string}> */
