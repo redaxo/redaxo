@@ -140,7 +140,7 @@ final class rex_mediapool
      */
     public static function isAllowedMimeType(string $path, ?string $filename = null): bool
     {
-        $allowedMimetypes = rex::getConfig('allowed_mime_types');
+        $allowedMimetypes = rex::getProperty('allowed_mime_types');
 
         if (!$allowedMimetypes) {
             return true;
@@ -188,6 +188,6 @@ final class rex_mediapool
      */
     public static function getBlockedExtensions(): array
     {
-        return rex::getConfig('blocked_extensions', []);
+        return rex::getProperty('blocked_extensions', []);
     }
 }

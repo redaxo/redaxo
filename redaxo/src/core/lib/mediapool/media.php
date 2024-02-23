@@ -333,7 +333,7 @@ class rex_media
      */
     public static function getDocTypes()
     {
-        return rex::getConfig('allowed_doctypes', []);
+        return rex::getProperty('allowed_doctypes', []);
     }
 
     /**
@@ -350,7 +350,7 @@ class rex_media
      */
     public static function getImageTypes()
     {
-        return rex::getConfig('image_extensions', []);
+        return rex::getProperty('image_extensions', []);
     }
 
     /**
