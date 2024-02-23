@@ -52,8 +52,8 @@ class rex_mediapool_test extends TestCase
         return [
             [false, __FILE__],
             [false, __FILE__, 'foo.md'],
-            [true, __DIR__ . '/../CHANGELOG.md'],
-            [false, __DIR__ . '/../CHANGELOG.md', 'foo.txt'],
+            [true, __DIR__ . '/../../CHANGELOG.md'],
+            [false, __DIR__ . '/../../CHANGELOG.md', 'foo.txt'],
         ];
     }
 }
