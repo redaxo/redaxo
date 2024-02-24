@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.12.1 – 24.02.2024
+---------------------------
+
+### Bugfixes
+
+* Bei Fehlern während des Updatens konnte Whoops oftmals nicht dargestellt werden, weil der Temp-Ordner zu früh gelöscht wurde (@gharlan)
+
+
 Version 2.12.0 – 09.02.2024
 ---------------------------
 
