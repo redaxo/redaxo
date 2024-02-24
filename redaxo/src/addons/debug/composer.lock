@@ -4,25 +4,32 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac3bd9ad8015c76d44e149117985db45",
+    "content-hash": "1fee3deb4365c00b0a52aefd5fa68c8f",
     "packages": [
         {
             "name": "itsgoingd/clockwork",
-            "version": "v5.1.12",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "c9dbdbb1f0efd19bb80f1080ef63f1b9b1bc3b1b"
+                "reference": "df52c7c4d8d60443ea1d14bcf9b182d4eaaeec26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/c9dbdbb1f0efd19bb80f1080ef63f1b9b1bc3b1b",
-                "reference": "c9dbdbb1f0efd19bb80f1080ef63f1b9b1bc3b1b",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/df52c7c4d8d60443ea1d14bcf9b182d4eaaeec26",
+                "reference": "df52c7c4d8d60443ea1d14bcf9b182d4eaaeec26",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": ">=5.6"
+            },
+            "suggest": {
+                "ext-pdo": "Needed in order to use a SQL database for metadata storage",
+                "ext-pdo_mysql": "Needed in order to use MySQL for metadata storage",
+                "ext-pdo_postgres": "Needed in order to use Postgres for metadata storage",
+                "ext-pdo_sqlite": "Needed in order to use a SQLite for metadata storage",
+                "ext-redis": "Needed in order to use Redis for metadata storage"
             },
             "type": "library",
             "extra": {
@@ -64,7 +71,7 @@
             ],
             "support": {
                 "issues": "https://github.com/itsgoingd/clockwork/issues",
-                "source": "https://github.com/itsgoingd/clockwork/tree/v5.1.12"
+                "source": "https://github.com/itsgoingd/clockwork/tree/v5.2.0"
             },
             "funding": [
                 {
@@ -72,7 +79,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-13T00:04:12+00:00"
+            "time": "2024-02-20T22:36:44+00:00"
         }
     ],
     "packages-dev": [],
