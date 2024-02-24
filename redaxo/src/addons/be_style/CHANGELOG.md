@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 3.3.1 – 24.02.2024
+--------------------------
+
+* Customizer: Beim Header-Link zum Frontend wurde das Icon teilweise nicht angezeigt (@danspringer)
+
+
 Version 3.3.0 – 09.02.2024
 --------------------------
 

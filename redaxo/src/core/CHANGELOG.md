@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 5.16.1 – 24.02.2024
+---------------------------
+
+### Bugfixes
+
+* DB-Verbindung:
+    - Die Konstante `PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT` wurde ohne Prüfung genutzt (nur bei Nutzung von mysqlnd verfügbar) (@gharlan)
+    - Die Option `ssl_ca` konnte nicht einzeln genutzt werden, nur in Kombi mit `ssl_cert` und `ssl_key` (@gharlan)
+
+
 Version 5.16.0 – 09.02.2024
 ---------------------------
 
