@@ -10,12 +10,13 @@ use Clockwork\Request\RequestType;
 use Clockwork\Request\ShouldCollect;
 use Clockwork\Request\ShouldRecord;
 use Clockwork\Storage\StorageInterface;
+use Closure;
 
 // A central class implementing the core flow of the library
 class Clockwork
 {
 	// Clockwork library version
-	const VERSION = '5.1.12';
+	const VERSION = '5.2';
 
 	// Array of data sources, these objects collect metadata for the current application run
 	protected $dataSources = [];
