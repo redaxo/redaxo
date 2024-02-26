@@ -11,7 +11,7 @@ rex_sql_table::get(rex::getTable('clang'))
 $sql = rex_sql::factory();
 if (!$sql->setQuery('SELECT 1 FROM ' . rex::getTable('clang') . ' LIMIT 1')->getRows()) {
     $sql->setTable(rex::getTable('clang'));
-    $sql->setValues(['id' => 1, 'code' => 'de', 'name' => 'deutsch', 'priority' => 1, 'status' => 1, 'revision' => 0]);
+    $sql->setValues(['id' => 1, 'code' => 'de', 'name' => 'deutsch', 'priority' => 1, 'status' => 1]);
     $sql->insert();
 }
 
