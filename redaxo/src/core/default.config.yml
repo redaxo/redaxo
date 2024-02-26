@@ -70,7 +70,6 @@ setup_addons:
 system_addons:
     - structure
     - metainfo
-    - media_manager
     - install
     - project
 table_prefix: rex_

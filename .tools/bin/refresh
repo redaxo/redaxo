@@ -17,7 +17,6 @@ fi
 packages="
 debug
 install
-media_manager
 metainfo
 structure
 users

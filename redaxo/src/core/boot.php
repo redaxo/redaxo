@@ -167,6 +167,11 @@ if (0 !== $nexttime && time() >= $nexttime) {
     });
 }
 
+rex_extension::register('PACKAGES_INCLUDED', [rex_media_manager::class, 'init'], rex_extension::EARLY);
+rex_extension::register('MEDIA_UPDATED', [rex_media_manager::class, 'mediaUpdated']);
+rex_extension::register('MEDIA_DELETED', [rex_media_manager::class, 'mediaUpdated']);
+rex_extension::register('MEDIA_IS_IN_USE', [rex_media_manager::class, 'mediaIsInUse']);
+
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
     require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');

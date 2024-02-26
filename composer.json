@@ -6,6 +6,7 @@
     "require": {
         "php": ">=8.3",
         "ext-ctype": "*",
+        "ext-gd": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
         "ext-mbstring": "*",
@@ -13,7 +14,7 @@
         "erusev/parsedown": "^1.7.4",
         "erusev/parsedown-extra": "^0.8.1",
         "filp/whoops": "^2.15.4",
-        "itsgoingd/clockwork": "^5.1.12",
+        "itsgoingd/clockwork": "^5.2.0",
         "lbuchs/webauthn": "^2.1.1",
         "phpmailer/phpmailer": "^6.9.1",
         "psr/log": "^3",
@@ -27,13 +28,13 @@
         "voku/anti-xss": "^4.1.42"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "v3.49.0",
+        "friendsofphp/php-cs-fixer": "v3.50.0",
         "friendsofredaxo/linter": "1.4.0",
         "jetbrains/phpstorm-attributes": "^1.0",
         "phpstan/extension-installer": "1.3.1",
-        "phpstan/phpstan": "1.10.58",
+        "phpstan/phpstan": "1.10.59",
         "phpstan/phpstan-deprecation-rules": "1.1.4",
-        "phpstan/phpstan-phpunit": "1.3.15",
+        "phpstan/phpstan-phpunit": "1.3.16",
         "phpstan/phpstan-symfony": "1.3.7",
         "phpunit/phpunit": "^10.5.10",
         "psalm/plugin-phpunit": "0.18.4",
@@ -41,7 +42,7 @@
         "rector/rector": "1.0.1",
         "redaxo/php-cs-fixer-config": "2.5.0",
         "redaxo/psalm-plugin": "2.0.0",
-        "vimeo/psalm": "5.22.1"
+        "vimeo/psalm": "5.22.2"
     },
     "replace": {
         "symfony/polyfill-ctype": "*",
@@ -61,7 +62,6 @@
         "classmap": [
             "redaxo/src/addons/debug/lib/",
             "redaxo/src/addons/install/lib/",
-            "redaxo/src/addons/media_manager/lib/",
             "redaxo/src/addons/metainfo/lib/",
             "redaxo/src/addons/structure/lib/",
             "redaxo/src/core/lib/"
@@ -78,7 +78,6 @@
     },
     "autoload-dev": {
         "classmap": [
-            "redaxo/src/addons/media_manager/tests/",
             "redaxo/src/addons/structure/tests/",
             "redaxo/src/core/tests/"
         ]
