@@ -267,18 +267,6 @@ class rex_be_controller
             return;
         }
 
-        self::$pages['media_manager'] = (new rex_be_page_main('system', 'media_manager', rex_i18n::msg('media_manager')))
-            ->setPath(rex_path::core('pages/media_manager.php'))
-            ->setRequiredPermissions('isAdmin')
-            ->setPrio(70)
-            ->setPjax()
-            ->setIcon('rex-icon rex-icon-media')
-            ->addSubpage((new rex_be_page('types', rex_i18n::msg('media_manager_subpage_types')))->setSubPath(rex_path::core('pages/media_manager.types.php')))
-            ->addSubpage((new rex_be_page('settings', rex_i18n::msg('media_manager_subpage_config')))->setSubPath(rex_path::core('pages/media_manager.settings.php')))
-            ->addSubpage((new rex_be_page('overview', rex_i18n::msg('media_manager_subpage_desc')))->setSubPath(rex_path::core('pages/media_manager.README.md')))
-            ->addSubpage((new rex_be_page('clear_cache', rex_i18n::msg('media_manager_subpage_clear_cache')))->setItemAttr('class', 'pull-right')->setLinkAttr('class', 'btn btn-delete')->setHref(['page' => 'media_manager/types', 'func' => 'clear_cache']))
-        ;
-
         $backup->addSubpage((new rex_be_page('import', rex_i18n::msg('backup_import')))
             ->addSubpage((new rex_be_page('upload', rex_i18n::msg('backup_upload')))->setSubPath(rex_path::core('pages/backup.import.upload.php')))
             ->addSubpage((new rex_be_page('server', rex_i18n::msg('backup_load_from_server')))->setSubPath(rex_path::core('pages/backup.import.server.php'))),
@@ -290,6 +278,22 @@ class rex_be_controller
             ->setPrio(60)
             ->setPjax()
             ->setIcon('rex-icon rex-icon-package-addon');
+
+        self::$pages['media_manager'] = (new rex_be_page_main('system', 'media_manager', rex_i18n::msg('media_manager')))
+            ->setPath(rex_path::core('pages/media_manager.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(70)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-media')
+            ->addSubpage((new rex_be_page('types', rex_i18n::msg('media_manager_subpage_types')))->setSubPath(rex_path::core('pages/media_manager.types.php')))
+            ->addSubpage((new rex_be_page('settings', rex_i18n::msg('media_manager_subpage_config')))->setSubPath(rex_path::core('pages/media_manager.settings.php')))
+            ->addSubpage((new rex_be_page('overview', rex_i18n::msg('media_manager_subpage_desc')))->setSubPath(rex_path::core('pages/media_manager.README.md')))
+            ->addSubpage((new rex_be_page('clear_cache', rex_i18n::msg('media_manager_subpage_clear_cache')))
+                ->setItemAttr('class', 'pull-right')
+                ->setLinkAttr('class', 'btn btn-delete')
+                ->setHref(['page' => 'media_manager/types', 'func' => 'clear_cache']),
+            )
+        ;
     }
 
     /**
