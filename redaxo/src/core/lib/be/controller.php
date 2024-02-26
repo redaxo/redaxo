@@ -555,7 +555,8 @@ class rex_be_controller
         // --- page pruefen und benoetigte rechte checken
         if (!$page) {
             // --- fallback zur user startpage -> rechte checken
-            $page = self::getPageObject($user->getStartPage());
+            $page = $user->getStartPage();
+            $page = $page ? self::getPageObject($page) : null;
             if (!$page) {
                 // --- fallback zur system startpage -> rechte checken
                 $page = self::getPageObject(rex::getProperty('start_page'));
