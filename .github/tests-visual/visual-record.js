@@ -213,8 +213,9 @@ async function goToUrlOrThrow(page, url, options, maxretries = 5) {
     // prevent timeouts on slower pages
     options.timeout = 0;
 
+    let response;
     try {
-      const response = await page.goto(url, options);
+      response = await page.goto(url, options);
       if (!response.ok() && response.status() != 304) {
         const error = `Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`;
         console.error("::error ::" +error);
@@ -223,8 +224,10 @@ async function goToUrlOrThrow(page, url, options, maxretries = 5) {
       await response;
     } catch (e) {
         console.error(e);
-        console.error(response.status);
-        console.error(response.statusText());
+        if (response) {
+            console.error(response.status);
+            console.error(response.statusText());
+        }
         console.log('Request failed, retry ' + maxretries + ' more times');
         await goToUrlOrThrow(page, url, options, --maxretries);
     }
