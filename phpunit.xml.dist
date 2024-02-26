@@ -18,9 +18,6 @@
         <testsuite name="core">
             <directory suffix="_test.php">redaxo/src/core/tests</directory>
         </testsuite>
-        <testsuite name="media_manager">
-            <directory suffix="_test.php">redaxo/src/addons/media_manager/tests</directory>
-        </testsuite>
         <testsuite name="mediapool">
             <directory suffix="_test.php">redaxo/src/addons/mediapool/tests</directory>
         </testsuite>
