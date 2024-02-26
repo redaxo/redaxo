@@ -217,7 +217,7 @@ class rex_file
      */
     public static function move(string $srcfile, string $dstfile): bool
     {
-        if (rename($srcfile, $dstfile)) {
+        if (@rename($srcfile, $dstfile)) {
             return true;
         }
         if (copy($srcfile, $dstfile)) {
