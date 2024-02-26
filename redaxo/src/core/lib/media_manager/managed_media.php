@@ -315,31 +315,29 @@ class rex_managed_media
             throw new BadMethodCallException(__METHOD__ . ' can not be called without calling asImage() before');
         }
 
-        $addon = rex_addon::get('media_manager');
-
         $format = $this->format;
         $format = 'jpeg' === $format ? 'jpg' : $format;
 
-        $interlace = (array) $this->getImageProperty(self::PROP_INTERLACE, $addon->getConfig('interlace'));
+        $interlace = (array) $this->getImageProperty(self::PROP_INTERLACE, rex::getConfig('media_manager_interlace'));
         imageinterlace($this->image['src'], in_array($format, $interlace));
 
         ob_start();
         if ('jpg' == $format) {
-            $quality = (int) $this->getImageProperty(self::PROP_JPG_QUALITY, $addon->getConfig('jpg_quality'));
+            $quality = (int) $this->getImageProperty(self::PROP_JPG_QUALITY, rex::getConfig('media_manager_jpg_quality'));
             imagejpeg($this->image['src'], null, $quality);
         } elseif ('png' == $format) {
-            $compression = (int) $this->getImageProperty(self::PROP_PNG_COMPRESSION, $addon->getConfig('png_compression'));
+            $compression = (int) $this->getImageProperty(self::PROP_PNG_COMPRESSION, rex::getConfig('media_manager_png_compression'));
             imagepng($this->image['src'], null, $compression);
         } elseif ('gif' == $format) {
             imagegif($this->image['src']);
         } elseif ('wbmp' == $format) {
             imagewbmp($this->image['src']);
         } elseif ('webp' == $format) {
-            $quality = (int) $this->getImageProperty(self::PROP_WEBP_QUALITY, $addon->getConfig('webp_quality'));
+            $quality = (int) $this->getImageProperty(self::PROP_WEBP_QUALITY, rex::getConfig('media_manager_webp_quality'));
             imagewebp($this->image['src'], null, $quality);
         } elseif ('avif' == $format) {
-            $quality = (int) $this->getImageProperty(self::PROP_AVIF_QUALITY, $addon->getConfig('avif_quality'));
-            $speed = (int) $this->getImageProperty(self::PROP_AVIF_SPEED, $addon->getConfig('avif_speed'));
+            $quality = (int) $this->getImageProperty(self::PROP_AVIF_QUALITY, rex::getConfig('media_manager_avif_quality'));
+            $speed = (int) $this->getImageProperty(self::PROP_AVIF_SPEED, rex::getConfig('media_manager_avif_speed'));
             imageavif($this->image['src'], null, $quality, $speed);
         }
         return ob_get_clean();

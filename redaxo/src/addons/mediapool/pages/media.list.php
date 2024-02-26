@@ -240,11 +240,7 @@ if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
     $filter['types'] = $types;
 }
 
-if (!rex_addon::get('media_manager')->isAvailable()) {
-    $mediaManagerUrl = null;
-} else {
-    $mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
-}
+$mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
 
 $pager = new rex_pager(5000);
 
