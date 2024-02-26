@@ -354,7 +354,6 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         WHERE
             ((parent_id = :category_id AND startarticle=0) OR (id = :category_id AND startarticle=1))
             AND clang_id = :clang_id
-        ORDER BY ' . $articleOrderBy . '
     ', [
         'category_id' => $structureContext->getCategoryId(),
         'clang_id' => $structureContext->getClangId(),
