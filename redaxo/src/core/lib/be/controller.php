@@ -462,7 +462,14 @@ class rex_be_controller
             $path = $languagePath;
         }
 
-        [$toc, $content] = rex_markdown::factory()->parseWithToc(rex_file::require($path), 2, 3, [
+        // ----- EXTENSION POINT
+        $document = rex_extension::registerPoint(new rex_extension_point('REX_MARKDOWN_PAGE', rex_file::require($path), [
+            'page' => self::requireCurrentPageObject(),
+            'lang' => rex_i18n::getLanguage(),
+            'path' => $path,
+        ]));
+        
+        [$toc, $content] = rex_markdown::factory()->parseWithToc($document, 2, 3, [
             rex_markdown::SOFT_LINE_BREAKS => false,
             rex_markdown::HIGHLIGHT_PHP => true,
         ]);
