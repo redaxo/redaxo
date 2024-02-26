@@ -6,7 +6,6 @@ rex_sql_table::get(rex::getTable('clang'))
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('priority', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensure();
 
 $sql = rex_sql::factory();
@@ -120,7 +119,6 @@ rex_sql_table::get(rex::getTable('user'))
     ->ensureColumn(new rex_sql_column('lasttrydate', 'datetime'))
     ->ensureColumn(new rex_sql_column('lastlogin', 'datetime', true))
     ->ensureColumn(new rex_sql_column('session_id', 'varchar(255)', true))
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensureIndex(new rex_sql_index('login', ['login'], rex_sql_index::UNIQUE))
     ->removeColumn('cookiekey')
     ->ensure();
@@ -140,7 +138,6 @@ rex_sql_table::get(rex::getTable('user_role'))
     ->ensureColumn(new rex_sql_column('description', 'text', true))
     ->ensureColumn(new rex_sql_column('perms', 'text'))
     ->ensureGlobalColumns()
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensure();
 
 rex_sql_table::get(rex::getTable('user_session'))

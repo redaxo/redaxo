@@ -10,7 +10,6 @@ rex_sql_table::get(rex::getTable('action'))
     ->ensureColumn(new rex_sql_column('presavemode', 'tinyint(4)', true))
     ->ensureColumn(new rex_sql_column('postsavemode', 'tinyint(4)', true))
     ->ensureGlobalColumns()
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->setPrimaryKey('id')
     ->ensure();
 
@@ -28,7 +27,6 @@ rex_sql_table::get(rex::getTable('article'))
     ->ensureColumn(new rex_sql_column('template_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('clang_id', 'int(10) unsigned'))
     ->ensureGlobalColumns()
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->setPrimaryKey('pid')
     ->ensureIndex(new rex_sql_index('find_articles', ['id', 'clang_id'], rex_sql_index::UNIQUE))
     ->ensureIndex(new rex_sql_index('clang_id', ['clang_id']))
@@ -197,8 +195,6 @@ rex_sql_table::get(rex::getTable('module'))
     ->ensureColumn(new rex_sql_column('output', 'mediumtext'))
     ->ensureColumn(new rex_sql_column('input', 'mediumtext'))
     ->ensureGlobalColumns()
-    ->ensureColumn(new rex_sql_column('attributes', 'text', true))
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->setPrimaryKey('id')
     ->ensureIndex(new rex_sql_index('key', ['key'], rex_sql_index::UNIQUE))
     ->ensure();
@@ -207,7 +203,6 @@ rex_sql_table::get(rex::getTable('module_action'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
     ->ensureColumn(new rex_sql_column('module_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('action_id', 'int(10) unsigned'))
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->setPrimaryKey('id')
     ->ensure();
 
@@ -219,14 +214,12 @@ rex_sql_table::get(rex::getTable('template'))
     ->ensureColumn(new rex_sql_column('active', 'tinyint(1)', true))
     ->ensureGlobalColumns()
     ->ensureColumn(new rex_sql_column('attributes', 'text', true))
-    ->ensureColumn(new rex_sql_column('revision', 'int(11)'))
     ->setPrimaryKey('id')
     ->ensureIndex(new rex_sql_index('key', ['key'], rex_sql_index::UNIQUE))
     ->ensure();
 
 $sql = rex_sql::factory();
 $sql->setQuery('UPDATE ' . rex::getTablePrefix() . 'article_slice set revision=0 where revision<1 or revision IS NULL');
-$sql->setQuery('UPDATE ' . rex::getTablePrefix() . 'article set revision=0 where revision<1 or revision IS NULL');
 $sql->setQuery('SELECT 1 FROM ' . rex::getTable('template') . ' LIMIT 1');
 if (!$sql->getRows()) {
     $sql
