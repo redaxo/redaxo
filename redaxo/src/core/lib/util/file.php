@@ -94,7 +94,7 @@ class rex_file
 
             // mimic a atomic write
             $tmpFile = @tempnam(dirname($file), rex_path::basename($file));
-            if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {
+            if (false !== file_put_contents($tmpFile, $content) && self::move($tmpFile, $file)) {
                 @chmod($file, rex::getFilePerm());
                 return true;
             }
@@ -217,7 +217,13 @@ class rex_file
      */
     public static function move(string $srcfile, string $dstfile): bool
     {
-        return rename($srcfile, $dstfile);
+        if (@rename($srcfile, $dstfile)) {
+            return true;
+        }
+        if (copy($srcfile, $dstfile)) {
+            return unlink($srcfile);
+        }
+        return false;
     }
 
     /**
