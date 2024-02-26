@@ -20,8 +20,8 @@ class rex_sql_select_test extends TestCase
             `id` INT NOT NULL AUTO_INCREMENT ,
             `col_str` VARCHAR( 255 ) NOT NULL ,
             `col_int` INT NOT NULL ,
-            `col_date` DATE NOT NULL ,
-            `col_time` DATETIME NOT NULL ,
+            `col_date` DATE NULL ,
+            `col_time` DATETIME NULL ,
             `col_text` TEXT NOT NULL ,
             PRIMARY KEY ( `id` )
             ) ENGINE = InnoDB ;');
