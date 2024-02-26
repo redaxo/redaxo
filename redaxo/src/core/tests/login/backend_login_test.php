@@ -16,9 +16,13 @@ class rex_backend_login_test extends TestCase
         $adduser->setTable(rex::getTablePrefix() . 'user');
         $adduser->setValue('name', 'test user');
         $adduser->setValue('login', self::LOGIN);
-        $adduser->setValue('password', rex_login::passwordHash(self::PASSWORD));
+        $adduser->setValue('password', $psw = rex_login::passwordHash(self::PASSWORD));
+        $adduser->setDateTimeValue('password_changed', time());
+        $adduser->setArrayValue('previous_passwords', rex_backend_password_policy::factory()->updatePreviousPasswords(null, $psw));
         $adduser->setValue('status', '1');
         $adduser->setValue('login_tries', '0');
+        $adduser->addGlobalCreateFields();
+        $adduser->addGlobalUpdateFields();
         $adduser->insert();
     }
 

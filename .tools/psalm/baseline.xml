@@ -2106,16 +2106,14 @@
       <code><![CDATA[string]]></code>
       <code><![CDATA[string]]></code>
       <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
+      <code><![CDATA[string|null]]></code>
+      <code><![CDATA[string|null]]></code>
     </MoreSpecificReturnType>
     <NullableReturnStatement>
       <code><![CDATA[$this->sql->getValue($key)]]></code>
       <code><![CDATA[$this->sql->getValue('email')]]></code>
-      <code><![CDATA[$this->sql->getValue('language')]]></code>
       <code><![CDATA[$this->sql->getValue('login')]]></code>
       <code><![CDATA[$this->sql->getValue('name')]]></code>
-      <code><![CDATA[$this->sql->getValue('startpage')]]></code>
     </NullableReturnStatement>
     <PossiblyNullReference>
       <code><![CDATA[getComplexPerm]]></code>
