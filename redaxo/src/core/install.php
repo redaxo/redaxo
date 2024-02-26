@@ -6,13 +6,12 @@ rex_sql_table::get(rex::getTable('clang'))
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('priority', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensure();
 
 $sql = rex_sql::factory();
 if (!$sql->setQuery('SELECT 1 FROM ' . rex::getTable('clang') . ' LIMIT 1')->getRows()) {
     $sql->setTable(rex::getTable('clang'));
-    $sql->setValues(['id' => 1, 'code' => 'de', 'name' => 'deutsch', 'priority' => 1, 'status' => 1, 'revision' => 0]);
+    $sql->setValues(['id' => 1, 'code' => 'de', 'name' => 'deutsch', 'priority' => 1, 'status' => 1]);
     $sql->insert();
 }
 
@@ -42,7 +41,6 @@ rex_sql_table::get(rex::getTable('cronjob'))
 rex_sql_table::get(rex::getTable('media'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('category_id', 'int(10) unsigned'))
-    ->ensureColumn(new rex_sql_column('attributes', 'text', true))
     ->ensureColumn(new rex_sql_column('filetype', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('filename', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('originalname', 'varchar(255)', true))
@@ -51,7 +49,6 @@ rex_sql_table::get(rex::getTable('media'))
     ->ensureColumn(new rex_sql_column('height', 'int(10) unsigned', true))
     ->ensureColumn(new rex_sql_column('title', 'varchar(255)', true))
     ->ensureGlobalColumns()
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensureIndex(new rex_sql_index('category_id', ['category_id']))
     ->ensureIndex(new rex_sql_index('filename', ['filename'], rex_sql_index::UNIQUE))
     ->ensure();
@@ -62,8 +59,6 @@ rex_sql_table::get(rex::getTable('media_category'))
     ->ensureColumn(new rex_sql_column('parent_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('path', 'varchar(255)'))
     ->ensureGlobalColumns()
-    ->ensureColumn(new rex_sql_column('attributes', 'text', true))
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensureIndex(new rex_sql_index('parent_id', ['parent_id']))
     ->ensure();
 
@@ -148,7 +143,6 @@ rex_sql_table::get(rex::getTable('user'))
     ->ensureColumn(new rex_sql_column('lasttrydate', 'datetime'))
     ->ensureColumn(new rex_sql_column('lastlogin', 'datetime', true))
     ->ensureColumn(new rex_sql_column('session_id', 'varchar(255)', true))
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensureIndex(new rex_sql_index('login', ['login'], rex_sql_index::UNIQUE))
     ->removeColumn('cookiekey')
     ->ensure();
@@ -168,7 +162,6 @@ rex_sql_table::get(rex::getTable('user_role'))
     ->ensureColumn(new rex_sql_column('description', 'text', true))
     ->ensureColumn(new rex_sql_column('perms', 'text'))
     ->ensureGlobalColumns()
-    ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensure();
 
 rex_sql_table::get(rex::getTable('user_session'))
