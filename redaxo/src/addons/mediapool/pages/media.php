@@ -30,7 +30,6 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_MEDIAPOOL_HEADER
     'category_id' => $rexFileCategory,
 ]));
 
-
 $formElements = [];
 $n = [];
 $n['field'] = '<input class="form-control" style="border-left: 0;" type="text" name="media_name" id="be_search-media-name" value="' . rex_escape($mediaName) . '" />';
@@ -42,7 +41,7 @@ $fragment->setVar('elements', $formElements, false);
 $formElements = [];
 $n = [];
 $n['before'] = $selMedia->get();
-$n['after'] = '<search role="search">'.$fragment->parse('core/form/input_group.php').'</search>';
+$n['after'] = '<search role="search">' . $fragment->parse('core/form/input_group.php') . '</search>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
