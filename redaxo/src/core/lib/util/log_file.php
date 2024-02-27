@@ -193,6 +193,9 @@ class rex_log_file implements Iterator
      */
     public static function delete($path)
     {
+        if ($factoryClass = static::getExplicitFactoryClass()) {
+            return $factoryClass::delete($path);
+        }
         return rex_file::delete($path) && rex_file::delete($path . '.2');
     }
 }
