@@ -139,9 +139,6 @@ class rex_mailer extends PHPMailer
         });
     }
 
-    /**
-     * @return void
-     */
     private function prepareDetourMode(): void
     {
         $addon = rex_addon::get('phpmailer');
