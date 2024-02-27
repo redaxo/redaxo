@@ -112,7 +112,7 @@ class rex_mailer extends PHPMailer
             rex_extension::registerPoint(new rex_extension_point('PHPMAILER_PRE_SEND', $this));
 
             if ($detourModeActive && isset($this->xHeader['to'])) {
-                $this->prepareDetourMode($addon); // DetourMode
+                $this->prepareDetourMode(); // DetourMode
             }
 
             if (!parent::send()) {
