@@ -142,7 +142,7 @@ class rex_mailer extends PHPMailer
     /**
      * @return void
      */
-    protected function prepareDetourMode($addon)
+    private function prepareDetourMode(): void
     {
         $addon = rex_addon::get('phpmailer');
         $this->clearCCs();
