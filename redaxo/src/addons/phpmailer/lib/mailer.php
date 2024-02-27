@@ -99,6 +99,9 @@ class rex_mailer extends PHPMailer
         return parent::addOrEnqueueAnAddress($kind, $address, $name);
     }
 
+    /**
+    * @return bool
+    */
     public function send()
     {
         return rex_timer::measure(__METHOD__, function () {
@@ -136,8 +139,12 @@ class rex_mailer extends PHPMailer
         });
     }
 
+    /**
+    * @return void
+    */
     protected function prepareDetourMode($addon)
     {
+        $addon = rex_addon::get('phpmailer');
         $this->clearCCs();
         $this->clearBCCs();
 
