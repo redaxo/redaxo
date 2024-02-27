@@ -56,7 +56,7 @@ class rex_log_file implements Iterator
         $this->file = fopen($path, 'a+');
     }
 
-    public static function factory(string $path, ?int $maxFileSize = null)
+    public static function factory(string $path, ?int $maxFileSize = null): static
     {
         $class = static::getFactoryClass();
         return new $class($path, $maxFileSize);
