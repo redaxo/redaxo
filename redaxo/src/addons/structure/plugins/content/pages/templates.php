@@ -117,7 +117,7 @@ if ('add' == $function || 'edit' == $function) {
         $TPL->setValue('name', $templatename);
         $TPL->setValue('active', $active);
         $TPL->setValue('content', $template);
-        $TPL->addGlobalCreateFields();
+        $TPL->addGlobalUpdateFields();
 
         $TPL->setArrayValue('attributes', $attributes);
 
@@ -161,7 +161,6 @@ if ('add' == $function || 'edit' == $function) {
 
             if ('' == $error) {
                 $TPL->setWhere(['id' => $templateId]);
-                $TPL->addGlobalUpdateFields();
 
                 try {
                     $TPL->update();
