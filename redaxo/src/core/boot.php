@@ -163,7 +163,7 @@ if (0 !== $nexttime && time() >= $nexttime) {
         }
     });
 }
-    
+
 rex_extension::register('PACKAGES_INCLUDED', [rex_media_manager::class, 'init'], rex_extension::EARLY);
 rex_extension::register('MEDIA_UPDATED', [rex_media_manager::class, 'mediaUpdated']);
 rex_extension::register('MEDIA_DELETED', [rex_media_manager::class, 'mediaUpdated']);
@@ -218,7 +218,7 @@ if (!rex::isSetup()) {
     /**
      * History.
      */
-    if (true === rex::getConfig('history', false)) {
+    if (true === rex::getConfig('article_history', false)) {
         rex_extension::register('PAGE_CHECKED', static function (rex_extension_point $ep) {
             $page = rex_be_controller::getPageObject('content');
             if ($page && $historyPage = $page->getSubpage('history')) {
@@ -326,7 +326,7 @@ if (!rex::isSetup()) {
     }
 
     // Version extension
-    if (true === rex::getConfig('structure_version', false)) {
+    if (true === rex::getConfig('article_work_version', false)) {
         rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 
         // ***** an EPs andocken
@@ -408,7 +408,7 @@ if (!rex::isSetup()) {
                     if ($workingVersionEmpty) {
                         $return .= rex_view::error(rex_i18n::msg('version_warning_working_version_to_live'));
                     } elseif ($user->hasPerm('version[live_version]')) {
-                        if (true === rex::getConfig('history', false)) {
+                        if (true === rex::getConfig('article_history', false)) {
                             rex_article_slice_history::makeSnapshot($articleId, $clangId, 'work_to_live');
                         }
 

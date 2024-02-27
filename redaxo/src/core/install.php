@@ -392,8 +392,8 @@ rex_sql_table::get(rex::getTable('user_session'))
 $defaultConfig = [
     'start_article_id' => 1,
     'notfound_article_id' => 1,
-    'history' => false,
-    'structure_version' => false,
+    'article_history' => false,
+    'article_work_version' => false,
     'be_style_compile' => false,
     'be_style_labelcolor' => '#3bb594',
     'be_style_showlink' => true,

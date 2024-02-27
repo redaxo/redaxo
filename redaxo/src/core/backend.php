@@ -244,8 +244,8 @@ if (rex::getUser()) {
         rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
         rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
         rex_system_setting::register(new rex_system_setting_default_template_id());
-        rex_system_setting::register(new rex_system_setting_structure_package_status('history'));
-        rex_system_setting::register(new rex_system_setting_structure_package_status('structure_version'));
+        rex_system_setting::register(new rex_system_setting_structure_package_status('article_history'));
+        rex_system_setting::register(new rex_system_setting_structure_package_status('article_work_version'));
     }
 }
 
@@ -313,7 +313,7 @@ rex_extension::register('CLANG_DELETED', static function (rex_extension_point $e
 /**
  * History.
  */
-if (true === rex::getConfig('history', false) && rex::getUser()?->hasPerm('history[article_rollback]')) {
+if (true === rex::getConfig('article_history', false) && rex::getUser()?->hasPerm('history[article_rollback]')) {
     rex_extension::register(
         ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
         static function (rex_extension_point $ep) {
@@ -353,7 +353,7 @@ if (true === rex::getConfig('history', false) && rex::getUser()?->hasPerm('histo
 
             $select1 = [];
             $select1[] = '<option value="0" selected="selected" data-revision="0">' . rex_i18n::msg('structure_history_current_version') . '</option>';
-            if (true === rex::getConfig('structure_version', false)) {
+            if (true === rex::getConfig('article_work_version', false)) {
                 $select1[] = '<option value="1" data-revision="1">' . rex_i18n::msg('version_workingversion') . '</option>';
             }
 
