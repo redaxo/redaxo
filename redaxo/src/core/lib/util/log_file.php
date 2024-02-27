@@ -42,7 +42,7 @@ class rex_log_file implements Iterator
     /**
      * @param string $path File path
      * @param int|null $maxFileSize Maximum file size
-     * deprecated
+     * @deprecated since 5.17.0, use `rex_log_file::factory` instead
      */
     public function __construct($path, $maxFileSize = null)
     {
@@ -56,7 +56,7 @@ class rex_log_file implements Iterator
         $this->file = fopen($path, 'a+');
     }
 
-    public static function factory($path, $maxFileSize = null)
+    public static function factory(string $path, ?int $maxFileSize = null)
     {
         $class = static::getFactoryClass();
         return new $class($path, $maxFileSize);
