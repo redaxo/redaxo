@@ -100,8 +100,8 @@ class rex_mailer extends PHPMailer
     }
 
     /**
-    * @return bool
-    */
+     * @return bool
+     */
     public function send()
     {
         return rex_timer::measure(__METHOD__, function () {
@@ -140,8 +140,8 @@ class rex_mailer extends PHPMailer
     }
 
     /**
-    * @return void
-    */
+     * @return void
+     */
     protected function prepareDetourMode($addon)
     {
         $addon = rex_addon::get('phpmailer');
