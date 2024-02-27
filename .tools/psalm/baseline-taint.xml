@@ -45,18 +45,18 @@
   </file>
   <file src="redaxo/src/core/fragments/core/form/search.php">
     <TaintedHtml>
-      <code><![CDATA['<div class="' . $class . '"' . $id . '>
+      <code><![CDATA['<search role="search" class="' . $class . '"' . $id . '>
       <span class="input-group-addon clear-button"><i class="rex-icon rex-icon-search"></i></span>
       <input class="form-control" type="text"' . $autofocus . $placeholder . $value . '>
       <span title="' . $clear . '" class="form-control-clear rex-icon rex-icon-clear form-control-feedback hidden"></span>
-</div>']]></code>
+</search>']]></code>
     </TaintedHtml>
     <TaintedTextWithQuotes>
-      <code><![CDATA['<div class="' . $class . '"' . $id . '>
+      <code><![CDATA['<search role="search" class="' . $class . '"' . $id . '>
       <span class="input-group-addon clear-button"><i class="rex-icon rex-icon-search"></i></span>
       <input class="form-control" type="text"' . $autofocus . $placeholder . $value . '>
       <span title="' . $clear . '" class="form-control-clear rex-icon rex-icon-clear form-control-feedback hidden"></span>
-</div>']]></code>
+</search>']]></code>
     </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/page/docs.php">
