@@ -45,7 +45,7 @@ $content = '
 
 $editor = rex_editor::factory();
 
-$file = new rex_log_file($logFile);
+$file = rex_log_file::factory($logFile);
 foreach (new LimitIterator($file, 0, 100) as $entry) {
     /** @var rex_log_entry $entry */
     $data = $entry->getData();

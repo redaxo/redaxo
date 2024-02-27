@@ -2546,6 +2546,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/formatter.php
 
 		-
+			message: "#^Method rex_log_file\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/log_file.php
+
+		-
 			message: "#^Method rex_logger\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/logger.php
