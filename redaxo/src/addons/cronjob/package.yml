@@ -19,7 +19,7 @@ pages:
 
 requires:
     php: '>=8.1'
-    redaxo: ^5.16.0
+    redaxo: ^5.17.0-dev
 
 console_commands:
     cronjob:run: rex_command_cronjob_run

@@ -34,7 +34,7 @@ $content = '
                 </thead>
                 <tbody>';
 
-$file = new rex_log_file($logFile);
+$file = rex_log_file::factory($logFile);
 foreach (new LimitIterator($file, 0, 30) as $entry) {
     $data = $entry->getData();
     $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-mailer-log-ok';
