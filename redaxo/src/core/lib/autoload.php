@@ -314,7 +314,7 @@ class rex_autoload
      *
      * @throws RuntimeException
      *
-     * @return array The found classes
+     * @return list<string> The found classes
      */
     private static function findClasses($path)
     {

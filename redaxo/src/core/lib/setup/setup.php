@@ -61,7 +61,7 @@ class rex_setup
     /**
      * checks environment related conditions.
      *
-     * @return array An array of error messages
+     * @return list<string> An array of error messages
      */
     public static function checkEnvironment()
     {

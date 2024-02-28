@@ -53,7 +53,7 @@ class rex_file
      * @template T
      * @param string $file Path to the file
      * @param T $default Default value
-     * @return array|T Content of the file or default value if the file isn't readable
+     * @return array<mixed>|T Content of the file or default value if the file isn't readable
      */
     public static function getConfig($file, $default = [])
     {
@@ -67,7 +67,7 @@ class rex_file
      * @template T
      * @param string $file Path to the file
      * @param T $default Default value
-     * @return array|T Content of the file or default value if the file isn't readable
+     * @return array<mixed>|T Content of the file or default value if the file isn't readable
      */
     public static function getCache($file, $default = [])
     {
@@ -144,7 +144,7 @@ class rex_file
      * Puts content in a config file.
      *
      * @param string $file Path to the file
-     * @param array $content Content for the file
+     * @param array<mixed> $content Content for the file
      * @param int $inline The level where you switch to inline YAML
      *
      * @return bool TRUE on success, FALSE on failure
@@ -160,7 +160,7 @@ class rex_file
      * Puts content in a cache file.
      *
      * @param string $file Path to the file
-     * @param array $content Content for the file
+     * @param array<mixed> $content Content for the file
      *
      * @return bool TRUE on success, FALSE on failure
      *
