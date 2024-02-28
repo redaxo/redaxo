@@ -235,76 +235,13 @@ if (rex::getUser()) {
             '<h1 class="be-style-customizer-title"><a href="' . rex_url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="rex-icon rex-icon-external-link"></i></a></h1>',
         );
     }
-}
 
-if (rex::getUser()) {
     rex_view::addJsFile(rex_url::coreAssets('js/linkmap.js'), [rex_view::JS_IMMUTABLE => true]);
 
-    if ('system' == rex_be_controller::getCurrentPagePart(1)) {
-        rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
-        rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
-        rex_system_setting::register(new rex_system_setting_default_template_id());
-        rex_system_setting::register(new rex_system_setting_structure_package_status('article_history'));
-        rex_system_setting::register(new rex_system_setting_structure_package_status('article_work_version'));
-    }
-}
-
-rex_extension::register('CLANG_ADDED', static function (rex_extension_point $ep) {
-    $firstLang = rex_sql::factory();
-    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=?', [rex_clang::getStartId()]);
-    $fields = $firstLang->getFieldnames();
-
-    $newLang = rex_sql::factory();
-    // $newLang->setDebug();
-    foreach ($firstLang as $firstLangArt) {
-        $newLang->setTable(rex::getTablePrefix() . 'article');
-
-        foreach ($fields as $value) {
-            if ('pid' == $value) {
-                echo '';
-            } // nix passiert
-            elseif ('clang_id' == $value) {
-                $newLang->setValue('clang_id', $ep->getParam('clang')->getId());
-            } elseif ('status' == $value) {
-                $newLang->setValue('status', '0');
-            } // Alle neuen Artikel offline
-            else {
-                $newLang->setValue($value, $firstLangArt->getValue($value));
-            }
-        }
-
-        $newLang->insert();
-    }
-});
-
-rex_extension::register('CLANG_DELETED', static function (rex_extension_point $ep) {
-    $del = rex_sql::factory();
-    $del->setQuery('delete from ' . rex::getTablePrefix() . 'article where clang_id=?', [$ep->getParam('clang')->getId()]);
-});
-
-rex_extension::register('CACHE_DELETED', static function () {
-    rex_structure_element::clearInstancePool();
-    rex_structure_element::clearInstanceListPool();
-    rex_structure_element::resetClassVars();
-});
-
-/**
- * Content.
- */
-rex_extension::register('PAGE_CHECKED', static function () {
     if ('content' == rex_be_controller::getCurrentPagePart(1)) {
-        rex_be_controller::getPageObject('structure')->setIsActive(true);
+        rex_view::addJsFile(rex_url::coreAssets('js/content.js'), [rex_view::JS_IMMUTABLE => true]);
     }
-});
-
-if ('content' == rex_be_controller::getCurrentPagePart(1)) {
-    rex_view::addJsFile(rex_url::coreAssets('js/content.js'), [rex_view::JS_IMMUTABLE => true]);
 }
-
-rex_extension::register('CLANG_DELETED', static function (rex_extension_point $ep) {
-    $del = rex_sql::factory();
-    $del->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where clang_id=?', [$ep->getParam('clang')->getId()]);
-});
 
 /**
  * History.
@@ -416,6 +353,11 @@ if ('' === $theme && $user) {
 rex_view::setJsProperty('theme', $theme ?: 'auto');
 
 if ('system' == rex_be_controller::getCurrentPagePart(1)) {
+    rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
+    rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
+    rex_system_setting::register(new rex_system_setting_default_template_id());
+    rex_system_setting::register(new rex_system_setting_structure_package_status('article_history'));
+    rex_system_setting::register(new rex_system_setting_structure_package_status('article_work_version'));
     rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
 }
 
@@ -476,6 +418,10 @@ if ($user = rex::getUser()) {
 }
 $page = rex_be_controller::getCurrentPage();
 rex_view::setJsProperty('page', $page);
+
+if ('content' == rex_be_controller::getCurrentPagePart(1)) {
+    rex_be_controller::getPageObject('structure')->setIsActive(true);
+}
 
 // ----- EXTENSION POINT
 // page variable validated
