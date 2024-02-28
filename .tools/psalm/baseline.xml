@@ -1643,14 +1643,10 @@
     </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$address]]></code>
-      <code><![CDATA[$this->xHeader['to']]]></code>
     </PossiblyNullArgument>
     <PossiblyNullOperand>
       <code><![CDATA[$sendTime]]></code>
     </PossiblyNullOperand>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$this->xHeader['to']]]></code>
-    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/phpmailer/pages/checkmail.php">
     <MixedArgument>
