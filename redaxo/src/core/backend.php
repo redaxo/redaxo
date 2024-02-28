@@ -291,10 +291,6 @@ rex_extension::register('CACHE_DELETED', static function () {
 /**
  * Content.
  */
-rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
-rex_perm::register('publishSlice[]', null, rex_perm::OPTIONS);
-rex_complex_perm::register('modules', rex_module_perm::class);
-
 rex_extension::register('PAGE_CHECKED', static function () {
     if ('content' == rex_be_controller::getCurrentPagePart(1)) {
         rex_be_controller::getPageObject('structure')->setIsActive(true);
@@ -434,6 +430,30 @@ if ('system' == rex_be_controller::getCurrentPagePart(1)) {
 }
 
 rex_perm::register('users[]');
+
+rex_perm::register('addArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('addCategory[]', null, rex_perm::OPTIONS);
+rex_perm::register('editArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('editCategory[]', null, rex_perm::OPTIONS);
+rex_perm::register('deleteArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('deleteCategory[]', null, rex_perm::OPTIONS);
+rex_perm::register('moveArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('moveCategory[]', null, rex_perm::OPTIONS);
+rex_perm::register('copyArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('copyContent[]', null, rex_perm::OPTIONS);
+rex_perm::register('publishArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('publishCategory[]', null, rex_perm::OPTIONS);
+rex_perm::register('article2startarticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('article2category[]', null, rex_perm::OPTIONS);
+rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
+rex_perm::register('publishSlice[]', null, rex_perm::OPTIONS);
+
+if (rex::getConfig('article_history', false)) {
+    rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
+}
+if (rex::getConfig('article_work_version', false)) {
+    rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
+}
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');

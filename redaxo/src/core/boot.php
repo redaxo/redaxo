@@ -127,7 +127,10 @@ rex_var_dumper::register();
 // ----------------- REX PERMS
 
 rex_user::setRoleClass(rex_user_role::class);
+
 rex_complex_perm::register('clang', rex_clang_perm::class);
+rex_complex_perm::register('structure', rex_structure_perm::class);
+rex_complex_perm::register('modules', rex_module_perm::class);
 
 rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
 rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
@@ -170,23 +173,6 @@ rex_extension::register('MEDIA_DELETED', [rex_media_manager::class, 'mediaUpdate
 rex_extension::register('MEDIA_IS_IN_USE', [rex_media_manager::class, 'mediaIsInUse']);
 
 if (!rex::isSetup()) {
-    rex_perm::register('addArticle[]', null, rex_perm::OPTIONS);
-    rex_perm::register('addCategory[]', null, rex_perm::OPTIONS);
-    rex_perm::register('editArticle[]', null, rex_perm::OPTIONS);
-    rex_perm::register('editCategory[]', null, rex_perm::OPTIONS);
-    rex_perm::register('deleteArticle[]', null, rex_perm::OPTIONS);
-    rex_perm::register('deleteCategory[]', null, rex_perm::OPTIONS);
-    rex_perm::register('moveArticle[]', null, rex_perm::OPTIONS);
-    rex_perm::register('moveCategory[]', null, rex_perm::OPTIONS);
-    rex_perm::register('copyArticle[]', null, rex_perm::OPTIONS);
-    rex_perm::register('copyContent[]', null, rex_perm::OPTIONS);
-    rex_perm::register('publishArticle[]', null, rex_perm::OPTIONS);
-    rex_perm::register('publishCategory[]', null, rex_perm::OPTIONS);
-    rex_perm::register('article2startarticle[]', null, rex_perm::OPTIONS);
-    rex_perm::register('article2category[]', null, rex_perm::OPTIONS);
-
-    rex_complex_perm::register('structure', rex_structure_perm::class);
-
     require_once __DIR__.'/functions/function_structure_rex_url.php';
 
     rex::setProperty('start_article_id', rex::getConfig('start_article_id', 1));
@@ -230,8 +216,6 @@ if (!rex::isSetup()) {
             }
         });
         $historyDate = rex_request('rex_history_date', 'string');
-
-        rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
         if ('' != $historyDate) {
             $historySession = rex_request('rex_history_session', 'string');
@@ -327,8 +311,6 @@ if (!rex::isSetup()) {
 
     // Version extension
     if (true === rex::getConfig('article_work_version', false)) {
-        rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
-
         // ***** an EPs andocken
         rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
             $version = rex_request('rex_version', 'int');
