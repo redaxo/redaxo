@@ -387,23 +387,13 @@ if (true === rex::getConfig('article_history', false) && rex::getUser()?->hasPer
                 $user = rex::requireUser();
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();
-                $historyValidTime = $historyValidTime->modify('+10 Minutes')->format(
-                    'YmdHis',
-                ); // 10 minutes valid key
-                $userHistorySession = rex_history_login::createSessionKey(
-                    $userLogin,
-                    $user->getValue('session_id'),
-                    $historyValidTime,
-                );
-                $articleLink = rex_getUrl(
-                    rex_article::getCurrentId(),
-                    rex_clang::getCurrentId(),
-                    [
-                        rex_history_login::class => $userLogin,
-                        'rex_history_session' => $userHistorySession,
-                        'rex_history_validtime' => $historyValidTime,
-                    ],
-                );
+                $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis',); // 10 minutes valid key
+                $userHistorySession = rex_history_login::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
+                $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [
+                    rex_history_login::class => $userLogin,
+                    'rex_history_session' => $userHistorySession,
+                    'rex_history_validtime' => $historyValidTime,
+                ]);
             }
 
             echo '<script nonce="' . rex_response::getNonce() . '">
@@ -411,7 +401,7 @@ if (true === rex::getConfig('article_history', false) && rex::getUser()?->hasPer
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
                     var history_article_link = "' . $articleLink . '";
-                    </script>';
+                </script>';
         }
     });
 }
