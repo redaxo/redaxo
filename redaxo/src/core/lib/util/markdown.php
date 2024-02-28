@@ -53,7 +53,7 @@ class rex_markdown
      * @param int $bottomLevel Bottom included headline level for TOC, e.g. `6` for `<h6>`
      * @param array<self::*, bool>|bool $options
      *
-     * @return array tupel of table-of-content and content
+     * @return list{string, string} tupel of table-of-content and content
      */
     public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, $options = [])
     {

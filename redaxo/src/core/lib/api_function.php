@@ -103,7 +103,7 @@ abstract class rex_api_function
      *
      * The method must be called on sub classes.
      *
-     * @return array
+     * @return array<string, string>
      */
     public static function getUrlParams()
     {

@@ -53,7 +53,7 @@ class rex_file
      * @template T
      * @param string $file Path to the file
      * @param T $default Default value
-     * @return array|T Content of the file or default value if the file isn't readable
+     * @return array<mixed>|T Content of the file or default value if the file isn't readable
      */
     public static function getConfig($file, $default = [])
     {
@@ -67,7 +67,7 @@ class rex_file
      * @template T
      * @param string $file Path to the file
      * @param T $default Default value
-     * @return array|T Content of the file or default value if the file isn't readable
+     * @return array<mixed>|T Content of the file or default value if the file isn't readable
      */
     public static function getCache($file, $default = [])
     {
@@ -94,7 +94,7 @@ class rex_file
 
             // mimic a atomic write
             $tmpFile = @tempnam(dirname($file), rex_path::basename($file));
-            if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {
+            if (false !== file_put_contents($tmpFile, $content) && self::move($tmpFile, $file)) {
                 @chmod($file, rex::getFilePerm());
                 return true;
             }
@@ -144,7 +144,7 @@ class rex_file
      * Puts content in a config file.
      *
      * @param string $file Path to the file
-     * @param array $content Content for the file
+     * @param array<mixed> $content Content for the file
      * @param int $inline The level where you switch to inline YAML
      *
      * @return bool TRUE on success, FALSE on failure
@@ -160,7 +160,7 @@ class rex_file
      * Puts content in a cache file.
      *
      * @param string $file Path to the file
-     * @param array $content Content for the file
+     * @param array<mixed> $content Content for the file
      *
      * @return bool TRUE on success, FALSE on failure
      *
@@ -217,7 +217,13 @@ class rex_file
      */
     public static function move(string $srcfile, string $dstfile): bool
     {
-        return rename($srcfile, $dstfile);
+        if (@rename($srcfile, $dstfile)) {
+            return true;
+        }
+        if (copy($srcfile, $dstfile)) {
+            return unlink($srcfile);
+        }
+        return false;
     }
 
     /**
