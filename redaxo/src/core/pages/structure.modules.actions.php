@@ -94,6 +94,7 @@ if ('add' == $function || 'edit' == $function) {
         $faction->setValue('previewmode', $previewmode);
         $faction->setValue('presavemode', $presavemode);
         $faction->setValue('postsavemode', $postsavemode);
+        $faction->addGlobalUpdateFields();
 
         try {
             if ('add' == $function) {
@@ -102,7 +103,6 @@ if ('add' == $function || 'edit' == $function) {
                 $faction->insert();
                 $success = rex_i18n::msg('action_added');
             } else {
-                $faction->addGlobalUpdateFields();
                 $faction->setWhere(['id' => $actionId]);
 
                 $faction->update();

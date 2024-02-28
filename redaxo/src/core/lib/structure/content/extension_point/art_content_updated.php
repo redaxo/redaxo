@@ -15,6 +15,7 @@ class rex_extension_point_art_content_updated extends rex_extension_point
     /** @var string */
     private $action;
 
+    /** @param array<string, mixed> $params */
     public function __construct(rex_article $article, string $action, string $subject = '', array $params = [], bool $readonly = false)
     {
         // for BC 'simple' attach params
