@@ -226,14 +226,6 @@ class rex_be_controller
                 ->setSubPath(rex_path::core('pages/structure.content.functions.php'))
                 ->setIcon('rex-icon rex-icon-metafuncs'),
             )
-            ->addSubpage((new rex_be_page('history', ''))
-                ->setRequiredPermissions('history[article_rollback]')
-                ->setHidden()
-                ->setIcon('fa fa-history')
-                ->setHref('#')
-                ->setItemAttr('left', 'true')
-                ->setLinkAttr('data-history-layer', 'open'),
-            )
         ;
         self::$pages['linkmap'] = (new rex_be_page_main('system', 'linkmap', rex_i18n::msg('linkmap')))
             ->setPath(rex_path::core('pages/structure.linkmap.php'))
@@ -263,9 +255,18 @@ class rex_be_controller
                 ->setHasLayout(false)
                 ->setPath(rex_path::core('pages/system.phpinfo.php')),
             )
-            ->addSubpage((new rex_be_page('history', rex_i18n::msg('structure_history')))
-                ->setHidden(),
+        ;
+
+        if (rex::getConfig('article_history', false)) {
+            self::$pages['content']->addSubpage((new rex_be_page('history', ''))
+                ->setRequiredPermissions('history[article_rollback]')
+                ->setIcon('fa fa-history')
+                ->setHref('#')
+                ->setItemAttr('left', 'true')
+                ->setLinkAttr('data-history-layer', 'open'),
             );
+            self::$pages['system']->addSubpage((new rex_be_page('history', rex_i18n::msg('structure_history')))->setSubPath(rex_path::core('pages/structure.system.history.php')));
+        }
 
         self::$pages['users'] = (new rex_be_page_main('system', 'users', rex_i18n::msg('users')))
             ->setPath(rex_path::core('pages/users.php'))
