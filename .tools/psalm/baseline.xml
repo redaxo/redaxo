@@ -1527,14 +1527,6 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/frontend.php">
-    <MixedAssignment>
-      <code><![CDATA[$content]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$content]]></code>
-      <code><![CDATA[$content]]></code>
-      <code><![CDATA[$content]]></code>
-    </MixedOperand>
     <PossiblyInvalidArgument>
       <code><![CDATA[$article->getValue('updatedate')]]></code>
     </PossiblyInvalidArgument>
