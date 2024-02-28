@@ -921,7 +921,6 @@
       <code><![CDATA[$assetFile]]></code>
       <code><![CDATA[$assetFile]]></code>
       <code><![CDATA[$clangId]]></code>
-      <code><![CDATA[$ep->getParam('clang')->getId()]]></code>
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$version['history_date']]]></code>
@@ -943,11 +942,6 @@
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$version]]></code>
     </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getId]]></code>
-      <code><![CDATA[getId]]></code>
-      <code><![CDATA[getId]]></code>
-    </MixedMethodCall>
     <MixedOperand>
       <code><![CDATA[$ep->getParam('direction')]]></code>
       <code><![CDATA[$version['history_date']]]></code>
@@ -973,13 +967,6 @@
     <MixedArgument>
       <code><![CDATA[$ep->getParam('file')]]></code>
     </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$article]]></code>
-      <code><![CDATA[$article]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[setEval]]></code>
-    </MixedMethodCall>
     <PossiblyInvalidArgument>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
@@ -1527,6 +1514,13 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/frontend.php">
+    <MixedAssignment>
+      <code><![CDATA[$article]]></code>
+      <code><![CDATA[$article]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[setEval]]></code>
+    </MixedMethodCall>
     <PossiblyInvalidArgument>
       <code><![CDATA[$article->getValue('updatedate')]]></code>
     </PossiblyInvalidArgument>
