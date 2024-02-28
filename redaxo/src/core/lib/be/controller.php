@@ -217,19 +217,16 @@ class rex_be_controller
             ->setRequiredPermissions('structure/hasStructurePerm')
             ->setPjax(false)
             ->setHidden()
-            ->addSubpage(
-                (new rex_be_page('edit', rex_i18n::msg('edit_mode')))
+            ->addSubpage((new rex_be_page('edit', rex_i18n::msg('edit_mode')))
                 ->setSubPath(rex_path::core('pages/structure.content.edit.php'))
                 ->setIcon('rex-icon rex-icon-editmode')
                 ->setItemAttr('left', 'true'),
             )
-            ->addSubpage(
-                (new rex_be_page('functions', rex_i18n::msg('metafuncs')))
+            ->addSubpage((new rex_be_page('functions', rex_i18n::msg('metafuncs')))
                 ->setSubPath(rex_path::core('pages/structure.content.functions.php'))
                 ->setIcon('rex-icon rex-icon-metafuncs'),
             )
-            ->addSubpage(
-                (new rex_be_page('history', ''))
+            ->addSubpage((new rex_be_page('history', ''))
                 ->setRequiredPermissions('history[article_rollback]')
                 ->setHidden()
                 ->setIcon('fa fa-history')
@@ -261,15 +258,13 @@ class rex_be_controller
                 ->addSubpage((new rex_be_page('markdown', rex_i18n::msg('system_report_markdown')))->setSubPath(rex_path::core('pages/system.report.markdown.php'))),
             )
             ->addSubpage($beStylePage)
-            ->addSubpage(
-                (new rex_be_page('phpinfo', 'phpinfo'))
-                    ->setHidden(true)
-                    ->setHasLayout(false)
-                    ->setPath(rex_path::core('pages/system.phpinfo.php')),
+            ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
+                ->setHidden(true)
+                ->setHasLayout(false)
+                ->setPath(rex_path::core('pages/system.phpinfo.php')),
             )
-            ->addSubpage(
-                (new rex_be_page('history', rex_i18n::msg('structure_history')))
-                    ->setHidden(),
+            ->addSubpage((new rex_be_page('history', rex_i18n::msg('structure_history')))
+                ->setHidden(),
             );
 
         self::$pages['users'] = (new rex_be_page_main('system', 'users', rex_i18n::msg('users')))
