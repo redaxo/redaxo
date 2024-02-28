@@ -123,6 +123,7 @@ if ('add' == $function || 'edit' == $function) {
                 $IMOD->setValue('input', $eingabe);
                 $IMOD->setValue('output', $ausgabe);
                 $IMOD->addGlobalCreateFields();
+                $IMOD->addGlobalUpdateFields();
 
                 $IMOD->insert();
                 $moduleId = (int) $IMOD->getLastId();
