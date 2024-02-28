@@ -387,7 +387,7 @@ if (true === rex::getConfig('article_history', false) && rex::getUser()?->hasPer
                 $user = rex::requireUser();
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();
-                $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis',); // 10 minutes valid key
+                $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
                 $userHistorySession = rex_history_login::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
                 $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [
                     rex_history_login::class => $userLogin,
