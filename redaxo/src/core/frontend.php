@@ -111,6 +111,32 @@ if (rex::getConfig('article_history', false)) {
     }
 }
 
+if (rex::getConfig('article_work_version', false)) {
+    rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
+        $version = rex_request('rex_version', 'int');
+        if (rex_article_revision::WORK != $version) {
+            return;
+        }
+
+        if (!rex_backend_login::hasSession()) {
+            $fragment = new rex_fragment([
+                'content' => '<p>No permission for the working version. You need to be logged into the REDAXO backend at the same time.</p>',
+            ]);
+            rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
+            rex_response::sendPage($fragment->parse('core/fe_ooops.php'));
+            exit;
+        }
+
+        /** @var rex_article_content_base $article */
+        $article = $ep->getParam('article');
+        $article->setSliceRevision($version);
+        if ($article instanceof rex_article_content) {
+            $article->getContentAsQuery();
+        }
+        $article->setEval(true);
+    });
+}
+
 $clangId = rex_get('clang', 'int');
 if ($clangId && !rex_clang::exists($clangId)) {
     rex_redirect(rex_article::getNotfoundArticleId(), rex_clang::getStartId());
