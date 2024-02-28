@@ -149,7 +149,7 @@ class rex_string
      *
      * @throws rex_yaml_parse_exception
      *
-     * @return array
+     * @return array<mixed>
      */
     public static function yamlDecode($value)
     {

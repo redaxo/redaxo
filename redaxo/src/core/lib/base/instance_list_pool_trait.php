@@ -9,14 +9,14 @@
  */
 trait rex_instance_list_pool_trait
 {
-    /** @var array<string, array> */
+    /** @var array<string, array<mixed>> */
     private static $instanceLists = [];
 
     /**
      * Adds an instance list.
      *
      * @param mixed $key Key
-     * @param array $instanceKeyList Array of instance keys
+     * @param array<mixed> $instanceKeyList Array of instance keys
      * @return void
      */
     protected static function addInstanceList($key, array $instanceKeyList)
