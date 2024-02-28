@@ -173,7 +173,7 @@ rex_extension::register('MEDIA_DELETED', [rex_media_manager::class, 'mediaUpdate
 rex_extension::register('MEDIA_IS_IN_USE', [rex_media_manager::class, 'mediaIsInUse']);
 
 if (!rex::isSetup()) {
-    require_once __DIR__.'/functions/function_structure_rex_url.php';
+    require_once __DIR__ . '/functions/function_structure_rex_url.php';
 
     rex::setProperty('start_article_id', rex::getConfig('start_article_id', 1));
     rex::setProperty('notfound_article_id', rex::getConfig('notfound_article_id', 1));
@@ -232,12 +232,9 @@ if (!rex::isSetup()) {
                     if ($login->checkTempSession($historyLogin, $historySession, $historyValidtime)) {
                         $user = $login->getUser();
                         rex::setProperty('user', $user);
-                        rex_extension::register(
-                            'OUTPUT_FILTER',
-                            static function (rex_extension_point $ep) use ($login) {
-                                $login->deleteSession();
-                            }
-                        );
+                        rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) use ($login) {
+                            $login->deleteSession();
+                        });
                     }
                 }
             } else {
@@ -264,12 +261,10 @@ if (!rex::isSetup()) {
                 $historyDate = rex_request('rex_history_date', 'string');
                 $article = $ep->getParam('article');
 
-                if ($article instanceof rex_article_content && $article->getArticleId() == rex_article::getCurrentId(
-                    )) {
+                if ($article instanceof rex_article_content && $article->getArticleId() == rex_article::getCurrentId()) {
                     $articleLimit = '';
                     if (0 != $article->getArticleId()) {
-                        $articleLimit = ' AND '.rex::getTablePrefix(
-                            ).'article_slice.article_id='.$article->getArticleId();
+                        $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
                     }
 
                     $sliceLimit = '';
@@ -278,28 +273,21 @@ if (!rex::isSetup()) {
 
                     $escapeSql = rex_sql::factory();
 
-                    $sliceDate = ' AND '.rex::getTablePrefix().'article_slice.history_date = '.$escapeSql->escape(
-                            $historyDate
-                        );
+                    $sliceDate = ' AND ' . rex::getTablePrefix() . 'article_slice.history_date = ' . $escapeSql->escape($historyDate);
 
-                    return 'SELECT '.rex::getTablePrefix().'module.id, '.rex::getTablePrefix(
-                        ).'module.key,'.rex::getTablePrefix().'module.name, '.rex::getTablePrefix(
-                        ).'module.output, '.rex::getTablePrefix().'module.input, '.rex::getTablePrefix(
-                        ).'article_slice.*, '.rex::getTablePrefix().'article.parent_id
+                    return 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.key,' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
                         FROM
-                            '.rex_article_slice_history::getTable().' as '.rex::getTablePrefix().'article_slice
-                        LEFT JOIN '.rex::getTablePrefix().'module ON '.rex::getTablePrefix(
-                        ).'article_slice.module_id='.rex::getTablePrefix().'module.id
-                        LEFT JOIN '.rex::getTablePrefix().'article ON '.rex::getTablePrefix(
-                        ).'article_slice.article_id='.rex::getTablePrefix().'article.id
+                            ' . rex_article_slice_history::getTable() . ' as ' . rex::getTablePrefix() . 'article_slice
+                        LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
+                        LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix() . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
                         WHERE
-                            '.rex::getTablePrefix()."article_slice.clang_id='".$article->getClangId()."' AND
-                            ".rex::getTablePrefix()."article.clang_id='".$article->getClangId()."' AND
-                            ".rex::getTablePrefix().'article_slice.revision=0
-                            '.$articleLimit.'
-                            '.$sliceLimit.'
-                            '.$sliceDate.'
-                            ORDER BY '.rex::getTablePrefix().'article_slice.priority';
+                            ' . rex::getTablePrefix() . "article_slice.clang_id='" . $article->getClangId() . "' AND
+                            " . rex::getTablePrefix() . "article.clang_id='" . $article->getClangId() . "' AND
+                            " . rex::getTablePrefix() . 'article_slice.revision=0
+                            ' . $articleLimit . '
+                            ' . $sliceLimit . '
+                            ' . $sliceDate . '
+                            ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
                 }
 
                 return null;
@@ -376,9 +364,9 @@ if (!rex::isSetup()) {
             $workingVersionEmpty = true;
             $gw = rex_sql::factory();
             $gw->setQuery(
-                'select * from '.rex::getTablePrefix(
-                ).'article_slice where article_id=? and clang_id=? and revision=1 LIMIT 1',
-                [$articleId, $clangId]
+                'select * from ' . rex::getTablePrefix(
+                ) . 'article_slice where article_id=? and clang_id=? and revision=1 LIMIT 1',
+                [$articleId, $clangId],
             );
             if ($gw->getRows() > 0) {
                 $workingVersionEmpty = false;
@@ -398,7 +386,7 @@ if (!rex::isSetup()) {
                             $articleId,
                             $clangId,
                             rex_article_revision::WORK,
-                            rex_article_revision::LIVE
+                            rex_article_revision::LIVE,
                         );
                         $return .= rex_view::success(rex_i18n::msg('version_info_working_version_to_live'));
 
@@ -456,7 +444,7 @@ if (!rex::isSetup()) {
             $toolbar = '';
 
             $fragment = new rex_fragment();
-            $fragment->setVar('button_prefix', '<b>'.$currentRevision.'</b>', false);
+            $fragment->setVar('button_prefix', '<b>' . $currentRevision . '</b>', false);
             $fragment->setVar('items', $items, false);
             $fragment->setVar('toolbar', true);
 
@@ -464,45 +452,34 @@ if (!rex::isSetup()) {
                 $fragment->setVar('disabled', true);
             }
 
-            $toolbar .= '<li class="dropdown">'.$fragment->parse('core/dropdowns/dropdown.php').'</li>';
+            $toolbar .= '<li class="dropdown">' . $fragment->parse('core/dropdowns/dropdown.php') . '</li>';
 
             if (!$user->hasPerm('version[live_version]')) {
                 if ($revision > 0) {
-                    $toolbar .= '<li><a href="'.$context->getUrl(['rex_version_func' => 'copy_live_to_work']
-                        ).'">'.rex_i18n::msg('version_copy_from_liveversion').'</a></li>';
-                    $toolbar .= '<li><a href="'.rex_getUrl(
-                            $articleId,
-                            $clangId,
-                            ['rex_version' => rex_article_revision::WORK]
-                        ).'" rel="noopener noreferrer" target="_blank">'.rex_i18n::msg('version_preview').'</a></li>';
+                    $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work'],
+                    ) . '">' . rex_i18n::msg('version_copy_from_liveversion') . '</a></li>';
+                    $toolbar .= '<li><a href="' . rex_getUrl(
+                        $articleId,
+                        $clangId,
+                        ['rex_version' => rex_article_revision::WORK],
+                    ) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
                 }
             } else {
                 if ($revision > 0) {
                     if (!$workingVersionEmpty) {
-                        $toolbar .= '<li><a href="'.$context->getUrl(['rex_version_func' => 'clear_work']
-                            ).'" data-confirm="'.rex_i18n::msg(
-                                'version_confirm_clear_workingversion'
-                            ).'">'.rex_i18n::msg('version_clear_workingversion').'</a></li>';
-                        $toolbar .= '<li><a href="'.$context->getUrl(['rex_version_func' => 'copy_work_to_live']
-                            ).'">'.rex_i18n::msg('version_working_to_live').'</a></li>';
+                        $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'clear_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_clear_workingversion') . '">' . rex_i18n::msg('version_clear_workingversion') . '</a></li>';
+                        $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_work_to_live']) . '">' . rex_i18n::msg('version_working_to_live') . '</a></li>';
                     }
-                    $toolbar .= '<li><a href="'.rex_getUrl(
-                            $articleId,
-                            $clangId,
-                            ['rex_version' => rex_article_revision::WORK]
-                        ).'" rel="noopener noreferrer" target="_blank">'.rex_i18n::msg('version_preview').'</a></li>';
+                    $toolbar .= '<li><a href="' . rex_getUrl($articleId, $clangId, ['rex_version' => rex_article_revision::WORK]) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
                 } else {
-                    $toolbar .= '<li><a href="'.$context->getUrl(['rex_version_func' => 'copy_live_to_work']
-                        ).'" data-confirm="'.rex_i18n::msg(
-                            'version_confirm_copy_live_to_workingversion'
-                        ).'">'.rex_i18n::msg('version_copy_live_to_workingversion').'</a></li>';
+                    $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';
                 }
             }
 
             $inverse = rex_article_revision::WORK == $revision;
             $cssClass = rex_article_revision::WORK == $revision ? 'rex-state-inprogress' : 'rex-state-live';
 
-            $return .= rex_view::toolbar('<ul class="nav navbar-nav">'.$toolbar.'</ul>', null, $cssClass, $inverse);
+            $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', null, $cssClass, $inverse);
 
             return $return;
         });
