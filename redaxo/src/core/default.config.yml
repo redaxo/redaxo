@@ -69,7 +69,6 @@ setup_addons:
     - install
 system_addons:
     - mediapool
-    - structure
     - metainfo
     - install
     - project

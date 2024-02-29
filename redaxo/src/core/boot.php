@@ -127,7 +127,10 @@ rex_var_dumper::register();
 // ----------------- REX PERMS
 
 rex_user::setRoleClass(rex_user_role::class);
+
 rex_complex_perm::register('clang', rex_clang_perm::class);
+rex_complex_perm::register('structure', rex_structure_perm::class);
+rex_complex_perm::register('modules', rex_module_perm::class);
 
 rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
 rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
@@ -168,6 +171,36 @@ rex_extension::register('PACKAGES_INCLUDED', [rex_media_manager::class, 'init'],
 rex_extension::register('MEDIA_UPDATED', [rex_media_manager::class, 'mediaUpdated']);
 rex_extension::register('MEDIA_DELETED', [rex_media_manager::class, 'mediaUpdated']);
 rex_extension::register('MEDIA_IS_IN_USE', [rex_media_manager::class, 'mediaIsInUse']);
+
+if (!rex::isSetup()) {
+    require_once __DIR__ . '/functions/function_structure_rex_url.php';
+
+    rex::setProperty('start_article_id', rex::getConfig('start_article_id', 1));
+    rex::setProperty('notfound_article_id', rex::getConfig('notfound_article_id', 1));
+    rex::setProperty('rows_per_page', 50);
+
+    if (0 == rex_request('article_id', 'int')) {
+        rex::setProperty('article_id', rex_article::getSiteStartArticleId());
+    } else {
+        $articleId = rex_request('article_id', 'int');
+        $articleId = rex_article::get($articleId) ? $articleId : rex_article::getNotfoundArticleId();
+        rex::setProperty('article_id', $articleId);
+    }
+
+    rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) {
+        $urls = [
+            'template' => ['templates', 'template_id'],
+            'module' => ['modules/modules', 'module_id'],
+            'action' => ['modules/actions', 'action_id'],
+        ];
+
+        if (preg_match('@^rex:///(template|module|action)/(\d+)@', $ep->getParam('file'), $match)) {
+            return rex_url::backendPage($urls[$match[1]][0], ['function' => 'edit', $urls[$match[1]][1] => $match[2]]);
+        }
+
+        return null;
+    });
+}
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);

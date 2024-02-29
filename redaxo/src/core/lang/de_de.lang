@@ -1507,5 +1507,5 @@ version_info_clear_workingversion = Arbeitsversion erfolgreich geleert
 version_confirm_clear_workingversion = Arbeitsversion zurücksetzen? Alle bestehenden Inhalte der Arbeitsversion werden unwiderruflich gelöscht.
 
 
-system_setting_history = Historie
-system_setting_version = Version
+system_setting_article_history = Artikel-Historie erstellen
+system_setting_article_work_version = Artikel-Arbeitsversion

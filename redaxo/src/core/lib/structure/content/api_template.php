@@ -23,7 +23,7 @@ class rex_template
      */
     public static function getDefaultId()
     {
-        return rex_config::get('structure/content', 'default_template_id', 1);
+        return rex::getConfig('default_template_id', 1);
     }
 
     public static function forKey(string $templateKey): ?self

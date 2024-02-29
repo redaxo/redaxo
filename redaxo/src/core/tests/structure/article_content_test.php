@@ -11,7 +11,7 @@ class rex_article_content_test extends TestCase
     protected function setUp(): void
     {
         // fake article
-        $articleFile = rex_path::addonCache('structure', '1.1.article');
+        $articleFile = rex_path::coreCache('structure/1.1.article');
         rex_file::putCache($articleFile, [
             'pid' => 1,
             'id' => 1,
@@ -49,7 +49,7 @@ class rex_article_content_test extends TestCase
     protected function tearDown(): void
     {
         // delete all fake structure cache files
-        $finder = rex_finder::factory(rex_path::addonCache('structure'))
+        $finder = rex_finder::factory(rex_path::coreCache('structure/'))
             ->recursive()
             ->childFirst()
             ->ignoreSystemStuff(false);
