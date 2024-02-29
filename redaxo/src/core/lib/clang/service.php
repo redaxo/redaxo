@@ -28,6 +28,32 @@ class rex_clang_service
 
         rex_sql_util::organizePriorities(rex::getTable('clang'), 'priority', '', 'priority, id != ' . $id);
 
+        $firstLang = rex_sql::factory();
+        $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=?', [rex_clang::getStartId()]);
+        $fields = $firstLang->getFieldnames();
+
+        $newLang = rex_sql::factory();
+        // $newLang->setDebug();
+        foreach ($firstLang as $firstLangArt) {
+            $newLang->setTable(rex::getTablePrefix() . 'article');
+
+            foreach ($fields as $value) {
+                if ('pid' == $value) {
+                    continue;
+                } // nix passiert
+                if ('clang_id' == $value) {
+                    $newLang->setValue('clang_id', $id);
+                } elseif ('status' == $value) {
+                    $newLang->setValue('status', '0');
+                } // Alle neuen Artikel offline
+                else {
+                    $newLang->setValue($value, $firstLangArt->getValue($value));
+                }
+            }
+
+            $newLang->insert();
+        }
+
         rex_delete_cache();
 
         // ----- EXTENSION POINT
@@ -112,6 +138,9 @@ class rex_clang_service
         $del->setQuery('delete from ' . rex::getTablePrefix() . 'clang where id=?', [$id]);
 
         rex_sql_util::organizePriorities(rex::getTable('clang'), 'priority', '', 'priority');
+
+        $del->setQuery('delete from ' . rex::getTablePrefix() . 'article where clang_id=?', [$id]);
+        $del->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where clang_id=?', [$id]);
 
         rex_delete_cache();
 

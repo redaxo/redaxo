@@ -350,7 +350,7 @@ class rex_content_service
             }
 
             // --------------------------------------------------- Artikelcontent speichern
-            $articleContentFile = rex_path::addonCache('structure', "$articleId.$clangId.content");
+            $articleContentFile = rex_path::coreCache('structure/' . $articleId . '.' . $clangId . '.content');
             $articleContent = $CONT->getArticle();
 
             // ----- EXTENSION POINT
@@ -361,7 +361,7 @@ class rex_content_service
             ]));
 
             if (!rex_file::put($articleContentFile, $articleContent)) {
-                throw new rex_exception(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, rex_path::addonCache('structure')));
+                throw new rex_exception(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, rex_path::coreCache('structure/')));
             }
 
             if (function_exists('opcache_invalidate')) {

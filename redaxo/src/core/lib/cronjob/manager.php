@@ -163,6 +163,7 @@ class rex_cronjob_manager
             self::$types[] = rex_cronjob_export::class;
             self::$types[] = rex_cronjob_optimize_tables::class;
             self::$types[] = rex_cronjob_article_status::class;
+            self::$types[] = rex_cronjob_structure_history::class;
             self::$types[] = rex_cronjob_mailer_purge::class;
         }
 

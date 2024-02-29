@@ -11,7 +11,6 @@ $finder = PhpCsFixer\Finder::create()
         $src . '/addons/install',
         $src . '/addons/metainfo',
         $src . '/addons/project',
-        $src . '/addons/structure',
         $tools,
     ])
     ->append([

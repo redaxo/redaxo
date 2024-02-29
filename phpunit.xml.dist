@@ -18,8 +18,5 @@
         <testsuite name="core">
             <directory suffix="_test.php">redaxo/src/core/tests</directory>
         </testsuite>
-        <testsuite name="structure">
-            <directory suffix="_test.php">redaxo/src/addons/structure/tests</directory>
-        </testsuite>
     </testsuites>
 </phpunit>

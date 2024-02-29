@@ -14,7 +14,7 @@ class rex_article extends rex_structure_element
      */
     public static function getCurrentId()
     {
-        return rex_addon::get('structure')->getProperty('article_id', 1);
+        return rex::getProperty('article_id', 1);
     }
 
     /**
@@ -36,7 +36,7 @@ class rex_article extends rex_structure_element
      */
     public static function getSiteStartArticleId()
     {
-        return rex_addon::get('structure')->getProperty('start_article_id', 1);
+        return rex::getProperty('start_article_id', 1);
     }
 
     /**
@@ -58,7 +58,7 @@ class rex_article extends rex_structure_element
      */
     public static function getNotfoundArticleId()
     {
-        return rex_addon::get('structure')->getProperty('notfound_article_id', 1);
+        return rex::getProperty('notfound_article_id', 1);
     }
 
     /**

@@ -78,7 +78,7 @@ echo rex_view::title(rex_i18n::msg('content') . ': ' . $OOArt->getName(), '');
 echo rex_view::clangSwitchAsButtons($context);
 
 // ----- category pfad und rechte
-require rex_path::addon('structure', 'functions/function_rex_category.php');
+require rex_path::core('functions/function_structure_rex_category.php');
 
 // ----- EXTENSION POINT
 echo rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_HEADER', '', [

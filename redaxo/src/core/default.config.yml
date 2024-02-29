@@ -68,7 +68,6 @@ socket_proxy: null
 setup_addons:
     - install
 system_addons:
-    - structure
     - metainfo
     - install
     - project

@@ -27,6 +27,6 @@ class rex_module_cache
 
     public static function getKeyMappingPath(): string
     {
-        return rex_path::addonCache('structure', 'module_key_mapping.cache');
+        return rex_path::coreCache('structure/module_key_mapping.cache');
     }
 }
