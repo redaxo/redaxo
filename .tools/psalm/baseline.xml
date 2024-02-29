@@ -1299,6 +1299,9 @@
       <code><![CDATA[$params['id']]]></code>
       <code><![CDATA[$params['id']]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$params]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$params['activeItem']]]></code>
     </MixedAssignment>
@@ -1640,14 +1643,10 @@
     </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$address]]></code>
-      <code><![CDATA[$this->xHeader['to']]]></code>
     </PossiblyNullArgument>
     <PossiblyNullOperand>
       <code><![CDATA[$sendTime]]></code>
     </PossiblyNullOperand>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$this->xHeader['to']]]></code>
-    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/phpmailer/pages/checkmail.php">
     <MixedArgument>
@@ -3451,7 +3450,6 @@
   </file>
   <file src="redaxo/src/core/lib/autoload.php">
     <MixedArgument>
-      <code><![CDATA[$class]]></code>
       <code><![CDATA[$path]]></code>
       <code><![CDATA[$path]]></code>
       <code><![CDATA[$path]]></code>
@@ -3462,7 +3460,6 @@
       <code><![CDATA[self::$dirs]]></code>
     </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$class]]></code>
       <code><![CDATA[$file]]></code>
       <code><![CDATA[$path]]></code>
       <code><![CDATA[[self::$classes, self::$dirs]]]></code>
@@ -4079,8 +4076,6 @@
       <code><![CDATA[$column['span'] ?? null]]></code>
       <code><![CDATA[$column['width'] ?? null]]></code>
       <code><![CDATA[$format[0]]]></code>
-      <code><![CDATA[$layout[0]]]></code>
-      <code><![CDATA[$layout[1]]]></code>
       <code><![CDATA[$params]]></code>
       <code><![CDATA[$string]]></code>
       <code><![CDATA[$v]]></code>
@@ -4094,8 +4089,6 @@
     </MixedArrayAssignment>
     <MixedArrayOffset>
       <code><![CDATA[$this->customColumns[$column]]]></code>
-      <code><![CDATA[$this->linkAttributes[$columnName]]]></code>
-      <code><![CDATA[$this->linkAttributes[$columnName][$attrName]]]></code>
       <code><![CDATA[$this->linkAttributes[$column]]]></code>
     </MixedArrayOffset>
     <MixedAssignment>
@@ -4129,7 +4122,6 @@
     </MixedOperand>
     <MixedPropertyTypeCoercion>
       <code><![CDATA[$attr]]></code>
-      <code><![CDATA[$this->linkAttributes]]></code>
     </MixedPropertyTypeCoercion>
     <MixedReturnStatement>
       <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
@@ -4138,12 +4130,6 @@
       <code><![CDATA[$this->linkAttributes[$column] ?? $default]]></code>
       <code><![CDATA[json_decode($this->getValue($column), true)]]></code>
     </MixedReturnStatement>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$columnValue]]></code>
-    </PossiblyInvalidArgument>
-    <PossiblyInvalidOperand>
-      <code><![CDATA[str_replace('###VALUE###', $columnHead, $layout[0])]]></code>
-    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$columnLayout]]></code>
       <code><![CDATA[$column['width'] ?? null]]></code>
@@ -4262,24 +4248,6 @@
     <PossiblyNullArgument>
       <code><![CDATA[$this->getDescription()]]></code>
     </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/login/perm.php">
-    <MixedArgument>
-      <code><![CDATA[$perms]]></code>
-    </MixedArgument>
-    <MixedArrayAssignment>
-      <code><![CDATA[self::$perms[$group][$perm]]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$perms]]></code>
-      <code><![CDATA[$perms]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[array]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$perms]]></code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/login/user.php">
     <ArgumentTypeCoercion>
@@ -4803,7 +4771,7 @@
   </file>
   <file src="redaxo/src/core/lib/util/file.php">
     <MixedInferredReturnType>
-      <code><![CDATA[array|T]]></code>
+      <code><![CDATA[array<mixed>|T]]></code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[null === $content ? $default : json_decode($content, true)]]></code>
@@ -5180,7 +5148,6 @@
   <file src="redaxo/src/core/pages/setup.php">
     <MixedArgument>
       <code><![CDATA[$config['timezone']]]></code>
-      <code><![CDATA[$error]]></code>
       <code><![CDATA[$message]]></code>
       <code><![CDATA[$messages]]></code>
       <code><![CDATA[$value]]></code>
@@ -5200,7 +5167,6 @@
       <code><![CDATA[$config['db'][1]['password']]]></code>
     </MixedArrayAssignment>
     <MixedAssignment>
-      <code><![CDATA[$error]]></code>
       <code><![CDATA[$message]]></code>
       <code><![CDATA[$messages]]></code>
       <code><![CDATA[$value]]></code>

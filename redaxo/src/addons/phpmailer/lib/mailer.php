@@ -99,36 +99,24 @@ class rex_mailer extends PHPMailer
         return parent::addOrEnqueueAnAddress($kind, $address, $name);
     }
 
+    /**
+     * @return bool
+     */
     public function send()
     {
         return rex_timer::measure(__METHOD__, function () {
             $addon = rex_addon::get('phpmailer');
+            $logging = (int) $addon->getConfig('logging');
+            $detourModeActive = $addon->getConfig('detour_mode') && '' !== $addon->getConfig('test_address');
 
             rex_extension::registerPoint(new rex_extension_point('PHPMAILER_PRE_SEND', $this));
 
-            $detour = $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
-
-            // Clears the CCs and BCCs if detour mode is active
-            // Sets Subject of E-Mail to [DETOUR] $subject [$this->xHeader['to']]
-            if (true == $detour && isset($this->xHeader['to'])) {
-                $this->clearCCs();
-                $this->clearBCCs();
-
-                // add x header
-                foreach (['to', 'cc', 'bcc', 'ReplyTo'] as $kind) {
-                    if (isset($this->xHeader[$kind])) {
-                        $this->addCustomHeader('x-' . $kind, $this->xHeader[$kind]);
-                    }
-                }
-
-                $this->Subject = $addon->i18n('detour_subject', $this->Subject, $this->xHeader['to']);
-
-                // unset xHeader so it can be used again
-                $this->xHeader = [];
+            if ($detourModeActive && isset($this->xHeader['to'])) {
+                $this->prepareDetourMode();
             }
 
             if (!parent::send()) {
-                if ($addon->getConfig('logging')) {
+                if ($logging) {
                     $this->log('ERROR');
                 }
                 if ($this->archive) {
@@ -141,7 +129,7 @@ class rex_mailer extends PHPMailer
                 $this->archive($this->getSentMIMEMessage());
             }
 
-            if (self::LOG_ALL == $addon->getConfig('logging')) {
+            if (self::LOG_ALL === $logging) {
                 $this->log('OK');
             }
 
@@ -149,6 +137,22 @@ class rex_mailer extends PHPMailer
 
             return true;
         });
+    }
+
+    private function prepareDetourMode(): void
+    {
+        $addon = rex_addon::get('phpmailer');
+        $this->clearCCs();
+        $this->clearBCCs();
+
+        foreach (['to', 'cc', 'bcc', 'ReplyTo'] as $kind) {
+            if (isset($this->xHeader[$kind])) {
+                $this->addCustomHeader('x-' . $kind, $this->xHeader[$kind]);
+            }
+        }
+
+        $this->Subject = $addon->i18n('detour_subject', $this->Subject, $this->xHeader['to']);
+        $this->xHeader = []; // Bereinigung für die nächste Verwendung
     }
 
     /**

@@ -363,6 +363,9 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
+     * @param string $columnName
+     * @param string $attrName
+     * @param string|int $attrValue
      * @return void
      */
     public function addLinkAttribute($columnName, $attrName, $attrValue)
@@ -457,7 +460,7 @@ class rex_list implements rex_url_provider_interface
      *
      * @param string $columnName Name der Spalte
      *
-     * @return array
+     * @return array{string, string}
      */
     public function getColumnLayout($columnName)
     {
