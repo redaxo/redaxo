@@ -228,7 +228,7 @@ $mediaName = rex_request('media_name', 'string');
 if ('' != $mediaName) {
     $filter['term'] = $mediaName;
 
-    if ('global' != rex::getConfig('media_searchmode', 'local') && 0 != $rexFileCategory) {
+    if (0 != $rexFileCategory) {
         $filter['category_id_path'] = $rexFileCategory;
     }
 } else {
