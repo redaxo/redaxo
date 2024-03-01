@@ -10,6 +10,8 @@
  */
 class rex_log_file implements Iterator
 {
+    use rex_factory_trait;
+
     /** @var string */
     private $path;
 
@@ -40,6 +42,7 @@ class rex_log_file implements Iterator
     /**
      * @param string $path File path
      * @param int|null $maxFileSize Maximum file size
+     * @deprecated since 5.17.0, use `rex_log_file::factory` instead
      */
     public function __construct($path, $maxFileSize = null)
     {
@@ -51,6 +54,12 @@ class rex_log_file implements Iterator
             rename($path, $path . '.2');
         }
         $this->file = fopen($path, 'a+');
+    }
+
+    public static function factory(string $path, ?int $maxFileSize = null): static
+    {
+        $class = static::getFactoryClass();
+        return new $class($path, $maxFileSize);
     }
 
     /**
@@ -184,6 +193,10 @@ class rex_log_file implements Iterator
      */
     public static function delete($path)
     {
+        if ($factoryClass = static::getExplicitFactoryClass()) {
+            return $factoryClass::delete($path);
+        }
+
         return rex_file::delete($path) && rex_file::delete($path . '.2');
     }
 }

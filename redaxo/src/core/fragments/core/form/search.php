@@ -22,8 +22,8 @@ if ($this->id) {
     $id = ' id="' . $this->id . '"';
 }
 
-echo '<div class="' . $class . '"' . $id . '>
+echo '<search role="search" class="' . $class . '"' . $id . '>
       <span class="input-group-addon clear-button"><i class="rex-icon rex-icon-search"></i></span>
       <input class="form-control" type="text"' . $autofocus . $placeholder . $value . '>
       <span title="' . $clear . '" class="form-control-clear rex-icon rex-icon-clear form-control-feedback hidden"></span>
-</div>';
+</search>';

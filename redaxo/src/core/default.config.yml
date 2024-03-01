@@ -68,9 +68,6 @@ socket_proxy: null
 setup_addons:
     - install
 system_addons:
-    - mediapool
-    - structure
-    - media_manager
     - install
     - project
 table_prefix: rex_
@@ -106,3 +103,11 @@ accesskeys:
 editor: null
 editor_basepath: null
 theme: null
+blocked_extensions: [php, php3, php4, php5, php6, php7, php8, phar, pht, phtml, hh, pl, asp, aspx, cfm, jsp, jsf, bat, sh, cgi, htaccess, htpasswd]
+# example:
+#   allowed_mime_types:
+#       gif: [image/gif]
+#       jpg: [image/jpeg, image/pjpeg]
+allowed_mime_types: ~
+allowed_doctypes: [avif, bmp, css, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, svg, swf, tar, tif, tiff, txt, webp, wma, xls, xlsx, zip]
+image_extensions: [avif, bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]

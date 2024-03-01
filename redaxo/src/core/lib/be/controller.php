@@ -189,6 +189,52 @@ class rex_be_controller
             }
         });
 
+        self::$pages['structure'] = (new rex_be_page_main('system', 'structure', rex_i18n::msg('structure')))
+            ->setPath(rex_path::core('pages/structure.php'))
+            ->setRequiredPermissions('structure/hasStructurePerm')
+            ->setPrio(10)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-open-category')
+        ;
+        self::$pages['modules'] = (new rex_be_page_main('system', 'modules', rex_i18n::msg('modules')))
+            ->setPath(rex_path::core('pages/structure.modules.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(40)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-module')
+            ->addSubpage((new rex_be_page('modules', rex_i18n::msg('modules')))->setSubPath(rex_path::core('pages/structure.modules.modules.php')))
+            ->addSubpage((new rex_be_page('actions', rex_i18n::msg('actions')))->setSubPath(rex_path::core('pages/structure.modules.actions.php')))
+        ;
+        self::$pages['templates'] = (new rex_be_page_main('system', 'templates', rex_i18n::msg('templates')))
+            ->setPath(rex_path::core('pages/structure.templates.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(30)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-template')
+        ;
+        self::$pages['content'] = (new rex_be_page_main('system', 'content', rex_i18n::msg('content')))
+            ->setPath(rex_path::core('pages/structure.content.php'))
+            ->setRequiredPermissions('structure/hasStructurePerm')
+            ->setPjax(false)
+            ->setHidden()
+            ->addSubpage((new rex_be_page('edit', rex_i18n::msg('edit_mode')))
+                ->setSubPath(rex_path::core('pages/structure.content.edit.php'))
+                ->setIcon('rex-icon rex-icon-editmode')
+                ->setItemAttr('left', 'true'),
+            )
+            ->addSubpage((new rex_be_page('functions', rex_i18n::msg('metafuncs')))
+                ->setSubPath(rex_path::core('pages/structure.content.functions.php'))
+                ->setIcon('rex-icon rex-icon-metafuncs'),
+            )
+        ;
+        self::$pages['linkmap'] = (new rex_be_page_main('system', 'linkmap', rex_i18n::msg('linkmap')))
+            ->setPath(rex_path::core('pages/structure.linkmap.php'))
+            ->setRequiredPermissions('structure/hasStructurePerm')
+            ->setPjax()
+            ->setPopup(true)
+            ->setHidden()
+        ;
+
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
             ->setPath(rex_path::core('pages/system.php'))
             ->setRequiredPermissions('isAdmin')
@@ -204,12 +250,23 @@ class rex_be_controller
                 ->addSubpage((new rex_be_page('markdown', rex_i18n::msg('system_report_markdown')))->setSubPath(rex_path::core('pages/system.report.markdown.php'))),
             )
             ->addSubpage($beStylePage)
-            ->addSubpage(
-                (new rex_be_page('phpinfo', 'phpinfo'))
+            ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
                 ->setHidden(true)
                 ->setHasLayout(false)
                 ->setPath(rex_path::core('pages/system.phpinfo.php')),
+            )
+        ;
+
+        if (rex::getConfig('article_history', false)) {
+            self::$pages['content']->addSubpage((new rex_be_page('history', ''))
+                ->setRequiredPermissions('history[article_rollback]')
+                ->setIcon('fa fa-history')
+                ->setHref('#')
+                ->setItemAttr('left', 'true')
+                ->setLinkAttr('data-history-layer', 'open'),
             );
+            self::$pages['system']->addSubpage((new rex_be_page('history', rex_i18n::msg('structure_history')))->setSubPath(rex_path::core('pages/structure.system.history.php')));
+        }
 
         self::$pages['users'] = (new rex_be_page_main('system', 'users', rex_i18n::msg('users')))
             ->setPath(rex_path::core('pages/users.php'))
@@ -249,6 +306,19 @@ class rex_be_controller
             ->setIcon('rex-icon rex-icon-cronjob')
             ->addSubpage((new rex_be_page('cronjobs', rex_i18n::msg('cronjob_title')))->setSubPath(rex_path::core('pages/cronjob.cronjobs.php')))
             ->addSubpage((new rex_be_page('log', rex_i18n::msg('cronjob_log')))->setSubPath(rex_path::core('pages/cronjob.log.php')))
+        ;
+
+        self::$pages['mediapool'] = (new rex_be_page_main('system', 'mediapool', rex_i18n::msg('mediapool')))
+            ->setPath(rex_path::core('pages/mediapool.php'))
+            ->setRequiredPermissions('media/hasMediaPerm')
+            ->setPrio(20)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-media')
+            ->setPopup('openMediaPool(); return false;')
+            ->addSubpage((new rex_be_page('media', rex_i18n::msg('pool_file_list')))->setSubPath(rex_path::core('pages/mediapool.media.php')))
+            ->addSubpage((new rex_be_page('upload', rex_i18n::msg('pool_file_insert')))->setSubPath(rex_path::core('pages/mediapool.upload.php')))
+            ->addSubpage((new rex_be_page('structure', rex_i18n::msg('pool_cat_list')))->setRequiredPermissions('media/hasAll')->setSubPath(rex_path::core('pages/mediapool.structure.php')))
+            ->addSubpage((new rex_be_page('sync', rex_i18n::msg('pool_sync_files')))->setRequiredPermissions('media[sync]')->setSubPath(rex_path::core('pages/mediapool.sync.php')))
         ;
 
         self::$pages['phpmailer'] = (new rex_be_page_main('system', 'phpmailer', rex_i18n::msg('phpmailer_title')))
@@ -291,6 +361,22 @@ class rex_be_controller
             ->setPrio(60)
             ->setPjax()
             ->setIcon('rex-icon rex-icon-package-addon');
+
+        self::$pages['media_manager'] = (new rex_be_page_main('system', 'media_manager', rex_i18n::msg('media_manager')))
+            ->setPath(rex_path::core('pages/media_manager.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(70)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-media')
+            ->addSubpage((new rex_be_page('types', rex_i18n::msg('media_manager_subpage_types')))->setSubPath(rex_path::core('pages/media_manager.types.php')))
+            ->addSubpage((new rex_be_page('settings', rex_i18n::msg('media_manager_subpage_config')))->setSubPath(rex_path::core('pages/media_manager.settings.php')))
+            ->addSubpage((new rex_be_page('overview', rex_i18n::msg('media_manager_subpage_desc')))->setSubPath(rex_path::core('pages/media_manager.README.md')))
+            ->addSubpage((new rex_be_page('clear_cache', rex_i18n::msg('media_manager_subpage_clear_cache')))
+                ->setItemAttr('class', 'pull-right')
+                ->setLinkAttr('class', 'btn btn-delete')
+                ->setHref(['page' => 'media_manager/types', 'func' => 'clear_cache']),
+            )
+        ;
     }
 
     /**

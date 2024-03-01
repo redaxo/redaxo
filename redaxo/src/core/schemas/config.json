@@ -410,6 +410,23 @@
         "theme": {
             "description": "Backend theme for all users",
             "enum": [null, "light", "dark"]
+        },
+        "blocked_extensions": {
+            "description": "Blocked extensions",
+            "type": "array"
+        },
+        "allowed_mime_types": {
+            "description": "Optional mime type allowlist. The list is checked after the blocked_extensions check from above has passed.",
+            "type": ["null", "object"]
+
+        },
+        "allowed_doctypes": {
+            "description": "Allowed doctypes",
+            "type": "array"
+        },
+        "image_extensions": {
+            "description": "Image extensions",
+            "type": "array"
         }
     },
     "additionalProperties": false,

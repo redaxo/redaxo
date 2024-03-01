@@ -136,7 +136,7 @@ class rex_cronjob_manager
             $environment = rex::getEnvironment();
         }
 
-        $log = new rex_log_file(rex_path::log('cronjob.log'), 2_000_000);
+        $log = rex_log_file::factory(rex_path::log('cronjob.log'), 2_000_000);
         $data = [
             $success ? 'SUCCESS' : 'ERROR',
             $this->id ?: '--',
@@ -163,6 +163,7 @@ class rex_cronjob_manager
             self::$types[] = rex_cronjob_export::class;
             self::$types[] = rex_cronjob_optimize_tables::class;
             self::$types[] = rex_cronjob_article_status::class;
+            self::$types[] = rex_cronjob_structure_history::class;
             self::$types[] = rex_cronjob_mailer_purge::class;
         }
 

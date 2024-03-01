@@ -17,9 +17,6 @@ fi
 packages="
 debug
 install
-media_manager
-mediapool
-structure
 users
 "
 

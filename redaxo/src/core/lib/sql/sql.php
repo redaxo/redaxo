@@ -301,7 +301,7 @@ class rex_sql implements Iterator
      *
      * @param string $query The sql-query
      * @param array $params An optional array of statement parameter
-     * @param array $options For possible option keys view `rex_sql::OPT_*` constants
+     * @param array<self::OPT_*, bool> $options For possible option keys view `rex_sql::OPT_*` constants
      *
      * @throws rex_sql_exception on errors
      *
@@ -371,7 +371,7 @@ class rex_sql implements Iterator
      * Executes the prepared statement with the given input parameters.
      *
      * @param array $params Array of input parameters
-     * @param array $options For possible option keys view `rex_sql::OPT_*` constants
+     * @param array<self::OPT_*, bool> $options For possible option keys view `rex_sql::OPT_*` constants
      *
      * @throws rex_sql_exception
      *
@@ -436,7 +436,7 @@ class rex_sql implements Iterator
      *
      * @param string $query The sql-query
      * @param array $params An optional array of statement parameter
-     * @param array $options For possible option keys view `rex_sql::OPT_*` constants
+     * @param array<self::OPT_*, bool> $options For possible option keys view `rex_sql::OPT_*` constants
      *
      * @throws rex_sql_exception on errors
      *
@@ -747,7 +747,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return array
+     * @return array<mixed>
      */
     public function getArrayValue($column)
     {

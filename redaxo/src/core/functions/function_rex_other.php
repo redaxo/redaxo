@@ -26,6 +26,10 @@ function rex_delete_cache()
     rex_autoload::removeCache();
     rex_clang::reset();
 
+    rex_structure_element::clearInstancePool();
+    rex_structure_element::clearInstanceListPool();
+    rex_structure_element::resetClassVars();
+
     if (function_exists('opcache_reset')) {
         opcache_reset();
     }

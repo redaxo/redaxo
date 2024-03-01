@@ -77,7 +77,7 @@ class rex_logger extends AbstractLogger
      * Logs with an arbitrary level.
      *
      * @param mixed $level either one of LogLevel::* or also any other string
-     * @param string|\Stringable $message
+     * @param string|Stringable $message
      * @param array<mixed> $context
      * @param string|null $file
      * @param int|null $line
@@ -137,7 +137,7 @@ class rex_logger extends AbstractLogger
     {
         // check if already opened
         if (!self::$file) {
-            self::$file = new rex_log_file(self::getPath(), 2_000_000);
+            self::$file = rex_log_file::factory(self::getPath(), 2_000_000);
         }
     }
 

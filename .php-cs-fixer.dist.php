@@ -9,10 +9,7 @@ $finder = PhpCsFixer\Finder::create()
         $src . '/core',
         $src . '/addons/debug',
         $src . '/addons/install',
-        $src . '/addons/media_manager',
-        $src . '/addons/mediapool',
         $src . '/addons/project',
-        $src . '/addons/structure',
         $tools,
     ])
     ->append([

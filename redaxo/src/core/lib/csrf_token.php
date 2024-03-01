@@ -70,7 +70,7 @@ class rex_csrf_token
     /**
      * Returns an array containing the `_csrf_token` param.
      *
-     * @return array
+     * @return array<self::PARAM, string>
      */
     public function getUrlParams()
     {

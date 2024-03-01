@@ -3,8 +3,8 @@
 ## charset utf8mb4
 
 INSERT IGNORE INTO `rex_article` VALUES
-(1,1,0,'test category','test category',1,1,1,'|',1,1,1,'2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername',0),
-(2,2,0,'test article','',0,0,1,'|',0,1,1,'2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername',0);
+(1,1,0,'test category','test category',1,1,1,'|',1,1,1,'2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername'),
+(2,2,0,'test article','',0,0,1,'|',0,1,1,'2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername');
 
 INSERT IGNORE INTO `rex_article_slice` VALUES
 (1,1,1,1,1,0,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername'),
@@ -12,26 +12,26 @@ INSERT IGNORE INTO `rex_article_slice` VALUES
 (3,1,1,1,1,1,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername');
 
 INSERT IGNORE INTO `rex_clang` VALUES
-(1,'de','deutsch',1,1,0),
-(2,'en','english',2,0,0);
+(1,'de','deutsch',1,1),
+(2,'en','english',2,0);
 
 REPLACE INTO `rex_config` VALUES
-('structure','history','true'),
-('structure','version','true');
+('core','article_history','true'),
+('core','article_work_version','true');
 
 INSERT IGNORE INTO `rex_cronjob` VALUES
 (1,'Artikel-Status',NULL,'rex_cronjob_article_status',NULL,'{\"minutes\":[0],\"hours\":[0],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}',NULL,'|frontend|backend|script|',1,'0000-00-00 00:00:00',0,'2022-07-17 21:08:53','admin','2022-07-18 00:03:20','admin'),
 (2,'Tabellen-Optimierung',NULL,'rex_cronjob_optimize_tables',NULL,'{\"minutes\":[0],\"hours\":[0],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}',NULL,'|frontend|backend|script|',0,'0000-00-00 00:00:00',0,'2022-07-17 21:08:54','admin','2022-07-17 21:18:38','admin');
 
 INSERT IGNORE INTO `rex_media` VALUES
-(1,0,NULL,'image/jpeg','redaxo_2018_berlin_sticker.jpg','redaxo_2018_berlin_sticker.jpg','78410',1200,900,'Sticker','2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername',0);
+(1,0,'image/jpeg','redaxo_2018_berlin_sticker.jpg','redaxo_2018_berlin_sticker.jpg','78410',1200,900,'Sticker','2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername');
 
 INSERT IGNORE INTO `rex_module` VALUES
-(1,'testmodule1','Test Module 1','output','input','2021-01-01 11:37:20','myusername','0000-00-00 00:00:00','',NULL,0);
+(1,'testmodule1','Test Module 1','output','input','2021-01-01 11:37:20','myusername','0000-00-00 00:00:00','');
 
 # update existing default template
 REPLACE INTO `rex_template` VALUES
-(1,NULL,'Default','REX_ARTICLE[]',1,'2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername','{\"ctype\":{\"1\":\"ctype1\",\"2\":\"ctype2\"},\"modules\":{\"1\":{\"all\":\"1\"},\"2\":{\"all\":\"1\"}},\"categories\":{\"all\":\"1\"}}',0);
+(1,NULL,'Default','REX_ARTICLE[]',1,'2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername','{\"ctype\":{\"1\":\"ctype1\",\"2\":\"ctype2\"},\"modules\":{\"1\":{\"all\":\"1\"},\"2\":{\"all\":\"1\"}},\"categories\":{\"all\":\"1\"}}');
 
 INSERT INTO `rex_media_manager_type` VALUES
 (4,0,'test','','2021-10-30 12:05:41','myusername','2021-10-30 12:05:41','myusername');
