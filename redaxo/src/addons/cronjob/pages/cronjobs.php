@@ -146,10 +146,14 @@ if ('' == $func) {
 
     $field = $form->addTextField('name');
     $field->setLabel($addon->i18n('name'));
-    $field->getValidator()->add('notEmpty', $addon->i18n('cronjob_error_no_name'));
+    $field->getValidator()
+        ->add(rex_validation_rule::NOT_EMPTY, $addon->i18n('cronjob_error_no_name'))
+        ->add(rex_validation_rule::MAX_LENGTH, null, 255)
+    ;
 
     $field = $form->addTextAreaField('description');
     $field->setLabel($addon->i18n('description'));
+    $field->getValidator()->add(rex_validation_rule::MAX_LENGTH, null, 255);
 
     $field = $form->addCheckboxField('environment');
     $field->setLabel($addon->i18n('environment'));
