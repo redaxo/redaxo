@@ -291,7 +291,6 @@
       <code><![CDATA[$assetFile]]></code>
       <code><![CDATA[$assetFile]]></code>
       <code><![CDATA[$clangId]]></code>
-      <code><![CDATA[$ep->getParam('file')]]></code>
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$version['history_date']]]></code>
@@ -339,6 +338,7 @@
       <code><![CDATA[rex::getProperty('timezone', 'Europe/Berlin')]]></code>
     </ArgumentTypeCoercion>
     <MixedArgument>
+      <code><![CDATA[$ep->getParam('file')]]></code>
       <code><![CDATA[$ep->getParam('file')]]></code>
     </MixedArgument>
     <PossiblyInvalidArgument>
