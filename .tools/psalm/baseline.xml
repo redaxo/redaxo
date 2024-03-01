@@ -4518,14 +4518,13 @@
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$argUrl['args']['types']]]></code>
-      <code><![CDATA[$mediaManagerUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate'))]]></code>
     </MixedOperand>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$media->getValue('updatedate')]]></code>
+    </PossiblyInvalidArgument>
     <PossiblyNullOperand>
       <code><![CDATA[$media->getValue('updatedate')]]></code>
     </PossiblyNullOperand>
-    <RedundantCondition>
-      <code><![CDATA[$mediaManagerUrl]]></code>
-    </RedundantCondition>
   </file>
   <file src="redaxo/src/core/pages/mediapool.php">
     <MixedAssignment>

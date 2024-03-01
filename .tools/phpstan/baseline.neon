@@ -2346,11 +2346,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/view.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/pages/mediapool.media.list.php
-
-		-
 			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(object\\|null\\), Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
