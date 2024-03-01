@@ -1084,9 +1084,12 @@ var_medialist_move_bottom  = move selected media to bottom
 perm_general_media[sync] = Mediapool: Synchronise files
 
 # metainfo
-media = Media
-categories = Categories
-articles = Articles
+metainfo = Metainfo
+metainfo_media = Media
+metainfo_categories = Categories
+metainfo_articles = Articles
+metainfo_clangs = Languages
+metainfo_help = Help
 
 minfo_title = Expand metainfos
 minfo_metainfos_not_found = No metainfo found

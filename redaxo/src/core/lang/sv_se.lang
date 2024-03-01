@@ -1075,9 +1075,12 @@ var_medialist_move_bottom = Flytta utvald fil till ändan
 perm_general_media[sync] = Mediapool: synkronisera filer
 
 # metainfo
-media = Filer
-categories = Kategorier
-articles = Artiklar
+metainfo = Metainfo
+metainfo_media = Filer
+metainfo_categories = Kategorier
+metainfo_articles = Artiklar
+metainfo_clangs = Språk
+metainfo_help = Hjälp
 
 minfo_title = Utöka metainformationen
 minfo_metainfos_not_found = Inga metainformationer hittades

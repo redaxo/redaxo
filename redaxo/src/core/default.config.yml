@@ -68,7 +68,6 @@ socket_proxy: null
 setup_addons:
     - install
 system_addons:
-    - metainfo
     - install
     - project
 table_prefix: rex_

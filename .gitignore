@@ -15,7 +15,6 @@
 /redaxo/src/addons/*
 !/redaxo/src/addons/debug/
 !/redaxo/src/addons/install/
-!/redaxo/src/addons/metainfo/
 !/redaxo/src/addons/project/
 
 # PhpStorm setting

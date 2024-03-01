@@ -13,7 +13,7 @@ ini_set('pcre.jit', 0);
  */
 class rex_release
 {
-    private static $addons = ['debug', 'install', 'metainfo'];
+    private static $addons = ['debug', 'install'];
 
     private $version;
     private $path;

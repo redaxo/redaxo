@@ -1041,9 +1041,12 @@ var_medialist_move_bottom = Mover el medio seleccionado a la parte inferior
 perm_general_media[sync] = Grupo de medios: sincronizar archivos
 
 # metainfo
-media = Media
-categories = Categorías
-articles = Artículos
+metainfo = Metainfo
+metainfo_media = Media
+metainfo_categories = Categorías
+metainfo_articles = Artículos
+metainfo_clangs = Idiomas
+metainfo_help = Ayuda
 
 minfo_title = Metadatos
 minfo_metainfos_not_found = No se encontró metadatos

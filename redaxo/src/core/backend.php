@@ -516,6 +516,10 @@ if ('system' == rex_be_controller::getCurrentPagePart(1)) {
     rex_system_setting::register(new rex_system_setting_structure_package_status('article_work_version'));
     rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
 }
+if ('content' == rex_be_controller::getCurrentPagePart(1)) {
+    rex_view::addCssFile(rex_url::coreAssets('css/metainfo.css'));
+    rex_view::addJsFile(rex_url::coreAssets('js/metainfo.js'));
+}
 
 rex_perm::register('users[]');
 
@@ -542,6 +546,24 @@ if (rex::getConfig('article_history', false)) {
 if (rex::getConfig('article_work_version', false)) {
     rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 }
+
+// Metainfo
+rex::setProperty('metainfo_prefixes', ['art_', 'cat_', 'med_', 'clang_']);
+rex::setProperty('metainfo_metaTables', [
+    'art_' => rex::getTablePrefix() . 'article',
+    'cat_' => rex::getTablePrefix() . 'article',
+    'med_' => rex::getTablePrefix() . 'media',
+    'clang_' => rex::getTablePrefix() . 'clang',
+]);
+
+require_once __DIR__ . '/functions/function_metainfo.php';
+
+rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
+rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function ($ep) {
+    $subject = $ep->getSubject();
+    $metaSidebar = include rex_path::core('pages/metainfo.content.php');
+    return $metaSidebar . $subject;
+});
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');

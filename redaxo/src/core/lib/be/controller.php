@@ -364,6 +364,19 @@ class rex_be_controller
                 ->setHref(['page' => 'media_manager/types', 'func' => 'clear_cache']),
             )
         ;
+
+        self::$pages['metainfo'] = (new rex_be_page_main('system', 'metainfo', rex_i18n::msg('metainfo')))
+            ->setPath(rex_path::core('pages/metainfo.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(75)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-metainfo')
+            ->addSubpage(new rex_be_page('articles', rex_i18n::msg('metainfo_articles')))
+            ->addSubpage(new rex_be_page('categories', rex_i18n::msg('metainfo_categories')))
+            ->addSubpage(new rex_be_page('media', rex_i18n::msg('metainfo_media')))
+            ->addSubpage(new rex_be_page('clangs', rex_i18n::msg('metainfo_clangs')))
+            ->addSubpage((new rex_be_page('help', rex_i18n::msg('metainfo_help')))->setSubPath(rex_path::core('pages/metainfo.README.md')))
+        ;
     }
 
     /**
