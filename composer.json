@@ -62,23 +62,21 @@
         "classmap": [
             "redaxo/src/addons/debug/lib/",
             "redaxo/src/addons/install/lib/",
-            "redaxo/src/addons/mediapool/lib/",
             "redaxo/src/addons/metainfo/lib/",
             "redaxo/src/core/lib/"
         ],
         "files": [
-            "redaxo/src/addons/mediapool/functions/function_rex_mediapool.php",
             "redaxo/src/addons/metainfo/extensions/extension_cleanup.php",
             "redaxo/src/addons/metainfo/functions/function_metainfo.php",
             "redaxo/src/core/functions/function_rex_escape.php",
             "redaxo/src/core/functions/function_rex_globals.php",
+            "redaxo/src/core/functions/function_rex_mediapool.php",
             "redaxo/src/core/functions/function_rex_other.php",
             "redaxo/src/core/functions/function_structure_rex_url.php"
         ]
     },
     "autoload-dev": {
         "classmap": [
-            "redaxo/src/addons/mediapool/tests/",
             "redaxo/src/core/tests/"
         ]
     },

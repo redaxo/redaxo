@@ -196,11 +196,13 @@ rex_view::addJsFile(rex_url::coreAssets('jquery-pjax.min.js'), [rex_view::JS_IMM
 rex_view::addJsFile(rex_url::coreAssets('standard.js'), [rex_view::JS_IMMUTABLE => true]);
 rex_view::addJsFile(rex_url::coreAssets('sha1.js'), [rex_view::JS_IMMUTABLE => true]);
 rex_view::addJsFile(rex_url::coreAssets('clipboard-copy-element.js'), [rex_view::JS_IMMUTABLE => true]);
+rex_view::addJsFile(rex_url::coreAssets('js/mediapool.js'), [rex_view::JS_IMMUTABLE]);
 
 rex_view::setJsProperty('backend', true);
 rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
 rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
 rex_view::setJsProperty('cookie_params', rex_login::getCookieParams());
+rex_view::setJsProperty('imageExtensions', rex::getProperty('image_extensions'));
 
 rex_view::addCssFile(rex_url::coreAssets('css/styles.css'));
 rex_view::addCssFile(rex_url::coreAssets('css/bootstrap-select.min.css'));

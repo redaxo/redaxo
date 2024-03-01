@@ -282,306 +282,6 @@
       <code><![CDATA[rex_escape($config['api_login'])]]></code>
     </NullOperand>
   </file>
-  <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
-    <MixedArgument>
-      <code><![CDATA[$buttonTitle]]></code>
-      <code><![CDATA[$info]]></code>
-      <code><![CDATA[$warning]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$info]]></code>
-      <code><![CDATA[$warning]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$argValue]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$buttonTitle]]></code>
-      <code><![CDATA[$buttonTitle]]></code>
-      <code><![CDATA[rex_escape($argValue)]]></code>
-      <code><![CDATA[rex_escape($ftitle)]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/mediapool/lib/media.php">
-    <MixedArgument>
-      <code><![CDATA[$filename]]></code>
-      <code><![CDATA[$name]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[list<string>]]></code>
-      <code><![CDATA[list<string>]]></code>
-      <code><![CDATA[string|int|null]]></code>
-    </MixedInferredReturnType>
-    <MixedOperand>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->$value]]></code>
-      <code><![CDATA[rex_addon::get('mediapool')->getProperty('allowed_doctypes')]]></code>
-      <code><![CDATA[rex_addon::get('mediapool')->getProperty('image_extensions')]]></code>
-    </MixedReturnStatement>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$getInstance]]></code>
-    </PossiblyInvalidArgument>
-    <PossiblyNullArgument>
-      <code><![CDATA[$this->getValue('med_description')]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/addons/mediapool/lib/media_category.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[self::getInstanceList([$this->getId(), 'media'], rex_media::get(...), static function ($id) {
-            $listPath = rex_path::addonCache('mediapool', $id . '.mlist');
-
-            $list = rex_file::getCache($listPath, null);
-            if (null === $list) {
-                rex_media_cache::generateList($id);
-                $list = rex_file::getCache($listPath);
-            }
-
-            return $list;
-        })]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[rex_media[]]]></code>
-    </InvalidReturnType>
-    <MixedArgument>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$parentId]]></code>
-    </MixedArgument>
-    <MixedOperand>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$parentId]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/mediapool/lib/media_category_select.php">
-    <MixedAssignment>
-      <code><![CDATA[$this->checkPerms]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/mediapool/lib/mediapool.php">
-    <MixedArgument>
-      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
-      <code><![CDATA[$args['types']]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$allowedMimetypes]]></code>
-      <code><![CDATA[$blockedExtension]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[array]]></code>
-    </MixedInferredReturnType>
-    <MixedOperand>
-      <code><![CDATA[$blockedExtension]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[rex_addon::get('mediapool')->getProperty('blocked_extensions')]]></code>
-    </MixedReturnStatement>
-  </file>
-  <file src="redaxo/src/addons/mediapool/lib/service_media.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$allowedExtensions]]></code>
-      <code><![CDATA[rex_mediapool::getBlockedExtensions()]]></code>
-    </MixedArgumentTypeCoercion>
-    <PossiblyNullOperand>
-      <code><![CDATA[rex_file::mimeType($data['file']['path'])]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/mediapool/lib/service_media_category.php">
-    <MixedArgument>
-      <code><![CDATA[$catName]]></code>
-      <code><![CDATA[$catName]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$catName]]></code>
-    </MixedAssignment>
-    <NoValue>
-      <code><![CDATA[$warning]]></code>
-    </NoValue>
-  </file>
-  <file src="redaxo/src/addons/mediapool/lib/var_media.php">
-    <MixedArgument>
-      <code><![CDATA[$avalue]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$aname]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$avalue]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getValue]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/mediapool/lib/var_medialist.php">
-    <MixedArgument>
-      <code><![CDATA[$avalue]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$avalue]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getValue]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/index.php">
-    <MixedAssignment>
-      <code><![CDATA[$argValue]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[rex_escape($argValue)]]></code>
-    </MixedOperand>
-    <PossiblyNullReference>
-      <code><![CDATA[getSubpages]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/media.detail.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$gf->getValue('category_id')]]></code>
-      <code><![CDATA[$gf->getValue('category_id')]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[$error]]></code>
-      <code><![CDATA[$success]]></code>
-    </MixedArgument>
-    <MixedOperand>
-      <code><![CDATA[$fileId]]></code>
-      <code><![CDATA[$fileId]]></code>
-      <code><![CDATA[$openerLink]]></code>
-      <code><![CDATA[$openerLink]]></code>
-      <code><![CDATA[$openerLink]]></code>
-    </MixedOperand>
-    <NullOperand>
-      <code><![CDATA[rex_escape($gf->getValue('createuser'))]]></code>
-      <code><![CDATA[rex_escape($gf->getValue('title'), 'js')]]></code>
-      <code><![CDATA[rex_escape($gf->getValue('updateuser'))]]></code>
-    </NullOperand>
-    <PossiblyNullArgument>
-      <code><![CDATA[$gf->getValue('category_id')]]></code>
-      <code><![CDATA[$gf->getValue('category_id')]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$gf->getDateTimeValue('updatedate')]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/media.list.php">
-    <MixedArgument>
-      <code><![CDATA[$argUrl]]></code>
-      <code><![CDATA[$argUrl]]></code>
-      <code><![CDATA[$error]]></code>
-      <code><![CDATA[$fileName]]></code>
-      <code><![CDATA[$filename]]></code>
-      <code><![CDATA[$filename]]></code>
-      <code><![CDATA[$filename]]></code>
-      <code><![CDATA[$success]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$error]]></code>
-      <code><![CDATA[$success]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$fileName]]></code>
-      <code><![CDATA[$filename]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$argUrl['args']['types']]]></code>
-      <code><![CDATA[$mediaManagerUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate'))]]></code>
-    </MixedOperand>
-    <PossiblyNullOperand>
-      <code><![CDATA[$media->getValue('updatedate')]]></code>
-    </PossiblyNullOperand>
-    <RedundantCondition>
-      <code><![CDATA[$mediaManagerUrl]]></code>
-    </RedundantCondition>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/structure.php">
-    <MixedArgument>
-      <code><![CDATA[$OOCat->getPath()]]></code>
-      <code><![CDATA[$error]]></code>
-      <code><![CDATA[$success]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$OOCat]]></code>
-      <code><![CDATA[$OOCats]]></code>
-      <code><![CDATA[$iid]]></code>
-      <code><![CDATA[$iname]]></code>
-      <code><![CDATA[$n['title']]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getChildren]]></code>
-      <code><![CDATA[getId]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getPath]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$OOCat->getPath()]]></code>
-      <code><![CDATA[$iid]]></code>
-      <code><![CDATA[$iid]]></code>
-      <code><![CDATA[$iid]]></code>
-      <code><![CDATA[$iid]]></code>
-      <code><![CDATA[$iid]]></code>
-      <code><![CDATA[$iid]]></code>
-      <code><![CDATA[rex_escape($OOCat->getName())]]></code>
-      <code><![CDATA[rex_escape($OOCat->getName())]]></code>
-      <code><![CDATA[rex_escape($iname)]]></code>
-    </MixedOperand>
-    <PossiblyNullReference>
-      <code><![CDATA[getName]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/sync.php">
-    <InvalidArgument>
-      <code><![CDATA[$data]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/upload.php">
-    <MixedArgument>
-      <code><![CDATA[$js]]></code>
-      <code><![CDATA[$rexFileCategory]]></code>
-    </MixedArgument>
-    <MixedOperand>
-      <code><![CDATA[$data['filename']]]></code>
-      <code><![CDATA[$data['filename']]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/mediapool/tests/mediapool_test.php">
-    <MixedAssignment>
-      <code><![CDATA[$allowedMimeTypes]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/addons/metainfo/boot.php">
     <MixedArgument>
       <code><![CDATA[$ep->getParam('file')]]></code>
@@ -1644,6 +1344,26 @@
       <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
       <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
     </TypeDoesNotContainType>
+  </file>
+  <file src="redaxo/src/core/functions/function_rex_mediapool.php">
+    <MixedArgument>
+      <code><![CDATA[$buttonTitle]]></code>
+      <code><![CDATA[$info]]></code>
+      <code><![CDATA[$warning]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$info]]></code>
+      <code><![CDATA[$warning]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$argValue]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$buttonTitle]]></code>
+      <code><![CDATA[$buttonTitle]]></code>
+      <code><![CDATA[rex_escape($argValue)]]></code>
+      <code><![CDATA[rex_escape($ftitle)]]></code>
+    </MixedOperand>
   </file>
   <file src="redaxo/src/core/layout/top.php">
     <MixedArrayAccess>
@@ -2960,6 +2680,167 @@
       <code><![CDATA[$effparams[str_replace('rex_effect_' . $effname . '_', '', $name)]]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
+  </file>
+  <file src="redaxo/src/core/lib/mediapool/media.php">
+    <MixedArgument>
+      <code><![CDATA[$filename]]></code>
+      <code><![CDATA[$name]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[list<string>]]></code>
+      <code><![CDATA[list<string>]]></code>
+      <code><![CDATA[string|int|null]]></code>
+    </MixedInferredReturnType>
+    <MixedOperand>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->$value]]></code>
+      <code><![CDATA[rex::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[rex::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[rex::getProperty('image_extensions', [])]]></code>
+      <code><![CDATA[rex::getProperty('image_extensions', [])]]></code>
+    </MixedReturnStatement>
+    <NullableReturnStatement>
+      <code><![CDATA[rex::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[rex::getProperty('image_extensions', [])]]></code>
+    </NullableReturnStatement>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$getInstance]]></code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->getValue('med_description')]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/mediapool/media_category.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[self::getInstanceList([$this->getId(), 'media'], rex_media::get(...), static function ($id) {
+            $listPath = rex_path::coreCache('mediapool/' . $id . '.mlist');
+
+            $list = rex_file::getCache($listPath, null);
+            if (null === $list) {
+                rex_media_cache::generateList($id);
+                $list = rex_file::getCache($listPath);
+            }
+
+            return $list;
+        })]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[rex_media[]]]></code>
+    </InvalidReturnType>
+    <MixedArgument>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$parentId]]></code>
+    </MixedArgument>
+    <MixedOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$parentId]]></code>
+    </MixedOperand>
+  </file>
+  <file src="redaxo/src/core/lib/mediapool/media_category_select.php">
+    <MixedAssignment>
+      <code><![CDATA[$this->checkPerms]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="redaxo/src/core/lib/mediapool/mediapool.php">
+    <MixedArgument>
+      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
+      <code><![CDATA[$args['types']]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$allowedMimetypes]]></code>
+      <code><![CDATA[$blockedExtension]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[array]]></code>
+    </MixedInferredReturnType>
+    <MixedOperand>
+      <code><![CDATA[$blockedExtension]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[rex::getProperty('blocked_extensions', [])]]></code>
+      <code><![CDATA[rex::getProperty('blocked_extensions', [])]]></code>
+    </MixedReturnStatement>
+    <NullableReturnStatement>
+      <code><![CDATA[rex::getProperty('blocked_extensions', [])]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="redaxo/src/core/lib/mediapool/service_media.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$allowedExtensions]]></code>
+      <code><![CDATA[rex_mediapool::getBlockedExtensions()]]></code>
+    </MixedArgumentTypeCoercion>
+    <PossiblyNullOperand>
+      <code><![CDATA[rex_file::mimeType($data['file']['path'])]]></code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/lib/mediapool/service_media_category.php">
+    <MixedArgument>
+      <code><![CDATA[$catName]]></code>
+      <code><![CDATA[$catName]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$catName]]></code>
+    </MixedAssignment>
+    <NoValue>
+      <code><![CDATA[$warning]]></code>
+    </NoValue>
+  </file>
+  <file src="redaxo/src/core/lib/mediapool/var_media.php">
+    <MixedArgument>
+      <code><![CDATA[$avalue]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$aname]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$avalue]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[getValue]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
+  </file>
+  <file src="redaxo/src/core/lib/mediapool/var_medialist.php">
+    <MixedArgument>
+      <code><![CDATA[$avalue]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$avalue]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[getValue]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/packages/addons/addon.php">
     <InvalidScalarArgument>
@@ -4587,6 +4468,129 @@
       <code><![CDATA[$error]]></code>
     </PossiblyNullArgument>
   </file>
+  <file src="redaxo/src/core/pages/mediapool.media.detail.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$gf->getValue('category_id')]]></code>
+      <code><![CDATA[$gf->getValue('category_id')]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$error]]></code>
+      <code><![CDATA[$success]]></code>
+    </MixedArgument>
+    <MixedOperand>
+      <code><![CDATA[$fileId]]></code>
+      <code><![CDATA[$fileId]]></code>
+      <code><![CDATA[$openerLink]]></code>
+      <code><![CDATA[$openerLink]]></code>
+      <code><![CDATA[$openerLink]]></code>
+    </MixedOperand>
+    <NullOperand>
+      <code><![CDATA[rex_escape($gf->getValue('createuser'))]]></code>
+      <code><![CDATA[rex_escape($gf->getValue('title'), 'js')]]></code>
+      <code><![CDATA[rex_escape($gf->getValue('updateuser'))]]></code>
+    </NullOperand>
+    <PossiblyNullArgument>
+      <code><![CDATA[$gf->getValue('category_id')]]></code>
+      <code><![CDATA[$gf->getValue('category_id')]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand>
+      <code><![CDATA[$gf->getDateTimeValue('updatedate')]]></code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/pages/mediapool.media.list.php">
+    <MixedArgument>
+      <code><![CDATA[$argUrl]]></code>
+      <code><![CDATA[$argUrl]]></code>
+      <code><![CDATA[$error]]></code>
+      <code><![CDATA[$fileName]]></code>
+      <code><![CDATA[$filename]]></code>
+      <code><![CDATA[$filename]]></code>
+      <code><![CDATA[$filename]]></code>
+      <code><![CDATA[$success]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$error]]></code>
+      <code><![CDATA[$success]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$fileName]]></code>
+      <code><![CDATA[$filename]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$argUrl['args']['types']]]></code>
+    </MixedOperand>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$media->getValue('updatedate')]]></code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullOperand>
+      <code><![CDATA[$media->getValue('updatedate')]]></code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/pages/mediapool.php">
+    <MixedAssignment>
+      <code><![CDATA[$argValue]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[rex_escape($argValue)]]></code>
+    </MixedOperand>
+    <PossiblyNullReference>
+      <code><![CDATA[getSubpages]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/pages/mediapool.structure.php">
+    <MixedArgument>
+      <code><![CDATA[$OOCat->getPath()]]></code>
+      <code><![CDATA[$error]]></code>
+      <code><![CDATA[$success]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$OOCat]]></code>
+      <code><![CDATA[$OOCats]]></code>
+      <code><![CDATA[$iid]]></code>
+      <code><![CDATA[$iname]]></code>
+      <code><![CDATA[$n['title']]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[getChildren]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getPath]]></code>
+      <code><![CDATA[getPath]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$OOCat->getPath()]]></code>
+      <code><![CDATA[$iid]]></code>
+      <code><![CDATA[$iid]]></code>
+      <code><![CDATA[$iid]]></code>
+      <code><![CDATA[$iid]]></code>
+      <code><![CDATA[$iid]]></code>
+      <code><![CDATA[$iid]]></code>
+      <code><![CDATA[rex_escape($OOCat->getName())]]></code>
+      <code><![CDATA[rex_escape($OOCat->getName())]]></code>
+      <code><![CDATA[rex_escape($iname)]]></code>
+    </MixedOperand>
+    <PossiblyNullReference>
+      <code><![CDATA[getName]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/pages/mediapool.sync.php">
+    <InvalidArgument>
+      <code><![CDATA[$data]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="redaxo/src/core/pages/mediapool.upload.php">
+    <MixedArgument>
+      <code><![CDATA[$js]]></code>
+      <code><![CDATA[$rexFileCategory]]></code>
+    </MixedArgument>
+    <MixedOperand>
+      <code><![CDATA[$data['filename']]]></code>
+      <code><![CDATA[$data['filename']]]></code>
+    </MixedOperand>
+  </file>
   <file src="redaxo/src/core/pages/packages.details.php">
     <PossiblyNullOperand>
       <code><![CDATA[$packageId]]></code>
@@ -5109,6 +5113,11 @@
     <MixedAssignment>
       <code><![CDATA[$rule]]></code>
       <code><![CDATA[$rule]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="redaxo/src/core/tests/mediapool/mediapool_test.php">
+    <MixedAssignment>
+      <code><![CDATA[$allowedMimeTypes]]></code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/tests/sql/sql_select_test.php">

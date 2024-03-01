@@ -13,7 +13,7 @@ class rex_media_cache
      */
     public static function delete($filename)
     {
-        rex_file::delete(rex_path::addonCache('mediapool', $filename . '.media'));
+        rex_file::delete(rex_path::coreCache('mediapool/' . $filename . '.media'));
         rex_media::clearInstance($filename);
         self::deleteLists();
     }
@@ -26,7 +26,7 @@ class rex_media_cache
      */
     public static function deleteCategory($categoryId)
     {
-        rex_file::delete(rex_path::addonCache('mediapool', $categoryId . '.mcat'));
+        rex_file::delete(rex_path::coreCache('mediapool/' . $categoryId . '.mcat'));
         rex_media_category::clearInstance($categoryId);
         self::deleteCategoryLists();
     }
@@ -37,7 +37,7 @@ class rex_media_cache
      */
     public static function deleteLists()
     {
-        $cachePath = rex_path::addonCache('mediapool');
+        $cachePath = rex_path::coreCache('mediapool/');
 
         $glob = glob($cachePath . '*.mlist', GLOB_NOSORT);
         if (is_array($glob)) {
@@ -56,7 +56,7 @@ class rex_media_cache
      */
     public static function deleteList($categoryId)
     {
-        rex_file::delete(rex_path::addonCache('mediapool', $categoryId . '.mlist'));
+        rex_file::delete(rex_path::coreCache('mediapool/' . $categoryId . '.mlist'));
         rex_media_category::clearInstanceList([$categoryId, 'media']);
     }
 
@@ -66,7 +66,7 @@ class rex_media_cache
      */
     public static function deleteCategoryLists()
     {
-        $cachePath = rex_path::addonCache('mediapool');
+        $cachePath = rex_path::coreCache('mediapool/');
 
         $glob = glob($cachePath . '*.mclist', GLOB_NOSORT);
         if (is_array($glob)) {
@@ -85,7 +85,7 @@ class rex_media_cache
      */
     public static function deleteCategoryList($categoryId)
     {
-        rex_file::delete(rex_path::addonCache('mediapool', $categoryId . '.mclist'));
+        rex_file::delete(rex_path::coreCache('mediapool/' . $categoryId . '.mclist'));
         rex_media_category::clearInstanceList([$categoryId, 'children']);
     }
 
@@ -115,7 +115,7 @@ class rex_media_cache
             };
         }
 
-        $mediaFile = rex_path::addonCache('mediapool', $filename . '.media');
+        $mediaFile = rex_path::coreCache('mediapool/' . $filename . '.media');
         return rex_file::putCache($mediaFile, $cacheArray);
     }
 
@@ -150,7 +150,7 @@ class rex_media_cache
             };
         }
 
-        $catFile = rex_path::addonCache('mediapool', $categoryId . '.mcat');
+        $catFile = rex_path::coreCache('mediapool/' . $categoryId . '.mcat');
         return rex_file::putCache($catFile, $cacheArray);
     }
 
@@ -178,7 +178,7 @@ class rex_media_cache
             $sql->next();
         }
 
-        $listFile = rex_path::addonCache('mediapool', $categoryId . '.mlist');
+        $listFile = rex_path::coreCache('mediapool/' . $categoryId . '.mlist');
         return rex_file::putCache($listFile, $cacheArray);
     }
 
@@ -207,7 +207,7 @@ class rex_media_cache
             $sql->next();
         }
 
-        $listFile = rex_path::addonCache('mediapool', $categoryId . '.mclist');
+        $listFile = rex_path::coreCache('mediapool/' . $categoryId . '.mclist');
         return rex_file::putCache($listFile, $cacheArray);
     }
 }

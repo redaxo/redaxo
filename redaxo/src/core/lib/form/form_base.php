@@ -352,9 +352,6 @@ abstract class rex_form_base
      */
     public function addMediaField($name, $value = null, array $attributes = [])
     {
-        if (!rex_addon::get('mediapool')->isAvailable()) {
-            throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
-        }
         $attributes['internal::fieldClass'] = rex_form_widget_media_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_media_element);
@@ -374,9 +371,6 @@ abstract class rex_form_base
      */
     public function addMedialistField($name, $value = null, array $attributes = [])
     {
-        if (!rex_addon::get('mediapool')->isAvailable()) {
-            throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
-        }
         $attributes['internal::fieldClass'] = rex_form_widget_medialist_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_medialist_element);

@@ -240,8 +240,6 @@ if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
     $filter['types'] = $types;
 }
 
-$mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
-
 $pager = new rex_pager(5000);
 
 $items = rex_media_service::getList($filter, [], $pager);
@@ -264,8 +262,8 @@ foreach ($items as $media) {
 
         if (rex_media::isImageType(rex_file::extension($media->getFileName()))) {
             $thumbnail = '<img class="thumbnail" src="' . rex_url::media($media->getFileName()) . '?buster=' . $media->getValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
-            if ($mediaManagerUrl && 'svg' != rex_file::extension($media->getFileName())) {
-                $thumbnail = '<img class="thumbnail" src="' . $mediaManagerUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
+            if ('svg' != rex_file::extension($media->getFileName())) {
+                $thumbnail = '<img class="thumbnail" src="' . rex_media_manager::getUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
             }
         }
     }

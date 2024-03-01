@@ -17,7 +17,6 @@ fi
 packages="
 debug
 install
-mediapool
 metainfo
 users
 "
