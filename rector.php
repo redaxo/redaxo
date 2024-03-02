@@ -26,6 +26,8 @@ use Rector\Removing\Rector\ClassMethod\ArgumentRemoverRector;
 use Rector\Removing\Rector\FuncCall\RemoveFuncCallArgRector;
 use Rector\Removing\ValueObject\ArgumentRemover;
 use Rector\Removing\ValueObject\RemoveFuncCallArg;
+use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
+use Rector\Renaming\ValueObject\MethodCallRename;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Rector\Rule\UnderscoreToCamelCasePropertyNameRector;
 use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
@@ -90,6 +92,10 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(UnnecessaryTernaryExpressionRector::class);
 
     // Upgrade REDAXO 5 to 6
+    $rectorConfig->ruleWithConfiguration(RenameMethodRector::class, [
+        new MethodCallRename(rex_managed_media::class, 'getImageWidth', 'getWidth'),
+        new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
+    ]);
     $rectorConfig->ruleWithConfiguration(RemoveFuncCallArgRector::class, [
         new RemoveFuncCallArg('rex_getUrl', 3),
     ]);
