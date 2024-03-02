@@ -451,7 +451,7 @@
       <code><![CDATA[self::$instance]]></code>
     </MixedAssignment>
     <MixedInferredReturnType>
-      <code><![CDATA[Clockwork\Clockwork]]></code>
+      <code><![CDATA[Clockwork]]></code>
     </MixedInferredReturnType>
     <MixedMethodCall>
       <code><![CDATA[addDataSource]]></code>
@@ -4526,7 +4526,7 @@
       <code><![CDATA[self::$properties[$key]]]></code>
     </MixedAssignment>
     <MixedInferredReturnType>
-      <code><![CDATA[Symfony\Component\HttpFoundation\Request]]></code>
+      <code><![CDATA[Request]]></code>
       <code><![CDATA[rex_user|null]]></code>
     </MixedInferredReturnType>
     <MixedMethodCall>

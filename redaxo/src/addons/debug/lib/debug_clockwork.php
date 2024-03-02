@@ -11,7 +11,7 @@ use Clockwork\Support\Vanilla\Clockwork as VanillaClockwork;
  */
 class rex_debug_clockwork
 {
-    /** @var Clockwork|null */
+    /** @var VanillaClockwork|null */
     private static $instance;
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * REDAXO main boot file.
  *
@@ -11,8 +13,6 @@
  *          PATH_PROVIDER  [Optional] Custom path provider
  *          URL_PROVIDER   [Optional] Custom url provider
  */
-
-use Symfony\Component\HttpFoundation\Request;
 
 define('REX_MIN_PHP_VERSION', '8.1');
 
