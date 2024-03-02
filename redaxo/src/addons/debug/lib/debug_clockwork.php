@@ -1,7 +1,8 @@
 <?php
 
+use Clockwork\Clockwork;
 use Clockwork\DataSource\XdebugDataSource;
-use Clockwork\Support\Vanilla\Clockwork;
+use Clockwork\Support\Vanilla\Clockwork as VanillaClockwork;
 
 /**
  * @package redaxo\debug
@@ -14,11 +15,11 @@ class rex_debug_clockwork
     private static $instance;
 
     /**
-     * @psalm-assert \Clockwork\Support\Vanilla\Clockwork self::$instance
+     * @psalm-assert VanillaClockwork self::$instance
      */
     private static function init(): void
     {
-        $clockwork = Clockwork::init([
+        $clockwork = VanillaClockwork::init([
             'storage_files_path' => self::getStoragePath(),
             'storage_files_compress' => true,
 
@@ -32,12 +33,12 @@ class rex_debug_clockwork
         self::$instance = $clockwork;
     }
 
-    public static function getInstance(): Clockwork\Clockwork
+    public static function getInstance(): Clockwork
     {
         return self::getHelper()->getClockwork();
     }
 
-    public static function getHelper(): Clockwork
+    public static function getHelper(): VanillaClockwork
     {
         if (!self::$instance) {
             self::init();
