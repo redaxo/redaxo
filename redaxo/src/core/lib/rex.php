@@ -1,5 +1,8 @@
 <?php
 
+use JetBrains\PhpStorm\Deprecated;
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * REX base class for core properties etc.
  *
@@ -396,7 +399,7 @@ class rex
         return self::getProperty('console', null);
     }
 
-    public static function getRequest(): Symfony\Component\HttpFoundation\Request
+    public static function getRequest(): Request
     {
         $request = self::getProperty('request');
 
@@ -483,7 +486,7 @@ class rex
      * @param string $path
      * @return non-empty-string|false
      */
-    #[JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(%parametersList%)')]
+    #[Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(%parametersList%)')]
     public static function getVersionHash($path, ?string $repo = null)
     {
         return rex_version::gitHash($path, $repo) ?? false;

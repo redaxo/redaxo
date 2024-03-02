@@ -12,6 +12,8 @@
  *          URL_PROVIDER   [Optional] Custom url provider
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 define('REX_MIN_PHP_VERSION', '8.1');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
@@ -119,7 +121,7 @@ foreach ($config as $key => $value) {
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
 if ('cli' !== PHP_SAPI) {
-    rex::setProperty('request', Symfony\Component\HttpFoundation\Request::createFromGlobals());
+    rex::setProperty('request', Request::createFromGlobals());
 }
 
 rex_error_handler::register();
