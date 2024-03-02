@@ -457,10 +457,10 @@ class rex_form_element
 
         foreach ($this->getValidator()->getRules() as $rule) {
             if (rex_validation_rule::MIN_LENGTH == $rule->getType()) {
-                $this->setAttribute('minlength', $rule->getOption());
+                $this->setAttribute('minlength', (int) $rule->getOption());
             }
             if (rex_validation_rule::MAX_LENGTH == $rule->getType()) {
-                $this->setAttribute('maxlength', $rule->getOption());
+                $this->setAttribute('maxlength', (int) $rule->getOption());
             }
         }
     }
