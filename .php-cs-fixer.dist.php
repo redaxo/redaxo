@@ -1,7 +1,6 @@
 <?php
 
 $src = __DIR__ . '/redaxo/src';
-$bootPath = realpath($src . '/core/boot.php');
 $tools = __DIR__ . '/.tools';
 
 $finder = PhpCsFixer\Finder::create()
@@ -19,9 +18,6 @@ $finder = PhpCsFixer\Finder::create()
         $tools . '/bin/release',
         $tools . '/bin/update-root-composer',
     ])
-    ->filter(static function (SplFileInfo $file) use ($bootPath) {
-        return $bootPath !== $file->getRealPath();
-    })
 ;
 
 return (new Redaxo\PhpCsFixerConfig\Config())
