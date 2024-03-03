@@ -60,9 +60,6 @@ class rex_sql_table
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
     private $foreignKeysExisting = [];
 
-    /** @var string|null */
-    private static $explicitCharset;
-
     /**
      * @param positive-int $db
      */
@@ -661,10 +658,6 @@ class rex_sql_table
             return;
         }
 
-        if (self::$explicitCharset) {
-            $this->sql->setQuery('ALTER TABLE ' . $this->sql->escapeIdentifier($this->originalName) . ' CONVERT TO CHARACTER SET ' . self::$explicitCharset . ' COLLATE ' . self::$explicitCharset . '_unicode_ci;');
-        }
-
         $positions = $this->positions;
         $this->positions = [];
 
@@ -750,11 +743,9 @@ class rex_sql_table
             $parts[] = $this->getForeignKeyDefinition($foreignKey);
         }
 
-        $charset = self::$explicitCharset ?? (rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8');
-
         $query = 'CREATE TABLE ' . $this->sql->escapeIdentifier($this->name) . " (\n    ";
         $query .= implode(",\n    ", $parts);
-        $query .= "\n) ENGINE=InnoDB DEFAULT CHARSET=$charset COLLATE={$charset}_unicode_ci;";
+        $query .= "\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
         $this->sql->setQuery($query);
 
@@ -1066,15 +1057,5 @@ class rex_sql_table
             $this->foreignKeys[$foreignKey->getName()] = $foreignKey;
             $this->foreignKeysExisting[$foreignKey->getName()] = $foreignKey->getName();
         }
-    }
-
-    /**
-     * Method is used in redaxo setup and should not be used anywhere else.
-     *
-     * @internal
-     */
-    public static function setUtf8mb4(bool $utf8mb4): void
-    {
-        self::$explicitCharset = $utf8mb4 ? 'utf8mb4' : 'utf8';
     }
 }

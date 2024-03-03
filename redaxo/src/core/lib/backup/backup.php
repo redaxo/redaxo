@@ -124,19 +124,6 @@ class rex_backup
             return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . rex::getTablePrefix() . '] is missing');
         }
 
-        // Charset prüfen
-        // ## charset xxx_
-        if (preg_match('/^## charset ([a-zA-Z0-9\_\-]*)/', $conts, $matches) && isset($matches[1])) {
-            // charset entfernen
-            $charset = $matches[1];
-            $conts = trim(str_replace('## charset ' . $charset, '', $conts));
-
-            if ('utf8mb4' === $charset && !rex::getConfig('utf8mb4') && !rex_setup_importer::supportsUtf8mb4()) {
-                $sql = rex_sql::factory();
-                return $returnError(rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType() . ' ' . $sql->getDbVersion()));
-            }
-        }
-
         // Prefix im export mit dem der installation angleichen
         if (rex::getTablePrefix() != $prefix) {
             // Hier case-insensitiv ersetzen, damit alle möglich Schreibweisen (TABLE TablE, tAblE,..) ersetzt werden
@@ -282,7 +269,6 @@ class rex_backup
         // Versionsstempel hinzufügen
         fwrite($fp, '## Redaxo Database Dump Version ' . rex::getVersion('%s') . $nl);
         fwrite($fp, '## Prefix ' . rex::getTablePrefix() . $nl);
-        fwrite($fp, '## charset ' . (rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8') . $nl . $nl);
         //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);
