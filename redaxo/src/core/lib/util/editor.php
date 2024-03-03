@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core
- */
 class rex_editor
 {
     use rex_factory_trait;

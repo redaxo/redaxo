@@ -14,8 +14,6 @@
  *   - clang     => ClangId des Artikels festlegen
  *   - ctype     => Spalte des Artikels festlegen
  *   - field     => Nur dieses Feld des Artikels ausgeben
- *
- * @package redaxo\structure
  */
 class rex_var_article extends rex_var
 {

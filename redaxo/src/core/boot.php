@@ -158,7 +158,7 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
     }
 }
 
-rex_extension::register('SESSION_REGENERATED', [rex_backend_login::class, 'sessionRegenerated']);
+rex_extension::register('SESSION_REGENERATED', rex_backend_login::sessionRegenerated(...));
 
 $nexttime = rex::isSetup() || rex::getConsole() ? 0 : (int) rex::getConfig('cronjob_nexttime', 0);
 if (0 !== $nexttime && time() >= $nexttime) {

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @author gharlan
- *
- * @package redaxo\core\login
- */
 class rex_password_policy
 {
     /** @var array<string, array{min?: int, max?: int}> */

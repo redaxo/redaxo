@@ -8,8 +8,6 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * @package redaxo\cronjob
- *
  * @internal
  */
 class rex_command_cronjob_run extends rex_console_command

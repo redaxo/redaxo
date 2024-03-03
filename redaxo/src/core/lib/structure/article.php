@@ -2,8 +2,6 @@
 
 /**
  * Object Oriented Framework: Bildet einen Artikel der Struktur ab.
- *
- * @package redaxo\structure
  */
 class rex_article extends rex_structure_element
 {

@@ -4,8 +4,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package redaxo\core
- *
  * @internal
  */
 class rex_command_cache_clear extends rex_console_command

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * MetaForm Addon.
- *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- */
-
 $content = '';
 
 // ------------------------------> Parameter

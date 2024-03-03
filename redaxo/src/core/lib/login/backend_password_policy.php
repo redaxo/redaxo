@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @author gharlan
- *
- * @package redaxo\core\login
- */
 class rex_backend_password_policy extends rex_password_policy
 {
     use rex_factory_trait;

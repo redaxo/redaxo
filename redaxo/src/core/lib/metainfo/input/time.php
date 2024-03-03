@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\metainfo
- *
  * @internal
  *
  * @extends rex_input<array{hour: numeric-string, minute: numeric-string, year?: numeric-string, month?: numeric-string, day?: numeric-string}>

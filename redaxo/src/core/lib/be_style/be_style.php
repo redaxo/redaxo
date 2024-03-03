@@ -1,9 +1,5 @@
 <?php
-/**
- * @package redaxo\be-style
- *
- * @author bloep
- */
+
 class rex_be_style
 {
     /**

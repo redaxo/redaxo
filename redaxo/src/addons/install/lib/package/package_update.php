@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\install
- *
  * @internal
  *
  * @psalm-suppress MissingConstructor
@@ -44,7 +42,7 @@ class rex_install_package_update extends rex_install_package_download
         }
 
         // ---- check package.yml
-        $packageFile = $temppath . rex_package::FILE_PACKAGE;
+        $packageFile = $temppath . rex_addon::FILE_PACKAGE;
         if (!is_file($packageFile)) {
             return rex_i18n::msg('package_missing_yml_file');
         }
@@ -59,9 +57,9 @@ class rex_install_package_update extends rex_install_package_download
         }
 
         // ---- include update.php
-        if ($this->addon->isInstalled() && is_file($temppath . rex_package::FILE_UPDATE)) {
+        if ($this->addon->isInstalled() && is_file($temppath . rex_addon::FILE_UPDATE)) {
             try {
-                $this->addon->includeFile('../.new.' . $this->addonkey . '/' . rex_package::FILE_UPDATE);
+                $this->addon->includeFile('../.new.' . $this->addonkey . '/' . rex_addon::FILE_UPDATE);
             } catch (rex_functional_exception $e) {
                 return $e->getMessage();
             } catch (rex_sql_exception $e) {
@@ -127,7 +125,7 @@ class rex_install_package_update extends rex_install_package_download
         // ---- update package order
         if ($this->addon->isAvailable()) {
             $this->addon->loadProperties(true);
-            rex_package_manager::generatePackageOrder();
+            rex_addon_manager::generatePackageOrder();
         }
 
         $this->addon->setProperty('version', $this->file['version']);
@@ -151,11 +149,11 @@ class rex_install_package_update extends rex_install_package_download
         $temppath = rex_path::addon('.new.' . $this->addonkey);
 
         // ---- update "version", "requires" and "conflicts" properties
-        /** @var SplObjectStorage<rex_package, string> $versions */
+        /** @var SplObjectStorage<rex_addon, string> $versions */
         $versions = new SplObjectStorage();
-        /** @var SplObjectStorage<rex_package, array> $requirements */
+        /** @var SplObjectStorage<rex_addon, array> $requirements */
         $requirements = new SplObjectStorage();
-        /** @var SplObjectStorage<rex_package, array> $conflicts */
+        /** @var SplObjectStorage<rex_addon, array> $conflicts */
         $conflicts = new SplObjectStorage();
 
         $requirements[$this->addon] = $this->addon->getProperty('requires', []);
@@ -178,11 +176,11 @@ class rex_install_package_update extends rex_install_package_download
         }
 
         if (empty($messages)) {
-            foreach (rex_package::getAvailablePackages() as $package) {
+            foreach (rex_addon::getAvailableAddons() as $package) {
                 if ($package->getAddon() === $this->addon) {
                     continue;
                 }
-                $manager = rex_package_manager::factory($package);
+                $manager = rex_addon_manager::factory($package);
                 if (!$manager->checkPackageRequirement($this->addon->getPackageId())) {
                     $messages[] = $this->messageFromPackage($package, $manager);
                 }
@@ -203,7 +201,7 @@ class rex_install_package_update extends rex_install_package_download
         return empty($messages) ? true : '<ul><li>' . implode('</li><li>', $messages) . '</li></ul>';
     }
 
-    private function messageFromPackage(rex_package $package, rex_package_manager $manager): string
+    private function messageFromPackage(rex_addon $package, rex_addon_manager $manager): string
     {
         return rex_i18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
     }

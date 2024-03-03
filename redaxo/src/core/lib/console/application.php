@@ -6,9 +6,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * @package redaxo\core
- */
 class rex_console_application extends Application
 {
     public function __construct()
@@ -72,11 +69,11 @@ class rex_console_application extends Application
         // there a packages which are needed during the setup e.g. backup
         if ($command instanceof rex_command_only_setup_packages) {
             if (rex::isSetup()) {
-                foreach (rex_package::getSetupPackages() as $package) {
+                foreach (rex_addon::getSetupAddons() as $package) {
                     $package->enlist();
                 }
             }
-            foreach (rex_package::getSetupPackages() as $package) {
+            foreach (rex_addon::getSetupAddons() as $package) {
                 $package->boot();
             }
             return;
@@ -93,7 +90,7 @@ class rex_console_application extends Application
             // boot all known packages in the defined order
             // which reflects dependencies before consumers
             foreach (rex::getPackageOrder() as $packageId) {
-                rex_package::require($packageId)->boot();
+                rex_addon::require($packageId)->boot();
             }
         }
 

@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core
- */
 class rex_system_report
 {
     public const TITLE_REDAXO = 'REDAXO';
@@ -60,8 +57,6 @@ class rex_system_report
                 $dbData['Version'] = $sql->getDbType() . ' ' . $sql->getDbVersion();
 
                 if (1 === $dbId) {
-                    $dbData['Character set'] = rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8';
-
                     $security = rex_setup::checkDbSecurity();
                     if ($security) {
                         $dbData['Warning'] = implode('<br/>', $security);
@@ -98,7 +93,7 @@ class rex_system_report
         }
 
         $packages = [];
-        foreach (rex_package::getAvailablePackages() as $package) {
+        foreach (rex_addon::getAvailableAddons() as $package) {
             $packages[$package->getPackageId()] = $package->getVersion();
         }
 

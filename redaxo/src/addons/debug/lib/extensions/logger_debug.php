@@ -3,8 +3,6 @@
 use Clockwork\Helpers\StackTrace;
 
 /**
- * @package redaxo\debug
- *
  * @internal
  */
 class rex_logger_debug extends rex_logger

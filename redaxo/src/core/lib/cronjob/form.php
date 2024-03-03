@@ -1,15 +1,8 @@
 <?php
 
 /**
- * Cronjob Addon.
- *
- * @author gharlan[at]web[dot]de Gregor Harlan
- *
- * @package redaxo\cronjob
- *
  * @internal
  */
-
 class rex_cronjob_form extends rex_form
 {
     /** @var string */
@@ -59,8 +52,6 @@ class rex_cronjob_form extends rex_form
 }
 
 /**
- * @package redaxo\cronjob
- *
  * @internal
  */
 class rex_cronjob_form_interval_element extends rex_form_element

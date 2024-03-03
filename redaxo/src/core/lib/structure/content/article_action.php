@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\structure\content
- */
 class rex_article_action
 {
     public const PREVIEW = 'preview';

@@ -6,8 +6,6 @@
  * (c) Fabien Potencier
  * https://github.com/twigphp/Twig/blob/5f20d4a362078e8a066f7dcc146e8005186d9663/src/Extension/EscaperExtension.php#L166
  *
- * @package redaxo\core
- *
  * @template T
  * @param T $value The value to escape
  * @param string $strategy Supported strategies:

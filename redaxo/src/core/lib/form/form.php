@@ -8,8 +8,6 @@
  * Dies geschieht Mittels der add*Field(...) Methoden.
  *
  * Nachdem alle Felder eingefuegt wurden, muss das Fomular mit get() oder show() ausgegeben werden.
- *
- * @package redaxo\core\form
  */
 class rex_form extends rex_form_base
 {

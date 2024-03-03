@@ -5,8 +5,6 @@ use Clockwork\DataSource\XdebugDataSource;
 use Clockwork\Support\Vanilla\Clockwork as VanillaClockwork;
 
 /**
- * @package redaxo\debug
- *
  * @internal
  */
 class rex_debug_clockwork

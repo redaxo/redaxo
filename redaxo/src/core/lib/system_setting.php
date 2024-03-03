@@ -2,10 +2,6 @@
 
 /**
  * This class can be used to add settings to the system settings page.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 abstract class rex_system_setting
 {

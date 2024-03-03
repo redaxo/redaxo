@@ -4,10 +4,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * REX base class for core properties etc.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex
 {

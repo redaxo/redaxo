@@ -1,10 +1,6 @@
 <?php
 
 /**
- * @author Thomas Blum
- *
- * @package redaxo\structure
- *
  * @internal
  */
 class rex_system_setting_structure_package_status extends rex_system_setting

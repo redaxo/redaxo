@@ -2,10 +2,6 @@
 
 /**
  * Class to represent sql foreign keys.
- *
- * @author gharlan
- *
- * @package redaxo\core\sql
  */
 class rex_sql_foreign_key
 {

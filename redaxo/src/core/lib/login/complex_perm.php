@@ -4,10 +4,6 @@
  * Abstract class for complex permissions.
  *
  * All permission check methods ("hasPerm()" etc.) in child classes should return "true" for admins
- *
- * @author gharlan
- *
- * @package redaxo\core\login
  */
 abstract class rex_complex_perm
 {

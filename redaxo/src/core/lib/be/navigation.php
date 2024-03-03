@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core\backend
- */
 class rex_be_navigation
 {
     use rex_factory_trait;

@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core\backend
- */
 class rex_be_controller
 {
     /** @var string */
@@ -423,7 +420,7 @@ class rex_be_controller
      *
      * @return rex_be_page|null
      */
-    private static function pageCreate($page, rex_package $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
+    private static function pageCreate($page, rex_addon $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
     {
         if (is_array($page) && isset($page['title']) && (false !== ($page['live_mode'] ?? null) || !rex::isLiveMode())) {
             $pageArray = $page;
@@ -463,7 +460,7 @@ class rex_be_controller
      * @param string $prefix
      * @return void
      */
-    private static function pageSetSubPaths(rex_be_page $page, rex_package $package, $prefix = '')
+    private static function pageSetSubPaths(rex_be_page $page, rex_addon $package, $prefix = '')
     {
         foreach ($page->getSubpages() as $subpage) {
             if (!$subpage->hasSubPath()) {
@@ -476,7 +473,7 @@ class rex_be_controller
     /**
      * @return void
      */
-    private static function pageAddProperties(rex_be_page $page, array $properties, rex_package $package)
+    private static function pageAddProperties(rex_be_page $page, array $properties, rex_addon $package)
     {
         foreach ($properties as $key => $value) {
             switch (strtolower($key)) {

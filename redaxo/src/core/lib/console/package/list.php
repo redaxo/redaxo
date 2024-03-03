@@ -5,8 +5,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package redaxo\core
- *
  * @internal
  */
 class rex_command_package_list extends rex_console_command
@@ -30,7 +28,7 @@ class rex_command_package_list extends rex_console_command
 
         // the package manager don't know new packages in the addon folder
         // so we need to make them available
-        rex_package_manager::synchronizeWithFileSystem();
+        rex_addon_manager::synchronizeWithFileSystem();
 
         $search = $input->getOption('search');
         $packageId = $input->getOption('package');
@@ -40,7 +38,7 @@ class rex_command_package_list extends rex_console_command
         $jsonOutput = false !== $input->getOption('json');
         $usingExitCode = false !== $input->getOption('error-when-empty');
 
-        $packages = rex_package::getRegisteredPackages();
+        $packages = rex_addon::getRegisteredAddons();
 
         $rows = [];
         foreach ($packages as $package) {

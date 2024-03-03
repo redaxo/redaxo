@@ -28,10 +28,6 @@
  *      //error message: $e->getMessage()
  *  }
  * </code>
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_socket
 {
@@ -482,7 +478,5 @@ class rex_socket
  * Socket exception.
  *
  * @see rex_socket
- *
- * @package redaxo\core
  */
 class rex_socket_exception extends rex_exception {}

@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\mediapool
- */
 class rex_media_perm extends rex_complex_perm
 {
     /**

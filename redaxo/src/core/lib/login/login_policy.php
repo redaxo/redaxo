@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @author mstaab
- *
- * @package redaxo\core\login
- */
 final class rex_login_policy
 {
     /** @var array<string, int|bool> */

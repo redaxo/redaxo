@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\media-manager
- */
 class rex_effect_image_properties extends rex_effect_abstract
 {
     private const NO_INTERLACING = '- off -';

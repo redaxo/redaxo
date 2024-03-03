@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Validator class.
- *
- * @author gharlan
- *
- * @package redaxo\core
- */
 class rex_validator
 {
     use rex_factory_trait;

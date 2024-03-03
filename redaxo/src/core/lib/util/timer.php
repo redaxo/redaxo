@@ -2,10 +2,6 @@
 
 /**
  * Class to stop the script time.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_timer
 {

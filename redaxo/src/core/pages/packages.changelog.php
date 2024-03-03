@@ -2,7 +2,7 @@
 
 $content = '';
 
-$package = rex_package::get(rex_request('package', 'string'));
+$package = rex_addon::get(rex_request('package', 'string'));
 
 if (is_readable($package->getPath('CHANGELOG.md'))) {
     [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('CHANGELOG.md')), 1, 2, [

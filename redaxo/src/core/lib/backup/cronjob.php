@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\backup
- */
 class rex_cronjob_export extends rex_cronjob
 {
     public const DEFAULT_FILENAME = '%REX_SERVER_%Y%m%d_%H%M_rex%REX_VERSION';

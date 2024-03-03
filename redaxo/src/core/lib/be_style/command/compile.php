@@ -4,10 +4,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package redaxo\be-style
- *
- * @author bloep
- *
  * @internal
  */
 class rex_command_be_style_compile extends rex_console_command

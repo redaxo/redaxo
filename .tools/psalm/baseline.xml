@@ -1455,7 +1455,6 @@
       <code><![CDATA[$config['db'][1]['password']]]></code>
     </MixedArrayAssignment>
     <MixedAssignment>
-      <code><![CDATA[$charset]]></code>
       <code><![CDATA[$config['db'][1]['host']]]></code>
       <code><![CDATA[$config['db'][1]['login']]]></code>
       <code><![CDATA[$config['db'][1]['name']]]></code>
@@ -1476,20 +1475,13 @@
       <code><![CDATA[$messages]]></code>
       <code><![CDATA[$password]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool|string]]></code>
-    </MixedInferredReturnType>
     <MixedOperand>
-      <code><![CDATA[$charset]]></code>
       <code><![CDATA[$createdb]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$charset]]></code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/console/user/create.php">
     <MixedArgument>
@@ -2805,19 +2797,24 @@
       <code><![CDATA[$field->getAttribute('id')]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/core/lib/packages/addons/addon.php">
+  <file src="redaxo/src/core/lib/packages/addon.php">
     <InvalidScalarArgument>
       <code><![CDATA[$args]]></code>
     </InvalidScalarArgument>
     <MixedArgument>
       <code><![CDATA[$args]]></code>
       <code><![CDATA[$args]]></code>
+      <code><![CDATA[$dir]]></code>
+      <code><![CDATA[$value]]></code>
     </MixedArgument>
-    <ParamNameMismatch>
-      <code><![CDATA[$addon]]></code>
-      <code><![CDATA[$addon]]></code>
-      <code><![CDATA[$addon]]></code>
-    </ParamNameMismatch>
+    <MixedAssignment>
+      <code><![CDATA[$dir]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/packages/manager.php">
     <LessSpecificReturnStatement>
@@ -2892,23 +2889,6 @@
     <MixedReturnStatement>
       <code><![CDATA[$default]]></code>
     </MixedReturnStatement>
-  </file>
-  <file src="redaxo/src/core/lib/packages/package.php">
-    <LessSpecificImplementedReturnType>
-      <code><![CDATA[string]]></code>
-    </LessSpecificImplementedReturnType>
-    <MixedArgument>
-      <code><![CDATA[$dir]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$dir]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/phpmailer/mailer.php">
     <MixedArgument>
@@ -4692,9 +4672,6 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$errors]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$existingUtf8mb4]]></code>
-    </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$cancelSetupBtn]]></code>
     </MixedOperand>

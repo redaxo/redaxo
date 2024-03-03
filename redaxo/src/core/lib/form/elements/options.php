@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core\form
- */
 abstract class rex_form_options_element extends rex_form_element
 {
     /** @var array<string, string|int> */

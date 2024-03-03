@@ -9,8 +9,6 @@ use Composer\Autoload\ClassLoader;
  * Fabien Potencier <fabien.potencier@symfony-project.com>
  *
  * Adjusted in very many places
- *
- * @package redaxo\core
  */
 class rex_autoload
 {

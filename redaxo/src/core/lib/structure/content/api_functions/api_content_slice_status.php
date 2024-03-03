@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\structure\content
- *
  * @internal
  */
 class rex_api_content_slice_status extends rex_api_function

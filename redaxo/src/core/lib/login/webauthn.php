@@ -5,8 +5,6 @@ use lbuchs\WebAuthn\WebAuthn;
 use lbuchs\WebAuthn\WebAuthnException;
 
 /**
- * @package redaxo\core\login
- *
  * @internal
  */
 class rex_webauthn

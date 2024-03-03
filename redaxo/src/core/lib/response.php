@@ -3,11 +3,6 @@
 use Ramsey\Http\Range\Exception\HttpRangeException;
 use Ramsey\Http\Range\UnitFactory;
 
-/**
- * HTTP1.1 Client Cache Features.
- *
- * @package redaxo\core
- */
 class rex_response
 {
     public const HTTP_OK = '200 OK';

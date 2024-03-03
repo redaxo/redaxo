@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Page Content Addon.
- *
- * @author thiel[dot]peter[at]googlemail[dot]com Peter Thiel
- */
-
 $content = rex_file::getOutput(rex_path::coreAssets('css/styles.css'));
 
 preg_match_all('@\.rex-icon-(\w+):before@im', $content, $matches, PREG_SET_ORDER);

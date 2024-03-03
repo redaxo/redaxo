@@ -3,9 +3,6 @@
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
-/**
- * @package redaxo\core
- */
 abstract class rex_error_handler
 {
     /** @var bool */

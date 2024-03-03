@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core\form
- */
 abstract class rex_form_base
 {
     /** @var string */

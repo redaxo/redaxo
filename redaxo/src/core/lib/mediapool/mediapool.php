@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\mediapool
- */
 final class rex_mediapool
 {
     /**

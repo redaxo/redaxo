@@ -2,8 +2,6 @@
 
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten.
- *
- * @package redaxo\structure
  */
 #[AllowDynamicProperties]
 abstract class rex_structure_element

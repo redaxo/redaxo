@@ -1,6 +1,5 @@
 ## Redaxo Database Dump Version 6
 ## Prefix rex_
-## charset utf8mb4
 
 INSERT IGNORE INTO `rex_article` VALUES
 (1,1,0,'test category','test category',1,1,1,'|',1,1,1,'2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername'),

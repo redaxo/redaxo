@@ -2,8 +2,6 @@
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab.
- *
- * @package redaxo\mediapool
  */
 #[AllowDynamicProperties]
 class rex_media
