@@ -46,7 +46,7 @@ class rex_api_install_package_upload extends rex_api_function
                 if ($upload['ignore_tests']) {
                     $exclude[] = 'tests';
                 }
-                /** @var string[]|null $packageExclude */
+                /** @var list<string>|null $packageExclude */
                 $packageExclude = rex_addon::get($addonkey)->getProperty('installer_ignore');
                 if (is_array($packageExclude)) {
                     foreach ($packageExclude as $excludeItem) {

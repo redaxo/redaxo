@@ -136,7 +136,7 @@ abstract class rex_cronjob
     }
 
     /**
-     * @return string[]
+     * @return list<'frontend'|'backend'|'script'>
      */
     public function getEnvironments()
     {

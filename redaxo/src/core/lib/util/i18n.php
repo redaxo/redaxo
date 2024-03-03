@@ -7,15 +7,15 @@
  */
 class rex_i18n
 {
-    /** @var string[] */
+    /** @var list<string> */
     private static $locales = [];
-    /** @var string[] */
+    /** @var list<string> */
     private static $directories = [];
     /** @var array<string, bool> Holds which locales are loaded. keyed by locale */
     private static $loaded = [];
     /** @var string|null */
     private static $locale;
-    /** @var non-empty-string[][] */
+    /** @var array<string, array<string, non-empty-string>> */
     private static $msg = [];
 
     /**

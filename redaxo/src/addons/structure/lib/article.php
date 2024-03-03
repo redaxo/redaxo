@@ -79,7 +79,7 @@ class rex_article extends rex_structure_element
      * @param bool $ignoreOfflines
      * @param int $clang
      *
-     * @return self[]
+     * @return list<self>
      */
     public static function getRootArticles($ignoreOfflines = false, $clang = null)
     {

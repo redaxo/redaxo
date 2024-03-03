@@ -20,7 +20,7 @@ class rex_system_report
     }
 
     /**
-     * @return array[]
+     * @return array<string, array<string, string|bool>>
      */
     public function get()
     {

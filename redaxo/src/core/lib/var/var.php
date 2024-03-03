@@ -28,7 +28,7 @@ abstract class rex_var
     /** @var mixed */
     private static $contextData;
 
-    /** @var string[] */
+    /** @var array<string> */
     private $args = [];
 
     /** @var int */
