@@ -19,7 +19,7 @@ requires:
     php:
         version: '>=8.1'
         extensions: [gd]
-    redaxo: ^5.16.0
+    redaxo: ^5.17.0-dev
 
 default_config:
     jpg_quality: 80
