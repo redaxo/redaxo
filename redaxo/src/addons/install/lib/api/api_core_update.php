@@ -240,11 +240,11 @@ class rex_api_install_core_update extends rex_api_function
         $coreVersion = rex::getVersion();
         rex::setProperty('version', $version);
 
-        /** @var SplObjectStorage<rex_package_interface, string> $versions */
+        /** @var SplObjectStorage<rex_addon_interface, string> $versions */
         $versions = new SplObjectStorage();
-        /** @var SplObjectStorage<rex_package_interface, array> $requirements */
+        /** @var SplObjectStorage<rex_addon_interface, array> $requirements */
         $requirements = new SplObjectStorage();
-        /** @var SplObjectStorage<rex_package_interface, array> $conflicts */
+        /** @var SplObjectStorage<rex_addon_interface, array> $conflicts */
         $conflicts = new SplObjectStorage();
 
         foreach ($addons as $addonkey => $config) {

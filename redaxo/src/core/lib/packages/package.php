@@ -1,6 +1,6 @@
 <?php
 
-abstract class rex_package implements rex_package_interface
+abstract class rex_package implements rex_addon_interface
 {
     public const FILE_PACKAGE = 'package.yml';
     public const FILE_BOOT = 'boot.php';
@@ -48,7 +48,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return rex_package_interface If the package exists, a `rex_package` is returned, otherwise a `rex_null_package`
+     * @return rex_addon_interface If the package exists, a `rex_package` is returned, otherwise a `rex_null_package`
      */
     public static function get($packageId)
     {

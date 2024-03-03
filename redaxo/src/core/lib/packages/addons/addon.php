@@ -1,6 +1,6 @@
 <?php
 
-class rex_addon extends rex_package implements rex_addon_interface
+class rex_addon extends rex_package
 {
     /**
      * Array of all addons.

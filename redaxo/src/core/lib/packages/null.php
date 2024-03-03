@@ -8,7 +8,7 @@
  * Other methods should not be called on null-packages since they do not return useful values.
  * Some methods like `getPath()` throw exceptions.
  */
-abstract class rex_null_package implements rex_package_interface
+abstract class rex_null_package implements rex_addon_interface
 {
     use rex_singleton_trait;
 

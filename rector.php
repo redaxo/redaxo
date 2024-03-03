@@ -29,6 +29,7 @@ use Rector\Removing\Rector\FuncCall\RemoveFuncCallArgRector;
 use Rector\Removing\ValueObject\ArgumentRemover;
 use Rector\Removing\ValueObject\RemoveFuncCallArg;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
+use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Renaming\ValueObject\MethodCallRename;
 use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
 use Rector\Transform\ValueObject\ConstFetchToClassConstFetch;
@@ -88,6 +89,9 @@ return RectorConfig::configure()
     ])
 
     // Upgrade REDAXO 5 to 6
+    ->withConfiguredRule(RenameClassRector::class, [
+        rex_package_interface::class => rex_addon_interface::class,
+    ])
     ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(rex_password_policy::class, 'getRule', 'getDescription'),
         new MethodCallRename(rex_article_content_base::class, 'getClang', 'getClangId'),
