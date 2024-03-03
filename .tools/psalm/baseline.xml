@@ -1455,7 +1455,6 @@
       <code><![CDATA[$config['db'][1]['password']]]></code>
     </MixedArrayAssignment>
     <MixedAssignment>
-      <code><![CDATA[$charset]]></code>
       <code><![CDATA[$config['db'][1]['host']]]></code>
       <code><![CDATA[$config['db'][1]['login']]]></code>
       <code><![CDATA[$config['db'][1]['name']]]></code>
@@ -1476,20 +1475,13 @@
       <code><![CDATA[$messages]]></code>
       <code><![CDATA[$password]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool|string]]></code>
-    </MixedInferredReturnType>
     <MixedOperand>
-      <code><![CDATA[$charset]]></code>
       <code><![CDATA[$createdb]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$charset]]></code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/console/user/create.php">
     <MixedArgument>
@@ -4682,9 +4674,6 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$errors]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$existingUtf8mb4]]></code>
-    </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$cancelSetupBtn]]></code>
     </MixedOperand>

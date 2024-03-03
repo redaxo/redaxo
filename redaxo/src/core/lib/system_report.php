@@ -57,8 +57,6 @@ class rex_system_report
                 $dbData['Version'] = $sql->getDbType() . ' ' . $sql->getDbVersion();
 
                 if (1 === $dbId) {
-                    $dbData['Character set'] = rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8';
-
                     $security = rex_setup::checkDbSecurity();
                     if ($security) {
                         $dbData['Warning'] = implode('<br/>', $security);
