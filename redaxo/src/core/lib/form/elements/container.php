@@ -5,7 +5,7 @@
  */
 class rex_form_container_element extends rex_form_element
 {
-    /** @var array<string, rex_form_element[]> */
+    /** @var array<string, list<rex_form_element>> */
     private $fields = [];
     /** @var bool */
     private $multiple = true;
@@ -80,7 +80,7 @@ class rex_form_container_element extends rex_form_element
         return $field;
     }
 
-    /** @return array<string, rex_form_element[]> */
+    /** @return array<string, list<rex_form_element>> */
     public function getFields()
     {
         return $this->fields;

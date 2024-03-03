@@ -30,7 +30,7 @@ class rex_be_page
     /** @var self|null */
     private $parent;
 
-    /** @var self[] */
+    /** @var array<string, self> */
     private $subpages = [];
 
     /** @var bool|null */
@@ -45,7 +45,7 @@ class rex_be_page
     private $pjax;
     /** @var string|null */
     private $icon;
-    /** @var string[] */
+    /** @var list<string> */
     private $requiredPermissions = [];
 
     /**
@@ -469,7 +469,7 @@ class rex_be_page
     /**
      * Sets all subpages.
      *
-     * @param self[] $subpages
+     * @param array<self> $subpages
      *
      * @return $this
      */
@@ -496,7 +496,7 @@ class rex_be_page
     /**
      * Returns all subpages.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public function getSubpages()
     {
@@ -699,7 +699,7 @@ class rex_be_page
     /**
      * Sets the required permissions.
      *
-     * @param string[]|string $perm
+     * @param list<string>|string $perm
      *
      * @return $this
      */
@@ -713,7 +713,7 @@ class rex_be_page
     /**
      * Returns the required permission.
      *
-     * @return string[]
+     * @return list<string>
      */
     public function getRequiredPermissions()
     {

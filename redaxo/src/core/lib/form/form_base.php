@@ -799,7 +799,7 @@ abstract class rex_form_base
     }
 
     /**
-     * @return rex_form_element[]
+     * @return list<rex_form_element>
      */
     protected function getHeaderElements()
     {
@@ -815,7 +815,7 @@ abstract class rex_form_base
     }
 
     /**
-     * @return rex_form_element[]
+     * @return list<rex_form_element>
      */
     protected function getFooterElements()
     {
@@ -839,7 +839,7 @@ abstract class rex_form_base
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     protected function getFieldsets()
     {

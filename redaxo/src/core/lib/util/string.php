@@ -70,7 +70,7 @@ class rex_string
      *
      * @param string $string
      *
-     * @return string[]
+     * @return array<string>
      */
     public static function split($string)
     {

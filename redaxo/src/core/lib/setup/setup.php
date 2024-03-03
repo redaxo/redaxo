@@ -170,7 +170,7 @@ class rex_setup
     /**
      * Basic php security checks. Returns a human readable strings on error.
      *
-     * @return string[]
+     * @return list<string>
      */
     public static function checkPhpSecurity()
     {
@@ -210,7 +210,7 @@ class rex_setup
     /**
      * Basic database security checks. Returns a human readable strings on error.
      *
-     * @return string[]
+     * @return list<string>
      */
     public static function checkDbSecurity()
     {

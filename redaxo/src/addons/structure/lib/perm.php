@@ -50,7 +50,7 @@ class rex_structure_perm extends rex_complex_perm
     }
 
     /**
-     * @return rex_category[]
+     * @return list<rex_category>
      */
     public function getMountpointCategories(): array
     {

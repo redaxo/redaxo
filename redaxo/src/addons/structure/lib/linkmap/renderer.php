@@ -39,8 +39,8 @@ abstract class rex_linkmap_tree_renderer
     /**
      * Returns the markup of a tree structure, with $children as root categories and respecing $activeTreeIds as the active path.
      *
-     * @param rex_category[] $children A array of rex_category objects representing the top level objects
-     * @param int[] $activeTreeIds
+     * @param list<rex_category> $children A array of rex_category objects representing the top level objects
+     * @param list<int> $activeTreeIds
      *
      * @return string the rendered markup
      */

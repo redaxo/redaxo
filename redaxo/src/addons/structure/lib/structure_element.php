@@ -213,7 +213,7 @@ abstract class rex_structure_element
      * @param bool $ignoreOfflines
      * @param int $clang
      *
-     * @return static[]
+     * @return list<static>
      */
     protected static function getChildElements($parentId, $listType, $ignoreOfflines = false, $clang = null)
     {
@@ -315,7 +315,7 @@ abstract class rex_structure_element
     /**
      * Returns the path ids of the category/article as an array.
      *
-     * @return int[]
+     * @return list<int>
      */
     public function getPathAsArray()
     {
