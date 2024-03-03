@@ -154,7 +154,7 @@ class rex_user
     /**
      * Returns the language.
      *
-     * @return string Language
+     * @return string|null Language
      */
     public function getLanguage()
     {
@@ -164,7 +164,7 @@ class rex_user
     /**
      * Returns the start page.
      *
-     * @return string Start page
+     * @return string|null Start page
      */
     public function getStartPage()
     {
