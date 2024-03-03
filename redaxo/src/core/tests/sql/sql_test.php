@@ -20,11 +20,11 @@ class rex_sql_test extends TestCase
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE . '`');
         $sql->setQuery('CREATE TABLE `' . self::TABLE . '` (
                 `id` INT NOT NULL AUTO_INCREMENT ,
-                `col_str` VARCHAR( 255 ) NOT NULL ,
-                `col_int` INT NOT NULL ,
-                `col_date` DATE NOT NULL ,
-                `col_time` DATETIME NOT NULL ,
-                `col_text` TEXT NOT NULL ,
+                `col_str` VARCHAR( 255 ) NULL ,
+                `col_int` INT NULL ,
+                `col_date` DATE NULL ,
+                `col_time` DATETIME NULL ,
+                `col_text` TEXT NULL ,
                 PRIMARY KEY ( `id` )
                 ) ENGINE = InnoDB ;');
 
