@@ -1,8 +1,5 @@
 <?php
 
-/**
- * Cronjob.
- */
 
 echo rex_view::title(rex_i18n::msg('cronjob_title'));
 

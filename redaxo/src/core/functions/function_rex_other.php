@@ -1,8 +1,5 @@
 <?php
 
-/**
- * Functions.
- */
 
 /**
  * Deletes the cache.
