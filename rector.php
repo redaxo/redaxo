@@ -91,6 +91,7 @@ return RectorConfig::configure()
     // Upgrade REDAXO 5 to 6
     ->withConfiguredRule(RenameClassRector::class, [
         rex_package_interface::class => rex_addon_interface::class,
+        rex_null_package::class => rex_null_addon::class,
     ])
     ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(rex_password_policy::class, 'getRule', 'getDescription'),
