@@ -52,10 +52,10 @@ class rex_release
             $suffix = substr($this->version, $pos);
         }
 
-        $updateVersion = static function (rex_package $package) use ($suffix) {
-            $content = rex_file::get($package->getPath(rex_package::FILE_PACKAGE));
+        $updateVersion = static function (rex_addon $package) use ($suffix) {
+            $content = rex_file::get($package->getPath(rex_addon::FILE_PACKAGE));
             $content = preg_replace('/^version: \'(.+?)-.*$/m', "version: '\\1$suffix'", $content);
-            rex_file::put($package->getPath(rex_package::FILE_PACKAGE), $content);
+            rex_file::put($package->getPath(rex_addon::FILE_PACKAGE), $content);
         };
 
         foreach (self::$addons as $addon) {

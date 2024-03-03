@@ -79,7 +79,7 @@ $content .= '
 
         <tbody>';
 
-foreach (rex_package::getAvailablePackages() as $package) {
+foreach (rex_addon::getAvailableAddons() as $package) {
     $helpUrl = rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]);
 
     $license = '';

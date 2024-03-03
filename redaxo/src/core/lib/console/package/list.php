@@ -38,7 +38,7 @@ class rex_command_package_list extends rex_console_command
         $jsonOutput = false !== $input->getOption('json');
         $usingExitCode = false !== $input->getOption('error-when-empty');
 
-        $packages = rex_package::getRegisteredPackages();
+        $packages = rex_addon::getRegisteredAddons();
 
         $rows = [];
         foreach ($packages as $package) {

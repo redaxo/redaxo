@@ -1,6 +1,6 @@
 <?php
 
-$package = rex_package::get(rex_request('package', 'string'));
+$package = rex_addon::get(rex_request('package', 'string'));
 
 $license = null;
 if (is_readable($package->getPath('LICENSE.md'))) {

@@ -7,13 +7,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 abstract class rex_console_command extends Command
 {
-    /** @var rex_package|null */
+    /** @var rex_addon|null */
     protected $package;
 
     /**
      * @return $this
      */
-    public function setPackage(?rex_package $package = null)
+    public function setPackage(?rex_addon $package = null)
     {
         $this->package = $package;
 
@@ -21,7 +21,7 @@ abstract class rex_console_command extends Command
     }
 
     /**
-     * @return rex_package|null In core commands it returns `null`, otherwise the corresponding package object
+     * @return rex_addon|null In core commands it returns `null`, otherwise the corresponding package object
      */
     public function getPackage()
     {

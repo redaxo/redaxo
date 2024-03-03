@@ -55,7 +55,7 @@ class rex_addon implements rex_addon_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return rex_addon_interface If the package exists, a `rex_package` is returned, otherwise a `rex_null_package`
+     * @return rex_addon_interface If the package exists, a `rex_addon` is returned, otherwise a `rex_null_addon`
      */
     public static function get($addon)
     {

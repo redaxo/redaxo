@@ -26,7 +26,7 @@ $content = '
         </thead>
         <tbody>';
 
-$getLink = static function (rex_package $package, $function, $icon = '', $confirm = false, $key = null) {
+$getLink = static function (rex_addon $package, $function, $icon = '', $confirm = false, $key = null) {
     $onclick = '';
     if ($confirm) {
         $onclick = ' data-confirm="' . rex_i18n::msg($package->getType() . '_' . $function . '_question', $package->getName()) . '"';
@@ -41,7 +41,7 @@ $getLink = static function (rex_package $package, $function, $icon = '', $confir
     return '<a class="rex-link-expanded" href="' . $url . '"' . $onclick . ' data-pjax="false">' . $icon . ' ' . $text . '</a>';
 };
 
-$getTableRow = static function (rex_package $package) use ($getLink) {
+$getTableRow = static function (rex_addon $package) use ($getLink) {
     $packageId = $package->getPackageId();
     $type = $package->getType();
 

@@ -7,7 +7,7 @@
 rex_addon::initialize(!rex::isSetup());
 
 if (rex::isSetup() || rex::isSafeMode()) {
-    $packageOrder = array_keys(rex_package::getSetupPackages());
+    $packageOrder = array_keys(rex_addon::getSetupAddons());
 } else {
     $packageOrder = rex::getPackageOrder();
 }
@@ -15,14 +15,14 @@ if (rex::isSetup() || rex::isSafeMode()) {
 // in the first run, we register all folders for class- and fragment-loading,
 // so it is transparent in which order the addons are included afterwards.
 foreach ($packageOrder as $packageId) {
-    rex_package::require($packageId)->enlist();
+    rex_addon::require($packageId)->enlist();
 }
 
 // now we actually include the addons logic
 rex_timer::measure('packages_boot', static function () use ($packageOrder) {
     foreach ($packageOrder as $packageId) {
         rex_timer::measure('package_boot: ' . $packageId, static function () use ($packageId) {
-            rex_package::require($packageId)->boot();
+            rex_addon::require($packageId)->boot();
         });
     }
 });
