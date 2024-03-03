@@ -435,7 +435,7 @@ class rex_navigation
     }
 
     /**
-     * @param string[] $items
+     * @param list<string> $items
      * @param array<int|string, int|string|list<string>> $attributes
      */
     protected function getBreadcrumbListTag(array $items, array $attributes): string
@@ -464,7 +464,7 @@ class rex_navigation
     }
 
     /**
-     * @param string[] $items
+     * @param list<string> $items
      * @param array<int|string, int|string|list<string>> $attributes
      */
     protected function getListTag(array $items, array $attributes, int $depth): string

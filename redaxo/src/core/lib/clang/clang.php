@@ -12,7 +12,7 @@ class rex_clang
 {
     /** @var bool */
     private static $cacheLoaded = false;
-    /** @var self[] */
+    /** @var array<int, self> */
     private static $clangs = [];
     /** @var int|null */
     private static $currentId;
@@ -205,7 +205,7 @@ class rex_clang
      *
      * @param bool $ignoreOfflines
      *
-     * @return int[]
+     * @return list<int>
      */
     public static function getAllIds($ignoreOfflines = false)
     {
@@ -218,7 +218,7 @@ class rex_clang
      *
      * @param bool $ignoreOfflines
      *
-     * @return self[]
+     * @return array<int, self>
      */
     public static function getAll($ignoreOfflines = false)
     {

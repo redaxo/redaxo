@@ -252,7 +252,7 @@ class rex_sql_table
     }
 
     /**
-     * @return rex_sql_column[]
+     * @return array<string, rex_sql_column>
      */
     public function getColumns()
     {
@@ -440,7 +440,7 @@ class rex_sql_table
     }
 
     /**
-     * @return rex_sql_index[]
+     * @return array<string, rex_sql_index>
      */
     public function getIndexes()
     {
@@ -557,7 +557,7 @@ class rex_sql_table
     }
 
     /**
-     * @return rex_sql_foreign_key[]
+     * @return array<string, rex_sql_foreign_key>
      */
     public function getForeignKeys()
     {

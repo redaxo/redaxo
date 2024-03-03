@@ -9,7 +9,7 @@ class rex_view
     public const JS_ASYNC = 'async';
     public const JS_IMMUTABLE = 'immutable';
 
-    /** @var string[][] */
+    /** @var array<string, list<string>> */
     private static $cssFiles = [];
     /** @var list<array{string, array}> */
     private static $jsFiles = [];
@@ -39,7 +39,7 @@ class rex_view
     /**
      * Returns the CSS files.
      *
-     * @return string[][]
+     * @return array<string, list<string>>
      */
     public static function getCssFiles()
     {
@@ -71,7 +71,7 @@ class rex_view
     /**
      * Returns the JS files.
      *
-     * @return string[]
+     * @return list<string>
      */
     public static function getJsFiles()
     {
