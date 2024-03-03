@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Deletes the cache.
  *
