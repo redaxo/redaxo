@@ -27,7 +27,7 @@ class rex_command_assets_sync extends rex_console_command
         $created = $updated = $errored = 0;
         $io = $this->getStyle($input, $output);
 
-        foreach (rex_package::getInstalledPackages() as $package) {
+        foreach (rex_addon::getInstalledAddons() as $package) {
             $assetsPublicPath = $package->getAssetsPath();
             $assetsSrcPath = $package->getPath('assets/');
 

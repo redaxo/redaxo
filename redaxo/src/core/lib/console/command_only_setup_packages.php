@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Only load(bootstrap) setup packages when the command is executed.
+ * Only load(bootstrap) setup addons when the command is executed.
  *
- * see rex_package::getSetupPackages()
+ * see rex_addon::getSetupAddons()
  *
  * @internal Only usable in rex core commands
  */

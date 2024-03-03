@@ -16,7 +16,7 @@ class rex_command_package_deactivate extends rex_console_command
             ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the addon, e.g. "yform"', null, static function () {
                 $packageNames = [];
 
-                foreach (rex_package::getRegisteredPackages() as $package) {
+                foreach (rex_addon::getRegisteredAddons() as $package) {
                     if (!$package->isAvailable()) {
                         continue;
                     }
@@ -36,15 +36,15 @@ class rex_command_package_deactivate extends rex_console_command
 
         // the package manager don't know new packages in the addon folder
         // so we need to make them available
-        rex_package_manager::synchronizeWithFileSystem();
+        rex_addon_manager::synchronizeWithFileSystem();
 
-        $package = rex_package::get($packageId);
-        if (!$package instanceof rex_package) {
+        $package = rex_addon::get($packageId);
+        if (!$package instanceof rex_addon) {
             $io->error('Package "' . $packageId . '" doesn\'t exists!');
             return 1;
         }
 
-        $manager = rex_package_manager::factory($package);
+        $manager = rex_addon_manager::factory($package);
         $success = $manager->deactivate();
         $message = $this->decodeMessage($manager->getMessage());
 

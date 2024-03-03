@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Represents a null package.
+ * Represents a null addon.
  *
- * Instances of this class are returned by `rex_package::get()` for non-existing packages.
- * Thereby it is safe to call `rex_package::get(...)->isAvailable()` and `isInstalled()`.
- * Other methods should not be called on null-packages since they do not return useful values.
+ * Instances of this class are returned by `rex_addon::get()` for non-existing addons.
+ * Thereby it is safe to call `rex_addon::get(...)->isAvailable()` and `isInstalled()`.
+ * Other methods should not be called on null-addons since they do not return useful values.
  * Some methods like `getPath()` throw exceptions.
  */
-abstract class rex_null_package implements rex_package_interface
+class rex_null_addon implements rex_addon_interface
 {
     use rex_singleton_trait;
 
@@ -22,12 +22,17 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getAddon()
     {
-        return rex_null_addon::getInstance();
+        return self::getInstance();
     }
 
     public function getPackageId()
     {
         return null;
+    }
+
+    public function getType()
+    {
+        return 'addon';
     }
 
     public function getPath($file = '')

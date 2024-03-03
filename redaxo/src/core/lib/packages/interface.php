@@ -1,6 +1,6 @@
 <?php
 
-interface rex_package_interface
+interface rex_addon_interface
 {
     /**
      * Returns the name of the package.
