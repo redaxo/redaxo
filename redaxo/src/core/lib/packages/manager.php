@@ -1,6 +1,6 @@
 <?php
 
-abstract class rex_addon_manager
+class rex_addon_manager
 {
     use rex_factory_trait;
 
@@ -27,9 +27,6 @@ abstract class rex_addon_manager
      */
     public static function factory(rex_addon $package)
     {
-        if (self::class == static::class) {
-            return rex_addon_manager::factory($package);
-        }
         $class = static::getFactoryClass();
         return new $class($package);
     }

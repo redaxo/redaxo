@@ -8,7 +8,7 @@
  * Other methods should not be called on null-addons since they do not return useful values.
  * Some methods like `getPath()` throw exceptions.
  */
-abstract class rex_null_addon implements rex_addon_interface
+class rex_null_addon implements rex_addon_interface
 {
     use rex_singleton_trait;
 
