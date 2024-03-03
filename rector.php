@@ -53,9 +53,6 @@ return RectorConfig::configure()
         'redaxo/src/addons/install/',
         'redaxo/src/addons/project/',
     ])
-    ->withSkip([
-        FirstClassCallableRector::class => ['redaxo/src/core/boot.php'],
-    ])
     ->withParallel()
     ->withPhpVersion(PhpVersion::PHP_83)
     ->withImportNames()
