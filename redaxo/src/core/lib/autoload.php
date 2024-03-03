@@ -1,5 +1,7 @@
 <?php
 
+use Composer\Autoload\ClassLoader;
+
 /**
  * REDAXO Autoloader.
  *
@@ -17,7 +19,7 @@ class rex_autoload
 
     private const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexsymfonycachevaluewrappernonutf8class';
 
-    /** @var Composer\Autoload\ClassLoader */
+    /** @var ClassLoader */
     protected static $composerLoader;
 
     /** @var bool */
