@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\media-manager
- */
 class rex_media_manager
 {
     /**
@@ -451,11 +448,11 @@ class rex_media_manager
 
     /**
      * Checks if media is used by this addon.
-     * @return string[] Warning message as array
+     * @return list<string> Warning message as array
      */
     public static function mediaIsInUse(rex_extension_point $ep)
     {
-        /** @var string[] $warning */
+        /** @var list<string> $warning */
         $warning = $ep->getSubject();
         $filename = $ep->getParam('filename');
         assert(is_string($filename));

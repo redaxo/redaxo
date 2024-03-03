@@ -1,13 +1,7 @@
 <?php
 
 /**
- * Functions.
- */
-
-/**
  * Deletes the cache.
- *
- * @package redaxo\core
  *
  * @return string
  */
@@ -42,8 +36,6 @@ function rex_delete_cache()
  * @param string $varname
  *
  * @return int
- *
- * @package redaxo\core
  */
 function rex_ini_get($varname)
 {

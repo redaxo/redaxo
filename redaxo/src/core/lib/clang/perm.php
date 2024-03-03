@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core
- */
 class rex_clang_perm extends rex_complex_perm
 {
     /**

@@ -5,10 +5,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * @package redaxo\core
- *
- * @author staabm
- *
  * @internal
  */
 class rex_command_assets_sync extends rex_console_command
@@ -31,7 +27,7 @@ class rex_command_assets_sync extends rex_console_command
         $created = $updated = $errored = 0;
         $io = $this->getStyle($input, $output);
 
-        foreach (rex_package::getInstalledPackages() as $package) {
+        foreach (rex_addon::getInstalledAddons() as $package) {
             $assetsPublicPath = $package->getAssetsPath();
             $assetsSrcPath = $package->getPath('assets/');
 

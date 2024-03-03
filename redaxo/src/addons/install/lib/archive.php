@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\install
- *
  * @internal
  */
 class rex_install_archive
@@ -57,7 +55,7 @@ class rex_install_archive
     }
 
     /**
-     * @param string|string[]|null $exclude
+     * @param string|list<string>|null $exclude
      * @return void
      */
     public static function copyDirToArchive(string $dir, string $archive, ?string $basename = null, $exclude = null)

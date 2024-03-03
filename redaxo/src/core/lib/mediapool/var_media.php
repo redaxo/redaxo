@@ -8,8 +8,6 @@
  *   - types     => Filter für Dateiendungen die im Medienpool zur Auswahl stehen sollen
  *   - preview   => Bei Bildertypen ein Vorschaubild einblenden
  *   - output    => "mimetype": Mimetype des Bildes ausgeben
- *
- * @package redaxo\mediapool
  */
 class rex_var_media extends rex_var
 {

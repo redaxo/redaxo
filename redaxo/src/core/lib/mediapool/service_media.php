@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\mediapool
- */
 final class rex_media_service
 {
     private const ORDER_BY = [
@@ -264,7 +261,7 @@ final class rex_media_service
     }
 
     /**
-     * @param array{category_id?: int, category_id_path?: int, types?: string[], term?: string} $filter
+     * @param array{category_id?: int, category_id_path?: int, types?: list<string>, term?: string} $filter
      * @param list<array{string, 'ASC'|'DESC'}> $orderBy
      * @throws rex_sql_exception
      * @return list<rex_media>

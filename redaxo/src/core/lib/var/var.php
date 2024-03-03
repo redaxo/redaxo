@@ -2,8 +2,6 @@
 
 /**
  * Abstract baseclass for REX_VARS.
- *
- * @package redaxo\core
  */
 abstract class rex_var
 {
@@ -28,7 +26,7 @@ abstract class rex_var
     /** @var mixed */
     private static $contextData;
 
-    /** @var string[] */
+    /** @var array<string> */
     private $args = [];
 
     /** @var int */

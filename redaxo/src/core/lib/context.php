@@ -2,10 +2,6 @@
 
 /**
  * Generic interface for classes which provide urls.
- *
- * @author staabm
- *
- * @package redaxo\core
  */
 interface rex_url_provider_interface
 {
@@ -21,10 +17,6 @@ interface rex_url_provider_interface
 /**
  * Generic interface for classes which provide a complete rex-context.
  * A rex-context consists of a set of parameters which may get passed using urls (via parameter) or forms (via hidden input fields).
- *
- * @author staabm
- *
- * @package redaxo\core
  */
 interface rex_context_provider_interface extends rex_url_provider_interface
 {
@@ -40,10 +32,6 @@ interface rex_context_provider_interface extends rex_url_provider_interface
 
 /**
  * A generic implementiation of rex_context_provider.
- *
- * @author staabm
- *
- * @package redaxo\core
  */
 class rex_context implements rex_context_provider_interface
 {

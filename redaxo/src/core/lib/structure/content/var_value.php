@@ -2,8 +2,6 @@
 
 /**
  * REX_VALUE[1],.
- *
- * @package redaxo\structure\content
  */
 class rex_var_value extends rex_var
 {

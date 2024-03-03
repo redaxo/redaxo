@@ -1,13 +1,7 @@
 <?php
 
 /**
- * Extension Point Class.
- *
  * @template T
- *
- * @author gharlan
- *
- * @package redaxo\core
  *
  * @psalm-taint-specialize
  */

@@ -1,7 +1,5 @@
 <?php
-/**
- * @package redaxo\structure\content
- */
+
 class rex_api_content_copy extends rex_api_function
 {
     /**

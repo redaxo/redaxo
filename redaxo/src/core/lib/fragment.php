@@ -7,8 +7,6 @@
  * @phpstan-method string getSubfragment(string $filename, array $params = [])
  * @phpstan-method string i18n(string $key, ...$replacements)
  * @phpstan-method mixed  escape($value, $strategy = 'html')
- *
- * @package redaxo\core
  */
 class rex_fragment
 {
@@ -36,7 +34,7 @@ class rex_fragment
     /**
      * array which contains all folders in which fragments will be searched for at runtime.
      *
-     * @var string[]
+     * @var list<string>
      */
     private static $fragmentDirs = [];
 

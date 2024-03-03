@@ -7,8 +7,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package redaxo\core
- *
  * @internal
  */
 class rex_command_config_get extends rex_console_command implements rex_command_standalone
@@ -39,7 +37,7 @@ class rex_command_config_get extends rex_console_command implements rex_command_
         if ('core' === $package) {
             $config = rex::getProperty($propertyKey);
         } else {
-            $config = rex_package::get($package)->getProperty($propertyKey);
+            $config = rex_addon::get($package)->getProperty($propertyKey);
         }
 
         if (null === $config) {

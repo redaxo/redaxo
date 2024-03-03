@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\core\login
- *
  * @method rex_user|null getUser()
  * @method rex_user|null getImpersonator()
  */

@@ -4,9 +4,6 @@ use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Formatter;
 use ScssPhp\ScssPhp\Formatter\Compressed;
 
-/**
- * @package redaxo\be-style
- */
 class rex_scss_compiler
 {
     /** @var string */

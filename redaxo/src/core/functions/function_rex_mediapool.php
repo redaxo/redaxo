@@ -1,12 +1,6 @@
 <?php
 
 /**
- * Funktionensammlung für den Medienpool.
- *
- * @package redaxo\mediapool
- */
-
-/**
  * Ausgabe des Medienpool Formulars.
  *
  * @return string

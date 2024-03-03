@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Rector\Arguments\Rector\ClassMethod\ReplaceArgumentDefaultValueRector;
+use Rector\Arguments\ValueObject\ReplaceArgumentDefaultValue;
 use Rector\CodeQuality\Rector\Assign\CombinedAssignRector;
 use Rector\CodeQuality\Rector\BooleanNot\SimplifyDeMorganBinaryRector;
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
@@ -22,6 +24,15 @@ use Rector\Php80\Rector\Identical\StrStartsWithRector;
 use Rector\Php80\Rector\NotIdentical\StrContainsRector;
 use Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector;
 use Rector\Php81\Rector\Array_\FirstClassCallableRector;
+use Rector\Removing\Rector\ClassMethod\ArgumentRemoverRector;
+use Rector\Removing\Rector\FuncCall\RemoveFuncCallArgRector;
+use Rector\Removing\ValueObject\ArgumentRemover;
+use Rector\Removing\ValueObject\RemoveFuncCallArg;
+use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
+use Rector\Renaming\Rector\Name\RenameClassRector;
+use Rector\Renaming\ValueObject\MethodCallRename;
+use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
+use Rector\Transform\ValueObject\ConstFetchToClassConstFetch;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Rector\Rule\UnderscoreToCamelCasePropertyNameRector;
 use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
@@ -31,57 +42,109 @@ use Redaxo\Rector\Util\UnderscoreCamelCasePropertyRenamer;
 
 require_once __DIR__ . '/.tools/rector/autoload.php';
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->bootstrapFiles([
+return RectorConfig::configure()
+    ->withBootstrapFiles([
         __DIR__ . '/.tools/constants.php',
-    ]);
-
-    // this list will grow over time.
-    // to make sure we can review every transformation and not introduce unseen bugs
-    $rectorConfig->paths([
+    ])
+    ->withPaths([
         // restrict to core and core addons, ignore other locally installed addons
         'redaxo/src/core/',
         'redaxo/src/addons/debug/',
         'redaxo/src/addons/install/',
         'redaxo/src/addons/project/',
-    ]);
-
-    $rectorConfig->skip([
+    ])
+    ->withSkip([
         FirstClassCallableRector::class => ['redaxo/src/core/boot.php'],
-    ]);
+    ])
+    ->withParallel()
+    ->withPhpVersion(PhpVersion::PHP_83)
+    ->withImportNames()
+    ->registerService(UnderscoreCamelCaseConflictingNameGuard::class)
+    ->registerService(UnderscoreCamelCaseExpectedNameResolver::class)
+    ->registerService(UnderscoreCamelCasePropertyRenamer::class)
+    ->withRules([
+        ChangeSwitchToMatchRector::class,
+        CleanupUnneededNullsafeOperatorRector::class,
+        CombinedAssignRector::class,
+        FirstClassCallableRector::class,
+        IfIssetToCoalescingRector::class,
+        InlineConstructorDefaultToPropertyRector::class,
+        RemoveUnusedVariableInCatchRector::class,
+        SimplifyBoolIdenticalTrueRector::class,
+        SimplifyConditionsRector::class,
+        SimplifyDeMorganBinaryRector::class,
+        SimplifyForeachToCoalescingRector::class,
+        SimplifyIfReturnBoolRector::class,
+        SimplifyRegexPatternRector::class,
+        SingleInArrayToCompareRector::class,
+        StrContainsRector::class,
+        StrEndsWithRector::class,
+        StrStartsWithRector::class,
+        TernaryToNullCoalescingRector::class,
+        UnnecessaryTernaryExpressionRector::class,
 
-    $rectorConfig->parallel();
+        // Own rules
+        UnderscoreToCamelCasePropertyNameRector::class,
+        UnderscoreToCamelCaseVariableNameRector::class,
+    ])
 
-    $rectorConfig->phpVersion(PhpVersion::PHP_83);
-
-    // we will grow this rector list step by step.
-    // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
-    $rectorConfig->rule(ChangeSwitchToMatchRector::class);
-    $rectorConfig->rule(CleanupUnneededNullsafeOperatorRector::class);
-    $rectorConfig->rule(CombinedAssignRector::class);
-    $rectorConfig->rule(FirstClassCallableRector::class);
-    $rectorConfig->rule(IfIssetToCoalescingRector::class);
-    $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
-    $rectorConfig->rule(RemoveUnusedVariableInCatchRector::class);
-    $rectorConfig->rule(SimplifyBoolIdenticalTrueRector::class);
-    $rectorConfig->rule(SimplifyConditionsRector::class);
-    $rectorConfig->rule(SimplifyDeMorganBinaryRector::class);
-    $rectorConfig->rule(SimplifyForeachToCoalescingRector::class);
-    $rectorConfig->rule(SimplifyIfReturnBoolRector::class);
-    $rectorConfig->rule(SimplifyRegexPatternRector::class);
-    $rectorConfig->rule(SingleInArrayToCompareRector::class);
-    $rectorConfig->rule(StrContainsRector::class);
-    $rectorConfig->rule(StrEndsWithRector::class);
-    $rectorConfig->rule(StrStartsWithRector::class);
-    $rectorConfig->rule(TernaryToNullCoalescingRector::class);
-
-    // Util services for own rules;
-    $rectorConfig->singleton(UnderscoreCamelCaseConflictingNameGuard::class);
-    $rectorConfig->singleton(UnderscoreCamelCaseExpectedNameResolver::class);
-    $rectorConfig->singleton(UnderscoreCamelCasePropertyRenamer::class);
-
-    // Own rules
-    $rectorConfig->rule(UnderscoreToCamelCasePropertyNameRector::class);
-    $rectorConfig->rule(UnderscoreToCamelCaseVariableNameRector::class);
-    $rectorConfig->rule(UnnecessaryTernaryExpressionRector::class);
-};
+    // Upgrade REDAXO 5 to 6
+    ->withConfiguredRule(RenameClassRector::class, [
+        rex_package_interface::class => rex_addon_interface::class,
+        rex_null_package::class => rex_null_addon::class,
+        rex_package::class => rex_addon::class,
+        rex_package_manager::class => rex_addon_manager::class,
+    ])
+    ->withConfiguredRule(RenameMethodRector::class, [
+        new MethodCallRename(rex_addon::class, 'getRegisteredPackages', 'getRegisteredAddons'),
+        new MethodCallRename(rex_addon::class, 'getInstalledPackages', 'getInstalledAddons'),
+        new MethodCallRename(rex_addon::class, 'getAvailablePackages', 'getAvailableAddons'),
+        new MethodCallRename(rex_addon::class, 'getSetupPackages', 'getSetupAddons'),
+        new MethodCallRename(rex_addon::class, 'getSystemPackages', 'getSystemAddons'),
+        new MethodCallRename(rex_password_policy::class, 'getRule', 'getDescription'),
+        new MethodCallRename(rex_article_content_base::class, 'getClang', 'getClangId'),
+        new MethodCallRename(rex_article_slice::class, 'getClang', 'getClangId'),
+        new MethodCallRename(rex_structure_element::class, 'getClang', 'getClangId'),
+        new MethodCallRename(rex_managed_media::class, 'getImageWidth', 'getWidth'),
+        new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
+        new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
+    ])
+    ->withConfiguredRule(RemoveFuncCallArgRector::class, [
+        new RemoveFuncCallArg('rex_getUrl', 3),
+    ])
+    ->withConfiguredRule(ArgumentRemoverRector::class, [
+        new ArgumentRemover(rex_string::class, 'buildQuery', 1, null),
+        new ArgumentRemover(rex_url_provider_interface::class, 'getUrl', 1, null),
+        new ArgumentRemover(rex_url::class, 'frontendController', 1, null),
+        new ArgumentRemover(rex_url::class, 'backendController', 1, null),
+        new ArgumentRemover(rex_url::class, 'backendPage', 2, null),
+        new ArgumentRemover(rex_url::class, 'currentBackendPage', 1, null),
+        new ArgumentRemover(rex_form_base::class, 'getUrl', 1, null),
+        new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
+        new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
+        new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
+        new ArgumentRemover(rex_media_manager::class, 'getUrl', 3, null),
+    ])
+    ->withConfiguredRule(ReplaceArgumentDefaultValueRector::class, [
+        new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_ADDED', 'SLICE_ADDED'),
+        new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_UPDATED', 'SLICE_UPDATED'),
+        new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_DELETED', 'SLICE_DELETED'),
+    ])
+    ->withConfiguredRule(ConstFetchToClassConstFetchRector::class, [
+        new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', rex_form::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TEXT', rex_metainfo_table_manager::class, 'FIELD_TEXT'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TEXTAREA', rex_metainfo_table_manager::class, 'FIELD_TEXTAREA'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_SELECT', rex_metainfo_table_manager::class, 'FIELD_SELECT'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_RADIO', rex_metainfo_table_manager::class, 'FIELD_RADIO'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_CHECKBOX', rex_metainfo_table_manager::class, 'FIELD_CHECKBOX'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_MEDIA_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_MEDIA_WIDGET'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_MEDIALIST_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_MEDIALIST_WIDGET'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_LINK_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_LINK_WIDGET'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_LINKLIST_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_LINKLIST_WIDGET'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_DATE', rex_metainfo_table_manager::class, 'FIELD_DATE'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_DATETIME', rex_metainfo_table_manager::class, 'FIELD_DATETIME'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_LEGEND', rex_metainfo_table_manager::class, 'FIELD_LEGEND'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TIME', rex_metainfo_table_manager::class, 'FIELD_TIME'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_COUNT', rex_metainfo_table_manager::class, 'FIELD_COUNT'),
+    ])
+;

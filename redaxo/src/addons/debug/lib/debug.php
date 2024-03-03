@@ -1,13 +1,11 @@
 <?php
 
 /**
- * @package redaxo\debug
- *
  * @internal
  */
 class rex_debug
 {
-    /** @var class-string[] */
+    /** @var list<class-string> */
     private static $ignoreClasses = [
         rex_extension_debug::class,
         rex_api_function_debug::class,
@@ -21,7 +19,7 @@ class rex_debug
     ];
 
     /**
-     * @param class-string[] $ignoredClasses
+     * @param list<class-string> $ignoredClasses
      */
     public static function getTrace(array $ignoredClasses = []): array
     {

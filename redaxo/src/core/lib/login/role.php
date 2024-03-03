@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Interface for user roles.
- *
- * @author gharlan
- *
- * @package redaxo\core\login
- */
 interface rex_user_role_interface
 {
     /**

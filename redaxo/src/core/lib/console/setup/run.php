@@ -6,15 +6,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * @package redaxo\core
- *
  * @internal
  */
 class rex_command_setup_run extends rex_console_command implements rex_command_only_setup_packages
 {
-    /** @var Symfony\Component\Console\Style\SymfonyStyle */
+    /** @var SymfonyStyle */
     private $io;
 
     /** @var InputInterface */

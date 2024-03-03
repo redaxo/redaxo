@@ -2,10 +2,6 @@
 
 /**
  * Class for handling directories.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_dir
 {

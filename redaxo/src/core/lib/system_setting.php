@@ -2,17 +2,13 @@
 
 /**
  * This class can be used to add settings to the system settings page.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 abstract class rex_system_setting
 {
     /**
      * Settings array.
      *
-     * @var self[]
+     * @var list<self>
      */
     private static $settings = [];
 
@@ -53,7 +49,7 @@ abstract class rex_system_setting
     /**
      * Returns all registered setting objects.
      *
-     * @return self[]
+     * @return list<self>
      */
     public static function getAll()
     {

@@ -45,8 +45,6 @@ $list->setColumnFormat('id',                                     // field name
 
 /**
  * Klasse zum erstellen von Listen.
- *
- * @package redaxo\core
  */
 class rex_list implements rex_url_provider_interface
 {

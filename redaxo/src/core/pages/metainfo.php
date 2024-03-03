@@ -1,11 +1,5 @@
 <?php
 
-/**
- * MetaForm Addon.
- *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- */
-
 $subpage = rex_be_controller::getCurrentPagePart(2);
 
 echo rex_view::title(rex_i18n::msg('minfo_title'));

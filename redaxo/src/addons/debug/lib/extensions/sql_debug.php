@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\debug
- *
  * @internal
  */
 class rex_sql_debug extends rex_sql

@@ -2,10 +2,6 @@
 
 /**
  * Class for rex_socket responses.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_socket_response
 {
@@ -177,7 +173,7 @@ class rex_socket_response
     /**
      * Returns an array with all applied content encodings.
      *
-     * @return string[]
+     * @return list<string>
      */
     public function getContentEncodings(): array
     {

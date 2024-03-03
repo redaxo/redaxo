@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Class for user roles.
- *
- * @author gharlan
- *
- * @package redaxo\users
- */
 class rex_user_role implements rex_user_role_interface
 {
     /**
@@ -19,7 +12,7 @@ class rex_user_role implements rex_user_role_interface
     /**
      * Complex perm params.
      *
-     * @var array<string, rex_complex_perm::ALL|string[]>
+     * @var array<string, rex_complex_perm::ALL|array<string>>
      */
     private $complexPermParams = [];
 
@@ -31,7 +24,7 @@ class rex_user_role implements rex_user_role_interface
     private $complexPerms = [];
 
     /**
-     * @param array[] $roles
+     * @param list<array> $roles
      */
     private function __construct(array $roles)
     {

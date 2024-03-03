@@ -6,10 +6,6 @@
  * Arguments:
  *   - id
  *   - field
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_var_clang extends rex_var
 {

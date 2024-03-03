@@ -5,8 +5,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package redaxo\core
- *
  * @internal
  */
 class rex_command_package_run_update_script extends rex_console_command
@@ -18,7 +16,7 @@ class rex_command_package_run_update_script extends rex_console_command
             ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the addon, e.g. "yform"', null, static function () {
                 $packageNames = [];
 
-                foreach (rex_package::getRegisteredPackages() as $package) {
+                foreach (rex_addon::getRegisteredAddons() as $package) {
                     if (!$package->isInstalled()) {
                         continue;
                     }
@@ -38,7 +36,7 @@ class rex_command_package_run_update_script extends rex_console_command
 
         $packageId = $input->getArgument('package-id');
 
-        $package = rex_package::get($packageId);
+        $package = rex_addon::get($packageId);
         if (!$package->isInstalled()) {
             $io->error('Package "' . $packageId . '" is not installed!');
             return 1;
@@ -48,7 +46,7 @@ class rex_command_package_run_update_script extends rex_console_command
         $package->setProperty('version', $input->getArgument('previous-version'));
 
         try {
-            $package->includeFile(rex_package::FILE_UPDATE);
+            $package->includeFile(rex_addon::FILE_UPDATE);
         } finally {
             $package->setProperty('version', $version);
         }

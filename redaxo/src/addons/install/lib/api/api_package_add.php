@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\install
- *
  * @internal
  */
 class rex_api_install_package_add extends rex_api_function
@@ -30,7 +28,7 @@ class rex_api_install_package_add extends rex_api_function
             $message = rex_i18n::msg('install_warning_addon_not_downloaded', $addonkey) . '<br />' . $message;
             $success = false;
         } else {
-            $package = rex_package::get($addonkey);
+            $package = rex_addon::get($addonkey);
             $packageInstallUrl = rex_url::currentBackendPage([
                 'package' => $package->getPackageId(),
                 'function' => 'install',

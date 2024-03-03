@@ -2,8 +2,6 @@
 
 /**
  * Object Oriented Framework: Bildet eine Kategorie der Struktur ab.
- *
- * @package redaxo\structure
  */
 class rex_category extends rex_structure_element
 {
@@ -33,7 +31,7 @@ class rex_category extends rex_structure_element
      * @param bool $ignoreOfflines
      * @param int $clang
      *
-     * @return self[]
+     * @return list<self>
      */
     public static function getRootCategories($ignoreOfflines = false, $clang = null)
     {
@@ -55,7 +53,7 @@ class rex_category extends rex_structure_element
      *
      * @param bool $ignoreOfflines
      *
-     * @return self[]
+     * @return list<self>
      */
     public function getChildren($ignoreOfflines = false)
     {
@@ -94,7 +92,7 @@ class rex_category extends rex_structure_element
      *
      * @param bool $ignoreOfflines
      *
-     * @return rex_article[]
+     * @return list<rex_article>
      */
     public function getArticles($ignoreOfflines = false)
     {

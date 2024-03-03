@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Trait for singletons.
- *
- * @author gharlan
- *
- * @package redaxo\core
- */
 trait rex_singleton_trait
 {
     /**

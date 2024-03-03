@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\structure
- */
 class rex_form_widget_linklist_element extends rex_form_element
 {
     /** @var int */

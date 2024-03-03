@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core\login
- */
 class rex_login
 {
     /**

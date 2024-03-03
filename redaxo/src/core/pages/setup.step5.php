@@ -46,13 +46,13 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-form-redaxo-user-login" class="required">' . rex_i18n::msg('setup_507') . '</label>';
-$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($redaxoUserLogin) . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
+$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($redaxoUserLogin) . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" maxlength="255" inputmode="email" autocorrect="off" autocapitalize="off" autofocus />';
 $formElements[] = $n;
 
 $passwordPolicy = rex_backend_password_policy::factory();
 $n = [];
 $n['label'] = '<label for="rex-form-redaxo-user-pass" class="required">' . rex_i18n::msg('setup_508') . '</label>';
-$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" autocomplete="new-password" ' . rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
+$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" autocomplete="new-password" autocorrect="off" autocapitalize="off" ' . rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
 $n['note'] = $passwordPolicy->getDescription();
 $formElements[] = $n;
 

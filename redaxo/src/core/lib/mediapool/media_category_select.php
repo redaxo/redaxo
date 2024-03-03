@@ -1,16 +1,11 @@
 <?php
 
-/**
- * Class MediaKategorie Select.
- *
- * @package redaxo\mediapool
- */
 class rex_media_category_select extends rex_select
 {
     /** @var bool */
     private $checkPerms;
 
-    /** @var int|int[]|null */
+    /** @var int|list<int>|null */
     private $rootId;
 
     /** @var bool */
@@ -26,7 +21,7 @@ class rex_media_category_select extends rex_select
     /**
      * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
      *
-     * @param int|int[]|null $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
+     * @param int|list<int>|null $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
      * @return void
      */
     public function setRootId($rootId)

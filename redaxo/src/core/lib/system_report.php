@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core
- */
 class rex_system_report
 {
     public const TITLE_REDAXO = 'REDAXO';
@@ -20,7 +17,7 @@ class rex_system_report
     }
 
     /**
-     * @return array[]
+     * @return array<string, array<string, string|bool>>
      */
     public function get()
     {
@@ -96,7 +93,7 @@ class rex_system_report
         }
 
         $packages = [];
-        foreach (rex_package::getAvailablePackages() as $package) {
+        foreach (rex_addon::getAvailableAddons() as $package) {
             $packages[$package->getPackageId()] = $package->getVersion();
         }
 

@@ -2,8 +2,6 @@
 
 /**
  * Create forms for rex_config data.
- *
- * @package redaxo\core\form
  */
 class rex_config_form extends rex_form_base
 {

@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\core
- *
  * @internal
  */
 class rex_setup_importer
@@ -191,11 +189,11 @@ class rex_setup_importer
     private static function installAddons(bool $uninstallBefore = false, bool $installDump = true): string
     {
         $addonErr = '';
-        rex_package_manager::synchronizeWithFileSystem();
+        rex_addon_manager::synchronizeWithFileSystem();
 
         if ($uninstallBefore) {
-            foreach (array_reverse(rex_package::getSystemPackages()) as $package) {
-                $manager = rex_package_manager::factory($package);
+            foreach (array_reverse(rex_addon::getSystemAddons()) as $package) {
+                $manager = rex_addon_manager::factory($package);
                 $state = $manager->uninstall($installDump);
 
                 if (!$state) {
@@ -205,8 +203,8 @@ class rex_setup_importer
         }
         foreach (rex::getProperty('system_addons') as $packageRepresentation) {
             $state = true;
-            $package = rex_package::require($packageRepresentation);
-            $manager = rex_package_manager::factory($package);
+            $package = rex_addon::require($packageRepresentation);
+            $manager = rex_addon_manager::factory($package);
 
             if (!$package->isInstalled()) {
                 $state = $manager->install($installDump);
@@ -245,15 +243,15 @@ class rex_setup_importer
     {
         $error = '';
         rex_addon::initialize();
-        rex_package_manager::synchronizeWithFileSystem();
+        rex_addon_manager::synchronizeWithFileSystem();
 
         // enlist activated packages to ensure that all their classess are known in autoloader and can be referenced in other package's install.php
         foreach (rex::getPackageOrder() as $packageId) {
-            rex_package::require($packageId)->enlist();
+            rex_addon::require($packageId)->enlist();
         }
         foreach (rex::getPackageOrder() as $packageId) {
-            $package = rex_package::require($packageId);
-            $manager = rex_package_manager::factory($package);
+            $package = rex_addon::require($packageId);
+            $manager = rex_addon_manager::factory($package);
 
             if (!$manager->install()) {
                 $error .= '<li>' . rex_escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';

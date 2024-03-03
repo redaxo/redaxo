@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\metainfo
- *
  * @internal
  */
 class rex_metainfo_media_handler extends rex_metainfo_handler
@@ -14,7 +12,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
      *
      * @throws rex_exception
      *
-     * @return string[]
+     * @return list<string>
      */
     public static function isMediaInUse(rex_extension_point $ep)
     {

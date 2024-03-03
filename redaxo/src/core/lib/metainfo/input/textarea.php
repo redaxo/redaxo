@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\metainfo
- *
  * @internal
  *
  * @extends rex_input<string>

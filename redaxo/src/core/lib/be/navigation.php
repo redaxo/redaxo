@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core\backend
- */
 class rex_be_navigation
 {
     use rex_factory_trait;
@@ -103,7 +100,7 @@ class rex_be_navigation
     }
 
     /**
-     * @param rex_be_page[] $blockPages
+     * @param array<rex_be_page> $blockPages
      *
      * @return array
      */

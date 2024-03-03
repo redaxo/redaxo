@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Cronjob optimize_tables.
- *
- * @author gharlan[at]web[dot]de Gregor Harlan
- *
- * @package redaxo\cronjob\optimize-tables
- */
-
 class rex_cronjob_optimize_tables extends rex_cronjob
 {
     public function execute()

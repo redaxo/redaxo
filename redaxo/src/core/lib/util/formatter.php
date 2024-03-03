@@ -2,8 +2,6 @@
 
 /**
  * String formatter class.
- *
- * @package redaxo\core
  */
 abstract class rex_formatter
 {

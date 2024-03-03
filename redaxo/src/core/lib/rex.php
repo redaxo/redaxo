@@ -1,11 +1,9 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * REX base class for core properties etc.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex
 {
@@ -396,7 +394,7 @@ class rex
         return self::getProperty('console', null);
     }
 
-    public static function getRequest(): Symfony\Component\HttpFoundation\Request
+    public static function getRequest(): Request
     {
         $request = self::getProperty('request');
 

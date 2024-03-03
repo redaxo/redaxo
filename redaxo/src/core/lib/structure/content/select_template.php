@@ -1,14 +1,12 @@
 <?php
-/**
- * @package redaxo\structure\content
- */
+
 class rex_template_select extends rex_select
 {
     /** @var bool */
     private $loaded = false;
     /** @var int|null */
     private $categoryId;
-    /** @var string[]|null */
+    /** @var array<int, string>|null */
     private $templates;
     /** @var int */
     private $clangId;
@@ -78,7 +76,7 @@ class rex_template_select extends rex_select
     }
 
     /**
-     * @return string[]
+     * @return array<int, string>
      */
     public function getTemplates()
     {

@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\structure\content
- */
 class rex_module_perm extends rex_complex_perm
 {
     /**

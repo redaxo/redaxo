@@ -2,10 +2,6 @@
 
 /**
  * Markdown parser.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_markdown
 {

@@ -58,7 +58,6 @@ if ('' != $warning) {
     echo rex_view::warning($warning);
 }
 
-/** @var rex_effect_abstract[] $effects */
 $effects = [];
 foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
     $effects[$shortName] = new $class();

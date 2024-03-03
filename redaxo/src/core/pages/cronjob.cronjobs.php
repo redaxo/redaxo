@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Cronjob Addon.
- *
- * @author gharlan[at]web[dot]de Gregor Harlan
- */
-
 $func = rex_request('func', 'string');
 $oid = rex_request('oid', 'int');
 
@@ -144,10 +138,14 @@ if ('' == $func) {
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('cronjob_name'));
-    $field->getValidator()->add('notEmpty', rex_i18n::msg('cronjob_error_no_name'));
+    $field->getValidator()
+        ->add(rex_validation_rule::NOT_EMPTY, rex_i18n::msg('cronjob_error_no_name'))
+        ->add(rex_validation_rule::MAX_LENGTH, null, 255)
+    ;
 
     $field = $form->addTextAreaField('description');
     $field->setLabel(rex_i18n::msg('description'));
+    $field->getValidator()->add(rex_validation_rule::MAX_LENGTH, null, 255);
 
     $field = $form->addCheckboxField('environment');
     $field->setLabel(rex_i18n::msg('cronjob_environment'));

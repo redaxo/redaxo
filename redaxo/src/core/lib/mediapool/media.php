@@ -2,8 +2,6 @@
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab.
- *
- * @package redaxo\mediapool
  */
 #[AllowDynamicProperties]
 class rex_media
@@ -108,7 +106,7 @@ class rex_media
     }
 
     /**
-     * @return static[]
+     * @return list<static>
      */
     public static function getRootMedia()
     {

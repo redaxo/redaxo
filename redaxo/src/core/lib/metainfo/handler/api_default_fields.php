@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\metainfo
- *
  * @internal
  */
 class rex_api_metainfo_default_fields_create extends rex_api_function

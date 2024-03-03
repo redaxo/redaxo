@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\install
- *
  * @internal
  */
 abstract class rex_install_package_download

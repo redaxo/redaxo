@@ -2,10 +2,6 @@
 
 /**
  * Utility class to generate absolute paths.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_path
 {

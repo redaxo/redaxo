@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @author staabm
- *
- * @package redaxo\core
- */
 class rex_version
 {
     private function __construct()

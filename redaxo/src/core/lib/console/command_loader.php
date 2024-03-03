@@ -4,13 +4,11 @@ use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
 /**
- * @package redaxo\core
- *
  * @internal
  */
 class rex_console_command_loader implements CommandLoaderInterface
 {
-    /** @var array<string, array{class: class-string<rex_console_command>, package?: rex_package}> */
+    /** @var array<string, array{class: class-string<rex_console_command>, package?: rex_addon}> */
     private $commands = [];
 
     public function __construct()
@@ -48,7 +46,7 @@ class rex_console_command_loader implements CommandLoaderInterface
             $this->commands[$command] = ['class' => $class];
         }
 
-        foreach (rex_package::getAvailablePackages() as $package) {
+        foreach (rex_addon::getAvailableAddons() as $package) {
             /** @var array<string, class-string<rex_console_command>> $commands */
             $commands = $package->getProperty('console_commands');
 
