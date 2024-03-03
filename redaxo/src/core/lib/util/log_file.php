@@ -1,12 +1,7 @@
 <?php
 
 /**
- * Log file class.
- *
- * @author gharlan
- *
  * @implements Iterator<int, rex_log_entry>
- * @package redaxo\core
  */
 class rex_log_file implements Iterator
 {
@@ -201,13 +196,6 @@ class rex_log_file implements Iterator
     }
 }
 
-/**
- * Log entry class.
- *
- * @author gharlan
- *
- * @package redaxo\core
- */
 class rex_log_entry
 {
     public const DATE_FORMAT = 'Y-m-d\TH:i:sP';

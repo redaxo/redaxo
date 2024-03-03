@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\structure
- *
  * @internal
  */
 class rex_structure_context

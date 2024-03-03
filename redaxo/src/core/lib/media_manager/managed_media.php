@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\media-manager
- */
 class rex_managed_media
 {
     public const PROP_JPG_QUALITY = 'jpg_quality';

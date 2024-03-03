@@ -1,14 +1,7 @@
 <?php
 
 /**
- * Finder.
- *
- * @author staabm
- * @author gharlan
- *
  * @implements IteratorAggregate<string, SplFileInfo>
- *
- * @package redaxo\core
  */
 class rex_finder implements IteratorAggregate, Countable
 {

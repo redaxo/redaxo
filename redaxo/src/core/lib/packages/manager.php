@@ -1,11 +1,7 @@
 <?php
 
 /**
- * Manager class for packages.
- *
  * @template-covariant T as rex_package
- *
- * @package redaxo\core\packages
  */
 abstract class rex_package_manager
 {

@@ -2,10 +2,6 @@
 
 /**
  * Class for var casting.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_type
 {

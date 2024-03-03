@@ -2,10 +2,6 @@
 
 /**
  * Utility class to generate relative URLs.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_url
 {

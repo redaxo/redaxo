@@ -5,10 +5,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * @package redaxo\core
- *
- * @author staabm
- *
  * @internal
  */
 class rex_command_assets_sync extends rex_console_command

@@ -5,10 +5,6 @@ use Psr\Log\LogLevel;
 
 /**
  * Simple Logger class.
- *
- * @author staabm
- *
- * @package redaxo\core
  */
 class rex_logger extends AbstractLogger
 {

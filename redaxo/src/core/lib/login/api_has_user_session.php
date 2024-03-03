@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\core\login
- *
  * @internal
  */
 class rex_api_has_user_session extends rex_api_function

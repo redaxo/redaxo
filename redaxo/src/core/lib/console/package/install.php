@@ -7,8 +7,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * @package redaxo\core
- *
  * @internal
  */
 class rex_command_package_install extends rex_console_command

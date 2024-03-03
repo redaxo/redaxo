@@ -5,8 +5,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package redaxo\install
- *
  * @internal
  */
 class rex_command_install_download extends rex_console_command

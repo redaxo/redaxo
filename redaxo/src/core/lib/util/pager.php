@@ -3,10 +3,6 @@
 /**
  * The rex_pager-class implements all the logic
  * which is necessary to implement some sort of pagination.
- *
- * @author staabm
- *
- * @package redaxo\core
  */
 class rex_pager
 {

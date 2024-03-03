@@ -7,10 +7,6 @@
  * Thereby it is safe to call `rex_package::get(...)->isAvailable()` and `isInstalled()`.
  * Other methods should not be called on null-packages since they do not return useful values.
  * Some methods like `getPath()` throw exceptions.
- *
- * @author gharlan
- *
- * @package redaxo\core\packages
  */
 abstract class rex_null_package implements rex_package_interface
 {

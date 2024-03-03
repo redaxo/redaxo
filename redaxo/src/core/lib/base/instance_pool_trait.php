@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Instance Pool Trait.
- *
- * @author gharlan
- *
- * @package redaxo\core
- */
 trait rex_instance_pool_trait
 {
     /** @var array<class-string, array<string, static|null>> */

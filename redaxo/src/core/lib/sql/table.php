@@ -2,10 +2,6 @@
 
 /**
  * Class to represent sql tables.
- *
- * @author gharlan
- *
- * @package redaxo\core\sql
  */
 class rex_sql_table
 {

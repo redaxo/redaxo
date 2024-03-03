@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\backup
- */
 class rex_backup
 {
     public const IMPORT_ARCHIVE = 1;

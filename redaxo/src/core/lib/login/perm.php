@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Class for permissions.
- *
- * @author gharlan
- *
- * @package redaxo\core\login
- */
 abstract class rex_perm
 {
     public const GENERAL = 'general';

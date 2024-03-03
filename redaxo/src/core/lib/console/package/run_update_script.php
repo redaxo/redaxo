@@ -5,8 +5,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package redaxo\core
- *
  * @internal
  */
 class rex_command_package_run_update_script extends rex_console_command

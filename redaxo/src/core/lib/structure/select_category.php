@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\structure
- */
 class rex_category_select extends rex_select
 {
     /** @var bool */

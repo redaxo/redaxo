@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\metainfo
- *
  * @internal
  */
 class rex_metainfo_clang_handler extends rex_metainfo_handler

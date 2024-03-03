@@ -9,10 +9,6 @@ use splitbrain\PHPArchive\Tar;
  * Diese Subklasse fixed ein paar Bugs gegenüber der
  * original Implementierung und erhoeht die Performanz
  *
- * @author  Markus Staab
- *
- * @package redaxo\backup
- *
  * @internal
  */
 class rex_backup_tar

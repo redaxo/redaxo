@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\media-manager
- */
 class rex_effect_filter_blur extends rex_effect_abstract
 {
     private const OPTIONS = ['', 'gaussian', 'selective'];

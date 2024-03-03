@@ -2,8 +2,6 @@
 
 /**
  * REX_TEMPLATE[2].
- *
- * @package redaxo\structure\content
  */
 class rex_var_template extends rex_var
 {

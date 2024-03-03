@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo\media-manager
- */
-
 class rex_effect_image_format extends rex_effect_abstract
 {
     private const CONVERT_TYPES = [

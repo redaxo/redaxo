@@ -1,12 +1,6 @@
 <?php
 
 /**
- * URL Funktionen.
- *
- * @package redaxo\structure
- */
-
-/**
  * Gibt eine Url zu einem Artikel zurück.
  *
  * @param int|string|null $id
@@ -14,8 +8,6 @@
  * @param array $params Array von Parametern
  *
  * @return string
- *
- * @package redaxo\structure
  */
 function rex_getUrl($id = null, $clang = null, array $params = [])
 {
@@ -61,8 +53,6 @@ function rex_getUrl($id = null, $clang = null, array $params = [])
  *
  * @throws InvalidArgumentException
  * @return never
- *
- * @package redaxo\structure
  */
 function rex_redirect($articleId, $clang = null, array $params = [])
 {

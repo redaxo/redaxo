@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Class for user roles.
- *
- * @author gharlan
- *
- * @package redaxo\users
- */
 class rex_user_role implements rex_user_role_interface
 {
     /**

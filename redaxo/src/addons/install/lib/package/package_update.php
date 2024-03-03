@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\install
- *
  * @internal
  *
  * @psalm-suppress MissingConstructor

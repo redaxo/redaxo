@@ -6,8 +6,6 @@ use voku\helper\AntiXSS;
 
 /**
  * String utility class.
- *
- * @package redaxo\core
  */
 class rex_string
 {

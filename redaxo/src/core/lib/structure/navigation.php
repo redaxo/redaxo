@@ -2,8 +2,6 @@
 
 /**
  * Klasse zum Erstellen von Navigationen.
- *
- * @package redaxo\structure
  */
 
 /*

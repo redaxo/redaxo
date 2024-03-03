@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\media-manager
- */
 class rex_effect_header extends rex_effect_abstract
 {
     public function execute()

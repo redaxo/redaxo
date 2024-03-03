@@ -1,6 +1,7 @@
 <?php
+
 /**
- * @package redaxo\structure
+ * @internal
  */
 class rex_api_article_move extends rex_api_function
 {

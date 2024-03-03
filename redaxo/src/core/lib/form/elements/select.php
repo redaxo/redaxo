@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core\form
- */
 class rex_form_select_element extends rex_form_element
 {
     /** @var rex_select */

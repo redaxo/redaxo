@@ -1,12 +1,6 @@
 <?php
 
 /**
- * MetaForm Addon.
- *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
- * @package redaxo\metainfo
- *
  * @internal
  */
 class rex_metainfo_table_expander extends rex_form

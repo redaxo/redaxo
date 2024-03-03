@@ -7,8 +7,6 @@ require dirname(__DIR__) . '/bootstrap.php';
 ini_set('pcre.jit', 0);
 
 /**
- * @package redaxo\core
- *
  * @internal
  */
 class rex_release

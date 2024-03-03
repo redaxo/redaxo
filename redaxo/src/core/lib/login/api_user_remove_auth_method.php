@@ -1,7 +1,6 @@
 <?php
 
 /**
- * @package redaxo\core\login
  * @internal
  */
 class rex_api_user_remove_auth_method extends rex_api_function

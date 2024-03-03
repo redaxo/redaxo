@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core
- */
 class rex_exception extends Exception
 {
     /**
@@ -14,9 +11,6 @@ class rex_exception extends Exception
     }
 }
 
-/**
- * @package redaxo\core
- */
 class rex_sql_exception extends rex_exception
 {
     /** @var rex_sql|null */
@@ -53,22 +47,16 @@ class rex_sql_exception extends rex_exception
 
 /**
  * Exception class when redaxo is unable to connect to the database.
- *
- * @package redaxo\core
  */
 class rex_sql_could_not_connect_exception extends rex_sql_exception {}
 
 /**
  * Exception class for user-friendly error messages.
- *
- * @package redaxo\core
  */
 class rex_functional_exception extends rex_exception {}
 
 /**
  * Exception class for http-status code handling.
- *
- * @package redaxo\core
  */
 class rex_http_exception extends rex_exception
 {
@@ -95,7 +83,5 @@ class rex_http_exception extends rex_exception
 
 /**
  * Exception class for yaml parse errors.
- *
- * @package redaxo\core
  */
 class rex_yaml_parse_exception extends rex_exception {}

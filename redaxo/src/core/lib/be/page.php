@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Backend Page Class.
- *
- * @package redaxo\core\backend
- */
 class rex_be_page
 {
     /** @var string */

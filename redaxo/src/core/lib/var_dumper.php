@@ -8,9 +8,6 @@ use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\VarDumper;
 
-/**
- * @package redaxo\core
- */
 abstract class rex_var_dumper
 {
     /** @var VarCloner|null */

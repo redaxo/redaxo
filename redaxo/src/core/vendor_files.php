@@ -1,18 +1,5 @@
 <?php
 
-/**
- * Backendstyle Addon.
- *
- * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
- * @author <a href="https://www.yakamara.de">www.yakamara.de</a>
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * @author <a href="https://www.redaxo.org">www.redaxo.org</a>
- * @author redaxo[at]madiko[dot]com Franziska K&ouml;ppe
- * @author <a href="https://madiko.com">www.madiko.com</a>
- *
- * @package redaxo\be-style
- */
-
 return [
     'vendor/bootstrap/assets/javascripts/bootstrap.js' => 'js/bootstrap.js',
     'vendor/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.eot' => 'fonts/bootstrap/glyphicons-halflings-regular.eot',

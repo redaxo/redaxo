@@ -2,8 +2,6 @@
 
 /**
  * @extends rex_package_manager<rex_addon>
- *
- * @package redaxo\core\packages
  */
 class rex_addon_manager extends rex_package_manager
 {

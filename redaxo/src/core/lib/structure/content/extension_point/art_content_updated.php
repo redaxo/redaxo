@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\structure\content
- *
  * @extends rex_extension_point<string>
  */
 class rex_extension_point_art_content_updated extends rex_extension_point

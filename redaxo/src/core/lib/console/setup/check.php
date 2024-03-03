@@ -4,10 +4,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package redaxo\core
- *
- * @author staabm
- *
  * @internal
  */
 class rex_command_setup_check extends rex_console_command

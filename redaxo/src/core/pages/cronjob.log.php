@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Cronjob Addon.
- *
- * @author gharlan[at]web[dot]de Gregor Harlan
- */
-
 $func = rex_request('func', 'string');
 $error = '';
 $success = '';

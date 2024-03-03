@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core
- */
 final class rex_validation_rule
 {
     public const NOT_EMPTY = 'notEmpty';

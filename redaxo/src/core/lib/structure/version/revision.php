@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\structure\version
- */
 class rex_article_revision
 {
     public const LIVE = 0; // live revision
