@@ -58,7 +58,7 @@ class rex_form_element
     // --------- Attribute setter/getters
 
     /**
-     * @param string|string[]|int|null $value
+     * @param string|list<string>|int|null $value
      * @return void
      */
     public function setValue($value)
@@ -354,9 +354,7 @@ class rex_form_element
         $value = $this->getValue();
         $tag = rex_escape($this->getTag(), 'html_attr');
 
-        if ($this->isRequiredField()) {
-            $this->setAttribute('required', 'required');
-        }
+        $this->setValidationAttributes();
 
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
             $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
@@ -449,5 +447,21 @@ class rex_form_element
         }
 
         return false;
+    }
+
+    private function setValidationAttributes(): void
+    {
+        if ($this->isRequiredField()) {
+            $this->setAttribute('required', 'required');
+        }
+
+        foreach ($this->getValidator()->getRules() as $rule) {
+            if (rex_validation_rule::MIN_LENGTH == $rule->getType()) {
+                $this->setAttribute('minlength', (int) $rule->getOption());
+            }
+            if (rex_validation_rule::MAX_LENGTH == $rule->getType()) {
+                $this->setAttribute('maxlength', (int) $rule->getOption());
+            }
+        }
     }
 }

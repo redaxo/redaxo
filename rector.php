@@ -37,69 +37,61 @@ use Redaxo\Rector\Util\UnderscoreCamelCasePropertyRenamer;
 
 require_once __DIR__ . '/.tools/rector/autoload.php';
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->bootstrapFiles([
+return RectorConfig::configure()
+    ->withBootstrapFiles([
         __DIR__ . '/.tools/constants.php',
-    ]);
-
-    // this list will grow over time.
-    // to make sure we can review every transformation and not introduce unseen bugs
-    $rectorConfig->paths([
+    ])
+    ->withPaths([
         // restrict to core and core addons, ignore other locally installed addons
         'redaxo/src/core/',
         'redaxo/src/addons/debug/',
         'redaxo/src/addons/install/',
         'redaxo/src/addons/project/',
-    ]);
-
-    $rectorConfig->skip([
+    ])
+    ->withSkip([
         FirstClassCallableRector::class => ['redaxo/src/core/boot.php'],
-    ]);
+    ])
+    ->withParallel()
+    ->withPhpVersion(PhpVersion::PHP_83)
+    ->withImportNames()
+    ->registerService(UnderscoreCamelCaseConflictingNameGuard::class)
+    ->registerService(UnderscoreCamelCaseExpectedNameResolver::class)
+    ->registerService(UnderscoreCamelCasePropertyRenamer::class)
+    ->withRules([
+        ChangeSwitchToMatchRector::class,
+        CleanupUnneededNullsafeOperatorRector::class,
+        CombinedAssignRector::class,
+        FirstClassCallableRector::class,
+        IfIssetToCoalescingRector::class,
+        InlineConstructorDefaultToPropertyRector::class,
+        RemoveUnusedVariableInCatchRector::class,
+        SimplifyBoolIdenticalTrueRector::class,
+        SimplifyConditionsRector::class,
+        SimplifyDeMorganBinaryRector::class,
+        SimplifyForeachToCoalescingRector::class,
+        SimplifyIfReturnBoolRector::class,
+        SimplifyRegexPatternRector::class,
+        SingleInArrayToCompareRector::class,
+        StrContainsRector::class,
+        StrEndsWithRector::class,
+        StrStartsWithRector::class,
+        TernaryToNullCoalescingRector::class,
+        UnnecessaryTernaryExpressionRector::class,
 
-    $rectorConfig->parallel();
-
-    $rectorConfig->phpVersion(PhpVersion::PHP_83);
-
-    // we will grow this rector list step by step.
-    // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
-    $rectorConfig->rule(ChangeSwitchToMatchRector::class);
-    $rectorConfig->rule(CleanupUnneededNullsafeOperatorRector::class);
-    $rectorConfig->rule(CombinedAssignRector::class);
-    $rectorConfig->rule(FirstClassCallableRector::class);
-    $rectorConfig->rule(IfIssetToCoalescingRector::class);
-    $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
-    $rectorConfig->rule(RemoveUnusedVariableInCatchRector::class);
-    $rectorConfig->rule(SimplifyBoolIdenticalTrueRector::class);
-    $rectorConfig->rule(SimplifyConditionsRector::class);
-    $rectorConfig->rule(SimplifyDeMorganBinaryRector::class);
-    $rectorConfig->rule(SimplifyForeachToCoalescingRector::class);
-    $rectorConfig->rule(SimplifyIfReturnBoolRector::class);
-    $rectorConfig->rule(SimplifyRegexPatternRector::class);
-    $rectorConfig->rule(SingleInArrayToCompareRector::class);
-    $rectorConfig->rule(StrContainsRector::class);
-    $rectorConfig->rule(StrEndsWithRector::class);
-    $rectorConfig->rule(StrStartsWithRector::class);
-    $rectorConfig->rule(TernaryToNullCoalescingRector::class);
-
-    // Util services for own rules;
-    $rectorConfig->singleton(UnderscoreCamelCaseConflictingNameGuard::class);
-    $rectorConfig->singleton(UnderscoreCamelCaseExpectedNameResolver::class);
-    $rectorConfig->singleton(UnderscoreCamelCasePropertyRenamer::class);
-
-    // Own rules
-    $rectorConfig->rule(UnderscoreToCamelCasePropertyNameRector::class);
-    $rectorConfig->rule(UnderscoreToCamelCaseVariableNameRector::class);
-    $rectorConfig->rule(UnnecessaryTernaryExpressionRector::class);
+        // Own rules
+        UnderscoreToCamelCasePropertyNameRector::class,
+        UnderscoreToCamelCaseVariableNameRector::class,
+    ])
 
     // Upgrade REDAXO 5 to 6
-    $rectorConfig->ruleWithConfiguration(RenameMethodRector::class, [
+    ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(rex_managed_media::class, 'getImageWidth', 'getWidth'),
         new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
-    ]);
-    $rectorConfig->ruleWithConfiguration(RemoveFuncCallArgRector::class, [
+    ])
+    ->withConfiguredRule(RemoveFuncCallArgRector::class, [
         new RemoveFuncCallArg('rex_getUrl', 3),
-    ]);
-    $rectorConfig->ruleWithConfiguration(ArgumentRemoverRector::class, [
+    ])
+    ->withConfiguredRule(ArgumentRemoverRector::class, [
         new ArgumentRemover(rex_string::class, 'buildQuery', 1, null),
         new ArgumentRemover(rex_url_provider_interface::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_url::class, 'frontendController', 1, null),
@@ -111,5 +103,5 @@ return static function (RectorConfig $rectorConfig): void {
         new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
         new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_media_manager::class, 'getUrl', 3, null),
-    ]);
-};
+    ])
+;

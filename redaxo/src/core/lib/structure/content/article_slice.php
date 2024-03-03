@@ -225,7 +225,7 @@ class rex_article_slice
      * @param int $revision
      * @param bool $ignoreOfflines
      *
-     * @return self[]
+     * @return list<self>
      */
     public static function getSlicesForArticle($anArticleId, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
@@ -249,7 +249,7 @@ class rex_article_slice
      * @param int $revision
      * @param bool $ignoreOfflines
      *
-     * @return self[]
+     * @return list<self>
      */
     public static function getSlicesForArticleOfType($anArticleId, $aModuletypeId, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
@@ -325,7 +325,7 @@ class rex_article_slice
      * @param literal-string $where
      * @param self::ORDER_* $orderDirection
      *
-     * @return self[]
+     * @return list<self>
      */
     protected static function getSlicesWhere($where, array $params = [], string $orderDirection = 'ASC', ?int $limit = null)
     {

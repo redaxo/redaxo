@@ -108,7 +108,7 @@ class rex_media
     }
 
     /**
-     * @return static[]
+     * @return list<static>
      */
     public static function getRootMedia()
     {

@@ -39,7 +39,7 @@ class rex_backup
     /**
      * @param self::IMPORT_*|string $fileType
      *
-     * @return string[]
+     * @return list<string>
      */
     public static function getBackupFiles($fileType)
     {
@@ -253,7 +253,7 @@ class rex_backup
      * Dieser wird in der Datei $filename gespeichert.
      *
      * @param string $filename
-     * @param string[] $tables
+     * @param array<string>|null $tables
      *
      * @return bool TRUE wenn ein Dump erstellt wurde, sonst FALSE
      */
@@ -370,7 +370,7 @@ class rex_backup
      * Exportiert alle Ordner $folders aus dem Verzeichnis /files.
      * Wenn $archivePath übergeben wird, wird das Achive mittels Streaming gebaut, sodass sehr große Exporte möglich sind.
      *
-     * @param string[] $folders Array von Ordnernamen, die exportiert werden sollen
+     * @param array<string> $folders Array von Ordnernamen, die exportiert werden sollen
      * @param string|null $archivePath Pfad, wo das archiv angelegt werden soll
      *
      * @return string|null Inhalt des Tar-Archives als string, wenn $archivePath nicht uebergeben wurde - sonst null
@@ -396,7 +396,7 @@ class rex_backup
     }
 
     /**
-     * @param string[] $folders
+     * @param array<string> $folders
      * @param string $archivePath
      * @return void
      */

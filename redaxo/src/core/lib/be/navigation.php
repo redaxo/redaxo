@@ -103,7 +103,7 @@ class rex_be_navigation
     }
 
     /**
-     * @param rex_be_page[] $blockPages
+     * @param array<rex_be_page> $blockPages
      *
      * @return array
      */
