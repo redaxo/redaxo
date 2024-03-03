@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Rector\Arguments\Rector\ClassMethod\ReplaceArgumentDefaultValueRector;
+use Rector\Arguments\ValueObject\ReplaceArgumentDefaultValue;
 use Rector\CodeQuality\Rector\Assign\CombinedAssignRector;
 use Rector\CodeQuality\Rector\BooleanNot\SimplifyDeMorganBinaryRector;
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
@@ -22,6 +24,14 @@ use Rector\Php80\Rector\Identical\StrStartsWithRector;
 use Rector\Php80\Rector\NotIdentical\StrContainsRector;
 use Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector;
 use Rector\Php81\Rector\Array_\FirstClassCallableRector;
+use Rector\Removing\Rector\ClassMethod\ArgumentRemoverRector;
+use Rector\Removing\Rector\FuncCall\RemoveFuncCallArgRector;
+use Rector\Removing\ValueObject\ArgumentRemover;
+use Rector\Removing\ValueObject\RemoveFuncCallArg;
+use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
+use Rector\Renaming\ValueObject\MethodCallRename;
+use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
+use Rector\Transform\ValueObject\ConstFetchToClassConstFetch;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Rector\Rule\UnderscoreToCamelCasePropertyNameRector;
 use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
@@ -75,5 +85,54 @@ return RectorConfig::configure()
         // Own rules
         UnderscoreToCamelCasePropertyNameRector::class,
         UnderscoreToCamelCaseVariableNameRector::class,
+    ])
+
+    // Upgrade REDAXO 5 to 6
+    ->withConfiguredRule(RenameMethodRector::class, [
+        new MethodCallRename(rex_password_policy::class, 'getRule', 'getDescription'),
+        new MethodCallRename(rex_article_content_base::class, 'getClang', 'getClangId'),
+        new MethodCallRename(rex_article_slice::class, 'getClang', 'getClangId'),
+        new MethodCallRename(rex_structure_element::class, 'getClang', 'getClangId'),
+        new MethodCallRename(rex_managed_media::class, 'getImageWidth', 'getWidth'),
+        new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
+        new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
+    ])
+    ->withConfiguredRule(RemoveFuncCallArgRector::class, [
+        new RemoveFuncCallArg('rex_getUrl', 3),
+    ])
+    ->withConfiguredRule(ArgumentRemoverRector::class, [
+        new ArgumentRemover(rex_string::class, 'buildQuery', 1, null),
+        new ArgumentRemover(rex_url_provider_interface::class, 'getUrl', 1, null),
+        new ArgumentRemover(rex_url::class, 'frontendController', 1, null),
+        new ArgumentRemover(rex_url::class, 'backendController', 1, null),
+        new ArgumentRemover(rex_url::class, 'backendPage', 2, null),
+        new ArgumentRemover(rex_url::class, 'currentBackendPage', 1, null),
+        new ArgumentRemover(rex_form_base::class, 'getUrl', 1, null),
+        new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
+        new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
+        new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
+        new ArgumentRemover(rex_media_manager::class, 'getUrl', 3, null),
+    ])
+    ->withConfiguredRule(ReplaceArgumentDefaultValueRector::class, [
+        new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_ADDED', 'SLICE_ADDED'),
+        new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_UPDATED', 'SLICE_UPDATED'),
+        new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_DELETED', 'SLICE_DELETED'),
+    ])
+    ->withConfiguredRule(ConstFetchToClassConstFetchRector::class, [
+        new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', rex_form::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TEXT', rex_metainfo_table_manager::class, 'FIELD_TEXT'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TEXTAREA', rex_metainfo_table_manager::class, 'FIELD_TEXTAREA'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_SELECT', rex_metainfo_table_manager::class, 'FIELD_SELECT'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_RADIO', rex_metainfo_table_manager::class, 'FIELD_RADIO'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_CHECKBOX', rex_metainfo_table_manager::class, 'FIELD_CHECKBOX'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_MEDIA_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_MEDIA_WIDGET'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_MEDIALIST_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_MEDIALIST_WIDGET'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_LINK_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_LINK_WIDGET'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_LINKLIST_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_LINKLIST_WIDGET'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_DATE', rex_metainfo_table_manager::class, 'FIELD_DATE'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_DATETIME', rex_metainfo_table_manager::class, 'FIELD_DATETIME'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_LEGEND', rex_metainfo_table_manager::class, 'FIELD_LEGEND'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TIME', rex_metainfo_table_manager::class, 'FIELD_TIME'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_COUNT', rex_metainfo_table_manager::class, 'FIELD_COUNT'),
     ])
 ;
