@@ -194,6 +194,7 @@ if ('' == $func) {
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('media_manager_type_name'));
+    $field->disableSpellcheckAndAutoCorrect();
     $field->getValidator()
         ->add(rex_validation_rule::NOT_EMPTY, rex_i18n::msg('media_manager_error_name'))
         ->add(rex_validation_rule::NOT_MATCH, rex_i18n::msg('media_manager_error_type_name_invalid'), '{[/\\\\]}')
