@@ -4,7 +4,7 @@ echo rex_view::title(rex_i18n::msg('addons'), '');
 
 // the package manager don't know new packages in the addon folder
 // so we need to make them available
-rex_package_manager::synchronizeWithFileSystem();
+rex_addon_manager::synchronizeWithFileSystem();
 
 $fragment = new rex_fragment();
 $fragment->setVar('id', 'rex-js-available-addon-search');

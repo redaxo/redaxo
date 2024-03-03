@@ -1,13 +1,10 @@
 <?php
 
-/**
- * @template-covariant T as rex_addon
- */
-abstract class rex_package_manager
+abstract class rex_addon_manager
 {
     use rex_factory_trait;
 
-    /** @var T */
+    /** @var rex_addon */
     protected $package;
 
     /** @var bool */
@@ -16,17 +13,9 @@ abstract class rex_package_manager
     /** @var string */
     protected $message;
 
-    /** @var string */
-    private $i18nPrefix;
-
-    /**
-     * @param T $package Package
-     * @param string $i18nPrefix Prefix for i18n
-     */
-    protected function __construct(rex_addon $package, $i18nPrefix)
+    protected function __construct(rex_addon $package)
     {
         $this->package = $package;
-        $this->i18nPrefix = $i18nPrefix;
     }
 
     /**
@@ -35,10 +24,6 @@ abstract class rex_package_manager
      * @param rex_addon $package Package
      *
      * @return static
-     *
-     * @template TS as rex_addon
-     * @psalm-param TS $package
-     * @psalm-return (TS is rex_addon ? rex_addon_manager : self)
      */
     public static function factory(rex_addon $package)
     {
@@ -371,7 +356,10 @@ abstract class rex_package_manager
      *
      * @return string
      */
-    abstract protected function wrongPackageId($addonName);
+    protected function wrongPackageId($addonName)
+    {
+        return $this->i18n('wrong_dir_name', $addonName);
+    }
 
     /**
      * Checks whether the requirements are met.
@@ -604,7 +592,7 @@ abstract class rex_package_manager
     protected function i18n($key)
     {
         $args = func_get_args();
-        $key = $this->i18nPrefix . $args[0];
+        $key = 'addon_' . $args[0];
         if (!rex_i18n::hasMsg($key)) {
             $key = 'package_' . $args[0];
         }

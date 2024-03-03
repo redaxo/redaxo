@@ -36,7 +36,7 @@ class rex_command_package_install extends rex_console_command
 
         // the package manager don't know new packages in the addon folder
         // so we need to make them available
-        rex_package_manager::synchronizeWithFileSystem();
+        rex_addon_manager::synchronizeWithFileSystem();
 
         $package = rex_addon::get($packageId);
         if (!$package instanceof rex_addon) {
@@ -53,7 +53,7 @@ class rex_command_package_install extends rex_console_command
             }
         }
 
-        $manager = rex_package_manager::factory($package);
+        $manager = rex_addon_manager::factory($package);
         $success = $manager->install();
         $message = $this->decodeMessage($manager->getMessage());
 

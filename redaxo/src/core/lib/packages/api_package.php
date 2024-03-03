@@ -29,7 +29,7 @@ class rex_api_package extends rex_api_function
             throw new rex_api_exception('Package "' . $packageId . '" doesn\'t exists!');
         }
         $reinstall = 'install' === $function && $package->isInstalled();
-        $manager = rex_package_manager::factory($package);
+        $manager = rex_addon_manager::factory($package);
         $success = rex_type::bool($manager->$function());
         $message = $manager->getMessage();
         $result = new rex_api_result($success, $message);

@@ -125,7 +125,7 @@ class rex_install_package_update extends rex_install_package_download
         // ---- update package order
         if ($this->addon->isAvailable()) {
             $this->addon->loadProperties(true);
-            rex_package_manager::generatePackageOrder();
+            rex_addon_manager::generatePackageOrder();
         }
 
         $this->addon->setProperty('version', $this->file['version']);
@@ -180,7 +180,7 @@ class rex_install_package_update extends rex_install_package_download
                 if ($package->getAddon() === $this->addon) {
                     continue;
                 }
-                $manager = rex_package_manager::factory($package);
+                $manager = rex_addon_manager::factory($package);
                 if (!$manager->checkPackageRequirement($this->addon->getPackageId())) {
                     $messages[] = $this->messageFromPackage($package, $manager);
                 }
@@ -201,7 +201,7 @@ class rex_install_package_update extends rex_install_package_download
         return empty($messages) ? true : '<ul><li>' . implode('</li><li>', $messages) . '</li></ul>';
     }
 
-    private function messageFromPackage(rex_addon $package, rex_package_manager $manager): string
+    private function messageFromPackage(rex_addon $package, rex_addon_manager $manager): string
     {
         return rex_i18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
     }

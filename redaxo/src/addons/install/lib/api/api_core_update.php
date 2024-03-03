@@ -207,7 +207,7 @@ class rex_api_install_core_update extends rex_api_function
                     $addon->loadProperties(true);
                 }
             }
-            rex_package_manager::generatePackageOrder();
+            rex_addon_manager::generatePackageOrder();
 
             // re-generate opcache to make sure new/updated classes immediately are available
             if (function_exists('opcache_reset')) {
@@ -264,7 +264,7 @@ class rex_api_install_core_update extends rex_api_function
         // ---- check requirements
         $messages = [];
         foreach (rex_addon::getAvailableAddons() as $package) {
-            $manager = rex_package_manager::factory($package);
+            $manager = rex_addon_manager::factory($package);
             if (!$manager->checkRequirements()) {
                 $messages[] = $this->messageFromPackage($package, $manager);
             } elseif (!$manager->checkConflicts()) {
@@ -289,7 +289,7 @@ class rex_api_install_core_update extends rex_api_function
         }
     }
 
-    private function messageFromPackage(rex_addon $package, rex_package_manager $manager): string
+    private function messageFromPackage(rex_addon $package, rex_addon_manager $manager): string
     {
         return rex_i18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
     }

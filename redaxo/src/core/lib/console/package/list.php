@@ -28,7 +28,7 @@ class rex_command_package_list extends rex_console_command
 
         // the package manager don't know new packages in the addon folder
         // so we need to make them available
-        rex_package_manager::synchronizeWithFileSystem();
+        rex_addon_manager::synchronizeWithFileSystem();
 
         $search = $input->getOption('search');
         $packageId = $input->getOption('package');
