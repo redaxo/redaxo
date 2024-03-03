@@ -22,7 +22,7 @@ class rex_null_addon implements rex_addon_interface
      */
     public function getAddon()
     {
-        return rex_null_addon::getInstance();
+        return self::getInstance();
     }
 
     public function getPackageId()

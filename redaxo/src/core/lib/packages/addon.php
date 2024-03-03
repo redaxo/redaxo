@@ -364,7 +364,7 @@ class rex_addon implements rex_addon_interface
         if ($cache) {
             unset($cache[$this->getPackageId()]);
 
-            if ($this instanceof rex_addon) {
+            if ($this instanceof self) {
                 $start = $this->getPackageId() . '/';
                 foreach ($cache as $packageId => $_) {
                     if (str_starts_with((string) $packageId, $start)) {
@@ -516,7 +516,6 @@ class rex_addon implements rex_addon_interface
         }
     }
 
-
     /**
      * Filters packages by the given method.
      *
@@ -526,7 +525,7 @@ class rex_addon implements rex_addon_interface
      */
     private static function filterPackages(array $packages, $method)
     {
-        return array_filter($packages, static function (\rex_addon $package) use ($method): bool {
+        return array_filter($packages, static function (rex_addon $package) use ($method): bool {
             $return = $package->$method();
             assert(is_bool($return));
 

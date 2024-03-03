@@ -672,7 +672,7 @@ class rex_addon_manager
         $addons = self::readPackageFolder(rex_path::src('addons'));
         $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
         foreach (array_diff($registeredAddons, $addons) as $addonName) {
-            $manager = rex_addon_manager::factory(rex_addon::require($addonName));
+            $manager = self::factory(rex_addon::require($addonName));
             $manager->_delete(true);
             unset($config[$addonName]);
         }
