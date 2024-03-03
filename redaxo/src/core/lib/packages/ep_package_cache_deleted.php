@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @extends rex_extension_point<rex_package>
+ * @extends rex_extension_point<rex_addon>
  */
 final class rex_extension_point_package_cache_deleted extends rex_extension_point
 {

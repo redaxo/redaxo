@@ -3,9 +3,9 @@
 /**
  * Represents a null addon.
  *
- * Instances of this class are returned by `rex_package::get()` for non-existing packages.
- * Thereby it is safe to call `rex_package::get(...)->isAvailable()` and `isInstalled()`.
- * Other methods should not be called on null-packages since they do not return useful values.
+ * Instances of this class are returned by `rex_addon::get()` for non-existing addons.
+ * Thereby it is safe to call `rex_addon::get(...)->isAvailable()` and `isInstalled()`.
+ * Other methods should not be called on null-addons since they do not return useful values.
  * Some methods like `getPath()` throw exceptions.
  */
 abstract class rex_null_addon implements rex_addon_interface

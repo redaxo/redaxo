@@ -16,7 +16,7 @@ class rex_var_property extends rex_var
             return false;
         }
         $namespace = $this->getParsedArg('namespace');
-        $base = $namespace ? 'rex_package::get(' . $namespace . ')->' : 'rex::';
+        $base = $namespace ? rex_addon::class . '::get(' . $namespace . ')->' : rex::class . '::';
         return 'htmlspecialchars(' . $base . 'getProperty(' . $key . '))';
     }
 }

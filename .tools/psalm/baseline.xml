@@ -2807,19 +2807,24 @@
       <code><![CDATA[$field->getAttribute('id')]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/core/lib/packages/addons/addon.php">
+  <file src="redaxo/src/core/lib/packages/addon.php">
     <InvalidScalarArgument>
       <code><![CDATA[$args]]></code>
     </InvalidScalarArgument>
     <MixedArgument>
       <code><![CDATA[$args]]></code>
       <code><![CDATA[$args]]></code>
+      <code><![CDATA[$dir]]></code>
+      <code><![CDATA[$value]]></code>
     </MixedArgument>
-    <ParamNameMismatch>
-      <code><![CDATA[$addon]]></code>
-      <code><![CDATA[$addon]]></code>
-      <code><![CDATA[$addon]]></code>
-    </ParamNameMismatch>
+    <MixedAssignment>
+      <code><![CDATA[$dir]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/packages/manager.php">
     <LessSpecificReturnStatement>
@@ -2894,23 +2899,6 @@
     <MixedReturnStatement>
       <code><![CDATA[$default]]></code>
     </MixedReturnStatement>
-  </file>
-  <file src="redaxo/src/core/lib/packages/package.php">
-    <LessSpecificImplementedReturnType>
-      <code><![CDATA[string]]></code>
-    </LessSpecificImplementedReturnType>
-    <MixedArgument>
-      <code><![CDATA[$dir]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$dir]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/phpmailer/mailer.php">
     <MixedArgument>

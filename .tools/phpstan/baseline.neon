@@ -46,11 +46,6 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/api/api_core_update.php
 
 		-
-			message: "#^Method rex_api_install_core_update\\:\\:messageFromPackage\\(\\) has parameter \\$manager with generic class rex_package_manager but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/install/lib/api/api_core_update.php
-
-		-
 			message: "#^PHPDoc tag @var for variable \\$conflicts has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/api/api_core_update.php
@@ -62,11 +57,6 @@ parameters:
 
 		-
 			message: "#^Method rex_install_package_update\\:\\:checkRequirements\\(\\) has parameter \\$config with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/install/lib/package/package_update.php
-
-		-
-			message: "#^Method rex_install_package_update\\:\\:messageFromPackage\\(\\) has parameter \\$manager with generic class rex_package_manager but does not specify its types\\: T$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/package/package_update.php
 
@@ -1166,39 +1156,29 @@ parameters:
 			path: ../../redaxo/src/core/lib/metainfo/input/medialistbutton.php
 
 		-
-			message: "#^Method rex_package_interface\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: "#^Method rex_addon\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addon.php
+
+		-
+			message: "#^Property rex_addon\\:\\:\\$properties type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addon.php
+
+		-
+			message: "#^Method rex_addon_interface\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/interface.php
 
 		-
-			message: "#^If condition is always false\\.$#"
+			message: "#^Negated boolean expression is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/manager.php
 
 		-
-			message: "#^Method rex_package_manager\\:\\:factory\\(\\) return type with generic class rex_package_manager does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/manager.php
-
-		-
-			message: "#^Method rex_package_manager\\:\\:setFactoryClass\\(\\) has parameter \\$subclass with generic class rex_package_manager but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/manager.php
-
-		-
-			message: "#^Method rex_null_package\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: "#^Method rex_null_addon\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/null.php
-
-		-
-			message: "#^Method rex_package\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
-
-		-
-			message: "#^Property rex_package\\:\\:\\$properties type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
 
 		-
 			message: "#^Method rex_cronjob_mailer_purge\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"

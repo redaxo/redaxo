@@ -106,6 +106,9 @@ class rex_addon implements rex_addon_interface
         return $this->getName();
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function getName()
     {
         return $this->name;
