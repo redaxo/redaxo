@@ -209,7 +209,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $n = [];
         $n['label'] = '<label for="name">' . rex_i18n::msg('action_name') . '</label>';
-        $n['field'] = '<input class="form-control" type="text" id="name" name="name" value="' . rex_escape($name) . '" />';
+        $n['field'] = '<input class="form-control" type="text" id="name" name="name" value="' . rex_escape($name) . '" maxlength="255" />';
         $n['note'] = rex_i18n::msg('translatable');
         $formElements[] = $n;
 

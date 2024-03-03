@@ -232,13 +232,13 @@ if ('add' == $function || 'edit' == $function) {
 
         $n = [];
         $n['label'] = '<label for="mname">' . rex_i18n::msg('module_name') . '</label>';
-        $n['field'] = '<input class="form-control" id="mname" type="text" name="mname" value="' . rex_escape($mname) . '" />';
+        $n['field'] = '<input class="form-control" id="mname" type="text" name="mname" value="' . rex_escape($mname) . '" maxlength="255" />';
         $n['note'] = rex_i18n::msg('translatable');
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="mkey">' . rex_i18n::msg('module_key') . '</label>';
-        $n['field'] = '<input class="form-control" id="mkey" type="text" name="mkey" value="' . rex_escape($mkey) . '" />';
+        $n['field'] = '<input class="form-control" id="mkey" type="text" name="mkey" value="' . rex_escape($mkey) . '" maxlength="191" autocorrect="off" autocapitalize="off" />';
         $n['note'] = rex_i18n::msg('module_key_notice');
         $formElements[] = $n;
 
