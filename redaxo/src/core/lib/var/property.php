@@ -6,10 +6,6 @@
  * Arguments:
  *   - key
  *   - namespace
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_var_property extends rex_var
 {

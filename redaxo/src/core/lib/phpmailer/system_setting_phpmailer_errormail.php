@@ -2,10 +2,6 @@
 /**
  * Class for errormail setting to show in settings.
  *
- * @author Thomas Skerbis
- *
- * @package redaxo\phpmailer
- *
  * @internal
  */
 class rex_system_setting_phpmailer_errormail extends rex_system_setting

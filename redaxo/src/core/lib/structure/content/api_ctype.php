@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\structure\content
- */
 final class rex_ctype
 {
     /** @var positive-int */

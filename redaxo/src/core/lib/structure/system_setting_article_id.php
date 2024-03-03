@@ -3,10 +3,6 @@
 /**
  * Class for the start_article_id and notfound_article_id settings.
  *
- * @author gharlan
- *
- * @package redaxo\structure
- *
  * @internal
  */
 class rex_system_setting_article_id extends rex_system_setting

@@ -2,10 +2,6 @@
 
 /**
  * Class for rex_socket responses.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_socket_response
 {

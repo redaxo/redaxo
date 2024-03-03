@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\structure
- *
  * @internal
  *
  * XXX NOT USED ATM

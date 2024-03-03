@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\phpmailer
- */
 class rex_cronjob_mailer_purge extends rex_cronjob
 {
     private function purgeMailarchive(int $days = 7, string $dir = ''): int

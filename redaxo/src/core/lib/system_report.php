@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core
- */
 class rex_system_report
 {
     public const TITLE_REDAXO = 'REDAXO';

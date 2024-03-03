@@ -2,10 +2,6 @@
 
 /**
  * Class for generating and validating csrf tokens.
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 class rex_csrf_token
 {

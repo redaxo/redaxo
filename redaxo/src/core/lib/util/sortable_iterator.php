@@ -1,15 +1,9 @@
 <?php
 
 /**
- * Sortable iterator.
- *
- * @author gharlan
- *
  * @template TKey of array-key
  * @template TValue
  * @implements IteratorAggregate<TKey, TValue>
- *
- * @package redaxo\core
  */
 class rex_sortable_iterator implements IteratorAggregate
 {

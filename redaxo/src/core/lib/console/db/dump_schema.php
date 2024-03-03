@@ -5,10 +5,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package redaxo\core
- *
- * @author gharlan
- *
  * @internal
  */
 class rex_command_db_dump_schema extends rex_console_command

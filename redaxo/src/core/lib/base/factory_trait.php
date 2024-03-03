@@ -21,10 +21,6 @@
  *     }
  * }
  * </code>
- *
- * @author gharlan
- *
- * @package redaxo\core
  */
 trait rex_factory_trait
 {

@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\users
- *
  * @internal
  */
 class rex_form_perm_select_element extends rex_form_select_element

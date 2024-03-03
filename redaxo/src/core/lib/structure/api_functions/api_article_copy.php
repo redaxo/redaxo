@@ -1,7 +1,6 @@
 <?php
+
 /**
- * @package redaxo\structure
- *
  * @internal
  */
 class rex_api_article_copy extends rex_api_function

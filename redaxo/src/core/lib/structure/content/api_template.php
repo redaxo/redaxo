@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Template Objekt.
- * Zuständig für die Verarbeitung eines Templates.
- *
- * @package redaxo\structure\content
- */
 class rex_template
 {
     /** @var int */

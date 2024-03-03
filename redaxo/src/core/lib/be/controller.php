@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core\backend
- */
 class rex_be_controller
 {
     /** @var string */

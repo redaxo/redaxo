@@ -2,8 +2,6 @@
 
 /**
  * Erweiterung eines Artikels um slicemanagement.
- *
- * @package redaxo\structure\content
  */
 class rex_article_content_editor extends rex_article_content
 {

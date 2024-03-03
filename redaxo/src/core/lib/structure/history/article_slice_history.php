@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @author dergel
- *
- * @package redaxo\structure\history
- */
 class rex_article_slice_history
 {
     /**

@@ -1,13 +1,5 @@
 <?php
 
-/**
- * PHPMailer Addon.
- *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
- * @package redaxo\phpmailer
- */
-
 use PHPMailer\PHPMailer\PHPMailer;
 
 class rex_mailer extends PHPMailer

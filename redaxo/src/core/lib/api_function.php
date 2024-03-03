@@ -16,10 +16,6 @@
  * The api functions return meaningfull error messages which the caller may display to the end-user.
  *
  * Calling a api function with the backend-frontcontroller (index.php) requires a valid page parameter and the current user needs permissions to access the given page.
- *
- * @author staabm
- *
- * @package redaxo\core
  */
 abstract class rex_api_function
 {
@@ -263,11 +259,7 @@ abstract class rex_api_function
 /**
  * Class representing the result of a api function call.
  *
- * @author staabm
- *
  * @see rex_api_function
- *
- * @package redaxo\core
  */
 class rex_api_result
 {
@@ -391,10 +383,6 @@ class rex_api_result
  * Exception-Type to indicate exceptions in an api function.
  * The messages of this exception will be displayed to the end-user.
  *
- * @author staabm
- *
  * @see rex_api_function
- *
- * @package redaxo\core
  */
 class rex_api_exception extends rex_exception {}

@@ -2,8 +2,6 @@
 
 /**
  * Spiegel ein Bild.
- *
- * @package redaxo\media-manager
  */
 class rex_effect_flip extends rex_effect_abstract
 {

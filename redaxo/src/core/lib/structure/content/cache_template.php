@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\structure\content
- */
 class rex_template_cache
 {
     public static function delete(int $id): void

@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Cronjob article_status.
- *
- * @author gharlan[at]web[dot]de Gregor Harlan
- *
- * @package redaxo\cronjob\article-status
- */
-
 class rex_cronjob_article_status extends rex_cronjob
 {
     public function execute()

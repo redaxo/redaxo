@@ -5,9 +5,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * @package redaxo\core
- */
 abstract class rex_console_command extends Command
 {
     /** @var rex_package|null */

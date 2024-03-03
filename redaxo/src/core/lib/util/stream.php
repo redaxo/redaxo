@@ -10,10 +10,6 @@
  * ?>
  * </code>
  *
- * @author gharlan
- *
- * @package redaxo\core
- *
  * @see https://www.php.net/manual/en/class.streamwrapper.php
  */
 class rex_stream

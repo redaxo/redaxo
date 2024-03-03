@@ -2,10 +2,6 @@
 
 /**
  * Class to represent sql columns.
- *
- * @author gharlan
- *
- * @package redaxo\core\sql
  */
 class rex_sql_column
 {

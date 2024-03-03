@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core\form
- */
 class rex_form_container_element extends rex_form_element
 {
     /** @var array<string, list<rex_form_element>> */

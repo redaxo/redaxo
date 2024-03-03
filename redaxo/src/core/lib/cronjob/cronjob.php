@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Cronjob Addon.
- *
- * @author gharlan[at]web[dot]de Gregor Harlan
- *
- * @package redaxo\cronjob
- */
-
 abstract class rex_cronjob
 {
     /** @var array<string, mixed> */

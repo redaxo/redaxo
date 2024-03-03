@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Abstract base class for packages.
- *
- * @author gharlan
- *
- * @package redaxo\core\packages
- */
 abstract class rex_package implements rex_package_interface
 {
     public const FILE_PACKAGE = 'package.yml';

@@ -1,14 +1,6 @@
 <?php
 
 /**
- * MetaForm Addon.
- *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
- * @package redaxo\metainfo
- */
-
-/**
  * Fügt einen neuen Feldtyp ein.
  *
  * Gibt beim Erfolg die Id des Feldes zurück, bei Fehler die Fehlermeldung

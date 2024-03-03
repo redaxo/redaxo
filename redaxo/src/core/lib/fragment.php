@@ -7,8 +7,6 @@
  * @phpstan-method string getSubfragment(string $filename, array $params = [])
  * @phpstan-method string i18n(string $key, ...$replacements)
  * @phpstan-method mixed  escape($value, $strategy = 'html')
- *
- * @package redaxo\core
  */
 class rex_fragment
 {

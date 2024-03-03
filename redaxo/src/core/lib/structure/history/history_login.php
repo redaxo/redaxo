@@ -1,10 +1,6 @@
 <?php
 
 /**
- * @author dergel
- *
- * @package redaxo\structure\history
- *
  * @internal
  */
 class rex_history_login extends rex_backend_login

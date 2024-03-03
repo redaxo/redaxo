@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Addon Framework Classes.
- *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- */
-
 $message = '';
 
 if ('' != rex_post('btn_delete_archive', 'string')) {

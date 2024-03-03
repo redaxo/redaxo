@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\core\form
- */
 class rex_form_element
 {
     /** @var string|int|null */

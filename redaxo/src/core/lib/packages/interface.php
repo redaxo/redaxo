@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Interface for packages.
- *
- * @author gharlan
- *
- * @package redaxo\core\packages
- */
 interface rex_package_interface
 {
     /**

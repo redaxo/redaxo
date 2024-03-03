@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Clang class.
- *
- * @author gharlan
- *
- * @package redaxo\core
- */
 #[AllowDynamicProperties]
 class rex_clang
 {

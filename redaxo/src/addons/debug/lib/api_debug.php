@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\debug
- *
  * @internal
  */
 class rex_api_debug extends rex_api_function

@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @package redaxo\structure
- *
  * @internal
  */
 abstract class rex_linkmap_tree_renderer
@@ -116,8 +114,6 @@ abstract class rex_linkmap_tree_renderer
 }
 
 /**
- * @package redaxo\structure
- *
  * @internal
  */
 abstract class rex_linkmap_article_list_renderer

@@ -2,8 +2,6 @@
 
 /**
  * Abstract baseclass for REX_VARS.
- *
- * @package redaxo\core
  */
 abstract class rex_var
 {

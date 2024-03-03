@@ -2,8 +2,6 @@
 
 /**
  * Class for handling files.
- *
- * @package redaxo\core
  */
 class rex_file
 {

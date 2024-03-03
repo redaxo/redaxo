@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package redaxo\structure
- */
 class rex_article_service
 {
     /**

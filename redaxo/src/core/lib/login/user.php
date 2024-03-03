@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Class for users.
- *
- * @author gharlan
- *
- * @package redaxo\core\login
- */
 class rex_user
 {
     use rex_instance_pool_trait {

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Dreht ein Bild.
- *
- * @package redaxo\media-manager
- */
 class rex_effect_rotate extends rex_effect_abstract
 {
     private const OPTIONS = ['0', '90', '180', '270'];
