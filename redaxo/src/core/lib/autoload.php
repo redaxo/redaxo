@@ -1,5 +1,7 @@
 <?php
 
+use Composer\Autoload\ClassLoader;
+
 /**
  * REDAXO Autoloader.
  *
@@ -17,7 +19,7 @@ class rex_autoload
 
     private const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexsymfonycachevaluewrappernonutf8class';
 
-    /** @var Composer\Autoload\ClassLoader */
+    /** @var ClassLoader */
     protected static $composerLoader;
 
     /** @var bool */
@@ -30,11 +32,11 @@ class rex_autoload
     protected static $cacheDeleted = false;
     /** @var bool */
     protected static $reloaded = false;
-    /** @var string[][] */
+    /** @var array<string, array<string, string>> */
     protected static $dirs = [];
-    /** @var string[] */
+    /** @var list<string> */
     protected static $addedDirs = [];
-    /** @var string[] */
+    /** @var array<string, string> */
     protected static $classes = [];
 
     /**
@@ -239,7 +241,7 @@ class rex_autoload
     /**
      * Returns the classes.
      *
-     * @return string[]
+     * @return list<string>
      */
     public static function getClasses()
     {

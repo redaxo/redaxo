@@ -225,7 +225,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-username">' . rex_i18n::msg('name') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . rex_escape($username) . '" autocomplete="name" autofocus />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . rex_escape($username) . '" autocomplete="name" maxlength="255" autofocus />';
 $formElements[] = $n;
 
 $n = [];
@@ -235,7 +235,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-useremail">' . rex_i18n::msg('email') . '</label>';
-$n['field'] = '<input class="form-control" type="email" id="rex-id-useremail" name="useremail" value="' . rex_escape($useremail) . '" />';
+$n['field'] = '<input class="form-control" type="email" id="rex-id-useremail" name="useremail" value="' . rex_escape($useremail) . '" maxlength="255" />';
 $formElements[] = $n;
 
 $n = [];
@@ -291,7 +291,7 @@ $confirmField = static function (string $id) use ($login, $webauthn): string {
     </div>';
     } else {
         $n['label'] = '<label for="' . $id . '">' . rex_i18n::msg('current_password') . '</label>';
-        $n['field'] = '<input class="form-control rex-js-userpsw" type="password" id="' . $id . '" name="userpsw" autocomplete="current-password" required />';
+        $n['field'] = '<input class="form-control rex-js-userpsw" type="password" id="' . $id . '" name="userpsw" autocomplete="current-password" autocorrect="off" autocapitalize="off" required />';
     }
 
     $formElements[] = $n;
@@ -310,13 +310,13 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw-new-1">' . rex_i18n::msg('new_password') . '</label>';
-$n['field'] = '<input class="form-control rex-js-userpsw-new-1" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="new-password" required ' . rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
+$n['field'] = '<input class="form-control rex-js-userpsw-new-1" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="new-password" autocorrect="off" autocapitalize="off" required ' . rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
 $n['note'] = $passwordPolicy->getDescription();
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw-new-2">' . rex_i18n::msg('new_password_repeat') . '</label>';
-$n['field'] = '<input class="form-control rex-js-userpsw-new-2" type="password" id="rex-id-userpsw-new-2" name="userpsw_new_2" autocomplete="new-password" required />';
+$n['field'] = '<input class="form-control rex-js-userpsw-new-2" type="password" id="rex-id-userpsw-new-2" name="userpsw_new_2" autocomplete="new-password" autocorrect="off" autocapitalize="off" required />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

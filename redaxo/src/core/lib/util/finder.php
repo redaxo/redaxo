@@ -24,13 +24,13 @@ class rex_finder implements IteratorAggregate, Countable
     private $recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
     /** @var bool */
     private $dirsOnly = false;
-    /** @var string[] */
+    /** @var list<string> */
     private $ignoreFiles = [];
-    /** @var string[] */
+    /** @var list<string> */
     private $ignoreFilesRecursive = [];
-    /** @var string[] */
+    /** @var list<string> */
     private $ignoreDirs = [];
-    /** @var string[] */
+    /** @var list<string> */
     private $ignoreDirsRecursive = [];
     /** @var bool */
     private $ignoreSystemStuff = true;
@@ -131,7 +131,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Ignore all files which match the given glob pattern.
      *
-     * @param string|string[] $glob Glob pattern or an array of glob patterns
+     * @param string|list<string> $glob Glob pattern or an array of glob patterns
      * @param bool $recursive When FALSE the patterns won't be checked in child directories
      *
      * @return $this
@@ -151,7 +151,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Ignore all directories which match the given glob pattern.
      *
-     * @param string|string[] $glob Glob pattern or an array of glob patterns
+     * @param string|list<string> $glob Glob pattern or an array of glob patterns
      * @param bool $recursive When FALSE the patterns won't be checked in child directories
      *
      * @return $this

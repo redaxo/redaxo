@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * REX base class for core properties etc.
  *
@@ -396,7 +398,7 @@ class rex
         return self::getProperty('console', null);
     }
 
-    public static function getRequest(): Symfony\Component\HttpFoundation\Request
+    public static function getRequest(): Request
     {
         $request = self::getProperty('request');
 

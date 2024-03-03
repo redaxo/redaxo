@@ -1,5 +1,9 @@
 <?php
 
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
+use voku\helper\AntiXSS;
+
 /**
  * String utility class.
  *
@@ -65,7 +69,7 @@ class rex_string
      *
      * @param string $string
      *
-     * @return string[]
+     * @return array<string>
      */
     public static function split($string)
     {
@@ -112,7 +116,7 @@ class rex_string
      */
     public static function yamlEncode(array $value, $inline = 3)
     {
-        return Symfony\Component\Yaml\Yaml::dump($value, $inline, 4);
+        return Yaml::dump($value, $inline, 4);
     }
 
     /**
@@ -131,8 +135,8 @@ class rex_string
         }
 
         try {
-            $result = Symfony\Component\Yaml\Yaml::parse($value);
-        } catch (Symfony\Component\Yaml\Exception\ParseException $exception) {
+            $result = Yaml::parse($value);
+        } catch (ParseException $exception) {
             throw new rex_yaml_parse_exception($exception->getMessage(), $exception);
         }
 
@@ -212,11 +216,11 @@ class rex_string
      */
     public static function sanitizeHtml(string $html): string
     {
-        /** @var voku\helper\AntiXSS|null $antiXss */
+        /** @var AntiXSS|null $antiXss */
         static $antiXss;
 
         if (!$antiXss) {
-            $antiXss = new voku\helper\AntiXSS();
+            $antiXss = new AntiXSS();
             $antiXss->removeEvilAttributes(['style']);
             $antiXss->removeNeverAllowedRegex(['(\(?:?document\)?|\(?:?window\)?(?:\.document)?)\.(?:location|on\w*)' => '']);
             $antiXss->removeNeverAllowedStrAfterwards(['&lt;script&gt;', '&lt;/script&gt;']);

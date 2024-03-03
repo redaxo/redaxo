@@ -72,6 +72,8 @@ class rex_article_slice_test extends TestCase
                 'status' => $status,
                 'value1' => 'foo',
             ])
+            ->addGlobalCreateFields()
+            ->addGlobalUpdateFields()
             ->insert();
 
         return (int) $sql->getLastId();
