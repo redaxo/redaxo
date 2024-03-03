@@ -194,10 +194,11 @@ if ('' == $func) {
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('media_manager_type_name'));
-    $field->setAttribute('maxlength', 255);
     $field->getValidator()
-        ->add('notEmpty', rex_i18n::msg('media_manager_error_name'))
-        ->add('notMatch', rex_i18n::msg('media_manager_error_type_name_invalid'), '{[/\\\\]}');
+        ->add(rex_validation_rule::NOT_EMPTY, rex_i18n::msg('media_manager_error_name'))
+        ->add(rex_validation_rule::NOT_MATCH, rex_i18n::msg('media_manager_error_type_name_invalid'), '{[/\\\\]}')
+        ->add(rex_validation_rule::MAX_LENGTH, null, 255)
+    ;
 
     // system mediatypes are not editable
     if ('edit' == $func) {
@@ -208,7 +209,7 @@ if ('' == $func) {
 
     $field = $form->addTextareaField('description');
     $field->setLabel(rex_i18n::msg('media_manager_type_description'));
-    $field->setAttribute('maxlength', 255);
+    $field->getValidator()->add(rex_validation_rule::MAX_LENGTH, null, 255);
 
     $content .= $form->get();
 

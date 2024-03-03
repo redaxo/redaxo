@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * REDAXO main boot file.
  *
@@ -119,7 +121,7 @@ foreach ($config as $key => $value) {
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
 if ('cli' !== PHP_SAPI) {
-    rex::setProperty('request', Symfony\Component\HttpFoundation\Request::createFromGlobals());
+    rex::setProperty('request', Request::createFromGlobals());
 }
 
 rex_error_handler::register();

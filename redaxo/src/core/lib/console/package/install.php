@@ -4,6 +4,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * @package redaxo\core
@@ -47,7 +48,7 @@ class rex_command_package_install extends rex_console_command
 
         if ($package->isInstalled() && !$input->getOption('re-install')) {
             $helper = $this->getHelper('question');
-            $question = new Symfony\Component\Console\Question\ConfirmationQuestion('Package "' . $package->getPackageId() . '" is already installed. Should it be reinstalled? (y/n) ', false);
+            $question = new ConfirmationQuestion('Package "' . $package->getPackageId() . '" is already installed. Should it be reinstalled? (y/n) ', false);
             if (!$helper->ask($input, $output, $question)) {
                 $io->success('Package "' . $package->getPackageId() . '" wasn\'t reinstalled');
                 return 0;
