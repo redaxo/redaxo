@@ -92,8 +92,14 @@ return RectorConfig::configure()
     ->withConfiguredRule(RenameClassRector::class, [
         rex_package_interface::class => rex_addon_interface::class,
         rex_null_package::class => rex_null_addon::class,
+        rex_package::class => rex_addon::class,
     ])
     ->withConfiguredRule(RenameMethodRector::class, [
+        new MethodCallRename(rex_addon::class, 'getRegisteredPackages', 'getRegisteredAddons'),
+        new MethodCallRename(rex_addon::class, 'getInstalledPackages', 'getInstalledAddons'),
+        new MethodCallRename(rex_addon::class, 'getAvailablePackages', 'getAvailableAddons'),
+        new MethodCallRename(rex_addon::class, 'getSetupPackages', 'getSetupAddons'),
+        new MethodCallRename(rex_addon::class, 'getSystemPackages', 'getSystemAddons'),
         new MethodCallRename(rex_password_policy::class, 'getRule', 'getDescription'),
         new MethodCallRename(rex_article_content_base::class, 'getClang', 'getClangId'),
         new MethodCallRename(rex_article_slice::class, 'getClang', 'getClangId'),

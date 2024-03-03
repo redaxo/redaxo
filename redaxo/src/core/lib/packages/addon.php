@@ -1,6 +1,6 @@
 <?php
 
-abstract class rex_package implements rex_addon_interface
+class rex_addon implements rex_addon_interface
 {
     public const FILE_PACKAGE = 'package.yml';
     public const FILE_BOOT = 'boot.php';
@@ -11,6 +11,13 @@ abstract class rex_package implements rex_addon_interface
     public const FILE_UPDATE = 'update.php';
 
     private const PROPERTIES_CACHE_FILE = 'packages.cache';
+
+    /**
+     * Array of all addons.
+     *
+     * @var array<non-empty-string, self>
+     */
+    private static $addons = [];
 
     /**
      * Name of the package.
@@ -42,53 +49,106 @@ abstract class rex_package implements rex_addon_interface
     }
 
     /**
-     * Returns the addon by the given package id.
+     * Returns the addon by the given name.
      *
-     * @param string $packageId Package ID
+     * @param string $addon Addon name
      *
      * @throws InvalidArgumentException
      *
      * @return rex_addon_interface If the package exists, a `rex_package` is returned, otherwise a `rex_null_package`
      */
-    public static function get($packageId)
+    public static function get($addon)
     {
-        if (!is_string($packageId)) {
-            throw new InvalidArgumentException('Expecting $packageId to be string, but ' . gettype($packageId) . ' given!');
+        if (!is_string($addon)) {
+            throw new InvalidArgumentException('Expecting $addon to be string, but ' . gettype($addon) . ' given!');
         }
 
-        return rex_addon::get($packageId);
+        if (!isset(self::$addons[$addon])) {
+            return rex_null_addon::getInstance();
+        }
+
+        return self::$addons[$addon];
     }
 
     /**
-     * Returns the addon by the given package id.
+     * Returns the addon by the given name.
      *
      * @throws RuntimeException if the package does not exist
      */
-    public static function require(string $packageId): self
+    public static function require(string $addon): self
     {
-        return rex_addon::require($packageId);
+        if (!isset(self::$addons[$addon])) {
+            throw new RuntimeException(sprintf('Required addon "%s" does not exist.', $addon));
+        }
+
+        return self::$addons[$addon];
     }
 
     /**
-     * Returns if the package exists.
+     * Returns if the addon exists.
      *
-     * @param string $packageId Package ID
+     * @param string $addon Addon name
      *
      * @return bool
+     *
+     * @psalm-assert-if-true =non-empty-string $addon
      */
-    public static function exists($packageId)
+    public static function exists($addon)
     {
-        return rex_addon::exists($packageId);
+        return is_string($addon) && isset(self::$addons[$addon]);
     }
 
     /**
-     * @return string
+     * @return non-empty-string
      */
-    abstract public function getPackageId();
+    public function getPackageId()
+    {
+        return $this->getName();
+    }
 
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getAddon()
+    {
+        return $this;
+    }
+
+    public function getType()
+    {
+        return 'addon';
+    }
+
+    public function getPath($file = '')
+    {
+        return rex_path::addon($this->getName(), $file);
+    }
+
+    public function getAssetsPath($file = '')
+    {
+        return rex_path::addonAssets($this->getName(), $file);
+    }
+
+    public function getAssetsUrl($file = '')
+    {
+        return rex_url::addonAssets($this->getName(), $file);
+    }
+
+    public function getDataPath($file = '')
+    {
+        return rex_path::addonData($this->getName(), $file);
+    }
+
+    public function getCachePath($file = '')
+    {
+        return rex_path::addonCache($this->getName(), $file);
+    }
+
+    public function isSystemPackage()
+    {
+        return in_array($this->getPackageId(), rex::getProperty('system_addons'));
     }
 
     public function setConfig($key, $value = null)
@@ -198,6 +258,16 @@ abstract class rex_package implements rex_addon_interface
         }
 
         throw new rex_exception(sprintf('Package "%s": the page path "%s" neither exists as standalone path nor as package subpath "%s"', $this->getPackageId(), $__file, $__path));
+    }
+
+    public function i18n($key, ...$replacements)
+    {
+        $args = func_get_args();
+        $key = $this->getName() . '_' . $key;
+        if (rex_i18n::hasMsgOrFallback($key)) {
+            $args[0] = $key;
+        }
+        return call_user_func_array(rex_i18n::msg(...), $args);
     }
 
     /**
@@ -357,70 +427,107 @@ abstract class rex_package implements rex_addon_interface
     }
 
     /**
-     * Returns the registered packages.
+     * Returns the registered addons.
      *
-     * @return array<string, self>
+     * @return array<non-empty-string, self>
      */
-    public static function getRegisteredPackages()
+    public static function getRegisteredAddons()
     {
-        return self::getPackages('Registered');
+        return self::$addons;
     }
 
     /**
-     * Returns the installed packages.
+     * Returns the installed addons.
      *
-     * @return array<string, self>
+     * @return array<non-empty-string, self>
      */
-    public static function getInstalledPackages()
+    public static function getInstalledAddons()
     {
-        return self::getPackages('Installed');
+        return self::filterPackages(self::$addons, 'isInstalled');
     }
 
     /**
-     * Returns the available packages.
+     * Returns the available addons.
      *
-     * @return array<string, self>
+     * @return array<non-empty-string, self>
      */
-    public static function getAvailablePackages()
+    public static function getAvailableAddons()
     {
-        return self::getPackages('Available');
+        return self::filterPackages(self::$addons, 'isAvailable');
     }
 
     /**
-     * Returns the setup packages.
+     * Returns the setup addons.
      *
      * @return array<string, self>
      */
-    public static function getSetupPackages()
+    public static function getSetupAddons()
     {
-        return self::getPackages('Setup');
-    }
-
-    /**
-     * Returns the system packages.
-     *
-     * @return array<string, self>
-     */
-    public static function getSystemPackages()
-    {
-        return self::getPackages('System');
-    }
-
-    /**
-     * Returns the packages by the given method.
-     *
-     * @param string $method Method
-     *
-     * @return array<string, self>
-     */
-    private static function getPackages($method)
-    {
-        $packages = [];
-        $addonMethod = 'get' . $method . 'Addons';
-        foreach (rex_addon::$addonMethod() as $addon) {
-            assert($addon instanceof rex_addon);
-            $packages[$addon->getPackageId()] = $addon;
+        $addons = [];
+        foreach ((array) rex::getProperty('setup_addons', []) as $addon) {
+            if (self::exists($addon)) {
+                $addons[$addon] = self::require($addon);
+            }
         }
-        return $packages;
+        return $addons;
+    }
+
+    /**
+     * Returns the system addons.
+     *
+     * @return array<string, self>
+     */
+    public static function getSystemAddons()
+    {
+        $addons = [];
+        foreach ((array) rex::getProperty('system_addons', []) as $addon) {
+            if (self::exists($addon)) {
+                $addons[$addon] = self::require($addon);
+            }
+        }
+        return $addons;
+    }
+
+    /**
+     * Initializes all packages.
+     * @param bool $dbExists
+     * @return void
+     */
+    public static function initialize($dbExists = true)
+    {
+        if ($dbExists) {
+            $config = rex::getPackageConfig();
+        } else {
+            $config = [];
+            foreach (rex::getProperty('setup_addons') as $addon) {
+                $config[(string) $addon]['install'] = false;
+            }
+        }
+        $addons = self::$addons;
+        self::$addons = [];
+        foreach ($config as $addonName => $addonConfig) {
+            $addon = $addons[$addonName] ?? new self($addonName);
+            $addon->setProperty('install', $addonConfig['install'] ?? false);
+            $addon->setProperty('status', $addonConfig['status'] ?? false);
+            self::$addons[$addonName] = $addon;
+        }
+    }
+
+
+    /**
+     * Filters packages by the given method.
+     *
+     * @param array<non-empty-string, self> $packages Array of packages
+     * @param string $method A rex_addon method
+     * @return array<non-empty-string, self>
+     */
+    private static function filterPackages(array $packages, $method)
+    {
+        return array_filter($packages, static function (\rex_addon $package) use ($method): bool {
+            $return = $package->$method();
+            assert(is_bool($return));
+
+            return $return;
+        });
     }
 }
