@@ -71,6 +71,7 @@ class rex_article_service
             }
             $AART->setValue('name', $data['name']);
             $AART->setValue('catname', $categoryName);
+            $AART->setValue('catpriority', 0);
             $AART->setValue('clang_id', $key);
             $AART->setValue('parent_id', $data['category_id']);
             $AART->setValue('priority', $data['priority']);
