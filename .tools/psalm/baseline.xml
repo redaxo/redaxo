@@ -339,7 +339,6 @@
     </ArgumentTypeCoercion>
     <MixedArgument>
       <code><![CDATA[$ep->getParam('file')]]></code>
-      <code><![CDATA[$ep->getParam('file')]]></code>
     </MixedArgument>
     <PossiblyInvalidArgument>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
