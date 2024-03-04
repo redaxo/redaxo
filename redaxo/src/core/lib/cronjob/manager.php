@@ -150,10 +150,6 @@ class rex_cronjob_manager
         if (null === self::$types) {
             self::$types = [];
 
-            if (!Core::isLiveMode()) {
-                self::$types[] = rex_cronjob_phpcode::class;
-                self::$types[] = rex_cronjob_phpcallback::class;
-            }
             self::$types[] = rex_cronjob_urlrequest::class;
             self::$types[] = rex_cronjob_export::class;
             self::$types[] = rex_cronjob_optimize_tables::class;
