@@ -58,7 +58,7 @@ class rex_form_element
     // --------- Attribute setter/getters
 
     /**
-     * @param string|string[]|int|null $value
+     * @param string|list<string>|int|null $value
      * @return void
      */
     public function setValue($value)

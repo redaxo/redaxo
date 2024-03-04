@@ -37,11 +37,11 @@ class rex_sql implements Iterator
     protected $values; // Werte von setValue
     /** @var array<string, string> */
     protected $rawValues; // Werte von setRawValue
-    /** @var string[]|null */
+    /** @var list<string>|null */
     protected $fieldnames; // Spalten im ResultSet
-    /** @var string[]|null */
+    /** @var list<string>|null */
     protected $rawFieldnames;
-    /** @var string[]|null */
+    /** @var list<string>|null */
     protected $tablenames; // Tabelle im ResultSet
     /** @var array|null */
     protected $lastRow; // Wert der zuletzt gefetchten zeile
@@ -80,7 +80,7 @@ class rex_sql implements Iterator
      */
     private $lastInsertId = '0'; // compatibility to PDO, which uses string '0' as default
 
-    /** @var self[] */
+    /** @var list<self> */
     protected $records;
 
     /** @var PDOStatement|null */
@@ -1376,7 +1376,7 @@ class rex_sql implements Iterator
     /**
      * Gibt die Spaltennamen des ResultSets zurueck.
      *
-     * @return string[]
+     * @return list<string>
      */
     public function getFieldnames()
     {
@@ -1386,7 +1386,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function getTablenames()
     {
@@ -1492,7 +1492,7 @@ class rex_sql implements Iterator
      *
      * Example: `$sql->setQuery('SELECT * FROM my_table WHERE foo IN ('.$sql->in($values).')');`
      *
-     * @param int[]|string[] $values
+     * @param list<int>|list<string> $values
      *
      * @psalm-taint-escape sql
      */

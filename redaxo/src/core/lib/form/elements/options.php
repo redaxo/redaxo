@@ -51,7 +51,7 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @param string[] $options
+     * @param array<string> $options
      * @param bool $useKeys
      * @return void
      */
