@@ -182,7 +182,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     public function extendForm(rex_extension_point $ep)
     {
         $params = $ep->getParams();
-        $params['save'] = $save = in_array($ep->getName(), ['MEDIA_ADDED', 'MEDIA_UPDATED'], true);
+        $params['save'] = in_array($ep->getName(), ['MEDIA_ADDED', 'MEDIA_UPDATED'], true);
 
         // Nur beim EDIT gibts auch ein Medium zum bearbeiten
         if ('MEDIA_FORM_EDIT' == $ep->getName()) {
@@ -200,7 +200,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             }
         }
 
-        return $ep->getSubject() . parent::renderFormAndSave(self::PREFIX, $params, $save);
+        return $ep->getSubject() . parent::renderFormAndSave(self::PREFIX, $params);
     }
 }
 

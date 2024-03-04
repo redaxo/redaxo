@@ -1100,8 +1100,6 @@ minfo_field_label_functions = Functions
 minfo_field_label_id = ID
 minfo_field_label_type = Field type
 minfo_field_label_attributes = Field attributes
-minfo_field_label_callback = Callback
-minfo_field_label_callback_templates = Callback templates
 minfo_field_label_default = Default value
 minfo_field_label_nullable = Mandatory field
 minfo_field_label_params = Parameter
@@ -1127,7 +1125,6 @@ minfo_field_params_notice_10 = Example:<br /> <code>start-year="1990" end-year="
 minfo_field_params_notice_11 = Example:<br /> <code>start-year="1990" end-year="2030"</code>
 
 minfo_field_attributes_notice = Example:<br /> style=color:red multiple=multiple class=my_css_class perm=admin[]
-minfo_field_label_notice = Code executed when the value of the field has changed.<br /> Readable variables: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
 
 minfo_field_error_name = Please enter the columns name!
 minfo_field_error_unique_name = This column name already exists!
@@ -1153,8 +1150,6 @@ minfo_media_in_use_art = Article (metadata)
 minfo_media_in_use_cat = Categories (metadata)
 minfo_media_in_use_med = Languages (metadata)
 minfo_media_in_use_clang = Languages (metadata)
-
-minfo_callback_lang_indep_field = Language independent field
 
 # bc: labels aus dem core
 online_from = Online from

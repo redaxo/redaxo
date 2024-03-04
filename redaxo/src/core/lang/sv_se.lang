@@ -1091,8 +1091,6 @@ minfo_field_label_functions = Funktioner
 minfo_field_label_id = Id
 minfo_field_label_type = Fälttyp
 minfo_field_label_attributes = Fältattribut
-minfo_field_label_callback = Callback
-minfo_field_label_callback_templates = Callback-förlaga
 minfo_field_label_default = Standardvärde
 minfo_field_label_nullable = Obligatorisk fält
 minfo_field_label_params = Parametrar
@@ -1118,7 +1116,6 @@ minfo_field_params_notice_10 = Exempel:<br /> <code>start-year="1990" end-year="
 minfo_field_params_notice_11 = Exempel:<br /> <code>start-year="1990" end-year="2030"</code>
 
 minfo_field_attributes_notice = Exempel:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]" note="note"</code>
-minfo_field_label_notice = Kod som utförs om värdet av fältet ändras.<br /> Läsbara variablar: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
 
 minfo_field_error_name = Vänligen ange ett spaltnamn!
 minfo_field_error_unique_name = Spaltnamnet existerar redan!
@@ -1144,8 +1141,6 @@ minfo_media_in_use_art = Artiklar (Metadata)
 minfo_media_in_use_cat = Kategorier (Metadata)
 minfo_media_in_use_med = Medier (Metadata)
 minfo_media_in_use_clang = Språk (Metadata)
-
-minfo_callback_lang_indep_field = Språkoberoende fält
 
 # bc: labels aus dem core
 online_from = Online från

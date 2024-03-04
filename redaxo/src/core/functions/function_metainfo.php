@@ -78,11 +78,10 @@ function rex_metainfo_delete_field_type($fieldTypeId)
  * @param string $params
  * @param string $validate
  * @param string $restrictions
- * @param string $callback
  *
  * @return bool|string
  */
-function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '', $callback = null)
+function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '')
 {
     $prefix = rex_metainfo_meta_prefix($name);
     $metaTable = rex_metainfo_meta_table($prefix);
@@ -128,7 +127,6 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $sql->setValue('params', $params);
     $sql->setValue('validate', $validate);
     $sql->setValue('restrictions', $restrictions);
-    $sql->setValue('callback', $callback);
     $sql->addGlobalUpdateFields();
     $sql->addGlobalCreateFields();
 
