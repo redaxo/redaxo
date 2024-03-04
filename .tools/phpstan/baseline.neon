@@ -2266,11 +2266,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/util.php
 
 		-
-			message: "#^Method rex_system_report\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/system_report.php
-
-		-
 			message: "#^Method rex_file\\:\\:formattedSize\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/file.php

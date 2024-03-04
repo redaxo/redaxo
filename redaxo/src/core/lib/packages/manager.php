@@ -638,11 +638,11 @@ abstract class rex_package_manager
      */
     public static function generatePackageOrder()
     {
-        /** @var string[] $early */
+        /** @var list<string> $early */
         $early = [];
-        /** @var string[] $normal */
+        /** @var list<string> $normal */
         $normal = [];
-        /** @var string[] $late */
+        /** @var list<string> $late */
         $late = [];
         /** @var array<string, array<string, true>> $requires */
         $requires = [];
@@ -760,7 +760,7 @@ abstract class rex_package_manager
      *
      * @param string $folder Folder
      *
-     * @return non-empty-string[]
+     * @return list<non-empty-string>
      */
     private static function readPackageFolder($folder)
     {

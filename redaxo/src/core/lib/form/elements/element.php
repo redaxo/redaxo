@@ -58,7 +58,7 @@ class rex_form_element
     // --------- Attribute setter/getters
 
     /**
-     * @param string|string[]|int|null $value
+     * @param string|list<string>|int|null $value
      * @return void
      */
     public function setValue($value)
@@ -288,6 +288,13 @@ class rex_form_element
     public function hasAttribute($name)
     {
         return isset($this->attributes[$name]);
+    }
+
+    public function disableSpellcheckAndAutoCorrect(): void
+    {
+        $this->setAttribute('autocapitalize', 'off');
+        $this->setAttribute('autocorrect', 'off');
+        $this->setAttribute('spellcheck', 'false');
     }
 
     public function isReadOnly(): bool

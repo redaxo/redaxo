@@ -363,13 +363,13 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/cronjob/plugins/article_status/lib/cronjob.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$from['before']]]></code>
+      <code><![CDATA[$to['before']]]></code>
+    </ArgumentTypeCoercion>
     <MixedArgument>
       <code><![CDATA[$status]]></code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$from['before']]]></code>
-      <code><![CDATA[$to['before']]]></code>
-    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$status]]></code>
       <code><![CDATA[$status]]></code>
@@ -1016,7 +1016,7 @@
         })]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code><![CDATA[rex_media[]]]></code>
+      <code><![CDATA[list<rex_media>]]></code>
     </InvalidReturnType>
     <MixedArgument>
       <code><![CDATA[$id]]></code>
@@ -1475,7 +1475,7 @@
       <code><![CDATA[$warning]]></code>
     </MixedAssignment>
     <MixedInferredReturnType>
-      <code><![CDATA[string[]]]></code>
+      <code><![CDATA[list<string>]]></code>
     </MixedInferredReturnType>
     <MixedMethodCall>
       <code><![CDATA[getValue]]></code>
@@ -2041,10 +2041,10 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/addons/structure/pages/index.php">
-    <MixedArgumentTypeCoercion>
+    <ArgumentTypeCoercion>
       <code><![CDATA[$structureContext->getMountpoints()]]></code>
       <code><![CDATA[$structureContext->getMountpoints()]]></code>
-    </MixedArgumentTypeCoercion>
+    </ArgumentTypeCoercion>
     <MixedArrayAccess>
       <code><![CDATA[$tEMPLATENAME[$sql->getValue('template_id')]]]></code>
       <code><![CDATA[$tEMPLATENAME[(int) $sql->getValue('template_id')]]]></code>
@@ -2311,6 +2311,13 @@
     <MixedAssignment>
       <code><![CDATA[$templateName]]></code>
     </MixedAssignment>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$this->templates]]></code>
+    </MixedPropertyTypeCoercion>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$this->templates]]></code>
+      <code><![CDATA[array<int, string>]]></code>
+    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/var_template.php">
     <PossiblyFalseArgument>
@@ -3468,10 +3475,6 @@
     <MixedMethodCall>
       <code><![CDATA[unregister]]></code>
     </MixedMethodCall>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[array_keys(self::$classes)]]></code>
-      <code><![CDATA[string[]]]></code>
-    </MixedReturnTypeCoercion>
     <PossiblyNullArgument>
       <code><![CDATA[self::$cacheFile]]></code>
       <code><![CDATA[self::$cacheFile]]></code>
@@ -3579,12 +3582,9 @@
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[array_keys(self::getAll($ignoreOfflines))]]></code>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[int[]]]></code>
-    </MixedReturnTypeCoercion>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[self::$clangs]]></code>
+    </MixedPropertyTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/clang/service.php">
     <PossiblyNullReference>
@@ -3802,14 +3802,6 @@
     <MixedReturnStatement>
       <code><![CDATA[$charset]]></code>
     </MixedReturnStatement>
-  </file>
-  <file src="redaxo/src/core/lib/console/system/report.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$label]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/console/user/create.php">
     <MixedArgument>
@@ -4393,7 +4385,7 @@
       <code><![CDATA[$successMessage]]></code>
     </MixedOperand>
     <MoreSpecificReturnType>
-      <code><![CDATA[non-empty-string[]]]></code>
+      <code><![CDATA[list<non-empty-string>]]></code>
     </MoreSpecificReturnType>
     <PossiblyNullArrayAccess>
       <code><![CDATA[$config[$addonName]['plugins'][$pluginName]]]></code>
@@ -4750,21 +4742,12 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$dbId]]></code>
     </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$groupLabel]]></code>
-      <code><![CDATA[$groupLabel]]></code>
-      <code><![CDATA[$label]]></code>
-      <code><![CDATA[$label]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$rows[$label]]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
+    <InvalidReturnStatement>
+      <code><![CDATA[$data]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array<string, array<string, string|bool>>]]></code>
+    </InvalidReturnType>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$_SERVER['SERVER_PROTOCOL']]]></code>
     </PossiblyUndefinedArrayOffset>
@@ -4830,7 +4813,6 @@
       <code><![CDATA[$text]]></code>
       <code><![CDATA[call_user_func($i18nFunction, substr($text, $transKeyLen))]]></code>
       <code><![CDATA[rex_escape($text)]]></code>
-      <code><![CDATA[self::$locales]]></code>
     </LessSpecificReturnStatement>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$i18nFunction]]></code>
@@ -4843,7 +4825,6 @@
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MoreSpecificReturnType>
-      <code><![CDATA[list<string>]]></code>
       <code><![CDATA[non-empty-string]]></code>
       <code><![CDATA[non-empty-string]]></code>
       <code><![CDATA[non-empty-string]]></code>
@@ -5101,11 +5082,6 @@
     <MixedArgument>
       <code><![CDATA[$pageObj]]></code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-    </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
       <code><![CDATA[$navigation['navigation']]]></code>
     </MixedArrayAccess>
@@ -5263,16 +5239,9 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="redaxo/src/core/pages/system.report.html.php">
-    <MixedArgument>
+    <InvalidScalarArgument>
       <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
+    </InvalidScalarArgument>
   </file>
   <file src="redaxo/src/core/pages/system.settings.php">
     <MixedAssignment>

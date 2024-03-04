@@ -26,7 +26,7 @@ final class UnderscoreCamelCaseConflictingNameGuard
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function resolve(ClassLike $classLike): array
     {

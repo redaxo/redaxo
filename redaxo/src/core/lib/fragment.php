@@ -36,7 +36,7 @@ class rex_fragment
     /**
      * array which contains all folders in which fragments will be searched for at runtime.
      *
-     * @var string[]
+     * @var list<string>
      */
     private static $fragmentDirs = [];
 

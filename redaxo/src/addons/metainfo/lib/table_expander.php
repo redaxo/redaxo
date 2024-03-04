@@ -41,9 +41,7 @@ class rex_metainfo_table_expander extends rex_form
 
         $field = $this->addTextField('name');
         $field->setLabel(rex_i18n::msg('minfo_field_label_name'));
-        $field->setAttribute('autocapitalize', 'off');
-        $field->setAttribute('autocorrect', 'off');
-        $field->setAttribute('spellcheck', 'false');
+        $field->disableSpellcheckAndAutoCorrect();
         $field->getValidator()
             ->add(rex_validation_rule::NOT_EMPTY)
             ->add(rex_validation_rule::MAX_LENGTH, null, 255)
