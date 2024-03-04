@@ -290,6 +290,13 @@ class rex_form_element
         return isset($this->attributes[$name]);
     }
 
+    public function disableSpellcheckAndAutoCorrect(): void
+    {
+        $this->setAttribute('autocapitalize', 'off');
+        $this->setAttribute('autocorrect', 'off');
+        $this->setAttribute('spellcheck', 'false');
+    }
+
     public function isReadOnly(): bool
     {
         return str_contains((string) $this->getAttribute('class', ''), 'form-control-static');

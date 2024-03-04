@@ -41,6 +41,7 @@ class rex_metainfo_table_expander extends rex_form
 
         $field = $this->addTextField('name');
         $field->setLabel(rex_i18n::msg('minfo_field_label_name'));
+        $field->disableSpellcheckAndAutoCorrect();
 
         $field = $this->addSelectField('priority');
         $field->setLabel(rex_i18n::msg('minfo_field_label_priority'));
@@ -108,17 +109,20 @@ class rex_metainfo_table_expander extends rex_form
         $field = $this->addTextAreaField('params');
         $field->setLabel(rex_i18n::msg('minfo_field_label_params'));
         $field->setNotice($notices);
+        $field->disableSpellcheckAndAutoCorrect();
 
         $field = $this->addTextAreaField('attributes');
         $field->setLabel(rex_i18n::msg('minfo_field_label_attributes'));
         $notice = rex_i18n::msg('minfo_field_attributes_notice') . "\n";
         $field->setNotice($notice);
+        $field->disableSpellcheckAndAutoCorrect();
 
         $field = $this->addTextAreaField('callback');
         $field->setLabel(rex_i18n::msg('minfo_field_label_callback'));
         $field->setAttribute('class', 'form-control rex-code rex-js-code');
         $notice = rex_i18n::msg('minfo_field_label_notice') . "\n";
         $field->setNotice($notice);
+        $field->disableSpellcheckAndAutoCorrect();
 
         $field = $this->addTextField('default');
         $field->setLabel(rex_i18n::msg('minfo_field_label_default'));
