@@ -209,7 +209,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $n = [];
         $n['label'] = '<label for="name">' . rex_i18n::msg('action_name') . '</label>';
-        $n['field'] = '<input class="form-control" type="text" id="name" name="name" value="' . rex_escape($name) . '" />';
+        $n['field'] = '<input class="form-control" type="text" id="name" name="name" value="' . rex_escape($name) . '" maxlength="255" />';
         $n['note'] = rex_i18n::msg('translatable');
         $formElements[] = $n;
 
@@ -227,7 +227,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="previewaction">' . rex_i18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="previewaction" id="previewaction" spellcheck="false">' . rex_escape($previewaction) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="previewaction" id="previewaction" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($previewaction) . '</textarea>';
         $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
@@ -269,7 +269,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="presaveaction">' . rex_i18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="presaveaction" id="presaveaction" spellcheck="false">' . rex_escape($presaveaction) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="presaveaction" id="presaveaction" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($presaveaction) . '</textarea>';
         $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
@@ -311,7 +311,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="postsaveaction">' . rex_i18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="postsaveaction" id="postsaveaction" spellcheck="false">' . rex_escape($postsaveaction) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="postsaveaction" id="postsaveaction" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($postsaveaction) . '</textarea>';
         $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
