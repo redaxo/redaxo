@@ -2624,10 +2624,6 @@
     <MixedArgument>
       <code><![CDATA[$activeItem->getValue($name)]]></code>
       <code><![CDATA[$activeItem->getValue($name)]]></code>
-      <code><![CDATA[$field->getValue('callback')]]></code>
-      <code><![CDATA[$fieldAttributes]]></code>
-      <code><![CDATA[$fieldName]]></code>
-      <code><![CDATA[$fieldType]]></code>
       <code><![CDATA[$itemValue]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
@@ -2644,9 +2640,6 @@
       <code><![CDATA[$activeItem]]></code>
       <code><![CDATA[$category]]></code>
       <code><![CDATA[$category]]></code>
-      <code><![CDATA[$fieldAttributes]]></code>
-      <code><![CDATA[$fieldName]]></code>
-      <code><![CDATA[$fieldType]]></code>
       <code><![CDATA[$itemValue]]></code>
       <code><![CDATA[$postValue]]></code>
       <code><![CDATA[$saveValue]]></code>
@@ -2655,11 +2648,6 @@
       <code><![CDATA[string|int|null]]></code>
     </MixedInferredReturnType>
     <MixedMethodCall>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
-      <code><![CDATA[getValue]]></code>
       <code><![CDATA[getValue]]></code>
       <code><![CDATA[getValue]]></code>
       <code><![CDATA[getValue]]></code>
