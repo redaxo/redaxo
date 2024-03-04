@@ -3,6 +3,7 @@
 use lbuchs\WebAuthn\Binary\ByteBuffer;
 use lbuchs\WebAuthn\WebAuthn;
 use lbuchs\WebAuthn\WebAuthnException;
+use Redaxo\Core\Core;
 
 /**
  * @internal
@@ -14,7 +15,7 @@ class rex_webauthn
 
     public function getCreateArgs(): string
     {
-        $user = rex::requireUser();
+        $user = Core::requireUser();
 
         $webauthn = $this->createWebauthnBase();
         $args = $webauthn->getCreateArgs((string) $user->getId(), $user->getLogin(), $user->getName(), requireResidentKey: true, requireUserVerification: true);
@@ -67,7 +68,7 @@ class rex_webauthn
         }
 
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT public_key FROM ' . rex::getTable('user_passkey') . ' WHERE id = ? AND user_id = ?', [$data->id, $id]);
+        $sql->setQuery('SELECT public_key FROM ' . Core::getTable('user_passkey') . ' WHERE id = ? AND user_id = ?', [$data->id, $id]);
 
         if (!$sql->getRows()) {
             return null;
@@ -91,6 +92,6 @@ class rex_webauthn
 
     private function createWebauthnBase(): WebAuthn
     {
-        return new WebAuthn(rex::getServerName(), rex::getRequest()->getHost());
+        return new WebAuthn(Core::getServerName(), Core::getRequest()->getHost());
     }
 }

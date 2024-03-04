@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Class to stop the script time.
  */
@@ -48,7 +50,7 @@ class rex_timer
      */
     public static function measure($label, callable $callable)
     {
-        if (!rex::isDebugMode()) {
+        if (!Core::isDebugMode()) {
             return $callable();
         }
 

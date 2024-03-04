@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * rex_form repraesentiert ein Formular in REDAXO.
  * Diese Klasse kann in Frontend u. Backend eingesetzt werden.
@@ -67,7 +69,7 @@ class rex_form extends rex_form_base
         }
 
         // --------- Load Env
-        if (rex::isBackend()) {
+        if (Core::isBackend()) {
             $this->loadBackendConfig();
         }
     }
@@ -274,7 +276,7 @@ class rex_form extends rex_form_base
         $fieldnames = $this->sql->getFieldnames();
 
         if (in_array('updateuser', $fieldnames)) {
-            $saveSql->setValue('updateuser', rex::requireUser()->getValue('login'));
+            $saveSql->setValue('updateuser', Core::requireUser()->getValue('login'));
         }
 
         if (in_array('updatedate', $fieldnames)) {
@@ -283,7 +285,7 @@ class rex_form extends rex_form_base
 
         if (!$this->isEditMode()) {
             if (in_array('createuser', $fieldnames)) {
-                $saveSql->setValue('createuser', rex::requireUser()->getValue('login'));
+                $saveSql->setValue('createuser', Core::requireUser()->getValue('login'));
             }
 
             if (in_array('createdate', $fieldnames)) {

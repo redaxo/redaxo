@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Core;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -77,9 +78,9 @@ if (isset($REX['URL_PROVIDER']) && is_object($REX['URL_PROVIDER'])) {
 rex_url::init($urlProvider);
 
 // start timer at the very beginning
-rex::setProperty('timer', new rex_timer($_SERVER['REQUEST_TIME_FLOAT'] ?? null));
+Core::setProperty('timer', new rex_timer($_SERVER['REQUEST_TIME_FLOAT'] ?? null));
 // add backend flag to rex
-rex::setProperty('redaxo', $REX['REDAXO']);
+Core::setProperty('redaxo', $REX['REDAXO']);
 // add core lang directory to rex_i18n
 rex_i18n::addDirectory(rex_path::core('lang'));
 // add core base-fragmentpath to fragmentloader
@@ -92,7 +93,7 @@ require_once rex_path::core('functions/function_rex_mediapool.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '6.0.0-dev');
+Core::setProperty('version', '6.0.0-dev');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
@@ -115,13 +116,13 @@ foreach ($config as $key => $value) {
     if (in_array($key, ['fileperm', 'dirperm'])) {
         $value = octdec((string) $value);
     }
-    rex::setProperty($key, $value);
+    Core::setProperty($key, $value);
 }
 
-date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
+date_default_timezone_set(Core::getProperty('timezone', 'Europe/Berlin'));
 
 if ('cli' !== PHP_SAPI) {
-    rex::setProperty('request', Request::createFromGlobals());
+    Core::setProperty('request', Request::createFromGlobals());
 }
 
 rex_error_handler::register();
@@ -140,27 +141,27 @@ rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'remo
 rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
 
 // ----- SET CLANG
-if (!rex::isSetup()) {
+if (!Core::isSetup()) {
     $clangId = rex_request('clang', 'int', rex_clang::getStartId());
-    if (rex::isBackend() || rex_clang::exists($clangId)) {
+    if (Core::isBackend() || rex_clang::exists($clangId)) {
         rex_clang::setCurrentId($clangId);
     }
 }
 
 // ----------------- HTTPS REDIRECT
-if ('cli' !== PHP_SAPI && !rex::isSetup()) {
-    if ((true === rex::getProperty('use_https') || rex::getEnvironment() === rex::getProperty('use_https')) && !rex_request::isHttps()) {
+if ('cli' !== PHP_SAPI && !Core::isSetup()) {
+    if ((true === Core::getProperty('use_https') || Core::getEnvironment() === Core::getProperty('use_https')) && !rex_request::isHttps()) {
         rex_response::enforceHttps();
     }
 
-    if (true === rex::getProperty('use_hsts') && rex_request::isHttps()) {
-        rex_response::setHeader('Strict-Transport-Security', 'max-age=' . (int) rex::getProperty('hsts_max_age', 31536000)); // default 1 year
+    if (true === Core::getProperty('use_hsts') && rex_request::isHttps()) {
+        rex_response::setHeader('Strict-Transport-Security', 'max-age=' . (int) Core::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }
 
 rex_extension::register('SESSION_REGENERATED', rex_backend_login::sessionRegenerated(...));
 
-$nexttime = rex::isSetup() || rex::getConsole() ? 0 : (int) rex::getConfig('cronjob_nexttime', 0);
+$nexttime = Core::isSetup() || Core::getConsole() ? 0 : (int) Core::getConfig('cronjob_nexttime', 0);
 if (0 !== $nexttime && time() >= $nexttime) {
     $env = rex_cronjob_manager::getCurrentEnvironment();
     $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
@@ -176,19 +177,19 @@ rex_extension::register('MEDIA_UPDATED', [rex_media_manager::class, 'mediaUpdate
 rex_extension::register('MEDIA_DELETED', [rex_media_manager::class, 'mediaUpdated']);
 rex_extension::register('MEDIA_IS_IN_USE', [rex_media_manager::class, 'mediaIsInUse']);
 
-if (!rex::isSetup()) {
+if (!Core::isSetup()) {
     require_once __DIR__ . '/functions/function_structure_rex_url.php';
 
-    rex::setProperty('start_article_id', rex::getConfig('start_article_id', 1));
-    rex::setProperty('notfound_article_id', rex::getConfig('notfound_article_id', 1));
-    rex::setProperty('rows_per_page', 50);
+    Core::setProperty('start_article_id', Core::getConfig('start_article_id', 1));
+    Core::setProperty('notfound_article_id', Core::getConfig('notfound_article_id', 1));
+    Core::setProperty('rows_per_page', 50);
 
     if (0 == rex_request('article_id', 'int')) {
-        rex::setProperty('article_id', rex_article::getSiteStartArticleId());
+        Core::setProperty('article_id', rex_article::getSiteStartArticleId());
     } else {
         $articleId = rex_request('article_id', 'int');
         $articleId = rex_article::get($articleId) ? $articleId : rex_article::getNotfoundArticleId();
-        rex::setProperty('article_id', $articleId);
+        Core::setProperty('article_id', $articleId);
     }
 
     rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) {
@@ -212,7 +213,7 @@ if (!rex::isSetup()) {
 
         $id = $match[1];
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT `name` FROM ' . rex::getTable('metainfo_field') . ' WHERE id = ? LIMIT 1', [$id]);
+        $sql->setQuery('SELECT `name` FROM ' . Core::getTable('metainfo_field') . ' WHERE id = ? LIMIT 1', [$id]);
 
         if (!$sql->getRows()) {
             return null;
@@ -233,5 +234,5 @@ if (!rex::isSetup()) {
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
-    require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
+    require rex_path::core(Core::isBackend() ? 'backend.php' : 'frontend.php');
 }

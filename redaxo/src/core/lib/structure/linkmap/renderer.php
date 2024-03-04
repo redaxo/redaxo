@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -12,7 +14,7 @@ abstract class rex_linkmap_tree_renderer
     {
         $category = rex_category::get($categoryId);
 
-        $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpointCategories();
+        $mountpoints = Core::requireUser()->getComplexPerm('structure')->getMountpointCategories();
         if (count($mountpoints) > 0) {
             $roots = $mountpoints;
             if (!$category && 1 === count($roots)) {
@@ -124,7 +126,7 @@ abstract class rex_linkmap_article_list_renderer
     public function getList($categoryId)
     {
         $isRoot = 0 === $categoryId;
-        $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpoints();
+        $mountpoints = Core::requireUser()->getComplexPerm('structure')->getMountpoints();
 
         if ($isRoot && 1 === count($mountpoints)) {
             $categoryId = reset($mountpoints);

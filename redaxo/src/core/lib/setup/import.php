@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -13,8 +15,8 @@ class rex_setup_importer
         // ----- vorhandenen seite updaten
         $errMsg = '';
 
-        $version = rex::getVersion();
-        rex::setProperty('version', rex::getConfig('version'));
+        $version = Core::getVersion();
+        Core::setProperty('version', Core::getConfig('version'));
 
         try {
             include rex_path::core('update.php');
@@ -24,7 +26,7 @@ class rex_setup_importer
             $errMsg .= 'SQL error: ' . $e->getMessage();
         }
 
-        rex::setProperty('version', $version);
+        Core::setProperty('version', $version);
 
         if ('' == $errMsg) {
             $errMsg .= self::reinstallPackages();
@@ -132,7 +134,7 @@ class rex_setup_importer
         $errMsg = '';
 
         // Prüfen, welche Tabellen bereits vorhanden sind
-        $existingTables = rex_sql::factory()->getTables(rex::getTablePrefix());
+        $existingTables = rex_sql::factory()->getTables(Core::getTablePrefix());
 
         foreach (array_diff(self::getRequiredTables(), $existingTables) as $missingTable) {
             $errMsg .= rex_i18n::msg('setup_402', $missingTable) . '<br />';
@@ -146,11 +148,11 @@ class rex_setup_importer
     private static function getRequiredTables()
     {
         return [
-            rex::getTablePrefix() . 'clang',
-            rex::getTablePrefix() . 'user_session',
-            rex::getTablePrefix() . 'user_passkey',
-            rex::getTablePrefix() . 'user',
-            rex::getTablePrefix() . 'config',
+            Core::getTablePrefix() . 'clang',
+            Core::getTablePrefix() . 'user_session',
+            Core::getTablePrefix() . 'user_passkey',
+            Core::getTablePrefix() . 'user',
+            Core::getTablePrefix() . 'config',
         ];
     }
 
@@ -201,7 +203,7 @@ class rex_setup_importer
                 }
             }
         }
-        foreach (rex::getProperty('system_addons') as $packageRepresentation) {
+        foreach (Core::getProperty('system_addons') as $packageRepresentation) {
             $state = true;
             $package = rex_addon::require($packageRepresentation);
             $manager = rex_addon_manager::factory($package);
@@ -246,10 +248,10 @@ class rex_setup_importer
         rex_addon_manager::synchronizeWithFileSystem();
 
         // enlist activated packages to ensure that all their classess are known in autoloader and can be referenced in other package's install.php
-        foreach (rex::getPackageOrder() as $packageId) {
+        foreach (Core::getPackageOrder() as $packageId) {
             rex_addon::require($packageId)->enlist();
         }
-        foreach (rex::getPackageOrder() as $packageId) {
+        foreach (Core::getPackageOrder() as $packageId) {
             $package = rex_addon::require($packageId);
             $manager = rex_addon_manager::factory($package);
 

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_article_cache
 {
     /**
@@ -131,7 +133,7 @@ class rex_article_cache
             return false;
         }
 
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id=' . (int) $articleId;
+        $qry = 'SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE id=' . (int) $articleId;
         if (null !== $clangId) {
             $qry .= ' AND clang_id=' . (int) $clangId;
         }
@@ -178,7 +180,7 @@ class rex_article_cache
 
         $GC = rex_sql::factory();
         // $GC->setDebug();
-        $GC->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=:clang AND ((parent_id=:id and startarticle=0) OR (id=:id and startarticle=1)) order by priority,name', ['id' => $parentId, 'clang' => rex_clang::getStartId()]);
+        $GC->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=:clang AND ((parent_id=:id and startarticle=0) OR (id=:id and startarticle=1)) order by priority,name', ['id' => $parentId, 'clang' => rex_clang::getStartId()]);
 
         $cacheArray = [];
         foreach ($GC as $row) {
@@ -193,7 +195,7 @@ class rex_article_cache
         // --------------------------------------- CAT LIST
 
         $GC = rex_sql::factory();
-        $GC->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=:id and clang_id=:clang and startarticle=1 order by catpriority,name', ['id' => $parentId, 'clang' => rex_clang::getStartId()]);
+        $GC->setQuery('select * from ' . Core::getTablePrefix() . 'article where parent_id=:id and clang_id=:clang and startarticle=1 order by catpriority,name', ['id' => $parentId, 'clang' => rex_clang::getStartId()]);
 
         $cacheArray = [];
         foreach ($GC as $row) {

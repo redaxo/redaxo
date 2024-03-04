@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -14,7 +16,7 @@ class rex_api_has_user_session extends rex_api_function
             throw new rex_api_exception('https is required');
         }
 
-        $user = rex::getUser();
+        $user = Core::getUser();
         if (!$user) {
             rex_response::sendJson(false);
             exit;

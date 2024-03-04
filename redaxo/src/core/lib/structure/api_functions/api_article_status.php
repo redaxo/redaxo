@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -11,7 +13,7 @@ class rex_api_article_status extends rex_api_function
         $articleId = rex_request('article_id', 'int');
         $clang = rex_request('clang', 'int');
         $status = rex_request('art_status', 'int', null);
-        $user = rex::requireUser();
+        $user = Core::requireUser();
 
         // check permissions
         if ($user->getComplexPerm('structure')->hasCategoryPerm($categoryId) && $user->hasPerm('publishArticle[]')) {

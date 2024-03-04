@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Erweiterung eines Artikels um slicemanagement.
  */
@@ -29,13 +31,13 @@ class rex_article_content_editor extends rex_article_content
                 $moduleIdToAdd,
             );
         } else {
-            $sliceId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-            $sliceCtype = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
-            $sliceStatus = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.status');
+            $sliceId = (int) $artDataSql->getValue(Core::getTablePrefix() . 'article_slice.id');
+            $sliceCtype = (int) $artDataSql->getValue(Core::getTablePrefix() . 'article_slice.ctype_id');
+            $sliceStatus = (int) $artDataSql->getValue(Core::getTablePrefix() . 'article_slice.status');
 
-            $moduleInput = (string) $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
-            $moduleOutput = (string) $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
-            $moduleId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
+            $moduleInput = (string) $artDataSql->getValue(Core::getTablePrefix() . 'module.input');
+            $moduleOutput = (string) $artDataSql->getValue(Core::getTablePrefix() . 'module.output');
+            $moduleId = (int) $artDataSql->getValue(Core::getTablePrefix() . 'module.id');
 
             // ----- add select box einbauen
             $sliceContent = $this->getModuleSelect($sliceId);
@@ -60,7 +62,7 @@ class rex_article_content_editor extends rex_article_content
             // }
 
             // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
-            if (rex::requireUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
+            if (Core::requireUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
                 if ('edit' == $this->function && $this->slice_id == $sliceId) {
                     // **************** Aktueller Slice
 
@@ -109,7 +111,7 @@ class rex_article_content_editor extends rex_article_content
      */
     private function getSliceHeading(rex_sql $artDataSql)
     {
-        return rex_i18n::translate((string) $artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
+        return rex_i18n::translate((string) $artDataSql->getValue(Core::getTablePrefix() . 'module.name'));
     }
 
     /**
@@ -121,12 +123,12 @@ class rex_article_content_editor extends rex_article_content
      */
     private function getSliceMenu(rex_sql $artDataSql)
     {
-        $sliceId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-        $sliceCtype = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
-        $sliceStatus = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.status');
+        $sliceId = (int) $artDataSql->getValue(Core::getTablePrefix() . 'article_slice.id');
+        $sliceCtype = (int) $artDataSql->getValue(Core::getTablePrefix() . 'article_slice.ctype_id');
+        $sliceStatus = (int) $artDataSql->getValue(Core::getTablePrefix() . 'article_slice.status');
 
-        $moduleId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
-        $moduleName = rex_i18n::translate((string) $artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
+        $moduleId = (int) $artDataSql->getValue(Core::getTablePrefix() . 'module.id');
+        $moduleName = rex_i18n::translate((string) $artDataSql->getValue(Core::getTablePrefix() . 'module.name'));
 
         $context = new rex_context([
             'page' => rex_be_controller::getCurrentPage(),
@@ -144,7 +146,7 @@ class rex_article_content_editor extends rex_article_content
         $menuStatusAction = [];
         $menuMoveupAction = [];
         $menuMovedownAction = [];
-        if (rex::requireUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
+        if (Core::requireUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
             $templateHasModule = rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId);
             if ($templateHasModule) {
                 // edit
@@ -165,7 +167,7 @@ class rex_article_content_editor extends rex_article_content
             $item['attributes']['data-confirm'] = rex_i18n::msg('confirm_delete_block');
             $menuDeleteAction = $item;
 
-            if ($templateHasModule && rex::requireUser()->hasPerm('publishSlice[]')) {
+            if ($templateHasModule && Core::requireUser()->hasPerm('publishSlice[]')) {
                 // status
                 $item = [];
                 $statusName = $sliceStatus ? 'online' : 'offline';
@@ -176,7 +178,7 @@ class rex_article_content_editor extends rex_article_content
                 $menuStatusAction = $item;
             }
 
-            if ($templateHasModule && rex::requireUser()->hasPerm('moveSlice[]')) {
+            if ($templateHasModule && Core::requireUser()->hasPerm('moveSlice[]')) {
                 // moveup
                 $item = [];
                 $item['hidden_label'] = rex_i18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . rex_i18n::msg('move_slice_up');
@@ -217,7 +219,7 @@ class rex_article_content_editor extends rex_article_content
             $sliceCtype,
             $moduleId,
             $sliceId,
-            rex::requireUser()->getComplexPerm('modules')->hasPerm($moduleId),
+            Core::requireUser()->getComplexPerm('modules')->hasPerm($moduleId),
         ));
 
         $actionItems = [];
@@ -336,7 +338,7 @@ class rex_article_content_editor extends rex_article_content
         // ---------- moduleselect: nur module nehmen auf die der user rechte hat
         if ('edit' == $this->mode) {
             $MODULE = rex_sql::factory();
-            $modules = $MODULE->getArray('select * from ' . rex::getTablePrefix() . 'module order by name');
+            $modules = $MODULE->getArray('select * from ' . Core::getTablePrefix() . 'module order by name');
 
             $templateCtypes = $this->template_attributes['ctype'] ?? [];
             // wenn keine ctyes definiert sind, gibt es immer den CTYPE=1
@@ -348,7 +350,7 @@ class rex_article_content_editor extends rex_article_content
             foreach ($templateCtypes as $ctId => $ctName) {
                 foreach ($modules as $m) {
                     $id = (int) $m['id'];
-                    if (rex::requireUser()->getComplexPerm('modules')->hasPerm($id)) {
+                    if (Core::requireUser()->getComplexPerm('modules')->hasPerm($id)) {
                         if (rex_template::hasModule($this->template_attributes, $ctId, $id)) {
                             $this->MODULESELECT[$ctId][] = ['name' => rex_i18n::translate((string) $m['name'], false), 'id' => $id, 'key' => (string) $m['key']];
                         }
@@ -392,7 +394,7 @@ class rex_article_content_editor extends rex_article_content
         $moduleId = (int) $moduleId;
 
         $MOD = rex_sql::factory();
-        $MOD->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id="' . $moduleId . '"');
+        $MOD->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module WHERE id="' . $moduleId . '"');
 
         if (1 != $MOD->getRows()) {
             return rex_view::error(rex_i18n::msg('module_doesnt_exist'));
@@ -427,7 +429,7 @@ class rex_article_content_editor extends rex_article_content
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('add_block'), 'save') . '>' . rex_i18n::msg('add_block') . '</button>';
+        $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . Core::getAccesskey(rex_i18n::msg('add_block'), 'save') . '>' . rex_i18n::msg('add_block') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -500,11 +502,11 @@ class rex_article_content_editor extends rex_article_content
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_block') . '</button>';
+        $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . Core::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_block') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-apply" type="submit" name="btn_update" value="1"' . rex::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('update_block') . '</button>';
+        $n['field'] = '<button class="btn btn-apply" type="submit" name="btn_update" value="1"' . Core::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('update_block') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();

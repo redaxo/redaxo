@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $ASTATUS = ['ADD', 'EDIT', 'DELETE'];
 
 $OUT = true;
@@ -25,10 +27,10 @@ if ('delete' == $function && !$csrfToken->isValid()) {
     $qry = 'SELECT
                         *
                     FROM
-                        ' . rex::getTablePrefix() . 'action a,
-                        ' . rex::getTablePrefix() . 'module_action ma
+                        ' . Core::getTablePrefix() . 'action a,
+                        ' . Core::getTablePrefix() . 'module_action ma
                     LEFT JOIN
-                     ' . rex::getTablePrefix() . 'module m
+                     ' . Core::getTablePrefix() . 'module m
                     ON
                         ma.module_id = m.id
                     WHERE
@@ -46,7 +48,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
         $actionInUseMsg = '<ul>' . $actionInUseMsg . '</ul>';
         $error = rex_i18n::msg('action_cannot_be_deleted', $actionName) . $actionInUseMsg;
     } else {
-        $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'action WHERE id=? LIMIT 1', [$actionId]);
+        $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'action WHERE id=? LIMIT 1', [$actionId]);
         $success = rex_i18n::msg('action_deleted');
     }
 }
@@ -86,7 +88,7 @@ if ('add' == $function || 'edit' == $function) {
             $postsavemode |= $status;
         }
 
-        $faction->setTable(rex::getTablePrefix() . 'action');
+        $faction->setTable(Core::getTablePrefix() . 'action');
         $faction->setValue('name', $name);
         $faction->setValue('preview', $previewaction);
         $faction->setValue('presave', $presaveaction);
@@ -124,7 +126,7 @@ if ('add' == $function || 'edit' == $function) {
             $legend = rex_i18n::msg('action_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $actionId . '</small>';
 
             $action = rex_sql::factory();
-            $action->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'action WHERE id=?', [$actionId]);
+            $action->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'action WHERE id=?', [$actionId]);
 
             $name = $action->getValue('name');
             $previewaction = $action->getValue('preview');
@@ -188,7 +190,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $btnUpdate = '';
         if ('add' != $function) {
-            $btnUpdate = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
+            $btnUpdate = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . Core::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
         }
 
         if ('' != $success) {
@@ -354,7 +356,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_action_and_quit') . '</button>';
+        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . Core::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_action_and_quit') . '</button>';
         $formElements[] = $n;
 
         if ('' != $btnUpdate) {
@@ -420,7 +422,7 @@ if ($OUT) {
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"><i class="rex-icon rex-icon-add-action"></i></a></th>
+                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'add']) . '"' . Core::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"><i class="rex-icon rex-icon-add-action"></i></a></th>
                     <th class="rex-table-id">' . rex_i18n::msg('id') . '</th>
                     <th>' . rex_i18n::msg('action_name') . '</th>
                     <th>' . rex_i18n::msg('action_header_preview') . '</th>
@@ -432,7 +434,7 @@ if ($OUT) {
         ';
 
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'action ORDER BY name');
+    $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'action ORDER BY name');
     $rows = $sql->getRows();
 
     if ($rows > 0) {

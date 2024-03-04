@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Class for handling files.
  */
@@ -93,7 +95,7 @@ class rex_file
             // mimic a atomic write
             $tmpFile = @tempnam(dirname($file), rex_path::basename($file));
             if (false !== file_put_contents($tmpFile, $content) && self::move($tmpFile, $file)) {
-                @chmod($file, rex::getFilePerm());
+                @chmod($file, Core::getFilePerm());
                 return true;
             }
             @unlink($tmpFile);
@@ -130,7 +132,7 @@ class rex_file
 
             // Append the content to the file with FILE_APPEND and LOCK_EX flags
             if (false !== file_put_contents($file, $content, FILE_APPEND | LOCK_EX)) {
-                @chmod($file, rex::getFilePerm());
+                @chmod($file, Core::getFilePerm());
                 return true;
             }
 
@@ -193,7 +195,7 @@ class rex_file
                 }
 
                 if (rex_dir::isWritable($dstdir) && (!is_file($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
-                    @chmod($dstfile, rex::getFilePerm());
+                    @chmod($dstfile, Core::getFilePerm());
                     @touch($dstfile, filemtime($srcfile), fileatime($srcfile));
                     return true;
                 }

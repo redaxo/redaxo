@@ -3,6 +3,7 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Core;
 
 /**
  * @internal
@@ -13,13 +14,13 @@ class rex_socket_test extends TestCase
 
     protected function setUp(): void
     {
-        $this->proxy = rex::getProperty('socket_proxy');
-        rex::setProperty('socket_proxy', null);
+        $this->proxy = Core::getProperty('socket_proxy');
+        Core::setProperty('socket_proxy', null);
     }
 
     protected function tearDown(): void
     {
-        rex::setProperty('socket_proxy', $this->proxy);
+        Core::setProperty('socket_proxy', $this->proxy);
     }
 
     public function testFactory(): rex_socket
@@ -32,7 +33,7 @@ class rex_socket_test extends TestCase
 
     public function testFactoryProxy(): void
     {
-        rex::setProperty('socket_proxy', 'proxy.example.com:8888');
+        Core::setProperty('socket_proxy', 'proxy.example.com:8888');
         $socket = rex_socket::factory('www.example.com');
         $socket->setOptions([]);
         self::assertEquals(rex_socket_proxy::class, $socket::class);
@@ -47,7 +48,7 @@ class rex_socket_test extends TestCase
 
     public function testFactoryUrlProxy(): void
     {
-        rex::setProperty('socket_proxy', 'proxy.example.com:8888');
+        Core::setProperty('socket_proxy', 'proxy.example.com:8888');
         $socket = rex_socket::factoryUrl('www.example.com');
         $socket->setOptions([]);
         self::assertEquals(rex_socket_proxy::class, $socket::class);

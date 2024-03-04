@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -14,7 +16,7 @@ class rex_extension_debug extends rex_extension
 
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
-        $coreTimer = rex::getProperty('timer');
+        $coreTimer = Core::getProperty('timer');
         $absDur = $coreTimer->getDelta();
 
         $timer = new rex_timer();

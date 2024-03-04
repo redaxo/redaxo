@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -7,7 +9,7 @@ class rex_api_package extends rex_api_function
 {
     public function execute()
     {
-        if (rex::isLiveMode()) {
+        if (Core::isLiveMode()) {
             throw new rex_api_exception('Package management is not available in live mode!');
         }
 

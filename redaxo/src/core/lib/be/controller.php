@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_be_controller
 {
     /** @var string */
@@ -117,8 +119,8 @@ class rex_be_controller
         if ($activePageObj->getTitle()) {
             $parts[] = $activePageObj->getTitle();
         }
-        if (rex::getServerName()) {
-            $parts[] = rex::getServerName();
+        if (Core::getServerName()) {
+            $parts[] = Core::getServerName();
         }
         $parts[] = 'REDAXO CMS';
 
@@ -254,7 +256,7 @@ class rex_be_controller
             )
         ;
 
-        if (rex::getConfig('article_history', false)) {
+        if (Core::getConfig('article_history', false)) {
             self::$pages['content']->addSubpage((new rex_be_page('history', ''))
                 ->setRequiredPermissions('history[article_rollback]')
                 ->setIcon('fa fa-history')
@@ -310,7 +312,7 @@ class rex_be_controller
             ->setRequiredPermissions('phpmailer[]')
             ->setPrio(90)
             ->setPjax()
-            ->setIcon('rex-icon rex-icon-envelope' . (rex::getConfig('phpmailer_detour_mode') ? ' text-danger' : ''))
+            ->setIcon('rex-icon rex-icon-envelope' . (Core::getConfig('phpmailer_detour_mode') ? ' text-danger' : ''))
             ->addSubpage((new rex_be_page('config', rex_i18n::msg('phpmailer_configuration')))->setSubPath(rex_path::core('pages/phpmailer.config.php')))
             ->addSubpage((new rex_be_page('log', rex_i18n::msg('phpmailer_logging')))->setSubPath(rex_path::core('pages/phpmailer.log.php')))
             ->addSubpage((new rex_be_page('help', rex_i18n::msg('phpmailer_help')))->setSubPath(rex_path::core('pages/phpmailer.README.md')))
@@ -330,7 +332,7 @@ class rex_be_controller
             )
         ;
 
-        if (rex::isLiveMode()) {
+        if (Core::isLiveMode()) {
             return;
         }
 
@@ -382,7 +384,7 @@ class rex_be_controller
     public static function appendPackagePages()
     {
         $insertPages = [];
-        $addons = rex::isSafeMode() ? rex_addon::getSetupAddons() : rex_addon::getAvailableAddons();
+        $addons = Core::isSafeMode() ? rex_addon::getSetupAddons() : rex_addon::getAvailableAddons();
         foreach ($addons as $addon) {
             $mainPage = self::pageCreate($addon->getProperty('page'), $addon, true);
 
@@ -422,7 +424,7 @@ class rex_be_controller
      */
     private static function pageCreate($page, rex_addon $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
     {
-        if (is_array($page) && isset($page['title']) && (false !== ($page['live_mode'] ?? null) || !rex::isLiveMode())) {
+        if (is_array($page) && isset($page['title']) && (false !== ($page['live_mode'] ?? null) || !Core::isLiveMode())) {
             $pageArray = $page;
             $pageKey = $pageKey ?: $package->getName();
             if ($createMainPage || isset($pageArray['main']) && $pageArray['main']) {
@@ -480,7 +482,7 @@ class rex_be_controller
                 case 'subpages':
                     if (is_array($value)) {
                         foreach ($value as $pageKey => $subProperties) {
-                            if (isset($subProperties['title']) && (false !== ($subProperties['live_mode'] ?? null) || !rex::isLiveMode())) {
+                            if (isset($subProperties['title']) && (false !== ($subProperties['live_mode'] ?? null) || !Core::isLiveMode())) {
                                 $subpage = new rex_be_page($pageKey, $subProperties['title']);
                                 $page->addSubpage($subpage);
                                 self::pageAddProperties($subpage, $subProperties, $package);
@@ -559,7 +561,7 @@ class rex_be_controller
             $page = $page ? self::getPageObject($page) : null;
             if (!$page) {
                 // --- fallback zur system startpage -> rechte checken
-                $page = self::getPageObject(rex::getProperty('start_page'));
+                $page = self::getPageObject(Core::getProperty('start_page'));
                 if (!$page) {
                     // --- fallback zur profile page
                     $page = rex_type::notNull(self::getPageObject('profile'));

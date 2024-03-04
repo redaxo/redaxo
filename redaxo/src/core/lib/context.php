@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Generic interface for classes which provide urls.
  */
@@ -53,7 +55,7 @@ class rex_context implements rex_context_provider_interface
         // combine global params with local
         $params = array_merge($this->globalParams, $params);
 
-        return rex::isBackend() ? rex_url::backendController($params) : rex_url::frontendController($params);
+        return Core::isBackend() ? rex_url::backendController($params) : rex_url::frontendController($params);
     }
 
     /**

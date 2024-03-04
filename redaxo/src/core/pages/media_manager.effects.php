@@ -1,12 +1,14 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $effectId = rex_request('effect_id', 'int');
 $typeId = rex_request('type_id', 'int');
 $func = rex_request('func', 'string');
 
 // ---- validate type_id
 $sql = rex_sql::factory();
-$sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type WHERE id=' . $typeId);
+$sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type WHERE id=' . $typeId);
 if (1 != $sql->getRows()) {
     throw new Exception('Invalid type_id "' . $typeId . '"');
 }
@@ -22,14 +24,14 @@ $warning = '';
 if ('delete' == $func && $effectId > 0) {
     $sql = rex_sql::factory();
     //  $sql->setDebug();
-    $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effect');
+    $sql->setTable(Core::getTablePrefix() . 'media_manager_type_effect');
     $sql->setWhere(['id' => $effectId]);
 
     try {
         $sql->delete();
 
         rex_sql_util::organizePriorities(
-            rex::getTablePrefix() . 'media_manager_type_effect',
+            Core::getTablePrefix() . 'media_manager_type_effect',
             'priority',
             'type_id = ' . $typeId,
             'priority, updatedate desc',
@@ -40,7 +42,7 @@ if ('delete' == $func && $effectId > 0) {
         rex_media_manager::deleteCacheByType($typeId);
 
         rex_sql::factory()
-            ->setTable(rex::getTable('media_manager_type'))
+            ->setTable(Core::getTable('media_manager_type'))
             ->setWhere(['id' => $typeId])
             ->addGlobalUpdateFields()
             ->update();
@@ -66,7 +68,7 @@ foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
 if ('' == $func) {
     echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', $typeName));
 
-    $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $typeId . ' ORDER BY priority';
+    $query = 'SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $typeId . ' ORDER BY priority';
 
     $list = rex_list::factory($query);
     $list->addTableAttribute('class', 'table-striped table-hover');
@@ -129,7 +131,7 @@ if ('' == $func) {
         $formLabel = rex_i18n::rawMsg('media_manager_effect_create_header', rex_escape($typeName));
     }
 
-    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type_effect', '', 'id=' . $effectId);
+    $form = rex_form::factory(Core::getTablePrefix() . 'media_manager_type_effect', '', 'id=' . $effectId);
 
     // image_type_id for reference to save into the db
     $form->addHiddenField('type_id', $typeId);
@@ -272,7 +274,7 @@ if ('' == $func) {
         rex_media_manager::deleteCacheByType($typeId);
 
         rex_sql::factory()
-            ->setTable(rex::getTable('media_manager_type'))
+            ->setTable(Core::getTable('media_manager_type'))
             ->setWhere(['id' => $typeId])
             ->addGlobalUpdateFields()
             ->update();

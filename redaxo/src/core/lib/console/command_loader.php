@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Core;
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
@@ -24,7 +25,7 @@ class rex_console_command_loader implements CommandLoaderInterface
             'user:create' => rex_command_user_create::class,
         ];
 
-        if (!rex::isSetup()) {
+        if (!Core::isSetup()) {
             $commands = array_merge($commands, [
                 'assets:sync' => rex_command_assets_sync::class,
                 'be_style:compile' => rex_command_be_style_compile::class,

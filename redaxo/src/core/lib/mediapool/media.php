@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab.
  */
@@ -97,7 +99,7 @@ class rex_media
     public static function forId(int $mediaId): ?self
     {
         $media = rex_sql::factory();
-        $media->setQuery('select filename from ' . rex::getTable('media') . ' where id=?', [$mediaId]);
+        $media->setQuery('select filename from ' . Core::getTable('media') . ' where id=?', [$mediaId]);
 
         if (1 != $media->getRows()) {
             return null;
@@ -331,7 +333,7 @@ class rex_media
      */
     public static function getDocTypes()
     {
-        return rex::getProperty('allowed_doctypes', []);
+        return Core::getProperty('allowed_doctypes', []);
     }
 
     /**
@@ -348,7 +350,7 @@ class rex_media
      */
     public static function getImageTypes()
     {
-        return rex::getProperty('image_extensions', []);
+        return Core::getProperty('image_extensions', []);
     }
 
     /**

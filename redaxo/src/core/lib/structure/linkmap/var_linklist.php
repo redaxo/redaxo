@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * REX_LINKLIST[1].
  *
@@ -67,7 +69,7 @@ class rex_var_linklist extends rex_var
         $openFunc = '';
         $deleteFunc = '';
         $quotedId = "'" . rex_escape($id, 'js') . "'";
-        if (rex::requireUser()->getComplexPerm('structure')->hasStructurePerm()) {
+        if (Core::requireUser()->getComplexPerm('structure')->hasStructurePerm()) {
             $disabled = '';
             $openFunc = 'openREXLinklist(' . $quotedId . ', \'' . $openParams . '\');';
             $deleteFunc = 'deleteREXLinklist(' . $quotedId . ');';

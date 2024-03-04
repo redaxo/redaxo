@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Class for handling directories.
  */
@@ -26,8 +28,8 @@ class rex_dir
             return false;
         }
 
-        if (self::isWritable($parent) && mkdir($dir, rex::getDirPerm())) {
-            @chmod($dir, rex::getDirPerm());
+        if (self::isWritable($parent) && mkdir($dir, Core::getDirPerm())) {
+            @chmod($dir, Core::getDirPerm());
             return true;
         }
 

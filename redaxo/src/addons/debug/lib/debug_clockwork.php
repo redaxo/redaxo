@@ -3,6 +3,7 @@
 use Clockwork\Clockwork;
 use Clockwork\DataSource\XdebugDataSource;
 use Clockwork\Support\Vanilla\Clockwork as VanillaClockwork;
+use Redaxo\Core\Core;
 
 /**
  * @internal
@@ -88,7 +89,7 @@ class rex_debug_clockwork
     public static function isRexDebugEnabled(): bool
     {
         if (PHP_SAPI !== 'cli') {
-            return rex::isDebugMode();
+            return Core::isDebugMode();
         }
 
         $coreConfigCacheFile = rex_path::coreCache('config.yml.cache');

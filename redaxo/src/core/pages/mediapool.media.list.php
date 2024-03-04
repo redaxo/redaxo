@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -21,7 +23,7 @@ if (!isset($argUrl)) {
 
 $mediaMethod = rex_request('media_method', 'string');
 
-$perm = rex::requireUser()->getComplexPerm('media');
+$perm = Core::requireUser()->getComplexPerm('media');
 $hasCategoryPerm = $perm->hasCategoryPerm($rexFileCategory);
 
 if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
@@ -33,7 +35,7 @@ if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
             foreach ($selectedmedia as $fileName) {
                 $db = rex_sql::factory();
                 // $db->setDebug();
-                $db->setTable(rex::getTablePrefix() . 'media');
+                $db->setTable(Core::getTablePrefix() . 'media');
                 $db->setWhere(['filename' => $fileName]);
                 $db->setValue('category_id', $rexFileCategory);
                 $db->addGlobalUpdateFields();
@@ -137,7 +139,7 @@ $panel = '
         <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::backendController(array_merge(['page' => 'mediapool/upload'], $argUrl)) . '"' . rex::getAccesskey(rex_i18n::msg('pool_file_insert'), 'add') . ' title="' . rex_i18n::msg('pool_file_insert') . '"><i class="rex-icon rex-icon-add-media"></i></a></th>
+                <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::backendController(array_merge(['page' => 'mediapool/upload'], $argUrl)) . '"' . Core::getAccesskey(rex_i18n::msg('pool_file_insert'), 'add') . ' title="' . rex_i18n::msg('pool_file_insert') . '"><i class="rex-icon rex-icon-add-media"></i></a></th>
                 <th class="rex-table-thumbnail">' . rex_i18n::msg('pool_file_thumbnail') . '</th>
                 <th>' . rex_i18n::msg('pool_file_info') . ' / ' . rex_i18n::msg('pool_file_description') . '</th>
                 <th>' . rex_i18n::msg('pool_last_update') . '</th>
@@ -149,7 +151,7 @@ $panel = '
 if ($hasCategoryPerm) {
     $addInput = '';
     $filecat = rex_sql::factory();
-    $filecat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category ORDER BY name ASC LIMIT 1');
+    $filecat->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_category ORDER BY name ASC LIMIT 1');
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_select_all') . '</label>';

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_be_navigation
 {
     use rex_factory_trait;
@@ -109,7 +111,7 @@ class rex_be_navigation
         $navigation = [];
 
         foreach ($blockPages as $page) {
-            if ($page->isHidden() || !$page->checkPermission(rex::requireUser())) {
+            if ($page->isHidden() || !$page->checkPermission(Core::requireUser())) {
                 continue;
             }
             $n = [];

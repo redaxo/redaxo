@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($argFields) && is_string($argFields));
 assert(isset($fileId) && is_int($fileId));
@@ -20,7 +22,7 @@ $selMedia->setAttribute('onchange', 'this.form.submit();');
 $selMedia->setAttribute('class', 'selectpicker');
 $selMedia->setAttribute('data-live-search', 'true');
 
-if (rex::requireUser()->getComplexPerm('media')->hasAll()) {
+if (Core::requireUser()->getComplexPerm('media')->hasAll()) {
     $selMedia->addOption(rex_i18n::msg('pool_kats_no'), '0');
 }
 

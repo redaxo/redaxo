@@ -1,15 +1,17 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Packages loading.
  */
 
-rex_addon::initialize(!rex::isSetup());
+rex_addon::initialize(!Core::isSetup());
 
-if (rex::isSetup() || rex::isSafeMode()) {
+if (Core::isSetup() || Core::isSafeMode()) {
     $packageOrder = array_keys(rex_addon::getSetupAddons());
 } else {
-    $packageOrder = rex::getPackageOrder();
+    $packageOrder = Core::getPackageOrder();
 }
 
 // in the first run, we register all folders for class- and fragment-loading,

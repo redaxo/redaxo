@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $func = rex_request('func', 'string');
 
 if ('update' == $func) {
@@ -18,7 +20,7 @@ if ('update' == $func) {
     $config['media_manager_avif_quality'] = max(0, min(100, $config['media_manager_avif_quality']));
     $config['media_manager_avif_speed'] = max(0, min(10, $config['media_manager_avif_speed']));
 
-    rex::setConfig($config);
+    Core::setConfig($config);
     rex_media_manager::deleteCache();
     echo rex_view::info(rex_i18n::msg('media_manager_config_saved'));
 }
@@ -28,8 +30,8 @@ $formElements = [];
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-jpg-quality" type="range" min="0" max="100" step="1" value="' . rex_escape(rex::getConfig('media_manager_jpg_quality')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-jpg-quality" type="text" name="settings[media_manager_jpg_quality]" value="' . rex_escape(rex::getConfig('media_manager_jpg_quality')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-jpg-quality" type="range" min="0" max="100" step="1" value="' . rex_escape(Core::getConfig('media_manager_jpg_quality')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-jpg-quality" type="text" name="settings[media_manager_jpg_quality]" value="' . rex_escape(Core::getConfig('media_manager_jpg_quality')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();
@@ -44,8 +46,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-png-compression" type="range" min="0" max="9" step="1" value="' . rex_escape(rex::getConfig('media_manager_png_compression')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-png-compression" type="text" name="settings[media_manager_png_compression]" value="' . rex_escape(rex::getConfig('media_manager_png_compression')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-png-compression" type="range" min="0" max="9" step="1" value="' . rex_escape(Core::getConfig('media_manager_png_compression')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-png-compression" type="text" name="settings[media_manager_png_compression]" value="' . rex_escape(Core::getConfig('media_manager_png_compression')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();
@@ -61,8 +63,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-webp-quality" type="range" min="0" max="101" step="1" value="' . rex_escape(rex::getConfig('media_manager_webp_quality')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-webp-quality" type="text" name="settings[media_manager_webp_quality]" value="' . rex_escape(rex::getConfig('media_manager_webp_quality')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-webp-quality" type="range" min="0" max="101" step="1" value="' . rex_escape(Core::getConfig('media_manager_webp_quality')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-webp-quality" type="text" name="settings[media_manager_webp_quality]" value="' . rex_escape(Core::getConfig('media_manager_webp_quality')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();
@@ -77,8 +79,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-avif-quality" type="range" min="0" max="100" step="1" value="' . rex_escape((int) rex::getConfig('media_manager_avif_quality')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-quality" type="text" name="settings[media_manager_avif_quality]" value="' . rex_escape((int) rex::getConfig('media_manager_avif_quality')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-avif-quality" type="range" min="0" max="100" step="1" value="' . rex_escape((int) Core::getConfig('media_manager_avif_quality')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-quality" type="text" name="settings[media_manager_avif_quality]" value="' . rex_escape((int) Core::getConfig('media_manager_avif_quality')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();
@@ -93,8 +95,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-avif-speed" type="range" min="0" max="10" step="1" value="' . rex_escape((int) rex::getConfig('media_manager_avif_speed')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-speed" type="text" name="settings[media_manager_avif_speed]" value="' . rex_escape((int) rex::getConfig('media_manager_avif_speed')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-avif-speed" type="range" min="0" max="10" step="1" value="' . rex_escape((int) Core::getConfig('media_manager_avif_speed')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-speed" type="text" name="settings[media_manager_avif_speed]" value="' . rex_escape((int) Core::getConfig('media_manager_avif_speed')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();
@@ -112,7 +114,7 @@ $select->setId('rex-media-manager-interlace');
 $select->setAttribute('class', 'form-control selectpicker');
 $select->setMultiple(true);
 $select->addOptions(['jpg', 'png', 'gif'], true);
-$select->setSelected(rex::getConfig('media_manager_interlace'));
+$select->setSelected(Core::getConfig('media_manager_interlace'));
 
 $n = [];
 $n['label'] = '<label for="rex-media-manager-interlace">' . rex_i18n::msg('media_manager_interlace') . '</label>';
@@ -129,7 +131,7 @@ $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() 
 $formElements[] = $n;
 
 $n = [];
-$n['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" name="sendit" value="1"' . rex::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('update') . '</button>';
+$n['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" name="sendit" value="1"' . Core::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('update') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

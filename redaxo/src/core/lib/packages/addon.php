@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_addon implements rex_addon_interface
 {
     public const FILE_PACKAGE = 'package.yml';
@@ -151,7 +153,7 @@ class rex_addon implements rex_addon_interface
 
     public function isSystemPackage()
     {
-        return in_array($this->getPackageId(), rex::getProperty('system_addons'));
+        return in_array($this->getPackageId(), Core::getProperty('system_addons'));
     }
 
     public function setConfig($key, $value = null)
@@ -298,8 +300,8 @@ class rex_addon implements rex_addon_interface
         }
 
         $isCached = isset($cache[$id]);
-        $isBackendAdmin = rex::isBackend() && rex::getUser()?->isAdmin();
-        if (!$isCached || (rex::getConsole() || $isBackendAdmin) && $cache[$id]['timestamp'] < filemtime($file)) {
+        $isBackendAdmin = Core::isBackend() && Core::getUser()?->isAdmin();
+        if (!$isCached || (Core::getConsole() || $isBackendAdmin) && $cache[$id]['timestamp'] < filemtime($file)) {
             try {
                 $properties = rex_file::getConfig($file);
 
@@ -467,7 +469,7 @@ class rex_addon implements rex_addon_interface
     public static function getSetupAddons()
     {
         $addons = [];
-        foreach ((array) rex::getProperty('setup_addons', []) as $addon) {
+        foreach ((array) Core::getProperty('setup_addons', []) as $addon) {
             if (self::exists($addon)) {
                 $addons[$addon] = self::require($addon);
             }
@@ -483,7 +485,7 @@ class rex_addon implements rex_addon_interface
     public static function getSystemAddons()
     {
         $addons = [];
-        foreach ((array) rex::getProperty('system_addons', []) as $addon) {
+        foreach ((array) Core::getProperty('system_addons', []) as $addon) {
             if (self::exists($addon)) {
                 $addons[$addon] = self::require($addon);
             }
@@ -499,10 +501,10 @@ class rex_addon implements rex_addon_interface
     public static function initialize($dbExists = true)
     {
         if ($dbExists) {
-            $config = rex::getPackageConfig();
+            $config = Core::getPackageConfig();
         } else {
             $config = [];
-            foreach (rex::getProperty('setup_addons') as $addon) {
+            foreach (Core::getProperty('setup_addons') as $addon) {
                 $config[(string) $addon]['install'] = false;
             }
         }

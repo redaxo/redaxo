@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Core;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -85,7 +86,7 @@ abstract class rex_error_handler
             }
             rex_response::setStatus($status);
 
-            if (rex::isSetup() || rex::isDebugMode() || !rex::isLiveMode() && rex_backend_login::createUser()?->isAdmin()) {
+            if (Core::isSetup() || Core::isDebugMode() || !Core::isLiveMode() && rex_backend_login::createUser()?->isAdmin()) {
                 [$errPage, $contentType] = self::renderWhoops($exception);
                 rex_response::sendContent($errPage, $contentType);
                 exit(1);
@@ -96,7 +97,7 @@ abstract class rex_error_handler
 
         try {
             $fragment = new rex_fragment();
-            if (rex::isBackend()) {
+            if (Core::isBackend()) {
                 $errorPage = $fragment->parse('core/be_ooops.php');
             } else {
                 $errorPage = $fragment->parse('core/fe_ooops.php');
@@ -140,7 +141,7 @@ abstract class rex_error_handler
                     <path fill="#FFFFFF" d="M114.552,1.279l5.167,8.52l5.461-8.52h8.835l-10.004,15.089l8.675,12.667h-8.309l-4.2-6.607l-4.398,6.607h-9.147l9.056-13.276l-9.043-14.479H114.552L114.552,1.279z"/>
                     <path fill="#FFFFFF" d="M167.358,21.674l-3.909-0.001c-0.938,0-1.487,0.334-1.746,2.553c-0.229,1.97,0.399,2.474,1.338,2.474c0.732,0,2.414,0.016,3.81,0.008l-0.26,2.581c-1.424,0.008-3.024-0.009-3.726-0.009c-2.691,0-4.008-2.053-3.729-5.312c0.258-3.015,1.581-4.874,4.075-4.874l4.408,0.001L167.358,21.674z M188.539,21.634l-4.229,0.002c-1.084,0-1.028,1.299-0.163,1.299l1.786,0.003c4.288,0,3.99,6.319-0.339,6.319l-5.103-0.008l0.261-2.581l4.935,0.008c0.994,0,0.983-1.383,0.154-1.383l-1.694-0.002c-4.316,0-4.096-6.236,0.33-6.236l4.321-0.002L188.539,21.634L188.539,21.634z M175.543,21.67l-0.769,7.624h-2.595l0.77-7.624l-1.809-0.017l-0.712,7.641h-2.591l0.954-10.255l7.51,0.051c2.297,0.008,3.88,1.641,3.632,4.102l-0.629,6.103h-2.595l0.657-6.363c0.093-0.923-0.276-1.256-1.067-1.26L175.543,21.67L175.543,21.67z"/>
                     <path fill="#FFFFFF" d="M165.465,1c2.893,0,5.236,2.345,5.236,5.25c0,2.891-2.344,5.236-5.236,5.236c-2.891,0-5.236-2.345-5.236-5.236C160.229,3.345,162.574,1,165.465,1z M162.703,9.082c1.515,1.553,4.011,1.554,5.539,0c1.557-1.57,1.557-4.109,0-5.679c-1.528-1.554-4.024-1.553-5.539,0c-0.752,0.752-1.175,1.773-1.175,2.846C161.528,7.308,161.95,8.329,162.703,9.082z M166.391,6.713l1.448,2.647h-1.78l-1.122-2.222l-0.272,2.222h-1.517l0.779-6.33h1.903c1.558,0,2.373,0.925,1.917,2.369C167.545,6.075,167.067,6.516,166.391,6.713L166.391,6.713z M165.318,5.761c0.533,0,0.822-0.219,0.935-0.577c0.188-0.528-0.034-0.854-0.652-0.854h-0.318l-0.175,1.432H165.318L165.318,5.761z"/>
-                    <text fill="#FFFFFF" x="193" y="29" font-size="10">' . rex::getVersion() . '</text>
+                    <text fill="#FFFFFF" x="193" y="29" font-size="10">' . Core::getVersion() . '</text>
                 </svg>';
         $styles = '
                 <style nonce="' . rex_response::getNonce() . '">
@@ -229,7 +230,7 @@ abstract class rex_error_handler
                 </style>';
 
         $saveModeLink = '';
-        if (!rex::isSetup() && rex::isBackend() && !rex::isSafeMode()) {
+        if (!Core::isSetup() && Core::isBackend() && !Core::isSafeMode()) {
             $saveModeLink = '<a class="rex-safemode" href="' . rex_url::backendPage('packages', ['safemode' => 1]) . '">activate safe mode</a>';
         }
 
@@ -246,7 +247,7 @@ abstract class rex_error_handler
         $bugBodyCompressed = rex_type::string(preg_replace('/ {2,}/u', ' ', $bugBody)); // replace multiple spaces with one space
         $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels=' . rex_escape($bugLabel, 'url') . '&title=' . rex_escape($bugTitle, 'url') . '&body=' . rex_escape($bugBodyCompressed, 'url') . '" rel="noopener noreferrer" target="_blank">Report a REDAXO bug</a>';
 
-        $url = rex::isFrontend() ? rex_url::frontendController() : rex_url::backendController();
+        $url = Core::isFrontend() ? rex_url::frontendController() : rex_url::backendController();
 
         $errPage = str_replace(
             [
@@ -306,7 +307,7 @@ abstract class rex_error_handler
             return false;
         }
 
-        $debug = rex::getDebugFlags();
+        $debug = Core::getDebugFlags();
         $alwaysThrow = $debug['throw_always_exception'];
 
         if (
@@ -316,7 +317,7 @@ abstract class rex_error_handler
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
 
-        if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || !rex::isLiveMode() && rex_backend_login::createUser()?->isAdmin())) {
+        if (ini_get('display_errors') && (Core::isSetup() || Core::isDebugMode() || !Core::isLiveMode() && rex_backend_login::createUser()?->isAdmin())) {
             $file = rex_path::relative($errfile);
             if ('cli' === PHP_SAPI) {
                 echo self::getErrorType($errno) . ": $errstr in $file on line $errline";
@@ -380,7 +381,7 @@ abstract class rex_error_handler
         }
 
         try {
-            $request = rex::getRequest();
+            $request = Core::getRequest();
         } catch (rex_exception) {
             return null;
         }

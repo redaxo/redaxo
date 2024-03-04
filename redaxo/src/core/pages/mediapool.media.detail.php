@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -20,13 +22,13 @@ if (!isset($fileId)) {
     $fileId = 0;
 }
 
-$perm = rex::requireUser()->getComplexPerm('media');
+$perm = Core::requireUser()->getComplexPerm('media');
 
 if (rex_post('btn_delete', 'string')) {
     if (!$csrf->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
-        $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$fileId]);
+        $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . Core::getTable('media') . ' WHERE id = ?', [$fileId]);
         $media = null;
         if (1 == $sql->getRows()) {
             $media = rex_media::get((string) $sql->getValue('filename'));
@@ -59,7 +61,7 @@ if (rex_post('btn_update', 'string')) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
         $gf = rex_sql::factory();
-        $gf->setQuery('select * from ' . rex::getTablePrefix() . 'media where id=?', [$fileId]);
+        $gf->setQuery('select * from ' . Core::getTablePrefix() . 'media where id=?', [$fileId]);
         if (1 != $gf->getRows()) {
             $error = rex_i18n::msg('pool_file_not_found');
             $fileId = 0;
@@ -97,7 +99,7 @@ if (rex_post('btn_update', 'string')) {
 }
 
 $gf = rex_sql::factory();
-$gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE id = ?', [$fileId]);
+$gf->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media WHERE id = ?', [$fileId]);
 if (1 != $gf->getRows()) {
     $error = rex_i18n::msg('pool_file_not_found');
     $fileId = 0;

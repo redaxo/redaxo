@@ -1,6 +1,7 @@
 <?php
 
 use Composer\Autoload\ClassLoader;
+use Redaxo\Core\Core;
 
 /**
  * REDAXO Autoloader.
@@ -123,7 +124,7 @@ class rex_autoload
         // but only if an admin is logged in
         if (
             (!self::$reloaded || $force) &&
-            (rex::isSetup() || rex::getConsole() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())
+            (Core::isSetup() || Core::getConsole() || Core::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())
         ) {
             self::reload($force);
             return self::autoload($class);

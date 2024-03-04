@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Core;
 
 /**
  * @internal
@@ -96,7 +97,7 @@ class rex_media_manager_test extends TestCase
         yield [false, $type, 'test.jpg'];
 
         $typeTimestamp = (int) rex_sql::factory()
-            ->setQuery('SELECT updatedate FROM ' . rex::getTable('media_manager_type') . ' WHERE name = ?', [$type])
+            ->setQuery('SELECT updatedate FROM ' . Core::getTable('media_manager_type') . ' WHERE name = ?', [$type])
             ->getDateTimeValue('updatedate');
 
         foreach ([$typeTimestamp - 1000, $typeTimestamp + 1000] as $fileTimestamp) {

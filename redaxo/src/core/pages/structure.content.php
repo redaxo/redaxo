@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $articleId = rex_request('article_id', 'int');
 $clang = rex_request('clang', 'int');
 $sliceId = rex_request('slice_id', 'int', '');
@@ -21,8 +23,8 @@ $article->setQuery('
         SELECT
             article.*, template.attributes as template_attributes
         FROM
-            ' . rex::getTablePrefix() . 'article as article
-        LEFT JOIN ' . rex::getTablePrefix() . 'template as template
+            ' . Core::getTablePrefix() . 'article as article
+        LEFT JOIN ' . Core::getTablePrefix() . 'template as template
             ON template.id=article.template_id
         WHERE
             article.id=?
@@ -89,7 +91,7 @@ echo rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_HEA
     'slice_revision' => &$sliceRevision,
 ]));
 
-$user = rex::requireUser();
+$user = Core::requireUser();
 
 // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
 if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
@@ -106,14 +108,14 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         $moduleId = null;
         if ('edit' == $function || 'delete' == $function) {
             // edit/ delete
-            $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . 'article_slice.id=? AND clang_id=?', [$sliceId, $clang]);
+            $CM->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article_slice LEFT JOIN ' . Core::getTablePrefix() . 'module ON ' . Core::getTablePrefix() . 'article_slice.module_id=' . Core::getTablePrefix() . 'module.id WHERE ' . Core::getTablePrefix() . 'article_slice.id=? AND clang_id=?', [$sliceId, $clang]);
             if (1 == $CM->getRows()) {
-                $moduleId = $CM->getValue('' . rex::getTablePrefix() . 'article_slice.module_id');
+                $moduleId = $CM->getValue('' . Core::getTablePrefix() . 'article_slice.module_id');
             }
         } else {
             // add
             $moduleId = rex_post('module_id', 'int');
-            $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
+            $CM->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
         }
 
         if (1 != $CM->getRows()) {
@@ -170,7 +172,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
                     // ----- SAVE/UPDATE SLICE
                     if ('add' == $function || 'edit' == $function) {
-                        $sliceTable = rex::getTablePrefix() . 'article_slice';
+                        $sliceTable = Core::getTablePrefix() . 'article_slice';
                         $newsql->setTable($sliceTable);
 
                         if ('edit' == $function) {
@@ -241,7 +243,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                                 $sliceId = (int) $newsql->getLastId();
 
                                 rex_sql_util::organizePriorities(
-                                    rex::getTable('article_slice'),
+                                    Core::getTable('article_slice'),
                                     'priority',
                                     'article_id=' . $articleId . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . (int) $sliceRevision,
                                     'priority, updatedate DESC',
@@ -298,7 +300,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
                     // ----- artikel neu generieren
                     $EA = rex_sql::factory();
-                    $EA->setTable(rex::getTablePrefix() . 'article');
+                    $EA->setTable(Core::getTablePrefix() . 'article');
                     $EA->setWhere(['id' => $articleId, 'clang_id' => $clang]);
                     $EA->addGlobalUpdateFields();
                     $EA->update();

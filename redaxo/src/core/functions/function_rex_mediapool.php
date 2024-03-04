@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Ausgabe des Medienpool Formulars.
  *
@@ -21,7 +23,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     $catsSel->setAttribute('onchange', 'this.form.submit()');
     $catsSel->setSelected($rexFileCategory);
 
-    if (rex::requireUser()->getComplexPerm('media')->hasAll()) {
+    if (Core::requireUser()->getComplexPerm('media')->hasAll()) {
         $catsSel->addOption(rex_i18n::msg('pool_kats_no'), '0');
     }
 
@@ -63,7 +65,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
 
     $addSubmit = '';
     if ($closeForm && '' != $openerInputField) {
-        $addSubmit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>';
+        $addSubmit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . Core::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>';
     }
 
     $panel = '';
@@ -106,7 +108,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     $formElements = [];
 
     $e = [];
-    $e['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="save" value="' . $buttonTitle . '"' . rex::getAccesskey($buttonTitle, 'save') . '>' . $buttonTitle . '</button>';
+    $e['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="save" value="' . $buttonTitle . '"' . Core::getAccesskey($buttonTitle, 'save') . '>' . $buttonTitle . '</button>';
     $formElements[] = $e;
 
     $e = [];

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_media_manager
 {
     /**
@@ -146,7 +148,7 @@ class rex_media_manager
     {
         $qry = '
             SELECT e.*
-            FROM ' . rex::getTablePrefix() . 'media_manager_type t, ' . rex::getTablePrefix() . 'media_manager_type_effect e
+            FROM ' . Core::getTablePrefix() . 'media_manager_type t, ' . Core::getTablePrefix() . 'media_manager_type_effect e
             WHERE e.type_id = t.id AND t.name=? order by e.priority';
 
         $sql = rex_sql::factory();
@@ -286,7 +288,7 @@ class rex_media_manager
      */
     public static function deleteCacheByType($typeId)
     {
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type WHERE id=?';
+        $qry = 'SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type WHERE id=?';
         $sql = rex_sql::factory();
         //  $sql->setDebug();
         $sql->setQuery($qry, [$typeId]);
@@ -460,8 +462,8 @@ class rex_media_manager
         $sql = rex_sql::factory();
         $sql->setQuery('
             SELECT DISTINCT effect.id AS effect_id, effect.type_id, type.id, type.name
-            FROM `' . rex::getTable('media_manager_type_effect') . '` AS effect
-            LEFT JOIN `' . rex::getTable('media_manager_type') . '` AS type ON effect.type_id = type.id
+            FROM `' . Core::getTable('media_manager_type_effect') . '` AS effect
+            LEFT JOIN `' . Core::getTable('media_manager_type') . '` AS type ON effect.type_id = type.id
             WHERE parameters LIKE ?
         ', ['%' . $sql->escapeLikeWildcards(json_encode($filename)) . '%']);
 
@@ -580,7 +582,7 @@ class rex_media_manager
         $cache = [];
 
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT name, updatedate FROM ' . rex::getTable('media_manager_type'));
+        $sql->setQuery('SELECT name, updatedate FROM ' . Core::getTable('media_manager_type'));
 
         foreach ($sql as $row) {
             $cache[(string) $row->getValue('name')] = (int) $row->getDateTimeValue('updatedate');

@@ -1,12 +1,14 @@
 <?php
 
+use Redaxo\Core\Core;
+
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($ctype) && is_int($ctype));
 assert(isset($article) && $article instanceof rex_sql);
 assert(isset($categoryId) && is_int($categoryId));
 assert(isset($articleId) && is_int($articleId));
 
-$user = rex::requireUser();
+$user = Core::requireUser();
 
 $content = '
         <form id="rex-form-content-metamode" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" data-pjax-container="#rex-page-main">
@@ -114,7 +116,7 @@ if (!$isStartpage && $user->hasPerm('article2category[]')) {
 // --------------------------------------------------- IN ARTIKEL UMWANDELN START
 if ($isStartpage && $user->hasPerm('article2category[]') && $user->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? LIMIT 1', [$articleId]);
+    $sql->setQuery('SELECT pid FROM ' . Core::getTablePrefix() . 'article WHERE parent_id=? LIMIT 1', [$articleId]);
     $emptyCategory = 0 == $sql->getRows();
 
     $panel = '<fieldset>';

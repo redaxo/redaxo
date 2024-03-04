@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Core;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider;
@@ -22,7 +23,7 @@ abstract class rex_var_dumper
     public static function register()
     {
         VarDumper::setHandler(static function ($var) {
-            if (rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+            if (Core::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
                 VarDumper::setHandler(self::dump(...));
                 self::dump($var);
 

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 assert(isset($markdown) && is_callable($markdown));
 
 $package = rex_addon::get('install');
@@ -188,7 +190,7 @@ if ($core && !empty($coreVersions)) {
         }
         $url = rex_url::currentBackendPage(['core' => 1]);
 
-        $coreVersion = rex_escape(rex::getVersion());
+        $coreVersion = rex_escape(Core::getVersion());
         if (rex_version::isUnstable($coreVersion)) {
             $coreVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . rex_i18n::msg('unstable_version') . '"></i> ' . $coreVersion;
         }

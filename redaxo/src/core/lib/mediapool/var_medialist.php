@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * REX_MEDIALIST[1].
  *
@@ -73,7 +75,7 @@ class rex_var_medialist extends rex_var
         $deleteFunc = '';
         $viewFunc = '';
         $quotedId = "'" . rex_escape($id, 'js') . "'";
-        if (rex::requireUser()->getComplexPerm('media')->hasMediaPerm()) {
+        if (Core::requireUser()->getComplexPerm('media')->hasMediaPerm()) {
             $disabled = '';
             $openFunc = 'openREXMedialist(' . $quotedId . ', \'' . $openParams . '\');';
             $addFunc = 'addREXMedialist(' . $quotedId . ', \'' . $openParams . '\');';

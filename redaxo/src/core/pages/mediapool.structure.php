@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($argFields) && is_string($argFields));
 assert(isset($argUrl) && is_array($argUrl));
@@ -107,7 +109,7 @@ if ($PERMALL) {
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . $link . $catId . '&amp;media_method=add_cat"' . rex::getAccesskey(rex_i18n::msg('pool_kat_create'), 'add') . ' title="' . rex_i18n::msg('pool_kat_create') . '"><i class="rex-icon rex-icon-add-media-category"></i></a></th>
+                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . $link . $catId . '&amp;media_method=add_cat"' . Core::getAccesskey(rex_i18n::msg('pool_kat_create'), 'add') . ' title="' . rex_i18n::msg('pool_kat_create') . '"><i class="rex-icon rex-icon-add-media-category"></i></a></th>
                     <th class="rex-table-id">' . rex_i18n::msg('id') . '</th>
                     <th>' . rex_i18n::msg('pool_kat_name') . '</th>
                     <th class="rex-table-action" colspan="2">' . rex_i18n::msg('pool_kat_function') . '</th>
@@ -122,7 +124,7 @@ if ($PERMALL) {
                 <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">-</td>
                 <td data-title="' . rex_i18n::msg('pool_kat_name') . '"><input class="form-control" type="text" name="catname" value="" autofocus /></td>
                 <td class="rex-table-action" colspan="2">
-                    <button class="btn btn-save" type="submit" value="' . rex_i18n::msg('pool_kat_create') . '"' . rex::getAccesskey(rex_i18n::msg('pool_kat_create'), 'save') . '>' . rex_i18n::msg('pool_kat_create') . '</button>
+                    <button class="btn btn-save" type="submit" value="' . rex_i18n::msg('pool_kat_create') . '"' . Core::getAccesskey(rex_i18n::msg('pool_kat_create'), 'save') . '>' . rex_i18n::msg('pool_kat_create') . '</button>
                 </td>
             </tr>
         ';
@@ -140,7 +142,7 @@ if ($PERMALL) {
                     <td data-title="' . rex_i18n::msg('pool_kat_name') . '"><input class="form-control" type="text" name="cat_name" value="' . rex_escape($iname) . '" autofocus /></td>
                     <td class="rex-table-action" colspan="2">
                         <input type="hidden" name="edit_id" value="' . $editId . '" />
-                        <button class="btn btn-save" type="submit" value="' . rex_i18n::msg('pool_kat_update') . '"' . rex::getAccesskey(rex_i18n::msg('pool_kat_update'), 'save') . '>' . rex_i18n::msg('pool_kat_update') . '</button>
+                        <button class="btn btn-save" type="submit" value="' . rex_i18n::msg('pool_kat_update') . '"' . Core::getAccesskey(rex_i18n::msg('pool_kat_update'), 'save') . '>' . rex_i18n::msg('pool_kat_update') . '</button>
                     </td>
                 </tr>
             ';

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_backup
 {
     public const IMPORT_ARCHIVE = 1;
@@ -102,7 +104,7 @@ class rex_backup
 
         // Versionsstempel prüfen
         // ## Redaxo Database Dump Version x.x
-        $mainVersion = rex::getVersion('%s');
+        $mainVersion = Core::getVersion('%s');
         $version = strpos($conts, '## Redaxo Database Dump Version ' . $mainVersion);
         if (false === $version) {
             return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing');
@@ -118,16 +120,16 @@ class rex_backup
             $conts = trim(str_replace('## Prefix ' . $prefix, '', $conts));
         } else {
             // Prefix wurde nicht gefunden
-            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . rex::getTablePrefix() . '] is missing');
+            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . Core::getTablePrefix() . '] is missing');
         }
 
         // Prefix im export mit dem der installation angleichen
-        if (rex::getTablePrefix() != $prefix) {
+        if (Core::getTablePrefix() != $prefix) {
             // Hier case-insensitiv ersetzen, damit alle möglich Schreibweisen (TABLE TablE, tAblE,..) ersetzt werden
             // Dies ist wichtig, da auch SQLs innerhalb von Ein/Ausgabe der Module vom rex-admin verwendet werden
-            $conts = preg_replace('/(TABLES? `?)' . preg_quote($prefix, '/') . '/i', '$1' . rex::getTablePrefix(), $conts);
-            $conts = preg_replace('/(INTO `?)' . preg_quote($prefix, '/') . '/i', '$1' . rex::getTablePrefix(), $conts);
-            $conts = preg_replace('/(EXISTS `?)' . preg_quote($prefix, '/') . '/i', '$1' . rex::getTablePrefix(), $conts);
+            $conts = preg_replace('/(TABLES? `?)' . preg_quote($prefix, '/') . '/i', '$1' . Core::getTablePrefix(), $conts);
+            $conts = preg_replace('/(INTO `?)' . preg_quote($prefix, '/') . '/i', '$1' . Core::getTablePrefix(), $conts);
+            $conts = preg_replace('/(EXISTS `?)' . preg_quote($prefix, '/') . '/i', '$1' . Core::getTablePrefix(), $conts);
         }
 
         // ----- EXTENSION POINT
@@ -264,8 +266,8 @@ class rex_backup
         rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_DB_EXPORT'));
 
         // Versionsstempel hinzufügen
-        fwrite($fp, '## Redaxo Database Dump Version ' . rex::getVersion('%s') . $nl);
-        fwrite($fp, '## Prefix ' . rex::getTablePrefix() . $nl);
+        fwrite($fp, '## Redaxo Database Dump Version ' . Core::getVersion('%s') . $nl);
+        fwrite($fp, '## Prefix ' . Core::getTablePrefix() . $nl);
         //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);
@@ -427,7 +429,7 @@ class rex_backup
                 continue;
             }
 
-            if (str_starts_with($file, rex::getTempPrefix())) {
+            if (str_starts_with($file, Core::getTempPrefix())) {
                 continue;
             }
 
@@ -450,8 +452,8 @@ class rex_backup
     public static function getTables()
     {
         $tables = [];
-        foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
-            if (!str_starts_with($table, rex::getTablePrefix() . rex::getTempPrefix())) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+        foreach (rex_sql::factory()->getTables(Core::getTablePrefix()) as $table) {
+            if (!str_starts_with($table, Core::getTablePrefix() . Core::getTempPrefix())) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
                 $tables[] = $table;
             }
         }

@@ -1,4 +1,6 @@
 <?php
+use Redaxo\Core\Core;
+
 /**
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
@@ -13,12 +15,12 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 <?php
-    $user = rex::getUser();
+    $user = Core::getUser();
 
     $colorScheme = 'light dark'; // default: support both
-    if (rex::getProperty('theme')) {
+    if (Core::getProperty('theme')) {
         // global theme from config.yml
-        $colorScheme = rex_escape((string) rex::getProperty('theme'));
+        $colorScheme = rex_escape((string) Core::getProperty('theme'));
     } elseif ($user && $user->getValue('theme')) {
         // user selected theme
         $colorScheme = rex_escape($user->getValue('theme'));
@@ -32,7 +34,7 @@
         foreach ($files as $file) {
             $file = (string) $file;
             $path = rex_path::frontend(rex_path::absolute($file));
-            if (!rex::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
+            if (!Core::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
             } elseif ($mtime = @filemtime($path)) {
                 $file .= '?buster=' . $mtime;
@@ -57,7 +59,7 @@
         $file = (string) $file;
         $path = rex_path::frontend(rex_path::absolute($file));
         if (array_key_exists(rex_view::JS_IMMUTABLE, $options) && $options[rex_view::JS_IMMUTABLE]) {
-            if (!rex::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
+            if (!Core::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
             }
         } elseif ($mtime = @filemtime($path)) {
@@ -82,7 +84,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="<?= rex_url::coreAssets('icons/favicon-32x32.png') ?>">
     <link rel="icon" type="image/png" sizes="16x16" href="<?= rex_url::coreAssets('icons/favicon-16x16.png') ?>">
     <link rel="manifest" href="<?= rex_url::coreAssets('icons/site.webmanifest') ?>">
-    <link rel="mask-icon" href="<?= rex_url::coreAssets('icons/safari-pinned-tab.svg') ?>" color="<?= rex_escape((string) rex::getConfig('be_style_labelcolor', '#4d99d3')) ?>">
+    <link rel="mask-icon" href="<?= rex_url::coreAssets('icons/safari-pinned-tab.svg') ?>" color="<?= rex_escape((string) Core::getConfig('be_style_labelcolor', '#4d99d3')) ?>">
     <meta name="msapplication-TileColor" content="#2d89ef">
 
     <?= $this->pageHeader ?>

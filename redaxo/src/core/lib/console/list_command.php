@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Core;
 use Symfony\Component\Console\Command\ListCommand;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,7 +16,7 @@ class rex_command_list extends ListCommand
     {
         $exitCode = parent::execute($input, $output);
 
-        if (rex::isSetup()) {
+        if (Core::isSetup()) {
             $io = new SymfonyStyle($input, $output);
             $outputFormatter = new OutputFormatterStyle('cyan');
             $io->getFormatter()->setStyle('info', $outputFormatter);

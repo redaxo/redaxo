@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -9,7 +11,7 @@ class rex_api_article2startarticle extends rex_api_function
     {
         $articleId = rex_request('article_id', 'int');
         $categoryId = rex_article::get($articleId)->getCategoryId();
-        $user = rex::requireUser();
+        $user = Core::requireUser();
 
         // Check permissions
         if ($user->hasPerm('article2startarticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {

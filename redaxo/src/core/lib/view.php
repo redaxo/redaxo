@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_view
 {
     public const JS_DEFERED = 'defer';
@@ -345,7 +347,7 @@ class rex_view
 
         $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
-            if (rex::requireUser()->getComplexPerm('clang')->hasPerm($id)) {
+            if (Core::requireUser()->getComplexPerm('clang')->hasPerm($id)) {
                 $icon = ($id == $context->getParam('clang')) ? '<i class="rex-icon rex-icon-language-active"></i> ' : '<i class="rex-icon rex-icon-language"></i> ';
                 $item = [];
                 $item['href'] = $context->getUrl(['clang' => $id]);
@@ -381,7 +383,7 @@ class rex_view
 
         $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
-            if (rex::requireUser()->getComplexPerm('clang')->hasPerm($id)) {
+            if (Core::requireUser()->getComplexPerm('clang')->hasPerm($id)) {
                 $icon = $clang->isOnline() ? '<i class="rex-icon rex-icon-online"></i> ' : '<i class="rex-icon rex-icon-offline"></i> ';
                 $item = [];
                 $item['label'] = $icon . rex_i18n::translate($clang->getName());
@@ -411,7 +413,7 @@ class rex_view
             return '';
         }
 
-        $user = rex::requireUser();
+        $user = Core::requireUser();
 
         $buttonLabel = '';
         $items = [];

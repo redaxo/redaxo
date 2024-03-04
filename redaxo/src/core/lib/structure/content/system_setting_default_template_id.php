@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Class for the default_template_id setting.
  *
@@ -38,12 +40,12 @@ class rex_system_setting_default_template_id extends rex_system_setting
         $value = (int) $value;
 
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id=? AND active=1', [$value]);
+        $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'template WHERE id=? AND active=1', [$value]);
         if (1 != $sql->getRows() && 0 != $value) {
             return rex_i18n::msg('system_setting_default_template_id_invalid');
         }
 
-        rex::setConfig('default_template_id', $value);
+        Core::setConfig('default_template_id', $value);
         return true;
     }
 }

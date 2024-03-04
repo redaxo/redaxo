@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * The rex_article_slice class is an object wrapper over the database table rex_article_slice.
  * Together with rex_article and rex_category it provides an object oriented
@@ -110,7 +112,7 @@ class rex_article_slice
     /** @internal  */
     public static function fromSql(rex_sql $sql): self
     {
-        $table = rex::getTable('article_slice');
+        $table = Core::getTable('article_slice');
 
         $data = [];
         foreach (['value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10] as $list => $count) {
@@ -331,7 +333,7 @@ class rex_article_slice
         // $sql->setDebug();
         $query = '
             SELECT *
-            FROM ' . rex::getTable('article_slice') . '
+            FROM ' . Core::getTable('article_slice') . '
             WHERE ' . $where . '
             ORDER BY ctype_id ' . $orderDirection . ', priority ' . $orderDirection;
 

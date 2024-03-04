@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Core;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,7 +15,7 @@ class rex_command_db_dump_schema extends rex_console_command
         $this
             ->setDescription('Dumps the schema of db tables as php code')
             ->addArgument('table', InputArgument::REQUIRED, 'Database table', null, static function () {
-                return rex_sql::factory()->getTables(rex::getTablePrefix());
+                return rex_sql::factory()->getTables(Core::getTablePrefix());
             })
         ;
     }

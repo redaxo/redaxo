@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Klasse zur Verbindung und Interatkion mit der Datenbank.
  *
@@ -111,7 +113,7 @@ class rex_sql implements Iterator
         try {
             if (!isset(self::$pdo[$db])) {
                 $options = [];
-                $dbconfig = rex::getDbConfig($db);
+                $dbconfig = Core::getDbConfig($db);
 
                 if ($dbconfig->sslKey && $dbconfig->sslCert) {
                     $options = [
@@ -1527,7 +1529,7 @@ class rex_sql implements Iterator
     public function addGlobalUpdateFields($user = null)
     {
         if (!$user) {
-            $user = rex::getUser()?->getLogin() ?? rex::getEnvironment();
+            $user = Core::getUser()?->getLogin() ?? Core::getEnvironment();
         }
 
         $this->setDateTimeValue('updatedate', time());
@@ -1544,7 +1546,7 @@ class rex_sql implements Iterator
     public function addGlobalCreateFields($user = null)
     {
         if (!$user) {
-            $user = rex::getUser()?->getLogin() ?? rex::getEnvironment();
+            $user = Core::getUser()?->getLogin() ?? Core::getEnvironment();
         }
 
         $this->setDateTimeValue('createdate', time());
@@ -1774,7 +1776,7 @@ class rex_sql implements Iterator
      */
     private function fetchTablesAndViews($tablePrefix = null, $where = null)
     {
-        $dbConfig = rex::getDbConfig($this->DBID);
+        $dbConfig = Core::getDbConfig($this->DBID);
 
         $qry = 'SHOW FULL TABLES';
 

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * REX_MEDIA[1].
  *
@@ -74,7 +76,7 @@ class rex_var_media extends rex_var
         $addFunc = '';
         $deleteFunc = '';
         $viewFunc = '';
-        if (rex::requireUser()->getComplexPerm('media')->hasMediaPerm()) {
+        if (Core::requireUser()->getComplexPerm('media')->hasMediaPerm()) {
             $disabled = '';
             $quotedId = "'" . rex_escape($id, 'js') . "'";
             $openFunc = 'openREXMedia(' . $quotedId . ', \'' . $openParams . '\');';

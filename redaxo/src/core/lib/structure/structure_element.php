@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten.
  */
@@ -129,7 +131,7 @@ abstract class rex_structure_element
 
             $startId = rex_article::getSiteStartArticleId();
             $file = rex_path::coreCache('structure/' . $startId . '.1.article');
-            if (!rex::isBackend() && is_file($file)) {
+            if (!Core::isBackend() && is_file($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
                 $genVars = rex_file::getCache($file, []);
                 unset($genVars['last_update_stamp']);
@@ -139,7 +141,7 @@ abstract class rex_structure_element
             } else {
                 // Im Backend die Spalten aus der DB auslesen / via EP holen
                 $sql = rex_sql::factory();
-                $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article LIMIT 0');
+                $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article LIMIT 0');
                 foreach ($sql->getFieldnames() as $field) {
                     self::$classVars[] = $field;
                 }

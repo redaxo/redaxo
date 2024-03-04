@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.
  * Alle benötigten Daten werden von der DB bezogen.
@@ -145,7 +147,7 @@ class rex_article_content_base
 
         // ---------- select article
         $sql = $this->getSqlInstance();
-        $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE ' . rex::getTablePrefix() . 'article.id=? AND clang_id=?', [$articleId, $this->clang]);
+        $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE ' . Core::getTablePrefix() . 'article.id=? AND clang_id=?', [$articleId, $this->clang]);
 
         if (1 == $sql->getRows()) {
             $this->template_id = (int) $this->getValue('template_id');
@@ -300,7 +302,7 @@ class rex_article_content_base
     {
         $output = rex_extension::registerPoint(new rex_extension_point(
             'SLICE_OUTPUT',
-            (string) $artDataSql->getValue(rex::getTablePrefix() . 'module.output'),
+            (string) $artDataSql->getValue(Core::getTablePrefix() . 'module.output'),
             [
                 'article_id' => $this->article_id,
                 'clang' => $this->clang,
@@ -308,7 +310,7 @@ class rex_article_content_base
             ],
         ));
         $output = $this->replaceVars($artDataSql, $output);
-        $moduleId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
+        $moduleId = (int) $artDataSql->getValue(Core::getTablePrefix() . 'module.id');
 
         return $this->getStreamOutput('module/' . $moduleId . '/output', $output);
     }
@@ -359,15 +361,15 @@ class rex_article_content_base
 
         $articleLimit = '';
         if (0 != $this->article_id) {
-            $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . (int) $this->article_id;
+            $articleLimit = ' AND ' . Core::getTablePrefix() . 'article_slice.article_id=' . (int) $this->article_id;
         }
 
         $sliceLimit = '';
         if (0 != $this->getSlice) {
-            $sliceLimit = ' AND ' . rex::getTablePrefix() . "article_slice.id = '" . ((int) $this->getSlice) . "' ";
+            $sliceLimit = ' AND ' . Core::getTablePrefix() . "article_slice.id = '" . ((int) $this->getSlice) . "' ";
         }
         if ('edit' !== $this->mode) {
-            $sliceLimit .= ' AND ' . rex::getTablePrefix() . 'article_slice.status = 1';
+            $sliceLimit .= ' AND ' . Core::getTablePrefix() . 'article_slice.status = 1';
         }
 
         // ----- start: article caching
@@ -488,8 +490,8 @@ class rex_article_content_base
             ],
             [
                 (string) $sql->getValue('module_id'),
-                (string) $sql->getValue(rex::getTable('module') . '.key'),
-                (string) $sql->getValue(rex::getTable('article_slice') . '.id'),
+                (string) $sql->getValue(Core::getTable('module') . '.key'),
+                (string) $sql->getValue(Core::getTable('article_slice') . '.id'),
                 (string) $sql->getValue('ctype_id'),
             ],
             $content,
@@ -508,7 +510,7 @@ class rex_article_content_base
      */
     protected function replaceObjectVars(rex_sql $sql, $content)
     {
-        $sliceId = $sql->getValue(rex::getTablePrefix() . 'article_slice.id');
+        $sliceId = $sql->getValue(Core::getTablePrefix() . 'article_slice.id');
 
         if ('edit' == $this->mode) {
             $env = rex_var::ENV_BACKEND;
@@ -538,7 +540,7 @@ class rex_article_content_base
 
         // UserId gibts nur im Backend
         if (null === $userId || null === $userLogin) {
-            if ($user = rex::getUser()) {
+            if ($user = Core::getUser()) {
                 $userId = $user->getId();
                 $userLogin = $user->getLogin();
             } else {
@@ -603,7 +605,7 @@ class rex_article_content_base
         $moduleId = rex_request('module_id', 'int');
 
         // ---------- alle teile/slices eines artikels auswaehlen
-        $prefix = rex::getTablePrefix();
+        $prefix = Core::getTablePrefix();
         $query = <<<SQL
             SELECT
                 {$prefix}module.id, {$prefix}module.key, {$prefix}module.name, {$prefix}module.output, {$prefix}module.input,

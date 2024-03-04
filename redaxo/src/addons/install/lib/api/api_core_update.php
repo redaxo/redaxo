@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -15,10 +17,10 @@ class rex_api_install_core_update extends rex_api_function
 
     public function execute()
     {
-        if (rex::isLiveMode()) {
+        if (Core::isLiveMode()) {
             throw new rex_api_exception('Core update is not available in live mode!');
         }
-        if (!rex::getUser()?->isAdmin()) {
+        if (!Core::getUser()?->isAdmin()) {
             throw new rex_api_exception('You do not have the permission!');
         }
         $installAddon = rex_addon::get('install');
@@ -29,8 +31,8 @@ class rex_api_install_core_update extends rex_api_function
             throw new rex_api_exception('The requested core version can not be loaded, maybe it is already installed.');
         }
         $version = $versions[$versionId];
-        if (!rex_version::compare($version['version'], rex::getVersion(), '>')) {
-            throw new rex_api_exception(sprintf('Existing version of Core (%s) is newer than %s', rex::getVersion(), $version['version']));
+        if (!rex_version::compare($version['version'], Core::getVersion(), '>')) {
+            throw new rex_api_exception(sprintf('Existing version of Core (%s) is newer than %s', Core::getVersion(), $version['version']));
         }
         if (!is_writable(rex_path::core())) {
             throw new rex_functional_exception($installAddon->i18n('warning_directory_not_writable', rex_path::core()));
@@ -134,7 +136,7 @@ class rex_api_install_core_update extends rex_api_function
             $pathCore = rex_path::core();
             if (isset($installConfig['backups']) && $installConfig['backups']) {
                 rex_dir::create($installAddon->getDataPath());
-                $archive = $installAddon->getDataPath(strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', rex::getVersion())) . '.zip');
+                $archive = $installAddon->getDataPath(strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', Core::getVersion())) . '.zip');
                 rex_install_archive::copyDirToArchive($pathCore, $archive);
                 foreach ($updateAddons as $addonkey => $addon) {
                     rex_install_archive::copyDirToArchive($addon->getPath(), $archive, 'addons/' . $addonkey);
@@ -191,14 +193,14 @@ class rex_api_install_core_update extends rex_api_function
             $message = $installAddon->i18n('warning_core_not_updated') . '<br />' . $message;
             $success = false;
         } else {
-            $logger->info('REDAXO Core updated from ' . rex::getVersion() . ' to version ' . $version['version']);
+            $logger->info('REDAXO Core updated from ' . Core::getVersion() . ' to version ' . $version['version']);
 
             $message = $installAddon->i18n('info_core_updated');
             $success = true;
             rex_delete_cache();
             rex_install_webservice::deleteCache();
             rex_install_packages::deleteCache();
-            rex::setConfig('version', $version['version']);
+            Core::setConfig('version', $version['version']);
 
             // ---- update package order
             /** @var rex_addon $addon */
@@ -237,8 +239,8 @@ class rex_api_install_core_update extends rex_api_function
     private function checkRequirements($temppath, $version, array $addons)
     {
         // ---- update "version", "requires" and "conflicts" properties
-        $coreVersion = rex::getVersion();
-        rex::setProperty('version', $version);
+        $coreVersion = Core::getVersion();
+        Core::setProperty('version', $version);
 
         /** @var SplObjectStorage<rex_addon_interface, string> $versions */
         $versions = new SplObjectStorage();
@@ -273,7 +275,7 @@ class rex_api_install_core_update extends rex_api_function
         }
 
         // ---- reset "version", "requires" and "conflicts" properties
-        rex::setProperty('version', $coreVersion);
+        Core::setProperty('version', $coreVersion);
         foreach ($versions as $package) {
             $package->setProperty('version', $versions[$package]);
         }

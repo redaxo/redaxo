@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_addon_manager
 {
     use rex_factory_trait;
@@ -373,7 +375,7 @@ class rex_addon_manager
             return false;
         }
 
-        if (!$this->checkRedaxoRequirement(rex::getVersion())) {
+        if (!$this->checkRedaxoRequirement(Core::getVersion())) {
             return false;
         }
 
@@ -645,7 +647,7 @@ class rex_addon_manager
                 }
             }
         }
-        rex::setConfig('package-order', array_merge($early, $normal, array_keys($requires), $late));
+        Core::setConfig('package-order', array_merge($early, $normal, array_keys($requires), $late));
     }
 
     /**
@@ -659,7 +661,7 @@ class rex_addon_manager
             $config[$addonName]['install'] = $addon->isInstalled();
             $config[$addonName]['status'] = $addon->isAvailable();
         }
-        rex::setConfig('package-config', $config);
+        Core::setConfig('package-config', $config);
     }
 
     /**
@@ -668,7 +670,7 @@ class rex_addon_manager
      */
     public static function synchronizeWithFileSystem()
     {
-        $config = rex::getPackageConfig();
+        $config = Core::getPackageConfig();
         $addons = self::readPackageFolder(rex_path::src('addons'));
         $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
         foreach (array_diff($registeredAddons, $addons) as $addonName) {
@@ -688,7 +690,7 @@ class rex_addon_manager
         }
         ksort($config);
 
-        rex::setConfig('package-config', $config);
+        Core::setConfig('package-config', $config);
         rex_addon::initialize();
     }
 

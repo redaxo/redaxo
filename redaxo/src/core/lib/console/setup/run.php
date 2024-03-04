@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Core;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -209,7 +210,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $config['db'][1]['password'] = $dbPassword;
             $config['db'][1]['name'] = $dbName;
 
-            rex::setProperty('db', $config['db']);
+            Core::setProperty('db', $config['db']);
             try {
                 $err = rex_setup::checkDb($config, $dbCreate);
             } catch (PDOException $e) {
@@ -323,14 +324,14 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         }
 
         rex_clang_service::generateCache();
-        rex::setConfig('version', rex::getVersion());
+        Core::setConfig('version', Core::getVersion());
 
         // ---------------------------------- Step 5 . Create User
         $io->title('Step 5 of 5 / User');
 
         $user = rex_sql::factory();
         $user
-            ->setTable(rex::getTable('user'))
+            ->setTable(Core::getTable('user'))
             ->select();
 
         $skipUserCreation = $user->getRows() > 0;
@@ -357,7 +358,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     }
                     $user = rex_sql::factory();
                     $user
-                        ->setTable(rex::getTable('user'))
+                        ->setTable(Core::getTable('user'))
                         ->setWhere(['login' => $login])
                         ->select();
 
@@ -394,7 +395,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $passwordHash = rex_backend_login::passwordHash($password);
 
             $user = rex_sql::factory();
-            $user->setTable(rex::getTablePrefix() . 'user');
+            $user->setTable(Core::getTablePrefix() . 'user');
             $user->setValue('login', $login);
             $user->setValue('password', $passwordHash);
             $user->setValue('admin', 1);

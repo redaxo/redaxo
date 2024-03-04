@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -78,7 +80,7 @@ class rex_metainfo_table_expander extends rex_form
         ;
 
         $gq = rex_sql::factory();
-        $gq->setQuery('SELECT dbtype,id FROM ' . rex::getTablePrefix() . 'metainfo_type');
+        $gq->setQuery('SELECT dbtype,id FROM ' . Core::getTablePrefix() . 'metainfo_type');
         $textFields = [];
         foreach ($gq->getArray() as $f) {
             if ('text' == $f['dbtype']) {
@@ -93,7 +95,7 @@ class rex_metainfo_table_expander extends rex_form
         $select = $field->getSelect();
         $select->setSize(1);
 
-        $qry = 'SELECT label,id FROM ' . rex::getTablePrefix() . 'metainfo_type';
+        $qry = 'SELECT label,id FROM ' . Core::getTablePrefix() . 'metainfo_type';
         $select->addSqlOptions($qry);
 
         $notices = '';
@@ -277,7 +279,7 @@ class rex_metainfo_table_expander extends rex_form
 
             $sql = rex_sql::factory();
             $sql->setDebug($this->debug);
-            $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `' . rex::getTablePrefix() . 'metainfo_type` WHERE id = ?', [$fieldType]);
+            $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `' . Core::getTablePrefix() . 'metainfo_type` WHERE id = ?', [$fieldType]);
             $fieldDbType = (string) $result[0]['dbtype'];
             $fieldDbLength = (int) $result[0]['dblength'];
 

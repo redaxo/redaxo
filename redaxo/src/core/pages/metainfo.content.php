@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 assert(isset($ep) && $ep instanceof rex_extension_point);
 
 $params = $ep->getParams();
@@ -29,7 +31,7 @@ $structureContext = new rex_structure_context([
 ]);
 
 if (0 == $article->getValue('startarticle')) {
-    if (rex::requireUser()->hasPerm('publishArticle[]')) {
+    if (Core::requireUser()->hasPerm('publishArticle[]')) {
         if (count($articleStatusTypes) > 2) {
             $articleStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle ' . $articleClass . '" type="button" data-toggle="dropdown"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
             foreach ($articleStatusTypes as $artStatusKey => $artStatusType) {
@@ -64,8 +66,8 @@ $article->setQuery('
             SELECT
                 article.*, template.attributes as template_attributes
             FROM
-                ' . rex::getTablePrefix() . 'article as article
-            LEFT JOIN ' . rex::getTablePrefix() . "template as template
+                ' . Core::getTablePrefix() . 'article as article
+            LEFT JOIN ' . Core::getTablePrefix() . "template as template
                 ON template.id=article.template_id
             WHERE
                 article.id='$articleId'
@@ -119,7 +121,7 @@ if (1 == $article->getRows()) {
                         <input type="hidden" name="save" value="1" />
                         <input type="hidden" name="ctype" value="' . $ctype . '" />
                         ' . $form . '
-                        <button class="btn btn-primary pull-left" type="submit" name="savemeta"' . rex::getAccesskey(rex_i18n::msg('update_metadata'), 'save') . ' value="1">' . rex_i18n::msg('update_metadata') . '</button>
+                        <button class="btn btn-primary pull-left" type="submit" name="savemeta"' . Core::getAccesskey(rex_i18n::msg('update_metadata'), 'save') . ' value="1">' . rex_i18n::msg('update_metadata') . '</button>
                     </fieldset>
                 </form>
               </div>

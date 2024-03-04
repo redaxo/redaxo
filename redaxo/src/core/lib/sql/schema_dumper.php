@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Class for generating the php code for a rex_sql_table definition.
  *
@@ -146,11 +148,11 @@ class rex_sql_schema_dumper
 
     private function tableName(string $name): string
     {
-        if (!str_starts_with($name, rex::getTablePrefix())) {
+        if (!str_starts_with($name, Core::getTablePrefix())) {
             return $this->scalar($name);
         }
 
-        $name = substr($name, strlen(rex::getTablePrefix()));
+        $name = substr($name, strlen(Core::getTablePrefix()));
 
         return 'rex::getTable(' . $this->scalar($name) . ')';
     }

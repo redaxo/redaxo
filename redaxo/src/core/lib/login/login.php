@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_login
 {
     /**
@@ -74,7 +76,7 @@ class rex_login
 
     public function __construct()
     {
-        $this->sessionMaxOverallDuration = rex::getProperty('session_max_overall_duration', 2_419_200); // 4 weeks
+        $this->sessionMaxOverallDuration = Core::getProperty('session_max_overall_duration', 2_419_200); // 4 weeks
 
         self::startSession();
     }
@@ -550,8 +552,8 @@ class rex_login
     public static function startSession()
     {
         if (PHP_SESSION_ACTIVE !== session_status()) {
-            $env = rex::isBackend() ? 'backend' : 'frontend';
-            $sessionConfig = rex_type::array(rex::getProperty('session', []));
+            $env = Core::isBackend() ? 'backend' : 'frontend';
+            $sessionConfig = rex_type::array(Core::getProperty('session', []));
 
             if (isset($sessionConfig[$env]['sid_length'])) {
                 ini_set('session.sid_length', (int) $sessionConfig[$env]['sid_length']);
@@ -599,8 +601,8 @@ class rex_login
     {
         $cookieParams = session_get_cookie_params();
 
-        $key = rex::isBackend() ? 'backend' : 'frontend';
-        $sessionConfig = rex::getProperty('session', []);
+        $key = Core::isBackend() ? 'backend' : 'frontend';
+        $sessionConfig = Core::getProperty('session', []);
 
         if ($sessionConfig) {
             foreach ($sessionConfig[$key]['cookie'] as $name => $value) {

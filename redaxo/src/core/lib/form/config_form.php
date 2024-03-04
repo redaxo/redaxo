@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Create forms for rex_config data.
  */
@@ -22,7 +24,7 @@ class rex_config_form extends rex_form_base
         $this->namespace = $namespace;
 
         // --------- Load Env
-        if (rex::isBackend()) {
+        if (Core::isBackend()) {
             $this->loadBackendConfig();
         }
     }

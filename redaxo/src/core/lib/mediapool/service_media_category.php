@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_media_category_service
 {
     /**
@@ -20,7 +22,7 @@ class rex_media_category_service
             $path = $parent->getPath() . $parent->getId() . '|';
         }
 
-        $db->setTable(rex::getTablePrefix() . 'media_category');
+        $db->setTable(Core::getTablePrefix() . 'media_category');
         $db->setValue('name', $name);
         $db->setValue('parent_id', $parentId);
         $db->setValue('path', $path);
@@ -50,17 +52,17 @@ class rex_media_category_service
     public static function deleteCategory($categoryId)
     {
         $gf = rex_sql::factory();
-        $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE category_id=?', [$categoryId]);
+        $gf->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media WHERE category_id=?', [$categoryId]);
         $gd = rex_sql::factory();
-        $gd->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE parent_id=?', [$categoryId]);
+        $gd->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_category WHERE parent_id=?', [$categoryId]);
         if (0 == $gf->getRows() && 0 == $gd->getRows()) {
             if ($uses = self::categoryIsInUse($categoryId)) {
-                $gf->setQuery('SELECT name FROM ' . rex::getTable('media_category') . ' WHERE id=?', [$categoryId]);
+                $gf->setQuery('SELECT name FROM ' . Core::getTable('media_category') . ' WHERE id=?', [$categoryId]);
                 $name = "{$gf->getValue('name')} [$categoryId]";
                 throw new rex_functional_exception('<strong>' . rex_i18n::msg('pool_kat_delete_error', $name) . ' ' . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
             }
 
-            $gf->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'media_category WHERE id=?', [$categoryId]);
+            $gf->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'media_category WHERE id=?', [$categoryId]);
             rex_media_cache::deleteCategory($categoryId);
             rex_media_cache::deleteLists();
         } else {
@@ -102,7 +104,7 @@ class rex_media_category_service
         $catName = $data['name'];
 
         $db = rex_sql::factory();
-        $db->setTable(rex::getTablePrefix() . 'media_category');
+        $db->setTable(Core::getTablePrefix() . 'media_category');
         $db->setWhere(['id' => $categoryId]);
         $db->setValue('name', $catName);
         $db->addGlobalUpdateFields();

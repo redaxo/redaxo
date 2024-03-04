@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_article_revision
 {
     public const LIVE = 0; // live revision
@@ -22,17 +24,17 @@ class rex_article_revision
         // clear the revision to which we will later copy all slices
         $dc = rex_sql::factory();
         // $dc->setDebug();
-        $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$articleId, $clang, $toRevisionId]);
+        $dc->setQuery('delete from ' . Core::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$articleId, $clang, $toRevisionId]);
 
         $gc = rex_sql::factory();
-        $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=? ORDER by ctype_id, priority', [$articleId, $clang, $fromRevisionId]);
+        $gc->setQuery('select * from ' . Core::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=? ORDER by ctype_id, priority', [$articleId, $clang, $fromRevisionId]);
 
         $cols = rex_sql::factory();
-        $cols->setQuery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
+        $cols->setQuery('SHOW COLUMNS FROM ' . Core::getTablePrefix() . 'article_slice');
         foreach ($gc as $slice) {
             $ins = rex_sql::factory();
             // $ins->setDebug();
-            $ins->setTable(rex::getTablePrefix() . 'article_slice');
+            $ins->setTable(Core::getTablePrefix() . 'article_slice');
 
             foreach ($cols as $col) {
                 $colname = (string) $col->getValue('Field');
@@ -65,7 +67,7 @@ class rex_article_revision
 
         $dc = rex_sql::factory();
         // $dc->setDebug();
-        $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$articleId, $clang, $fromRevisionId]);
+        $dc->setQuery('delete from ' . Core::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$articleId, $clang, $fromRevisionId]);
 
         return true;
     }
@@ -73,7 +75,7 @@ class rex_article_revision
     /** @param self::LIVE|self::WORK $revision */
     public static function setSessionArticleRevision(int $articleId, int $revision): void
     {
-        $login = rex::getProperty('login');
+        $login = Core::getProperty('login');
         /** @var array<int, self::LIVE|self::WORK>|null $revisions */
         $revisions = $login->getSessionVar('rex_version_article', []);
         $revisions = is_array($revisions) ? $revisions : [];
@@ -86,7 +88,7 @@ class rex_article_revision
     public static function getSessionArticleRevision(int $articleId): int
     {
         /** @var array<int, self::LIVE|self::WORK> $revisions */
-        $revisions = rex::getProperty('login')->getSessionVar('rex_version_article', []);
+        $revisions = Core::getProperty('login')->getSessionVar('rex_version_article', []);
 
         return (int) ($revisions[$articleId] ?? self::WORK);
     }

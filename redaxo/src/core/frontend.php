@@ -1,14 +1,16 @@
 <?php
 
-if (rex::isSetup()) {
+use Redaxo\Core\Core;
+
+if (Core::isSetup()) {
     rex_response::sendRedirect(rex_url::backendController());
 }
 
-if (rex::isDebugMode()) {
+if (Core::isDebugMode()) {
     header('X-Robots-Tag: noindex, nofollow, noarchive');
 }
 
-if (0 != rex::getConfig('phpmailer_errormail')) {
+if (0 != Core::getConfig('phpmailer_errormail')) {
     rex_extension::register('RESPONSE_SHUTDOWN', static function () {
         rex_mailer::errorMail();
     });
@@ -30,7 +32,7 @@ if (rex_extension::isRegistered('FE_OUTPUT')) {
     return;
 }
 
-if (rex::getConfig('article_history', false)) {
+if (Core::getConfig('article_history', false)) {
     $historyDate = rex_request('rex_history_date', 'string');
 
     if ('' != $historyDate) {
@@ -47,7 +49,7 @@ if (rex::getConfig('article_history', false)) {
 
                 if ($login->checkTempSession($historyLogin, $historySession, $historyValidtime)) {
                     $user = $login->getUser();
-                    rex::setProperty('user', $user);
+                    Core::setProperty('user', $user);
                     rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) use ($login) {
                         $login->deleteSession();
                     });
@@ -80,7 +82,7 @@ if (rex::getConfig('article_history', false)) {
             if ($article instanceof rex_article_content && $article->getArticleId() == rex_article::getCurrentId()) {
                 $articleLimit = '';
                 if (0 != $article->getArticleId()) {
-                    $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
+                    $articleLimit = ' AND ' . Core::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
                 }
 
                 $sliceLimit = '';
@@ -89,21 +91,21 @@ if (rex::getConfig('article_history', false)) {
 
                 $escapeSql = rex_sql::factory();
 
-                $sliceDate = ' AND ' . rex::getTablePrefix() . 'article_slice.history_date = ' . $escapeSql->escape($historyDate);
+                $sliceDate = ' AND ' . Core::getTablePrefix() . 'article_slice.history_date = ' . $escapeSql->escape($historyDate);
 
-                return 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.key,' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
+                return 'SELECT ' . Core::getTablePrefix() . 'module.id, ' . Core::getTablePrefix() . 'module.key,' . Core::getTablePrefix() . 'module.name, ' . Core::getTablePrefix() . 'module.output, ' . Core::getTablePrefix() . 'module.input, ' . Core::getTablePrefix() . 'article_slice.*, ' . Core::getTablePrefix() . 'article.parent_id
                     FROM
-                        ' . rex_article_slice_history::getTable() . ' as ' . rex::getTablePrefix() . 'article_slice
-                    LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
-                    LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix() . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
+                        ' . rex_article_slice_history::getTable() . ' as ' . Core::getTablePrefix() . 'article_slice
+                    LEFT JOIN ' . Core::getTablePrefix() . 'module ON ' . Core::getTablePrefix() . 'article_slice.module_id=' . Core::getTablePrefix() . 'module.id
+                    LEFT JOIN ' . Core::getTablePrefix() . 'article ON ' . Core::getTablePrefix() . 'article_slice.article_id=' . Core::getTablePrefix() . 'article.id
                     WHERE
-                        ' . rex::getTablePrefix() . "article_slice.clang_id='" . $article->getClangId() . "' AND
-                        " . rex::getTablePrefix() . "article.clang_id='" . $article->getClangId() . "' AND
-                        " . rex::getTablePrefix() . 'article_slice.revision=0
+                        ' . Core::getTablePrefix() . "article_slice.clang_id='" . $article->getClangId() . "' AND
+                        " . Core::getTablePrefix() . "article.clang_id='" . $article->getClangId() . "' AND
+                        " . Core::getTablePrefix() . 'article_slice.revision=0
                         ' . $articleLimit . '
                         ' . $sliceLimit . '
                         ' . $sliceDate . '
-                        ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
+                        ORDER BY ' . Core::getTablePrefix() . 'article_slice.priority';
             }
 
             return null;
@@ -111,7 +113,7 @@ if (rex::getConfig('article_history', false)) {
     }
 }
 
-if (rex::getConfig('article_work_version', false)) {
+if (Core::getConfig('article_work_version', false)) {
     rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
         $version = rex_request('rex_version', 'int');
         if (rex_article_revision::WORK != $version) {
@@ -146,7 +148,7 @@ $article = new rex_article_content();
 $article->setClang(rex_clang::getCurrentId());
 
 if (!$article->setArticleId(rex_article::getCurrentId())) {
-    if (!rex::isDebugMode() && !rex_backend_login::hasSession()) {
+    if (!Core::isDebugMode() && !rex_backend_login::hasSession()) {
         throw new rex_exception('Article with id ' . rex_article::getCurrentId() . ' does not exist');
     }
 

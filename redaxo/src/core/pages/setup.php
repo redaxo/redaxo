@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $step = rex_request('step', 'int', 1);
 $lang = rex_request('lang', 'string');
 $func = rex_request('func', 'string');
@@ -141,7 +143,7 @@ if ($step > 3) {
             continue;
         }
         try {
-            rex::setProperty($key, $config[$key]);
+            Core::setProperty($key, $config[$key]);
         } catch (InvalidArgumentException) {
             $errorArray[] = rex_view::error(rex_i18n::msg($key . '_invalid'));
         }
@@ -154,7 +156,7 @@ if ($step > 3) {
         if (in_array($key, ['fileperm', 'dirperm'])) {
             $value = octdec($value);
         }
-        rex::setProperty($key, $value);
+        Core::setProperty($key, $value);
     }
 
     if (0 == count($errorArray)) {
@@ -237,7 +239,7 @@ if ($step > 4 && $createdb > -1) {
 
     if (0 == count($errors)) {
         rex_clang_service::generateCache();
-        rex::setConfig('version', rex::getVersion());
+        Core::setConfig('version', Core::getVersion());
     } else {
         $step = 4;
         $context->setParam('step', $step);
@@ -280,7 +282,7 @@ if (6 === $step) {
 
         if (0 == count($errors)) {
             $ga = rex_sql::factory();
-            $ga->setQuery('select * from ' . rex::getTablePrefix() . 'user where login = ? ', [$redaxoUserLogin]);
+            $ga->setQuery('select * from ' . Core::getTablePrefix() . 'user where login = ? ', [$redaxoUserLogin]);
 
             if ($ga->getRows() > 0) {
                 $errors[] = rex_view::error(rex_i18n::msg('setup_503'));
@@ -291,7 +293,7 @@ if (6 === $step) {
 
                 $user = rex_sql::factory();
                 // $user->setDebug();
-                $user->setTable(rex::getTablePrefix() . 'user');
+                $user->setTable(Core::getTablePrefix() . 'user');
                 $user->setValue('name', 'Administrator');
                 $user->setValue('login', $redaxoUserLogin);
                 $user->setValue('password', $redaxoUserPass);
@@ -310,7 +312,7 @@ if (6 === $step) {
         }
     } else {
         $gu = rex_sql::factory();
-        $gu->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
+        $gu->setQuery('select * from ' . Core::getTablePrefix() . 'user LIMIT 1');
         if (0 == $gu->getRows()) {
             $errors[] = rex_view::error(rex_i18n::msg('setup_505'));
         }

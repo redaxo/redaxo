@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -8,7 +10,7 @@ class rex_api_user_remove_session extends rex_api_function
     public function execute()
     {
         $userId = rex_request::get('user_id', 'int');
-        $user = rex::requireUser();
+        $user = Core::requireUser();
 
         if ($userId !== $user->getId() && !$user->isAdmin() && (!$user->hasPerm('users[]') || rex_user::require($userId)->isAdmin())) {
             throw new rex_api_exception('Permission denied');

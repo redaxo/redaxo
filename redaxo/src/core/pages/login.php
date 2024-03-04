@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 global $rexUserLoginmessage;
 
 $rexUserLogin = rex_post('rex_user_login', 'string');
@@ -81,7 +83,7 @@ $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
-if (rex::getProperty('login')->getLoginPolicy()->isStayLoggedInEnabled()) {
+if (Core::getProperty('login')->getLoginPolicy()->isStayLoggedInEnabled()) {
     $n = [];
     $n['label'] = '<label for="rex-id-login-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
     $n['field'] = '<input type="checkbox" name="rex_user_stay_logged_in" id="rex-id-login-stay-logged-in" value="1" />';

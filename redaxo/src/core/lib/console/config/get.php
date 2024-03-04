@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Core;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,7 +36,7 @@ class rex_command_config_get extends rex_console_command implements rex_command_
 
         $package = $input->getOption('package');
         if ('core' === $package) {
-            $config = rex::getProperty($propertyKey);
+            $config = Core::getProperty($propertyKey);
         } else {
             $config = rex_addon::get($package)->getProperty($propertyKey);
         }

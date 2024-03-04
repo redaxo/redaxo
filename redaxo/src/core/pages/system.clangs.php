@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Verwaltung der Content Sprachen.
  */
@@ -92,7 +94,7 @@ $content .= '
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['func' => 'addclang']) . '#clang"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') . '><i class="rex-icon rex-icon-add-language"></i></a></th>
+                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['func' => 'addclang']) . '#clang"' . Core::getAccesskey(rex_i18n::msg('clang_add'), 'add') . '><i class="rex-icon rex-icon-add-language"></i></a></th>
                     <th class="rex-table-id">' . rex_i18n::msg('id') . '</th>
                     <th>' . rex_i18n::msg('clang_code') . '</th>
                     <th>' . rex_i18n::msg('clang_name') . '</th>
@@ -117,7 +119,7 @@ if ('addclang' == $func) {
                     <td data-title="' . rex_i18n::msg('clang_name') . '"><input class="form-control" type="text" id="rex-form-clang-name" name="clang_name" value="' . rex_escape($clangName) . '" required maxlength="255" /></td>
                     <td class="rex-table-priority" data-title="' . rex_i18n::msg('clang_priority') . '"><input class="form-control" type="number" id="rex-form-clang-prio" name="clang_prio" value="' . ($clangPrio ?: rex_clang::count() + 1) . '" required min="1" inputmode="numeric" /></td>
                     <td class="rex-table-action">' . $metaButtons . '</td>
-                    <td class="rex-table-action" colspan="2"><button class="btn btn-save" type="submit" name="add_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'save') . ' value="1">' . rex_i18n::msg('clang_add') . '</button></td>
+                    <td class="rex-table-action" colspan="2"><button class="btn btn-save" type="submit" name="add_clang_save"' . Core::getAccesskey(rex_i18n::msg('clang_add'), 'save') . ' value="1">' . rex_i18n::msg('clang_add') . '</button></td>
                 </tr>
             ';
 
@@ -125,7 +127,7 @@ if ('addclang' == $func) {
     $content .= rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_ADD', ''));
 }
 
-$sql = rex_sql::factory()->setQuery('SELECT * FROM ' . rex::getTable('clang') . ' ORDER BY priority');
+$sql = rex_sql::factory()->setQuery('SELECT * FROM ' . Core::getTable('clang') . ' ORDER BY priority');
 foreach ($sql as $row) {
     $langId = (int) $sql->getValue('id');
     $addTd = '<td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $langId . '</td>';
@@ -150,7 +152,7 @@ foreach ($sql as $row) {
                         <td data-title="' . rex_i18n::msg('clang_name') . '"><input class="form-control" type="text" id="rex-form-clang-name" name="clang_name" value="' . rex_escape($sql->getValue('name')) . '" required maxlength="255" /></td>
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('clang_priority') . '"><input class="form-control" type="number" id="rex-form-clang-prio" name="clang_prio" value="' . rex_escape($sql->getValue('priority')) . '" required min="1" inputmode="numeric" /></td>
                         <td class="rex-table-action">' . $metaButtons . '</td>
-                        <td class="rex-table-action" colspan="2"><button class="btn btn-save" type="submit" name="edit_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') . ' value="1">' . rex_i18n::msg('clang_update') . '</button></td>
+                        <td class="rex-table-action" colspan="2"><button class="btn btn-save" type="submit" name="edit_clang_save"' . Core::getAccesskey(rex_i18n::msg('clang_update'), 'save') . ' value="1">' . rex_i18n::msg('clang_update') . '</button></td>
                     </tr>';
 
         // ----- EXTENSION POINT

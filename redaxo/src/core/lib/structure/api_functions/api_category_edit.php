@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -7,14 +9,14 @@ class rex_api_category_edit extends rex_api_function
 {
     public function execute()
     {
-        if (!rex::requireUser()->hasPerm('editCategory[]')) {
+        if (!Core::requireUser()->hasPerm('editCategory[]')) {
             throw new rex_api_exception('User has no permission to edit categories!');
         }
 
         $catId = rex_request('category-id', 'int');
         $clangId = rex_request('clang', 'int');
 
-        $user = rex::requireUser();
+        $user = Core::requireUser();
 
         // check permissions
         if (!$user->getComplexPerm('structure')->hasCategoryPerm($catId)) {

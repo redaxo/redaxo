@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -8,7 +10,7 @@ class rex_api_user_remove_auth_method extends rex_api_function
     public function execute()
     {
         $userId = rex_request::get('user_id', 'int');
-        $user = rex::requireUser();
+        $user = Core::requireUser();
 
         if ($userId !== $user->getId() && !$user->isAdmin() && (!$user->hasPerm('users[]') || rex_user::require($userId)->isAdmin())) {
             throw new rex_api_exception('Permission denied');
@@ -29,7 +31,7 @@ class rex_api_user_remove_auth_method extends rex_api_function
     private function removePassword(int $userId): rex_api_result
     {
         $sql = rex_sql::factory()
-            ->setTable(rex::getTable('user'))
+            ->setTable(Core::getTable('user'))
             ->setWhere(['id' => $userId])
             ->setValue('password', null)
             ->addGlobalUpdateFields()
@@ -42,7 +44,7 @@ class rex_api_user_remove_auth_method extends rex_api_function
         }
 
         rex_user::clearInstance($userId);
-        rex::getProperty('login')->changedPassword(null);
+        Core::getProperty('login')->changedPassword(null);
 
         return new rex_api_result(true, rex_i18n::msg('password_removed'));
     }
@@ -52,7 +54,7 @@ class rex_api_user_remove_auth_method extends rex_api_function
         $passkeyId = rex_request::get('passkey_id', 'string');
 
         $sql = rex_sql::factory()
-            ->setTable(rex::getTable('user_passkey'))
+            ->setTable(Core::getTable('user_passkey'))
             ->setWhere(['id' => $passkeyId, 'user_id' => $userId])
             ->delete();
 

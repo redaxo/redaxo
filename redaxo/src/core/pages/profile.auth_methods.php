@@ -1,20 +1,22 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $currentAuth = false;
 if (!isset($userId) || 1 > $userId) {
-    $userId = rex::requireUser()->getId();
+    $userId = Core::requireUser()->getId();
 }
 
 $list = rex_list::factory('
-    select null as id, password_changed as createdate from ' . rex::getTable('user') . ' where id = ' . (int) $userId . ' AND password IS NOT NULL
+    select null as id, password_changed as createdate from ' . Core::getTable('user') . ' where id = ' . (int) $userId . ' AND password IS NOT NULL
     union
-    select id, createdate from ' . rex::getTable('user_passkey') . ' where user_id = ' . (int) $userId . '
+    select id, createdate from ' . Core::getTable('user_passkey') . ' where user_id = ' . (int) $userId . '
 ');
 $list->addTableAttribute('class', 'table-hover');
 
 $list->addColumn('remove_auth', '<i class="rex-icon rex-icon-delete"></i>', 0, ['<th class="rex-table-icon"></th>', '<td class="rex-table-icon">###VALUE###</td>']);
 $list->setColumnParams('remove_auth', ['user_id' => $userId] + rex_api_user_remove_auth_method::getUrlParams());
-$currentAuth = $userId == rex::requireUser()->getId() ? rex::getProperty('login')->getPasskey() : false;
+$currentAuth = $userId == Core::requireUser()->getId() ? Core::getProperty('login')->getPasskey() : false;
 $list->setColumnFormat('remove_auth', 'custom', static function () use ($list, $currentAuth) {
     $id = $list->getValue('id');
 

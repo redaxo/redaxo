@@ -59,6 +59,9 @@
         "symfony/polyfill-php83": "*"
     },
     "autoload": {
+        "psr-4": {
+            "Redaxo\\Core\\": "redaxo/src/core/src"
+        },
         "classmap": [
             "redaxo/src/addons/debug/lib/",
             "redaxo/src/addons/install/lib/",
@@ -75,6 +78,9 @@
         ]
     },
     "autoload-dev": {
+        "psr-4": {
+            "Redaxo\\Core\\Tests\\": "redaxo/src/core/tests"
+        },
         "classmap": [
             "redaxo/src/core/tests/"
         ]

@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Core;
 
 /**
  * @internal
@@ -49,31 +50,31 @@ class rex_sql_test extends TestCase
 
     public function testCheckConnection(): void
     {
-        $dbConfig = rex::getDbConfig();
+        $dbConfig = Core::getDbConfig();
         self::assertTrue(rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidPassword(): void
     {
-        $dbConfig = rex::getDbConfig();
+        $dbConfig = Core::getDbConfig();
         self::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, 'fu-password', $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidHost(): void
     {
-        $dbConfig = rex::getDbConfig();
+        $dbConfig = Core::getDbConfig();
         self::assertTrue(true !== rex_sql::checkDbConnection('fu-host', $dbConfig->login, $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidLogin(): void
     {
-        $dbConfig = rex::getDbConfig();
+        $dbConfig = Core::getDbConfig();
         self::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, 'fu-login', $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidDatabase(): void
     {
-        $dbConfig = rex::getDbConfig();
+        $dbConfig = Core::getDbConfig();
         self::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, 'fu-database'));
     }
 

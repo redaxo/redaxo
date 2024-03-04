@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Class for getting the superglobals.
  */
@@ -226,7 +228,7 @@ class rex_request
      */
     public static function requestMethod()
     {
-        return strtolower(rex::getRequest()->getMethod());
+        return strtolower(Core::getRequest()->getMethod());
     }
 
     /**
@@ -241,7 +243,7 @@ class rex_request
      */
     public static function isXmlHttpRequest()
     {
-        return rex::getRequest()->isXmlHttpRequest();
+        return Core::getRequest()->isXmlHttpRequest();
     }
 
     /**
@@ -257,7 +259,7 @@ class rex_request
             return false;
         }
 
-        return 'true' == rex::getRequest()->headers->get('X-Pjax');
+        return 'true' == Core::getRequest()->headers->get('X-Pjax');
     }
 
     /**
@@ -273,7 +275,7 @@ class rex_request
             return false;
         }
 
-        return $containerId === rex::getRequest()->headers->get('X-Pjax-Container');
+        return $containerId === Core::getRequest()->headers->get('X-Pjax-Container');
     }
 
     /**
@@ -283,7 +285,7 @@ class rex_request
      */
     public static function isHttps()
     {
-        return rex::getRequest()->isSecure();
+        return Core::getRequest()->isSecure();
     }
 
     /**
@@ -296,7 +298,7 @@ class rex_request
         // separate backend from frontend namespace,
         // so we can e.g. clear the backend session without
         // logging out the users from the frontend
-        $suffix = rex::isBackend() ? '_backend' : '';
-        return rex::getProperty('instname') . $suffix;
+        $suffix = Core::isBackend() ? '_backend' : '';
+        return Core::getProperty('instname') . $suffix;
     }
 }

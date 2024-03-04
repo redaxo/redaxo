@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -164,7 +166,7 @@ class rex_install_webservice
     private static function getPath($path)
     {
         $path = !str_contains($path, '?') ? rtrim($path, '/') . '/?' : $path . '&';
-        $path .= 'rex_version=' . rex::getVersion();
+        $path .= 'rex_version=' . Core::getVersion();
 
         /** @var array<string, string>|null $config */
         static $config;

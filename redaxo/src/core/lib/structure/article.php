@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Object Oriented Framework: Bildet einen Artikel der Struktur ab.
  */
@@ -12,7 +14,7 @@ class rex_article extends rex_structure_element
      */
     public static function getCurrentId()
     {
-        return rex::getProperty('article_id', 1);
+        return Core::getProperty('article_id', 1);
     }
 
     /**
@@ -34,7 +36,7 @@ class rex_article extends rex_structure_element
      */
     public static function getSiteStartArticleId()
     {
-        return rex::getProperty('start_article_id', 1);
+        return Core::getProperty('start_article_id', 1);
     }
 
     /**
@@ -56,7 +58,7 @@ class rex_article extends rex_structure_element
      */
     public static function getNotfoundArticleId()
     {
-        return rex::getProperty('notfound_article_id', 1);
+        return Core::getProperty('notfound_article_id', 1);
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Core;
 
 /**
  * @internal
@@ -20,13 +21,13 @@ class rex_be_navigation_test extends TestCase
 
         $navi->setPrio('test', 15);
 
-        $user = rex::getUser();
+        $user = Core::getUser();
 
         try {
-            rex::setProperty('user', new rex_user(rex_sql::factory()));
+            Core::setProperty('user', new rex_user(rex_sql::factory()));
             $navi = $navi->getNavigation();
         } finally {
-            rex::setProperty('user', $user);
+            Core::setProperty('user', $user);
         }
 
         self::assertSame('System', $navi[0]['headline']['title']);

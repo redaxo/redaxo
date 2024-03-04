@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 final class rex_media_service
 {
     private const ORDER_BY = [
@@ -84,7 +86,7 @@ final class rex_media_service
             throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
         }
 
-        @chmod($dstFile, rex::getFilePerm());
+        @chmod($dstFile, Core::getFilePerm());
 
         $size = @getimagesize($dstFile);
         if ('' == $data['file']['type'] && isset($size['mime'])) {
@@ -92,7 +94,7 @@ final class rex_media_service
         }
 
         $saveObject = rex_sql::factory();
-        $saveObject->setTable(rex::getTablePrefix() . 'media');
+        $saveObject->setTable(Core::getTablePrefix() . 'media');
         $saveObject->setValue('filetype', $data['file']['type']);
         $saveObject->setValue('title', $title);
         $saveObject->setValue('filename', $data['file']['name_new']);
@@ -159,7 +161,7 @@ final class rex_media_service
         }
 
         $saveObject = rex_sql::factory();
-        $saveObject->setTable(rex::getTablePrefix() . 'media');
+        $saveObject->setTable(Core::getTablePrefix() . 'media');
         $saveObject->setWhere(['filename' => $filename]);
         $saveObject->setValue('title', $data['title']);
         $saveObject->setValue('category_id', (int) $data['category_id']);
@@ -198,7 +200,7 @@ final class rex_media_service
                     throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
                 }
 
-                @chmod($dstFile, rex::getFilePerm());
+                @chmod($dstFile, Core::getFilePerm());
 
                 $saveObject->setValue('filetype', $filetype);
                 $saveObject->setValue('filesize', filesize($dstFile));
@@ -208,7 +210,7 @@ final class rex_media_service
                     $saveObject->setValue('width', $size[0]);
                     $saveObject->setValue('height', $size[1]);
                 }
-                @chmod($dstFile, rex::getFilePerm());
+                @chmod($dstFile, Core::getFilePerm());
             } else {
                 throw new rex_api_exception(rex_i18n::msg('pool_file_upload_errortype'));
             }
@@ -250,7 +252,7 @@ final class rex_media_service
         }
 
         $sql = rex_sql::factory();
-        $sql->setQuery('DELETE FROM ' . rex::getTable('media') . ' WHERE filename = ? LIMIT 1', [$filename]);
+        $sql->setQuery('DELETE FROM ' . Core::getTable('media') . ' WHERE filename = ? LIMIT 1', [$filename]);
 
         rex_file::delete(rex_path::media($filename));
         rex_media_cache::delete($filename);
@@ -272,7 +274,7 @@ final class rex_media_service
         $where = [];
         $queryParams = [];
         $tables = [];
-        $tables[] = rex::getTable('media') . ' AS m';
+        $tables[] = Core::getTable('media') . ' AS m';
 
         $counter = 0;
         foreach ($filter as $type => $value) {
@@ -287,7 +289,7 @@ final class rex_media_service
                     break;
                 case 'category_id_path':
                     if (is_int($value)) {
-                        $tables[] = rex::getTable('media_category') . ' AS c';
+                        $tables[] = Core::getTable('media_category') . ' AS c';
                         $where[] = '(m.category_id = c.id AND (c.path LIKE "%|' . $value . '|%" OR c.id=' . $value . ') )';
                         $queryParams['search_' . $counter] = $value;
                     }

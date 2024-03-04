@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
  */
@@ -52,7 +54,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
 
-$coreVersion = rex_escape(rex::getVersion());
+$coreVersion = rex_escape(Core::getVersion());
 if (rex_version::isUnstable($coreVersion)) {
     $coreVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . rex_i18n::msg('unstable_version') . '"></i> ' . $coreVersion;
 }

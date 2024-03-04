@@ -1,6 +1,8 @@
 <?php
 
-$currentUser = rex::requireUser();
+use Redaxo\Core\Core;
+
+$currentUser = Core::requireUser();
 
 $message = '';
 $content = '';
@@ -38,7 +40,7 @@ $selRole->setAttribute('class', 'form-control selectpicker');
 // $sel_role->addOption(rex_i18n::msg('user_no_role'), 0);
 $roles = [];
 $sqlRole = rex_sql::factory();
-$sqlRole->setQuery('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role ORDER BY name');
+$sqlRole->setQuery('SELECT id, name FROM ' . Core::getTablePrefix() . 'user_role ORDER BY name');
 foreach ($sqlRole as $role) {
     $roles[$role->getValue('id')] = $role->getValue('name');
     $selRole->addOption($role->getValue('name'), $role->getValue('id'));
@@ -126,7 +128,7 @@ if ($warnings) {
     }
 
     $updateuser = rex_sql::factory();
-    $updateuser->setTable(rex::getTablePrefix() . 'user');
+    $updateuser->setTable(Core::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $userId]);
     $updateuser->setValue('name', $username);
     $updateuser->setValue('role', implode(',', $userrole));
@@ -163,7 +165,7 @@ if ($warnings) {
     $user = rex_user::require($userId);
 
     if (null !== $passwordHash && $userId == $currentUser->getId()) {
-        rex::getProperty('login')->changedPassword($passwordHash);
+        Core::getProperty('login')->changedPassword($passwordHash);
     }
 
     rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
@@ -188,7 +190,7 @@ if ($warnings) {
         $warnings[] = rex_i18n::msg('csrf_token_invalid');
     } else {
         $deleteuser = rex_sql::factory();
-        $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'user WHERE id = ? LIMIT 1', [$userId]);
+        $deleteuser->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'user WHERE id = ? LIMIT 1', [$userId]);
         $info[] = rex_i18n::msg('user_deleted');
 
         rex_user::clearInstance($userId);
@@ -202,13 +204,13 @@ if ($warnings) {
     $userId = 0;
 } elseif ('' != $fUNCADD && 1 == $save) {
     $adduser = rex_sql::factory();
-    $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'user WHERE login = ?', [$userlogin]);
+    $adduser->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'user WHERE login = ?', [$userlogin]);
 
     if (0 == $adduser->getRows() && '' != $userlogin && '' != $userpsw) {
         $userpswHash = rex_login::passwordHash($userpsw);
 
         $adduser = rex_sql::factory();
-        $adduser->setTable(rex::getTablePrefix() . 'user');
+        $adduser->setTable(Core::getTablePrefix() . 'user');
         $adduser->setValue('name', $username);
         $adduser->setValue('password', $userpswHash);
         $adduser->setValue('login', $userlogin);
@@ -315,11 +317,11 @@ if ('' != $fUNCADD || $userId > 0) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="FUNC_UPDATE" value="1" ' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('user_save') . '</button>';
+        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="FUNC_UPDATE" value="1" ' . Core::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('user_save') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-apply" type="submit" name="FUNC_APPLY" value="1" ' . rex::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('user_apply') . '</button>';
+        $n['field'] = '<button class="btn btn-apply" type="submit" name="FUNC_APPLY" value="1" ' . Core::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('user_apply') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -329,13 +331,13 @@ if ('' != $fUNCADD || $userId > 0) {
 
         if (!$fUNCUPDATE && !$fUNCAPPLY) {
             $sql = rex_sql::factory();
-            $sql->setQuery('select * from ' . rex::getTablePrefix() . 'user where id=' . $userId);
+            $sql->setQuery('select * from ' . Core::getTablePrefix() . 'user where id=' . $userId);
 
             if (1 == $sql->getRows()) {
                 $passwordChangeRequired = (bool) $sql->getValue('password_change_required');
                 $useradmin = $sql->getValue('admin');
-                $userstatus = $sql->getValue(rex::getTablePrefix() . 'user.status');
-                $userrole = $sql->getValue(rex::getTablePrefix() . 'user.role');
+                $userstatus = $sql->getValue(Core::getTablePrefix() . 'user.status');
+                $userrole = $sql->getValue(Core::getTablePrefix() . 'user.role');
                 if ('' == $userrole) {
                     $userrole = [];
                 } else {
@@ -343,9 +345,9 @@ if ('' != $fUNCADD || $userId > 0) {
                 }
                 $userpermBeSprache = $sql->getValue('language');
                 $userpermStartpage = $sql->getValue('startpage');
-                $username = $sql->getValue(rex::getTablePrefix() . 'user.name');
-                $userdesc = $sql->getValue(rex::getTablePrefix() . 'user.description');
-                $useremail = $sql->getValue(rex::getTablePrefix() . 'user.email');
+                $username = $sql->getValue(Core::getTablePrefix() . 'user.name');
+                $userdesc = $sql->getValue(Core::getTablePrefix() . 'user.description');
+                $useremail = $sql->getValue(Core::getTablePrefix() . 'user.email');
             }
         }
 
@@ -393,7 +395,7 @@ if ('' != $fUNCADD || $userId > 0) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save" type="submit" name="function" value="1" ' . rex::getAccesskey(rex_i18n::msg('add_user'), 'save') . '>' . rex_i18n::msg('add_user') . '</button>';
+        $n['field'] = '<button class="btn btn-save" type="submit" name="function" value="1" ' . Core::getAccesskey(rex_i18n::msg('add_user'), 'save') . '>' . rex_i18n::msg('add_user') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -563,15 +565,15 @@ if ($SHOW) {
             IF(name <> "", name, login) as name,
             login,
             `admin`,
-            IF(`admin`, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR "' . $separator . '") FROM ' . rex::getTable('user_role') . ' r WHERE FIND_IN_SET(r.id, u.role)), "' . $noRole . '")) as role,
+            IF(`admin`, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR "' . $separator . '") FROM ' . Core::getTable('user_role') . ' r WHERE FIND_IN_SET(r.id, u.role)), "' . $noRole . '")) as role,
             status,
             lastlogin
-        FROM ' . rex::getTable('user') . ' u
+        FROM ' . Core::getTable('user') . ' u
     ', defaultSort: ['name' => 'asc']);
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-user" title="' . rex_i18n::msg('user_status_active') . '"></i>';
-    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><i class="rex-icon rex-icon-add-user"></i></a>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . Core::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><i class="rex-icon rex-icon-add-user"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['user_id' => '###id###']);
     $list->setColumnFormat($thIcon, 'custom', static function () use ($currentUser, $list, $thIcon, $tdIcon) {
@@ -641,7 +643,7 @@ if ($SHOW) {
         if (
             $list->getValue('id') == $currentUser->getId()
             || $list->getValue('admin') && !$currentUser->isAdmin()
-            || ($impersonator = rex::getImpersonator()) && $list->getValue('id') == $impersonator->getId()
+            || ($impersonator = Core::getImpersonator()) && $list->getValue('id') == $impersonator->getId()
         ) {
             return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete') . '</span>';
         }
@@ -653,7 +655,7 @@ if ($SHOW) {
         $list->addColumn('impersonate', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
         $list->setColumnLayout('impersonate', ['', '<td class="rex-table-action">###VALUE###</td>']);
         $list->setColumnFormat('impersonate', 'custom', static function () use ($currentUser, $list) {
-            if (rex::getImpersonator() || $list->getValue('id') == $currentUser->getId()) {
+            if (Core::getImpersonator() || $list->getValue('id') == $currentUser->getId()) {
                 return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login_impersonate') . '</span>';
             }
 

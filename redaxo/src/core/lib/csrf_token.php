@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Class for generating and validating csrf tokens.
  */
@@ -143,7 +145,7 @@ class rex_csrf_token
      */
     private static function getBaseSessionKey()
     {
-        return 'csrf_tokens_' . rex::getEnvironment();
+        return 'csrf_tokens_' . Core::getEnvironment();
     }
 
     /**

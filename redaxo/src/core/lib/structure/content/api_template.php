@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_template
 {
     /** @var int */
@@ -17,7 +19,7 @@ class rex_template
      */
     public static function getDefaultId()
     {
-        return rex::getConfig('default_template_id', 1);
+        return Core::getConfig('default_template_id', 1);
     }
 
     public static function forKey(string $templateKey): ?self
@@ -99,7 +101,7 @@ class rex_template
         $templates = [];
         $tSql = rex_sql::factory();
         $where = $ignoreInactive ? ' WHERE active=1' : '';
-        $tSql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template' . $where . ' order by name');
+        $tSql->setQuery('select id,name,attributes from ' . Core::getTablePrefix() . 'template' . $where . ' order by name');
 
         if ($categoryId < 1) {
             // Alle globalen Templates
@@ -188,8 +190,8 @@ class rex_template
         $check = rex_sql::factory();
         $check->setQuery('
             SELECT article.id, article.clang_id, template.name
-            FROM ' . rex::getTable('article') . ' article
-            LEFT JOIN ' . rex::getTable('template') . ' template ON article.template_id=template.id
+            FROM ' . Core::getTable('article') . ' article
+            LEFT JOIN ' . Core::getTable('template') . ' template ON article.template_id=template.id
             WHERE article.template_id=?
             LIMIT 20
         ', [$templateId]);
@@ -221,7 +223,7 @@ class rex_template
         }
 
         if (null == $templatename) {
-            $check->setQuery('SELECT name FROM ' . rex::getTable('template') . ' WHERE id = ' . $templateId);
+            $check->setQuery('SELECT name FROM ' . Core::getTable('template') . ' WHERE id = ' . $templateId);
             $templatename = $check->getValue('name');
         }
 
@@ -236,7 +238,7 @@ class rex_template
     public static function exists(int $templateId): bool
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT 1 FROM ' . rex::getTable('template') . ' WHERE id = ?', [$templateId]);
+        $sql->setQuery('SELECT 1 FROM ' . Core::getTable('template') . ' WHERE id = ?', [$templateId]);
         return 1 === $sql->getRows();
     }
 }

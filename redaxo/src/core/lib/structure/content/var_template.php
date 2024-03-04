@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * REX_TEMPLATE[2].
  */
@@ -55,7 +57,7 @@ class rex_var_template extends rex_var
      */
     public static function getTemplateOutput($id, ?rex_timer $timer = null, $template = null)
     {
-        if ($timer && rex::isDebugMode()) {
+        if ($timer && Core::isDebugMode()) {
             $timer->stop();
             $tmpl = new rex_template($id);
             rex_timer::measured('Template: ' . ($tmpl->getKey() ?? $tmpl->getId()), $timer);
