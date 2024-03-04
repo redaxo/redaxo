@@ -43,7 +43,7 @@ class rex_metainfo_table_expander extends rex_form
         $field->setLabel(rex_i18n::msg('minfo_field_label_name'));
         $field->disableSpellcheckAndAutoCorrect();
         $field->getValidator()
-            ->add(rex_validation_rule::NOT_EMPTY)
+            ->add(rex_validation_rule::NOT_EMPTY, rex_i18n::msg('minfo_field_error_name'))
             ->add(rex_validation_rule::MAX_LENGTH, null, 255)
         ;
 
