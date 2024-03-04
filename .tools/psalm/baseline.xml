@@ -1640,19 +1640,6 @@
       <code><![CDATA[$jobs[0]['name']]]></code>
     </PossiblyNullArgument>
   </file>
-  <file src="redaxo/src/core/lib/cronjob/types/phpcallback.php">
-    <MixedArgument>
-      <code><![CDATA[$this->getParam('callback')]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/lib/cronjob/types/phpcode.php">
-    <MixedArgument>
-      <code><![CDATA[$this->getParam('code')]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$return]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/cronjob/types/urlrequest.php">
     <MixedArgument>
       <code><![CDATA[$post]]></code>
