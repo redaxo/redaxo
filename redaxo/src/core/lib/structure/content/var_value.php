@@ -1,7 +1,5 @@
 <?php
 
-use Redaxo\Core\Core;
-
 /**
  * REX_VALUE[1],.
  */
