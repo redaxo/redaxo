@@ -205,31 +205,6 @@ if (!Core::isSetup()) {
 
         return null;
     });
-
-    rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) {
-        if (!preg_match('@^rex:///metainfo/(\d+)@', $ep->getParam('file'), $match)) {
-            return null;
-        }
-
-        $id = $match[1];
-        $sql = rex_sql::factory();
-        $sql->setQuery('SELECT `name` FROM ' . Core::getTable('metainfo_field') . ' WHERE id = ? LIMIT 1', [$id]);
-
-        if (!$sql->getRows()) {
-            return null;
-        }
-
-        $prefix = rex_metainfo_meta_prefix((string) $sql->getValue('name'));
-        $page = match ($prefix) {
-            'art_' => 'articles',
-            'cat_' => 'categories',
-            'med_' => 'media',
-            'clang_' => 'clangs',
-            default => throw new LogicException('Unknown metainfo prefix "' . $prefix . '"'),
-        };
-
-        return rex_url::backendPage('metainfo/' . $page, ['func' => 'edit', 'field_id' => $id]);
-    });
 }
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
