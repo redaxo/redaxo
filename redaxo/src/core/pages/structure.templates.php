@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 echo rex_view::title(rex_i18n::msg('title_templates'));
 
 $OUT = true;
@@ -35,13 +37,13 @@ if ('delete' == $function) {
 
         if (rex_template::getDefaultId() == $templateId) {
             $del = rex_sql::factory();
-            $del->setQuery('SELECT name FROM ' . rex::getTable('template') . ' WHERE id = ' . $templateId);
+            $del->setQuery('SELECT name FROM ' . Core::getTable('template') . ' WHERE id = ' . $templateId);
             $templatename = $del->getValue('name');
 
             $error .= rex_i18n::msg('cant_delete_template_because_its_default_template', $templatename);
         }
         if ('' == $error) {
-            $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $templateId . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
+            $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'template WHERE id = "' . $templateId . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
             rex_template_cache::delete($templateId);
             $success = rex_i18n::msg('template_deleted');
             $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
@@ -51,7 +53,7 @@ if ('delete' == $function) {
     }
 } elseif ('edit' == $function) {
     $hole = rex_sql::factory();
-    $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $templateId . '"');
+    $hole->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'template WHERE id = "' . $templateId . '"');
     if (1 == $hole->getRows()) {
         $templatekey = $hole->getValue('key');
         $templatename = $hole->getValue('name');
@@ -112,7 +114,7 @@ if ('add' == $function || 'edit' == $function) {
         $attributes['modules'] = $modules;
         $attributes['categories'] = $categories;
         $TPL = rex_sql::factory();
-        $TPL->setTable(rex::getTablePrefix() . 'template');
+        $TPL->setTable(Core::getTablePrefix() . 'template');
         $TPL->setValue('key', $templatekey);
         $TPL->setValue('name', $templatename);
         $TPL->setValue('active', $active);
@@ -218,7 +220,7 @@ if ('add' == $function || 'edit' == $function) {
         $modulSelect->setSize(10);
         $modulSelect->setAttribute('class', 'form-control');
         $mSql = rex_sql::factory();
-        foreach ($mSql->getArray('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name') as $m) {
+        foreach ($mSql->getArray('SELECT id, name FROM ' . Core::getTablePrefix() . 'module ORDER BY name') as $m) {
             $modulSelect->addOption(rex_i18n::translate((string) $m['name']), (int) $m['id']);
         }
 
@@ -442,11 +444,11 @@ if ('add' == $function || 'edit' == $function) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_template_and_quit') . '</button>';
+        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . Core::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_template_and_quit') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('save_template_and_continue') . '</button>';
+        $n['field'] = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . Core::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('save_template_and_continue') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -533,12 +535,12 @@ if ($OUT) {
         $message .= rex_view::error($error);
     }
 
-    $list = rex_list::factory('SELECT id, `key`, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name', 100);
+    $list = rex_list::factory('SELECT id, `key`, name, active FROM ' . Core::getTablePrefix() . 'template ORDER BY name', 100);
     $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-template"></i>';
-    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('create_template'), 'add') . ' title="' . rex_i18n::msg('create_template') . '"><i class="rex-icon rex-icon-add-template"></i></a>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['function' => 'add']) . '"' . Core::getAccesskey(rex_i18n::msg('create_template'), 'add') . ' title="' . rex_i18n::msg('create_template') . '"><i class="rex-icon rex-icon-add-template"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['function' => 'edit', 'template_id' => '###id###']);
 

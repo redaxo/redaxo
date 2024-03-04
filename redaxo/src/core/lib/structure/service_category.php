@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Funktionensammlung für die Strukturverwaltung.
  */
@@ -49,7 +51,7 @@ class rex_category_service
             // TemplateId vom Startartikel der jeweiligen Sprache vererben
             $sql = rex_sql::factory();
             // $sql->setDebug();
-            $sql->setQuery('select clang_id,template_id from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1', [$categoryId]);
+            $sql->setQuery('select clang_id,template_id from ' . Core::getTablePrefix() . 'article where id=? and startarticle=1', [$categoryId]);
             for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
                 $startpageTemplates[(int) $sql->getValue('clang_id')] = $sql->getValue('template_id');
             }
@@ -81,7 +83,7 @@ class rex_category_service
                 $templateId = 0;
             }
 
-            $AART->setTable(rex::getTablePrefix() . 'article');
+            $AART->setTable(Core::getTablePrefix() . 'article');
             if (!isset($id)) {
                 $id = $AART->setNewId('id');
             } else {
@@ -150,11 +152,11 @@ class rex_category_service
     {
         // --- Kategorie mit alten Daten selektieren
         $thisCat = rex_sql::factory();
-        $thisCat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE startarticle=1 and id=? and clang_id=?', [$categoryId, $clang]);
+        $thisCat->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE startarticle=1 and id=? and clang_id=?', [$categoryId, $clang]);
 
         // --- Kategorie selbst updaten
         $EKAT = rex_sql::factory();
-        $EKAT->setTable(rex::getTablePrefix() . 'article');
+        $EKAT->setTable(Core::getTablePrefix() . 'article');
         $EKAT->setWhere(['id' => $categoryId, 'startarticle' => 1, 'clang_id' => $clang]);
 
         if (isset($data['catname'])) {
@@ -174,11 +176,11 @@ class rex_category_service
             // --- Kategorie Kindelemente updaten
             if (isset($data['catname'])) {
                 $ArtSql = rex_sql::factory();
-                $ArtSql->setQuery('SELECT id FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? AND startarticle=0 AND clang_id=?', [$categoryId, $clang]);
+                $ArtSql->setQuery('SELECT id FROM ' . Core::getTablePrefix() . 'article WHERE parent_id=? AND startarticle=0 AND clang_id=?', [$categoryId, $clang]);
 
                 $EART = rex_sql::factory();
                 for ($i = 0; $i < $ArtSql->getRows(); ++$i) {
-                    $EART->setTable(rex::getTablePrefix() . 'article');
+                    $EART->setTable(Core::getTablePrefix() . 'article');
                     $EART->setWhere(['id' => $ArtSql->getValue('id'), 'startarticle' => '0', 'clang_id' => $clang]);
                     $EART->setValue('catname', $data['catname']);
                     $EART->addGlobalUpdateFields($user);
@@ -201,7 +203,7 @@ class rex_category_service
 
                 if ($oldPrio != $data['catpriority']) {
                     rex_sql::factory()
-                        ->setTable(rex::getTable('article'))
+                        ->setTable(Core::getTable('article'))
                         ->setWhere('id = :id AND clang_id != :clang', ['id' => $categoryId, 'clang' => $clang])
                         ->setValue('catpriority', $data['catpriority'])
                         ->addGlobalUpdateFields($user)
@@ -256,19 +258,19 @@ class rex_category_service
         $clang = rex_clang::getStartId();
 
         $thisCat = rex_sql::factory();
-        $thisCat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id=? and clang_id=?', [$categoryId, $clang]);
+        $thisCat->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE id=? and clang_id=?', [$categoryId, $clang]);
 
         // Prüfen ob die Kategorie existiert
         if (1 == $thisCat->getRows()) {
             $KAT = rex_sql::factory();
-            $KAT->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=? and clang_id=? and startarticle=1', [$categoryId, $clang]);
+            $KAT->setQuery('select * from ' . Core::getTablePrefix() . 'article where parent_id=? and clang_id=? and startarticle=1', [$categoryId, $clang]);
             // Prüfen ob die Kategorie noch Unterkategorien besitzt
             if (0 == $KAT->getRows()) {
-                $KAT->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=? and clang_id=? and startarticle=0', [$categoryId, $clang]);
+                $KAT->setQuery('select * from ' . Core::getTablePrefix() . 'article where parent_id=? and clang_id=? and startarticle=0', [$categoryId, $clang]);
                 // Prüfen ob die Kategorie noch Artikel besitzt (ausser dem Startartikel)
                 if (0 == $KAT->getRows()) {
                     $thisCat = rex_sql::factory();
-                    $thisCat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id=?', [$categoryId]);
+                    $thisCat->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE id=?', [$categoryId]);
 
                     $parentId = (int) $thisCat->getValue('parent_id');
                     $message = rex_article_service::_deleteArticle($categoryId);
@@ -319,7 +321,7 @@ class rex_category_service
     public static function categoryStatus($categoryId, $clang, $status = null)
     {
         $KAT = rex_sql::factory();
-        $KAT->setQuery('select * from ' . rex::getTablePrefix() . 'article where id=? and clang_id=? and startarticle=1', [$categoryId, $clang]);
+        $KAT->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and clang_id=? and startarticle=1', [$categoryId, $clang]);
         if (1 == $KAT->getRows()) {
             // Status wurde nicht von außen vorgegeben,
             // => zyklisch auf den nächsten Weiterschalten
@@ -330,7 +332,7 @@ class rex_category_service
             }
 
             $EKAT = rex_sql::factory();
-            $EKAT->setTable(rex::getTablePrefix() . 'article');
+            $EKAT->setTable(Core::getTablePrefix() . 'article');
             $EKAT->setWhere(['id' => $categoryId,  'clang_id' => $clang, 'startarticle' => 1]);
             $EKAT->setValue('status', $newstatus);
             $EKAT->addGlobalUpdateFields(self::getUser());
@@ -433,7 +435,7 @@ class rex_category_service
             }
 
             rex_sql_util::organizePriorities(
-                rex::getTable('article'),
+                Core::getTable('article'),
                 'catpriority',
                 'clang_id=' . (int) $clang . ' AND parent_id=' . (int) $parentId . ' AND startarticle=1',
                 'catpriority,updatedate ' . $addsql,
@@ -442,7 +444,7 @@ class rex_category_service
             rex_article_cache::deleteLists($parentId);
             rex_article_cache::deleteMeta($parentId);
 
-            $ids = rex_sql::factory()->getArray('SELECT id FROM ' . rex::getTable('article') . ' WHERE startarticle=1 AND parent_id = ? GROUP BY id', [$parentId]);
+            $ids = rex_sql::factory()->getArray('SELECT id FROM ' . Core::getTable('article') . ' WHERE startarticle=1 AND parent_id = ? GROUP BY id', [$parentId]);
             foreach ($ids as $id) {
                 rex_article_cache::deleteMeta((int) $id['id']);
             }
@@ -470,10 +472,10 @@ class rex_category_service
         // kategorien vorhanden ?
         // ist die zielkategorie im pfad der quellkategeorie ?
         $fcat = rex_sql::factory();
-        $fcat->setQuery('select * from ' . rex::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$fromCat, rex_clang::getStartId()]);
+        $fcat->setQuery('select * from ' . Core::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$fromCat, rex_clang::getStartId()]);
 
         $tcat = rex_sql::factory();
-        $tcat->setQuery('select * from ' . rex::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$toCat, rex_clang::getStartId()]);
+        $tcat->setQuery('select * from ' . Core::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$toCat, rex_clang::getStartId()]);
 
         if (1 != $fcat->getRows() || (1 != $tcat->getRows() && 0 != $toCat)) {
             // eine der kategorien existiert nicht
@@ -503,7 +505,7 @@ class rex_category_service
 
         $gcats = rex_sql::factory();
         // $gcats->setDebug();
-        $gcats->setQuery('select * from ' . rex::getTablePrefix() . 'article where path like ? and clang_id=?', [$fromPath . '%', rex_clang::getStartId()]);
+        $gcats->setQuery('select * from ' . Core::getTablePrefix() . 'article where path like ? and clang_id=?', [$fromPath . '%', rex_clang::getStartId()]);
 
         $up = rex_sql::factory();
         // $up->setDebug();
@@ -513,7 +515,7 @@ class rex_category_service
             $icid = (int) $gcats->getValue('id');
 
             // path aendern und speichern
-            $up->setTable(rex::getTablePrefix() . 'article');
+            $up->setTable(Core::getTablePrefix() . 'article');
             $up->setWhere(['id' => $icid]);
             $up->setValue('path', $newPath);
             $up->update();
@@ -529,9 +531,9 @@ class rex_category_service
         $up = rex_sql::factory();
         // $up->setDebug();
         foreach (rex_clang::getAllIds() as $clang) {
-            $gmax->setQuery('select max(catpriority) from ' . rex::getTablePrefix() . 'article where parent_id=? and clang_id=?', [$toCat, $clang]);
+            $gmax->setQuery('select max(catpriority) from ' . Core::getTablePrefix() . 'article where parent_id=? and clang_id=?', [$toCat, $clang]);
             $catpriority = (int) $gmax->getValue('max(catpriority)');
-            $up->setTable(rex::getTablePrefix() . 'article');
+            $up->setTable(Core::getTablePrefix() . 'article');
             $up->setWhere(['id' => $fromCat, 'clang_id' => $clang]);
             $up->setValue('path', $toPath);
             $up->setValue('parent_id', $toCat);
@@ -579,6 +581,6 @@ class rex_category_service
      */
     private static function getUser()
     {
-        return rex::getUser()?->getLogin() ?? rex::getEnvironment();
+        return Core::getUser()?->getLogin() ?? Core::getEnvironment();
     }
 }

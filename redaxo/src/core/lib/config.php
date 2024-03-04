@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Class for handling configurations.
  * The configuration is persisted between requests.
@@ -319,7 +321,7 @@ class rex_config
     private static function loadFromDb()
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'config');
+        $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'config');
 
         self::$data = [];
         foreach ($sql as $cfg) {
@@ -375,7 +377,7 @@ class rex_config
 
         // remove all deleted data
         if (self::$deletedData) {
-            $sql->setTable(rex::getTable('config'));
+            $sql->setTable(Core::getTable('config'));
 
             $where = [];
             $params = [];
@@ -394,7 +396,7 @@ class rex_config
 
         // update all changed data
         if (self::$changedData) {
-            $sql->setTable(rex::getTable('config'));
+            $sql->setTable(Core::getTable('config'));
 
             foreach (self::$changedData as $namespace => $nsData) {
                 foreach ($nsData as $key => $value) {

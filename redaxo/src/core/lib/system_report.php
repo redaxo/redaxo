@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_system_report
 {
     public const TITLE_REDAXO = 'REDAXO';
@@ -23,7 +25,7 @@ class rex_system_report
     {
         $data = [];
 
-        $rexVersion = rex::getVersion();
+        $rexVersion = Core::getVersion();
         $hash = rex_version::gitHash(rex_path::base(), 'redaxo/redaxo');
         if ($hash) {
             $rexVersion .= '#' . $hash;
@@ -44,7 +46,7 @@ class rex_system_report
             $data['PHP']['Warning'] = implode('<br/>', $security);
         }
 
-        foreach (rex::getProperty('db') as $dbId => $db) {
+        foreach (Core::getProperty('db') as $dbId => $db) {
             if (empty($db['name'])) {
                 continue;
             }

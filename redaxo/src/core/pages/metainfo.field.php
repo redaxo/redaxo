@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $content = '';
 
 // ------------------------------> Parameter
@@ -37,7 +39,7 @@ if ('' == $func) {
     $sql = rex_sql::factory();
     $likePrefix = $sql->escapeLikeWildcards($prefix);
 
-    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
+    $list = rex_list::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-metainfo"></i>';
@@ -86,7 +88,7 @@ if ('' == $func) {
 // ------------------------------> Formular
 elseif ('edit' == $func || 'add' == $func) {
     $title = rex_i18n::msg('minfo_field_fieldset');
-    $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix() . 'metainfo_field', 'id=' . $fieldId);
+    $form = new rex_metainfo_table_expander($prefix, $metaTable, Core::getTablePrefix() . 'metainfo_field', 'id=' . $fieldId);
 
     if ('edit' == $func) {
         $form->addParam('field_id', $fieldId);

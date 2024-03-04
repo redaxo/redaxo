@@ -1,11 +1,34 @@
 <?php
 
+namespace Redaxo\Core;
+
+use InvalidArgumentException;
+use rex_backend_login;
+use rex_config;
+use rex_config_db;
+use rex_console_application;
+use rex_exception;
+use rex_formatter;
+use rex_path;
+use rex_setup;
+use rex_timer;
+use rex_type;
+use rex_user;
+use rex_validator;
 use Symfony\Component\HttpFoundation\Request;
+
+use function constant;
+use function gettype;
+use function in_array;
+use function is_array;
+use function is_string;
+
+use const PHP_SESSION_ACTIVE;
 
 /**
  * REX base class for core properties etc.
  */
-class rex
+class Core
 {
     public const CONFIG_NAMESPACE = 'core';
 

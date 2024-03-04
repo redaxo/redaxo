@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 abstract class rex_form_base
 {
     /** @var string */
@@ -108,7 +110,7 @@ abstract class rex_form_base
         $params = array_merge($this->getParams(), $params);
         $params['form'] = $this->getName();
 
-        return rex::isBackend() ? rex_url::backendController($params) : rex_url::frontendController($params);
+        return Core::isBackend() ? rex_url::backendController($params) : rex_url::frontendController($params);
     }
 
     // --------- Sections

@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Core;
 
 /**
  * @internal
@@ -11,13 +12,13 @@ class rex_socket_proxy_test extends TestCase
 
     protected function setUp(): void
     {
-        $this->proxy = rex::getProperty('socket_proxy');
-        rex::setProperty('socket_proxy', null);
+        $this->proxy = Core::getProperty('socket_proxy');
+        Core::setProperty('socket_proxy', null);
     }
 
     protected function tearDown(): void
     {
-        rex::setProperty('socket_proxy', $this->proxy);
+        Core::setProperty('socket_proxy', $this->proxy);
     }
 
     public function testFactory(): void

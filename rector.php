@@ -87,6 +87,7 @@ return RectorConfig::configure()
 
     // Upgrade REDAXO 5 to 6
     ->withConfiguredRule(RenameClassRector::class, [
+        rex::class => Redaxo\Core\Core::class,
         rex_package_interface::class => rex_addon_interface::class,
         rex_null_package::class => rex_null_addon::class,
         rex_package::class => rex_addon::class,

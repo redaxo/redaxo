@@ -1,11 +1,13 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $error = '';
 $success = '';
-$user = rex::requireUser();
+$user = Core::requireUser();
 $userId = $user->getId();
 
-$login = rex::getProperty('login');
+$login = Core::getProperty('login');
 $passwordChangeRequired = $login->requiresPasswordChange();
 
 // Allgemeine Infos
@@ -52,7 +54,7 @@ $selBeTheme->setStyle('class="form-control"');
 $selBeTheme->setName('usertheme');
 $selBeTheme->setId('rex-id-usertheme');
 $selBeTheme->setAttribute('class', 'form-control selectpicker');
-$selBeTheme->setDisabled(null !== rex::getProperty('theme'));
+$selBeTheme->setDisabled(null !== Core::getProperty('theme'));
 $selBeTheme->setSelected($usertheme);
 $selBeTheme->addOption(rex_i18n::msg('theme_auto'), '');
 $selBeTheme->addOption(rex_i18n::msg('theme_light'), 'light');
@@ -78,7 +80,7 @@ if (rex_request('rex_user_updated', 'bool', false)) {
 
 if ($update && !$error) {
     $updateuser = rex_sql::factory();
-    $updateuser->setTable(rex::getTablePrefix() . 'user');
+    $updateuser->setTable(Core::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $userId]);
     $updateuser->setValue('name', $username);
     $updateuser->setValue('description', $userdesc);
@@ -140,7 +142,7 @@ if (rex_post('upd_psw_button', 'bool')) {
         $userpswNew1 = rex_login::passwordHash($userpswNew1);
 
         $updateuser = rex_sql::factory();
-        $updateuser->setTable(rex::getTablePrefix() . 'user');
+        $updateuser->setTable(Core::getTablePrefix() . 'user');
         $updateuser->setWhere(['id' => $userId]);
         $updateuser->setValue('password', $userpswNew1);
         $updateuser->addGlobalUpdateFields();
@@ -179,7 +181,7 @@ if ('add_passkey' === rex_request('function', 'string')) {
         [$passkeyId, $passkeyPublicKey] = $webauthn->processCreate($passkey);
 
         $sql = rex_sql::factory();
-        $sql->setTable(rex::getTable('user_passkey'));
+        $sql->setTable(Core::getTable('user_passkey'));
         $sql->setValue('id', $passkeyId);
         $sql->setValue('user_id', $userId);
         $sql->setValue('public_key', $passkeyPublicKey);
@@ -254,7 +256,7 @@ $content .= '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_profile_button" ' . rex::getAccesskey(rex_i18n::msg('profile_save'), 'save') . '>' . rex_i18n::msg('profile_save') . '</button>';
+$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_profile_button" ' . Core::getAccesskey(rex_i18n::msg('profile_save'), 'save') . '>' . rex_i18n::msg('profile_save') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -330,7 +332,7 @@ $content .= '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_psw_button" ' . rex::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save') . '>' . rex_i18n::msg('profile_save_psw') . '</button>';
+$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_psw_button" ' . Core::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save') . '>' . rex_i18n::msg('profile_save_psw') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -351,7 +353,7 @@ $content .= '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="add_passkey" ' . rex::getAccesskey(rex_i18n::msg('passkey_add'), 'save') . '>' . rex_i18n::msg('passkey_add') . '</button>';
+$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="add_passkey" ' . Core::getAccesskey(rex_i18n::msg('passkey_add'), 'save') . '>' . rex_i18n::msg('passkey_add') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

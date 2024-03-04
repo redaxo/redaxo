@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $func = rex_request('func', 'string');
 $oid = rex_request('oid', 'int');
 
@@ -45,7 +47,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
 }
 
 if ('' == $func) {
-    $query = 'SELECT id, name, type, environment, execution_moment, nexttime, status FROM ' . rex::getTable('cronjob') . ' ORDER BY name';
+    $query = 'SELECT id, name, type, environment, execution_moment, nexttime, status FROM ' . Core::getTable('cronjob') . ' ORDER BY name';
 
     $list = rex_list::factory($query, 30, 'cronjobs');
     $list->addTableAttribute('class', 'table-striped table-hover');
@@ -130,7 +132,7 @@ if ('' == $func) {
 } elseif ('edit' == $func || 'add' == $func) {
     $fieldset = 'edit' == $func ? rex_i18n::msg('edit') : rex_i18n::msg('add');
 
-    $form = new rex_cronjob_form(rex::getTable('cronjob'), $fieldset, 'id = ' . $oid, 'post', false);
+    $form = new rex_cronjob_form(Core::getTable('cronjob'), $fieldset, 'id = ' . $oid, 'post', false);
     $form->addParam('oid', $oid);
     $form->setEditMode('edit' == $func);
 

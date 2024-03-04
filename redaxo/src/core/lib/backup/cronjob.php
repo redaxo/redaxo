@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_cronjob_export extends rex_cronjob
 {
     public const DEFAULT_FILENAME = '%REX_SERVER_%Y%m%d_%H%M_rex%REX_VERSION';
@@ -7,8 +9,8 @@ class rex_cronjob_export extends rex_cronjob
     public function execute()
     {
         $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
-        $filename = str_replace('%REX_SERVER', rex_string::normalize(rex::getServerName(), '-'), $filename);
-        $filename = str_replace('%REX_VERSION', rex::getVersion(), $filename);
+        $filename = str_replace('%REX_SERVER', rex_string::normalize(Core::getServerName(), '-'), $filename);
+        $filename = str_replace('%REX_VERSION', Core::getVersion(), $filename);
         $now = new DateTimeImmutable();
         $filename = str_replace(
             ['%Y', '%m', '%d', '%H', '%M', '%S'],
@@ -95,7 +97,7 @@ class rex_cronjob_export extends rex_cronjob
                 $mail = new rex_mailer();
                 $mail->addAddress($this->getParam('mailaddress'));
                 $mail->Subject = rex_i18n::rawMsg('backup_mail_subject');
-                $mail->Body = rex_i18n::rawMsg('backup_mail_body', rex::getServerName());
+                $mail->Body = rex_i18n::rawMsg('backup_mail_body', Core::getServerName());
                 $mail->addAttachment($exportFilePath, $filename);
                 if ($mail->send()) {
                     $this->setMessage($message . ', mail sent');

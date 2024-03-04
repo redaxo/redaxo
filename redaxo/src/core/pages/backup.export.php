@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 // Für größere Exports den Speicher für PHP erhöhen.
 if (rex_ini_get('memory_limit') < 67_108_864) {
     @ini_set('memory_limit', '64M');
@@ -16,7 +18,7 @@ $EXPTABLES = rex_post('EXPTABLES', 'array');
 $EXPDIR = rex_post('EXPDIR', 'array');
 
 if ('' == $exportfilename) {
-    $exportfilename = rex_string::normalize(rex::getServerName()) . '_' . date('Ymd_Hi') . '_rex' . rex::getVersion();
+    $exportfilename = rex_string::normalize(Core::getServerName()) . '_' . date('Ymd_Hi') . '_rex' . Core::getVersion();
 }
 
 if ($EXPTABLES) {
@@ -154,15 +156,15 @@ $tableSelect->setAttribute('class', 'form-control');
 $tables = rex_sql::factory()->getTables();
 foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
-    if (in_array($table, [rex::getTable('user'), rex::getTable('user_passkey'), rex::getTable('user_session')], true)) {
+    if (in_array($table, [Core::getTable('user'), Core::getTable('user_passkey'), Core::getTable('user_session')], true)) {
         continue;
     }
     // skip non rex_ tables
-    if (!str_starts_with($table, rex::getTablePrefix())) {
+    if (!str_starts_with($table, Core::getTablePrefix())) {
         continue;
     }
     // skip rex_tmp_ tables
-    if (str_starts_with($table, rex::getTablePrefix() . rex::getTempPrefix())) {
+    if (str_starts_with($table, Core::getTablePrefix() . Core::getTempPrefix())) {
         continue;
     }
 

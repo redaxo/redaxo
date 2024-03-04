@@ -1,11 +1,13 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Layout Kopf des Backends.
  */
 
 $curPage = rex_be_controller::requireCurrentPageObject();
-$user = rex::getUser();
+$user = Core::getUser();
 
 if (rex_request::isPJAXRequest()) {
     // add title to the page, so pjax can update it. see gh#136
@@ -23,7 +25,7 @@ if (!$curPage->hasLayout()) {
 $bodyAttr = [];
 
 // rex_string::normalize requires intl extension, which may not exist before extensions check in setup
-$bodyId = rex::isSetup() ? 'setup' : rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
+$bodyId = Core::isSetup() ? 'setup' : rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
 
 $bodyAttr['id'] = ['rex-page-' . $bodyId];
 
@@ -31,23 +33,23 @@ $bodyAttr['class'] = ['rex-is-logged-out'];
 if ($user) {
     $bodyAttr['class'] = ['rex-is-logged-in'];
 }
-if (rex::isDebugMode()) {
+if (Core::isDebugMode()) {
     $bodyAttr['class'][] = 'rex-is-debugmode';
 }
-if (rex::isSafeMode()) {
+if (Core::isSafeMode()) {
     $bodyAttr['class'][] = 'rex-is-safemode';
 }
 if ($curPage->isPopup()) {
     $bodyAttr['class'][] = 'rex-is-popup';
 }
-if (rex::getImpersonator()) {
+if (Core::getImpersonator()) {
     $bodyAttr['class'][] = 'rex-is-impersonated';
 }
 
 $bodyAttr['class'][] = 'rex-has-theme';
-if (rex::getProperty('theme')) {
+if (Core::getProperty('theme')) {
     // global theme from config.yml
-    $bodyAttr['class'][] = 'rex-theme-' . rex_escape((string) rex::getProperty('theme'));
+    $bodyAttr['class'][] = 'rex-theme-' . rex_escape((string) Core::getProperty('theme'));
 } elseif ($user && $user->getValue('theme')) {
     // user selected theme
     $bodyAttr['class'][] = 'rex-theme-' . rex_escape($user->getValue('theme'));
@@ -69,7 +71,7 @@ $hasNavigation = $curPage->hasNavigation();
 
 $metaItems = [];
 if ($user && $hasNavigation) {
-    if (rex::isSafeMode() && $user->isAdmin()) {
+    if (Core::isSafeMode() && $user->isAdmin()) {
         $item = [];
         $item['title'] = rex_i18n::msg('safemode_deactivate');
         $item['href'] = rex_url::backendController(['safemode' => 0]);
@@ -79,7 +81,7 @@ if ($user && $hasNavigation) {
     }
 
     $userName = $user->getName() ?: $user->getLogin();
-    $impersonator = rex::getImpersonator();
+    $impersonator = Core::getImpersonator();
     if ($impersonator) {
         $impersonator = $impersonator->getName() ?: $impersonator->getLogin();
     }
@@ -104,7 +106,7 @@ if ($user && $hasNavigation) {
     }
     $metaItems[] = $item;
     unset($item);
-} elseif ($hasNavigation && !rex::isSetup()) {
+} elseif ($hasNavigation && !Core::isSetup()) {
     $item = [];
     $item['title'] = rex_i18n::msg('logged_out');
     $metaItems[] = $item;

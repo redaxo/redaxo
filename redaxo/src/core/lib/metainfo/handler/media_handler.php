@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -20,7 +22,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $warning = $ep->getSubject();
 
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT `name`, `type_id` FROM `' . rex::getTablePrefix() . 'metainfo_field` WHERE `type_id` IN(6,7)');
+        $sql->setQuery('SELECT `name`, `type_id` FROM `' . Core::getTablePrefix() . 'metainfo_field` WHERE `type_id` IN(6,7)');
 
         $rows = $sql->getRows();
         if (0 == $rows) {
@@ -55,7 +57,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
         $articles = '';
         if (!empty($where['articles'])) {
-            $items = $sql->getArray('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
+            $items = $sql->getArray('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . Core::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
             foreach ($items as $artArr) {
                 $aid = (int) $artArr['id'];
                 $clang = (int) $artArr['clang_id'];
@@ -69,7 +71,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
         $categories = '';
         if (!empty($where['categories'])) {
-            $items = $sql->getArray('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['categories']));
+            $items = $sql->getArray('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . Core::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['categories']));
             foreach ($items as $artArr) {
                 $aid = (int) $artArr['id'];
                 $clang = (int) $artArr['clang_id'];
@@ -83,7 +85,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
         $media = '';
         if (!empty($where['media'])) {
-            $items = $sql->getArray('SELECT id, filename, category_id FROM ' . rex::getTablePrefix() . 'media WHERE ' . implode(' OR ', $where['media']));
+            $items = $sql->getArray('SELECT id, filename, category_id FROM ' . Core::getTablePrefix() . 'media WHERE ' . implode(' OR ', $where['media']));
             foreach ($items as $medArr) {
                 $id = (int) $medArr['id'];
                 $filename = (string) $medArr['filename'];
@@ -97,10 +99,10 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
         $clangs = '';
         if (!empty($where['clangs'])) {
-            $items = $sql->getArray('SELECT id, name FROM ' . rex::getTablePrefix() . 'clang WHERE ' . implode(' OR ', $where['clangs']));
+            $items = $sql->getArray('SELECT id, name FROM ' . Core::getTablePrefix() . 'clang WHERE ' . implode(' OR ', $where['clangs']));
             foreach ($items as $clangArr) {
                 $name = (string) $clangArr['name'];
-                if (rex::getUser()?->isAdmin()) {
+                if (Core::getUser()?->isAdmin()) {
                     $clangs .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('system/lang', ['clang_id' => $clangArr['id'], 'func' => 'editclang']) . '\')">' . $name . '</a></li>';
                 } else {
                     $clangs .= '<li>' . $name . '</li>';
@@ -159,7 +161,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
         $media = rex_sql::factory();
         //  $media->setDebug();
-        $media->setTable(rex::getTablePrefix() . 'media');
+        $media->setTable(Core::getTablePrefix() . 'media');
         $media->setWhere('id=:mediaid', ['mediaid' => $params['id']]);
 
         parent::fetchRequestValues($params, $media, $sqlFields);
@@ -189,7 +191,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         } elseif ('MEDIA_ADDED' == $ep->getName()) {
             $sql = rex_sql::factory();
 
-            $qry = 'SELECT id FROM ' . rex::getTablePrefix() . 'media WHERE filename=:filename';
+            $qry = 'SELECT id FROM ' . Core::getTablePrefix() . 'media WHERE filename=:filename';
             $sql->setQuery($qry, ['filename' => $params['filename']]);
             if (1 == $sql->getRows()) {
                 $params['id'] = (int) $sql->getValue('id');

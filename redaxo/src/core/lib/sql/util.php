@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Class to execute a sql dump.
  */
@@ -141,12 +143,12 @@ class rex_sql_util
     {
         // rex::getUser() gibts im Setup nicht
         /** @psalm-taint-escape sql */ // we trust the user db table
-        $user = rex::getUser()?->getLogin() ?? '';
+        $user = Core::getUser()?->getLogin() ?? '';
 
         $query = str_replace('%USER%', $user, $query);
         $query = str_replace('%TIME%', (string) time(), $query);
-        $query = str_replace('%TABLE_PREFIX%', rex::getTablePrefix(), $query);
-        $query = str_replace('%TEMP_PREFIX%', rex::getTempPrefix(), $query);
+        $query = str_replace('%TABLE_PREFIX%', Core::getTablePrefix(), $query);
+        $query = str_replace('%TEMP_PREFIX%', Core::getTempPrefix(), $query);
 
         return $query;
     }

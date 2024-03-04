@@ -53,7 +53,7 @@ Now templates for the output of the yform fields are also searched in the path `
 With this code
 
 ```php
-if (rex::isBackend()) {
+if (Core::isBackend()) {
     rex_view::addJsFile($this->getAssetsUrl('scripts/be_scripts.js'));    
 }
 ```
@@ -63,7 +63,7 @@ the file `/assets/addons/project/scripts/be_scripts.js` is loaded in the backend
 The use of extension points in the boot.php is also useful:
 
 ```php
-if (!rex::isBackend()) {
+if (!Core::isBackend()) {
     // eine Session im Frontend wird gestartet
     rex_login::startSession();    
     rex_extension::register('PACKAGES_INCLUDED', function() {

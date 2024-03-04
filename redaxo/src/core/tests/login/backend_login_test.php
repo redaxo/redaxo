@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Core;
 
 /**
  * @internal
@@ -13,7 +14,7 @@ class rex_backend_login_test extends TestCase
     protected function setUp(): void
     {
         $adduser = rex_sql::factory();
-        $adduser->setTable(rex::getTablePrefix() . 'user');
+        $adduser->setTable(Core::getTablePrefix() . 'user');
         $adduser->setValue('name', 'test user');
         $adduser->setValue('login', self::LOGIN);
         $adduser->setValue('password', $psw = rex_login::passwordHash(self::PASSWORD));
@@ -29,7 +30,7 @@ class rex_backend_login_test extends TestCase
     protected function tearDown(): void
     {
         $deleteuser = rex_sql::factory();
-        $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE login = '" . self::LOGIN . "' LIMIT 1");
+        $deleteuser->setQuery('DELETE FROM ' . Core::getTablePrefix() . "user WHERE login = '" . self::LOGIN . "' LIMIT 1");
     }
 
     public function testSuccessfullLogin(): void

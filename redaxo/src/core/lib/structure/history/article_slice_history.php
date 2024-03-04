@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_article_slice_history
 {
     /**
@@ -9,7 +11,7 @@ class rex_article_slice_history
      */
     public static function getTable()
     {
-        return rex::getTablePrefix() . 'article_slice_history';
+        return Core::getTablePrefix() . 'article_slice_history';
     }
 
     /**
@@ -25,7 +27,7 @@ class rex_article_slice_history
         self::checkTables();
 
         $slices = rex_sql::factory()->getArray(
-            'select * from ' . rex::getTable('article_slice') . ' where article_id=? and clang_id=? and revision=?',
+            'select * from ' . Core::getTable('article_slice') . ' where article_id=? and clang_id=? and revision=?',
             [
                 $articleId,
                 $clangId,
@@ -47,7 +49,7 @@ class rex_article_slice_history
             }
             $sql->setValue('history_type', $historyType);
             $sql->setValue('history_date', $historyDate);
-            $sql->setValue('history_user', rex::requireUser()->getValue('login'));
+            $sql->setValue('history_user', Core::requireUser()->getValue('login'));
             $sql->insert();
         }
     }
@@ -87,17 +89,17 @@ class rex_article_slice_history
 
         self::makeSnapshot($articleId, $clangId, 'version set ' . $historyDate);
 
-        $articleSlicesTable = rex_sql_table::get(rex::getTable('article_slice'));
+        $articleSlicesTable = rex_sql_table::get(Core::getTable('article_slice'));
 
         $sql = rex_sql::factory();
-        $sql->setQuery('delete from ' . $sql->escapeIdentifier(rex::getTable('article_slice')) . ' where article_id=? and clang_id=? and revision=?', [$articleId, $clangId, 0]);
+        $sql->setQuery('delete from ' . $sql->escapeIdentifier(Core::getTable('article_slice')) . ' where article_id=? and clang_id=? and revision=?', [$articleId, $clangId, 0]);
 
         $slices = rex_sql::factory();
         $slices = $slices->getArray('select * from ' . $slices->escapeIdentifier(self::getTable()) . ' where article_id=? and clang_id=? and revision=? and history_date=?', [$articleId, $clangId, 0, $historyDate]);
 
         foreach ($slices as $slice) {
             $sql = rex_sql::factory();
-            $sql->setTable(rex::getTable('article_slice'));
+            $sql->setTable(Core::getTable('article_slice'));
 
             $ignoreFields = ['id', 'slice_id', 'history_date', 'history_type', 'history_user'];
             foreach ($articleSlicesTable->getColumns() as $column) {
@@ -133,7 +135,7 @@ class rex_article_slice_history
      */
     public static function checkTables()
     {
-        $slicesTable = rex_sql_table::get(rex::getTable('article_slice'));
+        $slicesTable = rex_sql_table::get(Core::getTable('article_slice'));
         $historyTable = rex_sql_table::get(self::getTable());
 
         foreach ($slicesTable->getColumns() as $column) {

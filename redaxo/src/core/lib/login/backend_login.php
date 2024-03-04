@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @method rex_user|null getUser()
  * @method rex_user|null getImpersonator()
@@ -25,10 +27,10 @@ class rex_backend_login extends rex_login
     {
         parent::__construct();
 
-        $tableName = rex::getTablePrefix() . 'user';
+        $tableName = Core::getTablePrefix() . 'user';
         $this->setSqlDb(1);
         $this->setSystemId(self::SYSTEM_ID);
-        $this->setSessionDuration(rex::getProperty('session_duration'));
+        $this->setSessionDuration(Core::getProperty('session_duration'));
         $qry = 'SELECT * FROM ' . $tableName;
         $this->setUserQuery($qry . ' WHERE id = :id AND status = 1');
         $this->setImpersonateQuery($qry . ' WHERE id = :id');
@@ -86,8 +88,8 @@ class rex_backend_login extends rex_login
             if (!$userId) {
                 $sql->setQuery('
                     SELECT id, password
-                    FROM ' . rex::getTable('user') . ' user
-                    JOIN ' . rex::getTable('user_session') . ' ON user.id = user_id
+                    FROM ' . Core::getTable('user') . ' user
+                    JOIN ' . Core::getTable('user_session') . ' ON user.id = user_id
                     WHERE cookie_key = ?
                     LIMIT 1
                 ', [$cookiekey]);
@@ -189,7 +191,7 @@ class rex_backend_login extends rex_login
 
         // check if session was killed only if the user is logged in
         if ($check) {
-            $sql->setQuery('SELECT passkey_id FROM ' . rex::getTable('user_session') . ' where session_id = ?', [session_id()]);
+            $sql->setQuery('SELECT passkey_id FROM ' . Core::getTable('user_session') . ' where session_id = ?', [session_id()]);
             if (0 === $sql->getRows()) {
                 $check = false;
                 $this->message = rex_i18n::msg('login_session_expired');
@@ -253,7 +255,7 @@ class rex_backend_login extends rex_login
 
     private static function setStayLoggedInCookie(string $cookiekey): void
     {
-        $sessionConfig = rex::getProperty('session', [])['backend']['cookie'] ?? [];
+        $sessionConfig = Core::getProperty('session', [])['backend']['cookie'] ?? [];
 
         rex_response::sendCookie(self::getStayLoggedInCookieName(), $cookiekey, [
             'expires' => strtotime(rex_user_session::STAY_LOGGED_IN_DURATION . ' months'),
@@ -272,7 +274,7 @@ class rex_backend_login extends rex_login
      */
     public static function getStayLoggedInCookieName()
     {
-        $instname = rex::getProperty('instname');
+        $instname = Core::getProperty('instname');
         if (!$instname) {
             throw new rex_exception('Property "instname" is empty');
         }
@@ -313,15 +315,15 @@ class rex_backend_login extends rex_login
         if (!self::hasSession()) {
             return null;
         }
-        if ($user = rex::getUser()) {
+        if ($user = Core::getUser()) {
             return $user;
         }
 
         $login = new self();
-        rex::setProperty('login', $login);
+        Core::setProperty('login', $login);
         if ($login->checkLogin()) {
             $user = $login->getUser();
-            rex::setProperty('user', $user);
+            Core::setProperty('user', $user);
             return $user;
         }
         return null;
@@ -334,12 +336,12 @@ class rex_backend_login extends rex_login
      */
     protected static function getSessionNamespace()
     {
-        return rex::getProperty('instname') . '_backend';
+        return Core::getProperty('instname') . '_backend';
     }
 
     public function getLoginPolicy(): rex_login_policy
     {
-        $loginPolicy = (array) rex::getProperty('backend_login_policy', []);
+        $loginPolicy = (array) Core::getProperty('backend_login_policy', []);
 
         return new rex_login_policy($loginPolicy);
     }

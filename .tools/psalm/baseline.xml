@@ -335,7 +335,7 @@
   </file>
   <file src="redaxo/src/core/boot.php">
     <ArgumentTypeCoercion>
-      <code><![CDATA[rex::getProperty('timezone', 'Europe/Berlin')]]></code>
+      <code><![CDATA[Core::getProperty('timezone', 'Europe/Berlin')]]></code>
     </ArgumentTypeCoercion>
     <MixedArgument>
       <code><![CDATA[$ep->getParam('file')]]></code>
@@ -1987,7 +1987,7 @@
       <code><![CDATA[$password]]></code>
     </ArgumentTypeCoercion>
     <MixedArgument>
-      <code><![CDATA[rex::getProperty('session_duration')]]></code>
+      <code><![CDATA[Core::getProperty('session_duration')]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[[
@@ -2010,7 +2010,7 @@
     </PossiblyInvalidArrayOffset>
     <PossiblyNullArgument>
       <code><![CDATA[$this->userPassword]]></code>
-      <code><![CDATA[rex::getProperty('session_duration')]]></code>
+      <code><![CDATA[Core::getProperty('session_duration')]]></code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/login/backend_password_policy.php">
@@ -2386,14 +2386,14 @@
     </MixedOperand>
     <MixedReturnStatement>
       <code><![CDATA[$this->$value]]></code>
-      <code><![CDATA[rex::getProperty('allowed_doctypes', [])]]></code>
-      <code><![CDATA[rex::getProperty('allowed_doctypes', [])]]></code>
-      <code><![CDATA[rex::getProperty('image_extensions', [])]]></code>
-      <code><![CDATA[rex::getProperty('image_extensions', [])]]></code>
+      <code><![CDATA[Core::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[Core::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[Core::getProperty('image_extensions', [])]]></code>
+      <code><![CDATA[Core::getProperty('image_extensions', [])]]></code>
     </MixedReturnStatement>
     <NullableReturnStatement>
-      <code><![CDATA[rex::getProperty('allowed_doctypes', [])]]></code>
-      <code><![CDATA[rex::getProperty('image_extensions', [])]]></code>
+      <code><![CDATA[Core::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[Core::getProperty('image_extensions', [])]]></code>
     </NullableReturnStatement>
     <PossiblyInvalidArgument>
       <code><![CDATA[$getInstance]]></code>
@@ -2454,11 +2454,11 @@
       <code><![CDATA[$blockedExtension]]></code>
     </MixedOperand>
     <MixedReturnStatement>
-      <code><![CDATA[rex::getProperty('blocked_extensions', [])]]></code>
-      <code><![CDATA[rex::getProperty('blocked_extensions', [])]]></code>
+      <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
+      <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
     </MixedReturnStatement>
     <NullableReturnStatement>
-      <code><![CDATA[rex::getProperty('blocked_extensions', [])]]></code>
+      <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
     </NullableReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/mediapool/service_media.php">
@@ -3005,44 +3005,6 @@
       <code><![CDATA[$path]]></code>
     </RedundantCondition>
   </file>
-  <file src="redaxo/src/core/lib/rex.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[rex_type::array(self::getConfig('package-order', []))]]></code>
-    </LessSpecificReturnStatement>
-    <MixedArgument>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$item]]></code>
-      <code><![CDATA[$login]]></code>
-      <code><![CDATA[$request]]></code>
-      <code><![CDATA[$value['throw_always_exception']]]></code>
-      <code><![CDATA[self::$properties[$key]]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[Request]]></code>
-      <code><![CDATA[rex_user|null]]></code>
-    </MixedInferredReturnType>
-    <MixedMethodCall>
-      <code><![CDATA[getImpersonator]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$result]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
-      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
-      <code><![CDATA[$request]]></code>
-    </MixedReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[list<non-empty-string>]]></code>
-    </MoreSpecificReturnType>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$server]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
   <file src="redaxo/src/core/lib/select.php">
     <MixedArgument>
       <code><![CDATA[$attributes]]></code>
@@ -3280,17 +3242,17 @@
       <code><![CDATA[int]]></code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
-      <code><![CDATA[rex::getProperty('article_id', 1)]]></code>
-      <code><![CDATA[rex::getProperty('article_id', 1)]]></code>
-      <code><![CDATA[rex::getProperty('notfound_article_id', 1)]]></code>
-      <code><![CDATA[rex::getProperty('notfound_article_id', 1)]]></code>
-      <code><![CDATA[rex::getProperty('start_article_id', 1)]]></code>
-      <code><![CDATA[rex::getProperty('start_article_id', 1)]]></code>
+      <code><![CDATA[Core::getProperty('article_id', 1)]]></code>
+      <code><![CDATA[Core::getProperty('article_id', 1)]]></code>
+      <code><![CDATA[Core::getProperty('notfound_article_id', 1)]]></code>
+      <code><![CDATA[Core::getProperty('notfound_article_id', 1)]]></code>
+      <code><![CDATA[Core::getProperty('start_article_id', 1)]]></code>
+      <code><![CDATA[Core::getProperty('start_article_id', 1)]]></code>
     </MixedReturnStatement>
     <NullableReturnStatement>
-      <code><![CDATA[rex::getProperty('article_id', 1)]]></code>
-      <code><![CDATA[rex::getProperty('notfound_article_id', 1)]]></code>
-      <code><![CDATA[rex::getProperty('start_article_id', 1)]]></code>
+      <code><![CDATA[Core::getProperty('article_id', 1)]]></code>
+      <code><![CDATA[Core::getProperty('notfound_article_id', 1)]]></code>
+      <code><![CDATA[Core::getProperty('start_article_id', 1)]]></code>
     </NullableReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/structure/cache_article.php">
@@ -3325,15 +3287,15 @@
     </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$mapping]]></code>
-      <code><![CDATA[rex::getConfig('default_template_id', 1)]]></code>
-      <code><![CDATA[rex::getConfig('default_template_id', 1)]]></code>
+      <code><![CDATA[Core::getConfig('default_template_id', 1)]]></code>
+      <code><![CDATA[Core::getConfig('default_template_id', 1)]]></code>
     </MixedReturnStatement>
     <MixedReturnTypeCoercion>
       <code><![CDATA[$mapping]]></code>
       <code><![CDATA[$mapping = rex_file::getCache($file)]]></code>
     </MixedReturnTypeCoercion>
     <NullableReturnStatement>
-      <code><![CDATA[rex::getConfig('default_template_id', 1)]]></code>
+      <code><![CDATA[Core::getConfig('default_template_id', 1)]]></code>
     </NullableReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/structure/content/article_action.php">
@@ -3838,7 +3800,7 @@
   </file>
   <file src="redaxo/src/core/lib/structure/system_setting_article_id.php">
     <MixedArgument>
-      <code><![CDATA[rex::getConfig($this->key, 1)]]></code>
+      <code><![CDATA[Core::getConfig($this->key, 1)]]></code>
     </MixedArgument>
   </file>
   <file src="redaxo/src/core/lib/structure/var_article.php">
@@ -4372,12 +4334,12 @@
   </file>
   <file src="redaxo/src/core/pages/media_manager.settings.php">
     <NullOperand>
-      <code><![CDATA[rex_escape(rex::getConfig('media_manager_jpg_quality'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('media_manager_jpg_quality'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('media_manager_png_compression'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('media_manager_png_compression'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('media_manager_webp_quality'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('media_manager_webp_quality'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('media_manager_jpg_quality'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('media_manager_jpg_quality'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('media_manager_png_compression'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('media_manager_png_compression'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('media_manager_webp_quality'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('media_manager_webp_quality'))]]></code>
     </NullOperand>
   </file>
   <file src="redaxo/src/core/pages/media_manager.types.php">
@@ -4566,22 +4528,22 @@
   <file src="redaxo/src/core/pages/phpmailer.checkmail.php">
     <MixedArgument>
       <code><![CDATA[$str]]></code>
-      <code><![CDATA[rex::getConfig('phpmailer_test_address')]]></code>
+      <code><![CDATA[Core::getConfig('phpmailer_test_address')]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$securityMode]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[rex::getConfig('phpmailer_mailer')]]></code>
-      <code><![CDATA[rex::getConfig('phpmailer_smtpsecure')]]></code>
+      <code><![CDATA[Core::getConfig('phpmailer_mailer')]]></code>
+      <code><![CDATA[Core::getConfig('phpmailer_smtpsecure')]]></code>
     </MixedOperand>
     <NullOperand>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_host'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_port'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_test_address'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_host'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_port'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_test_address'))]]></code>
     </NullOperand>
     <PossiblyNullArgument>
-      <code><![CDATA[rex::getConfig('phpmailer_test_address')]]></code>
+      <code><![CDATA[Core::getConfig('phpmailer_test_address')]]></code>
     </PossiblyNullArgument>
     <PossiblyNullOperand>
       <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
@@ -4592,17 +4554,17 @@
   </file>
   <file src="redaxo/src/core/pages/phpmailer.config.php">
     <NullOperand>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_bcc'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_charset'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_confirmto'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_from'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_fromname'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_host'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_password'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_port'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_test_address'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_username'))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('phpmailer_wordwrap'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_bcc'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_charset'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_confirmto'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_from'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_fromname'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_host'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_password'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_port'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_test_address'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_username'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_wordwrap'))]]></code>
     </NullOperand>
   </file>
   <file src="redaxo/src/core/pages/setup.php">
@@ -4818,7 +4780,7 @@
       <code><![CDATA[$clangId]]></code>
       <code><![CDATA[$clangId]]></code>
       <code><![CDATA[$gaa->getValue('name')]]></code>
-      <code><![CDATA[$gc->getValue(rex::getTablePrefix() . 'article.id')]]></code>
+      <code><![CDATA[$gc->getValue(Core::getTablePrefix() . 'article.id')]]></code>
       <code><![CDATA[$gma->getValue('name')]]></code>
       <code><![CDATA[$list->getValue('name')]]></code>
       <code><![CDATA[$modulname]]></code>
@@ -4838,7 +4800,7 @@
       <code><![CDATA[$error]]></code>
       <code><![CDATA[$error]]></code>
       <code><![CDATA[$gaa->getValue('name')]]></code>
-      <code><![CDATA[$gc->getValue(rex::getTablePrefix() . 'article.id')]]></code>
+      <code><![CDATA[$gc->getValue(Core::getTablePrefix() . 'article.id')]]></code>
       <code><![CDATA[$gma->getValue('name')]]></code>
       <code><![CDATA[$list->getValue('name')]]></code>
       <code><![CDATA[$modulname]]></code>
@@ -4917,8 +4879,8 @@
   </file>
   <file src="redaxo/src/core/pages/system.be_style.customizer.php">
     <NullOperand>
-      <code><![CDATA[rex_escape(rex::getConfig('be_style_labelcolor', ''))]]></code>
-      <code><![CDATA[rex_escape(rex::getConfig('be_style_labelcolor', ''))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('be_style_labelcolor', ''))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('be_style_labelcolor', ''))]]></code>
     </NullOperand>
   </file>
   <file src="redaxo/src/core/pages/system.clangs.php">
@@ -5025,6 +4987,44 @@
       <code><![CDATA[getValue]]></code>
       <code><![CDATA[isAdmin]]></code>
     </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/src/Core.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[rex_type::array(self::getConfig('package-order', []))]]></code>
+    </LessSpecificReturnStatement>
+    <MixedArgument>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$login]]></code>
+      <code><![CDATA[$request]]></code>
+      <code><![CDATA[$value['throw_always_exception']]]></code>
+      <code><![CDATA[self::$properties[$key]]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[Request]]></code>
+      <code><![CDATA[rex_user|null]]></code>
+    </MixedInferredReturnType>
+    <MixedMethodCall>
+      <code><![CDATA[getImpersonator]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$result]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
+      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
+      <code><![CDATA[$request]]></code>
+    </MixedReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[list<non-empty-string>]]></code>
+    </MoreSpecificReturnType>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$server]]></code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
     <MixedArrayAccess>

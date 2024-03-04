@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -26,7 +28,7 @@ class rex_user_session
         $updateByCookieKey = false;
         if (null !== $cookieKey) {
             $sql = rex_sql::factory()
-                ->setTable(rex::getTable('user_session'))
+                ->setTable(Core::getTable('user_session'))
                 ->setWhere(['cookie_key' => $cookieKey])
                 ->select();
             if ($sql->getRows()) {
@@ -39,7 +41,7 @@ class rex_user_session
         }
 
         $sql = rex_sql::factory()
-            ->setTable(rex::getTable('user_session'))
+            ->setTable(Core::getTable('user_session'))
             ->setValue('session_id', session_id())
             ->setValue('user_id', $userId)
             ->setValue('ip', rex_request::server('REMOTE_ADDR', 'string'))
@@ -75,7 +77,7 @@ class rex_user_session
         }
 
         rex_sql::factory()
-            ->setTable(rex::getTable('user_session'))
+            ->setTable(Core::getTable('user_session'))
             ->setWhere('session_id = ?', [session_id()])
             ->delete();
     }
@@ -98,7 +100,7 @@ class rex_user_session
     public static function updateSessionId(string $previousId, string $newId): void
     {
         rex_sql::factory()
-            ->setTable(rex::getTable('user_session'))
+            ->setTable(Core::getTable('user_session'))
             ->setWhere(['session_id' => $previousId])
             ->setValue('session_id', $newId)
             ->update();
@@ -107,9 +109,9 @@ class rex_user_session
     public static function clearExpiredSessions(): void
     {
         rex_sql::factory()
-            ->setTable(rex::getTable('user_session'))
+            ->setTable(Core::getTable('user_session'))
             ->setWhere('UNIX_TIMESTAMP(last_activity) < IF(cookie_key IS NULL, ?, ?)', [
-                time() - (int) rex::getProperty('session_duration'),
+                time() - (int) Core::getProperty('session_duration'),
                 strtotime('-' . self::STAY_LOGGED_IN_DURATION . ' months'),
             ])
             ->delete();
@@ -118,7 +120,7 @@ class rex_user_session
     public function removeSession(string $sessionId, int $userId): bool
     {
         $sql = rex_sql::factory()
-            ->setTable(rex::getTable('user_session'))
+            ->setTable(Core::getTable('user_session'))
             ->setWhere('session_id = ? and user_id = ?', [$sessionId, $userId])
             ->delete();
 
@@ -133,7 +135,7 @@ class rex_user_session
         }
 
         rex_sql::factory()
-            ->setTable(rex::getTable('user_session'))
+            ->setTable(Core::getTable('user_session'))
             ->setWhere('session_id != ? and user_id = ?', [$sessionId, $userId])
             ->delete();
     }

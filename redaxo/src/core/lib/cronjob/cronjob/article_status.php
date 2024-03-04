@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_cronjob_article_status extends rex_cronjob
 {
     public function execute()
@@ -19,7 +21,7 @@ class rex_cronjob_article_status extends rex_cronjob
         $sql->setQuery(
             '
             SELECT  name
-            FROM    ' . rex::getTablePrefix() . 'metainfo_field
+            FROM    ' . Core::getTablePrefix() . 'metainfo_field
             WHERE   name=? OR name=?',
             [$from['field'], $to['field']],
         );
@@ -39,7 +41,7 @@ class rex_cronjob_article_status extends rex_cronjob
         $sql->setQuery(
             '
             SELECT  id, clang_id, status
-            FROM    ' . rex::getTablePrefix() . 'article
+            FROM    ' . Core::getTablePrefix() . 'article
             WHERE
                 (     ' . $sql->escapeIdentifier($from['field']) . ' > 0
                 AND   ' . $sql->escapeIdentifier($from['field']) . ' < :time
@@ -70,7 +72,7 @@ class rex_cronjob_article_status extends rex_cronjob
         if ($this->getParam('reset_date')) {
             $sql->setQuery(
                 '
-                UPDATE ' . rex::getTablePrefix() . 'article
+                UPDATE ' . Core::getTablePrefix() . 'article
                 SET ' . $sql->escapeIdentifier($from['field']) . ' = ""
                 WHERE     ' . $sql->escapeIdentifier($from['field']) . ' > 0
                     AND   ' . $sql->escapeIdentifier($from['field']) . ' < :time',
@@ -78,7 +80,7 @@ class rex_cronjob_article_status extends rex_cronjob
             );
             $sql->setQuery(
                 '
-                UPDATE ' . rex::getTablePrefix() . 'article
+                UPDATE ' . Core::getTablePrefix() . 'article
                 SET ' . $sql->escapeIdentifier($to['field']) . ' = ""
                 WHERE ' . $sql->escapeIdentifier($to['field']) . ' > 0
                 AND   ' . $sql->escapeIdentifier($to['field']) . ' < :time',

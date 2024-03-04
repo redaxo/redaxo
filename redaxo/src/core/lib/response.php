@@ -2,6 +2,7 @@
 
 use Ramsey\Http\Range\Exception\HttpRangeException;
 use Ramsey\Http\Range\UnitFactory;
+use Redaxo\Core\Core;
 
 class rex_response
 {
@@ -310,26 +311,26 @@ class rex_response
             self::sendCacheControl();
         }
 
-        $environment = rex::isBackend() ? 'backend' : 'frontend';
+        $environment = Core::isBackend() ? 'backend' : 'frontend';
 
         if (self::HTTP_OK == self::$httpStatus) {
             // ----- Last-Modified
             if (!self::$sentLastModified
-                && (true === rex::getProperty('use_last_modified') || rex::getProperty('use_last_modified') === $environment)
+                && (true === Core::getProperty('use_last_modified') || Core::getProperty('use_last_modified') === $environment)
             ) {
                 self::sendLastModified($lastModified);
             }
 
             // ----- ETAG
             if (!self::$sentEtag
-                && (true === rex::getProperty('use_etag') || rex::getProperty('use_etag') === $environment)
+                && (true === Core::getProperty('use_etag') || Core::getProperty('use_etag') === $environment)
             ) {
                 self::sendEtag($etag ?: self::md5($content));
             }
         }
 
         // ----- GZIP
-        if (true === rex::getProperty('use_gzip') || rex::getProperty('use_gzip') === $environment) {
+        if (true === Core::getProperty('use_gzip') || Core::getProperty('use_gzip') === $environment) {
             $content = self::sendGzip($content);
         }
 

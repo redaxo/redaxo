@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -139,14 +141,14 @@ class rex_setup
         }
 
         // use given db config instead of saved config
-        $orgDbConfig = rex::getProperty('db');
+        $orgDbConfig = Core::getProperty('db');
         try {
-            rex::setProperty('db', $config['db']);
+            Core::setProperty('db', $config['db']);
             $sql = rex_sql::factory();
             $type = $sql->getDbType();
             $version = $sql->getDbVersion();
         } finally {
-            rex::setProperty('db', $orgDbConfig);
+            Core::setProperty('db', $orgDbConfig);
         }
 
         $minVersion = rex_sql::MARIADB === $type ? self::MIN_MARIADB_VERSION : self::MIN_MYSQL_VERSION;
@@ -276,7 +278,7 @@ class rex_setup
 
         try {
             $userSql = rex_sql::factory();
-            $userSql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
+            $userSql->setQuery('select * from ' . Core::getTable('user') . ' LIMIT 1');
 
             return $initial = 0 == $userSql->getRows();
         } catch (rex_sql_could_not_connect_exception) {
@@ -312,7 +314,7 @@ class rex_setup
 
     public static function isEnabled(): bool
     {
-        $setup = rex::getProperty('setup', false);
+        $setup = Core::getProperty('setup', false);
 
         if (!is_array($setup)) {
             // system wide setup
@@ -321,7 +323,7 @@ class rex_setup
 
         $currentToken = self::getToken();
 
-        if (!$currentToken && rex::isFrontend()) {
+        if (!$currentToken && Core::isFrontend()) {
             // no token in url, fast fail in frontend
             // (in backend all existing tokens are revalidated below)
             return false;

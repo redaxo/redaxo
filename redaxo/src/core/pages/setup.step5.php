@@ -1,11 +1,13 @@
 <?php
 
+use Redaxo\Core\Core;
+
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($errors) && is_array($errors));
 assert(isset($cancelSetupBtn));
 
 $userSql = rex_sql::factory();
-$userSql->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
+$userSql->setQuery('select * from ' . Core::getTablePrefix() . 'user LIMIT 1');
 
 $headline = rex_view::title(rex_i18n::msg('setup_500') . $cancelSetupBtn);
 

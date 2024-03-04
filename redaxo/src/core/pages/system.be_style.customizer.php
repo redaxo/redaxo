@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $success = '';
 
 if ('' != rex_post('btn_save', 'string')) {
@@ -9,7 +11,7 @@ if ('' != rex_post('btn_save', 'string')) {
         ['be_style_showlink', 'boolean'],
     ]);
 
-    rex::setConfig($settings);
+    Core::setConfig($settings);
     $success = rex_i18n::msg('customizer_config_updated');
 }
 
@@ -28,9 +30,9 @@ $n['label'] = '<label for="customizer-labelcolor">' . rex_i18n::msg('customizer_
 $n['field'] = '
     <div class="input-group">
         <div class="input-group-addon">
-            <input id="customizer-labelcolor-picker" type="color" value="' . rex_escape(rex::getConfig('be_style_labelcolor', '')) . '" oninput="jQuery(\'#customizer-labelcolor\').val(this.value)" />
+            <input id="customizer-labelcolor-picker" type="color" value="' . rex_escape(Core::getConfig('be_style_labelcolor', '')) . '" oninput="jQuery(\'#customizer-labelcolor\').val(this.value)" />
         </div>
-        <input class="form-control" id="customizer-labelcolor" type="text" name="settings[be_style_labelcolor]" value="' . rex_escape(rex::getConfig('be_style_labelcolor', '')) . '" oninput="jQuery(\'#customizer-labelcolor-picker\').val(this.value)" />
+        <input class="form-control" id="customizer-labelcolor" type="text" name="settings[be_style_labelcolor]" value="' . rex_escape(Core::getConfig('be_style_labelcolor', '')) . '" oninput="jQuery(\'#customizer-labelcolor-picker\').val(this.value)" />
     </div>
 ';
 $n['note'] = rex_i18n::msg('customizer_labelcolor_notice');
@@ -38,7 +40,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="customizer-showlink">' . rex_i18n::msg('customizer_showlink') . '</label>';
-$n['field'] = '<input type="checkbox" id="customizer-showlink" name="settings[be_style_showlink]" value="1" ' . (rex::getConfig('be_style_showlink') ? 'checked="checked" ' : '') . ' />';
+$n['field'] = '<input type="checkbox" id="customizer-showlink" name="settings[be_style_showlink]" value="1" ' . (Core::getConfig('be_style_showlink') ? 'checked="checked" ' : '') . ' />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Core;
 
 /**
  * @internal
@@ -13,13 +14,13 @@ class rex_timer_test extends TestCase
     protected function setUp(): void
     {
         // rex_timer internals depend on debug mode..
-        $this->orgDebug = rex::getProperty('debug');
-        rex::setProperty('debug', true);
+        $this->orgDebug = Core::getProperty('debug');
+        Core::setProperty('debug', true);
     }
 
     protected function tearDown(): void
     {
-        rex::setProperty('debug', $this->orgDebug);
+        Core::setProperty('debug', $this->orgDebug);
     }
 
     public function testMeasure(): void

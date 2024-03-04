@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 set_time_limit(0);
 
 // setup a minimal exception handler to print early errors,
@@ -13,18 +15,18 @@ set_exception_handler(static function (Throwable $exception): void {
 require __DIR__ . '/boot.php';
 
 // force debug mode to enable output of notices/warnings and dump() function
-rex::setProperty('debug', true);
+Core::setProperty('debug', true);
 
-rex::setProperty('lang', 'en_gb');
+Core::setProperty('lang', 'en_gb');
 rex_i18n::setLocale('en_gb');
 
 $application = new rex_console_application();
-rex::setProperty('console', $application);
+Core::setProperty('console', $application);
 
-rex_addon::initialize(!rex::isSetup());
+rex_addon::initialize(!Core::isSetup());
 
-if (!rex::isSetup()) {
-    foreach (rex::getPackageOrder() as $packageId) {
+if (!Core::isSetup()) {
+    foreach (Core::getPackageOrder() as $packageId) {
         rex_addon::require($packageId)->enlist();
     }
 }

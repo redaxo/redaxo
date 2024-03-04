@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -11,7 +13,7 @@ class rex_api_article_copy extends rex_api_function
         $clang = rex_request('clang', 'int', 1);
         // The destination category in which the given article will be copied
         $categoryCopyIdNew = rex_request('category_copy_id_new', 'int');
-        $user = rex::requireUser();
+        $user = Core::requireUser();
 
         $context = new rex_context([
             'page' => rex_be_controller::getCurrentPage(),

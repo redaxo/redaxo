@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * This is a base class for all functions which a component may provide for public use.
  * Those function will be called automatically by the core.
@@ -153,11 +155,11 @@ abstract class rex_api_function
 
         if (null != $apiFunc) {
             if (!$apiFunc->published) {
-                if (!rex::isBackend()) {
+                if (!Core::isBackend()) {
                     throw new rex_http_exception(new rex_api_exception('the api function ' . $apiFunc::class . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
                 }
 
-                if (!rex::getUser()) {
+                if (!Core::getUser()) {
                     throw new rex_http_exception(new rex_api_exception('missing backend session to call api function ' . $apiFunc::class . '!'), rex_response::HTTP_UNAUTHORIZED);
                 }
             }

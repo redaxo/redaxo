@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 
 $csrf = rex_csrf_token::factory('mediapool');
@@ -9,14 +11,14 @@ $csrf = rex_csrf_token::factory('mediapool');
 // ---- Dateien aus dem Ordner lesen
 $folderFiles = [];
 $path = rex_path::media();
-$iterator = rex_finder::factory($path)->filesOnly()->ignoreFiles(['.*', rex::getTempPrefix() . '*'])->sort();
+$iterator = rex_finder::factory($path)->filesOnly()->ignoreFiles(['.*', Core::getTempPrefix() . '*'])->sort();
 foreach ($iterator as $file) {
     $folderFiles[] = rex_string::normalizeEncoding($file->getFilename());
 }
 
 // ---- Dateien aus der DB lesen
 $db = rex_sql::factory();
-$db->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media');
+$db->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media');
 $dbFiles = [];
 $dbFilenames = [];
 
@@ -39,7 +41,7 @@ foreach ($dbFiles as $dbFile) {
     $fileFilesize = filesize($path);
     if ($dbFile['filesize'] != $fileFilesize) {
         $fileSql = rex_sql::factory();
-        $fileSql->setTable(rex::getTable('media'));
+        $fileSql->setTable(Core::getTable('media'));
         $fileSql->setWhere(['filename' => $filename]);
         $fileSql->setValue('filesize', $fileFilesize);
         if ($dbFile['width'] > 0) {

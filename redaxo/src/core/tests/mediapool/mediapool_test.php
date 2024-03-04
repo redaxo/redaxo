@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Core;
 
 /**
  * @internal
@@ -35,15 +36,15 @@ class rex_mediapool_test extends TestCase
     #[DataProvider('provideIsAllowedMimeType')]
     public function testIsAllowedMimeType(bool $expected, string $path, ?string $filename = null): void
     {
-        $allowedMimeTypes = rex::getProperty('allowed_mime_types');
+        $allowedMimeTypes = Core::getProperty('allowed_mime_types');
 
-        rex::setProperty('allowed_mime_types', [
+        Core::setProperty('allowed_mime_types', [
             'md' => ['text/plain'],
         ]);
 
         self::assertSame($expected, rex_mediapool::isAllowedMimeType($path, $filename));
 
-        rex::setProperty('allowed_mime_types', $allowedMimeTypes);
+        Core::setProperty('allowed_mime_types', $allowedMimeTypes);
     }
 
     /** @return list<array{0: bool, 1: string, 2?: string}> */

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_backend_password_policy extends rex_password_policy
 {
     use rex_factory_trait;
@@ -35,7 +37,7 @@ class rex_backend_password_policy extends rex_password_policy
     private function __construct()
     {
         /** @var array{no_reuse_of_last?: int, no_reuse_within?: string, force_renew_after?: string, block_account_after?: string} $options */
-        $options = rex::getProperty('password_policy', []);
+        $options = Core::getProperty('password_policy', []);
 
         if (isset($options['no_reuse_of_last'])) {
             $this->noReuseOfLast = $options['no_reuse_of_last'];

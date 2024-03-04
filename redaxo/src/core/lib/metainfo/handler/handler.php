@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -41,7 +43,7 @@ abstract class rex_metainfo_handler
 
             $attrArray = rex_string::split($attr);
             if (isset($attrArray['perm'])) {
-                if (!rex::requireUser()->hasPerm($attrArray['perm'])) {
+                if (!Core::requireUser()->hasPerm($attrArray['perm'])) {
                     continue;
                 }
                 unset($attrArray['perm']);
@@ -551,7 +553,7 @@ abstract class rex_metainfo_handler
             // dont save restricted fields
             $attrArray = rex_string::split($fieldAttributes);
             if (isset($attrArray['perm'])) {
-                if (!rex::requireUser()->hasPerm($attrArray['perm'])) {
+                if (!Core::requireUser()->hasPerm($attrArray['perm'])) {
                     continue;
                 }
                 unset($attrArray['perm']);
@@ -645,8 +647,8 @@ abstract class rex_metainfo_handler
         $qry = 'SELECT
                             *
                         FROM
-                            ' . rex::getTablePrefix() . 'metainfo_field p,
-                            ' . rex::getTablePrefix() . 'metainfo_type t
+                            ' . Core::getTablePrefix() . 'metainfo_field p,
+                            ' . Core::getTablePrefix() . 'metainfo_type t
                         WHERE
                             `p`.`type_id` = `t`.`id` AND
                             `p`.`name` LIKE "' . $prefix . '%"
@@ -687,7 +689,7 @@ abstract class rex_metainfo_handler
      */
     protected function fireCallbacks(rex_sql $sqlFields)
     {
-        if (rex::isLiveMode()) {
+        if (Core::isLiveMode()) {
             // Metainfo callbacks are not supported in live mode
             return;
         }

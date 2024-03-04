@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_api_content_copy extends rex_api_function
 {
     /**
@@ -13,7 +15,7 @@ class rex_api_content_copy extends rex_api_function
         $clangA = rex_request('clang_a', 'int');
         $clangB = rex_request('clang_b', 'int');
 
-        $user = rex::requireUser();
+        $user = Core::requireUser();
 
         // Check permissions
         if ($user->hasPerm('copyContent[]') &&

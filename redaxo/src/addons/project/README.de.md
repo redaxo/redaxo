@@ -53,7 +53,7 @@ Nun werden Templates für die Ausgabe der yform Felder auch im Pfad `src/addons/
 Mit diesem Code
 
 ```php
-if (rex::isBackend()) {
+if (Core::isBackend()) {
     rex_view::addJsFile($this->getAssetsUrl('scripts/be_scripts.js'));    
 }
 ```
@@ -63,7 +63,7 @@ wird im Backend von REDAXO die Datei `/assets/addons/project/scripts/be_scripts.
 Auch der Einsatz von Extension-Points ist in der boot.php sinnvoll:
 
 ```php
-if (!rex::isBackend()) {
+if (!Core::isBackend()) {
     // eine Session im Frontend wird gestartet
     rex_login::startSession();    
     rex_extension::register('PACKAGES_INCLUDED', function() {

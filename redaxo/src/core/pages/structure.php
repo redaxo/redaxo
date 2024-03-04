@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $structureContext = new rex_structure_context([
     'category_id' => rex_request('category_id', 'int'),
     'article_id' => rex_request('article_id', 'int'),
@@ -9,10 +11,10 @@ $structureContext = new rex_structure_context([
     'catstart' => rex_request('catstart', 'int'),
     'edit_id' => rex_request('edit_id', 'int'),
     'function' => rex_request('function', 'string'),
-    'rows_per_page' => rex::getProperty('rows_per_page', 50),
+    'rows_per_page' => Core::getProperty('rows_per_page', 50),
 ]);
 
-$user = rex::requireUser();
+$user = Core::requireUser();
 
 if (0 == $structureContext->getClangId()) {
     if (rex_clang::exists(0)) {
@@ -56,7 +58,7 @@ if ($category) {
 
 $addCategory = '';
 if ($user->hasPerm('addCategory[]') && $structureContext->hasCategoryPermission()) {
-    $addCategory = '<a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['function' => 'add_cat', 'catstart' => $structureContext->getCatStart()]) . '"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'add') . '><i class="rex-icon rex-icon-add-category"></i></a>';
+    $addCategory = '<a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['function' => 'add_cat', 'catstart' => $structureContext->getCatStart()]) . '"' . Core::getAccesskey(rex_i18n::msg('add_category'), 'add') . '><i class="rex-icon rex-icon-add-category"></i></a>';
 }
 
 $dataColspan = 5;
@@ -73,9 +75,9 @@ $KAT = rex_sql::factory();
 // $KAT->setDebug();
 if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->getCategoryId()) {
     $parentIds = $KAT->in($structureContext->getMountpoints());
-    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parentIds . ') AND startarticle=1 AND clang_id=?', [$structureContext->getClangId()]);
+    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . Core::getTablePrefix() . 'article WHERE id IN (' . $parentIds . ') AND startarticle=1 AND clang_id=?', [$structureContext->getClangId()]);
 } else {
-    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? AND startarticle=1 AND clang_id=?', [$structureContext->getCategoryId(), $structureContext->getClangId()]);
+    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . Core::getTablePrefix() . 'article WHERE parent_id=? AND startarticle=1 AND clang_id=?', [$structureContext->getCategoryId(), $structureContext->getClangId()]);
 }
 
 // --------------------- ADD PAGINATION
@@ -92,12 +94,12 @@ echo $catFragment->parse('core/navigations/pagination.php');
 if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->getCategoryId()) {
     $parentIds = $KAT->in($structureContext->getMountpoints());
 
-    $KAT->setQuery('SELECT parent_id FROM ' . rex::getTable('article') . ' WHERE id IN (' . $parentIds . ') GROUP BY parent_id');
+    $KAT->setQuery('SELECT parent_id FROM ' . Core::getTable('article') . ' WHERE id IN (' . $parentIds . ') GROUP BY parent_id');
     $orderBy = $KAT->getRows() > 1 ? 'catname' : 'catpriority';
 
-    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parentIds . ') AND startarticle=1 AND clang_id = ? ORDER BY ' . $orderBy . ' LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage(), [$structureContext->getClangId()]);
+    $KAT->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE id IN (' . $parentIds . ') AND startarticle=1 AND clang_id = ? ORDER BY ' . $orderBy . ' LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage(), [$structureContext->getClangId()]);
 } else {
-    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE parent_id = ? AND startarticle=1 AND clang_id = ? ORDER BY catpriority LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage(), [$structureContext->getCategoryId(), $structureContext->getClangId()]);
+    $KAT->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE parent_id = ? AND startarticle=1 AND clang_id = ? ORDER BY catpriority LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage(), [$structureContext->getCategoryId(), $structureContext->getClangId()]);
 }
 
 $trStatusClass = 'rex-status';
@@ -138,7 +140,7 @@ if ('add_cat' == $structureContext->getFunction() && $user->hasPerm('addCategory
     ]));
     $addButtons = rex_api_category_add::getHiddenFields() . '
         <input type="hidden" name="parent-category-id" value="' . $structureContext->getCategoryId() . '" />
-        <button class="btn btn-save" type="submit" name="category-add-button"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'save') . '>' . rex_i18n::msg('add_category') . '</button>';
+        <button class="btn btn-save" type="submit" name="category-add-button"' . Core::getAccesskey(rex_i18n::msg('add_category'), 'save') . '>' . rex_i18n::msg('add_category') . '</button>';
 
     $class = 'mark';
 
@@ -208,7 +210,7 @@ if ($KAT->getRows() > 0) {
 
                 $addButtons = rex_api_category_edit::getHiddenFields() . '
                 <input type="hidden" name="category-id" value="' . $structureContext->getEditId() . '" />
-                <button class="btn btn-save" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
+                <button class="btn btn-save" type="submit" name="category-edit-button"' . Core::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
 
                 $class = 'mark';
                 if ('' != $metaButtons) {
@@ -326,7 +328,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     // --------------------- ARTIKEL LIST
     $artAddLink = '';
     if ($user->hasPerm('addArticle[]') && $structureContext->hasCategoryPermission()) {
-        $artAddLink = '<a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['function' => 'add_art', 'artstart' => $structureContext->getArtStart()]) . '"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2') . '><i class="rex-icon rex-icon-add-article"></i></a>';
+        $artAddLink = '<a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['function' => 'add_art', 'artstart' => $structureContext->getArtStart()]) . '"' . Core::getAccesskey(rex_i18n::msg('article_add'), 'add_2') . '><i class="rex-icon rex-icon-add-article"></i></a>';
     }
 
     $articleOrderBy = rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_ARTICLE_ORDER_BY', 'priority, name', [
@@ -340,7 +342,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     // $sql->setDebug();
     $sql->setQuery('
         SELECT COUNT(*) as artCount
-        FROM ' . rex::getTablePrefix() . 'article
+        FROM ' . Core::getTablePrefix() . 'article
         WHERE
             ((parent_id = :category_id AND startarticle=0) OR (id = :category_id AND startarticle=1))
             AND clang_id = :clang_id
@@ -361,7 +363,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     // ---------- READ DATA
     $sql->setQuery('
         SELECT *
-        FROM ' . rex::getTablePrefix() . 'article
+        FROM ' . Core::getTablePrefix() . 'article
         WHERE
             ((parent_id = :category_id AND startarticle=0) OR (id = :category_id AND startarticle=1))
             AND clang_id = :clang_id
@@ -415,7 +417,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                     ' . $tmplTd . '
                     <td class="rex-table-date" data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::intlDate(time()) . '</td>
                     <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="number" name="article-position" value="' . ($artPager->getRowCount() + 1) . '" required min="1" inputmode="numeric" /></td>
-                    <td class="rex-table-action" colspan="' . $colspan . '">' . rex_api_article_add::getHiddenFields() . '<button class="btn btn-save" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
+                    <td class="rex-table-action" colspan="' . $colspan . '">' . rex_api_article_add::getHiddenFields() . '<button class="btn btn-save" type="submit" name="artadd_function"' . Core::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
                 </tr>
                             ';
     } elseif (0 === $sql->getRows()) {
@@ -460,7 +462,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                             ' . $tmplTd . '
                             <td class="rex-table-date" data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::intlDate($sql->getDateTimeValue('createdate')) . '</td>
                             <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="number" name="article-position" value="' . rex_escape($sql->getValue('priority')) . '" required min="1" inputmode="numeric" /></td>
-                            <td class="rex-table-action" colspan="' . $colspan . '">' . rex_api_article_edit::getHiddenFields() . '<button class="btn btn-save" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
+                            <td class="rex-table-action" colspan="' . $colspan . '">' . rex_api_article_edit::getHiddenFields() . '<button class="btn btn-save" type="submit" name="artedit_function"' . Core::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                         </tr>';
         } elseif ($structureContext->hasCategoryPermission()) {
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER

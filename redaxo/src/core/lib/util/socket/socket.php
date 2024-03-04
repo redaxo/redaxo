@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Class for sockets.
  *
@@ -64,7 +66,7 @@ class rex_socket
         $this->ssl = $ssl;
 
         $this->addHeader('Host', $this->host);
-        $this->addHeader('User-Agent', 'REDAXO/' . rex::getVersion());
+        $this->addHeader('User-Agent', 'REDAXO/' . Core::getVersion());
         $this->addHeader('Connection', 'Close');
     }
 
@@ -81,7 +83,7 @@ class rex_socket
      */
     public static function factory($host, $port = 443, $ssl = true)
     {
-        if (self::class === static::class && ($proxy = rex::getProperty('socket_proxy'))) {
+        if (self::class === static::class && ($proxy = Core::getProperty('socket_proxy'))) {
             return rex_socket_proxy::factoryUrl($proxy)->setDestination($host, $port, $ssl);
         }
 

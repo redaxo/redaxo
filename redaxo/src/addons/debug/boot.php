@@ -1,12 +1,13 @@
 <?php
 
 use Clockwork\Clockwork;
+use Redaxo\Core\Core;
 
 if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
 }
 
-if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser()?->isAdmin()) {
+if (Core::isBackend() && 'debug' === rex_request::get('page') && Core::getUser()?->isAdmin()) {
     $index = file_get_contents(rex_addon::get('debug')->getAssetsPath('clockwork/index.html'));
 
     $editor = rex_editor::factory();
@@ -24,7 +25,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser()?-
 
     // prepend backend folder
     $apiUrl = dirname($_SERVER['REQUEST_URI']) . '/' . rex_debug_clockwork::getClockworkApiUrl();
-    $appearance = rex::getTheme();
+    $appearance = Core::getTheme();
     if (!$appearance) {
         $appearance = 'auto';
     }
@@ -87,7 +88,7 @@ $shutdownFn = static function () {
 
     $req = $clockwork->getRequest();
 
-    if (rex::isBackend()) {
+    if (Core::isBackend()) {
         $req->controller = 'page: ' . rex_be_controller::getCurrentPage();
     } elseif (rex_addon::get('structure')->isAvailable()) {
         $req->controller = 'article: ' . rex_article::getCurrentId() . '; clang: ' . rex_clang::getCurrent()->getCode();

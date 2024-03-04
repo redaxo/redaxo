@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 global $ftitle, $error, $success;
 
 // -------------- Defaults
@@ -45,7 +47,7 @@ $rexFileCategory = rex_request('rex_file_category', 'int', -1);
 
 if ('' != $fileName) {
     $sql = rex_sql::factory();
-    $sql->setQuery('select * from ' . rex::getTablePrefix() . 'media where filename=?', [$fileName]);
+    $sql->setQuery('select * from ' . Core::getTablePrefix() . 'media where filename=?', [$fileName]);
     if (1 == $sql->getRows()) {
         $fileId = (int) $sql->getValue('id');
         $rexFileCategory = (int) $sql->getValue('category_id');
@@ -57,7 +59,7 @@ if (-1 == $rexFileCategory) {
 }
 
 $gc = rex_sql::factory();
-$gc->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE id=?', [$rexFileCategory]);
+$gc->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_category WHERE id=?', [$rexFileCategory]);
 if (1 != $gc->getRows()) {
     $rexFileCategory = 0;
     $rexFileCategoryName = rex_i18n::msg('pool_kats_no');
@@ -68,7 +70,7 @@ if (1 != $gc->getRows()) {
 rex_set_session('media[rex_file_category]', $rexFileCategory);
 
 // -------------- PERMS
-$PERMALL = rex::requireUser()->getComplexPerm('media')->hasCategoryPerm(0);
+$PERMALL = Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(0);
 
 // -------------- Header
 $subline = rex_be_controller::getPageObject('mediapool')->getSubpages();

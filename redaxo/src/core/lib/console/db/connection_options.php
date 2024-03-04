@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Core;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -30,7 +31,7 @@ class rex_command_db_connection_options extends rex_console_command implements r
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $db = rex::getDbConfig(1);
+        $db = Core::getDbConfig(1);
 
         if (!str_contains($db->host, ':')) {
             $output->writeln('--host=' . escapeshellarg($db->host));

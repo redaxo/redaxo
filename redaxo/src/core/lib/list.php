@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
 define('REX_LIST_OPT_SORT_DIRECTION', 1);
@@ -196,7 +198,7 @@ class rex_list implements rex_url_provider_interface
         }
 
         // --------- Load Env
-        if (rex::isBackend()) {
+        if (Core::isBackend()) {
             $this->loadBackendConfig();
         }
 
@@ -848,7 +850,7 @@ class rex_list implements rex_url_provider_interface
             }
         }
 
-        return rex::isBackend() ? rex_url::backendController($flatParams) : rex_url::frontendController($flatParams);
+        return Core::isBackend() ? rex_url::backendController($flatParams) : rex_url::frontendController($flatParams);
     }
 
     /**
@@ -886,7 +888,7 @@ class rex_list implements rex_url_provider_interface
                 $flatParams[$name] = $this->replaceVariables((string) $value);
             }
         }
-        return rex::isBackend() ? rex_url::backendController($flatParams) : rex_url::frontendController($flatParams);
+        return Core::isBackend() ? rex_url::backendController($flatParams) : rex_url::frontendController($flatParams);
     }
 
     // ---------------------- Pagination
@@ -1178,7 +1180,7 @@ class rex_list implements rex_url_provider_interface
     public function getColumnLink($columnName, $columnValue, $params = [])
     {
         $attributes = $this->getLinkAttributes($columnName, []);
-        if (!isset($attributes['class']) && rex::isBackend()) {
+        if (!isset($attributes['class']) && Core::isBackend()) {
             $attributes['class'] = 'rex-link-expanded';
         }
         return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($attributes) . '>' . $columnValue . '</a>';

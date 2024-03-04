@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $func = rex_request('func', 'string');
 $id = rex_request('id', 'int');
 
@@ -11,7 +13,7 @@ if ('delete' == $func) {
         $message = rex_view::error(rex_i18n::msg('csrf_token_invalid'));
     } else {
         $sql = rex_sql::factory();
-        $sql->setQuery('DELETE FROM ' . rex::getTable('user_role') . ' WHERE id = ? LIMIT 1', [$id]);
+        $sql->setQuery('DELETE FROM ' . Core::getTable('user_role') . ' WHERE id = ? LIMIT 1', [$id]);
         $message = rex_view::info(rex_i18n::msg('user_role_deleted'));
     }
 
@@ -21,11 +23,11 @@ if ('delete' == $func) {
 if ('' == $func) {
     $title = rex_i18n::msg('user_role_caption');
 
-    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role ORDER BY name', 100);
+    $list = rex_list::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'user_role ORDER BY name', 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-userrole"></i>';
-    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add', 'default_value' => 1]) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . ' title="' . rex_i18n::msg('create_user_role') . '"><i class="rex-icon rex-icon-add-userrole"></i></a>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add', 'default_value' => 1]) . '"' . Core::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . ' title="' . rex_i18n::msg('create_user_role') . '"><i class="rex-icon rex-icon-add-userrole"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'id' => '###id###']);
 
@@ -60,7 +62,7 @@ if ('' == $func) {
 } else {
     $title = 'edit' == $func ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
 
-    $form = rex_form::factory(rex::getTablePrefix() . 'user_role', '', 'id = ' . $id);
+    $form = rex_form::factory(Core::getTablePrefix() . 'user_role', '', 'id = ' . $id);
     $form->addParam('id', $id);
     $form->setApplyUrl(rex_url::currentBackendPage());
     $form->setEditMode('edit' == $func);

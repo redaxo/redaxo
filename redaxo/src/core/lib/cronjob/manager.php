@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_cronjob_manager
 {
     /** @var list<class-string<rex_cronjob>>|null */
@@ -117,16 +119,16 @@ class rex_cronjob_manager
         $name = $this->name;
         if (!$name) {
             if ($this->cronjob instanceof rex_cronjob) {
-                $name = rex::isBackend() ? $this->cronjob->getTypeName() : $this->cronjob->getType();
+                $name = Core::isBackend() ? $this->cronjob->getTypeName() : $this->cronjob->getType();
             } else {
                 $name = '[no name]';
             }
         }
 
-        if ('backend' === rex::getEnvironment() && 'cronjob/cronjobs' == rex_get('page') && 'execute' == rex_get('func')) {
+        if ('backend' === Core::getEnvironment() && 'cronjob/cronjobs' == rex_get('page') && 'execute' == rex_get('func')) {
             $environment = 'backend_manual';
         } else {
-            $environment = rex::getEnvironment();
+            $environment = Core::getEnvironment();
         }
 
         $log = rex_log_file::factory(rex_path::log('cronjob.log'), 2_000_000);
@@ -148,7 +150,7 @@ class rex_cronjob_manager
         if (null === self::$types) {
             self::$types = [];
 
-            if (!rex::isLiveMode()) {
+            if (!Core::isLiveMode()) {
                 self::$types[] = rex_cronjob_phpcode::class;
                 self::$types[] = rex_cronjob_phpcallback::class;
             }
@@ -183,6 +185,6 @@ class rex_cronjob_manager
             return 'script';
         }
 
-        return rex::isBackend() ? 'backend' : 'frontend';
+        return Core::isBackend() ? 'backend' : 'frontend';
     }
 }

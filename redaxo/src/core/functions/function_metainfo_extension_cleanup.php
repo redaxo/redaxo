@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 rex_extension::register('BACKUP_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
 
 /**
@@ -14,15 +16,15 @@ function rex_metainfo_cleanup($epOrParams)
     $params = $epOrParams instanceof rex_extension_point ? $epOrParams->getParams() : $epOrParams;
     // Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
     if (isset($params['force']) && true != $params['force'] &&
-        !str_contains($params['content'], 'CREATE TABLE `' . rex::getTablePrefix() . 'article`') &&
-        !str_contains($params['content'], 'CREATE TABLE ' . rex::getTablePrefix() . 'article')
+        !str_contains($params['content'], 'CREATE TABLE `' . Core::getTablePrefix() . 'article`') &&
+        !str_contains($params['content'], 'CREATE TABLE ' . Core::getTablePrefix() . 'article')
     ) {
         return;
     }
 
     // check wheter tables exists
     $tables = rex_sql::factory()->getTables();
-    if (!isset($tables[rex::getTablePrefix() . 'metainfo_field'])) {
+    if (!isset($tables[Core::getTablePrefix() . 'metainfo_field'])) {
         return;
     }
 
@@ -31,7 +33,7 @@ function rex_metainfo_cleanup($epOrParams)
     require_once __DIR__ . '/../lib/table_manager.php';
 
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT name FROM ' . rex::getTablePrefix() . 'metainfo_field');
+    $sql->setQuery('SELECT name FROM ' . Core::getTablePrefix() . 'metainfo_field');
 
     for ($i = 0; $i < $sql->getRows(); ++$i) {
         $prefix = rex_metainfo_meta_prefix((string) $sql->getValue('name'));
@@ -46,7 +48,7 @@ function rex_metainfo_cleanup($epOrParams)
     // evtl reste aufräumen
     $tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_'], 'clang' => ['clang_']];
     foreach ($tablePrefixes as $table => $prefixes) {
-        $table = rex::getTablePrefix() . $table;
+        $table = Core::getTablePrefix() . $table;
         $tableManager = new rex_metainfo_table_manager($table);
 
         foreach (rex_sql::showColumns($table) as $column) {
@@ -58,5 +60,5 @@ function rex_metainfo_cleanup($epOrParams)
     }
 
     $sql = rex_sql::factory();
-    $sql->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'metainfo_field');
+    $sql->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'metainfo_field');
 }

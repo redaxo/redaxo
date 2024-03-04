@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Core;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,7 +11,7 @@ class rex_console_application extends Application
 {
     public function __construct()
     {
-        parent::__construct('REDAXO', rex::getVersion());
+        parent::__construct('REDAXO', Core::getVersion());
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
@@ -68,7 +69,7 @@ class rex_console_application extends Application
         // This is useful for any kind of pre-setup commands
         // there a packages which are needed during the setup e.g. backup
         if ($command instanceof rex_command_only_setup_packages) {
-            if (rex::isSetup()) {
+            if (Core::isSetup()) {
                 foreach (rex_addon::getSetupAddons() as $package) {
                     $package->enlist();
                 }
@@ -86,10 +87,10 @@ class rex_console_application extends Application
             return;
         }
 
-        if (!rex::isSetup()) {
+        if (!Core::isSetup()) {
             // boot all known packages in the defined order
             // which reflects dependencies before consumers
-            foreach (rex::getPackageOrder() as $packageId) {
+            foreach (Core::getPackageOrder() as $packageId) {
                 rex_addon::require($packageId)->boot();
             }
         }

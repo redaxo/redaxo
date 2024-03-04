@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_select
 {
     /** @var array */
@@ -297,7 +299,7 @@ class rex_select
         $useRexSelectStyle = false;
 
         // RexSelectStyle im Backend nutzen
-        if (rex::isBackend()) {
+        if (Core::isBackend()) {
             $useRexSelectStyle = true;
         }
         // RexSelectStyle nicht nutzen, wenn die Klasse `.selectpicker` gesetzt ist

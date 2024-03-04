@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($openerInputField) && is_string($openerInputField));
 
@@ -7,7 +9,7 @@ if (!isset($rexFileCategory)) {
     $rexFileCategory = 0;
 }
 
-if (!$PERMALL && !rex::requireUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory)) {
+if (!$PERMALL && !Core::requireUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory)) {
     $rexFileCategory = 0;
 }
 

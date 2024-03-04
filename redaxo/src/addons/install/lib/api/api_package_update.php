@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -7,10 +9,10 @@ class rex_api_install_package_update extends rex_api_function
 {
     public function execute()
     {
-        if (rex::isLiveMode()) {
+        if (Core::isLiveMode()) {
             throw new rex_api_exception('Package management is not available in live mode!');
         }
-        if (!rex::getUser()?->isAdmin()) {
+        if (!Core::getUser()?->isAdmin()) {
             throw new rex_api_exception('You do not have the permission!');
         }
         $addonkey = rex_request('addonkey', 'string');

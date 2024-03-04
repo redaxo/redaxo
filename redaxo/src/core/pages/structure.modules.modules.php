@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $OUT = true;
 
 $function = rex_request('function', 'string');
@@ -29,7 +31,7 @@ if (('' != $addAction || 'delete' == $functionAction) && !$csrfToken->isValid())
     $error = rex_i18n::msg('csrf_token_invalid');
 } elseif ('' != $addAction) {
     $action = rex_sql::factory();
-    $action->setTable(rex::getTablePrefix() . 'module_action');
+    $action->setTable(Core::getTablePrefix() . 'module_action');
     $action->setValue('module_id', $moduleId);
     $action->setValue('action_id', $actionId);
 
@@ -42,7 +44,7 @@ if (('' != $addAction || 'delete' == $functionAction) && !$csrfToken->isValid())
     }
 } elseif ('delete' == $functionAction) {
     $action = rex_sql::factory();
-    $action->setTable(rex::getTablePrefix() . 'module_action');
+    $action->setTable(Core::getTablePrefix() . 'module_action');
     $action->setWhere(['id' => $iactionId]);
     $action->delete();
 
@@ -61,8 +63,8 @@ if ('delete' == $function && !$csrfToken->isValid()) {
     $del = rex_sql::factory();
     $del->setQuery('
         SELECT slice.article_id, slice.clang_id, slice.ctype_id, module.name
-        FROM ' . rex::getTable('article_slice') . ' slice
-        LEFT JOIN ' . rex::getTable('module') . ' module ON slice.module_id=module.id
+        FROM ' . Core::getTable('article_slice') . ' slice
+        LEFT JOIN ' . Core::getTable('module') . ' module ON slice.module_id=module.id
         WHERE slice.module_id=?
         GROUP BY slice.article_id, slice.clang_id
         ORDER BY slice.article_id, slice.clang_id
@@ -91,11 +93,11 @@ if ('delete' == $function && !$csrfToken->isValid()) {
         $error .= '<ul>' . $moduleInUseMessage . '</ul>';
     } else {
         $del = rex_sql::factory();
-        $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
+        $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
 
         if ($del->getRows() > 0) {
             $del = rex_sql::factory();
-            $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module_action WHERE module_id=?', [$moduleId]);
+            $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'module_action WHERE module_id=?', [$moduleId]);
             rex_module_cache::delete($moduleId);
             $success = rex_i18n::msg('module_deleted');
             $success = rex_extension::registerPoint(new rex_extension_point('MODULE_DELETED', $success, [
@@ -117,7 +119,7 @@ if ('add' == $function || 'edit' == $function) {
         try {
             if ('add' == $function) {
                 $IMOD = rex_sql::factory();
-                $IMOD->setTable(rex::getTablePrefix() . 'module');
+                $IMOD->setTable(Core::getTablePrefix() . 'module');
                 $IMOD->setValue('name', $mname);
                 $IMOD->setValue('key', $mkey);
                 $IMOD->setValue('input', $eingabe);
@@ -137,12 +139,12 @@ if ('add' == $function || 'edit' == $function) {
                     'output' => $ausgabe,
                 ]));
             } else {
-                $module->setQuery('select * from ' . rex::getTablePrefix() . 'module where id=?', [$moduleId]);
+                $module->setQuery('select * from ' . Core::getTablePrefix() . 'module where id=?', [$moduleId]);
                 if (1 == $module->getRows()) {
                     $oldAusgabe = $module->getValue('output');
 
                     $UMOD = rex_sql::factory();
-                    $UMOD->setTable(rex::getTablePrefix() . 'module');
+                    $UMOD->setTable(Core::getTablePrefix() . 'module');
                     $UMOD->setWhere(['id' => $moduleId]);
                     $UMOD->setValue('name', $mname);
                     $UMOD->setValue('key', $mkey);
@@ -166,11 +168,11 @@ if ('add' == $function || 'edit' == $function) {
                     if ($oldAusgabe != $newAusgabe) {
                         // article updaten - nur wenn ausgabe sich veraendert hat
                         $gc = rex_sql::factory();
-                        $gc->setQuery('SELECT DISTINCT(' . rex::getTablePrefix() . 'article.id) FROM ' . rex::getTablePrefix() . 'article
-                                LEFT JOIN ' . rex::getTablePrefix() . 'article_slice ON ' . rex::getTablePrefix() . 'article.id=' . rex::getTablePrefix() . 'article_slice.article_id
-                                WHERE ' . rex::getTablePrefix() . 'article_slice.module_id=?', [$moduleId]);
+                        $gc->setQuery('SELECT DISTINCT(' . Core::getTablePrefix() . 'article.id) FROM ' . Core::getTablePrefix() . 'article
+                                LEFT JOIN ' . Core::getTablePrefix() . 'article_slice ON ' . Core::getTablePrefix() . 'article.id=' . Core::getTablePrefix() . 'article_slice.article_id
+                                WHERE ' . Core::getTablePrefix() . 'article_slice.module_id=?', [$moduleId]);
                         for ($i = 0; $i < $gc->getRows(); ++$i) {
-                            rex_article_cache::delete($gc->getValue(rex::getTablePrefix() . 'article.id'));
+                            rex_article_cache::delete($gc->getValue(Core::getTablePrefix() . 'article.id'));
                             $gc->next();
                         }
                     }
@@ -197,7 +199,7 @@ if ('add' == $function || 'edit' == $function) {
             $legend = rex_i18n::msg('module_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $moduleId . '</small>';
 
             $hole = rex_sql::factory();
-            $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
+            $hole->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
             $mname = $hole->getValue('name');
             $mkey = $hole->getValue('key');
             $ausgabe = $hole->getValue('output');
@@ -208,7 +210,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $btnUpdate = '';
         if ('add' != $function) {
-            $btnUpdate = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
+            $btnUpdate = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . Core::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
         }
 
         if ('' != $success) {
@@ -267,7 +269,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_module_and_quit') . '</button>';
+        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . Core::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_module_and_quit') . '</button>';
         $formElements[] = $n;
 
         if ('' != $btnUpdate) {
@@ -291,16 +293,16 @@ if ('add' == $function || 'edit' == $function) {
             // Im Edit Mode Aktionen bearbeiten
 
             $gaa = rex_sql::factory();
-            $gaa->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'action ORDER BY name');
+            $gaa->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'action ORDER BY name');
 
             if ($gaa->getRows() > 0) {
                 $gma = rex_sql::factory();
-                $gma->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module_action, ' . rex::getTablePrefix() . 'action WHERE ' . rex::getTablePrefix() . 'module_action.action_id=' . rex::getTablePrefix() . 'action.id and ' . rex::getTablePrefix() . 'module_action.module_id=?', [$moduleId]);
+                $gma->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module_action, ' . Core::getTablePrefix() . 'action WHERE ' . Core::getTablePrefix() . 'module_action.action_id=' . Core::getTablePrefix() . 'action.id and ' . Core::getTablePrefix() . 'module_action.module_id=?', [$moduleId]);
 
                 $actions = '';
                 for ($i = 0; $i < $gma->getRows(); ++$i) {
-                    $iactionId = $gma->getValue(rex::getTablePrefix() . 'module_action.id');
-                    $actionId = $gma->getValue(rex::getTablePrefix() . 'module_action.action_id');
+                    $iactionId = $gma->getValue(Core::getTablePrefix() . 'module_action.id');
+                    $actionId = $gma->getValue(Core::getTablePrefix() . 'module_action.action_id');
                     $actionEditUrl = rex_url::backendPage('modules/actions', ['action_id' => $actionId, 'function' => 'edit']);
                     $actionName = rex_i18n::translate($gma->getValue('name'));
 
@@ -406,12 +408,12 @@ if ($OUT) {
         $message .= rex_view::error($error);
     }
 
-    $list = rex_list::factory('SELECT id, `key`, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name', 100);
+    $list = rex_list::factory('SELECT id, `key`, name FROM ' . Core::getTablePrefix() . 'module ORDER BY name', 100);
     $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-module"></i>';
-    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('create_module'), 'add') . ' title="' . rex_i18n::msg('create_module') . '"><i class="rex-icon rex-icon-add-module"></i></a>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['function' => 'add']) . '"' . Core::getAccesskey(rex_i18n::msg('create_module'), 'add') . ' title="' . rex_i18n::msg('create_module') . '"><i class="rex-icon rex-icon-add-module"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['function' => 'edit', 'module_id' => '###id###']);
 
@@ -426,7 +428,7 @@ if ($OUT) {
         return $list->getColumnLink('name', rex_i18n::translate($list->getValue('name')));
     });
 
-    $slices = rex_sql::factory()->getArray('SELECT `module_id` FROM ' . rex::getTable('article_slice') . ' GROUP BY `module_id`');
+    $slices = rex_sql::factory()->getArray('SELECT `module_id` FROM ' . Core::getTable('article_slice') . ' GROUP BY `module_id`');
     if (count($slices) > 0) {
         $usedIds = array_flip(array_map(static function ($slice) {
             return $slice['module_id'];

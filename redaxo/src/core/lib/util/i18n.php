@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * Class for internationalization.
  */
@@ -64,7 +66,7 @@ class rex_i18n
     public static function getLocale()
     {
         if (!self::$locale) {
-            self::$locale = rex::getProperty('lang');
+            self::$locale = Core::getProperty('lang');
         }
 
         return self::$locale;
@@ -194,7 +196,7 @@ class rex_i18n
             return $msg;
         }
 
-        foreach (rex::getProperty('lang_fallback', []) as $fallbackLocale) {
+        foreach (Core::getProperty('lang_fallback', []) as $fallbackLocale) {
             if ($locale === $fallbackLocale) {
                 continue;
             }
@@ -289,7 +291,7 @@ class rex_i18n
             return true;
         }
 
-        foreach (rex::getProperty('lang_fallback', []) as $locale) {
+        foreach (Core::getProperty('lang_fallback', []) as $locale) {
             if ($currentLocale === $locale) {
                 continue;
             }

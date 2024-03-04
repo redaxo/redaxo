@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 $content = '';
 
 $typeId = rex_request('type_id', 'int');
@@ -23,11 +25,11 @@ if ('delete' == $func && $typeId > 0) {
 
     try {
         $sql->transactional(static function () use ($sql, $typeId) {
-            $sql->setTable(rex::getTablePrefix() . 'media_manager_type');
+            $sql->setTable(Core::getTablePrefix() . 'media_manager_type');
             $sql->setWhere(['id' => $typeId]);
             $sql->delete();
 
-            $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effect');
+            $sql->setTable(Core::getTablePrefix() . 'media_manager_type_effect');
             $sql->setWhere(['type_id' => $typeId]);
             $sql->delete();
         });
@@ -51,10 +53,10 @@ if ('copy' == $func && $typeId > 0) {
     $sql = rex_sql::factory();
 
     try {
-        $sql->setQuery('INSERT INTO ' . rex::getTablePrefix() . 'media_manager_type (status, name, description) SELECT 0, CONCAT(name, \' ' . rex_i18n::msg('media_manager_type_name_copy') . '\'), description FROM ' . rex::getTablePrefix() . 'media_manager_type WHERE id = ?', [$typeId]);
+        $sql->setQuery('INSERT INTO ' . Core::getTablePrefix() . 'media_manager_type (status, name, description) SELECT 0, CONCAT(name, \' ' . rex_i18n::msg('media_manager_type_name_copy') . '\'), description FROM ' . Core::getTablePrefix() . 'media_manager_type WHERE id = ?', [$typeId]);
         $newTypeId = $sql->getLastId();
-        $login = rex::requireUser()->getLogin();
-        $sql->setQuery('INSERT INTO ' . rex::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(rex_sql::FORMAT_DATETIME), $login, date(rex_sql::FORMAT_DATETIME), $login, $typeId]);
+        $login = Core::requireUser()->getLogin();
+        $sql->setQuery('INSERT INTO ' . Core::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM ' . Core::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(rex_sql::FORMAT_DATETIME), $login, date(rex_sql::FORMAT_DATETIME), $login, $typeId]);
 
         $success = rex_i18n::msg('media_manager_type_copied');
     } catch (rex_sql_exception) {
@@ -76,7 +78,7 @@ if ('' != $error) {
 if ('' == $func) {
     // Nach Status sortieren, damit Systemtypen immer zuletzt stehen
     // (werden am seltesten bearbeitet)
-    $query = 'SELECT id, status, name, description FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
+    $query = 'SELECT id, status, name, description FROM ' . Core::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
     $list = rex_list::factory($query);
     $list->addTableAttribute('class', 'table-striped table-hover');
@@ -171,7 +173,7 @@ if ('' == $func) {
         return $controlFields;
     });
 
-    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type', '', 'id = ' . $typeId);
+    $form = rex_form::factory(Core::getTablePrefix() . 'media_manager_type', '', 'id = ' . $typeId);
 
     if ($typeId && rex_media_manager::STATUS_SYSTEM_TYPE === (int) $form->getSql()->getValue('status')) {
         throw new rex_exception('System media types can not be edited.');

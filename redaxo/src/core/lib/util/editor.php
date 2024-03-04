@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_editor
 {
     use rex_factory_trait;
@@ -108,7 +110,7 @@ class rex_editor
     {
         $supportedEditors = $this->getSupportedEditors();
 
-        $editor = array_key_exists('editor', $_COOKIE) ? $_COOKIE['editor'] : rex::getProperty('editor');
+        $editor = array_key_exists('editor', $_COOKIE) ? $_COOKIE['editor'] : Core::getProperty('editor');
 
         if (null !== $editor && array_key_exists($editor, $supportedEditors)) {
             return $editor;
@@ -119,7 +121,7 @@ class rex_editor
 
     public function getBasepath(): ?string
     {
-        $path = array_key_exists('editor_basepath', $_COOKIE) ? $_COOKIE['editor_basepath'] : rex::getProperty('editor_basepath');
+        $path = array_key_exists('editor_basepath', $_COOKIE) ? $_COOKIE['editor_basepath'] : Core::getProperty('editor_basepath');
 
         return $path ? rtrim($path, '\\/') . DIRECTORY_SEPARATOR : null;
     }

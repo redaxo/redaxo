@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 /**
  * @internal
  */
@@ -95,12 +97,12 @@ class rex_install_archive
 
     private static function setPermissions(string $dir): void
     {
-        @chmod($dir, rex::getDirPerm());
+        @chmod($dir, Core::getDirPerm());
 
         $finder = rex_finder::factory($dir)->recursive();
 
         foreach ($finder as $path => $file) {
-            @chmod($path, $file->isDir() ? rex::getDirPerm() : rex::getFilePerm());
+            @chmod($path, $file->isDir() ? Core::getDirPerm() : Core::getFilePerm());
         }
     }
 }

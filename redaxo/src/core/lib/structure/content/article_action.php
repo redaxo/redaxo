@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 class rex_article_action
 {
     public const PREVIEW = 'preview';
@@ -79,7 +81,7 @@ class rex_article_action
         $this->save = true;
 
         $ga = rex_sql::factory();
-        $ga->setQuery('SELECT a.id, `' . $type . '` as code FROM ' . rex::getTable('module_action') . ' ma,' . rex::getTable('action') . ' a WHERE `' . $type . '` != "" AND ma.action_id=a.id AND module_id=? AND (a.' . $type . 'mode & ?)', [$this->moduleId, $this->mode]);
+        $ga->setQuery('SELECT a.id, `' . $type . '` as code FROM ' . Core::getTable('module_action') . ' ma,' . Core::getTable('action') . ' a WHERE `' . $type . '` != "" AND ma.action_id=a.id AND module_id=? AND (a.' . $type . 'mode & ?)', [$this->moduleId, $this->mode]);
 
         foreach ($ga as $row) {
             $action = (string) $row->getValue('code');

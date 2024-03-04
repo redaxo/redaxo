@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
 header("Content-Security-Policy: frame-ancestors 'self'");
@@ -54,26 +56,26 @@ if (rex_get('asset') && rex_get('buster')) {
 $pages = [];
 
 // ----------------- SETUP
-if (rex::isSetup()) {
+if (Core::isSetup()) {
     // ----------------- SET SETUP LANG
-    $requestLang = rex_request('lang', 'string', rex::getProperty('lang'));
+    $requestLang = rex_request('lang', 'string', Core::getProperty('lang'));
     if (in_array($requestLang, rex_i18n::getLocales())) {
-        rex::setProperty('lang', $requestLang);
+        Core::setProperty('lang', $requestLang);
     } else {
-        rex::setProperty('lang', 'en_gb');
+        Core::setProperty('lang', 'en_gb');
     }
 
-    rex_i18n::setLocale(rex::getProperty('lang'));
+    rex_i18n::setLocale(Core::getProperty('lang'));
 
     $pages['setup'] = rex_be_controller::getSetupPage();
     rex_be_controller::setCurrentPage('setup');
 } else {
     // ----------------- CREATE LANG OBJ
-    rex_i18n::setLocale(rex::getProperty('lang'));
+    rex_i18n::setLocale(Core::getProperty('lang'));
 
     // ---- prepare login
     $login = new rex_backend_login();
-    rex::setProperty('login', $login);
+    Core::setProperty('login', $login);
 
     $passkey = rex_post('rex_user_passkey', 'string', null);
     $rexUserLogin = rex_post('rex_user_login', 'string');
@@ -148,19 +150,19 @@ if (rex::isSetup()) {
         // Userspezifische Sprache einstellen
         $user = $login->getUser();
         $lang = $user->getLanguage();
-        if ($lang && 'default' != $lang && $lang != rex::getProperty('lang')) {
+        if ($lang && 'default' != $lang && $lang != Core::getProperty('lang')) {
             rex_i18n::setLocale($lang);
         }
 
-        rex::setProperty('user', $user);
+        Core::setProperty('user', $user);
 
         // Safe Mode
-        if (!rex::isLiveMode() && $user->isAdmin() && null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
+        if (!Core::isLiveMode() && $user->isAdmin() && null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
             if ($safeMode) {
                 rex_set_session('safemode', true);
             } else {
                 rex_unset_session('safemode');
-                if (rex::getProperty('safe_mode')) {
+                if (Core::getProperty('safe_mode')) {
                     $configFile = rex_path::coreData('config.yml');
                     $config = array_merge(
                         rex_file::getConfig(rex_path::core('default.config.yml')),
@@ -181,11 +183,11 @@ if (rex::isSetup()) {
 rex_be_controller::setPages($pages);
 
 // ----- Prepare Core Pages
-if (rex::getUser()) {
+if (Core::getUser()) {
     rex_be_controller::setCurrentPage(trim(rex_request('page', 'string')));
     rex_be_controller::appendLoggedInPages();
 
-    if ('profile' !== rex_be_controller::getCurrentPage() && rex::getProperty('login')->requiresPasswordChange()) {
+    if ('profile' !== rex_be_controller::getCurrentPage() && Core::getProperty('login')->requiresPasswordChange()) {
         rex_response::sendRedirect(rex_url::backendPage('profile'));
     }
 }
@@ -199,10 +201,10 @@ rex_view::addJsFile(rex_url::coreAssets('clipboard-copy-element.js'), [rex_view:
 rex_view::addJsFile(rex_url::coreAssets('js/mediapool.js'), [rex_view::JS_IMMUTABLE]);
 
 rex_view::setJsProperty('backend', true);
-rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
-rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
+rex_view::setJsProperty('accesskeys', Core::getProperty('use_accesskeys'));
+rex_view::setJsProperty('session_keep_alive', Core::getProperty('session_keep_alive', 0));
 rex_view::setJsProperty('cookie_params', rex_login::getCookieParams());
-rex_view::setJsProperty('imageExtensions', rex::getProperty('image_extensions'));
+rex_view::setJsProperty('imageExtensions', Core::getProperty('image_extensions'));
 
 rex_view::addCssFile(rex_url::coreAssets('css/styles.css'));
 rex_view::addCssFile(rex_url::coreAssets('css/bootstrap-select.min.css'));
@@ -223,18 +225,18 @@ rex_view::addJsFile(rex_url::coreAssets('js/main.js'), [rex_view::JS_IMMUTABLE =
 rex_view::addCssFile(rex_url::coreAssets('css/redaxo.css'));
 rex_view::addJsFile(rex_url::coreAssets('js/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
 
-if (rex::getUser()) {
+if (Core::getUser()) {
     /* Customizer Ergänzungen */
     rex_view::addCssFile(rex_url::coreAssets('css/customizer.css'));
     rex_view::addJsFile(rex_url::coreAssets('js/customizer.js'), [rex_view::JS_IMMUTABLE => true]);
 
-    if ('' != rex::getConfig('be_style_labelcolor')) {
-        rex_view::setJsProperty('customizer_labelcolor', rex::getConfig('be_style_labelcolor'));
+    if ('' != Core::getConfig('be_style_labelcolor')) {
+        rex_view::setJsProperty('customizer_labelcolor', Core::getConfig('be_style_labelcolor'));
     }
-    if (rex::getConfig('be_style_showlink')) {
+    if (Core::getConfig('be_style_showlink')) {
         rex_view::setJsProperty(
             'customizer_showlink',
-            '<h1 class="be-style-customizer-title"><a href="' . rex_url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="rex-icon rex-icon-external-link"></i></a></h1>',
+            '<h1 class="be-style-customizer-title"><a href="' . rex_url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(Core::getServerName()) . '</span><i class="rex-icon rex-icon-external-link"></i></a></h1>',
         );
     }
 
@@ -245,7 +247,7 @@ if (rex::getUser()) {
     }
 }
 
-if (rex::getConfig('article_history', false) && rex::getUser()?->hasPerm('history[article_rollback]')) {
+if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('history[article_rollback]')) {
     rex_extension::register(
         ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
         static function (rex_extension_point $ep) {
@@ -285,7 +287,7 @@ if (rex::getConfig('article_history', false) && rex::getUser()?->hasPerm('histor
 
             $select1 = [];
             $select1[] = '<option value="0" selected="selected" data-revision="0">' . rex_i18n::msg('structure_history_current_version') . '</option>';
-            if (true === rex::getConfig('article_work_version', false)) {
+            if (true === Core::getConfig('article_work_version', false)) {
                 $select1[] = '<option value="1" data-revision="1">' . rex_i18n::msg('version_workingversion') . '</option>';
             }
 
@@ -320,7 +322,7 @@ if (rex::getConfig('article_history', false) && rex::getUser()?->hasPerm('histor
         if ('content/edit' == $ep->getParam('page')) {
             $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId());
             if (str_starts_with($articleLink, 'http')) {
-                $user = rex::requireUser();
+                $user = Core::requireUser();
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
@@ -342,7 +344,7 @@ if (rex::getConfig('article_history', false) && rex::getUser()?->hasPerm('histor
     });
 }
 
-if (rex::getConfig('article_work_version', false)) {
+if (Core::getConfig('article_work_version', false)) {
     rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
         if ('content/edit' !== $ep->getParam('page')) {
             return null;
@@ -360,7 +362,7 @@ if (rex::getConfig('article_work_version', false)) {
             $version = rex_article_revision::WORK;
         }
 
-        if (!rex::requireUser()->hasPerm('version[live_version]')) {
+        if (!Core::requireUser()->hasPerm('version[live_version]')) {
             $version = rex_article_revision::WORK;
         }
 
@@ -374,7 +376,7 @@ if (rex::getConfig('article_work_version', false)) {
             return null;
         }
 
-        $user = rex::requireUser();
+        $user = Core::requireUser();
         $params = $ep->getParams();
         $articleId = rex_type::int($params['article_id']);
         $clangId = rex_type::int($params['clang']);
@@ -383,7 +385,7 @@ if (rex::getConfig('article_work_version', false)) {
         $workingVersionEmpty = true;
         $gw = rex_sql::factory();
         $gw->setQuery(
-            'select * from ' . rex::getTablePrefix(
+            'select * from ' . Core::getTablePrefix(
             ) . 'article_slice where article_id=? and clang_id=? and revision=1 LIMIT 1',
             [$articleId, $clangId],
         );
@@ -397,7 +399,7 @@ if (rex::getConfig('article_work_version', false)) {
                 if ($workingVersionEmpty) {
                     $return .= rex_view::error(rex_i18n::msg('version_warning_working_version_to_live'));
                 } elseif ($user->hasPerm('version[live_version]')) {
-                    if (true === rex::getConfig('article_history', false)) {
+                    if (true === Core::getConfig('article_history', false)) {
                         rex_article_slice_history::makeSnapshot($articleId, $clangId, 'work_to_live');
                     }
 
@@ -501,8 +503,8 @@ if (rex::getConfig('article_work_version', false)) {
 
 // add theme-information to js-variable rex as rex.theme
 // (1) System-Settings (2) no systemforced mode: user-mode (3) fallback: "auto"
-$user = rex::getUser();
-$theme = (string) rex::getProperty('theme');
+$user = Core::getUser();
+$theme = (string) Core::getProperty('theme');
 if ('' === $theme && $user) {
     $theme = (string) $user->getValue('theme');
 }
@@ -540,20 +542,20 @@ rex_perm::register('article2category[]', null, rex_perm::OPTIONS);
 rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
 rex_perm::register('publishSlice[]', null, rex_perm::OPTIONS);
 
-if (rex::getConfig('article_history', false)) {
+if (Core::getConfig('article_history', false)) {
     rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 }
-if (rex::getConfig('article_work_version', false)) {
+if (Core::getConfig('article_work_version', false)) {
     rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 }
 
 // Metainfo
-rex::setProperty('metainfo_prefixes', ['art_', 'cat_', 'med_', 'clang_']);
-rex::setProperty('metainfo_metaTables', [
-    'art_' => rex::getTablePrefix() . 'article',
-    'cat_' => rex::getTablePrefix() . 'article',
-    'med_' => rex::getTablePrefix() . 'media',
-    'clang_' => rex::getTablePrefix() . 'clang',
+Core::setProperty('metainfo_prefixes', ['art_', 'cat_', 'med_', 'clang_']);
+Core::setProperty('metainfo_metaTables', [
+    'art_' => Core::getTablePrefix() . 'article',
+    'cat_' => Core::getTablePrefix() . 'article',
+    'med_' => Core::getTablePrefix() . 'media',
+    'clang_' => Core::getTablePrefix() . 'clang',
 ]);
 
 require_once __DIR__ . '/functions/function_metainfo.php';
@@ -568,12 +570,12 @@ rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function ($ep) {
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
 
-if (rex::getUser() && rex::getConfig('be_style_compile')) {
+if (Core::getUser() && Core::getConfig('be_style_compile')) {
     rex_be_style::compile();
 }
 
 // ----- Prepare AddOn Pages
-if (rex::getUser()) {
+if (Core::getUser()) {
     rex_be_controller::appendPackagePages();
 }
 
@@ -581,8 +583,8 @@ $pages = rex_extension::registerPoint(new rex_extension_point('PAGES_PREPARED', 
 rex_be_controller::setPages($pages);
 
 // Set Startpage
-if ($user = rex::getUser()) {
-    if (rex::getProperty('login')->requiresPasswordChange()) {
+if ($user = Core::getUser()) {
+    if (Core::getProperty('login')->requiresPasswordChange()) {
         // profile is available for everyone, no additional checks required
         rex_be_controller::setCurrentPage('profile');
     } elseif (!rex_be_controller::getCurrentPage()) {

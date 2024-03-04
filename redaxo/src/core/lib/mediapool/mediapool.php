@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Core;
+
 final class rex_mediapool
 {
     /**
@@ -72,7 +74,7 @@ final class rex_mediapool
         $where .= implode(' OR ', $files) . ' OR ';
         $where .= implode(' OR ', $filelists) . ' OR ';
         $where .= implode(' OR ', $values);
-        $query = 'SELECT DISTINCT article_id, clang_id FROM ' . rex::getTablePrefix() . 'article_slice WHERE ' . $where;
+        $query = 'SELECT DISTINCT article_id, clang_id FROM ' . Core::getTablePrefix() . 'article_slice WHERE ' . $where;
 
         $warning = [];
         $res = $sql->getArray($query);
@@ -137,7 +139,7 @@ final class rex_mediapool
      */
     public static function isAllowedMimeType(string $path, ?string $filename = null): bool
     {
-        $allowedMimetypes = rex::getProperty('allowed_mime_types');
+        $allowedMimetypes = Core::getProperty('allowed_mime_types');
 
         if (!$allowedMimetypes) {
             return true;
@@ -185,6 +187,6 @@ final class rex_mediapool
      */
     public static function getBlockedExtensions(): array
     {
-        return rex::getProperty('blocked_extensions', []);
+        return Core::getProperty('blocked_extensions', []);
     }
 }
