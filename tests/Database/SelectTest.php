@@ -2,8 +2,12 @@
 
 namespace Redaxo\Core\Tests\Database;
 
+use PDO;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Sql;
+use ReflectionProperty;
+use rex_sql_exception;
+use stdClass;
 
 /**
  * @internal

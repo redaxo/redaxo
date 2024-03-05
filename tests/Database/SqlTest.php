@@ -2,10 +2,14 @@
 
 namespace Redaxo\Core\Tests\Database;
 
+use DateTime;
+use DateTimeZone;
+use PDO;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use rex_sql_exception;
 
 /**
  * @internal

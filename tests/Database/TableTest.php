@@ -5,9 +5,11 @@ namespace Redaxo\Core\Tests\Database;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Column;
+use Redaxo\Core\Database\ForeignKey;
 use Redaxo\Core\Database\Index;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
+use rex_exception;
 
 /**
  * @internal
@@ -48,7 +50,7 @@ class TableTest extends TestCase
             ->addColumn(new Column('id', 'int(11)', false, null, 'auto_increment'))
             ->addColumn(new Column('test1_id', 'int(11)'))
             ->setPrimaryKey('id')
-            ->addForeignKey(new rex_sql_foreign_key('test2_fk_test1', self::TABLE, ['test1_id' => 'id']))
+            ->addForeignKey(new ForeignKey('test2_fk_test1', self::TABLE, ['test1_id' => 'id']))
             ->create();
 
         return $table;
@@ -113,11 +115,11 @@ class TableTest extends TestCase
 
         $fk = $table2->getForeignKey('test2_fk_test1');
 
-        self::assertInstanceOf(rex_sql_foreign_key::class, $fk);
+        self::assertInstanceOf(ForeignKey::class, $fk);
         self::assertSame('test2_fk_test1', $fk->getName());
         self::assertSame(self::TABLE, $fk->getTable());
-        self::assertSame(rex_sql_foreign_key::RESTRICT, $fk->getOnUpdate());
-        self::assertSame(rex_sql_foreign_key::RESTRICT, $fk->getOnDelete());
+        self::assertSame(ForeignKey::RESTRICT, $fk->getOnUpdate());
+        self::assertSame(ForeignKey::RESTRICT, $fk->getOnDelete());
         self::assertSame(['test1_id' => 'id'], $fk->getColumns());
     }
 
@@ -507,10 +509,10 @@ class TableTest extends TestCase
     {
         $table = $this->createTable();
 
-        $fk = new rex_sql_foreign_key('test1_fk_config', 'rex_config', [
+        $fk = new ForeignKey('test1_fk_config', 'rex_config', [
             'config_namespace' => 'namespace',
             'config_key' => 'key',
-        ], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::SET_NULL);
+        ], ForeignKey::CASCADE, ForeignKey::SET_NULL);
 
         $table
             ->addColumn(new Column('config_namespace', 'varchar(75)', true))
@@ -531,14 +533,14 @@ class TableTest extends TestCase
         $this->createTable();
         $table2 = $this->createTable2();
 
-        $fk1 = new rex_sql_foreign_key('test2_fk_test1', self::TABLE, [
+        $fk1 = new ForeignKey('test2_fk_test1', self::TABLE, [
             'test1_id' => 'id',
-        ], rex_sql_foreign_key::RESTRICT, rex_sql_foreign_key::CASCADE);
+        ], ForeignKey::RESTRICT, ForeignKey::CASCADE);
 
-        $fk2 = new rex_sql_foreign_key('test2_fk_config', 'rex_config', [
+        $fk2 = new ForeignKey('test2_fk_config', 'rex_config', [
             'config_namespace' => 'namespace',
             'config_key' => 'key',
-        ], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::SET_NULL);
+        ], ForeignKey::CASCADE, ForeignKey::SET_NULL);
 
         $table2
             ->ensureColumn(new Column('config_namespace', 'varchar(75)', true))
