@@ -1,13 +1,15 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Util;
 
 $effectId = rex_request('effect_id', 'int');
 $typeId = rex_request('type_id', 'int');
 $func = rex_request('func', 'string');
 
 // ---- validate type_id
-$sql = rex_sql::factory();
+$sql = Sql::factory();
 $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type WHERE id=' . $typeId);
 if (1 != $sql->getRows()) {
     throw new Exception('Invalid type_id "' . $typeId . '"');
@@ -22,7 +24,7 @@ $warning = '';
 
 // -------------- delete effect
 if ('delete' == $func && $effectId > 0) {
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     //  $sql->setDebug();
     $sql->setTable(Core::getTablePrefix() . 'media_manager_type_effect');
     $sql->setWhere(['id' => $effectId]);
@@ -30,7 +32,7 @@ if ('delete' == $func && $effectId > 0) {
     try {
         $sql->delete();
 
-        rex_sql_util::organizePriorities(
+        Util::organizePriorities(
             Core::getTablePrefix() . 'media_manager_type_effect',
             'priority',
             'type_id = ' . $typeId,
@@ -41,7 +43,7 @@ if ('delete' == $func && $effectId > 0) {
 
         rex_media_manager::deleteCacheByType($typeId);
 
-        rex_sql::factory()
+        Sql::factory()
             ->setTable(Core::getTable('media_manager_type'))
             ->setWhere(['id' => $typeId])
             ->addGlobalUpdateFields()
@@ -273,7 +275,7 @@ if ('' == $func) {
 
         rex_media_manager::deleteCacheByType($typeId);
 
-        rex_sql::factory()
+        Sql::factory()
             ->setTable(Core::getTable('media_manager_type'))
             ->setWhere(['id' => $typeId])
             ->addGlobalUpdateFields()

@@ -4,6 +4,7 @@ use lbuchs\WebAuthn\Binary\ByteBuffer;
 use lbuchs\WebAuthn\WebAuthn;
 use lbuchs\WebAuthn\WebAuthnException;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -67,7 +68,7 @@ class rex_webauthn
             return null;
         }
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('SELECT public_key FROM ' . Core::getTable('user_passkey') . ' WHERE id = ? AND user_id = ?', [$data->id, $id]);
 
         if (!$sql->getRows()) {

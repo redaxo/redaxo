@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 $ASTATUS = ['ADD', 'EDIT', 'DELETE'];
 
@@ -22,7 +23,7 @@ $csrfToken = rex_csrf_token::factory('structure_content_module_action');
 if ('delete' == $function && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
 } elseif ('delete' == $function) {
-    $del = rex_sql::factory();
+    $del = Sql::factory();
     //  $del->setDebug();
     $qry = 'SELECT
                         *
@@ -67,7 +68,7 @@ if ('add' == $function || 'edit' == $function) {
         $error = rex_i18n::msg('csrf_token_invalid');
         $save = false;
     } elseif ($save) {
-        $faction = rex_sql::factory();
+        $faction = Sql::factory();
 
         $previewstatus = rex_post('preview_allevents', 'bool') ? [1, 2] : rex_post('previewstatus', 'array');
         $presavestatus = rex_post('presave_allevents', 'bool') ? [1, 2, 4] : rex_post('presavestatus', 'array');
@@ -125,7 +126,7 @@ if ('add' == $function || 'edit' == $function) {
         if ('edit' == $function) {
             $legend = rex_i18n::msg('action_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $actionId . '</small>';
 
-            $action = rex_sql::factory();
+            $action = Sql::factory();
             $action->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'action WHERE id=?', [$actionId]);
 
             $name = $action->getValue('name');
@@ -433,7 +434,7 @@ if ($OUT) {
             </thead>
         ';
 
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'action ORDER BY name');
     $rows = $sql->getRows();
 

@@ -2,6 +2,7 @@
 
 use Clockwork\Clockwork;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
@@ -62,7 +63,7 @@ if (Core::isBackend() && 'debug' === rex_request::get('page') && Core::getUser()
     exit;
 }
 
-rex_sql::setFactoryClass(rex_sql_debug::class);
+Sql::setFactoryClass(rex_sql_debug::class);
 rex_extension::setFactoryClass(rex_extension_debug::class);
 
 rex_logger::setFactoryClass(rex_logger_debug::class);
@@ -95,7 +96,7 @@ $shutdownFn = static function () {
     }
 
     foreach ($req->databaseQueries as $query) {
-        match (rex_sql::getQueryType($query['query'])) {
+        match (Sql::getQueryType($query['query'])) {
             'SELECT' => $req->databaseSelects++,
             'INSERT' => $req->databaseInserts++,
             'UPDATE' => $req->databaseUpdates++,

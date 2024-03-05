@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 final class rex_ctype
 {
@@ -37,7 +38,7 @@ final class rex_ctype
      */
     public static function forTemplate(int $templateId): array
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('SELECT attributes FROM ' . Core::getTable('template') . ' WHERE id = ?', [$templateId]);
         $attributes = $sql->getArrayValue('attributes');
 

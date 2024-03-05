@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 final class rex_mediapool
 {
@@ -54,7 +55,7 @@ final class rex_mediapool
      */
     public static function mediaIsInUse(string $filename)
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
 
         // FIXME move structure stuff into structure addon
         $values = [];

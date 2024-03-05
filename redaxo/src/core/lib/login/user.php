@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_user
 {
@@ -11,7 +12,7 @@ class rex_user
     /**
      * SQL instance.
      *
-     * @var rex_sql
+     * @var Sql
      */
     protected $sql;
 
@@ -32,7 +33,7 @@ class rex_user
      */
     protected static $roleClass;
 
-    public function __construct(rex_sql $sql)
+    public function __construct(Sql $sql)
     {
         $this->sql = $sql;
     }
@@ -40,7 +41,7 @@ class rex_user
     public static function get(int $id): ?self
     {
         return static::getInstance($id, static function (int $id) {
-            $sql = rex_sql::factory()->setQuery('SELECT * FROM ' . Core::getTable('user') . ' WHERE id = ?', [$id]);
+            $sql = Sql::factory()->setQuery('SELECT * FROM ' . Core::getTable('user') . ' WHERE id = ?', [$id]);
 
             if ($sql->getRows()) {
                 $user = new static($sql);
@@ -55,7 +56,7 @@ class rex_user
     public static function forLogin(#[SensitiveParameter] string $login): ?self
     {
         return static::getInstance('login_' . $login, static function () use ($login) {
-            $sql = rex_sql::factory()->setQuery('SELECT * FROM ' . Core::getTable('user') . ' WHERE login = ?', [$login]);
+            $sql = Sql::factory()->setQuery('SELECT * FROM ' . Core::getTable('user') . ' WHERE login = ?', [$login]);
 
             if ($sql->getRows()) {
                 $user = new static($sql);
@@ -78,7 +79,7 @@ class rex_user
         return $user;
     }
 
-    public static function fromSql(rex_sql $sql): self
+    public static function fromSql(Sql $sql): self
     {
         $user = new self($sql);
         self::addInstance($user->getId(), $user);

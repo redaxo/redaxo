@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -21,7 +22,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $params = $ep->getParams();
         $warning = $ep->getSubject();
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('SELECT `name`, `type_id` FROM `' . Core::getTablePrefix() . 'metainfo_field` WHERE `type_id` IN(6,7)');
 
         $rows = $sql->getRows();
@@ -153,13 +154,13 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     /**
      * @return array
      */
-    protected function handleSave(array $params, rex_sql $sqlFields)
+    protected function handleSave(array $params, Sql $sqlFields)
     {
         if ('post' != rex_request_method() || !isset($params['id'])) {
             return $params;
         }
 
-        $media = rex_sql::factory();
+        $media = Sql::factory();
         //  $media->setDebug();
         $media->setTable(Core::getTablePrefix() . 'media');
         $media->setWhere('id=:mediaid', ['mediaid' => $params['id']]);
@@ -189,7 +190,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             $params['activeItem'] = $params['media'];
             unset($params['media']);
         } elseif ('MEDIA_ADDED' == $ep->getName()) {
-            $sql = rex_sql::factory();
+            $sql = Sql::factory();
 
             $qry = 'SELECT id FROM ' . Core::getTablePrefix() . 'media WHERE filename=:filename';
             $sql->setQuery($qry, ['filename' => $params['filename']]);

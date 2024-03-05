@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 global $ftitle, $error, $success;
 
@@ -46,7 +47,7 @@ $fileName = rex_request('file_name', 'string');
 $rexFileCategory = rex_request('rex_file_category', 'int', -1);
 
 if ('' != $fileName) {
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     $sql->setQuery('select * from ' . Core::getTablePrefix() . 'media where filename=?', [$fileName]);
     if (1 == $sql->getRows()) {
         $fileId = (int) $sql->getValue('id');
@@ -58,7 +59,7 @@ if (-1 == $rexFileCategory) {
     $rexFileCategory = rex_session('media[rex_file_category]', 'int');
 }
 
-$gc = rex_sql::factory();
+$gc = Sql::factory();
 $gc->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_category WHERE id=?', [$rexFileCategory]);
 if (1 != $gc->getRows()) {
     $rexFileCategory = 0;

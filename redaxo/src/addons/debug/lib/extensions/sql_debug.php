@@ -1,9 +1,11 @@
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 /**
  * @internal
  */
-class rex_sql_debug extends rex_sql
+class rex_sql_debug extends Sql
 {
     public function setQuery($query, array $params = [], array $options = [])
     {

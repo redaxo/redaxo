@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -212,7 +213,7 @@ if (!Core::isSetup()) {
         }
 
         $id = $match[1];
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('SELECT `name` FROM ' . Core::getTable('metainfo_field') . ' WHERE id = ? LIMIT 1', [$id]);
 
         if (!$sql->getRows()) {

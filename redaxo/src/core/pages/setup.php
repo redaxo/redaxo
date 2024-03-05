@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 $step = rex_request('step', 'int', 1);
 $lang = rex_request('lang', 'string');
@@ -167,7 +168,7 @@ if ($step > 3) {
 
     if (0 == count($errorArray)) {
         try {
-            rex_sql::closeConnection();
+            Sql::closeConnection();
             $err = rex_setup::checkDb($config, $redaxoDbCreate);
         } catch (PDOException $e) {
             $err = rex_i18n::msg('setup_315', $e->getMessage());
@@ -281,7 +282,7 @@ if (6 === $step) {
         }
 
         if (0 == count($errors)) {
-            $ga = rex_sql::factory();
+            $ga = Sql::factory();
             $ga->setQuery('select * from ' . Core::getTablePrefix() . 'user where login = ? ', [$redaxoUserLogin]);
 
             if ($ga->getRows() > 0) {
@@ -291,7 +292,7 @@ if (6 === $step) {
                 // when not already encrypted by client using javascript
                 $redaxoUserPass = rex_login::passwordHash($redaxoUserPass);
 
-                $user = rex_sql::factory();
+                $user = Sql::factory();
                 // $user->setDebug();
                 $user->setTable(Core::getTablePrefix() . 'user');
                 $user->setValue('name', 'Administrator');
@@ -311,7 +312,7 @@ if (6 === $step) {
             }
         }
     } else {
-        $gu = rex_sql::factory();
+        $gu = Sql::factory();
         $gu->setQuery('select * from ' . Core::getTablePrefix() . 'user LIMIT 1');
         if (0 == $gu->getRows()) {
             $errors[] = rex_view::error(rex_i18n::msg('setup_505'));

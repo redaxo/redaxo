@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 $content = '';
 
@@ -36,7 +37,7 @@ if ('' == $func) {
 
     $title = rex_i18n::msg('minfo_field_list_caption');
 
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     $likePrefix = $sql->escapeLikeWildcards($prefix);
 
     $list = rex_list::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');

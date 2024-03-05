@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_system_report
 {
@@ -54,7 +55,7 @@ class rex_system_report
             $dbData = [];
 
             try {
-                $sql = rex_sql::factory($dbId);
+                $sql = Sql::factory($dbId);
 
                 $dbData['Version'] = $sql->getDbType() . ' ' . $sql->getDbVersion();
 

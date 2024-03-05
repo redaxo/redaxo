@@ -1,9 +1,11 @@
 <?php
 
+namespace Redaxo\Core\Database;
+
 /**
  * Class to represent sql foreign keys.
  */
-class rex_sql_foreign_key
+class ForeignKey
 {
     public const RESTRICT = 'RESTRICT';
     public const NO_ACTION = 'NO ACTION';

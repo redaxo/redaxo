@@ -5,6 +5,8 @@ $tools = __DIR__ . '/.tools';
 
 $finder = PhpCsFixer\Finder::create()
     ->in([
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
         $src . '/core',
         $src . '/addons/debug',
         $src . '/addons/install',

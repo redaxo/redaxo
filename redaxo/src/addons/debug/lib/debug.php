@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 /**
  * @internal
  */
@@ -13,7 +15,7 @@ class rex_debug
         rex_api_debug::class,
         rex_logger_debug::class,
         rex_sql_debug::class,
-        rex_sql::class,
+        Sql::class,
         rex_logger::class,
         rex_error_handler::class,
     ];
