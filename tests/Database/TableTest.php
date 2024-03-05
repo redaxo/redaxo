@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Database\Column;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 
@@ -27,8 +28,8 @@ class TableTest extends TestCase
         $table = Table::get(self::TABLE);
 
         $table
-            ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', 'initial comment for id col'))
-            ->addColumn(new rex_sql_column('title', 'varchar(255)', true, 'Default title'))
+            ->addColumn(new Column('id', 'int(11)', false, null, 'auto_increment', 'initial comment for id col'))
+            ->addColumn(new Column('title', 'varchar(255)', true, 'Default title'))
             ->setPrimaryKey('id')
             ->addIndex(new rex_sql_index('i_title', ['title']))
             ->create();
@@ -41,8 +42,8 @@ class TableTest extends TestCase
         $table = Table::get(self::TABLE2);
 
         $table
-            ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'))
-            ->addColumn(new rex_sql_column('test1_id', 'int(11)'))
+            ->addColumn(new Column('id', 'int(11)', false, null, 'auto_increment'))
+            ->addColumn(new Column('test1_id', 'int(11)'))
             ->setPrimaryKey('id')
             ->addForeignKey(new rex_sql_foreign_key('test2_fk_test1', self::TABLE, ['test1_id' => 'id']))
             ->create();
@@ -70,7 +71,7 @@ class TableTest extends TestCase
 
         $id = $table->getColumn('id');
 
-        self::assertInstanceOf(rex_sql_column::class, $id);
+        self::assertInstanceOf(Column::class, $id);
         self::assertSame('id', $id->getName());
         self::assertSame('int(11)', $id->getType());
         self::assertFalse($id->isNullable());
@@ -80,7 +81,7 @@ class TableTest extends TestCase
 
         $title = $table->getColumn('title');
 
-        self::assertInstanceOf(rex_sql_column::class, $title);
+        self::assertInstanceOf(Column::class, $title);
         self::assertSame('title', $title->getName());
         self::assertSame('varchar(255)', $title->getType());
         self::assertTrue($title->isNullable());
@@ -153,11 +154,11 @@ class TableTest extends TestCase
     {
         $table = $this->createTable();
 
-        $description = new rex_sql_column('description', 'text', true, null, null, 'description comment');
+        $description = new Column('description', 'text', true, null, null, 'description comment');
         $table
             ->addColumn($description)
-            ->addColumn(new rex_sql_column('name', 'varchar(255)'), 'id')
-            ->addColumn(new rex_sql_column('pid', 'int(11)'), Table::FIRST)
+            ->addColumn(new Column('name', 'varchar(255)'), 'id')
+            ->addColumn(new Column('pid', 'int(11)'), Table::FIRST)
             ->alter();
 
         self::assertSame($description, $table->getColumn('description'));
@@ -174,7 +175,7 @@ class TableTest extends TestCase
     {
         $table = $this->createTable();
 
-        $title = new rex_sql_column('title', 'varchar(20)', false, null, null, 'new title comment');
+        $title = new Column('title', 'varchar(20)', false, null, null, 'new title comment');
         $table
             ->ensureColumn($title)
             ->alter();
@@ -192,7 +193,7 @@ class TableTest extends TestCase
     {
         $table = $this->createTable();
 
-        $id = new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', 'changed id comment');
+        $id = new Column('id', 'int(11)', false, null, 'auto_increment', 'changed id comment');
         $table
             ->ensureColumn($id)
             ->alter();
@@ -210,7 +211,7 @@ class TableTest extends TestCase
     {
         $table = $this->createTable();
 
-        $id = new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', null);
+        $id = new Column('id', 'int(11)', false, null, 'auto_increment', null);
         $table
             ->ensureColumn($id)
             ->alter();
@@ -221,7 +222,7 @@ class TableTest extends TestCase
         $table = Table::get(self::TABLE);
 
         $idNew = $table->getColumn('id');
-        self::assertInstanceOf(rex_sql_column::class, $idNew);
+        self::assertInstanceOf(Column::class, $idNew);
         self::assertEquals($id, $idNew);
         self::assertNull($idNew->getComment());
     }
@@ -230,8 +231,8 @@ class TableTest extends TestCase
     {
         $table = $this->createTable();
 
-        $title = new rex_sql_column('title', 'varchar(20)', false);
-        $description = new rex_sql_column('description', 'text', true);
+        $title = new Column('title', 'varchar(20)', false);
+        $description = new Column('description', 'text', true);
         $table
             ->ensureColumn($description)
             ->ensureColumn($title, 'description')
@@ -248,13 +249,13 @@ class TableTest extends TestCase
 
         self::assertSame(['id', 'description', 'title'], array_keys($table->getColumns()));
 
-        $status = new rex_sql_column('status', 'tinyint(1)', false, '0');
-        $amount = new rex_sql_column('amount', 'int(5)', true);
+        $status = new Column('status', 'tinyint(1)', false, '0');
+        $amount = new Column('amount', 'int(5)', true);
 
         $table
             ->ensureColumn($title, 'id')
             ->ensureColumn($status, 'id')
-            ->ensureColumn(new rex_sql_column('created', 'datetime', false, 'CURRENT_TIMESTAMP'), 'status')
+            ->ensureColumn(new Column('created', 'datetime', false, 'CURRENT_TIMESTAMP'), 'status')
             ->ensureColumn($title, 'status')
             ->ensureColumn($amount)
             ->alter();
@@ -287,7 +288,7 @@ class TableTest extends TestCase
             ->create();
 
         $id = $table->getColumn('id');
-        self::assertInstanceOf(rex_sql_column::class, $id);
+        self::assertInstanceOf(Column::class, $id);
         self::assertSame('int(10) unsigned', $id->getType());
         self::assertFalse($id->isNullable());
         self::assertNull($id->getDefault());
@@ -421,8 +422,8 @@ class TableTest extends TestCase
         $search = new rex_sql_index('i_search', ['title', 'description'], rex_sql_index::FULLTEXT);
 
         $table
-            ->addColumn(new rex_sql_column('uuid', 'varchar(255)'))
-            ->addColumn(new rex_sql_column('description', 'text', true))
+            ->addColumn(new Column('uuid', 'varchar(255)'))
+            ->addColumn(new Column('description', 'text', true))
             ->addIndex($uuid)
             ->addIndex($description)
             ->addIndex($search)
@@ -447,7 +448,7 @@ class TableTest extends TestCase
         $title = new rex_sql_index('i_title', ['title', 'title2'], rex_sql_index::UNIQUE);
         $title2 = new rex_sql_index('i_title2', ['title2']);
         $table
-            ->ensureColumn(new rex_sql_column('title2', 'varchar(20)'))
+            ->ensureColumn(new Column('title2', 'varchar(20)'))
             ->ensureIndex($title)
             ->ensureIndex($title2)
             ->alter();
@@ -509,8 +510,8 @@ class TableTest extends TestCase
         ], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::SET_NULL);
 
         $table
-            ->addColumn(new rex_sql_column('config_namespace', 'varchar(75)', true))
-            ->addColumn(new rex_sql_column('config_key', 'varchar(255)', true))
+            ->addColumn(new Column('config_namespace', 'varchar(75)', true))
+            ->addColumn(new Column('config_key', 'varchar(255)', true))
             ->addForeignKey($fk)
             ->alter();
 
@@ -537,8 +538,8 @@ class TableTest extends TestCase
         ], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::SET_NULL);
 
         $table2
-            ->ensureColumn(new rex_sql_column('config_namespace', 'varchar(75)', true))
-            ->ensureColumn(new rex_sql_column('config_key', 'varchar(255)', true))
+            ->ensureColumn(new Column('config_namespace', 'varchar(75)', true))
+            ->ensureColumn(new Column('config_key', 'varchar(255)', true))
             ->ensureForeignKey($fk1)
             ->ensureForeignKey($fk2)
             ->alter();
@@ -600,7 +601,7 @@ class TableTest extends TestCase
         $table
             ->setName(self::TABLE2)
             ->removeColumn('title')
-            ->addColumn(new rex_sql_column('name', 'varchar(20)'))
+            ->addColumn(new Column('name', 'varchar(20)'))
             ->setPrimaryKey(['id', 'name'])
             ->addIndex(new rex_sql_index('i_name', ['name']))
             ->alter();
@@ -621,12 +622,12 @@ class TableTest extends TestCase
     {
         $table = Table::get(self::TABLE);
         $table
-            ->ensureColumn(new rex_sql_column('title', 'varchar(255)', false, 'Default title'))
-            ->ensureColumn(new rex_sql_column('teaser', 'varchar(255)', false))
-            ->ensureColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'), Table::FIRST)
-            ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
-            ->ensureColumn(new rex_sql_column('timestamp', 'datetime', true))
-            ->ensureColumn(new rex_sql_column('description', 'text', true), 'title')
+            ->ensureColumn(new Column('title', 'varchar(255)', false, 'Default title'))
+            ->ensureColumn(new Column('teaser', 'varchar(255)', false))
+            ->ensureColumn(new Column('id', 'int(11)', false, null, 'auto_increment'), Table::FIRST)
+            ->ensureColumn(new Column('status', 'tinyint(1)'))
+            ->ensureColumn(new Column('timestamp', 'datetime', true))
+            ->ensureColumn(new Column('description', 'text', true), 'title')
             ->setPrimaryKey('id')
             ->ensureIndex(new rex_sql_index('i_status_timestamp', ['status', 'timestamp']))
             ->ensureIndex(new rex_sql_index('i_description', ['description'], rex_sql_index::FULLTEXT))
@@ -641,11 +642,11 @@ class TableTest extends TestCase
         $table = Table::get(self::TABLE);
 
         $table
-            ->ensureColumn(new rex_sql_column('timestamp', 'datetime', true))
-            ->ensureColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'))
-            ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
-            ->ensureColumn(new rex_sql_column('title', 'varchar(20)', false), 'timestamp')
-            ->ensureColumn(new rex_sql_column('teaser', 'varchar(255)', false), 'status')
+            ->ensureColumn(new Column('timestamp', 'datetime', true))
+            ->ensureColumn(new Column('id', 'int(11)', false, null, 'auto_increment'))
+            ->ensureColumn(new Column('status', 'tinyint(1)'))
+            ->ensureColumn(new Column('title', 'varchar(20)', false), 'timestamp')
+            ->ensureColumn(new Column('teaser', 'varchar(255)', false), 'status')
             ->setPrimaryKey(['id', 'title'])
             ->ensureIndex(new rex_sql_index('i_status_timestamp', ['status', 'timestamp'], rex_sql_index::UNIQUE))
             ->ensure();
@@ -675,7 +676,7 @@ class TableTest extends TestCase
         for ($i = 0; $i < 3; ++$i) {
             Table::get(self::TABLE)
                 ->ensurePrimaryIdColumn()
-                ->ensureColumn(new rex_sql_column('title', 'varchar(255)'))
+                ->ensureColumn(new Column('title', 'varchar(255)'))
                 ->ensure();
         }
     }
@@ -688,9 +689,9 @@ class TableTest extends TestCase
             $table = Table::get(self::TABLE);
             $table
                 ->ensurePrimaryIdColumn()
-                ->ensureColumn(new rex_sql_column('title', 'varchar(255)'))
+                ->ensureColumn(new Column('title', 'varchar(255)'))
                 ->ensureGlobalColumns()
-                ->ensureColumn(new rex_sql_column('revision', 'tinyint(1)'))
+                ->ensureColumn(new Column('revision', 'tinyint(1)'))
                 ->ensure();
 
             Table::clearInstance(self::TABLE);

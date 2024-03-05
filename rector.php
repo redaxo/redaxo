@@ -97,6 +97,7 @@ return RectorConfig::configure()
         rex_package::class => rex_addon::class,
         rex_package_manager::class => rex_addon_manager::class,
         rex_sql::class => Redaxo\Core\Database\Sql::class,
+        rex_sql_column::class => Redaxo\Core\Database\Column::class,
         rex_sql_table::class => Redaxo\Core\Database\Table::class,
     ])
     ->withConfiguredRule(RenameMethodRector::class, [

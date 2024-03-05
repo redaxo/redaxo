@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Column;
 use Redaxo\Core\Database\Table;
 
 /**
@@ -21,7 +22,7 @@ class rex_sql_schema_dumper
 
         $setPrimaryKey = true;
         $primaryKeyIsId = ['id'] === $table->getPrimaryKey();
-        $idColumn = new rex_sql_column('id', 'int(10) unsigned', false, null, 'auto_increment');
+        $idColumn = new Column('id', 'int(10) unsigned', false, null, 'auto_increment');
 
         foreach ($table->getColumns() as $column) {
             if ($primaryKeyIsId && $column->equals($idColumn)) {
@@ -62,7 +63,7 @@ class rex_sql_schema_dumper
         return $code;
     }
 
-    private function getColumn(rex_sql_column $column): string
+    private function getColumn(Column $column): string
     {
         $parameters = [];
         $nonDefault = false;

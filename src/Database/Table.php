@@ -6,12 +6,16 @@ use InvalidArgumentException;
 use LogicException;
 use rex_exception;
 use rex_instance_pool_trait;
-use rex_sql_column;
 use rex_sql_exception;
 use rex_sql_foreign_key;
 use rex_sql_index;
 use rex_type;
 use RuntimeException;
+
+use function array_slice;
+use function count;
+use function in_array;
+use function is_array;
 
 /**
  * Class to represent sql tables.
@@ -39,7 +43,7 @@ class Table
     /** @var string */
     private $originalName;
 
-    /** @var array<string, rex_sql_column> */
+    /** @var array<string, \Redaxo\Core\Database\Column> */
     private $columns = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
@@ -105,7 +109,7 @@ class Table
                 $type = 'int(10) unsigned';
             }
 
-            $this->columns[$column['name']] = new rex_sql_column(
+            $this->columns[$column['name']] = new Column(
                 $column['name'],
                 $type,
                 'YES' === $column['null'],
@@ -246,7 +250,7 @@ class Table
     /**
      * @param string $name
      *
-     * @return rex_sql_column|null
+     * @return Column|null
      */
     public function getColumn($name)
     {
@@ -258,7 +262,7 @@ class Table
     }
 
     /**
-     * @return array<string, rex_sql_column>
+     * @return array<string, \Redaxo\Core\Database\Column>
      */
     public function getColumns()
     {
@@ -270,7 +274,7 @@ class Table
      *
      * @return $this
      */
-    public function addColumn(rex_sql_column $column, $afterColumn = null)
+    public function addColumn(Column $column, $afterColumn = null)
     {
         $name = $column->getName();
 
@@ -290,7 +294,7 @@ class Table
      *
      * @return $this
      */
-    public function ensureColumn(rex_sql_column $column, $afterColumn = null)
+    public function ensureColumn(Column $column, $afterColumn = null)
     {
         $name = $column->getName();
         $existing = $this->getColumn($name);
@@ -316,7 +320,7 @@ class Table
     public function ensurePrimaryIdColumn()
     {
         return $this
-            ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'auto_increment'))
+            ->ensureColumn(new Column('id', 'int(10) unsigned', false, null, 'auto_increment'))
             ->setPrimaryKey('id')
         ;
     }
@@ -329,10 +333,10 @@ class Table
     public function ensureGlobalColumns($afterColumn = null)
     {
         return $this
-            ->ensureColumn(new rex_sql_column('createdate', 'datetime'), $afterColumn)
-            ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'), 'createdate')
-            ->ensureColumn(new rex_sql_column('updatedate', 'datetime'), 'createuser')
-            ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'), 'updatedate')
+            ->ensureColumn(new Column('createdate', 'datetime'), $afterColumn)
+            ->ensureColumn(new Column('createuser', 'varchar(255)'), 'createdate')
+            ->ensureColumn(new Column('updatedate', 'datetime'), 'createuser')
+            ->ensureColumn(new Column('updateuser', 'varchar(255)'), 'updatedate')
         ;
     }
 
@@ -925,7 +929,7 @@ class Table
         $this->positions[$name] = $afterColumn;
     }
 
-    private function getColumnDefinition(rex_sql_column $column): string
+    private function getColumnDefinition(Column $column): string
     {
         $default = $column->getDefault();
         if (null === $default) {

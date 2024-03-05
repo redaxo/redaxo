@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Database\Column;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 
@@ -26,7 +27,7 @@ class rex_sql_util_test extends TestCase
         $table = Table::get(self::TABLE);
         $table
             ->ensurePrimaryIdColumn()
-            ->ensureColumn(new rex_sql_column('title', 'varchar(255)'))
+            ->ensureColumn(new Column('title', 'varchar(255)'))
             ->ensureIndex(new rex_sql_index('i_title', ['title']))
             ->create();
 
