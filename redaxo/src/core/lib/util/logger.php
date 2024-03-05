@@ -37,10 +37,20 @@ class rex_logger extends AbstractLogger
     {
         if ($exception instanceof ErrorException) {
             self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $url);
-        } else {
-            $logger = self::factory();
-            $logger->log($exception::class, $exception->getMessage(), [], $exception->getFile(), $exception->getLine(), $url);
+
+            return;
         }
+
+        if ($exception instanceof rex_http_exception) {
+            if (!rex::isDebugMode() && $exception->isClientError() && (!($user = rex_backend_login::createUser()) || !$user->isAdmin())) {
+                return;
+            }
+
+            $exception = $exception->getPrevious(); // log original exception
+        }
+
+        $logger = self::factory();
+        $logger->log($exception::class, $exception->getMessage(), [], $exception->getFile(), $exception->getLine(), $url);
     }
 
     /**

@@ -91,6 +91,11 @@ class rex_http_exception extends rex_exception
     {
         return $this->httpCode;
     }
+
+    public function isClientError(): bool
+    {
+        return str_starts_with($this->httpCode, '4');
+    }
 }
 
 /**

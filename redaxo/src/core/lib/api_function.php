@@ -90,9 +90,9 @@ abstract class rex_api_function
                     self::$instance = $apiImpl;
                     return $apiImpl;
                 }
-                throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "' . $apiClass . '" given!');
+                throw new rex_http_exception(new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "' . $apiClass . '" given!'), rex_response::HTTP_NOT_FOUND);
             }
-            throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
+            throw new rex_http_exception(new rex_exception('$apiClass "' . $apiClass . '" not found!'), rex_response::HTTP_NOT_FOUND);
         }
 
         return null;
