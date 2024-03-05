@@ -127,7 +127,7 @@ class rex_setup
 
     /**
      * Checks the version of the connected database server.
-     * When validation of the database configs succeeds the settings will be used for rex_sql.
+     * When validation of the database configs succeeds the settings will be used for Sql class.
      *
      * @param array $config array of database config
      * @param bool $createDb Should the database be created, if it not exists

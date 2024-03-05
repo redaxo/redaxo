@@ -294,7 +294,7 @@ class rex_article_content_base
     /**
      * Outputs a slice.
      *
-     * @param Sql $artDataSql A rex_sql instance containing all slice and module data
+     * @param Sql $artDataSql A Sql instance containing all slice and module data
      * @param int $moduleIdToAdd The id of the module, which was selected using the ModuleSelect
      *
      * @return string

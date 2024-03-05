@@ -106,7 +106,7 @@ class rex_article_content_editor extends rex_article_content
     /**
      * Returns the slice heading.
      *
-     * @param Sql $artDataSql rex_sql istance containing all the slice and module information
+     * @param Sql $artDataSql Sql instance containing all the slice and module information
      *
      * @return string
      */
@@ -118,7 +118,7 @@ class rex_article_content_editor extends rex_article_content
     /**
      * Returns the slice menu.
      *
-     * @param Sql $artDataSql rex_sql istance containing all the slice and module information
+     * @param Sql $artDataSql Sql instance containing all the slice and module information
      *
      * @return string
      */

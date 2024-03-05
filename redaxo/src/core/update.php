@@ -6,7 +6,6 @@ use Redaxo\Core\Database\Sql;
 // don't use REX_MIN_PHP_VERSION or rex_setup::MIN_* constants here!
 // while updating the core, the constants contain the old min versions from previous core version
 
-// Since R6 we require at least R5.16 because of some `rex_sql_table` and `rex_sql::addRecord` usages in core addons
 if (version_compare(Core::getVersion(), '5.16', '<')) {
     throw new rex_functional_exception(sprintf('The REDAXO version "%s" is too old for this update, please update to 5.16 before.', Core::getVersion()));
 }

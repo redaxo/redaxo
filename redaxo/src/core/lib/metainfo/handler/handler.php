@@ -11,7 +11,7 @@ abstract class rex_metainfo_handler
     /**
      * Erstellt den nötigen HTML Code um ein Formular zu erweitern.
      *
-     * @param Sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+     * @param Sql $sqlFields Sql-objekt, dass die zu verarbeitenden Felder enthält
      * @param array $epParams Array of all EP parameters
      *
      * @return string
@@ -533,11 +533,11 @@ abstract class rex_metainfo_handler
     }
 
     /**
-     * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt.
+     * Übernimmt die gePOSTeten werte in ein Sql-Objekt.
      *
      * @param array $params
-     * @param Sql $sqlSave rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
-     * @param Sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+     * @param Sql $sqlSave Sql-objekt, in das die aktuellen Werte gespeichert werden sollen
+     * @param Sql $sqlFields Sql-objekt, dass die zu verarbeitenden Felder enthält
      * @return void
      */
     public static function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
@@ -746,7 +746,7 @@ abstract class rex_metainfo_handler
     abstract public function extendForm(rex_extension_point $ep);
 
     /**
-     * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table.
+     * Retrieves the POST values from the metaform, fill it into a Sql object and save it to a database table.
      * @return array
      */
     abstract protected function handleSave(array $params, Sql $sqlFields);
