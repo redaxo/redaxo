@@ -872,8 +872,6 @@ minfo_field_label_functions = Funções
 minfo_field_label_id = Id
 minfo_field_label_type = Tipo de campo
 minfo_field_label_attributes = Atributos do campo
-minfo_field_label_callback = Callback
-minfo_field_label_callback_templates = Modelos de callback
 minfo_field_label_default = Valores padrão
 minfo_field_label_nullable = Campo obrigatório
 minfo_field_label_params = Parâmetro
@@ -895,7 +893,6 @@ minfo_field_params_notice_8 = Exemplo:<br /> <code>category="1"</code>
 minfo_field_params_notice_9 = Exemplo:<br /> <code>category="1"</code>
 
 minfo_field_attributes_notice = Exemplo:<br /> style=color:red multiple=multiple class=my_css_class perm=admin[]
-minfo_field_label_notice = Código executado quando o valor do campo for modificado.<br /> Variáveis legíveis: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
 
 minfo_field_error_name = Por favor, insira o nome das colunas!
 minfo_field_error_unique_name = O nome da coluna já existe!
@@ -921,8 +918,6 @@ minfo_media_in_use_art = Artigos (metadata)
 minfo_media_in_use_cat = Categorias (metadata)
 minfo_media_in_use_med = Mídias (metadata)
 minfo_media_in_use_clang = Idiomas (metadata)
-
-minfo_callback_lang_indep_field = Campo de idioma independente
 
 # bc: labels aus dem core
 online_from = Online a partir de

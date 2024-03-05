@@ -1127,8 +1127,6 @@ minfo_field_label_functions = Функции
 minfo_field_label_id = ID
 minfo_field_label_type = Тип поля
 minfo_field_label_attributes = Атрибуты поля
-minfo_field_label_callback = Callback
-minfo_field_label_callback_templates = Шаблоны Callback
 minfo_field_label_default = Значение по умолчанию
 minfo_field_label_nullable = Обязательное поле
 minfo_field_label_params = Параметр
@@ -1154,7 +1152,6 @@ minfo_field_params_notice_10 = Пример:<br /> <code>start-year="1990" end-y
 minfo_field_params_notice_11 = Пример:<br /> <code>start-year="1990" end-year="2030"</code>
 
 minfo_field_attributes_notice = HTML-атрибуты для поля ввода и разрешения, например:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]" note="Notiz"</code>
-minfo_field_label_notice = Код, выполняемый при изменении значения поля. .<br /> Читаемые переменные: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
 
 minfo_field_error_name = Пожалуйста, введите наименование столбца!
 minfo_field_error_unique_name = Это наименование столбца уже существует!
@@ -1180,8 +1177,6 @@ minfo_media_in_use_art = Статьи (Метаданные)
 minfo_media_in_use_cat = Категории (Метаданные)
 minfo_media_in_use_med = Файлы (Метаданные)
 minfo_media_in_use_clang = Языки (Метаданные)
-
-minfo_callback_lang_indep_field = Поле, не зависящее от языка
 
 # bc: labels aus dem core
 online_from = Онлайн с

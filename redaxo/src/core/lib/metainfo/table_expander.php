@@ -123,13 +123,6 @@ class rex_metainfo_table_expander extends rex_form
         $field->setNotice($notice);
         $field->disableSpellcheckAndAutoCorrect();
 
-        $field = $this->addTextAreaField('callback');
-        $field->setLabel(rex_i18n::msg('minfo_field_label_callback'));
-        $field->setAttribute('class', 'form-control rex-code rex-js-code');
-        $notice = rex_i18n::msg('minfo_field_label_notice') . "\n";
-        $field->setNotice($notice);
-        $field->disableSpellcheckAndAutoCorrect();
-
         $field = $this->addTextField('default');
         $field->setLabel(rex_i18n::msg('minfo_field_label_default'));
         $field->getValidator()->add(rex_validation_rule::MAX_LENGTH, null, 255);

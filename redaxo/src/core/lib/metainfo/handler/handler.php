@@ -671,47 +671,13 @@ abstract class rex_metainfo_handler
      *
      * @return string
      */
-    public function renderFormAndSave($prefix, array $params, bool $fireCallbacks = true)
+    public function renderFormAndSave($prefix, array $params)
     {
         $filterCondition = $this->buildFilterCondition($params);
         $sqlFields = static::getSqlFields($prefix, $filterCondition);
         $params = $this->handleSave($params, $sqlFields);
 
-        // trigger callback of sql fields
-        if ($fireCallbacks && 'post' == rex_request_method()) {
-            $this->fireCallbacks($sqlFields);
-        }
-
         return self::renderMetaFields($sqlFields, $params);
-    }
-
-    /**
-     * @return void
-     */
-    protected function fireCallbacks(Sql $sqlFields)
-    {
-        if (Core::isLiveMode()) {
-            // Metainfo callbacks are not supported in live mode
-            return;
-        }
-
-        foreach ($sqlFields as $row) {
-            if ('' != $row->getValue('callback')) {
-                // use a small sandbox, so the callback cannot affect our local variables
-                $sandboxFunc = function ($field) {
-                    // TODO add var to ref the actual table (rex_article,...)
-                    $fieldName = $field->getValue('name');
-                    $fieldType = $field->getValue('type_id');
-                    $fieldAttributes = $field->getValue('attributes');
-                    $fieldValue = self::getSaveValue($fieldName, $fieldType, $fieldAttributes);
-                    $fieldId = (int) $field->getValue('id');
-
-                    require rex_stream::factory('metainfo/' . $fieldId . '/callback', $field->getValue('callback'));
-                };
-                // pass a clone to the custom handler, so the callback will not change our var
-                $sandboxFunc(clone $row);
-            }
-        }
     }
 
     /**
