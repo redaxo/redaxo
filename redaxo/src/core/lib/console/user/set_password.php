@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,7 +18,7 @@ class rex_command_user_set_password extends rex_console_command
         $this
             ->setDescription('Sets a new password for a user')
             ->addArgument('user', InputArgument::REQUIRED, 'Username', null, static function () {
-                return array_column(rex_sql::factory()->getArray('SELECT login FROM ' . Core::getTable('user')), 'login');
+                return array_column(Sql::factory()->getArray('SELECT login FROM ' . Core::getTable('user')), 'login');
             })
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
             ->addOption('password-change-required', null, InputOption::VALUE_NONE, 'Require password change after login')
@@ -30,7 +31,7 @@ class rex_command_user_set_password extends rex_console_command
 
         $username = $input->getArgument('user');
 
-        $user = rex_sql::factory();
+        $user = Sql::factory();
         $user
             ->setTable(Core::getTable('user'))
             ->setWhere(['login' => $username])
@@ -70,7 +71,7 @@ class rex_command_user_set_password extends rex_console_command
 
         $passwordHash = rex_backend_login::passwordHash($password);
 
-        rex_sql::factory()
+        Sql::factory()
             ->setTable(Core::getTable('user'))
             ->setWhere(['id' => $id])
             ->setValue('password', $passwordHash)

@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Util;
 
 /**
  * @internal
@@ -26,7 +28,7 @@ class rex_metainfo_table_expander extends rex_form
 
     public function init()
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
 
         // ----- EXTENSION POINT
         // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
@@ -79,7 +81,7 @@ class rex_metainfo_table_expander extends rex_form
             ->add(rex_validation_rule::MAX_LENGTH, null, 255)
         ;
 
-        $gq = rex_sql::factory();
+        $gq = Sql::factory();
         $gq->setQuery('SELECT dbtype,id FROM ' . Core::getTablePrefix() . 'metainfo_type');
         $textFields = [];
         foreach ($gq->getArray() as $f) {
@@ -162,7 +164,7 @@ class rex_metainfo_table_expander extends rex_form
     protected function delete()
     {
         // Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setDebug($this->debug);
         $sql->setTable($this->tableName);
         $sql->setWhere($this->whereCondition);
@@ -178,7 +180,7 @@ class rex_metainfo_table_expander extends rex_form
         return $result;
     }
 
-    protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
+    protected function preSave($fieldsetName, $fieldName, $fieldValue, Sql $saveSql)
     {
         if ($fieldsetName == $this->getFieldsetName() && 'name' == $fieldName) {
             // Den Namen mit Prefix speichern
@@ -237,7 +239,7 @@ class rex_metainfo_table_expander extends rex_form
             }
 
             // das meta-schema checken
-            $sql = rex_sql::factory();
+            $sql = Sql::factory();
             $sql->setQuery('SELECT * FROM ' . $sql->escapeIdentifier($this->tableName) . ' WHERE name = ? LIMIT 1', [$this->addPrefix($fieldName)]);
             if (1 == $sql->getRows()) {
                 return rex_i18n::msg('minfo_field_error_unique_name');
@@ -270,7 +272,7 @@ class rex_metainfo_table_expander extends rex_form
             $fieldDefault = $this->elementPostValue($this->getFieldsetName(), 'default');
             $fieldAttributes = $this->elementPostValue($this->getFieldsetName(), 'attributes');
 
-            $sql = rex_sql::factory();
+            $sql = Sql::factory();
             $sql->setDebug($this->debug);
             $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `' . Core::getTablePrefix() . 'metainfo_type` WHERE id = ?', [$fieldType]);
             $fieldDbType = (string) $result[0]['dbtype'];
@@ -309,10 +311,10 @@ class rex_metainfo_table_expander extends rex_form
             return;
         }
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $metaPrefix = $sql->escapeLikeWildcards($this->metaPrefix);
 
-        rex_sql_util::organizePriorities(
+        Util::organizePriorities(
             $this->tableName,
             'priority',
             'name LIKE "' . $metaPrefix . '%"',

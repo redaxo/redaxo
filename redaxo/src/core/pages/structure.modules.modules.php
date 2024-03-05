@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 $OUT = true;
 
@@ -30,7 +31,7 @@ $csrfToken = rex_csrf_token::factory('structure_content_module');
 if (('' != $addAction || 'delete' == $functionAction) && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
 } elseif ('' != $addAction) {
-    $action = rex_sql::factory();
+    $action = Sql::factory();
     $action->setTable(Core::getTablePrefix() . 'module_action');
     $action->setValue('module_id', $moduleId);
     $action->setValue('action_id', $actionId);
@@ -43,7 +44,7 @@ if (('' != $addAction || 'delete' == $functionAction) && !$csrfToken->isValid())
         $error = $action->getError();
     }
 } elseif ('delete' == $functionAction) {
-    $action = rex_sql::factory();
+    $action = Sql::factory();
     $action->setTable(Core::getTablePrefix() . 'module_action');
     $action->setWhere(['id' => $iactionId]);
     $action->delete();
@@ -60,7 +61,7 @@ if (('' != $addAction || 'delete' == $functionAction) && !$csrfToken->isValid())
 if ('delete' == $function && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
 } elseif ('delete' == $function) {
-    $del = rex_sql::factory();
+    $del = Sql::factory();
     $del->setQuery('
         SELECT slice.article_id, slice.clang_id, slice.ctype_id, module.name
         FROM ' . Core::getTable('article_slice') . ' slice
@@ -92,11 +93,11 @@ if ('delete' == $function && !$csrfToken->isValid()) {
         $error = rex_i18n::msg('module_cannot_be_deleted', $modulname);
         $error .= '<ul>' . $moduleInUseMessage . '</ul>';
     } else {
-        $del = rex_sql::factory();
+        $del = Sql::factory();
         $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
 
         if ($del->getRows() > 0) {
-            $del = rex_sql::factory();
+            $del = Sql::factory();
             $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'module_action WHERE module_id=?', [$moduleId]);
             rex_module_cache::delete($moduleId);
             $success = rex_i18n::msg('module_deleted');
@@ -114,11 +115,11 @@ if ('add' == $function || 'edit' == $function) {
         $error = rex_i18n::msg('csrf_token_invalid');
         $save = '0';
     } elseif ('1' == $save) {
-        $module = rex_sql::factory();
+        $module = Sql::factory();
 
         try {
             if ('add' == $function) {
-                $IMOD = rex_sql::factory();
+                $IMOD = Sql::factory();
                 $IMOD->setTable(Core::getTablePrefix() . 'module');
                 $IMOD->setValue('name', $mname);
                 $IMOD->setValue('key', $mkey);
@@ -143,7 +144,7 @@ if ('add' == $function || 'edit' == $function) {
                 if (1 == $module->getRows()) {
                     $oldAusgabe = $module->getValue('output');
 
-                    $UMOD = rex_sql::factory();
+                    $UMOD = Sql::factory();
                     $UMOD->setTable(Core::getTablePrefix() . 'module');
                     $UMOD->setWhere(['id' => $moduleId]);
                     $UMOD->setValue('name', $mname);
@@ -167,7 +168,7 @@ if ('add' == $function || 'edit' == $function) {
 
                     if ($oldAusgabe != $newAusgabe) {
                         // article updaten - nur wenn ausgabe sich veraendert hat
-                        $gc = rex_sql::factory();
+                        $gc = Sql::factory();
                         $gc->setQuery('SELECT DISTINCT(' . Core::getTablePrefix() . 'article.id) FROM ' . Core::getTablePrefix() . 'article
                                 LEFT JOIN ' . Core::getTablePrefix() . 'article_slice ON ' . Core::getTablePrefix() . 'article.id=' . Core::getTablePrefix() . 'article_slice.article_id
                                 WHERE ' . Core::getTablePrefix() . 'article_slice.module_id=?', [$moduleId]);
@@ -179,7 +180,7 @@ if ('add' == $function || 'edit' == $function) {
                 }
             }
         } catch (rex_sql_exception $e) {
-            if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY === $e->getErrorCode()) {
+            if (Sql::ERROR_VIOLATE_UNIQUE_KEY === $e->getErrorCode()) {
                 $error = rex_i18n::msg('module_key_exists');
                 $save = '0';
             } else {
@@ -198,7 +199,7 @@ if ('add' == $function || 'edit' == $function) {
         if ('edit' == $function) {
             $legend = rex_i18n::msg('module_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $moduleId . '</small>';
 
-            $hole = rex_sql::factory();
+            $hole = Sql::factory();
             $hole->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
             $mname = $hole->getValue('name');
             $mkey = $hole->getValue('key');
@@ -292,11 +293,11 @@ if ('add' == $function || 'edit' == $function) {
         if ('edit' == $function) {
             // Im Edit Mode Aktionen bearbeiten
 
-            $gaa = rex_sql::factory();
+            $gaa = Sql::factory();
             $gaa->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'action ORDER BY name');
 
             if ($gaa->getRows() > 0) {
-                $gma = rex_sql::factory();
+                $gma = Sql::factory();
                 $gma->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module_action, ' . Core::getTablePrefix() . 'action WHERE ' . Core::getTablePrefix() . 'module_action.action_id=' . Core::getTablePrefix() . 'action.id and ' . Core::getTablePrefix() . 'module_action.module_id=?', [$moduleId]);
 
                 $actions = '';
@@ -428,7 +429,7 @@ if ($OUT) {
         return $list->getColumnLink('name', rex_i18n::translate($list->getValue('name')));
     });
 
-    $slices = rex_sql::factory()->getArray('SELECT `module_id` FROM ' . Core::getTable('article_slice') . ' GROUP BY `module_id`');
+    $slices = Sql::factory()->getArray('SELECT `module_id` FROM ' . Core::getTable('article_slice') . ' GROUP BY `module_id`');
     if (count($slices) > 0) {
         $usedIds = array_flip(array_map(static function ($slice) {
             return $slice['module_id'];

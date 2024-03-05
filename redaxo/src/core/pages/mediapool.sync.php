@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 
@@ -17,7 +18,7 @@ foreach ($iterator as $file) {
 }
 
 // ---- Dateien aus der DB lesen
-$db = rex_sql::factory();
+$db = Sql::factory();
 $db->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media');
 $dbFiles = [];
 $dbFilenames = [];
@@ -40,7 +41,7 @@ foreach ($dbFiles as $dbFile) {
 
     $fileFilesize = filesize($path);
     if ($dbFile['filesize'] != $fileFilesize) {
-        $fileSql = rex_sql::factory();
+        $fileSql = Sql::factory();
         $fileSql->setTable(Core::getTable('media'));
         $fileSql->setWhere(['filename' => $filename]);
         $fileSql->setValue('filesize', $fileFilesize);

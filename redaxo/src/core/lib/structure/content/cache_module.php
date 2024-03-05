@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_module_cache
 {
@@ -16,7 +17,7 @@ class rex_module_cache
 
     public static function generateKeyMapping(): void
     {
-        $data = rex_sql::factory()->getArray('SELECT id, `key` FROM ' . Core::getTable('module') . ' WHERE `key` IS NOT NULL');
+        $data = Sql::factory()->getArray('SELECT id, `key` FROM ' . Core::getTable('module') . ' WHERE `key` IS NOT NULL');
         $mapping = array_column($data, 'key', 'id');
 
         if (!rex_file::putCache(self::getKeyMappingPath(), $mapping)) {

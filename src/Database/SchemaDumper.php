@@ -1,26 +1,31 @@
 <?php
 
+namespace Redaxo\Core\Database;
+
 use Redaxo\Core\Core;
 
+use function count;
+use function strlen;
+
 /**
- * Class for generating the php code for a rex_sql_table definition.
+ * Class for generating the php code for a Table definition.
  *
  * Especially useful to generate the code for the `install.php` of packages.
  */
-class rex_sql_schema_dumper
+class SchemaDumper
 {
     /**
-     * Dumps the schema for the given table as php code (using `rex_sql_table`).
+     * Dumps the schema for the given table as php code (using `Table`).
      *
      * @return string
      */
-    public function dumpTable(rex_sql_table $table)
+    public function dumpTable(Table $table)
     {
-        $code = 'rex_sql_table::get(' . $this->tableName($table->getName()) . ')';
+        $code = '\\' . Table::class . '::get(' . $this->tableName($table->getName()) . ')';
 
         $setPrimaryKey = true;
         $primaryKeyIsId = ['id'] === $table->getPrimaryKey();
-        $idColumn = new rex_sql_column('id', 'int(10) unsigned', false, null, 'auto_increment');
+        $idColumn = new Column('id', 'int(10) unsigned', false, null, 'auto_increment');
 
         foreach ($table->getColumns() as $column) {
             if ($primaryKeyIsId && $column->equals($idColumn)) {
@@ -34,11 +39,11 @@ class rex_sql_schema_dumper
         }
 
         $code = str_replace(
-            "
-    ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
-    ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
-    ->ensureColumn(new rex_sql_column('updatedate', 'datetime'))
-    ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))",
+            '
+    ->ensureColumn(new \\' . Column::class . "('createdate', 'datetime'))
+    ->ensureColumn(new  \\" . Column::class . "('createuser', 'varchar(255)'))
+    ->ensureColumn(new  \\" . Column::class . "('updatedate', 'datetime'))
+    ->ensureColumn(new  \\" . Column::class . "('updateuser', 'varchar(255)'))",
             '
     ->ensureGlobalColumns()',
             $code,
@@ -61,7 +66,7 @@ class rex_sql_schema_dumper
         return $code;
     }
 
-    private function getColumn(rex_sql_column $column): string
+    private function getColumn(Column $column): string
     {
         $parameters = [];
         $nonDefault = false;
@@ -88,27 +93,27 @@ class rex_sql_schema_dumper
         $parameters[] = $this->scalar($column->getType());
         $parameters[] = $this->scalar($column->getName());
 
-        return 'new rex_sql_column(' . implode(', ', array_reverse($parameters)) . ')';
+        return 'new \\' . Column::class . '(' . implode(', ', array_reverse($parameters)) . ')';
     }
 
-    private function getIndex(rex_sql_index $index): string
+    private function getIndex(Index $index): string
     {
         $parameters = [
             $this->scalar($index->getName()),
             $this->simpleArray($index->getColumns()),
         ];
 
-        if (rex_sql_index::INDEX !== $type = $index->getType()) {
+        if (Index::INDEX !== $type = $index->getType()) {
             $parameters[] = match ($type) {
-                rex_sql_index::UNIQUE => 'rex_sql_index::UNIQUE',
-                rex_sql_index::FULLTEXT => 'rex_sql_index::FULLTEXT',
+                Index::UNIQUE => '\\' . Index::class . '::UNIQUE',
+                Index::FULLTEXT => '\\' . Index::class . '::FULLTEXT',
             };
         }
 
-        return 'new rex_sql_index(' . implode(', ', $parameters) . ')';
+        return 'new \\' . Index::class . '(' . implode(', ', $parameters) . ')';
     }
 
-    private function getForeignKey(rex_sql_foreign_key $foreignKey): string
+    private function getForeignKey(ForeignKey $foreignKey): string
     {
         $parameters = [
             $this->scalar($foreignKey->getName()),
@@ -117,15 +122,15 @@ class rex_sql_schema_dumper
         ];
 
         $options = [
-            rex_sql_foreign_key::RESTRICT => 'rex_sql_foreign_key::RESTRICT',
-            rex_sql_foreign_key::NO_ACTION => 'rex_sql_foreign_key::NO_ACTION',
-            rex_sql_foreign_key::CASCADE => 'rex_sql_foreign_key::CASCADE',
-            rex_sql_foreign_key::SET_NULL => 'rex_sql_foreign_key::SET_NULL',
+            ForeignKey::RESTRICT => '\\' . ForeignKey::class . '::RESTRICT',
+            ForeignKey::NO_ACTION => '\\' . ForeignKey::class . '::NO_ACTION',
+            ForeignKey::CASCADE => '\\' . ForeignKey::class . '::CASCADE',
+            ForeignKey::SET_NULL => '\\' . ForeignKey::class . '::SET_NULL',
         ];
 
-        $nonDefaultOnDelete = rex_sql_foreign_key::RESTRICT !== $foreignKey->getOnDelete();
+        $nonDefaultOnDelete = ForeignKey::RESTRICT !== $foreignKey->getOnDelete();
 
-        if ($nonDefaultOnDelete || rex_sql_foreign_key::RESTRICT !== $foreignKey->getOnUpdate()) {
+        if ($nonDefaultOnDelete || ForeignKey::RESTRICT !== $foreignKey->getOnUpdate()) {
             $parameters[] = $options[$foreignKey->getOnUpdate()];
         }
 
@@ -133,7 +138,7 @@ class rex_sql_schema_dumper
             $parameters[] = $options[$foreignKey->getOnDelete()];
         }
 
-        return 'new rex_sql_foreign_key(' . implode(', ', $parameters) . ')';
+        return 'new \\' . ForeignKey::class . '(' . implode(', ', $parameters) . ')';
     }
 
     /** @param list<string> $primaryKey */
@@ -154,7 +159,7 @@ class rex_sql_schema_dumper
 
         $name = substr($name, strlen(Core::getTablePrefix()));
 
-        return 'rex::getTable(' . $this->scalar($name) . ')';
+        return '\\' . Core::class . '::getTable(' . $this->scalar($name) . ')';
     }
 
     /** @param scalar|null $scalar */

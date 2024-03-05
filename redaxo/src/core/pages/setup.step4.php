@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($errors) && is_array($errors));
 assert(isset($cancelSetupBtn));
@@ -129,7 +131,7 @@ if ($exportsFound) {
 
 $formElements = [];
 
-$sql = rex_sql::factory();
+$sql = Sql::factory();
 
 $n = [];
 $n['label'] = '<label>' . rex_i18n::msg('version') . '</label>';

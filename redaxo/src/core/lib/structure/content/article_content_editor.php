@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * Erweiterung eines Artikels um slicemanagement.
@@ -22,7 +23,7 @@ class rex_article_content_editor extends rex_article_content
         parent::__construct($articleId, $clang);
     }
 
-    protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
+    protected function outputSlice(Sql $artDataSql, $moduleIdToAdd)
     {
         if ('edit' != $this->mode) {
             // ----- wenn mode nicht edit
@@ -105,11 +106,11 @@ class rex_article_content_editor extends rex_article_content
     /**
      * Returns the slice heading.
      *
-     * @param rex_sql $artDataSql rex_sql istance containing all the slice and module information
+     * @param Sql $artDataSql Sql instance containing all the slice and module information
      *
      * @return string
      */
-    private function getSliceHeading(rex_sql $artDataSql)
+    private function getSliceHeading(Sql $artDataSql)
     {
         return rex_i18n::translate((string) $artDataSql->getValue(Core::getTablePrefix() . 'module.name'));
     }
@@ -117,11 +118,11 @@ class rex_article_content_editor extends rex_article_content
     /**
      * Returns the slice menu.
      *
-     * @param rex_sql $artDataSql rex_sql istance containing all the slice and module information
+     * @param Sql $artDataSql Sql instance containing all the slice and module information
      *
      * @return string
      */
-    private function getSliceMenu(rex_sql $artDataSql)
+    private function getSliceMenu(Sql $artDataSql)
     {
         $sliceId = (int) $artDataSql->getValue(Core::getTablePrefix() . 'article_slice.id');
         $sliceCtype = (int) $artDataSql->getValue(Core::getTablePrefix() . 'article_slice.ctype_id');
@@ -337,7 +338,7 @@ class rex_article_content_editor extends rex_article_content
     {
         // ---------- moduleselect: nur module nehmen auf die der user rechte hat
         if ('edit' == $this->mode) {
-            $MODULE = rex_sql::factory();
+            $MODULE = Sql::factory();
             $modules = $MODULE->getArray('select * from ' . Core::getTablePrefix() . 'module order by name');
 
             $templateCtypes = $this->template_attributes['ctype'] ?? [];
@@ -393,14 +394,14 @@ class rex_article_content_editor extends rex_article_content
         $sliceId = (int) $sliceId;
         $moduleId = (int) $moduleId;
 
-        $MOD = rex_sql::factory();
+        $MOD = Sql::factory();
         $MOD->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module WHERE id="' . $moduleId . '"');
 
         if (1 != $MOD->getRows()) {
             return rex_view::error(rex_i18n::msg('module_doesnt_exist'));
         }
 
-        $initDataSql = rex_sql::factory();
+        $initDataSql = Sql::factory();
         $initDataSql
             ->setValue('module_id', $moduleId)
             ->setValue('ctype_id', $this->ctype);
@@ -474,13 +475,12 @@ class rex_article_content_editor extends rex_article_content
     }
 
     // ----- EDIT Slice
-
     /**
      * @param int $sliceId
      * @param string $moduleInput
      * @param int $ctypeId
      * @param int $moduleId
-     * @param rex_sql $artDataSql
+     * @param Sql $artDataSql
      * @return string
      */
     protected function editSlice($sliceId, $moduleInput, $ctypeId, $moduleId, $artDataSql)

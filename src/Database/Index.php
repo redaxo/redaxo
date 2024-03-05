@@ -1,9 +1,11 @@
 <?php
 
+namespace Redaxo\Core\Database;
+
 /**
  * Class to represent sql indexes.
  */
-class rex_sql_index
+class Index
 {
     public const INDEX = 'INDEX';
     public const UNIQUE = 'UNIQUE';

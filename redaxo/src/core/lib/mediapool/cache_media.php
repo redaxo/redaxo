@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_media_cache
 {
@@ -98,7 +99,7 @@ class rex_media_cache
     public static function generate($filename)
     {
         $query = 'SELECT * FROM ' . Core::getTable('media') . ' WHERE filename = ?';
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         // $sql->setDebug();
         $sql->setQuery($query, [$filename]);
 
@@ -133,7 +134,7 @@ class rex_media_cache
         }
 
         $query = 'SELECT * FROM ' . Core::getTable('media_category') . ' WHERE id = ?';
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         // $sql->setDebug();
         $sql->setQuery($query, [$categoryId]);
 
@@ -168,7 +169,7 @@ class rex_media_cache
         }
 
         $query = 'SELECT filename FROM ' . Core::getTable('media') . ' WHERE category_id = ?';
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery($query, [$categoryId]);
 
         $cacheArray = [];
@@ -196,7 +197,7 @@ class rex_media_cache
         }
 
         $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . Core::getTable('media_category') . ' WHERE parent_id = ? ORDER BY sort, name';
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         // $sql->setDebug();
         $sql->setQuery($query, [$categoryId]);
 

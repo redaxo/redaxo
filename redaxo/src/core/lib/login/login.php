@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_login
 {
@@ -68,10 +69,10 @@ class rex_login
     /** @var string */
     protected $message = '';
 
-    /** @var rex_sql|rex_user */
+    /** @var Sql|rex_user */
     protected $user;
 
-    /** @var rex_sql|rex_user|null */
+    /** @var Sql|rex_user|null */
     protected $impersonator;
 
     public function __construct()
@@ -273,7 +274,7 @@ class rex_login
                 // wenn login daten eingegeben dann checken
                 // auf error seite verweisen und message schreiben
 
-                $this->user = rex_sql::factory($this->DB);
+                $this->user = Sql::factory($this->DB);
 
                 $this->user->setQuery($this->loginQuery, [':login' => $this->userLogin]);
                 if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, (string) $this->user->getValue($this->passwordColumn), true)) {
@@ -316,7 +317,7 @@ class rex_login
                 }
 
                 if ($ok && $impersonator = $this->getSessionVar(self::SESSION_IMPERSONATOR)) {
-                    $this->impersonator = rex_sql::factory($this->DB);
+                    $this->impersonator = Sql::factory($this->DB);
                     $this->impersonator->setQuery($this->userQuery, [':id' => $impersonator]);
 
                     if (!$this->impersonator->getRows()) {
@@ -332,7 +333,7 @@ class rex_login
 
                 if ($ok) {
                     $query = $this->impersonator && $this->impersonateQuery ? $this->impersonateQuery : $this->userQuery;
-                    $this->user = rex_sql::factory($this->DB);
+                    $this->user = Sql::factory($this->DB);
                     $this->user->setQuery($query, [':id' => $this->getSessionVar(self::SESSION_USER_ID)]);
 
                     if (!$this->user->getRows()) {
@@ -387,7 +388,7 @@ class rex_login
             throw new RuntimeException('Can not impersonate the current user.');
         }
 
-        $user = rex_sql::factory($this->DB);
+        $user = Sql::factory($this->DB);
         $user->setQuery($this->impersonateQuery ?: $this->userQuery, [':id' => $id]);
 
         if (!$user->getRows()) {
@@ -423,7 +424,7 @@ class rex_login
     }
 
     /**
-     * @return rex_sql|rex_user|null
+     * @return Sql|rex_user|null
      */
     public function getUser()
     {
@@ -431,7 +432,7 @@ class rex_login
     }
 
     /**
-     * @return rex_sql|rex_user|null
+     * @return Sql|rex_user|null
      */
     public function getImpersonator()
     {

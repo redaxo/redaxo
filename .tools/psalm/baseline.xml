@@ -3086,117 +3086,6 @@
       <code><![CDATA[$source]]></code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/lib/sql/schema_dumper.php">
-    <RedundantCondition>
-      <code><![CDATA[$nonDefault]]></code>
-      <code><![CDATA[$nonDefault]]></code>
-    </RedundantCondition>
-  </file>
-  <file src="redaxo/src/core/lib/sql/sql.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </ArgumentTypeCoercion>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$sql->getValue('Create Table')]]></code>
-    </LessSpecificReturnStatement>
-    <MixedArgument>
-      <code><![CDATA[$field]]></code>
-      <code><![CDATA[$metadata['name']]]></code>
-      <code><![CDATA[$metadata['name']]]></code>
-      <code><![CDATA[$params[$key]]]></code>
-      <code><![CDATA[$version]]></code>
-      <code><![CDATA[$version]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$fldName]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$buffered]]></code>
-      <code><![CDATA[$decoded]]></code>
-      <code><![CDATA[$field]]></code>
-      <code><![CDATA[$lastRow]]></code>
-      <code><![CDATA[$params[$paramName]]]></code>
-      <code><![CDATA[$this->lastRow]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$version]]></code>
-      <code><![CDATA[$version]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[scalar|null]]></code>
-      <code><![CDATA[string]]></code>
-    </MixedInferredReturnType>
-    <MixedOperand>
-      <code><![CDATA[$metadata['table']]]></code>
-      <code><![CDATA[$metadata['table']]]></code>
-    </MixedOperand>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$this->fieldnames]]></code>
-      <code><![CDATA[$this->rawFieldnames]]></code>
-      <code><![CDATA[$this->tablenames]]></code>
-    </MixedPropertyTypeCoercion>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->lastRow[$column]]]></code>
-      <code><![CDATA[$version]]></code>
-    </MixedReturnStatement>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[$this->stmt->fetchAll($fetchType)]]></code>
-      <code><![CDATA[$this->stmt->fetchAll($fetchType)]]></code>
-      <code><![CDATA[(
-     *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
-     *    (
-     *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null>> :
-     *         list<array<string, scalar|null>>
-     *    ))]]></code>
-      <code><![CDATA[(
-     *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
-     *    (
-     *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null>> :
-     *         list<array<string, scalar|null>>
-     *    ))]]></code>
-    </MixedReturnTypeCoercion>
-    <MoreSpecificReturnType>
-      <code><![CDATA[string]]></code>
-    </MoreSpecificReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$sql->getValue('Create Table')]]></code>
-    </NullableReturnStatement>
-    <PossiblyNullArgument>
-      <code><![CDATA[$this->rawFieldnames]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference>
-      <code><![CDATA[fetch]]></code>
-      <code><![CDATA[fetchAll]]></code>
-      <code><![CDATA[fetchAll]]></code>
-      <code><![CDATA[getColumnMeta]]></code>
-    </PossiblyNullReference>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$port]]></code>
-      <code><![CDATA[$port]]></code>
-    </PossiblyUndefinedArrayOffset>
-    <PropertyTypeCoercion>
-      <code><![CDATA[$this->getConnection()->lastInsertId()]]></code>
-    </PropertyTypeCoercion>
-  </file>
-  <file src="redaxo/src/core/lib/sql/table.php">
-    <PossiblyNullArgument>
-      <code><![CDATA[$oldName]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/sql/util.php">
-    <MixedArgument>
-      <code><![CDATA[$query]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$qry['query']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$qry]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$ret[]]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/structure/api_functions/api_article2category.php">
     <PossiblyNullReference>
       <code><![CDATA[getCategoryId]]></code>
@@ -4975,44 +4864,6 @@
       <code><![CDATA[isAdmin]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/core/src/Core.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[rex_type::array(self::getConfig('package-order', []))]]></code>
-    </LessSpecificReturnStatement>
-    <MixedArgument>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$item]]></code>
-      <code><![CDATA[$login]]></code>
-      <code><![CDATA[$request]]></code>
-      <code><![CDATA[$value['throw_always_exception']]]></code>
-      <code><![CDATA[self::$properties[$key]]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[Request]]></code>
-      <code><![CDATA[rex_user|null]]></code>
-    </MixedInferredReturnType>
-    <MixedMethodCall>
-      <code><![CDATA[getImpersonator]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$result]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
-      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
-      <code><![CDATA[$request]]></code>
-    </MixedReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[list<non-empty-string>]]></code>
-    </MoreSpecificReturnType>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$server]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
     <MixedArrayAccess>
       <code><![CDATA[$navi[0]['headline']]]></code>
@@ -5051,24 +4902,6 @@
     <MixedAssignment>
       <code><![CDATA[$allowedMimeTypes]]></code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/tests/sql/sql_select_test.php">
-    <MixedArgument>
-      <code><![CDATA[$sql->getRow()]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$property->getValue()[1]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$row]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/tests/sql/sql_table_test.php">
-    <PossiblyNullReference>
-      <code><![CDATA[getDefault]]></code>
-      <code><![CDATA[setExtra]]></code>
-      <code><![CDATA[setType]]></code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/tests/structure/article_content_test.php">
     <MixedArgument>
@@ -5135,5 +4968,172 @@
       <code><![CDATA[$params['suffix']]]></code>
       <code><![CDATA[$params['var']]]></code>
     </MixedArgument>
+  </file>
+  <file src="src/Core.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[rex_type::array(self::getConfig('package-order', []))]]></code>
+    </LessSpecificReturnStatement>
+    <MixedArgument>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$login]]></code>
+      <code><![CDATA[$request]]></code>
+      <code><![CDATA[$value['throw_always_exception']]]></code>
+      <code><![CDATA[self::$properties[$key]]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[Request]]></code>
+      <code><![CDATA[rex_user|null]]></code>
+    </MixedInferredReturnType>
+    <MixedMethodCall>
+      <code><![CDATA[getImpersonator]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$result]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
+      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
+      <code><![CDATA[$request]]></code>
+    </MixedReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[list<non-empty-string>]]></code>
+    </MoreSpecificReturnType>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$server]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Database/SchemaDumper.php">
+    <RedundantCondition>
+      <code><![CDATA[$nonDefault]]></code>
+      <code><![CDATA[$nonDefault]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="src/Database/Sql.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </ArgumentTypeCoercion>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$sql->getValue('Create Table')]]></code>
+    </LessSpecificReturnStatement>
+    <MixedArgument>
+      <code><![CDATA[$field]]></code>
+      <code><![CDATA[$metadata['name']]]></code>
+      <code><![CDATA[$metadata['name']]]></code>
+      <code><![CDATA[$params[$key]]]></code>
+      <code><![CDATA[$version]]></code>
+      <code><![CDATA[$version]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$fldName]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$buffered]]></code>
+      <code><![CDATA[$decoded]]></code>
+      <code><![CDATA[$field]]></code>
+      <code><![CDATA[$lastRow]]></code>
+      <code><![CDATA[$params[$paramName]]]></code>
+      <code><![CDATA[$this->lastRow]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$version]]></code>
+      <code><![CDATA[$version]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[scalar|null]]></code>
+      <code><![CDATA[string]]></code>
+    </MixedInferredReturnType>
+    <MixedOperand>
+      <code><![CDATA[$metadata['table']]]></code>
+      <code><![CDATA[$metadata['table']]]></code>
+    </MixedOperand>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$this->fieldnames]]></code>
+      <code><![CDATA[$this->rawFieldnames]]></code>
+      <code><![CDATA[$this->tablenames]]></code>
+    </MixedPropertyTypeCoercion>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->lastRow[$column]]]></code>
+      <code><![CDATA[$version]]></code>
+    </MixedReturnStatement>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$this->stmt->fetchAll($fetchType)]]></code>
+      <code><![CDATA[$this->stmt->fetchAll($fetchType)]]></code>
+      <code><![CDATA[(
+     *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
+     *    (
+     *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null>> :
+     *         list<array<string, scalar|null>>
+     *    ))]]></code>
+      <code><![CDATA[(
+     *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
+     *    (
+     *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null>> :
+     *         list<array<string, scalar|null>>
+     *    ))]]></code>
+    </MixedReturnTypeCoercion>
+    <MoreSpecificReturnType>
+      <code><![CDATA[string]]></code>
+    </MoreSpecificReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$sql->getValue('Create Table')]]></code>
+    </NullableReturnStatement>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->rawFieldnames]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference>
+      <code><![CDATA[fetch]]></code>
+      <code><![CDATA[fetchAll]]></code>
+      <code><![CDATA[fetchAll]]></code>
+      <code><![CDATA[getColumnMeta]]></code>
+    </PossiblyNullReference>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$port]]></code>
+      <code><![CDATA[$port]]></code>
+    </PossiblyUndefinedArrayOffset>
+    <PropertyTypeCoercion>
+      <code><![CDATA[$this->getConnection()->lastInsertId()]]></code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/Database/Table.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$oldName]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Database/Util.php">
+    <MixedArgument>
+      <code><![CDATA[$query]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$qry['query']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$qry]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$ret[]]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="tests/Database/SelectTest.php">
+    <MixedArgument>
+      <code><![CDATA[$sql->getRow()]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$property->getValue()[1]]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$row]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="tests/Database/TableTest.php">
+    <PossiblyNullReference>
+      <code><![CDATA[getDefault]]></code>
+      <code><![CDATA[setExtra]]></code>
+      <code><![CDATA[setType]]></code>
+    </PossiblyNullReference>
   </file>
 </files>

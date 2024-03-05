@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten.
@@ -140,7 +141,7 @@ abstract class rex_structure_element
                 }
             } else {
                 // Im Backend die Spalten aus der DB auslesen / via EP holen
-                $sql = rex_sql::factory();
+                $sql = Sql::factory();
                 $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article LIMIT 0');
                 foreach ($sql->getFieldnames() as $field) {
                     self::$classVars[] = $field;

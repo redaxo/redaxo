@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_article_cache
 {
@@ -138,7 +139,7 @@ class rex_article_cache
             $qry .= ' AND clang_id=' . (int) $clangId;
         }
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery($qry);
         $fieldnames = $sql->getFieldnames();
         foreach ($sql as $row) {
@@ -178,7 +179,7 @@ class rex_article_cache
 
         // --------------------------------------- ARTICLE LIST
 
-        $GC = rex_sql::factory();
+        $GC = Sql::factory();
         // $GC->setDebug();
         $GC->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=:clang AND ((parent_id=:id and startarticle=0) OR (id=:id and startarticle=1)) order by priority,name', ['id' => $parentId, 'clang' => rex_clang::getStartId()]);
 
@@ -194,7 +195,7 @@ class rex_article_cache
 
         // --------------------------------------- CAT LIST
 
-        $GC = rex_sql::factory();
+        $GC = Sql::factory();
         $GC->setQuery('select * from ' . Core::getTablePrefix() . 'article where parent_id=:id and clang_id=:clang and startarticle=1 order by catpriority,name', ['id' => $parentId, 'clang' => rex_clang::getStartId()]);
 
         $cacheArray = [];

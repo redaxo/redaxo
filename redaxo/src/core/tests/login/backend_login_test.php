@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -13,7 +14,7 @@ class rex_backend_login_test extends TestCase
 
     protected function setUp(): void
     {
-        $adduser = rex_sql::factory();
+        $adduser = Sql::factory();
         $adduser->setTable(Core::getTablePrefix() . 'user');
         $adduser->setValue('name', 'test user');
         $adduser->setValue('login', self::LOGIN);
@@ -29,7 +30,7 @@ class rex_backend_login_test extends TestCase
 
     protected function tearDown(): void
     {
-        $deleteuser = rex_sql::factory();
+        $deleteuser = Sql::factory();
         $deleteuser->setQuery('DELETE FROM ' . Core::getTablePrefix() . "user WHERE login = '" . self::LOGIN . "' LIMIT 1");
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 $currentUser = Core::requireUser();
 
@@ -39,7 +40,7 @@ $selRole->setMultiple();
 $selRole->setAttribute('class', 'form-control selectpicker');
 // $sel_role->addOption(rex_i18n::msg('user_no_role'), 0);
 $roles = [];
-$sqlRole = rex_sql::factory();
+$sqlRole = Sql::factory();
 $sqlRole->setQuery('SELECT id, name FROM ' . Core::getTablePrefix() . 'user_role ORDER BY name');
 foreach ($sqlRole as $role) {
     $roles[$role->getValue('id')] = $role->getValue('name');
@@ -127,7 +128,7 @@ if ($warnings) {
         $useradmin = 1;
     }
 
-    $updateuser = rex_sql::factory();
+    $updateuser = Sql::factory();
     $updateuser->setTable(Core::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $userId]);
     $updateuser->setValue('name', $username);
@@ -189,7 +190,7 @@ if ($warnings) {
     } elseif (!rex_csrf_token::factory('user_delete')->isValid()) {
         $warnings[] = rex_i18n::msg('csrf_token_invalid');
     } else {
-        $deleteuser = rex_sql::factory();
+        $deleteuser = Sql::factory();
         $deleteuser->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'user WHERE id = ? LIMIT 1', [$userId]);
         $info[] = rex_i18n::msg('user_deleted');
 
@@ -203,13 +204,13 @@ if ($warnings) {
 
     $userId = 0;
 } elseif ('' != $fUNCADD && 1 == $save) {
-    $adduser = rex_sql::factory();
+    $adduser = Sql::factory();
     $adduser->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'user WHERE login = ?', [$userlogin]);
 
     if (0 == $adduser->getRows() && '' != $userlogin && '' != $userpsw) {
         $userpswHash = rex_login::passwordHash($userpsw);
 
-        $adduser = rex_sql::factory();
+        $adduser = Sql::factory();
         $adduser->setTable(Core::getTablePrefix() . 'user');
         $adduser->setValue('name', $username);
         $adduser->setValue('password', $userpswHash);
@@ -330,7 +331,7 @@ if ('' != $fUNCADD || $userId > 0) {
         unset($formElements);
 
         if (!$fUNCUPDATE && !$fUNCAPPLY) {
-            $sql = rex_sql::factory();
+            $sql = Sql::factory();
             $sql->setQuery('select * from ' . Core::getTablePrefix() . 'user where id=' . $userId);
 
             if (1 == $sql->getRows()) {

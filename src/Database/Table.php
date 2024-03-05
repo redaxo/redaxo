@@ -1,9 +1,24 @@
 <?php
 
+namespace Redaxo\Core\Database;
+
+use InvalidArgumentException;
+use LogicException;
+use rex_exception;
+use rex_instance_pool_trait;
+use rex_sql_exception;
+use rex_type;
+use RuntimeException;
+
+use function array_slice;
+use function count;
+use function in_array;
+use function is_array;
+
 /**
  * Class to represent sql tables.
  */
-class rex_sql_table
+class Table
 {
     use rex_instance_pool_trait {
         clearInstance as private baseClearInstance;
@@ -14,7 +29,7 @@ class rex_sql_table
     /** @var int */
     private $db;
 
-    /** @var rex_sql */
+    /** @var Sql */
     private $sql;
 
     /** @var bool */
@@ -26,7 +41,7 @@ class rex_sql_table
     /** @var string */
     private $originalName;
 
-    /** @var array<string, rex_sql_column> */
+    /** @var array<string, Column> */
     private $columns = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
@@ -44,13 +59,13 @@ class rex_sql_table
     /** @var list<string> */
     private $primaryKeyExisting = [];
 
-    /** @var array<string, rex_sql_index> */
+    /** @var array<string, Index> */
     private $indexes = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
     private $indexesExisting = [];
 
-    /** @var array<string, rex_sql_foreign_key> */
+    /** @var array<string, ForeignKey> */
     private $foreignKeys = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
@@ -62,16 +77,16 @@ class rex_sql_table
     private function __construct(string $name, int $db = 1)
     {
         $this->db = $db;
-        $this->sql = rex_sql::factory($db);
+        $this->sql = Sql::factory($db);
         $this->name = $name;
         $this->originalName = $name;
 
         try {
-            $columns = rex_sql::showColumns($name, $db);
+            $columns = Sql::showColumns($name, $db);
             $this->new = false;
         } catch (rex_sql_exception $exception) {
             $sql = $exception->getSql();
-            if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $sql->getErrno()) {
+            if ($sql && Sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $sql->getErrno()) {
                 throw $exception;
             }
 
@@ -92,7 +107,7 @@ class rex_sql_table
                 $type = 'int(10) unsigned';
             }
 
-            $this->columns[$column['name']] = new rex_sql_column(
+            $this->columns[$column['name']] = new Column(
                 $column['name'],
                 $type,
                 'YES' === $column['null'],
@@ -126,18 +141,18 @@ class rex_sql_table
             }
 
             if ('FULLTEXT' === $parts[0]['Index_type']) {
-                $type = rex_sql_index::FULLTEXT;
+                $type = Index::FULLTEXT;
             } elseif (0 === (int) $parts[0]['Non_unique']) {
-                $type = rex_sql_index::UNIQUE;
+                $type = Index::UNIQUE;
             } else {
-                $type = rex_sql_index::INDEX;
+                $type = Index::INDEX;
             }
 
-            $this->indexes[$indexName] = new rex_sql_index($indexName, $columns, $type);
+            $this->indexes[$indexName] = new Index($indexName, $columns, $type);
             $this->indexesExisting[$indexName] = $indexName;
         }
 
-        /** @var list<array{CONSTRAINT_NAME: string, COLUMN_NAME: string, REFERENCED_TABLE_NAME: string, REFERENCED_COLUMN_NAME: string, UPDATE_RULE: rex_sql_foreign_key::*, DELETE_RULE: rex_sql_foreign_key::*}> $foreignKeyParts */
+        /** @var list<array{CONSTRAINT_NAME: string, COLUMN_NAME: string, REFERENCED_TABLE_NAME: string, REFERENCED_COLUMN_NAME: string, UPDATE_RULE: ForeignKey::*, DELETE_RULE: ForeignKey::*}> $foreignKeyParts */
         $foreignKeyParts = $this->sql->getArray('
             SELECT c.CONSTRAINT_NAME, c.REFERENCED_TABLE_NAME, c.UPDATE_RULE, c.DELETE_RULE, k.COLUMN_NAME, k.REFERENCED_COLUMN_NAME
             FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS c
@@ -156,7 +171,7 @@ class rex_sql_table
 
             $fk = $parts[0];
 
-            $this->foreignKeys[$fkName] = new rex_sql_foreign_key($fkName, $fk['REFERENCED_TABLE_NAME'], $columns, $fk['UPDATE_RULE'], $fk['DELETE_RULE']);
+            $this->foreignKeys[$fkName] = new ForeignKey($fkName, $fk['REFERENCED_TABLE_NAME'], $columns, $fk['UPDATE_RULE'], $fk['DELETE_RULE']);
             $this->foreignKeysExisting[$fkName] = $fkName;
         }
     }
@@ -233,7 +248,7 @@ class rex_sql_table
     /**
      * @param string $name
      *
-     * @return rex_sql_column|null
+     * @return Column|null
      */
     public function getColumn($name)
     {
@@ -245,7 +260,7 @@ class rex_sql_table
     }
 
     /**
-     * @return array<string, rex_sql_column>
+     * @return array<string, Column>
      */
     public function getColumns()
     {
@@ -253,11 +268,11 @@ class rex_sql_table
     }
 
     /**
-     * @param string|null $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param string|null $afterColumn Column name or `Table::FIRST`
      *
      * @return $this
      */
-    public function addColumn(rex_sql_column $column, $afterColumn = null)
+    public function addColumn(Column $column, $afterColumn = null)
     {
         $name = $column->getName();
 
@@ -273,11 +288,11 @@ class rex_sql_table
     }
 
     /**
-     * @param string|null $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param string|null $afterColumn Column name or `Table::FIRST`
      *
      * @return $this
      */
-    public function ensureColumn(rex_sql_column $column, $afterColumn = null)
+    public function ensureColumn(Column $column, $afterColumn = null)
     {
         $name = $column->getName();
         $existing = $this->getColumn($name);
@@ -303,23 +318,23 @@ class rex_sql_table
     public function ensurePrimaryIdColumn()
     {
         return $this
-            ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'auto_increment'))
+            ->ensureColumn(new Column('id', 'int(10) unsigned', false, null, 'auto_increment'))
             ->setPrimaryKey('id')
         ;
     }
 
     /**
-     * @param string|null $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param string|null $afterColumn Column name or `Table::FIRST`
      *
      * @return $this
      */
     public function ensureGlobalColumns($afterColumn = null)
     {
         return $this
-            ->ensureColumn(new rex_sql_column('createdate', 'datetime'), $afterColumn)
-            ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'), 'createdate')
-            ->ensureColumn(new rex_sql_column('updatedate', 'datetime'), 'createuser')
-            ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'), 'updatedate')
+            ->ensureColumn(new Column('createdate', 'datetime'), $afterColumn)
+            ->ensureColumn(new Column('createuser', 'varchar(255)'), 'createdate')
+            ->ensureColumn(new Column('updatedate', 'datetime'), 'createuser')
+            ->ensureColumn(new Column('updateuser', 'varchar(255)'), 'updatedate')
         ;
     }
 
@@ -421,7 +436,7 @@ class rex_sql_table
     /**
      * @param string $name
      *
-     * @return rex_sql_index|null
+     * @return Index|null
      */
     public function getIndex($name)
     {
@@ -433,7 +448,7 @@ class rex_sql_table
     }
 
     /**
-     * @return array<string, rex_sql_index>
+     * @return array<string, Index>
      */
     public function getIndexes()
     {
@@ -443,7 +458,7 @@ class rex_sql_table
     /**
      * @return $this
      */
-    public function addIndex(rex_sql_index $index)
+    public function addIndex(Index $index)
     {
         $name = $index->getName();
 
@@ -459,7 +474,7 @@ class rex_sql_table
     /**
      * @return $this
      */
-    public function ensureIndex(rex_sql_index $index)
+    public function ensureIndex(Index $index)
     {
         $name = $index->getName();
         $existing = $this->getIndex($name);
@@ -538,7 +553,7 @@ class rex_sql_table
     /**
      * @param string $name
      *
-     * @return rex_sql_foreign_key|null
+     * @return ForeignKey|null
      */
     public function getForeignKey($name)
     {
@@ -550,7 +565,7 @@ class rex_sql_table
     }
 
     /**
-     * @return array<string, rex_sql_foreign_key>
+     * @return array<string, ForeignKey>
      */
     public function getForeignKeys()
     {
@@ -560,7 +575,7 @@ class rex_sql_table
     /**
      * @return $this
      */
-    public function addForeignKey(rex_sql_foreign_key $foreignKey)
+    public function addForeignKey(ForeignKey $foreignKey)
     {
         $name = $foreignKey->getName();
 
@@ -576,7 +591,7 @@ class rex_sql_table
     /**
      * @return $this
      */
-    public function ensureForeignKey(rex_sql_foreign_key $foreignKey)
+    public function ensureForeignKey(ForeignKey $foreignKey)
     {
         $name = $foreignKey->getName();
         $existing = $this->getForeignKey($name);
@@ -852,7 +867,7 @@ class rex_sql_table
                 continue;
             }
 
-            if (rex_sql_index::FULLTEXT === $index->getType()) {
+            if (Index::FULLTEXT === $index->getType()) {
                 if ($fulltextAdded) {
                     $fulltextIndexes[] = 'ADD ' . $this->getIndexDefinition($index);
 
@@ -912,7 +927,7 @@ class rex_sql_table
         $this->positions[$name] = $afterColumn;
     }
 
-    private function getColumnDefinition(rex_sql_column $column): string
+    private function getColumnDefinition(Column $column): string
     {
         $default = $column->getDefault();
         if (null === $default) {
@@ -942,7 +957,7 @@ class rex_sql_table
         );
     }
 
-    private function getIndexDefinition(rex_sql_index $index): string
+    private function getIndexDefinition(Index $index): string
     {
         return sprintf(
             '%s %s %s',
@@ -952,7 +967,7 @@ class rex_sql_table
         );
     }
 
-    private function getForeignKeyDefinition(rex_sql_foreign_key $foreignKey): string
+    private function getForeignKeyDefinition(ForeignKey $foreignKey): string
     {
         return sprintf(
             'CONSTRAINT %s FOREIGN KEY %s REFERENCES %s %s ON UPDATE %s ON DELETE %s',

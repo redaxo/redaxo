@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 $func = rex_request('func', 'string');
 $id = rex_request('id', 'int');
@@ -12,7 +13,7 @@ if ('delete' == $func) {
     if (!rex_csrf_token::factory('user_role_delete')->isValid()) {
         $message = rex_view::error(rex_i18n::msg('csrf_token_invalid'));
     } else {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('DELETE FROM ' . Core::getTable('user_role') . ' WHERE id = ? LIMIT 1', [$id]);
         $message = rex_view::info(rex_i18n::msg('user_role_deleted'));
     }

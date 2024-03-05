@@ -88,11 +88,13 @@ Use this space to show useful examples of how a project can be used. Additional 
 ```php
 <?php
 
-class rex_test extends TestCase
+use Redaxo\Core\Database\Sql;
+
+class RexTest extends TestCase
 {
     public function testSqlQuery()
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('SELECT `column_r`, `column_e`, `column_d`, `column_a`, `column_x`, `column_o`,  FROM '.self::TABLE.' WHERE column_r = ?', [5]);
     }
 }

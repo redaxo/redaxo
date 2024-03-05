@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Util;
 
 class rex_backup
 {
@@ -146,11 +148,11 @@ class rex_backup
 
         // Datei aufteilen
         $lines = [];
-        rex_sql_util::splitSqlFile($lines, $conts, 0);
+        Util::splitSqlFile($lines, $conts, 0);
 
         $error = [];
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         foreach ($lines as $line) {
             try {
                 $sql->setQuery($line['query']);
@@ -257,7 +259,7 @@ class rex_backup
             }
         }
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
 
         $nl = "\n";
         $insertSize = 4000;
@@ -277,7 +279,7 @@ class rex_backup
         }
         foreach ($tables as $table) {
             // ---- export metadata
-            $create = rex_sql::showCreateTable($table);
+            $create = Sql::showCreateTable($table);
 
             fwrite($fp, 'DROP TABLE IF EXISTS ' . $sql->escapeIdentifier($table) . ';' . $nl);
             fwrite($fp, $create . ';' . $nl);
@@ -452,7 +454,7 @@ class rex_backup
     public static function getTables()
     {
         $tables = [];
-        foreach (rex_sql::factory()->getTables(Core::getTablePrefix()) as $table) {
+        foreach (Sql::factory()->getTables(Core::getTablePrefix()) as $table) {
             if (!str_starts_with($table, Core::getTablePrefix() . Core::getTempPrefix())) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
                 $tables[] = $table;
             }
@@ -485,7 +487,7 @@ class rex_backup
     private static function exportTable($table, &$start, $max, $fp, $nl, array $fields)
     {
         do {
-            $sql = rex_sql::factory();
+            $sql = Sql::factory();
             $sql->setQuery('SELECT * FROM ' . $sql->escapeIdentifier($table) . ' LIMIT ' . $start . ',' . $max);
             $count = $sql->getRows();
 

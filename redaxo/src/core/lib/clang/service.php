@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Util;
 
 class rex_clang_service
 {
@@ -15,7 +17,7 @@ class rex_clang_service
      */
     public static function addCLang($code, $name, $priority, $status = false)
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(Core::getTablePrefix() . 'clang');
         $sql->setNewId('id');
         $sql->setValue('code', $code);
@@ -25,13 +27,13 @@ class rex_clang_service
         $sql->insert();
         $id = (int) $sql->getLastId();
 
-        rex_sql_util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority, id != ' . $id);
+        Util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority, id != ' . $id);
 
-        $firstLang = rex_sql::factory();
+        $firstLang = Sql::factory();
         $firstLang->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=?', [rex_clang::getStartId()]);
         $fields = $firstLang->getFieldnames();
 
-        $newLang = rex_sql::factory();
+        $newLang = Sql::factory();
         // $newLang->setDebug();
         foreach ($firstLang as $firstLangArt) {
             $newLang->setTable(Core::getTablePrefix() . 'article');
@@ -85,7 +87,7 @@ class rex_clang_service
 
         $oldPriority = rex_clang::get($id)->getPriority();
 
-        $editLang = rex_sql::factory();
+        $editLang = Sql::factory();
         $editLang->setTable(Core::getTablePrefix() . 'clang');
         $editLang->setWhere(['id' => $id]);
         $editLang->setValue('code', $code);
@@ -97,7 +99,7 @@ class rex_clang_service
         $editLang->update();
 
         $comparator = $oldPriority < $priority ? '=' : '!=';
-        rex_sql_util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority, id' . $comparator . $id);
+        Util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority, id' . $comparator . $id);
 
         rex_delete_cache();
 
@@ -133,10 +135,10 @@ class rex_clang_service
 
         $clang = rex_clang::get($id);
 
-        $del = rex_sql::factory();
+        $del = Sql::factory();
         $del->setQuery('delete from ' . Core::getTablePrefix() . 'clang where id=?', [$id]);
 
-        rex_sql_util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority');
+        Util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority');
 
         $del->setQuery('delete from ' . Core::getTablePrefix() . 'article where clang_id=?', [$id]);
         $del->setQuery('delete from ' . Core::getTablePrefix() . 'article_slice where clang_id=?', [$id]);
@@ -159,7 +161,7 @@ class rex_clang_service
      */
     public static function generateCache()
     {
-        $lg = rex_sql::factory();
+        $lg = Sql::factory();
         $lg->setQuery('select * from ' . Core::getTablePrefix() . 'clang order by priority');
 
         $clangs = [];

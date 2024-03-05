@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_media_category_service
 {
@@ -12,7 +13,7 @@ class rex_media_category_service
      */
     public static function addCategory($name, $parent)
     {
-        $db = rex_sql::factory();
+        $db = Sql::factory();
 
         // root category
         $parentId = 0;
@@ -51,9 +52,9 @@ class rex_media_category_service
      */
     public static function deleteCategory($categoryId)
     {
-        $gf = rex_sql::factory();
+        $gf = Sql::factory();
         $gf->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media WHERE category_id=?', [$categoryId]);
-        $gd = rex_sql::factory();
+        $gd = Sql::factory();
         $gd->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_category WHERE parent_id=?', [$categoryId]);
         if (0 == $gf->getRows() && 0 == $gd->getRows()) {
             if ($uses = self::categoryIsInUse($categoryId)) {
@@ -103,7 +104,7 @@ class rex_media_category_service
     {
         $catName = $data['name'];
 
-        $db = rex_sql::factory();
+        $db = Sql::factory();
         $db->setTable(Core::getTablePrefix() . 'media_category');
         $db->setWhere(['id' => $categoryId]);
         $db->setValue('name', $catName);

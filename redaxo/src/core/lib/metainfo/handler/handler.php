@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -10,12 +11,12 @@ abstract class rex_metainfo_handler
     /**
      * Erstellt den nötigen HTML Code um ein Formular zu erweitern.
      *
-     * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+     * @param Sql $sqlFields Sql-objekt, dass die zu verarbeitenden Felder enthält
      * @param array $epParams Array of all EP parameters
      *
      * @return string
      */
-    public function renderMetaFields(rex_sql $sqlFields, array $epParams)
+    public function renderMetaFields(Sql $sqlFields, array $epParams)
     {
         $s = '';
 
@@ -132,8 +133,8 @@ abstract class rex_metainfo_handler
                     $formElements = [];
 
                     $values = [];
-                    if ('SELECT' == rex_sql::getQueryType($params)) {
-                        $sql = rex_sql::factory();
+                    if ('SELECT' == Sql::getQueryType($params)) {
+                        $sql = Sql::factory();
                         $valueGroups = $sql->getDBArray($params, [], PDO::FETCH_NUM);
                         foreach ($valueGroups as $valueGroup) {
                             $key = $valueGroup[1] ?? $valueGroup[0];
@@ -245,7 +246,7 @@ abstract class rex_metainfo_handler
                     // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
                     $select->setSelected($dbvalues);
 
-                    if ('SELECT' == rex_sql::getQueryType($params)) {
+                    if ('SELECT' == Sql::getQueryType($params)) {
                         // Werte via SQL Laden
                         $select->addDBSqlOptions($params);
                     } else {
@@ -532,11 +533,11 @@ abstract class rex_metainfo_handler
     }
 
     /**
-     * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt.
+     * Übernimmt die gePOSTeten werte in ein Sql-Objekt.
      *
      * @param array $params
-     * @param rex_sql $sqlSave rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
-     * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+     * @param Sql $sqlSave Sql-objekt, in das die aktuellen Werte gespeichert werden sollen
+     * @param Sql $sqlFields Sql-objekt, dass die zu verarbeitenden Felder enthält
      * @return void
      */
     public static function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
@@ -637,11 +638,11 @@ abstract class rex_metainfo_handler
      * @param string $prefix Feldprefix
      * @param string $filterCondition SQL Where-Bedingung zum einschränken der Metafelder
      *
-     * @return rex_sql Metainfofelder
+     * @return Sql Metainfofelder
      */
     protected static function getSqlFields($prefix, $filterCondition = '')
     {
-        $sqlFields = rex_sql::factory();
+        $sqlFields = Sql::factory();
         $prefix = $sqlFields->escapeLikeWildcards($prefix);
 
         $qry = 'SELECT
@@ -711,8 +712,8 @@ abstract class rex_metainfo_handler
     abstract public function extendForm(rex_extension_point $ep);
 
     /**
-     * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table.
+     * Retrieves the POST values from the metaform, fill it into a Sql object and save it to a database table.
      * @return array
      */
-    abstract protected function handleSave(array $params, rex_sql $sqlFields);
+    abstract protected function handleSave(array $params, Sql $sqlFields);
 }

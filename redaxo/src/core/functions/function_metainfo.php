@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Util;
 
 /**
  * Fügt einen neuen Feldtyp ein.
@@ -28,7 +30,7 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
     }
 
     $qry = 'SELECT * FROM ' . Core::getTablePrefix() . 'metainfo_type WHERE label=:label LIMIT 1';
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     $sql->setQuery($qry, [':label' => $label]);
     if (0 != $sql->getRows()) {
         return rex_i18n::msg('minfo_field_error_unique_type');
@@ -58,7 +60,7 @@ function rex_metainfo_delete_field_type($fieldTypeId)
         return rex_i18n::msg('minfo_field_error_invalid_typeid');
     }
 
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     $sql->setTable(Core::getTablePrefix() . 'metainfo_type');
     $sql->setWhere(['id' => $fieldTypeId]);
 
@@ -93,7 +95,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
 
     // TypeId korrekt?
     $qry = 'SELECT * FROM ' . Core::getTablePrefix() . 'metainfo_type WHERE id=' . $type . ' LIMIT 2';
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     $typeInfos = $sql->getArray($qry);
 
     if (1 != $sql->getRows()) {
@@ -111,7 +113,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
 
     // Spalte extiert laut metainfo_field?
     $qry = 'SELECT * FROM ' . Core::getTablePrefix() . 'metainfo_field WHERE name=:name LIMIT 1';
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     $sql->setQuery($qry, [':name' => $name]);
     if (0 != $sql->getRows()) {
         return rex_i18n::msg('minfo_field_error_unique_name');
@@ -135,7 +137,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     // replace LIKE wildcards
     $prefix = $sql->escape($sql->escapeLikeWildcards($prefix) . '%');
 
-    rex_sql_util::organizePriorities(Core::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE ' . $prefix, 'priority, updatedate');
+    Util::organizePriorities(Core::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE ' . $prefix, 'priority, updatedate');
 
     $tableManager = new rex_metainfo_table_manager($metaTable);
     return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);
@@ -161,7 +163,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
         throw new InvalidArgumentException('MetaInfos: Unexpected type for $fieldIdOrName!');
     }
     // Feld existiert?
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     $sql->setQuery($fieldQry, [':idOrName' => $fieldIdOrName]);
 
     if (1 != $sql->getRows()) {

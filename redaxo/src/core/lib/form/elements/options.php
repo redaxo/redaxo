@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 abstract class rex_form_options_element extends rex_form_element
 {
     /** @var array<string, string|int> */
@@ -69,7 +71,7 @@ abstract class rex_form_options_element extends rex_form_element
      */
     public function addSqlOptions($query)
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $this->addOptions($sql->getArray($query, [], PDO::FETCH_NUM));
     }
 
@@ -79,7 +81,7 @@ abstract class rex_form_options_element extends rex_form_element
      */
     public function addDBSqlOptions($query)
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $this->addOptions($sql->getDBArray($query, [], PDO::FETCH_NUM));
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_select
 {
@@ -275,19 +276,19 @@ class rex_select
      */
     public function addSqlOptions($query, int $db = 1)
     {
-        $sql = rex_sql::factory($db);
+        $sql = Sql::factory($db);
         $this->addOptions($sql->getArray($query, [], PDO::FETCH_NUM));
     }
 
     /**
      * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
      *
-     * @see rex_sql::setDBQuery()
+     * @see Sql::setDBQuery()
      * @return void
      */
     public function addDBSqlOptions($query)
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $this->addOptions($sql->getDBArray($query, [], PDO::FETCH_NUM));
     }
 

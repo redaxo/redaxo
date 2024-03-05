@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * The rex_article_slice class is an object wrapper over the database table rex_article_slice.
@@ -110,7 +111,7 @@ class rex_article_slice
     }
 
     /** @internal  */
-    public static function fromSql(rex_sql $sql): self
+    public static function fromSql(Sql $sql): self
     {
         $table = Core::getTable('article_slice');
 
@@ -329,7 +330,7 @@ class rex_article_slice
      */
     protected static function getSlicesWhere($where, array $params = [], string $orderDirection = 'ASC', ?int $limit = null)
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         // $sql->setDebug();
         $query = '
             SELECT *

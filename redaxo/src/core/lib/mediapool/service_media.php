@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 final class rex_media_service
 {
@@ -93,7 +94,7 @@ final class rex_media_service
             $data['file']['type'] = $size['mime'];
         }
 
-        $saveObject = rex_sql::factory();
+        $saveObject = Sql::factory();
         $saveObject->setTable(Core::getTablePrefix() . 'media');
         $saveObject->setValue('filetype', $data['file']['type']);
         $saveObject->setValue('title', $title);
@@ -160,7 +161,7 @@ final class rex_media_service
             throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
         }
 
-        $saveObject = rex_sql::factory();
+        $saveObject = Sql::factory();
         $saveObject->setTable(Core::getTablePrefix() . 'media');
         $saveObject->setWhere(['filename' => $filename]);
         $saveObject->setValue('title', $data['title']);
@@ -251,7 +252,7 @@ final class rex_media_service
             throw new rex_api_exception(rex_i18n::msg('pool_file_delete_error', $filename) . ' ' . rex_i18n::msg('pool_object_in_use_by') . $uses);
         }
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('DELETE FROM ' . Core::getTable('media') . ' WHERE filename = ? LIMIT 1', [$filename]);
 
         rex_file::delete(rex_path::media($filename));
@@ -270,7 +271,7 @@ final class rex_media_service
      */
     public static function getList(array $filter = [], array $orderBy = [], ?rex_pager $pager = null): array
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $where = [];
         $queryParams = [];
         $tables = [];

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -85,7 +86,7 @@ class rex_setup_importer
         // ----- volle Datenbank, alte DB löschen / drop
         $errMsg = '';
 
-        $db = rex_sql::factory();
+        $db = Sql::factory();
         foreach (self::getRequiredTables() as $table) {
             $db->setQuery('DROP TABLE IF EXISTS `' . $table . '`');
         }
@@ -134,7 +135,7 @@ class rex_setup_importer
         $errMsg = '';
 
         // Prüfen, welche Tabellen bereits vorhanden sind
-        $existingTables = rex_sql::factory()->getTables(Core::getTablePrefix());
+        $existingTables = Sql::factory()->getTables(Core::getTablePrefix());
 
         foreach (array_diff(self::getRequiredTables(), $existingTables) as $missingTable) {
             $errMsg .= rex_i18n::msg('setup_402', $missingTable) . '<br />';

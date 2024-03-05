@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_user_role implements rex_user_role_interface
 {
@@ -82,7 +83,7 @@ class rex_user_role implements rex_user_role_interface
 
     public static function get($ids)
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $userRoles = $sql->getArray('SELECT perms FROM ' . Core::getTablePrefix() . 'user_role WHERE FIND_IN_SET(id, ?)', [$ids]);
         if (0 == count($userRoles)) {
             return null;
@@ -105,9 +106,9 @@ class rex_user_role implements rex_user_role_interface
         $key = $params['key'];
         $item = '|' . $params['item'] . '|';
         $new = isset($params['new']) ? '|' . $params['new'] . '|' : '|';
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('SELECT id, perms FROM ' . Core::getTable('user_role'));
-        $update = rex_sql::factory();
+        $update = Sql::factory();
         $update->prepareQuery('UPDATE ' . Core::getTable('user_role') . ' SET perms = ? WHERE id = ?');
         foreach ($sql as $row) {
             $perms = $row->getArrayValue('perms');
