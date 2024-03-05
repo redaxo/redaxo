@@ -226,9 +226,9 @@
       <code><![CDATA[$job['id']]]></code>
       <code><![CDATA[$job['interval']]]></code>
       <code><![CDATA[$job['name']]]></code>
-      <code><![CDATA[$job['type']]]></code>
       <code><![CDATA[$jobs[0]]]></code>
       <code><![CDATA[$jobs[0]['name']]]></code>
+      <code><![CDATA[$type]]></code>
     </ArgumentTypeCoercion>
     <InvalidArgument>
       <code><![CDATA[$job]]></code>
@@ -258,8 +258,8 @@
       <code><![CDATA[$job['id']]]></code>
       <code><![CDATA[$job['interval']]]></code>
       <code><![CDATA[$job['name']]]></code>
-      <code><![CDATA[$job['type']]]></code>
       <code><![CDATA[$jobs[0]['name']]]></code>
+      <code><![CDATA[$type]]></code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/types/phpcallback.php">
