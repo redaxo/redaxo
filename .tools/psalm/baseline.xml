@@ -5114,16 +5114,9 @@
     </PropertyTypeCoercion>
   </file>
   <file src="src/Database/Table.php">
-    <InvalidArgument>
-      <code><![CDATA[$fk['DELETE_RULE']]]></code>
-      <code><![CDATA[$fk['UPDATE_RULE']]]></code>
-    </InvalidArgument>
     <PossiblyNullArgument>
       <code><![CDATA[$oldName]]></code>
     </PossiblyNullArgument>
-    <UndefinedDocblockClass>
-      <code><![CDATA[$foreignKeyParts]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="src/Database/Util.php">
     <MixedArgument>
