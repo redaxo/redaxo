@@ -396,29 +396,6 @@ class rex_addon implements rex_addon_interface
         if (is_readable($folder . 'fragments')) {
             rex_fragment::addDirectory($folder . 'fragments' . DIRECTORY_SEPARATOR);
         }
-        // add addon path for class-loading
-        if (is_readable($folder . 'lib')) {
-            rex_autoload::addDirectory($folder . 'lib');
-        }
-        if (is_readable($folder . 'vendor')) {
-            rex_autoload::addDirectory($folder . 'vendor');
-        }
-        $autoload = $this->getProperty('autoload');
-        if (!is_array($autoload)) {
-            return;
-        }
-        if (!isset($autoload['classes'])) {
-            return;
-        }
-        if (!is_array($autoload['classes'])) {
-            return;
-        }
-        foreach ($autoload['classes'] as $dir) {
-            $dir = $this->getPath($dir);
-            if (is_readable($dir)) {
-                rex_autoload::addDirectory($dir);
-            }
-        }
     }
 
     /**

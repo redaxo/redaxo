@@ -559,8 +559,6 @@ Core::setProperty('metainfo_metaTables', [
     'clang_' => Core::getTablePrefix() . 'clang',
 ]);
 
-require_once __DIR__ . '/functions/function_metainfo.php';
-
 rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
 rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function ($ep) {
     $subject = $ep->getSubject();

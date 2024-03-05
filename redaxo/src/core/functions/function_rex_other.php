@@ -17,7 +17,6 @@ function rex_delete_cache()
         ->ignoreSystemStuff(false);
     rex_dir::deleteIterator($finder);
 
-    rex_autoload::removeCache();
     rex_clang::reset();
 
     rex_structure_element::clearInstancePool();

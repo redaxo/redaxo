@@ -14,7 +14,8 @@ abstract class rex_cronjob
      */
     final public static function factory($class)
     {
-        if (!rex_autoload::autoload($class)) {
+        if (!class_exists($class)) {
+            /** @var class-string<rex_cronjob> */
             return $class;
         }
 

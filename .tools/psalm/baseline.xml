@@ -921,9 +921,6 @@
     </PossiblyNullArrayAccess>
   </file>
   <file src="redaxo/src/core/functions/function_metainfo_extension_cleanup.php">
-    <MissingFile>
-      <code><![CDATA[require_once __DIR__ . '/../lib/table_manager.php']]></code>
-    </MissingFile>
     <MixedArgument>
       <code><![CDATA[$params['content']]]></code>
       <code><![CDATA[$params['content']]]></code>
@@ -1093,34 +1090,6 @@
     </MixedOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$message]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/autoload.php">
-    <MixedArgument>
-      <code><![CDATA[$path]]></code>
-      <code><![CDATA[$path]]></code>
-      <code><![CDATA[$path]]></code>
-      <code><![CDATA[HHVM_VERSION]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[self::$classes]]></code>
-      <code><![CDATA[self::$dirs]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$path]]></code>
-      <code><![CDATA[[self::$classes, self::$dirs]]]></code>
-      <code><![CDATA[self::$composerLoader]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[unregister]]></code>
-    </MixedMethodCall>
-    <PossiblyNullArgument>
-      <code><![CDATA[self::$cacheFile]]></code>
-      <code><![CDATA[self::$cacheFile]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[self::$cacheFile]]></code>
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/backup/backup.php">
@@ -2778,11 +2747,9 @@
     <MixedArgument>
       <code><![CDATA[$args]]></code>
       <code><![CDATA[$args]]></code>
-      <code><![CDATA[$dir]]></code>
       <code><![CDATA[$value]]></code>
     </MixedArgument>
     <MixedAssignment>
-      <code><![CDATA[$dir]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
