@@ -6,7 +6,7 @@ use Redaxo\Core\Database\Sql;
 /**
  * @internal
  */
-class rex_sql_select_test extends TestCase
+class SelectTest extends TestCase
 {
     public const TABLE = 'rex_tests';
 
