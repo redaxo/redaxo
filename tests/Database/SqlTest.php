@@ -1,13 +1,20 @@
 <?php
 
+namespace Redaxo\Core\Tests\Database;
+
+use DateTime;
+use DateTimeZone;
+use PDO;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
+use rex_sql_exception;
 
 /**
  * @internal
  */
-class rex_sql_test extends TestCase
+class SqlTest extends TestCase
 {
     public const TABLE = 'rex_tests_table';
     public const VIEW = 'rex_tests_view';
@@ -16,7 +23,7 @@ class rex_sql_test extends TestCase
     {
         parent::setUp();
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
 
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE . '`');
         $sql->setQuery('CREATE TABLE `' . self::TABLE . '` (
@@ -37,45 +44,45 @@ class rex_sql_test extends TestCase
     {
         parent::tearDown();
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('DROP TABLE `' . self::TABLE . '`');
         $sql->setQuery('DROP VIEW `' . self::VIEW . '`');
     }
 
     public function testFactory(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         self::assertNotNull($sql);
     }
 
     public function testCheckConnection(): void
     {
         $dbConfig = Core::getDbConfig();
-        self::assertTrue(rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, $dbConfig->name));
+        self::assertTrue(Sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidPassword(): void
     {
         $dbConfig = Core::getDbConfig();
-        self::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, 'fu-password', $dbConfig->name));
+        self::assertTrue(true !== Sql::checkDbConnection($dbConfig->host, $dbConfig->login, 'fu-password', $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidHost(): void
     {
         $dbConfig = Core::getDbConfig();
-        self::assertTrue(true !== rex_sql::checkDbConnection('fu-host', $dbConfig->login, $dbConfig->password, $dbConfig->name));
+        self::assertTrue(true !== Sql::checkDbConnection('fu-host', $dbConfig->login, $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidLogin(): void
     {
         $dbConfig = Core::getDbConfig();
-        self::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, 'fu-login', $dbConfig->password, $dbConfig->name));
+        self::assertTrue(true !== Sql::checkDbConnection($dbConfig->host, 'fu-login', $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidDatabase(): void
     {
         $dbConfig = Core::getDbConfig();
-        self::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, 'fu-database'));
+        self::assertTrue(true !== Sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, 'fu-database'));
     }
 
     #[DataProvider('provideDbType')]
@@ -90,11 +97,11 @@ class rex_sql_test extends TestCase
     public static function provideDbType(): array
     {
         return [
-            [rex_sql::MYSQL, '5.7.7'],
-            [rex_sql::MYSQL, '5.6.19-67.0-log'],
-            [rex_sql::MARIADB, '10.2.0-mariadb'],
-            [rex_sql::MARIADB, '5.5.5-10.4.10-MariaDB'],
-            [rex_sql::MARIADB, '5.5.5-10.3.18-MariaDB-log'],
+            [Sql::MYSQL, '5.7.7'],
+            [Sql::MYSQL, '5.6.19-67.0-log'],
+            [Sql::MARIADB, '10.2.0-mariadb'],
+            [Sql::MARIADB, '5.5.5-10.4.10-MariaDB'],
+            [Sql::MARIADB, '5.5.5-10.3.18-MariaDB-log'],
         ];
     }
 
@@ -119,9 +126,9 @@ class rex_sql_test extends TestCase
         ];
     }
 
-    private function getVersionMock(string $version): rex_sql
+    private function getVersionMock(string $version): Sql
     {
-        return new class($version) extends rex_sql {
+        return new class($version) extends Sql {
             public function __construct(string $version)
             {
                 $this->DBID = 999;
@@ -150,7 +157,7 @@ class rex_sql_test extends TestCase
 
     public function testEscapeLikeWildcards(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
 
         self::assertSame('\\%foo\\_bar\\\\baz\\\\\\_qux', $sql->escapeLikeWildcards('%foo_bar\\baz\\_qux'));
     }
@@ -159,7 +166,7 @@ class rex_sql_test extends TestCase
     #[DataProvider('dataIn')]
     public function testIn(string $expected, array $values): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $in = $sql->in($values);
 
         self::assertSame($expected, $in);
@@ -179,7 +186,7 @@ class rex_sql_test extends TestCase
 
     public function testSetGetValue(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
         $sql->setValue('col_str', 'abc');
         $sql->setValue('col_int', 5);
@@ -193,7 +200,7 @@ class rex_sql_test extends TestCase
 
     public function testSetGetArrayValue(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setArrayValue('col_empty_array', []);
         $sql->setArrayValue('col_array', [1, 2, 3]);
 
@@ -206,14 +213,14 @@ class rex_sql_test extends TestCase
 
     public function testNullInSetGetArrayValue(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setValue('col_array', null);
         self::assertEquals([], $sql->getArrayValue('col_array'), 'get a previous set array');
     }
 
     public function testInvalidJsonInSetGetArrayValue(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setValue('col_array', 'not-a valid json string');
 
         self::assertTrue($sql->hasValue('col_array'), 'set value exists');
@@ -224,7 +231,7 @@ class rex_sql_test extends TestCase
 
     public function testInsertRow(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
         $sql->setValue('col_int', 5);
         $sql->setValue('col_str', 'abc');
@@ -239,7 +246,7 @@ class rex_sql_test extends TestCase
 
     public function testInsertRawValue(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
         $sql->setRawValue('col_time', 'NOW()');
 
@@ -249,7 +256,7 @@ class rex_sql_test extends TestCase
 
     public function testInsertWithoutValues(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
 
         $sql->insert();
@@ -258,15 +265,15 @@ class rex_sql_test extends TestCase
 
     public function testInsertRecords(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(static function (rex_sql $record) {
+        $sql->addRecord(static function (Sql $record) {
             $record->setValue('col_str', 'foo');
             $record->setRawValue('col_date', 'UTC_DATE()');
             $record->setValue('col_int', 3);
         });
-        $sql->addRecord(static function (rex_sql $record) {
+        $sql->addRecord(static function (Sql $record) {
             $record->setValue('col_str', 'bar');
             $record->setDateTimeValue('col_date', strtotime('yesterday'));
             $record->setValue('col_text', 'lorem ipsum');
@@ -293,7 +300,7 @@ class rex_sql_test extends TestCase
 
     public function testInsertOrUpdate(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
         $sql->setValue('id', 1);
         $sql->setValue('col_int', 5);
@@ -321,14 +328,14 @@ class rex_sql_test extends TestCase
 
     public function testInsertOrUpdateRecords(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(static function (rex_sql $record) {
+        $sql->addRecord(static function (Sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'foo');
         });
-        $sql->addRecord(static function (rex_sql $record) {
+        $sql->addRecord(static function (Sql $record) {
             $record->setValue('id', 2);
             $record->setValue('col_str', 'bar');
         });
@@ -344,14 +351,14 @@ class rex_sql_test extends TestCase
         self::assertEquals(1, $sql->getValue('id'));
         self::assertSame('foo', $sql->getValue('col_str'));
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(static function (rex_sql $record) {
+        $sql->addRecord(static function (Sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'abc');
         });
-        $sql->addRecord(static function (rex_sql $record) {
+        $sql->addRecord(static function (Sql $record) {
             $record->setValue('id', 3);
             $record->setValue('col_str', 'baz');
         });
@@ -378,14 +385,14 @@ class rex_sql_test extends TestCase
 
     public function testReplaceRecords(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(static function (rex_sql $record) {
+        $sql->addRecord(static function (Sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'foo');
         });
-        $sql->addRecord(static function (rex_sql $record) {
+        $sql->addRecord(static function (Sql $record) {
             $record->setValue('id', 2);
             $record->setValue('col_str', 'bar');
         });
@@ -401,14 +408,14 @@ class rex_sql_test extends TestCase
         self::assertEquals(1, $sql->getValue('id'));
         self::assertSame('foo', $sql->getValue('col_str'));
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(static function (rex_sql $record) {
+        $sql->addRecord(static function (Sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'abc');
         });
-        $sql->addRecord(static function (rex_sql $record) {
+        $sql->addRecord(static function (Sql $record) {
             $record->setValue('id', 3);
             $record->setValue('col_str', 'baz');
         });
@@ -438,7 +445,7 @@ class rex_sql_test extends TestCase
         // create a row we later update
         $this->testInsertRow();
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
         $sql->setValue('col_str', 'def');
         $sql->setWhere(['col_int' => 5]);
@@ -457,7 +464,7 @@ class rex_sql_test extends TestCase
         // create a row we later update
         $this->testInsertRow();
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
         $sql->setValue('col_str', 'def');
         $sql->setWhere('col_int = :myint', ['myint' => 5]);
@@ -471,7 +478,7 @@ class rex_sql_test extends TestCase
         // create a row we later update
         $this->testInsertRow();
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
         $sql->setValue('col_str', 'def');
         $sql->setWhere('col_int = "5"');
@@ -485,7 +492,7 @@ class rex_sql_test extends TestCase
         // create a row we later delete
         $this->testInsertRow();
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
         $sql->setWhere(['col_int' => 5]);
 
@@ -498,9 +505,9 @@ class rex_sql_test extends TestCase
         $this->testInsertRow();
 
         // https://github.com/redaxo/redaxo/issues/5518
-        rex_sql::closeConnection();
+        Sql::closeConnection();
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(self::TABLE);
         $sql->setWhere('col_str = ' . $sql->escape('abc'));
         $sql->select();
@@ -510,7 +517,7 @@ class rex_sql_test extends TestCase
 
     public function testGetLastId(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
 
         self::assertSame('0', $sql->getLastId(), 'Initial value for LastId');
 
@@ -533,7 +540,7 @@ class rex_sql_test extends TestCase
 
         self::assertSame('2', $sql->getLastId(), 'LastId after second INSERT query');
 
-        $secondSql = rex_sql::factory();
+        $secondSql = Sql::factory();
         $secondSql->setQuery('SELECT * FROM ' . self::TABLE);
 
         self::assertSame('0', $secondSql->getLastId(), 'LastId after SELECT query');
@@ -542,7 +549,7 @@ class rex_sql_test extends TestCase
 
     public function testGetTables(): void
     {
-        $tables = rex_sql::factory()->getTables();
+        $tables = Sql::factory()->getTables();
 
         self::assertContains(self::TABLE, $tables);
         self::assertNotContains(self::VIEW, $tables);
@@ -550,7 +557,7 @@ class rex_sql_test extends TestCase
 
     public function testShowViews(): void
     {
-        $views = rex_sql::factory()->getViews();
+        $views = Sql::factory()->getViews();
 
         self::assertNotContains(self::TABLE, $views);
         self::assertContains(self::VIEW, $views);
@@ -558,7 +565,7 @@ class rex_sql_test extends TestCase
 
     public function testShowTablesAndViews(): void
     {
-        $tables = rex_sql::factory()->getTablesAndViews();
+        $tables = Sql::factory()->getTablesAndViews();
 
         self::assertContains(self::TABLE, $tables);
         self::assertContains(self::VIEW, $tables);
@@ -567,7 +574,7 @@ class rex_sql_test extends TestCase
     #[DataProvider('provideGetQueryTypes')]
     public function testGetQueryType(string $query, string|false $expectedQueryType): void
     {
-        $actualQueryType = rex_sql::getQueryType($query);
+        $actualQueryType = Sql::getQueryType($query);
         self::assertSame($expectedQueryType, $actualQueryType);
     }
 
@@ -595,7 +602,7 @@ class rex_sql_test extends TestCase
     {
         $this->testInsertRow();
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $query = 'select col_str,col_int from ' . self::TABLE;
         $data = $sql->getArray($query, [], PDO::FETCH_KEY_PAIR);
 
@@ -611,7 +618,7 @@ class rex_sql_test extends TestCase
     {
         $this->testInsertRow();
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $query = 'select col_str,col_int from ' . self::TABLE;
         $data = $sql->getDBArray($query, [], PDO::FETCH_KEY_PAIR);
 

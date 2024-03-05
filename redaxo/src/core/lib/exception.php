@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 class rex_exception extends Exception
 {
     /**
@@ -13,11 +15,11 @@ class rex_exception extends Exception
 
 class rex_sql_exception extends rex_exception
 {
-    /** @var rex_sql|null */
+    /** @var Sql|null */
     private $sql;
 
     /** @param string $message */
-    public function __construct($message, ?Exception $previous = null, ?rex_sql $sql = null)
+    public function __construct($message, ?Exception $previous = null, ?Sql $sql = null)
     {
         parent::__construct($message, $previous);
 
@@ -25,7 +27,7 @@ class rex_sql_exception extends rex_exception
     }
 
     /**
-     * @return rex_sql|null
+     * @return Sql|null
      */
     public function getSql()
     {

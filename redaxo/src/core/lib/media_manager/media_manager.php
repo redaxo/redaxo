@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_media_manager
 {
@@ -151,7 +152,7 @@ class rex_media_manager
             FROM ' . Core::getTablePrefix() . 'media_manager_type t, ' . Core::getTablePrefix() . 'media_manager_type_effect e
             WHERE e.type_id = t.id AND t.name=? order by e.priority';
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         // $sql->setDebug();
         $sql->setQuery($qry, [$type]);
 
@@ -289,7 +290,7 @@ class rex_media_manager
     public static function deleteCacheByType($typeId)
     {
         $qry = 'SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type WHERE id=?';
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         //  $sql->setDebug();
         $sql->setQuery($qry, [$typeId]);
         $counter = 0;
@@ -459,7 +460,7 @@ class rex_media_manager
         $filename = $ep->getParam('filename');
         assert(is_string($filename));
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('
             SELECT DISTINCT effect.id AS effect_id, effect.type_id, type.id, type.name
             FROM `' . Core::getTable('media_manager_type_effect') . '` AS effect
@@ -581,7 +582,7 @@ class rex_media_manager
 
         $cache = [];
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('SELECT name, updatedate FROM ' . Core::getTable('media_manager_type'));
 
         foreach ($sql as $row) {

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 assert(isset($ep) && $ep instanceof rex_extension_point);
 
@@ -61,7 +62,7 @@ $content[] = '<dl class="dl-horizontal text-left">' . implode('', $panels) . '</
 
 // ------------------
 
-$article = rex_sql::factory();
+$article = Sql::factory();
 $article->setQuery('
             SELECT
                 article.*, template.attributes as template_attributes

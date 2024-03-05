@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @method rex_user|null getUser()
@@ -46,12 +47,12 @@ class rex_backend_login extends rex_login
             AND (
                 login_tries < ' . $loginPolicy->getMaxTriesUntilDelay() . '
                 OR
-                login_tries >= ' . $loginPolicy->getMaxTriesUntilDelay() . ' AND lasttrydate < "' . rex_sql::datetime(time() - $loginPolicy->getReloginDelay()) . '"
+                login_tries >= ' . $loginPolicy->getMaxTriesUntilDelay() . ' AND lasttrydate < "' . Sql::datetime(time() - $loginPolicy->getReloginDelay()) . '"
             )';
 
         if ($blockAccountAfter = $this->passwordPolicy->getBlockAccountAfter()) {
             $datetime = (new DateTimeImmutable())->sub($blockAccountAfter);
-            $qry .= ' AND password_changed > "' . $datetime->format(rex_sql::FORMAT_DATETIME) . '"';
+            $qry .= ' AND password_changed > "' . $datetime->format(Sql::FORMAT_DATETIME) . '"';
         }
 
         $this->setLoginQuery($qry);
@@ -79,7 +80,7 @@ class rex_backend_login extends rex_login
 
     public function checkLogin()
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $userId = $this->getSessionVar(rex_login::SESSION_USER_ID);
         $cookiename = self::getStayLoggedInCookieName();
         $loggedInViaCookie = false;
@@ -134,7 +135,7 @@ class rex_backend_login extends rex_login
                     $add .= 'password = ?, ';
                     $params[] = self::passwordHash($this->userPassword, true);
                 }
-                array_push($params, rex_sql::datetime(), rex_sql::datetime(), session_id(), $this->userLogin);
+                array_push($params, Sql::datetime(), Sql::datetime(), session_id(), $this->userLogin);
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
 
                 if ($this->stayLoggedIn || $loggedInViaCookie) {
@@ -150,10 +151,10 @@ class rex_backend_login extends rex_login
                 rex_user_session::clearExpiredSessions();
             }
 
-            assert($this->user instanceof rex_sql);
+            assert($this->user instanceof Sql);
             $this->user = rex_user::fromSql($this->user);
 
-            if ($this->impersonator instanceof rex_sql) {
+            if ($this->impersonator instanceof Sql) {
                 $this->impersonator = rex_user::fromSql($this->impersonator);
             }
 
@@ -215,8 +216,8 @@ class rex_backend_login extends rex_login
 
     public function increaseLoginTries(): void
     {
-        $sql = rex_sql::factory();
-        $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",lasttrydate=? WHERE login=? LIMIT 1', [rex_sql::datetime(), $this->userLogin]);
+        $sql = Sql::factory();
+        $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",lasttrydate=? WHERE login=? LIMIT 1', [Sql::datetime(), $this->userLogin]);
     }
 
     public function requiresPasswordChange(): bool

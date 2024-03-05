@@ -77,8 +77,10 @@ E-Mail an einen Empfängerkreis senden, der aus der Datenbank ausgelesen wird.
 
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 $mail = new rex_mailer();
-$sql = rex_sql::factory();
+$sql = Sql::factory();
 
 $query = "SELECT full_name, email, photo FROM employee WHERE id= ?";
 $sql->setQuery($query, array($id));

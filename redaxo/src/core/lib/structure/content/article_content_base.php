@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.
@@ -44,10 +45,10 @@ class rex_article_content_base
     /** @var int */
     protected $slice_revision = 0;
 
-    /** @var rex_sql|null */
+    /** @var Sql|null */
     protected $ARTICLE;
 
-    /** @var rex_sql|null */
+    /** @var Sql|null */
     private $sliceSql;
 
     /**
@@ -75,12 +76,12 @@ class rex_article_content_base
     }
 
     /**
-     * @return rex_sql
+     * @return Sql
      */
     protected function getSqlInstance()
     {
         if (!is_object($this->ARTICLE)) {
-            $this->ARTICLE = rex_sql::factory();
+            $this->ARTICLE = Sql::factory();
             if ($this->debug) {
                 $this->ARTICLE->setDebug();
             }
@@ -293,12 +294,12 @@ class rex_article_content_base
     /**
      * Outputs a slice.
      *
-     * @param rex_sql $artDataSql A rex_sql instance containing all slice and module data
+     * @param Sql $artDataSql A Sql instance containing all slice and module data
      * @param int $moduleIdToAdd The id of the module, which was selected using the ModuleSelect
      *
      * @return string
      */
-    protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
+    protected function outputSlice(Sql $artDataSql, $moduleIdToAdd)
     {
         $output = rex_extension::registerPoint(new rex_extension_point(
             'SLICE_OUTPUT',
@@ -478,7 +479,7 @@ class rex_article_content_base
      * @param string $content
      * @return string
      */
-    protected function replaceVars(rex_sql $sql, $content)
+    protected function replaceVars(Sql $sql, $content)
     {
         $content = $this->replaceCommonVars($content);
         $content = str_replace(
@@ -508,7 +509,7 @@ class rex_article_content_base
      * @param string $content
      * @return string
      */
-    protected function replaceObjectVars(rex_sql $sql, $content)
+    protected function replaceObjectVars(Sql $sql, $content)
     {
         $sliceId = $sql->getValue(Core::getTablePrefix() . 'article_slice.id');
 
@@ -625,7 +626,7 @@ class rex_article_content_base
 
         $query = rex_extension::registerPoint(new rex_extension_point('ART_SLICES_QUERY', $query, ['article' => $this]));
 
-        $artDataSql = rex_sql::factory();
+        $artDataSql = Sql::factory();
         $artDataSql->setDebug($this->debug);
         $artDataSql->setQuery($query);
 

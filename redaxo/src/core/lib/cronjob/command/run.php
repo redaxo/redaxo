@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 use Symfony\Component\Console\Exception\InvalidArgumentException as SymfonyInvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -65,7 +66,7 @@ class rex_command_cronjob_run extends rex_console_command
         $manager = rex_cronjob_manager_sql::factory();
 
         if (null === $id) {
-            $jobs = rex_sql::factory()->getArray('
+            $jobs = Sql::factory()->getArray('
                 SELECT id, name
                 FROM ' . Core::getTable('cronjob') . '
                 WHERE environment LIKE "%|script|%"

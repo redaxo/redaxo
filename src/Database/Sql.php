@@ -1,15 +1,47 @@
 <?php
 
+namespace Redaxo\Core\Database;
+
+use InvalidArgumentException;
+use Iterator;
+use JsonException;
+use PDO;
+use PDOException;
+use PDOStatement;
 use Redaxo\Core\Core;
+use ReturnTypeWillChange;
+use rex_factory_trait;
+use rex_i18n;
+use rex_sql_could_not_connect_exception;
+use rex_sql_exception;
+use rex_type;
+use SensitiveParameter;
+use Throwable;
+
+use function array_key_exists;
+use function assert;
+use function defined;
+use function gettype;
+use function in_array;
+use function is_array;
+use function is_int;
+use function is_string;
+use function strlen;
+
+use const E_USER_WARNING;
+use const FILTER_FLAG_HOSTNAME;
+use const FILTER_VALIDATE_DOMAIN;
+use const JSON_THROW_ON_ERROR;
+use const PHP_SAPI;
 
 /**
  * Klasse zur Verbindung und Interatkion mit der Datenbank.
  *
  * see https://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
  *
- * @implements Iterator<int<0, max>, rex_sql>
+ * @implements Iterator<int<0, max>, Sql>
  */
-class rex_sql implements Iterator
+class Sql implements Iterator
 {
     use rex_factory_trait;
 
@@ -74,13 +106,12 @@ class rex_sql implements Iterator
     protected $DBID; // ID der Verbindung
 
     /**
-     * Store the lastInsertId per rex_sql object, so rex_sql objects don't override each other because of the shared static PDO instance.
+     * Store the lastInsertId per Sql object, so Sql objects don't override each other because of the shared static PDO instance.
      *
      * @var numeric-string
      */
     private $lastInsertId = '0'; // compatibility to PDO, which uses string '0' as default
-
-    /** @var list<self> */
+    /** @var list<Sql> */
     protected $records;
 
     /** @var PDOStatement|null */
@@ -301,7 +332,7 @@ class rex_sql implements Iterator
      *
      * @param string $query The sql-query
      * @param array $params An optional array of statement parameter
-     * @param array<self::OPT_*, bool> $options For possible option keys view `rex_sql::OPT_*` constants
+     * @param array<self::OPT_*, bool> $options For possible option keys view `Sql::OPT_*` constants
      *
      * @throws rex_sql_exception on errors
      *
@@ -335,7 +366,7 @@ class rex_sql implements Iterator
      *
      * @param bool $debug Debug TRUE/FALSE
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     public function setDebug($debug = true)
     {
@@ -371,7 +402,7 @@ class rex_sql implements Iterator
      * Executes the prepared statement with the given input parameters.
      *
      * @param array $params Array of input parameters
-     * @param array<self::OPT_*, bool> $options For possible option keys view `rex_sql::OPT_*` constants
+     * @param array<self::OPT_*, bool> $options For possible option keys view `Sql::OPT_*` constants
      *
      * @throws rex_sql_exception
      *
@@ -436,7 +467,7 @@ class rex_sql implements Iterator
      *
      * @param string $query The sql-query
      * @param array $params An optional array of statement parameter
-     * @param array<self::OPT_*, bool> $options For possible option keys view `rex_sql::OPT_*` constants
+     * @param array<self::OPT_*, bool> $options For possible option keys view `Sql::OPT_*` constants
      *
      * @throws rex_sql_exception on errors
      *
@@ -463,7 +494,7 @@ class rex_sql implements Iterator
      *
      * @param string $table Tabellenname
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     public function setTable($table)
     {
@@ -478,7 +509,7 @@ class rex_sql implements Iterator
      * @param string $column Name of the column
      * @param string $value The raw value
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      *
      * @psalm-taint-sink sql $value
      */
@@ -496,7 +527,7 @@ class rex_sql implements Iterator
      * @param string $column Name of the column
      * @param scalar|null $value The value
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     public function setValue($column, $value)
     {
@@ -512,7 +543,7 @@ class rex_sql implements Iterator
      * @param string $column Name of the column
      * @param array $value The value
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     public function setArrayValue($column, array $value)
     {
@@ -525,7 +556,7 @@ class rex_sql implements Iterator
      * @param string $column Name of the column
      * @param int|null $timestamp Unix timestamp (if `null` is given, the current time is used)
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     public function setDateTimeValue($column, $timestamp)
     {
@@ -537,7 +568,7 @@ class rex_sql implements Iterator
      *
      * @param array<string, scalar|null> $valueArray Ein Array von Werten
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     public function setValues(array $valueArray)
     {
@@ -549,7 +580,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Returns whether values are set inside this rex_sql object.
+     * Returns whether values are set inside this Sql object.
      *
      * @return bool True if value isset and not null, otherwise False
      */
@@ -582,12 +613,12 @@ class rex_sql implements Iterator
      * This method can only be used in combination with `insert()` and `replace()`.
      *
      * Example:
-     *      $sql->addRecord(function (rex_sql $record) {
+     *      $sql->addRecord(function (Sql $record) {
      *          $record->setValue('title', 'Foo');
      *          $record->setRawValue('created', 'NOW()');
      *      });
      *
-     * @param callable(rex_sql):void $callback The callback receives a new `rex_sql` instance for the new record
+     * @param callable(self):void $callback The callback receives a new `Sql` instance for the new record
      *                           and must set the values of the new record on that instance (see example above)
      *
      * @return $this
@@ -621,7 +652,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     public function setWhere($where, $params = null)
     {
@@ -1104,7 +1135,7 @@ class rex_sql implements Iterator
     /**
      * Stellt alle Werte auf den Ursprungszustand zurueck.
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     private function flush()
     {
@@ -1131,7 +1162,7 @@ class rex_sql implements Iterator
      *
      * @see setValue(), #getValue()
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     public function flushValues()
     {
@@ -1156,7 +1187,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     public function reset()
     {
@@ -1524,7 +1555,7 @@ class rex_sql implements Iterator
     /**
      * @param string $user the name of the user who created the dataset. Defaults to the current user
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     public function addGlobalUpdateFields($user = null)
     {
@@ -1541,7 +1572,7 @@ class rex_sql implements Iterator
     /**
      * @param string $user the name of the user who updated the dataset. Defaults to the current user
      *
-     * @return $this the current rex_sql object
+     * @return $this the current Sql object
      */
     public function addGlobalCreateFields($user = null)
     {
@@ -1897,10 +1928,10 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Creates a rex_sql instance.
+     * Creates a Sql instance.
      *
      * @param positive-int $db
-     * @return static Returns a rex_sql instance
+     * @return static Returns a Sql instance
      */
     public static function factory($db = 1)
     {

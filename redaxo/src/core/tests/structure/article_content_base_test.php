@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -14,7 +15,7 @@ class rex_article_content_base_test extends TestCase
 
         // fake meta field in database structure
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
-        $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
+        $propArticle->setValue($instance, Sql::factory()->setValue('art_foo', 'teststring'));
 
         self::assertTrue($instance->hasValue('foo'));
         self::assertTrue($instance->hasValue('art_foo'));
@@ -29,7 +30,7 @@ class rex_article_content_base_test extends TestCase
 
         // fake meta field in database structure
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
-        $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
+        $propArticle->setValue($instance, Sql::factory()->setValue('art_foo', 'teststring'));
 
         self::assertEquals('teststring', $instance->getValue('foo'));
         self::assertEquals('teststring', $instance->getValue('art_foo'));

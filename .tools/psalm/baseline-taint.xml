@@ -87,18 +87,6 @@
       <code><![CDATA['Location: ' . $url]]></code>
     </TaintedHeader>
   </file>
-  <file src="redaxo/src/core/lib/sql/sql.php">
-    <TaintedSql>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-    </TaintedSql>
-  </file>
   <file src="redaxo/src/core/lib/structure/content/article_action.php">
     <TaintedInclude>
       <code><![CDATA[rex_stream::factory('action/' . $articleId . '/' . $type, $action)]]></code>
@@ -117,5 +105,17 @@
       <code><![CDATA[$data]]></code>
       <code><![CDATA[$data]]></code>
     </TaintedCallable>
+  </file>
+  <file src="src/Database/Sql.php">
+    <TaintedSql>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+      <code><![CDATA[$query]]></code>
+    </TaintedSql>
   </file>
 </files>

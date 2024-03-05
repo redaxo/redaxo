@@ -76,8 +76,10 @@ Send an e-mail to a group of recipients that is read from the database.
 
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 $mail = new rex_mailer();
-$sql = rex_sql::factory();
+$sql = Sql::factory();
 
 $query = "SELECT full_name, email, photo FROM employee WHERE id= ?";
 $sql->setQuery($query, array($id));

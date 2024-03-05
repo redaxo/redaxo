@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 /**
  * @internal
  */
@@ -43,7 +45,7 @@ class rex_cronjob_form extends rex_form
     {
         $nexttime = $this->getElement($this->mainFieldset, 'nexttime');
         $timestamp = rex_cronjob_manager_sql::calculateNextTime($this->intervalField->getIntervalElements());
-        $nexttime->setValue($timestamp ? rex_sql::datetime($timestamp) : null);
+        $nexttime->setValue($timestamp ? Sql::datetime($timestamp) : null);
 
         $return = parent::save();
         rex_cronjob_manager_sql::factory()->saveNextTime();

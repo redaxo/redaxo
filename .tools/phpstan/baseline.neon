@@ -1416,146 +1416,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/setup/setup.php
 
 		-
-			message: "#^Method rex_sql\\:\\:buildOnDuplicateKeyUpdate\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:buildWhere\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:buildWhereArg\\(\\) has parameter \\$columns with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:buildWhereArg\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:createConnection\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:execute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:fetchTablesAndViews\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:getArray\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:getDBArray\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:getTables\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:getTablesAndViews\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:getViews\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:printError\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:setArrayValue\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:setDBQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:setQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:setWhere\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:setWhere\\(\\) has parameter \\$where with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Property rex_sql\\:\\:\\$lastRow type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Property rex_sql\\:\\:\\$params type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Property rex_sql\\:\\:\\$whereParams type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Property rex_sql\\:\\:\\$wherevar type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql_table\\:\\:getKeyColumnsDefintion\\(\\) has parameter \\$columns with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(int, string\\)\\: static given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Static property rex_sql_table\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_sql_table\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_sql_table\\|null\\>\\>\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Unsafe call to private method rex_sql_table\\:\\:baseClearInstance\\(\\) through static\\:\\:\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Method rex_sql_util\\:\\:readSqlDump\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/util.php
-
-		-
-			message: "#^Method rex_sql_util\\:\\:splitSqlFile\\(\\) has parameter \\$queries with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/util.php
-
-		-
 			message: "#^Method rex_template\\:\\:__construct\\(\\) has parameter \\$templateId with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/content/api_template.php
@@ -2429,3 +2289,143 @@ parameters:
 			message: "#^Method rex_var_test\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/var/var_test.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:buildOnDuplicateKeyUpdate\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:buildWhere\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:buildWhereArg\\(\\) has parameter \\$columns with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:buildWhereArg\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:createConnection\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:execute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:fetchTablesAndViews\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:getArray\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:getDBArray\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:getTables\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:getTablesAndViews\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:getViews\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:printError\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:setArrayValue\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:setDBQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:setQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:setWhere\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:setWhere\\(\\) has parameter \\$where with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:\\$lastRow type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:\\$params type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:\\$whereParams type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:\\$wherevar type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Table\\:\\:getKeyColumnsDefintion\\(\\) has parameter \\$columns with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Table.php
+
+		-
+			message: "#^Parameter \\#2 \\$createCallback of static method Redaxo\\\\Core\\\\Database\\\\Table\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(int, string\\)\\: static given\\.$#"
+			count: 1
+			path: ../../src/Database/Table.php
+
+		-
+			message: "#^Static property Redaxo\\\\Core\\\\Database\\\\Table\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(Redaxo\\\\Core\\\\Database\\\\Table\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, Redaxo\\\\Core\\\\Database\\\\Table\\|null\\>\\>\\.$#"
+			count: 1
+			path: ../../src/Database/Table.php
+
+		-
+			message: "#^Unsafe call to private method Redaxo\\\\Core\\\\Database\\\\Table\\:\\:baseClearInstance\\(\\) through static\\:\\:\\.$#"
+			count: 1
+			path: ../../src/Database/Table.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Util\\:\\:readSqlDump\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Util.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Util\\:\\:splitSqlFile\\(\\) has parameter \\$queries with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Util.php

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 $structureContext = new rex_structure_context([
     'category_id' => rex_request('category_id', 'int'),
@@ -71,7 +72,7 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER
 
 // --------------------- COUNT CATEGORY ROWS
 
-$KAT = rex_sql::factory();
+$KAT = Sql::factory();
 // $KAT->setDebug();
 if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->getCategoryId()) {
     $parentIds = $KAT->in($structureContext->getMountpoints());
@@ -338,7 +339,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     ]));
 
     // ---------- COUNT DATA
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     // $sql->setDebug();
     $sql->setQuery('
         SELECT COUNT(*) as artCount

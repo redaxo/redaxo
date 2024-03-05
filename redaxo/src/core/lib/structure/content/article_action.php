@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_article_action
 {
@@ -18,12 +19,12 @@ class rex_article_action
     private $save = true;
     /** @var array */
     private $messages = [];
-    /** @var rex_sql */
+    /** @var Sql */
     private $sql;
     /** @var array{search: list<string>, replace: list<int>} */
     private $vars;
 
-    public function __construct($moduleId, $function, rex_sql $sql)
+    public function __construct($moduleId, $function, Sql $sql)
     {
         $this->moduleId = $moduleId;
         $this->event = $function;
@@ -80,7 +81,7 @@ class rex_article_action
         $this->messages = [];
         $this->save = true;
 
-        $ga = rex_sql::factory();
+        $ga = Sql::factory();
         $ga->setQuery('SELECT a.id, `' . $type . '` as code FROM ' . Core::getTable('module_action') . ' ma,' . Core::getTable('action') . ' a WHERE `' . $type . '` != "" AND ma.action_id=a.id AND module_id=? AND (a.' . $type . 'mode & ?)', [$this->moduleId, $this->mode]);
 
         foreach ($ga as $row) {

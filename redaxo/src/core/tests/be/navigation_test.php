@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -24,7 +25,7 @@ class rex_be_navigation_test extends TestCase
         $user = Core::getUser();
 
         try {
-            Core::setProperty('user', new rex_user(rex_sql::factory()));
+            Core::setProperty('user', new rex_user(Sql::factory()));
             $navi = $navi->getNavigation();
         } finally {
             Core::setProperty('user', $user);

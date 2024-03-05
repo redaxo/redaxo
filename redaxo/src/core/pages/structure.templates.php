@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 echo rex_view::title(rex_i18n::msg('title_templates'));
 
@@ -29,14 +30,14 @@ if ('delete' == $function) {
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
-        $del = rex_sql::factory();
+        $del = Sql::factory();
         $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_delete_template_because_its_in_use');
         if (false !== $templateIsInUseError) {
             $error .= $templateIsInUseError;
         }
 
         if (rex_template::getDefaultId() == $templateId) {
-            $del = rex_sql::factory();
+            $del = Sql::factory();
             $del->setQuery('SELECT name FROM ' . Core::getTable('template') . ' WHERE id = ' . $templateId);
             $templatename = $del->getValue('name');
 
@@ -52,7 +53,7 @@ if ('delete' == $function) {
         }
     }
 } elseif ('edit' == $function) {
-    $hole = rex_sql::factory();
+    $hole = Sql::factory();
     $hole->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'template WHERE id = "' . $templateId . '"');
     if (1 == $hole->getRows()) {
         $templatekey = $hole->getValue('key');
@@ -113,7 +114,7 @@ if ('add' == $function || 'edit' == $function) {
         $attributes['ctype'] = $ctypes;
         $attributes['modules'] = $modules;
         $attributes['categories'] = $categories;
-        $TPL = rex_sql::factory();
+        $TPL = Sql::factory();
         $TPL->setTable(Core::getTablePrefix() . 'template');
         $TPL->setValue('key', $templatekey);
         $TPL->setValue('name', $templatename);
@@ -142,7 +143,7 @@ if ('add' == $function || 'edit' == $function) {
                     'categories' => $categories,
                 ]));
             } catch (rex_sql_exception $e) {
-                if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
+                if (Sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
                     $error = rex_i18n::msg('template_key_exists');
                     $save = 'nein';
                 } else {
@@ -179,7 +180,7 @@ if ('add' == $function || 'edit' == $function) {
                         'categories' => $categories,
                     ]));
                 } catch (rex_sql_exception $e) {
-                    if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
+                    if (Sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
                         $error = rex_i18n::msg('template_key_exists');
                         $save = 'nein';
                     } else {
@@ -219,7 +220,7 @@ if ('add' == $function || 'edit' == $function) {
         $modulSelect->setMultiple(true);
         $modulSelect->setSize(10);
         $modulSelect->setAttribute('class', 'form-control');
-        $mSql = rex_sql::factory();
+        $mSql = Sql::factory();
         foreach ($mSql->getArray('SELECT id, name FROM ' . Core::getTablePrefix() . 'module ORDER BY name') as $m) {
             $modulSelect->addOption(rex_i18n::translate((string) $m['name']), (int) $m['id']);
         }
