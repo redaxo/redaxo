@@ -30,7 +30,9 @@ use Rector\Removing\ValueObject\ArgumentRemover;
 use Rector\Removing\ValueObject\RemoveFuncCallArg;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
+use Rector\Renaming\Rector\StaticCall\RenameStaticMethodRector;
 use Rector\Renaming\ValueObject\MethodCallRename;
+use Rector\Renaming\ValueObject\RenameStaticMethod;
 use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
 use Rector\Transform\ValueObject\ConstFetchToClassConstFetch;
 use Rector\ValueObject\PhpVersion;
@@ -106,6 +108,11 @@ return RectorConfig::configure()
         new MethodCallRename(rex_managed_media::class, 'getImageWidth', 'getWidth'),
         new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
         new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
+    ])
+    ->withConfiguredRule(RenameStaticMethodRector::class, [
+        new RenameStaticMethod(Redaxo\Core\Core::class, 'getVersionHash', rex_version::class, 'gitHash'),
+        new RenameStaticMethod(rex_string::class, 'versionSplit', rex_version::class, 'split'),
+        new RenameStaticMethod(rex_string::class, 'versionCompare', rex_version::class, 'compare'),
     ])
     ->withConfiguredRule(RemoveFuncCallArgRector::class, [
         new RemoveFuncCallArg('rex_getUrl', 3),
