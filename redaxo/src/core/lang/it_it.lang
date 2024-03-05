@@ -434,8 +434,6 @@ cronjob_examples = Esempi
 
 cronjob_type = Tipo
 cronjob_type_not_found =
-cronjob_type_phpcode = Codice PHP
-cronjob_type_phpcallback = PHP-Callback
 cronjob_type_urlrequest = Richiesta URL
 cronjob_type_urlrequest_url = URL
 cronjob_type_urlrequest_post = Paramatri POST

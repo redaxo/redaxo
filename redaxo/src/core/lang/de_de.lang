@@ -630,8 +630,6 @@ cronjob_examples = Beispiele
 
 cronjob_type = Typ
 cronjob_type_not_found = Cronjob "{0}" kann nicht bearbeitet werden, da die Klasse "{1}" nicht gefunden wurde. Prüfen Sie, ob das zugehörige AddOn aktiviert ist!
-cronjob_type_phpcode = PHP-Code
-cronjob_type_phpcallback = PHP-Callback
 cronjob_type_urlrequest = URL-Aufruf
 cronjob_type_urlrequest_url = URL
 cronjob_type_urlrequest_post = POST-Parameter

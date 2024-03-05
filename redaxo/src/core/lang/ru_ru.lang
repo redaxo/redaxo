@@ -627,8 +627,6 @@ cronjob_examples = Примеры
 
 cronjob_type = Тип
 cronjob_type_not_found = Cronjob "{0}" не может быть изменен из-за отсутствия класса "{1}". Убедитесь, что соответствующий аддон или плагин активны!
-cronjob_type_phpcode = PHP-код
-cronjob_type_phpcallback = PHP-Callback
 cronjob_type_urlrequest = URL-запрос
 cronjob_type_urlrequest_url = URL
 cronjob_type_urlrequest_post = Параметры POST-запроса
