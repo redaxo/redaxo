@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Column;
+use Redaxo\Core\Database\Index;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 
@@ -56,9 +57,9 @@ Table::get(Core::getTable('article'))
     ->ensureColumn(new Column('clang_id', 'int(10) unsigned'))
     ->ensureGlobalColumns()
     ->setPrimaryKey('pid')
-    ->ensureIndex(new rex_sql_index('find_articles', ['id', 'clang_id'], rex_sql_index::UNIQUE))
-    ->ensureIndex(new rex_sql_index('clang_id', ['clang_id']))
-    ->ensureIndex(new rex_sql_index('parent_id', ['parent_id']))
+    ->ensureIndex(new Index('find_articles', ['id', 'clang_id'], Index::UNIQUE))
+    ->ensureIndex(new Index('clang_id', ['clang_id']))
+    ->ensureIndex(new Index('parent_id', ['parent_id']))
     ->removeIndex('id')
     ->ensure();
 
@@ -133,8 +134,8 @@ Table::get(Core::getTable('article_slice'))
     ->ensureColumn(new Column('linklist10', 'text', true))
     ->ensureGlobalColumns()
     ->setPrimaryKey('id')
-    ->ensureIndex(new rex_sql_index('slice_priority', ['article_id', 'priority', 'module_id']))
-    ->ensureIndex(new rex_sql_index('find_slices', ['clang_id', 'article_id']))
+    ->ensureIndex(new Index('slice_priority', ['article_id', 'priority', 'module_id']))
+    ->ensureIndex(new Index('find_slices', ['clang_id', 'article_id']))
     ->removeIndex('clang_id')
     ->removeIndex('article_id')
     ->ensure();
@@ -213,7 +214,7 @@ Table::get(Core::getTable('article_slice_history'))
     ->ensureGlobalColumns()
     ->ensureColumn(new Column('revision', 'int(11)'))
     ->setPrimaryKey('id')
-    ->ensureIndex(new rex_sql_index('snapshot', ['article_id', 'clang_id', 'revision', 'history_date']))
+    ->ensureIndex(new Index('snapshot', ['article_id', 'clang_id', 'revision', 'history_date']))
     ->ensure();
 
 Table::get(Core::getTable('module'))
@@ -224,7 +225,7 @@ Table::get(Core::getTable('module'))
     ->ensureColumn(new Column('input', 'mediumtext'))
     ->ensureGlobalColumns()
     ->setPrimaryKey('id')
-    ->ensureIndex(new rex_sql_index('key', ['key'], rex_sql_index::UNIQUE))
+    ->ensureIndex(new Index('key', ['key'], Index::UNIQUE))
     ->ensure();
 
 Table::get(Core::getTable('module_action'))
@@ -243,7 +244,7 @@ Table::get(Core::getTable('template'))
     ->ensureGlobalColumns()
     ->ensureColumn(new Column('attributes', 'text', true))
     ->setPrimaryKey('id')
-    ->ensureIndex(new rex_sql_index('key', ['key'], rex_sql_index::UNIQUE))
+    ->ensureIndex(new Index('key', ['key'], Index::UNIQUE))
     ->ensure();
 
 $sql = Sql::factory();
@@ -288,8 +289,8 @@ Table::get(Core::getTable('media'))
     ->ensureColumn(new Column('height', 'int(10) unsigned', true))
     ->ensureColumn(new Column('title', 'varchar(255)', true))
     ->ensureGlobalColumns()
-    ->ensureIndex(new rex_sql_index('category_id', ['category_id']))
-    ->ensureIndex(new rex_sql_index('filename', ['filename'], rex_sql_index::UNIQUE))
+    ->ensureIndex(new Index('category_id', ['category_id']))
+    ->ensureIndex(new Index('filename', ['filename'], Index::UNIQUE))
     ->ensure();
 
 Table::get(Core::getTable('media_category'))
@@ -298,7 +299,7 @@ Table::get(Core::getTable('media_category'))
     ->ensureColumn(new Column('parent_id', 'int(10) unsigned'))
     ->ensureColumn(new Column('path', 'varchar(255)'))
     ->ensureGlobalColumns()
-    ->ensureIndex(new rex_sql_index('parent_id', ['parent_id']))
+    ->ensureIndex(new Index('parent_id', ['parent_id']))
     ->ensure();
 
 Table::get(Core::getTable('media_manager_type'))
@@ -306,7 +307,7 @@ Table::get(Core::getTable('media_manager_type'))
     ->ensureColumn(new Column('status', 'tinyint(1) unsigned', false, '0'))
     ->ensureColumn(new Column('name', 'varchar(255)'))
     ->ensureColumn(new Column('description', 'varchar(255)'))
-    ->ensureIndex(new rex_sql_index('name', ['name'], rex_sql_index::UNIQUE))
+    ->ensureIndex(new Index('name', ['name'], Index::UNIQUE))
     ->ensureGlobalColumns()
     ->ensure();
 
@@ -382,7 +383,7 @@ Table::get(Core::getTable('metainfo_field'))
     ->ensureColumn(new Column('restrictions', 'text', true))
     ->ensureColumn(new Column('templates', 'text', true))
     ->ensureGlobalColumns()
-    ->ensureIndex(new rex_sql_index('name', ['name'], rex_sql_index::UNIQUE))
+    ->ensureIndex(new Index('name', ['name'], Index::UNIQUE))
     ->ensure();
 
 Table::get(Core::getTable('user'))
@@ -406,7 +407,7 @@ Table::get(Core::getTable('user'))
     ->ensureColumn(new Column('lasttrydate', 'datetime', true))
     ->ensureColumn(new Column('lastlogin', 'datetime', true))
     ->ensureColumn(new Column('session_id', 'varchar(255)', true))
-    ->ensureIndex(new rex_sql_index('login', ['login'], rex_sql_index::UNIQUE))
+    ->ensureIndex(new Index('login', ['login'], Index::UNIQUE))
     ->removeColumn('cookiekey')
     ->ensure();
 
@@ -437,7 +438,7 @@ Table::get(Core::getTable('user_session'))
     ->ensureColumn(new Column('starttime', 'datetime'))
     ->ensureColumn(new Column('last_activity', 'datetime'))
     ->setPrimaryKey('session_id')
-    ->ensureIndex(new rex_sql_index('cookie_key', ['cookie_key'], rex_sql_index::UNIQUE))
+    ->ensureIndex(new Index('cookie_key', ['cookie_key'], Index::UNIQUE))
     ->ensureForeignKey(new rex_sql_foreign_key(Core::getTable('user_session') . '_user_id', Core::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensureForeignKey(new rex_sql_foreign_key(Core::getTable('user_session') . '_passkey_id', Core::getTable('user_passkey'), ['passkey_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensure();

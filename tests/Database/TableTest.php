@@ -3,6 +3,7 @@
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Column;
+use Redaxo\Core\Database\Index;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 
@@ -31,7 +32,7 @@ class TableTest extends TestCase
             ->addColumn(new Column('id', 'int(11)', false, null, 'auto_increment', 'initial comment for id col'))
             ->addColumn(new Column('title', 'varchar(255)', true, 'Default title'))
             ->setPrimaryKey('id')
-            ->addIndex(new rex_sql_index('i_title', ['title']))
+            ->addIndex(new Index('i_title', ['title']))
             ->create();
 
         return $table;
@@ -94,9 +95,9 @@ class TableTest extends TestCase
 
         $index = $table->getIndex('i_title');
 
-        self::assertInstanceOf(rex_sql_index::class, $index);
+        self::assertInstanceOf(Index::class, $index);
         self::assertSame('i_title', $index->getName());
-        self::assertSame(rex_sql_index::INDEX, $index->getType());
+        self::assertSame(Index::INDEX, $index->getType());
         self::assertSame(['title'], $index->getColumns());
 
         self::assertTrue($this->createTable2()->exists());
@@ -417,9 +418,9 @@ class TableTest extends TestCase
     {
         $table = $this->createTable();
 
-        $uuid = new rex_sql_index('i_uuid', ['uuid'], rex_sql_index::UNIQUE);
-        $description = new rex_sql_index('i_description', ['description'], rex_sql_index::FULLTEXT);
-        $search = new rex_sql_index('i_search', ['title', 'description'], rex_sql_index::FULLTEXT);
+        $uuid = new Index('i_uuid', ['uuid'], Index::UNIQUE);
+        $description = new Index('i_description', ['description'], Index::FULLTEXT);
+        $search = new Index('i_search', ['title', 'description'], Index::FULLTEXT);
 
         $table
             ->addColumn(new Column('uuid', 'varchar(255)'))
@@ -445,8 +446,8 @@ class TableTest extends TestCase
     {
         $table = $this->createTable();
 
-        $title = new rex_sql_index('i_title', ['title', 'title2'], rex_sql_index::UNIQUE);
-        $title2 = new rex_sql_index('i_title2', ['title2']);
+        $title = new Index('i_title', ['title', 'title2'], Index::UNIQUE);
+        $title2 = new Index('i_title2', ['title2']);
         $table
             ->ensureColumn(new Column('title2', 'varchar(20)'))
             ->ensureIndex($title)
@@ -603,7 +604,7 @@ class TableTest extends TestCase
             ->removeColumn('title')
             ->addColumn(new Column('name', 'varchar(20)'))
             ->setPrimaryKey(['id', 'name'])
-            ->addIndex(new rex_sql_index('i_name', ['name']))
+            ->addIndex(new Index('i_name', ['name']))
             ->alter();
 
         Table::clearInstance(self::TABLE2);
@@ -629,8 +630,8 @@ class TableTest extends TestCase
             ->ensureColumn(new Column('timestamp', 'datetime', true))
             ->ensureColumn(new Column('description', 'text', true), 'title')
             ->setPrimaryKey('id')
-            ->ensureIndex(new rex_sql_index('i_status_timestamp', ['status', 'timestamp']))
-            ->ensureIndex(new rex_sql_index('i_description', ['description'], rex_sql_index::FULLTEXT))
+            ->ensureIndex(new Index('i_status_timestamp', ['status', 'timestamp']))
+            ->ensureIndex(new Index('i_description', ['description'], Index::FULLTEXT))
             ->ensure();
 
         self::assertTrue($table->exists());
@@ -648,14 +649,14 @@ class TableTest extends TestCase
             ->ensureColumn(new Column('title', 'varchar(20)', false), 'timestamp')
             ->ensureColumn(new Column('teaser', 'varchar(255)', false), 'status')
             ->setPrimaryKey(['id', 'title'])
-            ->ensureIndex(new rex_sql_index('i_status_timestamp', ['status', 'timestamp'], rex_sql_index::UNIQUE))
+            ->ensureIndex(new Index('i_status_timestamp', ['status', 'timestamp'], Index::UNIQUE))
             ->ensure();
 
         $expectedOrder = ['timestamp', 'title', 'id', 'status', 'teaser', 'description'];
 
         self::assertSame($expectedOrder, array_keys($table->getColumns()));
         self::assertTrue($table->hasIndex('i_status_timestamp'));
-        self::assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')?->getType());
+        self::assertSame(Index::UNIQUE, $table->getIndex('i_status_timestamp')?->getType());
         self::assertTrue($table->hasIndex('i_description'));
 
         Table::clearInstance(self::TABLE);
@@ -666,7 +667,7 @@ class TableTest extends TestCase
         self::assertNull($table->getColumn('title')->getDefault());
         self::assertSame($expectedOrder, array_keys($table->getColumns()));
         self::assertTrue($table->hasIndex('i_status_timestamp'));
-        self::assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')?->getType());
+        self::assertSame(Index::UNIQUE, $table->getIndex('i_status_timestamp')?->getType());
         self::assertTrue($table->hasIndex('i_description'));
     }
 

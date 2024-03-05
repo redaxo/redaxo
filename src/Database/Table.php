@@ -8,7 +8,6 @@ use rex_exception;
 use rex_instance_pool_trait;
 use rex_sql_exception;
 use rex_sql_foreign_key;
-use rex_sql_index;
 use rex_type;
 use RuntimeException;
 
@@ -43,7 +42,7 @@ class Table
     /** @var string */
     private $originalName;
 
-    /** @var array<string, \Redaxo\Core\Database\Column> */
+    /** @var array<string, Column> */
     private $columns = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
@@ -61,7 +60,7 @@ class Table
     /** @var list<string> */
     private $primaryKeyExisting = [];
 
-    /** @var array<string, rex_sql_index> */
+    /** @var array<string, \Redaxo\Core\Database\Index> */
     private $indexes = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
@@ -143,14 +142,14 @@ class Table
             }
 
             if ('FULLTEXT' === $parts[0]['Index_type']) {
-                $type = rex_sql_index::FULLTEXT;
+                $type = Index::FULLTEXT;
             } elseif (0 === (int) $parts[0]['Non_unique']) {
-                $type = rex_sql_index::UNIQUE;
+                $type = Index::UNIQUE;
             } else {
-                $type = rex_sql_index::INDEX;
+                $type = Index::INDEX;
             }
 
-            $this->indexes[$indexName] = new rex_sql_index($indexName, $columns, $type);
+            $this->indexes[$indexName] = new Index($indexName, $columns, $type);
             $this->indexesExisting[$indexName] = $indexName;
         }
 
@@ -262,7 +261,7 @@ class Table
     }
 
     /**
-     * @return array<string, \Redaxo\Core\Database\Column>
+     * @return array<string, Column>
      */
     public function getColumns()
     {
@@ -438,7 +437,7 @@ class Table
     /**
      * @param string $name
      *
-     * @return rex_sql_index|null
+     * @return Index|null
      */
     public function getIndex($name)
     {
@@ -450,7 +449,7 @@ class Table
     }
 
     /**
-     * @return array<string, rex_sql_index>
+     * @return array<string, \Redaxo\Core\Database\Index>
      */
     public function getIndexes()
     {
@@ -460,7 +459,7 @@ class Table
     /**
      * @return $this
      */
-    public function addIndex(rex_sql_index $index)
+    public function addIndex(Index $index)
     {
         $name = $index->getName();
 
@@ -476,7 +475,7 @@ class Table
     /**
      * @return $this
      */
-    public function ensureIndex(rex_sql_index $index)
+    public function ensureIndex(Index $index)
     {
         $name = $index->getName();
         $existing = $this->getIndex($name);
@@ -869,7 +868,7 @@ class Table
                 continue;
             }
 
-            if (rex_sql_index::FULLTEXT === $index->getType()) {
+            if (Index::FULLTEXT === $index->getType()) {
                 if ($fulltextAdded) {
                     $fulltextIndexes[] = 'ADD ' . $this->getIndexDefinition($index);
 
@@ -959,7 +958,7 @@ class Table
         );
     }
 
-    private function getIndexDefinition(rex_sql_index $index): string
+    private function getIndexDefinition(Index $index): string
     {
         return sprintf(
             '%s %s %s',

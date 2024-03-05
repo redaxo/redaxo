@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Column;
+use Redaxo\Core\Database\Index;
 use Redaxo\Core\Database\Table;
 
 /**
@@ -93,17 +94,17 @@ class rex_sql_schema_dumper
         return 'new rex_sql_column(' . implode(', ', array_reverse($parameters)) . ')';
     }
 
-    private function getIndex(rex_sql_index $index): string
+    private function getIndex(Index $index): string
     {
         $parameters = [
             $this->scalar($index->getName()),
             $this->simpleArray($index->getColumns()),
         ];
 
-        if (rex_sql_index::INDEX !== $type = $index->getType()) {
+        if (Index::INDEX !== $type = $index->getType()) {
             $parameters[] = match ($type) {
-                rex_sql_index::UNIQUE => 'rex_sql_index::UNIQUE',
-                rex_sql_index::FULLTEXT => 'rex_sql_index::FULLTEXT',
+                Index::UNIQUE => 'rex_sql_index::UNIQUE',
+                Index::FULLTEXT => 'rex_sql_index::FULLTEXT',
             };
         }
 
