@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -12,7 +13,7 @@ class rex_article_slice_test extends TestCase
 
     protected function tearDown(): void
     {
-        rex_sql::factory()
+        Sql::factory()
             ->setTable(Core::getTable('article_slice'))
             ->setWhere(['article_id' => self::FAKE_ID])
             ->delete();
@@ -60,7 +61,7 @@ class rex_article_slice_test extends TestCase
 
     private function addSlice(int $priority, int $status): int
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql
             ->setTable(Core::getTable('article_slice'))
             ->setValues([

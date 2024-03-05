@@ -18,7 +18,7 @@ It can be used directly in the browser or with a separate browser extension.
 A detailed description and information on optional browser extensions are available on the [Clockwork website](https://underground.works/clockwork).
 
 The add-on integrates information on the following classes in Clockwork:
-- `rex_sql`
+- `Redaxo\Core\Database\Sql`
 - `rex_logger`
 - `rex_timer`
 - `rex_extension/rex_extension_point`

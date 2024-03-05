@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -30,13 +31,13 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
     /**
      * @return array
      */
-    public function handleSave(array $params, rex_sql $sqlFields)
+    public function handleSave(array $params, Sql $sqlFields)
     {
         if ('post' != rex_request_method()) {
             return $params;
         }
 
-        $article = rex_sql::factory();
+        $article = Sql::factory();
         // $article->setDebug();
         $article->setTable(Core::getTablePrefix() . 'article');
         $article->setWhere('id=:id AND clang_id=:clang', ['id' => $params['id'], 'clang' => $params['clang']]);

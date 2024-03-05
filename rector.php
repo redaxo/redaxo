@@ -30,7 +30,9 @@ use Rector\Removing\ValueObject\ArgumentRemover;
 use Rector\Removing\ValueObject\RemoveFuncCallArg;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
+use Rector\Renaming\Rector\StaticCall\RenameStaticMethodRector;
 use Rector\Renaming\ValueObject\MethodCallRename;
+use Rector\Renaming\ValueObject\RenameStaticMethod;
 use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
 use Rector\Transform\ValueObject\ConstFetchToClassConstFetch;
 use Rector\ValueObject\PhpVersion;
@@ -48,6 +50,8 @@ return RectorConfig::configure()
     ])
     ->withPaths([
         // restrict to core and core addons, ignore other locally installed addons
+        'src/',
+        'tests/',
         'redaxo/src/core/',
         'redaxo/src/addons/debug/',
         'redaxo/src/addons/install/',
@@ -92,6 +96,13 @@ return RectorConfig::configure()
         rex_null_package::class => rex_null_addon::class,
         rex_package::class => rex_addon::class,
         rex_package_manager::class => rex_addon_manager::class,
+        rex_sql::class => Redaxo\Core\Database\Sql::class,
+        rex_sql_column::class => Redaxo\Core\Database\Column::class,
+        rex_sql_foreign_key::class => Redaxo\Core\Database\ForeignKey::class,
+        rex_sql_index::class => Redaxo\Core\Database\Index::class,
+        rex_sql_schema_dumper::class => Redaxo\Core\Database\SchemaDumper::class,
+        rex_sql_table::class => Redaxo\Core\Database\Table::class,
+        rex_sql_util::class => Redaxo\Core\Database\Util::class,
     ])
     ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(rex_addon::class, 'getRegisteredPackages', 'getRegisteredAddons'),
@@ -106,6 +117,11 @@ return RectorConfig::configure()
         new MethodCallRename(rex_managed_media::class, 'getImageWidth', 'getWidth'),
         new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
         new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
+    ])
+    ->withConfiguredRule(RenameStaticMethodRector::class, [
+        new RenameStaticMethod(Redaxo\Core\Core::class, 'getVersionHash', rex_version::class, 'gitHash'),
+        new RenameStaticMethod(rex_string::class, 'versionSplit', rex_version::class, 'split'),
+        new RenameStaticMethod(rex_string::class, 'versionCompare', rex_version::class, 'compare'),
     ])
     ->withConfiguredRule(RemoveFuncCallArgRector::class, [
         new RemoveFuncCallArg('rex_getUrl', 3),

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_cronjob_article_status extends rex_cronjob
 {
@@ -17,7 +18,7 @@ class rex_cronjob_article_status extends rex_cronjob
             'after' => 0,
         ];
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery(
             '
             SELECT  name

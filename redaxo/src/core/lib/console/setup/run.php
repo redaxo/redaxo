@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -232,7 +233,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         // ---------------------------------- step 4 . create db / demo
         $io->title('Step 4 of 5 / Database');
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $dbEol = rex_setup::checkDbSecurity();
         if (!empty($dbEol)) {
             foreach ($dbEol as $warning) {
@@ -329,7 +330,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         // ---------------------------------- Step 5 . Create User
         $io->title('Step 5 of 5 / User');
 
-        $user = rex_sql::factory();
+        $user = Sql::factory();
         $user
             ->setTable(Core::getTable('user'))
             ->select();
@@ -356,7 +357,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     if (empty($login)) {
                         throw new InvalidArgumentException('Provide a username.');
                     }
-                    $user = rex_sql::factory();
+                    $user = Sql::factory();
                     $user
                         ->setTable(Core::getTable('user'))
                         ->setWhere(['login' => $login])
@@ -394,7 +395,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
             $passwordHash = rex_backend_login::passwordHash($password);
 
-            $user = rex_sql::factory();
+            $user = Sql::factory();
             $user->setTable(Core::getTablePrefix() . 'user');
             $user->setValue('login', $login);
             $user->setValue('password', $passwordHash);

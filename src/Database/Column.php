@@ -1,9 +1,11 @@
 <?php
 
+namespace Redaxo\Core\Database;
+
 /**
  * Class to represent sql columns.
  */
-class rex_sql_column
+class Column
 {
     /** @var string */
     private $name;

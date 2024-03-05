@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 // Für größere Exports den Speicher für PHP erhöhen.
 if (rex_ini_get('memory_limit') < 67_108_864) {
@@ -22,7 +23,7 @@ if ('' == $exportfilename) {
 }
 
 if ($EXPTABLES) {
-    $tables = rex_sql::factory()->getTables();
+    $tables = Sql::factory()->getTables();
 
     foreach ($EXPTABLES as $k => $EXPTABLE) {
         if (!in_array($EXPTABLE, $tables)) {
@@ -153,7 +154,7 @@ $tableSelect->setId('rex-form-exporttables');
 $tableSelect->setSize(20);
 $tableSelect->setName('EXPTABLES[]');
 $tableSelect->setAttribute('class', 'form-control');
-$tables = rex_sql::factory()->getTables();
+$tables = Sql::factory()->getTables();
 foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
     if (in_array($table, [Core::getTable('user'), Core::getTable('user_passkey'), Core::getTable('user_session')], true)) {

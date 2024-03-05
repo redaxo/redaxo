@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Sql;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -53,7 +54,7 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
             throw new InvalidArgumentException('No database settings given.');
         }
 
-        $settingsValid = rex_sql::checkDbConnection(
+        $settingsValid = Sql::checkDbConnection(
             $db['host'],
             $db['login'],
             $db['password'],

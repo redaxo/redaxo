@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_template
 {
@@ -99,7 +100,7 @@ class rex_template
     public static function getTemplatesForCategory($categoryId, $ignoreInactive = true)
     {
         $templates = [];
-        $tSql = rex_sql::factory();
+        $tSql = Sql::factory();
         $where = $ignoreInactive ? ' WHERE active=1' : '';
         $tSql->setQuery('select id,name,attributes from ' . Core::getTablePrefix() . 'template' . $where . ' order by name');
 
@@ -187,7 +188,7 @@ class rex_template
      */
     public static function templateIsInUse(int $templateId, string $msgKey)
     {
-        $check = rex_sql::factory();
+        $check = Sql::factory();
         $check->setQuery('
             SELECT article.id, article.clang_id, template.name
             FROM ' . Core::getTable('article') . ' article
@@ -237,7 +238,7 @@ class rex_template
 
     public static function exists(int $templateId): bool
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('SELECT 1 FROM ' . Core::getTable('template') . ' WHERE id = ?', [$templateId]);
         return 1 === $sql->getRows();
     }

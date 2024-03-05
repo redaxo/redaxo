@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_article_revision
 {
@@ -22,17 +23,17 @@ class rex_article_revision
         }
 
         // clear the revision to which we will later copy all slices
-        $dc = rex_sql::factory();
+        $dc = Sql::factory();
         // $dc->setDebug();
         $dc->setQuery('delete from ' . Core::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$articleId, $clang, $toRevisionId]);
 
-        $gc = rex_sql::factory();
+        $gc = Sql::factory();
         $gc->setQuery('select * from ' . Core::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=? ORDER by ctype_id, priority', [$articleId, $clang, $fromRevisionId]);
 
-        $cols = rex_sql::factory();
+        $cols = Sql::factory();
         $cols->setQuery('SHOW COLUMNS FROM ' . Core::getTablePrefix() . 'article_slice');
         foreach ($gc as $slice) {
-            $ins = rex_sql::factory();
+            $ins = Sql::factory();
             // $ins->setDebug();
             $ins->setTable(Core::getTablePrefix() . 'article_slice');
 
@@ -65,7 +66,7 @@ class rex_article_revision
             throw new InvalidArgumentException(sprintf('Revision "%s" can not be cleared, only the working version (%d).', $fromRevisionId, self::WORK));
         }
 
-        $dc = rex_sql::factory();
+        $dc = Sql::factory();
         // $dc->setDebug();
         $dc->setQuery('delete from ' . Core::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$articleId, $clang, $fromRevisionId]);
 

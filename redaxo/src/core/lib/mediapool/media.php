@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab.
@@ -98,7 +99,7 @@ class rex_media
      */
     public static function forId(int $mediaId): ?self
     {
-        $media = rex_sql::factory();
+        $media = Sql::factory();
         $media->setQuery('select filename from ' . Core::getTable('media') . ' where id=?', [$mediaId]);
 
         if (1 != $media->getRows()) {

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,7 +31,7 @@ class rex_command_user_create extends rex_console_command
 
         $login = $input->getArgument('login');
 
-        $user = rex_sql::factory();
+        $user = Sql::factory();
         $user
             ->setTable(Core::getTable('user'))
             ->setWhere(['login' => $login])
@@ -71,7 +72,7 @@ class rex_command_user_create extends rex_console_command
 
         $passwordHash = rex_backend_login::passwordHash($password);
 
-        $user = rex_sql::factory();
+        $user = Sql::factory();
         // $user->setDebug();
         $user->setTable(Core::getTablePrefix() . 'user');
         $user->setValue('name', $name);

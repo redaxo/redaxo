@@ -1,10 +1,11 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($ctype) && is_int($ctype));
-assert(isset($article) && $article instanceof rex_sql);
+assert(isset($article) && $article instanceof Sql);
 assert(isset($categoryId) && is_int($categoryId));
 assert(isset($articleId) && is_int($articleId));
 
@@ -115,7 +116,7 @@ if (!$isStartpage && $user->hasPerm('article2category[]')) {
 
 // --------------------------------------------------- IN ARTIKEL UMWANDELN START
 if ($isStartpage && $user->hasPerm('article2category[]') && $user->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     $sql->setQuery('SELECT pid FROM ' . Core::getTablePrefix() . 'article WHERE parent_id=? LIMIT 1', [$articleId]);
     $emptyCategory = 0 == $sql->getRows();
 

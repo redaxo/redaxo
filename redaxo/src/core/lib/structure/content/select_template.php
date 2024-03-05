@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_template_select extends rex_select
 {
@@ -57,7 +58,7 @@ class rex_template_select extends rex_select
 
         // Inherit template_id from start article
         if ($this->categoryId > 0) {
-            $sql = rex_sql::factory();
+            $sql = Sql::factory();
             $sql->setQuery('SELECT template_id FROM ' . Core::getTable('article') . ' WHERE id = ? AND clang_id = ? AND startarticle = 1', [
                 $this->categoryId,
                 $this->clangId,
@@ -88,7 +89,7 @@ class rex_template_select extends rex_select
             if (null !== $this->categoryId) {
                 $templates = rex_template::getTemplatesForCategory($this->categoryId);
             } else {
-                $templates = rex_sql::factory()->getArray('SELECT id, name FROM ' . Core::getTable('template') . ' WHERE active = 1 ORDER BY name');
+                $templates = Sql::factory()->getArray('SELECT id, name FROM ' . Core::getTable('template') . ' WHERE active = 1 ORDER BY name');
                 $templates = array_column($templates, 'name', 'id');
             }
 

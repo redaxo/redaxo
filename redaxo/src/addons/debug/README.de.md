@@ -18,7 +18,7 @@ Es kann sowohl direkt im Browser, als auch mit einer separaten Browser-Erweiteru
 Eine ausführliche Beschreibung und die Informationen zu optionalen Browser-Erweiterung sind auf der [Clockwork-Website](https://underground.works/clockwork) verfügbar.
 
 Das AddOn integriert Informationen zu folgenden Klassen in Clockwork:
-- `rex_sql`
+- `Redaxo\Core\Database\Sql`
 - `rex_logger`
 - `rex_timer`
 - `rex_extension/rex_extension_point`

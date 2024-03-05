@@ -61,30 +61,30 @@ expectedArguments(\rex_response::sendResource(), 4, 'inline', 'attachment');
 expectedArguments(\rex_socket::factory(), 1, 80, 443);
 expectedArguments(\rex_socket_proxy::setDestination(), 1, 80, 443);
 
-expectedReturnValues(\rex_sql::getDbType(), \rex_sql::MYSQL, \rex_sql::MARIADB);
+expectedReturnValues(\Redaxo\Core\Database\Sql::getDbType(), \Redaxo\Core\Database\Sql::MYSQL, \Redaxo\Core\Database\Sql::MARIADB);
 
 registerArgumentsSet('column_type', 'int(10) unsigned', 'int(11)', 'tinyint(1)', 'date', 'datetime', 'time', 'varchar(255)', 'varchar(191)', 'text', 'longtext');
-expectedArguments(\rex_sql_column::__construct(), 1, argumentsSet('column_type'));
-expectedArguments(\rex_sql_column::setType(), 0, argumentsSet('column_extra'));
-expectedReturnValues(\rex_sql_column::getType(), argumentsSet('column_extra'));
+expectedArguments(\Redaxo\Core\Database\Column::__construct(), 1, argumentsSet('column_type'));
+expectedArguments(\Redaxo\Core\Database\Column::setType(), 0, argumentsSet('column_extra'));
+expectedReturnValues(\Redaxo\Core\Database\Column::getType(), argumentsSet('column_extra'));
 
 registerArgumentsSet('column_extra', 'auto_increment', 'CURRENT_TIMESTAMP');
-expectedArguments(\rex_sql_column::__construct(), 4, argumentsSet('column_extra'));
-expectedArguments(\rex_sql_column::setExtra(), 0, argumentsSet('column_extra'));
-expectedReturnValues(\rex_sql_column::getExtra(), argumentsSet('column_extra'));
+expectedArguments(\Redaxo\Core\Database\Column::__construct(), 4, argumentsSet('column_extra'));
+expectedArguments(\Redaxo\Core\Database\Column::setExtra(), 0, argumentsSet('column_extra'));
+expectedReturnValues(\Redaxo\Core\Database\Column::getExtra(), argumentsSet('column_extra'));
 
-registerArgumentsSet('foreign_key_on_clause', \rex_sql_foreign_key::CASCADE, \rex_sql_foreign_key::RESTRICT, \rex_sql_foreign_key::NO_ACTION, \rex_sql_foreign_key::SET_NULL);
-expectedArguments(\rex_sql_foreign_key::__construct(), 3, argumentsSet('foreign_key_on_clause'));
-expectedArguments(\rex_sql_foreign_key::__construct(), 4, argumentsSet('foreign_key_on_clause'));
-expectedArguments(\rex_sql_foreign_key::setOnUpdate(), 0, argumentsSet('foreign_key_on_clause'));
-expectedArguments(\rex_sql_foreign_key::setOnDelete(), 0, argumentsSet('foreign_key_on_clause'));
-expectedReturnValues(\rex_sql_foreign_key::getOnUpdate(), argumentsSet('foreign_key_on_clause'));
-expectedReturnValues(\rex_sql_foreign_key::getOnDelete(), argumentsSet('foreign_key_on_clause'));
+registerArgumentsSet('foreign_key_on_clause', \Redaxo\Core\Database\ForeignKey::CASCADE, \Redaxo\Core\Database\ForeignKey::RESTRICT, \Redaxo\Core\Database\ForeignKey::NO_ACTION, \Redaxo\Core\Database\ForeignKey::SET_NULL);
+expectedArguments(\Redaxo\Core\Database\ForeignKey::__construct(), 3, argumentsSet('foreign_key_on_clause'));
+expectedArguments(\Redaxo\Core\Database\ForeignKey::__construct(), 4, argumentsSet('foreign_key_on_clause'));
+expectedArguments(\Redaxo\Core\Database\ForeignKey::setOnUpdate(), 0, argumentsSet('foreign_key_on_clause'));
+expectedArguments(\Redaxo\Core\Database\ForeignKey::setOnDelete(), 0, argumentsSet('foreign_key_on_clause'));
+expectedReturnValues(\Redaxo\Core\Database\ForeignKey::getOnUpdate(), argumentsSet('foreign_key_on_clause'));
+expectedReturnValues(\Redaxo\Core\Database\ForeignKey::getOnDelete(), argumentsSet('foreign_key_on_clause'));
 
-registerArgumentsSet('index_type', \rex_sql_index::INDEX, \rex_sql_index::UNIQUE, \rex_sql_index::FULLTEXT);
-expectedArguments(\rex_sql_index::__construct(), 2, argumentsSet('index_type'));
-expectedArguments(\rex_sql_index::setType(), 0, argumentsSet('index_type'));
-expectedReturnValues(\rex_sql_index::getType(), argumentsSet('index_type'));
+registerArgumentsSet('index_type', \Redaxo\Core\Database\Index::INDEX, \Redaxo\Core\Database\Index::UNIQUE, \Redaxo\Core\Database\Index::FULLTEXT);
+expectedArguments(\Redaxo\Core\Database\Index::__construct(), 2, argumentsSet('index_type'));
+expectedArguments(\Redaxo\Core\Database\Index::setType(), 0, argumentsSet('index_type'));
+expectedReturnValues(\Redaxo\Core\Database\Index::getType(), argumentsSet('index_type'));
 
 expectedArguments(\rex_version::compare(), 2, '<', '<=', '>', '>=', '==', '!=');
 

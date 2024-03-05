@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * rex_form repraesentiert ein Formular in REDAXO.
@@ -25,7 +26,7 @@ class rex_form extends rex_form_base
     protected $mode;
     /** @var positive-int */
     protected $db;
-    /** @var rex_sql */
+    /** @var Sql */
     protected $sql;
     /** @var array */
     protected $languageSupport = [];
@@ -50,7 +51,7 @@ class rex_form extends rex_form_base
         $this->whereCondition = $whereCondition;
 
         $this->db = $db;
-        $this->sql = rex_sql::factory($db);
+        $this->sql = Sql::factory($db);
         $this->sql->setDebug($this->debug);
         $this->sql->setQuery('SELECT * FROM ' . $tableName . ' WHERE ' . $this->whereCondition . ' LIMIT 2');
 
@@ -224,7 +225,7 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * @return rex_sql
+     * @return Sql
      */
     public function getSql()
     {
@@ -255,7 +256,7 @@ class rex_form extends rex_form_base
      *
      * @return string|int|null
      */
-    protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
+    protected function preSave($fieldsetName, $fieldName, $fieldValue, Sql $saveSql)
     {
         /** @var bool $setOnce */
         static $setOnce = false;
@@ -271,7 +272,7 @@ class rex_form extends rex_form_base
     /**
      * Sets the sql fields `updateuser`, `updatedate`, `createuser` and `createdate` (if available).
      */
-    private function setGlobalSqlFields(rex_sql $saveSql): void
+    private function setGlobalSqlFields(Sql $saveSql): void
     {
         $fieldnames = $this->sql->getFieldnames();
 
@@ -319,7 +320,7 @@ class rex_form extends rex_form_base
      */
     protected function save()
     {
-        $sql = rex_sql::factory($this->db);
+        $sql = Sql::factory($this->db);
         $sql->setDebug($this->debug);
         $sql->setTable($this->tableName);
 
@@ -386,7 +387,7 @@ class rex_form extends rex_form_base
      */
     protected function delete()
     {
-        $deleteSql = rex_sql::factory($this->db);
+        $deleteSql = Sql::factory($this->db);
         $deleteSql->setDebug($this->debug);
         $deleteSql->setTable($this->tableName);
         $deleteSql->setWhere($this->whereCondition);

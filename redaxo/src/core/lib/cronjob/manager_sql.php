@@ -1,17 +1,18 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_cronjob_manager_sql
 {
-    /** @var rex_sql */
+    /** @var Sql */
     private $sql;
     /** @var rex_cronjob_manager|null */
     private $manager;
 
     private function __construct(?rex_cronjob_manager $manager = null)
     {
-        $this->sql = rex_sql::factory();
+        $this->sql = Sql::factory();
         // $this->sql->setDebug();
         $this->manager = $manager;
     }
@@ -154,7 +155,7 @@ class rex_cronjob_manager_sql
         $env = rex_cronjob_manager::getCurrentEnvironment();
         $script = 'script' === $env;
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         // $sql->setDebug();
 
         $query = '
@@ -175,7 +176,7 @@ class rex_cronjob_manager_sql
             $minExecutionStartDiff = 2 * ((int) ini_get('max_execution_time') ?: 60 * 60);
         }
 
-        $jobs = $sql->getArray($query, [rex_sql::datetime(time() - $minExecutionStartDiff), '%|' . $env . '|%', rex_sql::datetime()]);
+        $jobs = $sql->getArray($query, [Sql::datetime(time() - $minExecutionStartDiff), '%|' . $env . '|%', Sql::datetime()]);
 
         if (!$jobs) {
             $this->saveNextTime();
@@ -240,7 +241,7 @@ class rex_cronjob_manager_sql
      */
     public function tryExecute($id, $log = true)
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $jobs = $sql->getArray('
             SELECT    id, name, type, parameters, `interval`
             FROM      ' . Core::getTable('cronjob') . '
@@ -290,7 +291,7 @@ class rex_cronjob_manager_sql
     public function setNextTime($id, $interval, $resetExecutionStart = false)
     {
         $nexttime = self::calculateNextTime(json_decode($interval, true));
-        $nexttime = $nexttime ? rex_sql::datetime($nexttime) : null;
+        $nexttime = $nexttime ? Sql::datetime($nexttime) : null;
         $add = $resetExecutionStart ? ', execution_start = 0' : '';
         try {
             $this->sql->setQuery('

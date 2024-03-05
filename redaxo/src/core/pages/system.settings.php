@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 $error = [];
 $success = '';
@@ -226,7 +227,7 @@ $fragment->setVar('title', rex_i18n::msg('installation'));
 $fragment->setVar('content', $content, false);
 $sideContent[] = $fragment->parse('core/page/section.php');
 
-$sql = rex_sql::factory();
+$sql = Sql::factory();
 
 $content = '
     <table class="table">

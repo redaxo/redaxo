@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 $error = '';
 $success = '';
@@ -79,7 +80,7 @@ if (rex_request('rex_user_updated', 'bool', false)) {
 }
 
 if ($update && !$error) {
-    $updateuser = rex_sql::factory();
+    $updateuser = Sql::factory();
     $updateuser->setTable(Core::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $userId]);
     $updateuser->setValue('name', $username);
@@ -141,7 +142,7 @@ if (rex_post('upd_psw_button', 'bool')) {
     } else {
         $userpswNew1 = rex_login::passwordHash($userpswNew1);
 
-        $updateuser = rex_sql::factory();
+        $updateuser = Sql::factory();
         $updateuser->setTable(Core::getTablePrefix() . 'user');
         $updateuser->setWhere(['id' => $userId]);
         $updateuser->setValue('password', $userpswNew1);
@@ -180,7 +181,7 @@ if ('add_passkey' === rex_request('function', 'string')) {
     } else {
         [$passkeyId, $passkeyPublicKey] = $webauthn->processCreate($passkey);
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(Core::getTable('user_passkey'));
         $sql->setValue('id', $passkeyId);
         $sql->setValue('user_id', $userId);
