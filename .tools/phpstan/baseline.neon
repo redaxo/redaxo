@@ -341,16 +341,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/cronjob/manager_sql.php
 
 		-
-			message: "#^Method rex_cronjob_phpcallback\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/types/phpcallback.php
-
-		-
-			message: "#^Method rex_cronjob_phpcode\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/types/phpcode.php
-
-		-
 			message: "#^Method rex_cronjob_urlrequest\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/cronjob/types/urlrequest.php

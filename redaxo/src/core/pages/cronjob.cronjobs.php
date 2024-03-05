@@ -194,7 +194,7 @@ if ('' == $func) {
         $select->addOption($cronjob->getTypeName(), $class, 0, 0, ['data-cronjob_id' => rex_string::normalize($class)]);
     }
     if ('add' == $func) {
-        $select->setSelected(rex_cronjob_phpcode::class);
+        $select->setSelected(rex_cronjob_urlrequest::class);
     }
     $activeType = $field->getValue();
 
