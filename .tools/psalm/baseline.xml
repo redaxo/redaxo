@@ -2746,16 +2746,10 @@
   </file>
   <file src="redaxo/src/core/backend.php">
     <MixedArgument>
-      <code><![CDATA[$assetFile]]></code>
-      <code><![CDATA[$assetFile]]></code>
-      <code><![CDATA[$assetFile]]></code>
-      <code><![CDATA[$assetFile]]></code>
-      <code><![CDATA[$assetFile]]></code>
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$userAgent]]></code>
     </MixedArgument>
     <MixedAssignment>
-      <code><![CDATA[$assetFile]]></code>
       <code><![CDATA[$userAgent]]></code>
     </MixedAssignment>
     <PossiblyNullArgument>
