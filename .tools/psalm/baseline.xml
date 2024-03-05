@@ -4988,44 +4988,6 @@
       <code><![CDATA[isAdmin]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/core/src/Core.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[rex_type::array(self::getConfig('package-order', []))]]></code>
-    </LessSpecificReturnStatement>
-    <MixedArgument>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$item]]></code>
-      <code><![CDATA[$login]]></code>
-      <code><![CDATA[$request]]></code>
-      <code><![CDATA[$value['throw_always_exception']]]></code>
-      <code><![CDATA[self::$properties[$key]]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[Request]]></code>
-      <code><![CDATA[rex_user|null]]></code>
-    </MixedInferredReturnType>
-    <MixedMethodCall>
-      <code><![CDATA[getImpersonator]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$result]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
-      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
-      <code><![CDATA[$request]]></code>
-    </MixedReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[list<non-empty-string>]]></code>
-    </MoreSpecificReturnType>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$server]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
     <MixedArrayAccess>
       <code><![CDATA[$navi[0]['headline']]]></code>
@@ -5148,5 +5110,43 @@
       <code><![CDATA[$params['suffix']]]></code>
       <code><![CDATA[$params['var']]]></code>
     </MixedArgument>
+  </file>
+  <file src="src/Core.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[rex_type::array(self::getConfig('package-order', []))]]></code>
+    </LessSpecificReturnStatement>
+    <MixedArgument>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$login]]></code>
+      <code><![CDATA[$request]]></code>
+      <code><![CDATA[$value['throw_always_exception']]]></code>
+      <code><![CDATA[self::$properties[$key]]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[Request]]></code>
+      <code><![CDATA[rex_user|null]]></code>
+    </MixedInferredReturnType>
+    <MixedMethodCall>
+      <code><![CDATA[getImpersonator]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$result]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
+      <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
+      <code><![CDATA[$request]]></code>
+    </MixedReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[list<non-empty-string>]]></code>
+    </MoreSpecificReturnType>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$server]]></code>
+    </PossiblyUndefinedArrayOffset>
   </file>
 </files>

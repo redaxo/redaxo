@@ -12,17 +12,19 @@
 >
     <projectFiles>
         <!-- restrict to core and core addons, ignore other locally installed addons -->
+        <directory name="src"/>
+        <directory name="tests"/>
         <directory name="redaxo/src/core"/>
         <directory name="redaxo/src/addons/debug"/>
         <directory name="redaxo/src/addons/install"/>
         <directory name="redaxo/src/addons/project"/>
         <ignoreFiles>
             <directory name="vendor"/>
-            <file name="redaxo/src/core/.phpstorm.meta.php" />
+            <file name=".phpstorm.meta.php" />
         </ignoreFiles>
     </projectFiles>
     <stubs>
-        <file name="redaxo/src/core/.phpstorm.meta.php" />
+        <file name=".phpstorm.meta.php" />
     </stubs>
     <universalObjectCrates>
         <class name="rex_fragment" />
