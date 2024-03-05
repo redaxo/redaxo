@@ -1,7 +1,7 @@
 <?php
 
-use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Util;
 
 class rex_addon_manager
 {

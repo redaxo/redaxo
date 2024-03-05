@@ -1,7 +1,7 @@
 <?php
 
-use Redaxo\Core\Database\SchemaDumper;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\SchemaDumper;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 use Symfony\Component\Console\Input\InputArgument;

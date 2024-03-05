@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Util;
+
 $logFile = Util::slowQueryLogPath();
 
 if (null === $logFile) {

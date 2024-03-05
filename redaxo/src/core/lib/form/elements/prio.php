@@ -1,7 +1,7 @@
 <?php
 
-use Redaxo\Core\Database\Util;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Util;
 
 class rex_form_prio_element extends rex_form_select_element
 {

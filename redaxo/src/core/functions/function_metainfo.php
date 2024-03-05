@@ -1,8 +1,8 @@
 <?php
 
-use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Util;
 
 /**
  * Fügt einen neuen Feldtyp ein.
