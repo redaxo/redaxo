@@ -2376,7 +2376,7 @@ parameters:
 			path: ../../redaxo/src/core/tests/mediapool/mediapool_test.php
 
 		-
-			message: "#^Method class@anonymous/core/tests/structure/category_test\\.php\\:175\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method class@anonymous/redaxo/src/core/tests/structure/category_test\\.php\\:175\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/structure/category_test.php
 
