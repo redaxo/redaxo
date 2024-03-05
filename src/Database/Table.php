@@ -7,7 +7,6 @@ use LogicException;
 use rex_exception;
 use rex_instance_pool_trait;
 use rex_sql_exception;
-use rex_sql_foreign_key;
 use rex_type;
 use RuntimeException;
 
@@ -66,7 +65,7 @@ class Table
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
     private $indexesExisting = [];
 
-    /** @var array<string, rex_sql_foreign_key> */
+    /** @var array<string, \Redaxo\Core\Database\ForeignKey> */
     private $foreignKeys = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
@@ -172,7 +171,7 @@ class Table
 
             $fk = $parts[0];
 
-            $this->foreignKeys[$fkName] = new rex_sql_foreign_key($fkName, $fk['REFERENCED_TABLE_NAME'], $columns, $fk['UPDATE_RULE'], $fk['DELETE_RULE']);
+            $this->foreignKeys[$fkName] = new ForeignKey($fkName, $fk['REFERENCED_TABLE_NAME'], $columns, $fk['UPDATE_RULE'], $fk['DELETE_RULE']);
             $this->foreignKeysExisting[$fkName] = $fkName;
         }
     }
@@ -554,7 +553,7 @@ class Table
     /**
      * @param string $name
      *
-     * @return rex_sql_foreign_key|null
+     * @return ForeignKey|null
      */
     public function getForeignKey($name)
     {
@@ -566,7 +565,7 @@ class Table
     }
 
     /**
-     * @return array<string, rex_sql_foreign_key>
+     * @return array<string, \Redaxo\Core\Database\ForeignKey>
      */
     public function getForeignKeys()
     {
@@ -576,7 +575,7 @@ class Table
     /**
      * @return $this
      */
-    public function addForeignKey(rex_sql_foreign_key $foreignKey)
+    public function addForeignKey(ForeignKey $foreignKey)
     {
         $name = $foreignKey->getName();
 
@@ -592,7 +591,7 @@ class Table
     /**
      * @return $this
      */
-    public function ensureForeignKey(rex_sql_foreign_key $foreignKey)
+    public function ensureForeignKey(ForeignKey $foreignKey)
     {
         $name = $foreignKey->getName();
         $existing = $this->getForeignKey($name);
@@ -968,7 +967,7 @@ class Table
         );
     }
 
-    private function getForeignKeyDefinition(rex_sql_foreign_key $foreignKey): string
+    private function getForeignKeyDefinition(ForeignKey $foreignKey): string
     {
         return sprintf(
             'CONSTRAINT %s FOREIGN KEY %s REFERENCES %s %s ON UPDATE %s ON DELETE %s',

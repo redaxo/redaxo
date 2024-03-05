@@ -3,9 +3,9 @@
 namespace Redaxo\Core\Database;
 
 use Redaxo\Core\Core;
-
 use rex_exception;
 use rex_sql_exception;
+
 use function dirname;
 use function is_array;
 use function strlen;
