@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\Tests\Database;
+
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Column;

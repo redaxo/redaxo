@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\Tests\Database;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
