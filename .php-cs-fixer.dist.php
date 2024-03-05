@@ -25,6 +25,7 @@ $finder = PhpCsFixer\Finder::create()
         __FILE__,
         __DIR__ . '/rector.php',
         $tools . '/bin/clone-addon',
+        $tools . '/bin/reinstall-core',
         $tools . '/bin/release',
         $tools . '/bin/update-root-composer',
     ])
