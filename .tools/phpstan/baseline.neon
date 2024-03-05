@@ -2406,11 +2406,6 @@ parameters:
 			path: ../../src/Database/Table.php
 
 		-
-			message: "#^PHPDoc tag @var for variable \\$foreignKeyParts contains unresolvable type\\.$#"
-			count: 1
-			path: ../../src/Database/Table.php
-
-		-
 			message: "#^Parameter \\#2 \\$createCallback of static method Redaxo\\\\Core\\\\Database\\\\Table\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(int, string\\)\\: static given\\.$#"
 			count: 1
 			path: ../../src/Database/Table.php
