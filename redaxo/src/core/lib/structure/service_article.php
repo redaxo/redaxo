@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
@@ -440,7 +441,7 @@ class rex_article_service
                 $addsql = 'asc';
             }
 
-            rex_sql_util::organizePriorities(
+            Util::organizePriorities(
                 Core::getTable('article'),
                 'priority',
                 'clang_id=' . (int) $clang . ' AND ((startarticle<>1 AND parent_id=' . $parentId . ') OR (startarticle=1 AND id=' . $parentId . '))',

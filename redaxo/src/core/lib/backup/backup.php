@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
@@ -147,7 +148,7 @@ class rex_backup
 
         // Datei aufteilen
         $lines = [];
-        rex_sql_util::splitSqlFile($lines, $conts, 0);
+        Util::splitSqlFile($lines, $conts, 0);
 
         $error = [];
 

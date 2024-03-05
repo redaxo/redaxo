@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 
 class rex_addon_manager
@@ -118,7 +119,7 @@ class rex_addon_manager
             // import install.sql
             $installSql = $this->package->getPath(rex_addon::FILE_INSTALL_SQL);
             if ($installDump && is_readable($installSql)) {
-                rex_sql_util::importDump($installSql);
+                Util::importDump($installSql);
             }
 
             if (!$reinstall) {
@@ -199,7 +200,7 @@ class rex_addon_manager
             // import uninstall.sql
             $uninstallSql = $this->package->getPath(rex_addon::FILE_UNINSTALL_SQL);
             if ($installDump && is_readable($uninstallSql)) {
-                rex_sql_util::importDump($uninstallSql);
+                Util::importDump($uninstallSql);
             }
 
             // delete assets

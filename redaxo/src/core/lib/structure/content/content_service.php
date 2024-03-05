@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
@@ -41,7 +42,7 @@ class rex_content_service
             $sql->insert();
             $sliceId = $sql->getLastId();
 
-            rex_sql_util::organizePriorities(
+            Util::organizePriorities(
                 Core::getTable('article_slice'),
                 'priority',
                 $where,
@@ -130,7 +131,7 @@ class rex_content_service
                 $upd->addGlobalUpdateFields(self::getUser());
                 $upd->update();
 
-                rex_sql_util::organizePriorities(
+                Util::organizePriorities(
                     Core::getTable('article_slice'),
                     'priority',
                     'article_id=' . (int) $articleId . ' AND clang_id=' . (int) $clang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . (int) $sliceRevision,
@@ -187,7 +188,7 @@ class rex_content_service
         $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'article_slice WHERE id=?', [$sliceId]);
 
         // reorg remaining slices
-        rex_sql_util::organizePriorities(
+        Util::organizePriorities(
             Core::getTable('article_slice'),
             'priority',
             'article_id=' . (int) $curr->getValue('article_id') . ' AND clang_id=' . (int) $curr->getValue('clang_id') . ' AND ctype_id=' . (int) $curr->getValue('ctype_id') . ' AND revision=' . (int) $curr->getValue('revision'),
@@ -308,7 +309,7 @@ class rex_content_service
         foreach ($ctypes as $ctype => $revisions) {
             foreach ($revisions as $revision => $_) {
                 // reorg slices
-                rex_sql_util::organizePriorities(
+                Util::organizePriorities(
                     Core::getTable('article_slice'),
                     'priority',
                     'article_id=' . (int) $toId . ' AND clang_id=' . (int) $toClang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . $revision,

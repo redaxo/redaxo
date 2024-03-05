@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\SchemaDumper;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
@@ -30,7 +31,7 @@ class rex_command_db_dump_schema extends rex_console_command
             throw new InvalidArgumentException(sprintf('Table "%s" does not exist.', $table->getName()));
         }
 
-        $generator = new rex_sql_schema_dumper();
+        $generator = new SchemaDumper();
 
         $output->write($generator->dumpTable($table));
 

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
@@ -138,7 +139,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     // replace LIKE wildcards
     $prefix = $sql->escape($sql->escapeLikeWildcards($prefix) . '%');
 
-    rex_sql_util::organizePriorities(Core::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE ' . $prefix, 'priority, updatedate');
+    Util::organizePriorities(Core::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE ' . $prefix, 'priority, updatedate');
 
     $tableManager = new rex_metainfo_table_manager($metaTable);
     return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);

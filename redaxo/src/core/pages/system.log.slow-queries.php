@@ -1,6 +1,7 @@
 <?php
 
-$logFile = rex_sql_util::slowQueryLogPath();
+use Redaxo\Core\Database\Util;
+$logFile = Util::slowQueryLogPath();
 
 if (null === $logFile) {
     throw new rex_exception('slow query log file not found');

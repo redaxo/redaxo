@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Database\Sql;
 
 class rex_form_prio_element extends rex_form_select_element
@@ -115,7 +116,7 @@ class rex_form_prio_element extends rex_form_select_element
         if ($this->table->equals($ep->getParam('form'))) {
             $name = $this->getFieldName();
 
-            rex_sql_util::organizePriorities(
+            Util::organizePriorities(
                 $this->table->getTableName(),
                 $name,
                 $this->whereCondition,

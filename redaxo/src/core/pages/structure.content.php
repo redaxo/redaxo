@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
@@ -243,7 +244,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                                 $newsql->insert();
                                 $sliceId = (int) $newsql->getLastId();
 
-                                rex_sql_util::organizePriorities(
+                                Util::organizePriorities(
                                     Core::getTable('article_slice'),
                                     'priority',
                                     'article_id=' . $articleId . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . (int) $sliceRevision,

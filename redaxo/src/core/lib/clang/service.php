@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
@@ -26,7 +27,7 @@ class rex_clang_service
         $sql->insert();
         $id = (int) $sql->getLastId();
 
-        rex_sql_util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority, id != ' . $id);
+        Util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority, id != ' . $id);
 
         $firstLang = Sql::factory();
         $firstLang->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=?', [rex_clang::getStartId()]);
@@ -98,7 +99,7 @@ class rex_clang_service
         $editLang->update();
 
         $comparator = $oldPriority < $priority ? '=' : '!=';
-        rex_sql_util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority, id' . $comparator . $id);
+        Util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority, id' . $comparator . $id);
 
         rex_delete_cache();
 
@@ -137,7 +138,7 @@ class rex_clang_service
         $del = Sql::factory();
         $del->setQuery('delete from ' . Core::getTablePrefix() . 'clang where id=?', [$id]);
 
-        rex_sql_util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority');
+        Util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority');
 
         $del->setQuery('delete from ' . Core::getTablePrefix() . 'article where clang_id=?', [$id]);
         $del->setQuery('delete from ' . Core::getTablePrefix() . 'article_slice where clang_id=?', [$id]);

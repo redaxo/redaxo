@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 
 class rex_be_controller
@@ -168,7 +169,7 @@ class rex_be_controller
         $logsPage->addSubpage((new rex_be_page('phpmailer', rex_i18n::msg('phpmailer_title')))->setSubPath(rex_path::core('pages/phpmailer.log.php')));
 
         if ('system' === self::getCurrentPagePart(1) && 'log' === self::getCurrentPagePart(2)) {
-            $slowQueryLogPath = rex_sql_util::slowQueryLogPath();
+            $slowQueryLogPath = Util::slowQueryLogPath();
             if (null !== $slowQueryLogPath && @is_readable($slowQueryLogPath)) {
                 $logsPage->addSubpage((new rex_be_page('slow-queries', rex_i18n::msg('syslog_slowqueries')))->setSubPath(rex_path::core('pages/system.log.slow-queries.php')));
             }

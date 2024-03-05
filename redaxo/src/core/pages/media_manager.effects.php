@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
@@ -31,7 +32,7 @@ if ('delete' == $func && $effectId > 0) {
     try {
         $sql->delete();
 
-        rex_sql_util::organizePriorities(
+        Util::organizePriorities(
             Core::getTablePrefix() . 'media_manager_type_effect',
             'priority',
             'type_id = ' . $typeId,

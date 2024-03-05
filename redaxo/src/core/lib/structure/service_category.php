@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
@@ -435,7 +436,7 @@ class rex_category_service
                 $addsql = 'asc';
             }
 
-            rex_sql_util::organizePriorities(
+            Util::organizePriorities(
                 Core::getTable('article'),
                 'catpriority',
                 'clang_id=' . (int) $clang . ' AND parent_id=' . (int) $parentId . ' AND startarticle=1',

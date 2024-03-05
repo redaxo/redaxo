@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Database\Util;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
@@ -320,7 +321,7 @@ class rex_metainfo_table_expander extends rex_form
         $sql = Sql::factory();
         $metaPrefix = $sql->escapeLikeWildcards($this->metaPrefix);
 
-        rex_sql_util::organizePriorities(
+        Util::organizePriorities(
             $this->tableName,
             'priority',
             'name LIKE "' . $metaPrefix . '%"',
