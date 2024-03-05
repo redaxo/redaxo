@@ -60,7 +60,7 @@ class Table
     /** @var list<string> */
     private $primaryKeyExisting = [];
 
-    /** @var array<string, \Redaxo\Core\Database\Index> */
+    /** @var array<string, Index> */
     private $indexes = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
@@ -449,7 +449,7 @@ class Table
     }
 
     /**
-     * @return array<string, \Redaxo\Core\Database\Index>
+     * @return array<string, Index>
      */
     public function getIndexes()
     {

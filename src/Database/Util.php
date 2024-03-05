@@ -1,13 +1,19 @@
 <?php
 
+namespace Redaxo\Core\Database;
+
 use Redaxo\Core\Core;
-use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Database\Table;
+
+use rex_exception;
+use rex_sql_exception;
+use function dirname;
+use function is_array;
+use function strlen;
 
 /**
  * Class to execute a sql dump.
  */
-class rex_sql_util
+class Util
 {
     /**
      * @psalm-taint-escape file

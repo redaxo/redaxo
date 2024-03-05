@@ -100,6 +100,7 @@ return RectorConfig::configure()
         rex_sql_column::class => Redaxo\Core\Database\Column::class,
         rex_sql_index::class => Redaxo\Core\Database\Index::class,
         rex_sql_table::class => Redaxo\Core\Database\Table::class,
+        rex_sql_util::class => Redaxo\Core\Database\Util::class,
     ])
     ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(rex_addon::class, 'getRegisteredPackages', 'getRegisteredAddons'),

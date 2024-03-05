@@ -5,11 +5,12 @@ use Redaxo\Core\Database\Column;
 use Redaxo\Core\Database\Index;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
+use Redaxo\Core\Database\Util;
 
 /**
  * @internal
  */
-class rex_sql_util_test extends TestCase
+class UtilTest extends TestCase
 {
     public const TABLE = 'rex_sql_util_test';
     public const TABLE2 = 'rex_sql_util_test2';
@@ -47,7 +48,7 @@ class rex_sql_util_test extends TestCase
     {
         $table = self::createTableWithData();
 
-        rex_sql_util::copyTable(self::TABLE, self::TABLE2);
+        Util::copyTable(self::TABLE, self::TABLE2);
 
         $table2 = Table::get(self::TABLE2);
 
@@ -61,7 +62,7 @@ class rex_sql_util_test extends TestCase
     {
         $table = self::createTableWithData();
 
-        rex_sql_util::copyTableWithData(self::TABLE, self::TABLE2);
+        Util::copyTableWithData(self::TABLE, self::TABLE2);
 
         $table2 = Table::get(self::TABLE2);
 
