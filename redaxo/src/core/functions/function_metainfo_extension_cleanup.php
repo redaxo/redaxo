@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 rex_extension::register('BACKUP_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
 
@@ -23,7 +24,7 @@ function rex_metainfo_cleanup($epOrParams)
     }
 
     // check wheter tables exists
-    $tables = rex_sql::factory()->getTables();
+    $tables = Sql::factory()->getTables();
     if (!isset($tables[Core::getTablePrefix() . 'metainfo_field'])) {
         return;
     }
@@ -32,7 +33,7 @@ function rex_metainfo_cleanup($epOrParams)
     // require needed classes manually
     require_once __DIR__ . '/../lib/table_manager.php';
 
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     $sql->setQuery('SELECT name FROM ' . Core::getTablePrefix() . 'metainfo_field');
 
     for ($i = 0; $i < $sql->getRows(); ++$i) {
@@ -51,7 +52,7 @@ function rex_metainfo_cleanup($epOrParams)
         $table = Core::getTablePrefix() . $table;
         $tableManager = new rex_metainfo_table_manager($table);
 
-        foreach (rex_sql::showColumns($table) as $column) {
+        foreach (Sql::showColumns($table) as $column) {
             $column = $column['name'];
             if (in_array(substr($column, 0, 4), $prefixes)) {
                 $tableManager->deleteColumn($column);
@@ -59,6 +60,6 @@ function rex_metainfo_cleanup($epOrParams)
         }
     }
 
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     $sql->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'metainfo_field');
 }

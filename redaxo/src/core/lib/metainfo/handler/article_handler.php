@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -12,7 +13,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
     /**
      * @return array
      */
-    protected function handleSave(array $params, rex_sql $sqlFields)
+    protected function handleSave(array $params, Sql $sqlFields)
     {
         // Nur speichern wenn auch das MetaForm ausgefüllt wurde
         // z.b. nicht speichern wenn über be_search select navigiert wurde
@@ -20,7 +21,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
             return $params;
         }
 
-        $article = rex_sql::factory();
+        $article = Sql::factory();
         // $article->setDebug();
         $article->setTable(Core::getTablePrefix() . 'article');
         $article->setWhere('id=:id AND clang_id=:clang', ['id' => $params['id'], 'clang' => $params['clang']]);

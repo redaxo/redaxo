@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * Funktionensammlung für die Strukturverwaltung.
@@ -49,7 +50,7 @@ class rex_category_service
         $startpageTemplates = [];
         if ('' != $categoryId) {
             // TemplateId vom Startartikel der jeweiligen Sprache vererben
-            $sql = rex_sql::factory();
+            $sql = Sql::factory();
             // $sql->setDebug();
             $sql->setQuery('select clang_id,template_id from ' . Core::getTablePrefix() . 'article where id=? and startarticle=1', [$categoryId]);
             for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
@@ -63,7 +64,7 @@ class rex_category_service
         $user = self::getUser();
 
         // Kategorie in allen Sprachen anlegen
-        $AART = rex_sql::factory();
+        $AART = Sql::factory();
         foreach (rex_clang::getAllIds() as $key) {
             $templateId = rex_template::getDefaultId();
             if (isset($startpageTemplates[$key]) && '' != $startpageTemplates[$key]) {
@@ -151,11 +152,11 @@ class rex_category_service
     public static function editCategory($categoryId, $clang, array $data)
     {
         // --- Kategorie mit alten Daten selektieren
-        $thisCat = rex_sql::factory();
+        $thisCat = Sql::factory();
         $thisCat->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE startarticle=1 and id=? and clang_id=?', [$categoryId, $clang]);
 
         // --- Kategorie selbst updaten
-        $EKAT = rex_sql::factory();
+        $EKAT = Sql::factory();
         $EKAT->setTable(Core::getTablePrefix() . 'article');
         $EKAT->setWhere(['id' => $categoryId, 'startarticle' => 1, 'clang_id' => $clang]);
 
@@ -175,10 +176,10 @@ class rex_category_service
 
             // --- Kategorie Kindelemente updaten
             if (isset($data['catname'])) {
-                $ArtSql = rex_sql::factory();
+                $ArtSql = Sql::factory();
                 $ArtSql->setQuery('SELECT id FROM ' . Core::getTablePrefix() . 'article WHERE parent_id=? AND startarticle=0 AND clang_id=?', [$categoryId, $clang]);
 
-                $EART = rex_sql::factory();
+                $EART = Sql::factory();
                 for ($i = 0; $i < $ArtSql->getRows(); ++$i) {
                     $EART->setTable(Core::getTablePrefix() . 'article');
                     $EART->setWhere(['id' => $ArtSql->getValue('id'), 'startarticle' => '0', 'clang_id' => $clang]);
@@ -202,7 +203,7 @@ class rex_category_service
                 }
 
                 if ($oldPrio != $data['catpriority']) {
-                    rex_sql::factory()
+                    Sql::factory()
                         ->setTable(Core::getTable('article'))
                         ->setWhere('id = :id AND clang_id != :clang', ['id' => $categoryId, 'clang' => $clang])
                         ->setValue('catpriority', $data['catpriority'])
@@ -257,19 +258,19 @@ class rex_category_service
     {
         $clang = rex_clang::getStartId();
 
-        $thisCat = rex_sql::factory();
+        $thisCat = Sql::factory();
         $thisCat->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE id=? and clang_id=?', [$categoryId, $clang]);
 
         // Prüfen ob die Kategorie existiert
         if (1 == $thisCat->getRows()) {
-            $KAT = rex_sql::factory();
+            $KAT = Sql::factory();
             $KAT->setQuery('select * from ' . Core::getTablePrefix() . 'article where parent_id=? and clang_id=? and startarticle=1', [$categoryId, $clang]);
             // Prüfen ob die Kategorie noch Unterkategorien besitzt
             if (0 == $KAT->getRows()) {
                 $KAT->setQuery('select * from ' . Core::getTablePrefix() . 'article where parent_id=? and clang_id=? and startarticle=0', [$categoryId, $clang]);
                 // Prüfen ob die Kategorie noch Artikel besitzt (ausser dem Startartikel)
                 if (0 == $KAT->getRows()) {
-                    $thisCat = rex_sql::factory();
+                    $thisCat = Sql::factory();
                     $thisCat->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE id=?', [$categoryId]);
 
                     $parentId = (int) $thisCat->getValue('parent_id');
@@ -320,7 +321,7 @@ class rex_category_service
      */
     public static function categoryStatus($categoryId, $clang, $status = null)
     {
-        $KAT = rex_sql::factory();
+        $KAT = Sql::factory();
         $KAT->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and clang_id=? and startarticle=1', [$categoryId, $clang]);
         if (1 == $KAT->getRows()) {
             // Status wurde nicht von außen vorgegeben,
@@ -331,7 +332,7 @@ class rex_category_service
                 $newstatus = $status;
             }
 
-            $EKAT = rex_sql::factory();
+            $EKAT = Sql::factory();
             $EKAT->setTable(Core::getTablePrefix() . 'article');
             $EKAT->setWhere(['id' => $categoryId,  'clang_id' => $clang, 'startarticle' => 1]);
             $EKAT->setValue('status', $newstatus);
@@ -444,7 +445,7 @@ class rex_category_service
             rex_article_cache::deleteLists($parentId);
             rex_article_cache::deleteMeta($parentId);
 
-            $ids = rex_sql::factory()->getArray('SELECT id FROM ' . Core::getTable('article') . ' WHERE startarticle=1 AND parent_id = ? GROUP BY id', [$parentId]);
+            $ids = Sql::factory()->getArray('SELECT id FROM ' . Core::getTable('article') . ' WHERE startarticle=1 AND parent_id = ? GROUP BY id', [$parentId]);
             foreach ($ids as $id) {
                 rex_article_cache::deleteMeta((int) $id['id']);
             }
@@ -471,10 +472,10 @@ class rex_category_service
 
         // kategorien vorhanden ?
         // ist die zielkategorie im pfad der quellkategeorie ?
-        $fcat = rex_sql::factory();
+        $fcat = Sql::factory();
         $fcat->setQuery('select * from ' . Core::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$fromCat, rex_clang::getStartId()]);
 
-        $tcat = rex_sql::factory();
+        $tcat = Sql::factory();
         $tcat->setQuery('select * from ' . Core::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$toCat, rex_clang::getStartId()]);
 
         if (1 != $fcat->getRows() || (1 != $tcat->getRows() && 0 != $toCat)) {
@@ -503,11 +504,11 @@ class rex_category_service
 
         $fromPath = $fcat->getValue('path') . $fromCat . '|';
 
-        $gcats = rex_sql::factory();
+        $gcats = Sql::factory();
         // $gcats->setDebug();
         $gcats->setQuery('select * from ' . Core::getTablePrefix() . 'article where path like ? and clang_id=?', [$fromPath . '%', rex_clang::getStartId()]);
 
-        $up = rex_sql::factory();
+        $up = Sql::factory();
         // $up->setDebug();
         for ($i = 0; $i < $gcats->getRows(); ++$i) {
             // make update
@@ -527,8 +528,8 @@ class rex_category_service
         }
 
         // ----- clang holen, max catprio holen und entsprechen updaten
-        $gmax = rex_sql::factory();
-        $up = rex_sql::factory();
+        $gmax = Sql::factory();
+        $up = Sql::factory();
         // $up->setDebug();
         foreach (rex_clang::getAllIds() as $clang) {
             $gmax->setQuery('select max(catpriority) from ' . Core::getTablePrefix() . 'article where parent_id=? and clang_id=?', [$toCat, $clang]);

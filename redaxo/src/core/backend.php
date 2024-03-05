@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
@@ -383,7 +384,7 @@ if (Core::getConfig('article_work_version', false)) {
         $return = rex_type::string($ep->getSubject());
 
         $workingVersionEmpty = true;
-        $gw = rex_sql::factory();
+        $gw = Sql::factory();
         $gw->setQuery(
             'select * from ' . Core::getTablePrefix(
             ) . 'article_slice where article_id=? and clang_id=? and revision=1 LIMIT 1',

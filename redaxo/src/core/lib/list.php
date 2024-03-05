@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
@@ -57,7 +58,7 @@ class rex_list implements rex_url_provider_interface
     /** @var positive-int */
     private $db;
 
-    protected rex_sql $sql;
+    protected Sql $sql;
     /** @var bool */
     private $debug;
     /** @var string */
@@ -137,7 +138,7 @@ class rex_list implements rex_url_provider_interface
 
         // --------- List Attributes
         $this->db = $db;
-        $this->sql = rex_sql::factory($db);
+        $this->sql = Sql::factory($db);
         $this->debug = $debug;
         $this->sql->setDebug($this->debug);
         $this->name = $listName;
@@ -181,7 +182,7 @@ class rex_list implements rex_url_provider_interface
             }
             $this->pager = new rex_pager($rowsPerPage, $cursorName);
 
-            $sql = rex_sql::factory($db);
+            $sql = Sql::factory($db);
             $sql->setQuery(self::prepareCountQuery($query));
             $this->rows = (int) $sql->getValue('rows');
             $this->pager->setRowCount($this->rows);
@@ -907,7 +908,7 @@ class rex_list implements rex_url_provider_interface
         if ('' != $sortColumn) {
             $sortType = $this->getSortType();
 
-            $sql = rex_sql::factory($this->db);
+            $sql = Sql::factory($this->db);
             $sortColumn = $sql->escapeIdentifier($sortColumn);
 
             if ($defaultSort || false === stripos($query, ' ORDER BY ')) {
@@ -916,7 +917,7 @@ class rex_list implements rex_url_provider_interface
         } elseif ($defaultSort) {
             $sort = [];
 
-            $sql = rex_sql::factory($this->db);
+            $sql = Sql::factory($this->db);
             foreach ($defaultSort as $column => $type) {
                 $type = strtolower($type);
                 if (!in_array($type, ['asc', 'desc'], true)) {

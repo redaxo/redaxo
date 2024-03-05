@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 /**
  * Class to represent sql tables.
  */
@@ -14,7 +16,7 @@ class rex_sql_table
     /** @var int */
     private $db;
 
-    /** @var rex_sql */
+    /** @var Sql */
     private $sql;
 
     /** @var bool */
@@ -62,16 +64,16 @@ class rex_sql_table
     private function __construct(string $name, int $db = 1)
     {
         $this->db = $db;
-        $this->sql = rex_sql::factory($db);
+        $this->sql = Sql::factory($db);
         $this->name = $name;
         $this->originalName = $name;
 
         try {
-            $columns = rex_sql::showColumns($name, $db);
+            $columns = Sql::showColumns($name, $db);
             $this->new = false;
         } catch (rex_sql_exception $exception) {
             $sql = $exception->getSql();
-            if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $sql->getErrno()) {
+            if ($sql && Sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $sql->getErrno()) {
                 throw $exception;
             }
 

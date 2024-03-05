@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 // don't use REX_MIN_PHP_VERSION or rex_setup::MIN_* constants here!
 // while updating the core, the constants contain the old min versions from previous core version
@@ -27,7 +28,7 @@ $minMariaDbVersion = '10.4';
 
 $minVersion = $minMysqlVersion;
 $dbType = 'MySQL';
-$dbVersion = rex_sql::getServerVersion();
+$dbVersion = Sql::getServerVersion();
 if (preg_match('/^(?:\d+\.\d+\.\d+-)?(\d+\.\d+\.\d+)-mariadb/i', $dbVersion, $match)) {
     $minVersion = $minMariaDbVersion;
     $dbType = 'MariaDB';

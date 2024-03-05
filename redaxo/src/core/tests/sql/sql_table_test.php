@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -13,7 +14,7 @@ class rex_sql_table_test extends TestCase
 
     protected function tearDown(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE2 . '`');
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE . '`');
 
@@ -268,8 +269,8 @@ class rex_sql_table_test extends TestCase
 
         self::assertEquals($status, $table->getColumn('status'));
 
-        $sql = rex_sql::factory();
-        if (rex_sql::MYSQL === $sql->getDbType() && 8 <= (int) $sql->getDbVersion()) {
+        $sql = Sql::factory();
+        if (Sql::MYSQL === $sql->getDbType() && 8 <= (int) $sql->getDbVersion()) {
             // In MySQL 8 the display width of integers is simulated by rex_sql_table to the max width.
             self::assertEquals('int(11)', $table->getColumn('amount')?->getType());
         } else {

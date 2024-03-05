@@ -1,15 +1,47 @@
 <?php
 
+namespace Redaxo\Core\Database;
+
+use InvalidArgumentException;
+use Iterator;
+use JsonException;
+use PDO;
+use PDOException;
+use PDOStatement;
 use Redaxo\Core\Core;
+use ReturnTypeWillChange;
+use rex_factory_trait;
+use rex_i18n;
+use rex_sql_could_not_connect_exception;
+use rex_sql_exception;
+use rex_type;
+use SensitiveParameter;
+use Throwable;
+
+use function array_key_exists;
+use function assert;
+use function defined;
+use function gettype;
+use function in_array;
+use function is_array;
+use function is_int;
+use function is_string;
+use function strlen;
+
+use const E_USER_WARNING;
+use const FILTER_FLAG_HOSTNAME;
+use const FILTER_VALIDATE_DOMAIN;
+use const JSON_THROW_ON_ERROR;
+use const PHP_SAPI;
 
 /**
  * Klasse zur Verbindung und Interatkion mit der Datenbank.
  *
  * see https://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
  *
- * @implements Iterator<int<0, max>, rex_sql>
+ * @implements Iterator<int<0, max>, Sql>
  */
-class rex_sql implements Iterator
+class Sql implements Iterator
 {
     use rex_factory_trait;
 
@@ -79,8 +111,7 @@ class rex_sql implements Iterator
      * @var numeric-string
      */
     private $lastInsertId = '0'; // compatibility to PDO, which uses string '0' as default
-
-    /** @var list<self> */
+    /** @var list<Sql> */
     protected $records;
 
     /** @var PDOStatement|null */
@@ -587,7 +618,7 @@ class rex_sql implements Iterator
      *          $record->setRawValue('created', 'NOW()');
      *      });
      *
-     * @param callable(rex_sql):void $callback The callback receives a new `rex_sql` instance for the new record
+     * @param callable(\Redaxo\Core\Database\Sql):void $callback The callback receives a new `rex_sql` instance for the new record
      *                           and must set the values of the new record on that instance (see example above)
      *
      * @return $this

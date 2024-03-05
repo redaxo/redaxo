@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 rex_sql_table::get(Core::getTable('clang'))
     ->ensurePrimaryIdColumn()
@@ -10,7 +11,7 @@ rex_sql_table::get(Core::getTable('clang'))
     ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
     ->ensure();
 
-$sql = rex_sql::factory();
+$sql = Sql::factory();
 if (!$sql->setQuery('SELECT 1 FROM ' . Core::getTable('clang') . ' LIMIT 1')->getRows()) {
     $sql->setTable(Core::getTable('clang'));
     $sql->setValues(['id' => 1, 'code' => 'de', 'name' => 'deutsch', 'priority' => 1, 'status' => 1]);
@@ -243,7 +244,7 @@ rex_sql_table::get(Core::getTable('template'))
     ->ensureIndex(new rex_sql_index('key', ['key'], rex_sql_index::UNIQUE))
     ->ensure();
 
-$sql = rex_sql::factory();
+$sql = Sql::factory();
 $sql->setQuery('UPDATE ' . Core::getTablePrefix() . 'article_slice set revision=0 where revision<1 or revision IS NULL');
 $sql->setQuery('SELECT 1 FROM ' . Core::getTable('template') . ' LIMIT 1');
 if (!$sql->getRows()) {
@@ -322,11 +323,11 @@ $data = [
     ['id' => 3, 'name' => 'rex_media_large', 'description' => '1200 × 1200 px'],
 ];
 
-$sql = rex_sql::factory();
+$sql = Sql::factory();
 $sql->setTable(Core::getTable('media_manager_type'));
 
 foreach ($data as $row) {
-    $sql->addRecord(static function (rex_sql $record) use ($row) {
+    $sql->addRecord(static function (Sql $record) use ($row) {
         $record
             ->setValues($row)
             ->setValue('status', 1)
@@ -343,11 +344,11 @@ $data = [
     ['id' => 3, 'type_id' => 3, 'effect' => 'resize', 'parameters' => '{"rex_effect_crop":{"rex_effect_crop_width":"","rex_effect_crop_height":"","rex_effect_crop_offset_width":"","rex_effect_crop_offset_height":"","rex_effect_crop_hpos":"center","rex_effect_crop_vpos":"middle"},"rex_effect_filter_blur":{"rex_effect_filter_blur_amount":"80","rex_effect_filter_blur_radius":"8","rex_effect_filter_blur_threshold":"3"},"rex_effect_filter_sharpen":{"rex_effect_filter_sharpen_amount":"80","rex_effect_filter_sharpen_radius":"0.5","rex_effect_filter_sharpen_threshold":"3"},"rex_effect_flip":{"rex_effect_flip_flip":"X"},"rex_effect_header":{"rex_effect_header_download":"open_media","rex_effect_header_cache":"no_cache"},"rex_effect_insert_image":{"rex_effect_insert_image_brandimage":"","rex_effect_insert_image_hpos":"left","rex_effect_insert_image_vpos":"top","rex_effect_insert_image_padding_x":"-10","rex_effect_insert_image_padding_y":"-10"},"rex_effect_mediapath":{"rex_effect_mediapath_mediapath":""},"rex_effect_mirror":{"rex_effect_mirror_height":"","rex_effect_mirror_set_transparent":"colored","rex_effect_mirror_bg_r":"","rex_effect_mirror_bg_g":"","rex_effect_mirror_bg_b":""},"rex_effect_resize":{"rex_effect_resize_width":"1200","rex_effect_resize_height":"1200","rex_effect_resize_style":"maximum","rex_effect_resize_allow_enlarge":"not_enlarge"},"rex_effect_workspace":{"rex_effect_workspace_width":"","rex_effect_workspace_height":"","rex_effect_workspace_hpos":"left","rex_effect_workspace_vpos":"top","rex_effect_workspace_set_transparent":"colored","rex_effect_workspace_bg_r":"","rex_effect_workspace_bg_g":"","rex_effect_workspace_bg_b":""}}'],
 ];
 
-$sql = rex_sql::factory();
+$sql = Sql::factory();
 $sql->setTable(Core::getTable('media_manager_type_effect'));
 
 foreach ($data as $row) {
-    $sql->addRecord(static function (rex_sql $record) use ($row) {
+    $sql->addRecord(static function (Sql $record) use ($row) {
         $record
             ->setValues($row)
             ->setValue('priority', 1)
@@ -521,10 +522,10 @@ $data = [
     // XXX neue konstanten koennen hier nicht verwendet werden, da die updates mit der vorherigen version der klasse ausgefuehrt werden
 ];
 
-$sql = rex_sql::factory();
+$sql = Sql::factory();
 $sql->setTable(Core::getTable('metainfo_type'));
 foreach ($data as $row) {
-    $sql->addRecord(static function (rex_sql $record) use ($row) {
+    $sql->addRecord(static function (Sql $record) use ($row) {
         $record->setValues($row);
     });
 }
@@ -533,7 +534,7 @@ $sql->insertOrUpdate();
 $tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_'], 'clang' => ['clang_']];
 $columns = ['article' => [], 'media' => [], 'clang' => []];
 foreach ($tablePrefixes as $table => $prefixes) {
-    foreach (rex_sql::showColumns(Core::getTable($table)) as $column) {
+    foreach (Sql::showColumns(Core::getTable($table)) as $column) {
         $column = $column['name'];
         if (in_array(substr($column, 0, 4), $prefixes)) {
             $columns[$table][$column] = true;
@@ -541,7 +542,7 @@ foreach ($tablePrefixes as $table => $prefixes) {
     }
 }
 
-$sql = rex_sql::factory();
+$sql = Sql::factory();
 $sql->setQuery('SELECT p.name, p.default, t.dbtype, t.dblength FROM ' . Core::getTable('metainfo_field') . ' p, ' . Core::getTable('metainfo_type') . ' t WHERE p.type_id = t.id');
 $managers = [
     'article' => new rex_metainfo_table_manager(Core::getTable('article')),

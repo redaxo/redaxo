@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 if (Core::isSetup()) {
     rex_response::sendRedirect(rex_url::backendController());
@@ -89,7 +90,7 @@ if (Core::getConfig('article_history', false)) {
 
                 rex_article_slice_history::checkTables();
 
-                $escapeSql = rex_sql::factory();
+                $escapeSql = Sql::factory();
 
                 $sliceDate = ' AND ' . Core::getTablePrefix() . 'article_slice.history_date = ' . $escapeSql->escape($historyDate);
 

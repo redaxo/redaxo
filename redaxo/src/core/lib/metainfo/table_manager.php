@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 /**
  * @internal
  */
@@ -49,7 +51,7 @@ class rex_metainfo_table_manager
      */
     public function addColumn($name, $type, $length, $default = null, $nullable = true)
     {
-        $sql = rex_sql::factory($this->DBID);
+        $sql = Sql::factory($this->DBID);
 
         $qry = 'ALTER TABLE ' . $sql->escapeIdentifier($this->getTableName()) . ' ADD ';
         $qry .= $sql->escapeIdentifier($name);
@@ -92,7 +94,7 @@ class rex_metainfo_table_manager
      */
     public function editColumn($oldname, $name, $type, $length, $default = null, $nullable = true)
     {
-        $sql = rex_sql::factory($this->DBID);
+        $sql = Sql::factory($this->DBID);
 
         $qry = 'ALTER TABLE ' . $sql->escapeIdentifier($this->getTableName()) . ' CHANGE ';
         $qry .= $sql->escapeIdentifier($oldname) . ' ' . $sql->escapeIdentifier($name);
@@ -130,7 +132,7 @@ class rex_metainfo_table_manager
      */
     public function deleteColumn($name)
     {
-        $sql = rex_sql::factory($this->DBID);
+        $sql = Sql::factory($this->DBID);
 
         $qry = 'ALTER TABLE ' . $sql->escapeIdentifier($this->getTableName()) . ' DROP ';
         $qry .= $sql->escapeIdentifier($name);
@@ -149,7 +151,7 @@ class rex_metainfo_table_manager
      */
     public function hasColumn($name)
     {
-        $columns = rex_sql::showColumns($this->getTableName(), $this->DBID);
+        $columns = Sql::showColumns($this->getTableName(), $this->DBID);
 
         foreach ($columns as $column) {
             if ($column['name'] == $name) {

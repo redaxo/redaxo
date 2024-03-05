@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -12,7 +13,7 @@ class rex_sql_util_test extends TestCase
 
     protected function tearDown(): void
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE2 . '`');
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE . '`');
 
@@ -28,7 +29,7 @@ class rex_sql_util_test extends TestCase
             ->ensureIndex(new rex_sql_index('i_title', ['title']))
             ->create();
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         for ($i = 1; $i < 3; ++$i) {
             $sql
                 ->setTable(self::TABLE)
@@ -50,7 +51,7 @@ class rex_sql_util_test extends TestCase
         self::assertEquals($table2->getColumns(), $table->getColumns());
         self::assertEquals($table2->getIndexes(), $table->getIndexes());
 
-        self::assertSame(0, rex_sql::factory()->setTable(self::TABLE2)->select()->getRows());
+        self::assertSame(0, Sql::factory()->setTable(self::TABLE2)->select()->getRows());
     }
 
     public function testCopyTableWithData(): void
@@ -64,6 +65,6 @@ class rex_sql_util_test extends TestCase
         self::assertEquals($table2->getColumns(), $table->getColumns());
         self::assertEquals($table2->getIndexes(), $table->getIndexes());
 
-        self::assertSame(2, rex_sql::factory()->setTable(self::TABLE2)->select()->getRows());
+        self::assertSame(2, Sql::factory()->setTable(self::TABLE2)->select()->getRows());
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 /**
  * @internal
  */
@@ -10,7 +12,7 @@ class rex_history_login extends rex_backend_login
      */
     public function checkTempSession($historyLogin, $historySession, $historyValidtime)
     {
-        $userSql = rex_sql::factory($this->DB);
+        $userSql = Sql::factory($this->DB);
         $userSql->setQuery($this->loginQuery, [':login' => $historyLogin]);
 
         if (1 == $userSql->getRows()) {

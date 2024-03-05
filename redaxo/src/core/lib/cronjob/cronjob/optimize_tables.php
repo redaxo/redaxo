@@ -1,14 +1,15 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_cronjob_optimize_tables extends rex_cronjob
 {
     public function execute()
     {
-        $tables = rex_sql::factory()->getTables(Core::getTablePrefix());
+        $tables = Sql::factory()->getTables(Core::getTablePrefix());
         if (!empty($tables)) {
-            $sql = rex_sql::factory();
+            $sql = Sql::factory();
             // $sql->setDebug();
             try {
                 $sql->setQuery('OPTIMIZE TABLE ' . implode(', ', array_map($sql->escapeIdentifier(...), $tables)));

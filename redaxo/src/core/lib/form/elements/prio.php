@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Database\Sql;
+
 class rex_form_prio_element extends rex_form_select_element
 {
     /** @var string */
@@ -83,7 +85,7 @@ class rex_form_prio_element extends rex_form_select_element
         }
 
         $qry .= ' ORDER BY ' . $name;
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery($qry, $params);
 
         $this->select->addOption(rex_i18n::msg($this->firstOptionMsg), 1);

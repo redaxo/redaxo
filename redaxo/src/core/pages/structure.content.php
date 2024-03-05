@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 $articleId = rex_request('article_id', 'int');
 $clang = rex_request('clang', 'int');
@@ -18,7 +19,7 @@ $globalWarning = '';
 $info = '';
 $globalInfo = '';
 
-$article = rex_sql::factory();
+$article = Sql::factory();
 $article->setQuery('
         SELECT
             article.*, template.attributes as template_attributes
@@ -104,7 +105,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     if (rex_request('save', 'boolean') && in_array($function, ['add', 'edit', 'delete'])) {
         // ----- check module
 
-        $CM = rex_sql::factory();
+        $CM = Sql::factory();
         $moduleId = null;
         if ('edit' == $function || 'delete' == $function) {
             // edit/ delete
@@ -141,7 +142,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
                 // ***********************  daten einlesen
 
-                $newsql = rex_sql::factory();
+                $newsql = Sql::factory();
                 // $newsql->setDebug();
 
                 // ----- PRE SAVE ACTION [ADD/EDIT/DELETE]
@@ -179,7 +180,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                             $newsql->setWhere(['id' => $sliceId]);
                         } else {
                             // determine priority value to get the new slice into the right order
-                            $prevSlice = rex_sql::factory();
+                            $prevSlice = Sql::factory();
                             // $prevSlice->setDebug();
                             if (-1 == $sliceId) {
                                 $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . $sliceTable . ' WHERE article_id=? AND clang_id=? AND ctype_id=? AND revision=?', [$articleId, $clang, $ctype, $sliceRevision]);
@@ -299,7 +300,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                     // ----- / SAVE SLICE
 
                     // ----- artikel neu generieren
-                    $EA = rex_sql::factory();
+                    $EA = Sql::factory();
                     $EA->setTable(Core::getTablePrefix() . 'article');
                     $EA->setWhere(['id' => $articleId, 'clang_id' => $clang]);
                     $EA->addGlobalUpdateFields();

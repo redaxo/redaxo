@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 $content = '';
 
@@ -20,7 +21,7 @@ if ('delete' == $func && $typeId > 0) {
     // must be called before deletion, otherwise the method can not resolve the id to type name
     rex_media_manager::deleteCacheByType($typeId);
 
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
     //  $sql->setDebug();
 
     try {
@@ -50,13 +51,13 @@ if ('delete_cache' == $func && $typeId > 0) {
 
 // -------------- copy type
 if ('copy' == $func && $typeId > 0) {
-    $sql = rex_sql::factory();
+    $sql = Sql::factory();
 
     try {
         $sql->setQuery('INSERT INTO ' . Core::getTablePrefix() . 'media_manager_type (status, name, description) SELECT 0, CONCAT(name, \' ' . rex_i18n::msg('media_manager_type_name_copy') . '\'), description FROM ' . Core::getTablePrefix() . 'media_manager_type WHERE id = ?', [$typeId]);
         $newTypeId = $sql->getLastId();
         $login = Core::requireUser()->getLogin();
-        $sql->setQuery('INSERT INTO ' . Core::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM ' . Core::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(rex_sql::FORMAT_DATETIME), $login, date(rex_sql::FORMAT_DATETIME), $login, $typeId]);
+        $sql->setQuery('INSERT INTO ' . Core::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM ' . Core::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(Sql::FORMAT_DATETIME), $login, date(Sql::FORMAT_DATETIME), $login, $typeId]);
 
         $success = rex_i18n::msg('media_manager_type_copied');
     } catch (rex_sql_exception) {

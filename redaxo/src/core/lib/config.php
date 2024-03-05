@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * Class for handling configurations.
@@ -320,7 +321,7 @@ class rex_config
      */
     private static function loadFromDb()
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'config');
 
         self::$data = [];
@@ -372,7 +373,7 @@ class rex_config
      */
     private static function saveToDb()
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         // $sql->setDebug();
 
         // remove all deleted data
@@ -400,7 +401,7 @@ class rex_config
 
             foreach (self::$changedData as $namespace => $nsData) {
                 foreach ($nsData as $key => $value) {
-                    $sql->addRecord(static function (rex_sql $record) use ($namespace, $key, $value) {
+                    $sql->addRecord(static function (Sql $record) use ($namespace, $key, $value) {
                         $record->setValue('namespace', $namespace);
                         $record->setValue('key', $key);
                         $record->setValue('value', json_encode($value));

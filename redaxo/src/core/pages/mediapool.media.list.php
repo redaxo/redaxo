@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
@@ -33,7 +34,7 @@ if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
         $selectedmedia = rex_post('selectedmedia', 'array');
         if (isset($selectedmedia[0]) && '' != $selectedmedia[0]) {
             foreach ($selectedmedia as $fileName) {
-                $db = rex_sql::factory();
+                $db = Sql::factory();
                 // $db->setDebug();
                 $db->setTable(Core::getTablePrefix() . 'media');
                 $db->setWhere(['filename' => $fileName]);
@@ -150,7 +151,7 @@ $panel = '
 // ----- move, delete and get selected items
 if ($hasCategoryPerm) {
     $addInput = '';
-    $filecat = rex_sql::factory();
+    $filecat = Sql::factory();
     $filecat->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_category ORDER BY name ASC LIMIT 1');
 
     $e = [];

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 class rex_content_service
 {
@@ -14,7 +15,7 @@ class rex_content_service
         $where = 'article_id=' . $articleId . ' AND clang_id=' . $clangId . ' AND ctype_id=' . $ctypeId . ' AND revision=' . (int) $data['revision'];
 
         if (!isset($data['priority'])) {
-            $prevSlice = rex_sql::factory();
+            $prevSlice = Sql::factory();
             $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . Core::getTable('article_slice') . ' WHERE ' . $where);
 
             $data['priority'] = $prevSlice->getValue('priority');
@@ -22,7 +23,7 @@ class rex_content_service
             $data['priority'] = 1;
         }
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setTable(Core::getTable('article_slice'));
         $sql->setValue('article_id', $articleId);
         $sql->setValue('clang_id', $clangId);
@@ -92,14 +93,14 @@ class rex_content_service
         // article regenerieren.
 
         // check if slice id is valid
-        $CM = rex_sql::factory();
+        $CM = Sql::factory();
         $CM->setQuery('select * from ' . Core::getTablePrefix() . 'article_slice where id=? and clang_id=?', [$sliceId, $clang]);
         if (1 == $CM->getRows()) {
             // origin value for later success-check
             $oldPriority = $CM->getValue('priority');
 
             // prepare sql for later saving
-            $upd = rex_sql::factory();
+            $upd = Sql::factory();
             $upd->setTable(Core::getTablePrefix() . 'article_slice');
             $upd->setWhere([
                 'id' => $sliceId,
@@ -168,7 +169,7 @@ class rex_content_service
     public static function deleteSlice($sliceId)
     {
         // check if slice id is valid
-        $curr = rex_sql::factory();
+        $curr = Sql::factory();
         $curr->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article_slice WHERE id=?', [$sliceId]);
         if (1 != $curr->getRows()) {
             return false;
@@ -182,7 +183,7 @@ class rex_content_service
         ]));
 
         // delete the slice
-        $del = rex_sql::factory();
+        $del = Sql::factory();
         $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'article_slice WHERE id=?', [$sliceId]);
 
         // reorg remaining slices
@@ -202,7 +203,7 @@ class rex_content_service
      */
     public static function sliceStatus(int $sliceId, int $status)
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('SELECT article_id, clang_id FROM ' . Core::getTable('article_slice') . ' WHERE id = ?', [$sliceId]);
 
         if (!$sql->getRows()) {
@@ -238,7 +239,7 @@ class rex_content_service
             return false;
         }
 
-        $gc = rex_sql::factory();
+        $gc = Sql::factory();
         if (null === $revision) {
             $gc->setQuery('select * from ' . Core::getTablePrefix() . 'article_slice where article_id=? and clang_id=?', [$fromId, $fromClang]);
         } else {
@@ -255,15 +256,15 @@ class rex_content_service
             'slice_revision' => $revision,
         ]));
 
-        $ins = rex_sql::factory();
+        $ins = Sql::factory();
         // $ins->setDebug();
         $ctypes = [];
 
-        $cols = rex_sql::factory();
+        $cols = Sql::factory();
         // $cols->setDebug();
         $cols->setQuery('SHOW COLUMNS FROM ' . Core::getTablePrefix() . 'article_slice');
 
-        $maxPriorityRaw = rex_sql::factory()->getArray(
+        $maxPriorityRaw = Sql::factory()->getArray(
             'SELECT `ctype_id`, `revision`, MAX(`priority`) as max FROM ' . Core::getTable('article_slice') . ' WHERE `article_id` = :to_id AND `clang_id` = :to_clang GROUP BY `ctype_id`, `revision`',
             ['to_id' => $toId, 'to_clang' => $toClang],
         );

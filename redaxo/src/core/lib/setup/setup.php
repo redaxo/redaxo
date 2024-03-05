@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -135,7 +136,7 @@ class rex_setup
      */
     public static function checkDb($config, $createDb)
     {
-        $err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $createDb);
+        $err = Sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $createDb);
         if (true !== $err) {
             return $err;
         }
@@ -144,14 +145,14 @@ class rex_setup
         $orgDbConfig = Core::getProperty('db');
         try {
             Core::setProperty('db', $config['db']);
-            $sql = rex_sql::factory();
+            $sql = Sql::factory();
             $type = $sql->getDbType();
             $version = $sql->getDbVersion();
         } finally {
             Core::setProperty('db', $orgDbConfig);
         }
 
-        $minVersion = rex_sql::MARIADB === $type ? self::MIN_MARIADB_VERSION : self::MIN_MYSQL_VERSION;
+        $minVersion = Sql::MARIADB === $type ? self::MIN_MARIADB_VERSION : self::MIN_MYSQL_VERSION;
         if (rex_version::compare($version, $minVersion, '<')) {
             return rex_i18n::msg('sql_database_required_version', $type, $version, self::MIN_MYSQL_VERSION, self::MIN_MARIADB_VERSION);
         }
@@ -206,13 +207,13 @@ class rex_setup
      */
     public static function checkDbSecurity()
     {
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $dbVersion = $sql->getDbVersion();
         $dbType = $sql->getDbType();
         $security = [];
         $currentDate = date('Y-m-d');
 
-        if (rex_sql::MARIADB === $dbType) {
+        if (Sql::MARIADB === $dbType) {
             // Deprecated versions and dates
             // Source: https://endoflife.date/mariadb, set to 1st of month
             $deprecatedVersions = [
@@ -239,7 +240,7 @@ class rex_setup
                     $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
                 }
             }
-        } elseif (rex_sql::MYSQL === $dbType) {
+        } elseif (Sql::MYSQL === $dbType) {
             // Deprecated versions and dates
             // Source: https://en.wikipedia.org/wiki/MySQL#Release_history, set to 1st of month
             $deprecatedVersions = [
@@ -277,7 +278,7 @@ class rex_setup
         }
 
         try {
-            $userSql = rex_sql::factory();
+            $userSql = Sql::factory();
             $userSql->setQuery('select * from ' . Core::getTable('user') . ' LIMIT 1');
 
             return $initial = 0 == $userSql->getRows();
@@ -285,7 +286,7 @@ class rex_setup
             return $initial = true;
         } catch (rex_sql_exception $e) {
             $sql = $e->getSql();
-            if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST === $sql->getErrno()) {
+            if ($sql && Sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST === $sql->getErrno()) {
                 return $initial = true;
             }
             throw $e;

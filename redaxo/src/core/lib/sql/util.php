@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * Class to execute a sql dump.
@@ -12,7 +13,7 @@ class rex_sql_util
      */
     public static function slowQueryLogPath(): ?string
     {
-        $db = rex_sql::factory();
+        $db = Sql::factory();
         $db->setQuery("show variables like 'slow_query_log_file'");
         $slowQueryLogPath = (string) $db->getValue('Value');
 
@@ -48,7 +49,7 @@ class rex_sql_util
             throw new rex_exception(sprintf('Destination table "%s" already exists.', $destinationTable));
         }
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('CREATE TABLE ' . $sql->escapeIdentifier($destinationTable) . ' LIKE ' . $sql->escapeIdentifier($sourceTable));
 
         rex_sql_table::clearInstance($destinationTable);
@@ -66,7 +67,7 @@ class rex_sql_util
     {
         self::copyTable($sourceTable, $destinationTable);
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery('INSERT ' . $sql->escapeIdentifier($destinationTable) . ' SELECT * FROM ' . $sql->escapeIdentifier($sourceTable));
     }
 
@@ -85,7 +86,7 @@ class rex_sql_util
     {
         // Datenbankvariable initialisieren
         $qry = 'SET @count=' . ($startBy - 1);
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setQuery($qry);
 
         // Spalte updaten
@@ -118,7 +119,7 @@ class rex_sql_util
             throw new rex_exception('Expecting a .sql file, "' . $file . '" given.');
         }
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         $sql->setDebug($debug);
         $error = '';
 

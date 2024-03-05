@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
 
 /**
  * @internal
@@ -28,13 +29,13 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
     /**
      * @return array
      */
-    public function handleSave(array $params, rex_sql $sqlFields)
+    public function handleSave(array $params, Sql $sqlFields)
     {
         if ('post' != rex_request_method() || !isset($params['id'])) {
             return $params;
         }
 
-        $sql = rex_sql::factory();
+        $sql = Sql::factory();
         // $sql->setDebug();
         $sql->setTable(Core::getTablePrefix() . 'clang');
         $sql->setWhere('id=:id', ['id' => $params['id']]);
