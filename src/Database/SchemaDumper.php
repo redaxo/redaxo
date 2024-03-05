@@ -8,20 +8,20 @@ use function count;
 use function strlen;
 
 /**
- * Class for generating the php code for a rex_sql_table definition.
+ * Class for generating the php code for a Table definition.
  *
  * Especially useful to generate the code for the `install.php` of packages.
  */
 class SchemaDumper
 {
     /**
-     * Dumps the schema for the given table as php code (using `rex_sql_table`).
+     * Dumps the schema for the given table as php code (using `Table`).
      *
      * @return string
      */
     public function dumpTable(Table $table)
     {
-        $code = 'rex_sql_table::get(' . $this->tableName($table->getName()) . ')';
+        $code = 'Table::get(' . $this->tableName($table->getName()) . ')';
 
         $setPrimaryKey = true;
         $primaryKeyIsId = ['id'] === $table->getPrimaryKey();
@@ -40,10 +40,10 @@ class SchemaDumper
 
         $code = str_replace(
             "
-    ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
-    ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
-    ->ensureColumn(new rex_sql_column('updatedate', 'datetime'))
-    ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))",
+    ->ensureColumn(new Column('createdate', 'datetime'))
+    ->ensureColumn(new Column('createuser', 'varchar(255)'))
+    ->ensureColumn(new Column('updatedate', 'datetime'))
+    ->ensureColumn(new Column('updateuser', 'varchar(255)'))",
             '
     ->ensureGlobalColumns()',
             $code,
@@ -93,7 +93,7 @@ class SchemaDumper
         $parameters[] = $this->scalar($column->getType());
         $parameters[] = $this->scalar($column->getName());
 
-        return 'new rex_sql_column(' . implode(', ', array_reverse($parameters)) . ')';
+        return 'new Column(' . implode(', ', array_reverse($parameters)) . ')';
     }
 
     private function getIndex(Index $index): string
@@ -105,15 +105,15 @@ class SchemaDumper
 
         if (Index::INDEX !== $type = $index->getType()) {
             $parameters[] = match ($type) {
-                Index::UNIQUE => 'rex_sql_index::UNIQUE',
-                Index::FULLTEXT => 'rex_sql_index::FULLTEXT',
+                Index::UNIQUE => 'Index::UNIQUE',
+                Index::FULLTEXT => 'Index::FULLTEXT',
             };
         }
 
-        return 'new rex_sql_index(' . implode(', ', $parameters) . ')';
+        return 'new Index(' . implode(', ', $parameters) . ')';
     }
 
-    private function getForeignKey(rex_sql_foreign_key $foreignKey): string
+    private function getForeignKey(ForeignKey $foreignKey): string
     {
         $parameters = [
             $this->scalar($foreignKey->getName()),
@@ -122,15 +122,15 @@ class SchemaDumper
         ];
 
         $options = [
-            rex_sql_foreign_key::RESTRICT => 'rex_sql_foreign_key::RESTRICT',
-            rex_sql_foreign_key::NO_ACTION => 'rex_sql_foreign_key::NO_ACTION',
-            rex_sql_foreign_key::CASCADE => 'rex_sql_foreign_key::CASCADE',
-            rex_sql_foreign_key::SET_NULL => 'rex_sql_foreign_key::SET_NULL',
+            ForeignKey::RESTRICT => 'ForeignKey::RESTRICT',
+            ForeignKey::NO_ACTION => 'ForeignKey::NO_ACTION',
+            ForeignKey::CASCADE => 'ForeignKey::CASCADE',
+            ForeignKey::SET_NULL => 'ForeignKey::SET_NULL',
         ];
 
-        $nonDefaultOnDelete = rex_sql_foreign_key::RESTRICT !== $foreignKey->getOnDelete();
+        $nonDefaultOnDelete = ForeignKey::RESTRICT !== $foreignKey->getOnDelete();
 
-        if ($nonDefaultOnDelete || rex_sql_foreign_key::RESTRICT !== $foreignKey->getOnUpdate()) {
+        if ($nonDefaultOnDelete || ForeignKey::RESTRICT !== $foreignKey->getOnUpdate()) {
             $parameters[] = $options[$foreignKey->getOnUpdate()];
         }
 
@@ -138,7 +138,7 @@ class SchemaDumper
             $parameters[] = $options[$foreignKey->getOnDelete()];
         }
 
-        return 'new rex_sql_foreign_key(' . implode(', ', $parameters) . ')';
+        return 'new ForeignKey(' . implode(', ', $parameters) . ')';
     }
 
     /** @param list<string> $primaryKey */
@@ -159,7 +159,7 @@ class SchemaDumper
 
         $name = substr($name, strlen(Core::getTablePrefix()));
 
-        return 'rex::getTable(' . $this->scalar($name) . ')';
+        return 'Core::getTable(' . $this->scalar($name) . ')';
     }
 
     /** @param scalar|null $scalar */

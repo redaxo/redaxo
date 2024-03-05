@@ -417,7 +417,7 @@ Table::get(Core::getTable('user_passkey'))
     ->ensureColumn(new Column('public_key', 'text'))
     ->ensureColumn(new Column('createdate', 'datetime'))
     ->setPrimaryKey('id')
-    ->ensureForeignKey(new rex_sql_foreign_key(Core::getTable('user_passkey') . '_user_id', Core::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
+    ->ensureForeignKey(new ForeignKey(Core::getTable('user_passkey') . '_user_id', Core::getTable('user'), ['user_id' => 'id'], ForeignKey::CASCADE, ForeignKey::CASCADE))
     ->ensure();
 
 Table::get(Core::getTable('user_role'))
@@ -439,8 +439,8 @@ Table::get(Core::getTable('user_session'))
     ->ensureColumn(new Column('last_activity', 'datetime'))
     ->setPrimaryKey('session_id')
     ->ensureIndex(new Index('cookie_key', ['cookie_key'], Index::UNIQUE))
-    ->ensureForeignKey(new rex_sql_foreign_key(Core::getTable('user_session') . '_user_id', Core::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
-    ->ensureForeignKey(new rex_sql_foreign_key(Core::getTable('user_session') . '_passkey_id', Core::getTable('user_passkey'), ['passkey_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
+    ->ensureForeignKey(new ForeignKey(Core::getTable('user_session') . '_user_id', Core::getTable('user'), ['user_id' => 'id'], ForeignKey::CASCADE, ForeignKey::CASCADE))
+    ->ensureForeignKey(new ForeignKey(Core::getTable('user_session') . '_passkey_id', Core::getTable('user_passkey'), ['passkey_id' => 'id'], ForeignKey::CASCADE, ForeignKey::CASCADE))
     ->ensure();
 
 $defaultConfig = [
