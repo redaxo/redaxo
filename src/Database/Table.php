@@ -1,11 +1,22 @@
 <?php
 
-use Redaxo\Core\Database\Sql;
+namespace Redaxo\Core\Database;
+
+use InvalidArgumentException;
+use LogicException;
+use rex_exception;
+use rex_instance_pool_trait;
+use rex_sql_column;
+use rex_sql_exception;
+use rex_sql_foreign_key;
+use rex_sql_index;
+use rex_type;
+use RuntimeException;
 
 /**
  * Class to represent sql tables.
  */
-class rex_sql_table
+class Table
 {
     use rex_instance_pool_trait {
         clearInstance as private baseClearInstance;

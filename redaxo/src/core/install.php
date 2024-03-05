@@ -2,8 +2,9 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Table;
 
-rex_sql_table::get(Core::getTable('clang'))
+Table::get(Core::getTable('clang'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('code', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)'))
@@ -18,7 +19,7 @@ if (!$sql->setQuery('SELECT 1 FROM ' . Core::getTable('clang') . ' LIMIT 1')->ge
     $sql->insert();
 }
 
-rex_sql_table::get(Core::getTable('config'))
+Table::get(Core::getTable('config'))
     ->removeColumn('id')
     ->ensureColumn(new rex_sql_column('namespace', 'varchar(75)'))
     ->ensureColumn(new rex_sql_column('key', 'varchar(255)'))
@@ -26,7 +27,7 @@ rex_sql_table::get(Core::getTable('config'))
     ->setPrimaryKey(['namespace', 'key'])
     ->ensure();
 
-rex_sql_table::get(Core::getTable('action'))
+Table::get(Core::getTable('action'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('preview', 'text', true))
@@ -39,7 +40,7 @@ rex_sql_table::get(Core::getTable('action'))
     ->setPrimaryKey('id')
     ->ensure();
 
-rex_sql_table::get(Core::getTable('article'))
+Table::get(Core::getTable('article'))
     ->ensureColumn(new rex_sql_column('pid', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('parent_id', 'int(10) unsigned'))
@@ -60,7 +61,7 @@ rex_sql_table::get(Core::getTable('article'))
     ->removeIndex('id')
     ->ensure();
 
-rex_sql_table::get(Core::getTable('article_slice'))
+Table::get(Core::getTable('article_slice'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
     ->ensureColumn(new rex_sql_column('article_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('clang_id', 'int(10) unsigned'))
@@ -137,7 +138,7 @@ rex_sql_table::get(Core::getTable('article_slice'))
     ->removeIndex('article_id')
     ->ensure();
 
-rex_sql_table::get(Core::getTable('article_slice_history'))
+Table::get(Core::getTable('article_slice_history'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
     ->ensureColumn(new rex_sql_column('slice_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('history_type', 'varchar(255)'))
@@ -214,7 +215,7 @@ rex_sql_table::get(Core::getTable('article_slice_history'))
     ->ensureIndex(new rex_sql_index('snapshot', ['article_id', 'clang_id', 'revision', 'history_date']))
     ->ensure();
 
-rex_sql_table::get(Core::getTable('module'))
+Table::get(Core::getTable('module'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
     ->ensureColumn(new rex_sql_column('key', 'varchar(191)', true))
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)'))
@@ -225,14 +226,14 @@ rex_sql_table::get(Core::getTable('module'))
     ->ensureIndex(new rex_sql_index('key', ['key'], rex_sql_index::UNIQUE))
     ->ensure();
 
-rex_sql_table::get(Core::getTable('module_action'))
+Table::get(Core::getTable('module_action'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
     ->ensureColumn(new rex_sql_column('module_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('action_id', 'int(10) unsigned'))
     ->setPrimaryKey('id')
     ->ensure();
 
-rex_sql_table::get(Core::getTable('template'))
+Table::get(Core::getTable('template'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
     ->ensureColumn(new rex_sql_column('key', 'varchar(191)', true))
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
@@ -260,7 +261,7 @@ if (!$sql->getRows()) {
         ->insert();
 }
 
-rex_sql_table::get(Core::getTable('cronjob'))
+Table::get(Core::getTable('cronjob'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('description', 'varchar(255)', true))
@@ -275,7 +276,7 @@ rex_sql_table::get(Core::getTable('cronjob'))
     ->ensureGlobalColumns()
     ->ensure();
 
-rex_sql_table::get(Core::getTable('media'))
+Table::get(Core::getTable('media'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('category_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('filetype', 'varchar(255)', true))
@@ -290,7 +291,7 @@ rex_sql_table::get(Core::getTable('media'))
     ->ensureIndex(new rex_sql_index('filename', ['filename'], rex_sql_index::UNIQUE))
     ->ensure();
 
-rex_sql_table::get(Core::getTable('media_category'))
+Table::get(Core::getTable('media_category'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('parent_id', 'int(10) unsigned'))
@@ -299,7 +300,7 @@ rex_sql_table::get(Core::getTable('media_category'))
     ->ensureIndex(new rex_sql_index('parent_id', ['parent_id']))
     ->ensure();
 
-rex_sql_table::get(Core::getTable('media_manager_type'))
+Table::get(Core::getTable('media_manager_type'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('status', 'tinyint(1) unsigned', false, '0'))
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)'))
@@ -308,7 +309,7 @@ rex_sql_table::get(Core::getTable('media_manager_type'))
     ->ensureGlobalColumns()
     ->ensure();
 
-rex_sql_table::get(Core::getTable('media_manager_type_effect'))
+Table::get(Core::getTable('media_manager_type_effect'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('type_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('effect', 'varchar(255)'))
@@ -359,14 +360,14 @@ foreach ($data as $row) {
 
 $sql->insertOrUpdate();
 
-rex_sql_table::get(Core::getTable('metainfo_type'))
+Table::get(Core::getTable('metainfo_type'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('label', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('dbtype', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('dblength', 'int(11)'))
     ->ensure();
 
-rex_sql_table::get(Core::getTable('metainfo_field'))
+Table::get(Core::getTable('metainfo_field'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('title', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
@@ -383,7 +384,7 @@ rex_sql_table::get(Core::getTable('metainfo_field'))
     ->ensureIndex(new rex_sql_index('name', ['name'], rex_sql_index::UNIQUE))
     ->ensure();
 
-rex_sql_table::get(Core::getTable('user'))
+Table::get(Core::getTable('user'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('description', 'text', true))
@@ -408,7 +409,7 @@ rex_sql_table::get(Core::getTable('user'))
     ->removeColumn('cookiekey')
     ->ensure();
 
-rex_sql_table::get(Core::getTable('user_passkey'))
+Table::get(Core::getTable('user_passkey'))
     ->ensureColumn(new rex_sql_column('id', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('user_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('public_key', 'text'))
@@ -417,7 +418,7 @@ rex_sql_table::get(Core::getTable('user_passkey'))
     ->ensureForeignKey(new rex_sql_foreign_key(Core::getTable('user_passkey') . '_user_id', Core::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensure();
 
-rex_sql_table::get(Core::getTable('user_role'))
+Table::get(Core::getTable('user_role'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('description', 'text', true))
@@ -425,7 +426,7 @@ rex_sql_table::get(Core::getTable('user_role'))
     ->ensureGlobalColumns()
     ->ensure();
 
-rex_sql_table::get(Core::getTable('user_session'))
+Table::get(Core::getTable('user_session'))
     ->ensureColumn(new rex_sql_column('session_id', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('user_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('cookie_key', 'varchar(255)', true))

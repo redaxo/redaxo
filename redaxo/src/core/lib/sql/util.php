@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Table;
 
 /**
  * Class to execute a sql dump.
@@ -41,18 +42,18 @@ class rex_sql_util
      */
     public static function copyTable(string $sourceTable, string $destinationTable): void
     {
-        if (!rex_sql_table::get($sourceTable)->exists()) {
+        if (!Table::get($sourceTable)->exists()) {
             throw new rex_exception(sprintf('Source table "%s" does not exist.', $sourceTable));
         }
 
-        if (rex_sql_table::get($destinationTable)->exists()) {
+        if (Table::get($destinationTable)->exists()) {
             throw new rex_exception(sprintf('Destination table "%s" already exists.', $destinationTable));
         }
 
         $sql = Sql::factory();
         $sql->setQuery('CREATE TABLE ' . $sql->escapeIdentifier($destinationTable) . ' LIKE ' . $sql->escapeIdentifier($sourceTable));
 
-        rex_sql_table::clearInstance($destinationTable);
+        Table::clearInstance($destinationTable);
     }
 
     /**

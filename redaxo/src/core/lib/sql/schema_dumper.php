@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Table;
 
 /**
  * Class for generating the php code for a rex_sql_table definition.
@@ -14,7 +15,7 @@ class rex_sql_schema_dumper
      *
      * @return string
      */
-    public function dumpTable(rex_sql_table $table)
+    public function dumpTable(Table $table)
     {
         $code = 'rex_sql_table::get(' . $this->tableName($table->getName()) . ')';
 

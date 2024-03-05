@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Table;
 
 /**
  * @internal
@@ -17,12 +18,12 @@ class rex_sql_util_test extends TestCase
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE2 . '`');
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE . '`');
 
-        rex_sql_table::clearInstancePool();
+        Table::clearInstancePool();
     }
 
-    private function createTableWithData(): rex_sql_table
+    private function createTableWithData(): Table
     {
-        $table = rex_sql_table::get(self::TABLE);
+        $table = Table::get(self::TABLE);
         $table
             ->ensurePrimaryIdColumn()
             ->ensureColumn(new rex_sql_column('title', 'varchar(255)'))
@@ -46,7 +47,7 @@ class rex_sql_util_test extends TestCase
 
         rex_sql_util::copyTable(self::TABLE, self::TABLE2);
 
-        $table2 = rex_sql_table::get(self::TABLE2);
+        $table2 = Table::get(self::TABLE2);
 
         self::assertEquals($table2->getColumns(), $table->getColumns());
         self::assertEquals($table2->getIndexes(), $table->getIndexes());
@@ -60,7 +61,7 @@ class rex_sql_util_test extends TestCase
 
         rex_sql_util::copyTableWithData(self::TABLE, self::TABLE2);
 
-        $table2 = rex_sql_table::get(self::TABLE2);
+        $table2 = Table::get(self::TABLE2);
 
         self::assertEquals($table2->getColumns(), $table->getColumns());
         self::assertEquals($table2->getIndexes(), $table->getIndexes());

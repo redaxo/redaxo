@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Table;
 
 class rex_article_slice_history
 {
@@ -90,7 +91,7 @@ class rex_article_slice_history
 
         self::makeSnapshot($articleId, $clangId, 'version set ' . $historyDate);
 
-        $articleSlicesTable = rex_sql_table::get(Core::getTable('article_slice'));
+        $articleSlicesTable = Table::get(Core::getTable('article_slice'));
 
         $sql = Sql::factory();
         $sql->setQuery('delete from ' . $sql->escapeIdentifier(Core::getTable('article_slice')) . ' where article_id=? and clang_id=? and revision=?', [$articleId, $clangId, 0]);
@@ -136,8 +137,8 @@ class rex_article_slice_history
      */
     public static function checkTables()
     {
-        $slicesTable = rex_sql_table::get(Core::getTable('article_slice'));
-        $historyTable = rex_sql_table::get(self::getTable());
+        $slicesTable = Table::get(Core::getTable('article_slice'));
+        $historyTable = Table::get(self::getTable());
 
         foreach ($slicesTable->getColumns() as $column) {
             if ('id' != strtolower($column->getName())) {

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,7 +24,7 @@ class rex_command_db_dump_schema extends rex_console_command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $table = rex_sql_table::get($input->getArgument('table'));
+        $table = Table::get($input->getArgument('table'));
 
         if (!$table->exists()) {
             throw new InvalidArgumentException(sprintf('Table "%s" does not exist.', $table->getName()));
