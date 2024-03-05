@@ -1,7 +1,5 @@
 <?php
 
-use Redaxo\Core\Core;
-
 /**
  * REX_VALUE[1],.
  */
@@ -25,18 +23,7 @@ class rex_var_value extends rex_var
         }
 
         $output = $this->getArg('output');
-        if ('php' == $output) {
-            if ($this->environmentIs(self::ENV_BACKEND)) {
-                $value = rex_string::highlight($value);
-                if (Core::isLiveMode()) {
-                    $value = rex_view::error('Modules with dynamic PHP code are not supported in live mode.') . $value;
-                }
-            } elseif (Core::isLiveMode()) {
-                return 'null';
-            } else {
-                return 'rex_var::nothing(require rex_stream::factory(substr(__FILE__, 6) . \'/REX_VALUE/' . $id . '\', ' . self::quote($value) . '))';
-            }
-        } elseif ('html' == $output) {
+        if ('html' == $output) {
             $value = str_replace(['<?', '?>'], ['&lt;?', '?&gt;'], $value);
         } else {
             $value = rex_escape($value);
