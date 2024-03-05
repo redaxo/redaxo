@@ -520,11 +520,6 @@ class rex_login
 
             session_regenerate_id(true);
 
-            $cookieParams = static::getCookieParams();
-            if ($cookieParams['samesite']) {
-                self::rewriteSessionCookie($cookieParams['samesite']);
-            }
-
             rex_csrf_token::removeAll();
 
             $extensionPoint = new rex_extension_point('SESSION_REGENERATED', null, [
@@ -566,15 +561,7 @@ class rex_login
                 session_save_path((string) $sessionConfig[$env]['save_path']);
             }
 
-            $cookieParams = static::getCookieParams();
-
-            session_set_cookie_params(
-                $cookieParams['lifetime'],
-                $cookieParams['path'],
-                $cookieParams['domain'],
-                $cookieParams['secure'],
-                $cookieParams['httponly'],
-            );
+            session_set_cookie_params(static::getCookieParams());
 
             rex_timer::measure(__METHOD__, static function () {
                 error_clear_last();
@@ -586,10 +573,6 @@ class rex_login
                     throw new rex_exception('Unable to start session.');
                 }
             });
-
-            if ($cookieParams['samesite']) {
-                self::rewriteSessionCookie($cookieParams['samesite']);
-            }
         }
     }
 
@@ -614,42 +597,6 @@ class rex_login
         }
 
         return $cookieParams;
-    }
-
-    /**
-     * php does not natively support SameSite for cookies yet,
-     * rewrite the session cookie manually.
-     *
-     * see https://wiki.php.net/rfc/same-site-cookie
-     *
-     * @param string $sameSite
-     */
-    private static function rewriteSessionCookie($sameSite): void
-    {
-        $cookiesHeaders = [];
-
-        // since header_remove() will remove all sent cookies, we need to collect all of them,
-        // rewrite only the session cookie and send all cookies again.
-        $cookieHeadersPrefix = 'Set-Cookie: ';
-        $sessionCookiePrefix = 'Set-Cookie: ' . session_name() . '=';
-        foreach (headers_list() as $rawHeader) {
-            // rewrite the session cookie
-            if (str_starts_with($rawHeader, $sessionCookiePrefix)) {
-                $rawHeader .= '; SameSite=' . $sameSite;
-            }
-            // collect all cookies
-            if (str_starts_with($rawHeader, $cookieHeadersPrefix)) {
-                $cookiesHeaders[] = $rawHeader;
-            }
-        }
-
-        // remove all cookies
-        header_remove('Set-Cookie');
-
-        // re-add all (inl. the rewritten session cookie)
-        foreach ($cookiesHeaders as $rawHeader) {
-            header($rawHeader);
-        }
     }
 
     /**
