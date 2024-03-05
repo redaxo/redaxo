@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.22.2@d768d914152dbbf3486c36398802f74e80cfde48">
-  <file src="redaxo/src/addons/backup/lib/backup.php">
-    <TaintedFile>
-      <code><![CDATA[$filename]]></code>
-      <code><![CDATA[$filename]]></code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/addons/backup/lib/compressor.php">
-    <TaintedFile>
-      <code><![CDATA[$source]]></code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/addons/cronjob/lib/cronjob.php">
-    <TaintedCallable>
-      <code><![CDATA[$class]]></code>
-    </TaintedCallable>
-  </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_action.php">
     <TaintedInclude>
       <code><![CDATA[rex_stream::factory('action/' . $articleId . '/' . $type, $action)]]></code>
@@ -103,14 +87,6 @@
       <code><![CDATA[$query]]></code>
       <code><![CDATA[$query]]></code>
     </TaintedSql>
-  </file>
-  <file src="redaxo/src/core/lib/util/file.php">
-    <TaintedFile>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-    </TaintedFile>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <TaintedCallable>

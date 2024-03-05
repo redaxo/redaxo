@@ -198,8 +198,11 @@ class rex_cronjob_manager_sql
                     continue;
                 }
 
+                /** @psalm-taint-escape callable */ // It is intended that the class name is coming from database
+                $type = $job['type'];
+
                 $manager = $this->getManager();
-                $manager->setCronjob(rex_cronjob::factory($job['type']));
+                $manager->setCronjob(rex_cronjob::factory($type));
                 $manager->log(false, 0 != connection_status() ? 'Timeout' : 'Unknown error');
                 $this->setNextTime($job['id'], $job['interval'], true);
             }
