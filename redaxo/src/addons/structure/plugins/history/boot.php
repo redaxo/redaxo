@@ -41,7 +41,7 @@ if ('' != $historyDate) {
     }
 
     if (!$user->hasPerm('history[article_rollback]')) {
-        throw new rex_http_exception(throw new rex_exception('no permission for the slice version'), rex_response::HTTP_FORBIDDEN);
+        throw new rex_http_exception(new rex_exception('no permission for the slice version'), rex_response::HTTP_FORBIDDEN);
     }
 
     rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {

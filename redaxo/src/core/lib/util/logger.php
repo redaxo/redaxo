@@ -46,7 +46,7 @@ class rex_logger extends AbstractLogger
                 return;
             }
 
-            $exception = $exception->getPrevious(); // log original exception
+            $exception = $exception->getPrevious() ?? $exception; // log original exception
         }
 
         $logger = self::factory();
