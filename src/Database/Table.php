@@ -65,7 +65,7 @@ class Table
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
     private $indexesExisting = [];
 
-    /** @var array<string, \Redaxo\Core\Database\ForeignKey> */
+    /** @var array<string, ForeignKey> */
     private $foreignKeys = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
@@ -565,7 +565,7 @@ class Table
     }
 
     /**
-     * @return array<string, \Redaxo\Core\Database\ForeignKey>
+     * @return array<string, ForeignKey>
      */
     public function getForeignKeys()
     {

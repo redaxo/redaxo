@@ -1,16 +1,18 @@
 <?php
 
+namespace Redaxo\Core\Database;
+
 use Redaxo\Core\Core;
-use Redaxo\Core\Database\Column;
-use Redaxo\Core\Database\Index;
-use Redaxo\Core\Database\Table;
+
+use function count;
+use function strlen;
 
 /**
  * Class for generating the php code for a rex_sql_table definition.
  *
  * Especially useful to generate the code for the `install.php` of packages.
  */
-class rex_sql_schema_dumper
+class SchemaDumper
 {
     /**
      * Dumps the schema for the given table as php code (using `rex_sql_table`).
