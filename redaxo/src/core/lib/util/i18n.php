@@ -29,7 +29,7 @@ class rex_i18n
     public static function setLocale($locale, $phpSetLocale = true)
     {
         $saveLocale = self::getLocale();
-        self::$locale = $locale;
+        self::$locale = self::validateLocale($locale);
 
         if (empty(self::$loaded[$locale])) {
             self::loadAll($locale);
@@ -66,7 +66,7 @@ class rex_i18n
     public static function getLocale()
     {
         if (!self::$locale) {
-            self::$locale = rex::getProperty('lang');
+            self::$locale = self::validateLocale(rex::getProperty('lang'));
         }
 
         return self::$locale;
@@ -453,7 +453,7 @@ class rex_i18n
     /**
      * @param string $locale Locale
      *
-     * @return string the validated locale
+     * @return non-empty-string the validated locale
      *
      * @psalm-taint-escape file
      */
