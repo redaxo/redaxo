@@ -21,7 +21,7 @@ class SchemaDumper
      */
     public function dumpTable(Table $table)
     {
-        $code = 'Table::get(' . $this->tableName($table->getName()) . ')';
+        $code = '\\' . Table::class . '::get(' . $this->tableName($table->getName()) . ')';
 
         $setPrimaryKey = true;
         $primaryKeyIsId = ['id'] === $table->getPrimaryKey();
@@ -39,11 +39,11 @@ class SchemaDumper
         }
 
         $code = str_replace(
-            "
-    ->ensureColumn(new Column('createdate', 'datetime'))
-    ->ensureColumn(new Column('createuser', 'varchar(255)'))
-    ->ensureColumn(new Column('updatedate', 'datetime'))
-    ->ensureColumn(new Column('updateuser', 'varchar(255)'))",
+            '
+    ->ensureColumn(new \\' . Column::class . "('createdate', 'datetime'))
+    ->ensureColumn(new  \\" . Column::class . "('createuser', 'varchar(255)'))
+    ->ensureColumn(new  \\" . Column::class . "('updatedate', 'datetime'))
+    ->ensureColumn(new  \\" . Column::class . "('updateuser', 'varchar(255)'))",
             '
     ->ensureGlobalColumns()',
             $code,
@@ -93,7 +93,7 @@ class SchemaDumper
         $parameters[] = $this->scalar($column->getType());
         $parameters[] = $this->scalar($column->getName());
 
-        return 'new Column(' . implode(', ', array_reverse($parameters)) . ')';
+        return 'new \\' . Column::class . '(' . implode(', ', array_reverse($parameters)) . ')';
     }
 
     private function getIndex(Index $index): string
@@ -105,12 +105,12 @@ class SchemaDumper
 
         if (Index::INDEX !== $type = $index->getType()) {
             $parameters[] = match ($type) {
-                Index::UNIQUE => 'Index::UNIQUE',
-                Index::FULLTEXT => 'Index::FULLTEXT',
+                Index::UNIQUE => '\\' . Index::class . '::UNIQUE',
+                Index::FULLTEXT => '\\' . Index::class . '::FULLTEXT',
             };
         }
 
-        return 'new Index(' . implode(', ', $parameters) . ')';
+        return 'new \\' . Index::class . '(' . implode(', ', $parameters) . ')';
     }
 
     private function getForeignKey(ForeignKey $foreignKey): string
@@ -122,10 +122,10 @@ class SchemaDumper
         ];
 
         $options = [
-            ForeignKey::RESTRICT => 'ForeignKey::RESTRICT',
-            ForeignKey::NO_ACTION => 'ForeignKey::NO_ACTION',
-            ForeignKey::CASCADE => 'ForeignKey::CASCADE',
-            ForeignKey::SET_NULL => 'ForeignKey::SET_NULL',
+            ForeignKey::RESTRICT => '\\' . ForeignKey::class . '::RESTRICT',
+            ForeignKey::NO_ACTION => '\\' . ForeignKey::class . '::NO_ACTION',
+            ForeignKey::CASCADE => '\\' . ForeignKey::class . '::CASCADE',
+            ForeignKey::SET_NULL => '\\' . ForeignKey::class . '::SET_NULL',
         ];
 
         $nonDefaultOnDelete = ForeignKey::RESTRICT !== $foreignKey->getOnDelete();
@@ -138,7 +138,7 @@ class SchemaDumper
             $parameters[] = $options[$foreignKey->getOnDelete()];
         }
 
-        return 'new ForeignKey(' . implode(', ', $parameters) . ')';
+        return 'new \\' . ForeignKey::class . '(' . implode(', ', $parameters) . ')';
     }
 
     /** @param list<string> $primaryKey */
@@ -159,7 +159,7 @@ class SchemaDumper
 
         $name = substr($name, strlen(Core::getTablePrefix()));
 
-        return 'Core::getTable(' . $this->scalar($name) . ')';
+        return '\\' . Core::class . '::getTable(' . $this->scalar($name) . ')';
     }
 
     /** @param scalar|null $scalar */
