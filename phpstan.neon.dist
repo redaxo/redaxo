@@ -8,6 +8,7 @@ parameters:
     editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
     paths:
         # restrict to core and core addons, ignore other locally installed addons
+        - src
         - redaxo/src/core
         - redaxo/src/addons/debug
         - redaxo/src/addons/install

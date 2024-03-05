@@ -60,7 +60,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Redaxo\\Core\\": "redaxo/src/core/src"
+            "Redaxo\\Core\\": "src"
         },
         "classmap": [
             "redaxo/src/addons/debug/lib/",
@@ -79,7 +79,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Redaxo\\Core\\Tests\\": "redaxo/src/core/tests"
+            "Redaxo\\Core\\Tests\\": "tests"
         },
         "classmap": [
             "redaxo/src/core/tests/"
