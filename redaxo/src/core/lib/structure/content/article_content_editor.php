@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * Erweiterung eines Artikels um slicemanagement.
@@ -112,7 +113,7 @@ class rex_article_content_editor extends rex_article_content
      */
     private function getSliceHeading(Sql $artDataSql)
     {
-        return rex_i18n::translate((string) $artDataSql->getValue(Core::getTablePrefix() . 'module.name'));
+        return I18n::translate((string) $artDataSql->getValue(Core::getTablePrefix() . 'module.name'));
     }
 
     /**
@@ -129,7 +130,7 @@ class rex_article_content_editor extends rex_article_content
         $sliceStatus = (int) $artDataSql->getValue(Core::getTablePrefix() . 'article_slice.status');
 
         $moduleId = (int) $artDataSql->getValue(Core::getTablePrefix() . 'module.id');
-        $moduleName = rex_i18n::translate((string) $artDataSql->getValue(Core::getTablePrefix() . 'module.name'));
+        $moduleName = I18n::translate((string) $artDataSql->getValue(Core::getTablePrefix() . 'module.name'));
 
         $context = new rex_context([
             'page' => rex_be_controller::getCurrentPage(),
@@ -152,27 +153,27 @@ class rex_article_content_editor extends rex_article_content
             if ($templateHasModule) {
                 // edit
                 $item = [];
-                $item['label'] = rex_i18n::msg('edit');
+                $item['label'] = I18n::msg('edit');
                 $item['url'] = $context->getUrl(['function' => 'edit']) . $fragment;
                 $item['attributes']['class'][] = 'btn-edit';
-                $item['attributes']['title'] = rex_i18n::msg('edit');
+                $item['attributes']['title'] = I18n::msg('edit');
                 $menuEditAction = $item;
             }
 
             // delete
             $item = [];
-            $item['label'] = rex_i18n::msg('delete');
+            $item['label'] = I18n::msg('delete');
             $item['url'] = $context->getUrl(['function' => 'delete', 'save' => 1]) . $fragment;
             $item['attributes']['class'][] = 'btn-delete';
-            $item['attributes']['title'] = rex_i18n::msg('delete');
-            $item['attributes']['data-confirm'] = rex_i18n::msg('confirm_delete_block');
+            $item['attributes']['title'] = I18n::msg('delete');
+            $item['attributes']['data-confirm'] = I18n::msg('confirm_delete_block');
             $menuDeleteAction = $item;
 
             if ($templateHasModule && Core::requireUser()->hasPerm('publishSlice[]')) {
                 // status
                 $item = [];
                 $statusName = $sliceStatus ? 'online' : 'offline';
-                $item['label'] = rex_i18n::msg('status_' . $statusName);
+                $item['label'] = I18n::msg('status_' . $statusName);
                 $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + rex_api_content_slice_status::getUrlParams());
                 $item['attributes']['class'][] = 'btn-default';
                 $item['attributes']['class'][] = 'rex-' . $statusName;
@@ -182,28 +183,28 @@ class rex_article_content_editor extends rex_article_content
             if ($templateHasModule && Core::requireUser()->hasPerm('moveSlice[]')) {
                 // moveup
                 $item = [];
-                $item['hidden_label'] = rex_i18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . rex_i18n::msg('move_slice_up');
+                $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_up');
                 $item['url'] = $context->getUrl(
                     ['upd' => time(), 'direction' => 'moveup'] + rex_api_content_move_slice::getUrlParams(),
                 ) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
-                $item['attributes']['title'] = rex_i18n::msg('move_slice_up');
+                $item['attributes']['title'] = I18n::msg('move_slice_up');
                 $item['icon'] = 'up';
                 $menuMoveupAction = $item;
 
                 // movedown
                 $item = [];
-                $item['hidden_label'] = rex_i18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . rex_i18n::msg('move_slice_down');
+                $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_down');
                 $item['url'] = $context->getUrl(
                     ['upd' => time(), 'direction' => 'movedown'] + rex_api_content_move_slice::getUrlParams(),
                 ) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
-                $item['attributes']['title'] = rex_i18n::msg('move_slice_down');
+                $item['attributes']['title'] = I18n::msg('move_slice_down');
                 $item['icon'] = 'down';
                 $menuMovedownAction = $item;
             }
         } else {
-            $headerRight .= sprintf('<div class="alert">%s %s</div>', rex_i18n::msg('no_editing_rights'), $moduleName);
+            $headerRight .= sprintf('<div class="alert">%s %s</div>', I18n::msg('no_editing_rights'), $moduleName);
         }
 
         // ----- EXTENSION POINT
@@ -317,7 +318,7 @@ class rex_article_content_editor extends rex_article_content
 
         $fragment = new rex_fragment();
         $fragment->setVar('block', true);
-        $fragment->setVar('button_label', rex_i18n::msg('add_block'));
+        $fragment->setVar('button_label', I18n::msg('add_block'));
         $fragment->setVar('items', $items, false);
         $select = $fragment->parse('core/structure/content/module_select.php');
         $select = rex_extension::registerPoint(new rex_extension_point(
@@ -353,7 +354,7 @@ class rex_article_content_editor extends rex_article_content
                     $id = (int) $m['id'];
                     if (Core::requireUser()->getComplexPerm('modules')->hasPerm($id)) {
                         if (rex_template::hasModule($this->template_attributes, $ctId, $id)) {
-                            $this->MODULESELECT[$ctId][] = ['name' => rex_i18n::translate((string) $m['name'], false), 'id' => $id, 'key' => (string) $m['key']];
+                            $this->MODULESELECT[$ctId][] = ['name' => I18n::translate((string) $m['name'], false), 'id' => $id, 'key' => (string) $m['key']];
                         }
                     }
                 }
@@ -398,7 +399,7 @@ class rex_article_content_editor extends rex_article_content
         $MOD->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module WHERE id="' . $moduleId . '"');
 
         if (1 != $MOD->getRows()) {
-            return rex_view::error(rex_i18n::msg('module_doesnt_exist'));
+            return rex_view::error(I18n::msg('module_doesnt_exist'));
         }
 
         $initDataSql = Sql::factory();
@@ -426,11 +427,11 @@ class rex_article_content_editor extends rex_article_content
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $this->sliceAddPosition . '">' . rex_i18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $this->sliceAddPosition . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . Core::getAccesskey(rex_i18n::msg('add_block'), 'save') . '>' . rex_i18n::msg('add_block') . '</button>';
+        $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . Core::getAccesskey(I18n::msg('add_block'), 'save') . '>' . I18n::msg('add_block') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -439,7 +440,7 @@ class rex_article_content_editor extends rex_article_content
 
         $panel = '
                 <fieldset>
-                    <legend>' . rex_i18n::msg('add_block') . '</legend>
+                    <legend>' . I18n::msg('add_block') . '</legend>
                     <input type="hidden" name="function" value="add" />
                     <input type="hidden" name="module_id" value="' . $moduleId . '" />
                     <input type="hidden" name="save" value="1" />
@@ -453,7 +454,7 @@ class rex_article_content_editor extends rex_article_content
         $fragment = new rex_fragment();
         $fragment->setVar('before', $msg, false);
         $fragment->setVar('class', 'add', false);
-        $fragment->setVar('title', rex_i18n::msg('module') . ': ' . rex_i18n::translate((string) $MOD->getValue('name')), false);
+        $fragment->setVar('title', I18n::msg('module') . ': ' . I18n::translate((string) $MOD->getValue('name')), false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('footer', $sliceFooter, false);
         $sliceContent = $fragment->parse('core/page/section.php');
@@ -498,15 +499,15 @@ class rex_article_content_editor extends rex_article_content
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang]) . '#slice' . $sliceId . '">' . rex_i18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang]) . '#slice' . $sliceId . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . Core::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_block') . '</button>';
+        $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . Core::getAccesskey(I18n::msg('save_and_close_tooltip'), 'save') . '>' . I18n::msg('save_block') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-apply" type="submit" name="btn_update" value="1"' . Core::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('update_block') . '</button>';
+        $n['field'] = '<button class="btn btn-apply" type="submit" name="btn_update" value="1"' . Core::getAccesskey(I18n::msg('save_and_goon_tooltip'), 'apply') . '>' . I18n::msg('update_block') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -515,7 +516,7 @@ class rex_article_content_editor extends rex_article_content
 
         $panel = '
                 <fieldset>
-                    <legend>' . rex_i18n::msg('edit_block') . '</legend>
+                    <legend>' . I18n::msg('edit_block') . '</legend>
                     <input type="hidden" name="module_id" value="' . $moduleId . '" />
                     <input type="hidden" name="save" value="1" />
                     <input type="hidden" name="update" value="0" />

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 class rex_cronjob_export extends rex_cronjob
 {
@@ -96,8 +97,8 @@ class rex_cronjob_export extends rex_cronjob
             if ($this->getParam('sendmail')) {
                 $mail = new rex_mailer();
                 $mail->addAddress($this->getParam('mailaddress'));
-                $mail->Subject = rex_i18n::rawMsg('backup_mail_subject');
-                $mail->Body = rex_i18n::rawMsg('backup_mail_body', Core::getServerName());
+                $mail->Subject = I18n::rawMsg('backup_mail_subject');
+                $mail->Body = I18n::rawMsg('backup_mail_body', Core::getServerName());
                 $mail->addAttachment($exportFilePath, $filename);
                 if ($mail->send()) {
                     $this->setMessage($message . ', mail sent');
@@ -120,7 +121,7 @@ class rex_cronjob_export extends rex_cronjob
 
     public function getTypeName()
     {
-        return rex_i18n::msg('backup_database_export');
+        return I18n::msg('backup_database_export');
     }
 
     public function getParamFields()
@@ -129,29 +130,29 @@ class rex_cronjob_export extends rex_cronjob
 
         $fields = [
             [
-                'label' => rex_i18n::msg('backup_filename'),
+                'label' => I18n::msg('backup_filename'),
                 'name' => 'filename',
                 'type' => 'text',
                 'default' => self::DEFAULT_FILENAME,
-                'notice' => rex_i18n::msg('backup_filename_notice'),
+                'notice' => I18n::msg('backup_filename_notice'),
             ],
             [
-                'label' => rex_i18n::msg('backup_exclude_tables'),
+                'label' => I18n::msg('backup_exclude_tables'),
                 'name' => 'exclude_tables',
                 'type' => 'select',
                 'attributes' => ['multiple' => 'multiple', 'data-live-search' => 'true'],
                 'options' => array_combine($tables, $tables),
-                'notice' => rex_i18n::msg('backup_exclude_tables_notice'),
+                'notice' => I18n::msg('backup_exclude_tables_notice'),
             ],
             [
                 'name' => 'sendmail',
                 'type' => 'checkbox',
-                'options' => [1 => rex_i18n::msg('backup_send_mail')],
+                'options' => [1 => I18n::msg('backup_send_mail')],
             ],
         ];
 
         $fields[] = [
-            'label' => rex_i18n::msg('backup_mailaddress'),
+            'label' => I18n::msg('backup_mailaddress'),
             'name' => 'mailaddress',
             'type' => 'text',
             'visible_if' => ['sendmail' => 1],
@@ -160,19 +161,19 @@ class rex_cronjob_export extends rex_cronjob
         $fields[] = [
             'name' => 'compress',
             'type' => 'checkbox',
-            'options' => [1 => rex_i18n::msg('backup_compress')],
+            'options' => [1 => I18n::msg('backup_compress')],
         ];
 
         $fields[] = [
-            'label' => rex_i18n::msg('backup_delete_interval'),
+            'label' => I18n::msg('backup_delete_interval'),
             'name' => 'delete_interval',
             'type' => 'select',
             'options' => [
-                '0' => rex_i18n::msg('backup_delete_interval_off'),
-                'YW' => rex_i18n::msg('backup_delete_interval_weekly'),
-                'YM' => rex_i18n::msg('backup_delete_interval_monthly'), ],
+                '0' => I18n::msg('backup_delete_interval_off'),
+                'YW' => I18n::msg('backup_delete_interval_weekly'),
+                'YM' => I18n::msg('backup_delete_interval_monthly'), ],
             'default' => 'YW',
-            'notice' => rex_i18n::msg('backup_delete_interval_notice'),
+            'notice' => I18n::msg('backup_delete_interval_notice'),
         ];
 
         return $fields;

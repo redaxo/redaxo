@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.
@@ -357,7 +358,7 @@ class rex_article_content_base
         $this->ctype = $curctype;
 
         if (0 == $this->article_id && 0 == $this->getSlice) {
-            return rex_i18n::msg('no_article_available');
+            return I18n::msg('no_article_available');
         }
 
         $articleLimit = '';

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 /**
  * @internal
  */
@@ -39,9 +41,9 @@ abstract class rex_install_package_download
 
         try {
             if ($this->file['checksum'] != md5_file($archivefile)) {
-                $message = rex_i18n::msg('install_warning_zip_wrong_checksum');
+                $message = I18n::msg('install_warning_zip_wrong_checksum');
             } elseif (!$this->isCorrectFormat($archivefile)) {
-                $message = rex_i18n::msg('install_warning_zip_wrong_format');
+                $message = I18n::msg('install_warning_zip_wrong_format');
             } elseif (is_string($msg = $this->doAction())) {
                 $message = $msg;
             }
@@ -60,7 +62,7 @@ abstract class rex_install_package_download
     {
         if (!rex_install_archive::extract($this->archive, $dir, $this->addonkey)) {
             rex_dir::delete($dir);
-            return rex_i18n::msg('install_warning_addon_zip_not_extracted');
+            return I18n::msg('install_warning_addon_zip_not_extracted');
         }
         return true;
     }

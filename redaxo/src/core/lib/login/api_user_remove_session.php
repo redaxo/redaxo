@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -19,10 +20,10 @@ class rex_api_user_remove_session extends rex_api_function
         $sessionId = rex_request::get('session_id', 'string');
 
         if (rex_user_session::getInstance()->removeSession($sessionId, $userId)) {
-            return new rex_api_result(true, rex_i18n::msg('session_removed'));
+            return new rex_api_result(true, I18n::msg('session_removed'));
         }
 
-        return new rex_api_result(false, rex_i18n::msg('session_remove_error'));
+        return new rex_api_result(false, I18n::msg('session_remove_error'));
     }
 
     protected function requiresCsrfProtection()

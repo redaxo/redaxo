@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_workspace extends rex_effect_abstract
 {
     public function execute()
@@ -123,14 +125,14 @@ class rex_effect_workspace extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_workspace');
+        return I18n::msg('media_manager_effect_workspace');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_workspace_bg'),
+                'label' => I18n::msg('media_manager_effect_workspace_bg'),
                 'name' => 'set_transparent',
                 'type' => 'select',
                 'options' => ['colored', 'transparent', 'image'],
@@ -176,60 +178,60 @@ $(function() {
 //--></script>',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_resize_width'),
+                'label' => I18n::msg('media_manager_effect_resize_width'),
                 'name' => 'width',
                 'type' => 'int',
-                'suffix' => '<p class="form-control-static">' . rex_i18n::msg('media_manager_effect_workspace_bgimage_size') . '</p>',
+                'suffix' => '<p class="form-control-static">' . I18n::msg('media_manager_effect_workspace_bgimage_size') . '</p>',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_resize_height'),
+                'label' => I18n::msg('media_manager_effect_resize_height'),
                 'name' => 'height',
                 'type' => 'int',
-                'suffix' => '<p class="form-control-static">' . rex_i18n::msg('media_manager_effect_workspace_bgimage_size') . '</p>',
+                'suffix' => '<p class="form-control-static">' . I18n::msg('media_manager_effect_workspace_bgimage_size') . '</p>',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
+                'label' => I18n::msg('media_manager_effect_brand_hpos'),
                 'name' => 'hpos',
                 'type' => 'select',
                 'options' => ['left', 'center', 'right'],
                 'default' => 'left',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
+                'label' => I18n::msg('media_manager_effect_brand_vpos'),
                 'name' => 'vpos',
                 'type' => 'select',
                 'options' => ['top', 'middle', 'bottom'],
                 'default' => 'top',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_brand_padding_x'),
+                'label' => I18n::msg('media_manager_effect_brand_padding_x'),
                 'name' => 'padding_x',
                 'type' => 'int',
                 'default' => '0',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_brand_padding_y'),
+                'label' => I18n::msg('media_manager_effect_brand_padding_y'),
                 'name' => 'padding_y',
                 'type' => 'int',
                 'default' => '0',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_mirror_background_r'),
+                'label' => I18n::msg('media_manager_effect_mirror_background_r'),
                 'name' => 'bg_r',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_mirror_background_g'),
+                'label' => I18n::msg('media_manager_effect_mirror_background_g'),
                 'name' => 'bg_g',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_mirror_background_b'),
+                'label' => I18n::msg('media_manager_effect_mirror_background_b'),
                 'name' => 'bg_b',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_workspace_bgimage'),
+                'label' => I18n::msg('media_manager_effect_workspace_bgimage'),
                 'name' => 'bgimage',
                 'type' => 'media',
                 'default' => '',

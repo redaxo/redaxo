@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_rotate extends rex_effect_abstract
 {
     private const OPTIONS = ['0', '90', '180', '270'];
@@ -15,14 +17,14 @@ class rex_effect_rotate extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_rotate');
+        return I18n::msg('media_manager_effect_rotate');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_rotate_degree'),
+                'label' => I18n::msg('media_manager_effect_rotate_degree'),
                 'name' => 'rotate',
                 'type' => 'select',
                 'options' => self::OPTIONS,

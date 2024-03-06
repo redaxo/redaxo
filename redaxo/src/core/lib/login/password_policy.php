@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_password_policy
 {
     /** @var array<string, array{min?: int, max?: int}> */
@@ -27,7 +29,7 @@ class rex_password_policy
             return true;
         }
 
-        return rex_i18n::msg('password_invalid', $this->getDescription());
+        return I18n::msg('password_invalid', $this->getDescription());
     }
 
     public function getDescription(): ?string
@@ -36,16 +38,16 @@ class rex_password_policy
 
         foreach ($this->options as $key => $options) {
             if (isset($options['min'], $options['max']) && $options['min']) {
-                $constraint = rex_i18n::msg('password_rule_between', $options['min'], $options['max']);
+                $constraint = I18n::msg('password_rule_between', $options['min'], $options['max']);
             } elseif (isset($options['max'])) {
-                $constraint = rex_i18n::msg('password_rule_max', $options['max']);
+                $constraint = I18n::msg('password_rule_max', $options['max']);
             } elseif (isset($options['min']) && $options['min']) {
-                $constraint = rex_i18n::msg('password_rule_min', $options['min']);
+                $constraint = I18n::msg('password_rule_min', $options['min']);
             } else {
                 continue;
             }
 
-            $parts[] = rex_i18n::msg('password_rule_' . $key, $constraint);
+            $parts[] = I18n::msg('password_rule_' . $key, $constraint);
         }
 
         return $parts ? implode('; ', $parts) : null;

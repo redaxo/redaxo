@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * Class for the default_template_id setting.
@@ -19,16 +20,16 @@ class rex_system_setting_default_template_id extends rex_system_setting
     {
         $field = new rex_form_select_element();
         $field->setAttribute('class', 'form-control selectpicker');
-        $field->setLabel(rex_i18n::msg('system_setting_default_template_id'));
+        $field->setLabel(I18n::msg('system_setting_default_template_id'));
         $select = $field->getSelect();
         $select->setSize(1);
         $select->setSelected(rex_template::getDefaultId());
 
         $templates = rex_template::getTemplatesForCategory(0);
         if (empty($templates)) {
-            $select->addOption(rex_i18n::msg('option_no_template'), 0);
+            $select->addOption(I18n::msg('option_no_template'), 0);
         } else {
-            $select->addArrayOptions(array_map(rex_i18n::translate(...), $templates));
+            $select->addArrayOptions(array_map(I18n::translate(...), $templates));
         }
         return $field;
     }
@@ -43,7 +44,7 @@ class rex_system_setting_default_template_id extends rex_system_setting
         $sql = Sql::factory();
         $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'template WHERE id=? AND active=1', [$value]);
         if (1 != $sql->getRows() && 0 != $value) {
-            return rex_i18n::msg('system_setting_default_template_id_invalid');
+            return I18n::msg('system_setting_default_template_id_invalid');
         }
 
         Core::setConfig('default_template_id', $value);

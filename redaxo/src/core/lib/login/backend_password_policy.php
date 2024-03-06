@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 class rex_backend_password_policy extends rex_password_policy
 {
@@ -93,7 +94,7 @@ class rex_backend_password_policy extends rex_password_policy
 
         foreach ($previousPasswords as $previousPassword) {
             if (rex_backend_login::passwordVerify($password, $previousPassword[0], true)) {
-                return rex_i18n::msg('password_already_used');
+                return I18n::msg('password_already_used');
             }
         }
 

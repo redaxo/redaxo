@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 $error = '';
 $success = '';
@@ -27,7 +28,7 @@ $passwordPolicy = rex_backend_password_policy::factory();
 $webauthn = new rex_webauthn();
 
 // --------------------------------- Title
-echo rex_view::title(rex_i18n::msg('profile_title'), '');
+echo rex_view::title(I18n::msg('profile_title'), '');
 
 // --------------------------------- BE LANG
 
@@ -41,10 +42,10 @@ $selBeSprache->setId('rex-id-userperm-mylang');
 $selBeSprache->setAttribute('class', 'form-control selectpicker');
 $selBeSprache->addOption('default', '');
 $selBeSprache->setSelected($userpermBeSprache);
-$locales = rex_i18n::getLocales();
+$locales = I18n::getLocales();
 asort($locales);
 foreach ($locales as $locale) {
-    $selBeSprache->addOption(rex_i18n::msgInLocale('lang', $locale), $locale);
+    $selBeSprache->addOption(I18n::msgInLocale('lang', $locale), $locale);
 }
 
 // --------------------------------- Theme
@@ -57,9 +58,9 @@ $selBeTheme->setId('rex-id-usertheme');
 $selBeTheme->setAttribute('class', 'form-control selectpicker');
 $selBeTheme->setDisabled(null !== Core::getProperty('theme'));
 $selBeTheme->setSelected($usertheme);
-$selBeTheme->addOption(rex_i18n::msg('theme_auto'), '');
-$selBeTheme->addOption(rex_i18n::msg('theme_light'), 'light');
-$selBeTheme->addOption(rex_i18n::msg('theme_dark'), 'dark');
+$selBeTheme->addOption(I18n::msg('theme_auto'), '');
+$selBeTheme->addOption(I18n::msg('theme_light'), 'light');
+$selBeTheme->addOption(I18n::msg('theme_dark'), 'dark');
 
 // --------------------------------- FUNCTIONS
 
@@ -67,16 +68,16 @@ $update = rex_post('upd_profile_button', 'bool');
 
 if ($update) {
     if (!$csrfToken->isValid()) {
-        $error = rex_i18n::msg('csrf_token_invalid');
+        $error = I18n::msg('csrf_token_invalid');
     } elseif ($useremail && !rex_validator::factory()->email($useremail)) {
-        $error = rex_i18n::msg('invalid_email');
+        $error = I18n::msg('invalid_email');
     }
 }
 
 // Restore success message after redirect
 // is necessary to show the whole page in the selected language
 if (rex_request('rex_user_updated', 'bool', false)) {
-    $success = rex_i18n::msg('user_data_updated');
+    $success = I18n::msg('user_data_updated');
 }
 
 if ($update && !$error) {
@@ -110,7 +111,7 @@ if ($update && !$error) {
 $verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool|string {
     if (!$login->getPasskey()) {
         if (!$userpsw || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
-            return rex_i18n::msg('user_psw_verify_error');
+            return I18n::msg('user_psw_verify_error');
         }
 
         return true;
@@ -125,20 +126,20 @@ $verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool
         }
     }
 
-    return rex_i18n::msg('passkey_verify_error');
+    return I18n::msg('passkey_verify_error');
 };
 
 if (rex_post('upd_psw_button', 'bool')) {
     if (!$csrfToken->isValid()) {
-        $error = rex_i18n::msg('csrf_token_invalid');
+        $error = I18n::msg('csrf_token_invalid');
     } elseif (true !== $msg = $verifyLogin()) {
         $error = $msg;
     } elseif (!$userpswNew1 || $userpswNew1 != $userpswNew2) {
-        $error = rex_i18n::msg('user_psw_new_error');
+        $error = I18n::msg('user_psw_new_error');
     } elseif (true !== $msg = $passwordPolicy->check($userpswNew1, $userId)) {
         $error = $msg;
     } elseif ($passwordChangeRequired && $userpsw === $userpswNew1) {
-        $error = rex_i18n::msg('password_not_changed');
+        $error = I18n::msg('password_not_changed');
     } else {
         $userpswNew1 = rex_login::passwordHash($userpswNew1);
 
@@ -155,7 +156,7 @@ if (rex_post('upd_psw_button', 'bool')) {
             $updateuser->update();
             rex_user::clearInstance($userId);
 
-            $success = rex_i18n::msg('user_psw_updated');
+            $success = I18n::msg('user_psw_updated');
 
             if ($passwordChangeRequired) {
                 $passwordChangeRequired = false;
@@ -175,7 +176,7 @@ if (rex_post('upd_psw_button', 'bool')) {
 
 if ('add_passkey' === rex_request('function', 'string')) {
     if (!$csrfToken->isValid()) {
-        $error = rex_i18n::msg('csrf_token_invalid');
+        $error = I18n::msg('csrf_token_invalid');
     } elseif (true !== $msg = $verifyLogin()) {
         $error = $msg;
     } else {
@@ -189,14 +190,14 @@ if ('add_passkey' === rex_request('function', 'string')) {
         $sql->setDateTimeValue('createdate', time());
         $sql->insert();
 
-        $success = rex_i18n::msg('passkey_added');
+        $success = I18n::msg('passkey_added');
     }
 }
 
 // ---------------------------------- ERR MSG
 
 if ($passwordChangeRequired) {
-    echo rex_view::warning(rex_i18n::msg('password_change_required'));
+    echo rex_view::warning(I18n::msg('password_change_required'));
 }
 
 if ('' != $success) {
@@ -217,32 +218,32 @@ $content .= '<fieldset>';
 $formElements = [];
 
 $n = [];
-$n['label'] = '<label for="rex-id-userlogin">' . rex_i18n::msg('login_name') . '</label>';
+$n['label'] = '<label for="rex-id-userlogin">' . I18n::msg('login_name') . '</label>';
 $n['field'] = '<span class="form-control-static" id="rex-id-userlogin">' . rex_escape($userlogin) . '</span>';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-userperm-mylang">' . rex_i18n::msg('backend_language') . '</label>';
+$n['label'] = '<label for="rex-id-userperm-mylang">' . I18n::msg('backend_language') . '</label>';
 $n['field'] = $selBeSprache->get();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-username">' . rex_i18n::msg('name') . '</label>';
+$n['label'] = '<label for="rex-id-username">' . I18n::msg('name') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . rex_escape($username) . '" autocomplete="name" maxlength="255" autofocus />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-userdesc">' . rex_i18n::msg('description') . '</label>';
+$n['label'] = '<label for="rex-id-userdesc">' . I18n::msg('description') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . rex_escape($userdesc) . '" />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-useremail">' . rex_i18n::msg('email') . '</label>';
+$n['label'] = '<label for="rex-id-useremail">' . I18n::msg('email') . '</label>';
 $n['field'] = '<input class="form-control" type="email" id="rex-id-useremail" name="useremail" value="' . rex_escape($useremail) . '" maxlength="255" />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-usertheme">' . rex_i18n::msg('theme') . '</label>';
+$n['label'] = '<label for="rex-id-usertheme">' . I18n::msg('theme') . '</label>';
 $n['field'] = $selBeTheme->get();
 $formElements[] = $n;
 
@@ -257,7 +258,7 @@ $content .= '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_profile_button" ' . Core::getAccesskey(rex_i18n::msg('profile_save'), 'save') . '>' . rex_i18n::msg('profile_save') . '</button>';
+$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_profile_button" ' . Core::getAccesskey(I18n::msg('profile_save'), 'save') . '>' . I18n::msg('profile_save') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -266,7 +267,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', rex_i18n::msg('profile_myprofile'), false);
+$fragment->setVar('title', I18n::msg('profile_myprofile'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
@@ -286,14 +287,14 @@ $confirmField = static function (string $id) use ($login, $webauthn): string {
     $n = [];
 
     if ($login->getPasskey()) {
-        $n['label'] = '<label for="' . $id . '">' . rex_i18n::msg('passkey_current') . '</label>';
+        $n['label'] = '<label for="' . $id . '">' . I18n::msg('passkey_current') . '</label>';
         $n['field'] = '<div data-auth-passkey-verify="' . rex_escape($webauthn->getGetArgs($login->getPasskey())) . '">
-        <button type="button" class="btn btn-primary" id="' . $id . '">' . rex_i18n::msg('passkey_current_verify') . '</button>
+        <button type="button" class="btn btn-primary" id="' . $id . '">' . I18n::msg('passkey_current_verify') . '</button>
         <i class="fa fa-check-circle-o text-success hidden"></i>
         <input type="hidden" name="passkey_verify"/>
     </div>';
     } else {
-        $n['label'] = '<label for="' . $id . '">' . rex_i18n::msg('current_password') . '</label>';
+        $n['label'] = '<label for="' . $id . '">' . I18n::msg('current_password') . '</label>';
         $n['field'] = '<input class="form-control rex-js-userpsw" type="password" id="' . $id . '" name="userpsw" autocomplete="current-password" autocorrect="off" autocapitalize="off" required />';
     }
 
@@ -312,13 +313,13 @@ $content = '<fieldset>' . $confirmField('rex-id-userpsw');
 $formElements = [];
 
 $n = [];
-$n['label'] = '<label for="rex-id-userpsw-new-1">' . rex_i18n::msg('new_password') . '</label>';
+$n['label'] = '<label for="rex-id-userpsw-new-1">' . I18n::msg('new_password') . '</label>';
 $n['field'] = '<input class="form-control rex-js-userpsw-new-1" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="new-password" autocorrect="off" autocapitalize="off" required ' . rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
 $n['note'] = $passwordPolicy->getDescription();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-userpsw-new-2">' . rex_i18n::msg('new_password_repeat') . '</label>';
+$n['label'] = '<label for="rex-id-userpsw-new-2">' . I18n::msg('new_password_repeat') . '</label>';
 $n['field'] = '<input class="form-control rex-js-userpsw-new-2" type="password" id="rex-id-userpsw-new-2" name="userpsw_new_2" autocomplete="new-password" autocorrect="off" autocapitalize="off" required />';
 $formElements[] = $n;
 
@@ -333,7 +334,7 @@ $content .= '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_psw_button" ' . Core::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save') . '>' . rex_i18n::msg('profile_save_psw') . '</button>';
+$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_psw_button" ' . Core::getAccesskey(I18n::msg('profile_save_psw'), 'save') . '>' . I18n::msg('profile_save_psw') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -342,7 +343,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', rex_i18n::msg($user->getValue('password') ? 'profile_changepsw' : 'add_password'), false);
+$fragment->setVar('title', I18n::msg($user->getValue('password') ? 'profile_changepsw' : 'add_password'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $changePassword = $fragment->parse('core/page/section.php');
@@ -354,7 +355,7 @@ $content .= '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="add_passkey" ' . Core::getAccesskey(rex_i18n::msg('passkey_add'), 'save') . '>' . rex_i18n::msg('passkey_add') . '</button>';
+$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="add_passkey" ' . Core::getAccesskey(I18n::msg('passkey_add'), 'save') . '>' . I18n::msg('passkey_add') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -363,7 +364,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', rex_i18n::msg('passkey_add'), false);
+$fragment->setVar('title', I18n::msg('passkey_add'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $addPasskey = $fragment->parse('core/page/section.php');

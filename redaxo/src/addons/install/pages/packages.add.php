@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 assert(isset($markdown) && is_callable($markdown));
 
 $package = rex_addon::get('install');
@@ -85,11 +87,11 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         $description = $markdown($file['description']);
 
         if (rex_version::isUnstable($version)) {
-            $releaseLabel = '<br><span class="label label-warning" title="' . rex_i18n::msg('unstable_version') . '">' . rex_i18n::msg('unstable_version') . '</span> ';
-            $confirm = ' data-confirm="' . rex_i18n::msg('install_download_unstable') . '"';
+            $releaseLabel = '<br><span class="label label-warning" title="' . I18n::msg('unstable_version') . '">' . I18n::msg('unstable_version') . '</span> ';
+            $confirm = ' data-confirm="' . I18n::msg('install_download_unstable') . '"';
             $packageIcon = '<i class="rex-icon rex-icon-unstable-version"></i>';
         } elseif (!$latestRelease) {
-            $releaseLabel = '<br><span class="label label-success">' . rex_i18n::msg('install_latest_release') . '</span>';
+            $releaseLabel = '<br><span class="label label-success">' . I18n::msg('install_latest_release') . '</span>';
             $latestRelease = true;
         }
 
@@ -212,7 +214,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
                     <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::intlDate(reset($addon['files'])['created'])) . '</td>
                     <td data-title="' . $package->i18n('downloads') . '">' . $downloads . '</td>
                     <td class="rex-word-break" data-title="' . $package->i18n('shortdescription') . '">' . nl2br(rex_escape($addon['shortdescription'])) . '</td>
-                    <td class="rex-table-action"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
+                    <td class="rex-table-action"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . I18n::msg('view') . '</a></td>
                 </tr>';
         }
     }

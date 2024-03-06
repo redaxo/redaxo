@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_filter_blur extends rex_effect_abstract
 {
     private const OPTIONS = ['', 'gaussian', 'selective'];
@@ -40,27 +42,27 @@ class rex_effect_filter_blur extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_blur');
+        return I18n::msg('media_manager_effect_blur');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_blur_repeats'),
+                'label' => I18n::msg('media_manager_effect_blur_repeats'),
                 'name' => 'repeats',
                 'type' => 'int',
                 'default' => '10',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_blur_type'),
+                'label' => I18n::msg('media_manager_effect_blur_type'),
                 'name' => 'type',
                 'type' => 'select',
                 'options' => self::OPTIONS,
                 'default' => 'gaussian',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_blur_smoothit'),
+                'label' => I18n::msg('media_manager_effect_blur_smoothit'),
                 'name' => 'smoothit',
                 'type' => 'select',
                 'options' => self::OPTIONS_SMOOTHIT,

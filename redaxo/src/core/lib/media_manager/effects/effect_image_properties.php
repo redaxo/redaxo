@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_image_properties extends rex_effect_abstract
 {
     private const NO_INTERLACING = '- off -';
@@ -38,47 +40,47 @@ class rex_effect_image_properties extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_image_properties');
+        return I18n::msg('media_manager_effect_image_properties');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_jpg_quality'),
-                'notice' => rex_i18n::msg('media_manager_effect_image_properties_jpg_quality_notice'),
+                'label' => I18n::msg('media_manager_jpg_quality'),
+                'notice' => I18n::msg('media_manager_effect_image_properties_jpg_quality_notice'),
                 'name' => 'jpg_quality',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_png_compression'),
-                'notice' => rex_i18n::msg(
+                'label' => I18n::msg('media_manager_png_compression'),
+                'notice' => I18n::msg(
                     'media_manager_effect_image_properties_png_compression_notice',
-                ) . ' effect_image_properties.php' . rex_i18n::msg('media_manager_png_compression_note'),
+                ) . ' effect_image_properties.php' . I18n::msg('media_manager_png_compression_note'),
                 'name' => 'png_compression',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_webp_quality'),
-                'notice' => rex_i18n::msg('media_manager_effect_image_properties_webp_quality_notice'),
+                'label' => I18n::msg('media_manager_webp_quality'),
+                'notice' => I18n::msg('media_manager_effect_image_properties_webp_quality_notice'),
                 'name' => 'webp_quality',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_avif_quality'),
-                'notice' => rex_i18n::msg('media_manager_effect_image_properties_avif_quality_notice'),
+                'label' => I18n::msg('media_manager_avif_quality'),
+                'notice' => I18n::msg('media_manager_effect_image_properties_avif_quality_notice'),
                 'name' => 'avif_quality',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_avif_speed'),
-                'notice' => rex_i18n::msg('media_manager_effect_image_properties_avif_speed_notice'),
+                'label' => I18n::msg('media_manager_avif_speed'),
+                'notice' => I18n::msg('media_manager_effect_image_properties_avif_speed_notice'),
                 'name' => 'avif_speed',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_interlace'),
-                'notice' => rex_i18n::msg('media_manager_effect_image_properties_interlace_notice'),
+                'label' => I18n::msg('media_manager_interlace'),
+                'notice' => I18n::msg('media_manager_effect_image_properties_interlace_notice'),
                 'name' => 'interlace',
                 'type' => 'select',
                 'options' => [self::NO_INTERLACING, 'jpg', 'png', 'gif'],

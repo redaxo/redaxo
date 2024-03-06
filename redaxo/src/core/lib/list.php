@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
@@ -146,7 +147,7 @@ class rex_list implements rex_url_provider_interface
         $this->rows = 0;
         $this->params = [];
         $this->tableAttributes = [];
-        $this->noRowsMessage = rex_i18n::msg('list_no_rows');
+        $this->noRowsMessage = I18n::msg('list_no_rows');
 
         // --------- Form Attributes
         $this->formAttributes = [];

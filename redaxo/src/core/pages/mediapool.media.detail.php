@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
@@ -27,7 +28,7 @@ $perm = Core::requireUser()->getComplexPerm('media');
 
 if (rex_post('btn_delete', 'string')) {
     if (!$csrf->isValid()) {
-        $error = rex_i18n::msg('csrf_token_invalid');
+        $error = I18n::msg('csrf_token_invalid');
     } else {
         $sql = Sql::factory()->setQuery('SELECT filename FROM ' . Core::getTable('media') . ' WHERE id = ?', [$fileId]);
         $media = null;
@@ -40,7 +41,7 @@ if (rex_post('btn_delete', 'string')) {
             if ($perm->hasCategoryPerm($media->getCategoryId())) {
                 try {
                     rex_media_service::deleteMedia($filename);
-                    $success = rex_i18n::msg('pool_file_deleted');
+                    $success = I18n::msg('pool_file_deleted');
                     $fileId = 0;
 
                     return;
@@ -48,10 +49,10 @@ if (rex_post('btn_delete', 'string')) {
                     $error = $e->getMessage();
                 }
             } else {
-                $error = rex_i18n::msg('no_permission');
+                $error = I18n::msg('no_permission');
             }
         } else {
-            $error = rex_i18n::msg('pool_file_not_found');
+            $error = I18n::msg('pool_file_not_found');
             $fileId = 0;
         }
     }
@@ -59,15 +60,15 @@ if (rex_post('btn_delete', 'string')) {
 
 if (rex_post('btn_update', 'string')) {
     if (!$csrf->isValid()) {
-        $error = rex_i18n::msg('csrf_token_invalid');
+        $error = I18n::msg('csrf_token_invalid');
     } else {
         $gf = Sql::factory();
         $gf->setQuery('select * from ' . Core::getTablePrefix() . 'media where id=?', [$fileId]);
         if (1 != $gf->getRows()) {
-            $error = rex_i18n::msg('pool_file_not_found');
+            $error = I18n::msg('pool_file_not_found');
             $fileId = 0;
         } elseif (!$perm->hasCategoryPerm($gf->getValue('category_id')) || !$perm->hasCategoryPerm($rexFileCategory)) {
-            $error = rex_i18n::msg('no_permission');
+            $error = I18n::msg('no_permission');
         } else {
             $filename = (string) $gf->getValue('filename');
             $data = [];
@@ -91,7 +92,7 @@ if (rex_post('btn_update', 'string')) {
                         'category_id' => $rexFileCategory,
                     ]));
                 }
-                $success = rex_i18n::msg('pool_file_infos_updated');
+                $success = I18n::msg('pool_file_infos_updated');
             } catch (rex_api_exception $e) {
                 $error = $e->getMessage();
             }
@@ -102,7 +103,7 @@ if (rex_post('btn_update', 'string')) {
 $gf = Sql::factory();
 $gf->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media WHERE id = ?', [$fileId]);
 if (1 != $gf->getRows()) {
-    $error = rex_i18n::msg('pool_file_not_found');
+    $error = I18n::msg('pool_file_not_found');
     $fileId = 0;
 
     return;
@@ -136,7 +137,7 @@ if ($isImage) {
     }
 
     $e = [];
-    $e['label'] = '<label>' . rex_i18n::msg('pool_img_width') . ' / ' . rex_i18n::msg('pool_img_height') . '</label>';
+    $e['label'] = '<label>' . I18n::msg('pool_img_width') . ' / ' . I18n::msg('pool_img_height') . '</label>';
     $e['field'] = '<p class="form-control-static">' . $fwidth . 'px / ' . $fheight . 'px</p>';
 
     $fragment = new rex_fragment();
@@ -178,9 +179,9 @@ if ('' != $success) {
 }
 
 if ('' != $openerInputField) {
-    $openerLink = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encodedFname . '\', \'' . rex_escape($gf->getValue('title'), 'js') . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
+    $openerLink = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encodedFname . '\', \'' . rex_escape($gf->getValue('title'), 'js') . '\'); return false;">' . I18n::msg('pool_file_get') . '</a>';
     if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
-        $openerLink = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $encodedFname . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
+        $openerLink = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $encodedFname . '\'); return false;">' . I18n::msg('pool_file_get') . '</a>';
     }
 }
 
@@ -209,18 +210,18 @@ if ($TPERM) {
     $catsSel->setSelected($rexFileCategory);
 
     if ($perm->hasAll()) {
-        $catsSel->addOption(rex_i18n::msg('pool_kats_no'), '0');
+        $catsSel->addOption(I18n::msg('pool_kats_no'), '0');
     }
 
     $formElements = [];
 
     $e = [];
-    $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
+    $e['label'] = '<label for="rex-mediapool-title">' . I18n::msg('pool_file_title') . '</label>';
     $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle) . '" />';
     $formElements[] = $e;
 
     $e = [];
-    $e['label'] = '<label for="rex-mediapool-category">' . rex_i18n::msg('pool_file_category') . '</label>';
+    $e['label'] = '<label for="rex-mediapool-category">' . I18n::msg('pool_file_category') . '</label>';
     $e['field'] = $catsSel->get();
     $formElements[] = $e;
 
@@ -235,22 +236,22 @@ if ($TPERM) {
     $formElements = [];
 
     $e = [];
-    $e['label'] = '<label>' . rex_i18n::msg('pool_filename') . '</label>';
+    $e['label'] = '<label>' . I18n::msg('pool_filename') . '</label>';
     $e['field'] = '<p class="form-control-static rex-word-break"><a href="' . rex_url::media($encodedFname) . '">' . rex_escape($fname) . '</a> <span class="rex-filesize">' . $ffileSize . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
-    $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
+    $e['label'] = '<label>' . I18n::msg('pool_last_update') . '</label>';
     $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime($gf->getDateTimeValue('updatedate')) . ' <span class="rex-author">' . rex_escape($gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
-    $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
+    $e['label'] = '<label>' . I18n::msg('pool_created') . '</label>';
     $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime($gf->getDateTimeValue('createdate')) . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
-    $e['label'] = '<label>' . rex_i18n::msg('pool_file_exchange') . '</label>';
+    $e['label'] = '<label>' . I18n::msg('pool_file_exchange') . '</label>';
     $e['field'] = '<input type="file" name="file_new" />';
     $formElements[] = $e;
 
@@ -261,10 +262,10 @@ if ($TPERM) {
     $formElements = [];
 
     $e = [];
-    $e['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" value="' . rex_i18n::msg('pool_file_update') . '" name="btn_update">' . rex_i18n::msg('pool_file_update') . '</button>';
+    $e['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" value="' . I18n::msg('pool_file_update') . '" name="btn_update">' . I18n::msg('pool_file_update') . '</button>';
     $formElements[] = $e;
     $e = [];
-    $e['field'] = '<button class="btn btn-delete" type="submit" value="' . rex_i18n::msg('pool_file_delete') . '" name="btn_delete" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . rex_i18n::msg('delete') . '</button>';
+    $e['field'] = '<button class="btn btn-delete" type="submit" value="' . I18n::msg('pool_file_delete') . '" name="btn_delete" data-confirm="' . I18n::msg('delete') . ' ?">' . I18n::msg('delete') . '</button>';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();
@@ -289,7 +290,7 @@ if ($TPERM) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('class', 'edit', false);
-    $fragment->setVar('title', rex_i18n::msg('pool_file_edit') . $openerLink, false);
+    $fragment->setVar('title', I18n::msg('pool_file_edit') . $openerLink, false);
     $fragment->setVar('options', $toolbar, false);
     $fragment->setVar('body', $body, false);
     $content = $fragment->parse('core/page/section.php');
@@ -298,7 +299,7 @@ if ($TPERM) {
 } else {
     $panel = '';
 
-    $catname = rex_i18n::msg('pool_kats_no');
+    $catname = I18n::msg('pool_kats_no');
     $Cat = rex_media_category::get($rexFileCategory);
     if ($Cat) {
         $catname = $Cat->getName();
@@ -310,27 +311,27 @@ if ($TPERM) {
     $formElements = [];
 
     $e = [];
-    $e['label'] = '<label>' . rex_i18n::msg('pool_file_title') . '</label>';
+    $e['label'] = '<label>' . I18n::msg('pool_file_title') . '</label>';
     $e['field'] = '<p class="form-control-static">' . rex_escape($ftitle) . '</p>';
     $formElements[] = $e;
 
     $e = [];
-    $e['label'] = '<label>' . rex_i18n::msg('pool_file_category') . '</label>';
+    $e['label'] = '<label>' . I18n::msg('pool_file_category') . '</label>';
     $e['field'] = '<p class="form-control-static">' . rex_escape($catname) . '</p>';
     $formElements[] = $e;
 
     $e = [];
-    $e['label'] = '<label>' . rex_i18n::msg('pool_filename') . '</label>';
+    $e['label'] = '<label>' . I18n::msg('pool_filename') . '</label>';
     $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encodedFname) . '">' . rex_escape($fname) . '</a>  <span class="rex-filesize">' . $ffileSize . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
-    $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
+    $e['label'] = '<label>' . I18n::msg('pool_last_update') . '</label>';
     $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime($gf->getDateTimeValue('updatedate')) . ' <span class="rex-author">' . rex_escape((string) $gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
-    $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
+    $e['label'] = '<label>' . I18n::msg('pool_created') . '</label>';
     $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime($gf->getDateTimeValue('createdate')) . ' <span class="rex-author">' . rex_escape((string) $gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
@@ -346,7 +347,7 @@ if ($TPERM) {
     }
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('pool_file_details') . $openerLink, false);
+    $fragment->setVar('title', I18n::msg('pool_file_details') . $openerLink, false);
     $fragment->setVar('options', $toolbar, false);
     $fragment->setVar('body', $panel, false);
     $content = $fragment->parse('core/page/section.php');

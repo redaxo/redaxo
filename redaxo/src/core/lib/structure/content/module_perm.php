@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 class rex_module_perm extends rex_complex_perm
 {
@@ -16,8 +17,8 @@ class rex_module_perm extends rex_complex_perm
     public static function getFieldParams()
     {
         return [
-            'label' => rex_i18n::msg('modules'),
-            'all_label' => rex_i18n::msg('all_modules'),
+            'label' => I18n::msg('modules'),
+            'all_label' => I18n::msg('all_modules'),
             'sql_options' => 'select name, id from ' . Core::getTablePrefix() . 'module order by name',
         ];
     }

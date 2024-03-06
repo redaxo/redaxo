@@ -9,9 +9,9 @@ use PDO;
 use PDOException;
 use PDOStatement;
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 use ReturnTypeWillChange;
 use rex_factory_trait;
-use rex_i18n;
 use rex_sql_could_not_connect_exception;
 use rex_sql_exception;
 use rex_type;
@@ -1964,17 +1964,17 @@ class Sql implements Iterator
         $createDb = false)
     {
         if (!$database) {
-            return rex_i18n::msg('sql_database_name_missing');
+            return I18n::msg('sql_database_name_missing');
         }
 
         if (str_contains($host, ':')) {
             [$hostName, $port] = explode(':', $host, 2);
             if (!filter_var($hostName, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
-                return rex_i18n::msg('sql_database_host_invalid', $hostName);
+                return I18n::msg('sql_database_host_invalid', $hostName);
             }
         } else {
             if (!filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
-                return rex_i18n::msg('sql_database_host_invalid', $host);
+                return I18n::msg('sql_database_host_invalid', $host);
             }
         }
 
@@ -1991,7 +1991,7 @@ class Sql implements Iterator
             // db connection was successfully established, but we were meant to create the db
             if ($createDb) {
                 // -> throw db already exists error
-                $errMsg = rex_i18n::msg('sql_database_already_exists');
+                $errMsg = I18n::msg('sql_database_already_exists');
             }
         } catch (PDOException $e) {
             // see client mysql error codes at https://dev.mysql.com/doc/mysql-errors/8.0/en/client-error-reference.html
@@ -1999,7 +1999,7 @@ class Sql implements Iterator
             // ER_BAD_HOST
             if (str_contains($e->getMessage(), 'SQLSTATE[HY000] [2002]')) {
                 // unable to connect to db server
-                $errMsg = rex_i18n::msg('sql_unable_to_connect_database');
+                $errMsg = I18n::msg('sql_unable_to_connect_database');
             }
             // ER_BAD_DB_ERROR
             elseif (str_contains($e->getMessage(), 'SQLSTATE[HY000] [1049]') ||
@@ -2017,15 +2017,15 @@ class Sql implements Iterator
 
                         if (1 !== $conn->exec('CREATE DATABASE ' . self::_escapeIdentifier($database) . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
                             // unable to create db
-                            $errMsg = rex_i18n::msg('sql_unable_to_create_database');
+                            $errMsg = I18n::msg('sql_unable_to_create_database');
                         }
                     } catch (PDOException) {
                         // unable to find database
-                        $errMsg = rex_i18n::msg('sql_unable_to_open_database');
+                        $errMsg = I18n::msg('sql_unable_to_open_database');
                     }
                 } else {
                     // unable to find database
-                    $errMsg = rex_i18n::msg('sql_unable_to_find_database');
+                    $errMsg = I18n::msg('sql_unable_to_find_database');
                 }
             }
             // ER_ACCESS_DENIED_ERROR
@@ -2036,14 +2036,14 @@ class Sql implements Iterator
                 str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]')
             ) {
                 // unable to connect to db
-                $errMsg = rex_i18n::msg('sql_unable_to_connect_database');
+                $errMsg = I18n::msg('sql_unable_to_connect_database');
             }
             // ER_ACCESS_TO_SERVER_ERROR
             elseif (
                 str_contains($e->getMessage(), 'SQLSTATE[HY000] [2005]')
             ) {
                 // unable to connect to server
-                $errMsg = rex_i18n::msg('sql_unable_to_connect_server');
+                $errMsg = I18n::msg('sql_unable_to_connect_server');
             } else {
                 // we didn't expected this error, so rethrow it to show it to the admin/end-user
                 throw $e;

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 // ------- Default Values
 
 $openerInputField = rex_request('opener_input_field', 'string');
@@ -93,7 +95,7 @@ if ($category) {
 
 echo rex_view::title('<i class="rex-icon rex-icon-linkmap"></i> Linkmap');
 
-$title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . rex_i18n::msg('root_level') . '</a>';
+$title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . I18n::msg('root_level') . '</a>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', $title, false);
@@ -106,7 +108,7 @@ $categoryTree = new rex_linkmap_category_tree($context);
 $panel = $categoryTree->getTree($categoryId);
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('linkmap_categories'), false);
+$fragment->setVar('title', I18n::msg('linkmap_categories'), false);
 $fragment->setVar('content', $panel, false);
 $content[] = $fragment->parse('core/page/section.php');
 
@@ -114,7 +116,7 @@ $articleList = new rex_linkmap_article_list($context);
 $panel = $articleList->getList($categoryId);
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('linkmap_articles'), false);
+$fragment->setVar('title', I18n::msg('linkmap_articles'), false);
 $fragment->setVar('content', $panel, false);
 $content[] = $fragment->parse('core/page/section.php');
 

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * Layout Kopf des Backends.
@@ -73,7 +74,7 @@ $metaItems = [];
 if ($user && $hasNavigation) {
     if (Core::isSafeMode() && $user->isAdmin()) {
         $item = [];
-        $item['title'] = rex_i18n::msg('safemode_deactivate');
+        $item['title'] = I18n::msg('safemode_deactivate');
         $item['href'] = rex_url::backendController(['safemode' => 0]);
         $item['attributes'] = 'class="btn btn-safemode-deactivate" data-pjax="false"';
         $metaItems[] = $item;
@@ -87,7 +88,7 @@ if ($user && $hasNavigation) {
     }
 
     $item = [];
-    $item['title'] = '<span class="text-muted">' . rex_i18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . rex_escape($userName) . '</a>';
+    $item['title'] = '<span class="text-muted">' . I18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . I18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . rex_escape($userName) . '</a>';
     if ($impersonator) {
         $item['title'] .= ' (<i class="rex-icon rex-icon-user"></i> ' . rex_escape($impersonator) . ')';
     }
@@ -97,18 +98,18 @@ if ($user && $hasNavigation) {
     $item = [];
     $item['attributes'] = 'class="rex-logout"';
     if ($impersonator) {
-        $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('login_depersonate');
+        $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . I18n::msg('login_depersonate');
         $item['href'] = rex_url::currentBackendPage(['_impersonate' => '_depersonate'] + rex_api_user_impersonate::getUrlParams());
         $item['attributes'] .= ' data-pjax="false"';
     } else {
-        $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('logout');
+        $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . I18n::msg('logout');
         $item['href'] = rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams());
     }
     $metaItems[] = $item;
     unset($item);
 } elseif ($hasNavigation && !Core::isSetup()) {
     $item = [];
-    $item['title'] = rex_i18n::msg('logged_out');
+    $item['title'] = I18n::msg('logged_out');
     $metaItems[] = $item;
     unset($item);
 }
@@ -182,9 +183,9 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
         }
 
         if (isset($n['href']) && '' != $lang) {
-            $name = rex_i18n::msg('setup_' . $i . '99');
+            $name = I18n::msg('setup_' . $i . '99');
         } else {
-            $name = '<span>' . rex_i18n::msg('setup_' . $i . '99') . '</span>';
+            $name = '<span>' . I18n::msg('setup_' . $i . '99') . '</span>';
         }
 
         $n['title'] = $name;

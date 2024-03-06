@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_cronjob_mailer_purge extends rex_cronjob
 {
     private function purgeMailarchive(int $days = 7, string $dir = ''): int
@@ -42,20 +44,20 @@ class rex_cronjob_mailer_purge extends rex_cronjob
 
     public function getTypeName()
     {
-        return rex_i18n::msg('phpmailer_archivecron');
+        return I18n::msg('phpmailer_archivecron');
     }
 
     public function getParamFields()
     {
         return [
             [
-                'label' => rex_i18n::msg('phpmailer_archivecron_label'),
+                'label' => I18n::msg('phpmailer_archivecron_label'),
                 'name' => 'days',
                 'type' => 'select',
                 'options' => [
-                    7 => '7 ' . rex_i18n::msg('phpmailer_archivecron_days'),
-                    14 => '14 ' . rex_i18n::msg('phpmailer_archivecron_days'),
-                    30 => '30 ' . rex_i18n::msg('phpmailer_archivecron_days'),
+                    7 => '7 ' . I18n::msg('phpmailer_archivecron_days'),
+                    14 => '14 ' . I18n::msg('phpmailer_archivecron_days'),
+                    30 => '30 ' . I18n::msg('phpmailer_archivecron_days'),
                 ],
                 'default' => 7,
             ],

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * This is a base class for all functions which a component may provide for public use.
@@ -171,7 +172,7 @@ abstract class rex_api_function
                 $apiFunc->result = $result;
             } else {
                 if ($apiFunc->requiresCsrfProtection() && !rex_csrf_token::factory($apiFunc::class)->isValid()) {
-                    $result = new rex_api_result(false, rex_i18n::msg('csrf_token_invalid'));
+                    $result = new rex_api_result(false, I18n::msg('csrf_token_invalid'));
                     $apiFunc->result = $result;
 
                     return;

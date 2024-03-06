@@ -1,5 +1,6 @@
 <?php
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @var rex_fragment $this
@@ -33,7 +34,7 @@ $isSetup = ('setup' === rex_be_controller::getCurrentPage());
                             <a class="navbar-brand" href="<?= rex_url::backendController() ?>"><?= rex_file::get(rex_path::coreAssets('redaxo-logo.svg')) ?></a>
                         <?php endif ?>
                         <?php if (!$isPopup && Core::getUser()?->isAdmin() && Core::isDebugMode()): ?>
-                            <a class="rex-marker-debugmode" href="<?= rex_url::backendPage('system/settings') ?>" title="<?= rex_i18n::msg('debug_mode_marker') ?>">
+                            <a class="rex-marker-debugmode" href="<?= rex_url::backendPage('system/settings') ?>" title="<?= I18n::msg('debug_mode_marker') ?>">
                                 <i class="rex-icon rex-icon-heartbeat rex-pulse"></i>
                             </a>
                         <?php endif ?>

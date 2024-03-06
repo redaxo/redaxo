@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Translation\I18n;
 
 class rex_article_service
 {
@@ -49,7 +50,7 @@ class rex_article_service
             }
         }
 
-        $message = rex_i18n::msg('article_added');
+        $message = I18n::msg('article_added');
 
         $AART = Sql::factory();
         $user = self::getUser();
@@ -169,7 +170,7 @@ class rex_article_service
 
         try {
             $EA->update();
-            $message = rex_i18n::msg('article_updated');
+            $message = I18n::msg('article_updated');
 
             // ----- PRIOR
             $oldPrio = (int) $thisArt->getValue('priority');
@@ -247,7 +248,7 @@ class rex_article_service
                 $Art->next();
             }
         } else {
-            throw new rex_api_exception(rex_i18n::msg('article_doesnt_exist'));
+            throw new rex_api_exception(I18n::msg('article_doesnt_exist'));
         }
 
         return $message;
@@ -278,10 +279,10 @@ class rex_article_service
         // --> rekursiv aufrufen
 
         if ($id == rex_article::getSiteStartArticleId()) {
-            throw new rex_api_exception(rex_i18n::msg('cant_delete_sitestartarticle'));
+            throw new rex_api_exception(I18n::msg('cant_delete_sitestartarticle'));
         }
         if ($id == rex_article::getNotfoundArticleId()) {
-            throw new rex_api_exception(rex_i18n::msg('cant_delete_notfoundarticle'));
+            throw new rex_api_exception(I18n::msg('cant_delete_notfoundarticle'));
         }
 
         $ART = Sql::factory();
@@ -301,7 +302,7 @@ class rex_article_service
             ]));
 
             if (1 == $ART->getValue('startarticle')) {
-                $message = rex_i18n::msg('category_deleted');
+                $message = I18n::msg('category_deleted');
                 $SART = Sql::factory();
                 $SART->setQuery('select * from ' . Core::getTablePrefix() . 'article where parent_id=? and clang_id=?', [$id, rex_clang::getStartId()]);
                 for ($i = 0; $i < $SART->getRows(); ++$i) {
@@ -309,7 +310,7 @@ class rex_article_service
                     $SART->next();
                 }
             } else {
-                $message = rex_i18n::msg('article_deleted');
+                $message = I18n::msg('article_deleted');
             }
 
             rex_article_cache::delete($id);
@@ -321,7 +322,7 @@ class rex_article_service
 
             return $message;
         }
-        throw new rex_api_exception(rex_i18n::msg('category_doesnt_exist'));
+        throw new rex_api_exception(I18n::msg('category_doesnt_exist'));
     }
 
     /**
@@ -369,7 +370,7 @@ class rex_article_service
                 throw new rex_api_exception($e->getMessage(), $e);
             }
         } else {
-            throw new rex_api_exception(rex_i18n::msg('no_such_category'));
+            throw new rex_api_exception(I18n::msg('no_such_category'));
         }
 
         return $newstatus;
@@ -388,8 +389,8 @@ class rex_article_service
         if (!$artStatusTypes) {
             $artStatusTypes = [
                 // Name, CSS-Class
-                [rex_i18n::msg('status_offline'), 'rex-offline', 'rex-icon-offline'],
-                [rex_i18n::msg('status_online'), 'rex-online', 'rex-icon-online'],
+                [I18n::msg('status_offline'), 'rex-offline', 'rex-icon-offline'],
+                [I18n::msg('status_online'), 'rex-online', 'rex-icon-online'],
             ];
 
             // ----- EXTENSION POINT
@@ -769,7 +770,7 @@ class rex_article_service
                     $artSql->setValue('catname', $catname);
                     $artSql->setValue('catpriority', 0);
                     $artSql->setValue('path', $path);
-                    $artSql->setValue('name', $fromSql->getValue('name') . ' ' . rex_i18n::msg('structure_copy'));
+                    $artSql->setValue('name', $fromSql->getValue('name') . ' ' . I18n::msg('structure_copy'));
                     $artSql->setValue('priority', 99_999); // Artikel als letzten Artikel in die neue Kat einfügen
                     $artSql->setValue('status', 0); // Kopierter Artikel offline setzen
                     $artSql->setValue('startarticle', 0);

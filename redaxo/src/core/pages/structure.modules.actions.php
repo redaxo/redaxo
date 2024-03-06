@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 $ASTATUS = ['ADD', 'EDIT', 'DELETE'];
 
@@ -21,7 +22,7 @@ $message = '';
 $csrfToken = rex_csrf_token::factory('structure_content_module_action');
 
 if ('delete' == $function && !$csrfToken->isValid()) {
-    $error = rex_i18n::msg('csrf_token_invalid');
+    $error = I18n::msg('csrf_token_invalid');
 } elseif ('delete' == $function) {
     $del = Sql::factory();
     //  $del->setDebug();
@@ -47,10 +48,10 @@ if ('delete' == $function && !$csrfToken->isValid()) {
         }
 
         $actionInUseMsg = '<ul>' . $actionInUseMsg . '</ul>';
-        $error = rex_i18n::msg('action_cannot_be_deleted', $actionName) . $actionInUseMsg;
+        $error = I18n::msg('action_cannot_be_deleted', $actionName) . $actionInUseMsg;
     } else {
         $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'action WHERE id=? LIMIT 1', [$actionId]);
-        $success = rex_i18n::msg('action_deleted');
+        $success = I18n::msg('action_deleted');
     }
 }
 
@@ -65,7 +66,7 @@ if ('add' == $function || 'edit' == $function) {
     $postsavestatus = 255;
 
     if ($save && !$csrfToken->isValid()) {
-        $error = rex_i18n::msg('csrf_token_invalid');
+        $error = I18n::msg('csrf_token_invalid');
         $save = false;
     } elseif ($save) {
         $faction = Sql::factory();
@@ -104,12 +105,12 @@ if ('add' == $function || 'edit' == $function) {
                 $faction->addGlobalCreateFields();
 
                 $faction->insert();
-                $success = rex_i18n::msg('action_added');
+                $success = I18n::msg('action_added');
             } else {
                 $faction->setWhere(['id' => $actionId]);
 
                 $faction->update();
-                $success = rex_i18n::msg('action_updated');
+                $success = I18n::msg('action_updated');
             }
         } catch (rex_sql_exception $e) {
             $error = $e->getMessage();
@@ -124,7 +125,7 @@ if ('add' == $function || 'edit' == $function) {
 
     if (!$save) {
         if ('edit' == $function) {
-            $legend = rex_i18n::msg('action_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $actionId . '</small>';
+            $legend = I18n::msg('action_edit') . ' <small class="rex-primary-id">' . I18n::msg('id') . '=' . $actionId . '</small>';
 
             $action = Sql::factory();
             $action->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'action WHERE id=?', [$actionId]);
@@ -137,14 +138,14 @@ if ('add' == $function || 'edit' == $function) {
             $presavestatus = $action->getValue('presavemode');
             $postsavestatus = $action->getValue('postsavemode');
         } else {
-            $legend = rex_i18n::msg('action_create');
+            $legend = I18n::msg('action_create');
         }
 
         // PreView action macht nur bei add und edit Sinn da,
         // - beim Delete kommt keine View
         $options = [
-            1 => $ASTATUS[0] . ' - ' . rex_i18n::msg('action_event_add'),
-            2 => $ASTATUS[1] . ' - ' . rex_i18n::msg('action_event_edit'),
+            1 => $ASTATUS[0] . ' - ' . I18n::msg('action_event_add'),
+            2 => $ASTATUS[1] . ' - ' . I18n::msg('action_event_edit'),
         ];
 
         $selPreviewStatus = new rex_event_select($options);
@@ -153,9 +154,9 @@ if ('add' == $function || 'edit' == $function) {
         $selPreviewStatus->setStyle('class="form-control"');
 
         $options = [
-            1 => $ASTATUS[0] . ' - ' . rex_i18n::msg('action_event_add'),
-            2 => $ASTATUS[1] . ' - ' . rex_i18n::msg('action_event_edit'),
-            4 => $ASTATUS[2] . ' - ' . rex_i18n::msg('action_event_delete'),
+            1 => $ASTATUS[0] . ' - ' . I18n::msg('action_event_add'),
+            2 => $ASTATUS[1] . ' - ' . I18n::msg('action_event_edit'),
+            4 => $ASTATUS[2] . ' - ' . I18n::msg('action_event_delete'),
         ];
 
         $selPresaveStatus = new rex_event_select($options);
@@ -191,7 +192,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $btnUpdate = '';
         if ('add' != $function) {
-            $btnUpdate = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . Core::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
+            $btnUpdate = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . Core::getAccesskey(I18n::msg('save_and_goon_tooltip'), 'apply') . '>' . I18n::msg('save_action_and_continue') . '</button>';
         }
 
         if ('' != $success) {
@@ -211,9 +212,9 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
 
         $n = [];
-        $n['label'] = '<label for="name">' . rex_i18n::msg('action_name') . '</label>';
+        $n['label'] = '<label for="name">' . I18n::msg('action_name') . '</label>';
         $n['field'] = '<input class="form-control" type="text" id="name" name="name" value="' . rex_escape($name) . '" maxlength="255" />';
-        $n['note'] = rex_i18n::msg('translatable');
+        $n['note'] = I18n::msg('translatable');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -225,13 +226,13 @@ if ('add' == $function || 'edit' == $function) {
                     </fieldset>
 
                     <fieldset>
-                        <legend>' . rex_i18n::msg('action_heading_preview') . ' <small>' . rex_i18n::msg('action_mode_preview') . '</small></legend>';
+                        <legend>' . I18n::msg('action_heading_preview') . ' <small>' . I18n::msg('action_mode_preview') . '</small></legend>';
 
         $formElements = [];
         $n = [];
-        $n['label'] = '<label for="previewaction">' . rex_i18n::msg('input') . '</label>';
+        $n['label'] = '<label for="previewaction">' . I18n::msg('input') . '</label>';
         $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="previewaction" id="previewaction" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($previewaction) . '</textarea>';
-        $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
+        $n['note'] = I18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -242,7 +243,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['reverse'] = true;
-        $n['label'] = '<label>' . rex_i18n::msg('action_event_all') . '</label>';
+        $n['label'] = '<label>' . I18n::msg('action_event_all') . '</label>';
         $n['field'] = '<input id="rex-js-preview-allevents" type="checkbox" name="preview_allevents" ' . $allPreviewChecked . ' />';
         $formElements[] = $n;
 
@@ -253,9 +254,9 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['id'] = 'rex-js-preview-events';
-        $n['label'] = '<label for="previestatus">' . rex_i18n::msg('action_event') . '</label>';
+        $n['label'] = '<label for="previestatus">' . I18n::msg('action_event') . '</label>';
         $n['field'] = $selPreviewStatus->get();
-        $n['note'] = rex_i18n::msg('ctrl');
+        $n['note'] = I18n::msg('ctrl');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -267,13 +268,13 @@ if ('add' == $function || 'edit' == $function) {
                     </fieldset>
 
                     <fieldset>
-                        <legend>' . rex_i18n::msg('action_heading_presave') . ' <small>' . rex_i18n::msg('action_mode_presave') . '</small></legend>';
+                        <legend>' . I18n::msg('action_heading_presave') . ' <small>' . I18n::msg('action_mode_presave') . '</small></legend>';
 
         $formElements = [];
         $n = [];
-        $n['label'] = '<label for="presaveaction">' . rex_i18n::msg('input') . '</label>';
+        $n['label'] = '<label for="presaveaction">' . I18n::msg('input') . '</label>';
         $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="presaveaction" id="presaveaction" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($presaveaction) . '</textarea>';
-        $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
+        $n['note'] = I18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -283,7 +284,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $formElements = [];
         $n = [];
-        $n['label'] = '<label>' . rex_i18n::msg('action_event_all') . '</label>';
+        $n['label'] = '<label>' . I18n::msg('action_event_all') . '</label>';
         $n['field'] = '<input id="rex-js-presave-allevents" type="checkbox" name="presave_allevents" ' . $allPresaveChecked . ' />';
         $formElements[] = $n;
 
@@ -294,9 +295,9 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['id'] = 'rex-js-presave-events';
-        $n['label'] = '<label for="presavestatus">' . rex_i18n::msg('action_event') . '</label>';
+        $n['label'] = '<label for="presavestatus">' . I18n::msg('action_event') . '</label>';
         $n['field'] = $selPresaveStatus->get();
-        $n['note'] = rex_i18n::msg('ctrl');
+        $n['note'] = I18n::msg('ctrl');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -309,13 +310,13 @@ if ('add' == $function || 'edit' == $function) {
 
 
                     <fieldset>
-                        <legend>' . rex_i18n::msg('action_heading_postsave') . ' <small>' . rex_i18n::msg('action_mode_postsave') . '</small></legend>';
+                        <legend>' . I18n::msg('action_heading_postsave') . ' <small>' . I18n::msg('action_mode_postsave') . '</small></legend>';
 
         $formElements = [];
         $n = [];
-        $n['label'] = '<label for="postsaveaction">' . rex_i18n::msg('input') . '</label>';
+        $n['label'] = '<label for="postsaveaction">' . I18n::msg('input') . '</label>';
         $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="postsaveaction" id="postsaveaction" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($postsaveaction) . '</textarea>';
-        $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
+        $n['note'] = I18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -325,7 +326,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $formElements = [];
         $n = [];
-        $n['label'] = '<label>' . rex_i18n::msg('action_event_all') . '</label>';
+        $n['label'] = '<label>' . I18n::msg('action_event_all') . '</label>';
         $n['field'] = '<input id="rex-js-postsave-allevents" type="checkbox" name="postsave_allevents" ' . $allPostsaveChecked . ' />';
         $formElements[] = $n;
 
@@ -336,9 +337,9 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['id'] = 'rex-js-postsave-events';
-        $n['label'] = '<label for="postsavestatus">' . rex_i18n::msg('action_event') . '</label>';
+        $n['label'] = '<label for="postsavestatus">' . I18n::msg('action_event') . '</label>';
         $n['field'] = $selPostsaveStatus->get();
-        $n['note'] = rex_i18n::msg('ctrl');
+        $n['note'] = I18n::msg('ctrl');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -353,11 +354,11 @@ if ('add' == $function || 'edit' == $function) {
         $fragment = new rex_fragment();
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . rex_i18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . Core::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_action_and_quit') . '</button>';
+        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . Core::getAccesskey(I18n::msg('save_and_close_tooltip'), 'save') . '>' . I18n::msg('save_action_and_quit') . '</button>';
         $formElements[] = $n;
 
         if ('' != $btnUpdate) {
@@ -423,13 +424,13 @@ if ($OUT) {
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'add']) . '"' . Core::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"><i class="rex-icon rex-icon-add-action"></i></a></th>
-                    <th class="rex-table-id">' . rex_i18n::msg('id') . '</th>
-                    <th>' . rex_i18n::msg('action_name') . '</th>
-                    <th>' . rex_i18n::msg('action_header_preview') . '</th>
-                    <th>' . rex_i18n::msg('action_header_presave') . '</th>
-                    <th>' . rex_i18n::msg('action_header_postsave') . '</th>
-                    <th class="rex-table-action" colspan="2">' . rex_i18n::msg('action_functions') . '</th>
+                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'add']) . '"' . Core::getAccesskey(I18n::msg('action_create'), 'add') . ' title="' . I18n::msg('action_create') . '"><i class="rex-icon rex-icon-add-action"></i></a></th>
+                    <th class="rex-table-id">' . I18n::msg('id') . '</th>
+                    <th>' . I18n::msg('action_name') . '</th>
+                    <th>' . I18n::msg('action_header_preview') . '</th>
+                    <th>' . I18n::msg('action_header_presave') . '</th>
+                    <th>' . I18n::msg('action_header_postsave') . '</th>
+                    <th class="rex-table-action" colspan="2">' . I18n::msg('action_functions') . '</th>
                 </tr>
             </thead>
         ';
@@ -467,13 +468,13 @@ if ($OUT) {
             $content .= '
                         <tr>
                             <td class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon rex-icon-action"></i></a></td>
-                            <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . (int) $sql->getValue('id') . '</td>
-                            <td data-title="' . rex_i18n::msg('action_name') . '"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '">' . rex_escape($sql->getValue('name')) . '</a></td>
-                            <td data-title="' . rex_i18n::msg('action_header_preview') . '">' . implode('/', $previewmode) . '</td>
-                            <td data-title="' . rex_i18n::msg('action_header_presave') . '">' . implode('/', $presavemode) . '</td>
-                            <td data-title="' . rex_i18n::msg('action_header_postsave') . '">' . implode('/', $postsavemode) . '</td>
-                            <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
-                            <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'delete'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('action_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
+                            <td class="rex-table-id" data-title="' . I18n::msg('id') . '">' . (int) $sql->getValue('id') . '</td>
+                            <td data-title="' . I18n::msg('action_name') . '"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '">' . rex_escape($sql->getValue('name')) . '</a></td>
+                            <td data-title="' . I18n::msg('action_header_preview') . '">' . implode('/', $previewmode) . '</td>
+                            <td data-title="' . I18n::msg('action_header_presave') . '">' . implode('/', $presavemode) . '</td>
+                            <td data-title="' . I18n::msg('action_header_postsave') . '">' . implode('/', $postsavemode) . '</td>
+                            <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '"><i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('change') . '</a></td>
+                            <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'delete'] + $csrfToken->getUrlParams()) . '" data-confirm="' . I18n::msg('action_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete') . '</a></td>
                         </tr>
                     ';
 
@@ -487,13 +488,13 @@ if ($OUT) {
         </table>';
 
     if ($rows < 1) {
-        $content .= rex_view::info(rex_i18n::msg('actions_not_found'));
+        $content .= rex_view::info(I18n::msg('actions_not_found'));
     }
 
     echo $message;
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('action_caption'), false);
+    $fragment->setVar('title', I18n::msg('action_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }

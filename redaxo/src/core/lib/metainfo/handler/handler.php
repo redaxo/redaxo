@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -52,7 +53,7 @@ abstract class rex_metainfo_handler
 
             $note = null;
             if (isset($attrArray['note'])) {
-                $note = rex_i18n::translate($attrArray['note']);
+                $note = I18n::translate($attrArray['note']);
                 unset($attrArray['note']);
             }
 
@@ -81,7 +82,7 @@ abstract class rex_metainfo_handler
             }
 
             if ('' != $title) {
-                $label = rex_i18n::translate($title);
+                $label = I18n::translate($title);
             } else {
                 $label = rex_escape($name);
             }
@@ -150,9 +151,9 @@ abstract class rex_metainfo_handler
                                  !str_starts_with($valueGroup, 'translate:')
                             ) {
                                 $temp = explode(':', $valueGroup, 2);
-                                $values[$temp[0]] = rex_i18n::translate($temp[1]);
+                                $values[$temp[0]] = I18n::translate($temp[1]);
                             } else {
-                                $values[$valueGroup] = rex_i18n::translate($valueGroup);
+                                $values[$valueGroup] = I18n::translate($valueGroup);
                             }
                         }
                     }
@@ -261,9 +262,9 @@ abstract class rex_metainfo_handler
                                  !str_starts_with($valueGroup, 'translate:')
                             ) {
                                 $temp = explode(':', $valueGroup, 2);
-                                $values[$temp[0]] = rex_i18n::translate($temp[1]);
+                                $values[$temp[0]] = I18n::translate($temp[1]);
                             } else {
-                                $values[$valueGroup] = rex_i18n::translate($valueGroup);
+                                $values[$valueGroup] = I18n::translate($valueGroup);
                             }
                         }
                         $select->addOptions($values);

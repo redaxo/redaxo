@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * Create forms for rex_config data.
@@ -49,7 +50,7 @@ class rex_config_form extends rex_form_base
         $attr = ['type' => 'submit', 'internal::useArraySyntax' => false, 'internal::fieldSeparateEnding' => true];
         $this->addControlField(
             null,
-            $this->addField('button', 'save', rex_i18n::msg('form_save'), $attr, false),
+            $this->addField('button', 'save', I18n::msg('form_save'), $attr, false),
         );
     }
 

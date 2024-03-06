@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($argFields) && is_string($argFields));
@@ -23,7 +24,7 @@ $selMedia->setAttribute('class', 'selectpicker');
 $selMedia->setAttribute('data-live-search', 'true');
 
 if (Core::requireUser()->getComplexPerm('media')->hasAll()) {
-    $selMedia->addOption(rex_i18n::msg('pool_kats_no'), '0');
+    $selMedia->addOption(I18n::msg('pool_kats_no'), '0');
 }
 
 // ----- EXTENSION POINT

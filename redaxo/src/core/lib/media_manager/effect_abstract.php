@@ -50,8 +50,8 @@ abstract class rex_effect_abstract
      * Example:
      *     return [
      *       [
-     *         'label' => rex_i18n::msg('...'),  -> a short user-friendly field label
-     *         'notice' => rex_i18n::msg('...'), -> additional description.
+     *         'label' => I18n::msg('...'),  -> a short user-friendly field label
+     *         'notice' => I18n::msg('...'), -> additional description.
      *         'name' => 'contrast',             -> name of your parameter. this will be the index within $this->params
      *         'type' => 'int',                  -> scalar storage type
      *         'default' => '',                  -> default value

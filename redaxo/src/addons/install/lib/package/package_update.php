@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 /**
  * @internal
  *
@@ -44,12 +46,12 @@ class rex_install_package_update extends rex_install_package_download
         // ---- check package.yml
         $packageFile = $temppath . rex_addon::FILE_PACKAGE;
         if (!is_file($packageFile)) {
-            return rex_i18n::msg('package_missing_yml_file');
+            return I18n::msg('package_missing_yml_file');
         }
         try {
             $config = rex_file::getConfig($packageFile);
         } catch (rex_yaml_parse_exception $e) {
-            return rex_i18n::msg('package_invalid_yml_file') . ' ' . $e->getMessage();
+            return I18n::msg('package_invalid_yml_file') . ' ' . $e->getMessage();
         }
 
         if ($this->addon->isAvailable() && true !== ($msg = $this->checkRequirements($config))) {
@@ -69,7 +71,7 @@ class rex_install_package_update extends rex_install_package_download
                 return $msg;
             }
             if (!$this->addon->getProperty('update', true)) {
-                return rex_i18n::msg('package_no_reason');
+                return I18n::msg('package_no_reason');
             }
         }
 
@@ -203,6 +205,6 @@ class rex_install_package_update extends rex_install_package_download
 
     private function messageFromPackage(rex_addon $package, rex_addon_manager $manager): string
     {
-        return rex_i18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
+        return I18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
     }
 }

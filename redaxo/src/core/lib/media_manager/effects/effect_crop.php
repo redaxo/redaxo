@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 /**
  * Schneidet einen Ausschnitt aus einem Bild heraus. Es wird dabei nicht skaliert.
  */
@@ -76,41 +78,41 @@ class rex_effect_crop extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_crop');
+        return I18n::msg('media_manager_effect_crop');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_crop_width'),
+                'label' => I18n::msg('media_manager_effect_crop_width'),
                 'name' => 'width',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_crop_height'),
+                'label' => I18n::msg('media_manager_effect_crop_height'),
                 'name' => 'height',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_crop_offset_width'),
+                'label' => I18n::msg('media_manager_effect_crop_offset_width'),
                 'name' => 'offset_width',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_crop_offset_height'),
+                'label' => I18n::msg('media_manager_effect_crop_offset_height'),
                 'name' => 'offset_height',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
+                'label' => I18n::msg('media_manager_effect_brand_hpos'),
                 'name' => 'hpos',
                 'type' => 'select',
                 'options' => ['left', 'center', 'right'],
                 'default' => 'center',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
+                'label' => I18n::msg('media_manager_effect_brand_vpos'),
                 'name' => 'vpos',
                 'type' => 'select',
                 'options' => ['top', 'middle', 'bottom'],

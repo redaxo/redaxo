@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -16,10 +17,10 @@ class rex_api_article2category extends rex_api_function
         // Check permissions
         if ($user->hasPerm('article2category[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             if (rex_article_service::article2category($articleId)) {
-                return new rex_api_result(true, rex_i18n::msg('content_tocategory_ok'));
+                return new rex_api_result(true, I18n::msg('content_tocategory_ok'));
             }
 
-            return new rex_api_result(false, rex_i18n::msg('content_tocategory_failed'));
+            return new rex_api_result(false, I18n::msg('content_tocategory_failed'));
         }
         throw new rex_api_exception('User has no permission for this article!');
     }

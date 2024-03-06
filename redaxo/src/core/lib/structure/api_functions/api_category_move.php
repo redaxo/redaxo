@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -23,10 +24,10 @@ class rex_api_category_move extends rex_api_function
             $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)
         ) {
             if ($categoryId != $categoryIdNew && rex_category_service::moveCategory($categoryId, $categoryIdNew)) {
-                return new rex_api_result(true, rex_i18n::msg('category_moved'));
+                return new rex_api_result(true, I18n::msg('category_moved'));
             }
 
-            return new rex_api_result(false, rex_i18n::msg('content_error_movecategory'));
+            return new rex_api_result(false, I18n::msg('content_error_movecategory'));
         }
 
         throw new rex_api_exception('user has no permission for this category!');

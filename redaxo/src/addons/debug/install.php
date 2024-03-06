@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 $addon = rex_addon::get('debug');
 
 // the filenames contain rev hashes and the old ones would never be cleaned up
@@ -24,10 +26,10 @@ try {
         $index = preg_replace('/(href|src)=("?)([^>\s]+)/', '$1=$2' . $addon->getAssetsUrl('clockwork/$3'), $index);
         file_put_contents($indexPath, $index);
     } else {
-        $message = rex_i18n::msg('debug_error_unzip') . '<br>' . $path;
+        $message = I18n::msg('debug_error_unzip') . '<br>' . $path;
     }
 } catch (Exception $e) {
-    $message = rex_i18n::msg('debug_error_unzip') . '<br>' . $path;
+    $message = I18n::msg('debug_error_unzip') . '<br>' . $path;
     $message .= '<br>' . $e->getMessage();
 }
 

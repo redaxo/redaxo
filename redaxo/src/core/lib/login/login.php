@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 class rex_login
 {
@@ -284,7 +285,7 @@ class rex_login
                     $this->setSessionVar(self::SESSION_USER_ID, $this->user->getValue($this->idColumn));
                     $this->setSessionVar(self::SESSION_PASSWORD, $this->user->getValue($this->passwordColumn));
                 } else {
-                    $this->message = rex_i18n::msg('login_error');
+                    $this->message = I18n::msg('login_error');
                 }
             } elseif ('' != $this->getSessionVar(self::SESSION_USER_ID)) {
                 // wenn kein login und kein logout dann nach sessiontime checken
@@ -302,7 +303,7 @@ class rex_login
                 // check session max age
                 if (($sessionStartTime + $this->sessionMaxOverallDuration) < time()) {
                     $ok = false;
-                    $this->message = rex_i18n::msg('login_session_expired');
+                    $this->message = I18n::msg('login_session_expired');
 
                     rex_csrf_token::removeAll();
                 }
@@ -311,7 +312,7 @@ class rex_login
                 $sessionLastActivityStamp = (int) $this->getSessionVar(self::SESSION_LAST_ACTIVITY);
                 if (($sessionLastActivityStamp + $this->sessionDuration) < time()) {
                     $ok = false;
-                    $this->message = rex_i18n::msg('login_session_expired');
+                    $this->message = I18n::msg('login_session_expired');
 
                     rex_csrf_token::removeAll();
                 }
@@ -322,12 +323,12 @@ class rex_login
 
                     if (!$this->impersonator->getRows()) {
                         $ok = false;
-                        $this->message = rex_i18n::msg('login_user_not_found');
+                        $this->message = I18n::msg('login_user_not_found');
                     }
                     $sessionPassword = $this->getSessionVar(self::SESSION_PASSWORD, null);
                     if (null !== $sessionPassword && $this->impersonator->getValue($this->passwordColumn) !== $sessionPassword) {
                         $ok = false;
-                        $this->message = rex_i18n::msg('login_session_expired');
+                        $this->message = I18n::msg('login_session_expired');
                     }
                 }
 
@@ -338,17 +339,17 @@ class rex_login
 
                     if (!$this->user->getRows()) {
                         $ok = false;
-                        $this->message = rex_i18n::msg('login_user_not_found');
+                        $this->message = I18n::msg('login_user_not_found');
                     }
                     $sessionPassword = $this->getSessionVar(self::SESSION_PASSWORD, null);
                     if (!$this->impersonator && null !== $sessionPassword && (string) $this->user->getValue($this->passwordColumn) !== $sessionPassword) {
                         $ok = false;
-                        $this->message = rex_i18n::msg('login_session_expired');
+                        $this->message = I18n::msg('login_session_expired');
                     }
                 }
             }
         } else {
-            $this->message = rex_i18n::msg('login_logged_out');
+            $this->message = I18n::msg('login_logged_out');
 
             rex_csrf_token::removeAll();
         }

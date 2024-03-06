@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_filter_brightness extends rex_effect_abstract
 {
     public function execute()
@@ -23,15 +25,15 @@ class rex_effect_filter_brightness extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_brightness');
+        return I18n::msg('media_manager_effect_brightness');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_brightness_value'),
-                'notice' => rex_i18n::msg('media_manager_effect_brightness_notice'),
+                'label' => I18n::msg('media_manager_effect_brightness_value'),
+                'notice' => I18n::msg('media_manager_effect_brightness_notice'),
                 'name' => 'brightness',
                 'type' => 'int',
                 'default' => '',

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -121,39 +122,39 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $elements = [];
 
         $n = [];
-        $n['label'] = '<label class="control-label">' . rex_i18n::msg('cronjob_interval_minutes') . '</label>';
-        $n['field'] = $this->formatField('minutes', rex_i18n::msg('cronjob_interval_minutes_all'), $range(0, 55, 5));
+        $n['label'] = '<label class="control-label">' . I18n::msg('cronjob_interval_minutes') . '</label>';
+        $n['field'] = $this->formatField('minutes', I18n::msg('cronjob_interval_minutes_all'), $range(0, 55, 5));
         $elements[] = $n;
 
         $n = [];
-        $n['label'] = '<label class="control-label">' . rex_i18n::msg('cronjob_interval_hours') . '</label>';
-        $n['field'] = $this->formatField('hours', rex_i18n::msg('cronjob_interval_hours_all'), $range(0, 23));
+        $n['label'] = '<label class="control-label">' . I18n::msg('cronjob_interval_hours') . '</label>';
+        $n['field'] = $this->formatField('hours', I18n::msg('cronjob_interval_hours_all'), $range(0, 23));
         $elements[] = $n;
 
         $n = [];
-        $n['label'] = '<label class="control-label">' . rex_i18n::msg('cronjob_interval_days') . '</label>';
-        $n['field'] = $this->formatField('days', rex_i18n::msg('cronjob_interval_days_all'), $range(1, 31));
+        $n['label'] = '<label class="control-label">' . I18n::msg('cronjob_interval_days') . '</label>';
+        $n['field'] = $this->formatField('days', I18n::msg('cronjob_interval_days_all'), $range(1, 31));
         $elements[] = $n;
 
         $n = [];
-        $n['label'] = '<label class="control-label">' . rex_i18n::msg('cronjob_interval_weekdays') . '</label>';
+        $n['label'] = '<label class="control-label">' . I18n::msg('cronjob_interval_weekdays') . '</label>';
         $weekdays = static function () {
             for ($i = 1; $i < 7; ++$i) {
                 yield $i => rex_formatter::intlDate(strtotime('last sunday +' . $i . ' days'), 'E');
             }
             yield 0 => rex_formatter::intlDate(strtotime('last sunday'), 'E');
         };
-        $n['field'] = $this->formatField('weekdays', rex_i18n::msg('cronjob_interval_weekdays_all'), $weekdays());
+        $n['field'] = $this->formatField('weekdays', I18n::msg('cronjob_interval_weekdays_all'), $weekdays());
         $elements[] = $n;
 
         $n = [];
-        $n['label'] = '<label class="control-label">' . rex_i18n::msg('cronjob_interval_months') . '</label>';
+        $n['label'] = '<label class="control-label">' . I18n::msg('cronjob_interval_months') . '</label>';
         $months = static function () {
             for ($i = 1; $i < 13; ++$i) {
                 yield $i => rex_formatter::intlDate(mktime(0, 0, 0, $i, 1), 'LLL');
             }
         };
-        $n['field'] = $this->formatField('months', rex_i18n::msg('cronjob_interval_months_all'), $months());
+        $n['field'] = $this->formatField('months', I18n::msg('cronjob_interval_months_all'), $months());
         $elements[] = $n;
 
         $fragment = new rex_fragment();

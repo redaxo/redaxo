@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 if (!isset($userId) || 1 > $userId) {
     $userId = Core::requireUser()->getId();
@@ -18,22 +19,22 @@ $list->setColumnFormat('remove_session', 'custom', static function () use ($list
     }
     return $list->getColumnLink('remove_session', $list->getValue('remove_session'));
 });
-$list->addLinkAttribute('remove_session', 'data-confirm', rex_i18n::msg('confirm_remove_session'));
+$list->addLinkAttribute('remove_session', 'data-confirm', I18n::msg('confirm_remove_session'));
 
 $list->removeColumn('cookie_key');
-$list->setColumnLabel('session_id', rex_i18n::msg('session_id'));
-$list->setColumnLabel('ip', rex_i18n::msg('ip'));
-$list->setColumnLabel('useragent', rex_i18n::msg('user_agent'));
-$list->setColumnLabel('starttime', rex_i18n::msg('starttime'));
-$list->setColumnLabel('last_activity', rex_i18n::msg('last_activity'));
+$list->setColumnLabel('session_id', I18n::msg('session_id'));
+$list->setColumnLabel('ip', I18n::msg('ip'));
+$list->setColumnLabel('useragent', I18n::msg('user_agent'));
+$list->setColumnLabel('starttime', I18n::msg('starttime'));
+$list->setColumnLabel('last_activity', I18n::msg('last_activity'));
 
 $list->setColumnFormat('session_id', 'custom', static function () use ($list) {
     return rex_escape((string) $list->getValue('session_id'))
-        . ($list->getValue('cookie_key') ? ' <span class="label label-warning">' . rex_i18n::msg('stay_logged_in') . '</span>' : '');
+        . ($list->getValue('cookie_key') ? ' <span class="label label-warning">' . I18n::msg('stay_logged_in') . '</span>' : '');
 });
 $list->setColumnFormat('last_activity', 'custom', static function () use ($list) {
     if (session_id() === $list->getValue('session_id')) {
-        return '<span class="label label-info">' . rex_i18n::msg('active_session') . '</span>';
+        return '<span class="label label-info">' . I18n::msg('active_session') . '</span>';
     }
     return rex_formatter::intlDateTime((string) $list->getValue('last_activity'), IntlDateFormatter::SHORT);
 });
@@ -43,6 +44,6 @@ $list->setColumnFormat('starttime', 'custom', static function () use ($list) {
 $content = $list->get();
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('session_caption'));
+$fragment->setVar('title', I18n::msg('session_caption'));
 $fragment->setVar('content', $content, false);
 echo $fragment->parse('core/page/section.php');

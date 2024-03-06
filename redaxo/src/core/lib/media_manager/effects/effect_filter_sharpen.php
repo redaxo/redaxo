@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 // //////////////////////////////////////////////////////////////////////////////////////////////
 // //
 // //                  Unsharp Mask for PHP - version 2.1.1
@@ -9,10 +11,8 @@
 // //               Please leave this notice.
 // //
 // /////////////////////////////////////////////////////////////////////////////////////////////
-
 // $img is an image that is already created within php using
 // imgcreatetruecolor. No url! $img must be a truecolor image.
-
 class rex_effect_filter_sharpen extends rex_effect_abstract
 {
     public function execute()
@@ -163,26 +163,26 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_sharpen');
+        return I18n::msg('media_manager_effect_sharpen');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_sharpen_amount'),
+                'label' => I18n::msg('media_manager_effect_sharpen_amount'),
                 'name' => 'amount',
                 'type' => 'int',
                 'default' => '80',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_sharpen_radius'),
+                'label' => I18n::msg('media_manager_effect_sharpen_radius'),
                 'name' => 'radius',
                 'type' => 'int',
                 'default' => '0.5',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_sharpen_threshold'),
+                'label' => I18n::msg('media_manager_effect_sharpen_threshold'),
                 'name' => 'threshold',
                 'type' => 'int',
                 'default' => '3',

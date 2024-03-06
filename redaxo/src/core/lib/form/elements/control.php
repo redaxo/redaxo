@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_form_control_element extends rex_form_element
 {
     /** @var rex_form_element|null */
@@ -68,7 +70,7 @@ class rex_form_control_element extends rex_form_element
             }
 
             if (!$this->deleteElement->hasAttribute('onclick')) {
-                $this->deleteElement->setAttribute('data-confirm', rex_i18n::msg('form_delete') . '?');
+                $this->deleteElement->setAttribute('data-confirm', I18n::msg('form_delete') . '?');
             }
 
             $e = [];
@@ -82,7 +84,7 @@ class rex_form_control_element extends rex_form_element
             }
 
             if (!$this->resetElement->hasAttribute('onclick')) {
-                $this->resetElement->setAttribute('data-confirm', rex_i18n::msg('form_reset') . '?');
+                $this->resetElement->setAttribute('data-confirm', I18n::msg('form_reset') . '?');
             }
 
             $e = [];

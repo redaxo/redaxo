@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -44,7 +45,7 @@ class rex_setup_importer
     public static function loadExistingImport($importName)
     {
         if ('' == $importName || '/' === $importName) {
-            return '<p>' . rex_i18n::msg('setup_408') . '</p>';
+            return '<p>' . I18n::msg('setup_408') . '</p>';
         }
 
         // ----- vorhandenen Export importieren
@@ -138,7 +139,7 @@ class rex_setup_importer
         $existingTables = Sql::factory()->getTables(Core::getTablePrefix());
 
         foreach (array_diff(self::getRequiredTables(), $existingTables) as $missingTable) {
-            $errMsg .= rex_i18n::msg('setup_402', $missingTable) . '<br />';
+            $errMsg .= I18n::msg('setup_402', $missingTable) . '<br />';
         }
         return $errMsg;
     }
@@ -162,7 +163,7 @@ class rex_setup_importer
         $errMsg = '';
 
         if (is_file($importSql)) {
-            rex_i18n::addDirectory(rex_path::core('backup/lang/'));
+            I18n::addDirectory(rex_path::core('backup/lang/'));
 
             // DB Import
             $stateDb = rex_backup::importDb($importSql);
@@ -178,7 +179,7 @@ class rex_setup_importer
                 }
             }
         } else {
-            $errMsg .= rex_i18n::msg('setup_409') . '<br />';
+            $errMsg .= I18n::msg('setup_409') . '<br />';
         }
 
         // Reload config from imported data
@@ -229,7 +230,7 @@ class rex_setup_importer
         if ('' != $addonErr) {
             $addonErr = '<ul class="rex-ul1">
             <li>
-            <h3 class="rex-hl3">' . rex_i18n::msg('setup_413') . '</h3>
+            <h3 class="rex-hl3">' . I18n::msg('setup_413') . '</h3>
             <ul>' . $addonErr . '</ul>
             </li>
             </ul>';
@@ -264,7 +265,7 @@ class rex_setup_importer
         if ($error) {
             $error = '<ul class="rex-ul1">
             <li>
-            <h3 class="rex-hl3">' . rex_i18n::msg('setup_413') . '</h3>
+            <h3 class="rex-hl3">' . I18n::msg('setup_413') . '</h3>
             <ul>' . $error . '</ul>
             </li>
             </ul>';

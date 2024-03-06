@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 $func = rex_request('func', 'string');
 $id = rex_request('id', 'int');
@@ -11,48 +12,48 @@ $content = '';
 
 if ('delete' == $func) {
     if (!rex_csrf_token::factory('user_role_delete')->isValid()) {
-        $message = rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+        $message = rex_view::error(I18n::msg('csrf_token_invalid'));
     } else {
         $sql = Sql::factory();
         $sql->setQuery('DELETE FROM ' . Core::getTable('user_role') . ' WHERE id = ? LIMIT 1', [$id]);
-        $message = rex_view::info(rex_i18n::msg('user_role_deleted'));
+        $message = rex_view::info(I18n::msg('user_role_deleted'));
     }
 
     $func = '';
 }
 
 if ('' == $func) {
-    $title = rex_i18n::msg('user_role_caption');
+    $title = I18n::msg('user_role_caption');
 
     $list = rex_list::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'user_role ORDER BY name', 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-userrole"></i>';
-    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add', 'default_value' => 1]) . '"' . Core::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . ' title="' . rex_i18n::msg('create_user_role') . '"><i class="rex-icon rex-icon-add-userrole"></i></a>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add', 'default_value' => 1]) . '"' . Core::getAccesskey(I18n::msg('create_user_role'), 'add') . ' title="' . I18n::msg('create_user_role') . '"><i class="rex-icon rex-icon-add-userrole"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'id' => '###id###']);
 
-    $list->setColumnLabel('id', rex_i18n::msg('id'));
+    $list->setColumnLabel('id', I18n::msg('id'));
     $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id">###VALUE###</td>']);
 
-    $list->setColumnLabel('name', rex_i18n::msg('name'));
+    $list->setColumnLabel('name', I18n::msg('name'));
     $list->setColumnParams('name', ['func' => 'edit', 'id' => '###id###']);
 
-    $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
-    $list->setColumnLabel('edit', rex_i18n::msg('user_functions'));
+    $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('edit'));
+    $list->setColumnLabel('edit', I18n::msg('user_functions'));
     $list->setColumnLayout('edit', ['<th class="rex-table-action" colspan="3">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('edit', ['func' => 'edit', 'id' => '###id###']);
 
-    $list->addColumn('duplicate', '<i class="rex-icon rex-icon-duplicate"></i> ' . rex_i18n::msg('user_role_duplicate'));
-    $list->setColumnLabel('duplicate', rex_i18n::msg('user_functions'));
+    $list->addColumn('duplicate', '<i class="rex-icon rex-icon-duplicate"></i> ' . I18n::msg('user_role_duplicate'));
+    $list->setColumnLabel('duplicate', I18n::msg('user_functions'));
     $list->setColumnLayout('duplicate', ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('duplicate', ['func' => 'duplicate', 'id' => '###id###']);
 
-    $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_role_delete'));
-    $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
+    $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('user_role_delete'));
+    $list->setColumnLabel('funcs', I18n::msg('user_functions'));
     $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('funcs', ['func' => 'delete', 'id' => '###id###'] + rex_csrf_token::factory('user_role_delete')->getUrlParams());
-    $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete') . ' ?');
+    $list->addLinkAttribute('funcs', 'data-confirm', I18n::msg('delete') . ' ?');
 
     $content .= $list->get();
 
@@ -61,7 +62,7 @@ if ('' == $func) {
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
 } else {
-    $title = 'edit' == $func ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
+    $title = 'edit' == $func ? I18n::msg('edit_user_role') : I18n::msg('add_user_role');
 
     $form = rex_form::factory(Core::getTablePrefix() . 'user_role', '', 'id = ' . $id);
     $form->addParam('id', $id);
@@ -69,14 +70,14 @@ if ('' == $func) {
     $form->setEditMode('edit' == $func);
 
     $field = $form->addTextField('name');
-    $field->setLabel(rex_i18n::msg('name'));
+    $field->setLabel(I18n::msg('name'));
     $field->getValidator()
         ->add(rex_validation_rule::NOT_EMPTY)
         ->add(rex_validation_rule::MAX_LENGTH, null, 255)
     ;
 
     $field = $form->addTextAreaField('description');
-    $field->setLabel(rex_i18n::msg('description'));
+    $field->setLabel(I18n::msg('description'));
 
     $fieldContainer = $form->addContainerField('perms');
     $fieldContainer->setMultiple(false);
@@ -100,7 +101,7 @@ if ('' == $func) {
     foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $permgroup) {
         /** @var rex_form_select_element $field */
         $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
-        $field->setLabel(rex_i18n::msg('user_' . $permgroup));
+        $field->setLabel(I18n::msg('user_' . $permgroup));
         $select = $field->getSelect();
         $select->setMultiple(true);
         $perms = rex_perm::getAll($permgroup);

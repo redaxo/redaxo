@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 $func = rex_request('func', 'string');
 
@@ -22,7 +23,7 @@ if ('update' == $func) {
 
     Core::setConfig($config);
     rex_media_manager::deleteCache();
-    echo rex_view::info(rex_i18n::msg('media_manager_config_saved'));
+    echo rex_view::info(I18n::msg('media_manager_config_saved'));
 }
 
 $formElements = [];
@@ -39,7 +40,7 @@ $fragment->setVar('elements', $inputGroups, false);
 $inputGroup = $fragment->parse('core/form/input_group.php');
 
 $n = [];
-$n['label'] = '<label for="rex-js-rating-text-jpg-quality">' . rex_i18n::msg('media_manager_jpg_quality') . '</label>';
+$n['label'] = '<label for="rex-js-rating-text-jpg-quality">' . I18n::msg('media_manager_jpg_quality') . '</label>';
 $n['field'] = $inputGroup;
 $formElements[] = $n;
 
@@ -55,9 +56,9 @@ $fragment->setVar('elements', $inputGroups, false);
 $inputGroup = $fragment->parse('core/form/input_group.php');
 
 $n = [];
-$n['label'] = '<label for="rex-js-rating-text-png-compression">' . rex_i18n::msg('media_manager_png_compression') . '</label>';
+$n['label'] = '<label for="rex-js-rating-text-png-compression">' . I18n::msg('media_manager_png_compression') . '</label>';
 $n['field'] = $inputGroup;
-$n['note'] = rex_i18n::msg('media_manager_png_compression_note');
+$n['note'] = I18n::msg('media_manager_png_compression_note');
 $formElements[] = $n;
 
 $inputGroups = [];
@@ -72,7 +73,7 @@ $fragment->setVar('elements', $inputGroups, false);
 $inputGroup = $fragment->parse('core/form/input_group.php');
 
 $n = [];
-$n['label'] = '<label for="rex-js-rating-text-webp-quality">' . rex_i18n::msg('media_manager_webp_quality') . '</label>';
+$n['label'] = '<label for="rex-js-rating-text-webp-quality">' . I18n::msg('media_manager_webp_quality') . '</label>';
 $n['field'] = $inputGroup;
 $formElements[] = $n;
 
@@ -88,7 +89,7 @@ $fragment->setVar('elements', $inputGroups, false);
 $inputGroup = $fragment->parse('core/form/input_group.php');
 
 $n = [];
-$n['label'] = '<label for="rex-js-rating-text-avif-quality">' . rex_i18n::msg('media_manager_avif_quality') . '</label>';
+$n['label'] = '<label for="rex-js-rating-text-avif-quality">' . I18n::msg('media_manager_avif_quality') . '</label>';
 $n['field'] = $inputGroup;
 $formElements[] = $n;
 
@@ -104,7 +105,7 @@ $fragment->setVar('elements', $inputGroups, false);
 $inputGroup = $fragment->parse('core/form/input_group.php');
 
 $n = [];
-$n['label'] = '<label for="rex-js-rating-text-avif-quality">' . rex_i18n::msg('media_manager_avif_speed') . '</label>';
+$n['label'] = '<label for="rex-js-rating-text-avif-quality">' . I18n::msg('media_manager_avif_speed') . '</label>';
 $n['field'] = $inputGroup;
 $formElements[] = $n;
 
@@ -117,7 +118,7 @@ $select->addOptions(['jpg', 'png', 'gif'], true);
 $select->setSelected(Core::getConfig('media_manager_interlace'));
 
 $n = [];
-$n['label'] = '<label for="rex-media-manager-interlace">' . rex_i18n::msg('media_manager_interlace') . '</label>';
+$n['label'] = '<label for="rex-media-manager-interlace">' . I18n::msg('media_manager_interlace') . '</label>';
 $n['field'] = $select->get();
 $formElements[] = $n;
 
@@ -127,11 +128,11 @@ $content = $fragment->parse('core/form/form.php');
 
 $formElements = [];
 $n = [];
-$n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . rex_i18n::msg('form_abort') . '</a>';
+$n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
 $formElements[] = $n;
 
 $n = [];
-$n['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" name="sendit" value="1"' . Core::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('update') . '</button>';
+$n['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" name="sendit" value="1"' . Core::getAccesskey(I18n::msg('save_and_goon_tooltip'), 'apply') . '>' . I18n::msg('update') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -140,7 +141,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', rex_i18n::msg('media_manager_subpage_config'), false);
+$fragment->setVar('title', I18n::msg('media_manager_subpage_config'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

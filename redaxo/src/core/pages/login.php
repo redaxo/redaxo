@@ -1,12 +1,13 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 global $rexUserLoginmessage;
 
 $rexUserLogin = rex_post('rex_user_login', 'string');
 
-echo rex_view::title(rex_i18n::msg('login'));
+echo rex_view::title(I18n::msg('login'));
 
 $content = '';
 
@@ -30,7 +31,7 @@ if ('' != $rexUserLoginmessage) {
                 if(time > 0) {
                     setTimeout(disableLogin, 1000);
                 } else {
-                    $("div.rex-message div").html("' . rex_i18n::msg('login_welcome') . '");
+                    $("div.rex-message div").html("' . I18n::msg('login_welcome') . '");
                     $("#rex-form-login").find(":input:not(:hidden)").prop("disabled", "");
                     $("#rex-id-login-user").focus();
                 }
@@ -57,7 +58,7 @@ $fragment->setVar('elements', $inputGroups, false);
 $inputGroup = $fragment->parse('core/form/input_group.php');
 
 $n = [];
-$n['label'] = '<label for="rex-id-login-user">' . rex_i18n::msg('login_name') . ':</label>';
+$n['label'] = '<label for="rex-id-login-user">' . I18n::msg('login_name') . ':</label>';
 $n['field'] = $inputGroup;
 $n['class'] = 'rex-form-group-vertical';
 $formElements[] = $n;
@@ -73,7 +74,7 @@ $fragment->setVar('elements', $inputGroups, false);
 $inputGroup = $fragment->parse('core/form/input_group.php');
 
 $n = [];
-$n['label'] = '<label for="rex-id-login-password">' . rex_i18n::msg('password') . ':</label>';
+$n['label'] = '<label for="rex-id-login-password">' . I18n::msg('password') . ':</label>';
 $n['field'] = $inputGroup;
 $n['class'] = 'rex-form-group-vertical';
 $formElements[] = $n;
@@ -85,7 +86,7 @@ $content .= $fragment->parse('core/form/form.php');
 $formElements = [];
 if (Core::getProperty('login')->getLoginPolicy()->isStayLoggedInEnabled()) {
     $n = [];
-    $n['label'] = '<label for="rex-id-login-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
+    $n['label'] = '<label for="rex-id-login-stay-logged-in">' . I18n::msg('stay_logged_in') . '</label>';
     $n['field'] = '<input type="checkbox" name="rex_user_stay_logged_in" id="rex-id-login-stay-logged-in" value="1" />';
     $formElements[] = $n;
 }
@@ -98,7 +99,7 @@ $content .= '</fieldset>';
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-primary btn-block" type="submit"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login') . ' </button>';
+$n['field'] = '<button class="btn btn-primary btn-block" type="submit"><i class="rex-icon rex-icon-sign-in"></i> ' . I18n::msg('login') . ' </button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

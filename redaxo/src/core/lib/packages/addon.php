@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 class rex_addon implements rex_addon_interface
 {
@@ -269,10 +270,10 @@ class rex_addon implements rex_addon_interface
     {
         $args = func_get_args();
         $key = $this->getName() . '_' . $key;
-        if (rex_i18n::hasMsgOrFallback($key)) {
+        if (I18n::hasMsgOrFallback($key)) {
             $args[0] = $key;
         }
-        return call_user_func_array(rex_i18n::msg(...), $args);
+        return call_user_func_array(I18n::msg(...), $args);
     }
 
     /**
@@ -339,7 +340,7 @@ class rex_addon implements rex_addon_interface
                     continue;
                 }
                 if ('supportpage' !== $key) {
-                    $value = rex_i18n::translateArray($value, false, $this->i18n(...));
+                    $value = I18n::translateArray($value, false, $this->i18n(...));
                 } elseif (null !== $value && !preg_match('@^https?://@i', $value)) {
                     $value = 'https://' . $value;
                 }
@@ -390,7 +391,7 @@ class rex_addon implements rex_addon_interface
 
         // add addon path for i18n
         if (is_readable($folder . 'lang')) {
-            rex_i18n::addDirectory($folder . 'lang');
+            I18n::addDirectory($folder . 'lang');
         }
         // add package path for fragment loading
         if (is_readable($folder . 'fragments')) {

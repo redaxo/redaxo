@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * Funktionensammlung für die Strukturverwaltung.
@@ -113,7 +114,7 @@ class rex_category_service
                     self::newCatPrio($categoryId, $key, 0, $data['catpriority']);
                 }
 
-                $message = rex_i18n::msg('category_added_and_startarticle_created');
+                $message = I18n::msg('category_added_and_startarticle_created');
 
                 rex_article_cache::delete($id, $key);
 
@@ -217,7 +218,7 @@ class rex_category_service
                 }
             }
 
-            $message = rex_i18n::msg('category_updated');
+            $message = I18n::msg('category_updated');
 
             rex_article_cache::delete($categoryId);
 
@@ -297,13 +298,13 @@ class rex_category_service
 
                     rex_complex_perm::removeItem('structure', $categoryId);
                 } else {
-                    throw new rex_api_exception(rex_i18n::msg('category_could_not_be_deleted') . ' ' . rex_i18n::msg('category_still_contains_articles'));
+                    throw new rex_api_exception(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_articles'));
                 }
             } else {
-                throw new rex_api_exception(rex_i18n::msg('category_could_not_be_deleted') . ' ' . rex_i18n::msg('category_still_contains_subcategories'));
+                throw new rex_api_exception(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_subcategories'));
             }
         } else {
-            throw new rex_api_exception(rex_i18n::msg('category_could_not_be_deleted'));
+            throw new rex_api_exception(I18n::msg('category_could_not_be_deleted'));
         }
 
         return $message;
@@ -354,7 +355,7 @@ class rex_category_service
                 throw new rex_api_exception($e->getMessage(), $e);
             }
         } else {
-            throw new rex_api_exception(rex_i18n::msg('no_such_category'));
+            throw new rex_api_exception(I18n::msg('no_such_category'));
         }
 
         return $newstatus;
@@ -373,8 +374,8 @@ class rex_category_service
         if (!$catStatusTypes) {
             $catStatusTypes = [
                 // Name, CSS-Class, Icon
-                [rex_i18n::msg('status_offline'), 'rex-offline', 'rex-icon-offline'],
-                [rex_i18n::msg('status_online'), 'rex-online', 'rex-icon-online'],
+                [I18n::msg('status_offline'), 'rex-offline', 'rex-icon-offline'],
+                [I18n::msg('status_online'), 'rex-online', 'rex-icon-online'],
             ];
 
             // ----- EXTENSION POINT

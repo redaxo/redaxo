@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 $step = rex_request('step', 'int', 1);
 $lang = rex_request('lang', 'string');
@@ -32,7 +33,7 @@ if (!rex_setup::isInitialSetup()) {
             }
         }
     </style>
-    <a href="' . $context->getUrl(['func' => 'abort']) . '" data-confirm="' . rex_i18n::msg('setup_cancel') . '?" class="btn btn-delete rex-cancel-setup">' . rex_i18n::msg('setup_cancel') . '</a>';
+    <a href="' . $context->getUrl(['func' => 'abort']) . '" data-confirm="' . I18n::msg('setup_cancel') . '?" class="btn btn-delete rex-cancel-setup">' . I18n::msg('setup_cancel') . '</a>';
 
     if ('abort' === $func) {
         rex_setup::markSetupCompleted();
@@ -59,7 +60,7 @@ if (count($errors) > 0) {
         $errorArray[] = rex_view::error($error);
     }
 } else {
-    $successArray[] = rex_i18n::msg('setup_208', PHP_VERSION);
+    $successArray[] = I18n::msg('setup_208', PHP_VERSION);
 }
 
 $res = rex_setup::checkFilesystem();
@@ -70,11 +71,11 @@ if (count($res) > 0) {
             foreach ($messages as $message) {
                 $li[] = '<li>' . rex_path::relative($message) . '</li>';
             }
-            $errorArray[] = '<p>' . rex_i18n::msg($key) . '</p><ul>' . implode('', $li) . '</ul>';
+            $errorArray[] = '<p>' . I18n::msg($key) . '</p><ul>' . implode('', $li) . '</ul>';
         }
     }
 } else {
-    $successArray[] = rex_i18n::msg('setup_209');
+    $successArray[] = I18n::msg('setup_209');
 }
 
 if (count($errorArray) > 0) {
@@ -134,19 +135,19 @@ if ($step > 3) {
 
     // check if timezone is valid
     if (!@date_default_timezone_set($config['timezone'])) {
-        $errorArray[] = rex_view::error(rex_i18n::msg('setup_313'));
+        $errorArray[] = rex_view::error(I18n::msg('setup_313'));
     }
 
     $check = ['server', 'servername', 'error_email', 'lang'];
     foreach ($check as $key) {
         if (!isset($config[$key]) || !$config[$key]) {
-            $errorArray[] = rex_view::error(rex_i18n::msg($key . '_required'));
+            $errorArray[] = rex_view::error(I18n::msg($key . '_required'));
             continue;
         }
         try {
             Core::setProperty($key, $config[$key]);
         } catch (InvalidArgumentException) {
-            $errorArray[] = rex_view::error(rex_i18n::msg($key . '_invalid'));
+            $errorArray[] = rex_view::error(I18n::msg($key . '_invalid'));
         }
     }
 
@@ -162,7 +163,7 @@ if ($step > 3) {
 
     if (0 == count($errorArray)) {
         if (!rex_file::putConfig($configFile, $config)) {
-            $errorArray[] = rex_view::error(rex_i18n::msg('setup_301', rex_path::relative($configFile)));
+            $errorArray[] = rex_view::error(I18n::msg('setup_301', rex_path::relative($configFile)));
         }
     }
 
@@ -171,7 +172,7 @@ if ($step > 3) {
             Sql::closeConnection();
             $err = rex_setup::checkDb($config, $redaxoDbCreate);
         } catch (PDOException $e) {
-            $err = rex_i18n::msg('setup_315', $e->getMessage());
+            $err = I18n::msg('setup_315', $e->getMessage());
         }
 
         if ('' != $err) {
@@ -228,7 +229,7 @@ if ($step > 4 && $createdb > -1) {
             $errors[] = rex_view::error($error);
         }
     } else {
-        $errors[] = rex_view::error(rex_i18n::msg('error_undefined'));
+        $errors[] = rex_view::error(I18n::msg('error_undefined'));
     }
 
     if (0 == count($errors)) {
@@ -269,11 +270,11 @@ if (6 === $step) {
 
     if (1 != $noadmin) {
         if ('' == $redaxoUserLogin) {
-            $errors[] = rex_view::error(rex_i18n::msg('setup_501'));
+            $errors[] = rex_view::error(I18n::msg('setup_501'));
         }
 
         if ('' == $redaxoUserPass) {
-            $errors[] = rex_view::error(rex_i18n::msg('setup_502'));
+            $errors[] = rex_view::error(I18n::msg('setup_502'));
         }
 
         $passwordPolicy = rex_backend_password_policy::factory();
@@ -286,7 +287,7 @@ if (6 === $step) {
             $ga->setQuery('select * from ' . Core::getTablePrefix() . 'user where login = ? ', [$redaxoUserLogin]);
 
             if ($ga->getRows() > 0) {
-                $errors[] = rex_view::error(rex_i18n::msg('setup_503'));
+                $errors[] = rex_view::error(I18n::msg('setup_503'));
             } else {
                 // the server side encryption of pw is only required
                 // when not already encrypted by client using javascript
@@ -307,7 +308,7 @@ if (6 === $step) {
                 try {
                     $user->insert();
                 } catch (rex_sql_exception) {
-                    $errors[] = rex_view::error(rex_i18n::msg('setup_504'));
+                    $errors[] = rex_view::error(I18n::msg('setup_504'));
                 }
             }
         }
@@ -315,7 +316,7 @@ if (6 === $step) {
         $gu = Sql::factory();
         $gu->setQuery('select * from ' . Core::getTablePrefix() . 'user LIMIT 1');
         if (0 == $gu->getRows()) {
-            $errors[] = rex_view::error(rex_i18n::msg('setup_505'));
+            $errors[] = rex_view::error(I18n::msg('setup_505'));
         }
     }
 

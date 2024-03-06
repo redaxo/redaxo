@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * rex_form repraesentiert ein Formular in REDAXO.
@@ -106,11 +107,11 @@ class rex_form extends rex_form_base
         $this->addParam('list', rex_request('list', 'string'));
 
         $controlFields = [];
-        $controlFields['save'] = rex_i18n::msg('form_save');
-        $controlFields['apply'] = 'edit' == $func ? rex_i18n::msg('form_apply') : '';
-        $controlFields['delete'] = 'edit' == $func ? rex_i18n::msg('form_delete') : '';
-        $controlFields['reset'] = ''; // rex_i18n::msg('form_reset');
-        $controlFields['abort'] = rex_i18n::msg('form_abort');
+        $controlFields['save'] = I18n::msg('form_save');
+        $controlFields['apply'] = 'edit' == $func ? I18n::msg('form_apply') : '';
+        $controlFields['delete'] = 'edit' == $func ? I18n::msg('form_delete') : '';
+        $controlFields['reset'] = ''; // I18n::msg('form_reset');
+        $controlFields['abort'] = I18n::msg('form_abort');
 
         // ----- EXTENSION POINT
         $controlFields = rex_extension::registerPoint(new rex_extension_point('REX_FORM_CONTROL_FIELDS', $controlFields, ['form' => $this]));
@@ -124,9 +125,9 @@ class rex_form extends rex_form_base
                     $attr['formnovalidate'] = 'formnovalidate';
                 }
                 if ('save' === $name) {
-                    $attr['title'] = rex_i18n::msg('save_and_close_tooltip');
+                    $attr['title'] = I18n::msg('save_and_close_tooltip');
                 } elseif ('apply' === $name) {
-                    $attr['title'] = rex_i18n::msg('save_and_goon_tooltip');
+                    $attr['title'] = I18n::msg('save_and_goon_tooltip');
                 }
                 $controlElements[$name] = $this->addField(
                     'button',

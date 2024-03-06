@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 class rex_be_navigation
 {
@@ -196,7 +197,7 @@ class rex_be_navigation
         }
 
         if ('default' != $block) {
-            return rex_i18n::msg('navigation_' . $block);
+            return I18n::msg('navigation_' . $block);
         }
 
         return '';

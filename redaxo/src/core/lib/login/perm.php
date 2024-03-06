@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 abstract class rex_perm
 {
     public const GENERAL = 'general';
@@ -26,7 +28,7 @@ abstract class rex_perm
         if ($name) {
             $name = $perm . ' :: ' . $name;
         } else {
-            $name = (rex_i18n::hasMsg($key = 'perm_' . $group . '_' . $perm) ? $perm . ' :: ' . rex_i18n::rawMsg($key) : $perm);
+            $name = (I18n::hasMsg($key = 'perm_' . $group . '_' . $perm) ? $perm . ' :: ' . I18n::rawMsg($key) : $perm);
         }
 
         self::$perms[$group][$perm] = $name;

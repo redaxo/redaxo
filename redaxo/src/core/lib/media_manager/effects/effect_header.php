@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_header extends rex_effect_abstract
 {
     public function execute()
@@ -50,41 +52,41 @@ class rex_effect_header extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_header');
+        return I18n::msg('media_manager_effect_header');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_header_download'),
+                'label' => I18n::msg('media_manager_effect_header_download'),
                 'name' => 'download',
                 'type' => 'select',
                 'options' => ['open_media', 'download'],
                 'default' => 'open_media',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_header_cache'),
+                'label' => I18n::msg('media_manager_effect_header_cache'),
                 'name' => 'cache',
                 'type' => 'select',
                 'options' => ['no_cache', 'unspecified', 'max-age: 1 min', 'max-age: 1 hour', 'max-age: 1 day', 'max-age: 1 week', 'max-age: 1 month', 'max-age: 1 year', 'immutable'],
                 'default' => 'no_cache',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_header_filename'),
+                'label' => I18n::msg('media_manager_effect_header_filename'),
                 'name' => 'filename',
                 'type' => 'select',
                 'options' => ['filename', 'originalname'],
                 'default' => 'filename',
-                'notice' => rex_i18n::msg('media_manager_effect_header_filename_notice'),
+                'notice' => I18n::msg('media_manager_effect_header_filename_notice'),
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_header_index'),
+                'label' => I18n::msg('media_manager_effect_header_index'),
                 'name' => 'index',
                 'type' => 'select',
                 'options' => ['index', 'noindex'],
                 'default' => 'index',
-                'notice' => rex_i18n::msg('media_manager_effect_header_index_notice'),
+                'notice' => I18n::msg('media_manager_effect_header_index_notice'),
             ],
         ];
     }

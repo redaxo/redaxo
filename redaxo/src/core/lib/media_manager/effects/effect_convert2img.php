@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 /**
  * Benutzt den Konsolen convert oder ffmpeg Befehl.
  */
@@ -161,43 +163,43 @@ class rex_effect_convert2img extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_convert2img');
+        return I18n::msg('media_manager_effect_convert2img');
     }
 
     public function getParams()
     {
         $notSupported = [];
         if (!class_exists(Imagick::class) && '' == self::getConvertPath()) {
-            $notSupported[] = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_noimagemagick') . '</strong> ';
+            $notSupported[] = '<strong>' . I18n::msg('media_manager_effect_convert2img_noimagemagick') . '</strong> ';
         }
 
         if (!$this->isFfmpegAvailable()) {
-            $notSupported[] = '<strong>' . rex_i18n::msg('media_manager_effect_convert2img_videoconverternotfound') . '</strong> ';
+            $notSupported[] = '<strong>' . I18n::msg('media_manager_effect_convert2img_videoconverternotfound') . '</strong> ';
         }
 
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_convert2img_convertto'),
+                'label' => I18n::msg('media_manager_effect_convert2img_convertto'),
                 'name' => 'convert_to',
                 'type' => 'select',
                 'options' => self::CONVERT_TOS,
                 'default' => self::CONVERT_TO_DEFAULT,
                 'prefix' => implode('<br>', $notSupported),
-                'notice' => rex_i18n::msg('media_manager_effect_convert2img_convertto_notice'),
+                'notice' => I18n::msg('media_manager_effect_convert2img_convertto_notice'),
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_convert2img_density'),
+                'label' => I18n::msg('media_manager_effect_convert2img_density'),
                 'name' => 'density',
                 'type' => 'select',
                 'options' => self::DENSITIES,
                 'default' => self::DENSITY_DEFAULT,
-                'notice' => rex_i18n::msg('media_manager_effect_convert2img_density_notice'),
+                'notice' => I18n::msg('media_manager_effect_convert2img_density_notice'),
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_convert2img_color'),
+                'label' => I18n::msg('media_manager_effect_convert2img_color'),
                 'name' => 'color',
                 'type' => 'int',
-                'notice' => rex_i18n::msg('media_manager_effect_convert2img_color_notice'),
+                'notice' => I18n::msg('media_manager_effect_convert2img_color_notice'),
             ],
         ];
     }

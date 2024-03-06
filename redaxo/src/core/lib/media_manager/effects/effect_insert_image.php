@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 /**
  * Branded ein Bild mit einem Wasserzeichen.
  */
@@ -69,40 +71,40 @@ class rex_effect_insert_image extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_insert_image');
+        return I18n::msg('media_manager_effect_insert_image');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_brand_image'),
+                'label' => I18n::msg('media_manager_effect_brand_image'),
                 'name' => 'brandimage',
                 'type' => 'media',
                 'default' => '',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
+                'label' => I18n::msg('media_manager_effect_brand_hpos'),
                 'name' => 'hpos',
                 'type' => 'select',
                 'options' => ['left', 'center', 'right'],
                 'default' => 'left',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
+                'label' => I18n::msg('media_manager_effect_brand_vpos'),
                 'name' => 'vpos',
                 'type' => 'select',
                 'options' => ['top', 'middle', 'bottom'],
                 'default' => 'top',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_brand_padding_x'),
+                'label' => I18n::msg('media_manager_effect_brand_padding_x'),
                 'name' => 'padding_x',
                 'type' => 'int',
                 'default' => '-10',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_brand_padding_y'),
+                'label' => I18n::msg('media_manager_effect_brand_padding_y'),
                 'name' => 'padding_y',
                 'type' => 'int',
                 'default' => '-10',

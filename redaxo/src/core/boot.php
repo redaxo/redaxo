@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -76,8 +77,8 @@ rex_url::init($urlProvider);
 Core::setProperty('timer', new rex_timer($_SERVER['REQUEST_TIME_FLOAT'] ?? null));
 // add backend flag to rex
 Core::setProperty('redaxo', $REX['REDAXO']);
-// add core lang directory to rex_i18n
-rex_i18n::addDirectory(rex_path::core('lang'));
+// add core lang directory to I18n
+I18n::addDirectory(rex_path::core('lang'));
 // add core base-fragmentpath to fragmentloader
 rex_fragment::addDirectory(rex_path::core('fragments/'));
 

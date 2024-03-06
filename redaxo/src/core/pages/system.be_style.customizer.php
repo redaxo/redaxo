@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 $success = '';
 
@@ -12,7 +13,7 @@ if ('' != rex_post('btn_save', 'string')) {
     ]);
 
     Core::setConfig($settings);
-    $success = rex_i18n::msg('customizer_config_updated');
+    $success = I18n::msg('customizer_config_updated');
 }
 
 if ('' != $success) {
@@ -21,12 +22,12 @@ if ('' != $success) {
 
 // form
 
-$content = '<fieldset><legend>' . rex_i18n::msg('customizer_labeling') . '</legend>';
+$content = '<fieldset><legend>' . I18n::msg('customizer_labeling') . '</legend>';
 
 $formElements = [];
 
 $n = [];
-$n['label'] = '<label for="customizer-labelcolor">' . rex_i18n::msg('customizer_labelcolor') . '</label>';
+$n['label'] = '<label for="customizer-labelcolor">' . I18n::msg('customizer_labelcolor') . '</label>';
 $n['field'] = '
     <div class="input-group">
         <div class="input-group-addon">
@@ -35,11 +36,11 @@ $n['field'] = '
         <input class="form-control" id="customizer-labelcolor" type="text" name="settings[be_style_labelcolor]" value="' . rex_escape(Core::getConfig('be_style_labelcolor', '')) . '" oninput="jQuery(\'#customizer-labelcolor-picker\').val(this.value)" />
     </div>
 ';
-$n['note'] = rex_i18n::msg('customizer_labelcolor_notice');
+$n['note'] = I18n::msg('customizer_labelcolor_notice');
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="customizer-showlink">' . rex_i18n::msg('customizer_showlink') . '</label>';
+$n['label'] = '<label for="customizer-showlink">' . I18n::msg('customizer_showlink') . '</label>';
 $n['field'] = '<input type="checkbox" id="customizer-showlink" name="settings[be_style_showlink]" value="1" ' . (Core::getConfig('be_style_showlink') ? 'checked="checked" ' : '') . ' />';
 $formElements[] = $n;
 
@@ -54,7 +55,7 @@ $content .= '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="btn_save" value="' . rex_i18n::msg('customizer_update') . '">' . rex_i18n::msg('customizer_update') . '</button>';
+$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="btn_save" value="' . I18n::msg('customizer_update') . '">' . I18n::msg('customizer_update') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -65,7 +66,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 // section
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', rex_i18n::msg('customizer'), false);
+$fragment->setVar('title', I18n::msg('customizer'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

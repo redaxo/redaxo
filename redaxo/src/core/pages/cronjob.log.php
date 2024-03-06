@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 $func = rex_request('func', 'string');
 $error = '';
 $success = '';
@@ -8,9 +10,9 @@ $logFile = rex_path::log('cronjob.log');
 
 if ('cronjob_delLog' == $func) {
     if (rex_log_file::delete($logFile)) {
-        $success = rex_i18n::msg('syslog_deleted');
+        $success = I18n::msg('syslog_deleted');
     } else {
-        $error = rex_i18n::msg('syslog_delete_error');
+        $error = I18n::msg('syslog_delete_error');
     }
 }
 if ('' != $success) {
@@ -26,10 +28,10 @@ $content .= '
                 <thead>
                     <tr>
                         <th class="rex-table-icon"></th>
-                        <th>' . rex_i18n::msg('cronjob_log_date') . '</th>
-                        <th>' . rex_i18n::msg('cronjob_name') . '</th>
-                        <th>' . rex_i18n::msg('cronjob_log_message') . '</th>
-                        <th>' . rex_i18n::msg('cronjob_environment') . '</th>
+                        <th>' . I18n::msg('cronjob_log_date') . '</th>
+                        <th>' . I18n::msg('cronjob_name') . '</th>
+                        <th>' . I18n::msg('cronjob_log_message') . '</th>
+                        <th>' . I18n::msg('cronjob_environment') . '</th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -43,29 +45,29 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     $data = $entry->getData();
     $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-state-success';
     if ('--' == $data[1]) {
-        $icon = '<i class="rex-icon rex-icon-cronjob" title="' . rex_i18n::msg('cronjob_not_editable') . '"></i>';
+        $icon = '<i class="rex-icon rex-icon-cronjob" title="' . I18n::msg('cronjob_not_editable') . '"></i>';
     } else {
-        $icon = '<a href="' . rex_url::backendPage('cronjob', ['list' => 'cronjobs', 'func' => 'edit', 'oid' => $data[1]]) . '" title="' . rex_i18n::msg('cronjob_edit') . '"><i class="rex-icon rex-icon-cronjob"></i></a>';
+        $icon = '<a href="' . rex_url::backendPage('cronjob', ['list' => 'cronjobs', 'func' => 'edit', 'oid' => $data[1]]) . '" title="' . I18n::msg('cronjob_edit') . '"><i class="rex-icon rex-icon-cronjob"></i></a>';
     }
     $content .= '
         <tr class="' . $class . '">
             <td class="rex-table-icon">' . $icon . '</td>
-            <td data-title="' . rex_i18n::msg('cronjob_log_date') . '" class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>
-            <td data-title="' . rex_i18n::msg('cronjob_name') . '">' . rex_escape($data[2]) . '</td>
-            <td data-title="' . rex_i18n::msg('cronjob_log_message') . '">' . nl2br(rex_escape($data[3])) . '</td>
-            <td data-title="' . rex_i18n::msg('cronjob_environment') . '">' . (isset($data[4]) ? rex_i18n::msg('cronjob_environment_' . $data[4]) : '') . '</td>
+            <td data-title="' . I18n::msg('cronjob_log_date') . '" class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>
+            <td data-title="' . I18n::msg('cronjob_name') . '">' . rex_escape($data[2]) . '</td>
+            <td data-title="' . I18n::msg('cronjob_log_message') . '">' . nl2br(rex_escape($data[3])) . '</td>
+            <td data-title="' . I18n::msg('cronjob_environment') . '">' . (isset($data[4]) ? I18n::msg('cronjob_environment_' . $data[4]) : '') . '</td>
         </tr>';
 }
 
 // XXX calc last line and use it instead
 if ($url = rex_editor::factory()->getUrl($logFile, 1)) {
     $n = [];
-    $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
+    $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . I18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
     $formElements[] = $n;
 }
 
 $n = [];
-$n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('cronjob_delete_log_msg') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
+$n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . I18n::msg('cronjob_delete_log_msg') . '?">' . I18n::msg('syslog_delete') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

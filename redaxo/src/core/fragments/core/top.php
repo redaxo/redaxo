@@ -1,5 +1,6 @@
 <?php
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @var rex_fragment $this
@@ -7,7 +8,7 @@ use Redaxo\Core\Core;
  */
 ?>
 <!doctype html>
-<html lang="<?= rex_i18n::msg('htmllang') ?>">
+<html lang="<?= I18n::msg('htmllang') ?>">
 <head>
     <meta charset="utf-8" />
 

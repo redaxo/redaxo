@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 
@@ -60,7 +61,7 @@ $error = [];
 $success = [];
 if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
     if (!$csrf->isValid()) {
-        $error[] = rex_i18n::msg('csrf_token_invalid');
+        $error[] = I18n::msg('csrf_token_invalid');
     } else {
         $syncFiles = rex_post('sync_files', 'array[string]');
         $ftitle = rex_post('ftitle', 'string');
@@ -87,7 +88,7 @@ if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
 
                     unset($diffFiles[$key]);
                     if ($first) {
-                        $success[] = rex_i18n::msg('pool_sync_files_synced');
+                        $success[] = I18n::msg('pool_sync_files_synced');
                         $first = false;
                     }
                 } catch (rex_api_exception $e) {
@@ -99,7 +100,7 @@ if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
         }
     }
 } elseif (rex_post('save', 'boolean')) {
-    $error[] = rex_i18n::msg('pool_file_not_found');
+    $error[] = I18n::msg('pool_file_not_found');
 }
 
 if (count($error) > 0) {
@@ -128,7 +129,7 @@ if ($diffCount > 0) {
     }
 
     $e = [];
-    $e['label'] = '<label>' . rex_i18n::msg('pool_select_all') . '</label>';
+    $e['label'] = '<label>' . I18n::msg('pool_select_all') . '</label>';
     $e['field'] = '<input type="checkbox" name="checkie" id="rex-js-checkie" value="0" onchange="setAllCheckBoxes(\'sync_files[]\',this)" />';
     $writable[] = $e;
 
@@ -138,10 +139,10 @@ if ($diffCount > 0) {
 
     $count = count($writable) - 1;
     if ($count) {
-        $content .= rex_mediapool_Mediaform(rex_i18n::msg('pool_sync_title'), rex_i18n::msg('pool_sync_button'), $rexFileCategory, false, false);
+        $content .= rex_mediapool_Mediaform(I18n::msg('pool_sync_title'), I18n::msg('pool_sync_button'), $rexFileCategory, false, false);
         $content .= '<fieldset>';
 
-        $title = rex_i18n::msg('pool_sync_affected_files') . ' (' . $count . ')';
+        $title = I18n::msg('pool_sync_affected_files') . ' (' . $count . ')';
 
         $fragment = new rex_fragment();
         $fragment->setVar('title', $title, false);
@@ -166,7 +167,7 @@ if ($diffCount > 0) {
 
     $count = count($notWritable);
     if ($count) {
-        $title = $count > 1 ? rex_i18n::msg('pool_files_not_writable') : rex_i18n::msg('pool_file_not_writable');
+        $title = $count > 1 ? I18n::msg('pool_files_not_writable') : I18n::msg('pool_file_not_writable');
 
         $fragment = new rex_fragment();
         $fragment->setVar('title', $title, false);
@@ -175,10 +176,10 @@ if ($diffCount > 0) {
         $content .= $fragment->parse('core/page/section.php');
     }
 } else {
-    $panel = '<p>' . rex_i18n::msg('pool_sync_no_diffs') . '</p>';
+    $panel = '<p>' . I18n::msg('pool_sync_no_diffs') . '</p>';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('pool_sync_title'), false);
+    $fragment->setVar('title', I18n::msg('pool_sync_title'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('class', 'info', false);
     $content = $fragment->parse('core/page/section.php');

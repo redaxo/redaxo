@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @method rex_user|null getUser()
@@ -118,7 +119,7 @@ class rex_backend_login extends rex_login
                 $this->setSessionVar(self::SESSION_START_TIME, time());
                 $this->setSessionVar(self::SESSION_LAST_ACTIVITY, time());
             } else {
-                $this->message = rex_i18n::msg('login_error');
+                $this->message = I18n::msg('login_error');
                 $this->passkey = null;
             }
         }
@@ -184,7 +185,7 @@ class rex_backend_login extends rex_login
                         $mins = floor(($time - ($hours * 3600)) / 60);
                         $secs = $time % 60;
                         $formatted = ($hours ? $hours . 'h ' : '') . ($hours || $mins ? $mins . 'min ' : '') . $secs . 's';
-                        $this->message .= ' ' . rex_i18n::rawMsg('login_wait', '<strong data-time="' . $time . '">' . $formatted . '</strong>');
+                        $this->message .= ' ' . I18n::rawMsg('login_wait', '<strong data-time="' . $time . '">' . $formatted . '</strong>');
                     }
                 }
             }
@@ -195,7 +196,7 @@ class rex_backend_login extends rex_login
             $sql->setQuery('SELECT passkey_id FROM ' . Core::getTable('user_session') . ' where session_id = ?', [session_id()]);
             if (0 === $sql->getRows()) {
                 $check = false;
-                $this->message = rex_i18n::msg('login_session_expired');
+                $this->message = I18n::msg('login_session_expired');
                 rex_csrf_token::removeAll();
             } else {
                 $this->passkey = null === $sql->getValue('passkey_id') ? null : (string) $sql->getValue('passkey_id');

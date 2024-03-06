@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_filter_greyscale extends rex_effect_abstract
 {
     public function execute()
@@ -14,7 +16,7 @@ class rex_effect_filter_greyscale extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_greyscale');
+        return I18n::msg('media_manager_effect_greyscale');
     }
 
     public function getParams()

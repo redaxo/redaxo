@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -27,10 +28,10 @@ class rex_api_install_package_update extends rex_api_function
         }
 
         if ($message) {
-            $message = rex_i18n::msg('install_warning_addon_not_updated', $addonkey) . '<br />' . $message;
+            $message = I18n::msg('install_warning_addon_not_updated', $addonkey) . '<br />' . $message;
             $success = false;
         } else {
-            $message = rex_i18n::msg('install_info_addon_updated', $addonkey);
+            $message = I18n::msg('install_info_addon_updated', $addonkey);
 
             $success = true;
             unset($_REQUEST['addonkey']);

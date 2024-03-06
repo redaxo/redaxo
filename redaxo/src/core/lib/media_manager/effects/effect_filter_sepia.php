@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_filter_sepia extends rex_effect_abstract
 {
     public function execute()
@@ -15,7 +17,7 @@ class rex_effect_filter_sepia extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_sepia');
+        return I18n::msg('media_manager_effect_sepia');
     }
 
     public function getParams()

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_mediapath extends rex_effect_abstract
 {
     public function __construct() {}
@@ -14,17 +16,17 @@ class rex_effect_mediapath extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_mediapath');
+        return I18n::msg('media_manager_effect_mediapath');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_mediapath_path'),
+                'label' => I18n::msg('media_manager_effect_mediapath_path'),
                 'name' => 'mediapath',
                 'type' => 'string',
-                'notice' => rex_i18n::msg('media_manager_effect_mediapath_path_notice'),
+                'notice' => I18n::msg('media_manager_effect_mediapath_path_notice'),
             ],
         ];
     }

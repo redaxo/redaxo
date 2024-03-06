@@ -1,11 +1,34 @@
 <?php
 
+namespace Redaxo\Core\Translation;
+
+use InvalidArgumentException;
+use Locale;
 use Redaxo\Core\Core;
+use rex_exception;
+use rex_extension;
+use rex_extension_point;
+use rex_file;
+use rex_finder;
+
+use function call_user_func;
+use function count;
+use function func_get_args;
+use function gettype;
+use function in_array;
+use function is_array;
+use function is_scalar;
+use function is_string;
+use function strlen;
+
+use const DIRECTORY_SEPARATOR;
+use const LC_ALL;
+use const PREG_SET_ORDER;
 
 /**
  * Class for internationalization.
  */
-class rex_i18n
+class I18n
 {
     /** @var list<string> */
     private static $locales = [];

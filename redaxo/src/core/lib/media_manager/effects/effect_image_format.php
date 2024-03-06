@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_image_format extends rex_effect_abstract
 {
     private const CONVERT_TYPES = [
@@ -99,14 +101,14 @@ class rex_effect_image_format extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_image_format');
+        return I18n::msg('media_manager_effect_image_format');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_image_format_convertto'),
+                'label' => I18n::msg('media_manager_effect_image_format_convertto'),
                 'name' => 'convert_to',
                 'type' => 'select',
                 'options' => array_filter(self::CONVERT_TOS, static function (string $format): bool {

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 class rex_cronjob_optimize_tables extends rex_cronjob
 {
@@ -24,6 +25,6 @@ class rex_cronjob_optimize_tables extends rex_cronjob
 
     public function getTypeName()
     {
-        return rex_i18n::msg('cronjob_optimize_tables');
+        return I18n::msg('cronjob_optimize_tables');
     }
 }

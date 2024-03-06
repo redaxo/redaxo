@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 /**
  * Represents a null addon.
  *
@@ -132,6 +134,6 @@ class rex_null_addon implements rex_addon_interface
     public function i18n($key, ...$replacements)
     {
         $args = func_get_args();
-        return call_user_func_array(rex_i18n::msg(...), $args);
+        return call_user_func_array(I18n::msg(...), $args);
     }
 }

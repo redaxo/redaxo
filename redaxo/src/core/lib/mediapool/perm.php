@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_media_perm extends rex_complex_perm
 {
     /**
@@ -22,8 +24,8 @@ class rex_media_perm extends rex_complex_perm
     public static function getFieldParams()
     {
         return [
-            'label' => rex_i18n::msg('mediafolder'),
-            'all_label' => rex_i18n::msg('all_mediafolder'),
+            'label' => I18n::msg('mediafolder'),
+            'all_label' => I18n::msg('all_mediafolder'),
             'select' => new rex_media_category_select(false),
         ];
     }
