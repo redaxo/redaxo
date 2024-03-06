@@ -156,6 +156,7 @@ return RectorConfig::configure()
     ])
     ->withConfiguredRule(NewToStaticCallRector::class, [
         new NewToStaticCall(rex_backend_password_policy::class, rex_backend_password_policy::class, 'factory'),
+        new NewToStaticCall(rex_log_file::class, rex_log_file::class, 'factory'),
     ])
     ->withConfiguredRule(FuncCallToStaticCallRector::class, [
         new FuncCallToStaticCall('rex_mediapool_filename', rex_mediapool::class, 'filename'),

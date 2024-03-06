@@ -36,12 +36,7 @@ class rex_log_file implements Iterator
     /** @var int */
     private $bufferPos;
 
-    /**
-     * @param string $path File path
-     * @param int|null $maxFileSize Maximum file size
-     * @deprecated since 5.17.0, use `rex_log_file::factory` instead
-     */
-    public function __construct($path, $maxFileSize = null)
+    private function __construct(string $path, ?int $maxFileSize = null)
     {
         $this->path = $path;
         if (!is_file($path)) {
