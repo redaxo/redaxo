@@ -58,14 +58,9 @@ if (isset($REX['PATH_PROVIDER']) && is_object($REX['PATH_PROVIDER'])) {
 
 rex_path::init($pathProvider);
 
-require_once rex_path::core('lib/autoload.php');
+require_once rex_path::base('vendor/autoload.php');
 
-// register core-classes as php-handlers
-rex_autoload::register();
-// add core base-classpath to autoloader
-rex_autoload::addDirectory(rex_path::core('lib'));
-
-// must be called after `rex_autoload::register()` to support symfony/polyfill-mbstring
+// must be called after autoloader to support symfony/polyfill-mbstring
 mb_internal_encoding('UTF-8');
 
 if (isset($REX['URL_PROVIDER']) && is_object($REX['URL_PROVIDER'])) {
@@ -85,12 +80,6 @@ Core::setProperty('redaxo', $REX['REDAXO']);
 rex_i18n::addDirectory(rex_path::core('lang'));
 // add core base-fragmentpath to fragmentloader
 rex_fragment::addDirectory(rex_path::core('fragments/'));
-
-// ----------------- FUNCTIONS
-require_once rex_path::core('functions/function_rex_escape.php');
-require_once rex_path::core('functions/function_rex_globals.php');
-require_once rex_path::core('functions/function_rex_mediapool.php');
-require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
 Core::setProperty('version', '6.0.0-dev');
@@ -178,8 +167,6 @@ rex_extension::register('MEDIA_DELETED', [rex_media_manager::class, 'mediaUpdate
 rex_extension::register('MEDIA_IS_IN_USE', [rex_media_manager::class, 'mediaIsInUse']);
 
 if (!Core::isSetup()) {
-    require_once __DIR__ . '/functions/function_structure_rex_url.php';
-
     Core::setProperty('start_article_id', Core::getConfig('start_article_id', 1));
     Core::setProperty('notfound_article_id', Core::getConfig('notfound_article_id', 1));
     Core::setProperty('rows_per_page', 50);

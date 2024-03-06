@@ -98,8 +98,6 @@ class rex_addon_manager
             $reinstall = $this->package->getProperty('install');
             $this->package->setProperty('install', true);
 
-            rex_autoload::addDirectory($this->package->getPath('lib'));
-            rex_autoload::addDirectory($this->package->getPath('vendor'));
             rex_i18n::addDirectory($this->package->getPath('lang'));
 
             // include install.php
@@ -288,10 +286,6 @@ class rex_addon_manager
 
             // clear cache of package
             $this->package->clearCache();
-
-            // reload autoload cache when addon is deactivated,
-            // so the index doesn't contain outdated class definitions
-            rex_autoload::removeCache();
 
             if ($this->generatePackageOrder) {
                 self::generatePackageOrder();

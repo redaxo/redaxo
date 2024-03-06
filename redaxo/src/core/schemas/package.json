@@ -112,19 +112,6 @@
             "enum": ["early", "normal", "late"],
             "default": "normal"
         },
-        "autoload": {
-            "description": "Additional directories for autoloader",
-            "type": "object",
-            "properties": {
-                "classes": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            },
-            "additionalProperties": false
-        },
         "installer_ignore": {
             "description": "Directories/files that should be ignored by installer",
             "type": "array",

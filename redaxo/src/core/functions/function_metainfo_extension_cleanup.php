@@ -29,10 +29,6 @@ function rex_metainfo_cleanup($epOrParams)
         return;
     }
 
-    // since this extension may be used also when the addon is not yet installed,
-    // require needed classes manually
-    require_once __DIR__ . '/../lib/table_manager.php';
-
     $sql = Sql::factory();
     $sql->setQuery('SELECT name FROM ' . Core::getTablePrefix() . 'metainfo_field');
 
