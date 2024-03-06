@@ -21,7 +21,7 @@ class rex_log_file_test extends TestCase
     public function testConstruct(): void
     {
         $path = $this->getPath('test1.log');
-        new rex_log_file($path);
+        rex_log_file::factory($path);
         self::assertStringEqualsFile($path, '');
     }
 
@@ -30,18 +30,18 @@ class rex_log_file_test extends TestCase
         $path = $this->getPath('test2.log');
         $path2 = $path . '.2';
 
-        new rex_log_file($path, 20);
+        rex_log_file::factory($path, 20);
         self::assertStringEqualsFile($path, '');
         self::assertFileDoesNotExist($path2);
 
         $content = str_repeat('abc', 5);
         rex_file::put($path, $content);
 
-        new rex_log_file($path, 20);
+        rex_log_file::factory($path, 20);
         self::assertFileDoesNotExist($path2);
         self::assertStringEqualsFile($path, $content);
 
-        new rex_log_file($path, 10);
+        rex_log_file::factory($path, 10);
         self::assertStringEqualsFile($path2, $content);
         self::assertStringEqualsFile($path, '');
     }
@@ -50,7 +50,7 @@ class rex_log_file_test extends TestCase
     public function testAdd(): void
     {
         $path = $this->getPath('test3.log');
-        $log = new rex_log_file($path);
+        $log = rex_log_file::factory($path);
         $log->add(['test1a', 'test1b']);
         $log->add(['test2a', 'test2b', 'test2c']);
 
@@ -65,7 +65,7 @@ class rex_log_file_test extends TestCase
     public function testIterator(): void
     {
         $path = $this->getPath('test4.log');
-        $log = new rex_log_file($path);
+        $log = rex_log_file::factory($path);
         self::assertSame([], iterator_to_array($log));
 
         unset($log); // free handles to the underlying file
@@ -78,7 +78,7 @@ class rex_log_file_test extends TestCase
             new rex_log_entry(mktime(23, 9, 43, 8, 27, 2013), ['test2a', 'test2b']),
             new rex_log_entry(mktime(23, 7, 2, 8, 27, 2013), ['test1a', 'test1b']),
         ];
-        $log = new rex_log_file($path);
+        $log = rex_log_file::factory($path);
         self::assertEquals($expected, iterator_to_array($log));
 
         unset($log); // free handles to the underlying file
@@ -92,7 +92,7 @@ class rex_log_file_test extends TestCase
         );
         $expected[] = new rex_log_entry(mktime(22, 22, 43, 8, 27, 2013), ['test4']);
         $expected[] = new rex_log_entry(mktime(22, 19, 2, 8, 27, 2013), ['test3']);
-        $log = new rex_log_file($path);
+        $log = rex_log_file::factory($path);
         self::assertEquals($expected, iterator_to_array($log));
     }
 

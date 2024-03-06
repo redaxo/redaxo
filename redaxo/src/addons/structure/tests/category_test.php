@@ -13,21 +13,18 @@ class rex_category_test extends TestCase
         // generate classVars and add test column
         rex_category::getClassVars();
         $class = new ReflectionClass(rex_category::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setValue(
-            array_merge(
-                $classVarsProperty->getValue(),
-                ['cat_foo'],
-            ),
-        );
+        /** @psalm-suppress MixedArgument */
+        $class->setStaticPropertyValue('classVars', array_merge(
+            $class->getStaticPropertyValue('classVars'),
+            ['cat_foo'],
+        ));
     }
 
     protected function tearDown(): void
     {
         // reset static properties
         $class = new ReflectionClass(rex_article::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setValue(null);
+        $class->setStaticPropertyValue('classVars', null);
 
         rex_category::clearInstancePool();
     }
