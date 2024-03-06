@@ -1396,7 +1396,7 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/history/lib/history_login.php
 
 		-
-			message: "#^Method class@anonymous/addons/structure/tests/category_test\\.php\\:175\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method class@anonymous/addons/structure/tests/category_test\\.php\\:172\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/tests/category_test.php
 
