@@ -25,15 +25,12 @@ class rex_markdown
      * Parses markdown code.
      *
      * @param string $code Markdown code
-     * @param array<self::*, bool>|bool $options
+     * @param array<self::*, bool> $options
      *
      * @return string HTML code
      */
     public function parse($code, $options = [])
     {
-        // deprecated bool param
-        $options = is_bool($options) ? [self::SOFT_LINE_BREAKS => $options] : $options;
-
         $parser = new rex_parsedown();
         $parser->setBreaksEnabled($options[self::SOFT_LINE_BREAKS] ?? true);
         $parser->highlightPhp = $options[self::HIGHLIGHT_PHP] ?? false;
@@ -47,15 +44,12 @@ class rex_markdown
      * @param string $code Markdown code
      * @param int $topLevel Top included headline level for TOC, e.g. `1` for `<h1>`
      * @param int $bottomLevel Bottom included headline level for TOC, e.g. `6` for `<h6>`
-     * @param array<self::*, bool>|bool $options
+     * @param array<self::*, bool> $options
      *
      * @return list{string, string} tupel of table-of-content and content
      */
     public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, $options = [])
     {
-        // deprecated bool param
-        $options = is_bool($options) ? [self::SOFT_LINE_BREAKS => $options] : $options;
-
         $parser = new rex_parsedown();
         $parser->setBreaksEnabled($options[self::SOFT_LINE_BREAKS] ?? true);
         $parser->highlightPhp = $options[self::HIGHLIGHT_PHP] ?? false;
