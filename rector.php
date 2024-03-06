@@ -34,7 +34,11 @@ use Rector\Renaming\Rector\StaticCall\RenameStaticMethodRector;
 use Rector\Renaming\ValueObject\MethodCallRename;
 use Rector\Renaming\ValueObject\RenameStaticMethod;
 use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
+use Rector\Transform\Rector\FuncCall\FuncCallToStaticCallRector;
+use Rector\Transform\Rector\New_\NewToStaticCallRector;
 use Rector\Transform\ValueObject\ConstFetchToClassConstFetch;
+use Rector\Transform\ValueObject\FuncCallToStaticCall;
+use Rector\Transform\ValueObject\NewToStaticCall;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Rector\Rule\UnderscoreToCamelCasePropertyNameRector;
 use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
@@ -123,6 +127,21 @@ return RectorConfig::configure()
         new RenameStaticMethod(Redaxo\Core\Core::class, 'getVersionHash', rex_version::class, 'gitHash'),
         new RenameStaticMethod(rex_string::class, 'versionSplit', rex_version::class, 'split'),
         new RenameStaticMethod(rex_string::class, 'versionCompare', rex_version::class, 'compare'),
+    ])
+    ->withConfiguredRule(NewToStaticCallRector::class, [
+        new NewToStaticCall(rex_backend_password_policy::class, rex_backend_password_policy::class, 'factory'),
+    ])
+    ->withConfiguredRule(FuncCallToStaticCallRector::class, [
+        new FuncCallToStaticCall('rex_mediapool_filename', rex_mediapool::class, 'filename'),
+        new FuncCallToStaticCall('rex_mediapool_saveMedia', rex_mediapool::class, 'addMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_updateMedia', rex_mediapool::class, 'updateMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_syncFile', rex_mediapool::class, 'addMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_deleteMedia', rex_mediapool::class, 'deleteMedia'), // different return value
+        new FuncCallToStaticCall('rex_mediapool_mediaIsInUse', rex_mediapool::class, 'mediaIsInUse'),
+        new FuncCallToStaticCall('rex_mediapool_isAllowedMediaType', rex_mediapool::class, 'isAllowedExtension'),
+        new FuncCallToStaticCall('rex_mediapool_isAllowedMimeType', rex_mediapool::class, 'isAllowedMimeType'),
+        new FuncCallToStaticCall('rex_mediapool_getMediaTypeWhitelist', rex_mediapool::class, 'getAllowedExtensions'),
+        new FuncCallToStaticCall('rex_mediapool_getMediaTypeBlacklist', rex_mediapool::class, 'getBlockedExtensions'),
     ])
     ->withConfiguredRule(RemoveFuncCallArgRector::class, [
         new RemoveFuncCallArg('rex_getUrl', 3),
