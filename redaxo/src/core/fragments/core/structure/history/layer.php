@@ -1,4 +1,6 @@
 <?php
+use Redaxo\Core\Translation\I18n;
+
 /**
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
@@ -48,8 +50,8 @@
             <div class="history-layer-panel-4">
                 <div class="row">
                     <div class="col-lg-6 col-lg-push-6 text-center">
-                        <button class="btn btn-apply" data-history-layer="snap"><?= rex_i18n::msg('structure_history_snapshot_reactivate') ?></button>
-                        <button class="btn btn-abort" data-history-layer="cancel"><?= rex_i18n::msg('structure_history_close') ?></button>
+                        <button class="btn btn-apply" data-history-layer="snap"><?= I18n::msg('structure_history_snapshot_reactivate') ?></button>
+                        <button class="btn btn-abort" data-history-layer="cancel"><?= I18n::msg('structure_history_close') ?></button>
                     </div>
                 </div>
             </div>

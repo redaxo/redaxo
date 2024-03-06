@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Translation\I18n;
 
 $effectId = rex_request('effect_id', 'int');
 $typeId = rex_request('type_id', 'int');
@@ -39,7 +40,7 @@ if ('delete' == $func && $effectId > 0) {
             'priority, updatedate desc',
         );
 
-        $info = rex_i18n::msg('media_manager_effect_deleted');
+        $info = I18n::msg('media_manager_effect_deleted');
 
         rex_media_manager::deleteCacheByType($typeId);
 
@@ -68,7 +69,7 @@ foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
 }
 
 if ('' == $func) {
-    echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', $typeName));
+    echo rex_view::info(I18n::msg('media_manager_effect_list_header', $typeName));
 
     $query = 'SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $typeId . ' ORDER BY priority';
 
@@ -76,7 +77,7 @@ if ('' == $func) {
     $list->addTableAttribute('class', 'table-striped table-hover');
     $list->addParam('effects', 1);
 
-    $list->setNoRowsMessage(rex_i18n::msg('media_manager_effect_no_effects'));
+    $list->setNoRowsMessage(I18n::msg('media_manager_effect_no_effects'));
 
     $list->removeColumn('id');
     $list->removeColumn('type_id');
@@ -86,37 +87,37 @@ if ('' == $func) {
     $list->removeColumn('createdate');
     $list->removeColumn('createuser');
 
-    $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
+    $list->setColumnLabel('effect', I18n::msg('media_manager_type_name'));
     $list->setColumnFormat('effect', 'custom', static function ($params) use ($effects) {
         $shortName = $params['value'];
         return isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName;
     });
 
-    $list->setColumnLabel('priority', rex_i18n::msg('media_manager_type_priority'));
+    $list->setColumnLabel('priority', I18n::msg('media_manager_type_priority'));
     $list->setColumnLayout('priority', ['<th class="rex-table-priority">###VALUE###</th>', '<td class="rex-table-priority">###VALUE###</td>']);
 
     // icon column
-    $thIcon = '<a href="' . $list->getUrl(['type_id' => $typeId, 'func' => 'add']) . '" title="' . rex_i18n::msg('media_manager_effect_create') . '"><i class="rex-icon rex-icon-add-mediatype-effect"></i></a>';
+    $thIcon = '<a href="' . $list->getUrl(['type_id' => $typeId, 'func' => 'add']) . '" title="' . I18n::msg('media_manager_effect_create') . '"><i class="rex-icon rex-icon-add-mediatype-effect"></i></a>';
     $tdIcon = '<i class="rex-icon rex-icon-mediatype-effect"></i>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'type_id' => $typeId, 'effect_id' => '###id###']);
 
     // functions column spans 2 data-columns
-    $funcs = rex_i18n::msg('media_manager_effect_functions');
-    $list->addColumn($funcs, '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('media_manager_effect_edit'), -1, ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
+    $funcs = I18n::msg('media_manager_effect_functions');
+    $list->addColumn($funcs, '<i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('media_manager_effect_edit'), -1, ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams($funcs, ['func' => 'edit', 'type_id' => $typeId, 'effect_id' => '###id###']);
 
     $delete = 'deleteCol';
-    $list->addColumn($delete, '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_effect_delete'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->addColumn($delete, '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('media_manager_effect_delete'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams($delete, ['type_id' => $typeId, 'effect_id' => '###id###', 'func' => 'delete']);
-    $list->addLinkAttribute($delete, 'data-confirm', rex_i18n::msg('delete') . ' ?');
+    $list->addLinkAttribute($delete, 'data-confirm', I18n::msg('delete') . ' ?');
 
     $content = $list->get();
 
-    $footer = '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '">' . rex_i18n::msg('media_manager_back') . '</a>';
+    $footer = '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('media_manager_back') . '</a>';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::rawMsg('media_manager_effect_caption', $typeName), false);
+    $fragment->setVar('title', I18n::rawMsg('media_manager_effect_caption', $typeName), false);
     $fragment->setVar('content', $content, false);
     $fragment->setVar('footer', $footer, false);
     $content = $fragment->parse('core/page/section.php');
@@ -128,9 +129,9 @@ if ('' == $func) {
     });
 
     if ('edit' == $func) {
-        $formLabel = rex_i18n::rawMsg('media_manager_effect_edit_header', rex_escape($typeName));
+        $formLabel = I18n::rawMsg('media_manager_effect_edit_header', rex_escape($typeName));
     } else {
-        $formLabel = rex_i18n::rawMsg('media_manager_effect_create_header', rex_escape($typeName));
+        $formLabel = I18n::rawMsg('media_manager_effect_create_header', rex_escape($typeName));
     }
 
     $form = rex_form::factory(Core::getTablePrefix() . 'media_manager_type_effect', '', 'id=' . $effectId);
@@ -140,7 +141,7 @@ if ('' == $func) {
 
     // effect prio
     $field = $form->addPrioField('priority');
-    $field->setLabel(rex_i18n::msg('media_manager_effect_priority'));
+    $field->setLabel(I18n::msg('media_manager_effect_priority'));
     $field->setAttribute('class', 'selectpicker form-control');
     $field->setLabelField('effect');
     $field->setLabelCallback(static function ($shortName) use ($effects) {
@@ -150,7 +151,7 @@ if ('' == $func) {
 
     // effect name als SELECT
     $field = $form->addSelectField('effect');
-    $field->setLabel(rex_i18n::msg('media_manager_effect_name'));
+    $field->setLabel(I18n::msg('media_manager_effect_name'));
     $field->setAttribute('class', 'selectpicker form-control');
     $field->setAttribute('data-live-search', 'true');
     $select = $field->getSelect();

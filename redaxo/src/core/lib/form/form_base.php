@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 abstract class rex_form_base
 {
@@ -1060,7 +1061,7 @@ abstract class rex_form_base
         $messages = [];
 
         if (!$this->csrfToken->isValid()) {
-            $messages[] = rex_i18n::msg('csrf_token_invalid');
+            $messages[] = I18n::msg('csrf_token_invalid');
         }
 
         foreach ($this->getSaveElements() as $fieldsetElements) {
@@ -1162,13 +1163,13 @@ abstract class rex_form_base
                 // speichern und umleiten
                 // Nachricht in der Liste anzeigen
                 if (true === ($result = $this->validate()) && true === ($result = $this->save())) {
-                    $this->redirect(rex_i18n::msg('form_saved'));
+                    $this->redirect(I18n::msg('form_saved'));
                 } elseif (is_int($result) && isset($this->errorMessages[$result])) {
                     $this->setWarning($this->errorMessages[$result]);
                 } elseif (is_string($result) && '' != $result) {
                     $this->setWarning($result);
                 } else {
-                    $this->setWarning(rex_i18n::msg('form_save_error'));
+                    $this->setWarning(I18n::msg('form_save_error'));
                 }
             } elseif ($controlElement->applied()) {
                 $this->processPostValues();
@@ -1176,32 +1177,32 @@ abstract class rex_form_base
                 // speichern und wiederanzeigen
                 // Nachricht im Formular anzeigen
                 if (true === ($result = $this->validate()) && true === ($result = $this->save())) {
-                    $this->setMessage(rex_i18n::msg('form_applied'));
+                    $this->setMessage(I18n::msg('form_applied'));
                 } elseif (is_int($result) && isset($this->errorMessages[$result])) {
                     $this->setWarning($this->errorMessages[$result]);
                 } elseif (is_string($result) && '' != $result) {
                     $this->setWarning($result);
                 } else {
-                    $this->setWarning(rex_i18n::msg('form_save_error'));
+                    $this->setWarning(I18n::msg('form_save_error'));
                 }
             } elseif ($controlElement->deleted()) {
                 // speichern und wiederanzeigen
                 // Nachricht in der Liste anzeigen
                 if (true === ($result = $this->delete())) {
-                    $this->redirect(rex_i18n::msg('form_deleted'));
+                    $this->redirect(I18n::msg('form_deleted'));
                 } elseif (is_string($result) && '' != $result) {
                     $this->setWarning($result);
                 } else {
-                    $this->setWarning(rex_i18n::msg('form_delete_error'));
+                    $this->setWarning(I18n::msg('form_delete_error'));
                 }
             } elseif ($controlElement->resetted()) {
                 // verwerfen und wiederanzeigen
                 // Nachricht im Formular anzeigen
-                $this->setMessage(rex_i18n::msg('form_resetted'));
+                $this->setMessage(I18n::msg('form_resetted'));
             } elseif ($controlElement->aborted()) {
                 // verwerfen und umleiten
                 // Nachricht in der Liste anzeigen
-                $this->redirect(rex_i18n::msg('form_resetted'));
+                $this->redirect(I18n::msg('form_resetted'));
             }
         }
 

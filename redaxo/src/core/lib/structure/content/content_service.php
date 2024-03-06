@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Translation\I18n;
 
 class rex_content_service
 {
@@ -54,7 +55,7 @@ class rex_content_service
 
         rex_article_cache::delete($articleId, $clangId);
 
-        $message = rex_i18n::msg('slice_added');
+        $message = I18n::msg('slice_added');
 
         $article = rex_article::get($articleId, $clangId);
 
@@ -142,19 +143,19 @@ class rex_content_service
                 $CM->setQuery('select * from ' . Core::getTablePrefix() . 'article_slice where id=? and clang_id=?', [$sliceId, $clang]);
                 $newPriority = $CM->getValue('priority');
                 if ($oldPriority == $newPriority) {
-                    throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
+                    throw new rex_api_exception(I18n::msg('slice_moved_error'));
                 }
 
                 rex_article_cache::deleteContent($articleId, $clang);
 
-                $info = rex_i18n::msg('slice_moved');
+                $info = I18n::msg('slice_moved');
                 $article = rex_article::get($articleId, $clang);
                 $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_moved', $info));
             } else {
                 throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!');
             }
         } else {
-            throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
+            throw new rex_api_exception(I18n::msg('slice_moved_error'));
         }
 
         return $info;

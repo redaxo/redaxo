@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -113,7 +114,7 @@ class rex_api_install_core_update extends rex_api_function
                             throw new rex_functional_exception($msg);
                         }
                         if (!$addon->getProperty('update', true)) {
-                            throw new rex_functional_exception(rex_i18n::msg('package_no_reason'));
+                            throw new rex_functional_exception(I18n::msg('package_no_reason'));
                         }
                     } catch (rex_functional_exception $e) {
                         throw new rex_functional_exception($addonkey . ': ' . $e->getMessage(), $e);
@@ -293,6 +294,6 @@ class rex_api_install_core_update extends rex_api_function
 
     private function messageFromPackage(rex_addon $package, rex_addon_manager $manager): string
     {
-        return rex_i18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
+        return I18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
     }
 }

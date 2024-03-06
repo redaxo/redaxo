@@ -38,11 +38,11 @@ expectedArguments(\rex_formatter::intDate(), 1, argumentsSet('intl_format'));
 expectedArguments(\rex_formatter::intlTime(), 1, argumentsSet('intl_format'));
 
 registerArgumentsSet('locale', 'de_de', 'en_gb', 'es_es', 'it_it', 'nl_nl', 'pt_br', 'sv_se');
-expectedArguments(\rex_i18n::setLocale(), 0, argumentsSet('locale'));
-expectedReturnValues(\rex_i18n::getLocale(), argumentsSet('locale'));
-expectedReturnValues(\rex_i18n::getLanguage(), 'de', 'en', 'es', 'it', 'nl', 'pt', 'sv');
-expectedArguments(\rex_i18n::msgInLocale(), 1, argumentsSet('locale'));
-expectedArguments(\rex_i18n::rawMsgInLocale(), 1, argumentsSet('locale'));
+expectedArguments(\Redaxo\Core\Translation\I18n::setLocale(), 0, argumentsSet('locale'));
+expectedReturnValues(\Redaxo\Core\Translation\I18n::getLocale(), argumentsSet('locale'));
+expectedReturnValues(\Redaxo\Core\Translation\I18n::getLanguage(), 'de', 'en', 'es', 'it', 'nl', 'pt', 'sv');
+expectedArguments(\Redaxo\Core\Translation\I18n::msgInLocale(), 1, argumentsSet('locale'));
+expectedArguments(\Redaxo\Core\Translation\I18n::rawMsgInLocale(), 1, argumentsSet('locale'));
 
 expectedArguments(\rex_list::setColumnSortable(), 1, 'asc', 'desc');
 

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 $currentAuth = false;
 if (!isset($userId) || 1 > $userId) {
@@ -33,19 +34,19 @@ $list->setColumnFormat('remove_auth', 'custom', static function () use ($list, $
 
     return $list->getColumnLink('remove_auth', $list->getValue('remove_auth'), $params);
 });
-$list->addLinkAttribute('remove_auth', 'data-confirm', rex_i18n::msg('confirm_remove_auth'));
+$list->addLinkAttribute('remove_auth', 'data-confirm', I18n::msg('confirm_remove_auth'));
 
-$list->setColumnLabel('id', rex_i18n::msg('auth_method'));
-$list->setColumnLabel('createdate', rex_i18n::msg('created_on'));
+$list->setColumnLabel('id', I18n::msg('auth_method'));
+$list->setColumnLabel('createdate', I18n::msg('created_on'));
 
 $list->setColumnFormat('id', 'custom', static function () use ($list) {
     $id = $list->getValue('id');
 
     if (null === $id) {
-        return '<span class="label label-default">' . rex_i18n::msg('password') . '</span>';
+        return '<span class="label label-default">' . I18n::msg('password') . '</span>';
     }
 
-    return '<span class="label label-default">' . rex_i18n::msg('passkey') . '</span> ' . rex_escape($id);
+    return '<span class="label label-default">' . I18n::msg('passkey') . '</span> ' . rex_escape($id);
 });
 $list->setColumnFormat('createdate', 'custom', static function () use ($list) {
     return rex_formatter::intlDateTime((string) $list->getValue('createdate'), IntlDateFormatter::SHORT);
@@ -54,6 +55,6 @@ $list->setColumnFormat('createdate', 'custom', static function () use ($list) {
 $content = $list->get();
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('auth_methods_caption'));
+$fragment->setVar('title', I18n::msg('auth_methods_caption'));
 $fragment->setVar('content', $content, false);
 echo $fragment->parse('core/page/section.php');

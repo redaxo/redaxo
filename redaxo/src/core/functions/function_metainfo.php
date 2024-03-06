@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * Fügt einen neuen Feldtyp ein.
@@ -18,22 +19,22 @@ use Redaxo\Core\Database\Util;
 function rex_metainfo_add_field_type($label, $dbtype, $dblength)
 {
     if (!is_string($label) || empty($label)) {
-        return rex_i18n::msg('minfo_field_error_invalid_name');
+        return I18n::msg('minfo_field_error_invalid_name');
     }
 
     if (!is_string($dbtype) || empty($dbtype)) {
-        return rex_i18n::msg('minfo_field_error_invalid_type');
+        return I18n::msg('minfo_field_error_invalid_type');
     }
 
     if (!is_int($dblength) || empty($dblength)) {
-        return rex_i18n::msg('minfo_field_error_invalid_length');
+        return I18n::msg('minfo_field_error_invalid_length');
     }
 
     $qry = 'SELECT * FROM ' . Core::getTablePrefix() . 'metainfo_type WHERE label=:label LIMIT 1';
     $sql = Sql::factory();
     $sql->setQuery($qry, [':label' => $label]);
     if (0 != $sql->getRows()) {
-        return rex_i18n::msg('minfo_field_error_unique_type');
+        return I18n::msg('minfo_field_error_unique_type');
     }
 
     $sql->setTable(Core::getTablePrefix() . 'metainfo_type');
@@ -57,7 +58,7 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
 function rex_metainfo_delete_field_type($fieldTypeId)
 {
     if (!is_int($fieldTypeId) || empty($fieldTypeId)) {
-        return rex_i18n::msg('minfo_field_error_invalid_typeid');
+        return I18n::msg('minfo_field_error_invalid_typeid');
     }
 
     $sql = Sql::factory();
@@ -90,7 +91,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
 
     // Prefix korrekt?
     if (!$metaTable) {
-        return rex_i18n::msg('minfo_field_error_invalid_prefix');
+        return I18n::msg('minfo_field_error_invalid_prefix');
     }
 
     // TypeId korrekt?
@@ -99,7 +100,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $typeInfos = $sql->getArray($qry);
 
     if (1 != $sql->getRows()) {
-        return rex_i18n::msg('minfo_field_error_invalid_type');
+        return I18n::msg('minfo_field_error_invalid_type');
     }
 
     $fieldDbType = (string) $typeInfos[0]['dbtype'];
@@ -108,7 +109,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     // Spalte existiert schon?
     $sql->setQuery('SELECT * FROM ' . $metaTable . ' LIMIT 1');
     if (in_array($name, $sql->getFieldnames())) {
-        return rex_i18n::msg('minfo_field_error_unique_name');
+        return I18n::msg('minfo_field_error_unique_name');
     }
 
     // Spalte extiert laut metainfo_field?
@@ -116,7 +117,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $sql = Sql::factory();
     $sql->setQuery($qry, [':name' => $name]);
     if (0 != $sql->getRows()) {
-        return rex_i18n::msg('minfo_field_error_unique_name');
+        return I18n::msg('minfo_field_error_unique_name');
     }
 
     $sql->setTable(Core::getTablePrefix() . 'metainfo_field');
@@ -153,12 +154,12 @@ function rex_metainfo_delete_field($fieldIdOrName)
     // Löschen anhand der FieldId
     if (is_int($fieldIdOrName)) {
         $fieldQry = 'SELECT * FROM ' . Core::getTablePrefix() . 'metainfo_field WHERE id=:idOrName LIMIT 2';
-        $invalidField = rex_i18n::msg('minfo_field_error_invalid_fieldid');
+        $invalidField = I18n::msg('minfo_field_error_invalid_fieldid');
     }
     // Löschen anhand des Feldnames
     elseif (is_string($fieldIdOrName)) {
         $fieldQry = 'SELECT * FROM ' . Core::getTablePrefix() . 'metainfo_field WHERE name=:idOrName LIMIT 2';
-        $invalidField = rex_i18n::msg('minfo_field_error_invalid_name');
+        $invalidField = I18n::msg('minfo_field_error_invalid_name');
     } else {
         throw new InvalidArgumentException('MetaInfos: Unexpected type for $fieldIdOrName!');
     }
@@ -179,7 +180,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     // Spalte existiert?
     $sql->setQuery('SELECT * FROM ' . $metaTable . ' LIMIT 1');
     if (!in_array($name, $sql->getFieldnames())) {
-        return rex_i18n::msg('minfo_field_error_invalid_name');
+        return I18n::msg('minfo_field_error_invalid_name');
     }
 
     $sql->setTable(Core::getTablePrefix() . 'metainfo_field');

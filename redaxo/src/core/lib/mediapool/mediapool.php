@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 final class rex_mediapool
 {
@@ -80,7 +81,7 @@ final class rex_mediapool
         $warning = [];
         $res = $sql->getArray($query);
         if ($sql->getRows() > 0) {
-            $warning[0] = rex_i18n::msg('pool_file_in_use_articles') . '<ul>';
+            $warning[0] = I18n::msg('pool_file_in_use_articles') . '<ul>';
             foreach ($res as $artArr) {
                 $aid = (int) $artArr['article_id'];
                 $clang = (int) $artArr['clang_id'];

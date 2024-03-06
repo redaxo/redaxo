@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 class rex_template_select extends rex_select
 {
@@ -39,7 +40,7 @@ class rex_template_select extends rex_select
                     $this->addOption($templateName, $templateId);
                 }
             } else {
-                $this->addOption(rex_i18n::msg('option_no_template'), '0');
+                $this->addOption(I18n::msg('option_no_template'), '0');
             }
 
             $this->loaded = true;
@@ -94,7 +95,7 @@ class rex_template_select extends rex_select
             }
 
             foreach ($templates as $templateId => $templateName) {
-                $this->templates[$templateId] = rex_i18n::translate($templateName, false);
+                $this->templates[$templateId] = I18n::translate($templateName, false);
             }
         }
 

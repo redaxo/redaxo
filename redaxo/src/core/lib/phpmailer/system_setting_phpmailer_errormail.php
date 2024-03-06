@@ -1,4 +1,7 @@
 <?php
+
+use Redaxo\Core\Translation\I18n;
+
 /**
  * Class for errormail setting to show in settings.
  *
@@ -15,12 +18,12 @@ class rex_system_setting_phpmailer_errormail extends rex_system_setting
     {
         $field = new rex_form_select_element();
         $field->setAttribute('class', 'form-control selectpicker');
-        $field->setLabel(rex_i18n::msg('system_setting_errormail'));
+        $field->setLabel(I18n::msg('system_setting_errormail'));
         $select = $field->getSelect();
-        $select->addOption(rex_i18n::msg('phpmailer_errormail_disabled'), 0);
-        $select->addOption(rex_i18n::msg('phpmailer_errormail_15min'), 900);
-        $select->addOption(rex_i18n::msg('phpmailer_errormail_30min'), 1800);
-        $select->addOption(rex_i18n::msg('phpmailer_errormail_60min'), 3600);
+        $select->addOption(I18n::msg('phpmailer_errormail_disabled'), 0);
+        $select->addOption(I18n::msg('phpmailer_errormail_15min'), 900);
+        $select->addOption(I18n::msg('phpmailer_errormail_30min'), 1800);
+        $select->addOption(I18n::msg('phpmailer_errormail_60min'), 3600);
         $select->setSelected(rex_config::get('phpmailer', 'errormail', 1));
         return $field;
     }

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 class rex_api_content_copy extends rex_api_function
 {
@@ -23,13 +24,13 @@ class rex_api_content_copy extends rex_api_function
             $user->getComplexPerm('clang')->hasPerm($clangB)
         ) {
             if (rex_content_service::copyContent($articleId, $articleId, $clangA, $clangB)) {
-                return new rex_api_result(true, rex_i18n::msg('content_contentcopy'));
+                return new rex_api_result(true, I18n::msg('content_contentcopy'));
             }
 
-            return new rex_api_result(true, rex_i18n::msg('content_errorcopy'));
+            return new rex_api_result(true, I18n::msg('content_errorcopy'));
         }
 
-        throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
+        throw new rex_api_exception(I18n::msg('no_rights_to_this_function'));
     }
 
     protected function requiresCsrfProtection()

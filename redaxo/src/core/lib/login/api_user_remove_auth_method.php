@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -41,13 +42,13 @@ class rex_api_user_remove_auth_method extends rex_api_function
             ->update();
 
         if (!$sql->getRows()) {
-            return new rex_api_result(false, rex_i18n::msg('password_remove_error'));
+            return new rex_api_result(false, I18n::msg('password_remove_error'));
         }
 
         rex_user::clearInstance($userId);
         Core::getProperty('login')->changedPassword(null);
 
-        return new rex_api_result(true, rex_i18n::msg('password_removed'));
+        return new rex_api_result(true, I18n::msg('password_removed'));
     }
 
     private function removePasskey(int $userId): rex_api_result
@@ -60,9 +61,9 @@ class rex_api_user_remove_auth_method extends rex_api_function
             ->delete();
 
         if (!$sql->getRows()) {
-            return new rex_api_result(false, rex_i18n::msg('passkey_remove_error'));
+            return new rex_api_result(false, I18n::msg('passkey_remove_error'));
         }
 
-        return new rex_api_result(true, rex_i18n::msg('passkey_removed'));
+        return new rex_api_result(true, I18n::msg('passkey_removed'));
     }
 }

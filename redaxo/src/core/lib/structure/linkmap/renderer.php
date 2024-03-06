@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -90,7 +91,7 @@ abstract class rex_linkmap_tree_renderer
         }
 
         if ($OOobject instanceof rex_article && !$OOobject->hasTemplate()) {
-            $label .= ' [' . rex_i18n::msg('linkmap_has_no_template') . ']';
+            $label .= ' [' . I18n::msg('linkmap_has_no_template') . ']';
         }
 
         return $label;

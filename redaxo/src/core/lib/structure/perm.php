@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_structure_perm extends rex_complex_perm
 {
     /**
@@ -86,8 +88,8 @@ class rex_structure_perm extends rex_complex_perm
     public static function getFieldParams()
     {
         return [
-            'label' => rex_i18n::msg('categories'),
-            'all_label' => rex_i18n::msg('all_categories'),
+            'label' => I18n::msg('categories'),
+            'all_label' => I18n::msg('all_categories'),
             'select' => new rex_category_select(false, false, false, false),
         ];
     }

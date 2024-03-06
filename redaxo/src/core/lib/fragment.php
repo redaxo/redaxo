@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 /**
  * Methods declared here are available to be called from within a fragment-file, even if not public:.
  *
@@ -205,7 +207,7 @@ class rex_fragment
             throw new InvalidArgumentException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
         }
 
-        return rex_i18n::msg($key, ...$replacements);
+        return I18n::msg($key, ...$replacements);
     }
 
     /**

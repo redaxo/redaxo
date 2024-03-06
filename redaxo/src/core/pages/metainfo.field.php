@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 $content = '';
 
@@ -23,9 +24,9 @@ if ('delete' == $func) {
     $fieldId = rex_request('field_id', 'int', 0);
     if (0 != $fieldId) {
         if (rex_metainfo_delete_field($fieldId)) {
-            echo rex_view::success(rex_i18n::msg('minfo_field_successfull_deleted'));
+            echo rex_view::success(I18n::msg('minfo_field_successfull_deleted'));
         } else {
-            echo rex_view::error(rex_i18n::msg('minfo_field_error_deleted'));
+            echo rex_view::error(I18n::msg('minfo_field_error_deleted'));
         }
     }
     $func = '';
@@ -35,7 +36,7 @@ if ('delete' == $func) {
 if ('' == $func) {
     echo rex_api_function::getMessage();
 
-    $title = rex_i18n::msg('minfo_field_list_caption');
+    $title = I18n::msg('minfo_field_list_caption');
 
     $sql = Sql::factory();
     $likePrefix = $sql->escapeLikeWildcards($prefix);
@@ -50,24 +51,24 @@ if ('' == $func) {
 
     $list->removeColumn('id');
 
-    $list->setColumnLabel('id', rex_i18n::msg('minfo_field_label_id'));
-    $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id" data-title="' . rex_i18n::msg('minfo_field_label_id') . '">###VALUE###</td>']);
+    $list->setColumnLabel('id', I18n::msg('minfo_field_label_id'));
+    $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id" data-title="' . I18n::msg('minfo_field_label_id') . '">###VALUE###</td>']);
 
-    $list->setColumnLabel('name', rex_i18n::msg('minfo_field_label_name'));
+    $list->setColumnLabel('name', I18n::msg('minfo_field_label_name'));
     $list->setColumnParams('name', ['func' => 'edit', 'field_id' => '###id###']);
 
-    $list->addColumn(rex_i18n::msg('minfo_field_label_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
-    $list->setColumnLayout(rex_i18n::msg('minfo_field_label_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams(rex_i18n::msg('minfo_field_label_functions'), ['func' => 'edit', 'field_id' => '###id###']);
-    $list->addLinkAttribute(rex_i18n::msg('minfo_field_label_functions'), 'class', 'rex-edit');
+    $list->addColumn(I18n::msg('minfo_field_label_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('edit'));
+    $list->setColumnLayout(I18n::msg('minfo_field_label_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->setColumnParams(I18n::msg('minfo_field_label_functions'), ['func' => 'edit', 'field_id' => '###id###']);
+    $list->addLinkAttribute(I18n::msg('minfo_field_label_functions'), 'class', 'rex-edit');
 
-    $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
+    $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete'));
     $list->setColumnLayout('delete', ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('delete', ['func' => 'delete', 'field_id' => '###id###']);
-    $list->addLinkAttribute('delete', 'data-confirm', rex_i18n::msg('delete') . ' ?');
+    $list->addLinkAttribute('delete', 'data-confirm', I18n::msg('delete') . ' ?');
     $list->addLinkAttribute('delete', 'class', 'rex-delete');
 
-    $list->setNoRowsMessage(rex_i18n::msg('minfo_metainfos_not_found'));
+    $list->setNoRowsMessage(I18n::msg('minfo_metainfos_not_found'));
 
     $content .= $list->get();
 
@@ -78,7 +79,7 @@ if ('' == $func) {
         $defaultFields = sprintf(
             '<div class="btn-group btn-group-xs"><a href="%s" class="btn btn-default">%s</a></div>',
             rex_url::currentBackendPage(['type' => rex_be_controller::getCurrentPagePart(2)] + rex_api_metainfo_default_fields_create::getUrlParams()),
-            rex_i18n::msg('minfo_default_fields_create'),
+            I18n::msg('minfo_default_fields_create'),
         );
         $fragment->setVar('options', $defaultFields, false);
     }
@@ -88,7 +89,7 @@ if ('' == $func) {
 }
 // ------------------------------> Formular
 elseif ('edit' == $func || 'add' == $func) {
-    $title = rex_i18n::msg('minfo_field_fieldset');
+    $title = I18n::msg('minfo_field_fieldset');
     $form = new rex_metainfo_table_expander($prefix, $metaTable, Core::getTablePrefix() . 'metainfo_field', 'id=' . $fieldId);
 
     if ('edit' == $func) {

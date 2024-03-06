@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 /**
  * Deletes the cache.
  *
@@ -28,7 +30,7 @@ function rex_delete_cache()
     }
 
     // ----- EXTENSION POINT
-    return rex_extension::registerPoint(new rex_extension_point('CACHE_DELETED', rex_i18n::msg('delete_cache_message')));
+    return rex_extension::registerPoint(new rex_extension_point('CACHE_DELETED', I18n::msg('delete_cache_message')));
 }
 
 /**

@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -12,12 +13,12 @@ class rex_formatter_test extends TestCase
 
     protected function setUp(): void
     {
-        $this->previousLocale = rex_i18n::setLocale('de_de');
+        $this->previousLocale = I18n::setLocale('de_de');
     }
 
     protected function tearDown(): void
     {
-        rex_i18n::setLocale($this->previousLocale);
+        I18n::setLocale($this->previousLocale);
     }
 
     public function testDate(): void

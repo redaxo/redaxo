@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_resize extends rex_effect_abstract
 {
     private const OPTIONS = ['maximum', 'minimum', 'exact'];
@@ -120,24 +122,24 @@ class rex_effect_resize extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_resize');
+        return I18n::msg('media_manager_effect_resize');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_resize_width'),
+                'label' => I18n::msg('media_manager_effect_resize_width'),
                 'name' => 'width',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_resize_height'),
+                'label' => I18n::msg('media_manager_effect_resize_height'),
                 'name' => 'height',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_resize_style'),
+                'label' => I18n::msg('media_manager_effect_resize_style'),
                 'name' => 'style',
                 'type' => 'select',
                 'options' => self::OPTIONS,
@@ -164,7 +166,7 @@ $(function() {
 //--></script>',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_resize_imgtosmall'),
+                'label' => I18n::msg('media_manager_effect_resize_imgtosmall'),
                 'name' => 'allow_enlarge',
                 'type' => 'select',
                 'options' => ['enlarge', 'not_enlarge'],

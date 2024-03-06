@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 final class rex_media_service
 {
@@ -24,30 +25,30 @@ final class rex_media_service
         $error = $data['file']['error'] ?? null;
 
         if (UPLOAD_ERR_INI_SIZE === $error) {
-            throw new rex_api_exception(rex_i18n::msg('pool_file_upload_error_size', rex_formatter::bytes(rex_ini_get('upload_max_filesize'))));
+            throw new rex_api_exception(I18n::msg('pool_file_upload_error_size', rex_formatter::bytes(rex_ini_get('upload_max_filesize'))));
         }
         if ($error) {
-            throw new rex_api_exception(rex_i18n::msg('pool_file_upload_error'));
+            throw new rex_api_exception(I18n::msg('pool_file_upload_error'));
         }
 
         $data['file']['path'] ??= $data['file']['tmp_name'] ?? null;
 
         if (empty($data['file']) || empty($data['file']['name']) || empty($data['file']['path'])) {
-            throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
+            throw new rex_api_exception(I18n::msg('pool_file_not_found'));
         }
 
         if (!rex_mediapool::isAllowedExtension($data['file']['name'], $allowedExtensions)) {
-            $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($data['file']['name']) . '</code>';
+            $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($data['file']['name']) . '</code>';
             $allowedExtensions = rex_mediapool::getAllowedExtensions($allowedExtensions);
             $warning .= count($allowedExtensions) > 0
-                    ? '<br />' . rex_i18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $allowedExtensions), ', ') . '</code>'
-                    : '<br />' . rex_i18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool::getBlockedExtensions()), ', ') . '</code>';
+                    ? '<br />' . I18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $allowedExtensions), ', ') . '</code>'
+                    : '<br />' . I18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool::getBlockedExtensions()), ', ') . '</code>';
 
             throw new rex_api_exception($warning);
         }
 
         if (!rex_mediapool::isAllowedMimeType($data['file']['path'], $data['file']['name'])) {
-            $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($data['file']['name']) . '</code> (<code>' . rex_file::mimeType($data['file']['path']) . '</code>)';
+            $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($data['file']['name']) . '</code> (<code>' . rex_file::mimeType($data['file']['path']) . '</code>)';
             throw new rex_api_exception($warning);
         }
 
@@ -84,7 +85,7 @@ final class rex_media_service
         }
 
         if (!rex_file::move($srcFile, $dstFile)) {
-            throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
+            throw new rex_api_exception(I18n::msg('pool_file_movefailed'));
         }
 
         @chmod($dstFile, Core::getFilePerm());
@@ -116,10 +117,10 @@ final class rex_media_service
 
         $message = [];
 
-        $message[] = rex_i18n::msg('pool_file_added');
+        $message[] = I18n::msg('pool_file_added');
 
         if ($data['file']['name_new'] != $data['file']['name']) {
-            $message[] = rex_i18n::rawMsg('pool_file_renamed', $data['file']['name'], $data['file']['name_new']);
+            $message[] = I18n::rawMsg('pool_file_renamed', $data['file']['name'], $data['file']['name_new']);
         }
 
         $data['message'] = implode('<br />', $message);
@@ -158,7 +159,7 @@ final class rex_media_service
 
         $media = rex_media::get($filename);
         if (!$media) {
-            throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
+            throw new rex_api_exception(I18n::msg('pool_file_not_found'));
         }
 
         $saveObject = Sql::factory();
@@ -174,15 +175,15 @@ final class rex_media_service
             $error = $file['error'] ?? null;
 
             if (UPLOAD_ERR_INI_SIZE === $error) {
-                throw new rex_api_exception(rex_i18n::msg('pool_file_upload_error_size', rex_formatter::bytes(rex_ini_get('upload_max_filesize'))));
+                throw new rex_api_exception(I18n::msg('pool_file_upload_error_size', rex_formatter::bytes(rex_ini_get('upload_max_filesize'))));
             }
             if ($error) {
-                throw new rex_api_exception(rex_i18n::msg('pool_file_upload_error'));
+                throw new rex_api_exception(I18n::msg('pool_file_upload_error'));
             }
 
             $file['path'] = $file['tmp_name'] ?? null;
             if (empty($file['path'])) {
-                throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
+                throw new rex_api_exception(I18n::msg('pool_file_not_found'));
             }
 
             $filetype = rex_file::mimeType($file['path']);
@@ -198,7 +199,7 @@ final class rex_media_service
                 in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
             ) {
                 if (!rex_file::move($srcFile, $dstFile)) {
-                    throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
+                    throw new rex_api_exception(I18n::msg('pool_file_movefailed'));
                 }
 
                 @chmod($dstFile, Core::getFilePerm());
@@ -213,7 +214,7 @@ final class rex_media_service
                 }
                 @chmod($dstFile, Core::getFilePerm());
             } else {
-                throw new rex_api_exception(rex_i18n::msg('pool_file_upload_errortype'));
+                throw new rex_api_exception(I18n::msg('pool_file_upload_errortype'));
             }
         }
 
@@ -229,7 +230,7 @@ final class rex_media_service
         $return = $data;
 
         $return['ok'] = 1;
-        $return['msg'] = rex_i18n::msg('pool_file_infos_updated');
+        $return['msg'] = I18n::msg('pool_file_infos_updated');
 
         $return['id'] = $media->getId();
         $return['filename'] = $filename;
@@ -245,11 +246,11 @@ final class rex_media_service
     {
         $media = rex_media::get($filename);
         if (!$media) {
-            throw new rex_api_exception(rex_i18n::msg('pool_file_not_found', $filename));
+            throw new rex_api_exception(I18n::msg('pool_file_not_found', $filename));
         }
 
         if ($uses = rex_mediapool::mediaIsInUse($filename)) {
-            throw new rex_api_exception(rex_i18n::msg('pool_file_delete_error', $filename) . ' ' . rex_i18n::msg('pool_object_in_use_by') . $uses);
+            throw new rex_api_exception(I18n::msg('pool_file_delete_error', $filename) . ' ' . I18n::msg('pool_object_in_use_by') . $uses);
         }
 
         $sql = Sql::factory();

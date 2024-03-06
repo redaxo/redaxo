@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -24,7 +25,7 @@ class rex_api_install_package_delete extends rex_api_function
 
         unset($_REQUEST['file']);
         rex_install_packages::deleteCache();
-        return new rex_api_result(true, rex_i18n::msg('install_info_addon_deleted', $addonkey));
+        return new rex_api_result(true, I18n::msg('install_info_addon_deleted', $addonkey));
     }
 
     protected function requiresCsrfProtection()

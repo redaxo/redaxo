@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -66,7 +67,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                 $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'meta', 'clang' => $clang]) . '\')">' . (string) $artArr['name'] . '</a></li>';
             }
             if ('' != $articles) {
-                $warning[] = rex_i18n::msg('minfo_media_in_use_art') . '<br /><ul>' . $articles . '</ul>';
+                $warning[] = I18n::msg('minfo_media_in_use_art') . '<br /><ul>' . $articles . '</ul>';
             }
         }
 
@@ -80,7 +81,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                 $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', ['edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $parentId, 'clang' => $clang]) . '\')">' . (string) $artArr['catname'] . '</a></li>';
             }
             if ('' != $categories) {
-                $warning[] = rex_i18n::msg('minfo_media_in_use_cat') . '<br /><ul>' . $categories . '</ul>';
+                $warning[] = I18n::msg('minfo_media_in_use_cat') . '<br /><ul>' . $categories . '</ul>';
             }
         }
 
@@ -94,7 +95,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                 $media .= '<li><a href="' . rex_url::backendPage('mediapool/detail', ['file_id' => $id, 'rex_file_category' => $catId]) . '">' . $filename . '</a></li>';
             }
             if ('' != $media) {
-                $warning[] = rex_i18n::msg('minfo_media_in_use_med') . '<br /><ul>' . $media . '</ul>';
+                $warning[] = I18n::msg('minfo_media_in_use_med') . '<br /><ul>' . $media . '</ul>';
             }
         }
 
@@ -110,7 +111,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                 }
             }
             if ('' != $clangs) {
-                $warning[] = rex_i18n::msg('minfo_media_in_use_clang') . '<br /><ul>' . $clangs . '</ul>';
+                $warning[] = I18n::msg('minfo_media_in_use_clang') . '<br /><ul>' . $clangs . '</ul>';
             }
         }
 

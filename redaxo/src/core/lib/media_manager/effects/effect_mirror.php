@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_mirror extends rex_effect_abstract
 {
     public function execute()
@@ -46,26 +48,26 @@ class rex_effect_mirror extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_mirror');
+        return I18n::msg('media_manager_effect_mirror');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_mirror_height'),    // Length in Pixel or Prozent
+                'label' => I18n::msg('media_manager_effect_mirror_height'),    // Length in Pixel or Prozent
                 'name' => 'height',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_mirror_opacity'),
-                'notice' => rex_i18n::msg('media_manager_effect_mirror_opacity_notice'),
+                'label' => I18n::msg('media_manager_effect_mirror_opacity'),
+                'notice' => I18n::msg('media_manager_effect_mirror_opacity_notice'),
                 'name' => 'opacity',
                 'default' => 100,
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_mirror_background_color'),
+                'label' => I18n::msg('media_manager_effect_mirror_background_color'),
                 'name' => 'set_transparent',
                 'type' => 'select',
                 'options' => ['colored', 'transparent / png24'],
@@ -101,17 +103,17 @@ class rex_effect_mirror extends rex_effect_abstract
             ],
 
             [
-                'label' => rex_i18n::msg('media_manager_effect_mirror_background_r'),
+                'label' => I18n::msg('media_manager_effect_mirror_background_r'),
                 'name' => 'bg_r',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_mirror_background_g'),
+                'label' => I18n::msg('media_manager_effect_mirror_background_g'),
                 'name' => 'bg_g',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_mirror_background_b'),
+                'label' => I18n::msg('media_manager_effect_mirror_background_b'),
                 'name' => 'bg_b',
                 'type' => 'int',
             ],

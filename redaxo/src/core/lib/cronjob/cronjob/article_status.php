@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 class rex_cronjob_article_status extends rex_cronjob
 {
@@ -93,7 +94,7 @@ class rex_cronjob_article_status extends rex_cronjob
 
     public function getTypeName()
     {
-        return rex_i18n::msg('cronjob_article_status');
+        return I18n::msg('cronjob_article_status');
     }
 
     public function getParamFields()
@@ -102,8 +103,8 @@ class rex_cronjob_article_status extends rex_cronjob
             [
                 'name' => 'reset_date',
                 'type' => 'checkbox',
-                'options' => [1 => rex_i18n::rawMsg('cronjob_article_reset_date')],
-                'notice' => rex_i18n::msg('cronjob_article_reset_date_info'),
+                'options' => [1 => I18n::rawMsg('cronjob_article_reset_date')],
+                'notice' => I18n::msg('cronjob_article_reset_date_info'),
             ],
         ];
     }

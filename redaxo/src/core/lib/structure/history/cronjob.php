@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_cronjob_structure_history extends rex_cronjob
 {
     public function execute()
@@ -21,7 +23,7 @@ class rex_cronjob_structure_history extends rex_cronjob
 
     public function getTypeName()
     {
-        return rex_i18n::msg('structure_history_cleanup');
+        return I18n::msg('structure_history_cleanup');
     }
 
     public function getParamFields()
@@ -29,15 +31,15 @@ class rex_cronjob_structure_history extends rex_cronjob
         $fields = [];
 
         $fields[] = [
-            'label' => rex_i18n::msg('structure_history_cleanup_after'),
+            'label' => I18n::msg('structure_history_cleanup_after'),
             'name' => 'period',
             'type' => 'select',
             'options' => [
-                '7 days' => rex_i18n::msg('structure_history_days', 7),
-                '14 days' => rex_i18n::msg('structure_history_days', 14),
-                '1 month' => rex_i18n::msg('structure_history_months', 1),
-                '6 months' => rex_i18n::msg('structure_history_months', 6),
-                '1 year' => rex_i18n::msg('structure_history_years', 1),
+                '7 days' => I18n::msg('structure_history_days', 7),
+                '14 days' => I18n::msg('structure_history_days', 14),
+                '1 month' => I18n::msg('structure_history_months', 1),
+                '6 months' => I18n::msg('structure_history_months', 6),
+                '1 year' => I18n::msg('structure_history_years', 1),
             ],
         ];
 

@@ -1,8 +1,14 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+namespace Redaxo\Core\Tests\Translation;
 
-class rex_i18n_trans_cb
+use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Translation\I18n;
+use rex_dir;
+use rex_file;
+use rex_path;
+
+class I18nTransCb
 {
     public static function mytranslate(): string
     {
@@ -13,13 +19,13 @@ class rex_i18n_trans_cb
 /**
  * @internal
  */
-class rex_i18n_test extends TestCase
+class I18nTest extends TestCase
 {
     private string $previousLocale;
 
     protected function setUp(): void
     {
-        $this->previousLocale = rex_i18n::setLocale('de_de', false);
+        $this->previousLocale = I18n::setLocale('de_de', false);
 
         $content = <<<'LANG'
             rex_i18n_test_foo = abc def
@@ -40,7 +46,7 @@ class rex_i18n_test extends TestCase
     protected function tearDown(): void
     {
         rex_dir::delete($this->getPath());
-        rex_i18n::setLocale($this->previousLocale, false);
+        I18n::setLocale($this->previousLocale, false);
     }
 
     private function getPath(): string
@@ -50,51 +56,51 @@ class rex_i18n_test extends TestCase
 
     public function testLoadFile(): void
     {
-        rex_i18n::addDirectory($this->getPath());
+        I18n::addDirectory($this->getPath());
 
-        self::assertSame('abc def', rex_i18n::msg('rex_i18n_test_foo'));
-        self::assertSame('[translate:rex_i18n_test_bar]', rex_i18n::msg('rex_i18n_test_bar'));
-        self::assertSame('ghi', rex_i18n::msg('rex_i18n_test_baz'));
-        self::assertSame('abc=def', rex_i18n::msg('rex_i18n_test_4'));
-        self::assertSame('abc def', rex_i18n::msg('rex_i18n_test_5'));
+        self::assertSame('abc def', I18n::msg('rex_i18n_test_foo'));
+        self::assertSame('[translate:rex_i18n_test_bar]', I18n::msg('rex_i18n_test_bar'));
+        self::assertSame('ghi', I18n::msg('rex_i18n_test_baz'));
+        self::assertSame('abc=def', I18n::msg('rex_i18n_test_4'));
+        self::assertSame('abc def', I18n::msg('rex_i18n_test_5'));
     }
 
     public function testHasMsg(): void
     {
-        rex_i18n::addDirectory($this->getPath());
+        I18n::addDirectory($this->getPath());
 
-        self::assertTrue(rex_i18n::hasMsg('rex_i18n_test_foo'));
-        self::assertFalse(rex_i18n::hasMsg('rex_i18n_test_bar'));
-        self::assertFalse(rex_i18n::hasMsg('rex_i18n_test_6'));
+        self::assertTrue(I18n::hasMsg('rex_i18n_test_foo'));
+        self::assertFalse(I18n::hasMsg('rex_i18n_test_bar'));
+        self::assertFalse(I18n::hasMsg('rex_i18n_test_6'));
     }
 
     public function testHasMsgOrFallback(): void
     {
-        rex_i18n::addDirectory($this->getPath());
+        I18n::addDirectory($this->getPath());
 
-        self::assertTrue(rex_i18n::hasMsgOrFallback('rex_i18n_test_foo'));
-        self::assertFalse(rex_i18n::hasMsgOrFallback('rex_i18n_test_bar'));
-        self::assertTrue(rex_i18n::hasMsgOrFallback('rex_i18n_test_6'));
+        self::assertTrue(I18n::hasMsgOrFallback('rex_i18n_test_foo'));
+        self::assertFalse(I18n::hasMsgOrFallback('rex_i18n_test_bar'));
+        self::assertTrue(I18n::hasMsgOrFallback('rex_i18n_test_6'));
     }
 
     public function testGetMsgFallback(): void
     {
-        rex_i18n::addDirectory($this->getPath());
+        I18n::addDirectory($this->getPath());
 
-        self::assertSame('test6', rex_i18n::msg('rex_i18n_test_6'));
-        self::assertSame('[translate:rex_i18n_test_7]', rex_i18n::msg('rex_i18n_test_7'));
+        self::assertSame('test6', I18n::msg('rex_i18n_test_6'));
+        self::assertSame('[translate:rex_i18n_test_7]', I18n::msg('rex_i18n_test_7'));
     }
 
     public function testGetMsgInLocaleFallback(): void
     {
-        rex_i18n::addDirectory($this->getPath());
+        I18n::addDirectory($this->getPath());
 
-        self::assertSame('DE', rex_i18n::msgInLocale('my', 'de_de'));
-        self::assertSame('EN', rex_i18n::msgInLocale('my', 'en_gb'));
+        self::assertSame('DE', I18n::msgInLocale('my', 'de_de'));
+        self::assertSame('EN', I18n::msgInLocale('my', 'en_gb'));
     }
 
     public function testTranslateCallable(): void
     {
-        self::assertSame('translated', rex_i18n::translate('translate:my_cb', false, rex_i18n_trans_cb::mytranslate(...)));
+        self::assertSame('translated', I18n::translate('translate:my_cb', false, I18nTransCb::mytranslate(...)));
     }
 }

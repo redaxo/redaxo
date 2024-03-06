@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_cronjob_urlrequest extends rex_cronjob
 {
     public function execute()
@@ -42,36 +44,36 @@ class rex_cronjob_urlrequest extends rex_cronjob
 
     public function getTypeName()
     {
-        return rex_i18n::msg('cronjob_type_urlrequest');
+        return I18n::msg('cronjob_type_urlrequest');
     }
 
     public function getParamFields()
     {
         return [
             [
-                'label' => rex_i18n::msg('cronjob_type_urlrequest_url'),
+                'label' => I18n::msg('cronjob_type_urlrequest_url'),
                 'name' => 'url',
                 'type' => 'text',
                 'default' => 'https://',
             ],
             [
-                'label' => rex_i18n::msg('cronjob_type_urlrequest_post'),
+                'label' => I18n::msg('cronjob_type_urlrequest_post'),
                 'name' => 'post',
                 'type' => 'text',
             ],
             [
                 'name' => 'http-auth',
                 'type' => 'checkbox',
-                'options' => [1 => rex_i18n::msg('cronjob_type_urlrequest_httpauth')],
+                'options' => [1 => I18n::msg('cronjob_type_urlrequest_httpauth')],
             ],
             [
-                'label' => rex_i18n::msg('cronjob_type_urlrequest_user'),
+                'label' => I18n::msg('cronjob_type_urlrequest_user'),
                 'name' => 'user',
                 'type' => 'text',
                 'visible_if' => ['http-auth' => 1],
             ],
             [
-                'label' => rex_i18n::msg('cronjob_type_urlrequest_password'),
+                'label' => I18n::msg('cronjob_type_urlrequest_password'),
                 'name' => 'password',
                 'type' => 'text',
                 'visible_if' => ['http-auth' => 1],

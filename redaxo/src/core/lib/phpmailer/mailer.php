@@ -2,6 +2,7 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 class rex_mailer extends PHPMailer
 {
@@ -18,7 +19,7 @@ class rex_mailer extends PHPMailer
     public function __construct($exceptions = false)
     {
         $this->Timeout = 10;
-        $this->setLanguage(rex_i18n::getLanguage(), rex_path::core('vendor/phpmailer/phpmailer/language/'));
+        $this->setLanguage(I18n::getLanguage(), rex_path::core('vendor/phpmailer/phpmailer/language/'));
         $this->XMailer = 'REXMailer';
         $this->From = Core::getConfig('phpmailer_from');
         $this->FromName = Core::getConfig('phpmailer_fromname');
@@ -136,7 +137,7 @@ class rex_mailer extends PHPMailer
             }
         }
 
-        $this->Subject = rex_i18n::msg('phpmailer_detour_subject', $this->Subject, $this->xHeader['to']);
+        $this->Subject = I18n::msg('phpmailer_detour_subject', $this->Subject, $this->xHeader['to']);
         $this->xHeader = []; // Bereinigung für die nächste Verwendung
     }
 
@@ -242,12 +243,12 @@ class rex_mailer extends PHPMailer
         $mailBody .= '<table>';
         $mailBody .= '    <thead>';
         $mailBody .= '        <tr>';
-        $mailBody .= '            <th>' . rex_i18n::msg('syslog_timestamp') . '</th>';
-        $mailBody .= '            <th>' . rex_i18n::msg('syslog_type') . '</th>';
-        $mailBody .= '            <th>' . rex_i18n::msg('syslog_message') . '</th>';
-        $mailBody .= '            <th>' . rex_i18n::msg('syslog_file') . '</th>';
-        $mailBody .= '            <th>' . rex_i18n::msg('syslog_line') . '</th>';
-        $mailBody .= '            <th>' . rex_i18n::msg('syslog_url') . '</th>';
+        $mailBody .= '            <th>' . I18n::msg('syslog_timestamp') . '</th>';
+        $mailBody .= '            <th>' . I18n::msg('syslog_type') . '</th>';
+        $mailBody .= '            <th>' . I18n::msg('syslog_message') . '</th>';
+        $mailBody .= '            <th>' . I18n::msg('syslog_file') . '</th>';
+        $mailBody .= '            <th>' . I18n::msg('syslog_line') . '</th>';
+        $mailBody .= '            <th>' . I18n::msg('syslog_url') . '</th>';
         $mailBody .= '        </tr>';
         $mailBody .= '    </thead>';
         $mailBody .= '    <tbody>';

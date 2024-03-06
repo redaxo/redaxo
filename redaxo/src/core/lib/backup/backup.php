@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Translation\I18n;
 
 class rex_backup
 {
@@ -89,7 +90,7 @@ class rex_backup
         };
 
         if ('' == $filename || !self::isFilenameValid(self::IMPORT_DB, $filename)) {
-            return $returnError(rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>');
+            return $returnError(I18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>');
         }
 
         if ('gz' === rex_file::extension($filename)) {
@@ -98,7 +99,7 @@ class rex_backup
 
             // should not happen
             if (false === $conts) {
-                return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. Unable to decompress .gz');
+                return $returnError(I18n::msg('backup_no_valid_import_file') . '. Unable to decompress .gz');
             }
         } else {
             $conts = rex_file::require($filename);
@@ -109,7 +110,7 @@ class rex_backup
         $mainVersion = Core::getVersion('%s');
         $version = strpos($conts, '## Redaxo Database Dump Version ' . $mainVersion);
         if (false === $version) {
-            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing');
+            return $returnError(I18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing');
         }
         // Versionsstempel entfernen
         $conts = trim(str_replace('## Redaxo Database Dump Version ' . $mainVersion, '', $conts));
@@ -122,7 +123,7 @@ class rex_backup
             $conts = trim(str_replace('## Prefix ' . $prefix, '', $conts));
         } else {
             // Prefix wurde nicht gefunden
-            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . Core::getTablePrefix() . '] is missing');
+            return $returnError(I18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . Core::getTablePrefix() . '] is missing');
         }
 
         // Prefix im export mit dem der installation angleichen
@@ -165,7 +166,7 @@ class rex_backup
             return $returnError(implode('<br/>', $error));
         }
 
-        $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', (string) count($lines)) . '<br />';
+        $msg .= I18n::msg('backup_database_imported') . '. ' . I18n::msg('backup_entry_count', (string) count($lines)) . '<br />';
         unset($lines);
 
         // delete cache before EP to avoid obsolete caches while running extensions
@@ -205,7 +206,7 @@ class rex_backup
         $return['state'] = false;
 
         if ('' == $filename || !self::isFilenameValid(self::IMPORT_ARCHIVE, $filename)) {
-            $return['message'] = rex_i18n::msg('backup_no_import_file_chosen') . '<br />';
+            $return['message'] = I18n::msg('backup_no_import_file_chosen') . '<br />';
             return $return;
         }
 
@@ -223,7 +224,7 @@ class rex_backup
 
         $tar->openTAR($filename);
         $tar->extractTar(rex_path::base());
-        $msg = rex_i18n::msg('backup_file_imported') . '<br />';
+        $msg = I18n::msg('backup_file_imported') . '<br />';
 
         // ----- EXTENSION POINT
         rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_IMPORT', $tar));

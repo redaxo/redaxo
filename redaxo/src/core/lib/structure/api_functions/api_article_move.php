@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -27,13 +28,13 @@ class rex_api_article_move extends rex_api_function
             $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)
         ) {
             if (rex_article_service::moveArticle($articleId, $categoryId, $categoryIdNew)) {
-                return new rex_api_result(true, rex_i18n::msg('content_articlemoved'));
+                return new rex_api_result(true, I18n::msg('content_articlemoved'));
             }
 
-            return new rex_api_result(false, rex_i18n::msg('content_errormovearticle'));
+            return new rex_api_result(false, I18n::msg('content_errormovearticle'));
         }
 
-        throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
+        throw new rex_api_exception(I18n::msg('no_rights_to_this_function'));
     }
 
     protected function requiresCsrfProtection()

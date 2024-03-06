@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 class rex_view
 {
@@ -296,7 +297,7 @@ class rex_view
 
         if (is_array($subtitle) && count($subtitle) && reset($subtitle) instanceof rex_be_page) {
             $nav = rex_be_navigation::factory();
-            $nav->setHeadline('default', rex_i18n::msg('subnavigation', $head));
+            $nav->setHeadline('default', I18n::msg('subnavigation', $head));
             foreach ($subtitle as $pageObj) {
                 $nav->addPage($pageObj);
             }
@@ -351,7 +352,7 @@ class rex_view
                 $icon = ($id == $context->getParam('clang')) ? '<i class="rex-icon rex-icon-language-active"></i> ' : '<i class="rex-icon rex-icon-language"></i> ';
                 $item = [];
                 $item['href'] = $context->getUrl(['clang' => $id]);
-                $item['title'] = $icon . rex_i18n::translate($clang->getName());
+                $item['title'] = $icon . I18n::translate($clang->getName());
                 if ($id == $context->getParam('clang')) {
                     $item['active'] = true;
                 }
@@ -386,10 +387,10 @@ class rex_view
             if (Core::requireUser()->getComplexPerm('clang')->hasPerm($id)) {
                 $icon = $clang->isOnline() ? '<i class="rex-icon rex-icon-online"></i> ' : '<i class="rex-icon rex-icon-offline"></i> ';
                 $item = [];
-                $item['label'] = $icon . rex_i18n::translate($clang->getName());
+                $item['label'] = $icon . I18n::translate($clang->getName());
                 $item['url'] = $context->getUrl(['clang' => $id]);
                 $item['attributes']['class'][] = 'btn-clang';
-                $item['attributes']['title'] = rex_i18n::translate($clang->getName());
+                $item['attributes']['title'] = I18n::translate($clang->getName());
                 if ($id == $context->getParam('clang')) {
                     $item['attributes']['class'][] = 'active';
                 }
@@ -420,11 +421,11 @@ class rex_view
         foreach (rex_clang::getAll() as $id => $clang) {
             if ($user->getComplexPerm('clang')->hasPerm($id)) {
                 $item = [];
-                $item['title'] = rex_i18n::translate($clang->getName());
+                $item['title'] = I18n::translate($clang->getName());
                 $item['href'] = $context->getUrl(['clang' => $id]);
                 if ($id == $context->getParam('clang')) {
                     $item['active'] = true;
-                    $buttonLabel = rex_i18n::translate($clang->getName());
+                    $buttonLabel = I18n::translate($clang->getName());
                 }
                 $items[] = $item;
             }
@@ -432,13 +433,13 @@ class rex_view
 
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'rex-language');
-        $fragment->setVar('button_prefix', rex_i18n::msg('language'));
+        $fragment->setVar('button_prefix', I18n::msg('language'));
         $fragment->setVar('button_label', $buttonLabel);
-        $fragment->setVar('header', rex_i18n::msg('clang_select'));
+        $fragment->setVar('header', I18n::msg('clang_select'));
         $fragment->setVar('items', $items, false);
 
         if ($user->isAdmin()) {
-            $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><i class="fa fa-flag"></i> ' . rex_i18n::msg('languages_edit') . '</a>', false);
+            $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><i class="fa fa-flag"></i> ' . I18n::msg('languages_edit') . '</a>', false);
         }
 
         return $fragment->parse('core/dropdowns/dropdown.php');

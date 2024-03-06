@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 /**
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
@@ -7,8 +9,8 @@
 
 $id = '';
 $class = $this->getVar('class', 'input-group input-group-xs has-feedback form-clear-button');
-$clear = rex_i18n::msg('search_clear');
-$placeholder = ' placeholder="' . $this->getVar('placeholder', rex_i18n::msg('search_placeholder')) . '"';
+$clear = I18n::msg('search_clear');
+$placeholder = ' placeholder="' . $this->getVar('placeholder', I18n::msg('search_placeholder')) . '"';
 $autofocus = '';
 if (isset($this->autofocus) && $this->autofocus) {
     $autofocus = ' autofocus ';

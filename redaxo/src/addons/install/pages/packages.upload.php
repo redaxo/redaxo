@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 assert(isset($markdown) && is_callable($markdown));
 
 $package = rex_addon::get('install');
@@ -91,7 +93,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . rex_i18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -226,7 +228,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         echo $content;
 
-        echo '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '">' . rex_i18n::msg('back') . '</a>';
+        echo '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('back') . '</a>';
     }
 } else {
     $panel = '
@@ -249,7 +251,7 @@ if ($addonkey && isset($addons[$addonkey])) {
                 <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
                 <td data-title="' . $package->i18n('key') . '">' . rex_escape($key) . '</td>
                 <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
-                <td class="rex-table-action"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
+                <td class="rex-table-action"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . I18n::msg('view') . '</a></td>
                 <td class="rex-table-action"><span class="rex-text-' . $status . '">' . $package->i18n($status) . '</span></td>
             </tr>';
     }

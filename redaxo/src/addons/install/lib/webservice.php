@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -40,7 +41,7 @@ class rex_install_webservice
             if ($response->isOk()) {
                 $data = json_decode($response->getBody(), true);
                 if (isset($data['error']) && is_string($data['error'])) {
-                    $error = rex_i18n::msg('install_webservice_error') . '<br />' . $data['error'];
+                    $error = I18n::msg('install_webservice_error') . '<br />' . $data['error'];
                 } elseif (is_array($data)) {
                     self::setCache($path, $data);
                     return $data;
@@ -51,7 +52,7 @@ class rex_install_webservice
         }
 
         if (!$error) {
-            $error = rex_i18n::msg('install_webservice_unreachable');
+            $error = I18n::msg('install_webservice_unreachable');
         }
 
         throw new rex_functional_exception($error);
@@ -81,7 +82,7 @@ class rex_install_webservice
             rex_logger::logException($e);
         }
 
-        throw new rex_functional_exception(rex_i18n::msg('install_archive_unreachable'));
+        throw new rex_functional_exception(I18n::msg('install_archive_unreachable'));
     }
 
     /**
@@ -110,14 +111,14 @@ class rex_install_webservice
                 if (!isset($data['error']) || !is_string($data['error'])) {
                     return;
                 }
-                $error = rex_i18n::msg('install_webservice_error') . '<br />' . $data['error'];
+                $error = I18n::msg('install_webservice_error') . '<br />' . $data['error'];
             }
         } catch (rex_socket_exception $e) {
             rex_logger::logException($e);
         }
 
         if (!$error) {
-            $error = rex_i18n::msg('install_webservice_unreachable');
+            $error = I18n::msg('install_webservice_unreachable');
         }
 
         throw new rex_functional_exception($error);
@@ -143,14 +144,14 @@ class rex_install_webservice
                 if (!isset($data['error']) || !is_string($data['error'])) {
                     return;
                 }
-                $error = rex_i18n::msg('install_webservice_error') . '<br />' . $data['error'];
+                $error = I18n::msg('install_webservice_error') . '<br />' . $data['error'];
             }
         } catch (rex_socket_exception $e) {
             rex_logger::logException($e);
         }
 
         if (!$error) {
-            $error = rex_i18n::msg('install_webservice_unreachable');
+            $error = I18n::msg('install_webservice_unreachable');
         }
 
         throw new rex_functional_exception($error);

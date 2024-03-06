@@ -609,7 +609,7 @@
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$class]]></code>
-      <code><![CDATA[$this->getVar('placeholder', rex_i18n::msg('search_placeholder'))]]></code>
+      <code><![CDATA[$this->getVar('placeholder', I18n::msg('search_placeholder'))]]></code>
       <code><![CDATA[$this->id]]></code>
     </MixedOperand>
   </file>
@@ -3720,41 +3720,6 @@
       <code><![CDATA[self::$formatType($value, $format)]]></code>
     </MixedReturnStatement>
   </file>
-  <file src="redaxo/src/core/lib/util/i18n.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$args]]></code>
-      <code><![CDATA[$args]]></code>
-    </ArgumentTypeCoercion>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$lang]]></code>
-      <code><![CDATA[$msg]]></code>
-      <code><![CDATA[$text]]></code>
-      <code><![CDATA[call_user_func($i18nFunction, substr($text, $transKeyLen))]]></code>
-      <code><![CDATA[rex_escape($text)]]></code>
-    </LessSpecificReturnStatement>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$i18nFunction]]></code>
-      <code><![CDATA[$i18nFunction]]></code>
-      <code><![CDATA[func_get_args()]]></code>
-      <code><![CDATA[func_get_args()]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$array[$key]]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MoreSpecificReturnType>
-      <code><![CDATA[non-empty-string]]></code>
-      <code><![CDATA[non-empty-string]]></code>
-      <code><![CDATA[non-empty-string]]></code>
-    </MoreSpecificReturnType>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$country]]></code>
-      <code><![CDATA[$country]]></code>
-    </PossiblyUndefinedArrayOffset>
-    <PropertyTypeCoercion>
-      <code><![CDATA[self::$msg]]></code>
-    </PropertyTypeCoercion>
-  </file>
   <file src="redaxo/src/core/lib/util/logger.php">
     <MixedArgument>
       <code><![CDATA[$level]]></code>
@@ -5069,6 +5034,41 @@
       <code><![CDATA[$query]]></code>
       <code><![CDATA[$ret[]]]></code>
     </MixedAssignment>
+  </file>
+  <file src="src/Translation/I18n.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$args]]></code>
+      <code><![CDATA[$args]]></code>
+    </ArgumentTypeCoercion>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$lang]]></code>
+      <code><![CDATA[$msg]]></code>
+      <code><![CDATA[$text]]></code>
+      <code><![CDATA[call_user_func($i18nFunction, substr($text, $transKeyLen))]]></code>
+      <code><![CDATA[rex_escape($text)]]></code>
+    </LessSpecificReturnStatement>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$i18nFunction]]></code>
+      <code><![CDATA[$i18nFunction]]></code>
+      <code><![CDATA[func_get_args()]]></code>
+      <code><![CDATA[func_get_args()]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$array[$key]]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MoreSpecificReturnType>
+      <code><![CDATA[non-empty-string]]></code>
+      <code><![CDATA[non-empty-string]]></code>
+      <code><![CDATA[non-empty-string]]></code>
+    </MoreSpecificReturnType>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$country]]></code>
+      <code><![CDATA[$country]]></code>
+    </PossiblyUndefinedArrayOffset>
+    <PropertyTypeCoercion>
+      <code><![CDATA[self::$msg]]></code>
+    </PropertyTypeCoercion>
   </file>
   <file src="tests/Database/SelectTest.php">
     <MixedArgument>

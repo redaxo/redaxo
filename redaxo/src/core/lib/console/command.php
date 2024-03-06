@@ -54,7 +54,7 @@ abstract class rex_console_command extends Command
     }
 
     /**
-     * Decodes a html message for use in the CLI, e.g. provided by rex_i18n.
+     * Decodes a html message for use in the CLI, e.g. provided by I18n.
      *
      * @param string $message A html message
      *

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_filter_colorize extends rex_effect_abstract
 {
     public function execute()
@@ -52,26 +54,26 @@ class rex_effect_filter_colorize extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_colorize');
+        return I18n::msg('media_manager_effect_colorize');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_colorize_r'),
+                'label' => I18n::msg('media_manager_effect_colorize_r'),
                 'name' => 'filter_r',
                 'type' => 'int',
                 'default' => '',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_colorize_g'),
+                'label' => I18n::msg('media_manager_effect_colorize_g'),
                 'name' => 'filter_g',
                 'type' => 'int',
                 'default' => '',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_colorize_b'),
+                'label' => I18n::msg('media_manager_effect_colorize_b'),
                 'name' => 'filter_b',
                 'type' => 'int',
                 'default' => '',

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 if (!isset($logFile)) {
     $logFile = ini_get('error_log');
 }
@@ -10,7 +12,7 @@ $content = '
 
 $buttons = '';
 if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
-    $content .= '<tr><td>' . rex_i18n::msg('syslog_empty') . '</td></tr>';
+    $content .= '<tr><td>' . I18n::msg('syslog_empty') . '</td></tr>';
 } else {
     // TODO make this more effienct with things like rex_log_file->next()
     $file = new SplFileObject($logFile, 'r');
@@ -40,7 +42,7 @@ if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
+        $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . I18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -54,7 +56,7 @@ $content .= '
             </table>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('syslog_title', $logFile), false);
+$fragment->setVar('title', I18n::msg('syslog_title', $logFile), false);
 $fragment->setVar('content', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

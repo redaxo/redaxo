@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Translation\I18n;
 
 class rex_form_prio_element extends rex_form_select_element
 {
@@ -89,7 +90,7 @@ class rex_form_prio_element extends rex_form_select_element
         $sql = Sql::factory();
         $sql->setQuery($qry, $params);
 
-        $this->select->addOption(rex_i18n::msg($this->firstOptionMsg), 1);
+        $this->select->addOption(I18n::msg($this->firstOptionMsg), 1);
         $value = 1;
         foreach ($sql as $opt) {
             $value = $opt->getValue($name) + 1;
@@ -99,7 +100,7 @@ class rex_form_prio_element extends rex_form_select_element
                 $label = call_user_func($this->labelCallback, $label);
             }
 
-            $this->select->addOption(rex_i18n::rawMsg($this->optionMsg, $label), $value);
+            $this->select->addOption(I18n::rawMsg($this->optionMsg, $label), $value);
         }
         if (!$this->table->isEditMode()) {
             $this->select->setSelected($value);

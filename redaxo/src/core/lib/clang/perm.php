@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_clang_perm extends rex_complex_perm
 {
     /**
@@ -35,8 +37,8 @@ class rex_clang_perm extends rex_complex_perm
         }, rex_clang::getAll());
 
         return [
-            'label' => rex_i18n::msg('clangs'),
-            'all_label' => rex_i18n::msg('all_clangs'),
+            'label' => I18n::msg('clangs'),
+            'all_label' => I18n::msg('all_clangs'),
             'options' => $options,
         ];
     }

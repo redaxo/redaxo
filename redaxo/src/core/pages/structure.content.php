@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Translation\I18n;
 
 $articleId = rex_request('article_id', 'int');
 $clang = rex_request('clang', 'int');
@@ -33,8 +34,8 @@ $article->setQuery('
             AND clang_id=?', [$articleId, $clang]);
 
 if (1 !== $article->getRows()) {
-    echo rex_view::title(rex_i18n::msg('content'), '');
-    echo rex_view::error(rex_i18n::msg('article_doesnt_exist'));
+    echo rex_view::title(I18n::msg('content'), '');
+    echo rex_view::error(I18n::msg('article_doesnt_exist'));
     return;
 }
 
@@ -72,7 +73,7 @@ $context = new rex_context([
 ]);
 
 // ----- Titel anzeigen
-echo rex_view::title(rex_i18n::msg('content') . ': ' . $OOArt->getName(), '');
+echo rex_view::title(I18n::msg('content') . ': ' . $OOArt->getName(), '');
 
 // ----- Languages
 echo rex_view::clangSwitchAsButtons($context);
@@ -98,7 +99,7 @@ $user = Core::requireUser();
 // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
 if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     // ----- hat keine rechte an diesem artikel
-    echo rex_view::warning(rex_i18n::msg('no_rights_to_edit'));
+    echo rex_view::warning(I18n::msg('no_rights_to_edit'));
 } else {
     // ----- hat rechte an diesem artikel
 
@@ -122,7 +123,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
         if (1 != $CM->getRows()) {
             // ------------- MODUL IST NICHT VORHANDEN
-            $globalWarning = rex_i18n::msg('module_not_found');
+            $globalWarning = I18n::msg('module_not_found');
             $sliceId = 0;
             $function = '';
         } else {
@@ -130,12 +131,12 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
             // ----- RECHTE AM MODUL ?
             if ('delete' != $function && !rex_template::hasModule($templateAttributes, $ctype, $moduleId)) {
-                $globalWarning = rex_i18n::msg('no_rights_to_this_function');
+                $globalWarning = I18n::msg('no_rights_to_this_function');
                 $sliceId = 0;
                 $function = '';
             } elseif (!$user->getComplexPerm('modules')->hasPerm($moduleId)) {
                 // ----- RECHTE AM MODUL: NEIN
-                $globalWarning = rex_i18n::msg('no_rights_to_this_function');
+                $globalWarning = I18n::msg('no_rights_to_this_function');
                 $sliceId = 0;
                 $function = '';
             } else {
@@ -159,9 +160,9 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                     if ('' != $actionMessage) {
                         $warning = $actionMessage;
                     } elseif ('delete' == $function) {
-                        $warning = rex_i18n::msg('slice_deleted_error');
+                        $warning = I18n::msg('slice_deleted_error');
                     } else {
-                        $warning = rex_i18n::msg('slice_saved_error');
+                        $warning = I18n::msg('slice_saved_error');
                     }
                 } else {
                     if ($actionMessage) {
@@ -210,7 +211,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                                 ]));
 
                                 $newsql->update();
-                                $info = $actionMessage . rex_i18n::msg('block_updated');
+                                $info = $actionMessage . I18n::msg('block_updated');
                                 $epParams = [
                                     'article_id' => $articleId,
                                     'clang' => $clang,
@@ -251,7 +252,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                                     'priority, updatedate DESC',
                                 );
 
-                                $info = $actionMessage . rex_i18n::msg('block_added');
+                                $info = $actionMessage . I18n::msg('block_added');
                                 $function = '';
                                 $epParams = [
                                     'article_id' => $articleId,
@@ -277,7 +278,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                         // make delete
 
                         if (rex_content_service::deleteSlice($sliceId)) {
-                            $globalInfo = rex_i18n::msg('block_deleted');
+                            $globalInfo = I18n::msg('block_deleted');
                             $epParams = [
                                 'article_id' => $articleId,
                                 'clang' => $clang,
@@ -295,7 +296,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                             $globalInfo = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $globalInfo, $epParams));
                             $globalInfo = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_deleted', $globalInfo));
                         } else {
-                            $globalWarning = rex_i18n::msg('block_not_deleted');
+                            $globalWarning = I18n::msg('block_not_deleted');
                         }
                     }
                     // ----- / SAVE SLICE
@@ -340,7 +341,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         if ($ctype != $key) {
             $hasSlice = null !== rex_article_slice::getFirstSliceForCtype($key, $articleId, $clang);
         }
-        $editPage->addSubpage((new rex_be_page('ctype' . $key, rex_i18n::translate($val)))
+        $editPage->addSubpage((new rex_be_page('ctype' . $key, I18n::translate($val)))
             ->setHref(['page' => 'content/edit', 'article_id' => $articleId, 'clang' => $clang, 'ctype' => $key])
             ->setIsActive($ctype == $key)
             ->setItemAttr('class', $hasSlice ? '' : 'rex-empty'),
@@ -381,7 +382,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     $navigation = current($blocks);
     $contentNaviRight = $navigation['navigation'];
 
-    $contentNaviRight[] = ['title' => '<a href="' . rex_getUrl($articleId, $clang) . '" onclick="window.open(this.href); return false;">' . rex_i18n::msg('article_show') . ' <i class="rex-icon rex-icon-external-link"></i></a>'];
+    $contentNaviRight[] = ['title' => '<a href="' . rex_getUrl($articleId, $clang) . '" onclick="window.open(this.href); return false;">' . I18n::msg('article_show') . ' <i class="rex-icon rex-icon-external-link"></i></a>'];
 
     $fragment = new rex_fragment();
     $fragment->setVar('id', 'rex-js-structure-content-nav', false);

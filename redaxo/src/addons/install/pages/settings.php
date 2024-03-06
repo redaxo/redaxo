@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 $addon = rex_addon::get('install');
 
 $panel = '';
@@ -73,7 +75,7 @@ $panel .= '
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="settings[save]" value="1">' . rex_i18n::msg('form_save') . '</button>';
+$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="settings[save]" value="1">' . I18n::msg('form_save') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

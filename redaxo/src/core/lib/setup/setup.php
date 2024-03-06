@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -62,13 +63,13 @@ class rex_setup
 
         // -------------------------- VERSIONSCHECK
         if (1 == version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '<')) {
-            $errors[] = rex_i18n::msg('setup_201', PHP_VERSION, self::MIN_PHP_VERSION);
+            $errors[] = I18n::msg('setup_201', PHP_VERSION, self::MIN_PHP_VERSION);
         }
 
         // -------------------------- EXTENSION CHECK
         foreach (self::MIN_PHP_EXTENSIONS as $extension) {
             if (!extension_loaded($extension)) {
-                $errors[] = rex_i18n::msg('setup_202', $extension);
+                $errors[] = I18n::msg('setup_202', $extension);
             }
         }
 
@@ -154,7 +155,7 @@ class rex_setup
 
         $minVersion = Sql::MARIADB === $type ? self::MIN_MARIADB_VERSION : self::MIN_MYSQL_VERSION;
         if (rex_version::compare($version, $minVersion, '<')) {
-            return rex_i18n::msg('sql_database_required_version', $type, $version, self::MIN_MYSQL_VERSION, self::MIN_MARIADB_VERSION);
+            return I18n::msg('sql_database_required_version', $type, $version, self::MIN_MYSQL_VERSION, self::MIN_MARIADB_VERSION);
         }
 
         return '';
@@ -170,15 +171,15 @@ class rex_setup
         $security = [];
 
         if (PHP_SAPI !== 'cli' && !rex_request::isHttps()) {
-            $security[] = rex_i18n::msg('setup_security_no_https');
+            $security[] = I18n::msg('setup_security_no_https');
         }
 
         if (function_exists('apache_get_modules') && in_array('mod_security', apache_get_modules())) {
-            $security[] = rex_i18n::msg('setup_security_warn_mod_security');
+            $security[] = I18n::msg('setup_security_warn_mod_security');
         }
 
         if (ini_get('session.auto_start')) {
-            $security[] = rex_i18n::msg('setup_session_autostart_warning');
+            $security[] = I18n::msg('setup_session_autostart_warning');
         }
 
         // Source: https://www.php.net/supported-versions.php, Security Support Until, set to 1st of month
@@ -194,7 +195,7 @@ class rex_setup
             $deprecationDate = $deprecatedVersions[$versionNumber];
             $currentDate = date('Y-m-d');
             if ($currentDate > $deprecationDate) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
+                $security[] = I18n::msg('setup_security_deprecated_php', PHP_VERSION);
             }
         }
         return $security;
@@ -237,7 +238,7 @@ class rex_setup
             if (array_key_exists($versionNumber, $deprecatedVersions)) {
                 $deprecationDate = $deprecatedVersions[$versionNumber];
                 if ($currentDate > $deprecationDate) {
-                    $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+                    $security[] = I18n::msg('setup_security_deprecated_mariadb', $dbVersion);
                 }
             }
         } elseif (Sql::MYSQL === $dbType) {
@@ -256,7 +257,7 @@ class rex_setup
             if (array_key_exists($versionNumber, $deprecatedVersions)) {
                 $deprecationDate = $deprecatedVersions[$versionNumber];
                 if ($currentDate > $deprecationDate) {
-                    $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
+                    $security[] = I18n::msg('setup_security_deprecated_mysql', $dbVersion);
                 }
             }
         }

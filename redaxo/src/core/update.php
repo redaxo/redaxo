@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 // don't use REX_MIN_PHP_VERSION or rex_setup::MIN_* constants here!
 // while updating the core, the constants contain the old min versions from previous core version
@@ -11,7 +12,7 @@ if (version_compare(Core::getVersion(), '5.16', '<')) {
 }
 
 if (PHP_VERSION_ID < 80300) {
-    throw new rex_functional_exception(rex_i18n::msg('setup_201', PHP_VERSION, '8.3'));
+    throw new rex_functional_exception(I18n::msg('setup_201', PHP_VERSION, '8.3'));
 }
 
 $minExtensions = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
@@ -35,8 +36,8 @@ if (preg_match('/^(?:\d+\.\d+\.\d+-)?(\d+\.\d+\.\d+)-mariadb/i', $dbVersion, $ma
 }
 if (rex_version::compare($dbVersion, $minVersion, '<')) {
     // The message was added in REDAXO 5.11.1, so it does not exist while updating from previous versions
-    $message = rex_i18n::hasMsg('sql_database_required_version')
-        ? rex_i18n::msg('sql_database_required_version', $dbType, $dbVersion, $minMysqlVersion, $minMariaDbVersion)
+    $message = I18n::hasMsg('sql_database_required_version')
+        ? I18n::msg('sql_database_required_version', $dbType, $dbVersion, $minMysqlVersion, $minMariaDbVersion)
         : "The $dbType version $dbVersion is too old, you need at least MySQL $minMysqlVersion or MariaDB $minMariaDbVersion!";
 
     throw new rex_functional_exception($message);

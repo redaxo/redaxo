@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 /**
  * Spiegel ein Bild.
  */
@@ -36,14 +38,14 @@ class rex_effect_flip extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_flip');
+        return I18n::msg('media_manager_effect_flip');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_flip_direction'),
+                'label' => I18n::msg('media_manager_effect_flip_direction'),
                 'name' => 'flip',
                 'type' => 'select',
                 'options' => self::OPTIONS,

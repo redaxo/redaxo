@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 class rex_effect_rounded_corners extends rex_effect_abstract
 {
     public function execute()
@@ -67,29 +69,29 @@ class rex_effect_rounded_corners extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_rounded_corners');
+        return I18n::msg('media_manager_effect_rounded_corners');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_rounded_corners_topleft'),
+                'label' => I18n::msg('media_manager_effect_rounded_corners_topleft'),
                 'name' => 'topleft',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_rounded_corners_topright'),
+                'label' => I18n::msg('media_manager_effect_rounded_corners_topright'),
                 'name' => 'topright',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_rounded_corners_bottomleft'),
+                'label' => I18n::msg('media_manager_effect_rounded_corners_bottomleft'),
                 'name' => 'bottomleft',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_rounded_corners_bottomright'),
+                'label' => I18n::msg('media_manager_effect_rounded_corners_bottomright'),
                 'name' => 'bottomright',
                 'type' => 'int',
             ],

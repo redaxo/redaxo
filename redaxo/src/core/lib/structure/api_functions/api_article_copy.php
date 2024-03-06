@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -22,19 +23,19 @@ class rex_api_article_copy extends rex_api_function
 
         if ($user->hasPerm('copyArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryCopyIdNew)) {
             if (false !== ($newId = rex_article_service::copyArticle($articleId, $categoryCopyIdNew))) {
-                $result = new rex_api_result(true, rex_i18n::msg('content_articlecopied'));
+                $result = new rex_api_result(true, I18n::msg('content_articlecopied'));
                 rex_response::sendRedirect($context->getUrl([
                     'article_id' => $newId,
                     'info' => $result->getMessage(),
                 ]));
             } else {
-                $result = new rex_api_result(false, rex_i18n::msg('content_errorcopyarticle'));
+                $result = new rex_api_result(false, I18n::msg('content_errorcopyarticle'));
             }
 
             return $result;
         }
 
-        throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
+        throw new rex_api_exception(I18n::msg('no_rights_to_this_function'));
     }
 
     protected function requiresCsrfProtection()

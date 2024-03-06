@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Translation\I18n;
 
 class rex_clang_service
 {
@@ -126,11 +127,11 @@ class rex_clang_service
     {
         $startClang = rex_clang::getStartId();
         if ($id == $startClang) {
-            throw new rex_functional_exception(rex_i18n::msg('clang_error_startidcanotbedeleted', $startClang));
+            throw new rex_functional_exception(I18n::msg('clang_error_startidcanotbedeleted', $startClang));
         }
 
         if (!rex_clang::exists($id)) {
-            throw new rex_functional_exception(rex_i18n::msg('clang_error_idcanotbedeleted', $id));
+            throw new rex_functional_exception(I18n::msg('clang_error_idcanotbedeleted', $id));
         }
 
         $clang = rex_clang::get($id);

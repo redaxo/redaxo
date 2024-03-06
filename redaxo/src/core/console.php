@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 set_time_limit(0);
 
@@ -18,7 +19,7 @@ require __DIR__ . '/boot.php';
 Core::setProperty('debug', true);
 
 Core::setProperty('lang', 'en_gb');
-rex_i18n::setLocale('en_gb');
+I18n::setLocale('en_gb');
 
 $application = new rex_console_application();
 Core::setProperty('console', $application);

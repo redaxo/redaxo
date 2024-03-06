@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 assert(isset($ep) && $ep instanceof rex_extension_point);
 
@@ -19,10 +20,10 @@ $status = (int) $article->getValue('status');
 // ------------------
 
 $panels = [];
-$panels[] = '<dt>' . rex_i18n::msg('created_by') . '</dt><dd>' . rex_escape($article->getValue('createuser')) . '</dd>';
-$panels[] = '<dt>' . rex_i18n::msg('created_on') . '</dt><dd>' . rex_formatter::intlDate($article->getValue('createdate')) . '</dd>';
-$panels[] = '<dt>' . rex_i18n::msg('updated_by') . '</dt><dd>' . rex_escape($article->getValue('updateuser')) . '</dd>';
-$panels[] = '<dt>' . rex_i18n::msg('updated_on') . '</dt><dd>' . rex_formatter::intlDate($article->getValue('updatedate')) . '</dd>';
+$panels[] = '<dt>' . I18n::msg('created_by') . '</dt><dd>' . rex_escape($article->getValue('createuser')) . '</dd>';
+$panels[] = '<dt>' . I18n::msg('created_on') . '</dt><dd>' . rex_formatter::intlDate($article->getValue('createdate')) . '</dd>';
+$panels[] = '<dt>' . I18n::msg('updated_by') . '</dt><dd>' . rex_escape($article->getValue('updateuser')) . '</dd>';
+$panels[] = '<dt>' . I18n::msg('updated_on') . '</dt><dd>' . rex_formatter::intlDate($article->getValue('updatedate')) . '</dd>';
 
 $articleClass = $articleStatusTypes[$status][1];
 $articleStatus = $articleStatusTypes[$status][0];
@@ -56,7 +57,7 @@ if (0 == $article->getValue('startarticle')) {
     }
 }
 
-$panels[] = '<dt>' . rex_i18n::msg('status') . '</dt><dd class="' . $articleStatusTypes[$status][1] . '">' . $articleStatus . '</dd>';
+$panels[] = '<dt>' . I18n::msg('status') . '</dt><dd class="' . $articleStatusTypes[$status][1] . '">' . $articleStatus . '</dd>';
 
 $content[] = '<dl class="dl-horizontal text-left">' . implode('', $panels) . '</dl>';
 
@@ -107,7 +108,7 @@ if (1 == $article->getRows()) {
 
     $formElements = [];
     $formElements[] = [
-        'label' => '<label for="rex-id-meta-article-name">' . rex_i18n::msg('header_article_name') . '</label>',
+        'label' => '<label for="rex-id-meta-article-name">' . I18n::msg('header_article_name') . '</label>',
         'field' => '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="' . htmlspecialchars(rex_article::get($articleId, $clang)->getName()) . '" />',
     ];
     $fragment = new rex_fragment();
@@ -117,12 +118,12 @@ if (1 == $article->getRows()) {
     $content[] = '
               <div id="rex-page-sidebar-metainfo" data-pjax-container="#rex-page-sidebar-metainfo">
                 <form class="metainfo-sidebar" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data">
-                    ' . (rex_post('savemeta', 'boolean') ? rex_view::success(rex_i18n::msg('minfo_metadata_saved')) : '') . '
+                    ' . (rex_post('savemeta', 'boolean') ? rex_view::success(I18n::msg('minfo_metadata_saved')) : '') . '
                     <fieldset>
                         <input type="hidden" name="save" value="1" />
                         <input type="hidden" name="ctype" value="' . $ctype . '" />
                         ' . $form . '
-                        <button class="btn btn-primary pull-left" type="submit" name="savemeta"' . Core::getAccesskey(rex_i18n::msg('update_metadata'), 'save') . ' value="1">' . rex_i18n::msg('update_metadata') . '</button>
+                        <button class="btn btn-primary pull-left" type="submit" name="savemeta"' . Core::getAccesskey(I18n::msg('update_metadata'), 'save') . ' value="1">' . I18n::msg('update_metadata') . '</button>
                     </fieldset>
                 </form>
               </div>
@@ -132,7 +133,7 @@ if (1 == $article->getRows()) {
 // ------------------
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> ' . rex_i18n::msg('metadata'), false);
+$fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> ' . I18n::msg('metadata'), false);
 $fragment->setVar('body', implode('', $content), false);
 $fragment->setVar('article_id', $params['article_id'], false);
 $fragment->setVar('clang', $params['clang'], false);

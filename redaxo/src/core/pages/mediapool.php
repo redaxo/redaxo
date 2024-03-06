@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 global $ftitle, $error, $success;
 
@@ -63,7 +64,7 @@ $gc = Sql::factory();
 $gc->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_category WHERE id=?', [$rexFileCategory]);
 if (1 != $gc->getRows()) {
     $rexFileCategory = 0;
-    $rexFileCategoryName = rex_i18n::msg('pool_kats_no');
+    $rexFileCategoryName = I18n::msg('pool_kats_no');
 } else {
     $rexFileCategoryName = $gc->getValue('name');
 }
@@ -82,7 +83,7 @@ foreach ($subline as $sp) {
     $sp->setHref($sp->getHref() . $argUrlString);
 }
 
-echo rex_view::title(rex_i18n::msg('pool_media'), $subline);
+echo rex_view::title(I18n::msg('pool_media'), $subline);
 
 // -------------- Messages
 if ('' != $success) {

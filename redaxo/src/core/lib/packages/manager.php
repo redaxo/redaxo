@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Translation\I18n;
 
 class rex_addon_manager
 {
@@ -98,7 +99,7 @@ class rex_addon_manager
             $reinstall = $this->package->getProperty('install');
             $this->package->setProperty('install', true);
 
-            rex_i18n::addDirectory($this->package->getPath('lang'));
+            I18n::addDirectory($this->package->getPath('lang'));
 
             // include install.php
             $successMessage = '';
@@ -182,7 +183,7 @@ class rex_addon_manager
             // include uninstall.php
             if (is_readable($this->package->getPath(rex_addon::FILE_UNINSTALL))) {
                 if (!$isActivated) {
-                    rex_i18n::addDirectory($this->package->getPath('lang'));
+                    I18n::addDirectory($this->package->getPath('lang'));
                 }
 
                 $this->package->includeFile(rex_addon::FILE_UNINSTALL);
@@ -565,7 +566,7 @@ class rex_addon_manager
 
             $requirements = $package->getProperty('requires', []);
             if (isset($requirements['packages'][$this->package->getPackageId()])) {
-                $state[] = rex_i18n::msg($i18nPrefix . $package->getType(), $package->getPackageId());
+                $state[] = I18n::msg($i18nPrefix . $package->getType(), $package->getPackageId());
             }
         }
 
@@ -587,12 +588,12 @@ class rex_addon_manager
     {
         $args = func_get_args();
         $key = 'addon_' . $args[0];
-        if (!rex_i18n::hasMsg($key)) {
+        if (!I18n::hasMsg($key)) {
             $key = 'package_' . $args[0];
         }
         $args[0] = $key;
 
-        return call_user_func_array(rex_i18n::msg(...), $args);
+        return call_user_func_array(I18n::msg(...), $args);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -22,7 +23,7 @@ class rex_command_setup_check extends rex_console_command
 
         $errors = rex_setup::checkEnvironment();
         if (0 == count($errors)) {
-            $io->success(rex_i18n::msg('setup_208', PHP_VERSION));
+            $io->success(I18n::msg('setup_208', PHP_VERSION));
         } else {
             $exitCode = 1;
             $errors = array_map($this->decodeMessage(...), $errors);
@@ -38,7 +39,7 @@ class rex_command_setup_check extends rex_console_command
                     foreach ($messages as $message) {
                         $affectedFiles[] = rex_path::relative($message);
                     }
-                    $errors[] = rex_i18n::msg($key) . "\n" . implode("\n", $affectedFiles);
+                    $errors[] = I18n::msg($key) . "\n" . implode("\n", $affectedFiles);
                 }
             }
 

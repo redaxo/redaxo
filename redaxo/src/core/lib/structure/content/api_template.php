@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 class rex_template
 {
@@ -229,7 +230,7 @@ class rex_template
         }
 
         if ('' != $templateInUseMessage && null != $templatename) {
-            $error .= rex_i18n::msg($msgKey, (string) $templatename);
+            $error .= I18n::msg($msgKey, (string) $templatename);
             $error .= '<ul>' . $templateInUseMessage . '</ul>';
         }
 

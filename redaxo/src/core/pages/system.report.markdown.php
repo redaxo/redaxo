@@ -1,8 +1,10 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 $report = rex_system_report::factory()->asMarkdown();
 
-echo '<p><clipboard-copy for="rex-system-report-markdown" class="btn btn-copy btn-primary">' . rex_i18n::msg('copy_to_clipboard') . '</clipboard-copy></p>';
+echo '<p><clipboard-copy for="rex-system-report-markdown" class="btn btn-copy btn-primary">' . I18n::msg('copy_to_clipboard') . '</clipboard-copy></p>';
 
 // there must be no whitespace between div and pre and within pre
 // otherwise the copied markdown via clipboard-copy can be invalid

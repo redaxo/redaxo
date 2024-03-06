@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -21,7 +22,7 @@ class rex_api_content_slice_status extends rex_api_function
         $categoryId = $article->getCategoryId();
 
         if (!$user->hasPerm('publishSlice[]') || !$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
-            throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
+            throw new rex_api_exception(I18n::msg('no_rights_to_this_function'));
         }
 
         $sliceId = rex_request('slice_id', 'int');

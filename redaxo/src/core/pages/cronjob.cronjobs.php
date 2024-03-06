@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 $func = rex_request('func', 'string');
 $oid = rex_request('oid', 'int');
@@ -8,7 +9,7 @@ $oid = rex_request('oid', 'int');
 $csrfToken = rex_csrf_token::factory('cronjob');
 
 if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid()) {
-    echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+    echo rex_view::error(I18n::msg('csrf_token_invalid'));
     $func = '';
 } elseif ('setstatus' == $func) {
     $manager = rex_cronjob_manager_sql::factory();
@@ -16,18 +17,18 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
     $status = (rex_request('oldstatus', 'int') + 1) % 2;
     $msg = 1 == $status ? 'status_activate' : 'status_deactivate';
     if ($manager->setStatus($oid, $status)) {
-        echo rex_view::success(rex_i18n::msg('cronjob_' . $msg . '_success', $name));
+        echo rex_view::success(I18n::msg('cronjob_' . $msg . '_success', $name));
     } else {
-        echo rex_view::error(rex_i18n::msg('cronjob_' . $msg . '_error', $name));
+        echo rex_view::error(I18n::msg('cronjob_' . $msg . '_error', $name));
     }
     $func = '';
 } elseif ('delete' == $func) {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     if ($manager->delete($oid)) {
-        echo rex_view::success(rex_i18n::msg('cronjob_delete_success', $name));
+        echo rex_view::success(I18n::msg('cronjob_delete_success', $name));
     } else {
-        echo rex_view::error(rex_i18n::msg('cronjob_delete_error', $name));
+        echo rex_view::error(I18n::msg('cronjob_delete_error', $name));
     }
     $func = '';
 } elseif ('execute' == $func) {
@@ -36,12 +37,12 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
     $success = $manager->tryExecute($oid);
     $msg = '';
     if ($manager->hasMessage()) {
-        $msg = '<br /><br />' . rex_i18n::msg('cronjob_log_message') . ': <br />' . nl2br(rex_escape($manager->getMessage()));
+        $msg = '<br /><br />' . I18n::msg('cronjob_log_message') . ': <br />' . nl2br(rex_escape($manager->getMessage()));
     }
     if ($success) {
-        echo rex_view::success(rex_i18n::msg('cronjob_execute_success', $name) . $msg);
+        echo rex_view::success(I18n::msg('cronjob_execute_success', $name) . $msg);
     } else {
-        echo rex_view::error(rex_i18n::msg('cronjob_execute_error', $name) . $msg);
+        echo rex_view::error(I18n::msg('cronjob_execute_error', $name) . $msg);
     }
     $func = '';
 }
@@ -52,85 +53,85 @@ if ('' == $func) {
     $list = rex_list::factory($query, 30, 'cronjobs');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
-    $list->setNoRowsMessage(rex_i18n::msg('cronjob_no_cronjobs'));
+    $list->setNoRowsMessage(I18n::msg('cronjob_no_cronjobs'));
 
     $tdIcon = '<i class="rex-icon rex-icon-cronjob"></i>';
-    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add']) . '" title="' . rex_i18n::msg('cronjob_add') . '"><i class="rex-icon rex-icon-add-cronjob"></i></a>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add']) . '" title="' . I18n::msg('cronjob_add') . '"><i class="rex-icon rex-icon-add-cronjob"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'oid' => '###id###']);
 
     $list->removeColumn('id');
     $list->removeColumn('type');
 
-    $list->setColumnLabel('name', rex_i18n::msg('cronjob_name'));
+    $list->setColumnLabel('name', I18n::msg('cronjob_name'));
     $list->setColumnParams('name', ['func' => 'edit', 'oid' => '###id###']);
 
-    $list->setColumnLabel('environment', rex_i18n::msg('cronjob_environment'));
+    $list->setColumnLabel('environment', I18n::msg('cronjob_environment'));
     $list->setColumnFormat('environment', 'custom', static function () use ($list) {
         $value = $list->getValue('environment');
         $env = [];
         if (str_contains($value, '|frontend|')) {
-            $env[] = rex_i18n::msg('cronjob_environment_frontend');
+            $env[] = I18n::msg('cronjob_environment_frontend');
         }
         if (str_contains($value, '|backend|')) {
-            $env[] = rex_i18n::msg('cronjob_environment_backend');
+            $env[] = I18n::msg('cronjob_environment_backend');
         }
         if (str_contains($value, '|script|')) {
-            $env[] = rex_i18n::msg('cronjob_environment_script');
+            $env[] = I18n::msg('cronjob_environment_script');
         }
         return implode(', ', $env);
     });
 
-    $list->setColumnLabel('execution_moment', rex_i18n::msg('cronjob_execution'));
+    $list->setColumnLabel('execution_moment', I18n::msg('cronjob_execution'));
     $list->setColumnFormat('execution_moment', 'custom', static function () use ($list) {
         if ($list->getValue('execution_moment')) {
-            return rex_i18n::msg('cronjob_execution_beginning');
+            return I18n::msg('cronjob_execution_beginning');
         }
-        return rex_i18n::msg('cronjob_execution_ending');
+        return I18n::msg('cronjob_execution_ending');
     });
 
-    $list->setColumnLabel('nexttime', rex_i18n::msg('cronjob_nexttime'));
+    $list->setColumnLabel('nexttime', I18n::msg('cronjob_nexttime'));
     $list->setColumnFormat('nexttime', 'intlDateTime');
 
-    $list->setColumnLabel('status', rex_i18n::msg('cronjob_status_function'));
+    $list->setColumnLabel('status', I18n::msg('cronjob_status_function'));
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->setColumnLayout('status', ['<th class="rex-table-action" colspan="4">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnFormat('status', 'custom', static function () use ($list) {
         if (!class_exists($list->getValue('type')) || !in_array($list->getValue('type'), rex_cronjob_manager::getTypes())) {
-            $str = rex_i18n::msg('cronjob_status_invalid');
+            $str = I18n::msg('cronjob_status_invalid');
         } elseif (1 == $list->getValue('status')) {
-            $str = $list->getColumnLink('status', '<span class="rex-online"><i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('cronjob_status_activated') . '</span>');
+            $str = $list->getColumnLink('status', '<span class="rex-online"><i class="rex-icon rex-icon-active-true"></i> ' . I18n::msg('cronjob_status_activated') . '</span>');
         } else {
-            $str = $list->getColumnLink('status', '<span class="rex-offline"><i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('cronjob_status_deactivated') . '</span>');
+            $str = $list->getColumnLink('status', '<span class="rex-offline"><i class="rex-icon rex-icon-active-false"></i> ' . I18n::msg('cronjob_status_deactivated') . '</span>');
         }
         return $str;
     });
 
-    $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('edit'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('edit', ['func' => 'edit', 'oid' => '###id###']);
 
-    $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('delete', ['func' => 'delete', 'oid' => '###id###'] + $csrfToken->getUrlParams());
-    $list->addLinkAttribute('delete', 'data-confirm', rex_i18n::msg('cronjob_really_delete'));
+    $list->addLinkAttribute('delete', 'data-confirm', I18n::msg('cronjob_really_delete'));
 
-    $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . rex_i18n::msg('cronjob_execute'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . I18n::msg('cronjob_execute'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
     $list->setColumnFormat('execute', 'custom', static function () use ($list) {
         if (str_contains($list->getValue('environment'), '|backend|') && class_exists($list->getValue('type'))) {
-            return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . rex_i18n::msg('cronjob_execute'));
+            return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . I18n::msg('cronjob_execute'));
         }
-        return '<span class="text-muted"><i class="rex-icon rex-icon-execute"></i> ' . rex_i18n::msg('cronjob_execute') . '</span>';
+        return '<span class="text-muted"><i class="rex-icon rex-icon-execute"></i> ' . I18n::msg('cronjob_execute') . '</span>';
     });
 
     $content = $list->get();
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('cronjob_caption'), false);
+    $fragment->setVar('title', I18n::msg('cronjob_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 } elseif ('edit' == $func || 'add' == $func) {
-    $fieldset = 'edit' == $func ? rex_i18n::msg('edit') : rex_i18n::msg('add');
+    $fieldset = 'edit' == $func ? I18n::msg('edit') : I18n::msg('add');
 
     $form = new rex_cronjob_form(Core::getTable('cronjob'), $fieldset, 'id = ' . $oid, 'post', false);
     $form->addParam('oid', $oid);
@@ -139,44 +140,44 @@ if ('' == $func) {
     $form->addHiddenField('nexttime');
 
     $field = $form->addTextField('name');
-    $field->setLabel(rex_i18n::msg('cronjob_name'));
+    $field->setLabel(I18n::msg('cronjob_name'));
     $field->getValidator()
-        ->add(rex_validation_rule::NOT_EMPTY, rex_i18n::msg('cronjob_error_no_name'))
+        ->add(rex_validation_rule::NOT_EMPTY, I18n::msg('cronjob_error_no_name'))
         ->add(rex_validation_rule::MAX_LENGTH, null, 255)
     ;
 
     $field = $form->addTextAreaField('description');
-    $field->setLabel(rex_i18n::msg('description'));
+    $field->setLabel(I18n::msg('description'));
     $field->getValidator()->add(rex_validation_rule::MAX_LENGTH, null, 255);
 
     $field = $form->addCheckboxField('environment');
-    $field->setLabel(rex_i18n::msg('cronjob_environment'));
-    $field->setNotice(rex_i18n::msg('cronjob_environment_notice', rex_path::bin('console') . ' cronjob:run'));
-    $field->getValidator()->add('notEmpty', rex_i18n::msg('cronjob_error_no_environment'));
+    $field->setLabel(I18n::msg('cronjob_environment'));
+    $field->setNotice(I18n::msg('cronjob_environment_notice', rex_path::bin('console') . ' cronjob:run'));
+    $field->getValidator()->add('notEmpty', I18n::msg('cronjob_error_no_environment'));
     $envFieldId = rex_escape($field->getAttribute('id'), 'js');
-    $field->addOption(rex_i18n::msg('cronjob_environment_frontend'), 'frontend');
-    $field->addOption(rex_i18n::msg('cronjob_environment_backend'), 'backend');
-    $field->addOption(rex_i18n::msg('cronjob_environment_script'), 'script');
+    $field->addOption(I18n::msg('cronjob_environment_frontend'), 'frontend');
+    $field->addOption(I18n::msg('cronjob_environment_backend'), 'backend');
+    $field->addOption(I18n::msg('cronjob_environment_script'), 'script');
 
     $field = $form->addRadioField('execution_moment');
-    $field->setLabel(rex_i18n::msg('cronjob_execution'));
-    $field->addOption(rex_i18n::msg('cronjob_execution_beginning'), 1);
-    $field->addOption(rex_i18n::msg('cronjob_execution_ending'), 0);
+    $field->setLabel(I18n::msg('cronjob_execution'));
+    $field->addOption(I18n::msg('cronjob_execution_beginning'), 1);
+    $field->addOption(I18n::msg('cronjob_execution_ending'), 0);
     if ('add' == $func) {
         $field->setValue(0);
     }
 
     $field = $form->addRadioField('status');
-    $field->setLabel(rex_i18n::msg('status'));
-    $field->addOption(rex_i18n::msg('cronjob_status_activated'), 1);
-    $field->addOption(rex_i18n::msg('cronjob_status_deactivated'), 0);
+    $field->setLabel(I18n::msg('status'));
+    $field->addOption(I18n::msg('cronjob_status_activated'), 1);
+    $field->addOption(I18n::msg('cronjob_status_deactivated'), 0);
     if ('add' == $func) {
         $field->setValue(1);
     }
 
     $field = $form->addSelectField('type');
     $field->setAttribute('class', 'form-control selectpicker');
-    $field->setLabel(rex_i18n::msg('cronjob_type'));
+    $field->setLabel(I18n::msg('cronjob_type'));
     $select = $field->getSelect();
     $select->setSize(1);
     $typeFieldId = rex_escape($field->getAttribute('id'), 'js');
@@ -200,14 +201,14 @@ if ('' == $func) {
 
     if ('add' != $func && !in_array($activeType, $types)) {
         if (!$activeType && !$field->getValue()) {
-            $warning = rex_i18n::rawMsg('cronjob_not_found');
+            $warning = I18n::rawMsg('cronjob_not_found');
         } else {
-            $warning = rex_i18n::rawMsg('cronjob_type_not_found', $field->getValue(), $activeType);
+            $warning = I18n::rawMsg('cronjob_type_not_found', $field->getValue(), $activeType);
         }
         rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning]));
     }
 
-    $form->addFieldset(rex_i18n::msg('cronjob_type_parameters'));
+    $form->addFieldset(I18n::msg('cronjob_type_parameters'));
 
     $fieldContainer = $form->addContainerField('parameters');
     $fieldContainer->setAttribute('style', 'display: none');
@@ -216,9 +217,9 @@ if ('' == $func) {
         $fieldContainer->setActive(rex_string::normalize($activeType));
     }
 
-    $form->addFieldset(rex_i18n::msg('cronjob_interval'));
+    $form->addFieldset(I18n::msg('cronjob_interval'));
     $field = $form->addIntervalField('interval');
-    $field->getValidator()->add('custom', rex_i18n::msg('cronjob_error_interval_incomplete'), static function (string $interval) {
+    $field->getValidator()->add('custom', I18n::msg('cronjob_error_interval_incomplete'), static function (string $interval) {
         /** @psalm-suppress MixedAssignment */
         foreach (json_decode($interval) as $value) {
             if ([] === $value) {
@@ -245,7 +246,7 @@ if ('' == $func) {
         $params = $cronjob->getParamFields();
 
         if (empty($params)) {
-            $field = $fieldContainer->addGroupedField($group, 'readonly', 'noparams', rex_i18n::msg('cronjob_type_no_parameters'));
+            $field = $fieldContainer->addGroupedField($group, 'readonly', 'noparams', I18n::msg('cronjob_type_no_parameters'));
             $field->setLabel('&nbsp;');
         } else {
             foreach ($params as $param) {

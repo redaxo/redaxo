@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Translation\I18n;
+
 /**
  * @internal
  */
@@ -18,7 +20,7 @@ class rex_form_restrictons_element extends rex_form_select_element
     {
         parent::__construct('', $form, $attributes);
 
-        $this->setNotice(rex_i18n::msg('ctrl'));
+        $this->setNotice(I18n::msg('ctrl'));
     }
 
     public function setAllCheckboxLabel(string $label): void

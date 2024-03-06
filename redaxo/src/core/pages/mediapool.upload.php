@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -18,7 +19,7 @@ $csrf = rex_csrf_token::factory('mediapool');
 
 if ('add_file' == $mediaMethod) {
     if (!$csrf->isValid()) {
-        echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+        echo rex_view::error(I18n::msg('csrf_token_invalid'));
     } else {
         global $warning;
         if (rex_post('save', 'boolean') || rex_post('saveandexit', 'boolean')) {
@@ -33,7 +34,7 @@ if ('add_file' == $mediaMethod) {
 
             try {
                 $data = rex_media_service::addMedia($data, true, rex_post('args', 'array'));
-                $info = rex_i18n::msg('pool_file_added');
+                $info = I18n::msg('pool_file_added');
                 if (rex_post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {
                         if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {

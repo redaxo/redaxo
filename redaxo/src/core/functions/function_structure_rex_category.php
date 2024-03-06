@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * Regelt die Rechte an den einzelnen Kategorien und gibt den Pfad aus
@@ -40,7 +41,7 @@ if ($object) {
     }
 }
 
-$title = '<a class="rex-link-expanded" href="' . rex_url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . rex_i18n::msg('root_level') . '</a>';
+$title = '<a class="rex-link-expanded" href="' . rex_url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . I18n::msg('root_level') . '</a>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('id', 'rex-js-structure-breadcrumb', false);

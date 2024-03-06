@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -27,7 +28,7 @@ class rex_api_install_package_add extends rex_api_function
         }
 
         if ($message) {
-            $message = rex_i18n::msg('install_warning_addon_not_downloaded', $addonkey) . '<br />' . $message;
+            $message = I18n::msg('install_warning_addon_not_downloaded', $addonkey) . '<br />' . $message;
             $success = false;
         } else {
             $package = rex_addon::get($addonkey);
@@ -36,9 +37,9 @@ class rex_api_install_package_add extends rex_api_function
                 'function' => 'install',
             ] + rex_api_package::getUrlParams());
 
-            $message = rex_i18n::msg('install_info_addon_downloaded', $addonkey)
-                . ' <a href="' . rex_url::backendPage('packages', ['mark' => $addonkey]) . '">' . rex_i18n::msg('install_to_addon_page') . '</a>'
-                . ' | <a href="' . $packageInstallUrl . '">' . rex_i18n::msg('install_to_addon_page_install') . '</a>';
+            $message = I18n::msg('install_info_addon_downloaded', $addonkey)
+                . ' <a href="' . rex_url::backendPage('packages', ['mark' => $addonkey]) . '">' . I18n::msg('install_to_addon_page') . '</a>'
+                . ' | <a href="' . $packageInstallUrl . '">' . I18n::msg('install_to_addon_page_install') . '</a>';
 
             $success = true;
             unset($_REQUEST['addonkey']);

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($errors) && is_array($errors));
@@ -10,17 +11,17 @@ $tablesComplete = '' == rex_setup_importer::verifyDbSchema();
 
 $createdb = rex_post('createdb', 'int', '');
 
-$headline = rex_view::title(rex_i18n::msg('setup_400') . $cancelSetupBtn);
+$headline = rex_view::title(I18n::msg('setup_400') . $cancelSetupBtn);
 
 $content = '
             <fieldset class="rex-js-setup-step-4">
             ';
 
-$submitMessage = rex_i18n::msg('setup_411');
+$submitMessage = I18n::msg('setup_411');
 if (count($errors) > 0) {
-    $errors[] = rex_view::error(rex_i18n::msg('setup_403'));
+    $errors[] = rex_view::error(I18n::msg('setup_403'));
     $headline .= implode('', $errors);
-    $submitMessage = rex_i18n::msg('setup_412');
+    $submitMessage = I18n::msg('setup_412');
 }
 
 foreach (rex_setup::checkDbSecurity() as $message) {
@@ -79,28 +80,28 @@ if (is_dir($exportDir)) {
 $formElements = [];
 
 $n = [];
-$n['label'] = '<label for="rex-form-createdb-0">' . rex_i18n::msg('setup_404') . '</label>';
+$n['label'] = '<label for="rex-form-createdb-0">' . I18n::msg('setup_404') . '</label>';
 $n['field'] = '<input type="radio" id="rex-form-createdb-0" name="createdb" value="' . rex_setup::DB_MODE_SETUP_NO_OVERRIDE . '"' . $dbchecked[0] . ' />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-createdb-1">' . rex_i18n::msg('setup_405') . '</label>';
+$n['label'] = '<label for="rex-form-createdb-1">' . I18n::msg('setup_405') . '</label>';
 $n['field'] = '<input type="radio" id="rex-form-createdb-1" name="createdb" value="' . rex_setup::DB_MODE_SETUP_AND_OVERRIDE . '"' . $dbchecked[1] . ' />';
-$n['note'] = rex_i18n::msg('setup_405_note');
+$n['note'] = I18n::msg('setup_405_note');
 $formElements[] = $n;
 
 if ($tablesComplete) {
     $n = [];
-    $n['label'] = '<label for="rex-form-createdb-2">' . rex_i18n::msg('setup_406') . '</label>';
+    $n['label'] = '<label for="rex-form-createdb-2">' . I18n::msg('setup_406') . '</label>';
     $n['field'] = '<input type="radio" id="rex-form-createdb-2" name="createdb" value="' . rex_setup::DB_MODE_SETUP_SKIP . '"' . $dbchecked[2] . ' />';
-    $n['note'] = rex_i18n::msg('setup_406_note');
+    $n['note'] = I18n::msg('setup_406_note');
     $formElements[] = $n;
 }
 
 $n = [];
-$n['label'] = '<label for="rex-form-createdb-4">' . rex_i18n::msg('setup_414') . '</label>';
+$n['label'] = '<label for="rex-form-createdb-4">' . I18n::msg('setup_414') . '</label>';
 $n['field'] = '<input type="radio" id="rex-form-createdb-4" name="createdb" value="' . rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS . '"' . $dbchecked[4] . ' />';
-$n['note'] = rex_i18n::msg('setup_414_note');
+$n['note'] = I18n::msg('setup_414_note');
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -110,7 +111,7 @@ $mode = $fragment->parse('core/form/radio.php');
 if ($exportsFound) {
     $formElements = [];
     $n = [];
-    $n['label'] = '<label for="rex-form-createdb-3">' . rex_i18n::msg('setup_407') . '</label>';
+    $n['label'] = '<label for="rex-form-createdb-3">' . I18n::msg('setup_407') . '</label>';
     $n['field'] = '<input type="radio" id="rex-form-createdb-3" name="createdb" value="' . rex_setup::DB_MODE_SETUP_IMPORT_BACKUP . '"' . $dbchecked[3] . ' />';
     $formElements[] = $n;
 
@@ -121,7 +122,7 @@ if ($exportsFound) {
     $formElements = [];
     $n = [];
     $n['field'] = $selExport->get();
-    $n['note'] = rex_i18n::msg('backup_version_warning');
+    $n['note'] = I18n::msg('backup_version_warning');
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -134,12 +135,12 @@ $formElements = [];
 $sql = Sql::factory();
 
 $n = [];
-$n['label'] = '<label>' . rex_i18n::msg('version') . '</label>';
+$n['label'] = '<label>' . I18n::msg('version') . '</label>';
 $n['field'] = '<p class="form-control-static">' . $sql->getDbType() . ' ' . $sql->getDbVersion() . '</p>';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label class="required">' . rex_i18n::msg('mode') . '</label>';
+$n['label'] = '<label class="required">' . I18n::msg('mode') . '</label>';
 $n['field'] = $mode;
 $formElements[] = $n;
 
@@ -178,7 +179,7 @@ $content .= '
 echo $headline;
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('setup_401'), false);
+$fragment->setVar('title', I18n::msg('setup_401'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

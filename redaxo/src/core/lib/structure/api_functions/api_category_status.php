@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
@@ -17,7 +18,7 @@ class rex_api_category_status extends rex_api_function
         // Check permissions
         if ($user->getComplexPerm('structure')->hasCategoryPerm($categoryId) && $user->hasPerm('publishCategory[]')) {
             rex_category_service::categoryStatus($categoryId, $clang, $status);
-            return new rex_api_result(true, rex_i18n::msg('category_status_updated'));
+            return new rex_api_result(true, I18n::msg('category_status_updated'));
         }
 
         throw new rex_api_exception('User has no permission for this category!');

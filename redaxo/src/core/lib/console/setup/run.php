@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Translation\I18n;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,7 +29,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     {
         $this
             ->setDescription('Perform redaxo setup')
-            ->addOption('lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"', null, static fn () => rex_i18n::getLocales())
+            ->addOption('lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"', null, static fn () => I18n::getLocales())
             ->addOption('agree-license', null, InputOption::VALUE_NONE, 'Accept license terms and conditions') // BC, not used anymore
             ->addOption('server', null, InputOption::VALUE_REQUIRED, 'Website URL e.g. "https://example.org/"')
             ->addOption('servername', null, InputOption::VALUE_REQUIRED, 'Website name')
@@ -71,8 +72,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         // ---------------------------------- Step 1 . Language
         $io->title('Step 1 of 5 / Language');
         $langs = [];
-        foreach (rex_i18n::getLocales() as $locale) {
-            $langs[$locale] = rex_i18n::msgInLocale('lang', $locale);
+        foreach (I18n::getLocales() as $locale) {
+            $langs[$locale] = I18n::msgInLocale('lang', $locale);
         }
         ksort($langs);
 
@@ -482,7 +483,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     $this->io->warning($warning);
                 }
             } else {
-                $this->io->success(rex_i18n::msg('setup_208', PHP_VERSION));
+                $this->io->success(I18n::msg('setup_208', PHP_VERSION));
             }
         } else {
             $errors = array_map($this->decodeMessage(...), $errors);
@@ -499,7 +500,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     foreach ($messages as $message) {
                         $affectedFiles[] = '- ' . rex_path::relative($message);
                     }
-                    $errors[] = rex_i18n::msg($key) . "\n" . implode("\n", $affectedFiles);
+                    $errors[] = I18n::msg($key) . "\n" . implode("\n", $affectedFiles);
                 }
             }
 

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Translation\I18n;
 
 /**
  * Ausgabe des Medienpool Formulars.
@@ -24,7 +25,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     $catsSel->setSelected($rexFileCategory);
 
     if (Core::requireUser()->getComplexPerm('media')->hasAll()) {
-        $catsSel->addOption(rex_i18n::msg('pool_kats_no'), '0');
+        $catsSel->addOption(I18n::msg('pool_kats_no'), '0');
     }
 
     if (isset($warning)) {
@@ -65,7 +66,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
 
     $addSubmit = '';
     if ($closeForm && '' != $openerInputField) {
-        $addSubmit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . Core::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>';
+        $addSubmit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . I18n::msg('pool_file_upload_get') . '"' . Core::getAccesskey(I18n::msg('save_and_close_tooltip'), 'save') . '>' . I18n::msg('pool_file_upload_get') . '</button>';
     }
 
     $panel = '';
@@ -73,12 +74,12 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     $formElements = [];
 
     $e = [];
-    $e['label'] = '<label for="rex-mediapool-category">' . rex_i18n::msg('pool_file_category') . '</label>';
+    $e['label'] = '<label for="rex-mediapool-category">' . I18n::msg('pool_file_category') . '</label>';
     $e['field'] = $catsSel->get();
     $formElements[] = $e;
 
     $e = [];
-    $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
+    $e['label'] = '<label for="rex-mediapool-title">' . I18n::msg('pool_file_title') . '</label>';
     $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle) . '" maxlength="255" />';
     $formElements[] = $e;
 
@@ -90,13 +91,13 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
 
     if ($fileChooser) {
         $e = [];
-        $e['label'] = '<label for="rex-mediapool-choose-file">' . rex_i18n::msg('pool_file_file') . '</label>';
+        $e['label'] = '<label for="rex-mediapool-choose-file">' . I18n::msg('pool_file_file') . '</label>';
         $e['field'] = '<input id="rex-mediapool-choose-file" type="file" name="file_new" />';
-        $e['after'] = '<h3>' . rex_i18n::msg('phpini_settings') . '</h3>
+        $e['after'] = '<h3>' . I18n::msg('phpini_settings') . '</h3>
                         <dl class="dl-horizontal text-left">
-                        ' . ((0 == rex_ini_get('file_uploads')) ? '<dt><span class="text-warning">' . rex_i18n::msg('pool_upload') . '</span></dt><dd><span class="text-warning">' . rex_i18n::msg('pool_upload_disabled') . '</span></dd>' : '') . '
-                            <dt>' . rex_i18n::msg('pool_max_uploadsize') . ':</dt><dd>' . rex_formatter::bytes(rex_ini_get('upload_max_filesize')) . '</dd>
-                            <dt>' . rex_i18n::msg('pool_max_uploadtime') . ':</dt><dd>' . rex_ini_get('max_input_time') . 's</dd>
+                        ' . ((0 == rex_ini_get('file_uploads')) ? '<dt><span class="text-warning">' . I18n::msg('pool_upload') . '</span></dt><dd><span class="text-warning">' . I18n::msg('pool_upload_disabled') . '</span></dd>' : '') . '
+                            <dt>' . I18n::msg('pool_max_uploadsize') . ':</dt><dd>' . rex_formatter::bytes(rex_ini_get('upload_max_filesize')) . '</dd>
+                            <dt>' . I18n::msg('pool_max_uploadtime') . ':</dt><dd>' . rex_ini_get('max_input_time') . 's</dd>
                         </dl>';
 
         $fragment = new rex_fragment();
@@ -148,7 +149,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
  */
 function rex_mediapool_Uploadform($rexFileCategory)
 {
-    return rex_mediapool_Mediaform(rex_i18n::msg('pool_file_insert'), rex_i18n::msg('pool_file_upload'), $rexFileCategory, true, true);
+    return rex_mediapool_Mediaform(I18n::msg('pool_file_insert'), I18n::msg('pool_file_upload'), $rexFileCategory, true, true);
 }
 
 /**
@@ -157,5 +158,5 @@ function rex_mediapool_Uploadform($rexFileCategory)
  */
 function rex_mediapool_Syncform($rexFileCategory)
 {
-    return rex_mediapool_Mediaform(rex_i18n::msg('pool_sync_title'), rex_i18n::msg('pool_sync_button'), $rexFileCategory, false, false);
+    return rex_mediapool_Mediaform(I18n::msg('pool_sync_title'), I18n::msg('pool_sync_button'), $rexFileCategory, false, false);
 }
