@@ -34,7 +34,11 @@ use Rector\Renaming\Rector\StaticCall\RenameStaticMethodRector;
 use Rector\Renaming\ValueObject\MethodCallRename;
 use Rector\Renaming\ValueObject\RenameStaticMethod;
 use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
+use Rector\Transform\Rector\FuncCall\FuncCallToStaticCallRector;
+use Rector\Transform\Rector\New_\NewToStaticCallRector;
 use Rector\Transform\ValueObject\ConstFetchToClassConstFetch;
+use Rector\Transform\ValueObject\FuncCallToStaticCall;
+use Rector\Transform\ValueObject\NewToStaticCall;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Rector\Rule\UnderscoreToCamelCasePropertyNameRector;
 use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
@@ -111,18 +115,39 @@ return RectorConfig::configure()
         new MethodCallRename(rex_addon::class, 'getAvailablePackages', 'getAvailableAddons'),
         new MethodCallRename(rex_addon::class, 'getSetupPackages', 'getSetupAddons'),
         new MethodCallRename(rex_addon::class, 'getSystemPackages', 'getSystemAddons'),
+
         new MethodCallRename(rex_password_policy::class, 'getRule', 'getDescription'),
+
         new MethodCallRename(rex_article_content_base::class, 'getClang', 'getClangId'),
         new MethodCallRename(rex_article_slice::class, 'getClang', 'getClangId'),
         new MethodCallRename(rex_structure_element::class, 'getClang', 'getClangId'),
+
         new MethodCallRename(rex_managed_media::class, 'getImageWidth', 'getWidth'),
         new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
+
         new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
     ])
     ->withConfiguredRule(RenameStaticMethodRector::class, [
         new RenameStaticMethod(Redaxo\Core\Core::class, 'getVersionHash', rex_version::class, 'gitHash'),
         new RenameStaticMethod(rex_string::class, 'versionSplit', rex_version::class, 'split'),
         new RenameStaticMethod(rex_string::class, 'versionCompare', rex_version::class, 'compare'),
+    ])
+    ->withConfiguredRule(NewToStaticCallRector::class, [
+        new NewToStaticCall(rex_backend_password_policy::class, rex_backend_password_policy::class, 'factory'),
+    ])
+    ->withConfiguredRule(FuncCallToStaticCallRector::class, [
+        new FuncCallToStaticCall('rex_mediapool_filename', rex_mediapool::class, 'filename'),
+        new FuncCallToStaticCall('rex_mediapool_mediaIsInUse', rex_mediapool::class, 'mediaIsInUse'),
+        new FuncCallToStaticCall('rex_mediapool_isAllowedMediaType', rex_mediapool::class, 'isAllowedExtension'),
+        new FuncCallToStaticCall('rex_mediapool_isAllowedMimeType', rex_mediapool::class, 'isAllowedMimeType'),
+        new FuncCallToStaticCall('rex_mediapool_getMediaTypeWhitelist', rex_mediapool::class, 'getAllowedExtensions'),
+        new FuncCallToStaticCall('rex_mediapool_getMediaTypeBlacklist', rex_mediapool::class, 'getBlockedExtensions'),
+
+        // additional adjustments necessary afterward, see https://github.com/redaxo/redaxo/pull/5918/files
+        new FuncCallToStaticCall('rex_mediapool_saveMedia', rex_mediapool::class, 'addMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_updateMedia', rex_mediapool::class, 'updateMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_syncFile', rex_mediapool::class, 'addMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_deleteMedia', rex_mediapool::class, 'deleteMedia'), // different return value
     ])
     ->withConfiguredRule(RemoveFuncCallArgRector::class, [
         new RemoveFuncCallArg('rex_getUrl', 3),
@@ -147,6 +172,7 @@ return RectorConfig::configure()
     ])
     ->withConfiguredRule(ConstFetchToClassConstFetchRector::class, [
         new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', rex_form::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
+
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TEXT', rex_metainfo_table_manager::class, 'FIELD_TEXT'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TEXTAREA', rex_metainfo_table_manager::class, 'FIELD_TEXTAREA'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_SELECT', rex_metainfo_table_manager::class, 'FIELD_SELECT'),
