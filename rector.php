@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use PhpParser\Node\Expr;
+use PhpParser\Node\Name;
 use Rector\Arguments\Rector\ClassMethod\ReplaceArgumentDefaultValueRector;
 use Rector\Arguments\ValueObject\ReplaceArgumentDefaultValue;
 use Rector\CodeQuality\Rector\Assign\CombinedAssignRector;
@@ -164,11 +166,19 @@ return RectorConfig::configure()
         new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
         new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_media_manager::class, 'getUrl', 3, null),
+
+        new ArgumentRemover(rex_markdown::class, 'parse', 1, [true]),
+        new ArgumentRemover(rex_markdown::class, 'parseWithToc', 3, [true]),
     ])
     ->withConfiguredRule(ReplaceArgumentDefaultValueRector::class, [
         new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_ADDED', 'SLICE_ADDED'),
         new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_UPDATED', 'SLICE_UPDATED'),
         new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_DELETED', 'SLICE_DELETED'),
+
+        new ReplaceArgumentDefaultValue(rex_markdown::class, 'parse', 1, false, $options = [
+            new Expr\ArrayItem(new Expr\ConstFetch(new Name('false')), new Expr\ClassConstFetch(new Name(rex_markdown::class), 'SOFT_LINE_BREAKS')),
+        ]),
+        new ReplaceArgumentDefaultValue(rex_markdown::class, 'parseWithToc', 3, false, $options),
     ])
     ->withConfiguredRule(ConstFetchToClassConstFetchRector::class, [
         new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', rex_form::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
