@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 class rex_addon implements rex_addon_interface
@@ -131,12 +132,12 @@ class rex_addon implements rex_addon_interface
 
     public function getPath($file = '')
     {
-        return rex_path::addon($this->getName(), $file);
+        return Path::addon($this->getName(), $file);
     }
 
     public function getAssetsPath($file = '')
     {
-        return rex_path::addonAssets($this->getName(), $file);
+        return Path::addonAssets($this->getName(), $file);
     }
 
     public function getAssetsUrl($file = '')
@@ -146,12 +147,12 @@ class rex_addon implements rex_addon_interface
 
     public function getDataPath($file = '')
     {
-        return rex_path::addonData($this->getName(), $file);
+        return Path::addonData($this->getName(), $file);
     }
 
     public function getCachePath($file = '')
     {
-        return rex_path::addonCache($this->getName(), $file);
+        return Path::addonCache($this->getName(), $file);
     }
 
     public function isSystemPackage()
@@ -294,7 +295,7 @@ class rex_addon implements rex_addon_interface
         static $cache = null;
         if (null === $cache) {
             /** @var array<string, array{timestamp: int, data: array<string, mixed>}> $cache */
-            $cache = File::getCache(rex_path::coreCache(self::PROPERTIES_CACHE_FILE));
+            $cache = File::getCache(Path::coreCache(self::PROPERTIES_CACHE_FILE));
         }
         $id = $this->getPackageId();
 
@@ -321,7 +322,7 @@ class rex_addon implements rex_addon_interface
                                 unset($cache[$package]);
                             }
                         }
-                        File::putCache(rex_path::coreCache(self::PROPERTIES_CACHE_FILE), $cache);
+                        File::putCache(Path::coreCache(self::PROPERTIES_CACHE_FILE), $cache);
                     });
                 }
             } catch (rex_yaml_parse_exception $exception) {
@@ -365,7 +366,7 @@ class rex_addon implements rex_addon_interface
             throw new rex_functional_exception($this->i18n('cache_not_writable', $cacheDir));
         }
 
-        $cache = File::getCache($path = rex_path::coreCache(self::PROPERTIES_CACHE_FILE));
+        $cache = File::getCache($path = Path::coreCache(self::PROPERTIES_CACHE_FILE));
         if ($cache) {
             unset($cache[$this->getPackageId()]);
 

@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 // Für größere Exports den Speicher für PHP erhöhen.
@@ -190,7 +191,7 @@ $selDirs->setMultiple();
 $selDirs->setSelected($EXPDIR);
 $selDirs->setStyle('class="form-control"');
 
-$dir = rex_path::frontend();
+$dir = Path::frontend();
 $folders = rex_finder::factory($dir)
     ->dirsOnly()
     ->ignoreDirs('.*')
@@ -202,7 +203,7 @@ if ($countFolders > 4) {
     $selDirs->setSize($countFolders);
 }
 foreach ($folders as $path => $_) {
-    $file = rex_path::basename($path);
+    $file = Path::basename($path);
     $selDirs->addOption($file, $file);
 }
 

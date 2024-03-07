@@ -5,7 +5,6 @@ namespace Redaxo\Core\Filesystem;
 use Redaxo\Core\Core;
 use rex_exception;
 use rex_formatter;
-use rex_path;
 use rex_string;
 use rex_timer;
 
@@ -107,7 +106,7 @@ class File
             }
 
             // mimic a atomic write
-            $tmpFile = @tempnam(dirname($file), rex_path::basename($file));
+            $tmpFile = @tempnam(dirname($file), Path::basename($file));
             if (false !== file_put_contents($tmpFile, $content) && self::move($tmpFile, $file)) {
                 @chmod($file, Core::getFilePerm());
                 return true;
@@ -202,7 +201,7 @@ class File
             if (is_file($srcfile)) {
                 if (is_dir($dstfile)) {
                     $dstdir = rtrim($dstfile, DIRECTORY_SEPARATOR);
-                    $dstfile = $dstdir . DIRECTORY_SEPARATOR . rex_path::basename($srcfile);
+                    $dstfile = $dstdir . DIRECTORY_SEPARATOR . Path::basename($srcfile);
                 } else {
                     $dstdir = dirname($dstfile);
                     Dir::create($dstdir);

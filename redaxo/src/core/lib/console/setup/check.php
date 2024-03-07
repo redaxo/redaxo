@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,7 +39,7 @@ class rex_command_setup_check extends rex_console_command
                 if (count($messages) > 0) {
                     $affectedFiles = [];
                     foreach ($messages as $message) {
-                        $affectedFiles[] = rex_path::relative($message);
+                        $affectedFiles[] = Path::relative($message);
                     }
                     $errors[] = I18n::msg($key) . "\n" . implode("\n", $affectedFiles);
                 }
@@ -52,7 +53,7 @@ class rex_command_setup_check extends rex_console_command
         }
 
         $config = null;
-        $configFile = rex_path::coreData('config.yml');
+        $configFile = Path::coreData('config.yml');
         if ($configFile) {
             $config = File::getConfig($configFile);
         }

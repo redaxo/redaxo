@@ -1,6 +1,7 @@
 <?php
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -30,9 +31,9 @@ $isSetup = ('setup' === rex_be_controller::getCurrentPage());
 
                     <div class="navbar-header">
                         <?php if ($isPopup): ?>
-                            <span class="navbar-brand"><?= File::get(rex_path::coreAssets('redaxo-logo.svg')) ?></span>
+                            <span class="navbar-brand"><?= File::get(Path::coreAssets('redaxo-logo.svg')) ?></span>
                         <?php else: ?>
-                            <a class="navbar-brand" href="<?= rex_url::backendController() ?>"><?= File::get(rex_path::coreAssets('redaxo-logo.svg')) ?></a>
+                            <a class="navbar-brand" href="<?= rex_url::backendController() ?>"><?= File::get(Path::coreAssets('redaxo-logo.svg')) ?></a>
                         <?php endif ?>
                         <?php if (!$isPopup && Core::getUser()?->isAdmin() && Core::isDebugMode()): ?>
                             <a class="rex-marker-debugmode" href="<?= rex_url::backendPage('system/settings') ?>" title="<?= I18n::msg('debug_mode_marker') ?>">

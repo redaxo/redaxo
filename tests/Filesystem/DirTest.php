@@ -5,7 +5,7 @@ namespace Redaxo\Core\Tests\Filesystem;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
-use rex_path;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * @internal
@@ -28,7 +28,7 @@ class DirTest extends TestCase
 
     private function getPath(string $file = ''): string
     {
-        return rex_path::addonData('tests', 'rex_dir_test/' . $file);
+        return Path::addonData('tests', 'rex_dir_test/' . $file);
     }
 
     public function testCreate(): void

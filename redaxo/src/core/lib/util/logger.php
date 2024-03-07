@@ -2,6 +2,7 @@
 
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * Simple Logger class.
@@ -20,7 +21,7 @@ class rex_logger extends AbstractLogger
      */
     public static function getPath()
     {
-        return rex_path::log('system.log');
+        return Path::log('system.log');
     }
 
     /**
@@ -109,7 +110,7 @@ class rex_logger extends AbstractLogger
 
         $logData = [$level, $message];
         if ($file && $line || $url) {
-            $logData[] = $file ? rex_path::relative($file) : '';
+            $logData[] = $file ? Path::relative($file) : '';
             $logData[] = $line ?? '';
             if ($url) {
                 $logData[] = $url;

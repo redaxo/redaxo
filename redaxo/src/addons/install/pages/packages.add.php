@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($markdown) && is_callable($markdown));
@@ -15,7 +16,7 @@ echo rex_api_function::getMessage();
 try {
     $addons = rex_install_packages::getAddPackages();
 
-    $config = File::getCache(rex_path::addonData('install', 'config.json'), []);
+    $config = File::getCache(Path::addonData('install', 'config.json'), []);
     if (isset($config['api_login']) && $config['api_login'] && isset($config['api_key'])) {
         echo rex_view::info($package->i18n('info_myredaxo'));
     }

@@ -6,6 +6,7 @@ use Clockwork\Support\Vanilla\Clockwork as VanillaClockwork;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * @internal
@@ -94,7 +95,7 @@ class rex_debug_clockwork
             return Core::isDebugMode();
         }
 
-        $coreConfigCacheFile = rex_path::coreCache('config.yml.cache');
+        $coreConfigCacheFile = Path::coreCache('config.yml.cache');
         $coreConfigCache = File::getCache($coreConfigCacheFile);
         /** @var bool $debugEnabled */
         $debugEnabled = $coreConfigCache['debug']['enabled'] ?? false;

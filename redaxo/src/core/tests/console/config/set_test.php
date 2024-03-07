@@ -3,6 +3,7 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -14,13 +15,13 @@ class rex_command_config_set_test extends TestCase
 
     protected function setUp(): void
     {
-        $configPath = rex_path::coreData('config.yml');
+        $configPath = Path::coreData('config.yml');
         $this->initialConfig = file_get_contents($configPath);
     }
 
     protected function tearDown(): void
     {
-        $configPath = rex_path::coreData('config.yml');
+        $configPath = Path::coreData('config.yml');
         file_put_contents($configPath, $this->initialConfig);
     }
 
@@ -33,7 +34,7 @@ class rex_command_config_set_test extends TestCase
             'config-key' => 'test',
             'value' => $value,
         ]);
-        $config = File::getConfig(rex_path::coreData('config.yml'));
+        $config = File::getConfig(Path::coreData('config.yml'));
         self::assertArrayHasKey('test', $config);
         self::assertIsBool($config['test']);
         self::assertEquals($expectedValue, $config['test']);

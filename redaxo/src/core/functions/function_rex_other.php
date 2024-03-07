@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -13,7 +14,7 @@ function rex_delete_cache()
     // close logger, so the logfile can also be deleted
     rex_logger::close();
 
-    $finder = rex_finder::factory(rex_path::cache())
+    $finder = rex_finder::factory(Path::cache())
         ->recursive()
         ->childFirst()
         ->ignoreFiles(['.htaccess', '.redaxo'], false)

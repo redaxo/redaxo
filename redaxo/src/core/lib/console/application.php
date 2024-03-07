@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -104,7 +105,7 @@ class rex_console_application extends Application
 
         if (function_exists('posix_getuid')) {
             $currentuser = posix_getpwuid(posix_getuid());
-            $webuser = posix_getpwuid(fileowner(rex_path::backend()));
+            $webuser = posix_getpwuid(fileowner(Path::backend()));
             if ($currentuser['name'] !== $webuser['name']) {
                 $io->warning([
                     'Current user: ' . $currentuser['name'] . "\nOwner of redaxo: " . $webuser['name'],

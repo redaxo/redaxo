@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($context) && $context instanceof rex_context);
@@ -7,8 +8,8 @@ assert(isset($errorArray) && is_array($errorArray));
 assert(isset($config) && is_array($config));
 assert(isset($cancelSetupBtn));
 
-$configFile = rex_path::coreData('config.yml');
-$headline = rex_view::title(I18n::msg('setup_300', rex_path::relative($configFile)) . $cancelSetupBtn);
+$configFile = Path::coreData('config.yml');
+$headline = rex_view::title(I18n::msg('setup_300', Path::relative($configFile)) . $cancelSetupBtn);
 
 $content = '';
 

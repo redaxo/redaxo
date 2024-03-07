@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 class rex_effect_header extends rex_effect_abstract
@@ -30,7 +31,7 @@ class rex_effect_header extends rex_effect_abstract
         }
 
         $disposition = 'download' == $this->params['download'] ? 'attachment' : 'inline';
-        $disposition .= '; filename="' . rex_path::basename($this->media->getMediaFilename()) . '"';
+        $disposition .= '; filename="' . Path::basename($this->media->getMediaFilename()) . '"';
 
         if ('originalname' == $this->params['filename']) {
             $disposition .= "; filename*=utf-8''" . rawurldecode(rex_media::get($this->media->getMediaFilename())->getOriginalFileName());

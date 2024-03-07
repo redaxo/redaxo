@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * @internal
@@ -10,7 +11,7 @@ class rex_managed_media_test extends TestCase
     public function testConstructor(): void
     {
         $filename = 'CHANGELOG.md';
-        $path = rex_path::addon('media_manager', $filename);
+        $path = Path::addon('media_manager', $filename);
 
         $media = new rex_managed_media($path);
 
@@ -19,7 +20,7 @@ class rex_managed_media_test extends TestCase
         self::assertSame($path, $media->getSourcePath());
 
         $filename = 'non_existing.jpg';
-        $path = rex_path::addon($filename);
+        $path = Path::addon($filename);
 
         $media = new rex_managed_media($path);
 

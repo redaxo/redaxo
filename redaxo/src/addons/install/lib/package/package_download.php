@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -26,7 +27,7 @@ abstract class rex_install_package_download
      */
     public function run(string $addonkey, int $fileId): string
     {
-        $this->addonkey = rex_path::basename($addonkey); // the addonkey is used in file paths
+        $this->addonkey = Path::basename($addonkey); // the addonkey is used in file paths
         $this->fileId = $fileId;
 
         $packages = $this->getPackages();

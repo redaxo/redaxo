@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * @internal
@@ -34,7 +35,7 @@ class rex_finder_test extends TestCase
 
     public function getPath(string $file = ''): string
     {
-        return rex_path::addonData('tests', 'rex_finder_test/' . $file);
+        return Path::addonData('tests', 'rex_finder_test/' . $file);
     }
 
     /**
