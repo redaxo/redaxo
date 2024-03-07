@@ -1,19 +1,19 @@
 <?php
 
-use Redaxo\Core\Filesystem\PathDefaultProvider;
+use Redaxo\Core\Filesystem\DefaultPathProvider;
 
 /**
  * Utility class to generate relative URLs.
  */
 class rex_url
 {
-    /** @var PathDefaultProvider */
+    /** @var DefaultPathProvider */
     protected static $pathprovider;
 
     /**
      * Initializes the class.
      *
-     * @param PathDefaultProvider $pathprovider A path provider
+     * @param DefaultPathProvider $pathprovider A path provider
      * @return void
      */
     public static function init($pathprovider)

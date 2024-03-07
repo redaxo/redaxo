@@ -14,13 +14,13 @@ use const DIRECTORY_SEPARATOR;
  */
 class Path
 {
-    /** @var PathDefaultProvider */
+    /** @var DefaultPathProvider */
     protected static $pathprovider;
 
     /**
      * Initializes the class.
      *
-     * @param PathDefaultProvider $pathprovider A path provider
+     * @param DefaultPathProvider $pathprovider A path provider
      * @return void
      */
     public static function init($pathprovider)

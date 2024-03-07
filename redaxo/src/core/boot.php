@@ -1,9 +1,9 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Filesystem\PathDefaultProvider;
 use Redaxo\Core\Translation\I18n;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -53,10 +53,10 @@ if (ini_get('html_errors')) {
 require_once dirname(__DIR__, 3) . '/vendor/autoload.php';
 
 if (isset($REX['PATH_PROVIDER']) && is_object($REX['PATH_PROVIDER'])) {
-    /** @var PathDefaultProvider */
+    /** @var DefaultPathProvider */
     $pathProvider = $REX['PATH_PROVIDER'];
 } else {
-    $pathProvider = new PathDefaultProvider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true);
+    $pathProvider = new DefaultPathProvider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true);
 }
 
 Path::init($pathProvider);
@@ -65,10 +65,10 @@ Path::init($pathProvider);
 mb_internal_encoding('UTF-8');
 
 if (isset($REX['URL_PROVIDER']) && is_object($REX['URL_PROVIDER'])) {
-    /** @var PathDefaultProvider */
+    /** @var DefaultPathProvider */
     $urlProvider = $REX['URL_PROVIDER'];
 } else {
-    $urlProvider = new PathDefaultProvider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false);
+    $urlProvider = new DefaultPathProvider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false);
 }
 
 rex_url::init($urlProvider);

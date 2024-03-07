@@ -9,7 +9,7 @@ use const DIRECTORY_SEPARATOR;
 /**
  * Utility class to generate absolute paths.
  */
-class PathDefaultProvider
+class DefaultPathProvider
 {
     /** @var non-empty-string */
     protected $base;
