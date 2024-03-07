@@ -1,13 +1,18 @@
 <?php
 
+namespace Redaxo\Core\Tests\Filesystem;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Path;
 
+use const DIRECTORY_SEPARATOR;
+use const PHP_BINARY;
+
 /**
  * @internal
  */
-class rex_path_test extends TestCase
+class PathTest extends TestCase
 {
     public function testAbsoluteConversion(): void
     {
