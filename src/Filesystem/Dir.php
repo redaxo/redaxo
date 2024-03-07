@@ -8,6 +8,11 @@ use rex_finder;
 use SplFileInfo;
 use Traversable;
 
+use function dirname;
+use function strlen;
+
+use const DIRECTORY_SEPARATOR;
+
 /**
  * Class for handling directories.
  */
