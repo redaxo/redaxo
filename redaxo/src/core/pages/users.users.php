@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Validator\Validator;
 
 $currentUser = Core::requireUser();
 
@@ -107,7 +108,7 @@ if ($save && ($fUNCADD || $fUNCUPDATE || $fUNCAPPLY)) {
         $warnings[] = I18n::msg('csrf_token_invalid');
     }
 
-    if ($useremail && !rex_validator::factory()->email($useremail)) {
+    if ($useremail && !Validator::factory()->email($useremail)) {
         $warnings[] = I18n::msg('invalid_email');
     }
 

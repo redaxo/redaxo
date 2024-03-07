@@ -3,6 +3,7 @@
 namespace Redaxo\Core;
 
 use InvalidArgumentException;
+use Redaxo\Core\Validator\Validator;
 use rex_backend_login;
 use rex_config;
 use rex_config_db;
@@ -14,7 +15,6 @@ use rex_setup;
 use rex_timer;
 use rex_type;
 use rex_user;
-use rex_validator;
 use Symfony\Component\HttpFoundation\Request;
 
 use function constant;
@@ -126,13 +126,13 @@ class Core
                 }
                 break;
             case 'server':
-                if (!rex_validator::factory()->url($value)) {
+                if (!Validator::factory()->url($value)) {
                     throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be a full URL!');
                 }
                 $value = rtrim($value, '/') . '/';
                 break;
             case 'error_email':
-                if (null !== $value && !rex_validator::factory()->email($value)) {
+                if (null !== $value && !Validator::factory()->email($value)) {
                     throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be an email address!');
                 }
                 break;

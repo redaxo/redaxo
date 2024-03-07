@@ -1,6 +1,8 @@
 <?php
 
-final class rex_validation_rule
+namespace Redaxo\Core\Validator;
+
+final class ValidationRule
 {
     public const NOT_EMPTY = 'notEmpty';
     public const MIN_LENGTH = 'minLength';
@@ -14,7 +16,7 @@ final class rex_validation_rule
     public const VALUES = 'values';
     public const CUSTOM = 'custom';
 
-    /** @var rex_validation_rule::*|string */
+    /** @var ValidationRule::*|string */
     private $type;
     /** @var string|null */
     private $message;
@@ -22,7 +24,7 @@ final class rex_validation_rule
     private $option;
 
     /**
-     * @param rex_validation_rule::*|string $type Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory
+     * @param ValidationRule::*|string $type Validator type, e.g. one of ValidationRule::* but could also be extended via rex-factory
      * @param string|null $message Message which is used if this validator type does not match
      * @param mixed $option Type specific option
      */
@@ -34,9 +36,9 @@ final class rex_validation_rule
     }
 
     /**
-     * Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory.
+     * Validator type, e.g. one of ValidationRule::* but could also be extended via rex-factory.
      *
-     * @return rex_validation_rule::*|string $type
+     * @return ValidationRule::*|string $type
      */
     public function getType(): string
     {

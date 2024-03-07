@@ -1,10 +1,17 @@
 <?php
 
-class rex_validator
+namespace Redaxo\Core\Validator;
+
+use InvalidArgumentException;
+use rex_factory_trait;
+
+use function in_array;
+
+class Validator
 {
     use rex_factory_trait;
 
-    /** @var list<rex_validation_rule> */
+    /** @var list<\Redaxo\Core\Validator\ValidationRule> */
     private $rules = [];
     /** @var string|null */
     private $message;
@@ -38,7 +45,7 @@ class rex_validator
      */
     public function add($type, $message = null, $option = null)
     {
-        return $this->addRule(new rex_validation_rule($type, $message, $option));
+        return $this->addRule(new ValidationRule($type, $message, $option));
     }
 
     /**
@@ -48,7 +55,7 @@ class rex_validator
      *
      * @return $this
      */
-    public function addRule(rex_validation_rule $rule)
+    public function addRule(ValidationRule $rule)
     {
         $type = $rule->getType();
 
@@ -62,7 +69,7 @@ class rex_validator
     }
 
     /**
-     * @return list<rex_validation_rule>
+     * @return list<\Redaxo\Core\Validator\ValidationRule>
      */
     public function getRules(): array
     {

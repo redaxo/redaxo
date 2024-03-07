@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Validator\ValidationRule;
 
 $func = rex_request('func', 'string');
 $oid = rex_request('oid', 'int');
@@ -142,13 +143,13 @@ if ('' == $func) {
     $field = $form->addTextField('name');
     $field->setLabel(I18n::msg('cronjob_name'));
     $field->getValidator()
-        ->add(rex_validation_rule::NOT_EMPTY, I18n::msg('cronjob_error_no_name'))
-        ->add(rex_validation_rule::MAX_LENGTH, null, 255)
+        ->add(ValidationRule::NOT_EMPTY, I18n::msg('cronjob_error_no_name'))
+        ->add(ValidationRule::MAX_LENGTH, null, 255)
     ;
 
     $field = $form->addTextAreaField('description');
     $field->setLabel(I18n::msg('description'));
-    $field->getValidator()->add(rex_validation_rule::MAX_LENGTH, null, 255);
+    $field->getValidator()->add(ValidationRule::MAX_LENGTH, null, 255);
 
     $field = $form->addCheckboxField('environment');
     $field->setLabel(I18n::msg('cronjob_environment'));
