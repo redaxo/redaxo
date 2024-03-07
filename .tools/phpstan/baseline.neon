@@ -701,7 +701,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/media_manager/effects/effect_convert2img.php
 
 		-
-			message: "#^Static method rex_path\\:\\:coreCache\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
+			message: "#^Static method Redaxo\\\\Core\\\\Filesystem\\\\Path\\:\\:coreCache\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/media_manager/effects/effect_convert2img.php
 

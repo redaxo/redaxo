@@ -49,19 +49,16 @@ if (ini_get('html_errors')) {
     ini_set('html_errors', '0');
 }
 
-require_once __DIR__ . '/lib/util/path.php';
+require_once dirname(__DIR__, 3) . '/vendor/autoload.php';
 
 if (isset($REX['PATH_PROVIDER']) && is_object($REX['PATH_PROVIDER'])) {
     /** @var PathDefaultProvider */
     $pathProvider = $REX['PATH_PROVIDER'];
 } else {
-    require_once __DIR__ . '/lib/util/path_default_provider.php';
     $pathProvider = new PathDefaultProvider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true);
 }
 
 Path::init($pathProvider);
-
-require_once Path::base('vendor/autoload.php');
 
 // must be called after autoloader to support symfony/polyfill-mbstring
 mb_internal_encoding('UTF-8');
