@@ -311,7 +311,7 @@ class Path
      * If the path is outside of the base path, the absolute path will be kept.
      *
      * @param string $absPath
-     * @param string|null $basePath Defaults to `rex_path::base()`
+     * @param string|null $basePath Defaults to `Path::base()`
      *
      * @return string
      */
