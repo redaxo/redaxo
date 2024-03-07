@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
+
 class rex_module
 {
     /** @var int */
@@ -54,7 +56,7 @@ class rex_module
         }
 
         $file = rex_module_cache::getKeyMappingPath();
-        $mapping = rex_file::getCache($file, null);
+        $mapping = File::getCache($file, null);
 
         if (null !== $mapping) {
             return $mapping;
@@ -62,6 +64,6 @@ class rex_module
 
         rex_module_cache::generateKeyMapping();
 
-        return $mapping = rex_file::getCache($file);
+        return $mapping = File::getCache($file);
     }
 }

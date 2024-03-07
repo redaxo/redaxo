@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 $step = rex_request('step', 'int', 1);
@@ -95,8 +96,8 @@ $errorArray = [];
 
 $configFile = rex_path::coreData('config.yml');
 $config = array_merge(
-    rex_file::getConfig(rex_path::core('default.config.yml')),
-    rex_file::getConfig($configFile),
+    File::getConfig(rex_path::core('default.config.yml')),
+    File::getConfig($configFile),
 );
 
 if (isset($_SERVER['HTTP_HOST']) && 'https://www.redaxo.org/' == $config['server']) {
@@ -162,7 +163,7 @@ if ($step > 3) {
     }
 
     if (0 == count($errorArray)) {
-        if (!rex_file::putConfig($configFile, $config)) {
+        if (!File::putConfig($configFile, $config)) {
             $errorArray[] = rex_view::error(I18n::msg('setup_301', rex_path::relative($configFile)));
         }
     }

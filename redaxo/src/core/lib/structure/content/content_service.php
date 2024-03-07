@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 class rex_content_service
@@ -362,7 +363,7 @@ class rex_content_service
                 'article' => $CONT,
             ]));
 
-            if (!rex_file::put($articleContentFile, $articleContent)) {
+            if (!File::put($articleContentFile, $articleContent)) {
                 throw new rex_exception(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, rex_path::coreCache('structure/')));
             }
 

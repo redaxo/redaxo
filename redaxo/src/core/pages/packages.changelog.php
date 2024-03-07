@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 $content = '';
@@ -7,7 +8,7 @@ $content = '';
 $package = rex_addon::get(rex_request('package', 'string'));
 
 if (is_readable($package->getPath('CHANGELOG.md'))) {
-    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('CHANGELOG.md')), 1, 2, [
+    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(File::require($package->getPath('CHANGELOG.md')), 1, 2, [
         rex_markdown::SOFT_LINE_BREAKS => false,
         rex_markdown::HIGHLIGHT_PHP => true,
     ]);

@@ -3,6 +3,7 @@
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 
 /**
  * @internal
@@ -36,7 +37,7 @@ class rex_log_file_test extends TestCase
         self::assertFileDoesNotExist($path2);
 
         $content = str_repeat('abc', 5);
-        rex_file::put($path, $content);
+        File::put($path, $content);
 
         new rex_log_file($path, 20);
         self::assertFileDoesNotExist($path2);
@@ -59,7 +60,7 @@ class rex_log_file_test extends TestCase
             %i-%i-%iT%i:%i:%i%i:%i | test1a | test1b
             %i-%i-%iT%i:%i:%i%i:%i | test2a | test2b | test2c
             EOF;
-        self::assertStringMatchesFormat($format, rex_file::require($path));
+        self::assertStringMatchesFormat($format, File::require($path));
     }
 
     #[Depends('testConstruct')]
@@ -70,7 +71,7 @@ class rex_log_file_test extends TestCase
         self::assertSame([], iterator_to_array($log));
 
         unset($log); // free handles to the underlying file
-        rex_file::put($path, <<<'EOF'
+        File::put($path, <<<'EOF'
             2013-08-27 23:07:02 | test1a | test1b
             2013-08-27 23:09:43 | test2a | test2b
             EOF
@@ -83,7 +84,7 @@ class rex_log_file_test extends TestCase
         self::assertEquals($expected, iterator_to_array($log));
 
         unset($log); // free handles to the underlying file
-        rex_file::put($path . '.2', <<<'EOF'
+        File::put($path . '.2', <<<'EOF'
 
             2013-08-27 22:19:02 | test3
 
@@ -101,8 +102,8 @@ class rex_log_file_test extends TestCase
     {
         $path = $this->getPath('delete.log');
         $path2 = $path . '.2';
-        rex_file::put($path, '');
-        rex_file::put($path2, '');
+        File::put($path, '');
+        File::put($path2, '');
 
         rex_log_file::delete($path);
 

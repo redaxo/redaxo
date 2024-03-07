@@ -92,14 +92,6 @@
       <code><![CDATA[rex_stream::factory('action/' . $articleId . '/' . $type, $action)]]></code>
     </TaintedInclude>
   </file>
-  <file src="redaxo/src/core/lib/util/file.php">
-    <TaintedFile>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-    </TaintedFile>
-  </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <TaintedCallable>
       <code><![CDATA[$data]]></code>
@@ -117,5 +109,13 @@
       <code><![CDATA[$query]]></code>
       <code><![CDATA[$query]]></code>
     </TaintedSql>
+  </file>
+  <file src="src/Filesystem/File.php">
+    <TaintedFile>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+    </TaintedFile>
   </file>
 </files>

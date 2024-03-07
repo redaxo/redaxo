@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 class rex_media_manager
@@ -279,7 +280,7 @@ class rex_media_manager
         }
 
         /** @var array{media_path: ?string, media_filename: string, format: string, headers: array<string, string>}|null $cache */
-        $cache = rex_file::getCache($this->getHeaderCacheFilename(), null);
+        $cache = File::getCache($this->getHeaderCacheFilename(), null);
 
         return $this->cache = $cache;
     }
@@ -299,7 +300,7 @@ class rex_media_manager
             $counter += self::deleteCache(null, (string) $row->getValue('name'));
         }
 
-        rex_file::delete(rex_path::coreCache('media_manager/types.cache'));
+        File::delete(rex_path::coreCache('media_manager/types.cache'));
 
         return $counter;
     }
@@ -312,7 +313,7 @@ class rex_media_manager
     public static function deleteCache($filename = null, $type = null)
     {
         if (null === $filename) {
-            rex_file::delete(rex_path::coreCache('media_manager/types.cache'));
+            File::delete(rex_path::coreCache('media_manager/types.cache'));
         }
 
         $filename = ($filename ?: '') . '*';
@@ -327,7 +328,7 @@ class rex_media_manager
         $glob = glob($folder . $type . '/' . $filename, GLOB_NOSORT);
         if ($glob) {
             foreach ($glob as $file) {
-                if (rex_file::delete($file)) {
+                if (File::delete($file)) {
                     ++$counter;
                 }
             }
@@ -575,7 +576,7 @@ class rex_media_manager
         $file = rex_path::coreCache('media_manager/types.cache');
 
         /** @var array<string, int>|null $cache */
-        $cache = rex_file::getCache($file, null);
+        $cache = File::getCache($file, null);
 
         if (null !== $cache) {
             return $cache;
@@ -590,7 +591,7 @@ class rex_media_manager
             $cache[(string) $row->getValue('name')] = (int) $row->getDateTimeValue('updatedate');
         }
 
-        rex_file::putCache($file, $cache);
+        File::putCache($file, $cache);
 
         return $cache;
     }

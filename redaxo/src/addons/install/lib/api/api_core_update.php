@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -75,7 +76,7 @@ class rex_api_install_core_update extends rex_api_function
                         continue;
                     }
 
-                    $config = rex_file::getConfig($addonPath . rex_addon::FILE_PACKAGE);
+                    $config = File::getConfig($addonPath . rex_addon::FILE_PACKAGE);
                     if (
                         '' == $addonkey ||
                         !isset($config['version']) ||
@@ -97,7 +98,7 @@ class rex_api_install_core_update extends rex_api_function
                     }
                 }
             }
-            // $config = rex_file::getConfig($temppath . 'core/default.config.yml');
+            // $config = File::getConfig($temppath . 'core/default.config.yml');
             // foreach ($config['system_addons'] as $addonkey) {
             //    if (is_dir($temppath . 'addons/' . $addonkey) && rex_addon::exists($addonkey)) {
             //        $updateAddons[$addonkey] = rex_addon::get($addonkey);
@@ -134,7 +135,7 @@ class rex_api_install_core_update extends rex_api_function
             }
 
             // create backup
-            $installConfig = rex_file::getCache($installAddon->getDataPath('config.json'));
+            $installConfig = File::getCache($installAddon->getDataPath('config.json'));
             $pathCore = rex_path::core();
             if (isset($installConfig['backups']) && $installConfig['backups']) {
                 Dir::create($installAddon->getDataPath());
@@ -188,7 +189,7 @@ class rex_api_install_core_update extends rex_api_function
         } catch (rex_sql_exception $e) {
             $message = 'SQL error: ' . $e->getMessage();
         } finally {
-            rex_file::delete($archivefile);
+            File::delete($archivefile);
         }
 
         if ($message) {

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 
 class rex_module_cache
 {
@@ -12,7 +13,7 @@ class rex_module_cache
 
     public static function deleteKeyMapping(): void
     {
-        rex_file::delete(self::getKeyMappingPath());
+        File::delete(self::getKeyMappingPath());
     }
 
     public static function generateKeyMapping(): void
@@ -20,7 +21,7 @@ class rex_module_cache
         $data = Sql::factory()->getArray('SELECT id, `key` FROM ' . Core::getTable('module') . ' WHERE `key` IS NOT NULL');
         $mapping = array_column($data, 'key', 'id');
 
-        if (!rex_file::putCache(self::getKeyMappingPath(), $mapping)) {
+        if (!File::putCache(self::getKeyMappingPath(), $mapping)) {
             throw new rex_exception('Unable to generate module key mapping.');
         }
     }

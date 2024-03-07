@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 class rex_cronjob_export extends rex_cronjob
@@ -43,7 +44,7 @@ class rex_cronjob_export extends rex_cronjob
                 $compressor = new rex_backup_file_compressor();
                 $gzPath = $compressor->gzCompress($exportFilePath);
                 if ($gzPath) {
-                    rex_file::delete($exportFilePath);
+                    File::delete($exportFilePath);
 
                     $message = rex_path::basename($gzPath) . ' created';
                     $exportFilePath = $gzPath;
@@ -85,7 +86,7 @@ class rex_cronjob_export extends rex_cronjob
                     }
 
                     // dann löschen
-                    rex_file::delete($backup);
+                    File::delete($backup);
                     ++$countDeleted;
                 }
 

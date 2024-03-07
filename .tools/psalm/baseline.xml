@@ -1263,7 +1263,7 @@
       <code><![CDATA[self::$data[$namespace][$key]]]></code>
     </MixedAssignment>
     <MixedPropertyTypeCoercion>
-      <code><![CDATA[rex_file::getCache(self::$cacheFile)]]></code>
+      <code><![CDATA[File::getCache(self::$cacheFile)]]></code>
     </MixedPropertyTypeCoercion>
     <MixedReturnStatement>
       <code><![CDATA[self::$data[$namespace][$key] ?? $default]]></code>
@@ -2362,10 +2362,10 @@
       <code><![CDATA[self::getInstanceList([$this->getId(), 'media'], rex_media::get(...), static function ($id) {
             $listPath = rex_path::coreCache('mediapool/' . $id . '.mlist');
 
-            $list = rex_file::getCache($listPath, null);
+            $list = File::getCache($listPath, null);
             if (null === $list) {
                 rex_media_cache::generateList($id);
-                $list = rex_file::getCache($listPath);
+                $list = File::getCache($listPath);
             }
 
             return $list;
@@ -2422,7 +2422,7 @@
       <code><![CDATA[rex_mediapool::getBlockedExtensions()]]></code>
     </MixedArgumentTypeCoercion>
     <PossiblyNullOperand>
-      <code><![CDATA[rex_file::mimeType($data['file']['path'])]]></code>
+      <code><![CDATA[File::mimeType($data['file']['path'])]]></code>
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/mediapool/service_media_category.php">
@@ -3099,7 +3099,7 @@
     </MixedReturnStatement>
     <MixedReturnTypeCoercion>
       <code><![CDATA[$mapping]]></code>
-      <code><![CDATA[$mapping = rex_file::getCache($file)]]></code>
+      <code><![CDATA[$mapping = File::getCache($file)]]></code>
     </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/structure/content/api_template.php">
@@ -3122,7 +3122,7 @@
     </MixedReturnStatement>
     <MixedReturnTypeCoercion>
       <code><![CDATA[$mapping]]></code>
-      <code><![CDATA[$mapping = rex_file::getCache($file)]]></code>
+      <code><![CDATA[$mapping = File::getCache($file)]]></code>
     </MixedReturnTypeCoercion>
     <NullableReturnStatement>
       <code><![CDATA[Core::getConfig('default_template_id', 1)]]></code>
@@ -3669,14 +3669,6 @@
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$_SERVER['SERVER_PROTOCOL']]]></code>
     </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/core/lib/util/file.php">
-    <MixedInferredReturnType>
-      <code><![CDATA[array<mixed>|T]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[null === $content ? $default : json_decode($content, true)]]></code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/util/finder.php">
     <MixedArgument>
@@ -5034,6 +5026,14 @@
       <code><![CDATA[$query]]></code>
       <code><![CDATA[$ret[]]]></code>
     </MixedAssignment>
+  </file>
+  <file src="src/Filesystem/File.php">
+    <MixedInferredReturnType>
+      <code><![CDATA[array<mixed>|T]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[null === $content ? $default : json_decode($content, true)]]></code>
+    </MixedReturnStatement>
   </file>
   <file src="src/Translation/I18n.php">
     <ArgumentTypeCoercion>

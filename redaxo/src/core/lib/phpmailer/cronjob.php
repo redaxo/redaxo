@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 class rex_cronjob_mailer_purge extends rex_cronjob
@@ -13,7 +14,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
                 if (is_dir($file)) {
                     $log += self::purgeMailarchive($days, $file);
                 } elseif ((time() - filemtime($file)) > (60 * 60 * 24 * $days)) {
-                    if (rex_file::delete($file)) {
+                    if (File::delete($file)) {
                         ++$log;
                     }
                 }

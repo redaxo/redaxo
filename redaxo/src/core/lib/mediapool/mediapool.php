@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 final class rex_mediapool
@@ -109,7 +110,7 @@ final class rex_mediapool
      */
     public static function isAllowedExtension(string $filename, array $args = []): bool
     {
-        $fileExt = mb_strtolower(rex_file::extension($filename));
+        $fileExt = mb_strtolower(File::extension($filename));
 
         if ('' === $filename || str_contains($fileExt, ' ') || '' === $fileExt) {
             return false;
@@ -147,13 +148,13 @@ final class rex_mediapool
             return true;
         }
 
-        $extension = mb_strtolower(rex_file::extension($filename ?: $path));
+        $extension = mb_strtolower(File::extension($filename ?: $path));
 
         if (!isset($allowedMimetypes[$extension])) {
             return false;
         }
 
-        $mimeType = rex_file::mimeType($path);
+        $mimeType = File::mimeType($path);
 
         return in_array($mimeType, $allowedMimetypes[$extension]);
     }

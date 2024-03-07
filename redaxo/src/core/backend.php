@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 header('X-Robots-Tag: noindex, nofollow, noarchive');
@@ -26,16 +27,16 @@ if (rex_get('asset') && rex_get('buster')) {
         throw new Exception('Assets can only be streamed from within the assets folder. "' . $fullPath . '" is not within "' . $assetDir . '"');
     }
 
-    $ext = rex_file::extension($assetFile);
+    $ext = File::extension($assetFile);
     if ('js' === $ext) {
-        $js = rex_file::require($assetFile);
+        $js = File::require($assetFile);
 
         $js = preg_replace('@^//# sourceMappingURL=.*$@m', '', $js);
 
         rex_response::sendCacheControl('max-age=31536000, immutable');
         rex_response::sendContent($js, 'application/javascript');
     } elseif ('css' === $ext) {
-        $styles = rex_file::require($assetFile);
+        $styles = File::require($assetFile);
 
         // If we are in a directory off the root, add a relative path here back to the root, like "../"
         // get the public path to this file, plus the baseurl
@@ -167,11 +168,11 @@ if (Core::isSetup()) {
                 if (Core::getProperty('safe_mode')) {
                     $configFile = rex_path::coreData('config.yml');
                     $config = array_merge(
-                        rex_file::getConfig(rex_path::core('default.config.yml')),
-                        rex_file::getConfig($configFile),
+                        File::getConfig(rex_path::core('default.config.yml')),
+                        File::getConfig($configFile),
                     );
                     $config['safe_mode'] = false;
-                    rex_file::putConfig($configFile, $config);
+                    File::putConfig($configFile, $config);
                 }
             }
         }

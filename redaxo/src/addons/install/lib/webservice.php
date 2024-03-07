@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -74,7 +75,7 @@ class rex_install_webservice
             $response = $socket->doGet();
             if ($response->isOk()) {
                 $filename = rex_path::basename($url);
-                $file = rex_path::addonCache('install', rtrim(md5($filename) . '.' . rex_file::extension($filename), '.'));
+                $file = rex_path::addonCache('install', rtrim(md5($filename) . '.' . File::extension($filename), '.'));
                 $response->writeBodyTo($file);
                 return $file;
             }
@@ -173,7 +174,7 @@ class rex_install_webservice
         static $config;
         if (null === $config) {
             /** @var array<string, string> $config */
-            $config = rex_file::getCache(rex_path::addonData('install', 'config.json'));
+            $config = File::getCache(rex_path::addonData('install', 'config.json'));
         }
 
         if (isset($config['api_login']) && $config['api_login'] && isset($config['api_key'])) {
@@ -201,7 +202,7 @@ class rex_install_webservice
         } else {
             self::$cache = [];
         }
-        rex_file::putCache(rex_path::addonCache('install', 'webservice.cache'), self::$cache);
+        File::putCache(rex_path::addonCache('install', 'webservice.cache'), self::$cache);
     }
 
     /**
@@ -228,7 +229,7 @@ class rex_install_webservice
     {
         if (null === self::$cache) {
             /** @var array<string, array{stamp: int, data: array}> $cache */
-            $cache = (array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache'));
+            $cache = (array) File::getCache(rex_path::addonCache('install', 'webservice.cache'));
             foreach ($cache as $path => $pathCache) {
                 if ($pathCache['stamp'] > time() - self::REFRESH_CACHE) {
                     self::$cache[$path] = $pathCache;
@@ -248,6 +249,6 @@ class rex_install_webservice
     {
         self::$cache[$path]['stamp'] = time();
         self::$cache[$path]['data'] = $data;
-        rex_file::putCache(rex_path::addonCache('install', 'webservice.cache'), self::$cache);
+        File::putCache(rex_path::addonCache('install', 'webservice.cache'), self::$cache);
     }
 }

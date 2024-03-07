@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Filesystem\File;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -32,7 +33,7 @@ class rex_command_config_set_test extends TestCase
             'config-key' => 'test',
             'value' => $value,
         ]);
-        $config = rex_file::getConfig(rex_path::coreData('config.yml'));
+        $config = File::getConfig(rex_path::coreData('config.yml'));
         self::assertArrayHasKey('test', $config);
         self::assertIsBool($config['test']);
         self::assertEquals($expectedValue, $config['test']);

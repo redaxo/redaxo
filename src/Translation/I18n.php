@@ -5,10 +5,10 @@ namespace Redaxo\Core\Translation;
 use InvalidArgumentException;
 use Locale;
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\File;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
-use rex_file;
 use rex_finder;
 
 use function call_user_func;
@@ -447,7 +447,7 @@ class I18n
         $locale = self::validateLocale($locale);
 
         $file = $dir . DIRECTORY_SEPARATOR . $locale . '.lang';
-        if (!($content = rex_file::get($file))) {
+        if (!($content = File::get($file))) {
             return;
         }
         if (!preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
