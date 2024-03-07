@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+use Redaxo\Core\Filesystem\Dir;
+
 require dirname(__DIR__) . '/bootstrap.php';
 
 // avoid PREG_JIT_STACKLIMIT_ERROR, changelog parts can be long
@@ -25,9 +27,9 @@ class rex_release
     {
         $this->path = rex_path::base('releases/' . $this->version);
         if (file_exists($this->path)) {
-            rex_dir::deleteFiles($this->path);
+            Dir::deleteFiles($this->path);
         }
-        rex_dir::create($this->path);
+        Dir::create($this->path);
 
         $this->updateVersions();
 
