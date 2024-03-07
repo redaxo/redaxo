@@ -2115,10 +2115,6 @@
       <code><![CDATA[$this->media->getMediaPath()]]></code>
       <code><![CDATA[$this->media->getMediaPath()]]></code>
     </PossiblyNullArgument>
-    <TooManyArguments>
-      <code><![CDATA[rex_path::coreCache('media_manager', 'media_manager__convert2img_' . md5($inputFile) . '.' . $convertTo['ext'])]]></code>
-      <code><![CDATA[rex_path::coreCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filenameWoExt . $convertTo['ext'])]]></code>
-    </TooManyArguments>
   </file>
   <file src="redaxo/src/core/lib/media_manager/effects/effect_crop.php">
     <MixedArgument>
