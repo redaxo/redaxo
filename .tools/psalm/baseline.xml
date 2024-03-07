@@ -337,10 +337,6 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[Core::getProperty('timezone', 'Europe/Berlin')]]></code>
     </ArgumentTypeCoercion>
-    <MissingFile>
-      <code><![CDATA[require_once __DIR__ . '/lib/util/path.php']]></code>
-      <code><![CDATA[require_once __DIR__ . '/lib/util/path_default_provider.php']]></code>
-    </MissingFile>
     <MixedArgument>
       <code><![CDATA[$ep->getParam('file')]]></code>
     </MixedArgument>
