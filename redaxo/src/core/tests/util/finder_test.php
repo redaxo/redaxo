@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Filesystem\Dir;
 
 /**
  * @internal
@@ -16,9 +17,9 @@ class rex_finder_test extends TestCase
         rex_file::put($this->getPath('dir1/file3.txt'), '');
         rex_file::put($this->getPath('dir2/file4.yml'), '');
         rex_file::put($this->getPath('dir2/dir/file5.yml'), '');
-        rex_dir::create($this->getPath('dir1/dir'));
-        rex_dir::create($this->getPath('dir2/dir1'));
-        rex_dir::create($this->getPath('dir'));
+        Dir::create($this->getPath('dir1/dir'));
+        Dir::create($this->getPath('dir2/dir1'));
+        Dir::create($this->getPath('dir'));
         rex_file::put($this->getPath('.DS_Store'), '');
         rex_file::put($this->getPath('dir1/Thumbs.db'), '');
     }
@@ -27,7 +28,7 @@ class rex_finder_test extends TestCase
     {
         parent::tearDown();
 
-        rex_dir::delete($this->getPath());
+        Dir::delete($this->getPath());
     }
 
     public function getPath(string $file = ''): string

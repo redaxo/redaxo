@@ -4,6 +4,7 @@ use Clockwork\Clockwork;
 use Clockwork\DataSource\XdebugDataSource;
 use Clockwork\Support\Vanilla\Clockwork as VanillaClockwork;
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Dir;
 
 /**
  * @internal
@@ -70,7 +71,7 @@ class rex_debug_clockwork
     {
         $storagePath = self::getStoragePath();
         if (!is_dir($storagePath)) {
-            rex_dir::create($storagePath);
+            Dir::create($storagePath);
         }
     }
 

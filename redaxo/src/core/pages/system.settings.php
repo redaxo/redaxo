@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
 $error = [];
@@ -28,7 +29,7 @@ if ($func && !$csrfToken->isValid()) {
     // generate all articles,cats,templates,caches
     $success = rex_delete_cache();
 } elseif ('updateassets' == $func && !Core::isLiveMode()) {
-    rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
+    Dir::copy(rex_path::core('assets'), rex_path::coreAssets());
 
     $files = require rex_path::core('vendor_files.php');
     foreach ($files as $source => $destination) {

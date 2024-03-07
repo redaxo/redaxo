@@ -1,11 +1,12 @@
 <?php
 
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
 $addon = rex_addon::get('debug');
 
 // the filenames contain rev hashes and the old ones would never be cleaned up
-rex_dir::delete($addon->getAssetsPath());
+Dir::delete($addon->getAssetsPath());
 
 // extract clockwork frontend
 $zipArchive = new ZipArchive();

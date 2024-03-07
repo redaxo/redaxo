@@ -1,12 +1,13 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
 $message = '';
 
 if ('' != rex_post('btn_delete_archive', 'string')) {
-    if (rex_dir::delete(rex_mailer::logFolder(), true)) {
+    if (Dir::delete(rex_mailer::logFolder(), true)) {
         echo rex_view::success(I18n::msg('phpmailer_archive_deleted'));
     }
 }

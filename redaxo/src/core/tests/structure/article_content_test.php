@@ -3,6 +3,7 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Dir;
 
 /**
  * @internal
@@ -54,7 +55,7 @@ class rex_article_content_test extends TestCase
             ->recursive()
             ->childFirst()
             ->ignoreSystemStuff(false);
-        rex_dir::deleteIterator($finder);
+        Dir::deleteIterator($finder);
 
         // reset static properties
         $class = new ReflectionClass(rex_article::class);

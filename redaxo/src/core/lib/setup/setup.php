@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -37,7 +38,7 @@ class rex_setup
         rex_delete_cache();
 
         // copy alle media files of the current rex-version into redaxo_media
-        rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
+        Dir::copy(rex_path::core('assets'), rex_path::coreAssets());
         // in a regular release the folder will never be empty, because we ship it prefilled.
         // provide a error message for 'git cloned' sources, to give newcomers a hint why the very first setup might look broken.
         // we intentionally dont check permissions here, as those will be checked in a later setup step.
@@ -97,7 +98,7 @@ class rex_setup
         };
 
         $func = static function ($dir) use (&$func, $getMod) {
-            if (!rex_dir::isWritable($dir)) {
+            if (!Dir::isWritable($dir)) {
                 return ['setup_204' => [$dir]];
             }
             $res = [];

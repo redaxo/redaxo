@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Dir;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -35,10 +36,10 @@ class rex_command_assets_sync extends rex_console_command
                 continue;
             }
             if (!is_dir($assetsPublicPath)) {
-                rex_dir::create($assetsPublicPath);
+                Dir::create($assetsPublicPath);
             }
             if (!is_dir($assetsSrcPath)) {
-                rex_dir::create($assetsSrcPath);
+                Dir::create($assetsSrcPath);
             }
 
             // sync 1st way, copies ...
@@ -61,10 +62,10 @@ class rex_command_assets_sync extends rex_console_command
         $assetsPublicPath = rex_path::coreAssets();
         $assetsSrcPath = rex_path::core('assets/');
         if (!is_dir($assetsPublicPath)) {
-            rex_dir::create($assetsPublicPath);
+            Dir::create($assetsPublicPath);
         }
         if (!is_dir($assetsSrcPath)) {
-            rex_dir::create($assetsSrcPath);
+            Dir::create($assetsSrcPath);
         }
 
         [$ctd, $upd, $err] = $this->sync($io, $assetsPublicPath, $assetsSrcPath);

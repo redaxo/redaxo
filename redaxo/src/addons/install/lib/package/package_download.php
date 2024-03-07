@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -61,7 +62,7 @@ abstract class rex_install_package_download
     protected function extractArchiveTo($dir)
     {
         if (!rex_install_archive::extract($this->archive, $dir, $this->addonkey)) {
-            rex_dir::delete($dir);
+            Dir::delete($dir);
             return I18n::msg('install_warning_addon_zip_not_extracted');
         }
         return true;

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -58,7 +59,7 @@ class rex_api_install_core_update extends rex_api_function
             }
 
             // remove temp dir very late otherwise Whoops could not find source files in case of errors
-            register_shutdown_function(static fn () => rex_dir::delete($temppath));
+            register_shutdown_function(static fn () => Dir::delete($temppath));
 
             if (!rex_install_archive::extract($archivefile, $temppath)) {
                 throw new rex_functional_exception($installAddon->i18n('warning_core_zip_not_extracted'));
@@ -136,7 +137,7 @@ class rex_api_install_core_update extends rex_api_function
             $installConfig = rex_file::getCache($installAddon->getDataPath('config.json'));
             $pathCore = rex_path::core();
             if (isset($installConfig['backups']) && $installConfig['backups']) {
-                rex_dir::create($installAddon->getDataPath());
+                Dir::create($installAddon->getDataPath());
                 $archive = $installAddon->getDataPath(strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', Core::getVersion())) . '.zip');
                 rex_install_archive::copyDirToArchive($pathCore, $archive);
                 foreach ($updateAddons as $addonkey => $addon) {
@@ -156,7 +157,7 @@ class rex_api_install_core_update extends rex_api_function
             // move new core to main core path
             if (@rename($temppath . 'core', $pathCore)) {
                 // remove temp path of old core
-                rex_dir::delete($pathOld);
+                Dir::delete($pathOld);
             } else {
                 // revert to old core
                 rename($pathOld, $pathCore);
@@ -167,7 +168,7 @@ class rex_api_install_core_update extends rex_api_function
             }
 
             if (is_dir(rex_path::core('assets'))) {
-                rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
+                Dir::copy(rex_path::core('assets'), rex_path::coreAssets());
             }
             foreach ($coreAddons as $addonkey) {
                 if (isset($updateAddons[$addonkey])) {
@@ -175,11 +176,11 @@ class rex_api_install_core_update extends rex_api_function
                     // move whole old addon to a temp dir (high priority to get the free space for new addon version)
                     // and try to delete it afterwards (lower priority)
                     rename(rex_path::addon($addonkey), $pathOld);
-                    rex_dir::delete($pathOld);
+                    Dir::delete($pathOld);
                 }
                 rename($temppath . 'addons/' . $addonkey, rex_path::addon($addonkey));
                 if (is_dir(rex_path::addon($addonkey, 'assets'))) {
-                    rex_dir::copy(rex_path::addon($addonkey, 'assets'), rex_path::addonAssets($addonkey));
+                    Dir::copy(rex_path::addon($addonkey, 'assets'), rex_path::addonAssets($addonkey));
                 }
             }
         } catch (rex_functional_exception $e) {

@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Tests\Translation;
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
-use rex_dir;
 use rex_file;
 use rex_path;
 
@@ -45,7 +45,7 @@ class I18nTest extends TestCase
 
     protected function tearDown(): void
     {
-        rex_dir::delete($this->getPath());
+        Dir::delete($this->getPath());
         I18n::setLocale($this->previousLocale, false);
     }
 
