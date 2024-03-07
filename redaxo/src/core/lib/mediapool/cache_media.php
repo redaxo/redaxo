@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 class rex_media_cache
@@ -14,7 +15,7 @@ class rex_media_cache
      */
     public static function delete($filename)
     {
-        rex_file::delete(Path::coreCache('mediapool/' . $filename . '.media'));
+        File::delete(Path::coreCache('mediapool/' . $filename . '.media'));
         rex_media::clearInstance($filename);
         self::deleteLists();
     }
@@ -27,7 +28,7 @@ class rex_media_cache
      */
     public static function deleteCategory($categoryId)
     {
-        rex_file::delete(Path::coreCache('mediapool/' . $categoryId . '.mcat'));
+        File::delete(Path::coreCache('mediapool/' . $categoryId . '.mcat'));
         rex_media_category::clearInstance($categoryId);
         self::deleteCategoryLists();
     }
@@ -43,7 +44,7 @@ class rex_media_cache
         $glob = glob($cachePath . '*.mlist', GLOB_NOSORT);
         if (is_array($glob)) {
             foreach ($glob as $file) {
-                rex_file::delete($file);
+                File::delete($file);
             }
         }
         rex_media_category::clearInstanceListPool();
@@ -57,7 +58,7 @@ class rex_media_cache
      */
     public static function deleteList($categoryId)
     {
-        rex_file::delete(Path::coreCache('mediapool/' . $categoryId . '.mlist'));
+        File::delete(Path::coreCache('mediapool/' . $categoryId . '.mlist'));
         rex_media_category::clearInstanceList([$categoryId, 'media']);
     }
 
@@ -72,7 +73,7 @@ class rex_media_cache
         $glob = glob($cachePath . '*.mclist', GLOB_NOSORT);
         if (is_array($glob)) {
             foreach ($glob as $file) {
-                rex_file::delete($file);
+                File::delete($file);
             }
         }
         rex_media_category::clearInstanceListPool();
@@ -86,7 +87,7 @@ class rex_media_cache
      */
     public static function deleteCategoryList($categoryId)
     {
-        rex_file::delete(Path::coreCache('mediapool/' . $categoryId . '.mclist'));
+        File::delete(Path::coreCache('mediapool/' . $categoryId . '.mclist'));
         rex_media_category::clearInstanceList([$categoryId, 'children']);
     }
 
@@ -117,7 +118,7 @@ class rex_media_cache
         }
 
         $mediaFile = Path::coreCache('mediapool/' . $filename . '.media');
-        return rex_file::putCache($mediaFile, $cacheArray);
+        return File::putCache($mediaFile, $cacheArray);
     }
 
     /**
@@ -152,7 +153,7 @@ class rex_media_cache
         }
 
         $catFile = Path::coreCache('mediapool/' . $categoryId . '.mcat');
-        return rex_file::putCache($catFile, $cacheArray);
+        return File::putCache($catFile, $cacheArray);
     }
 
     /**
@@ -180,7 +181,7 @@ class rex_media_cache
         }
 
         $listFile = Path::coreCache('mediapool/' . $categoryId . '.mlist');
-        return rex_file::putCache($listFile, $cacheArray);
+        return File::putCache($listFile, $cacheArray);
     }
 
     /**
@@ -209,6 +210,6 @@ class rex_media_cache
         }
 
         $listFile = Path::coreCache('mediapool/' . $categoryId . '.mclist');
-        return rex_file::putCache($listFile, $cacheArray);
+        return File::putCache($listFile, $cacheArray);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 #[AllowDynamicProperties]
@@ -242,7 +243,7 @@ class rex_clang
         if (!is_file($file)) {
             rex_clang_service::generateCache();
         }
-        foreach (rex_file::getCache($file) as $id => $data) {
+        foreach (File::getCache($file) as $id => $data) {
             $clang = new self();
             $clang->id = (int) $id;
             $clang->priority = (int) $data['priority'];

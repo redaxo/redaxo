@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -64,7 +65,7 @@ class rex_command_config_set extends rex_console_command implements rex_command_
         $path = explode('.', $key);
 
         $configFile = Path::coreData('config.yml');
-        $baseConfig = rex_file::getConfig($configFile);
+        $baseConfig = File::getConfig($configFile);
         $config = &$baseConfig;
 
         foreach ($path as $i => $pathPart) {
@@ -78,7 +79,7 @@ class rex_command_config_set extends rex_console_command implements rex_command_
             $config = &$config[$pathPart];
         }
 
-        if (rex_file::putConfig($configFile, $baseConfig)) {
+        if (File::putConfig($configFile, $baseConfig)) {
             $io->success('Config variable successfully saved.');
             return 0;
         }

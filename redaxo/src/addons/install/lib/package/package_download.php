@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -50,7 +51,7 @@ abstract class rex_install_package_download
                 $message = $msg;
             }
         } finally {
-            rex_file::delete($archivefile);
+            File::delete($archivefile);
         }
 
         return $message;

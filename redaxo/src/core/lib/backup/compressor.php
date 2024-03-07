@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
+
 /**
  * @internal
  */
@@ -49,7 +51,7 @@ class rex_backup_file_compressor
      */
     public function gzReadDeCompressed(string $source)
     {
-        if ('gz' !== rex_file::extension($source)) {
+        if ('gz' !== File::extension($source)) {
             throw new Exception('Expecting a file with .gz suffix');
         }
 

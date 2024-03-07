@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 /**
@@ -45,11 +46,11 @@ class rex_media_category
 
         return static::getInstance($id, static function ($id) {
             $catPath = Path::coreCache('mediapool/' . $id . '.mcat');
-            $cache = rex_file::getCache($catPath);
+            $cache = File::getCache($catPath);
 
             if (!$cache) {
                 rex_media_cache::generateCategory($id);
-                $cache = rex_file::getCache($catPath);
+                $cache = File::getCache($catPath);
             }
 
             if ($cache) {
@@ -98,10 +99,10 @@ class rex_media_category
         return self::getInstanceList([$parentId, 'children'], self::get(...), static function ($parentId) {
             $catlistPath = Path::coreCache('mediapool/' . $parentId . '.mclist');
 
-            $list = rex_file::getCache($catlistPath, null);
+            $list = File::getCache($catlistPath, null);
             if (null === $list) {
                 rex_media_cache::generateCategoryList($parentId);
-                $list = rex_file::getCache($catlistPath);
+                $list = File::getCache($catlistPath);
             }
 
             return $list;
@@ -249,10 +250,10 @@ class rex_media_category
         return self::getInstanceList([$this->getId(), 'media'], rex_media::get(...), static function ($id) {
             $listPath = Path::coreCache('mediapool/' . $id . '.mlist');
 
-            $list = rex_file::getCache($listPath, null);
+            $list = File::getCache($listPath, null);
             if (null === $list) {
                 rex_media_cache::generateList($id);
-                $list = rex_file::getCache($listPath);
+                $list = File::getCache($listPath);
             }
 
             return $list;

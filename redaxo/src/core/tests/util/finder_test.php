@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 /**
@@ -13,16 +14,16 @@ class rex_finder_test extends TestCase
     {
         parent::setUp();
 
-        rex_file::put($this->getPath('file1.txt'), '');
-        rex_file::put($this->getPath('file2.yml'), '');
-        rex_file::put($this->getPath('dir1/file3.txt'), '');
-        rex_file::put($this->getPath('dir2/file4.yml'), '');
-        rex_file::put($this->getPath('dir2/dir/file5.yml'), '');
+        File::put($this->getPath('file1.txt'), '');
+        File::put($this->getPath('file2.yml'), '');
+        File::put($this->getPath('dir1/file3.txt'), '');
+        File::put($this->getPath('dir2/file4.yml'), '');
+        File::put($this->getPath('dir2/dir/file5.yml'), '');
         Dir::create($this->getPath('dir1/dir'));
         Dir::create($this->getPath('dir2/dir1'));
         Dir::create($this->getPath('dir'));
-        rex_file::put($this->getPath('.DS_Store'), '');
-        rex_file::put($this->getPath('dir1/Thumbs.db'), '');
+        File::put($this->getPath('.DS_Store'), '');
+        File::put($this->getPath('dir1/Thumbs.db'), '');
     }
 
     protected function tearDown(): void

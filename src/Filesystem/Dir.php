@@ -3,7 +3,6 @@
 namespace Redaxo\Core\Filesystem;
 
 use Redaxo\Core\Core;
-use rex_file;
 use rex_finder;
 use SplFileInfo;
 use Traversable;
@@ -89,7 +88,7 @@ class Dir
             if ($srcfile->isDir()) {
                 $state = self::create($dstfile) && $state;
             } else {
-                $state = rex_file::copy($srcfilepath, $dstfile) && $state;
+                $state = File::copy($srcfilepath, $dstfile) && $state;
             }
         }
 
@@ -148,7 +147,7 @@ class Dir
                 // ignore warning "Directory not empty", there may already exist new files created by other page views
                 $state = @rmdir((string) $file) && $state;
             } else {
-                $state = rex_file::delete((string) $file) && $state;
+                $state = File::delete((string) $file) && $state;
             }
         }
 

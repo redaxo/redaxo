@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 /**
@@ -66,7 +67,7 @@ class rex_stream
             $path = Path::coreCache('stream/' . $path . '/' . $hash);
 
             if (!is_file($path)) {
-                rex_file::put($path, $content);
+                File::put($path, $content);
             }
 
             return $path;

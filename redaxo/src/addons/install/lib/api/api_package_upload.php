@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -66,7 +67,7 @@ class rex_api_install_package_upload extends rex_api_function
             throw new rex_api_exception($e->getMessage());
         } finally {
             if ($archive) {
-                rex_file::delete($archive);
+                File::delete($archive);
             }
         }
 

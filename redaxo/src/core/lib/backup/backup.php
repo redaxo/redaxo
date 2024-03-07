@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -95,7 +96,7 @@ class rex_backup
             return $returnError(I18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>');
         }
 
-        if ('gz' === rex_file::extension($filename)) {
+        if ('gz' === File::extension($filename)) {
             $compressor = new rex_backup_file_compressor();
             $conts = $compressor->gzReadDeCompressed($filename);
 
@@ -104,7 +105,7 @@ class rex_backup
                 return $returnError(I18n::msg('backup_no_valid_import_file') . '. Unable to decompress .gz');
             }
         } else {
-            $conts = rex_file::require($filename);
+            $conts = File::require($filename);
         }
 
         // Versionsstempel prüfen
@@ -325,14 +326,14 @@ class rex_backup
 
         // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
         if (rex_extension::isRegistered('BACKUP_AFTER_DB_EXPORT')) {
-            $content = rex_file::require($filename);
+            $content = File::require($filename);
             $hashBefore = md5($content);
             // ----- EXTENSION POINT
             $content = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_EXPORT', $content));
             $hashAfter = md5($content);
 
             if ($hashAfter != $hashBefore) {
-                rex_file::put($filename, $content);
+                File::put($filename, $content);
                 $hasContent = !empty($content);
                 unset($content);
             }
@@ -373,10 +374,10 @@ class rex_backup
                 $tmpArchivePath = tempnam(sys_get_temp_dir(), 'rex-file-export');
 
                 self::streamExport($folders, $tmpArchivePath);
-                return rex_file::get($tmpArchivePath);
+                return File::get($tmpArchivePath);
             } finally {
                 if ($tmpArchivePath) {
-                    rex_file::delete($tmpArchivePath);
+                    File::delete($tmpArchivePath);
                 }
             }
         }

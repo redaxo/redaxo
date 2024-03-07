@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -89,7 +90,7 @@ if ($export && !$csrfToken->isValid()) {
             if ($exportdl) {
                 $filename .= $ext;
                 rex_response::sendFile($exportPath . $filename, $header, 'attachment');
-                rex_file::delete($exportPath . $filename);
+                File::delete($exportPath . $filename);
                 exit;
             }
             $success = I18n::msg('backup_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');

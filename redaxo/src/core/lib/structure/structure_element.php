@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 /**
@@ -135,7 +136,7 @@ abstract class rex_structure_element
             $file = Path::coreCache('structure/' . $startId . '.1.article');
             if (!Core::isBackend() && is_file($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-                $genVars = rex_file::getCache($file, []);
+                $genVars = File::getCache($file, []);
                 unset($genVars['last_update_stamp']);
                 foreach ($genVars as $name => $value) {
                     self::$classVars[] = (string) $name;
@@ -187,12 +188,12 @@ abstract class rex_structure_element
             $articlePath = Path::coreCache('structure/' . $id . '.' . $clang . '.article');
 
             // load metadata from cache
-            $metadata = rex_file::getCache($articlePath);
+            $metadata = File::getCache($articlePath);
 
             // generate cache if not exists
             if (!$metadata) {
                 rex_article_cache::generateMeta($id, $clang);
-                $metadata = rex_file::getCache($articlePath);
+                $metadata = File::getCache($articlePath);
             }
 
             // if cache does not exist after generation, the article id is invalid
@@ -243,10 +244,10 @@ abstract class rex_structure_element
             static function ($parentId, $listType) {
                 $listFile = Path::coreCache('structure/' . $parentId . '.' . $listType);
 
-                $list = rex_file::getCache($listFile, null);
+                $list = File::getCache($listFile, null);
                 if (null === $list) {
                     rex_article_cache::generateLists($parentId);
-                    $list = rex_file::getCache($listFile);
+                    $list = File::getCache($listFile);
                 }
                 return $list;
             },

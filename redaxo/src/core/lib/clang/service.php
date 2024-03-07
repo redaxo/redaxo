@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -175,7 +176,7 @@ class rex_clang_service
         }
 
         $file = Path::coreCache('clang.cache');
-        if (!rex_file::putCache($file, $clangs)) {
+        if (!File::putCache($file, $clangs)) {
             throw new rex_exception('Clang cache file could not be generated');
         }
     }

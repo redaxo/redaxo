@@ -2,6 +2,7 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -200,7 +201,7 @@ class rex_mailer extends PHPMailer
             $archiveFile = $dir . '/' . $status . date('Y-m-d_H_i_s') . '_' . (++$count) . '.eml';
         }
 
-        rex_file::put($archiveFile, $archivedata);
+        File::put($archiveFile, $archivedata);
     }
 
     /**

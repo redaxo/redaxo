@@ -1,8 +1,9 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
-$content = rex_file::getOutput(Path::coreAssets('css/styles.css'));
+$content = File::getOutput(Path::coreAssets('css/styles.css'));
 
 preg_match_all('@\.rex-icon-(\w+):before@im', $content, $matches, PREG_SET_ORDER);
 

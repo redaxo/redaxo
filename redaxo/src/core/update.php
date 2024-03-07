@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -46,10 +47,10 @@ if (rex_version::compare($dbVersion, $minVersion, '<')) {
 
 $path = Path::coreData('config.yml');
 $config = array_merge(
-    rex_file::getConfig(__DIR__ . '/default.config.yml'),
-    rex_file::getConfig($path),
+    File::getConfig(__DIR__ . '/default.config.yml'),
+    File::getConfig($path),
 );
 
-rex_file::putConfig($path, $config);
+File::putConfig($path, $config);
 
 require __DIR__ . '/install.php';

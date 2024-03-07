@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 /**
@@ -59,10 +60,10 @@ class rex_media
         return static::getInstance($name, static function ($name) {
             $mediaPath = Path::coreCache('mediapool/' . $name . '.media');
 
-            $cache = rex_file::getCache($mediaPath, []);
+            $cache = File::getCache($mediaPath, []);
             if (!$cache) {
                 rex_media_cache::generate($name);
-                $cache = rex_file::getCache($mediaPath, []);
+                $cache = File::getCache($mediaPath, []);
             }
 
             if ($cache) {
@@ -120,10 +121,10 @@ class rex_media
         return static::getInstanceList('root_media', $getInstance, static function () {
             $listPath = Path::coreCache('mediapool/0.mlist');
 
-            $list = rex_file::getCache($listPath, null);
+            $list = File::getCache($listPath, null);
             if (null === $list) {
                 rex_media_cache::generateList(0);
-                $list = rex_file::getCache($listPath);
+                $list = File::getCache($listPath);
             }
 
             return $list;
@@ -318,7 +319,7 @@ class rex_media
      */
     public function getExtension()
     {
-        return rex_file::extension($this->name);
+        return File::extension($this->name);
     }
 
     /**

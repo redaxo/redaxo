@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -51,7 +52,7 @@ class rex_install_package_update extends rex_install_package_download
             return I18n::msg('package_missing_yml_file');
         }
         try {
-            $config = rex_file::getConfig($packageFile);
+            $config = File::getConfig($packageFile);
         } catch (rex_yaml_parse_exception $e) {
             return I18n::msg('package_invalid_yml_file') . ' ' . $e->getMessage();
         }
@@ -87,7 +88,7 @@ class rex_install_package_update extends rex_install_package_download
 
         // ---- backup
         $assets = $this->addon->getAssetsPath();
-        $installConfig = rex_file::getCache(rex_addon::get('install')->getDataPath('config.json'));
+        $installConfig = File::getCache(rex_addon::get('install')->getDataPath('config.json'));
         if (isset($installConfig['backups']) && $installConfig['backups']) {
             $archivePath = Path::addonData('install', $this->addonkey . '/');
             Dir::create($archivePath);

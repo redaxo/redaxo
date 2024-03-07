@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -71,7 +72,7 @@ class rex_addon_manager
                 throw new rex_functional_exception($this->i18n('missing_yml_file'));
             }
             try {
-                rex_file::getConfig($packageFile);
+                File::getConfig($packageFile);
             } catch (rex_yaml_parse_exception $e) {
                 throw new rex_functional_exception($this->i18n('invalid_yml_file') . ' ' . $e->getMessage());
             }

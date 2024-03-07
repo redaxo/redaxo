@@ -1991,11 +1991,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/structure/var_category.php
 
 		-
-			message: "#^Method rex_file\\:\\:formattedSize\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/file.php
-
-		-
 			message: "#^Method rex_formatter\\:\\:bytes\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/formatter.php
@@ -2414,3 +2409,8 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Util\\:\\:splitSqlFile\\(\\) has parameter \\$queries with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Database/Util.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\File\\:\\:formattedSize\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Filesystem/File.php

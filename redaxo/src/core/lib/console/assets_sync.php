@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -130,7 +131,7 @@ class rex_command_assets_sync extends rex_console_command
             }
 
             if (!is_file($f2File)) {
-                rex_file::copy($f1File, $f2File);
+                File::copy($f1File, $f2File);
                 ++$created;
                 if ($io->isVerbose()) {
                     $io->text("Created <comment>$f2FileShort</comment>");
@@ -140,7 +141,7 @@ class rex_command_assets_sync extends rex_console_command
             }
 
             if ($f1Fileinfo->getMtime() > filemtime($f2File) && md5_file($f1File) !== md5_file($f2File)) {
-                rex_file::copy($f1File, $f2File);
+                File::copy($f1File, $f2File);
                 ++$updated;
                 if ($io->isVerbose()) {
                     $io->text("Updated <comment>$f2FileShort</comment>");

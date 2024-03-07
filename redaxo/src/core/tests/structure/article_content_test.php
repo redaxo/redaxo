@@ -4,6 +4,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 /**
@@ -15,7 +16,7 @@ class rex_article_content_test extends TestCase
     {
         // fake article
         $articleFile = Path::coreCache('structure/1.1.article');
-        rex_file::putCache($articleFile, [
+        File::putCache($articleFile, [
             'pid' => 1,
             'id' => 1,
             'parent_id' => 0,

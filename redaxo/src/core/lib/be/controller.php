@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -623,7 +624,7 @@ class rex_be_controller
             $path = $languagePath;
         }
 
-        [$toc, $content] = rex_markdown::factory()->parseWithToc(rex_file::require($path), 2, 3, [
+        [$toc, $content] = rex_markdown::factory()->parseWithToc(File::require($path), 2, 3, [
             rex_markdown::SOFT_LINE_BREAKS => false,
             rex_markdown::HIGHLIGHT_PHP => true,
         ]);

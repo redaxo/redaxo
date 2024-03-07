@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -80,7 +81,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             $filename = $this->media->getMediaFilename();
             $this->media->setMediaFilename($filename);
             register_shutdown_function(static function () use ($outputFile) {
-                rex_file::delete($outputFile);
+                File::delete($outputFile);
             });
             return;
         }
@@ -94,7 +95,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
 
         $fromPath = realpath($this->media->getMediaPath());
-        $ext = rex_file::extension($fromPath);
+        $ext = File::extension($fromPath);
 
         if (!$ext) {
             return;
@@ -158,7 +159,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         $this->media->setHeader('Content-Type', $convertTo['content-type']);
 
         register_shutdown_function(static function () use ($toPath) {
-            rex_file::delete($toPath);
+            File::delete($toPath);
         });
     }
 

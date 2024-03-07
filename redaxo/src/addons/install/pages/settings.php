@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 $addon = rex_addon::get('install');
@@ -11,7 +12,7 @@ $config = array_merge([
     'backups' => false,
     'api_login' => null,
     'api_key' => null,
-], rex_file::getCache($configFile));
+], File::getCache($configFile));
 
 $newConfig = rex_post('settings', [
     ['backups', 'bool', false],
@@ -21,7 +22,7 @@ $newConfig = rex_post('settings', [
 
 if (is_array($newConfig)) {
     $config = $newConfig;
-    if (rex_file::putCache($configFile, $config)) {
+    if (File::putCache($configFile, $config)) {
         echo rex_view::success($addon->i18n('settings_saved'));
         rex_install_webservice::deleteCache();
     } else {

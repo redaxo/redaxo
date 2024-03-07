@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -59,7 +60,7 @@ class rex_article_cache
                 continue;
             }
 
-            rex_file::delete($cachePath . $id . '.' . $otherClangId . '.article');
+            File::delete($cachePath . $id . '.' . $otherClangId . '.article');
             rex_article::clearInstance([$id, $otherClangId]);
             rex_category::clearInstance([$id, $otherClangId]);
         }
@@ -90,7 +91,7 @@ class rex_article_cache
                 continue;
             }
 
-            rex_file::delete($cachePath . $id . '.' . $otherClangId . '.content');
+            File::delete($cachePath . $id . '.' . $otherClangId . '.content');
         }
 
         return true;
@@ -114,7 +115,7 @@ class rex_article_cache
         $cachePath = Path::coreCache('structure/');
 
         foreach (['alist', 'clist'] as $list) {
-            rex_file::delete($cachePath . $id . '.' . $list);
+            File::delete($cachePath . $id . '.' . $list);
             rex_structure_element::clearInstanceList([$id, $list]);
         }
 
@@ -157,7 +158,7 @@ class rex_article_cache
             }
 
             $articleFile = Path::coreCache('structure/' . $articleId . '.' . $clang . '.article');
-            if (!rex_file::putCache($articleFile, $params)) {
+            if (!File::putCache($articleFile, $params)) {
                 return I18n::msg('article_could_not_be_generated') . ' ' . I18n::msg('check_rights_in_directory') . Path::coreCache('structure/');
             }
         }
@@ -191,7 +192,7 @@ class rex_article_cache
         }
 
         $articleListFile = Path::coreCache('structure/' . $parentId . '.alist');
-        if (!rex_file::putCache($articleListFile, $cacheArray)) {
+        if (!File::putCache($articleListFile, $cacheArray)) {
             return I18n::msg('article_could_not_be_generated') . ' ' . I18n::msg('check_rights_in_directory') . Path::coreCache('structure/');
         }
 
@@ -206,7 +207,7 @@ class rex_article_cache
         }
 
         $articleCategoriesFile = Path::coreCache('structure/' . $parentId . '.clist');
-        if (!rex_file::putCache($articleCategoriesFile, $cacheArray)) {
+        if (!File::putCache($articleCategoriesFile, $cacheArray)) {
             return I18n::msg('article_could_not_be_generated') . ' ' . I18n::msg('check_rights_in_directory') . Path::coreCache('structure/');
         }
 

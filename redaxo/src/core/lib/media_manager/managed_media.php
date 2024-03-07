@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 class rex_managed_media
@@ -53,7 +54,7 @@ class rex_managed_media
     public function __construct($mediaPath)
     {
         $this->setMediaPath($mediaPath);
-        $this->format = strtolower(rex_file::extension($mediaPath));
+        $this->format = strtolower(File::extension($mediaPath));
     }
 
     /**
@@ -142,7 +143,7 @@ class rex_managed_media
         $format = $this->format;
 
         // if mimetype detected and in imagemap -> change format
-        if ($ftype = rex_file::mimeType($this->getSourcePath())) {
+        if ($ftype = File::mimeType($this->getSourcePath())) {
             if (array_key_exists($ftype, self::MIMETYPE_MAP)) {
                 $format = self::MIMETYPE_MAP[$ftype];
             }
@@ -256,14 +257,14 @@ class rex_managed_media
             echo $src;
 
             if ($save) {
-                rex_file::putCache($headerCachePath, [
+                File::putCache($headerCachePath, [
                     'media_path' => $this->getMediaPath(),
                     'media_filename' => $this->getMediaFilename(),
                     'format' => $this->format,
                     'headers' => $this->header,
                 ]);
 
-                rex_file::put($sourceCachePath, $src);
+                File::put($sourceCachePath, $src);
             }
         } else {
             $this->setHeader('Content-Length', (string) filesize($this->getSourcePath()));
@@ -276,14 +277,14 @@ class rex_managed_media
             rex_response::sendFile($this->getSourcePath(), $this->header['Content-Type']);
 
             if ($save) {
-                rex_file::putCache($headerCachePath, [
+                File::putCache($headerCachePath, [
                     'media_path' => $this->getMediaPath(),
                     'media_filename' => $this->getMediaFilename(),
                     'format' => $this->format,
                     'headers' => $this->header,
                 ]);
 
-                rex_file::copy($this->getSourcePath(), $sourceCachePath);
+                File::copy($this->getSourcePath(), $sourceCachePath);
             }
         }
     }
@@ -397,7 +398,7 @@ class rex_managed_media
             return $this->getImageSource();
         }
 
-        return rex_file::require($this->sourcePath);
+        return File::require($this->sourcePath);
     }
 
     /**
@@ -484,7 +485,7 @@ class rex_managed_media
 
         $header = $this->getHeader();
         if (!isset($header['Content-Type']) && $this->sourcePath) {
-            $contentType = rex_file::mimeType($this->sourcePath);
+            $contentType = File::mimeType($this->sourcePath);
 
             if ($contentType) {
                 $this->setHeader('Content-Type', $contentType);
@@ -506,13 +507,13 @@ class rex_managed_media
      */
     private function saveFiles($src, $sourceCachePath, $headerCachePath)
     {
-        rex_file::putCache($headerCachePath, [
+        File::putCache($headerCachePath, [
             'media_path' => $this->getMediaPath(),
             'media_filename' => $this->getMediaFilename(),
             'format' => $this->format,
             'headers' => $this->header,
         ]);
 
-        rex_file::put($sourceCachePath, $src);
+        File::put($sourceCachePath, $src);
     }
 }

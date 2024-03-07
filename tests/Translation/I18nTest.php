@@ -4,9 +4,9 @@ namespace Redaxo\Core\Tests\Translation;
 
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
-use rex_file;
 
 class I18nTransCb
 {
@@ -36,11 +36,11 @@ class I18nTest extends TestCase
             LANG;
         $content .= "rex_i18n_test_5   =   abc def   \n";
 
-        rex_file::put($this->getPath() . '/de_de.lang', $content . "\nmy=DE");
+        File::put($this->getPath() . '/de_de.lang', $content . "\nmy=DE");
 
         $content .= "\nrex_i18n_test_6 = test6\n";
 
-        rex_file::put($this->getPath() . '/en_gb.lang', $content . "\nmy=EN");
+        File::put($this->getPath() . '/en_gb.lang', $content . "\nmy=EN");
     }
 
     protected function tearDown(): void

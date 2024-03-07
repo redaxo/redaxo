@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Symfony\Component\Console\Input\InputInterface;
@@ -57,8 +58,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         $configFile = Path::coreData('config.yml');
         $config = array_merge(
-            rex_file::getConfig(Path::core('default.config.yml')),
-            rex_file::getConfig($configFile),
+            File::getConfig(Path::core('default.config.yml')),
+            File::getConfig($configFile),
         );
 
         $requiredValue = static function ($value) {
@@ -421,11 +422,11 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         }
 
         $config['setup'] = is_array($config['setup']) ? $config['setup'] : false;
-        if (!rex_file::putConfig($configFile, $config)) {
+        if (!File::putConfig($configFile, $config)) {
             $io->error('Writing to config.yml failed.');
             return 1;
         }
-        rex_file::delete(Path::coreCache('config.yml.cache'));
+        File::delete(Path::coreCache('config.yml.cache'));
 
         $io->success('Congratulations! REDAXO has successfully been installed.');
         return 0;

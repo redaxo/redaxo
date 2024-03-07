@@ -2,19 +2,20 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 class rex_template_cache
 {
     public static function delete(int $id): void
     {
-        rex_file::delete(self::getPath($id));
+        File::delete(self::getPath($id));
         self::deleteKeyMapping();
     }
 
     public static function deleteKeyMapping(): void
     {
-        rex_file::delete(self::getKeyMappingPath());
+        File::delete(self::getKeyMappingPath());
     }
 
     public static function generate(int $id): void
@@ -30,7 +31,7 @@ class rex_template_cache
         $content = rex_var::parse($content, rex_var::ENV_FRONTEND, 'template');
 
         $path = self::getPath($id);
-        if (!rex_file::put($path, $content)) {
+        if (!File::put($path, $content)) {
             throw new rex_exception('Unable to generate template "' . $id . '".');
         }
 
@@ -44,7 +45,7 @@ class rex_template_cache
         $data = Sql::factory()->getArray('SELECT id, `key` FROM ' . Core::getTable('template') . ' WHERE `key` IS NOT NULL');
         $mapping = array_column($data, 'key', 'id');
 
-        if (!rex_file::putCache(self::getKeyMappingPath(), $mapping)) {
+        if (!File::putCache(self::getKeyMappingPath(), $mapping)) {
             throw new rex_exception('Unable to generate template key mapping.');
         }
     }

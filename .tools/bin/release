@@ -2,6 +2,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 require dirname(__DIR__) . '/bootstrap.php';
@@ -46,9 +47,9 @@ class rex_release
     private function updateVersions()
     {
         $file = Path::core('boot.php');
-        $content = rex_file::get($file);
+        $content = File::get($file);
         $content = preg_replace('/(?<=^rex::setProperty\(\'version\', \').*?(?=\')/m', $this->version, $content);
-        rex_file::put($file, $content);
+        File::put($file, $content);
 
         $suffix = '';
         if (false !== $pos = strpos($this->version, '-')) {
@@ -56,9 +57,9 @@ class rex_release
         }
 
         $updateVersion = static function (rex_addon $package) use ($suffix) {
-            $content = rex_file::get($package->getPath(rex_addon::FILE_PACKAGE));
+            $content = File::get($package->getPath(rex_addon::FILE_PACKAGE));
             $content = preg_replace('/^version: \'(.+?)-.*$/m', "version: '\\1$suffix'", $content);
-            rex_file::put($package->getPath(rex_addon::FILE_PACKAGE), $content);
+            File::put($package->getPath(rex_addon::FILE_PACKAGE), $content);
         };
 
         foreach (self::$addons as $addon) {
@@ -72,9 +73,9 @@ class rex_release
         $date = date('d.m.Y');
 
         $updateDate = static function ($file) use ($date) {
-            $content = rex_file::get($file);
+            $content = File::get($file);
             $content = preg_replace('/XX\.[x\d]{2}\.[x\d]{4}/i', $date, $content);
-            rex_file::put($file, $content);
+            File::put($file, $content);
         };
 
         $updateDate(Path::core('CHANGELOG.md'));
@@ -98,14 +99,14 @@ class rex_release
             ];
         };
 
-        $coreChangelog = rex_file::get(Path::core('CHANGELOG.md'));
+        $coreChangelog = File::get(Path::core('CHANGELOG.md'));
         $part = $cutNextPart($coreChangelog);
         $changelog = substr_replace($part['content'], 'REDAXO-Core', 0, 7);
 
         $previousDate = $cutNextPart($coreChangelog)['date'];
 
         foreach (self::$addons as $addon) {
-            $addonChangelog = rex_file::get(Path::addon($addon, 'CHANGELOG.md'));
+            $addonChangelog = File::get(Path::addon($addon, 'CHANGELOG.md'));
 
             while (
                 ($part = $cutNextPart($addonChangelog)) &&
@@ -117,7 +118,7 @@ class rex_release
 
         $changelog .= "\n";
 
-        rex_file::put($this->path . '/CHANGELOG.md', $changelog);
+        File::put($this->path . '/CHANGELOG.md', $changelog);
     }
 
     private function createArchives()

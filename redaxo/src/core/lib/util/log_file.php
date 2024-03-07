@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
+
 /**
  * @implements Iterator<int, rex_log_entry>
  */
@@ -43,7 +45,7 @@ class rex_log_file implements Iterator
     {
         $this->path = $path;
         if (!is_file($path)) {
-            rex_file::put($path, '');
+            File::put($path, '');
         }
         if ($maxFileSize && filesize($path) > $maxFileSize) {
             rename($path, $path . '.2');
@@ -192,7 +194,7 @@ class rex_log_file implements Iterator
             return $factoryClass::delete($path);
         }
 
-        return rex_file::delete($path) && rex_file::delete($path . '.2');
+        return File::delete($path) && File::delete($path . '.2');
     }
 }
 

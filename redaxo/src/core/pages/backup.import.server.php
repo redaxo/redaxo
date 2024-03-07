@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -37,7 +38,7 @@ if ($function && !$csrfToken->isValid()) {
     $error = I18n::msg('csrf_token_invalid');
 } elseif ('delete' == $function && $impname) {
     // ------------------------------ FUNC DELETE
-    if (rex_file::delete(rex_backup::getDir() . '/' . $impname)) {
+    if (File::delete(rex_backup::getDir() . '/' . $impname)) {
         $success = I18n::msg('backup_file_deleted');
     } else {
         $error = I18n::msg('backup_file_error_while_delete');
@@ -66,7 +67,7 @@ if ($function && !$csrfToken->isValid()) {
 
             // temp datei löschen
             if ('' == $impname) {
-                rex_file::delete($fileTemp);
+                File::delete($fileTemp);
             }
         } else {
             $error = I18n::msg('backup_file_could_not_be_uploaded') . ' ' . I18n::msg('backup_you_have_no_write_permission_in', 'data/core/backup/') . ' <br>';
@@ -94,7 +95,7 @@ if ($function && !$csrfToken->isValid()) {
 
             // temp datei löschen
             if ('' == $impname) {
-                rex_file::delete($fileTemp);
+                File::delete($fileTemp);
             }
         } else {
             $error = I18n::msg('backup_file_could_not_be_uploaded') . ' ' . I18n::msg('backup_you_have_no_write_permission_in', 'data/core/backup/') . ' <br>';
@@ -136,7 +137,7 @@ $folder = rex_backup::getBackupFiles(rex_backup::IMPORT_DB);
 foreach ($folder as $file) {
     $filepath = $dir . '/' . $file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
-    $filesize = rex_file::formattedSize($filepath);
+    $filesize = File::formattedSize($filepath);
 
     $content .= '<tr>
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-database"></i></td>
@@ -179,7 +180,7 @@ $folder = rex_backup::getBackupFiles(rex_backup::IMPORT_ARCHIVE);
 foreach ($folder as $file) {
     $filepath = $dir . '/' . $file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
-    $filesize = rex_file::formattedSize($filepath);
+    $filesize = File::formattedSize($filepath);
 
     $content .= '<tr>
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-file-archive"></i></td>
