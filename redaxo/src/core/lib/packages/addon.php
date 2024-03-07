@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
 class rex_addon implements rex_addon_interface
@@ -359,7 +360,7 @@ class rex_addon implements rex_addon_interface
     public function clearCache()
     {
         $cacheDir = $this->getCachePath();
-        if (!rex_dir::delete($cacheDir)) {
+        if (!Dir::delete($cacheDir)) {
             throw new rex_functional_exception($this->i18n('cache_not_writable', $cacheDir));
         }
 

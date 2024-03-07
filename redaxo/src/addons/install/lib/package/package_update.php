@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -37,7 +38,7 @@ class rex_install_package_update extends rex_install_package_download
         $oldVersion = $this->addon->getVersion();
 
         // remove temp dir very late otherwise Whoops could not find source files in case of errors
-        register_shutdown_function(static fn () => rex_dir::delete($temppath));
+        register_shutdown_function(static fn () => Dir::delete($temppath));
 
         if (true !== ($msg = $this->extractArchiveTo($temppath))) {
             return $msg;
@@ -88,7 +89,7 @@ class rex_install_package_update extends rex_install_package_download
         $installConfig = rex_file::getCache(rex_addon::get('install')->getDataPath('config.json'));
         if (isset($installConfig['backups']) && $installConfig['backups']) {
             $archivePath = rex_path::addonData('install', $this->addonkey . '/');
-            rex_dir::create($archivePath);
+            Dir::create($archivePath);
             $archive = $archivePath . strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', $this->addon->getVersion() ?: '0')) . '.zip';
             rex_install_archive::copyDirToArchive($path, $archive);
             if (is_dir($assets)) {
@@ -108,7 +109,7 @@ class rex_install_package_update extends rex_install_package_download
         // move new addon to main addon path
         if (@rename($temppath, $path)) {
             // remove temp path of old addon
-            rex_dir::delete($pathOld);
+            Dir::delete($pathOld);
         } else {
             // revert to old addon
             rename($pathOld, $path);
@@ -121,7 +122,7 @@ class rex_install_package_update extends rex_install_package_download
         // ---- update assets
         $origAssets = $this->addon->getPath('assets');
         if ($this->addon->isInstalled() && is_dir($origAssets)) {
-            rex_dir::copy($origAssets, $assets);
+            Dir::copy($origAssets, $assets);
         }
 
         // ---- update package order

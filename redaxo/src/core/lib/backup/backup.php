@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
 class rex_backup
@@ -18,7 +19,7 @@ class rex_backup
     public static function getDir()
     {
         $dir = rex_path::coreData('backup');
-        rex_dir::create($dir);
+        Dir::create($dir);
 
         return $dir;
     }

@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Filesystem\Dir;
 
 /**
  * @internal
@@ -10,7 +11,7 @@ class rex_log_file_test extends TestCase
 {
     protected function tearDown(): void
     {
-        rex_dir::delete($this->getPath());
+        Dir::delete($this->getPath());
     }
 
     private function getPath(string $file = ''): string

@@ -102,6 +102,7 @@ return RectorConfig::configure()
         rex_null_package::class => rex_null_addon::class,
         rex_package::class => rex_addon::class,
         rex_package_manager::class => rex_addon_manager::class,
+        rex_dir::class => Redaxo\Core\Filesystem\Dir::class,
         rex_i18n::class => Redaxo\Core\Translation\I18n::class,
         rex_sql::class => Redaxo\Core\Database\Sql::class,
         rex_sql_column::class => Redaxo\Core\Database\Column::class,

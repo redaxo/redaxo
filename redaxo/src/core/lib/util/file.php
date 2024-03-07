@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Dir;
 
 /**
  * Class for handling files.
@@ -88,7 +89,7 @@ class rex_file
     public static function put($file, $content)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
-            if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
+            if (!Dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
                 return false;
             }
 
@@ -118,7 +119,7 @@ class rex_file
     public static function append(string $file, string $content, string $delimiter = '')
     {
         return rex_timer::measure(__METHOD__, static function () use ($file, $content, $delimiter) {
-            if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
+            if (!Dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
                 return false;
             }
 
@@ -191,10 +192,10 @@ class rex_file
                     $dstfile = $dstdir . DIRECTORY_SEPARATOR . rex_path::basename($srcfile);
                 } else {
                     $dstdir = dirname($dstfile);
-                    rex_dir::create($dstdir);
+                    Dir::create($dstdir);
                 }
 
-                if (rex_dir::isWritable($dstdir) && (!is_file($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
+                if (Dir::isWritable($dstdir) && (!is_file($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
                     @chmod($dstfile, Core::getFilePerm());
                     @touch($dstfile, filemtime($srcfile), fileatime($srcfile));
                     return true;

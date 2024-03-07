@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
 class rex_addon_manager
@@ -59,7 +60,7 @@ class rex_addon_manager
         try {
             // check package directory perms
             $installDir = $this->package->getPath();
-            if (!rex_dir::isWritable($installDir)) {
+            if (!Dir::isWritable($installDir)) {
                 throw new rex_functional_exception($this->i18n('dir_not_writable', $installDir));
             }
 
@@ -138,7 +139,7 @@ class rex_addon_manager
             // copy assets
             $assets = $this->package->getPath('assets');
             if (is_dir($assets)) {
-                if (!rex_dir::copy($assets, $this->package->getAssetsPath())) {
+                if (!Dir::copy($assets, $this->package->getAssetsPath())) {
                     throw new rex_functional_exception($this->i18n('install_cant_copy_files'));
                 }
             }
@@ -204,7 +205,7 @@ class rex_addon_manager
 
             // delete assets
             $assets = $this->package->getAssetsPath();
-            if (is_dir($assets) && !rex_dir::delete($assets)) {
+            if (is_dir($assets) && !Dir::delete($assets)) {
                 throw new rex_functional_exception($this->i18n('install_cant_delete_files'));
             }
 
@@ -331,7 +332,7 @@ class rex_addon_manager
             return false;
         }
 
-        if (!rex_dir::delete($this->package->getPath()) && !$ignoreState) {
+        if (!Dir::delete($this->package->getPath()) && !$ignoreState) {
             $this->message = $this->i18n('not_deleted', $this->package->getName());
             return false;
         }

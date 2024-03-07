@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\Dir;
+
 /**
  * Class for rex_socket responses.
  */
@@ -284,7 +286,7 @@ class rex_socket_response
     public function writeBodyTo($resource)
     {
         $close = false;
-        if (is_string($resource) && rex_dir::create(dirname($resource))) {
+        if (is_string($resource) && Dir::create(dirname($resource))) {
             $resource = fopen($resource, 'w');
             $close = true;
         }

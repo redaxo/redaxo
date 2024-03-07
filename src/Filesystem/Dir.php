@@ -1,11 +1,22 @@
 <?php
 
+namespace Redaxo\Core\Filesystem;
+
 use Redaxo\Core\Core;
+use rex_file;
+use rex_finder;
+use SplFileInfo;
+use Traversable;
+
+use function dirname;
+use function strlen;
+
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Class for handling directories.
  */
-class rex_dir
+class Dir
 {
     /**
      * Creates a directory.

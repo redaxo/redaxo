@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Filesystem\Dir;
 
 /**
  * @internal
@@ -12,14 +13,14 @@ class rex_file_test extends TestCase
     {
         parent::setUp();
 
-        rex_dir::create($this->getPath());
+        Dir::create($this->getPath());
     }
 
     protected function tearDown(): void
     {
         parent::tearDown();
 
-        rex_dir::delete($this->getPath());
+        Dir::delete($this->getPath());
     }
 
     private function getPath(string $file = ''): string
@@ -109,7 +110,7 @@ class rex_file_test extends TestCase
         $copyFile = $this->getPath('copy/file.txt');
         $content = 'test';
         rex_file::put($orig, $content);
-        rex_dir::create($copyDir);
+        Dir::create($copyDir);
         self::assertTrue(rex_file::copy($orig, $copyDir), 'copy() returns true on success');
         self::assertEquals($content, rex_file::get($copyFile), 'content of new file is the same as of original file');
     }

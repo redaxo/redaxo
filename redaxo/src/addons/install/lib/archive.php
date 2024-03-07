@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Dir;
 
 /**
  * @internal
@@ -10,11 +11,11 @@ class rex_install_archive
     public static function extract(string $archive, string $dir, string $basename = ''): bool
     {
         $dir = rtrim($dir, '/\\');
-        rex_dir::delete($dir);
+        Dir::delete($dir);
 
         if (!class_exists(ZipArchive::class)) {
             $archive = 'phar://' . $archive . DIRECTORY_SEPARATOR . $basename;
-            return rex_dir::copy($archive, $dir);
+            return Dir::copy($archive, $dir);
         }
 
         $zip = new ZipArchive();
@@ -34,7 +35,7 @@ class rex_install_archive
             }
 
             $tempdir = $dir . '.temp';
-            rex_dir::delete($tempdir);
+            Dir::delete($tempdir);
 
             try {
                 if (!$zip->extractTo($tempdir)) {
@@ -47,7 +48,7 @@ class rex_install_archive
 
                 self::setPermissions($dir);
             } finally {
-                rex_dir::delete($tempdir);
+                Dir::delete($tempdir);
             }
         } finally {
             $zip->close();
@@ -64,7 +65,7 @@ class rex_install_archive
     {
         $dir = rtrim($dir, '/\\');
         $basename = $basename ?: rex_path::basename($dir);
-        rex_dir::create(dirname($archive));
+        Dir::create(dirname($archive));
         $files = [];
         $iterator = rex_finder::factory($dir)->recursive()->filesOnly();
         if ($exclude) {

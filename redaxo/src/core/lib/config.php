@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Dir;
 
 /**
  * Class for handling configurations.
@@ -273,7 +274,7 @@ class rex_config
         // take care, so we are able to write a cache file on shutdown
         // (check here, since exceptions in shutdown functions are not visible to the user)
         $dir = dirname(self::$cacheFile);
-        rex_dir::create($dir);
+        Dir::create($dir);
         if (!is_writable($dir)) {
             throw new rex_exception('rex-config: cache dir "' . dirname(self::$cacheFile) . '" is not writable!');
         }

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -17,7 +18,7 @@ function rex_delete_cache()
         ->childFirst()
         ->ignoreFiles(['.htaccess', '.redaxo'], false)
         ->ignoreSystemStuff(false);
-    rex_dir::deleteIterator($finder);
+    Dir::deleteIterator($finder);
 
     rex_clang::reset();
 
