@@ -5009,6 +5009,16 @@
       <code><![CDATA[$ret[]]]></code>
     </MixedAssignment>
   </file>
+  <file src="src/Filesystem/DefaultPathProvider.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->backend . $file]]></code>
+      <code><![CDATA[strtr($this->base . $file, '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[non-empty-string]]></code>
+      <code><![CDATA[non-empty-string]]></code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="src/Filesystem/File.php">
     <MixedInferredReturnType>
       <code><![CDATA[array<mixed>|T]]></code>
@@ -5023,16 +5033,6 @@
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[non-empty-string|null]]></code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="src/Filesystem/PathDefaultProvider.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->backend . $file]]></code>
-      <code><![CDATA[strtr($this->base . $file, '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[non-empty-string]]></code>
-      <code><![CDATA[non-empty-string]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="src/Translation/I18n.php">
