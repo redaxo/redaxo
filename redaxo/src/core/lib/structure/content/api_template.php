@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 class rex_template
@@ -85,7 +86,7 @@ class rex_template
             return false;
         }
 
-        return rex_file::get($file);
+        return File::get($file);
     }
 
     /**
@@ -165,7 +166,7 @@ class rex_template
         }
 
         $file = rex_template_cache::getKeyMappingPath();
-        $mapping = rex_file::getCache($file, null);
+        $mapping = File::getCache($file, null);
 
         if (null !== $mapping) {
             return $mapping;
@@ -173,7 +174,7 @@ class rex_template
 
         rex_template_cache::generateKeyMapping();
 
-        return $mapping = rex_file::getCache($file);
+        return $mapping = File::getCache($file);
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -90,13 +91,13 @@ $configFile = rex_path::coreData('config.yml');
 
 $cacheMtime = @filemtime($cacheFile);
 if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
-    $config = rex_file::getCache($cacheFile);
+    $config = File::getCache($cacheFile);
 } else {
     $config = array_merge(
-        rex_file::getConfig(rex_path::core('default.config.yml')),
-        rex_file::getConfig($configFile),
+        File::getConfig(rex_path::core('default.config.yml')),
+        File::getConfig($configFile),
     );
-    rex_file::putCache($cacheFile, $config);
+    File::putCache($cacheFile, $config);
 }
 /**
  * @var string $key

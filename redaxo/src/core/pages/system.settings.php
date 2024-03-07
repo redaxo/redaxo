@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 $error = [];
@@ -33,15 +34,15 @@ if ($func && !$csrfToken->isValid()) {
 
     $files = require rex_path::core('vendor_files.php');
     foreach ($files as $source => $destination) {
-        rex_file::copy(rex_path::core('assets_files/' . $source), rex_path::coreAssets($destination));
+        File::copy(rex_path::core('assets_files/' . $source), rex_path::coreAssets($destination));
     }
 
     $success = 'Updated assets';
 } elseif ('debugmode' == $func && !Core::isLiveMode()) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
-        rex_file::getConfig(rex_path::core('default.config.yml')),
-        rex_file::getConfig($configFile),
+        File::getConfig(rex_path::core('default.config.yml')),
+        File::getConfig($configFile),
     );
 
     if (!is_array($config['debug'])) {
@@ -50,15 +51,15 @@ if ($func && !$csrfToken->isValid()) {
 
     $config['debug']['enabled'] = !Core::isDebugMode();
     Core::setProperty('debug', $config['debug']);
-    if (rex_file::putConfig($configFile, $config) > 0) {
+    if (File::putConfig($configFile, $config) > 0) {
         // reload the page so that debug mode is immediately visible
         rex_response::sendRedirect(rex_url::currentBackendPage(['rex_debug_updated' => true]));
     }
 } elseif ('updateinfos' == $func) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
-        rex_file::getConfig(rex_path::core('default.config.yml')),
-        rex_file::getConfig($configFile),
+        File::getConfig(rex_path::core('default.config.yml')),
+        File::getConfig($configFile),
     );
 
     $settings = rex_post('settings', 'array', []);
@@ -86,7 +87,7 @@ if ($func && !$csrfToken->isValid()) {
     }
 
     if (empty($error)) {
-        if (rex_file::putConfig($configFile, $config) > 0) {
+        if (File::putConfig($configFile, $config) > 0) {
             $success = I18n::msg('info_updated');
         }
     }
@@ -119,14 +120,14 @@ if ($func && !$csrfToken->isValid()) {
         $success = I18n::msg('system_editor_success_cookie');
     } else {
         $configFile = rex_path::coreData('config.yml');
-        $config = rex_file::getConfig($configFile);
+        $config = File::getConfig($configFile);
 
         $config['editor'] = $editor['name'];
         $config['editor_basepath'] = $editor['basepath'];
         Core::setProperty('editor', $config['editor']);
         Core::setProperty('editor_basepath', $config['editor_basepath']);
 
-        rex_file::putConfig($configFile, $config);
+        File::putConfig($configFile, $config);
         $success = I18n::msg('system_editor_success_configyml');
     }
 }

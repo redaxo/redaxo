@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 final class rex_media_service
@@ -38,7 +39,7 @@ final class rex_media_service
         }
 
         if (!rex_mediapool::isAllowedExtension($data['file']['name'], $allowedExtensions)) {
-            $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($data['file']['name']) . '</code>';
+            $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . File::extension($data['file']['name']) . '</code>';
             $allowedExtensions = rex_mediapool::getAllowedExtensions($allowedExtensions);
             $warning .= count($allowedExtensions) > 0
                     ? '<br />' . I18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $allowedExtensions), ', ') . '</code>'
@@ -48,7 +49,7 @@ final class rex_media_service
         }
 
         if (!rex_mediapool::isAllowedMimeType($data['file']['path'], $data['file']['name'])) {
-            $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($data['file']['name']) . '</code> (<code>' . rex_file::mimeType($data['file']['path']) . '</code>)';
+            $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . File::extension($data['file']['name']) . '</code> (<code>' . File::mimeType($data['file']['path']) . '</code>)';
             throw new rex_api_exception($warning);
         }
 
@@ -61,7 +62,7 @@ final class rex_media_service
         $srcFile = $data['file']['path'];
         $dstFile = rex_path::media($data['file']['name_new']);
 
-        $data['file']['type'] = rex_file::mimeType($srcFile);
+        $data['file']['type'] = File::mimeType($srcFile);
 
         // Bevor die Datei engueltig in den Medienpool uebernommen wird, koennen
         // Addons ueber einen Extension-Point ein Veto einlegen.
@@ -84,7 +85,7 @@ final class rex_media_service
             throw new rex_api_exception($errorMessage);
         }
 
-        if (!rex_file::move($srcFile, $dstFile)) {
+        if (!File::move($srcFile, $dstFile)) {
             throw new rex_api_exception(I18n::msg('pool_file_movefailed'));
         }
 
@@ -186,7 +187,7 @@ final class rex_media_service
                 throw new rex_api_exception(I18n::msg('pool_file_not_found'));
             }
 
-            $filetype = rex_file::mimeType($file['path']);
+            $filetype = File::mimeType($file['path']);
 
             $srcFile = $file['path'];
             $dstFile = rex_path::media($filename);
@@ -198,7 +199,7 @@ final class rex_media_service
                 $extensionNew == $extensionOld ||
                 in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
             ) {
-                if (!rex_file::move($srcFile, $dstFile)) {
+                if (!File::move($srcFile, $dstFile)) {
                     throw new rex_api_exception(I18n::msg('pool_file_movefailed'));
                 }
 
@@ -256,7 +257,7 @@ final class rex_media_service
         $sql = Sql::factory();
         $sql->setQuery('DELETE FROM ' . Core::getTable('media') . ' WHERE filename = ? LIMIT 1', [$filename]);
 
-        rex_file::delete(rex_path::media($filename));
+        File::delete(rex_path::media($filename));
         rex_media_cache::delete($filename);
 
         rex_extension::registerPoint(new rex_extension_point('MEDIA_DELETED', '', [

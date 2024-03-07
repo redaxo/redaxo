@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Formatter;
 use ScssPhp\ScssPhp\Formatter\Compressed;
@@ -99,10 +100,10 @@ class rex_scss_compiler
         $stringSass = '';
         if (is_array($this->scss_file)) {
             foreach ($this->scss_file as $scssFile) {
-                $stringSass .= rex_file::require($scssFile);
+                $stringSass .= File::require($scssFile);
             }
         } else {
-            $stringSass = rex_file::require($this->scss_file);
+            $stringSass = File::require($this->scss_file);
         }
 
         // try/catch block to prevent script stopping when scss compiler throws an error
@@ -113,7 +114,7 @@ class rex_scss_compiler
             // $string_css = csscrush_string($string_css, $options = array('minify' => true));
 
             // write CSS into file with the same filename, but .css extension
-            rex_file::put($this->css_file, $stringCss);
+            File::put($this->css_file, $stringCss);
         } catch (Exception $e) {
             // here we could put the exception message, but who cares ...
             echo $e->getMessage();

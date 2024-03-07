@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
+
 class rex_be_style
 {
     /**
@@ -44,7 +46,7 @@ class rex_be_style
             // When a release is created, the files are copied to the frontend assets dir
             // remember, the frontend assets dir is excluded by .gitignore
             if (isset($file['copy_dest'])) {
-                rex_file::copy($file['css_file'], $file['copy_dest']);
+                File::copy($file['css_file'], $file['copy_dest']);
             }
         }
     }

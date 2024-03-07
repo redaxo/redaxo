@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 
 /**
  * Class for handling configurations.
@@ -310,7 +311,7 @@ class rex_config
     {
         // delete cache-file, will be regenerated on next request
         if (is_file(self::$cacheFile)) {
-            self::$data = rex_file::getCache(self::$cacheFile);
+            self::$data = File::getCache(self::$cacheFile);
             return true;
         }
         return false;
@@ -337,7 +338,7 @@ class rex_config
      */
     private static function generateCache()
     {
-        if (rex_file::putCache(self::$cacheFile, self::$data) <= 0) {
+        if (File::putCache(self::$cacheFile, self::$data) <= 0) {
             throw new rex_exception('rex-config: unable to write cache file ' . self::$cacheFile);
         }
     }
@@ -359,7 +360,7 @@ class rex_config
         }
 
         // delete cache-file; will be regenerated on next request
-        rex_file::delete(self::$cacheFile);
+        File::delete(self::$cacheFile);
 
         // save all data to the db
         self::saveToDb();

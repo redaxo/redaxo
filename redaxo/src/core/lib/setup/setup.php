@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -49,7 +50,7 @@ class rex_setup
         $files = require rex_path::core('vendor_files.php');
         foreach ($files as $source => $destination) {
             // ignore errors, because this file is included very early in setup, before the regular file permissions check
-            rex_file::copy(rex_path::core('assets_files/' . $source), rex_path::coreAssets($destination));
+            File::copy(rex_path::core('assets_files/' . $source), rex_path::coreAssets($destination));
         }
     }
 
@@ -303,12 +304,12 @@ class rex_setup
         $token = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
 
         $configFile = rex_path::coreData('config.yml');
-        $config = rex_file::getConfig($configFile);
+        $config = File::getConfig($configFile);
 
         $config['setup'] = isset($config['setup']) && is_array($config['setup']) ? $config['setup'] : [];
         $config['setup'][$token] = (new DateTimeImmutable('+1 hour'))->format('Y-m-d H:i:s');
 
-        if (!rex_file::putConfig($configFile, $config)) {
+        if (!File::putConfig($configFile, $config)) {
             return false;
         }
 
@@ -343,9 +344,9 @@ class rex_setup
 
         if ($updated) {
             $configFile = rex_path::coreData('config.yml');
-            $config = rex_file::getConfig($configFile);
+            $config = File::getConfig($configFile);
             $config['setup'] = $setup ?: false;
-            rex_file::putConfig($configFile, $config);
+            File::putConfig($configFile, $config);
         }
 
         return isset($setup[$currentToken]);
@@ -373,8 +374,8 @@ class rex_setup
     {
         $configFile = rex_path::coreData('config.yml');
         $config = array_merge(
-            rex_file::getConfig(rex_path::core('default.config.yml')),
-            rex_file::getConfig($configFile),
+            File::getConfig(rex_path::core('default.config.yml')),
+            File::getConfig($configFile),
         );
 
         if (is_array($config['setup'])) {
@@ -389,10 +390,10 @@ class rex_setup
             $config['setup'] = false;
         }
 
-        $configWritten = rex_file::putConfig($configFile, $config);
+        $configWritten = File::putConfig($configFile, $config);
 
         if ($configWritten) {
-            rex_file::delete(rex_path::coreCache('config.yml.cache'));
+            File::delete(rex_path::coreCache('config.yml.cache'));
         }
 
         return $configWritten;

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
@@ -125,7 +126,7 @@ $sidebar = '';
 $addExtInfo = '';
 $encodedFname = urlencode($fname);
 
-$isImage = rex_media::isImageType(rex_file::extension($fname));
+$isImage = rex_media::isImageType(File::extension($fname));
 if ($isImage) {
     $fwidth = (int) $gf->getValue('width');
     $fheight = (int) $gf->getValue('height');
@@ -152,7 +153,7 @@ if ($isImage) {
     }
     $imgMax = rex_url::media($fname);
 
-    if ('svg' != rex_file::extension($fname)) {
+    if ('svg' != File::extension($fname)) {
         $imgn = rex_media_manager::getUrl('rex_media_medium', $encodedFname, $gf->getDateTimeValue('updatedate'));
         $imgMax = rex_media_manager::getUrl('rex_media_large', $encodedFname, $gf->getDateTimeValue('updatedate'));
 

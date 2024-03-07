@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 $content = '';
@@ -17,7 +18,7 @@ if (is_readable($package->getPath('help.php'))) {
     $package->includeFile('help.php');
     $content .= ob_get_clean();
 } elseif (is_readable($package->getPath('README.' . I18n::getLanguage() . '.md'))) {
-    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('README.' . I18n::getLanguage() . '.md')), 2, 3, [
+    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(File::require($package->getPath('README.' . I18n::getLanguage() . '.md')), 2, 3, [
         rex_markdown::SOFT_LINE_BREAKS => false,
         rex_markdown::HIGHLIGHT_PHP => true,
     ]);
@@ -26,7 +27,7 @@ if (is_readable($package->getPath('help.php'))) {
     $fragment->setVar('toc', $readmeToc, false);
     $content .= $fragment->parse('core/page/docs.php');
 } elseif (is_readable($package->getPath('README.md'))) {
-    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('README.md')), 2, 3, [
+    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(File::require($package->getPath('README.md')), 2, 3, [
         rex_markdown::SOFT_LINE_BREAKS => false,
         rex_markdown::HIGHLIGHT_PHP => true,
     ]);

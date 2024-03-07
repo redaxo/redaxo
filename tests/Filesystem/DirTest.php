@@ -4,7 +4,7 @@ namespace Redaxo\Core\Tests\Filesystem;
 
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
-use rex_file;
+use Redaxo\Core\Filesystem\File;
 use rex_path;
 
 /**
@@ -51,8 +51,8 @@ class DirTest extends TestCase
         $orig = $this->getPath('orig1');
         $copy = $this->getPath('copy1');
         Dir::create($orig . '/dir1');
-        rex_file::put($orig . '/file.txt', '');
-        rex_file::put($orig . '/dir2/file.txt', '');
+        File::put($orig . '/file.txt', '');
+        File::put($orig . '/dir2/file.txt', '');
 
         self::assertTrue(Dir::copy($orig, $copy), 'copy() returns true on success');
         self::assertDirectoryExists($copy . '/dir1', 'subdir exists after copy()');
@@ -69,30 +69,30 @@ class DirTest extends TestCase
         // dir2 only in /copy
         Dir::create($copy . '/dir2');
         // file1 only in /orig
-        rex_file::put($orig . '/file1.txt', '');
-        rex_file::put($orig . '/dir3/file1.txt', '');
+        File::put($orig . '/file1.txt', '');
+        File::put($orig . '/dir3/file1.txt', '');
         // file2 with newest version in /orig
-        rex_file::put($copy . '/file2.txt', 'file2_old');
+        File::put($copy . '/file2.txt', 'file2_old');
         touch($copy . '/file2.txt', 1);
-        rex_file::put($copy . '/dir3/file2.txt', 'file2_old');
+        File::put($copy . '/dir3/file2.txt', 'file2_old');
         touch($copy . '/dir3/file2.txt', 1);
-        rex_file::put($orig . '/file2.txt', 'file2_new');
-        rex_file::put($orig . '/dir3/file2.txt', 'file2_new');
+        File::put($orig . '/file2.txt', 'file2_new');
+        File::put($orig . '/dir3/file2.txt', 'file2_new');
 
         self::assertTrue(Dir::copy($orig, $copy), 'copy() returns true on success');
         self::assertDirectoryExists($copy . '/dir1', 'subdir of source dir exists in destination dir');
         self::assertDirectoryExists($copy . '/dir2', 'existsing subdir of destination dir still exists');
         self::assertTrue(is_file($copy . '/file1.txt'), 'file of source dir exists in destination dir');
         self::assertTrue(is_file($copy . '/dir3/file1.txt'), 'existing file of destination dir still exists');
-        self::assertEquals('file2_new', rex_file::get($copy . '/file2.txt'), 'existing file in destination dir will be replaced');
-        self::assertEquals('file2_new', rex_file::get($copy . '/dir3/file2.txt'), 'existing file in destination dir will be replaced');
+        self::assertEquals('file2_new', File::get($copy . '/file2.txt'), 'existing file in destination dir will be replaced');
+        self::assertEquals('file2_new', File::get($copy . '/dir3/file2.txt'), 'existing file in destination dir will be replaced');
     }
 
     public function testDeleteComplete(): void
     {
         $dir = $this->getPath('deleteComplete');
         $file = $this->getPath('deleteComplete/subdir/file.txt');
-        rex_file::put($file, '');
+        File::put($file, '');
 
         self::assertTrue(is_file($file), 'file exists after put()');
         self::assertTrue(Dir::delete($dir), 'delete() returns true on success');
@@ -103,7 +103,7 @@ class DirTest extends TestCase
     {
         $dir = $this->getPath('deleteCompleteWithoutSelf');
         $file = $this->getPath('deleteCompleteWithoutSelf/subdir/file.txt');
-        rex_file::put($file, '');
+        File::put($file, '');
 
         self::assertTrue(is_file($file), 'file exists after put()');
         self::assertTrue(Dir::delete($dir, false), 'delete() returns true on success');
@@ -117,8 +117,8 @@ class DirTest extends TestCase
         $dir = $this->getPath('deleteFilesNotRecursive');
         $file1 = $this->getPath('deleteFilesNotRecursive/file.txt');
         $file2 = $this->getPath('deleteFilesNotRecursive/subdir/file.txt');
-        rex_file::put($file1, '');
-        rex_file::put($file2, '');
+        File::put($file1, '');
+        File::put($file2, '');
 
         self::assertTrue(is_file($file1), 'file exists after put()');
         self::assertTrue(is_file($file2), 'file exists after put()');
@@ -132,8 +132,8 @@ class DirTest extends TestCase
         $dir = $this->getPath('deleteFilesRecursive');
         $file1 = $this->getPath('deleteFilesRecursive/file.txt');
         $file2 = $this->getPath('deleteFilesRecursive/subdir/file.txt');
-        rex_file::put($file1, '');
-        rex_file::put($file2, '');
+        File::put($file1, '');
+        File::put($file2, '');
 
         self::assertTrue(is_file($file1), 'file exists after put()');
         self::assertTrue(is_file($file2), 'file exists after put()');

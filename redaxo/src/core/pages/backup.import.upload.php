@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 $success = '';
@@ -36,7 +37,7 @@ if ($function && !$csrfToken->isValid()) {
     $error = I18n::msg('csrf_token_invalid');
 } elseif ('delete' == $function && $impname) {
     // ------------------------------ FUNC DELETE
-    if (rex_file::delete(rex_backup::getDir() . '/' . $impname)) {
+    if (File::delete(rex_backup::getDir() . '/' . $impname)) {
         $success = I18n::msg('backup_file_deleted');
     } else {
         $error = I18n::msg('backup_file_error_while_delete');
@@ -65,7 +66,7 @@ if ($function && !$csrfToken->isValid()) {
 
             // temp datei löschen
             if ('' == $impname) {
-                rex_file::delete($fileTemp);
+                File::delete($fileTemp);
             }
         } else {
             $error = I18n::msg('backup_file_could_not_be_uploaded') . ' ' . I18n::msg('backup_you_have_no_write_permission_in', 'data/core/backup/') . ' <br>';
@@ -93,7 +94,7 @@ if ($function && !$csrfToken->isValid()) {
 
             // temp datei löschen
             if ('' == $impname) {
-                rex_file::delete($fileTemp);
+                File::delete($fileTemp);
             }
         } else {
             $error = I18n::msg('backup_file_could_not_be_uploaded') . ' ' . I18n::msg('backup_you_have_no_write_permission_in', 'data/core/backup/') . ' <br>';

@@ -1,12 +1,25 @@
 <?php
 
+namespace Redaxo\Core\Filesystem;
+
 use Redaxo\Core\Core;
-use Redaxo\Core\Filesystem\Dir;
+use rex_exception;
+use rex_formatter;
+use rex_path;
+use rex_string;
+use rex_timer;
+
+use function dirname;
+
+use const DIRECTORY_SEPARATOR;
+use const FILE_APPEND;
+use const LOCK_EX;
+use const PATHINFO_EXTENSION;
 
 /**
  * Class for handling files.
  */
-class rex_file
+class File
 {
     /**
      * Returns the content of a file.

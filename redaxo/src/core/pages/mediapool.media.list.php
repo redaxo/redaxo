@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
@@ -257,16 +258,16 @@ foreach ($items as $media) {
     if (!is_file(rex_path::media($media->getFileName()))) {
         $thumbnail = '<i class="rex-mime rex-mime-error" title="' . I18n::msg('pool_file_does_not_exist') . '"></i><span class="sr-only">' . $media->getFileName() . '</span>';
     } else {
-        $fileExt = rex_file::extension($media->getFileName());
+        $fileExt = File::extension($media->getFileName());
         $iconClass = ' rex-mime-default';
         if (rex_media::isDocType($fileExt)) {
             $iconClass = ' rex-mime-' . $fileExt;
         }
         $thumbnail = '<i class="rex-mime' . $iconClass . '" title="' . $alt . '" data-extension="' . $fileExt . '"></i><span class="sr-only">' . $media->getFileName() . '</span>';
 
-        if (rex_media::isImageType(rex_file::extension($media->getFileName()))) {
+        if (rex_media::isImageType(File::extension($media->getFileName()))) {
             $thumbnail = '<img class="thumbnail" src="' . rex_url::media($media->getFileName()) . '?buster=' . $media->getValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
-            if ('svg' != rex_file::extension($media->getFileName())) {
+            if ('svg' != File::extension($media->getFileName())) {
                 $thumbnail = '<img class="thumbnail" src="' . rex_media_manager::getUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
             }
         }

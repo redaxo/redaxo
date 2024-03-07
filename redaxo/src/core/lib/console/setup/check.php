@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -53,7 +54,7 @@ class rex_command_setup_check extends rex_console_command
         $config = null;
         $configFile = rex_path::coreData('config.yml');
         if ($configFile) {
-            $config = rex_file::getConfig($configFile);
+            $config = File::getConfig($configFile);
         }
         try {
             if ($config) {
