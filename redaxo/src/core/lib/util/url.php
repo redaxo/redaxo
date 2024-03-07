@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\PathDefaultProvider;
+
 /**
  * Utility class to generate relative URLs.
  */
