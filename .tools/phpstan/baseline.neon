@@ -701,11 +701,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/media_manager/effects/effect_convert2img.php
 
 		-
-			message: "#^Static method rex_path\\:\\:coreCache\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_convert2img.php
-
-		-
 			message: "#^Method rex_effect_crop\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/media_manager/effects/effect_crop.php
