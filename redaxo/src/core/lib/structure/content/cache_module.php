@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Path;
 
 class rex_module_cache
 {
@@ -27,6 +28,6 @@ class rex_module_cache
 
     public static function getKeyMappingPath(): string
     {
-        return rex_path::coreCache('structure/module_key_mapping.cache');
+        return Path::coreCache('structure/module_key_mapping.cache');
     }
 }

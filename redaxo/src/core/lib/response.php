@@ -3,6 +3,7 @@
 use Ramsey\Http\Range\Exception\HttpRangeException;
 use Ramsey\Http\Range\UnitFactory;
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 
 class rex_response
 {
@@ -176,7 +177,7 @@ class rex_response
         session_write_close();
 
         if (!$filename) {
-            $filename = rex_path::basename($file);
+            $filename = Path::basename($file);
         }
 
         self::sendContentType($contentType);

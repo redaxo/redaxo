@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 
 class rex_managed_media
 {
@@ -79,7 +80,7 @@ class rex_managed_media
             return;
         }
 
-        $this->media = rex_path::basename($mediaPath);
+        $this->media = Path::basename($mediaPath);
         $this->asImage = false;
 
         $this->sourcePath = $mediaPath;

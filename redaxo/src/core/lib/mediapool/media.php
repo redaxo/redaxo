@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab.
@@ -56,7 +57,7 @@ class rex_media
         }
 
         return static::getInstance($name, static function ($name) {
-            $mediaPath = rex_path::coreCache('mediapool/' . $name . '.media');
+            $mediaPath = Path::coreCache('mediapool/' . $name . '.media');
 
             $cache = rex_file::getCache($mediaPath, []);
             if (!$cache) {
@@ -117,7 +118,7 @@ class rex_media
         $getInstance = static::get(...);
 
         return static::getInstanceList('root_media', $getInstance, static function () {
-            $listPath = rex_path::coreCache('mediapool/0.mlist');
+            $listPath = Path::coreCache('mediapool/0.mlist');
 
             $list = rex_file::getCache($listPath, null);
             if (null === $list) {
@@ -325,7 +326,7 @@ class rex_media
      */
     public function fileExists()
     {
-        return is_file(rex_path::media($this->getFileName()));
+        return is_file(Path::media($this->getFileName()));
     }
 
     // allowed filetypes

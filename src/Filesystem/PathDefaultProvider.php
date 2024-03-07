@@ -1,9 +1,15 @@
 <?php
 
+namespace Redaxo\Core\Filesystem;
+
+use InvalidArgumentException;
+
+use const DIRECTORY_SEPARATOR;
+
 /**
  * Utility class to generate absolute paths.
  */
-class rex_path_default_provider
+class PathDefaultProvider
 {
     /** @var non-empty-string */
     protected $base;

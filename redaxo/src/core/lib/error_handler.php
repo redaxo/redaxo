@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -112,7 +113,7 @@ abstract class rex_error_handler
         $whoops->allowQuit(false);
 
         $handler = new PrettyPageHandler();
-        $handler->setApplicationRootPath(rtrim(rex_path::base(), '/\\'));
+        $handler->setApplicationRootPath(rtrim(Path::base(), '/\\'));
 
         $handler->setEditor([rex_editor::factory(), 'getUrl']);
 
@@ -308,7 +309,7 @@ abstract class rex_error_handler
         }
 
         if (ini_get('display_errors') && (Core::isSetup() || Core::isDebugMode() || !Core::isLiveMode() && rex_backend_login::createUser()?->isAdmin())) {
-            $file = rex_path::relative($errfile);
+            $file = Path::relative($errfile);
             if ('cli' === PHP_SAPI) {
                 echo self::getErrorType($errno) . ": $errstr in $file on line $errline";
             } else {
@@ -392,7 +393,7 @@ abstract class rex_error_handler
      */
     private static function getMarkdownReport($exception)
     {
-        $file = rex_path::relative($exception->getFile());
+        $file = Path::relative($exception->getFile());
         $markdown = '**' . $exception::class . ":** {$exception->getMessage()}\n";
         $markdown .= "**File:** {$file}\n";
         $markdown .= "**Line:** {$exception->getLine()}\n\n";
@@ -408,7 +409,7 @@ abstract class rex_error_handler
                 $function = $frame['class'] . $frame['type'] . $function;
             }
 
-            $file = isset($frame['file']) ? rex_path::relative($frame['file']) : '';
+            $file = isset($frame['file']) ? Path::relative($frame['file']) : '';
             $line = $frame['line'] ?? '';
 
             $trace[] = [$function, $file, $line];

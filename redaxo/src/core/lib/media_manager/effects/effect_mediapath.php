@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 class rex_effect_mediapath extends rex_effect_abstract
@@ -9,7 +10,7 @@ class rex_effect_mediapath extends rex_effect_abstract
     public function execute()
     {
         if ('' != $this->params['mediapath']) {
-            $mediaPath = rex_path::frontend($this->params['mediapath'] . '/' . $this->media->getMediaFilename());
+            $mediaPath = Path::frontend($this->params['mediapath'] . '/' . $this->media->getMediaFilename());
             $this->media->setMediaPath($mediaPath);
         }
     }

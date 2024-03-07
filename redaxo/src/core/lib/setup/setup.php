@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -38,18 +39,18 @@ class rex_setup
         rex_delete_cache();
 
         // copy alle media files of the current rex-version into redaxo_media
-        Dir::copy(rex_path::core('assets'), rex_path::coreAssets());
+        Dir::copy(Path::core('assets'), Path::coreAssets());
         // in a regular release the folder will never be empty, because we ship it prefilled.
         // provide a error message for 'git cloned' sources, to give newcomers a hint why the very first setup might look broken.
         // we intentionally dont check permissions here, as those will be checked in a later setup step.
-        if (!is_dir(rex_path::coreAssets())) {
-            throw new rex_exception('Unable to copy assets to "' . rex_path::coreAssets() . '". Is the folder writable for the webserver?');
+        if (!is_dir(Path::coreAssets())) {
+            throw new rex_exception('Unable to copy assets to "' . Path::coreAssets() . '". Is the folder writable for the webserver?');
         }
 
-        $files = require rex_path::core('vendor_files.php');
+        $files = require Path::core('vendor_files.php');
         foreach ($files as $source => $destination) {
             // ignore errors, because this file is included very early in setup, before the regular file permissions check
-            rex_file::copy(rex_path::core('assets_files/' . $source), rex_path::coreAssets($destination));
+            rex_file::copy(Path::core('assets_files/' . $source), Path::coreAssets($destination));
         }
     }
 
@@ -86,11 +87,11 @@ class rex_setup
     {
         // -------------------------- SCHREIBRECHTE
         $writables = [
-            rex_path::media(),
-            rex_path::assets(),
-            rex_path::cache(),
-            rex_path::data(),
-            rex_path::src(),
+            Path::media(),
+            Path::assets(),
+            Path::cache(),
+            Path::data(),
+            Path::src(),
         ];
 
         $getMod = static function ($path) {
@@ -302,7 +303,7 @@ class rex_setup
     {
         $token = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
 
-        $configFile = rex_path::coreData('config.yml');
+        $configFile = Path::coreData('config.yml');
         $config = rex_file::getConfig($configFile);
 
         $config['setup'] = isset($config['setup']) && is_array($config['setup']) ? $config['setup'] : [];
@@ -342,7 +343,7 @@ class rex_setup
         }
 
         if ($updated) {
-            $configFile = rex_path::coreData('config.yml');
+            $configFile = Path::coreData('config.yml');
             $config = rex_file::getConfig($configFile);
             $config['setup'] = $setup ?: false;
             rex_file::putConfig($configFile, $config);
@@ -371,9 +372,9 @@ class rex_setup
      */
     public static function markSetupCompleted(): bool
     {
-        $configFile = rex_path::coreData('config.yml');
+        $configFile = Path::coreData('config.yml');
         $config = array_merge(
-            rex_file::getConfig(rex_path::core('default.config.yml')),
+            rex_file::getConfig(Path::core('default.config.yml')),
             rex_file::getConfig($configFile),
         );
 
@@ -392,7 +393,7 @@ class rex_setup
         $configWritten = rex_file::putConfig($configFile, $config);
 
         if ($configWritten) {
-            rex_file::delete(rex_path::coreCache('config.yml.cache'));
+            rex_file::delete(Path::coreCache('config.yml.cache'));
         }
 
         return $configWritten;

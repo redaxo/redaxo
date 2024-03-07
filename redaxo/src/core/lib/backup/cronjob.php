@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 class rex_cronjob_export extends rex_cronjob
@@ -37,7 +38,7 @@ class rex_cronjob_export extends rex_cronjob
         $exportFilePath = $dir . $file . $ext;
 
         if (rex_backup::exportDb($exportFilePath, $tables)) {
-            $message = rex_path::basename($exportFilePath) . ' created';
+            $message = Path::basename($exportFilePath) . ' created';
 
             if ($this->getParam('compress')) {
                 $compressor = new rex_backup_file_compressor();
@@ -45,7 +46,7 @@ class rex_cronjob_export extends rex_cronjob
                 if ($gzPath) {
                     rex_file::delete($exportFilePath);
 
-                    $message = rex_path::basename($gzPath) . ' created';
+                    $message = Path::basename($gzPath) . ' created';
                     $exportFilePath = $gzPath;
                     $filename .= '.gz';
                 }
@@ -53,8 +54,8 @@ class rex_cronjob_export extends rex_cronjob
 
             if ($this->getParam('delete_interval')) {
                 $allSqlfiles = array_merge(
-                    glob(rex_path::coreData('backup/*' . $ext), GLOB_NOSORT),
-                    glob(rex_path::coreData('backup/*' . $ext . '.gz'), GLOB_NOSORT),
+                    glob(Path::coreData('backup/*' . $ext), GLOB_NOSORT),
+                    glob(Path::coreData('backup/*' . $ext . '.gz'), GLOB_NOSORT),
                 );
                 $backups = [];
                 $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat

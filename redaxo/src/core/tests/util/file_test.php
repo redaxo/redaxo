@@ -3,6 +3,7 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * @internal
@@ -25,7 +26,7 @@ class rex_file_test extends TestCase
 
     private function getPath(string $file = ''): string
     {
-        return rex_path::addonData('tests', 'rex_file_test/' . $file);
+        return Path::addonData('tests', 'rex_file_test/' . $file);
     }
 
     public function testRequireThrows(): void
@@ -146,11 +147,11 @@ class rex_file_test extends TestCase
     public static function dataTestMimeType(): array
     {
         return [
-            ['image/png', rex_path::coreAssets('icons/apple-touch-icon.png')],
-            ['text/xml', rex_path::coreAssets('icons/browserconfig.xml')],
-            ['text/css', rex_path::coreAssets('css/styles.css')],
-            ['application/javascript', rex_path::coreAssets('js/redaxo.js')],
-            ['image/svg+xml', rex_path::coreAssets('images/redaxo-logo.svg')],
+            ['image/png', Path::coreAssets('icons/apple-touch-icon.png')],
+            ['text/xml', Path::coreAssets('icons/browserconfig.xml')],
+            ['text/css', Path::coreAssets('css/styles.css')],
+            ['application/javascript', Path::coreAssets('js/redaxo.js')],
+            ['image/svg+xml', Path::coreAssets('images/redaxo-logo.svg')],
         ];
     }
 

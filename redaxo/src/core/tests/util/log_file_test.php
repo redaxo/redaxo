@@ -3,6 +3,7 @@
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * @internal
@@ -16,7 +17,7 @@ class rex_log_file_test extends TestCase
 
     private function getPath(string $file = ''): string
     {
-        return rex_path::addonData('tests', 'rex_log_file_test/' . $file);
+        return Path::addonData('tests', 'rex_log_file_test/' . $file);
     }
 
     public function testConstruct(): void

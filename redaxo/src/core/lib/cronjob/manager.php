@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 
 class rex_cronjob_manager
 {
@@ -131,7 +132,7 @@ class rex_cronjob_manager
             $environment = Core::getEnvironment();
         }
 
-        $log = rex_log_file::factory(rex_path::log('cronjob.log'), 2_000_000);
+        $log = rex_log_file::factory(Path::log('cronjob.log'), 2_000_000);
         $data = [
             $success ? 'SUCCESS' : 'ERROR',
             $this->id ?: '--',

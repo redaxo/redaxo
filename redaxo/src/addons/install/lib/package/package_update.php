@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -33,8 +34,8 @@ class rex_install_package_update extends rex_install_package_download
 
     public function doAction()
     {
-        $path = rex_path::addon($this->addonkey);
-        $temppath = rex_path::addon('.new.' . $this->addonkey);
+        $path = Path::addon($this->addonkey);
+        $temppath = Path::addon('.new.' . $this->addonkey);
         $oldVersion = $this->addon->getVersion();
 
         // remove temp dir very late otherwise Whoops could not find source files in case of errors
@@ -88,7 +89,7 @@ class rex_install_package_update extends rex_install_package_download
         $assets = $this->addon->getAssetsPath();
         $installConfig = rex_file::getCache(rex_addon::get('install')->getDataPath('config.json'));
         if (isset($installConfig['backups']) && $installConfig['backups']) {
-            $archivePath = rex_path::addonData('install', $this->addonkey . '/');
+            $archivePath = Path::addonData('install', $this->addonkey . '/');
             Dir::create($archivePath);
             $archive = $archivePath . strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', $this->addon->getVersion() ?: '0')) . '.zip';
             rex_install_archive::copyDirToArchive($path, $archive);
@@ -98,7 +99,7 @@ class rex_install_package_update extends rex_install_package_download
         }
 
         // ---- update main addon dir
-        $pathOld = rex_path::addon($this->addonkey . '.old');
+        $pathOld = Path::addon($this->addonkey . '.old');
         error_clear_last();
         // move current addon to temp path
         if (!@rename($path, $pathOld)) {
@@ -149,7 +150,7 @@ class rex_install_package_update extends rex_install_package_download
      */
     private function checkRequirements($config)
     {
-        $temppath = rex_path::addon('.new.' . $this->addonkey);
+        $temppath = Path::addon('.new.' . $this->addonkey);
 
         // ---- update "version", "requires" and "conflicts" properties
         /** @var SplObjectStorage<rex_addon, string> $versions */

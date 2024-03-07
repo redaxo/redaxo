@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 class rex_media_manager
@@ -57,8 +58,8 @@ class rex_media_manager
      */
     public static function create($type, $file)
     {
-        $mediaPath = rex_path::media($file);
-        $cachePath = rex_path::coreCache('media_manager/');
+        $mediaPath = Path::media($file);
+        $cachePath = Path::coreCache('media_manager/');
 
         $media = new rex_managed_media($mediaPath);
         $manager = new self($media);
@@ -299,7 +300,7 @@ class rex_media_manager
             $counter += self::deleteCache(null, (string) $row->getValue('name'));
         }
 
-        rex_file::delete(rex_path::coreCache('media_manager/types.cache'));
+        rex_file::delete(Path::coreCache('media_manager/types.cache'));
 
         return $counter;
     }
@@ -312,7 +313,7 @@ class rex_media_manager
     public static function deleteCache($filename = null, $type = null)
     {
         if (null === $filename) {
-            rex_file::delete(rex_path::coreCache('media_manager/types.cache'));
+            rex_file::delete(Path::coreCache('media_manager/types.cache'));
         }
 
         $filename = ($filename ?: '') . '*';
@@ -322,7 +323,7 @@ class rex_media_manager
         }
 
         $counter = 0;
-        $folder = self::$cacheDirectory ?? rex_path::coreCache('media_manager/');
+        $folder = self::$cacheDirectory ?? Path::coreCache('media_manager/');
 
         $glob = glob($folder . $type . '/' . $filename, GLOB_NOSORT);
         if ($glob) {
@@ -429,7 +430,7 @@ class rex_media_manager
         return str_replace(
             ['effect_', '.php'],
             '',
-            rex_path::basename($effectFile),
+            Path::basename($effectFile),
         );
     }
 
@@ -442,7 +443,7 @@ class rex_media_manager
         return 'rex_' . str_replace(
             '.php',
             '',
-            rex_path::basename($effectFile),
+            Path::basename($effectFile),
         );
     }
 
@@ -498,8 +499,8 @@ class rex_media_manager
         $rexMediaManagerType = self::getMediaType();
 
         if ('' != $rexMediaManagerFile && '' != $rexMediaManagerType) {
-            $mediaPath = rex_path::media($rexMediaManagerFile);
-            $cachePath = self::$cacheDirectory ?? rex_path::coreCache('media_manager/');
+            $mediaPath = Path::media($rexMediaManagerFile);
+            $cachePath = self::$cacheDirectory ?? Path::coreCache('media_manager/');
 
             $media = new rex_managed_media($mediaPath);
             $mediaManager = new self($media);
@@ -514,7 +515,7 @@ class rex_media_manager
      */
     public static function getMediaFile()
     {
-        return rex_path::basename(rex_get('rex_media_file', 'string'));
+        return Path::basename(rex_get('rex_media_file', 'string'));
     }
 
     /**
@@ -524,7 +525,7 @@ class rex_media_manager
     {
         $type = rex_get('rex_media_type', 'string');
 
-        return rex_path::basename($type);
+        return Path::basename($type);
     }
 
     /**
@@ -572,7 +573,7 @@ class rex_media_manager
      */
     private static function getTypeCache(): array
     {
-        $file = rex_path::coreCache('media_manager/types.cache');
+        $file = Path::coreCache('media_manager/types.cache');
 
         /** @var array<string, int>|null $cache */
         $cache = rex_file::getCache($file, null);

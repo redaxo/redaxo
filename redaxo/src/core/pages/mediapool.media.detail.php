@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
@@ -159,7 +160,7 @@ if ($isImage) {
         $width = '';
     }
 
-    if (!is_file(rex_path::media($fname))) {
+    if (!is_file(Path::media($fname))) {
         $sidebar = '<i class="rex-mime rex-mime-error"></i><span class="sr-only">' . $fname . '</span>';
     } else {
         $sidebar = '

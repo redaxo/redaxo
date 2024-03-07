@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Formatter;
 use ScssPhp\ScssPhp\Formatter\Compressed;
@@ -17,9 +18,9 @@ class rex_scss_compiler
 
     public function __construct()
     {
-        $this->root_dir = rex_path::addon('be_style');
-        $this->scss_file = rex_path::addon('be_style', 'assets') . 'styles.scss';
-        $this->css_file = rex_path::addon('be_style', 'assets') . 'styles.css';
+        $this->root_dir = Path::addon('be_style');
+        $this->scss_file = Path::addon('be_style', 'assets') . 'styles.scss';
+        $this->css_file = Path::addon('be_style', 'assets') . 'styles.css';
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
+
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.
  * DB Anfragen werden vermieden, caching läuft über generated Dateien.
@@ -111,7 +113,7 @@ class rex_article_content extends rex_article_content_base
             try {
                 ob_implicit_flush(false);
 
-                $articleContentFile = rex_path::coreCache('structure/' . $this->article_id . '.' . $this->clang . '.content');
+                $articleContentFile = Path::coreCache('structure/' . $this->article_id . '.' . $this->clang . '.content');
 
                 if (!is_file($articleContentFile)) {
                     rex_content_service::generateArticleContent($this->article_id, $this->clang);

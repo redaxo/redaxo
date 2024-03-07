@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 $success = '';
@@ -14,7 +15,7 @@ $impname = rex_request('impname', 'string');
 $csrfToken = rex_csrf_token::factory('backup_import');
 
 if ('' != $impname) {
-    $impname = rex_path::basename($impname);
+    $impname = Path::basename($impname);
     $validDump = rex_backup::isFilenameValid(rex_backup::IMPORT_DB, $impname);
     $validArchive = rex_backup::isFilenameValid(rex_backup::IMPORT_ARCHIVE, $impname);
 

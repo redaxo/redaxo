@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -33,7 +34,7 @@ class rex_api_install_package_upload extends rex_api_function
         $file['status'] = $upload['status'];
         try {
             if ($upload['upload_file']) {
-                $archive = rex_path::addonCache('install', md5($addonkey . time()) . '.zip');
+                $archive = Path::addonCache('install', md5($addonkey . time()) . '.zip');
                 $exclude = [
                     '.gitattributes',
                     '.github',
@@ -54,7 +55,7 @@ class rex_api_install_package_upload extends rex_api_function
                         $exclude[] = $excludeItem;
                     }
                 }
-                rex_install_archive::copyDirToArchive(rex_path::addon($addonkey), $archive, null, $exclude);
+                rex_install_archive::copyDirToArchive(Path::addon($addonkey), $archive, null, $exclude);
                 if ($upload['replace_assets']) {
                     rex_install_archive::copyDirToArchive(rex_url::addonAssets($addonkey), $archive, $addonkey . '/assets');
                 }

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Path;
 
 if (Core::isSetup()) {
     rex_response::sendRedirect(rex_url::backendController());
@@ -18,7 +19,7 @@ if (0 != Core::getConfig('phpmailer_errormail')) {
 }
 
 // ----- INCLUDE ADDONS
-include_once rex_path::core('packages.php');
+include_once Path::core('packages.php');
 
 // ----- caching end für output filter
 $content = ob_get_clean();

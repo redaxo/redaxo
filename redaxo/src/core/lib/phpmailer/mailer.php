@@ -2,6 +2,7 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 class rex_mailer extends PHPMailer
@@ -19,7 +20,7 @@ class rex_mailer extends PHPMailer
     public function __construct($exceptions = false)
     {
         $this->Timeout = 10;
-        $this->setLanguage(I18n::getLanguage(), rex_path::core('vendor/phpmailer/phpmailer/language/'));
+        $this->setLanguage(I18n::getLanguage(), Path::core('vendor/phpmailer/phpmailer/language/'));
         $this->XMailer = 'REXMailer';
         $this->From = Core::getConfig('phpmailer_from');
         $this->FromName = Core::getConfig('phpmailer_fromname');
@@ -207,7 +208,7 @@ class rex_mailer extends PHPMailer
      */
     public static function logFolder(): string
     {
-        return rex_path::coreData('phpmailer/mail_log');
+        return Path::coreData('phpmailer/mail_log');
     }
 
     /**
@@ -215,7 +216,7 @@ class rex_mailer extends PHPMailer
      */
     public static function logFile(): string
     {
-        return rex_path::log('mail.log');
+        return Path::log('mail.log');
     }
 
     /**
@@ -223,7 +224,7 @@ class rex_mailer extends PHPMailer
      */
     public static function errorMail(): void
     {
-        $logFile = rex_path::log('system.log');
+        $logFile = Path::log('system.log');
         $sendTime = Core::getConfig('phpmailer_last_log_file_send_time', 0);
         $lasterrors = Core::getConfig('phpmailer_last_errors', '');
         $currenterrors = '';

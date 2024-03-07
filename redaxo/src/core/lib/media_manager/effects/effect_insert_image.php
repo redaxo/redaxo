@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -12,7 +13,7 @@ class rex_effect_insert_image extends rex_effect_abstract
         $this->media->asImage();
 
         // -------------------------------------- CONFIG
-        $brandimage = rex_path::media($this->params['brandimage']);
+        $brandimage = Path::media($this->params['brandimage']);
         if (!is_file($brandimage)) {
             return;
         }

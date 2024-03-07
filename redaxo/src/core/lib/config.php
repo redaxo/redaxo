@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * Class for handling configurations.
@@ -269,7 +270,7 @@ class rex_config
             return;
         }
 
-        self::$cacheFile = rex_path::coreCache('config.cache');
+        self::$cacheFile = Path::coreCache('config.cache');
 
         // take care, so we are able to write a cache file on shutdown
         // (check here, since exceptions in shutdown functions are not visible to the user)

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
+
 /**
  * Stream wrapper to include variables like files (php code will be evaluated).
  *
@@ -61,7 +63,7 @@ class rex_stream
 
         if (self::$useRealFiles) {
             $hash = substr(sha1($content), 0, 7);
-            $path = rex_path::coreCache('stream/' . $path . '/' . $hash);
+            $path = Path::coreCache('stream/' . $path . '/' . $hash);
 
             if (!is_file($path)) {
                 rex_file::put($path, $content);

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -21,7 +22,7 @@ class rex_setup_importer
         Core::setProperty('version', Core::getConfig('version'));
 
         try {
-            include rex_path::core('update.php');
+            include Path::core('update.php');
         } catch (rex_functional_exception $e) {
             $errMsg .= $e->getMessage();
         } catch (rex_sql_exception $e) {
@@ -50,7 +51,7 @@ class rex_setup_importer
 
         // ----- vorhandenen Export importieren
         $errMsg = '';
-        $importName = rex_path::basename($importName);
+        $importName = Path::basename($importName);
 
         $importSql = rex_backup::getDir() . '/' . $importName . '.sql';
         $importSql .= is_file($importSql) ? '' : '.gz';
@@ -93,7 +94,7 @@ class rex_setup_importer
         }
 
         try {
-            include rex_path::core('install.php');
+            include Path::core('install.php');
         } catch (rex_functional_exception $e) {
             $errMsg .= $e->getMessage();
         } catch (rex_sql_exception $e) {
@@ -116,7 +117,7 @@ class rex_setup_importer
         $errMsg = '';
 
         try {
-            include rex_path::core('install.php');
+            include Path::core('install.php');
         } catch (rex_functional_exception $e) {
             $errMsg .= $e->getMessage();
         } catch (rex_sql_exception $e) {
@@ -163,7 +164,7 @@ class rex_setup_importer
         $errMsg = '';
 
         if (is_file($importSql)) {
-            I18n::addDirectory(rex_path::core('backup/lang/'));
+            I18n::addDirectory(Path::core('backup/lang/'));
 
             // DB Import
             $stateDb = rex_backup::importDb($importSql);

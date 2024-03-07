@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 $func = rex_request('func', 'string');
@@ -152,7 +153,7 @@ if ('' == $func) {
 
     $field = $form->addCheckboxField('environment');
     $field->setLabel(I18n::msg('cronjob_environment'));
-    $field->setNotice(I18n::msg('cronjob_environment_notice', rex_path::bin('console') . ' cronjob:run'));
+    $field->setNotice(I18n::msg('cronjob_environment_notice', Path::bin('console') . ' cronjob:run'));
     $field->getValidator()->add('notEmpty', I18n::msg('cronjob_error_no_environment'));
     $envFieldId = rex_escape($field->getAttribute('id'), 'js');
     $field->addOption(I18n::msg('cronjob_environment_frontend'), 'frontend');

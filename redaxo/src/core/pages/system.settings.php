@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 $error = [];
@@ -29,18 +30,18 @@ if ($func && !$csrfToken->isValid()) {
     // generate all articles,cats,templates,caches
     $success = rex_delete_cache();
 } elseif ('updateassets' == $func && !Core::isLiveMode()) {
-    Dir::copy(rex_path::core('assets'), rex_path::coreAssets());
+    Dir::copy(Path::core('assets'), Path::coreAssets());
 
-    $files = require rex_path::core('vendor_files.php');
+    $files = require Path::core('vendor_files.php');
     foreach ($files as $source => $destination) {
-        rex_file::copy(rex_path::core('assets_files/' . $source), rex_path::coreAssets($destination));
+        rex_file::copy(Path::core('assets_files/' . $source), Path::coreAssets($destination));
     }
 
     $success = 'Updated assets';
 } elseif ('debugmode' == $func && !Core::isLiveMode()) {
-    $configFile = rex_path::coreData('config.yml');
+    $configFile = Path::coreData('config.yml');
     $config = array_merge(
-        rex_file::getConfig(rex_path::core('default.config.yml')),
+        rex_file::getConfig(Path::core('default.config.yml')),
         rex_file::getConfig($configFile),
     );
 
@@ -55,9 +56,9 @@ if ($func && !$csrfToken->isValid()) {
         rex_response::sendRedirect(rex_url::currentBackendPage(['rex_debug_updated' => true]));
     }
 } elseif ('updateinfos' == $func) {
-    $configFile = rex_path::coreData('config.yml');
+    $configFile = Path::coreData('config.yml');
     $config = array_merge(
-        rex_file::getConfig(rex_path::core('default.config.yml')),
+        rex_file::getConfig(Path::core('default.config.yml')),
         rex_file::getConfig($configFile),
     );
 
@@ -118,7 +119,7 @@ if ($func && !$csrfToken->isValid()) {
 
         $success = I18n::msg('system_editor_success_cookie');
     } else {
-        $configFile = rex_path::coreData('config.yml');
+        $configFile = Path::coreData('config.yml');
         $config = rex_file::getConfig($configFile);
 
         $config['editor'] = $editor['name'];
@@ -156,7 +157,7 @@ $dbconfig = Core::getDbConfig(1);
 
 $rexVersion = Core::getVersion();
 if (str_contains($rexVersion, '-dev')) {
-    $hash = rex_version::gitHash(rex_path::base(), 'redaxo/redaxo');
+    $hash = rex_version::gitHash(Path::base(), 'redaxo/redaxo');
     if ($hash) {
         $rexVersion .= '#' . $hash;
     }
@@ -219,7 +220,7 @@ $content = '
         <tr>
             <th>' . I18n::msg('path') . '</th>
 			<td>
-			<div class="rex-word-break">' . rex_path::base() . '</div>
+			<div class="rex-word-break">' . Path::base() . '</div>
 			</td>
         </tr>
     </table>';
@@ -292,11 +293,11 @@ foreach (rex_system_setting::getAll() as $setting) {
 $formElements = [];
 
 $editor = rex_editor::factory();
-$configYml = rex_path::coreData('config.yml');
+$configYml = Path::coreData('config.yml');
 if ($url = $editor->getUrl($configYml, 0)) {
     $n = [];
     $n['label'] = '';
-    $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="' . $url . '">' . I18n::msg('system_editor_open_file', rex_path::basename($configYml)) . '</a>';
+    $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="' . $url . '">' . I18n::msg('system_editor_open_file', Path::basename($configYml)) . '</a>';
     $n['note'] = I18n::msg('system_edit_config_note');
     $formElements[] = $n;
 }

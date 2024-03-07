@@ -4,6 +4,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * @internal
@@ -13,7 +14,7 @@ class rex_article_content_test extends TestCase
     protected function setUp(): void
     {
         // fake article
-        $articleFile = rex_path::coreCache('structure/1.1.article');
+        $articleFile = Path::coreCache('structure/1.1.article');
         rex_file::putCache($articleFile, [
             'pid' => 1,
             'id' => 1,
@@ -51,7 +52,7 @@ class rex_article_content_test extends TestCase
     protected function tearDown(): void
     {
         // delete all fake structure cache files
-        $finder = rex_finder::factory(rex_path::coreCache('structure/'))
+        $finder = rex_finder::factory(Path::coreCache('structure/'))
             ->recursive()
             ->childFirst()
             ->ignoreSystemStuff(false);

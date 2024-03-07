@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($markdown) && is_callable($markdown));
@@ -76,7 +77,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             $formElements[] = $n;
         }
 
-        if (is_dir(rex_path::addon($addonkey, 'tests'))) {
+        if (is_dir(Path::addon($addonkey, 'tests'))) {
             $n = [];
             $n['reverse'] = true;
             $n['label'] = '<label for="rex-js-install-packages-upload-ignore-tests">' . $package->i18n('ignore_tests') . '</label>';

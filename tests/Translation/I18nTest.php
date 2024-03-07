@@ -4,9 +4,9 @@ namespace Redaxo\Core\Tests\Translation;
 
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use rex_file;
-use rex_path;
 
 class I18nTransCb
 {
@@ -51,7 +51,7 @@ class I18nTest extends TestCase
 
     private function getPath(): string
     {
-        return rex_path::addonData('tests', 'lang');
+        return Path::addonData('tests', 'lang');
     }
 
     public function testLoadFile(): void

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 header('X-Robots-Tag: noindex, nofollow, noarchive');
@@ -20,7 +21,7 @@ if (rex_get('asset') && rex_get('buster')) {
     }
 
     $fullPath = realpath($assetFile);
-    $assetDir = rex_path::assets();
+    $assetDir = Path::assets();
 
     if (!str_starts_with($fullPath, $assetDir)) {
         throw new Exception('Assets can only be streamed from within the assets folder. "' . $fullPath . '" is not within "' . $assetDir . '"');
@@ -165,9 +166,9 @@ if (Core::isSetup()) {
             } else {
                 rex_unset_session('safemode');
                 if (Core::getProperty('safe_mode')) {
-                    $configFile = rex_path::coreData('config.yml');
+                    $configFile = Path::coreData('config.yml');
                     $config = array_merge(
-                        rex_file::getConfig(rex_path::core('default.config.yml')),
+                        rex_file::getConfig(Path::core('default.config.yml')),
                         rex_file::getConfig($configFile),
                     );
                     $config['safe_mode'] = false;
@@ -563,12 +564,12 @@ Core::setProperty('metainfo_metaTables', [
 rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
 rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function ($ep) {
     $subject = $ep->getSubject();
-    $metaSidebar = include rex_path::core('pages/metainfo.content.php');
+    $metaSidebar = include Path::core('pages/metainfo.content.php');
     return $metaSidebar . $subject;
 });
 
 // ----- INCLUDE ADDONS
-include_once rex_path::core('packages.php');
+include_once Path::core('packages.php');
 
 if (Core::getUser() && Core::getConfig('be_style_compile')) {
     rex_be_style::compile();

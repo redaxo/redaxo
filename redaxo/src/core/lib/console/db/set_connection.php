@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Path;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,7 +28,7 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
     {
         $io = $this->getStyle($input, $output);
 
-        $configFile = rex_path::coreData('config.yml');
+        $configFile = Path::coreData('config.yml');
         $config = rex_file::getConfig($configFile);
 
         $db = ($config['db'][1] ?? []) + ['host' => '', 'login' => '', 'password' => '', 'name' => ''];
