@@ -98,7 +98,7 @@ class rex_api_install_core_update extends rex_api_function
                     }
                 }
             }
-            // $config = rex_file::getConfig($temppath . 'core/default.config.yml');
+            // $config = File::getConfig($temppath . 'core/default.config.yml');
             // foreach ($config['system_addons'] as $addonkey) {
             //    if (is_dir($temppath . 'addons/' . $addonkey) && rex_addon::exists($addonkey)) {
             //        $updateAddons[$addonkey] = rex_addon::get($addonkey);
