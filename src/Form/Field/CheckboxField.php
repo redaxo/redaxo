@@ -6,6 +6,8 @@ use Redaxo\Core\Form\AbstractForm;
 use rex_fragment;
 use rex_string;
 
+use function in_array;
+
 class CheckboxField extends AbstractOptionField
 {
     // 1. Parameter nicht genutzt, muss aber hier stehen,
