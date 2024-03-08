@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -14,7 +15,7 @@ $csrf = rex_csrf_token::factory('mediapool');
 // ---- Dateien aus dem Ordner lesen
 $folderFiles = [];
 $path = Path::media();
-$iterator = rex_finder::factory($path)->filesOnly()->ignoreFiles(['.*', Core::getTempPrefix() . '*'])->sort();
+$iterator = Finder::factory($path)->filesOnly()->ignoreFiles(['.*', Core::getTempPrefix() . '*'])->sort();
 foreach ($iterator as $file) {
     $folderFiles[] = rex_string::normalizeEncoding($file->getFilename());
 }

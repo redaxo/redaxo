@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -192,7 +193,7 @@ $selDirs->setSelected($EXPDIR);
 $selDirs->setStyle('class="form-control"');
 
 $dir = Path::frontend();
-$folders = rex_finder::factory($dir)
+$folders = Finder::factory($dir)
     ->dirsOnly()
     ->ignoreDirs('.*')
     ->ignoreDirs('redaxo')

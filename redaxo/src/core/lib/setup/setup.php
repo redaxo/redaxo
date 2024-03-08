@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -104,7 +105,7 @@ class rex_setup
                 return ['setup_204' => [$dir]];
             }
             $res = [];
-            foreach (rex_finder::factory($dir) as $path => $file) {
+            foreach (Finder::factory($dir) as $path => $file) {
                 if ($file->isDir()) {
                     $res = array_merge_recursive($res, $func($path));
                 } elseif (!$file->isWritable()) {

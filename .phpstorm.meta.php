@@ -18,7 +18,7 @@ expectedReturnValues(\Redaxo\Core\Core::getEnvironment(), 'frontend', 'backend',
 
 expectedArguments(\rex_extension::register(), 2, \rex_extension::EARLY, \rex_extension::NORMAL, \rex_extension::LATE);
 
-expectedArguments(\rex_finder::sort(), 0, \rex_sortable_iterator::KEYS, \rex_sortable_iterator::VALUES);
+expectedArguments(\Redaxo\Core\Filesystem\Finder::sort(), 0, \rex_sortable_iterator::KEYS, \rex_sortable_iterator::VALUES);
 expectedArguments(\rex_sortable_iterator::__construct(), 1, \rex_sortable_iterator::KEYS, \rex_sortable_iterator::VALUES);
 
 expectedArguments(\Redaxo\Core\Form\Form::factory(), 3, 'get', 'post');

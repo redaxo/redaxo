@@ -104,6 +104,7 @@ return RectorConfig::configure()
         rex_package_manager::class => rex_addon_manager::class,
         rex_dir::class => Redaxo\Core\Filesystem\Dir::class,
         rex_file::class => Redaxo\Core\Filesystem\File::class,
+        rex_finder::class => Redaxo\Core\Filesystem\Finder::class,
         rex_form_base::class => Redaxo\Core\Form\AbstractForm::class,
         rex_form::class => Redaxo\Core\Form\Form::class,
         rex_config_form::class => Redaxo\Core\Form\ConfigForm::class,

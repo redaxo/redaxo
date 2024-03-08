@@ -3617,20 +3617,6 @@
       <code><![CDATA[$_SERVER['SERVER_PROTOCOL']]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
-  <file src="redaxo/src/core/lib/util/finder.php">
-    <MixedArgument>
-      <code><![CDATA[$filename]]></code>
-      <code><![CDATA[$pattern]]></code>
-    </MixedArgument>
-    <MixedArrayAssignment>
-      <code><![CDATA[$this->$var[]]]></code>
-      <code><![CDATA[$this->$var[]]]></code>
-    </MixedArrayAssignment>
-    <MixedOperand>
-      <code><![CDATA[$this->$var]]></code>
-      <code><![CDATA[$this->$var]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/lib/util/formatter.php">
     <InvalidArrayOffset>
       <code><![CDATA[$units[$unitIndex]]]></code>
@@ -4968,6 +4954,20 @@
     <MixedReturnStatement>
       <code><![CDATA[null === $content ? $default : json_decode($content, true)]]></code>
     </MixedReturnStatement>
+  </file>
+  <file src="src/Filesystem/Finder.php">
+    <MixedArgument>
+      <code><![CDATA[$filename]]></code>
+      <code><![CDATA[$pattern]]></code>
+    </MixedArgument>
+    <MixedArrayAssignment>
+      <code><![CDATA[$this->$var[]]]></code>
+      <code><![CDATA[$this->$var[]]]></code>
+    </MixedArrayAssignment>
+    <MixedOperand>
+      <code><![CDATA[$this->$var]]></code>
+      <code><![CDATA[$this->$var]]></code>
+    </MixedOperand>
   </file>
   <file src="src/Filesystem/Path.php">
     <LessSpecificReturnStatement>

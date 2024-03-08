@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -50,7 +51,7 @@ class rex_backup
     {
         $dir = self::getDir();
 
-        $folder = rex_finder::factory($dir)->filesOnly();
+        $folder = Finder::factory($dir)->filesOnly();
 
         $filtered = [];
         foreach ($folder as $file) {
