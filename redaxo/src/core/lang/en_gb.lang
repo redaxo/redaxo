@@ -403,7 +403,6 @@ list_next = next page
 list_rows_found = {0} entries found
 list_no_rows = No entries
 
-# redaxo\include\classes\class.rex_form.php
 form_save = Save
 form_apply = Apply
 form_delete = Delete

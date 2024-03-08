@@ -434,7 +434,6 @@ list_next = Следующая страница
 list_rows_found = {0} записей найдено
 list_no_rows = Нет записей
 
-# redaxo\include\classes\class.rex_form.php
 form_save = Сохранить
 form_apply = Применить
 form_delete = Удалить
