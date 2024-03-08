@@ -958,9 +958,6 @@
       <code><![CDATA[rex_addon::get('mediapool')->getProperty('allowed_doctypes')]]></code>
       <code><![CDATA[rex_addon::get('mediapool')->getProperty('image_extensions')]]></code>
     </MixedReturnStatement>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$getInstance]]></code>
-    </PossiblyInvalidArgument>
     <PossiblyNullArgument>
       <code><![CDATA[$this->getValue('med_description')]]></code>
     </PossiblyNullArgument>

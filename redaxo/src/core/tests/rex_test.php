@@ -86,7 +86,7 @@ class rex_rex_test extends TestCase
 
             self::assertTrue(rex::isDebugMode());
             self::assertArrayHasKey('throw_always_exception', rex::getDebugFlags());
-            self::assertFalse(rex::getDebugFlags()['throw_always_exception']);
+            self::assertFalse(rex::getDebugFlags()['throw_always_exception']); // @phpstan-ignore-line
 
             rex::setProperty('debug', ['enabled' => false]);
 
