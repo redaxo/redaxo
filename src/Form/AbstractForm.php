@@ -89,7 +89,7 @@ abstract class AbstractForm
     protected function __construct($fieldset, $name, $method = 'post', $debug = false)
     {
         if (!in_array($method, ['post', 'get'])) {
-            throw new InvalidArgumentException("rex_form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!");
+            throw new InvalidArgumentException("Form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!");
         }
 
         $this->name = $name;

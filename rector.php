@@ -170,7 +170,7 @@ return RectorConfig::configure()
         new ArgumentRemover(rex_url::class, 'backendController', 1, null),
         new ArgumentRemover(rex_url::class, 'backendPage', 2, null),
         new ArgumentRemover(rex_url::class, 'currentBackendPage', 1, null),
-        new ArgumentRemover(rex_form_base::class, 'getUrl', 1, null),
+        new ArgumentRemover(Redaxo\Core\Form\AbstractForm::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
         new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
@@ -190,7 +190,7 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(rex_markdown::class, 'parseWithToc', 3, false, $options),
     ])
     ->withConfiguredRule(ConstFetchToClassConstFetchRector::class, [
-        new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', rex_form::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
+        new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', Redaxo\Core\Form\Form::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
 
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TEXT', rex_metainfo_table_manager::class, 'FIELD_TEXT'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TEXTAREA', rex_metainfo_table_manager::class, 'FIELD_TEXTAREA'),
