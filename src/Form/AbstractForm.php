@@ -10,6 +10,7 @@ use Redaxo\Core\Form\Field\CheckboxField;
 use Redaxo\Core\Form\Field\ContainerField;
 use Redaxo\Core\Form\Field\ControlField;
 use Redaxo\Core\Form\Field\RadioField;
+use Redaxo\Core\Form\Field\RawField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
 use rex_be_controller;
@@ -17,7 +18,6 @@ use rex_csrf_token;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
-use rex_form_raw_element;
 use rex_form_widget_linklist_element;
 use rex_form_widget_linkmap_element;
 use rex_form_widget_media_element;
@@ -469,12 +469,12 @@ abstract class AbstractForm
      *
      * @param string $html HTML code
      *
-     * @return rex_form_raw_element
+     * @return RawField
      */
     public function addRawField($html)
     {
-        $field = $this->addElement(new rex_form_raw_element($html, $this));
-        assert($field instanceof rex_form_raw_element);
+        $field = $this->addElement(new RawField($html, $this));
+        assert($field instanceof RawField);
         return $field;
     }
 
@@ -806,11 +806,11 @@ abstract class AbstractForm
 
     /**
      * @return bool
-     * @psalm-assert-if-true rex_form_raw_element $element
+     * @psalm-assert-if-true \Redaxo\Core\Form\Field\RawField $element
      */
     protected function isRawElement(BaseField $element)
     {
-        return $element instanceof rex_form_raw_element;
+        return $element instanceof RawField;
     }
 
     /**

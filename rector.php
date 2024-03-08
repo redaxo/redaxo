@@ -117,6 +117,7 @@ return RectorConfig::configure()
         rex_form_select_element::class => Redaxo\Core\Form\Field\SelectField::class,
         rex_form_prio_element::class => Redaxo\Core\Form\Field\PriorityField::class,
         rex_form_perm_select_element::class => Redaxo\Core\Form\Field\PermissionSelectField::class,
+        rex_form_raw_element::class => Redaxo\Core\Form\Field\RawField::class,
         rex_i18n::class => Redaxo\Core\Translation\I18n::class,
         rex_path::class => Redaxo\Core\Filesystem\Path::class,
         rex_path_default_provider::class => Redaxo\Core\Filesystem\DefaultPathProvider::class,

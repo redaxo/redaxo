@@ -1,12 +1,13 @@
 <?php
 
+namespace Redaxo\Core\Form\Field;
+
 use Redaxo\Core\Form\AbstractForm;
-use Redaxo\Core\Form\Field\BaseField;
 
 /**
  * class implements storage of raw html(string) as Form object.
  */
-class rex_form_raw_element extends BaseField
+class RawField extends BaseField
 {
     /** @var string */
     private $html;
