@@ -806,7 +806,7 @@ abstract class AbstractForm
 
     /**
      * @return bool
-     * @psalm-assert-if-true \Redaxo\Core\Form\Field\RawField $element
+     * @psalm-assert-if-true RawField $element
      */
     protected function isRawElement(BaseField $element)
     {
