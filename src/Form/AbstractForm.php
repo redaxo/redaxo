@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Form\Field\CheckboxField;
+use Redaxo\Core\Form\Field\ContainerField;
 use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Translation\I18n;
 use rex_be_controller;
@@ -14,7 +15,6 @@ use rex_csrf_token;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
-use rex_form_container_element;
 use rex_form_control_element;
 use rex_form_raw_element;
 use rex_form_select_element;
@@ -192,17 +192,17 @@ abstract class AbstractForm
      * @param string $name
      * @param mixed $value
      *
-     * @return rex_form_container_element
+     * @return ContainerField
      */
     public function addContainerField($name, $value = null, array $attributes = [])
     {
         if (!isset($attributes['class'])) {
             $attributes['class'] = 'rex-form-container';
         }
-        $attributes['internal::fieldClass'] = rex_form_container_element::class;
+        $attributes['internal::fieldClass'] = ContainerField::class;
 
         $field = $this->addField('', $name, $value, $attributes, true);
-        assert($field instanceof rex_form_container_element);
+        assert($field instanceof ContainerField);
         return $field;
     }
 

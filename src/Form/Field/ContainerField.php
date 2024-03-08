@@ -1,9 +1,14 @@
 <?php
 
-use Redaxo\Core\Form\AbstractForm;
-use Redaxo\Core\Form\Field\BaseField;
+namespace Redaxo\Core\Form\Field;
 
-class rex_form_container_element extends BaseField
+use Redaxo\Core\Form\AbstractForm;
+use rex_type;
+
+use function in_array;
+use function is_string;
+
+class ContainerField extends BaseField
 {
     /** @var array<string, list<BaseField>> */
     private $fields = [];
