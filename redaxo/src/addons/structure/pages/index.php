@@ -322,13 +322,14 @@ if ($addon->getPlugin('content')->isAvailable()) {
 
 if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCategoryId() && !$user->getComplexPerm('structure')->hasMountpoints())) {
     $tmplHead = '';
+    $templateNames = [];
     if ($templateSelect) {
         $templateSelect->setName('template_id');
         $templateSelect->setSize(1);
         $templateSelect->setStyle('class="form-control selectpicker"');
 
-        $tEMPLATENAME = $templateSelect->getTemplates();
-        $tEMPLATENAME[0] = rex_i18n::msg('template_default_name');
+        $templateNames = $templateSelect->getTemplates();
+        $templateNames[0] = rex_i18n::msg('template_default_name');
 
         $tmplHead = '<th class="rex-table-template">' . rex_i18n::msg('header_template') . '</th>';
     }
@@ -528,7 +529,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
             $tmplTd = '';
             if ($templateSelect) {
-                $tmpl = $tEMPLATENAME[(int) $sql->getValue('template_id')] ?? '';
+                $tmpl = rex_escape($templateNames[(int) $sql->getValue('template_id')] ?? '');
                 $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">
                 <div class="rex-truncate rex-truncate-target" title="' . $tmpl . '" >' . $tmpl . '</div></td>';
             }
@@ -553,8 +554,9 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
             $tmplTd = '';
             if ($templateSelect) {
-                $tmpl = $tEMPLATENAME[$sql->getValue('template_id')] ?? '';
-                $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
+                $tmpl = rex_escape($templateNames[(int) $sql->getValue('template_id')] ?? '');
+                $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">
+                <div class="rex-truncate rex-truncate-target" title="' . $tmpl . '" >' . $tmpl . '</div></td>';
             }
 
             $echo .= '<tr ' . $dataArtStatus . ' ' . $dataArtid . ' class="' . $trStatusClass . '">
