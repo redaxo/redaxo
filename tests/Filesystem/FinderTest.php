@@ -10,6 +10,8 @@ use Redaxo\Core\Filesystem\Path;
 use SplFileInfo;
 use Traversable;
 
+use function count;
+
 /**
  * @internal
  */
