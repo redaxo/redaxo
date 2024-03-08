@@ -3,12 +3,13 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
  */
-class rex_metainfo_table_expander extends rex_form
+class rex_metainfo_table_expander extends Form
 {
     /** @var string */
     private $metaPrefix;
