@@ -1,8 +1,9 @@
 <?php
 
 use Redaxo\Core\Form\AbstractForm;
+use Redaxo\Core\Form\Field\BaseField;
 
-class rex_form_widget_medialist_element extends rex_form_element
+class rex_form_widget_medialist_element extends BaseField
 {
     /** @var array{category?: int, types?: string, preview?: bool} */
     private $args = [];

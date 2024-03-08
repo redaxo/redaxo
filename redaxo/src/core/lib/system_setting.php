@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Form\Field\BaseField;
+
 /**
  * This class can be used to add settings to the system settings page.
  */
@@ -22,7 +24,7 @@ abstract class rex_system_setting
     /**
      * Returns the field.
      *
-     * @return rex_form_element
+     * @return BaseField
      */
     abstract public function getField();
 

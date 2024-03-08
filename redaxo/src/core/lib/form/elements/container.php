@@ -1,10 +1,11 @@
 <?php
 
 use Redaxo\Core\Form\AbstractForm;
+use Redaxo\Core\Form\Field\BaseField;
 
-class rex_form_container_element extends rex_form_element
+class rex_form_container_element extends BaseField
 {
-    /** @var array<string, list<rex_form_element>> */
+    /** @var array<string, list<BaseField>> */
     private $fields = [];
     /** @var bool */
     private $multiple = true;
@@ -49,7 +50,7 @@ class rex_form_container_element extends rex_form_element
      * @param string $type
      * @param string $name
      *
-     * @return rex_form_element
+     * @return BaseField
      */
     public function addField($type, $name, $value = null, array $attributes = [])
     {
@@ -61,7 +62,7 @@ class rex_form_container_element extends rex_form_element
      * @param string $type
      * @param string $name
      *
-     * @return rex_form_element
+     * @return BaseField
      */
     public function addGroupedField($group, $type, $name, $value = null, array $attributes = [])
     {
@@ -79,7 +80,7 @@ class rex_form_container_element extends rex_form_element
         return $field;
     }
 
-    /** @return array<string, list<rex_form_element>> */
+    /** @return array<string, list<BaseField>> */
     public function getFields()
     {
         return $this->fields;

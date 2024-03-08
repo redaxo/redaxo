@@ -1,8 +1,9 @@
 <?php
 
 use Redaxo\Core\Form\AbstractForm;
+use Redaxo\Core\Form\Field\BaseField;
 
-class rex_form_widget_linkmap_element extends rex_form_element
+class rex_form_widget_linkmap_element extends BaseField
 {
     /** @var int */
     private $categoryId = 0;

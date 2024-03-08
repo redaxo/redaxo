@@ -1,8 +1,9 @@
 <?php
 
 use Redaxo\Core\Form\AbstractForm;
+use Redaxo\Core\Form\Field\BaseField;
 
-class rex_form_select_element extends rex_form_element
+class rex_form_select_element extends BaseField
 {
     /** @var rex_select */
     protected $select;

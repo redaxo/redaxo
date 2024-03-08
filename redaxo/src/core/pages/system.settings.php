@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Translation\I18n;
 
 $error = [];
@@ -284,8 +285,8 @@ $content .= $fragment->parse('core/form/form.php');
 
 foreach (rex_system_setting::getAll() as $setting) {
     $field = $setting->getField();
-    if (!($field instanceof rex_form_element)) {
-        throw new rex_exception($setting::class . '::getField() must return a rex_form_element!');
+    if (!($field instanceof BaseField)) {
+        throw new rex_exception($setting::class . '::getField() must return a BaseField!');
     }
     $field->setAttribute('name', 'settings[' . $setting->getKey() . ']');
     $content .= $field->get();
