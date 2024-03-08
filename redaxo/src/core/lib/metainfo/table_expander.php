@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Validator\ValidationRule;
 
 /**
  * @internal
@@ -43,8 +44,8 @@ class rex_metainfo_table_expander extends Form
         $field->setLabel(I18n::msg('minfo_field_label_name'));
         $field->disableSpellcheckAndAutoCorrect();
         $field->getValidator()
-            ->add(rex_validation_rule::NOT_EMPTY, I18n::msg('minfo_field_error_name'))
-            ->add(rex_validation_rule::MAX_LENGTH, null, 255)
+            ->add(ValidationRule::NOT_EMPTY, I18n::msg('minfo_field_error_name'))
+            ->add(ValidationRule::MAX_LENGTH, null, 255)
         ;
 
         $field = $this->addSelectField('priority');
@@ -79,8 +80,8 @@ class rex_metainfo_table_expander extends Form
         $field->setLabel(I18n::msg('minfo_field_label_title'));
         $field->setNotice(I18n::msg('minfo_field_notice_title'));
         $field->getValidator()
-            ->add(rex_validation_rule::NOT_EMPTY)
-            ->add(rex_validation_rule::MAX_LENGTH, null, 255)
+            ->add(ValidationRule::NOT_EMPTY)
+            ->add(ValidationRule::MAX_LENGTH, null, 255)
         ;
 
         $gq = Sql::factory();
@@ -127,7 +128,7 @@ class rex_metainfo_table_expander extends Form
 
         $field = $this->addTextField('default');
         $field->setLabel(I18n::msg('minfo_field_label_default'));
-        $field->getValidator()->add(rex_validation_rule::MAX_LENGTH, null, 255);
+        $field->getValidator()->add(ValidationRule::MAX_LENGTH, null, 255);
 
         if (rex_metainfo_clang_handler::PREFIX !== $this->metaPrefix) {
             $field = $this->addRestrictionsField('restrictions');

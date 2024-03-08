@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Validator\ValidationRule;
 
 $func = rex_request('func', 'string');
 $id = rex_request('id', 'int');
@@ -73,8 +74,8 @@ if ('' == $func) {
     $field = $form->addTextField('name');
     $field->setLabel(I18n::msg('name'));
     $field->getValidator()
-        ->add(rex_validation_rule::NOT_EMPTY)
-        ->add(rex_validation_rule::MAX_LENGTH, null, 255)
+        ->add(ValidationRule::NOT_EMPTY)
+        ->add(ValidationRule::MAX_LENGTH, null, 255)
     ;
 
     $field = $form->addTextAreaField('description');

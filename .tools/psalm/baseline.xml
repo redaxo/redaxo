@@ -3810,11 +3810,6 @@
       <code><![CDATA[$var[$key]]]></code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/lib/util/validator.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$regex]]></code>
-    </ArgumentTypeCoercion>
-  </file>
   <file src="redaxo/src/core/lib/util/version.php">
     <FalsableReturnStatement>
       <code><![CDATA[0 === $exitCode ? $version : null]]></code>
@@ -5065,6 +5060,11 @@
     <PropertyTypeCoercion>
       <code><![CDATA[self::$msg]]></code>
     </PropertyTypeCoercion>
+  </file>
+  <file src="src/Validator/Validator.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$regex]]></code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="tests/Database/SelectTest.php">
     <MixedArgument>

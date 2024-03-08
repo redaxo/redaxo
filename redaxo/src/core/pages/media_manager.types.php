@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Validator\ValidationRule;
 
 $content = '';
 
@@ -201,9 +202,9 @@ if ('' == $func) {
     $field->setLabel(I18n::msg('media_manager_type_name'));
     $field->disableSpellcheckAndAutoCorrect();
     $field->getValidator()
-        ->add(rex_validation_rule::NOT_EMPTY, I18n::msg('media_manager_error_name'))
-        ->add(rex_validation_rule::NOT_MATCH, I18n::msg('media_manager_error_type_name_invalid'), '{[/\\\\]}')
-        ->add(rex_validation_rule::MAX_LENGTH, null, 255)
+        ->add(ValidationRule::NOT_EMPTY, I18n::msg('media_manager_error_name'))
+        ->add(ValidationRule::NOT_MATCH, I18n::msg('media_manager_error_type_name_invalid'), '{[/\\\\]}')
+        ->add(ValidationRule::MAX_LENGTH, null, 255)
     ;
 
     // system mediatypes are not editable
@@ -215,7 +216,7 @@ if ('' == $func) {
 
     $field = $form->addTextareaField('description');
     $field->setLabel(I18n::msg('media_manager_type_description'));
-    $field->getValidator()->add(rex_validation_rule::MAX_LENGTH, null, 255);
+    $field->getValidator()->add(ValidationRule::MAX_LENGTH, null, 255);
 
     $content .= $form->get();
 

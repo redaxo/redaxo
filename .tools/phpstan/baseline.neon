@@ -2001,11 +2001,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/url.php
 
 		-
-			message: "#^Method rex_validator\\:\\:values\\(\\) has parameter \\$validValues with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/validator.php
-
-		-
 			message: "#^Method rex_var\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/var/var.php
@@ -2409,3 +2404,8 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\Form\\\\Form\\:\\:\\$languageSupport type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/Form.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Validator\\\\Validator\\:\\:values\\(\\) has parameter \\$validValues with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Validator/Validator.php
