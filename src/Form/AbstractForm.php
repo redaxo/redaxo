@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Form\Field\CheckboxField;
+use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Translation\I18n;
 use rex_be_controller;
 use rex_csrf_token;
@@ -15,7 +16,6 @@ use rex_extension;
 use rex_extension_point;
 use rex_form_container_element;
 use rex_form_control_element;
-use rex_form_radio_element;
 use rex_form_raw_element;
 use rex_form_select_element;
 use rex_form_widget_linklist_element;
@@ -315,13 +315,13 @@ abstract class AbstractForm
      * @param string $name
      * @param mixed $value
      *
-     * @return rex_form_radio_element
+     * @return RadioField
      */
     public function addRadioField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = rex_form_radio_element::class;
+        $attributes['internal::fieldClass'] = RadioField::class;
         $field = $this->addField('radio', $name, $value, $attributes);
-        assert($field instanceof rex_form_radio_element);
+        assert($field instanceof RadioField);
         return $field;
     }
 
@@ -674,7 +674,7 @@ abstract class AbstractForm
         $className = match ($inputType) {
             'control' => rex_form_control_element::class,
             'checkbox' => CheckboxField::class,
-            'radio' => rex_form_radio_element::class,
+            'radio' => RadioField::class,
             'select' => rex_form_select_element::class,
             'media' => rex_form_widget_media_element::class,
             'medialist' => rex_form_widget_medialist_element::class,
