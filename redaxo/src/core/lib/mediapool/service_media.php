@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 final class rex_media_service
@@ -60,7 +61,7 @@ final class rex_media_service
 
         // ----- alter/neuer filename
         $srcFile = $data['file']['path'];
-        $dstFile = rex_path::media($data['file']['name_new']);
+        $dstFile = Path::media($data['file']['name_new']);
 
         $data['file']['type'] = File::mimeType($srcFile);
 
@@ -190,7 +191,7 @@ final class rex_media_service
             $filetype = File::mimeType($file['path']);
 
             $srcFile = $file['path'];
-            $dstFile = rex_path::media($filename);
+            $dstFile = Path::media($filename);
 
             $extensionNew = mb_strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
             $extensionOld = mb_strtolower(pathinfo($filename, PATHINFO_EXTENSION));
@@ -257,7 +258,7 @@ final class rex_media_service
         $sql = Sql::factory();
         $sql->setQuery('DELETE FROM ' . Core::getTable('media') . ' WHERE filename = ? LIMIT 1', [$filename]);
 
-        File::delete(rex_path::media($filename));
+        File::delete(Path::media($filename));
         rex_media_cache::delete($filename);
 
         rex_extension::registerPoint(new rex_extension_point('MEDIA_DELETED', '', [

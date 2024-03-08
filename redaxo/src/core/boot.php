@@ -1,7 +1,9 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -48,28 +50,25 @@ if (ini_get('html_errors')) {
     ini_set('html_errors', '0');
 }
 
-require_once __DIR__ . '/lib/util/path.php';
+require_once dirname(__DIR__, 3) . '/vendor/autoload.php';
 
 if (isset($REX['PATH_PROVIDER']) && is_object($REX['PATH_PROVIDER'])) {
-    /** @var rex_path_default_provider */
+    /** @var DefaultPathProvider */
     $pathProvider = $REX['PATH_PROVIDER'];
 } else {
-    require_once __DIR__ . '/lib/util/path_default_provider.php';
-    $pathProvider = new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true);
+    $pathProvider = new DefaultPathProvider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true);
 }
 
-rex_path::init($pathProvider);
-
-require_once rex_path::base('vendor/autoload.php');
+Path::init($pathProvider);
 
 // must be called after autoloader to support symfony/polyfill-mbstring
 mb_internal_encoding('UTF-8');
 
 if (isset($REX['URL_PROVIDER']) && is_object($REX['URL_PROVIDER'])) {
-    /** @var rex_path_default_provider */
+    /** @var DefaultPathProvider */
     $urlProvider = $REX['URL_PROVIDER'];
 } else {
-    $urlProvider = new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false);
+    $urlProvider = new DefaultPathProvider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false);
 }
 
 rex_url::init($urlProvider);
@@ -79,22 +78,22 @@ Core::setProperty('timer', new rex_timer($_SERVER['REQUEST_TIME_FLOAT'] ?? null)
 // add backend flag to rex
 Core::setProperty('redaxo', $REX['REDAXO']);
 // add core lang directory to I18n
-I18n::addDirectory(rex_path::core('lang'));
+I18n::addDirectory(Path::core('lang'));
 // add core base-fragmentpath to fragmentloader
-rex_fragment::addDirectory(rex_path::core('fragments/'));
+rex_fragment::addDirectory(Path::core('fragments/'));
 
 // ----------------- VERSION
 Core::setProperty('version', '6.0.0-dev');
 
-$cacheFile = rex_path::coreCache('config.yml.cache');
-$configFile = rex_path::coreData('config.yml');
+$cacheFile = Path::coreCache('config.yml.cache');
+$configFile = Path::coreData('config.yml');
 
 $cacheMtime = @filemtime($cacheFile);
 if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
     $config = File::getCache($cacheFile);
 } else {
     $config = array_merge(
-        File::getConfig(rex_path::core('default.config.yml')),
+        File::getConfig(Path::core('default.config.yml')),
         File::getConfig($configFile),
     );
     File::putCache($cacheFile, $config);
@@ -198,5 +197,5 @@ if (!Core::isSetup()) {
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
-    require rex_path::core(Core::isBackend() ? 'backend.php' : 'frontend.php');
+    require Path::core(Core::isBackend() ? 'backend.php' : 'frontend.php');
 }

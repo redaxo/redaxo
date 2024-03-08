@@ -1,5 +1,6 @@
 <?php
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * @var rex_fragment $this
@@ -7,5 +8,5 @@ use Redaxo\Core\Filesystem\File;
  */
 ?>
 <div class="rex-branding">
-    <?= File::get(rex_path::coreAssets('redaxo-logo.svg')) ?>
+    <?= File::get(Path::coreAssets('redaxo-logo.svg')) ?>
 </div>

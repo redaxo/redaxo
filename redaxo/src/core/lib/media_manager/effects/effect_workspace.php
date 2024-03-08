@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 class rex_effect_workspace extends rex_effect_abstract
@@ -69,7 +70,7 @@ class rex_effect_workspace extends rex_effect_abstract
 
         // Bild als Hintergrund ------------------------------
         if ('image' == $this->params['set_transparent']) {
-            $bgimage = rex_path::media((string) $this->params['bgimage']);
+            $bgimage = Path::media((string) $this->params['bgimage']);
             if (!is_file($bgimage)) {
                 return;
             }

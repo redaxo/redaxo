@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 class rex_article_cache
@@ -52,7 +53,7 @@ class rex_article_cache
             return false;
         }
 
-        $cachePath = rex_path::coreCache('structure/');
+        $cachePath = Path::coreCache('structure/');
 
         foreach (rex_clang::getAllIds() as $otherClangId) {
             if (null !== $clangId && $clangId != $otherClangId) {
@@ -83,7 +84,7 @@ class rex_article_cache
             return false;
         }
 
-        $cachePath = rex_path::coreCache('structure/');
+        $cachePath = Path::coreCache('structure/');
 
         foreach (rex_clang::getAllIds() as $otherClangId) {
             if (null !== $clangId && $clangId != $otherClangId) {
@@ -111,7 +112,7 @@ class rex_article_cache
             return false;
         }
 
-        $cachePath = rex_path::coreCache('structure/');
+        $cachePath = Path::coreCache('structure/');
 
         foreach (['alist', 'clist'] as $list) {
             File::delete($cachePath . $id . '.' . $list);
@@ -156,9 +157,9 @@ class rex_article_cache
                 };
             }
 
-            $articleFile = rex_path::coreCache('structure/' . $articleId . '.' . $clang . '.article');
+            $articleFile = Path::coreCache('structure/' . $articleId . '.' . $clang . '.article');
             if (!File::putCache($articleFile, $params)) {
-                return I18n::msg('article_could_not_be_generated') . ' ' . I18n::msg('check_rights_in_directory') . rex_path::coreCache('structure/');
+                return I18n::msg('article_could_not_be_generated') . ' ' . I18n::msg('check_rights_in_directory') . Path::coreCache('structure/');
             }
         }
 
@@ -190,9 +191,9 @@ class rex_article_cache
             $cacheArray[] = (int) $row->getValue('id');
         }
 
-        $articleListFile = rex_path::coreCache('structure/' . $parentId . '.alist');
+        $articleListFile = Path::coreCache('structure/' . $parentId . '.alist');
         if (!File::putCache($articleListFile, $cacheArray)) {
-            return I18n::msg('article_could_not_be_generated') . ' ' . I18n::msg('check_rights_in_directory') . rex_path::coreCache('structure/');
+            return I18n::msg('article_could_not_be_generated') . ' ' . I18n::msg('check_rights_in_directory') . Path::coreCache('structure/');
         }
 
         // --------------------------------------- CAT LIST
@@ -205,9 +206,9 @@ class rex_article_cache
             $cacheArray[] = (int) $row->getValue('id');
         }
 
-        $articleCategoriesFile = rex_path::coreCache('structure/' . $parentId . '.clist');
+        $articleCategoriesFile = Path::coreCache('structure/' . $parentId . '.clist');
         if (!File::putCache($articleCategoriesFile, $cacheArray)) {
-            return I18n::msg('article_could_not_be_generated') . ' ' . I18n::msg('check_rights_in_directory') . rex_path::coreCache('structure/');
+            return I18n::msg('article_could_not_be_generated') . ' ' . I18n::msg('check_rights_in_directory') . Path::coreCache('structure/');
         }
 
         return true;

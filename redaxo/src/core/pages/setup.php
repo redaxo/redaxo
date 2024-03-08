@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 $step = rex_request('step', 'int', 1);
@@ -45,7 +46,7 @@ if (!rex_setup::isInitialSetup()) {
 
 // ---------------------------------- Step 1 . Language
 if (1 >= $step) {
-    require rex_path::core('pages/setup.step1.php');
+    require Path::core('pages/setup.step1.php');
 
     return;
 }
@@ -70,7 +71,7 @@ if (count($res) > 0) {
         if (count($messages) > 0) {
             $li = [];
             foreach ($messages as $message) {
-                $li[] = '<li>' . rex_path::relative($message) . '</li>';
+                $li[] = '<li>' . Path::relative($message) . '</li>';
             }
             $errorArray[] = '<p>' . I18n::msg($key) . '</p><ul>' . implode('', $li) . '</ul>';
         }
@@ -85,7 +86,7 @@ if (count($errorArray) > 0) {
 }
 
 if (2 === $step) {
-    require rex_path::core('pages/setup.step2.php');
+    require Path::core('pages/setup.step2.php');
 
     return;
 }
@@ -94,9 +95,9 @@ if (2 === $step) {
 
 $errorArray = [];
 
-$configFile = rex_path::coreData('config.yml');
+$configFile = Path::coreData('config.yml');
 $config = array_merge(
-    File::getConfig(rex_path::core('default.config.yml')),
+    File::getConfig(Path::core('default.config.yml')),
     File::getConfig($configFile),
 );
 
@@ -164,7 +165,7 @@ if ($step > 3) {
 
     if (0 == count($errorArray)) {
         if (!File::putConfig($configFile, $config)) {
-            $errorArray[] = rex_view::error(I18n::msg('setup_301', rex_path::relative($configFile)));
+            $errorArray[] = rex_view::error(I18n::msg('setup_301', Path::relative($configFile)));
         }
     }
 
@@ -188,7 +189,7 @@ if ($step > 3) {
 }
 
 if (3 === $step) {
-    require rex_path::core('pages/setup.step3.php');
+    require Path::core('pages/setup.step3.php');
 
     return;
 }
@@ -255,7 +256,7 @@ if ($step > 4 && '' == !rex_setup_importer::verifyDbSchema()) {
 }
 
 if (4 === $step) {
-    require rex_path::core('pages/setup.step4.php');
+    require Path::core('pages/setup.step4.php');
 
     return;
 }
@@ -330,7 +331,7 @@ if (6 === $step) {
 }
 
 if (5 === $step) {
-    require rex_path::core('pages/setup.step5.php');
+    require Path::core('pages/setup.step5.php');
 
     return;
 }
@@ -338,5 +339,5 @@ if (5 === $step) {
 // ---------------------------------- step 6 . thank you . setup false
 
 if (6 === $step) {
-    require rex_path::core('pages/setup.step6.php');
+    require Path::core('pages/setup.step6.php');
 }

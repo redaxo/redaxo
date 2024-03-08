@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten.
@@ -132,7 +133,7 @@ abstract class rex_structure_element
             self::$classVars = [];
 
             $startId = rex_article::getSiteStartArticleId();
-            $file = rex_path::coreCache('structure/' . $startId . '.1.article');
+            $file = Path::coreCache('structure/' . $startId . '.1.article');
             if (!Core::isBackend() && is_file($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
                 $genVars = File::getCache($file, []);
@@ -184,7 +185,7 @@ abstract class rex_structure_element
 
         $class = static::class;
         return static::getInstance([$id, $clang], static function ($id, $clang) use ($class) {
-            $articlePath = rex_path::coreCache('structure/' . $id . '.' . $clang . '.article');
+            $articlePath = Path::coreCache('structure/' . $id . '.' . $clang . '.article');
 
             // load metadata from cache
             $metadata = File::getCache($articlePath);
@@ -241,7 +242,7 @@ abstract class rex_structure_element
             },
             // callback to create the list of IDs
             static function ($parentId, $listType) {
-                $listFile = rex_path::coreCache('structure/' . $parentId . '.' . $listType);
+                $listFile = Path::coreCache('structure/' . $parentId . '.' . $listType);
 
                 $list = File::getCache($listFile, null);
                 if (null === $list) {

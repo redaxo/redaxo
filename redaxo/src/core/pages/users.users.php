@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\Validator;
 
@@ -551,8 +552,8 @@ if ('' != $fUNCADD || $userId > 0) {
     echo $content;
 
     if ($userId > 0) {
-        require rex_path::core('pages/profile.auth_methods.php');
-        require rex_path::core('pages/profile.sessions.php');
+        require Path::core('pages/profile.auth_methods.php');
+        require Path::core('pages/profile.sessions.php');
     }
 }
 

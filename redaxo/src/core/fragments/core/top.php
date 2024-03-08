@@ -1,5 +1,6 @@
 <?php
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -29,12 +30,12 @@ use Redaxo\Core\Translation\I18n;
     echo "\n" . '    <meta name="color-scheme" content="' . $colorScheme . '">';
     echo "\n" . '    <style nonce="' . rex_response::getNonce() . '">:root { color-scheme: ' . $colorScheme . ' }</style>';
 
-    $assetDir = rex_path::assets();
+    $assetDir = Path::assets();
 
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
             $file = (string) $file;
-            $path = rex_path::frontend(rex_path::absolute($file));
+            $path = Path::frontend(Path::absolute($file));
             if (!Core::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
             } elseif ($mtime = @filemtime($path)) {
@@ -58,7 +59,7 @@ use Redaxo\Core\Translation\I18n;
         }
 
         $file = (string) $file;
-        $path = rex_path::frontend(rex_path::absolute($file));
+        $path = Path::frontend(Path::absolute($file));
         if (array_key_exists(rex_view::JS_IMMUTABLE, $options) && $options[rex_view::JS_IMMUTABLE]) {
             if (!Core::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);

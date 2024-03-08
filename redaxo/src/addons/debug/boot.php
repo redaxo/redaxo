@@ -3,6 +3,7 @@
 use Clockwork\Clockwork;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Path;
 
 if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
@@ -21,7 +22,7 @@ if (Core::isBackend() && 'debug' === rex_request::get('page') && Core::getUser()
 
     if ($editorBasepath) {
         $localPath = rex_escape($editorBasepath, 'js');
-        $realPath = rex_escape(rex_path::base(), 'js');
+        $realPath = rex_escape(Path::base(), 'js');
     }
 
     // prepend backend folder

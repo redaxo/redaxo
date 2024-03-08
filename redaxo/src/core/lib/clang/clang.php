@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 
 #[AllowDynamicProperties]
 class rex_clang
@@ -238,7 +239,7 @@ class rex_clang
             return;
         }
 
-        $file = rex_path::coreCache('clang.cache');
+        $file = Path::coreCache('clang.cache');
         if (!is_file($file)) {
             rex_clang_service::generateCache();
         }

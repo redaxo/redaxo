@@ -1,17 +1,26 @@
 <?php
 
+namespace Redaxo\Core\Filesystem;
+
+use rex_exception;
+
+use function function_exists;
+use function strlen;
+
+use const DIRECTORY_SEPARATOR;
+
 /**
  * Utility class to generate absolute paths.
  */
-class rex_path
+class Path
 {
-    /** @var rex_path_default_provider */
+    /** @var DefaultPathProvider */
     protected static $pathprovider;
 
     /**
      * Initializes the class.
      *
-     * @param rex_path_default_provider $pathprovider A path provider
+     * @param DefaultPathProvider $pathprovider A path provider
      * @return void
      */
     public static function init($pathprovider)
@@ -302,7 +311,7 @@ class rex_path
      * If the path is outside of the base path, the absolute path will be kept.
      *
      * @param string $absPath
-     * @param string|null $basePath Defaults to `rex_path::base()`
+     * @param string|null $basePath Defaults to `Path::base()`
      *
      * @return string
      */

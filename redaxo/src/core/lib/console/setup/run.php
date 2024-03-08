@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -55,9 +56,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $this->io = $io;
         $this->input = $input;
 
-        $configFile = rex_path::coreData('config.yml');
+        $configFile = Path::coreData('config.yml');
         $config = array_merge(
-            File::getConfig(rex_path::core('default.config.yml')),
+            File::getConfig(Path::core('default.config.yml')),
             File::getConfig($configFile),
         );
 
@@ -425,7 +426,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $io->error('Writing to config.yml failed.');
             return 1;
         }
-        File::delete(rex_path::coreCache('config.yml.cache'));
+        File::delete(Path::coreCache('config.yml.cache'));
 
         $io->success('Congratulations! REDAXO has successfully been installed.');
         return 0;
@@ -499,7 +500,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 if (count($messages) > 0) {
                     $affectedFiles = [];
                     foreach ($messages as $message) {
-                        $affectedFiles[] = '- ' . rex_path::relative($message);
+                        $affectedFiles[] = '- ' . Path::relative($message);
                     }
                     $errors[] = I18n::msg($key) . "\n" . implode("\n", $affectedFiles);
                 }

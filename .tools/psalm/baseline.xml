@@ -184,7 +184,7 @@
   </file>
   <file src="redaxo/src/addons/install/lib/package/package_download.php">
     <PropertyTypeCoercion>
-      <code><![CDATA[rex_path::basename($addonkey)]]></code>
+      <code><![CDATA[Path::basename($addonkey)]]></code>
     </PropertyTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/package/package_update.php">
@@ -2115,10 +2115,6 @@
       <code><![CDATA[$this->media->getMediaPath()]]></code>
       <code><![CDATA[$this->media->getMediaPath()]]></code>
     </PossiblyNullArgument>
-    <TooManyArguments>
-      <code><![CDATA[rex_path::coreCache('media_manager', 'media_manager__convert2img_' . md5($inputFile) . '.' . $convertTo['ext'])]]></code>
-      <code><![CDATA[rex_path::coreCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filenameWoExt . $convertTo['ext'])]]></code>
-    </TooManyArguments>
   </file>
   <file src="redaxo/src/core/lib/media_manager/effects/effect_crop.php">
     <MixedArgument>
@@ -2360,7 +2356,7 @@
   <file src="redaxo/src/core/lib/mediapool/media_category.php">
     <InvalidReturnStatement>
       <code><![CDATA[self::getInstanceList([$this->getId(), 'media'], rex_media::get(...), static function ($id) {
-            $listPath = rex_path::coreCache('mediapool/' . $id . '.mlist');
+            $listPath = Path::coreCache('mediapool/' . $id . '.mlist');
 
             $list = File::getCache($listPath, null);
             if (null === $list) {
@@ -3767,24 +3763,6 @@
       <code><![CDATA[$this->headers]]></code>
     </PropertyTypeCoercion>
   </file>
-  <file src="redaxo/src/core/lib/util/path.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[(string) $out[0]]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[non-empty-string|null]]></code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="redaxo/src/core/lib/util/path_default_provider.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->backend . $file]]></code>
-      <code><![CDATA[strtr($this->base . $file, '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[non-empty-string]]></code>
-      <code><![CDATA[non-empty-string]]></code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <InvalidArgument>
       <code><![CDATA[static function ($errno, $errstr) use (&$prevError) {
@@ -5022,6 +5000,16 @@
       <code><![CDATA[$ret[]]]></code>
     </MixedAssignment>
   </file>
+  <file src="src/Filesystem/DefaultPathProvider.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->backend . $file]]></code>
+      <code><![CDATA[strtr($this->base . $file, '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[non-empty-string]]></code>
+      <code><![CDATA[non-empty-string]]></code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="src/Filesystem/File.php">
     <MixedInferredReturnType>
       <code><![CDATA[array<mixed>|T]]></code>
@@ -5029,6 +5017,14 @@
     <MixedReturnStatement>
       <code><![CDATA[null === $content ? $default : json_decode($content, true)]]></code>
     </MixedReturnStatement>
+  </file>
+  <file src="src/Filesystem/Path.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[(string) $out[0]]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[non-empty-string|null]]></code>
+    </MoreSpecificReturnType>
   </file>
   <file src="src/Translation/I18n.php">
     <ArgumentTypeCoercion>

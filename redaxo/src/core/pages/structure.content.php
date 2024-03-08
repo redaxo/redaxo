@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 $articleId = rex_request('article_id', 'int');
@@ -79,7 +80,7 @@ echo rex_view::title(I18n::msg('content') . ': ' . $OOArt->getName(), '');
 echo rex_view::clangSwitchAsButtons($context);
 
 // ----- category pfad und rechte
-require rex_path::core('functions/function_structure_rex_category.php');
+require Path::core('functions/function_structure_rex_category.php');
 
 // ----- EXTENSION POINT
 echo rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_HEADER', '', [

@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 
 class rex_template_cache
 {
@@ -51,11 +52,11 @@ class rex_template_cache
 
     public static function getPath(int $id): string
     {
-        return rex_path::coreCache('structure/templates/' . $id . '.template');
+        return Path::coreCache('structure/templates/' . $id . '.template');
     }
 
     public static function getKeyMappingPath(): string
     {
-        return rex_path::coreCache('structure/templates/template_key_mapping.cache');
+        return Path::coreCache('structure/templates/template_key_mapping.cache');
     }
 }

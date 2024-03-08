@@ -4,13 +4,13 @@ namespace Redaxo\Core;
 
 use InvalidArgumentException;
 use Redaxo\Core\Validator\Validator;
+use Redaxo\Core\Filesystem\Path;
 use rex_backend_login;
 use rex_config;
 use rex_config_db;
 use rex_console_application;
 use rex_exception;
 use rex_formatter;
-use rex_path;
 use rex_setup;
 use rex_timer;
 use rex_type;
@@ -438,7 +438,7 @@ class Core
         $config = self::getProperty('db', null);
 
         if (!$config) {
-            $configFile = rex_path::coreData('config.yml');
+            $configFile = Path::coreData('config.yml');
 
             throw new rex_exception('Unable to read db config from config.yml "' . $configFile . '"');
         }

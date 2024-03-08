@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -64,7 +65,7 @@ class rex_effect_convert2img extends rex_effect_abstract
                 $timestamp = '00:00:01';
             }
 
-            $outputFile = rex_path::coreCache('media_manager', 'media_manager__convert2img_' . md5($inputFile) . '.' . $convertTo['ext']);
+            $outputFile = Path::coreCache('media_manager/media_manager__convert2img_' . md5($inputFile) . '.' . $convertTo['ext']);
 
             $cmd = 'ffmpeg -y -i ' . escapeshellarg($inputFile) . ' -ss ' . escapeshellarg($timestamp) . ' -vframes 1 ' . escapeshellarg($outputFile);
             exec($cmd, $out, $ret);
@@ -137,7 +138,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         $filename = $this->media->getMediaFilename();
         $filenameWoExt = substr($filename, 0, strlen($filename) - strlen($ext));
 
-        $toPath = rex_path::coreCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filenameWoExt . $convertTo['ext']);
+        $toPath = Path::coreCache('media_manager/media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filenameWoExt . $convertTo['ext']);
 
         $addColor = '' != $color ? ' -background ' . escapeshellarg($color) . ' -flatten' : '';
 

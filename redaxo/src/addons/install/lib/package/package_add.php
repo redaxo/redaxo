@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
+
 /**
  * @internal
  *
@@ -21,7 +23,7 @@ class rex_install_package_add extends rex_install_package_download
 
     protected function doAction()
     {
-        if (true !== ($msg = $this->extractArchiveTo(rex_path::addon($this->addonkey)))) {
+        if (true !== ($msg = $this->extractArchiveTo(Path::addon($this->addonkey)))) {
             return $msg;
         }
         rex_addon_manager::synchronizeWithFileSystem();

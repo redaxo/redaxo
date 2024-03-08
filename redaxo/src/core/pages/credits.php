@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -11,7 +12,7 @@ use Redaxo\Core\Translation\I18n;
 echo rex_view::title(I18n::msg('credits'), '');
 
 if (rex_get('license')) {
-    $license = rex_markdown::factory()->parse(File::require(rex_path::base('LICENSE.md')));
+    $license = rex_markdown::factory()->parse(File::require(Path::base('LICENSE.md')));
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', 'REDAXO ' . I18n::msg('credits_license'));

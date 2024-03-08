@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 class rex_content_service
@@ -353,7 +354,7 @@ class rex_content_service
             }
 
             // --------------------------------------------------- Artikelcontent speichern
-            $articleContentFile = rex_path::coreCache('structure/' . $articleId . '.' . $clangId . '.content');
+            $articleContentFile = Path::coreCache('structure/' . $articleId . '.' . $clangId . '.content');
             $articleContent = $CONT->getArticle();
 
             // ----- EXTENSION POINT
@@ -364,7 +365,7 @@ class rex_content_service
             ]));
 
             if (!File::put($articleContentFile, $articleContent)) {
-                throw new rex_exception(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, rex_path::coreCache('structure/')));
+                throw new rex_exception(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, Path::coreCache('structure/')));
             }
 
             if (function_exists('opcache_invalidate')) {

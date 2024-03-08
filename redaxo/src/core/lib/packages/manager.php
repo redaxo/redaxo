@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 class rex_addon_manager
@@ -669,7 +670,7 @@ class rex_addon_manager
     public static function synchronizeWithFileSystem()
     {
         $config = Core::getPackageConfig();
-        $addons = self::readPackageFolder(rex_path::src('addons'));
+        $addons = self::readPackageFolder(Path::src('addons'));
         $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
         foreach (array_diff($registeredAddons, $addons) as $addonName) {
             $manager = self::factory(rex_addon::require($addonName));

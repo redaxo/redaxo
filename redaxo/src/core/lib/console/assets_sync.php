@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -17,9 +18,9 @@ class rex_command_assets_sync extends rex_console_command
             ->setDescription('Sync assets within the assets-dir with the sources-dir')
             ->setHelp(sprintf(
                 'Sync folders and files of /%s with /%s respectively /%s folders',
-                rtrim(rex_path::relative(rex_path::assets()), '/'),
-                rex_path::relative(rex_path::addon('my-addon', 'assets')),
-                rex_path::relative(rex_path::core('assets')),
+                rtrim(Path::relative(Path::assets()), '/'),
+                Path::relative(Path::addon('my-addon', 'assets')),
+                Path::relative(Path::core('assets')),
             ))
         ;
     }
@@ -60,8 +61,8 @@ class rex_command_assets_sync extends rex_console_command
             $errored += $err;
         }
 
-        $assetsPublicPath = rex_path::coreAssets();
-        $assetsSrcPath = rex_path::core('assets/');
+        $assetsPublicPath = Path::coreAssets();
+        $assetsSrcPath = Path::core('assets/');
         if (!is_dir($assetsPublicPath)) {
             Dir::create($assetsPublicPath);
         }
@@ -109,8 +110,8 @@ class rex_command_assets_sync extends rex_console_command
             $relativePath = str_replace($folder1, '', $f1File);
             $f2File = $folder2 . $relativePath;
 
-            $f1FileShort = rex_path::relative($f1File);
-            $f2FileShort = rex_path::relative($f2File);
+            $f1FileShort = Path::relative($f1File);
+            $f2FileShort = Path::relative($f2File);
 
             $hasError = false;
 

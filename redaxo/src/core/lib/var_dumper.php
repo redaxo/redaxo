@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider;
@@ -100,7 +101,7 @@ abstract class rex_var_dumper
                 },
             ]);
 
-            self::$dumper = new ContextualizedDumper($dumper, [new SourceContextProvider(null, rex_path::base())]);
+            self::$dumper = new ContextualizedDumper($dumper, [new SourceContextProvider(null, Path::base())]);
         }
 
         self::$dumper->dump(self::$cloner->cloneVar($var));

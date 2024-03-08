@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Path;
 
 class rex_editor
 {
@@ -59,7 +60,7 @@ class rex_editor
         $editorBasepath = $this->getBasepath();
         if ($editorBasepath) {
             // replace remote base path with local base path
-            $filePath = str_replace(rex_path::base(), $editorBasepath, $filePath);
+            $filePath = str_replace(Path::base(), $editorBasepath, $filePath);
         }
 
         if (str_contains($filePath, '://')) {

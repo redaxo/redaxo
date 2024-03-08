@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
@@ -12,7 +13,7 @@ $csrf = rex_csrf_token::factory('mediapool');
 
 // ---- Dateien aus dem Ordner lesen
 $folderFiles = [];
-$path = rex_path::media();
+$path = Path::media();
 $iterator = rex_finder::factory($path)->filesOnly()->ignoreFiles(['.*', Core::getTempPrefix() . '*'])->sort();
 foreach ($iterator as $file) {
     $folderFiles[] = rex_string::normalizeEncoding($file->getFilename());
@@ -35,7 +36,7 @@ $diffCount = count($diffFiles);
 // Extra - filesize/width/height DB-Filesystem Sync
 foreach ($dbFiles as $dbFile) {
     $filename = (string) $dbFile['filename'];
-    $path = rex_path::media($filename);
+    $path = Path::media($filename);
     if (!is_file($path)) {
         continue;
     }
@@ -47,7 +48,7 @@ foreach ($dbFiles as $dbFile) {
         $fileSql->setWhere(['filename' => $filename]);
         $fileSql->setValue('filesize', $fileFilesize);
         if ($dbFile['width'] > 0) {
-            if ($size = @getimagesize(rex_path::media($filename))) {
+            if ($size = @getimagesize(Path::media($filename))) {
                 $fileSql->setValue('width', $size[0]);
                 $fileSql->setValue('height', $size[1]);
             }
@@ -80,7 +81,7 @@ if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
                 $data['filename'] = $filename;
                 $data['file'] = [
                     'name' => $filename,
-                    'path' => rex_path::media($filename),
+                    'path' => Path::media($filename),
                 ];
 
                 try {
@@ -118,7 +119,7 @@ if ($diffCount > 0) {
     $writable = [];
     $notWritable = [];
     foreach ($diffFiles as $file) {
-        if (is_writable(rex_path::media($file))) {
+        if (is_writable(Path::media($file))) {
             $e = [];
             $e['label'] = '<label>' . $file . '</label>';
             $e['field'] = '<input type="checkbox" name="sync_files[]" value="' . $file . '" />';

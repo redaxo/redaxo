@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 // don't use REX_MIN_PHP_VERSION or rex_setup::MIN_* constants here!
@@ -44,7 +45,7 @@ if (rex_version::compare($dbVersion, $minVersion, '<')) {
     throw new rex_functional_exception($message);
 }
 
-$path = rex_path::coreData('config.yml');
+$path = Path::coreData('config.yml');
 $config = array_merge(
     File::getConfig(__DIR__ . '/default.config.yml'),
     File::getConfig($path),

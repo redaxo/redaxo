@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 final class rex_mediapool
@@ -43,7 +44,7 @@ final class rex_mediapool
         if ($doSubindexing || $mediaName != $newMediaName) {
             // ----- datei schon vorhanden -> namen aendern -> _1 ..
             $cnt = 0;
-            while (is_file(rex_path::media($newMediaName)) || rex_media::get($newMediaName)) {
+            while (is_file(Path::media($newMediaName)) || rex_media::get($newMediaName)) {
                 ++$cnt;
                 $newMediaName = $newMediaBaseName . '_' . $cnt . $newMediaExtension;
             }

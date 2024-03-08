@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Path;
 
 /**
  * @internal
@@ -64,7 +65,7 @@ class rex_install_archive
     public static function copyDirToArchive(string $dir, string $archive, ?string $basename = null, $exclude = null)
     {
         $dir = rtrim($dir, '/\\');
-        $basename = $basename ?: rex_path::basename($dir);
+        $basename = $basename ?: Path::basename($dir);
         Dir::create(dirname($archive));
         $files = [];
         $iterator = rex_finder::factory($dir)->recursive()->filesOnly();

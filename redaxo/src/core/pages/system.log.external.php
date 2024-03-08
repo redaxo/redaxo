@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 if (!isset($logFile)) {
@@ -42,7 +43,7 @@ if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . I18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
+        $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . I18n::msg('system_editor_open_file', Path::basename($logFile)) . '</a>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();

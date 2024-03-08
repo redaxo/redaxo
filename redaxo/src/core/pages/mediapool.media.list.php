@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
@@ -255,7 +256,7 @@ foreach ($items as $media) {
     $alt = rex_escape($media->getTitle());
     $desc = '<p>' . rex_escape(strip_tags((string) $media->getValue('med_description'))) . '</p>';
 
-    if (!is_file(rex_path::media($media->getFileName()))) {
+    if (!is_file(Path::media($media->getFileName()))) {
         $thumbnail = '<i class="rex-mime rex-mime-error" title="' . I18n::msg('pool_file_does_not_exist') . '"></i><span class="sr-only">' . $media->getFileName() . '</span>';
     } else {
         $fileExt = File::extension($media->getFileName());

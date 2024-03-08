@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 $error = '';
@@ -69,7 +70,7 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     if ($file) {
         $path = rex_escape($file . (null === $line ? '' : ':' . $line));
 
-        $fullPath = str_starts_with($file, 'rex://') ? $file : rex_path::base($file);
+        $fullPath = str_starts_with($file, 'rex://') ? $file : Path::base($file);
         if ($url = $editor->getUrl($fullPath, (int) ($line ?? 1))) {
             $path = '<a href="' . $url . '">' . $path . '</a>';
         }
@@ -110,14 +111,14 @@ $formElements[] = $n;
 
 if ($url = $editor->getUrl($logFile, 0)) {
     $n = [];
-    $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . I18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
+    $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . I18n::msg('system_editor_open_file', Path::basename($logFile)) . '</a>';
     $formElements[] = $n;
 }
 
 if (is_file($logFile)) {
     $url = rex_url::currentBackendPage(['func' => 'download'] + $csrfToken->getUrlParams());
     $n = [];
-    $n['field'] = '<a class="btn btn-save" href="' . $url . '" download>' . I18n::msg('syslog_download', rex_path::basename($logFile)) . '</a>';
+    $n['field'] = '<a class="btn btn-save" href="' . $url . '" download>' . I18n::msg('syslog_download', Path::basename($logFile)) . '</a>';
     $formElements[] = $n;
 }
 

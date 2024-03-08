@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
 class rex_backup
@@ -19,7 +20,7 @@ class rex_backup
      */
     public static function getDir()
     {
-        $dir = rex_path::coreData('backup');
+        $dir = Path::coreData('backup');
         Dir::create($dir);
 
         return $dir;
@@ -225,7 +226,7 @@ class rex_backup
         self::importScript(str_replace('.tar.gz', '.php', $filename), self::IMPORT_ARCHIVE, self::IMPORT_EVENT_PRE);
 
         $tar->openTAR($filename);
-        $tar->extractTar(rex_path::base());
+        $tar->extractTar(Path::base());
         $msg = I18n::msg('backup_file_imported') . '<br />';
 
         // ----- EXTENSION POINT
@@ -255,7 +256,7 @@ class rex_backup
 
         // in case of permission issues/misconfigured tmp-folders
         if (!$fp) {
-            $tempCacheFile = rex_path::cache(rex_path::basename($filename));
+            $tempCacheFile = Path::cache(Path::basename($filename));
             $fp = fopen($tempCacheFile, 'w');
             if (!$fp) {
                 return false;
@@ -423,7 +424,7 @@ class rex_backup
             throw new rex_exception(sprintf('Unable to open dir "%s"', $path . $dir));
         }
 
-        $isMediafolder = realpath($path . $dir) . '/' == rex_path::media();
+        $isMediafolder = realpath($path . $dir) . '/' == Path::media();
         while (false !== ($file = readdir($handle))) {
             // Alles exportieren, außer ...
             // - addons verzeichnis im mediafolder (wird bei addoninstallation wiedererstellt)
