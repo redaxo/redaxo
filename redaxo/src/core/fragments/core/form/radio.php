@@ -6,7 +6,7 @@
 
 $out = '';
 // Gruppierte Radios werden nochmals via form/form.php geparsed
-// Bsp. Radios in der rex_form
+// Bsp. Radios in der Form
 $grouped = $this->grouped ?? false;
 $inline = $this->inline ?? false;
 

@@ -1,11 +1,25 @@
 <?php
 
+namespace Redaxo\Core\Form;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use rex_clang;
+use rex_exception;
+use rex_extension;
+use rex_extension_point;
+use rex_factory_trait;
+use rex_form_prio_element;
+use rex_sql_exception;
+
+use function assert;
+use function count;
+use function in_array;
+use function is_string;
 
 /**
- * rex_form repraesentiert ein Formular in REDAXO.
+ * Form repraesentiert ein Formular in REDAXO.
  * Diese Klasse kann in Frontend u. Backend eingesetzt werden.
  *
  * Nach erzeugen eines Formulars mit der factory()-Methode muss dieses mit verschiedenen Input-Feldern bestueckt werden.
@@ -13,7 +27,7 @@ use Redaxo\Core\Translation\I18n;
  *
  * Nachdem alle Felder eingefuegt wurden, muss das Fomular mit get() oder show() ausgegeben werden.
  */
-class rex_form extends rex_form_base
+class Form extends AbstractForm
 {
     use rex_factory_trait;
 
@@ -67,7 +81,7 @@ class rex_form extends rex_form_base
             // Ein Datensatz gefunden => Mode: Edit
             $this->setEditMode(true);
         } else {
-            throw new rex_exception('rex_form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!');
+            throw new rex_exception('Form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!');
         }
 
         // --------- Load Env
@@ -77,7 +91,7 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * Methode zum erstellen von rex_form Instanzen.
+     * Methode zum erstellen von Form Instanzen.
      *
      * @param string $tableName
      * @param string $fieldset
@@ -86,7 +100,7 @@ class rex_form extends rex_form_base
      * @param bool $debug
      * @param positive-int $db DB connection ID
      *
-     * @return static a rex_form instance
+     * @return static a Form instance
      */
     public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
@@ -95,7 +109,7 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * Laedt die Konfiguration die noetig ist um rex_form im REDAXO Backend zu verwenden.
+     * Laedt die Konfiguration die noetig ist um Form im REDAXO Backend zu verwenden.
      */
     protected function loadBackendConfig()
     {

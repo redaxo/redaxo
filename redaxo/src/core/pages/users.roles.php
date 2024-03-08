@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
 
@@ -65,7 +66,7 @@ if ('' == $func) {
 } else {
     $title = 'edit' == $func ? I18n::msg('edit_user_role') : I18n::msg('add_user_role');
 
-    $form = rex_form::factory(Core::getTablePrefix() . 'user_role', '', 'id = ' . $id);
+    $form = Form::factory(Core::getTablePrefix() . 'user_role', '', 'id = ' . $id);
     $form->addParam('id', $id);
     $form->setApplyUrl(rex_url::currentBackendPage());
     $form->setEditMode('edit' == $func);

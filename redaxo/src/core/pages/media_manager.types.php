@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
 
@@ -176,7 +177,7 @@ if ('' == $func) {
         return $controlFields;
     });
 
-    $form = rex_form::factory(Core::getTablePrefix() . 'media_manager_type', '', 'id = ' . $typeId);
+    $form = Form::factory(Core::getTablePrefix() . 'media_manager_type', '', 'id = ' . $typeId);
 
     if ($typeId && rex_media_manager::STATUS_SYSTEM_TYPE === (int) $form->getSql()->getValue('status')) {
         throw new rex_exception('System media types can not be edited.');
@@ -195,7 +196,7 @@ if ('' == $func) {
         });
     }
 
-    $form->addErrorMessage(rex_form::ERROR_VIOLATE_UNIQUE_KEY, I18n::msg('media_manager_error_type_name_not_unique'));
+    $form->addErrorMessage(Form::ERROR_VIOLATE_UNIQUE_KEY, I18n::msg('media_manager_error_type_name_not_unique'));
 
     $field = $form->addTextField('name');
     $field->setLabel(I18n::msg('media_manager_type_name'));

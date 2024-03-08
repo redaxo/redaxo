@@ -307,7 +307,6 @@ list_next =
 list_rows_found =
 list_no_rows =
 
-# redaxo\include\classes\class.rex_form.php
 form_save = Salvare
 form_apply = Applicare
 form_delete = Elimina

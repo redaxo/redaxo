@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Form\AbstractForm;
+
 class rex_form_widget_media_element extends rex_form_element
 {
     /** @var array{category?: int, types?: string, preview?: bool} */
@@ -11,7 +13,7 @@ class rex_form_widget_media_element extends rex_form_element
      * @param string $tag
      * @param array<string, int|string> $attributes
      */
-    public function __construct($tag = '', ?rex_form_base $form = null, array $attributes = [])
+    public function __construct($tag = '', ?AbstractForm $form = null, array $attributes = [])
     {
         parent::__construct('', $form, $attributes);
     }

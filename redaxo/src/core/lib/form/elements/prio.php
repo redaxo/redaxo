@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
 
 class rex_form_prio_element extends rex_form_select_element
@@ -17,7 +18,7 @@ class rex_form_prio_element extends rex_form_select_element
     /** @var string */
     private $optionMsg = 'form_field_after_priority';
     /**
-     * @var rex_form
+     * @var Form
      * @psalm-suppress NonInvariantDocblockPropertyType
      */
     protected $table;
@@ -28,7 +29,7 @@ class rex_form_prio_element extends rex_form_select_element
      * @param string $tag
      * @param array<string, int|string> $attributes
      */
-    public function __construct($tag, rex_form $form, array $attributes = [])
+    public function __construct($tag, Form $form, array $attributes = [])
     {
         parent::__construct('', $form, $attributes);
         $this->table = $form;

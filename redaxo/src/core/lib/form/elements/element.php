@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Form\AbstractForm;
 use Redaxo\Core\Validator\ValidationRule;
 use Redaxo\Core\Validator\Validator;
 
@@ -13,7 +14,7 @@ class rex_form_element
     protected $label = '';
     /** @var string */
     protected $tag;
-    /** @var rex_form_base|null */
+    /** @var AbstractForm|null */
     protected $table;
     /** @var array<string, int|string> */
     protected $attributes;
@@ -41,7 +42,7 @@ class rex_form_element
      * @param array<string, int|string> $attributes
      * @param bool $separateEnding
      */
-    public function __construct($tag, ?rex_form_base $form = null, array $attributes = [], $separateEnding = false)
+    public function __construct($tag, ?AbstractForm $form = null, array $attributes = [], $separateEnding = false)
     {
         $this->tag = $tag;
         $this->table = $form;

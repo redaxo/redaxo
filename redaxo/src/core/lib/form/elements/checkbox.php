@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Form\AbstractForm;
+
 class rex_form_checkbox_element extends rex_form_options_element
 {
     // 1. Parameter nicht genutzt, muss aber hier stehen,
@@ -8,7 +10,7 @@ class rex_form_checkbox_element extends rex_form_options_element
      * @param string $tag
      * @param array<string, int|string> $attributes
      */
-    public function __construct($tag = '', ?rex_form_base $form = null, array $attributes = [])
+    public function __construct($tag = '', ?AbstractForm $form = null, array $attributes = [])
     {
         parent::__construct('', $form, $attributes);
         // Jede checkbox bekommt eingenes Label
