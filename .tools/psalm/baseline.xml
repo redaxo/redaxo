@@ -4219,7 +4219,6 @@
       <code><![CDATA[$_SESSION[static::getSessionNamespace()]]]></code>
     </PossiblyInvalidArrayOffset>
     <PossiblyNullArgument>
-      <code><![CDATA[$cookieParams['lifetime']]]></code>
       <code><![CDATA[$this->userPassword]]></code>
     </PossiblyNullArgument>
   </file>
