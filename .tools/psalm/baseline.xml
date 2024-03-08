@@ -2547,11 +2547,6 @@
       <code><![CDATA[$templatename]]></code>
     </PossiblyNullArgument>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/tests/article_content_test.php">
-    <MixedArgument>
-      <code><![CDATA[$classVarsProperty->getValue()]]></code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/addons/structure/plugins/content/tests/article_slice_test.php">
     <PossiblyNullReference>
       <code><![CDATA[getId]]></code>
@@ -2631,15 +2626,7 @@
       <code><![CDATA[$fromRevisionId]]></code>
     </NoValue>
   </file>
-  <file src="redaxo/src/addons/structure/tests/article_test.php">
-    <MixedArgument>
-      <code><![CDATA[$classVarsProperty->getValue()]]></code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/addons/structure/tests/category_test.php">
-    <MixedArgument>
-      <code><![CDATA[$classVarsProperty->getValue()]]></code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$callback]]></code>
     </MixedArgumentTypeCoercion>
@@ -4226,7 +4213,6 @@
       <code><![CDATA[$_SESSION[static::getSessionNamespace()]]]></code>
     </PossiblyInvalidArrayOffset>
     <PossiblyNullArgument>
-      <code><![CDATA[$cookieParams['lifetime']]]></code>
       <code><![CDATA[$this->userPassword]]></code>
     </PossiblyNullArgument>
   </file>

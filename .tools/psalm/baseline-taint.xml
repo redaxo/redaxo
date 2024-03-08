@@ -63,11 +63,6 @@
       <code><![CDATA[$this->getVar('content')]]></code>
     </TaintedTextWithQuotes>
   </file>
-  <file src="redaxo/src/core/lib/login/login.php">
-    <TaintedHeader>
-      <code><![CDATA[$rawHeader]]></code>
-    </TaintedHeader>
-  </file>
   <file src="redaxo/src/core/lib/response.php">
     <TaintedHeader>
       <code><![CDATA[$name . ': ' . $value]]></code>
