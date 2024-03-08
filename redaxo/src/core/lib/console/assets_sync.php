@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -100,7 +101,7 @@ class rex_command_assets_sync extends rex_console_command
         $folder1 = realpath($folder1);
         $folder2 = realpath($folder2);
 
-        $finder = rex_finder::factory($folder1)
+        $finder = Finder::factory($folder1)
             ->recursive()
             ->ignoreFiles('.redaxo')
             ->filesOnly();

@@ -1,9 +1,27 @@
 <?php
 
+namespace Redaxo\Core\Filesystem;
+
+use Countable;
+use FilesystemIterator;
+use InvalidArgumentException;
+use IteratorAggregate;
+use RecursiveCallbackFilterIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIterator;
+use RecursiveIteratorIterator;
+use ReturnTypeWillChange;
+use rex_factory_trait;
+use rex_sortable_iterator;
+use SplFileInfo;
+use Traversable;
+
+use function is_array;
+
 /**
  * @implements IteratorAggregate<string, SplFileInfo>
  */
-class rex_finder implements IteratorAggregate, Countable
+class Finder implements IteratorAggregate, Countable
 {
     use rex_factory_trait;
 

@@ -104,6 +104,7 @@ return RectorConfig::configure()
         rex_package_manager::class => rex_addon_manager::class,
         rex_dir::class => Redaxo\Core\Filesystem\Dir::class,
         rex_file::class => Redaxo\Core\Filesystem\File::class,
+        rex_finder::class => Redaxo\Core\Filesystem\Finder::class,
         rex_i18n::class => Redaxo\Core\Translation\I18n::class,
         rex_path::class => Redaxo\Core\Filesystem\Path::class,
         rex_path_default_provider::class => Redaxo\Core\Filesystem\DefaultPathProvider::class,

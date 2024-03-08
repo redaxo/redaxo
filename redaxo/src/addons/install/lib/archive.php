@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 
 /**
@@ -68,7 +69,7 @@ class rex_install_archive
         $basename = $basename ?: Path::basename($dir);
         Dir::create(dirname($archive));
         $files = [];
-        $iterator = rex_finder::factory($dir)->recursive()->filesOnly();
+        $iterator = Finder::factory($dir)->recursive()->filesOnly();
         if ($exclude) {
             $iterator->ignoreDirs($exclude, false);
             $iterator->ignoreFiles($exclude, false);
@@ -101,7 +102,7 @@ class rex_install_archive
     {
         @chmod($dir, Core::getDirPerm());
 
-        $finder = rex_finder::factory($dir)->recursive();
+        $finder = Finder::factory($dir)->recursive();
 
         foreach ($finder as $path => $file) {
             @chmod($path, $file->isDir() ? Core::getDirPerm() : Core::getFilePerm());

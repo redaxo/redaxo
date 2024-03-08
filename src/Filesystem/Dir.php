@@ -3,7 +3,6 @@
 namespace Redaxo\Core\Filesystem;
 
 use Redaxo\Core\Core;
-use rex_finder;
 use SplFileInfo;
 use Traversable;
 
@@ -83,7 +82,7 @@ class Dir
 
         $state = true;
 
-        foreach (rex_finder::factory($srcdir)->recursive() as $srcfilepath => $srcfile) {
+        foreach (Finder::factory($srcdir)->recursive() as $srcfilepath => $srcfile) {
             $dstfile = $dstdir . substr($srcfilepath, strlen($srcdir));
             if ($srcfile->isDir()) {
                 $state = self::create($dstfile) && $state;
@@ -109,7 +108,7 @@ class Dir
             return true;
         }
 
-        if (!self::deleteIterator(rex_finder::factory($dir)->recursive()->childFirst()->ignoreSystemStuff(false))) {
+        if (!self::deleteIterator(Finder::factory($dir)->recursive()->childFirst()->ignoreSystemStuff(false))) {
             return false;
         }
 
@@ -127,7 +126,7 @@ class Dir
      */
     public static function deleteFiles($dir, $recursive = true)
     {
-        $iterator = rex_finder::factory($dir)->recursive($recursive)->filesOnly()->ignoreSystemStuff(false);
+        $iterator = Finder::factory($dir)->recursive($recursive)->filesOnly()->ignoreSystemStuff(false);
         return self::deleteIterator($iterator);
     }
 

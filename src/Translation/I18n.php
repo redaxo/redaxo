@@ -6,10 +6,10 @@ use InvalidArgumentException;
 use Locale;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Finder;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
-use rex_finder;
 
 use function call_user_func;
 use function count;
@@ -353,7 +353,7 @@ class I18n
         if (empty(self::$locales) && isset(self::$directories[0]) && is_readable(self::$directories[0])) {
             self::$locales = [];
 
-            foreach (rex_finder::factory(self::$directories[0])->filesOnly() as $file) {
+            foreach (Finder::factory(self::$directories[0])->filesOnly() as $file) {
                 if (preg_match('/^(\\w+)\\.lang$/', $file->getFilename(), $matches)) {
                     self::$locales[] = $matches[1];
                 }

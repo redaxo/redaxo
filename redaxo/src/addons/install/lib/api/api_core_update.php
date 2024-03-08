@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -70,7 +71,7 @@ class rex_api_install_core_update extends rex_api_function
                 throw new rex_functional_exception($installAddon->i18n('warning_zip_wrong_format'));
             }
             if (is_dir($temppath . 'addons')) {
-                foreach (rex_finder::factory($temppath . 'addons')->dirsOnly() as $dir) {
+                foreach (Finder::factory($temppath . 'addons')->dirsOnly() as $dir) {
                     $addonkey = $dir->getBasename();
                     $addonPath = $dir->getRealPath() . '/';
                     if (!is_file($addonPath . rex_addon::FILE_PACKAGE)) {

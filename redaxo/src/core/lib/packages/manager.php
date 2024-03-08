@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
@@ -705,7 +706,7 @@ class rex_addon_manager
         $packages = [];
 
         if (is_dir($folder)) {
-            foreach (rex_finder::factory($folder)->dirsOnly() as $file) {
+            foreach (Finder::factory($folder)->dirsOnly() as $file) {
                 $packages[] = $file->getBasename();
             }
         }

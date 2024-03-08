@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 
 /**
@@ -53,7 +54,7 @@ class rex_article_content_test extends TestCase
     protected function tearDown(): void
     {
         // delete all fake structure cache files
-        $finder = rex_finder::factory(Path::coreCache('structure/'))
+        $finder = Finder::factory(Path::coreCache('structure/'))
             ->recursive()
             ->childFirst()
             ->ignoreSystemStuff(false);
