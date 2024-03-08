@@ -115,6 +115,8 @@ return RectorConfig::configure()
         rex_sql_schema_dumper::class => Redaxo\Core\Database\SchemaDumper::class,
         rex_sql_table::class => Redaxo\Core\Database\Table::class,
         rex_sql_util::class => Redaxo\Core\Database\Util::class,
+        rex_validator::class => Redaxo\Core\Validator\Validator::class,
+        rex_validation_rule::class => Redaxo\Core\Validator\ValidationRule::class,
     ])
     ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(rex_addon::class, 'getRegisteredPackages', 'getRegisteredAddons'),

@@ -1,16 +1,20 @@
 <?php
 
+namespace Redaxo\Core\Tests\Validator;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\Validator\Validator;
 
 /**
  * @internal
  */
-class rex_validator_test extends TestCase
+class ValidatorTest extends TestCase
 {
     public function testNotEmpty(): void
     {
-        $validator = rex_validator::factory();
+        $validator = Validator::factory();
         self::assertFalse($validator->notEmpty(''));
         self::assertTrue($validator->notEmpty('0'));
         self::assertTrue($validator->notEmpty('aaa'));
@@ -36,33 +40,33 @@ class rex_validator_test extends TestCase
     #[DataProvider('dataType')]
     public function testType(string $value, string $type, bool $expected): void
     {
-        self::assertEquals($expected, rex_validator::factory()->type($value, $type));
+        self::assertEquals($expected, Validator::factory()->type($value, $type));
     }
 
     public function testMinLength(): void
     {
-        $validator = rex_validator::factory();
+        $validator = Validator::factory();
         self::assertFalse($validator->minLength('ab', 3));
         self::assertTrue($validator->minLength('abc', 3));
     }
 
     public function testMaxLength(): void
     {
-        $validator = rex_validator::factory();
+        $validator = Validator::factory();
         self::assertFalse($validator->maxLength('abc', 2));
         self::assertTrue($validator->maxLength('ab', 2));
     }
 
     public function testMin(): void
     {
-        $validator = rex_validator::factory();
+        $validator = Validator::factory();
         self::assertFalse($validator->min('4', 5));
         self::assertTrue($validator->min('5', 5));
     }
 
     public function testMax(): void
     {
-        $validator = rex_validator::factory();
+        $validator = Validator::factory();
         self::assertFalse($validator->max('5', 4));
         self::assertTrue($validator->max('4', 4));
     }
@@ -83,7 +87,7 @@ class rex_validator_test extends TestCase
     #[DataProvider('dataUrl')]
     public function testUrl(string $value, bool $isValid): void
     {
-        self::assertEquals($isValid, rex_validator::factory()->url($value));
+        self::assertEquals($isValid, Validator::factory()->url($value));
     }
 
     /** @return list<array{string, bool}> */
@@ -101,26 +105,26 @@ class rex_validator_test extends TestCase
     #[DataProvider('dataEmail')]
     public function testEmail(string $value, bool $isValid): void
     {
-        self::assertEquals($isValid, rex_validator::factory()->email($value));
+        self::assertEquals($isValid, Validator::factory()->email($value));
     }
 
     public function testMatch(): void
     {
-        $validator = rex_validator::factory();
+        $validator = Validator::factory();
         self::assertFalse($validator->match('aa', '/^.$/'));
         self::assertTrue($validator->match('a', '/^.$/'));
     }
 
     public function testNotMatch(): void
     {
-        $validator = rex_validator::factory();
+        $validator = Validator::factory();
         self::assertTrue($validator->notMatch('aa', '/^.$/'));
         self::assertFalse($validator->notMatch('a', '/^.$/'));
     }
 
     public function testValues(): void
     {
-        $validator = rex_validator::factory();
+        $validator = Validator::factory();
         self::assertFalse($validator->values('abc', ['def', 'ghi']));
         self::assertTrue($validator->values('ghi', ['def', 'ghi']));
     }
@@ -128,7 +132,7 @@ class rex_validator_test extends TestCase
     #[DataProvider('dataCustom')]
     public function testCustom(bool $expected, string $value): void
     {
-        $validator = rex_validator::factory();
+        $validator = Validator::factory();
 
         $isCalled = false;
 
@@ -153,7 +157,7 @@ class rex_validator_test extends TestCase
 
     public function testIsValid(): void
     {
-        $validator = rex_validator::factory();
+        $validator = Validator::factory();
 
         self::assertTrue($validator->isValid(''));
         self::assertNull($validator->getMessage());
@@ -173,10 +177,10 @@ class rex_validator_test extends TestCase
 
     public function testGetRules(): void
     {
-        $validator = rex_validator::factory();
+        $validator = Validator::factory();
         // mix of add/addRule should be returned in getRules()
-        $validator->add(rex_validation_rule::NOT_EMPTY, 'not-empty');
-        $validator->addRule(new rex_validation_rule('minLength', 'min-length', 3));
+        $validator->add(ValidationRule::NOT_EMPTY, 'not-empty');
+        $validator->addRule(new ValidationRule('minLength', 'min-length', 3));
 
         self::assertCount(2, $validator->getRules());
         self::assertIsArray($validator->getRules());

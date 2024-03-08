@@ -120,7 +120,7 @@ override(
     ])
 );
 
-expectedArguments(\rex_validator::add(), 0, 'notEmpty', 'type', 'minLength', 'maxLength', 'min', 'max', 'url', 'email', 'match', 'notMatch', 'values', 'custom');
+expectedArguments(\Redaxo\Core\Validator\Validator::add(), 0, 'notEmpty', 'type', 'minLength', 'maxLength', 'min', 'max', 'url', 'email', 'match', 'notMatch', 'values', 'custom');
 
 expectedArguments(\rex_var::parse(), 1, \rex_var::ENV_BACKEND | \rex_var::ENV_FRONTEND | \rex_var::ENV_INPUT | \rex_var::ENV_OUTPUT);
 expectedArguments(\rex_var::environmentIs(), 0, \rex_var::ENV_BACKEND | \rex_var::ENV_FRONTEND | \rex_var::ENV_INPUT | \rex_var::ENV_OUTPUT);
