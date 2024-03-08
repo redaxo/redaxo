@@ -3,7 +3,7 @@
 use Redaxo\Core\Form\AbstractForm;
 
 /**
- * class implements storage of raw html(string) as rex_form object.
+ * class implements storage of raw html(string) as Form object.
  */
 class rex_form_raw_element extends rex_form_element
 {
