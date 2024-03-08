@@ -271,7 +271,7 @@ abstract class AbstractForm
         $attributes['internal::noNameAttribute'] = true;
         if (!isset($attributes['class'])) {
             // Wenn die class geaendert wird, muss auch
-            // rex_form_container_element::getSaveValue()
+            // ContainerField::getSaveValue()
             // angepasst werden
             $attributes['class'] = 'form-control-static';
         }
