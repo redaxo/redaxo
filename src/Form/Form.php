@@ -4,13 +4,13 @@ namespace Redaxo\Core\Form;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Field\PriorityField;
 use Redaxo\Core\Translation\I18n;
 use rex_clang;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
 use rex_factory_trait;
-use rex_form_prio_element;
 use rex_sql_exception;
 
 use function assert;
@@ -170,16 +170,16 @@ class Form extends AbstractForm
      * @param string $name
      * @param mixed $value
      *
-     * @return rex_form_prio_element
+     * @return PriorityField
      */
     public function addPrioField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = rex_form_prio_element::class;
+        $attributes['internal::fieldClass'] = PriorityField::class;
         if (!isset($attributes['class'])) {
             $attributes['class'] = 'form-control';
         }
         $field = $this->addField('', $name, $value, $attributes, true);
-        assert($field instanceof rex_form_prio_element);
+        assert($field instanceof PriorityField);
         return $field;
     }
 
