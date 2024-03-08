@@ -115,7 +115,7 @@ abstract class AbstractForm
     }
 
     /**
-     * Laedt die Konfiguration die noetig ist um rex_form im REDAXO Backend zu verwenden.
+     * Laedt die Konfiguration die noetig ist um AbstractForm im REDAXO Backend zu verwenden.
      * @return void
      */
     protected function loadBackendConfig()
