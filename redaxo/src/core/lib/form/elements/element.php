@@ -1,5 +1,8 @@
 <?php
 
+use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\Validator\Validator;
+
 class rex_form_element
 {
     /** @var string|int|null */
@@ -28,7 +31,7 @@ class rex_form_element
     protected $suffix;
     /** @var string */
     protected $notice;
-    /** @var rex_validator */
+    /** @var Validator */
     protected $validator;
     /** @var bool */
     protected $labelOnTop;
@@ -49,7 +52,7 @@ class rex_form_element
         $this->setPrefix('');
         $this->setSuffix('');
         $this->setLabelOnTop(false);
-        $this->validator = rex_validator::factory();
+        $this->validator = Validator::factory();
     }
 
     // --------- Attribute setter/getters
@@ -308,7 +311,7 @@ class rex_form_element
     }
 
     /**
-     * @return rex_validator
+     * @return Validator
      */
     public function getValidator()
     {
@@ -445,7 +448,7 @@ class rex_form_element
     private function isRequiredField(): bool
     {
         foreach ($this->getValidator()->getRules() as $rule) {
-            if (rex_validation_rule::NOT_EMPTY == $rule->getType()) {
+            if (ValidationRule::NOT_EMPTY == $rule->getType()) {
                 return true;
             }
         }
@@ -460,10 +463,10 @@ class rex_form_element
         }
 
         foreach ($this->getValidator()->getRules() as $rule) {
-            if (rex_validation_rule::MIN_LENGTH == $rule->getType()) {
+            if (ValidationRule::MIN_LENGTH == $rule->getType()) {
                 $this->setAttribute('minlength', (int) $rule->getOption());
             }
-            if (rex_validation_rule::MAX_LENGTH == $rule->getType()) {
+            if (ValidationRule::MAX_LENGTH == $rule->getType()) {
                 $this->setAttribute('maxlength', (int) $rule->getOption());
             }
         }

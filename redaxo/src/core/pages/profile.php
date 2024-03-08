@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Validator\Validator;
 
 $error = '';
 $success = '';
@@ -70,7 +71,7 @@ $update = rex_post('upd_profile_button', 'bool');
 if ($update) {
     if (!$csrfToken->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
-    } elseif ($useremail && !rex_validator::factory()->email($useremail)) {
+    } elseif ($useremail && !Validator::factory()->email($useremail)) {
         $error = I18n::msg('invalid_email');
     }
 }
