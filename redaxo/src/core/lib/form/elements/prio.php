@@ -2,10 +2,11 @@
 
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
 
-class rex_form_prio_element extends rex_form_select_element
+class rex_form_prio_element extends SelectField
 {
     /** @var string */
     private $labelField = '';

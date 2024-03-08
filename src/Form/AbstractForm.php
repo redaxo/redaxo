@@ -10,6 +10,7 @@ use Redaxo\Core\Form\Field\CheckboxField;
 use Redaxo\Core\Form\Field\ContainerField;
 use Redaxo\Core\Form\Field\ControlField;
 use Redaxo\Core\Form\Field\RadioField;
+use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
 use rex_be_controller;
 use rex_csrf_token;
@@ -17,7 +18,6 @@ use rex_exception;
 use rex_extension;
 use rex_extension_point;
 use rex_form_raw_element;
-use rex_form_select_element;
 use rex_form_widget_linklist_element;
 use rex_form_widget_linkmap_element;
 use rex_form_widget_media_element;
@@ -356,16 +356,16 @@ abstract class AbstractForm
      * @param string $name
      * @param mixed $value
      *
-     * @return rex_form_select_element
+     * @return SelectField
      */
     public function addSelectField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = rex_form_select_element::class;
+        $attributes['internal::fieldClass'] = SelectField::class;
         if (!isset($attributes['class'])) {
             $attributes['class'] = 'form-control';
         }
         $field = $this->addField('', $name, $value, $attributes, true);
-        assert($field instanceof rex_form_select_element);
+        assert($field instanceof SelectField);
         return $field;
     }
 
@@ -675,7 +675,7 @@ abstract class AbstractForm
             'control' => ControlField::class,
             'checkbox' => CheckboxField::class,
             'radio' => RadioField::class,
-            'select' => rex_form_select_element::class,
+            'select' => SelectField::class,
             'media' => rex_form_widget_media_element::class,
             'medialist' => rex_form_widget_medialist_element::class,
             'link' => rex_form_widget_linkmap_element::class,
@@ -788,7 +788,7 @@ abstract class AbstractForm
 
     /**
      * @return bool
-     * @psalm-assert-if-true \Redaxo\Core\Form\Field\ControlField $element
+     * @psalm-assert-if-true ControlField $element
      */
     protected function isFooterElement(BaseField $element)
     {
@@ -797,7 +797,7 @@ abstract class AbstractForm
 
     /**
      * @return bool
-     * @psalm-assert-if-true \Redaxo\Core\Form\Field\ControlField $element
+     * @psalm-assert-if-true ControlField $element
      */
     protected function isControlElement(BaseField $element)
     {

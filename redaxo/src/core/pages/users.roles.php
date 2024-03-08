@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
@@ -101,7 +102,7 @@ if ('' == $func) {
     $registerImplicitePagePermissions(rex_be_controller::getPages());
 
     foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $permgroup) {
-        /** @var rex_form_select_element $field */
+        /** @var SelectField $field */
         $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
         $field->setLabel(I18n::msg('user_' . $permgroup));
         $select = $field->getSelect();

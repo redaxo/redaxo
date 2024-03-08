@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -16,7 +17,7 @@ class rex_system_setting_phpmailer_errormail extends rex_system_setting
 
     public function getField()
     {
-        $field = new rex_form_select_element();
+        $field = new SelectField();
         $field->setAttribute('class', 'form-control selectpicker');
         $field->setLabel(I18n::msg('system_setting_errormail'));
         $select = $field->getSelect();

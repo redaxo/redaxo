@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
 
@@ -221,7 +222,7 @@ if ('' == $func) {
                     break;
                 case 'select':
                     $type = $param['type'];
-                    /** @var rex_form_select_element $field */
+                    /** @var SelectField $field */
                     $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                     $field->setLabel($param['label']);
                     $field->setAttribute('id', "media_manager $name $type");
