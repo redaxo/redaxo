@@ -1,12 +1,13 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Form\AbstractForm;
 use Redaxo\Core\Translation\I18n;
 
 /**
  * Create forms for rex_config data.
  */
-class rex_config_form extends rex_form_base
+class rex_config_form extends AbstractForm
 {
     use rex_factory_trait;
 

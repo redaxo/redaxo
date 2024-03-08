@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\AbstractForm;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -13,7 +14,7 @@ use Redaxo\Core\Translation\I18n;
  *
  * Nachdem alle Felder eingefuegt wurden, muss das Fomular mit get() oder show() ausgegeben werden.
  */
-class rex_form extends rex_form_base
+class rex_form extends AbstractForm
 {
     use rex_factory_trait;
 

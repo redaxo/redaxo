@@ -1,9 +1,40 @@
 <?php
 
+namespace Redaxo\Core\Form;
+
+use BadMethodCallException;
+use InvalidArgumentException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use rex_be_controller;
+use rex_csrf_token;
+use rex_exception;
+use rex_extension;
+use rex_extension_point;
+use rex_form_checkbox_element;
+use rex_form_container_element;
+use rex_form_control_element;
+use rex_form_element;
+use rex_form_radio_element;
+use rex_form_raw_element;
+use rex_form_select_element;
+use rex_form_widget_linklist_element;
+use rex_form_widget_linkmap_element;
+use rex_form_widget_media_element;
+use rex_form_widget_medialist_element;
+use rex_string;
+use rex_url;
+use rex_view;
 
-abstract class rex_form_base
+use function array_key_exists;
+use function assert;
+use function count;
+use function in_array;
+use function is_array;
+use function is_int;
+use function is_string;
+
+abstract class AbstractForm
 {
     /** @var string */
     protected $name;
