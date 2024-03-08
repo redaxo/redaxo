@@ -1,10 +1,15 @@
 <?php
 
-use Redaxo\Core\Form\AbstractForm;
-use Redaxo\Core\Form\Field\BaseField;
-use Redaxo\Core\Translation\I18n;
+namespace Redaxo\Core\Form\Field;
 
-class rex_form_control_element extends BaseField
+use Redaxo\Core\Form\AbstractForm;
+use Redaxo\Core\Translation\I18n;
+use rex_fragment;
+
+use function count;
+use function is_object;
+
+class ControlField extends BaseField
 {
     /** @var BaseField|null */
     private $saveElement;

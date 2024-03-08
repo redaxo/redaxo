@@ -113,6 +113,7 @@ return RectorConfig::configure()
         rex_form_checkbox_element::class => Redaxo\Core\Form\Field\CheckboxField::class,
         rex_form_radio_element::class => Redaxo\Core\Form\Field\RadioField::class,
         rex_form_container_element::class => Redaxo\Core\Form\Field\ContainerField::class,
+        rex_form_control_element::class => Redaxo\Core\Form\Field\ControlField::class,
         rex_i18n::class => Redaxo\Core\Translation\I18n::class,
         rex_path::class => Redaxo\Core\Filesystem\Path::class,
         rex_path_default_provider::class => Redaxo\Core\Filesystem\DefaultPathProvider::class,
