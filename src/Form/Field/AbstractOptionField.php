@@ -1,10 +1,12 @@
 <?php
 
+namespace Redaxo\Core\Form\Field;
+
+use PDO;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\AbstractForm;
-use Redaxo\Core\Form\Field\BaseField;
 
-abstract class rex_form_options_element extends BaseField
+abstract class AbstractOptionField extends BaseField
 {
     /** @var array<string, string|int> */
     private $options = [];
