@@ -42,7 +42,7 @@ class FinderTest extends TestCase
 
     public function getPath(string $file = ''): string
     {
-        return Path::addonData('tests', 'rex_finder_test/' . $file);
+        return Path::addonData('tests', 'FinderTest/' . $file);
     }
 
     /**

@@ -3,6 +3,7 @@
 
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 
 require dirname(__DIR__) . '/bootstrap.php';
@@ -175,7 +176,7 @@ class rex_release
     {
         $dir = rtrim($dir, '\\/');
 
-        $finder = rex_finder::factory($dir)
+        $finder = Finder::factory($dir)
             ->recursive()
             ->ignoreDirs('tests')
             ->filesOnly()
