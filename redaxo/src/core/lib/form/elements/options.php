@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\AbstractForm;
 
 abstract class rex_form_options_element extends rex_form_element
 {
@@ -13,7 +14,7 @@ abstract class rex_form_options_element extends rex_form_element
      * @param string $tag
      * @param array<string, int|string> $attributes
      */
-    public function __construct($tag = '', ?rex_form_base $form = null, array $attributes = [])
+    public function __construct($tag = '', ?AbstractForm $form = null, array $attributes = [])
     {
         parent::__construct($tag, $form, $attributes);
     }

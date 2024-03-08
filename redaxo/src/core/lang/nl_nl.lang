@@ -354,7 +354,6 @@ list_next = volgende pagina
 list_rows_found = {0} rijen gevonden
 list_no_rows = Geen rijen
 
-# redaxo\include\classes\class.rex_form.php
 form_save = Opslaan
 form_apply = Toepassen
 form_delete = Verwijderen

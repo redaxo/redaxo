@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
 
 $effectId = rex_request('effect_id', 'int');
@@ -134,7 +135,7 @@ if ('' == $func) {
         $formLabel = I18n::rawMsg('media_manager_effect_create_header', rex_escape($typeName));
     }
 
-    $form = rex_form::factory(Core::getTablePrefix() . 'media_manager_type_effect', '', 'id=' . $effectId);
+    $form = Form::factory(Core::getTablePrefix() . 'media_manager_type_effect', '', 'id=' . $effectId);
 
     // image_type_id for reference to save into the db
     $form->addHiddenField('type_id', $typeId);

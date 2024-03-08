@@ -6,7 +6,7 @@
 
 $out = '';
 // Gruppierte Checkboxen werden nochmals via form/form.php geparsed
-// Bsp. Checkboxen in der rex_form
+// Bsp. Checkboxen in der Form
 $grouped = $this->grouped ?? false;
 $inline = $this->inline ?? false;
 

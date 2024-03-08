@@ -1,7 +1,9 @@
 <?php
 
+use Redaxo\Core\Form\AbstractForm;
+
 /**
- * class implements storage of raw html(string) as rex_form object.
+ * class implements storage of raw html(string) as Form object.
  */
 class rex_form_raw_element extends rex_form_element
 {
@@ -9,7 +11,7 @@ class rex_form_raw_element extends rex_form_element
     private $html;
 
     /** @param string $html */
-    public function __construct($html = '', ?rex_form_base $form = null)
+    public function __construct($html = '', ?AbstractForm $form = null)
     {
         $this->html = $html;
 

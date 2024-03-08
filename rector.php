@@ -105,6 +105,9 @@ return RectorConfig::configure()
         rex_dir::class => Redaxo\Core\Filesystem\Dir::class,
         rex_file::class => Redaxo\Core\Filesystem\File::class,
         rex_finder::class => Redaxo\Core\Filesystem\Finder::class,
+        rex_form_base::class => Redaxo\Core\Form\AbstractForm::class,
+        rex_form::class => Redaxo\Core\Form\Form::class,
+        rex_config_form::class => Redaxo\Core\Form\ConfigForm::class,
         rex_i18n::class => Redaxo\Core\Translation\I18n::class,
         rex_path::class => Redaxo\Core\Filesystem\Path::class,
         rex_path_default_provider::class => Redaxo\Core\Filesystem\DefaultPathProvider::class,
@@ -168,7 +171,7 @@ return RectorConfig::configure()
         new ArgumentRemover(rex_url::class, 'backendController', 1, null),
         new ArgumentRemover(rex_url::class, 'backendPage', 2, null),
         new ArgumentRemover(rex_url::class, 'currentBackendPage', 1, null),
-        new ArgumentRemover(rex_form_base::class, 'getUrl', 1, null),
+        new ArgumentRemover(Redaxo\Core\Form\AbstractForm::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
         new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
@@ -188,7 +191,7 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(rex_markdown::class, 'parseWithToc', 3, false, $options),
     ])
     ->withConfiguredRule(ConstFetchToClassConstFetchRector::class, [
-        new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', rex_form::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
+        new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', Redaxo\Core\Form\Form::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
 
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TEXT', rex_metainfo_table_manager::class, 'FIELD_TEXT'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TEXTAREA', rex_metainfo_table_manager::class, 'FIELD_TEXTAREA'),

@@ -21,10 +21,10 @@ expectedArguments(\rex_extension::register(), 2, \rex_extension::EARLY, \rex_ext
 expectedArguments(\Redaxo\Core\Filesystem\Finder::sort(), 0, \rex_sortable_iterator::KEYS, \rex_sortable_iterator::VALUES);
 expectedArguments(\rex_sortable_iterator::__construct(), 1, \rex_sortable_iterator::KEYS, \rex_sortable_iterator::VALUES);
 
-expectedArguments(\rex_form::factory(), 3, 'get', 'post');
+expectedArguments(\Redaxo\Core\Form\Form::factory(), 3, 'get', 'post');
 
 registerArgumentsSet('form_field_type', 'text', 'textarea', 'checkbox', 'radio', 'select', 'media', 'medialist', 'link', 'linklist', 'hidden', 'readonly', 'readonlytext', 'control');
-expectedArguments(\rex_form::createInput(), 0, argumentsSet('form_field_type'));
+expectedArguments(\Redaxo\Core\Form\Form::createInput(), 0, argumentsSet('form_field_type'));
 expectedArguments(\rex_form_container_element::addField(), 0, argumentsSet('form_field_type'));
 expectedArguments(\rex_form_container_element::addGroupedField(), 1, argumentsSet('form_field_type'));
 

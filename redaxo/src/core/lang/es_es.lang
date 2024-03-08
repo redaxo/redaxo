@@ -389,7 +389,6 @@ list_next = página siguiente
 list_rows_found = {0} documentos encontrados
 list_no_rows = No hay entradas disponibles
 
-# redaxo\include\classes\class.rex_form.php
 form_save = Guardar
 form_apply = Aplicar
 form_delete = borrar

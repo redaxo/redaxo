@@ -401,7 +401,6 @@ list_next = Nästa sida
 list_rows_found = {0} Hittade inlägg
 list_no_rows = Inga inlägg tillgängliga
 
-# redaxo\include\classes\class.rex_form.php
 form_save = Spara
 form_apply = Spara och fortsätt
 form_delete = Radera
