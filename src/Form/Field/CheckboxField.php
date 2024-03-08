@@ -1,9 +1,12 @@
 <?php
 
-use Redaxo\Core\Form\AbstractForm;
-use Redaxo\Core\Form\Field\AbstractOptionField;
+namespace Redaxo\Core\Form\Field;
 
-class rex_form_checkbox_element extends AbstractOptionField
+use Redaxo\Core\Form\AbstractForm;
+use rex_fragment;
+use rex_string;
+
+class CheckboxField extends AbstractOptionField
 {
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter

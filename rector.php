@@ -110,6 +110,7 @@ return RectorConfig::configure()
         rex_config_form::class => Redaxo\Core\Form\ConfigForm::class,
         rex_form_element::class => Redaxo\Core\Form\Field\BaseField::class,
         rex_form_options_element::class => Redaxo\Core\Form\Field\AbstractOptionField::class,
+        rex_form_checkbox_element::class => Redaxo\Core\Form\Field\CheckboxField::class,
         rex_i18n::class => Redaxo\Core\Translation\I18n::class,
         rex_path::class => Redaxo\Core\Filesystem\Path::class,
         rex_path_default_provider::class => Redaxo\Core\Filesystem\DefaultPathProvider::class,

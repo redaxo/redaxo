@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Form\Field\CheckboxField;
+
 /**
  * @internal
  */
@@ -32,7 +34,7 @@ class rex_form_perm_select_element extends rex_form_select_element
      */
     public function get()
     {
-        $field = new rex_form_checkbox_element('', $this->table);
+        $field = new CheckboxField('', $this->table);
         $field->setAttribute('name', $this->getAttribute('name', ''));
         $field->setAttribute('id', $this->getAttribute('id', ''));
         if (rex_complex_perm::ALL == trim((string) $this->getValue(), '|')) {

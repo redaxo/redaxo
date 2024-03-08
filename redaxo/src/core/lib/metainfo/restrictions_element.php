@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Form\Field\CheckboxField;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -37,7 +38,7 @@ class rex_form_restrictons_element extends rex_form_select_element
         $checkboxId = $id . '-checkbox';
         $slctDivId = $id . '-div';
 
-        $checkbox = new rex_form_checkbox_element('');
+        $checkbox = new CheckboxField('');
         $checkbox->setAttribute('name', 'enable_restrictions');
         $checkbox->setAttribute('id', $checkboxId);
         $checkbox->addOption($this->allCheckboxLabel, '');
