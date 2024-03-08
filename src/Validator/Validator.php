@@ -11,7 +11,7 @@ class Validator
 {
     use rex_factory_trait;
 
-    /** @var list<\Redaxo\Core\Validator\ValidationRule> */
+    /** @var list<ValidationRule> */
     private $rules = [];
     /** @var string|null */
     private $message;
@@ -69,7 +69,7 @@ class Validator
     }
 
     /**
-     * @return list<\Redaxo\Core\Validator\ValidationRule>
+     * @return list<ValidationRule>
      */
     public function getRules(): array
     {
