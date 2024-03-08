@@ -1652,11 +1652,6 @@
       <code><![CDATA[$level]]></code>
     </InvalidCast>
   </file>
-  <file src="redaxo/src/core/lib/form/config_form.php">
-    <PossiblyNullOperand>
-      <code><![CDATA[$fieldset]]></code>
-    </PossiblyNullOperand>
-  </file>
   <file src="redaxo/src/core/lib/form/elements/checkbox.php">
     <InvalidScalarArgument>
       <code><![CDATA[$this->getValue() ?? '']]></code>
@@ -1784,50 +1779,6 @@
     </MixedAssignment>
     <PossiblyNullOperand>
       <code><![CDATA[$this->getAttribute('name')]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/form/form.php">
-    <MixedArgument>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$this->languageSupport['clang']]]></code>
-      <code><![CDATA[$this->languageSupport['id']]]></code>
-      <code><![CDATA[$this->languageSupport['id']]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/lib/form/form_base.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$this->errorMessages[$result]]]></code>
-      <code><![CDATA[$this->errorMessages[$result]]]></code>
-    </InvalidArrayOffset>
-    <MixedArgument>
-      <code><![CDATA[$this->preView($fieldsetName, $element->getFieldName(), $element->getValue())]]></code>
-      <code><![CDATA[$this->preView($fieldsetName, $element->getFieldName(), $element->getValue())]]></code>
-      <code><![CDATA[$this->preView($fieldsetName, $element->getFieldName(), $element->getValue())]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$params[$listName . '_msg']]]></code>
-      <code><![CDATA[$params[$listName . '_warning']]]></code>
-      <code><![CDATA[$separateEnding]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string|null]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$fields[$normalizedFieldName] ?? $default]]></code>
-      <code><![CDATA[$fields[$normalizedFieldName] ?? $default]]></code>
-    </MixedReturnStatement>
-    <NoValue>
-      <code><![CDATA[$result]]></code>
-      <code><![CDATA[return $className;]]></code>
-      <code><![CDATA[return $inputTag;]]></code>
-    </NoValue>
-    <PossiblyNullOperand>
-      <code><![CDATA[$this->applyUrl]]></code>
-      <code><![CDATA[$this->applyUrl]]></code>
-      <code><![CDATA[$this->message]]></code>
-      <code><![CDATA[$this->warning]]></code>
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/fragment.php">
@@ -5030,6 +4981,55 @@
     <MoreSpecificReturnType>
       <code><![CDATA[non-empty-string|null]]></code>
     </MoreSpecificReturnType>
+  </file>
+  <file src="src/Form/AbstractForm.php">
+    <InvalidArrayOffset>
+      <code><![CDATA[$this->errorMessages[$result]]]></code>
+      <code><![CDATA[$this->errorMessages[$result]]]></code>
+    </InvalidArrayOffset>
+    <MixedArgument>
+      <code><![CDATA[$this->preView($fieldsetName, $element->getFieldName(), $element->getValue())]]></code>
+      <code><![CDATA[$this->preView($fieldsetName, $element->getFieldName(), $element->getValue())]]></code>
+      <code><![CDATA[$this->preView($fieldsetName, $element->getFieldName(), $element->getValue())]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$params[$listName . '_msg']]]></code>
+      <code><![CDATA[$params[$listName . '_warning']]]></code>
+      <code><![CDATA[$separateEnding]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[string|null]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$fields[$normalizedFieldName] ?? $default]]></code>
+      <code><![CDATA[$fields[$normalizedFieldName] ?? $default]]></code>
+    </MixedReturnStatement>
+    <NoValue>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[return $className;]]></code>
+      <code><![CDATA[return $inputTag;]]></code>
+    </NoValue>
+    <PossiblyNullOperand>
+      <code><![CDATA[$this->applyUrl]]></code>
+      <code><![CDATA[$this->applyUrl]]></code>
+      <code><![CDATA[$this->message]]></code>
+      <code><![CDATA[$this->warning]]></code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="src/Form/Form.php">
+    <MixedArgument>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$this->languageSupport['clang']]]></code>
+      <code><![CDATA[$this->languageSupport['id']]]></code>
+      <code><![CDATA[$this->languageSupport['id']]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/Form/FormConfig.php">
+    <PossiblyNullOperand>
+      <code><![CDATA[$fieldset]]></code>
+    </PossiblyNullOperand>
   </file>
   <file src="src/Translation/I18n.php">
     <ArgumentTypeCoercion>

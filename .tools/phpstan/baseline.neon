@@ -386,136 +386,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/elements/select.php
 
 		-
-			message: "#^Method rex_form\\:\\:addPrioField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form.php
-
-		-
-			message: "#^Property rex_form\\:\\:\\$languageSupport type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addCheckboxField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addContainerField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addHiddenField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addInputField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addLinklistField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addLinkmapField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addMediaField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addMedialistField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addRadioField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addReadOnlyField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addReadOnlyTextField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addSelectField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addTextAreaField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addTextField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:createElement\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:createInput\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:fieldsetPostValues\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:getInputAttributes\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:redirect\\(\\) has parameter \\$listMessage with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:redirect\\(\\) has parameter \\$listWarning with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:redirect\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:setApplyUrl\\(\\) has parameter \\$url with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
 			message: "#^Method rex_list\\:\\:_getAttributeString\\(\\) has parameter \\$array with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
@@ -2409,3 +2279,133 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\File\\:\\:formattedSize\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Filesystem/File.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addCheckboxField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addContainerField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addHiddenField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addInputField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addLinklistField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addLinkmapField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addMediaField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addMedialistField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addRadioField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addReadOnlyField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addReadOnlyTextField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addSelectField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addTextAreaField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addTextField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:createElement\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:createInput\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:fieldsetPostValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:getInputAttributes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:redirect\\(\\) has parameter \\$listMessage with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:redirect\\(\\) has parameter \\$listWarning with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:redirect\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:setApplyUrl\\(\\) has parameter \\$url with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Form\\:\\:addPrioField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/Form.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Form\\\\Form\\:\\:\\$languageSupport type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/Form.php
