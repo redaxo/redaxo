@@ -3,8 +3,8 @@
 namespace Redaxo\Core;
 
 use InvalidArgumentException;
-use Redaxo\Core\Validator\Validator;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Validator\Validator;
 use rex_backend_login;
 use rex_config;
 use rex_config_db;
