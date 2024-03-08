@@ -5018,6 +5018,11 @@
       <code><![CDATA[$this->warning]]></code>
     </PossiblyNullOperand>
   </file>
+  <file src="src/Form/ConfigForm.php">
+    <PossiblyNullOperand>
+      <code><![CDATA[$fieldset]]></code>
+    </PossiblyNullOperand>
+  </file>
   <file src="src/Form/Form.php">
     <MixedArgument>
       <code><![CDATA[$id]]></code>
@@ -5025,11 +5030,6 @@
       <code><![CDATA[$this->languageSupport['id']]]></code>
       <code><![CDATA[$this->languageSupport['id']]]></code>
     </MixedArgument>
-  </file>
-  <file src="src/Form/FormConfig.php">
-    <PossiblyNullOperand>
-      <code><![CDATA[$fieldset]]></code>
-    </PossiblyNullOperand>
   </file>
   <file src="src/Translation/I18n.php">
     <ArgumentTypeCoercion>
