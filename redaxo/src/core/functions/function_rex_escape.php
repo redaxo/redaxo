@@ -81,10 +81,11 @@ function rex_escape($value, $strategy = 'html')
             $string = preg_replace_callback('#[^a-zA-Z0-9,\._]#Su', static function ($matches) {
                 $char = $matches[0];
 
-                /*
+                /**
                  * A few characters have short escape sequences in JSON and JavaScript.
                  * Escape sequences supported only by JavaScript, not JSON, are omitted.
                  * \" is also supported but omitted, because the resulting string is not HTML safe.
+                 * @var array<string, string>
                  */
                 static $shortMap = [
                     '\\' => '\\\\',
@@ -157,11 +158,12 @@ function rex_escape($value, $strategy = 'html')
                  * replace it with while grabbing the hex value of the character.
                  */
                 if (1 === strlen($chr)) {
-                    /*
+                    /**
                      * While HTML supports far more named entities, the lowest common denominator
                      * has become HTML5's XML Serialisation which is restricted to the those named
                      * entities that XML supports. Using HTML entities would result in this error:
-                     *     XML Parsing Error: undefined entity
+                     *     XML Parsing Error: undefined entity.
+                     * @var array<int, string>
                      */
                     static $entityMap = [
                         34 => '&quot;', /* quotation mark */

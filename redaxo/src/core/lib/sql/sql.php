@@ -1730,7 +1730,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return array Ein Array von Tabellennamen
+     * @return list<string> Ein Array von Tabellennamen
      *
      * @deprecated since 5.6.2, use non-static getTablesAndViews instead.
      */
@@ -1747,7 +1747,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return array Ein Array von Tabellennamen
+     * @return list<string> Ein Array von Tabellennamen
      */
     public function getTablesAndViews($tablePrefix = null)
     {
@@ -1762,7 +1762,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return array Ein Array von Tabellennamen
+     * @return list<string> Ein Array von Tabellennamen
      */
     public function getTables($tablePrefix = null)
     {
@@ -1777,7 +1777,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return array Ein Array von Viewnamen
+     * @return list<string> Ein Array von Viewnamen
      */
     public function getViews($tablePrefix = null)
     {
@@ -1790,7 +1790,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return array
+     * @return list<string>
      */
     private function fetchTablesAndViews($tablePrefix = null, $where = null)
     {
@@ -1812,7 +1812,7 @@ class rex_sql implements Iterator
         $tables = $this->getArray($qry);
 
         return array_map(static function (array $table) {
-            return reset($table);
+            return rex_type::string(reset($table));
         }, $tables);
     }
 

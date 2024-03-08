@@ -17,7 +17,7 @@ class rex_be_navigation
         'addons' => 20,
     ];
 
-    /** @var array<string, list> */
+    /** @var array<string, list<rex_be_page>> */
     private $pages = [];
 
     /**
@@ -47,7 +47,7 @@ class rex_be_navigation
     }
 
     /**
-     * @return array
+     * @return list<array{navigation: list<array<string, mixed>>, headline: array{title: string}}>
      */
     public function getNavigation()
     {
@@ -69,9 +69,9 @@ class rex_be_navigation
         $return = [];
         foreach ($this->pages as $block => $blockPages) {
             if (count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {
-                uasort($blockPages, static function (rex_be_page_main $a, rex_be_page_main $b) {
-                    $aPrio = (int) $a->getPrio();
-                    $bPrio = (int) $b->getPrio();
+                uasort($blockPages, static function (rex_be_page $a, rex_be_page $b) {
+                    $aPrio = $a instanceof rex_be_page_main ? (int) $a->getPrio() : 0;
+                    $bPrio = $b instanceof rex_be_page_main ? (int) $b->getPrio() : 0;
                     if ($aPrio === $bPrio || ($aPrio <= 0 && $bPrio <= 0)) {
                         return strnatcasecmp($a->getTitle(), $b->getTitle());
                     }
@@ -105,7 +105,7 @@ class rex_be_navigation
     /**
      * @param array<rex_be_page> $blockPages
      *
-     * @return array
+     * @return list<array<string, mixed>>
      */
     private function _getNavigation(array $blockPages)
     {
