@@ -9,6 +9,8 @@ use Redaxo\Core\Translation\I18n;
 use rex_extension;
 use rex_extension_point;
 
+use function call_user_func;
+
 class PriorityField extends SelectField
 {
     /** @var string */

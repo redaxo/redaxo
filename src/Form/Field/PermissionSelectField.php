@@ -1,12 +1,13 @@
 <?php
 
-use Redaxo\Core\Form\Field\CheckboxField;
-use Redaxo\Core\Form\Field\SelectField;
+namespace Redaxo\Core\Form\Field;
+
+use rex_complex_perm;
 
 /**
  * @internal
  */
-class rex_form_perm_select_element extends SelectField
+class PermissionSelectField extends SelectField
 {
     protected string $checkboxLabel = 'All';
 
