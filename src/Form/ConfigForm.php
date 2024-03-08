@@ -12,7 +12,7 @@ use function is_string;
 /**
  * Create forms for rex_config data.
  */
-class FormConfig extends AbstractForm
+class ConfigForm extends AbstractForm
 {
     use rex_factory_trait;
 
