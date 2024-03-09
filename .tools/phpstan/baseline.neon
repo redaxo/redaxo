@@ -2356,16 +2356,6 @@ parameters:
 			path: ../../src/Form/Field/AbstractOptionField.php
 
 		-
-			message: "#^Constructor of class Redaxo\\\\Core\\\\Form\\\\Field\\\\CheckboxField has an unused parameter \\$tag\\.$#"
-			count: 1
-			path: ../../src/Form/Field/CheckboxField.php
-
-		-
-			message: "#^Constructor of class Redaxo\\\\Core\\\\Form\\\\Field\\\\ContainerField has an unused parameter \\$tag\\.$#"
-			count: 1
-			path: ../../src/Form/Field/ContainerField.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\ContainerField\\:\\:addField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/Field/ContainerField.php
@@ -2391,11 +2381,6 @@ parameters:
 			path: ../../src/Form/Field/ControlField.php
 
 		-
-			message: "#^Constructor of class Redaxo\\\\Core\\\\Form\\\\Field\\\\PriorityField has an unused parameter \\$tag\\.$#"
-			count: 1
-			path: ../../src/Form/Field/PriorityField.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\PriorityField\\:\\:organizePriorities\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/Form/Field/PriorityField.php
@@ -2404,16 +2389,6 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\PriorityField\\:\\:setWhereCondition\\(\\) has parameter \\$whereCondition with no type specified\\.$#"
 			count: 1
 			path: ../../src/Form/Field/PriorityField.php
-
-		-
-			message: "#^Constructor of class Redaxo\\\\Core\\\\Form\\\\Field\\\\RadioField has an unused parameter \\$tag\\.$#"
-			count: 1
-			path: ../../src/Form/Field/RadioField.php
-
-		-
-			message: "#^Constructor of class Redaxo\\\\Core\\\\Form\\\\Field\\\\SelectField has an unused parameter \\$tag\\.$#"
-			count: 1
-			path: ../../src/Form/Field/SelectField.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\SelectField\\:\\:setSeparator\\(\\) has parameter \\$separator with no type specified\\.$#"
