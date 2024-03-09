@@ -6,7 +6,6 @@
       <code><![CDATA[$column]]></code>
       <code><![CDATA[$column]]></code>
       <code><![CDATA[$line['query']]]></code>
-      <code><![CDATA[$table]]></code>
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$array[$idx]]]></code>
@@ -16,17 +15,11 @@
       <code><![CDATA[$array]]></code>
       <code><![CDATA[$column]]></code>
       <code><![CDATA[$line]]></code>
-      <code><![CDATA[$table]]></code>
-      <code><![CDATA[$tables[]]]></code>
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$column]]></code>
       <code><![CDATA[$column]]></code>
     </MixedOperand>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[$tables]]></code>
-      <code><![CDATA[list<string>]]></code>
-    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/addons/backup/lib/cronjob.php">
     <MixedArgument>
@@ -49,17 +42,15 @@
     </PossiblyInvalidOperand>
   </file>
   <file src="redaxo/src/addons/backup/pages/export.php">
-    <MixedArgument>
-      <code><![CDATA[$table]]></code>
-      <code><![CDATA[$table]]></code>
-    </MixedArgument>
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$EXPDIR]]></code>
+    </ArgumentTypeCoercion>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$EXPDIR]]></code>
       <code><![CDATA[$EXPTABLES]]></code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$EXPTABLE]]></code>
-      <code><![CDATA[$table]]></code>
     </MixedAssignment>
     <NullOperand>
       <code><![CDATA[rex_escape($exportfilename)]]></code>
@@ -161,9 +152,6 @@
   <file src="redaxo/src/addons/cronjob/lib/form.php">
     <MixedArgument>
       <code><![CDATA[$attributes]]></code>
-      <code><![CDATA[$high]]></code>
-      <code><![CDATA[$low]]></code>
-      <code><![CDATA[$step]]></code>
       <code><![CDATA[$value[$key]]]></code>
     </MixedArgument>
     <MixedArrayAccess>
@@ -173,27 +161,11 @@
       <code><![CDATA[$attributes['class']]]></code>
       <code><![CDATA[$attributes['internal::fieldClass']]]></code>
     </MixedArrayAssignment>
-    <MixedArrayOffset>
-      <code><![CDATA[$value[$group]]]></code>
-    </MixedArrayOffset>
     <MixedAssignment>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$label]]></code>
       <code><![CDATA[$this->intervalElements]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$group]]></code>
-      <code><![CDATA[$group]]></code>
-      <code><![CDATA[$group]]></code>
-      <code><![CDATA[$group]]></code>
-      <code><![CDATA[$group]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$label]]></code>
-      <code><![CDATA[$optionAll]]></code>
-    </MixedOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$this->getAttribute('id')]]></code>
       <code><![CDATA[$this->getAttribute('id')]]></code>
@@ -311,20 +283,6 @@
       <code><![CDATA[$type]]></code>
       <code><![CDATA[$type]]></code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$param['attributes']]]></code>
-      <code><![CDATA[$param['default']]]></code>
-      <code><![CDATA[$param['label']]]></code>
-      <code><![CDATA[$param['name']]]></code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['options']]]></code>
-      <code><![CDATA[$param['options']]]></code>
-      <code><![CDATA[$param['type']]]></code>
-      <code><![CDATA[$param['type']]]></code>
-      <code><![CDATA[$param['value']]]></code>
-    </MixedArrayAccess>
     <MixedArrayOffset>
       <code><![CDATA[$visible[$key][$value]]]></code>
       <code><![CDATA[$visible[$key][$value]]]></code>
@@ -333,7 +291,6 @@
     <MixedAssignment>
       <code><![CDATA[$attributes]]></code>
       <code><![CDATA[$label]]></code>
-      <code><![CDATA[$param]]></code>
       <code><![CDATA[$type]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
@@ -908,6 +865,9 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/pages/settings.php">
+    <MixedArgument>
+      <code><![CDATA[$addon->getConfig('interlace')]]></code>
+    </MixedArgument>
     <NullOperand>
       <code><![CDATA[rex_escape($addon->getConfig('jpg_quality'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('jpg_quality'))]]></code>
@@ -916,6 +876,9 @@
       <code><![CDATA[rex_escape($addon->getConfig('webp_quality'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('webp_quality'))]]></code>
     </NullOperand>
+    <PossiblyNullArgument>
+      <code><![CDATA[$addon->getConfig('interlace')]]></code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/media_manager/pages/types.php">
     <MixedArrayAssignment>
@@ -948,6 +911,7 @@
       <code><![CDATA[$FILE['name']]]></code>
       <code><![CDATA[$buttonTitle]]></code>
       <code><![CDATA[$info]]></code>
+      <code><![CDATA[$rexFileCategory]]></code>
       <code><![CDATA[$warning]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
@@ -1380,6 +1344,7 @@
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/handler.php">
     <ArgumentTypeCoercion>
+      <code><![CDATA[$dbvalues]]></code>
       <code><![CDATA[$dbvalues[0]]]></code>
       <code><![CDATA[$dbvalues[0]]]></code>
       <code><![CDATA[$dbvalues[0]]]></code>
@@ -1401,6 +1366,7 @@
       <code><![CDATA[$attrArray]]></code>
       <code><![CDATA[$attrArray]]></code>
       <code><![CDATA[$attrArray]]></code>
+      <code><![CDATA[$attrName]]></code>
       <code><![CDATA[$postValue]]></code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
@@ -1519,11 +1485,28 @@
       <code><![CDATA[$end]]></code>
       <code><![CDATA[$start]]></code>
     </MixedArgument>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$value]]></code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$value['day']]]></code>
+      <code><![CDATA[$value['month']]]></code>
+      <code><![CDATA[$value['year']]]></code>
+    </PossiblyNullArgument>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$value['day']]]></code>
       <code><![CDATA[$value['month']]]></code>
       <code><![CDATA[$value['year']]]></code>
     </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="redaxo/src/addons/metainfo/lib/input/select.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$value]]></code>
+    </ArgumentTypeCoercion>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input/time.php">
     <InvalidArgument>
@@ -1533,6 +1516,10 @@
       <code><![CDATA[$end]]></code>
       <code><![CDATA[$start]]></code>
     </MixedArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$value['hour']]]></code>
+      <code><![CDATA[$value['minute']]]></code>
+    </PossiblyNullArgument>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$value['hour']]]></code>
       <code><![CDATA[$value['minute']]]></code>
@@ -1648,6 +1635,14 @@
       <code><![CDATA[$sendTime]]></code>
     </PossiblyNullOperand>
   </file>
+  <file src="redaxo/src/addons/phpmailer/lib/system_setting_phpmailer_errormail.php">
+    <MixedArgument>
+      <code><![CDATA[rex_config::get('phpmailer', 'errormail', 1)]]></code>
+    </MixedArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[rex_config::get('phpmailer', 'errormail', 1)]]></code>
+    </PossiblyNullArgument>
+  </file>
   <file src="redaxo/src/addons/phpmailer/pages/checkmail.php">
     <MixedArgument>
       <code><![CDATA[$addon->getConfig('test_address')]]></code>
@@ -1676,6 +1671,17 @@
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/phpmailer/pages/config.php">
+    <MixedArgument>
+      <code><![CDATA[$addon->getConfig('detour_mode') ?: 0]]></code>
+      <code><![CDATA[$addon->getConfig('encoding')]]></code>
+      <code><![CDATA[$addon->getConfig('logging')]]></code>
+      <code><![CDATA[$addon->getConfig('mailer')]]></code>
+      <code><![CDATA[$addon->getConfig('priority')]]></code>
+      <code><![CDATA[$addon->getConfig('security_mode')]]></code>
+      <code><![CDATA[$addon->getConfig('smtp_debug')]]></code>
+      <code><![CDATA[$addon->getConfig('smtpauth')]]></code>
+      <code><![CDATA[$addon->getConfig('smtpsecure')]]></code>
+    </MixedArgument>
     <NullOperand>
       <code><![CDATA[rex_escape($addon->getConfig('bcc'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('charset'))]]></code>
@@ -1689,6 +1695,16 @@
       <code><![CDATA[rex_escape($addon->getConfig('username'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('wordwrap'))]]></code>
     </NullOperand>
+    <PossiblyNullArgument>
+      <code><![CDATA[$addon->getConfig('encoding')]]></code>
+      <code><![CDATA[$addon->getConfig('logging')]]></code>
+      <code><![CDATA[$addon->getConfig('mailer')]]></code>
+      <code><![CDATA[$addon->getConfig('priority')]]></code>
+      <code><![CDATA[$addon->getConfig('security_mode')]]></code>
+      <code><![CDATA[$addon->getConfig('smtp_debug')]]></code>
+      <code><![CDATA[$addon->getConfig('smtpauth')]]></code>
+      <code><![CDATA[$addon->getConfig('smtpsecure')]]></code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/structure/boot.php">
     <MixedArgument>
@@ -1847,31 +1863,14 @@
   </file>
   <file src="redaxo/src/addons/structure/lib/select_category.php">
     <MixedArgument>
-      <code><![CDATA[$option[2]]]></code>
-      <code><![CDATA[$option[2]]]></code>
+      <code><![CDATA[$group]]></code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$option[0]]]></code>
-      <code><![CDATA[$option[1]]]></code>
-      <code><![CDATA[$option[2]]]></code>
-      <code><![CDATA[$option[2]]]></code>
-      <code><![CDATA[$option[2]]]></code>
-    </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$level]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$option]]></code>
       <code><![CDATA[$this->addHomepage]]></code>
       <code><![CDATA[$this->checkPerms]]></code>
       <code><![CDATA[$this->clang]]></code>
       <code><![CDATA[$this->ignoreOfflines]]></code>
-      <code><![CDATA[$value]]></code>
     </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$level]]></code>
-      <code><![CDATA[$level]]></code>
-    </MixedOperand>
     <RedundantCondition>
       <code><![CDATA[$this->checkPerms]]></code>
     </RedundantCondition>
@@ -2042,22 +2041,10 @@
   </file>
   <file src="redaxo/src/addons/structure/pages/index.php">
     <ArgumentTypeCoercion>
+      <code><![CDATA[$sql->getValue('template_id')]]></code>
       <code><![CDATA[$structureContext->getMountpoints()]]></code>
       <code><![CDATA[$structureContext->getMountpoints()]]></code>
     </ArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$tEMPLATENAME[$sql->getValue('template_id')]]]></code>
-      <code><![CDATA[$tEMPLATENAME[(int) $sql->getValue('template_id')]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$tmpl]]></code>
-      <code><![CDATA[$tmpl]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$tmpl]]></code>
-      <code><![CDATA[$tmpl]]></code>
-      <code><![CDATA[$tmpl]]></code>
-    </MixedOperand>
     <NullOperand>
       <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
       <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
@@ -2075,9 +2062,9 @@
       <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
       <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
     </NullOperand>
-    <PossiblyNullArrayOffset>
-      <code><![CDATA[$tEMPLATENAME]]></code>
-    </PossiblyNullArrayOffset>
+    <PossiblyNullArgument>
+      <code><![CDATA[$sql->getValue('template_id')]]></code>
+    </PossiblyNullArgument>
     <PossiblyNullOperand>
       <code><![CDATA[$sql->getValue('id')]]></code>
     </PossiblyNullOperand>
@@ -2293,7 +2280,9 @@
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/event_select.php">
     <MixedArgument>
+      <code><![CDATA[$key]]></code>
       <code><![CDATA[$options]]></code>
+      <code><![CDATA[$value]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$key]]></code>
@@ -2301,6 +2290,9 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/select_template.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$selected]]></code>
+    </ArgumentTypeCoercion>
     <InvalidArrayOffset>
       <code><![CDATA[$templates[$selected]]]></code>
       <code><![CDATA[$templates[$selected]]]></code>
@@ -2362,6 +2354,8 @@
     <MixedArgument>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$key]]></code>
@@ -2373,6 +2367,8 @@
     <PossiblyNullArgument>
       <code><![CDATA[$article->getValue('parent_id')]]></code>
       <code><![CDATA[$article->getValue('parent_id')]]></code>
+      <code><![CDATA[rex_request('clang_a', 'int', null)]]></code>
+      <code><![CDATA[rex_request('clang_b', 'int', null)]]></code>
     </PossiblyNullArgument>
     <PossiblyNullReference>
       <code><![CDATA[getName]]></code>
@@ -2392,20 +2388,9 @@
       <code><![CDATA[$action->getMessages()]]></code>
       <code><![CDATA[$messages]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$navigation['navigation']]]></code>
-      <code><![CDATA[$navigation['navigation']]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$contentNaviRight[]]]></code>
-    </MixedArrayAssignment>
     <MixedAssignment>
-      <code><![CDATA[$contentNaviLeft]]></code>
-      <code><![CDATA[$contentNaviRight]]></code>
       <code><![CDATA[$ctypes]]></code>
       <code><![CDATA[$key]]></code>
-      <code><![CDATA[$navigation]]></code>
-      <code><![CDATA[$navigation]]></code>
       <code><![CDATA[$val]]></code>
     </MixedAssignment>
     <MixedOperand>
@@ -2481,6 +2466,7 @@
       <code><![CDATA[$aid]]></code>
       <code><![CDATA[$clangId]]></code>
       <code><![CDATA[$clangId]]></code>
+      <code><![CDATA[$gaa->getValue('id')]]></code>
       <code><![CDATA[$gaa->getValue('name')]]></code>
       <code><![CDATA[$gc->getValue(rex::getTablePrefix() . 'article.id')]]></code>
       <code><![CDATA[$gma->getValue('name')]]></code>
@@ -2501,6 +2487,7 @@
       <code><![CDATA[$clangId]]></code>
       <code><![CDATA[$error]]></code>
       <code><![CDATA[$error]]></code>
+      <code><![CDATA[$gaa->getValue('id')]]></code>
       <code><![CDATA[$gaa->getValue('name')]]></code>
       <code><![CDATA[$gc->getValue(rex::getTablePrefix() . 'article.id')]]></code>
       <code><![CDATA[$gma->getValue('name')]]></code>
@@ -2520,6 +2507,8 @@
       <code><![CDATA[$templatename]]></code>
     </ArgumentTypeCoercion>
     <MixedArgument>
+      <code><![CDATA[$cc]]></code>
+      <code><![CDATA[$jj]]></code>
       <code><![CDATA[$modules[$i]]]></code>
     </MixedArgument>
     <MixedArrayAssignment>
@@ -2689,6 +2678,7 @@
       <code><![CDATA[$params['label']]]></code>
       <code><![CDATA[$params['options']]]></code>
       <code><![CDATA[$params['select']]]></code>
+      <code><![CDATA[$params['sql_options']]]></code>
       <code><![CDATA[$perm]]></code>
       <code><![CDATA[$perm]]></code>
       <code><![CDATA[$perm]]></code>
@@ -2704,6 +2694,12 @@
   </file>
   <file src="redaxo/src/addons/users/pages/users.php">
     <ArgumentTypeCoercion>
+      <code><![CDATA[$role->getValue('id')]]></code>
+      <code><![CDATA[$role->getValue('name')]]></code>
+      <code><![CDATA[$userpermBeSprache]]></code>
+      <code><![CDATA[$userpermStartpage]]></code>
+      <code><![CDATA[$userrole]]></code>
+      <code><![CDATA[$userrole]]></code>
       <code><![CDATA[$userrole]]></code>
     </ArgumentTypeCoercion>
     <MixedArgumentTypeCoercion>
@@ -2720,6 +2716,10 @@
       <code><![CDATA[rex_escape($username)]]></code>
     </NullOperand>
     <PossiblyNullArgument>
+      <code><![CDATA[$role->getValue('id')]]></code>
+      <code><![CDATA[$role->getValue('name')]]></code>
+      <code><![CDATA[$userpermBeSprache]]></code>
+      <code><![CDATA[$userpermStartpage]]></code>
       <code><![CDATA[$userrole]]></code>
     </PossiblyNullArgument>
     <PossiblyNullArrayOffset>
@@ -3312,91 +3312,7 @@
       <code><![CDATA[$string]]></code>
       <code><![CDATA[$string]]></code>
       <code><![CDATA[$string]]></code>
-      <code><![CDATA[static function ($matches) {
-                $char = $matches[0];
-
-                /*
-                 * A few characters have short escape sequences in JSON and JavaScript.
-                 * Escape sequences supported only by JavaScript, not JSON, are omitted.
-                 * \" is also supported but omitted, because the resulting string is not HTML safe.
-                 */
-                static $shortMap = [
-                    '\\' => '\\\\',
-                    '/' => '\\/',
-                    "\x08" => '\b',
-                    "\x0C" => '\f',
-                    "\x0A" => '\n',
-                    "\x0D" => '\r',
-                    "\x09" => '\t',
-                ];
-
-                if (isset($shortMap[$char])) {
-                    return $shortMap[$char];
-                }
-
-                $codepoint = mb_ord($char, 'UTF-8');
-                if (0x1_00_00 > $codepoint) {
-                    return sprintf('\u%04X', $codepoint);
-                }
-
-                // Split characters outside the BMP into surrogate pairs
-                // https://tools.ietf.org/html/rfc2781.html#section-2.1
-                $u = $codepoint - 0x1_00_00;
-                $high = 0xD8_00 | ($u >> 10);
-                $low = 0xDC_00 | ($u & 0x3_FF);
-
-                return sprintf('\u%04X\u%04X', $high, $low);
-            }]]></code>
-      <code><![CDATA[static function ($matches) {
-                /**
-                 * This function is adapted from code coming from Zend Framework.
-                 *
-                 * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (https://www.zend.com)
-                 * @license   https://framework.zend.com/license/new-bsd New BSD License
-                 */
-                $chr = $matches[0];
-                $ord = ord($chr);
-
-                /*
-                 * The following replaces characters undefined in HTML with the
-                 * hex entity for the Unicode replacement character.
-                 */
-                if (($ord <= 0x1F && "\t" != $chr && "\n" != $chr && "\r" != $chr) || ($ord >= 0x7F && $ord <= 0x9F)) {
-                    return '&#xFFFD;';
-                }
-
-                /*
-                 * Check if the current character to escape has a name entity we should
-                 * replace it with while grabbing the hex value of the character.
-                 */
-                if (1 === strlen($chr)) {
-                    /*
-                     * While HTML supports far more named entities, the lowest common denominator
-                     * has become HTML5's XML Serialisation which is restricted to the those named
-                     * entities that XML supports. Using HTML entities would result in this error:
-                     *     XML Parsing Error: undefined entity
-                     */
-                    static $entityMap = [
-                        34 => '&quot;', /* quotation mark */
-                        38 => '&amp;',  /* ampersand */
-                        60 => '&lt;',   /* less-than sign */
-                        62 => '&gt;',   /* greater-than sign */
-                    ];
-
-                    return $entityMap[$ord] ?? sprintf('&#x%02X;', $ord);
-                }
-
-                /*
-                 * Per OWASP recommendations, we'll use hex entities for any other
-                 * characters where a named entity does not exist.
-                 */
-                return sprintf('&#x%04X;', mb_ord($chr, 'UTF-8'));
-            }]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$entityMap[$ord]]]></code>
-      <code><![CDATA[$shortMap[$char]]]></code>
-    </MixedArrayAccess>
     <MixedAssignment>
       <code><![CDATA[$v]]></code>
       <code><![CDATA[$v]]></code>
@@ -3409,15 +3325,6 @@
       <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
       <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
     </TypeDoesNotContainType>
-  </file>
-  <file src="redaxo/src/core/layout/top.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$block['headline']]]></code>
-      <code><![CDATA[$block['navigation']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$block]]></code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/api_function.php">
     <MixedAssignment>
@@ -3519,39 +3426,6 @@
     <PossiblyInvalidArgument>
       <code><![CDATA[$subProperties]]></code>
     </PossiblyInvalidArgument>
-  </file>
-  <file src="redaxo/src/core/lib/be/navigation.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$blockPages]]></code>
-      <code><![CDATA[uasort($blockPages, static function (rex_be_page_main $a, rex_be_page_main $b) {
-                    $aPrio = (int) $a->getPrio();
-                    $bPrio = (int) $b->getPrio();
-                    if ($aPrio === $bPrio || ($aPrio <= 0 && $bPrio <= 0)) {
-                        return strnatcasecmp($a->getTitle(), $b->getTitle());
-                    }
-
-                    if ($aPrio <= 0) {
-                        return 1;
-                    }
-
-                    if ($bPrio <= 0) {
-                        return -1;
-                    }
-
-                    return $aPrio > $bPrio ? 1 : -1;
-                })]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$page]]></code>
-      <code><![CDATA[$subpage]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[addItemClass]]></code>
-      <code><![CDATA[addItemClass]]></code>
-      <code><![CDATA[getSubpages]]></code>
-      <code><![CDATA[isActive]]></code>
-      <code><![CDATA[isActive]]></code>
-    </MixedMethodCall>
   </file>
   <file src="redaxo/src/core/lib/clang/clang.php">
     <MixedArrayAccess>
@@ -3946,6 +3820,10 @@
     <MixedPropertyTypeCoercion>
       <code><![CDATA[$labelCallback]]></code>
     </MixedPropertyTypeCoercion>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </PossiblyInvalidArgument>
     <PossiblyNullArgument>
       <code><![CDATA[$label]]></code>
       <code><![CDATA[$label]]></code>
@@ -3975,6 +3853,12 @@
     <MixedAssignment>
       <code><![CDATA[$this->separator]]></code>
     </MixedAssignment>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->getValue()]]></code>
+    </PossiblyNullArgument>
     <PossiblyNullOperand>
       <code><![CDATA[$this->getAttribute('name')]]></code>
     </PossiblyNullOperand>
@@ -3999,8 +3883,6 @@
       <code><![CDATA[$value]]></code>
     </MixedArgument>
     <MixedAssignment>
-      <code><![CDATA[$params[$listName . '_msg']]]></code>
-      <code><![CDATA[$params[$listName . '_warning']]]></code>
       <code><![CDATA[$separateEnding]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
@@ -4036,32 +3918,19 @@
       <code><![CDATA[$this->getValue($column)]]></code>
       <code><![CDATA[$this->getValue($columnName)]]></code>
     </ArgumentTypeCoercion>
-    <InvalidReturnStatement>
-      <code><![CDATA[str_replace('###' . $varname . '###', rex_escape((string) $this->getValue($varname)), $string)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidReturnType>
     <MixedArgument>
-      <code><![CDATA[$column]]></code>
       <code><![CDATA[$column]]></code>
       <code><![CDATA[$columnName]]></code>
       <code><![CDATA[$column['span'] ?? null]]></code>
       <code><![CDATA[$column['width'] ?? null]]></code>
       <code><![CDATA[$format[0]]]></code>
       <code><![CDATA[$params]]></code>
-      <code><![CDATA[$string]]></code>
       <code><![CDATA[$v]]></code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$tableColumnGroup['columns']]]></code>
-      <code><![CDATA[$tableColumnGroup['columns']]]></code>
-    </MixedArrayAccess>
     <MixedArrayAssignment>
       <code><![CDATA[$groupColumns[]]]></code>
     </MixedArrayAssignment>
     <MixedArrayOffset>
-      <code><![CDATA[$this->customColumns[$column]]]></code>
       <code><![CDATA[$this->linkAttributes[$column]]]></code>
     </MixedArrayOffset>
     <MixedAssignment>
@@ -4073,7 +3942,6 @@
       <code><![CDATA[$groupColumns]]></code>
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$tableColumn]]></code>
-      <code><![CDATA[$tableColumnGroup]]></code>
       <code><![CDATA[$tableColumn['class']]]></code>
       <code><![CDATA[$tableColumns]]></code>
       <code><![CDATA[$v]]></code>
@@ -4089,7 +3957,6 @@
     </MixedInferredReturnType>
     <MixedOperand>
       <code><![CDATA[$columnValue]]></code>
-      <code><![CDATA[$varname]]></code>
       <code><![CDATA[rex_escape($name, 'html_attr')]]></code>
       <code><![CDATA[rex_escape($value)]]></code>
     </MixedOperand>
@@ -4522,66 +4389,22 @@
   </file>
   <file src="redaxo/src/core/lib/select.php">
     <MixedArgument>
-      <code><![CDATA[$attributes]]></code>
-      <code><![CDATA[$attributes]]></code>
-      <code><![CDATA[$level]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$style]]></code>
-      <code><![CDATA[$this->attributes['class']]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
+      <code><![CDATA[$option[0]]]></code>
+      <code><![CDATA[$option[0]]]></code>
+      <code><![CDATA[$option[0]]]></code>
       <code><![CDATA[$option[0]]]></code>
       <code><![CDATA[$option[1]]]></code>
+      <code><![CDATA[$option[1]]]></code>
+      <code><![CDATA[$option[1]]]></code>
       <code><![CDATA[$option[2]]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$this->options[$this->currentOptgroup][$parentId]]]></code>
-    </MixedArrayAssignment>
-    <MixedArrayOffset>
-      <code><![CDATA[$this->attributes[$name]]]></code>
-      <code><![CDATA[$this->attributes[$name]]]></code>
-      <code><![CDATA[$this->attributes[$name]]]></code>
-      <code><![CDATA[$this->attributes[$name]]]></code>
-      <code><![CDATA[$this->options[$this->currentOptgroup][$parentId]]]></code>
-      <code><![CDATA[$this->options[$this->currentOptgroup][$parentId]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
+      <code><![CDATA[$option[3]]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
       <code><![CDATA[$attributes]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$optgroupLabel]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
       <code><![CDATA[$option]]></code>
-      <code><![CDATA[$option]]></code>
-      <code><![CDATA[$options]]></code>
-      <code><![CDATA[$sectvalue]]></code>
-      <code><![CDATA[$v]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[false|array]]></code>
-      <code><![CDATA[string|int]]></code>
-    </MixedInferredReturnType>
-    <MixedOperand>
-      <code><![CDATA[$level]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[rex_escape($optgroupLabel)]]></code>
-      <code><![CDATA[rex_escape($v)]]></code>
-      <code><![CDATA[rex_escape($value)]]></code>
-    </MixedOperand>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$optgroup]]></code>
-    </MixedPropertyTypeCoercion>
-    <MixedReturnStatement>
-      <code><![CDATA[$default]]></code>
-      <code><![CDATA[$this->attributes[$name]]]></code>
-      <code><![CDATA[$this->options[$this->currentOptgroup][$parentId] ?? false]]></code>
-      <code><![CDATA[$this->options[$this->currentOptgroup][$parentId] ?? false]]></code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
     <MixedArgument>
@@ -4899,10 +4722,6 @@
         }]]></code>
     </InvalidArgument>
     <MixedArgument>
-      <code><![CDATA[$parts['host']]]></code>
-      <code><![CDATA[$parts['path']]]></code>
-      <code><![CDATA[$parts['port']]]></code>
-      <code><![CDATA[$parts['ssl']]]></code>
       <code><![CDATA[$stream]]></code>
       <code><![CDATA[$stream]]></code>
       <code><![CDATA[$stream]]></code>
@@ -4911,23 +4730,9 @@
       <code><![CDATA[$stream]]></code>
       <code><![CDATA[$stream]]></code>
     </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$value]]></code>
     </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/core/lib/util/socket/socket_proxy.php">
-    <MixedArgument>
-      <code><![CDATA[$parts['host']]]></code>
-      <code><![CDATA[$parts['path']]]></code>
-      <code><![CDATA[$parts['port']]]></code>
-      <code><![CDATA[$parts['ssl']]]></code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket_response.php">
     <MixedInferredReturnType>
@@ -5062,12 +4867,7 @@
     <MixedArgument>
       <code><![CDATA[$pageObj]]></code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$navigation['navigation']]]></code>
-    </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$navigation]]></code>
-      <code><![CDATA[$navigation]]></code>
       <code><![CDATA[$pageObj]]></code>
       <code><![CDATA[self::$jsProperties[$key]]]></code>
     </MixedAssignment>
@@ -5100,6 +4900,11 @@
       <code><![CDATA[$icon]]></code>
       <code><![CDATA[$key ?: $function]]></code>
     </MixedOperand>
+  </file>
+  <file src="redaxo/src/core/pages/profile.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$usertheme]]></code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/pages/setup.php">
     <MixedArgument>
@@ -5143,6 +4948,10 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/setup.step3.php">
+    <MixedArgument>
+      <code><![CDATA[$config['timezone']]]></code>
+      <code><![CDATA[true === $config['use_https'] ? 'true' : $config['use_https']]]></code>
+    </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$errorArray]]></code>
     </MixedArgumentTypeCoercion>
@@ -5230,16 +5039,9 @@
     <NullOperand>
       <code><![CDATA[rex_escape($editor->getBasepath())]]></code>
     </NullOperand>
-  </file>
-  <file src="redaxo/src/core/tests/be/navigation_test.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$navi[0]['headline']]]></code>
-      <code><![CDATA[$navi[0]['headline']['title']]]></code>
-      <code><![CDATA[$navi[1]['headline']]]></code>
-      <code><![CDATA[$navi[1]['headline']['title']]]></code>
-      <code><![CDATA[$navi[2]['headline']]]></code>
-      <code><![CDATA[$navi[2]['headline']['title']]]></code>
-    </MixedArrayAccess>
+    <PossiblyNullArgument>
+      <code><![CDATA[$editor->getName()]]></code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/tests/extension_test.php">
     <MixedAssignment>

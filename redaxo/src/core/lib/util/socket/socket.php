@@ -399,7 +399,7 @@ class rex_socket
      *
      * @param string $method HTTP method, e.g. "GET"
      * @param string $path Path
-     * @param array $headers Headers
+     * @param array<string, string> $headers Headers
      * @param string|callable(resource): void $data Body data as string or a callback for writing the body
      *
      * @throws rex_socket_exception
@@ -439,7 +439,7 @@ class rex_socket
      *
      * @throws rex_socket_exception
      *
-     * @return array URL parts
+     * @return array{host: string, port: int, ssl: bool, path: string} URL parts
      */
     protected static function parseUrl($url)
     {

@@ -780,7 +780,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @return array
+     * @return array<int, array>
      */
     public function getTableColumnGroups()
     {
@@ -825,6 +825,10 @@ class rex_list implements rex_url_provider_interface
 
     // ---------------------- Url generation
 
+    /**
+     * @param bool $escape
+     * @return string
+     */
     public function getUrl(array $params = [], $escape = true)
     {
         $params = array_merge($this->getParams(), $params);
@@ -1068,6 +1072,8 @@ class rex_list implements rex_url_provider_interface
     // ---------------------- Generate Output
 
     /**
+     * @param string $string
+     * @param string $varname
      * @return string
      */
     public function replaceVariable($string, $varname)
@@ -1189,6 +1195,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
+     * @param string $column
      * @return scalar|null
      */
     public function getValue($column)
@@ -1197,6 +1204,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
+     * @param string $column
      * @return array
      */
     public function getArrayValue($column)
