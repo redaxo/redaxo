@@ -170,6 +170,7 @@ abstract class rex_var
             return $content;
         }
 
+        /** @var AppendIterator<int, array<string>, Iterator<int, array<string>>> $iterator */
         $iterator = new AppendIterator();
         $iterator->append(new ArrayIterator($matches));
         $variables = [];
