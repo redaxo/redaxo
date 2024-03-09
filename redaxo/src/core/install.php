@@ -62,7 +62,9 @@ if (!$hasPasswordChanged) {
 // The foreign key references a varchar column (passkey id).
 // We always remove the foreign key here, so that it is possible to change the charset of passkey id column.
 $sessionTable = rex_sql_table::get(rex::getTable('user_session'));
-$sessionTable->removeForeignKey(rex::getTable('user_session') . '_passkey_id')->alter();
+if ($sessionTable->exists()) {
+    $sessionTable->removeForeignKey(rex::getTable('user_session') . '_passkey_id')->alter();
+}
 
 rex_sql_table::get(rex::getTable('user_passkey'))
     ->ensureColumn(new rex_sql_column('id', 'varchar(255)'))
