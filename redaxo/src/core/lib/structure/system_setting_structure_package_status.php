@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Form\Field\BaseField;
+use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -20,9 +22,9 @@ class rex_system_setting_structure_package_status extends rex_system_setting
         return $this->key;
     }
 
-    public function getField(): rex_form_element
+    public function getField(): BaseField
     {
-        $field = new rex_form_select_element();
+        $field = new SelectField();
         $field->setAttribute('class', 'form-control');
         $field->setLabel(I18n::msg('system_setting_' . $this->key));
         $select = $field->getSelect();

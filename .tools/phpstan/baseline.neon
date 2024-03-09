@@ -341,51 +341,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/cronjob/types/urlrequest.php
 
 		-
-			message: "#^Method rex_form_container_element\\:\\:addField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/container.php
-
-		-
-			message: "#^Method rex_form_container_element\\:\\:addField\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/container.php
-
-		-
-			message: "#^Method rex_form_container_element\\:\\:addGroupedField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/container.php
-
-		-
-			message: "#^Method rex_form_container_element\\:\\:addGroupedField\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/container.php
-
-		-
-			message: "#^Method rex_form_control_element\\:\\:submitted\\(\\) has parameter \\$element with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/control.php
-
-		-
-			message: "#^Method rex_form_options_element\\:\\:getOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/options.php
-
-		-
-			message: "#^Method rex_form_prio_element\\:\\:organizePriorities\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/prio.php
-
-		-
-			message: "#^Method rex_form_prio_element\\:\\:setWhereCondition\\(\\) has parameter \\$whereCondition with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/prio.php
-
-		-
-			message: "#^Method rex_form_select_element\\:\\:setSeparator\\(\\) has parameter \\$separator with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/select.php
-
-		-
 			message: "#^Method rex_list\\:\\:_getAttributeString\\(\\) has parameter \\$array with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
@@ -2394,6 +2349,51 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:setApplyUrl\\(\\) has parameter \\$url with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/AbstractForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\AbstractOptionField\\:\\:getOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/Field/AbstractOptionField.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\ContainerField\\:\\:addField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/Field/ContainerField.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\ContainerField\\:\\:addField\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Field/ContainerField.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\ContainerField\\:\\:addGroupedField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/Field/ContainerField.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\ContainerField\\:\\:addGroupedField\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Field/ContainerField.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\ControlField\\:\\:submitted\\(\\) has parameter \\$element with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Field/ControlField.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\PriorityField\\:\\:organizePriorities\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../src/Form/Field/PriorityField.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\PriorityField\\:\\:setWhereCondition\\(\\) has parameter \\$whereCondition with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Field/PriorityField.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\SelectField\\:\\:setSeparator\\(\\) has parameter \\$separator with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Field/SelectField.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Form\\:\\:addPrioField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"

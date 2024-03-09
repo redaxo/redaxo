@@ -1,10 +1,16 @@
 <?php
 
+namespace Redaxo\Core\Form\Field;
+
 use Redaxo\Core\Form\AbstractForm;
 use Redaxo\Core\Validator\ValidationRule;
 use Redaxo\Core\Validator\Validator;
+use rex_fragment;
+use rex_string;
 
-class rex_form_element
+use function is_array;
+
+class BaseField
 {
     /** @var string|int|null */
     protected $value;

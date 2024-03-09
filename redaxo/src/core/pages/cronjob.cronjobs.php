@@ -2,6 +2,8 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Form\Field\RadioField;
+use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
 
@@ -274,7 +276,7 @@ if ('' == $func) {
                         }
                         break;
                     case 'select':
-                        /** @var rex_form_select_element $field */
+                        /** @var SelectField $field */
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->setLabel($label);
                         $field->setAttribute('class', 'form-control selectpicker');
@@ -286,7 +288,7 @@ if ('' == $func) {
                         break;
                     case 'checkbox':
                     case 'radio':
-                        /** @var rex_form_radio_element $field */
+                        /** @var RadioField $field */
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->addArrayOptions($param['options']);
                         if (isset($param['notice'])) {

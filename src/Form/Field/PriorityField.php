@@ -1,11 +1,17 @@
 <?php
 
+namespace Redaxo\Core\Form\Field;
+
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
+use rex_extension;
+use rex_extension_point;
 
-class rex_form_prio_element extends rex_form_select_element
+use function call_user_func;
+
+class PriorityField extends SelectField
 {
     /** @var string */
     private $labelField = '';

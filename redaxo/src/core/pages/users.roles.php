@@ -2,6 +2,8 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Field\PermissionSelectField;
+use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
@@ -101,7 +103,7 @@ if ('' == $func) {
     $registerImplicitePagePermissions(rex_be_controller::getPages());
 
     foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $permgroup) {
-        /** @var rex_form_select_element $field */
+        /** @var SelectField $field */
         $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
         $field->setLabel(I18n::msg('user_' . $permgroup));
         $select = $field->getSelect();
@@ -113,14 +115,14 @@ if ('' == $func) {
     }
 
     rex_extension::register('REX_FORM_INPUT_CLASS', static function (rex_extension_point $ep) {
-        return 'perm_select' == $ep->getParam('inputType') ? rex_form_perm_select_element::class : null;
+        return 'perm_select' == $ep->getParam('inputType') ? PermissionSelectField::class : null;
     });
 
     $fieldIds = [];
     foreach (rex_complex_perm::getAll() as $key => $class) {
         $params = $class::getFieldParams();
         if (!empty($params)) {
-            /** @var rex_form_perm_select_element $field */
+            /** @var PermissionSelectField $field */
             $field = $fieldContainer->addGroupedField($group, 'perm_select', $key);
             $field->setLabel($params['label']);
             $field->setCheckboxLabel($params['all_label']);

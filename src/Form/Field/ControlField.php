@@ -1,22 +1,28 @@
 <?php
 
+namespace Redaxo\Core\Form\Field;
+
 use Redaxo\Core\Form\AbstractForm;
 use Redaxo\Core\Translation\I18n;
+use rex_fragment;
 
-class rex_form_control_element extends rex_form_element
+use function count;
+use function is_object;
+
+class ControlField extends BaseField
 {
-    /** @var rex_form_element|null */
+    /** @var BaseField|null */
     private $saveElement;
-    /** @var rex_form_element|null */
+    /** @var BaseField|null */
     private $applyElement;
-    /** @var rex_form_element|null */
+    /** @var BaseField|null */
     private $deleteElement;
-    /** @var rex_form_element|null */
+    /** @var BaseField|null */
     private $resetElement;
-    /** @var rex_form_element|null */
+    /** @var BaseField|null */
     private $abortElement;
 
-    public function __construct(AbstractForm $form, ?rex_form_element $saveElement = null, ?rex_form_element $applyElement = null, ?rex_form_element $deleteElement = null, ?rex_form_element $resetElement = null, ?rex_form_element $abortElement = null)
+    public function __construct(AbstractForm $form, ?BaseField $saveElement = null, ?BaseField $applyElement = null, ?BaseField $deleteElement = null, ?BaseField $resetElement = null, ?BaseField $abortElement = null)
     {
         parent::__construct('', $form);
 

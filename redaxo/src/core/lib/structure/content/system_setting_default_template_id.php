@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -18,7 +19,7 @@ class rex_system_setting_default_template_id extends rex_system_setting
 
     public function getField()
     {
-        $field = new rex_form_select_element();
+        $field = new SelectField();
         $field->setAttribute('class', 'form-control selectpicker');
         $field->setLabel(I18n::msg('system_setting_default_template_id'));
         $select = $field->getSelect();

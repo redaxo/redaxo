@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
 
@@ -58,7 +59,7 @@ class rex_cronjob_form extends Form
 /**
  * @internal
  */
-class rex_cronjob_form_interval_element extends rex_form_element
+class rex_cronjob_form_interval_element extends BaseField
 {
     private const DEFAULT_INTERVAL = [
         'minutes' => [0],

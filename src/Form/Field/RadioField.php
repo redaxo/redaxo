@@ -1,8 +1,12 @@
 <?php
 
-use Redaxo\Core\Form\AbstractForm;
+namespace Redaxo\Core\Form\Field;
 
-class rex_form_radio_element extends rex_form_options_element
+use Redaxo\Core\Form\AbstractForm;
+use rex_fragment;
+use rex_string;
+
+class RadioField extends AbstractOptionField
 {
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
