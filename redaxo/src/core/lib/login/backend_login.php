@@ -132,10 +132,12 @@ class rex_backend_login extends rex_login
                 $add = '';
                 if (($password = $this->user->getValue('password')) && self::passwordNeedsRehash($password)) {
                     $add .= 'password = ?, ';
-                    $params[] = self::passwordHash($this->userPassword, true);
+                    $params[] = $password = self::passwordHash($this->userPassword, true);
                 }
                 array_push($params, rex_sql::datetime(), rex_sql::datetime(), session_id(), $this->userLogin);
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
+
+                $this->setSessionVar(self::SESSION_PASSWORD, $password);
 
                 if ($this->stayLoggedIn || $loggedInViaCookie) {
                     if (!$cookiekey || !$loggedInViaCookie) {
