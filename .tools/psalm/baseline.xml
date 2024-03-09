@@ -2045,19 +2045,6 @@
       <code><![CDATA[$structureContext->getMountpoints()]]></code>
       <code><![CDATA[$structureContext->getMountpoints()]]></code>
     </ArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$tEMPLATENAME[$sql->getValue('template_id')]]]></code>
-      <code><![CDATA[$tEMPLATENAME[(int) $sql->getValue('template_id')]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$tmpl]]></code>
-      <code><![CDATA[$tmpl]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$tmpl]]></code>
-      <code><![CDATA[$tmpl]]></code>
-      <code><![CDATA[$tmpl]]></code>
-    </MixedOperand>
     <NullOperand>
       <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
       <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
@@ -2078,9 +2065,6 @@
     <PossiblyNullArgument>
       <code><![CDATA[$sql->getValue('template_id')]]></code>
     </PossiblyNullArgument>
-    <PossiblyNullArrayOffset>
-      <code><![CDATA[$tEMPLATENAME]]></code>
-    </PossiblyNullArrayOffset>
     <PossiblyNullOperand>
       <code><![CDATA[$sql->getValue('id')]]></code>
     </PossiblyNullOperand>
