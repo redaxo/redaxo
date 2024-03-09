@@ -59,6 +59,13 @@ if (!$hasPasswordChanged) {
         ->update();
 }
 
+// The foreign key references a varchar column (passkey id).
+// We always remove the foreign key here, so that it is possible to change the charset of passkey id column.
+$sessionTable = rex_sql_table::get(rex::getTable('user_session'));
+if ($sessionTable->exists()) {
+    $sessionTable->removeForeignKey(rex::getTable('user_session') . '_passkey_id')->alter();
+}
+
 rex_sql_table::get(rex::getTable('user_passkey'))
     ->ensureColumn(new rex_sql_column('id', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('user_id', 'int(10) unsigned'))
@@ -68,7 +75,7 @@ rex_sql_table::get(rex::getTable('user_passkey'))
     ->ensureForeignKey(new rex_sql_foreign_key(rex::getTable('user_passkey') . '_user_id', rex::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensure();
 
-rex_sql_table::get(rex::getTable('user_session'))
+$sessionTable
     ->ensureColumn(new rex_sql_column('session_id', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('user_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('cookie_key', 'varchar(255)', true))
