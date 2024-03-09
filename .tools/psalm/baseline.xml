@@ -1228,9 +1228,6 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/extensions/extension_cleanup.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$tables[rex::getTablePrefix() . 'metainfo_field']]]></code>
-    </InvalidArrayOffset>
     <MixedArgument>
       <code><![CDATA[$params['content']]]></code>
       <code><![CDATA[$params['content']]]></code>
