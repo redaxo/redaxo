@@ -8,7 +8,7 @@ header("Content-Security-Policy: frame-ancestors 'self'");
 // as we assume their url will change when the underlying content changes
 if (rex_get('asset') && rex_get('buster')) {
     /** @psalm-taint-escape file */ // it is not escaped here, but it is validated below via the realpath
-    $assetFile = rex_get('asset');
+    $assetFile = rex_get('asset', 'string');
 
     // relative to the assets-root
     if (str_starts_with($assetFile, '/assets/')) {
@@ -18,34 +18,39 @@ if (rex_get('asset') && rex_get('buster')) {
     $fullPath = realpath($assetFile);
     $assetDir = rex_path::assets();
 
+    if (!$fullPath) {
+        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), rex_response::HTTP_NOT_FOUND);
+    }
     if (!str_starts_with($fullPath, $assetDir)) {
-        throw new Exception('Assets can only be streamed from within the assets folder. "' . $fullPath . '" is not within "' . $assetDir . '"');
+        throw new rex_http_exception(new Exception('Assets can only be streamed from within the assets folder. "' . $fullPath . '" is not within "' . $assetDir . '"'), rex_response::HTTP_NOT_FOUND);
     }
 
     $ext = rex_file::extension($assetFile);
-    if ('js' === $ext) {
-        $js = rex_file::require($assetFile);
+    if (!in_array($ext, ['js', 'css'], true)) {
+        throw new rex_http_exception(new Exception('Only JS and CSS files can be streamed from the assets folder'), rex_response::HTTP_NOT_FOUND);
+    }
 
-        $js = preg_replace('@^//# sourceMappingURL=.*$@m', '', $js);
+    $content = rex_file::get($assetFile);
+    if (null === $content) {
+        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), rex_response::HTTP_NOT_FOUND);
+    }
+
+    if ('js' === $ext) {
+        $js = preg_replace('@^//# sourceMappingURL=.*$@m', '', $content);
 
         rex_response::sendCacheControl('max-age=31536000, immutable');
         rex_response::sendContent($js, 'application/javascript');
-    } elseif ('css' === $ext) {
-        $styles = rex_file::require($assetFile);
-
+    } else {
         // If we are in a directory off the root, add a relative path here back to the root, like "../"
         // get the public path to this file, plus the baseurl
         $relativeroot = '';
         $pubroot = dirname($_SERVER['PHP_SELF']) . '/' . $relativeroot;
 
         $prefix = $pubroot . dirname($assetFile) . '/';
-        $styles = preg_replace('/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', '$1' . $prefix . '$2$3', $styles);
+        $styles = preg_replace('/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', '$1' . $prefix . '$2$3', $content);
 
         rex_response::sendCacheControl('max-age=31536000, immutable');
         rex_response::sendContent($styles, 'text/css');
-    } else {
-        rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
-        rex_response::sendContent('file not found');
     }
     exit;
 }

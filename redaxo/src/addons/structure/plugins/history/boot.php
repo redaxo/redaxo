@@ -37,11 +37,11 @@ if ('' != $historyDate) {
     }
 
     if (!$user) {
-        throw new rex_exception('no permission');
+        throw new rex_http_exception(new rex_exception('no permission'), rex_response::HTTP_UNAUTHORIZED);
     }
 
     if (!$user->hasPerm('history[article_rollback]')) {
-        throw new rex_exception('no permission for the slice version');
+        throw new rex_http_exception(new rex_exception('no permission for the slice version'), rex_response::HTTP_FORBIDDEN);
     }
 
     rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
