@@ -3327,11 +3327,12 @@
     </TypeDoesNotContainType>
   </file>
   <file src="redaxo/src/core/lib/api_function.php">
+    <MixedArgument>
+      <code><![CDATA[$json['message']]]></code>
+      <code><![CDATA[$json['succeeded']]]></code>
+    </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$json]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MixedMethodCall>
       <code><![CDATA[new $apiClass()]]></code>
