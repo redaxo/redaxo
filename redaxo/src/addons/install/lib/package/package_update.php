@@ -249,6 +249,11 @@ class rex_install_package_update extends rex_install_package_download
         return empty($messages) ? true : '<ul><li>' . implode('</li><li>', $messages) . '</li></ul>';
     }
 
+    /**
+     * @template T of rex_package
+     * @param T $package
+     * @param rex_package_manager<T> $manager
+     */
     private function messageFromPackage(rex_package $package, rex_package_manager $manager): string
     {
         return rex_i18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
