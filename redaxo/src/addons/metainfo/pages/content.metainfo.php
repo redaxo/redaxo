@@ -26,6 +26,7 @@ $articleStatus = $articleStatusTypes[$status][0];
 $articleIcon = $articleStatusTypes[$status][2];
 $structureContext = new rex_structure_context([
     'article_id' => rex_request('article_id', 'int'),
+    'clang_id' => rex_request('clang', 'int'),
 ]);
 
 if (0 == $article->getValue('startarticle')) {
