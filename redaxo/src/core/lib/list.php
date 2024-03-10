@@ -835,6 +835,10 @@ class rex_list implements rex_url_provider_interface
 
         $params['list'] = $this->getName();
 
+        if ($cursor = $this->pager?->getCursor()) {
+            $params[$this->pager->getCursorName()] ??= $cursor;
+        }
+
         if (!isset($params['sort'])) {
             $sortColumn = $this->getSortColumn();
             if (null != $sortColumn) {
@@ -875,6 +879,10 @@ class rex_list implements rex_url_provider_interface
         $params = array_merge($this->getParams(), $params);
 
         $params['list'] = $this->getName();
+
+        if ($cursor = $this->pager?->getCursor()) {
+            $params[$this->pager->getCursorName()] ??= $cursor;
+        }
 
         if (!isset($params['sort'])) {
             $sortColumn = $this->getSortColumn();
