@@ -170,12 +170,10 @@ class rex_category_test extends TestCase
     private static function createCategory(?rex_category $parent, array $params): rex_category
     {
         return new class($parent, $params) extends rex_category {
-            private ?rex_category $parent;
-
-            public function __construct(?rex_category $parent, array $params)
-            {
-                $this->parent = $parent;
-
+            public function __construct(
+                private ?rex_category $parent,
+                array $params,
+            ) {
                 foreach ($params as $key => $value) {
                     $this->$key = $value;
                 }

@@ -7,16 +7,12 @@
  */
 final class rex_login_policy
 {
-    /** @var array<string, int|bool> */
-    private $options;
-
     /**
      * @param array<string, int|bool> $options
      */
-    public function __construct(array $options)
-    {
-        $this->options = $options;
-    }
+    public function __construct(
+        private array $options,
+    ) {}
 
     /**
      * Returns the number of allowed login tries, until login will be delayed.

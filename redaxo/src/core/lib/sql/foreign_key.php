@@ -14,21 +14,6 @@ class rex_sql_foreign_key
     public const CASCADE = 'CASCADE';
     public const SET_NULL = 'SET NULL';
 
-    /** @var string */
-    private $name;
-
-    /** @var string */
-    private $table;
-
-    /** @var array<string, string> */
-    private $columns;
-
-    /** @var self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL */
-    private $onUpdate;
-
-    /** @var self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL */
-    private $onDelete;
-
     /** @var bool */
     private $modified = false;
 
@@ -39,14 +24,13 @@ class rex_sql_foreign_key
      * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onUpdate
      * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onDelete
      */
-    public function __construct($name, $table, array $columns, $onUpdate = self::RESTRICT, $onDelete = self::RESTRICT)
-    {
-        $this->name = $name;
-        $this->table = $table;
-        $this->columns = $columns;
-        $this->onUpdate = $onUpdate;
-        $this->onDelete = $onDelete;
-    }
+    public function __construct(
+        private $name,
+        private $table,
+        private array $columns,
+        private $onUpdate = self::RESTRICT,
+        private $onDelete = self::RESTRICT,
+    ) {}
 
     /**
      * @param bool $modified

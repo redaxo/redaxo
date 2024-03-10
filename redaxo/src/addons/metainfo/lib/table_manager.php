@@ -27,16 +27,11 @@ class rex_metainfo_table_manager
     public const FIELD_TIME = 13;
     public const FIELD_COUNT = 13;
 
-    private string $tableName;
-    /** @var positive-int */
-    private int $DBID;
-
     /** @param positive-int $DBID */
-    public function __construct(string $tableName, int $DBID = 1)
-    {
-        $this->tableName = $tableName;
-        $this->DBID = $DBID;
-    }
+    public function __construct(
+        private string $tableName,
+        private int $DBID = 1,
+    ) {}
 
     /**
      * @return string

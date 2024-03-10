@@ -13,57 +13,6 @@ class rex_article_slice
     protected const ORDER_ASC = 'ASC';
     protected const ORDER_DESC = 'DESC';
 
-    /** @var int */
-    private $id;
-
-    /** @var int */
-    private $articleId;
-
-    /** @var int */
-    private $clang;
-
-    /** @var int */
-    private $ctype;
-
-    /** @var int */
-    private $priority;
-
-    /** @var int */
-    private $status;
-
-    /** @var int */
-    private $moduleId;
-
-    /** @var int */
-    private $createdate;
-
-    /** @var int */
-    private $updatedate;
-
-    /** @var string */
-    private $createuser;
-
-    /** @var string */
-    private $updateuser;
-
-    /** @var int */
-    private $revision;
-
-    /** @var array<int, string|null> */
-    private $values;
-
-    /** @var array<int, string|null> */
-    private $media;
-
-    /** @var array<int, string|null> */
-    private $medialists;
-
-    /** @var array<int, string|null> */
-    private $links;
-
-    /** @var array<int, string|null> */
-    private $linklists;
-
     /**
      * @param int $id
      * @param int $articleId
@@ -84,30 +33,24 @@ class rex_article_slice
      * @param array<int, string|null> $linklists
      */
     protected function __construct(
-        $id, $articleId, $clang, $ctype, $moduleId, $priority, $status,
-        $createdate, $updatedate, $createuser, $updateuser, $revision,
-        $values, $media, $medialists, $links, $linklists,
-    ) {
-        $this->id = $id;
-        $this->articleId = $articleId;
-        $this->clang = $clang;
-        $this->ctype = $ctype;
-        $this->priority = $priority;
-        $this->status = $status;
-        $this->moduleId = $moduleId;
-
-        $this->createdate = $createdate;
-        $this->updatedate = $updatedate;
-        $this->createuser = $createuser;
-        $this->updateuser = $updateuser;
-        $this->revision = $revision;
-
-        $this->values = $values;
-        $this->media = $media;
-        $this->medialists = $medialists;
-        $this->links = $links;
-        $this->linklists = $linklists;
-    }
+        private $id,
+        private $articleId,
+        private $clang,
+        private $ctype,
+        private $moduleId,
+        private $priority,
+        private $status,
+        private $createdate,
+        private $updatedate,
+        private $createuser,
+        private $updateuser,
+        private $revision,
+        private $values,
+        private $media,
+        private $medialists,
+        private $links,
+        private $linklists,
+    ) {}
 
     /** @internal  */
     public static function fromSql(rex_sql $sql): self
