@@ -1351,11 +1351,6 @@ parameters:
 			path: ../../redaxo/src/addons/users/lib/role.php
 
 		-
-			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
 			message: "#^Parameter \\#1 \\$callback of function spl_autoload_register expects \\(callable\\(string\\)\\: void\\)\\|null, Closure\\(string\\)\\: bool given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
