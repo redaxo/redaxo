@@ -10,7 +10,7 @@
 trait rex_instance_list_pool_trait
 {
     /** @var array<string, array<mixed>> */
-    private static $instanceLists = [];
+    private static array $instanceLists = [];
 
     /**
      * Adds an instance list.
