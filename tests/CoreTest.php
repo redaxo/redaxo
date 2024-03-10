@@ -92,7 +92,7 @@ class CoreTest extends TestCase
 
             self::assertTrue(Core::isDebugMode());
             self::assertArrayHasKey('throw_always_exception', Core::getDebugFlags());
-            self::assertFalse(Core::getDebugFlags()['throw_always_exception']);
+            self::assertFalse(Core::getDebugFlags()['throw_always_exception']); // @phpstan-ignore-line
 
             Core::setProperty('debug', ['enabled' => false]);
 

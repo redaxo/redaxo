@@ -2,6 +2,7 @@
 
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
+use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 
 /**
@@ -34,10 +35,22 @@ class rex_logger extends AbstractLogger
     {
         if ($exception instanceof ErrorException) {
             self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $url);
-        } else {
-            $logger = self::factory();
-            $logger->log($exception::class, $exception->getMessage(), [], $exception->getFile(), $exception->getLine(), $url);
+
+            return;
         }
+
+        if ($exception instanceof rex_http_exception) {
+            // Client errors should not be logged to system error log (if not debug mode or backend admin).
+            // This prevents that external website visitors can fill up the log (and possibly trigger error emails etc.).
+            if (!Core::isDebugMode() && $exception->isClientError() && (!($user = rex_backend_login::createUser()) || !$user->isAdmin())) {
+                return;
+            }
+
+            $exception = $exception->getPrevious() ?? $exception; // log original exception
+        }
+
+        $logger = self::factory();
+        $logger->log($exception::class, $exception->getMessage(), [], $exception->getFile(), $exception->getLine(), $url);
     }
 
     /**

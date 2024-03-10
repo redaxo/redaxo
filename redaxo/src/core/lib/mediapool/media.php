@@ -115,7 +115,7 @@ class rex_media
      */
     public static function getRootMedia()
     {
-        /** @var callable(string):static */
+        /** @var Closure(string):static $getInstance */
         $getInstance = static::get(...);
 
         return static::getInstanceList('root_media', $getInstance, static function () {

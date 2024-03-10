@@ -52,7 +52,7 @@ class I18n
     public static function setLocale($locale, $phpSetLocale = true)
     {
         $saveLocale = self::getLocale();
-        self::$locale = $locale;
+        self::$locale = self::validateLocale($locale);
 
         if (empty(self::$loaded[$locale])) {
             self::loadAll($locale);
@@ -89,7 +89,7 @@ class I18n
     public static function getLocale()
     {
         if (!self::$locale) {
-            self::$locale = Core::getProperty('lang');
+            self::$locale = self::validateLocale(Core::getProperty('lang'));
         }
 
         return self::$locale;
@@ -476,13 +476,13 @@ class I18n
     /**
      * @param string $locale Locale
      *
-     * @return string the validated locale
+     * @return non-empty-string the validated locale
      *
      * @psalm-taint-escape file
      */
     private static function validateLocale(string $locale): string
     {
-        if (!preg_match('/^[a-z]{2}_[a-z]{2}$/', $locale)) {
+        if (!$locale || !preg_match('/^[a-z]{2}_[a-z]{2}$/', $locale)) {
             throw new rex_exception('Invalid locale "' . $locale . '"');
         }
         return $locale;

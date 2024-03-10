@@ -106,13 +106,7 @@ class rex_socket_response_test extends TestCase
 
     public function testEncodingHeader(): void
     {
-        self::assertIsArray($this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\nTest")
-            ->getContentEncodings(), );
-
         self::assertCount(0, $this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\nTest")
-            ->getContentEncodings(), );
-
-        self::assertIsArray($this->createResponseWithEncoding('gzip, deflate', 'test')
             ->getContentEncodings(), );
 
         self::assertSame(['gzip', 'deflate'], $this->createResponseWithEncoding('gzip, deflate', 'test')

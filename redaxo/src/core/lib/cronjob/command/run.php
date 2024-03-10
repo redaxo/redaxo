@@ -48,8 +48,8 @@ class rex_command_cronjob_run extends rex_console_command
             }
         });
 
+        /** @var int $errors */
         if ($errors) {
-            /** @var int $errors */
             $io->error('Cronjobs checked, ' . $errors . ' failed.');
             return 1;
         }

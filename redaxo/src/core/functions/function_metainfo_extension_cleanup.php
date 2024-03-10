@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Table;
 
 rex_extension::register('BACKUP_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
 
@@ -23,9 +24,7 @@ function rex_metainfo_cleanup($epOrParams)
         return;
     }
 
-    // check wheter tables exists
-    $tables = Sql::factory()->getTables();
-    if (!isset($tables[Core::getTablePrefix() . 'metainfo_field'])) {
+    if (!Table::get(Core::getTable('metainfo_field'))->exists()) {
         return;
     }
 

@@ -115,7 +115,8 @@ class rex_cronjob_form_interval_element extends BaseField
      */
     public function formatElement()
     {
-        $range = static function ($low, $high, $step = 1) {
+        /** @return iterable<int, string> */
+        $range = static function (int $low, int $high, int $step = 1): Generator {
             foreach (range($low, $high, $step) as $i) {
                 yield $i => str_pad((string) $i, 2, '0', STR_PAD_LEFT);
             }
@@ -187,6 +188,9 @@ class rex_cronjob_form_interval_element extends BaseField
     }
 
     /**
+     * @param string $group
+     * @param string $optionAll
+     * @param iterable<int, string> $options
      * @return string
      */
     protected function formatField($group, $optionAll, $options)

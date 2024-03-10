@@ -89,9 +89,9 @@ abstract class rex_api_function
                     self::$instance = $apiImpl;
                     return $apiImpl;
                 }
-                throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "' . $apiClass . '" given!');
+                throw new rex_http_exception(new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "' . $apiClass . '" given!'), rex_response::HTTP_NOT_FOUND);
             }
-            throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
+            throw new rex_http_exception(new rex_exception('$apiClass "' . $apiClass . '" not found!'), rex_response::HTTP_NOT_FOUND);
         }
 
         return null;
@@ -355,11 +355,10 @@ class rex_api_result
      */
     public function toJSON()
     {
-        $json = new stdClass();
-        foreach ($this as $key => $value) {
-            $json->$key = $value;
-        }
-        return json_encode($json);
+        return json_encode([
+            'succeeded' => $this->succeeded,
+            'message' => $this->message,
+        ]);
     }
 
     /**
@@ -368,17 +367,16 @@ class rex_api_result
      */
     public static function fromJSON($json)
     {
-        $result = new self(true);
         $json = json_decode($json, true);
 
         if (!is_array($json)) {
             throw new rex_exception('Unable to decode json into an array.');
         }
 
-        foreach ($json as $key => $value) {
-            $result->$key = $value;
-        }
-        return $result;
+        return new self(
+            rex_type::bool($json['succeeded'] ?? null),
+            rex_type::nullOrString($json['message'] ?? null),
+        );
     }
 }
 

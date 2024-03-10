@@ -1147,6 +1147,8 @@ abstract class AbstractForm
     }
 
     /**
+     * @param string $listMessage
+     * @param string $listWarning
      * @return never
      */
     protected function redirect($listMessage = '', $listWarning = '', array $params = [])

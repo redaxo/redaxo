@@ -140,6 +140,12 @@ class Core
                 if (null !== $value && !$value instanceof rex_console_application) {
                     throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, get_debug_type($value)));
                 }
+                break;
+            case 'version':
+                if (!is_string($value) || !preg_match('/^\d+(?:\.\d+)*(?:-\w+)?$/', $value)) {
+                    throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be a valid version string');
+                }
+                break;
         }
         $exists = isset(self::$properties[$key]);
         self::$properties[$key] = $value;
@@ -363,6 +369,9 @@ class Core
      * Returns the temp prefix.
      *
      * @return non-empty-string
+     *
+     * @phpstandba-inference-placeholder 'tmp_'
+     * @psalm-taint-escape sql
      */
     public static function getTempPrefix()
     {
@@ -491,6 +500,7 @@ class Core
      */
     public static function getVersion($format = null)
     {
+        /** @psalm-taint-escape file */
         $version = self::getProperty('version');
 
         if ($format) {

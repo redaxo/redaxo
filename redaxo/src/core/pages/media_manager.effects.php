@@ -75,7 +75,7 @@ if ('' == $func) {
 
     $query = 'SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $typeId . ' ORDER BY priority';
 
-    $list = rex_list::factory($query);
+    $list = rex_list::factory($query, 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
     $list->addParam('effects', 1);
 

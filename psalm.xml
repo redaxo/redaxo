@@ -57,11 +57,6 @@
         <MissingClosureReturnType errorLevel="info" />
         <MissingParamType errorLevel="info" />
         <PropertyNotSetInConstructor errorLevel="info" />
-        <RawObjectIteration>
-            <errorLevel type="info">
-                <file name="redaxo/src/core/lib/api_function.php"/>
-            </errorLevel>
-        </RawObjectIteration>
         <RedundantCastGivenDocblockType errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
         <RedundantFunctionCallGivenDocblockType errorLevel="info" />

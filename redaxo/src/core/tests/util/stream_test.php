@@ -20,8 +20,8 @@ class rex_stream_test extends TestCase
 
     public function testStreamIncludeWithRealFile(): void
     {
-        $property = new ReflectionProperty(rex_stream::class, 'useRealFiles');
-        $property->setValue(true);
+        $class = new ReflectionClass(rex_stream::class);
+        $class->setStaticPropertyValue('useRealFiles', true);
 
         $content = 'foo <?php echo "bar";';
         $streamUrl = rex_stream::factory('test-stream/2', $content);
@@ -31,6 +31,6 @@ class rex_stream_test extends TestCase
 
         self::assertEquals('foo bar', $result);
 
-        $property->setValue(null);
+        $class->setStaticPropertyValue('useRealFiles', null);
     }
 }

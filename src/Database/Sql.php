@@ -1760,7 +1760,7 @@ class Sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return array Ein Array von Tabellennamen
+     * @return list<string> Ein Array von Tabellennamen
      */
     public function getTablesAndViews($tablePrefix = null)
     {
@@ -1775,7 +1775,7 @@ class Sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return array Ein Array von Tabellennamen
+     * @return list<string> Ein Array von Tabellennamen
      */
     public function getTables($tablePrefix = null)
     {
@@ -1790,7 +1790,7 @@ class Sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return array Ein Array von Viewnamen
+     * @return list<string> Ein Array von Viewnamen
      */
     public function getViews($tablePrefix = null)
     {
@@ -1803,7 +1803,7 @@ class Sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return array
+     * @return list<string>
      */
     private function fetchTablesAndViews($tablePrefix = null, $where = null)
     {
@@ -1825,7 +1825,7 @@ class Sql implements Iterator
         $tables = $this->getArray($qry);
 
         return array_map(static function (array $table) {
-            return reset($table);
+            return rex_type::string(reset($table));
         }, $tables);
     }
 
@@ -2030,10 +2030,12 @@ class Sql implements Iterator
             }
             // ER_ACCESS_DENIED_ERROR
             // ER_DBACCESS_DENIED_ERROR
+            // ER_ACCESS_DENIED_NO_PASSWORD_ERROR
             elseif (
                 str_contains($e->getMessage(), 'SQLSTATE[HY000] [1045]') ||
                 str_contains($e->getMessage(), 'SQLSTATE[28000]') ||
-                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]')
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]') ||
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1698]')
             ) {
                 // unable to connect to db
                 $errMsg = I18n::msg('sql_unable_to_connect_database');

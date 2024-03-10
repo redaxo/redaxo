@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.22.2@d768d914152dbbf3486c36398802f74e80cfde48">
+<files psalm-version="5.23.0@005e3184fb6de4350a873b9b8c4dc3cede9db762">
+  <file src="redaxo/src/core/backend.php">
+    <TaintedHtml>
+      <code><![CDATA['<script nonce="' . rex_response::getNonce() . '">
+                    var history_article_id = ' . rex_article::getCurrentId() . ';
+                    var history_clang_id = ' . rex_clang::getCurrentId() . ';
+                    var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
+                    var history_article_link = "' . $articleLink . '";
+                </script>']]></code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes>
+      <code><![CDATA['<script nonce="' . rex_response::getNonce() . '">
+                    var history_article_id = ' . rex_article::getCurrentId() . ';
+                    var history_clang_id = ' . rex_clang::getCurrentId() . ';
+                    var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
+                    var history_article_link = "' . $articleLink . '";
+                </script>']]></code>
+    </TaintedTextWithQuotes>
+  </file>
   <file src="redaxo/src/core/fragments/core/fe_ooops.php">
     <TaintedHtml>
       <code><![CDATA[$this->getVar('content', '')]]></code>
@@ -58,43 +76,14 @@
       <code><![CDATA[$this->getVar('content2select')]]></code>
     </TaintedTextWithQuotes>
   </file>
-  <file src="redaxo/src/core/lib/backup/backup.php">
-    <TaintedFile>
-      <code><![CDATA[$filename]]></code>
-      <code><![CDATA[$filename]]></code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/core/lib/backup/compressor.php">
-    <TaintedFile>
-      <code><![CDATA[$source]]></code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/core/lib/cronjob/cronjob.php">
-    <TaintedCallable>
-      <code><![CDATA[$class]]></code>
-    </TaintedCallable>
-  </file>
-  <file src="redaxo/src/core/lib/login/login.php">
-    <TaintedHeader>
-      <code><![CDATA[$rawHeader]]></code>
-    </TaintedHeader>
-  </file>
   <file src="redaxo/src/core/lib/response.php">
     <TaintedHeader>
-      <code><![CDATA[$name . ': ' . $value]]></code>
       <code><![CDATA[$str]]></code>
       <code><![CDATA['Location: ' . $url]]></code>
-      <code><![CDATA['Location: ' . $url]]></code>
     </TaintedHeader>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/article_action.php">
-    <TaintedInclude>
-      <code><![CDATA[rex_stream::factory('action/' . $articleId . '/' . $type, $action)]]></code>
-    </TaintedInclude>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <TaintedCallable>
-      <code><![CDATA[$data]]></code>
       <code><![CDATA[$data]]></code>
     </TaintedCallable>
   </file>
@@ -102,20 +91,6 @@
     <TaintedSql>
       <code><![CDATA[$query]]></code>
       <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
-      <code><![CDATA[$query]]></code>
     </TaintedSql>
-  </file>
-  <file src="src/Filesystem/File.php">
-    <TaintedFile>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-    </TaintedFile>
   </file>
 </files>
