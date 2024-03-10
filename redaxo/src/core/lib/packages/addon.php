@@ -369,16 +369,6 @@ class rex_addon implements rex_addon_interface
         $cache = File::getCache($path = Path::coreCache(self::PROPERTIES_CACHE_FILE));
         if ($cache) {
             unset($cache[$this->getPackageId()]);
-
-            if ($this instanceof self) {
-                $start = $this->getPackageId() . '/';
-                foreach ($cache as $packageId => $_) {
-                    if (str_starts_with((string) $packageId, $start)) {
-                        unset($cache[$packageId]);
-                    }
-                }
-            }
-
             File::putCache($path, $cache);
         }
 
