@@ -11,14 +11,12 @@ class rex_socket_response
 {
     /** @var resource */
     private $stream;
-    /** @var bool */
-    private $chunked = false;
+    private bool $chunked;
     /** @var int */
     private $statusCode;
     /** @var string */
     private $statusMessage;
-    /** @var string */
-    private $header = '';
+    private string $header = '';
     /** @var array */
     private $headers = [];
     /** @var string|null */

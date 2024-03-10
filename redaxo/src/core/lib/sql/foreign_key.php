@@ -14,22 +14,19 @@ class rex_sql_foreign_key
     public const CASCADE = 'CASCADE';
     public const SET_NULL = 'SET NULL';
 
-    /** @var bool */
-    private $modified = false;
+    private bool $modified = false;
 
     /**
-     * @param string $name
-     * @param string $table
      * @param array<string, string> $columns Mapping of locale column to column in foreign table
      * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onUpdate
      * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onDelete
      */
     public function __construct(
-        private $name,
-        private $table,
+        private string $name,
+        private string $table,
         private array $columns,
-        private $onUpdate = self::RESTRICT,
-        private $onDelete = self::RESTRICT,
+        private string $onUpdate = self::RESTRICT,
+        private string $onDelete = self::RESTRICT,
     ) {}
 
     /**

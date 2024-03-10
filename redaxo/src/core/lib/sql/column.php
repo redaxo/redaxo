@@ -9,24 +9,15 @@
  */
 class rex_sql_column
 {
-    /** @var bool */
-    private $modified = false;
+    private bool $modified = false;
 
-    /**
-     * @param string $name
-     * @param string $type
-     * @param bool $nullable
-     * @param string|null $default
-     * @param string|null $extra
-     * @param string|null $comment
-     */
     public function __construct(
-        private $name,
-        private $type,
-        private $nullable = false,
-        private $default = null,
-        private $extra = null,
-        private $comment = null,
+        private string $name,
+        private string $type,
+        private bool $nullable = false,
+        private ?string $default = null,
+        private ?string $extra = null,
+        private ?string $comment = null,
     ) {}
 
     /**

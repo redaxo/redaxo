@@ -5,10 +5,8 @@
  */
 class rex_module
 {
-    /** @var int */
-    private $id;
-    /** @var string|null */
-    private $key = '';
+    private int $id;
+    private ?string $key = '';
 
     public function __construct(int $moduleId)
     {
