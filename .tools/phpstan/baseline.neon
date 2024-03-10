@@ -881,11 +881,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/metainfo/input/medialistbutton.php
 
 		-
-			message: "#^Instanceof between \\$this\\(rex_addon\\) and rex_addon will always evaluate to true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/addon.php
-
-		-
 			message: "#^Method rex_addon\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/addon.php
