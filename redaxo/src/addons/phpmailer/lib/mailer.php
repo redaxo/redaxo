@@ -20,10 +20,8 @@ class rex_mailer extends PHPMailer
 
     /**
      * used to store information if detour mode is enabled.
-     *
-     * @var array
      */
-    private $xHeader = [];
+    private array $xHeader = [];
 
     public function __construct($exceptions = false)
     {

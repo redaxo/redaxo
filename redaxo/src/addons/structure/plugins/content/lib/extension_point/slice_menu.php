@@ -7,8 +7,8 @@
 class rex_extension_point_slice_menu extends rex_extension_point
 {
     public const NAME = 'SLICE_MENU';
-    /** @var array */
-    private $additionalActions = [];
+
+    private array $additionalActions = [];
 
     /**
      * @param array{label?: string, url?: string, attributes?: array{class: list<string>, title: string}} $menuEditAction

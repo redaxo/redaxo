@@ -18,18 +18,14 @@
  */
 class rex_stream
 {
-    /** @var bool|null */
-    private static $useRealFiles;
+    private static ?bool $useRealFiles = null;
+    private static bool $registered = false;
 
-    /** @var bool */
-    private static $registered = false;
     /** @var array<string, string> */
-    private static $nextContent = [];
+    private static array $nextContent = [];
 
-    /** @var int */
-    private $position = 0;
-    /** @var string */
-    private $content = '';
+    private int $position = 0;
+    private string $content = '';
 
     /**
      * @var resource|null

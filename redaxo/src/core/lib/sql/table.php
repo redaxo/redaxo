@@ -51,7 +51,6 @@ class rex_sql_table
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
     private array $foreignKeysExisting = [];
 
-    /** @var string|null */
     private static ?string $explicitCharset = null;
 
     /**

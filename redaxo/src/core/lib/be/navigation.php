@@ -8,17 +8,17 @@ class rex_be_navigation
     use rex_factory_trait;
 
     /** @var array<string, string> */
-    private $headlines = [];
+    private array $headlines = [];
 
     /** @var array<string, int> */
-    private $prios = [
+    private array $prios = [
         'default' => 0,
         'system' => 10,
         'addons' => 20,
     ];
 
     /** @var array<string, list<rex_be_page>> */
-    private $pages = [];
+    private array $pages = [];
 
     /**
      * @return static

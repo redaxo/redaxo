@@ -113,8 +113,7 @@ class rex_list implements rex_url_provider_interface
     private array $linkAttributes;
 
     // --------- Pagination Attributes
-    /** @var rex_pager|null */
-    private $pager;
+    private ?rex_pager $pager = null;
 
     /**
      * Erstellt ein rex_list Objekt.

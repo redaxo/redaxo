@@ -14,7 +14,7 @@
 class rex_extension_point
 {
     /** @var array<string, mixed> */
-    private $extensionParams = [];
+    private array $extensionParams = [];
 
     /**
      * @param string $name

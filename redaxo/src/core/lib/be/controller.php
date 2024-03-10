@@ -9,13 +9,12 @@ class rex_be_controller
     private static $page;
 
     /** @var list<string> */
-    private static $pageParts = [];
+    private static array $pageParts = [];
 
-    /** @var rex_be_page|null */
-    private static $pageObject;
+    private static ?rex_be_page $pageObject = null;
 
     /** @var array<string, rex_be_page> */
-    private static $pages = [];
+    private static array $pages = [];
 
     /**
      * @param string $page

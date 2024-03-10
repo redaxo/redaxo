@@ -14,14 +14,14 @@ class rex_addon extends rex_package implements rex_addon_interface
      *
      * @var array<non-empty-string, self>
      */
-    private static $addons = [];
+    private static array $addons = [];
 
     /**
      * Array of all child plugins.
      *
      * @var array<non-empty-string, rex_plugin>
      */
-    private $plugins = [];
+    private array $plugins = [];
 
     /**
      * Returns the addon by the given name.

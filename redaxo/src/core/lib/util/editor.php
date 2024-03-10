@@ -20,7 +20,7 @@ class rex_editor
     // see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
     // keep this list in sync with the array in getSupportedEditors() excluding xdebug
     /** @var array<self::EDITOR_*, string> */
-    private $editors = [
+    private array $editors = [
         self::EDITOR_ATOM => 'atom://core/open/file?filename=%f&line=%l',
         self::EDITOR_EMACS => 'emacs://open?url=file://%f&line=%l',
         self::EDITOR_IDEA => 'idea://open?file=%f&line=%l',
