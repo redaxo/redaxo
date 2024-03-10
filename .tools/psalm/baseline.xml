@@ -3941,6 +3941,8 @@
       <code><![CDATA[$format[2]]]></code>
       <code><![CDATA[$groupColumns]]></code>
       <code><![CDATA[$name]]></code>
+      <code><![CDATA[$params[$this->pager->getCursorName()]]]></code>
+      <code><![CDATA[$params[$this->pager->getCursorName()]]]></code>
       <code><![CDATA[$tableColumn]]></code>
       <code><![CDATA[$tableColumn['class']]]></code>
       <code><![CDATA[$tableColumns]]></code>
