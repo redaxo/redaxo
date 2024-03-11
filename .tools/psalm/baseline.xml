@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.22.2@d768d914152dbbf3486c36398802f74e80cfde48">
+<files psalm-version="5.23.0@005e3184fb6de4350a873b9b8c4dc3cede9db762">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument>
       <code><![CDATA[$column]]></code>
@@ -958,9 +958,6 @@
       <code><![CDATA[rex_addon::get('mediapool')->getProperty('allowed_doctypes')]]></code>
       <code><![CDATA[rex_addon::get('mediapool')->getProperty('image_extensions')]]></code>
     </MixedReturnStatement>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$getInstance]]></code>
-    </PossiblyInvalidArgument>
     <PossiblyNullArgument>
       <code><![CDATA[$this->getValue('med_description')]]></code>
     </PossiblyNullArgument>
@@ -3329,9 +3326,6 @@
   <file src="redaxo/src/core/lib/api_function.php">
     <MixedAssignment>
       <code><![CDATA[$json]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MixedMethodCall>
       <code><![CDATA[new $apiClass()]]></code>
@@ -3941,6 +3935,8 @@
       <code><![CDATA[$format[2]]]></code>
       <code><![CDATA[$groupColumns]]></code>
       <code><![CDATA[$name]]></code>
+      <code><![CDATA[$params[$this->pager->getCursorName()]]]></code>
+      <code><![CDATA[$params[$this->pager->getCursorName()]]]></code>
       <code><![CDATA[$tableColumn]]></code>
       <code><![CDATA[$tableColumn['class']]]></code>
       <code><![CDATA[$tableColumns]]></code>
@@ -4814,40 +4810,13 @@
     </PossiblyFalseArgument>
   </file>
   <file src="redaxo/src/core/lib/var/var.php">
-    <MixedArgument>
-      <code><![CDATA[$match[0]]]></code>
-      <code><![CDATA[$match[1]]]></code>
-      <code><![CDATA[$match[2]]]></code>
-      <code><![CDATA[$match[2]]]></code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$key]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$match[0]]]></code>
-      <code><![CDATA[$match[0]]]></code>
-      <code><![CDATA[$match[0]]]></code>
-      <code><![CDATA[$match[0]]]></code>
-      <code><![CDATA[$match[1]]]></code>
-      <code><![CDATA[$match[2]]]></code>
-      <code><![CDATA[$match[2]]]></code>
-    </MixedArrayAccess>
-    <MixedArrayOffset>
-      <code><![CDATA[$replacements[$match[0]]]]></code>
-      <code><![CDATA[$replacements[$match[0]]]]></code>
-    </MixedArrayOffset>
     <MixedAssignment>
-      <code><![CDATA[$match]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[self::$contextData]]></code>
     </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$match[0]]]></code>
-      <code><![CDATA[$match[0]]]></code>
-    </MixedOperand>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$args]]></code>
-    </PossiblyInvalidArgument>
     <PossiblyNullOperand>
       <code><![CDATA[$then]]></code>
       <code><![CDATA[$then]]></code>

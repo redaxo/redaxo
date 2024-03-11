@@ -111,11 +111,6 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/package/package_update.php
 
 		-
-			message: "#^Method rex_install_package_update\\:\\:messageFromPackage\\(\\) has parameter \\$manager with generic class rex_package_manager but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/install/lib/package/package_update.php
-
-		-
 			message: "#^PHPDoc tag @var for variable \\$conflicts has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/package/package_update.php
@@ -416,7 +411,7 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\), callable\\(string\\)\\: static given\\.$#"
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\), Closure\\(string\\)\\: static given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
 
@@ -481,6 +476,11 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/perm.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array\\<non\\-falsy\\-string, int\\|non\\-falsy\\-string\\> will always evaluate to true\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/service_media.php
+
+		-
 			message: "#^Method rex_media_service\\:\\:addMedia\\(\\) has parameter \\$allowedExtensions with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/service_media.php
@@ -492,6 +492,11 @@ parameters:
 
 		-
 			message: "#^Method rex_media_service\\:\\:updateMedia\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/service_media.php
+
+		-
+			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<string\\|null\\>, rex_extension_point\\<string\\|null\\> given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/service_media.php
 
@@ -1351,11 +1356,6 @@ parameters:
 			path: ../../redaxo/src/addons/users/lib/role.php
 
 		-
-			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
 			message: "#^Parameter \\#1 \\$callback of function spl_autoload_register expects \\(callable\\(string\\)\\: void\\)\\|null, Closure\\(string\\)\\: bool given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
@@ -1741,17 +1741,17 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/interface.php
 
 		-
-			message: "#^If condition is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/manager.php
-
-		-
 			message: "#^Method rex_package_manager\\:\\:factory\\(\\) return type with generic class rex_package_manager does not specify its types\\: T$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/manager.php
 
 		-
 			message: "#^Method rex_package_manager\\:\\:setFactoryClass\\(\\) has parameter \\$subclass with generic class rex_package_manager but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/manager.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between 'rex_package_manager' and class\\-string\\<static\\(rex_package_manager\\<T of rex_package\\>\\)\\> will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/manager.php
 
@@ -1924,6 +1924,11 @@ parameters:
 			message: "#^Method rex_sql_util\\:\\:splitSqlFile\\(\\) has parameter \\$queries with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/util.php
+
+		-
+			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<list\\<string\\>\\|string\\|null\\>, rex_extension_point\\<list\\<string\\>\\|string\\|null\\> given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/editor.php
 
 		-
 			message: "#^Method rex_file\\:\\:formattedSize\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
@@ -2134,6 +2139,11 @@ parameters:
 			message: "#^Static property rex_test_instance_pool_base\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_test_instance_pool_base\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_test_instance_pool_base\\|null\\>\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
+
+		-
+			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<string\\|null\\>, rex_extension_point\\<string\\|null\\> given\\.$#"
+			count: 2
+			path: ../../redaxo/src/core/tests/extension_test.php
 
 		-
 			message: "#^Method rex_password_policy_test\\:\\:testCheck\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"

@@ -49,7 +49,7 @@ trait rex_factory_trait
         if ($subclass != $calledClass && !is_subclass_of($subclass, $calledClass)) {
             throw new InvalidArgumentException('$class "' . $subclass . '" is expected to define a subclass of ' . $calledClass . '!');
         }
-        /** @psalm-suppress PropertyTypeCoercion */
+
         self::$factoryClasses[$calledClass] = $subclass; /** @phpstan-ignore-line */
     }
 

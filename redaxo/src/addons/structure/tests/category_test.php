@@ -183,7 +183,7 @@ class rex_category_test extends TestCase
 
             public function getParent()
             {
-                /** @var static */
+                /** @var static|null */
                 return $this->parent;
             }
         };
