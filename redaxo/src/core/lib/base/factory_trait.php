@@ -29,7 +29,7 @@
 trait rex_factory_trait
 {
     /** @var array<class-string<static>, class-string<static>> */
-    private static $factoryClasses = [];
+    private static array $factoryClasses = [];
 
     /**
      * Sets the class for the factory.

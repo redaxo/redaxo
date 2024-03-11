@@ -13,29 +13,17 @@ class rex_sql_index
     public const UNIQUE = 'UNIQUE';
     public const FULLTEXT = 'FULLTEXT';
 
-    /** @var string */
-    private $name;
-
-    /** @var self::INDEX|self::UNIQUE|self::FULLTEXT */
-    private $type;
-
-    /** @var list<string> */
-    private $columns;
-
-    /** @var bool */
-    private $modified = false;
+    private bool $modified = false;
 
     /**
-     * @param string $name
      * @param list<string> $columns
      * @param self::INDEX|self::UNIQUE|self::FULLTEXT $type
      */
-    public function __construct($name, array $columns, $type = self::INDEX)
-    {
-        $this->name = $name;
-        $this->columns = $columns;
-        $this->type = $type;
-    }
+    public function __construct(
+        private string $name,
+        private array $columns,
+        private string $type = self::INDEX,
+    ) {}
 
     /**
      * @param bool $modified

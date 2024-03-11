@@ -17,7 +17,7 @@ class rex_sortable_iterator implements IteratorAggregate
     public const KEYS = 2;
 
     /** @var Traversable<TKey, TValue> */
-    private $iterator;
+    private Traversable $iterator;
     /** @var self::VALUES|self::KEYS|callable(mixed,mixed):int */
     private $sort;
 

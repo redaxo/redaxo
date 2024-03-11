@@ -4,7 +4,6 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider;
 use Symfony\Component\VarDumper\Dumper\ContextualizedDumper;
-use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -13,11 +12,8 @@ use Symfony\Component\VarDumper\VarDumper;
  */
 abstract class rex_var_dumper
 {
-    /** @var VarCloner|null */
-    private static $cloner;
-
-    /** @var DataDumperInterface */
-    private static $dumper;
+    private static ?VarCloner $cloner = null;
+    private static ?ContextualizedDumper $dumper = null;
 
     /**
      * @return void
@@ -45,7 +41,7 @@ abstract class rex_var_dumper
      */
     public static function dump($var)
     {
-        if (!self::$cloner) {
+        if (!self::$cloner || !self::$dumper) {
             self::$cloner = new VarCloner();
             if ('cli' === PHP_SAPI) {
                 $dumper = new CliDumper();

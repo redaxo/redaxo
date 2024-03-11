@@ -6,17 +6,15 @@
 class rex_select
 {
     /** @var array<string, int|string> */
-    private $attributes = [];
-    /** @var int */
-    private $currentOptgroup = 0;
+    private array $attributes = [];
+    private int $currentOptgroup = 0;
     /** @var array<int, string> */
-    private $optgroups = [];
+    private array $optgroups = [];
     /** @var array<int, array<int, list<list{string, string|int, int, array<string, string|int>}>>> */
-    private $options = [];
+    private array $options = [];
     /** @var list<string> */
-    private $optionSelected = [];
-    /** @var int */
-    private $optCount = 0;
+    private array $optionSelected = [];
+    private int $optCount = 0;
 
     public function __construct()
     {

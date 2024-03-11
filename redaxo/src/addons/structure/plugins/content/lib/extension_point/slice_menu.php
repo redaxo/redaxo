@@ -8,37 +8,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
 {
     public const NAME = 'SLICE_MENU';
 
-    /** @var array{label?: string, url?: string, attributes?: array{class: list<string>, title: string}} */
-    private $menuEditAction = [];
-    /** @var array{label?: string, url?: string, attributes?: array{class: list<string>, title: string, data-confirm: string}} */
-    private $menuDeleteAction = [];
-    /** @var array{label?: string, url?: string, attributes?: array{class: list<string>}} */
-    private $menuStatusAction = [];
-    /** @var array{hidden_label?: string, url?: string, icon?: string, attributes?: array{class: list<string>, title: string}} */
-    private $menuMoveupAction = [];
-    /** @var array{hidden_label?: string, url?: string, icon?: string, attributes?: array{class: list<string>, title: string}} */
-    private $menuMovedownAction = [];
-    /** @var array */
-    private $additionalActions = [];
-
-    /** @var rex_context */
-    private $context;
-    /** @var string */
-    private $fragment;
-
-    /** @var int */
-    private $articleId;
-    /** @var int */
-    private $clang;
-    /** @var int */
-    private $ctype;
-    /** @var int */
-    private $moduleId;
-    /** @var int */
-    private $sliceId;
-
-    /** @var bool */
-    private $hasPerm;
+    private array $additionalActions = [];
 
     /**
      * @param array{label?: string, url?: string, attributes?: array{class: list<string>, title: string}} $menuEditAction
@@ -48,38 +18,21 @@ class rex_extension_point_slice_menu extends rex_extension_point
      * @param array{hidden_label?: string, url?: string, icon?: string, attributes?: array{class: list<string>, title: string}} $menuMovedownAction
      */
     public function __construct(
-        array $menuEditAction,
-        array $menuDeleteAction,
-        array $menuStatusAction,
-        array $menuMoveupAction,
-        array $menuMovedownAction,
-        rex_context $context,
-        string $fragment,
-        int $articleId,
-        int $clang,
-        int $ctype,
-        int $moduleId,
-        int $sliceId,
-        bool $hasPerm,
+        private array $menuEditAction,
+        private array $menuDeleteAction,
+        private array $menuStatusAction,
+        private array $menuMoveupAction,
+        private array $menuMovedownAction,
+        private rex_context $context,
+        private string $fragment,
+        private int $articleId,
+        private int $clang,
+        private int $ctype,
+        private int $moduleId,
+        private int $sliceId,
+        private bool $hasPerm,
     ) {
         parent::__construct(self::NAME);
-
-        $this->menuEditAction = $menuEditAction;
-        $this->menuDeleteAction = $menuDeleteAction;
-        $this->menuStatusAction = $menuStatusAction;
-        $this->menuMoveupAction = $menuMoveupAction;
-        $this->menuMovedownAction = $menuMovedownAction;
-
-        $this->context = $context;
-        $this->fragment = $fragment;
-
-        $this->articleId = $articleId;
-        $this->clang = $clang;
-        $this->ctype = $ctype;
-        $this->moduleId = $moduleId;
-        $this->sliceId = $sliceId;
-
-        $this->hasPerm = $hasPerm;
     }
 
     /**

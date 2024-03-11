@@ -8,15 +8,14 @@
 class rex_i18n
 {
     /** @var list<string> */
-    private static $locales = [];
+    private static array $locales = [];
     /** @var list<string> */
-    private static $directories = [];
+    private static array $directories = [];
     /** @var array<string, bool> Holds which locales are loaded. keyed by locale */
-    private static $loaded = [];
-    /** @var string|null */
-    private static $locale;
+    private static array $loaded = [];
+    private static ?string $locale = null;
     /** @var array<string, array<string, non-empty-string>> */
-    private static $msg = [];
+    private static array $msg = [];
 
     /**
      * Switches the current locale.

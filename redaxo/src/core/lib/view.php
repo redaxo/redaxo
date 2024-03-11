@@ -10,11 +10,11 @@ class rex_view
     public const JS_IMMUTABLE = 'immutable';
 
     /** @var array<string, list<string>> */
-    private static $cssFiles = [];
+    private static array $cssFiles = [];
     /** @var list<array{string, array}> */
-    private static $jsFiles = [];
+    private static array $jsFiles = [];
     /** @var array<string, mixed> */
-    private static $jsProperties = [];
+    private static array $jsProperties = [];
     /** @var string */
     private static $favicon;
 

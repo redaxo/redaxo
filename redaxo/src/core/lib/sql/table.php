@@ -15,53 +15,43 @@ class rex_sql_table
 
     public const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
 
-    /** @var int */
-    private $db;
-
-    /** @var rex_sql */
-    private $sql;
-
-    /** @var bool */
-    private $new;
-
-    /** @var string */
-    private $name;
-
-    /** @var string */
-    private $originalName;
+    private int $db;
+    private rex_sql $sql;
+    private bool $new;
+    private string $name;
+    private string $originalName;
 
     /** @var array<string, rex_sql_column> */
-    private $columns = [];
+    private array $columns = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
-    private $columnsExisting = [];
+    private array $columnsExisting = [];
 
     /** @var list<string> */
-    private $implicitOrder = [];
+    private array $implicitOrder = [];
 
     /** @var array<string, string> */
-    private $positions = [];
+    private array $positions = [];
 
     /** @var list<string> */
-    private $primaryKey = [];
+    private array $primaryKey = [];
 
     /** @var list<string> */
-    private $primaryKeyExisting = [];
+    private array $primaryKeyExisting = [];
 
     /** @var array<string, rex_sql_index> */
-    private $indexes = [];
+    private array $indexes = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
-    private $indexesExisting = [];
+    private array $indexesExisting = [];
 
     /** @var array<string, rex_sql_foreign_key> */
-    private $foreignKeys = [];
+    private array $foreignKeys = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
-    private $foreignKeysExisting = [];
+    private array $foreignKeysExisting = [];
 
-    /** @var string|null */
-    private static $explicitCharset;
+    private static ?string $explicitCharset = null;
 
     /**
      * @param positive-int $db

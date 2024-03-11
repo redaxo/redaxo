@@ -8,8 +8,7 @@ use Whoops\Run;
  */
 abstract class rex_error_handler
 {
-    /** @var bool */
-    private static $registered = false;
+    private static bool $registered = false;
 
     /**
      * Registers the class as php-error/exception handler.

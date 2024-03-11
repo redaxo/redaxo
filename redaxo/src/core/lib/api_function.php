@@ -300,20 +300,6 @@ abstract class rex_api_function
 class rex_api_result
 {
     /**
-     * Flag indicating if the api function was executed successfully.
-     *
-     * @var bool
-     */
-    private $succeeded = false;
-
-    /**
-     * Optional message which will be visible to the end-user.
-     *
-     * @var string|null
-     */
-    private $message;
-
-    /**
      * Flag indicating whether the result of this api call needs to be rendered in a new sub-request.
      * This is required in rare situations, when some low-level data was changed by the api-function.
      *
@@ -322,14 +308,13 @@ class rex_api_result
     private $requiresReboot;
 
     /**
-     * @param bool $succeeded
-     * @param string|null $message
+     * @param bool $succeeded flag indicating if the api function was executed successfully
+     * @param string|null $message optional message which will be visible to the end-user
      */
-    public function __construct($succeeded, $message = null)
-    {
-        $this->succeeded = $succeeded;
-        $this->message = $message;
-    }
+    public function __construct(
+        private $succeeded,
+        private $message = null,
+    ) {}
 
     /**
      * @param bool $requiresReboot
