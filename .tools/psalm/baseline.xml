@@ -4783,9 +4783,11 @@
       <code><![CDATA[$newVar[$key]]]></code>
       <code><![CDATA[$newVar[$key]]]></code>
       <code><![CDATA[$value]]></code>
-      <code><![CDATA[$var]]></code>
       <code><![CDATA[$var[$key]]]></code>
     </MixedAssignment>
+    <RedundantCondition>
+      <code><![CDATA[is_array($vartype)]]></code>
+    </RedundantCondition>
   </file>
   <file src="redaxo/src/core/lib/util/validator.php">
     <ArgumentTypeCoercion>
