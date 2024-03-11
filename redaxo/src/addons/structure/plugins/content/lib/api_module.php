@@ -21,7 +21,7 @@ class rex_module
 
         if (false !== $id = array_search($moduleKey, $mapping, true)) {
             $module = new self($id);
-            $module->key == $moduleKey;
+            $module->key = $moduleKey;
 
             return $module;
         }
