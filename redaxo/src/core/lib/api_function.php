@@ -8,7 +8,7 @@
  *
  * There can only be one rex_api_function called per request, but not every request must have an api function.
  *
- * The classname of a possible implementation must start with "rex_api".
+ * The classname of a possible implementation must start with "rex_api" or must be registered explicitly via `rex_api_function::register()`.
  *
  * A api function may also be called by an ajax-request.
  * In fact there might be ajax-requests which do nothing more than triggering an api function.
@@ -41,6 +41,13 @@ abstract class rex_api_function
      * @var rex_api_result|null
      */
     protected $result;
+
+    /**
+     * Explicitly registered api functions.
+     *
+     * @var array<string, class-string<self>>
+     */
+    private static $functions = [];
 
     /**
      * The api function which is bound to the current request.
@@ -82,8 +89,13 @@ abstract class rex_api_function
         $api = rex_request(self::REQ_CALL_PARAM, 'string');
 
         if ($api) {
-            /** @psalm-taint-escape callable */ // It is intended that the class name suffix is coming from request param
-            $apiClass = 'rex_api_' . $api;
+            if (isset(self::$functions[$api])) {
+                $apiClass = self::$functions[$api];
+            } else {
+                /** @psalm-taint-escape callable */ // It is intended that the class name suffix is coming from request param
+                $apiClass = 'rex_api_' . $api;
+            }
+
             if (class_exists($apiClass)) {
                 $apiImpl = new $apiClass();
                 if ($apiImpl instanceof self) {
@@ -96,6 +108,14 @@ abstract class rex_api_function
         }
 
         return null;
+    }
+
+    /**
+     * @param class-string<self> $class
+     */
+    public static function register(string $name, string $class): void
+    {
+        self::$functions[$name] = $class;
     }
 
     /**
@@ -113,10 +133,7 @@ abstract class rex_api_function
             throw new BadMethodCallException(__FUNCTION__ . ' must be called on subclasses of "' . self::class . '".');
         }
 
-        // remove the `rex_api_` prefix
-        $name = substr($class, 8);
-
-        return [self::REQ_CALL_PARAM => $name, rex_csrf_token::PARAM => rex_csrf_token::factory($class)->getValue()];
+        return [self::REQ_CALL_PARAM => self::getName($class), rex_csrf_token::PARAM => rex_csrf_token::factory($class)->getValue()];
     }
 
     /**
@@ -134,10 +151,7 @@ abstract class rex_api_function
             throw new BadMethodCallException(__FUNCTION__ . ' must be called on subclasses of "' . self::class . '".');
         }
 
-        // remove the `rex_api_` prefix
-        $name = rex_type::string(substr($class, 8));
-
-        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name))
+        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape(self::getName($class)))
             . rex_csrf_token::factory($class)->getHiddenField();
     }
 
@@ -257,6 +271,20 @@ abstract class rex_api_function
     protected function requiresCsrfProtection()
     {
         return false;
+    }
+
+    private static function getName(string $class): string
+    {
+        $name = array_search($class, self::$functions, true);
+        if (false !== $name) {
+            return $name;
+        }
+
+        if (str_starts_with($class, 'rex_api_')) {
+            return substr($class, 8);
+        }
+
+        throw new rex_exception('The api function "' . $class . '" is not registered.');
     }
 }
 
