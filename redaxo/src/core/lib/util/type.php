@@ -42,101 +42,99 @@ class rex_type
     public static function cast($var, $vartype)
     {
         if (is_string($vartype)) {
-            $casted = true;
             switch ($vartype) {
-                // ---------------- PHP types
                 case 'bool':
                 case 'boolean':
-                    $var = (bool) $var;
-                    break;
+                    return (bool) $var;
+
                 case 'int':
                 case 'integer':
-                    $var = (int) $var;
-                    break;
+                    return (int) $var;
+
                 case 'double':
                 case 'float':
                 case 'real':
-                    $var = (float) $var;
-                    break;
+                    return (float) $var;
+
                 case 'string':
                     if (is_array($var)) { // https://github.com/redaxo/redaxo/issues/2900
-                        $var = '';
-                    } else {
-                        $var = (string) $var;
+                        return '';
                     }
-                    break;
+                    return (string) $var;
+
                 case 'object':
-                    $var = (object) $var;
-                    break;
+                    return (object) $var;
+
                 case 'array':
                     if ('' === $var) {
+                        return [];
+                    }
+                    return (array) $var;
+
+                case '':
+                    // kein Cast, nichts tun
+                    return $var;
+
+                default:
+                    // check for array with generic type
+                    if (!str_starts_with($vartype, 'array[')) {
+                        break;
+                    }
+
+                    if (empty($var)) {
                         $var = [];
                     } else {
                         $var = (array) $var;
                     }
-                    break;
 
-                    // kein Cast, nichts tun
-                case '': break;
-                default:
-                    // check for array with generic type
-                    if (str_starts_with($vartype, 'array[')) {
-                        if (empty($var)) {
-                            $var = [];
-                        } else {
-                            $var = (array) $var;
-                        }
+                    // check if every element in the array is from the generic type
+                    $matches = [];
+                    if (!preg_match('@array\[([^\]]*)\]@', $vartype, $matches)) {
+                        throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
+                    }
 
-                        // check if every element in the array is from the generic type
-                        $matches = [];
-                        if (preg_match('@array\[([^\]]*)\]@', $vartype, $matches)) {
-                            foreach ($var as $key => $value) {
-                                try {
-                                    $var[$key] = self::cast($value, $matches[1]);
-                                } catch (InvalidArgumentException) {
-                                    // Evtl Typo im vartype, mit urspr. typ als fehler melden
-                                    throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
-                                }
-                            }
-                        } else {
+                    foreach ($var as $key => $value) {
+                        try {
+                            $var[$key] = self::cast($value, $matches[1]);
+                        } catch (InvalidArgumentException) {
+                            // Evtl Typo im vartype, mit urspr. typ als fehler melden
                             throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
                         }
-                    } else {
-                        $casted = false;
                     }
-            }
-            if ($casted) {
-                return $var;
+
+                    return $var;
             }
         }
 
         if (is_callable($vartype)) {
-            $var = call_user_func($vartype, $var);
-        } elseif (is_array($vartype)) {
-            $var = self::cast($var, 'array');
-            $newVar = [];
-            foreach ($vartype as $cast) {
-                if (!is_array($cast) || !isset($cast[0])) {
-                    throw new InvalidArgumentException('Unexpected vartype in cast()!');
-                }
-                $key = $cast[0];
-                $innerVartype = $cast[1] ?? '';
-                if (array_key_exists($key, $var)) {
-                    $newVar[$key] = self::cast($var[$key], $innerVartype);
-                } elseif (!isset($cast[2])) {
-                    $newVar[$key] = self::cast('', $innerVartype);
-                } else {
-                    $newVar[$key] = $cast[2];
-                }
-            }
-            $var = $newVar;
-        } elseif (is_string($vartype)) {
+            return call_user_func($vartype, $var);
+        }
+        if (is_string($vartype)) {
             throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
-        } else {
+        }
+        if (!is_array($vartype)) {
             throw new InvalidArgumentException('Unexpected vartype in cast()!');
         }
 
-        return $var;
+        $var = self::cast($var, 'array');
+        $newVar = [];
+        foreach ($vartype as $cast) {
+            if (!is_array($cast) || !isset($cast[0])) {
+                throw new InvalidArgumentException('Unexpected vartype in cast()!');
+            }
+
+            $key = $cast[0];
+            $innerVartype = $cast[1] ?? '';
+            if (array_key_exists($key, $var)) {
+                $newVar[$key] = self::cast($var[$key], $innerVartype);
+            } elseif (!isset($cast[2])) {
+                $newVar[$key] = self::cast('', $innerVartype);
+            } else {
+                $newVar[$key] = $cast[2];
+            }
+        }
+
+        return $newVar;
     }
 
     /**
