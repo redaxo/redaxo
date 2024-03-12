@@ -15,8 +15,9 @@ class rex_effect_crop extends rex_effect_abstract
         $w = (int) $this->media->getWidth();
         $h = (int) $this->media->getHeight();
 
-        if (empty($this->params['width']) || $this->params['width'] < 0 ||
-            empty($this->params['height']) || $this->params['height'] < 0
+        if (
+            empty($this->params['width']) || $this->params['width'] < 0
+            || empty($this->params['height']) || $this->params['height'] < 0
         ) {
             return;
         }

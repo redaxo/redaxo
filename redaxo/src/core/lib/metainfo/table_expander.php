@@ -12,11 +12,8 @@ use Redaxo\Core\Validator\ValidationRule;
  */
 class rex_metainfo_table_expander extends Form
 {
-    /** @var string */
-    private $metaPrefix;
-
-    /** @var rex_metainfo_table_manager */
-    private $tableManager;
+    private string $metaPrefix;
+    private rex_metainfo_table_manager $tableManager;
 
     /**
      * @param 'post'|'get' $method
@@ -282,8 +279,8 @@ class rex_metainfo_table_expander extends Form
             $fieldDbLength = (int) $result[0]['dblength'];
 
             if (
-                strlen($fieldDefault) &&
-                (rex_metainfo_table_manager::FIELD_CHECKBOX === $fieldType || rex_metainfo_table_manager::FIELD_SELECT === $fieldType && isset(rex_string::split($fieldAttributes)['multiple']))
+                strlen($fieldDefault)
+                && (rex_metainfo_table_manager::FIELD_CHECKBOX === $fieldType || rex_metainfo_table_manager::FIELD_SELECT === $fieldType && isset(rex_string::split($fieldAttributes)['multiple']))
             ) {
                 $fieldDefault = '|' . trim($fieldDefault, '|') . '|';
             }

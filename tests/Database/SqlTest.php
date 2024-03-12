@@ -134,12 +134,9 @@ class SqlTest extends TestCase
                 $this->DBID = 999;
 
                 self::$pdo[$this->DBID] = new class($version) extends PDO {
-                    private string $version;
-
-                    public function __construct(string $version)
-                    {
-                        $this->version = $version;
-                    }
+                    public function __construct(
+                        private string $version,
+                    ) {}
 
                     public function getAttribute(int $attribute): string
                     {

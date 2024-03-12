@@ -318,9 +318,9 @@ class Form extends AbstractForm
     public function equals($form)
     {
         return
-            $form instanceof self &&
-            $this->getTableName() == $form->getTableName() &&
-            $this->getWhereCondition() == $form->getWhereCondition();
+            $form instanceof self
+            && $this->getTableName() == $form->getTableName()
+            && $this->getWhereCondition() == $form->getWhereCondition();
     }
 
     /**

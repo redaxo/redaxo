@@ -16,7 +16,7 @@ abstract class rex_extension
      *
      * @var array<string, array<self::*, list<array{callable, array<string, mixed>}>>>
      */
-    private static $extensions = [];
+    private static array $extensions = [];
 
     /**
      * Registers an extension point.

@@ -25,7 +25,7 @@ class rex_command_setup_check extends rex_console_command
 
         $errors = rex_setup::checkEnvironment();
         if (0 == count($errors)) {
-            $io->success(I18n::msg('setup_208', PHP_VERSION));
+            $io->success($this->decodeMessage(I18n::msg('setup_208', PHP_VERSION)));
         } else {
             $exitCode = 1;
             $errors = array_map($this->decodeMessage(...), $errors);

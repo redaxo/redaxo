@@ -6,7 +6,7 @@ use Redaxo\Core\Filesystem\Path;
 class rex_cronjob_manager
 {
     /** @var list<class-string<rex_cronjob>>|null */
-    private static $types;
+    private static ?array $types = null;
 
     /** @var string */
     private $message = '';

@@ -5,16 +5,12 @@ use Redaxo\Core\Database\Sql;
 
 class rex_cronjob_manager_sql
 {
-    /** @var Sql */
-    private $sql;
-    /** @var rex_cronjob_manager|null */
-    private $manager;
+    private Sql $sql;
 
-    private function __construct(?rex_cronjob_manager $manager = null)
-    {
+    private function __construct(
+        private ?rex_cronjob_manager $manager = null,
+    ) {
         $this->sql = Sql::factory();
-        // $this->sql->setDebug();
-        $this->manager = $manager;
     }
 
     /**
@@ -381,9 +377,9 @@ class rex_cronjob_manager_sql
         $validateTime();
 
         if (
-            !$isValid($interval['days'], $date->format('j')) ||
-            !$isValid($interval['weekdays'], $date->format('w')) ||
-            !$isValid($interval['months'], $date->format('n'))
+            !$isValid($interval['days'], $date->format('j'))
+            || !$isValid($interval['weekdays'], $date->format('w'))
+            || !$isValid($interval['months'], $date->format('n'))
         ) {
             $date->setTime(0, 0, 0);
             $validateTime();

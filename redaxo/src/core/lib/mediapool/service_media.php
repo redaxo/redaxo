@@ -197,8 +197,8 @@ final class rex_media_service
             $extensionOld = mb_strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
             if (
-                $extensionNew == $extensionOld ||
-                in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
+                $extensionNew == $extensionOld
+                || in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
             ) {
                 if (!File::move($srcFile, $dstFile)) {
                     throw new rex_api_exception(I18n::msg('pool_file_movefailed'));

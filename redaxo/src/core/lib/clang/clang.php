@@ -6,10 +6,9 @@ use Redaxo\Core\Filesystem\Path;
 #[AllowDynamicProperties]
 class rex_clang
 {
-    /** @var bool */
-    private static $cacheLoaded = false;
+    private static bool $cacheLoaded = false;
     /** @var array<int, self> */
-    private static $clangs = [];
+    private static array $clangs = [];
     /** @var int|null */
     private static $currentId;
 

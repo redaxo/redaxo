@@ -211,6 +211,10 @@ class rex_request
         }
 
         if (array_key_exists($needle, $haystack)) {
+            if (is_array($vartype) && '' !== $default && is_scalar($vartype[0] ?? null) && $vartype[0] !== $default) {
+                array_unshift($vartype, $default);
+            }
+
             return rex_type::cast($haystack[$needle], $vartype);
         }
 

@@ -24,9 +24,7 @@ class rex_api_article_move extends rex_api_function
         $user = Core::requireUser();
 
         // Check permissions
-        if ($user->hasPerm('moveArticle[]') &&
-            $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)
-        ) {
+        if ($user->hasPerm('moveArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)) {
             if (rex_article_service::moveArticle($articleId, $categoryId, $categoryIdNew)) {
                 return new rex_api_result(true, I18n::msg('content_articlemoved'));
             }

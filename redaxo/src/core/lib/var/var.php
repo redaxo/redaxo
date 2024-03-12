@@ -15,10 +15,9 @@ abstract class rex_var
     private const PLACEHOLDER_INLINE_HTML = '@@@INLINE_HTML_REPLACEMENT_END@@@';
 
     /** @var array<string, class-string<self>> */
-    private static $vars = [];
+    private static array $vars = [];
 
-    /** @var int|null */
-    private static $env;
+    private static ?int $env = null;
 
     /** @var string|null */
     private static $context;
@@ -29,8 +28,7 @@ abstract class rex_var
     /** @var array<string> */
     private $args = [];
 
-    /** @var int */
-    private static $variableIndex = 0;
+    private static int $variableIndex = 0;
 
     /**
      * Parses all REX_VARs in the given content.

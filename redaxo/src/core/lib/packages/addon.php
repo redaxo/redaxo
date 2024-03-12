@@ -23,7 +23,7 @@ class rex_addon implements rex_addon_interface
      *
      * @var array<non-empty-string, self>
      */
-    private static $addons = [];
+    private static array $addons = [];
 
     /**
      * Name of the package.

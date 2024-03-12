@@ -7,10 +7,8 @@ use Redaxo\Core\Translation\I18n;
 
 class rex_template
 {
-    /** @var int */
-    private $id;
-    /** @var string|null */
-    private $key = '';
+    private int $id;
+    private ?string $key = '';
 
     public function __construct($templateId)
     {

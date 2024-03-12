@@ -87,8 +87,6 @@ if (Core::getConfig('article_history', false)) {
                     $articleLimit = ' AND ' . Core::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
                 }
 
-                $sliceLimit = '';
-
                 rex_article_slice_history::checkTables();
 
                 $escapeSql = Sql::factory();
@@ -105,7 +103,6 @@ if (Core::getConfig('article_history', false)) {
                         " . Core::getTablePrefix() . "article.clang_id='" . $article->getClangId() . "' AND
                         " . Core::getTablePrefix() . 'article_slice.revision=0
                         ' . $articleLimit . '
-                        ' . $sliceLimit . '
                         ' . $sliceDate . '
                         ORDER BY ' . Core::getTablePrefix() . 'article_slice.priority';
             }

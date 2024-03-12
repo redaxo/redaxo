@@ -24,12 +24,12 @@ class rex_fragment
      *
      * @var array<string, mixed>
      */
-    private $vars;
+    private array $vars;
 
     /**
      * another fragment which can optionaly be used to decorate the current fragment.
      *
-     * @var rex_fragment
+     * @var self|null
      */
     private $decorator;
 
@@ -38,7 +38,7 @@ class rex_fragment
      *
      * @var list<string>
      */
-    private static $fragmentDirs = [];
+    private static array $fragmentDirs = [];
 
     /**
      * Creates a fragment with the given variables.

@@ -19,9 +19,10 @@ class rex_api_content_copy extends rex_api_function
         $user = Core::requireUser();
 
         // Check permissions
-        if ($user->hasPerm('copyContent[]') &&
-            $user->getComplexPerm('clang')->hasPerm($clangA) &&
-            $user->getComplexPerm('clang')->hasPerm($clangB)
+        if (
+            $user->hasPerm('copyContent[]')
+            && $user->getComplexPerm('clang')->hasPerm($clangA)
+            && $user->getComplexPerm('clang')->hasPerm($clangB)
         ) {
             if (rex_content_service::copyContent($articleId, $articleId, $clangA, $clangB)) {
                 return new rex_api_result(true, I18n::msg('content_contentcopy'));

@@ -9,7 +9,7 @@ use Redaxo\Core\Form\AbstractForm;
 abstract class AbstractOptionField extends BaseField
 {
     /** @var array<string, string|int> */
-    private $options = [];
+    private array $options = [];
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter

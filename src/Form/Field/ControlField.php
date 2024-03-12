@@ -11,26 +11,15 @@ use function is_object;
 
 class ControlField extends BaseField
 {
-    /** @var BaseField|null */
-    private $saveElement;
-    /** @var BaseField|null */
-    private $applyElement;
-    /** @var BaseField|null */
-    private $deleteElement;
-    /** @var BaseField|null */
-    private $resetElement;
-    /** @var BaseField|null */
-    private $abortElement;
-
-    public function __construct(AbstractForm $form, ?BaseField $saveElement = null, ?BaseField $applyElement = null, ?BaseField $deleteElement = null, ?BaseField $resetElement = null, ?BaseField $abortElement = null)
-    {
+    public function __construct(
+        AbstractForm $form,
+        private ?BaseField $saveElement = null,
+        private ?BaseField $applyElement = null,
+        private ?BaseField $deleteElement = null,
+        private ?BaseField $resetElement = null,
+        private ?BaseField $abortElement = null,
+    ) {
         parent::__construct('', $form);
-
-        $this->saveElement = $saveElement;
-        $this->applyElement = $applyElement;
-        $this->deleteElement = $deleteElement;
-        $this->resetElement = $resetElement;
-        $this->abortElement = $abortElement;
     }
 
     /**

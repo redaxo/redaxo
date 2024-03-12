@@ -485,7 +485,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     $this->io->warning($warning);
                 }
             } else {
-                $this->io->success(I18n::msg('setup_208', PHP_VERSION));
+                $this->io->success($this->decodeMessage(I18n::msg('setup_208', PHP_VERSION)));
             }
         } else {
             $errors = array_map($this->decodeMessage(...), $errors);

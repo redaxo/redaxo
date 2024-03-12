@@ -9,14 +9,11 @@ use Redaxo\Core\Form\AbstractForm;
  */
 class RawField extends BaseField
 {
-    /** @var string */
-    private $html;
-
     /** @param string $html */
-    public function __construct($html = '', ?AbstractForm $form = null)
-    {
-        $this->html = $html;
-
+    public function __construct(
+        private $html = '',
+        ?AbstractForm $form = null,
+    ) {
         parent::__construct('', $form);
     }
 

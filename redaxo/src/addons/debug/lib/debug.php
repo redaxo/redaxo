@@ -8,7 +8,7 @@ use Redaxo\Core\Database\Sql;
 class rex_debug
 {
     /** @var list<class-string> */
-    private static $ignoreClasses = [
+    private static array $ignoreClasses = [
         rex_extension_debug::class,
         rex_api_function_debug::class,
         self::class,

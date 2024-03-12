@@ -337,7 +337,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
                 $userHistorySession = rex_history_login::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
                 $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [
-                    rex_history_login::class => $userLogin,
+                    'rex_history_login' => $userLogin,
                     'rex_history_session' => $userHistorySession,
                     'rex_history_validtime' => $historyValidTime,
                 ]);
@@ -347,7 +347,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
                     var history_article_id = ' . rex_article::getCurrentId() . ';
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
-                    var history_article_link = "' . $articleLink . '";
+                    var history_article_link = "' . rex_escape($articleLink, 'js') . '";
                 </script>';
         }
     });

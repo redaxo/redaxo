@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.23.0@005e3184fb6de4350a873b9b8c4dc3cede9db762">
+<files psalm-version="5.23.1@8471a896ccea3526b26d082f4461eeea467f10a4">
   <file src="redaxo/src/core/backend.php">
     <TaintedHtml>
       <code><![CDATA['<script nonce="' . rex_response::getNonce() . '">
                     var history_article_id = ' . rex_article::getCurrentId() . ';
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
-                    var history_article_link = "' . $articleLink . '";
+                    var history_article_link = "' . rex_escape($articleLink, 'js') . '";
                 </script>']]></code>
     </TaintedHtml>
     <TaintedTextWithQuotes>
@@ -14,7 +14,7 @@
                     var history_article_id = ' . rex_article::getCurrentId() . ';
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
-                    var history_article_link = "' . $articleLink . '";
+                    var history_article_link = "' . rex_escape($articleLink, 'js') . '";
                 </script>']]></code>
     </TaintedTextWithQuotes>
   </file>

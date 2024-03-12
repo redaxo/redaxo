@@ -6,7 +6,7 @@ use Redaxo\Core\Form\Field\BaseField;
 class rex_form_widget_medialist_element extends BaseField
 {
     /** @var array{category?: int, types?: string, preview?: bool} */
-    private $args = [];
+    private array $args = [];
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter

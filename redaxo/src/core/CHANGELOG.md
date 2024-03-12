@@ -1,6 +1,34 @@
 Changelog
 =========
 
+Version 5.17.0 – 12.03.2024
+---------------------------
+
+### Neu
+
+* `rex_get`/`rex_post` etc.: Es kann ein Array mit möglichen Werten als Typ übergeben werden (@gharlan)
+* `rex_http_exception`: 
+    - Bei 4xx-Fehlercode wird nur noch bei Debug-Mode oder Backend-Admin ins Systemlog geschrieben (@gharlan)
+    - Verwendung an weiteren sinnvollen Stellen mit 4xx-Code (@gharlan)
+* `rex_log_file`: Neue `::factory()`-Methode, Nutzung von `new rex_log_file` ist deprecated (@dergel)
+* `rex_api_function`: Neue Methode `register` um API-Functions explizit registrieren zu können (relevant bei Namespaces) (@gharlan)
+* `rex_form`:
+    - `maxlength`- und `minlength`-Attribute werden automatisch entsprechend des Validators gesetzt (@gharlan)
+    - Neue Methode `disableSpellcheckAndAutoCorrect` um entsprechende Attribute zu setzen (@gharlan)
+* Formularfelder: Validierungen und geeignete weitere Feldattribute ergänzt (@gharlan)
+* HTML-Element `<search>` wird an geeigneten Stellen verwendet (@gharlan)
+* Code-Optimierungen (@tbaddade, @gharlan)
+
+### Bugfixes
+
+* Setup: Bei "Update der Datenbank" kam es bei Charset-Änderungen teils zum Fehler (@gharlan)
+* `rex_file`: `put` und `move` funktionierten teilweise nicht, wenn mehrere Filesysteme/Mounts involviert sind (@dergel)
+* `rex_list`: Der Page-Parameter wurde den Links nicht immer mitgegeben, sodass man nach Löschung z.B. auf der ersten Seite landete (@gharlan)
+* `rex_sql`: In `checkDbConnection` wurde ein relevanter Fehlercode nicht berücksichtigt (@gharlan)
+* Wenn nach Login das Passwort automatisch rehasht wurde, musste man sich danach erneut einloggen (@gharlan)
+* Wenn nach DB-Import der aktuelle Benutzer nicht mehr existiert, kam es zum Fehler (statt nur zum Logout) (@gharlan)
+
+
 Version 5.16.1 – 24.02.2024
 ---------------------------
 

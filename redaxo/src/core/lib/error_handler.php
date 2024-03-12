@@ -7,8 +7,7 @@ use Whoops\Run;
 
 abstract class rex_error_handler
 {
-    /** @var bool */
-    private static $registered = false;
+    private static bool $registered = false;
 
     /**
      * Registers the class as php-error/exception handler.
@@ -302,8 +301,8 @@ abstract class rex_error_handler
         $alwaysThrow = $debug['throw_always_exception'];
 
         if (
-            true === $alwaysThrow ||
-            is_int($alwaysThrow) && $errno === ($errno & $alwaysThrow)
+            true === $alwaysThrow
+            || is_int($alwaysThrow) && $errno === ($errno & $alwaysThrow)
         ) {
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }

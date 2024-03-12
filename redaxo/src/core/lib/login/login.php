@@ -325,8 +325,8 @@ class rex_login
                         $ok = false;
                         $this->message = I18n::msg('login_user_not_found');
                     } elseif (
-                        null !== ($sessionPassword = $this->getSessionVar(self::SESSION_PASSWORD, null)) &&
-                        $this->impersonator->getValue($this->passwordColumn) !== $sessionPassword
+                        null !== ($sessionPassword = $this->getSessionVar(self::SESSION_PASSWORD, null))
+                        && $this->impersonator->getValue($this->passwordColumn) !== $sessionPassword
                     ) {
                         $ok = false;
                         $this->message = I18n::msg('login_session_expired');
@@ -342,9 +342,9 @@ class rex_login
                         $ok = false;
                         $this->message = I18n::msg('login_user_not_found');
                     } elseif (
-                        !$this->impersonator &&
-                        null !== ($sessionPassword = $this->getSessionVar(self::SESSION_PASSWORD, null)) &&
-                        (string) $this->user->getValue($this->passwordColumn) !== $sessionPassword
+                        !$this->impersonator
+                        && null !== ($sessionPassword = $this->getSessionVar(self::SESSION_PASSWORD, null))
+                        && (string) $this->user->getValue($this->passwordColumn) !== $sessionPassword
                     ) {
                         $ok = false;
                         $this->message = I18n::msg('login_session_expired');

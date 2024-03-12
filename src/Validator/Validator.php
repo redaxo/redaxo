@@ -12,9 +12,9 @@ class Validator
     use rex_factory_trait;
 
     /** @var list<ValidationRule> */
-    private $rules = [];
-    /** @var string|null */
-    private $message;
+    private array $rules = [];
+
+    private ?string $message = null;
 
     protected function __construct()
     {

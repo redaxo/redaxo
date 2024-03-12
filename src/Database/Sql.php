@@ -2002,9 +2002,7 @@ class Sql implements Iterator
                 $errMsg = I18n::msg('sql_unable_to_connect_database');
             }
             // ER_BAD_DB_ERROR
-            elseif (str_contains($e->getMessage(), 'SQLSTATE[HY000] [1049]') ||
-                    str_contains($e->getMessage(), 'SQLSTATE[42000]')
-            ) {
+            elseif (str_contains($e->getMessage(), 'SQLSTATE[HY000] [1049]') || str_contains($e->getMessage(), 'SQLSTATE[42000]')) {
                 if ($createDb) {
                     try {
                         // use the "mysql" db for the connection
@@ -2032,10 +2030,10 @@ class Sql implements Iterator
             // ER_DBACCESS_DENIED_ERROR
             // ER_ACCESS_DENIED_NO_PASSWORD_ERROR
             elseif (
-                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1045]') ||
-                str_contains($e->getMessage(), 'SQLSTATE[28000]') ||
-                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]') ||
-                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1698]')
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1045]')
+                || str_contains($e->getMessage(), 'SQLSTATE[28000]')
+                || str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]')
+                || str_contains($e->getMessage(), 'SQLSTATE[HY000] [1698]')
             ) {
                 // unable to connect to db
                 $errMsg = I18n::msg('sql_unable_to_connect_database');

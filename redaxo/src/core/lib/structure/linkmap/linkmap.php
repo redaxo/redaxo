@@ -5,13 +5,9 @@
  */
 class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
 {
-    /** @var rex_context */
-    private $context;
-
-    public function __construct(rex_context $context)
-    {
-        $this->context = $context;
-    }
+    public function __construct(
+        private rex_context $context,
+    ) {}
 
     /**
      * @return string
@@ -46,13 +42,9 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
  */
 class rex_linkmap_article_list extends rex_linkmap_article_list_renderer
 {
-    /** @var rex_context */
-    private $context;
-
-    public function __construct(rex_context $context)
-    {
-        $this->context = $context;
-    }
+    public function __construct(
+        private rex_context $context,
+    ) {}
 
     /**
      * @return string

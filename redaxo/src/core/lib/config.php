@@ -14,10 +14,8 @@ class rex_config
 {
     /**
      * Flag to indicate if the config was initialized.
-     *
-     * @var bool
      */
-    private static $initialized = false;
+    private static bool $initialized = false;
 
     /**
      * path to the cache file.
@@ -28,31 +26,29 @@ class rex_config
 
     /**
      * Flag which indicates if database needs an update, because settings have changed.
-     *
-     * @var bool
      */
-    private static $changed = false;
+    private static bool $changed = false;
 
     /**
      * data read from database.
      *
      * @var array<string, array<string, mixed>>
      */
-    private static $data = [];
+    private static array $data = [];
 
     /**
      * data which is modified during this request.
      *
      * @var array<string, array<string, mixed>>
      */
-    private static $changedData = [];
+    private static array $changedData = [];
 
     /**
      * data which was deleted during this request.
      *
      * @var array<string, array<string, true>>
      */
-    private static $deletedData = [];
+    private static array $deletedData = [];
 
     /**
      * Method which saves an arbitary value associated to the given namespace and key.
@@ -68,7 +64,7 @@ class rex_config
      *
      * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
-    public static function set($namespace, $key, $value = null)
+    public static function set($namespace, $key, $value = null): bool
     {
         self::init();
 
@@ -150,7 +146,7 @@ class rex_config
      *
      * @return bool TRUE if the key is set, otherwise FALSE
      */
-    public static function has($namespace, $key = null)
+    public static function has($namespace, $key = null): bool
     {
         self::init();
 
@@ -179,7 +175,7 @@ class rex_config
      *
      * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
-    public static function remove($namespace, $key)
+    public static function remove($namespace, $key): bool
     {
         self::init();
 
@@ -220,7 +216,7 @@ class rex_config
      *
      * @return bool TRUE if the namespace was found and removed, otherwise FALSE
      */
-    public static function removeNamespace($namespace)
+    public static function removeNamespace($namespace): bool
     {
         self::init();
 
@@ -242,9 +238,8 @@ class rex_config
 
     /**
      * Refreshes rex_config by reloading config from db.
-     * @return void
      */
-    public static function refresh()
+    public static function refresh(): void
     {
         if (!self::$initialized) {
             self::init();
@@ -308,7 +303,7 @@ class rex_config
      *
      * @return bool Returns TRUE, if the data was successfully loaded from the file-cache, otherwise FALSE
      */
-    private static function loadFromFile()
+    private static function loadFromFile(): bool
     {
         // delete cache-file, will be regenerated on next request
         if (is_file(self::$cacheFile)) {
@@ -320,9 +315,8 @@ class rex_config
 
     /**
      * load the config-data from database.
-     * @return void
      */
-    private static function loadFromDb()
+    private static function loadFromDb(): void
     {
         $sql = Sql::factory();
         $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'config');
@@ -335,9 +329,8 @@ class rex_config
 
     /**
      * save config to file-cache.
-     * @return void
      */
-    private static function generateCache()
+    private static function generateCache(): void
     {
         if (File::putCache(self::$cacheFile, self::$data) <= 0) {
             throw new rex_exception('rex-config: unable to write cache file ' . self::$cacheFile);
@@ -346,9 +339,8 @@ class rex_config
 
     /**
      * persists the config-data and truncates the file-cache.
-     * @return void
      */
-    public static function save()
+    public static function save(): void
     {
         // save cache only if changes happened
         if (!self::$changed) {
@@ -372,9 +364,8 @@ class rex_config
 
     /**
      * save the config-data into the db.
-     * @return void
      */
-    private static function saveToDb()
+    private static function saveToDb(): void
     {
         $sql = Sql::factory();
         // $sql->setDebug();

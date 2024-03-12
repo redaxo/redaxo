@@ -3,7 +3,7 @@
 trait rex_instance_pool_trait
 {
     /** @var array<class-string, array<string, static|null>> */
-    private static $instances = [];
+    private static array $instances = [];
 
     private function __construct()
     {
