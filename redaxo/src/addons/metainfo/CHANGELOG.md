@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.11.0 – 12.03.2024
+---------------------------
+
+### Bugfixes
+
+* Metainfo-Sidebar: Beim Status-Wechsel-Link wurde die aktuelle Sprache nicht mitgegeben (@gharlan)
+* Nach DB-Import wurde die Cleanup-Routine nicht korrekt ausgeführt (@gharlan)
+
+
 Version 2.10.1 – 09.02.2024
 ---------------------------
 

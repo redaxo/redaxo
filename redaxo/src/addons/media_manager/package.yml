@@ -1,5 +1,5 @@
 package: media_manager
-version: '2.15.0'
+version: '2.16.0'
 author: 'Markus Staab, Jan Kristinus'
 supportpage: https://github.com/redaxo/redaxo
 
@@ -19,7 +19,7 @@ requires:
     php:
         version: '>=8.1'
         extensions: [gd]
-    redaxo: ^5.17.0-dev
+    redaxo: ^5.17.0
 
 default_config:
     jpg_quality: 80

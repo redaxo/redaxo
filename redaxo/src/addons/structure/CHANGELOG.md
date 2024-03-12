@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.17.0 – 12.03.2024
+---------------------------
+
+### Bugfixes
+
+* Der Templatename wurde in der Struktur ohne Escaping ausgegeben (@gharlan)
+* Create/Update-Felder (Datum/Benutzer) wurden teils nicht korrekt gesetzt (@gharlan)
+* `rex_module::forKey`: Im Objekt war der Key anschließend nicht gesetzt (@gharlan)
+
+
 Version 2.16.0 – 09.02.2024
 ---------------------------
 
