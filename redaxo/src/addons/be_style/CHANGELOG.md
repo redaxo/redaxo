@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 3.4.0 – 12.03.2024
+--------------------------
+
+* Login-Seite: Neues Hintergrundbild (@gharlan)
+
+
 Version 3.3.1 – 24.02.2024
 --------------------------
 
