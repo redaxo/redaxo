@@ -411,9 +411,8 @@ class rex_navigation
                 $link = $this->getLinkTag($nav, $aContent, $a, $depth);
 
                 ++$depth;
-                if (($this->open ||
-                        $nav->getId() == $this->currentCategoryId ||
-                        in_array($nav->getId(), $this->path))
+                if (
+                    ($this->open || $nav->getId() == $this->currentCategoryId || in_array($nav->getId(), $this->path))
                     && ($this->depth >= $depth || $this->depth < 0)
                 ) {
                     $link .= "\n" . $this->_getNavigation($nav->getId(), $depth);

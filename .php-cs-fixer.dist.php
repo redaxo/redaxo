@@ -1,10 +1,13 @@
 <?php
 
+use PhpCsFixer\Finder;
+use Redaxo\PhpCsFixerConfig\Config;
+
 $src = __DIR__ . '/redaxo/src';
 $bootPath = realpath($src . '/core/boot.php');
 $tools = __DIR__ . '/.tools';
 
-$finder = PhpCsFixer\Finder::create()
+$finder = Finder::create()
     ->in([
         $src . '/core',
         $src . '/addons/backup',
@@ -25,6 +28,7 @@ $finder = PhpCsFixer\Finder::create()
         __FILE__,
         __DIR__ . '/rector.php',
         $tools . '/bin/clone-addon',
+        $tools . '/bin/reinstall-core',
         $tools . '/bin/release',
         $tools . '/bin/update-root-composer',
     ])
@@ -33,6 +37,6 @@ $finder = PhpCsFixer\Finder::create()
     })
 ;
 
-return (new Redaxo\PhpCsFixerConfig\Config())
+return Config::redaxo5()
     ->setFinder($finder)
 ;

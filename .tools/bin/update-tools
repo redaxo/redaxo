@@ -16,3 +16,7 @@ composer require --dev --ansi --fixed \
     vimeo/psalm
 
 composer update --ansi
+
+composer bump --ansi \
+    jetbrains/phpstorm-attributes \
+    phpunit/phpunit

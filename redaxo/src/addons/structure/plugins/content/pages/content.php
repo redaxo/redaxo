@@ -359,13 +359,13 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         }
         // If the user has none of the content function permissions the page 'functions' will not be displayed
         if (
-            'functions' != $subpage->getKey() ||
-            $user->hasPerm('article2category[]') ||
-            $user->hasPerm('article2startarticle[]') ||
-            $user->hasPerm('copyArticle[]') ||
-            $user->hasPerm('moveArticle[]') ||
-            $user->hasPerm('moveCategory[]') ||
-            ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() > 1)
+            'functions' != $subpage->getKey()
+            || $user->hasPerm('article2category[]')
+            || $user->hasPerm('article2startarticle[]')
+            || $user->hasPerm('copyArticle[]')
+            || $user->hasPerm('moveArticle[]')
+            || $user->hasPerm('moveCategory[]')
+            || ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() > 1)
         ) {
             if ($subpage->getItemAttr('left')) {
                 $leftNav->addPage($subpage);

@@ -155,10 +155,10 @@ class rex_sql_foreign_key
     public function equals(self $index)
     {
         return
-            $this->name === $index->name &&
-            $this->table === $index->table &&
-            $this->columns === $index->columns &&
-            $this->onUpdate === $index->onUpdate &&
-            $this->onDelete === $index->onDelete;
+            $this->name === $index->name
+            && $this->table === $index->table
+            && $this->columns === $index->columns
+            && $this->onUpdate === $index->onUpdate
+            && $this->onDelete === $index->onDelete;
     }
 }

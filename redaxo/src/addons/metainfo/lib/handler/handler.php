@@ -145,9 +145,7 @@ abstract class rex_metainfo_handler
                         foreach ($valueGroups as $valueGroup) {
                             // check ob key:value paar
                             // und der wert beginnt nicht mit "translate:"
-                            if (str_contains($valueGroup, ':') &&
-                                 !str_starts_with($valueGroup, 'translate:')
-                            ) {
+                            if (str_contains($valueGroup, ':') && !str_starts_with($valueGroup, 'translate:')) {
                                 $temp = explode(':', $valueGroup, 2);
                                 $values[$temp[0]] = rex_i18n::translate($temp[1]);
                             } else {
@@ -256,9 +254,7 @@ abstract class rex_metainfo_handler
                         foreach ($valueGroups as $valueGroup) {
                             // check ob key:value paar
                             // und der wert beginnt nicht mit "translate:"
-                            if (str_contains($valueGroup, ':') &&
-                                 !str_starts_with($valueGroup, 'translate:')
-                            ) {
+                            if (str_contains($valueGroup, ':') && !str_starts_with($valueGroup, 'translate:')) {
                                 $temp = explode(':', $valueGroup, 2);
                                 $values[$temp[0]] = rex_i18n::translate($temp[1]);
                             } else {
@@ -616,8 +612,9 @@ abstract class rex_metainfo_handler
                 $saveValue = '|' . implode('|', $postValue) . '|';
             } else {
                 $postValue = $postValue[0] ?? '';
-                if (rex_metainfo_table_manager::FIELD_SELECT == $fieldType && str_contains($fieldAttributes, 'multiple') ||
-                     rex_metainfo_table_manager::FIELD_CHECKBOX == $fieldType
+                if (
+                    rex_metainfo_table_manager::FIELD_SELECT == $fieldType && str_contains($fieldAttributes, 'multiple')
+                    || rex_metainfo_table_manager::FIELD_CHECKBOX == $fieldType
                 ) {
                     // Mehrwertiges Feld, aber nur ein Wert ausgewählt
                     $saveValue = '|' . $postValue . '|';

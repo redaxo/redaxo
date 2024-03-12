@@ -377,9 +377,9 @@ class rex_cronjob_manager_sql
         $validateTime();
 
         if (
-            !$isValid($interval['days'], $date->format('j')) ||
-            !$isValid($interval['weekdays'], $date->format('w')) ||
-            !$isValid($interval['months'], $date->format('n'))
+            !$isValid($interval['days'], $date->format('j'))
+            || !$isValid($interval['weekdays'], $date->format('w'))
+            || !$isValid($interval['months'], $date->format('n'))
         ) {
             $date->setTime(0, 0, 0);
             $validateTime();

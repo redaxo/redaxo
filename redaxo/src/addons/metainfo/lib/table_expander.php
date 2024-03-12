@@ -285,8 +285,8 @@ class rex_metainfo_table_expander extends rex_form
             $fieldDbLength = (int) $result[0]['dblength'];
 
             if (
-                strlen($fieldDefault) &&
-                (rex_metainfo_table_manager::FIELD_CHECKBOX === $fieldType || rex_metainfo_table_manager::FIELD_SELECT === $fieldType && isset(rex_string::split($fieldAttributes)['multiple']))
+                strlen($fieldDefault)
+                && (rex_metainfo_table_manager::FIELD_CHECKBOX === $fieldType || rex_metainfo_table_manager::FIELD_SELECT === $fieldType && isset(rex_string::split($fieldAttributes)['multiple']))
             ) {
                 $fieldDefault = '|' . trim($fieldDefault, '|') . '|';
             }

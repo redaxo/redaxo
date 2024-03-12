@@ -921,8 +921,8 @@ class rex_sql_table
         if (null === $default) {
             $default = '';
         } elseif (
-            in_array(strtolower($column->getType()), ['timestamp', 'datetime'], true) &&
-            in_array(strtolower($default), ['current_timestamp', 'current_timestamp()'], true)
+            in_array(strtolower($column->getType()), ['timestamp', 'datetime'], true)
+            && in_array(strtolower($default), ['current_timestamp', 'current_timestamp()'], true)
         ) {
             $default = 'DEFAULT ' . $default;
         } else {

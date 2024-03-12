@@ -80,8 +80,8 @@ class rex_category extends rex_structure_element
      */
     public function isParent(self $otherCat)
     {
-        return $this->getId() == $otherCat->getParentId() &&
-             $this->getClangId() == $otherCat->getClangId();
+        return $this->getId() == $otherCat->getParentId()
+             && $this->getClangId() == $otherCat->getClangId();
     }
 
     /**
