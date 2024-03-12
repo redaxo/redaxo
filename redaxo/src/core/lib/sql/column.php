@@ -166,11 +166,11 @@ class rex_sql_column
     public function equals(self $column)
     {
         return
-            $this->name === $column->name &&
-            $this->type === $column->type &&
-            $this->nullable === $column->nullable &&
-            $this->default === $column->default &&
-            $this->extra === $column->extra &&
-            $this->comment === $column->comment;
+            $this->name === $column->name
+            && $this->type === $column->type
+            && $this->nullable === $column->nullable
+            && $this->default === $column->default
+            && $this->extra === $column->extra
+            && $this->comment === $column->comment;
     }
 }

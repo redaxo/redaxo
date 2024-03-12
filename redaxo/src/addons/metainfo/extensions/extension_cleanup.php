@@ -21,9 +21,10 @@ function rex_metainfo_cleanup($epOrParams)
 {
     $params = $epOrParams instanceof rex_extension_point ? $epOrParams->getParams() : $epOrParams;
     // Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
-    if (isset($params['force']) && true != $params['force'] &&
-        !str_contains($params['content'], 'CREATE TABLE `' . rex::getTablePrefix() . 'article`') &&
-        !str_contains($params['content'], 'CREATE TABLE ' . rex::getTablePrefix() . 'article')
+    if (
+        isset($params['force']) && true != $params['force']
+        && !str_contains($params['content'], 'CREATE TABLE `' . rex::getTablePrefix() . 'article`')
+        && !str_contains($params['content'], 'CREATE TABLE ' . rex::getTablePrefix() . 'article')
     ) {
         return;
     }

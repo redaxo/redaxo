@@ -10,8 +10,9 @@ $zipArchive = new ZipArchive();
 $path = __DIR__ . '/assets/vendor/codemirror.zip';
 
 try {
-    if (true === $zipArchive->open($path) &&
-        $zipArchive->extractTo($plugin->getAssetsPath('vendor/'))
+    if (
+        true === $zipArchive->open($path)
+        && $zipArchive->extractTo($plugin->getAssetsPath('vendor/'))
     ) {
         $zipArchive->close();
     } else {

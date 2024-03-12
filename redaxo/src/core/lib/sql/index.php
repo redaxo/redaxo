@@ -111,8 +111,8 @@ class rex_sql_index
     public function equals(self $index)
     {
         return
-            $this->name === $index->name &&
-            $this->type === $index->type &&
-            $this->columns === $index->columns;
+            $this->name === $index->name
+            && $this->type === $index->type
+            && $this->columns === $index->columns;
     }
 }
