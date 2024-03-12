@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_type_test extends TestCase
 {
-    /** @return list<array{mixed, string|callable(mixed):mixed|list<int|string>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}>, mixed}> */
+    /** @return list<array{mixed, string|callable(mixed):mixed|list<int|string|BackedEnum>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}>, mixed}> */
     public static function castProvider(): array
     {
         $callback = static function ($var) {
@@ -37,8 +37,11 @@ class rex_type_test extends TestCase
             ['a', $callback, 'ab'],
             ['bar', ['foo', 'bar', 'baz'], 'bar'],
             ['qux', ['foo', 'bar', 'baz'], 'foo'],
-            [2, [1, 2, 4], 2],
+            ['qux', ['foo', 'bar', 'baz'], 'foo'],
+            ['2', [1, 2, 4], 2],
             [3, [1, 2, 4], 1],
+            ['bar', rex_type_test_enum_string::cases(), rex_type_test_enum_string::Bar],
+            ['2', rex_type_test_enum_int::cases(), rex_type_test_enum_int::Bar],
             [$arrayVar, $arrayCasts, $arrayExpected],
             [
                 ['k' => $arrayVar],
@@ -57,7 +60,7 @@ class rex_type_test extends TestCase
         ];
     }
 
-    /** @param string|callable(mixed):mixed|list<int|string>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype */
+    /** @param string|callable(mixed):mixed|list<int|string|BackedEnum>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype */
     #[DataProvider('castProvider')]
     public function testCast(mixed $var, string|callable|array $vartype, mixed $expectedResult): void
     {
@@ -87,4 +90,16 @@ class rex_type_test extends TestCase
         /** @psalm-suppress MixedArgument */
         rex_type::cast(1, $vartype);
     }
+}
+
+enum rex_type_test_enum_string: string
+{
+    case Foo = 'foo';
+    case Bar = 'bar';
+}
+
+enum rex_type_test_enum_int: int
+{
+    case Foo = 1;
+    case Bar = 2;
 }

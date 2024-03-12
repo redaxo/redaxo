@@ -32,7 +32,7 @@ class rex_type
      *    ]
      *
      * @param mixed $var Variable to cast
-     * @param string|callable(mixed):mixed|list<int|string|null>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype Variable type
+     * @param string|callable(mixed):mixed|list<int|string|BackedEnum|null>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype Variable type
      *
      * @throws InvalidArgumentException
      *
@@ -122,7 +122,7 @@ class rex_type
         foreach ($vartype as $cast) {
             if (is_array($cast)) {
                 $shape = true;
-            } elseif (is_scalar($cast) || null === $cast) {
+            } elseif (is_scalar($cast) || null === $cast || $cast instanceof BackedEnum) {
                 $oneOf = true;
             } else {
                 throw new InvalidArgumentException('Unexpected vartype in cast()!');
@@ -134,8 +134,9 @@ class rex_type
 
         if ($oneOf) {
             foreach ($vartype as $cast) {
-                $castedVar = null === $cast ? $var : self::cast($var, gettype($cast));
-                if ($castedVar === $cast) {
+                $castValue = $cast instanceof BackedEnum ? $cast->value : $cast;
+                $castedVar = null === $cast ? $var : self::cast($var, gettype($castValue));
+                if ($castedVar === $castValue) {
                     return $cast;
                 }
             }
