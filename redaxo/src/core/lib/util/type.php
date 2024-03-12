@@ -24,14 +24,15 @@ class rex_type
      *  - 'array[<type>]', e.g. 'array[int]'
      *  - '' (don't cast)
      *  - a callable
-     *  - array(
-     *      array(<key>, <vartype>, <default>),
-     *      array(<key>, <vartype>, <default>),
+     *  - ['foo', 'bar', 'baz'] (cast to ony of the given values)
+     *  - [
+     *      [<key>, <vartype>, <default>],
+     *      [<key>, <vartype>, <default>],
      *      ...
-     *    )
+     *    ]
      *
      * @param mixed $var Variable to cast
-     * @param string|callable(mixed):mixed|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype Variable type
+     * @param string|callable(mixed):mixed|list<int|string|BackedEnum|null>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype Variable type
      *
      * @throws InvalidArgumentException
      *
@@ -112,8 +113,34 @@ class rex_type
         if (is_string($vartype)) {
             throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
         }
-        if (!is_array($vartype)) {
+        if (!is_array($vartype) || [] === $vartype) {
             throw new InvalidArgumentException('Unexpected vartype in cast()!');
+        }
+
+        $oneOf = false;
+        $shape = false;
+        foreach ($vartype as $cast) {
+            if (is_array($cast)) {
+                $shape = true;
+            } elseif (is_scalar($cast) || null === $cast || $cast instanceof BackedEnum) {
+                $oneOf = true;
+            } else {
+                throw new InvalidArgumentException('Unexpected vartype in cast()!');
+            }
+        }
+        if ($oneOf && $shape) {
+            throw new InvalidArgumentException('Unexpected vartype in cast()!');
+        }
+
+        if ($oneOf) {
+            foreach ($vartype as $cast) {
+                $castValue = $cast instanceof BackedEnum ? $cast->value : $cast;
+                $castedVar = null === $cast ? $var : self::cast($var, gettype($castValue));
+                if ($castedVar === $castValue) {
+                    return $cast;
+                }
+            }
+            return $vartype[array_key_first($vartype)];
         }
 
         $var = self::cast($var, 'array');
@@ -125,9 +152,14 @@ class rex_type
 
             $key = $cast[0];
             $innerVartype = $cast[1] ?? '';
+            $default = array_key_exists(2, $cast) ? $cast[2] : '';
             if (array_key_exists($key, $var)) {
+                if (is_array($innerVartype) && '' !== $default && is_scalar($innerVartype[0] ?? null) && $innerVartype[0] !== $default) {
+                    array_unshift($innerVartype, $default);
+                }
+
                 $newVar[$key] = self::cast($var[$key], $innerVartype);
-            } elseif (!isset($cast[2])) {
+            } elseif ('' === $default) {
                 $newVar[$key] = self::cast('', $innerVartype);
             } else {
                 $newVar[$key] = $cast[2];
