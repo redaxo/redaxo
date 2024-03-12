@@ -4782,6 +4782,7 @@
     <MixedAssignment>
       <code><![CDATA[$cast]]></code>
       <code><![CDATA[$cast]]></code>
+      <code><![CDATA[$castValue]]></code>
       <code><![CDATA[$castedVar]]></code>
       <code><![CDATA[$default]]></code>
       <code><![CDATA[$innerVartype]]></code>
