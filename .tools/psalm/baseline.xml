@@ -4771,12 +4771,20 @@
       <code><![CDATA[$innerVartype]]></code>
       <code><![CDATA[$key]]></code>
     </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$vartype[array_key_first($vartype)]]]></code>
+    </MixedArrayAccess>
     <MixedArrayOffset>
       <code><![CDATA[$newVar[$key]]]></code>
       <code><![CDATA[$newVar[$key]]]></code>
       <code><![CDATA[$newVar[$key]]]></code>
     </MixedArrayOffset>
     <MixedAssignment>
+      <code><![CDATA[$cast]]></code>
+      <code><![CDATA[$cast]]></code>
+      <code><![CDATA[$castValue]]></code>
+      <code><![CDATA[$castedVar]]></code>
+      <code><![CDATA[$default]]></code>
       <code><![CDATA[$innerVartype]]></code>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$newVar[$key]]]></code>
@@ -4785,8 +4793,20 @@
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$var[$key]]]></code>
     </MixedAssignment>
+    <NoValue>
+      <code><![CDATA[$vartype]]></code>
+    </NoValue>
+    <NullArrayOffset>
+      <code><![CDATA[$vartype[array_key_first($vartype)]]]></code>
+    </NullArrayOffset>
+    <PossiblyNullArrayOffset>
+      <code><![CDATA[$vartype]]></code>
+    </PossiblyNullArrayOffset>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$cast[2]]]></code>
+    </PossiblyUndefinedArrayOffset>
     <RedundantCondition>
-      <code><![CDATA[is_array($vartype)]]></code>
+      <code><![CDATA[!is_array($vartype)]]></code>
     </RedundantCondition>
   </file>
   <file src="redaxo/src/core/lib/util/validator.php">
