@@ -12,16 +12,10 @@ class rex_backend_login extends rex_login
 
     private const SESSION_PASSWORD_CHANGE_REQUIRED = 'password_change_required';
 
-    /** @var string */
-    private $tableName;
-
+    private string $tableName;
     private ?string $passkey = null;
-
-    /** @var bool|null */
-    private $stayLoggedIn;
-
-    /** @var rex_backend_password_policy */
-    private $passwordPolicy;
+    private bool $stayLoggedIn = false;
+    private rex_backend_password_policy $passwordPolicy;
 
     public function __construct()
     {
@@ -74,7 +68,7 @@ class rex_backend_login extends rex_login
             $stayLoggedIn = false;
         }
 
-        $this->stayLoggedIn = $stayLoggedIn;
+        $this->stayLoggedIn = (bool) $stayLoggedIn;
     }
 
     public function checkLogin()

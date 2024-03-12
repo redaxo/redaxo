@@ -14,7 +14,7 @@ abstract class rex_system_setting
      *
      * @var list<self>
      */
-    private static $settings = [];
+    private static array $settings = [];
 
     /**
      * Returns the setting key.

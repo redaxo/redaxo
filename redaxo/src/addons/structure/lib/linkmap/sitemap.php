@@ -7,13 +7,9 @@
  */
 class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
 {
-    /** @var rex_context */
-    private $context;
-
-    public function __construct(rex_context $context)
-    {
-        $this->context = $context;
-    }
+    public function __construct(
+        private rex_context $context,
+    ) {}
 
     public function getTree($categoryId)
     {

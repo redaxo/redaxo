@@ -10,16 +10,12 @@
 
 class rex_cronjob_manager_sql
 {
-    /** @var rex_sql */
-    private $sql;
-    /** @var rex_cronjob_manager|null */
-    private $manager;
+    private rex_sql $sql;
 
-    private function __construct(?rex_cronjob_manager $manager = null)
-    {
+    private function __construct(
+        private ?rex_cronjob_manager $manager = null,
+    ) {
         $this->sql = rex_sql::factory();
-        // $this->sql->setDebug();
-        $this->manager = $manager;
     }
 
     /**

@@ -11,11 +11,8 @@
  */
 class rex_metainfo_table_expander extends rex_form
 {
-    /** @var string */
-    private $metaPrefix;
-
-    /** @var rex_metainfo_table_manager */
-    private $tableManager;
+    private string $metaPrefix;
+    private rex_metainfo_table_manager $tableManager;
 
     /**
      * @param 'post'|'get' $method

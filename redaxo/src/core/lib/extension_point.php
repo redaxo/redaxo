@@ -13,16 +13,8 @@
  */
 class rex_extension_point
 {
-    /** @var string */
-    private $name;
-    /** @var T */
-    private $subject;
     /** @var array<string, mixed> */
-    private $params = [];
-    /** @var array<string, mixed> */
-    private $extensionParams = [];
-    /** @var bool */
-    private $readonly = false;
+    private array $extensionParams = [];
 
     /**
      * @param string $name
@@ -30,13 +22,12 @@ class rex_extension_point
      * @param array<string, mixed> $params
      * @param bool $readonly
      */
-    public function __construct($name, $subject = null, array $params = [], $readonly = false)
-    {
-        $this->name = $name;
-        $this->subject = $subject;
-        $this->params = $params;
-        $this->readonly = $readonly;
-    }
+    public function __construct(
+        private $name,
+        private $subject = null,
+        private array $params = [],
+        private $readonly = false,
+    ) {}
 
     /**
      * Returns the name.

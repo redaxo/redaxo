@@ -49,18 +49,14 @@ interface rex_context_provider_interface extends rex_url_provider_interface
  */
 class rex_context implements rex_context_provider_interface
 {
-    /** @var array<string, mixed> */
-    private $globalParams;
-
     /**
      * Constructs a rex_context with the given global parameters.
      *
      * @param array<string, mixed> $globalParams A array containing only scalar values for key/value
      */
-    public function __construct(array $globalParams = [])
-    {
-        $this->globalParams = $globalParams;
-    }
+    public function __construct(
+        private array $globalParams = [],
+    ) {}
 
     public function getUrl(array $params = [], $escape = true)
     {

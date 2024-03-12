@@ -7,14 +7,11 @@
  */
 class rex_form_raw_element extends rex_form_element
 {
-    /** @var string */
-    private $html;
-
     /** @param string $html */
-    public function __construct($html = '', ?rex_form_base $form = null)
-    {
-        $this->html = $html;
-
+    public function __construct(
+        private $html = '',
+        ?rex_form_base $form = null,
+    ) {
         parent::__construct('', $form);
     }
 

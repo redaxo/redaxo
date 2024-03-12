@@ -6,7 +6,7 @@
 abstract class rex_form_options_element extends rex_form_element
 {
     /** @var array<string, string|int> */
-    private $options = [];
+    private array $options = [];
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter

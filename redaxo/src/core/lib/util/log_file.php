@@ -212,17 +212,15 @@ class rex_log_entry
 {
     public const DATE_FORMAT = 'Y-m-d\TH:i:sP';
 
-    /** @var int */
-    private $timestamp;
+    private int $timestamp;
 
     /** @var list<string> */
-    private $data;
+    private array $data;
 
     /**
-     * @param int $timestamp Timestamp
      * @param list<string|int> $data Log data
      */
-    public function __construct($timestamp, array $data)
+    public function __construct(int $timestamp, array $data)
     {
         $this->timestamp = $timestamp;
         $this->data = array_map('strval', $data);

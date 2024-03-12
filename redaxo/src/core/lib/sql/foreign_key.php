@@ -14,39 +14,20 @@ class rex_sql_foreign_key
     public const CASCADE = 'CASCADE';
     public const SET_NULL = 'SET NULL';
 
-    /** @var string */
-    private $name;
-
-    /** @var string */
-    private $table;
-
-    /** @var array<string, string> */
-    private $columns;
-
-    /** @var self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL */
-    private $onUpdate;
-
-    /** @var self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL */
-    private $onDelete;
-
-    /** @var bool */
-    private $modified = false;
+    private bool $modified = false;
 
     /**
-     * @param string $name
-     * @param string $table
      * @param array<string, string> $columns Mapping of locale column to column in foreign table
      * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onUpdate
      * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onDelete
      */
-    public function __construct($name, $table, array $columns, $onUpdate = self::RESTRICT, $onDelete = self::RESTRICT)
-    {
-        $this->name = $name;
-        $this->table = $table;
-        $this->columns = $columns;
-        $this->onUpdate = $onUpdate;
-        $this->onDelete = $onDelete;
-    }
+    public function __construct(
+        private string $name,
+        private string $table,
+        private array $columns,
+        private string $onUpdate = self::RESTRICT,
+        private string $onDelete = self::RESTRICT,
+    ) {}
 
     /**
      * @param bool $modified

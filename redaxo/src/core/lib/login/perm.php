@@ -18,7 +18,7 @@ abstract class rex_perm
      *
      * @var array<self::*, array<string, string>>
      */
-    private static $perms = [];
+    private static array $perms = [];
 
     /**
      * Registers a new permission.

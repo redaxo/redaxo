@@ -9,11 +9,8 @@
  */
 class rex_input_datetime extends rex_input
 {
-    /** @var rex_input_date */
-    private $dateInput;
-
-    /** @var rex_input_time */
-    private $timeInput;
+    private rex_input_date $dateInput;
+    private rex_input_time $timeInput;
 
     public function __construct()
     {

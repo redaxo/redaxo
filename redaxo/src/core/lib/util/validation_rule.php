@@ -17,24 +17,16 @@ final class rex_validation_rule
     public const VALUES = 'values';
     public const CUSTOM = 'custom';
 
-    /** @var rex_validation_rule::*|string */
-    private $type;
-    /** @var string|null */
-    private $message;
-    /** @var mixed */
-    private $option;
-
     /**
      * @param rex_validation_rule::*|string $type Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory
      * @param string|null $message Message which is used if this validator type does not match
      * @param mixed $option Type specific option
      */
-    public function __construct(string $type, ?string $message = null, $option = null)
-    {
-        $this->type = $type;
-        $this->message = $message;
-        $this->option = $option;
-    }
+    public function __construct(
+        private string $type,
+        private ?string $message = null,
+        private mixed $option = null,
+    ) {}
 
     /**
      * Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory.

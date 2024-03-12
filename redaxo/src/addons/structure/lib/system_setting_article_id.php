@@ -11,16 +11,9 @@
  */
 class rex_system_setting_article_id extends rex_system_setting
 {
-    /** @var string */
-    private $key;
-
-    /**
-     * @param string $key Key
-     */
-    public function __construct($key)
-    {
-        $this->key = $key;
-    }
+    public function __construct(
+        private string $key,
+    ) {}
 
     public function getKey()
     {

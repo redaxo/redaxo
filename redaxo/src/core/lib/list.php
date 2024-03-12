@@ -67,13 +67,12 @@ class rex_list implements rex_url_provider_interface
     /** @var string */
     private $name;
     /** @var array<string, string|int> */
-    private $params;
-    /** @var int */
-    private $rows;
+    private array $params;
+    private int $rows;
 
     // --------- Form Attributes
     /** @var array<string, string|int> */
-    private $formAttributes;
+    private array $formAttributes;
 
     //  --------- Row Attributes
     /** @var array<string, string|int>|callable(self):string */
@@ -81,41 +80,40 @@ class rex_list implements rex_url_provider_interface
 
     // --------- Column Attributes
     /** @var array<string, string> */
-    private $customColumns;
+    private array $customColumns;
     /** @var list<string> */
     private $columnNames;
     /** @var array<string, string> */
-    private $columnLabels;
+    private array $columnLabels;
     /** @var array<string, array{string, mixed, array<mixed>}> */
     private $columnFormates;
     /** @var array<string, array<string|int, mixed>> */
-    private $columnOptions;
+    private array $columnOptions;
     /** @var array<string, array{string, string}> */
-    private $columnLayouts;
+    private array $columnLayouts;
     /** @var array<string, array> */
     private $columnParams;
     /** @var list<string> */
-    private $columnDisabled;
+    private array $columnDisabled;
 
     // --------- Layout, Default
     /** @var array{string, string} */
-    private $defaultColumnLayout;
+    private array $defaultColumnLayout;
 
     // --------- Table Attributes
     /** @var string */
     private $caption;
     /** @var array<string, string|int> */
-    private $tableAttributes;
+    private array $tableAttributes;
     /** @var array<int, array> */
     private $tableColumnGroups;
 
     // --------- Link Attributes
     /** @var array<string, array<string, string|int>> */
-    private $linkAttributes;
+    private array $linkAttributes;
 
     // --------- Pagination Attributes
-    /** @var rex_pager|null */
-    private $pager;
+    private ?rex_pager $pager = null;
 
     /**
      * Erstellt ein rex_list Objekt.
