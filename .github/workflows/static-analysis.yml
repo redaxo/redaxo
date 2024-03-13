@@ -2,7 +2,7 @@ name: Static Analysis
 
 on:
     push:
-        branches: [main, bugfix, temp]
+        branches: [main, temp]
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
 
