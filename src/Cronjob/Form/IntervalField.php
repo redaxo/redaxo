@@ -1,65 +1,24 @@
 <?php
 
-use Redaxo\Core\Database\Sql;
+namespace Redaxo\Core\Cronjob\Form;
+
+use Generator;
 use Redaxo\Core\Form\Field\BaseField;
-use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
+use rex_formatter;
+use rex_fragment;
+use rex_response;
+
+use function in_array;
+use function is_array;
+use function is_string;
+
+use const STR_PAD_LEFT;
 
 /**
  * @internal
  */
-class rex_cronjob_form extends Form
-{
-    /** @var string */
-    private $mainFieldset;
-    /** @var rex_cronjob_form_interval_element|null */
-    private $intervalField;
-
-    /**
-     * @param non-empty-string $tableName
-     * @param string $fieldset
-     * @param string $whereCondition
-     * @param 'post'|'get' $method
-     * @param bool $debug
-     * @param positive-int $db DB connection ID
-     */
-    public function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
-    {
-        parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug, $db);
-        $this->mainFieldset = $fieldset;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return rex_cronjob_form_interval_element
-     */
-    public function addIntervalField($name, $value = null, $attributes = [])
-    {
-        $attributes['internal::fieldClass'] = rex_cronjob_form_interval_element::class;
-        $attributes['class'] = 'form-control';
-        /** @var rex_cronjob_form_interval_element $field */
-        $field = $this->addField('', $name, $value, $attributes, true);
-        $this->intervalField = $field;
-        return $field;
-    }
-
-    protected function save()
-    {
-        $nexttime = $this->getElement($this->mainFieldset, 'nexttime');
-        $timestamp = rex_cronjob_manager_sql::calculateNextTime($this->intervalField->getIntervalElements());
-        $nexttime->setValue($timestamp ? Sql::datetime($timestamp) : null);
-
-        $return = parent::save();
-        rex_cronjob_manager_sql::factory()->saveNextTime();
-        return $return;
-    }
-}
-
-/**
- * @internal
- */
-class rex_cronjob_form_interval_element extends BaseField
+class IntervalField extends BaseField
 {
     private const DEFAULT_INTERVAL = [
         'minutes' => [0],
