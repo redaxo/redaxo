@@ -18,10 +18,8 @@ use rex_csrf_token;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
-use rex_form_widget_linklist_element;
 use rex_form_widget_linkmap_element;
 use rex_form_widget_media_element;
-use rex_form_widget_medialist_element;
 use rex_string;
 use rex_url;
 use rex_view;
@@ -389,25 +387,6 @@ abstract class AbstractForm
     }
 
     /**
-     * Fuegt dem Formular ein Feld hinzu mit dem der Medienpool angebunden werden kann.
-     * Damit koennen mehrere Elemente aus dem Medienpool eingefuegt werden.
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @throws rex_exception
-     *
-     * @return rex_form_widget_medialist_element
-     */
-    public function addMedialistField($name, $value = null, array $attributes = [])
-    {
-        $attributes['internal::fieldClass'] = rex_form_widget_medialist_element::class;
-        $field = $this->addField('', $name, $value, $attributes, true);
-        assert($field instanceof rex_form_widget_medialist_element);
-        return $field;
-    }
-
-    /**
      * Fuegt dem Formular ein Feld hinzu mit dem die Struktur-Verwaltung angebunden werden kann.
      * Es kann nur ein Element aus der Struktur eingefuegt werden.
      *
@@ -423,25 +402,6 @@ abstract class AbstractForm
         $attributes['internal::fieldClass'] = rex_form_widget_linkmap_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_linkmap_element);
-        return $field;
-    }
-
-    /**
-     * Fuegt dem Formular ein Feld hinzu mit dem die Struktur-Verwaltung angebunden werden kann.
-     * Damit koennen mehrere Elemente aus der Struktur eingefuegt werden.
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @throws rex_exception
-     *
-     * @return rex_form_widget_linklist_element
-     */
-    public function addLinklistField($name, $value = null, array $attributes = [])
-    {
-        $attributes['internal::fieldClass'] = rex_form_widget_linklist_element::class;
-        $field = $this->addField('', $name, $value, $attributes, true);
-        assert($field instanceof rex_form_widget_linklist_element);
         return $field;
     }
 
@@ -677,9 +637,7 @@ abstract class AbstractForm
             'radio' => RadioField::class,
             'select' => SelectField::class,
             'media' => rex_form_widget_media_element::class,
-            'medialist' => rex_form_widget_medialist_element::class,
             'link' => rex_form_widget_linkmap_element::class,
-            'linklist' => rex_form_widget_linklist_element::class,
             'hidden', 'readonly', 'readonlytext', 'text', 'textarea' => BaseField::class,
             default => throw new rex_exception("Unexpected inputType '" . $inputType . "'!"),
         };
