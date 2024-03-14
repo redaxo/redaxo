@@ -231,26 +231,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/cronjob/command/run.php
 
 		-
-			message: "#^Method rex_cronjob_form\\:\\:addIntervalField\\(\\) has parameter \\$attributes with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/form.php
-
-		-
-			message: "#^Method rex_cronjob_form\\:\\:addIntervalField\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/form.php
-
-		-
-			message: "#^Method rex_cronjob_form_interval_element\\:\\:getIntervalElements\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/form.php
-
-		-
-			message: "#^Property rex_cronjob_form_interval_element\\:\\:\\$intervalElements type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/form.php
-
-		-
 			message: "#^Method rex_cronjob_manager\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/cronjob/manager.php
@@ -1794,6 +1774,26 @@ parameters:
 			message: "#^Method rex_var_test\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/var/var_test.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\Form\\\\CronjobForm\\:\\:addIntervalField\\(\\) has parameter \\$attributes with no type specified\\.$#"
+			count: 1
+			path: ../../src/Cronjob/Form/CronjobForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\Form\\\\CronjobForm\\:\\:addIntervalField\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/Cronjob/Form/CronjobForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\Form\\\\IntervalField\\:\\:getIntervalElements\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Cronjob/Form/IntervalField.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Cronjob\\\\Form\\\\IntervalField\\:\\:\\$intervalElements type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Cronjob/Form/IntervalField.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:buildOnDuplicateKeyUpdate\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
