@@ -132,6 +132,9 @@ return RectorConfig::configure()
         new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
 
         new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
+
+        new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addLinkmapField'),
+        new MethodCallRename(Form\AbstractForm::class, 'addMedialistField', 'addMediaField'),
     ])
     ->withConfiguredRule(RenameStaticMethodRector::class, [
         new RenameStaticMethod(Core::class, 'getVersionHash', rex_version::class, 'gitHash'),
