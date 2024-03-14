@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Cronjob\Form\CronjobForm;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Form\Field\SelectField;
@@ -137,7 +138,7 @@ if ('' == $func) {
 } elseif ('edit' == $func || 'add' == $func) {
     $fieldset = 'edit' == $func ? I18n::msg('edit') : I18n::msg('add');
 
-    $form = new rex_cronjob_form(Core::getTable('cronjob'), $fieldset, 'id = ' . $oid, 'post', false);
+    $form = new CronjobForm(Core::getTable('cronjob'), $fieldset, 'id = ' . $oid, 'post', false);
     $form->addParam('oid', $oid);
     $form->setEditMode('edit' == $func);
 
