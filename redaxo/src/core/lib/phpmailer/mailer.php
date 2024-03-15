@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\LogFile;
 
 class rex_mailer extends PHPMailer
 {
@@ -171,7 +172,7 @@ class rex_mailer extends PHPMailer
             $replytos = implode(', ', array_column($this->getReplyToAddresses(), 0));
         }
 
-        $log = rex_log_file::factory(self::logFile(), 2_000_000);
+        $log = LogFile::factory(self::logFile(), 2_000_000);
         $data = [
             $success,
             $this->From . ($replytos ? '; reply-to: ' . $replytos : ''),
@@ -236,7 +237,7 @@ class rex_mailer extends PHPMailer
             return;
         }
 
-        $file = rex_log_file::factory($logFile);
+        $file = LogFile::factory($logFile);
 
         $logevent = false;
 

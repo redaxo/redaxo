@@ -1,18 +1,21 @@
 <?php
 
+namespace Redaxo\Core\Tests\Util;
+
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Util\LogEntry;
 
 /**
  * @internal
  */
-class rex_log_entry_test extends TestCase
+class LogEntryTest extends TestCase
 {
     public function testConstruct(): void
     {
         $time = time();
         $data = ['test1', 'test2'];
-        $entry = new rex_log_entry($time, $data);
+        $entry = new LogEntry($time, $data);
 
         self::assertSame($time, $entry->getTimestamp());
         self::assertSame($data, $entry->getData());
@@ -21,9 +24,9 @@ class rex_log_entry_test extends TestCase
     public function testCreateFromString(): void
     {
         $time = time();
-        $entry = rex_log_entry::createFromString(date(rex_log_entry::DATE_FORMAT, $time) . ' | test1 |  |  test2\nt \| test3 |');
+        $entry = LogEntry::createFromString(date(LogEntry::DATE_FORMAT, $time) . ' | test1 |  |  test2\nt \| test3 |');
 
-        self::assertInstanceOf(rex_log_entry::class, $entry);
+        self::assertInstanceOf(LogEntry::class, $entry);
         self::assertSame($time, $entry->getTimestamp());
         self::assertSame(['test1', '', "test2\nt | test3", ''], $entry->getData());
     }
@@ -32,7 +35,7 @@ class rex_log_entry_test extends TestCase
     public function testGetTimestamp(): void
     {
         $time = time();
-        $entry = new rex_log_entry($time, []);
+        $entry = new LogEntry($time, []);
 
         self::assertSame($time, $entry->getTimestamp());
     }
@@ -41,8 +44,8 @@ class rex_log_entry_test extends TestCase
     public function testToString(): void
     {
         $time = time();
-        $entry = new rex_log_entry($time, ['test1', ' ', " test2\nt | test3\r\ntest4 "]);
+        $entry = new LogEntry($time, ['test1', ' ', " test2\nt | test3\r\ntest4 "]);
 
-        self::assertSame(date(rex_log_entry::DATE_FORMAT, $time) . ' | test1 |  | test2\nt \| test3\ntest4', $entry->__toString());
+        self::assertSame(date(LogEntry::DATE_FORMAT, $time) . ' | test1 |  | test2\nt \| test3\ntest4', $entry->__toString());
     }
 }

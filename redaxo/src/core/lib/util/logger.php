@@ -4,6 +4,7 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\LogFile;
 
 /**
  * Simple Logger class.
@@ -12,7 +13,7 @@ class rex_logger extends AbstractLogger
 {
     use rex_factory_trait;
 
-    /** @var rex_log_file|null */
+    /** @var LogFile|null */
     private static $file;
 
     /**
@@ -147,7 +148,7 @@ class rex_logger extends AbstractLogger
     {
         // check if already opened
         if (!self::$file) {
-            self::$file = rex_log_file::factory(self::getPath(), 2_000_000);
+            self::$file = LogFile::factory(self::getPath(), 2_000_000);
         }
     }
 

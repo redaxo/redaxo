@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\LogFile;
 
 $func = rex_request('func', 'string');
 $error = '';
@@ -9,7 +10,7 @@ $success = '';
 $logFile = rex_mailer::logFile();
 
 if ('mailer_delLog' == $func) {
-    if (rex_log_file::delete($logFile)) {
+    if (LogFile::delete($logFile)) {
         $success = I18n::msg('syslog_deleted');
     } else {
         $error = I18n::msg('syslog_delete_error');
@@ -37,7 +38,7 @@ $content = '
                 </thead>
                 <tbody>';
 
-$file = rex_log_file::factory($logFile);
+$file = LogFile::factory($logFile);
 foreach (new LimitIterator($file, 0, 30) as $entry) {
     $data = $entry->getData();
     $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-mailer-log-ok';

@@ -4,6 +4,8 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\LogEntry;
+use Redaxo\Core\Util\LogFile;
 
 $error = '';
 $success = '';
@@ -20,7 +22,7 @@ if ($func && !$csrfToken->isValid()) {
     // so we can safely delete the file
     rex_logger::close();
 
-    if (rex_log_file::delete($logFile)) {
+    if (LogFile::delete($logFile)) {
         $success = I18n::msg('syslog_deleted');
     } else {
         $error = I18n::msg('syslog_delete_error');
@@ -50,9 +52,9 @@ $content = '
 
 $editor = Editor::factory();
 
-$file = rex_log_file::factory($logFile);
+$file = LogFile::factory($logFile);
 foreach (new LimitIterator($file, 0, 100) as $entry) {
-    /** @var rex_log_entry $entry */
+    /** @var LogEntry $entry */
     $data = $entry->getData();
 
     $type = rex_type::string($data[0]);

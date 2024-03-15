@@ -4,6 +4,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\LogFile;
 
 $func = rex_request('func', 'string');
 $error = '';
@@ -12,7 +13,7 @@ $message = '';
 $logFile = Path::log('cronjob.log');
 
 if ('cronjob_delLog' == $func) {
-    if (rex_log_file::delete($logFile)) {
+    if (LogFile::delete($logFile)) {
         $success = I18n::msg('syslog_deleted');
     } else {
         $error = I18n::msg('syslog_delete_error');
@@ -41,7 +42,7 @@ $content .= '
 
 $formElements = [];
 
-$file = rex_log_file::factory($logFile);
+$file = LogFile::factory($logFile);
 
 /** @var rex_log_entry $entry */
 foreach (new LimitIterator($file, 0, 100) as $entry) {

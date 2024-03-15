@@ -1,11 +1,22 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
+use Iterator;
 use Redaxo\Core\Filesystem\File;
+use ReturnTypeWillChange;
+use rex_exception;
+use rex_factory_trait;
+
+use function assert;
+use function strlen;
+
+use const SEEK_END;
 
 /**
- * @implements Iterator<int, rex_log_entry>
+ * @implements Iterator<int, LogEntry>
  */
-class rex_log_file implements Iterator
+class LogFile implements Iterator
 {
     use rex_factory_trait;
 
@@ -63,11 +74,11 @@ class rex_log_file implements Iterator
     public function add(array $data)
     {
         fseek($this->file, 0, SEEK_END);
-        fwrite($this->file, new rex_log_entry(time(), $data) . "\n");
+        fwrite($this->file, new LogEntry(time(), $data) . "\n");
     }
 
     /**
-     * @return rex_log_entry
+     * @return LogEntry
      */
     #[ReturnTypeWillChange]
     public function current()
@@ -76,7 +87,7 @@ class rex_log_file implements Iterator
             throw new rex_exception('current() can not be used before calling rewind()/next() or after last line');
         }
 
-        return rex_log_entry::createFromString($this->currentLine);
+        return LogEntry::createFromString($this->currentLine);
     }
 
     /**
@@ -190,76 +201,5 @@ class rex_log_file implements Iterator
         }
 
         return File::delete($path) && File::delete($path . '.2');
-    }
-}
-
-class rex_log_entry
-{
-    public const DATE_FORMAT = 'Y-m-d\TH:i:sP';
-
-    private int $timestamp;
-
-    /** @var list<string> */
-    private array $data;
-
-    /**
-     * @param list<string|int> $data Log data
-     */
-    public function __construct(int $timestamp, array $data)
-    {
-        $this->timestamp = $timestamp;
-        $this->data = array_map('strval', $data);
-    }
-
-    /**
-     * Creates a log entry from string.
-     *
-     * @param string $string Log line
-     *
-     * @return rex_log_entry
-     */
-    public static function createFromString($string)
-    {
-        $data = [];
-        foreach (explode(' |', $string) as $part) {
-            $data[] = trim(stripcslashes($part));
-        }
-
-        $timestamp = strtotime(array_shift($data));
-
-        return new self($timestamp, $data);
-    }
-
-    /**
-     * Returns the timestamp.
-     *
-     * @return int Unix timestamp
-     */
-    public function getTimestamp()
-    {
-        return $this->timestamp;
-    }
-
-    /**
-     * Returns the log data.
-     *
-     * @return list<string>
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        $data = array_map(static function ($part) {
-            return trim(addcslashes($part, "|\n\\"));
-        }, $this->data);
-        $data = implode(' | ', $data);
-        $data = str_replace("\r", '', $data);
-        return date(self::DATE_FORMAT, $this->timestamp) . ' | ' . $data;
     }
 }
