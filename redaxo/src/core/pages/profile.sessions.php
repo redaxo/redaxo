@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
 
 if (!isset($userId) || 1 > $userId) {
     $userId = Core::requireUser()->getId();
@@ -36,10 +37,10 @@ $list->setColumnFormat('last_activity', 'custom', static function () use ($list)
     if (session_id() === $list->getValue('session_id')) {
         return '<span class="label label-info">' . I18n::msg('active_session') . '</span>';
     }
-    return rex_formatter::intlDateTime((string) $list->getValue('last_activity'), IntlDateFormatter::SHORT);
+    return Formatter::intlDateTime((string) $list->getValue('last_activity'), IntlDateFormatter::SHORT);
 });
 $list->setColumnFormat('starttime', 'custom', static function () use ($list) {
-    return rex_formatter::intlDateTime((string) $list->getValue('starttime'), IntlDateFormatter::SHORT);
+    return Formatter::intlDateTime((string) $list->getValue('starttime'), IntlDateFormatter::SHORT);
 });
 $content = $list->get();
 

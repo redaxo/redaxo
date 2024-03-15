@@ -5,8 +5,11 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Editor;
+use Redaxo\Core\Util\Version;
 
 $error = [];
 $success = '';
@@ -55,7 +58,7 @@ if ($func && !$csrfToken->isValid()) {
     Core::setProperty('debug', $config['debug']);
     if (File::putConfig($configFile, $config) > 0) {
         // reload the page so that debug mode is immediately visible
-        rex_response::sendRedirect(rex_url::currentBackendPage(['rex_debug_updated' => true]));
+        rex_response::sendRedirect(Url::currentBackendPage(['rex_debug_updated' => true]));
     }
 } elseif ('updateinfos' == $func) {
     $configFile = Path::coreData('config.yml');
@@ -159,13 +162,13 @@ $dbconfig = Core::getDbConfig(1);
 
 $rexVersion = Core::getVersion();
 if (str_contains($rexVersion, '-dev')) {
-    $hash = rex_version::gitHash(Path::base(), 'redaxo/redaxo');
+    $hash = Version::gitHash(Path::base(), 'redaxo/redaxo');
     if ($hash) {
         $rexVersion .= '#' . $hash;
     }
 }
 
-if (rex_version::isUnstable($rexVersion)) {
+if (Version::isUnstable($rexVersion)) {
     $rexVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . rex_escape($rexVersion);
 }
 
@@ -180,20 +183,20 @@ if (!Core::isDebugMode()) {
 $content = '
     <h3>' . I18n::msg('delete_cache') . '</h3>
     <p>' . I18n::msg('delete_cache_description') . '</p>
-    <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . I18n::msg('delete_cache') . '</a></p>';
+    <p><a class="btn btn-delete" href="' . Url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . I18n::msg('delete_cache') . '</a></p>';
 
 if (!Core::isLiveMode()) {
     $content .= '
         <h3>' . I18n::msg('debug_mode') . '</h3>
         <p>' . I18n::msg('debug_mode_note') . '</p>
-        <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"' . $debugConfirm . '><i class="rex-icon rex-icon-heartbeat"></i> ' . (Core::isDebugMode() ? I18n::msg('debug_mode_off') : I18n::msg('debug_mode_on')) . '</a></p>
+        <p><a class="btn btn-debug-mode" href="' . Url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"' . $debugConfirm . '><i class="rex-icon rex-icon-heartbeat"></i> ' . (Core::isDebugMode() ? I18n::msg('debug_mode_off') : I18n::msg('debug_mode_on')) . '</a></p>
 
         <h3>' . I18n::msg('safemode') . '</h3>
         <p>' . I18n::msg('safemode_text') . '</p>';
 
-    $safemodeUrl = rex_url::currentBackendPage(['safemode' => '1'] + $csrfToken->getUrlParams());
+    $safemodeUrl = Url::currentBackendPage(['safemode' => '1'] + $csrfToken->getUrlParams());
     if (Core::isSafeMode()) {
-        $safemodeUrl = rex_url::currentBackendPage(['safemode' => '0'] + $csrfToken->getUrlParams());
+        $safemodeUrl = Url::currentBackendPage(['safemode' => '0'] + $csrfToken->getUrlParams());
     }
 
     $content .= '
@@ -202,7 +205,7 @@ if (!Core::isLiveMode()) {
 
         <h3>' . I18n::msg('setup') . '</h3>
         <p>' . I18n::msg('setup_text') . '</p>
-        <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . I18n::msg('setup_restart') . '?" data-pjax="false">' . I18n::msg('setup') . '</a></p>';
+        <p><a class="btn btn-setup" href="' . Url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . I18n::msg('setup_restart') . '?" data-pjax="false">' . I18n::msg('setup') . '</a></p>';
 }
 $fragment = new rex_fragment();
 $fragment->setVar('title', I18n::msg('system_features'));
@@ -217,7 +220,7 @@ $content = '
         </tr>
         <tr>
             <th>PHP</th>
-            <td>' . PHP_VERSION . ' <a class="rex-link-expanded" href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
+            <td>' . PHP_VERSION . ' <a class="rex-link-expanded" href="' . Url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
         </tr>
         <tr>
             <th>' . I18n::msg('path') . '</th>
@@ -294,7 +297,7 @@ foreach (rex_system_setting::getAll() as $setting) {
 
 $formElements = [];
 
-$editor = rex_editor::factory();
+$editor = Editor::factory();
 $configYml = Path::coreData('config.yml');
 if ($url = $editor->getUrl($configYml, 0)) {
     $n = [];
@@ -326,7 +329,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $mainContent[] = '
-<form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
+<form id="rex-form-system-setup" action="' . Url::currentBackendPage() . '" method="post">
     <input type="hidden" name="func" value="updateinfos" />
     ' . $csrfToken->getHiddenField() . '
     ' . $content . '
@@ -397,7 +400,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $mainContent[] = '
-<form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
+<form id="rex-form-system-setup" action="' . Url::currentBackendPage() . '" method="post">
     <input type="hidden" name="func" value="update_editor" />
     ' . $csrfToken->getHiddenField() . '
     ' . $content . '

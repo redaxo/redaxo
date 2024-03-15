@@ -3,7 +3,9 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 
 /**
  * Fügt einen neuen Feldtyp ein.
@@ -175,7 +177,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     $fieldId = $sql->getValue('id');
 
     $prefix = rex_metainfo_meta_prefix($name);
-    $metaTable = rex_type::string(rex_metainfo_meta_table($prefix));
+    $metaTable = Type::string(rex_metainfo_meta_table($prefix));
 
     // Spalte existiert?
     $sql->setQuery('SELECT * FROM ' . $metaTable . ' LIMIT 1');
@@ -233,7 +235,7 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
 
     // additional javascripts
     if (in_array($mainpage, ['metainfo', 'mediapool'], true) || in_array($page, ['content/metainfo', 'structure', 'system/lang'], true)) {
-        rex_view::addJsFile(rex_url::coreAssets('js/metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
+        rex_view::addJsFile(Url::coreAssets('js/metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
     }
 
     // include extensions

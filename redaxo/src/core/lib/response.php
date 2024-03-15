@@ -4,6 +4,7 @@ use Ramsey\Http\Range\Exception\HttpRangeException;
 use Ramsey\Http\Range\UnitFactory;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\Str;
 
 class rex_response
 {
@@ -332,7 +333,7 @@ class rex_response
         header('HTTP/1.1 ' . self::$httpStatus);
 
         // content length schicken, damit der browser einen ladebalken anzeigen kann
-        header('Content-Length: ' . rex_string::size($content));
+        header('Content-Length: ' . Str::size($content));
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();

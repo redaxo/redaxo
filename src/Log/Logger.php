@@ -1,18 +1,43 @@
 <?php
 
+namespace Redaxo\Core\Log;
+
+use ErrorException;
+use Exception;
+use InvalidArgumentException;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use rex_backend_login;
+use rex_error_handler;
+use rex_factory_trait;
+use rex_http_exception;
+use Stringable;
+use Throwable;
+
+use function function_exists;
+use function gettype;
+use function is_int;
+use function is_string;
+
+use const E_COMPILE_WARNING;
+use const E_DEPRECATED;
+use const E_NOTICE;
+use const E_STRICT;
+use const E_USER_DEPRECATED;
+use const E_USER_NOTICE;
+use const E_USER_WARNING;
+use const E_WARNING;
 
 /**
  * Simple Logger class.
  */
-class rex_logger extends AbstractLogger
+class Logger extends AbstractLogger
 {
     use rex_factory_trait;
 
-    /** @var rex_log_file|null */
+    /** @var LogFile|null */
     private static $file;
 
     /**
@@ -147,7 +172,7 @@ class rex_logger extends AbstractLogger
     {
         // check if already opened
         if (!self::$file) {
-            self::$file = rex_log_file::factory(self::getPath(), 2_000_000);
+            self::$file = LogFile::factory(self::getPath(), 2_000_000);
         }
     }
 
@@ -179,7 +204,7 @@ class rex_logger extends AbstractLogger
     }
 
     /**
-     * @return self
+     * @return Logger
      */
     public static function factory()
     {

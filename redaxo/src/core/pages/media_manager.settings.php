@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
 $func = rex_request('func', 'string');
@@ -128,7 +129,7 @@ $content = $fragment->parse('core/form/form.php');
 
 $formElements = [];
 $n = [];
-$n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
+$n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
 $formElements[] = $n;
 
 $n = [];
@@ -147,7 +148,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-    <form action="' . rex_url::currentBackendPage() . '" method="post">
+    <form action="' . Url::currentBackendPage() . '" method="post">
         <fieldset>
             <input type="hidden" name="func" value="update" />
             ' . $content . '

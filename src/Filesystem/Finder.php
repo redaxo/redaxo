@@ -10,9 +10,9 @@ use RecursiveCallbackFilterIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIterator;
 use RecursiveIteratorIterator;
+use Redaxo\Core\Util\SortableIterator;
 use ReturnTypeWillChange;
 use rex_factory_trait;
-use rex_sortable_iterator;
 use SplFileInfo;
 use Traversable;
 
@@ -41,7 +41,7 @@ class Finder implements IteratorAggregate, Countable
     /** @var list<string> */
     private array $ignoreDirsRecursive = [];
     private bool $ignoreSystemStuff = true;
-    /** @var false|rex_sortable_iterator::*|callable(mixed, mixed): int */
+    /** @var false|SortableIterator::*|callable(mixed, mixed): int */
     private $sort = false;
 
     private function __construct(string $dir)
@@ -187,11 +187,11 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Sorts the elements.
      *
-     * @param rex_sortable_iterator::*|callable(mixed, mixed): int $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
+     * @param SortableIterator::*|callable(mixed, mixed): int $sort Sort mode, see {@link SortableIterator::__construct()}
      *
      * @return $this
      */
-    public function sort($sort = rex_sortable_iterator::KEYS)
+    public function sort($sort = SortableIterator::KEYS)
     {
         $this->sort = $sort;
 
@@ -255,7 +255,7 @@ class Finder implements IteratorAggregate, Countable
         }
 
         if ($this->sort) {
-            $iterator = new rex_sortable_iterator($iterator, $this->sort);
+            $iterator = new SortableIterator($iterator, $this->sort);
         }
 
         return $iterator;

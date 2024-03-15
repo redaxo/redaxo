@@ -1,7 +1,9 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 /**
  * Layout Kopf des Backends.
@@ -25,8 +27,8 @@ if (!$curPage->hasLayout()) {
 
 $bodyAttr = [];
 
-// rex_string::normalize requires intl extension, which may not exist before extensions check in setup
-$bodyId = Core::isSetup() ? 'setup' : rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
+// Str::normalize requires intl extension, which may not exist before extensions check in setup
+$bodyId = Core::isSetup() ? 'setup' : Str::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
 
 $bodyAttr['id'] = ['rex-page-' . $bodyId];
 
@@ -75,7 +77,7 @@ if ($user && $hasNavigation) {
     if (Core::isSafeMode() && $user->isAdmin()) {
         $item = [];
         $item['title'] = I18n::msg('safemode_deactivate');
-        $item['href'] = rex_url::backendController(['safemode' => 0]);
+        $item['href'] = Url::backendController(['safemode' => 0]);
         $item['attributes'] = 'class="btn btn-safemode-deactivate" data-pjax="false"';
         $metaItems[] = $item;
         unset($item);
@@ -88,7 +90,7 @@ if ($user && $hasNavigation) {
     }
 
     $item = [];
-    $item['title'] = '<span class="text-muted">' . I18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . I18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . rex_escape($userName) . '</a>';
+    $item['title'] = '<span class="text-muted">' . I18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . Url::backendPage('profile') . '" title="' . I18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . rex_escape($userName) . '</a>';
     if ($impersonator) {
         $item['title'] .= ' (<i class="rex-icon rex-icon-user"></i> ' . rex_escape($impersonator) . ')';
     }
@@ -99,11 +101,11 @@ if ($user && $hasNavigation) {
     $item['attributes'] = 'class="rex-logout"';
     if ($impersonator) {
         $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . I18n::msg('login_depersonate');
-        $item['href'] = rex_url::currentBackendPage(['_impersonate' => '_depersonate'] + rex_api_user_impersonate::getUrlParams());
+        $item['href'] = Url::currentBackendPage(['_impersonate' => '_depersonate'] + rex_api_user_impersonate::getUrlParams());
         $item['attributes'] .= ' data-pjax="false"';
     } else {
         $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . I18n::msg('logout');
-        $item['href'] = rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams());
+        $item['href'] = Url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams());
     }
     $metaItems[] = $item;
     unset($item);
@@ -128,7 +130,7 @@ if ($user && $hasNavigation) {
             }
 
             if (!$pageObj->getHref()) {
-                $pageObj->setHref(rex_url::backendPage($p));
+                $pageObj->setHref(Url::backendPage($p));
             }
             /*
              if(isset ($REX['ACKEY']['ADDON'][$page]))

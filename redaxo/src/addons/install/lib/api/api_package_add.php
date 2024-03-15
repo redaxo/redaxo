@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -32,13 +33,13 @@ class rex_api_install_package_add extends rex_api_function
             $success = false;
         } else {
             $package = rex_addon::get($addonkey);
-            $packageInstallUrl = rex_url::currentBackendPage([
+            $packageInstallUrl = Url::currentBackendPage([
                 'package' => $package->getPackageId(),
                 'function' => 'install',
             ] + rex_api_package::getUrlParams());
 
             $message = I18n::msg('install_info_addon_downloaded', $addonkey)
-                . ' <a href="' . rex_url::backendPage('packages', ['mark' => $addonkey]) . '">' . I18n::msg('install_to_addon_page') . '</a>'
+                . ' <a href="' . Url::backendPage('packages', ['mark' => $addonkey]) . '">' . I18n::msg('install_to_addon_page') . '</a>'
                 . ' | <a href="' . $packageInstallUrl . '">' . I18n::msg('install_to_addon_page_install') . '</a>';
 
             $success = true;

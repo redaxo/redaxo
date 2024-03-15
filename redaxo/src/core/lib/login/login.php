@@ -3,6 +3,8 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Timer;
+use Redaxo\Core\Util\Type;
 
 class rex_login
 {
@@ -553,7 +555,7 @@ class rex_login
     {
         if (PHP_SESSION_ACTIVE !== session_status()) {
             $env = Core::isBackend() ? 'backend' : 'frontend';
-            $sessionConfig = rex_type::array(Core::getProperty('session', []));
+            $sessionConfig = Type::array(Core::getProperty('session', []));
 
             if (isset($sessionConfig[$env]['sid_length'])) {
                 ini_set('session.sid_length', (int) $sessionConfig[$env]['sid_length']);
@@ -567,7 +569,7 @@ class rex_login
 
             session_set_cookie_params(static::getCookieParams());
 
-            rex_timer::measure(__METHOD__, static function () {
+            Timer::measure(__METHOD__, static function () {
                 error_clear_last();
 
                 if (!@session_start()) {

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 
 class rex_backend_password_policy extends rex_password_policy
 {
@@ -89,7 +90,7 @@ class rex_backend_password_policy extends rex_password_policy
         }
 
         $password = sha1($password);
-        $previousPasswords = rex_type::array(json_decode($previousPasswords, true));
+        $previousPasswords = Type::array(json_decode($previousPasswords, true));
         $previousPasswords = $this->cleanUpPreviousPasswords($previousPasswords);
 
         foreach ($previousPasswords as $previousPassword) {

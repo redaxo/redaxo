@@ -2,7 +2,9 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
 
 echo rex_view::title(I18n::msg('title_templates'));
 
@@ -292,7 +294,7 @@ if ('add' == $function || 'edit' == $function) {
                 $formElements = [];
                 $n = [];
                 $n['id'] = 'rex-js-modules' . $i;
-                $n['label'] = '<label for="rex-id-modules-' . $i . '-select">' . rex_formatter::widont(I18n::msg('modules_available')) . '</label>';
+                $n['label'] = '<label for="rex-id-modules-' . $i . '-select">' . Formatter::widont(I18n::msg('modules_available')) . '</label>';
                 $n['field'] = $modulSelect->get();
                 $n['note'] = I18n::msg('ctrl');
                 $formElements[] = $n;
@@ -424,7 +426,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['id'] = 'rex-id-categories';
-        $n['label'] = '<label for="rex-id-categories-select">' . rex_formatter::widont(I18n::msg('template_categories_custom')) . '</label>';
+        $n['label'] = '<label for="rex-id-categories-select">' . Formatter::widont(I18n::msg('template_categories_custom')) . '</label>';
         $n['field'] = $catSelect->get();
         $n['note'] = I18n::msg('ctrl');
         $formElements[] = $n;
@@ -442,7 +444,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -484,7 +486,7 @@ if ('add' == $function || 'edit' == $function) {
         $content = $fragment->parse('core/page/section.php');
 
         $content = '
-            <form id="rex-form-template" action="' . rex_url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
+            <form id="rex-form-template" action="' . Url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
                 ' . $csrfToken->getHiddenField() . '
                 ' . $content . '
             </form>

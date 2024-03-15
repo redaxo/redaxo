@@ -1,17 +1,20 @@
 <?php
 
+namespace Redaxo\Core\Tests\Util;
+
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Util\Pager;
 
 /**
  * @internal
  */
-class rex_pager_test extends TestCase
+class PagerTest extends TestCase
 {
     public function testSetCursor(): void
     {
         $_REQUEST['start'] = 60;
 
-        $pager = new rex_pager(30);
+        $pager = new Pager(30);
         self::assertSame(60, $pager->getCursor());
         self::assertSame(2, $pager->getCurrentPage());
 
@@ -28,7 +31,7 @@ class rex_pager_test extends TestCase
     {
         $_REQUEST['start'] = 60;
 
-        $pager = new rex_pager(30);
+        $pager = new Pager(30);
         self::assertSame(60, $pager->getCursor());
         self::assertSame(2, $pager->getCurrentPage());
 

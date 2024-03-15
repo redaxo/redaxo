@@ -6,7 +6,11 @@ use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Type;
+use Redaxo\Core\Util\Version;
 
 /**
  * @internal
@@ -97,7 +101,7 @@ class rex_setup
         ];
 
         $getMod = static function ($path) {
-            return rex_type::string(substr(sprintf('%o', fileperms($path)), -3));
+            return Type::string(substr(sprintf('%o', fileperms($path)), -3));
         };
 
         $func = static function ($dir) use (&$func, $getMod) {
@@ -158,7 +162,7 @@ class rex_setup
         }
 
         $minVersion = Sql::MARIADB === $type ? self::MIN_MARIADB_VERSION : self::MIN_MYSQL_VERSION;
-        if (rex_version::compare($version, $minVersion, '<')) {
+        if (Version::compare($version, $minVersion, '<')) {
             return I18n::msg('sql_database_required_version', $type, $version, self::MIN_MYSQL_VERSION, self::MIN_MARIADB_VERSION);
         }
 
@@ -193,7 +197,7 @@ class rex_setup
             '8.3' => '2026-12-01',
         ];
 
-        $versionNumber = rex_formatter::version(PHP_VERSION, '%s.%s');
+        $versionNumber = Formatter::version(PHP_VERSION, '%s.%s');
 
         if (array_key_exists($versionNumber, $deprecatedVersions)) {
             $deprecationDate = $deprecatedVersions[$versionNumber];
@@ -238,7 +242,7 @@ class rex_setup
                 '11.2' => '2024-11-01',
             ];
 
-            $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
+            $versionNumber = Formatter::version($dbVersion, '%s.%s');
             if (array_key_exists($versionNumber, $deprecatedVersions)) {
                 $deprecationDate = $deprecatedVersions[$versionNumber];
                 if ($currentDate > $deprecationDate) {
@@ -257,7 +261,7 @@ class rex_setup
                 '8.3' => '2024-04-01',
             ];
 
-            $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
+            $versionNumber = Formatter::version($dbVersion, '%s.%s');
             if (array_key_exists($versionNumber, $deprecatedVersions)) {
                 $deprecationDate = $deprecatedVersions[$versionNumber];
                 if ($currentDate > $deprecationDate) {
@@ -315,7 +319,7 @@ class rex_setup
             return false;
         }
 
-        return rex_url::backendPage('setup', ['setup_token' => $token]);
+        return Url::backendPage('setup', ['setup_token' => $token]);
     }
 
     public static function isEnabled(): bool

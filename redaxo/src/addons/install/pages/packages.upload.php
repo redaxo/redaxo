@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($markdown) && is_callable($markdown));
@@ -69,7 +70,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $n['field'] = '<input id="rex-js-install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" ' . ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled . '/>';
         $formElements[] = $n;
 
-        if (rex_addon::get($addonkey)->isInstalled() && is_dir(rex_url::addonAssets($addonkey))) {
+        if (rex_addon::get($addonkey)->isInstalled() && is_dir(Url::addonAssets($addonkey))) {
             $n = [];
             $n['reverse'] = true;
             $n['label'] = '<label for="rex-js-install-packages-upload-replace-assets">' . $package->i18n('replace_assets') . '</label>';
@@ -94,7 +95,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -103,7 +104,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         if (!$new) {
             $n = [];
-            $n['field'] = '<button class="btn btn-delete" value="' . $package->i18n('delete') . '" onclick="if(confirm(\'' . $package->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_delete::getUrlParams()) . '\'; else return false;">' . $package->i18n('delete') . '</button>';
+            $n['field'] = '<button class="btn btn-delete" value="' . $package->i18n('delete') . '" onclick="if(confirm(\'' . $package->i18n('delete') . ' ?\')) location.href=\'' . Url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_delete::getUrlParams()) . '\'; else return false;">' . $package->i18n('delete') . '</button>';
             $formElements[] = $n;
         }
 
@@ -121,7 +122,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $content = $fragment->parse('core/page/section.php');
 
         $content = '
-            <form action="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_upload::getUrlParams()) . '" method="post">
+            <form action="' . Url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_upload::getUrlParams()) . '" method="post">
                 ' . $content . '
             </form>';
         echo $content;
@@ -150,7 +151,7 @@ if ($addonkey && isset($addons[$addonkey])) {
     } else {
         $icon = '';
         if (rex_addon::exists($addonkey)) {
-            $icon = '<a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $package->i18n('file_add') . '"><i class="rex-icon rex-icon-add-package"></i></a>';
+            $icon = '<a class="rex-link-expanded" href="' . Url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $package->i18n('file_add') . '"><i class="rex-icon rex-icon-add-package"></i></a>';
         }
 
         $panel = '
@@ -207,7 +208,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             <tbody>';
 
         foreach ($addon['files'] as $fileId => $file) {
-            $url = rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId]);
+            $url = Url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId]);
             $status = $file['status'] ? 'online' : 'offline';
             $panel .= '
             <tr data-pjax-scroll-to="0">
@@ -229,14 +230,14 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         echo $content;
 
-        echo '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('back') . '</a>';
+        echo '<a class="btn btn-back" href="' . Url::currentBackendPage() . '">' . I18n::msg('back') . '</a>';
     }
 } else {
     $panel = '
         <table class="table table-striped table-hover">
          <thead>
             <tr>
-                <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $package->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
+                <th class="rex-table-icon"><a class="rex-link-expanded" href="' . Url::currentBackendPage(['func' => 'reload']) . '" title="' . $package->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
                 <th>' . $package->i18n('key') . '</th>
                 <th>' . $package->i18n('name') . '</th>
                 <th class="rex-table-action" colspan="2">' . $package->i18n('status') . '</th>
@@ -245,7 +246,7 @@ if ($addonkey && isset($addons[$addonkey])) {
          <tbody>';
 
     foreach ($addons as $key => $addon) {
-        $url = rex_url::currentBackendPage(['addonkey' => $key]);
+        $url = Url::currentBackendPage(['addonkey' => $key]);
         $status = $addon['status'] ? 'online' : 'offline';
         $panel .= '
             <tr data-pjax-scroll-to="0">

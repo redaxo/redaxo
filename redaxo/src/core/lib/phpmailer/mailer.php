@@ -4,7 +4,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Log\LogEntry;
+use Redaxo\Core\Log\LogFile;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Timer;
 
 class rex_mailer extends PHPMailer
 {
@@ -94,7 +98,7 @@ class rex_mailer extends PHPMailer
      */
     public function send()
     {
-        return rex_timer::measure(__METHOD__, function () {
+        return Timer::measure(__METHOD__, function () {
             $logging = (int) Core::getConfig('phpmailer_logging');
             $detourModeActive = Core::getConfig('phpmailer_detour_mode') && '' !== Core::getConfig('phpmailer_test_address');
 
@@ -170,7 +174,7 @@ class rex_mailer extends PHPMailer
             $replytos = implode(', ', array_column($this->getReplyToAddresses(), 0));
         }
 
-        $log = rex_log_file::factory(self::logFile(), 2_000_000);
+        $log = LogFile::factory(self::logFile(), 2_000_000);
         $data = [
             $success,
             $this->From . ($replytos ? '; reply-to: ' . $replytos : ''),
@@ -235,7 +239,7 @@ class rex_mailer extends PHPMailer
             return;
         }
 
-        $file = rex_log_file::factory($logFile);
+        $file = LogFile::factory($logFile);
 
         $logevent = false;
 
@@ -255,10 +259,10 @@ class rex_mailer extends PHPMailer
         $mailBody .= '    </thead>';
         $mailBody .= '    <tbody>';
 
-        /** @var rex_log_entry $entry */
+        /** @var LogEntry $entry */
         foreach (new LimitIterator($file, 0, 30) as $entry) {
             $data = $entry->getData();
-            $time = rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]);
+            $time = Formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]);
             $type = $data[0];
             $message = $data[1];
             $file = $data[2] ?? '';

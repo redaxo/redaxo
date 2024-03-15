@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Util\Timer;
+
 /**
  * Klasse die Einsprungpunkte zur Erweiterung der Kernfunktionalitaet bietet.
  */
@@ -35,7 +37,7 @@ abstract class rex_extension
 
         $name = $extensionPoint->getName();
 
-        rex_timer::measure('EP: ' . $name, static function () use ($extensionPoint, $name) {
+        Timer::measure('EP: ' . $name, static function () use ($extensionPoint, $name) {
             foreach ([self::EARLY, self::NORMAL, self::LATE] as $level) {
                 if (!isset(self::$extensions[$name][$level]) || !is_array(self::$extensions[$name][$level])) {
                     continue;

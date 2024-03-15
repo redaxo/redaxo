@@ -3,6 +3,7 @@
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 
 /**
  * Benutzt den Konsolen convert oder ffmpeg Befehl.
@@ -53,7 +54,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
 
         if ($this->isVideoToImageConversionSupported()) {
-            $inputFile = rex_type::notNull($this->media->getMediaPath());
+            $inputFile = Type::notNull($this->media->getMediaPath());
 
             // Try to get the duration of the video using ffprobe
             $ffprobeCmd = 'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ' . escapeshellarg($inputFile);

@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
@@ -116,7 +117,7 @@ if ('' == $func) {
 
     $content = $list->get();
 
-    $footer = '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('media_manager_back') . '</a>';
+    $footer = '<a class="btn btn-back" href="' . Url::currentBackendPage() . '">' . I18n::msg('media_manager_back') . '</a>';
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', I18n::rawMsg('media_manager_effect_caption', $typeName), false);

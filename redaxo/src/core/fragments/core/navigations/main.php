@@ -1,4 +1,6 @@
 <?php
+use Redaxo\Core\Util\Str;
+
 /**
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
@@ -28,8 +30,8 @@
                 $icon = '<i class="' . trim($item['icon']) . '"></i> ';
             endif;
 
-            $itemAttr = isset($item['itemAttr']) ? rex_string::buildAttributes($item['itemAttr']) : '';
-            $linkAttr = isset($item['linkAttr']) ? rex_string::buildAttributes($item['linkAttr']) : '';
+            $itemAttr = isset($item['itemAttr']) ? Str::buildAttributes($item['itemAttr']) : '';
+            $linkAttr = isset($item['linkAttr']) ? Str::buildAttributes($item['linkAttr']) : '';
         ?>
 
         <li<?= $itemAttr ?>><a href="<?= rex_escape($item['href']) ?>"<?= $linkAttr ?>><?= $icon . $item['title'] ?></a></li>

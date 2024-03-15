@@ -1,13 +1,21 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
+use InvalidArgumentException;
+use Normalizer;
+use rex_yaml_parse_exception;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use voku\helper\AntiXSS;
 
+use function is_array;
+use function is_int;
+
 /**
  * String utility class.
  */
-class rex_string
+class Str
 {
     /**
      * Returns the string size in bytes.

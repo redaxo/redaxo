@@ -1,11 +1,12 @@
 <?php
 
 use Clockwork\Helpers\StackTrace;
+use Redaxo\Core\Log\Logger;
 
 /**
  * @internal
  */
-class rex_logger_debug extends rex_logger
+class rex_logger_debug extends Logger
 {
     public function log($level, $message, array $context = [], $file = null, $line = null, ?string $url = null): void
     {

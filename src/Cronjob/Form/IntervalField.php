@@ -5,7 +5,7 @@ namespace Redaxo\Core\Cronjob\Form;
 use Generator;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Translation\I18n;
-use rex_formatter;
+use Redaxo\Core\Util\Formatter;
 use rex_fragment;
 use rex_response;
 
@@ -102,9 +102,9 @@ class IntervalField extends BaseField
         $n['label'] = '<label class="control-label">' . I18n::msg('cronjob_interval_weekdays') . '</label>';
         $weekdays = static function () {
             for ($i = 1; $i < 7; ++$i) {
-                yield $i => rex_formatter::intlDate(strtotime('last sunday +' . $i . ' days'), 'E');
+                yield $i => Formatter::intlDate(strtotime('last sunday +' . $i . ' days'), 'E');
             }
-            yield 0 => rex_formatter::intlDate(strtotime('last sunday'), 'E');
+            yield 0 => Formatter::intlDate(strtotime('last sunday'), 'E');
         };
         $n['field'] = $this->formatField('weekdays', I18n::msg('cronjob_interval_weekdays_all'), $weekdays());
         $elements[] = $n;
@@ -113,7 +113,7 @@ class IntervalField extends BaseField
         $n['label'] = '<label class="control-label">' . I18n::msg('cronjob_interval_months') . '</label>';
         $months = static function () {
             for ($i = 1; $i < 13; ++$i) {
-                yield $i => rex_formatter::intlDate(mktime(0, 0, 0, $i, 1), 'LLL');
+                yield $i => Formatter::intlDate(mktime(0, 0, 0, $i, 1), 'LLL');
             }
         };
         $n['field'] = $this->formatField('months', I18n::msg('cronjob_interval_months_all'), $months());

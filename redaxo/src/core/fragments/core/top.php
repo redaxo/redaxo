@@ -1,6 +1,7 @@
 <?php
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -37,7 +38,7 @@ use Redaxo\Core\Translation\I18n;
             $file = (string) $file;
             $path = Path::frontend(Path::absolute($file));
             if (!Core::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
-                $file = rex_url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
+                $file = Url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
             } elseif ($mtime = @filemtime($path)) {
                 $file .= '?buster=' . $mtime;
             }
@@ -62,7 +63,7 @@ use Redaxo\Core\Translation\I18n;
         $path = Path::frontend(Path::absolute($file));
         if (array_key_exists(rex_view::JS_IMMUTABLE, $options) && $options[rex_view::JS_IMMUTABLE]) {
             if (!Core::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
-                $file = rex_url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
+                $file = Url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
             }
         } elseif ($mtime = @filemtime($path)) {
             $file .= '?buster=' . $mtime;
@@ -82,11 +83,11 @@ use Redaxo\Core\Translation\I18n;
 
     <?= $this->favicon ? '<link rel="shortcut icon" href="' . $this->favicon . '" />' : '' ?>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="<?= rex_url::coreAssets('icons/apple-touch-icon.png') ?>">
-    <link rel="icon" type="image/png" sizes="32x32" href="<?= rex_url::coreAssets('icons/favicon-32x32.png') ?>">
-    <link rel="icon" type="image/png" sizes="16x16" href="<?= rex_url::coreAssets('icons/favicon-16x16.png') ?>">
-    <link rel="manifest" href="<?= rex_url::coreAssets('icons/site.webmanifest') ?>">
-    <link rel="mask-icon" href="<?= rex_url::coreAssets('icons/safari-pinned-tab.svg') ?>" color="<?= rex_escape((string) Core::getConfig('be_style_labelcolor', '#4d99d3')) ?>">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= Url::coreAssets('icons/apple-touch-icon.png') ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= Url::coreAssets('icons/favicon-32x32.png') ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= Url::coreAssets('icons/favicon-16x16.png') ?>">
+    <link rel="manifest" href="<?= Url::coreAssets('icons/site.webmanifest') ?>">
+    <link rel="mask-icon" href="<?= Url::coreAssets('icons/safari-pinned-tab.svg') ?>" color="<?= rex_escape((string) Core::getConfig('be_style_labelcolor', '#4d99d3')) ?>">
     <meta name="msapplication-TileColor" content="#2d89ef">
 
     <?= $this->pageHeader ?>

@@ -1,7 +1,19 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
+use InvalidArgumentException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+
+use function extension_loaded;
+use function ini_get;
+use function is_string;
+use function strlen;
+
+use const SEEK_CUR;
+use const SEEK_END;
+use const SEEK_SET;
 
 /**
  * Stream wrapper to include variables like files (php code will be evaluated).
@@ -9,13 +21,13 @@ use Redaxo\Core\Filesystem\Path;
  * Example:
  * <code>
  * <?php
- *   include rex_stream::factory('myContent', '<?php echo "Hello World"; ?>');
+ *   include Stream::factory('myContent', '<?php echo "Hello World"; ?>');
  * ?>
  * </code>
  *
  * @see https://www.php.net/manual/en/class.streamwrapper.php
  */
-class rex_stream
+class Stream
 {
     private static ?bool $useRealFiles = null;
     private static bool $registered = false;

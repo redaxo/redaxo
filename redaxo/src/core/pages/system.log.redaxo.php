@@ -1,13 +1,20 @@
 <?php
 
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Log\LogEntry;
+use Redaxo\Core\Log\LogFile;
+use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Editor;
+use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Type;
 
 $error = '';
 $success = '';
 
 $func = rex_request('func', 'string');
-$logFile = rex_logger::getPath();
+$logFile = Logger::getPath();
 
 $csrfToken = rex_csrf_token::factory('system');
 
@@ -16,9 +23,9 @@ if ($func && !$csrfToken->isValid()) {
 } elseif ('delLog' == $func) {
     // close logger, to free remaining file-handles to syslog
     // so we can safely delete the file
-    rex_logger::close();
+    Logger::close();
 
-    if (rex_log_file::delete($logFile)) {
+    if (LogFile::delete($logFile)) {
         $success = I18n::msg('syslog_deleted');
     } else {
         $error = I18n::msg('syslog_delete_error');
@@ -46,15 +53,15 @@ $content = '
                 </thead>
                 <tbody>';
 
-$editor = rex_editor::factory();
+$editor = Editor::factory();
 
-$file = rex_log_file::factory($logFile);
+$file = LogFile::factory($logFile);
 foreach (new LimitIterator($file, 0, 100) as $entry) {
-    /** @var rex_log_entry $entry */
+    /** @var LogEntry $entry */
     $data = $entry->getData();
 
-    $type = rex_type::string($data[0]);
-    $message = rex_type::string($data[1]);
+    $type = Type::string($data[0]);
+    $message = Type::string($data[1]);
     $file = $data[2] ?? null;
     $line = $data[3] ?? null;
 
@@ -88,7 +95,7 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     $content .= '
                 <tr>
                     <td data-title="' . I18n::msg('syslog_timestamp') . '" class="rex-table-tabular-nums rex-table-date">
-                        <small>' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</small><br>
+                        <small>' . Formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</small><br>
                         <span class="label label-' . $class . '">' . rex_escape($type) . '</span>
                     </td>
                     <td data-title="' . I18n::msg('syslog_message') . '">
@@ -116,7 +123,7 @@ if ($url = $editor->getUrl($logFile, 0)) {
 }
 
 if (is_file($logFile)) {
-    $url = rex_url::currentBackendPage(['func' => 'download'] + $csrfToken->getUrlParams());
+    $url = Url::currentBackendPage(['func' => 'download'] + $csrfToken->getUrlParams());
     $n = [];
     $n['field'] = '<a class="btn btn-save" href="' . $url . '" download>' . I18n::msg('syslog_download', Path::basename($logFile)) . '</a>';
     $formElements[] = $n;
@@ -133,7 +140,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-    <form action="' . rex_url::currentBackendPage() . '" method="post">
+    <form action="' . Url::currentBackendPage() . '" method="post">
         <input type="hidden" name="func" value="delLog" />
         ' . $csrfToken->getHiddenField() . '
         ' . $content . '

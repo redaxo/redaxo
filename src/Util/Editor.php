@@ -1,9 +1,19 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use rex_extension;
+use rex_extension_point;
+use rex_factory_trait;
 
-class rex_editor
+use function array_key_exists;
+use function ini_get;
+
+use const DIRECTORY_SEPARATOR;
+
+class Editor
 {
     use rex_factory_trait;
 

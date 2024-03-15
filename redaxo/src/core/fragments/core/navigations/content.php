@@ -1,4 +1,7 @@
 <?php
+
+use Redaxo\Core\Util\Str;
+
 /**
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
@@ -77,7 +80,7 @@ foreach ($navigationArrays as $navKey => $navigation) {
             }
         }
 
-        $liA .= '<li' . rex_string::buildAttributes($attributes) . '>';
+        $liA .= '<li' . Str::buildAttributes($attributes) . '>';
 
         if (isset($navi['href']) && '' != $navi['href']) {
             $attributes = [];
@@ -95,7 +98,7 @@ foreach ($navigationArrays as $navKey => $navigation) {
                 }
             }
 
-            $liA .= '<a' . rex_string::buildAttributes($attributes) . '>';
+            $liA .= '<a' . Str::buildAttributes($attributes) . '>';
         }
 
         if (isset($navi['icon']) && '' != $navi['icon']) {

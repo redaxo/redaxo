@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -50,7 +51,7 @@ class rex_install_webservice
                 }
             }
         } catch (rex_socket_exception $e) {
-            rex_logger::logException($e);
+            Logger::logException($e);
         }
 
         if (!$error) {
@@ -81,7 +82,7 @@ class rex_install_webservice
                 return $file;
             }
         } catch (rex_socket_exception $e) {
-            rex_logger::logException($e);
+            Logger::logException($e);
         }
 
         throw new rex_functional_exception(I18n::msg('install_archive_unreachable'));
@@ -116,7 +117,7 @@ class rex_install_webservice
                 $error = I18n::msg('install_webservice_error') . '<br />' . $data['error'];
             }
         } catch (rex_socket_exception $e) {
-            rex_logger::logException($e);
+            Logger::logException($e);
         }
 
         if (!$error) {
@@ -149,7 +150,7 @@ class rex_install_webservice
                 $error = I18n::msg('install_webservice_error') . '<br />' . $data['error'];
             }
         } catch (rex_socket_exception $e) {
-            rex_logger::logException($e);
+            Logger::logException($e);
         }
 
         if (!$error) {

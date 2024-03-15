@@ -10,11 +10,11 @@ use PDOException;
 use PDOStatement;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 use ReturnTypeWillChange;
 use rex_factory_trait;
 use rex_sql_could_not_connect_exception;
 use rex_sql_exception;
-use rex_type;
 use SensitiveParameter;
 use Throwable;
 
@@ -1825,7 +1825,7 @@ class Sql implements Iterator
         $tables = $this->getArray($qry);
 
         return array_map(static function (array $table) {
-            return rex_type::string(reset($table));
+            return Type::string(reset($table));
         }, $tables);
     }
 
@@ -1896,7 +1896,7 @@ class Sql implements Iterator
      */
     public static function getServerVersion($db = 1)
     {
-        return rex_type::string(self::factory($db)->getConnection()->getAttribute(PDO::ATTR_SERVER_VERSION));
+        return Type::string(self::factory($db)->getConnection()->getAttribute(PDO::ATTR_SERVER_VERSION));
     }
 
     /**

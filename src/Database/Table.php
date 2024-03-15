@@ -4,10 +4,10 @@ namespace Redaxo\Core\Database;
 
 use InvalidArgumentException;
 use LogicException;
+use Redaxo\Core\Util\Type;
 use rex_exception;
 use rex_instance_pool_trait;
 use rex_sql_exception;
-use rex_type;
 use RuntimeException;
 
 use function array_slice;
@@ -181,7 +181,7 @@ class Table
             static fn (int $db, string $name) => new static($name, $db),
         );
 
-        return rex_type::instanceOf($table, self::class);
+        return Type::instanceOf($table, self::class);
     }
 
     /**
@@ -1003,7 +1003,7 @@ class Table
                     continue;
                 }
 
-                $offset = rex_type::int(array_search($after, array_keys($columns)));
+                $offset = Type::int(array_search($after, array_keys($columns)));
                 ++$offset;
                 $columns = array_slice($columns, 0, $offset) + $insert + array_slice($columns, $offset);
                 unset($this->positions[$name]);

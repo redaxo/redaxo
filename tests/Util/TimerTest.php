@@ -1,19 +1,24 @@
 <?php
 
+namespace Redaxo\Core\Tests\Util;
+
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
+use Redaxo\Core\Util\Timer;
+use RuntimeException;
+use Throwable;
 
 /**
  * @internal
  */
-class rex_timer_test extends TestCase
+class TimerTest extends TestCase
 {
     /** @var array{enabled: bool, throw_always_exception: bool|int} */
     private array $orgDebug;
 
     protected function setUp(): void
     {
-        // rex_timer internals depend on debug mode..
+        // Timer internals depend on debug mode..
         $this->orgDebug = Core::getProperty('debug');
         Core::setProperty('debug', true);
     }
@@ -32,11 +37,11 @@ class rex_timer_test extends TestCase
             return 'result' . ($i++);
         };
 
-        $result = rex_timer::measure('test', $callable);
+        $result = Timer::measure('test', $callable);
         self::assertSame('result1', $result);
 
-        self::assertArrayHasKey('test', rex_timer::$serverTimings);
-        $timing = rex_timer::$serverTimings['test'];
+        self::assertArrayHasKey('test', Timer::$serverTimings);
+        $timing = Timer::$serverTimings['test'];
         self::assertIsFloat($timing['sum']);
         self::assertGreaterThan(0, $timing['sum']);
         self::assertArrayHasKey(0, $timing['timings']);
@@ -44,14 +49,14 @@ class rex_timer_test extends TestCase
         self::assertIsFloat($timing['timings'][0]['end']);
         self::assertGreaterThan($timing['timings'][0]['start'], $timing['timings'][0]['end']);
 
-        $result = rex_timer::measure('test', $callable);
+        $result = Timer::measure('test', $callable);
 
         self::assertSame('result2', $result);
-        self::assertGreaterThan($timing['sum'], rex_timer::$serverTimings['test']['sum']);
+        self::assertGreaterThan($timing['sum'], Timer::$serverTimings['test']['sum']);
 
         $exception = null;
         try {
-            rex_timer::measure('test2', static function () {
+            Timer::measure('test2', static function () {
                 throw new RuntimeException();
             });
         } catch (Throwable $exception) {
@@ -59,8 +64,8 @@ class rex_timer_test extends TestCase
 
         self::assertInstanceOf(RuntimeException::class, $exception);
 
-        self::assertArrayHasKey('test2', rex_timer::$serverTimings);
-        $timing = rex_timer::$serverTimings['test2'];
+        self::assertArrayHasKey('test2', Timer::$serverTimings);
+        $timing = Timer::$serverTimings['test2'];
         self::assertIsFloat($timing['sum']);
         self::assertGreaterThan(0, $timing['sum']);
         self::assertArrayHasKey(0, $timing['timings']);
