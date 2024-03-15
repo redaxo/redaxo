@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Util\Formatter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,7 +39,7 @@ class rex_command_install_list extends rex_console_command
                 'key' => $key,
                 'name' => strlen($package['name']) > 40 ? substr($package['name'], 0, 40) . '...' : $package['name'],
                 'author' => $package['author'],
-                'last updated' => rex_formatter::intlDate($package['updated']),
+                'last updated' => Formatter::intlDate($package['updated']),
                 'latest version' => reset($package['files'])['version'],
                 'installed version' => rex_addon::get($key)->getVersion(),
             ];

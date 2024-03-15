@@ -1,13 +1,23 @@
 <?php
 
+namespace Redaxo\Core\Tests\Util;
+
+use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
+use DateTimeZone;
+use IntlDateFormatter;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
+
+use const PHP_INT_SIZE;
 
 /**
  * @internal
  */
-class rex_formatter_test extends TestCase
+class FormatterTest extends TestCase
 {
     private string $previousLocale;
 
@@ -27,11 +37,11 @@ class rex_formatter_test extends TestCase
 
         self::assertEquals(
             '12.05.2012 10:24',
-            rex_formatter::date(1336811080, $format),
+            Formatter::date(1336811080, $format),
         );
         self::assertEquals(
             '27.06.2016 21:40',
-            rex_formatter::date('2016-06-27 21:40:00', $format),
+            Formatter::date('2016-06-27 21:40:00', $format),
         );
     }
 
@@ -40,10 +50,10 @@ class rex_formatter_test extends TestCase
     public function testIntlDateTime(string $expected, string|int|DateTimeInterface|null $value, int|array|string|null $format = null): void
     {
         if (null === $format) {
-            $string = rex_formatter::intlDateTime($value);
+            $string = Formatter::intlDateTime($value);
         } else {
             /** @psalm-suppress ArgumentTypeCoercion */
-            $string = rex_formatter::intlDateTime($value, $format);
+            $string = Formatter::intlDateTime($value, $format);
         }
 
         self::assertSame($expected, $string);
@@ -70,10 +80,10 @@ class rex_formatter_test extends TestCase
     public function testIntlDate(string $expected, string|int|DateTimeInterface|null $value, int|string|null $format = null): void
     {
         if (null === $format) {
-            $string = rex_formatter::intlDate($value);
+            $string = Formatter::intlDate($value);
         } else {
             /** @psalm-suppress ArgumentTypeCoercion */
-            $string = rex_formatter::intlDate($value, $format);
+            $string = Formatter::intlDate($value, $format);
         }
 
         self::assertSame($expected, $string);
@@ -98,10 +108,10 @@ class rex_formatter_test extends TestCase
     public function testIntlTime(string $expected, string|int|DateTimeInterface|null $value, int|string|null $format = null): void
     {
         if (null === $format) {
-            $string = rex_formatter::intlTime($value);
+            $string = Formatter::intlTime($value);
         } else {
             /** @psalm-suppress ArgumentTypeCoercion */
-            $string = rex_formatter::intlTime($value, $format);
+            $string = Formatter::intlTime($value, $format);
         }
 
         self::assertSame($expected, $string);
@@ -130,13 +140,13 @@ class rex_formatter_test extends TestCase
         $format = [];
         self::assertEquals(
             '1 336 811 080,23',
-            rex_formatter::number($value, $format),
+            Formatter::number($value, $format),
         );
 
         $format = [5, ':', '`'];
         self::assertEquals(
             '1`336`811`080:23000',
-            rex_formatter::number($value, $format),
+            Formatter::number($value, $format),
         );
     }
 
@@ -146,40 +156,40 @@ class rex_formatter_test extends TestCase
 
         self::assertEquals(
             '1 000,00 B',
-            rex_formatter::bytes($value),
+            Formatter::bytes($value),
         );
 
         self::assertEquals(
             '976,56 KiB',
-            rex_formatter::bytes($value * 1000),
+            Formatter::bytes($value * 1000),
         );
 
         self::assertEquals(
             '953,67 MiB',
-            rex_formatter::bytes($value * 1000 * 1000),
+            Formatter::bytes($value * 1000 * 1000),
         );
 
         // in 32 bit php the following tests use too big numbers
         if (PHP_INT_SIZE > 4) {
             self::assertEquals(
                 '931,32 GiB',
-                rex_formatter::bytes($value * 1000 * 1000 * 1000),
+                Formatter::bytes($value * 1000 * 1000 * 1000),
             );
 
             self::assertEquals(
                 '909,49 TiB',
-                rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000),
+                Formatter::bytes($value * 1000 * 1000 * 1000 * 1000),
             );
 
             self::assertEquals(
                 '888,18 PiB',
-                rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000 * 1000),
+                Formatter::bytes($value * 1000 * 1000 * 1000 * 1000 * 1000),
             );
 
             $format = [5]; // number of signs behind comma
             self::assertEquals(
                 '953,67432 MiB',
-                rex_formatter::bytes($value * 1000 * 1000, $format),
+                Formatter::bytes($value * 1000 * 1000, $format),
             );
         }
     }
@@ -191,7 +201,7 @@ class rex_formatter_test extends TestCase
 
         self::assertEquals(
             'XhalloX',
-            rex_formatter::sprintf($value, $format),
+            Formatter::sprintf($value, $format),
         );
     }
 
@@ -201,7 +211,7 @@ class rex_formatter_test extends TestCase
 
         self::assertEquals(
             "very<br />\nloooooong<br />\ntext lala",
-            rex_formatter::nl2br($value),
+            Formatter::nl2br($value),
         );
     }
 
@@ -216,7 +226,7 @@ class rex_formatter_test extends TestCase
         ];
         self::assertEquals(
             'very  usw.',
-            rex_formatter::truncate($value, $format),
+            Formatter::truncate($value, $format),
         );
 
         // XXX hmm seems not to be correct
@@ -227,7 +237,7 @@ class rex_formatter_test extends TestCase
         ];
         self::assertEquals(
             'very usw.',
-            rex_formatter::truncate($value, $format),
+            Formatter::truncate($value, $format),
         );
     }
 
@@ -237,12 +247,12 @@ class rex_formatter_test extends TestCase
 
         self::assertEquals(
             '5_1',
-            rex_formatter::version($value, '%s_%s'),
+            Formatter::version($value, '%s_%s'),
         );
 
         self::assertEquals(
             '2-1-5',
-            rex_formatter::version($value, '%3$s-%2$s-%1$s'),
+            Formatter::version($value, '%3$s-%2$s-%1$s'),
         );
     }
 
@@ -256,7 +266,7 @@ class rex_formatter_test extends TestCase
         ];
         self::assertEquals(
             '<a href="http://example.org?ilike=+1" data-haha="foo">http://example.org</a>',
-            rex_formatter::url($value, $format),
+            Formatter::url($value, $format),
         );
     }
 
@@ -270,7 +280,7 @@ class rex_formatter_test extends TestCase
         ];
         self::assertEquals(
             '<a href="mailto:dude@example.org?ilike=+1" data-haha="foo">dude@example.org</a>',
-            rex_formatter::email($value, $format),
+            Formatter::email($value, $format),
         );
     }
 
@@ -279,7 +289,7 @@ class rex_formatter_test extends TestCase
         $format = 'strtoupper';
         self::assertEquals(
             'TEST',
-            rex_formatter::custom('test', $format),
+            Formatter::custom('test', $format),
         );
 
         $format = [
@@ -291,7 +301,7 @@ class rex_formatter_test extends TestCase
 
         self::assertEquals(
             '77 more params',
-            rex_formatter::custom('77', $format),
+            Formatter::custom('77', $format),
         );
     }
 }

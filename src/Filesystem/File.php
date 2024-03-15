@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Filesystem;
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Util\Formatter;
 use rex_exception;
-use rex_formatter;
 use rex_string;
 use rex_timer;
 
@@ -319,7 +319,7 @@ class File
      */
     public static function formattedSize($file, $format = [])
     {
-        return rex_formatter::bytes(filesize($file), $format);
+        return Formatter::bytes(filesize($file), $format);
     }
 
     /**

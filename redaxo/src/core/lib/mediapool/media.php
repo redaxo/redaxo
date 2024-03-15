@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\Formatter;
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab.
@@ -225,7 +226,7 @@ class rex_media
      */
     public function getFormattedSize()
     {
-        return rex_formatter::bytes($this->getSize());
+        return Formatter::bytes($this->getSize());
     }
 
     /**

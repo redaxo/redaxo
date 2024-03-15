@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
 
 assert(isset($ep) && $ep instanceof rex_extension_point);
 
@@ -21,9 +22,9 @@ $status = (int) $article->getValue('status');
 
 $panels = [];
 $panels[] = '<dt>' . I18n::msg('created_by') . '</dt><dd>' . rex_escape($article->getValue('createuser')) . '</dd>';
-$panels[] = '<dt>' . I18n::msg('created_on') . '</dt><dd>' . rex_formatter::intlDate($article->getValue('createdate')) . '</dd>';
+$panels[] = '<dt>' . I18n::msg('created_on') . '</dt><dd>' . Formatter::intlDate($article->getValue('createdate')) . '</dd>';
 $panels[] = '<dt>' . I18n::msg('updated_by') . '</dt><dd>' . rex_escape($article->getValue('updateuser')) . '</dd>';
-$panels[] = '<dt>' . I18n::msg('updated_on') . '</dt><dd>' . rex_formatter::intlDate($article->getValue('updatedate')) . '</dd>';
+$panels[] = '<dt>' . I18n::msg('updated_on') . '</dt><dd>' . Formatter::intlDate($article->getValue('updatedate')) . '</dd>';
 
 $articleClass = $articleStatusTypes[$status][1];
 $articleStatus = $articleStatusTypes[$status][0];

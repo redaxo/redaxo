@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
 
 echo rex_view::title(I18n::msg('title_templates'));
 
@@ -292,7 +293,7 @@ if ('add' == $function || 'edit' == $function) {
                 $formElements = [];
                 $n = [];
                 $n['id'] = 'rex-js-modules' . $i;
-                $n['label'] = '<label for="rex-id-modules-' . $i . '-select">' . rex_formatter::widont(I18n::msg('modules_available')) . '</label>';
+                $n['label'] = '<label for="rex-id-modules-' . $i . '-select">' . Formatter::widont(I18n::msg('modules_available')) . '</label>';
                 $n['field'] = $modulSelect->get();
                 $n['note'] = I18n::msg('ctrl');
                 $formElements[] = $n;
@@ -424,7 +425,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['id'] = 'rex-id-categories';
-        $n['label'] = '<label for="rex-id-categories-select">' . rex_formatter::widont(I18n::msg('template_categories_custom')) . '</label>';
+        $n['label'] = '<label for="rex-id-categories-select">' . Formatter::widont(I18n::msg('template_categories_custom')) . '</label>';
         $n['field'] = $catSelect->get();
         $n['note'] = I18n::msg('ctrl');
         $formElements[] = $n;

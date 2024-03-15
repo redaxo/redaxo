@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
 
 final class rex_media_service
 {
@@ -27,7 +28,7 @@ final class rex_media_service
         $error = $data['file']['error'] ?? null;
 
         if (UPLOAD_ERR_INI_SIZE === $error) {
-            throw new rex_api_exception(I18n::msg('pool_file_upload_error_size', rex_formatter::bytes(rex_ini_get('upload_max_filesize'))));
+            throw new rex_api_exception(I18n::msg('pool_file_upload_error_size', Formatter::bytes(rex_ini_get('upload_max_filesize'))));
         }
         if ($error) {
             throw new rex_api_exception(I18n::msg('pool_file_upload_error'));
@@ -177,7 +178,7 @@ final class rex_media_service
             $error = $file['error'] ?? null;
 
             if (UPLOAD_ERR_INI_SIZE === $error) {
-                throw new rex_api_exception(I18n::msg('pool_file_upload_error_size', rex_formatter::bytes(rex_ini_get('upload_max_filesize'))));
+                throw new rex_api_exception(I18n::msg('pool_file_upload_error_size', Formatter::bytes(rex_ini_get('upload_max_filesize'))));
             }
             if ($error) {
                 throw new rex_api_exception(I18n::msg('pool_file_upload_error'));

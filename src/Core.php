@@ -4,13 +4,13 @@ namespace Redaxo\Core;
 
 use InvalidArgumentException;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Validator\Validator;
 use rex_backend_login;
 use rex_config;
 use rex_config_db;
 use rex_console_application;
 use rex_exception;
-use rex_formatter;
 use rex_setup;
 use rex_timer;
 use rex_type;
@@ -504,7 +504,7 @@ class Core
         $version = self::getProperty('version');
 
         if ($format) {
-            return rex_formatter::version($version, $format);
+            return Formatter::version($version, $format);
         }
         return $version;
     }

@@ -1,9 +1,27 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
+use DateTimeInterface;
+use IntlDateFormatter;
+use IntlTimeZone;
+use InvalidArgumentException;
+use Locale;
+use rex_exception;
+use rex_version;
+
+use function call_user_func;
+use function is_array;
+use function is_callable;
+use function is_int;
+use function is_string;
+
+use const E_USER_WARNING;
+
 /**
  * String formatter class.
  */
-abstract class rex_formatter
+abstract class Formatter
 {
     /**
      * It's not allowed to create instances of this class.

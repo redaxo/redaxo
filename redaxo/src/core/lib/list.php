@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
@@ -1143,7 +1144,7 @@ class rex_list implements rex_url_provider_interface
                 $format[1] = [$format[1], ['list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params' => $format[2]]];
             }
 
-            $value = rex_formatter::format($value, $format[0], $format[1]);
+            $value = Formatter::format($value, $format[0], $format[1]);
         }
 
         // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll

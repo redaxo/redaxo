@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Util\Formatter;
 
 /**
  * Class to stop the script time.
@@ -125,6 +126,6 @@ class rex_timer
     public function getFormattedDelta($precision = self::MILLISEC, $decimals = 3)
     {
         $time = $this->getDelta($precision);
-        return rex_formatter::number($time, [$decimals]);
+        return Formatter::number($time, [$decimals]);
     }
 }

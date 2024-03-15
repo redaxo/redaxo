@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
 
 /**
  * @internal
@@ -193,7 +194,7 @@ class rex_setup
             '8.3' => '2026-12-01',
         ];
 
-        $versionNumber = rex_formatter::version(PHP_VERSION, '%s.%s');
+        $versionNumber = Formatter::version(PHP_VERSION, '%s.%s');
 
         if (array_key_exists($versionNumber, $deprecatedVersions)) {
             $deprecationDate = $deprecatedVersions[$versionNumber];
@@ -238,7 +239,7 @@ class rex_setup
                 '11.2' => '2024-11-01',
             ];
 
-            $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
+            $versionNumber = Formatter::version($dbVersion, '%s.%s');
             if (array_key_exists($versionNumber, $deprecatedVersions)) {
                 $deprecationDate = $deprecatedVersions[$versionNumber];
                 if ($currentDate > $deprecationDate) {
@@ -257,7 +258,7 @@ class rex_setup
                 '8.3' => '2024-04-01',
             ];
 
-            $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
+            $versionNumber = Formatter::version($dbVersion, '%s.%s');
             if (array_key_exists($versionNumber, $deprecatedVersions)) {
                 $deprecationDate = $deprecatedVersions[$versionNumber];
                 if ($currentDate > $deprecationDate) {

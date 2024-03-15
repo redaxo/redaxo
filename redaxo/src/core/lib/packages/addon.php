@@ -5,6 +5,7 @@ use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
 
 class rex_addon implements rex_addon_interface
 {
@@ -237,7 +238,7 @@ class rex_addon implements rex_addon_interface
         $version = (string) $this->getProperty('version');
 
         if ($format) {
-            return rex_formatter::version($version, $format);
+            return Formatter::version($version, $format);
         }
         return $version;
     }

@@ -3,6 +3,7 @@
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
+use Redaxo\Core\Util\Formatter;
 
 $error = '';
 $success = '';
@@ -89,7 +90,7 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     $content .= '
                 <tr>
                     <td data-title="' . I18n::msg('syslog_timestamp') . '" class="rex-table-tabular-nums rex-table-date">
-                        <small>' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</small><br>
+                        <small>' . Formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</small><br>
                         <span class="label label-' . $class . '">' . rex_escape($type) . '</span>
                     </td>
                     <td data-title="' . I18n::msg('syslog_message') . '">

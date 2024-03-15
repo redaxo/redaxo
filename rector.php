@@ -104,7 +104,7 @@ return RectorConfig::configure()
         'rex_form_prio_element' => Form\Field\PriorityField::class,
         'rex_form_perm_select_element' => Form\Field\PermissionSelectField::class,
         'rex_form_raw_element' => Form\Field\RawField::class,
-        // 'rex_formatter' => Util\Formatter::class,
+        'rex_formatter' => Util\Formatter::class,
         'rex_i18n' => Translation\I18n::class,
         // 'rex_log_file' => Util\LogFile::class,
         // 'rex_logger' => Util\Logger::class,

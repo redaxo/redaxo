@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
 
 /**
  * Ausgabe des Medienpool Formulars.
@@ -96,7 +97,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
         $e['after'] = '<h3>' . I18n::msg('phpini_settings') . '</h3>
                         <dl class="dl-horizontal text-left">
                         ' . ((0 == rex_ini_get('file_uploads')) ? '<dt><span class="text-warning">' . I18n::msg('pool_upload') . '</span></dt><dd><span class="text-warning">' . I18n::msg('pool_upload_disabled') . '</span></dd>' : '') . '
-                            <dt>' . I18n::msg('pool_max_uploadsize') . ':</dt><dd>' . rex_formatter::bytes(rex_ini_get('upload_max_filesize')) . '</dd>
+                            <dt>' . I18n::msg('pool_max_uploadsize') . ':</dt><dd>' . Formatter::bytes(rex_ini_get('upload_max_filesize')) . '</dd>
                             <dt>' . I18n::msg('pool_max_uploadtime') . ':</dt><dd>' . rex_ini_get('max_input_time') . 's</dd>
                         </dl>';
 

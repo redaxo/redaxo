@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
 
 assert(isset($markdown) && is_callable($markdown));
 
@@ -214,9 +215,9 @@ if ($core && !empty($coreVersions)) {
             $availVers = rex_escape($file['version']);
             if (rex_version::isUnstable($availVers)) {
                 $availVers = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $availVers;
-                $availableVersions[] = '<span class="label label-warning" title="' . rex_escape(rex_formatter::intlDate($file['created'])) . '">' . $availVers . '</span> ';
+                $availableVersions[] = '<span class="label label-warning" title="' . rex_escape(Formatter::intlDate($file['created'])) . '">' . $availVers . '</span> ';
             } else {
-                $availableVersions[] = '<span class="label label-success" title="' . rex_escape(rex_formatter::intlDate($file['created'])) . '">' . $availVers . '</span> ';
+                $availableVersions[] = '<span class="label label-success" title="' . rex_escape(Formatter::intlDate($file['created'])) . '">' . $availVers . '</span> ';
             }
         }
 
