@@ -1,10 +1,10 @@
 <?php
 
-use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Pager;
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
@@ -979,7 +979,7 @@ class rex_list implements rex_url_provider_interface
     /**
      * Returns the pager for this list.
      *
-     * @return \Redaxo\Core\Util\Pager|null
+     * @return Pager|null
      */
     public function getPager()
     {

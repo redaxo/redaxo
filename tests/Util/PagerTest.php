@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Tests\Util;
 
-use Redaxo\Core\Util\Pager;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Util\Pager;
 
 /**
  * @internal

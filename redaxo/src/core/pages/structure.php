@@ -1,10 +1,10 @@
 <?php
 
-use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Pager;
 
 $structureContext = new rex_structure_context([
     'category_id' => rex_request('category_id', 'int'),

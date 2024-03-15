@@ -1,12 +1,12 @@
 <?php
 
-use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Pager;
 
 final class rex_media_service
 {
