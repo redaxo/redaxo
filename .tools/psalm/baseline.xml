@@ -1364,34 +1364,6 @@
       <code><![CDATA[$rows]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/core/lib/cronjob/form.php">
-    <MixedArgument>
-      <code><![CDATA[$attributes]]></code>
-      <code><![CDATA[$value[$key]]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$value[$key]]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$attributes['class']]]></code>
-      <code><![CDATA[$attributes['internal::fieldClass']]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$this->intervalElements]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <PossiblyNullOperand>
-      <code><![CDATA[$this->getAttribute('id')]]></code>
-      <code><![CDATA[$this->getAttribute('id')]]></code>
-      <code><![CDATA[$this->getAttribute('name')]]></code>
-      <code><![CDATA[$this->getAttribute('name')]]></code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference>
-      <code><![CDATA[getIntervalElements]]></code>
-      <code><![CDATA[setValue]]></code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/lib/cronjob/manager.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$key]]></code>
@@ -4477,6 +4449,38 @@
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$server]]></code>
     </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Cronjob/Form/CronjobForm.php">
+    <MixedArgument>
+      <code><![CDATA[$attributes]]></code>
+    </MixedArgument>
+    <MixedArrayAssignment>
+      <code><![CDATA[$attributes['class']]]></code>
+      <code><![CDATA[$attributes['internal::fieldClass']]]></code>
+    </MixedArrayAssignment>
+    <PossiblyNullReference>
+      <code><![CDATA[getIntervalElements]]></code>
+      <code><![CDATA[setValue]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Cronjob/Form/IntervalField.php">
+    <MixedArgument>
+      <code><![CDATA[$value[$key]]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$value[$key]]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$this->intervalElements]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <PossiblyNullOperand>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+    </PossiblyNullOperand>
   </file>
   <file src="src/Database/SchemaDumper.php">
     <RedundantCondition>

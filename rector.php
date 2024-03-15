@@ -30,6 +30,7 @@ use Rector\Transform\ValueObject\FuncCallToStaticCall;
 use Rector\Transform\ValueObject\NewToStaticCall;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Core;
+use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
@@ -88,6 +89,8 @@ return RectorConfig::configure()
         'rex_null_package' => rex_null_addon::class,
         'rex_package' => rex_addon::class,
         'rex_package_manager' => rex_addon_manager::class,
+        'rex_cronjob_form' => Cronjob\Form\CronjobForm::class,
+        'rex_cronjob_form_interval_element' => Cronjob\Form\IntervalField::class,
         'rex_dir' => Filesystem\Dir::class,
         'rex_file' => Filesystem\File::class,
         'rex_finder' => Filesystem\Finder::class,
