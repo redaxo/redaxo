@@ -1,7 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Util\Str;
-use Redaxo\Core\Util\Url;
 
 /**
  * Gibt eine Url zu einem Artikel zurück.

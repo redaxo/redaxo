@@ -1,7 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Url;
 
 $successfullyCompleted = rex_setup::markSetupCompleted();
 

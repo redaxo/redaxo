@@ -1,7 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
-use Redaxo\Core\Util\Url;
+use Redaxo\Core\Filesystem\Url;
 
 /**
  * @internal

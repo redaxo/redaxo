@@ -5,10 +5,10 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
-use Redaxo\Core\Util\Url;
 use Redaxo\Core\Util\Version;
 
 $error = [];

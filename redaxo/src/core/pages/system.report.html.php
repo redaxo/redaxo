@@ -1,7 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Url;
 use Redaxo\Core\Util\Version;
 
 $report = rex_system_report::factory()->get();

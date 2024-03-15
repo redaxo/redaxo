@@ -4,8 +4,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Util\Formatter;
-use Redaxo\Core\Util\Url;
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab.

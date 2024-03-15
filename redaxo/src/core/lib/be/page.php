@@ -1,6 +1,6 @@
 <?php
 
-use Redaxo\Core\Util\Url;
+use Redaxo\Core\Filesystem\Url;
 
 class rex_be_page
 {

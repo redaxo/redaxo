@@ -1,7 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Url;
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($successArray) && is_array($successArray));

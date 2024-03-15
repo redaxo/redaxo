@@ -3,9 +3,9 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
-use Redaxo\Core\Util\Url;
 
 /**
  * Fügt einen neuen Feldtyp ein.

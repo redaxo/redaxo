@@ -7,7 +7,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Util\Url;
+use Redaxo\Core\Filesystem\Url;
 
 /**
  * @internal

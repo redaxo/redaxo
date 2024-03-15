@@ -1,8 +1,8 @@
 <?php
 
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
-use Redaxo\Core\Util\Url;
 use Redaxo\Core\Util\Version;
 
 echo rex_view::title(I18n::msg('addons'), '');

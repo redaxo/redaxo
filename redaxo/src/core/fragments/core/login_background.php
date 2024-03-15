@@ -1,5 +1,6 @@
 <?php
-use Redaxo\Core\Util\Url;
+
+use Redaxo\Core\Filesystem\Url;
 
 /**
  * @var rex_fragment $this

@@ -2,11 +2,11 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Str;
-use Redaxo\Core\Util\Url;
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);

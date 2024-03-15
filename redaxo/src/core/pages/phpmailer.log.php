@@ -1,9 +1,9 @@
 <?php
 
+use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Log\LogFile;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
-use Redaxo\Core\Util\LogFile;
-use Redaxo\Core\Util\Url;
 
 $func = rex_request('func', 'string');
 $error = '';

@@ -1,8 +1,8 @@
 <?php
 
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Url;
 
 assert(isset($markdown) && is_callable($markdown));
 

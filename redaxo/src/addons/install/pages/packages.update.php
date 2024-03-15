@@ -3,9 +3,9 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
-use Redaxo\Core\Util\Url;
 use Redaxo\Core\Util\Version;
 
 assert(isset($markdown) && is_callable($markdown));

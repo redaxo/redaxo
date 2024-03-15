@@ -1,8 +1,8 @@
 <?php
 
-namespace Redaxo\Core\Util;
+namespace Redaxo\Core\Filesystem;
 
-use Redaxo\Core\Filesystem\DefaultPathProvider;
+use Redaxo\Core\Util\Str;
 use rex_be_controller;
 
 /**

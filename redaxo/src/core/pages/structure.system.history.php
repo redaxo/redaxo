@@ -1,7 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Url;
 
 if ('clearall' == rex_request('func', 'string')) {
     rex_article_slice_history::clearAllHistory();

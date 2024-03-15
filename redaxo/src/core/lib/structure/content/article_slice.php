@@ -2,7 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Util\Url;
+use Redaxo\Core\Filesystem\Url;
 
 /**
  * The rex_article_slice class is an object wrapper over the database table rex_article_slice.

@@ -3,7 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Util\Url;
+use Redaxo\Core\Filesystem\Url;
 
 if (Core::isSetup()) {
     rex_response::sendRedirect(Url::backendController());

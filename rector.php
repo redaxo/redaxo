@@ -127,7 +127,7 @@ return RectorConfig::configure()
         'rex_string' => Util\Str::class,
         'rex_timer' => Util\Timer::class,
         'rex_type' => Util\Type::class,
-        'rex_url' => Util\Url::class,
+        'rex_url' => Filesystem\Url::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
         'rex_version' => Util\Version::class,
