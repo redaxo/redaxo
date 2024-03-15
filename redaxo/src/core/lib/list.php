@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
@@ -116,7 +117,7 @@ class rex_list implements rex_url_provider_interface
     private array $linkAttributes;
 
     // --------- Pagination Attributes
-    private ?rex_pager $pager = null;
+    private ?Pager $pager = null;
 
     /**
      * Erstellt ein rex_list Objekt.
@@ -180,7 +181,7 @@ class rex_list implements rex_url_provider_interface
                 // BC: Fallback to "start"
                 $cursorName = 'start';
             }
-            $this->pager = new rex_pager($rowsPerPage, $cursorName);
+            $this->pager = new Pager($rowsPerPage, $cursorName);
 
             $sql = Sql::factory($db);
             $sql->setQuery(self::prepareCountQuery($query));
@@ -978,7 +979,7 @@ class rex_list implements rex_url_provider_interface
     /**
      * Returns the pager for this list.
      *
-     * @return rex_pager|null
+     * @return \Redaxo\Core\Util\Pager|null
      */
     public function getPager()
     {

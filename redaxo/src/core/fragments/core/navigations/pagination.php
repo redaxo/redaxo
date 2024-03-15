@@ -5,7 +5,7 @@
  */
 ?>
 <?php
-    /** @var rex_pager $pager */
+    /** @var \Redaxo\Core\Util\Pager $pager */
     $pager = $this->pager;
     /** @var rex_url_provider_interface $urlProvider */
     $urlProvider = $this->urlprovider;

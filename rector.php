@@ -110,7 +110,7 @@ return RectorConfig::configure()
         'rex_log_file' => Util\LogFile::class,
         'rex_logger' => Util\Logger::class,
         'rex_markdown' => Util\Markdown::class,
-        // 'rex_pager' => Util\Pager::class,
+        'rex_pager' => Util\Pager::class,
         'rex_parsedown' => Util\Parsedown::class,
         'rex_path' => Filesystem\Path::class,
         'rex_path_default_provider' => Filesystem\DefaultPathProvider::class,

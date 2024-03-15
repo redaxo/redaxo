@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
@@ -85,7 +86,7 @@ if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->ge
 
 // --------------------- ADD PAGINATION
 
-$catPager = new rex_pager($structureContext->getRowsPerPage(), 'catstart');
+$catPager = new Pager($structureContext->getRowsPerPage(), 'catstart');
 $catPager->setRowCount((int) $KAT->getValue('rowCount'));
 $catFragment = new rex_fragment();
 $catFragment->setVar('urlprovider', $structureContext->getContext());
@@ -356,7 +357,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     // --------------------- ADD PAGINATION
 
-    $artPager = new rex_pager($structureContext->getRowsPerPage(), 'artstart');
+    $artPager = new Pager($structureContext->getRowsPerPage(), 'artstart');
     $artPager->setRowCount((int) $sql->getValue('artCount'));
     $artFragment = new rex_fragment();
     $artFragment->setVar('urlprovider', $structureContext->getContext());

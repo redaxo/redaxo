@@ -1,10 +1,12 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
 /**
- * The rex_pager-class implements all the logic
+ * The Pager-class implements all the logic
  * which is necessary to implement some sort of pagination.
  */
-class rex_pager
+class Pager
 {
     /** @var int */
     private $rowCount;

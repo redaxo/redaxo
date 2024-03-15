@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
@@ -273,7 +274,7 @@ final class rex_media_service
      * @throws rex_sql_exception
      * @return list<rex_media>
      */
-    public static function getList(array $filter = [], array $orderBy = [], ?rex_pager $pager = null): array
+    public static function getList(array $filter = [], array $orderBy = [], ?Pager $pager = null): array
     {
         $sql = Sql::factory();
         $where = [];

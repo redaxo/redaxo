@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
@@ -247,7 +248,7 @@ if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
     $filter['types'] = $types;
 }
 
-$pager = new rex_pager(5000);
+$pager = new Pager(5000);
 
 $items = rex_media_service::getList($filter, [], $pager);
 
