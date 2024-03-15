@@ -9,7 +9,7 @@ override(
     map([
         'console' => \rex_console_application::class,
         'login' => \rex_backend_login::class,
-        'timer' => \rex_timer::class,
+        'timer' => \Redaxo\Core\Util\Timer::class,
         'user' => \rex_user::class,
     ])
 );
@@ -18,8 +18,8 @@ expectedReturnValues(\Redaxo\Core\Core::getEnvironment(), 'frontend', 'backend',
 
 expectedArguments(\rex_extension::register(), 2, \rex_extension::EARLY, \rex_extension::NORMAL, \rex_extension::LATE);
 
-expectedArguments(\Redaxo\Core\Filesystem\Finder::sort(), 0, \rex_sortable_iterator::KEYS, \rex_sortable_iterator::VALUES);
-expectedArguments(\rex_sortable_iterator::__construct(), 1, \rex_sortable_iterator::KEYS, \rex_sortable_iterator::VALUES);
+expectedArguments(\Redaxo\Core\Filesystem\Finder::sort(), 0, \Redaxo\Core\Util\SortableIterator::KEYS, \Redaxo\Core\Util\SortableIterator::VALUES);
+expectedArguments(\Redaxo\Core\Util\SortableIterator::__construct(), 1, \Redaxo\Core\Util\SortableIterator::KEYS, \Redaxo\Core\Util\SortableIterator::VALUES);
 
 expectedArguments(\Redaxo\Core\Form\Form::factory(), 3, 'get', 'post');
 
@@ -29,13 +29,13 @@ expectedArguments(\Redaxo\Core\Form\Field\ContainerField::addField(), 0, argumen
 expectedArguments(\Redaxo\Core\Form\Field\ContainerField::addGroupedField(), 1, argumentsSet('form_field_type'));
 
 registerArgumentsSet('formatter_type', 'date', 'strftime', 'intlDateTime', 'intlDate', 'intlTime', 'number', 'bytes', 'sprintf', 'nl2br', 'truncate', 'widont', 'version', 'url', 'email', 'custom');
-expectedArguments(\rex_formatter::format(), 1, argumentsSet('formatter_type'));
+expectedArguments(\Redaxo\Core\Util\Formatter::format(), 1, argumentsSet('formatter_type'));
 expectedArguments(\rex_list::setColumnFormat(), 1, argumentsSet('formatter_type'));
 
 registerArgumentsSet('intl_format', \IntlDateFormatter::FULL, \IntlDateFormatter::LONG, \IntlDateFormatter::MEDIUM, \IntlDateFormatter::SHORT);
-expectedArguments(\rex_formatter::intlDateTime(), 1, argumentsSet('intl_format'));
-expectedArguments(\rex_formatter::intDate(), 1, argumentsSet('intl_format'));
-expectedArguments(\rex_formatter::intlTime(), 1, argumentsSet('intl_format'));
+expectedArguments(\Redaxo\Core\Util\Formatter::intlDateTime(), 1, argumentsSet('intl_format'));
+expectedArguments(\Redaxo\Core\Util\Formatter::intDate(), 1, argumentsSet('intl_format'));
+expectedArguments(\Redaxo\Core\Util\Formatter::intlTime(), 1, argumentsSet('intl_format'));
 
 registerArgumentsSet('locale', 'de_de', 'en_gb', 'es_es', 'it_it', 'nl_nl', 'pt_br', 'sv_se');
 expectedArguments(\Redaxo\Core\Translation\I18n::setLocale(), 0, argumentsSet('locale'));
@@ -86,13 +86,13 @@ expectedArguments(\Redaxo\Core\Database\Index::__construct(), 2, argumentsSet('i
 expectedArguments(\Redaxo\Core\Database\Index::setType(), 0, argumentsSet('index_type'));
 expectedReturnValues(\Redaxo\Core\Database\Index::getType(), argumentsSet('index_type'));
 
-expectedArguments(\rex_version::compare(), 2, '<', '<=', '>', '>=', '==', '!=');
+expectedArguments(\Redaxo\Core\Util\Version::compare(), 2, '<', '<=', '>', '>=', '==', '!=');
 
-expectedArguments(\rex_timer::getDelta(), 0, \rex_timer::SEC, \rex_timer::MILLISEC, \rex_timer::MICROSEC);
-expectedArguments(\rex_timer::getFormattedDelta(), 0, \rex_timer::SEC, \rex_timer::MILLISEC, \rex_timer::MICROSEC);
+expectedArguments(\Redaxo\Core\Util\Timer::getDelta(), 0, \Redaxo\Core\Util\Timer::SEC, \Redaxo\Core\Util\Timer::MILLISEC, \Redaxo\Core\Util\Timer::MICROSEC);
+expectedArguments(\Redaxo\Core\Util\Timer::getFormattedDelta(), 0, \Redaxo\Core\Util\Timer::SEC, \Redaxo\Core\Util\Timer::MILLISEC, \Redaxo\Core\Util\Timer::MICROSEC);
 
 registerArgumentsSet('cast_type', 'bool', 'int', 'float', 'string', 'object', 'array');
-expectedArguments(\rex_type::cast(), 1, argumentsSet('cast_type'));
+expectedArguments(\Redaxo\Core\Util\Type::cast(), 1, argumentsSet('cast_type'));
 expectedArguments(\rex_get(), 1, argumentsSet('cast_type'));
 expectedArguments(\rex_post(), 1, argumentsSet('cast_type'));
 expectedArguments(\rex_request(), 1, argumentsSet('cast_type'));
