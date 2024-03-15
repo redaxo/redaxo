@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 /**
  * Erweiterung eines Artikels um slicemanagement.
@@ -427,7 +428,7 @@ class rex_article_content_editor extends rex_article_content
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $this->sliceAddPosition . '">' . I18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $this->sliceAddPosition . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -461,7 +462,7 @@ class rex_article_content_editor extends rex_article_content
 
         return '
                 <li class="rex-slice rex-slice-add">
-                    <form action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $this->sliceAddPosition . '" method="post" id="REX_FORM" enctype="multipart/form-data">
+                    <form action="' . Url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $this->sliceAddPosition . '" method="post" id="REX_FORM" enctype="multipart/form-data">
                         ' . $sliceContent . '
                     </form>
                     <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
@@ -499,7 +500,7 @@ class rex_article_content_editor extends rex_article_content
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang]) . '#slice' . $sliceId . '">' . I18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang]) . '#slice' . $sliceId . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -538,7 +539,7 @@ class rex_article_content_editor extends rex_article_content
 
         return '
             <li class="rex-slice rex-slice-edit" id="slice' . $sliceId . '">
-                <form enctype="multipart/form-data" action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang, 'function' => 'edit']) . '#slice' . $sliceId . '" method="post" id="REX_FORM">
+                <form enctype="multipart/form-data" action="' . Url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang, 'function' => 'edit']) . '#slice' . $sliceId . '" method="post" id="REX_FORM">
                     ' . $sliceContent . '
                 </form>
                 <script type="text/javascript" nonce="' . rex_response::getNonce() . '">

@@ -9,6 +9,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\Util\Url;
 
 /**
  * @internal
@@ -317,7 +318,7 @@ class rex_setup
             return false;
         }
 
-        return rex_url::backendPage('setup', ['setup_token' => $token]);
+        return Url::backendPage('setup', ['setup_token' => $token]);
     }
 
     public static function isEnabled(): bool

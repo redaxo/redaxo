@@ -3,6 +3,7 @@
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
+use Redaxo\Core\Util\Url;
 
 $content = '';
 
@@ -66,4 +67,4 @@ $fragment->setVar('title', I18n::msg('credits'), false);
 $fragment->setVar('body', $credits, false);
 echo $fragment->parse('core/page/section.php');
 
-echo '<p><a class="btn btn-back" href="' . rex_url::backendPage('packages') . '">' . I18n::msg('package_back') . '</a></p>';
+echo '<p><a class="btn btn-back" href="' . Url::backendPage('packages') . '">' . I18n::msg('package_back') . '</a></p>';

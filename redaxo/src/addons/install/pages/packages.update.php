@@ -5,6 +5,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Url;
 
 assert(isset($markdown) && is_callable($markdown));
 
@@ -66,7 +67,7 @@ if ($core && !empty($coreVersions)) {
                     <td class="rex-table-icon">' . $packageIcon . '</td>
                     <td data-title="' . $package->i18n('version') . '">' . $version . $releaseLabel . '</td>
                     <td data-title="' . $package->i18n('description') . '">' . $description . '</td>
-                    <td class="rex-table-action"><a' . $confirm . ' class="rex-link-expanded" href="' . rex_url::currentBackendPage(['core' => 1, 'version_id' => $id] + rex_api_install_core_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
+                    <td class="rex-table-action"><a' . $confirm . ' class="rex-link-expanded" href="' . Url::currentBackendPage(['core' => 1, 'version_id' => $id] + rex_api_install_core_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
                 </tr>';
     }
 
@@ -159,7 +160,7 @@ if ($core && !empty($coreVersions)) {
                 <td class="rex-table-icon">' . $packageIcon . '</td>
                 <td data-title="' . $package->i18n('version') . '">' . $version . $releaseLabel . '</td>
                 <td data-title="' . $package->i18n('description') . '">' . $description . '</td>
-                <td class="rex-table-action"><a' . $confirm . ' class="rex-link-expanded" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
+                <td class="rex-table-action"><a' . $confirm . ' class="rex-link-expanded" href="' . Url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
             </tr>';
     }
 
@@ -174,7 +175,7 @@ if ($core && !empty($coreVersions)) {
         <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $package->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
+                <th class="rex-table-icon"><a class="rex-link-expanded" href="' . Url::currentBackendPage(['func' => 'reload']) . '" title="' . $package->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
                 <th>' . $package->i18n('key') . '</th>
                 <th>' . $package->i18n('name') . '</th>
                 <th>' . $package->i18n('existing_version') . '</th>
@@ -192,7 +193,7 @@ if ($core && !empty($coreVersions)) {
             }
             $availableVersions[] = $availVers;
         }
-        $url = rex_url::currentBackendPage(['core' => 1]);
+        $url = Url::currentBackendPage(['core' => 1]);
 
         $coreVersion = rex_escape(Core::getVersion());
         if (rex_version::isUnstable($coreVersion)) {
@@ -221,7 +222,7 @@ if ($core && !empty($coreVersions)) {
             }
         }
 
-        $url = rex_url::currentBackendPage(['addonkey' => $key]);
+        $url = Url::currentBackendPage(['addonkey' => $key]);
 
         $packageVersion = rex_escape(rex_addon::get($key)->getVersion());
         if (rex_version::isUnstable($packageVersion)) {

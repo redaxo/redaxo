@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Util\Url;
 
 /**
  * @internal
@@ -17,7 +18,7 @@ class rex_api_user_impersonate extends rex_api_function
         if ('_depersonate' === $impersonate) {
             Core::getProperty('login')->depersonate();
 
-            rex_response::sendRedirect(rex_url::backendPage('users/users'));
+            rex_response::sendRedirect(Url::backendPage('users/users'));
 
             exit;
         }
@@ -29,7 +30,7 @@ class rex_api_user_impersonate extends rex_api_function
 
         Core::getProperty('login')->impersonate((int) $impersonate);
 
-        rex_response::sendRedirect(rex_url::backendController());
+        rex_response::sendRedirect(Url::backendController());
 
         exit;
     }

@@ -6,6 +6,7 @@ use Redaxo\Core\Form\Field\PermissionSelectField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 use Redaxo\Core\Validator\ValidationRule;
 
 $func = rex_request('func', 'string');
@@ -70,7 +71,7 @@ if ('' == $func) {
 
     $form = Form::factory(Core::getTablePrefix() . 'user_role', '', 'id = ' . $id);
     $form->addParam('id', $id);
-    $form->setApplyUrl(rex_url::currentBackendPage());
+    $form->setApplyUrl(Url::currentBackendPage());
     $form->setEditMode('edit' == $func);
 
     $field = $form->addTextField('name');

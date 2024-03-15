@@ -7,6 +7,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\Url;
 
 /**
  * @internal
@@ -63,7 +64,7 @@ class rex_debug_clockwork
 
     public static function getClockworkApiUrl(): string
     {
-        return rex_url::backendPage('debug', rex_api_debug::getUrlParams());
+        return Url::backendPage('debug', rex_api_debug::getUrlParams());
     }
 
     /**

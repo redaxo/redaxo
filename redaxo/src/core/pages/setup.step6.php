@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 $successfullyCompleted = rex_setup::markSetupCompleted();
 
@@ -14,10 +15,10 @@ if ($successfullyCompleted) {
 $headline = rex_view::title(I18n::msg('setup_600'));
 
 $content = '<h3>' . I18n::msg('setup_603') . '</h3>';
-$content .= I18n::rawMsg('setup_604', '<a href="' . rex_url::backendController() . '">', '</a>');
+$content .= I18n::rawMsg('setup_604', '<a href="' . Url::backendController() . '">', '</a>');
 $content .= '<p>' . I18n::msg('setup_605') . '</p>';
 
-$buttons = '<a class="btn btn-setup" href="' . rex_url::backendController() . '">' . I18n::msg('setup_606') . '</a>';
+$buttons = '<a class="btn btn-setup" href="' . Url::backendController() . '">' . I18n::msg('setup_606') . '</a>';
 
 echo $headline;
 

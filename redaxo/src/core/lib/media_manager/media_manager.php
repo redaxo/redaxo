@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 class rex_media_manager
 {
@@ -472,7 +473,7 @@ class rex_media_manager
         ', ['%' . $sql->escapeLikeWildcards(json_encode($filename)) . '%']);
 
         for ($i = 0; $i < $sql->getRows(); ++$i) {
-            $message = '<a href="javascript:openPage(\'' . rex_url::backendPage('media_manager/types', ['effects' => 1, 'type_id' => $sql->getValue('type_id'), 'effect_id' => $sql->getValue('effect_id'), 'func' => 'edit']) . '\')">' . I18n::msg('media_manager') . ' ' . I18n::msg('media_manager_effect_name') . ': ' . (string) $sql->getValue('name') . '</a>';
+            $message = '<a href="javascript:openPage(\'' . Url::backendPage('media_manager/types', ['effects' => 1, 'type_id' => $sql->getValue('type_id'), 'effect_id' => $sql->getValue('effect_id'), 'func' => 'edit']) . '\')">' . I18n::msg('media_manager') . ' ' . I18n::msg('media_manager_effect_name') . ': ' . (string) $sql->getValue('name') . '</a>';
 
             if (!in_array($message, $warning)) {
                 $warning[] = $message;
@@ -560,7 +561,7 @@ class rex_media_manager
             }
         }
 
-        $url = rex_url::frontendController($params);
+        $url = Url::frontendController($params);
 
         return rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_URL', $url, [
             'type' => $type,

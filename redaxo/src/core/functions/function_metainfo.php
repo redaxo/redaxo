@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\Util\Url;
 
 /**
  * Fügt einen neuen Feldtyp ein.
@@ -234,7 +235,7 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
 
     // additional javascripts
     if (in_array($mainpage, ['metainfo', 'mediapool'], true) || in_array($page, ['content/metainfo', 'structure', 'system/lang'], true)) {
-        rex_view::addJsFile(rex_url::coreAssets('js/metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
+        rex_view::addJsFile(Url::coreAssets('js/metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
     }
 
     // include extensions

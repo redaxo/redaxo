@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Url;
 use Redaxo\Core\Validator\Validator;
 
 $currentUser = Core::requireUser();
@@ -318,7 +319,7 @@ if ('' != $fUNCADD || $userId > 0) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -530,7 +531,7 @@ if ('' != $fUNCADD || $userId > 0) {
     $content = $fragment->parse('core/page/section.php');
 
     $content = '
-        <form id="rex-form-user" action="' . rex_url::currentBackendPage() . '" method="post">
+        <form id="rex-form-user" action="' . Url::currentBackendPage() . '" method="post">
             ' . rex_csrf_token::factory('user_edit')->getHiddenField() . '
             ' . $content . '
         </form>
@@ -664,7 +665,7 @@ if ($SHOW) {
                 return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-sign-in"></i> ' . I18n::msg('login_impersonate') . '</span>';
             }
 
-            $url = rex_url::currentBackendPage(['_impersonate' => $list->getValue('id')] + rex_api_user_impersonate::getUrlParams());
+            $url = Url::currentBackendPage(['_impersonate' => $list->getValue('id')] + rex_api_user_impersonate::getUrlParams());
             return sprintf('<a class="rex-link-expanded" href="%s" data-pjax="false"><i class="rex-icon rex-icon-sign-in"></i> %s</a>', $url, I18n::msg('login_impersonate'));
         });
     }

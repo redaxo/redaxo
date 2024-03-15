@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Url;
 
 final class rex_mediapool
 {
@@ -90,7 +91,7 @@ final class rex_mediapool
                 $clang = (int) $artArr['clang_id'];
                 $ooa = rex_article::get($aid, $clang);
                 $name = ($ooa) ? $ooa->getName() : '';
-                $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
+                $warning[0] .= '<li><a href="javascript:openPage(\'' . Url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
             }
             $warning[0] .= '</ul>';
         }

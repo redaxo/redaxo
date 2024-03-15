@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Url;
 
 class rex_addon implements rex_addon_interface
 {
@@ -143,7 +144,7 @@ class rex_addon implements rex_addon_interface
 
     public function getAssetsUrl($file = '')
     {
-        return rex_url::addonAssets($this->getName(), $file);
+        return Url::addonAssets($this->getName(), $file);
     }
 
     public function getDataPath($file = '')

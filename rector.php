@@ -126,6 +126,7 @@ return RectorConfig::configure()
         'rex_string' => Util\Str::class,
         'rex_timer' => Util\Timer::class,
         'rex_type' => Util\Type::class,
+        'rex_url' => Util\Url::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
     ])
@@ -176,10 +177,10 @@ return RectorConfig::configure()
     ->withConfiguredRule(ArgumentRemoverRector::class, [
         new ArgumentRemover(Util\Str::class, 'buildQuery', 1, null),
         new ArgumentRemover(rex_url_provider_interface::class, 'getUrl', 1, null),
-        new ArgumentRemover(rex_url::class, 'frontendController', 1, null),
-        new ArgumentRemover(rex_url::class, 'backendController', 1, null),
-        new ArgumentRemover(rex_url::class, 'backendPage', 2, null),
-        new ArgumentRemover(rex_url::class, 'currentBackendPage', 1, null),
+        new ArgumentRemover(Util\Url::class, 'frontendController', 1, null),
+        new ArgumentRemover(Util\Url::class, 'backendController', 1, null),
+        new ArgumentRemover(Util\Url::class, 'backendPage', 2, null),
+        new ArgumentRemover(Util\Url::class, 'currentBackendPage', 1, null),
         new ArgumentRemover(Form\AbstractForm::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),

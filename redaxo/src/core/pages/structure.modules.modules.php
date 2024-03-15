@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 $OUT = true;
 
@@ -87,7 +88,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
                 $label .= ' [' . rex_clang::get($clangId)->getCode() . ']';
             }
 
-            $moduleInUseMessage .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId, 'ctype' => $ctype]) . '">' . rex_escape($label) . '</a></li>';
+            $moduleInUseMessage .= '<li><a href="' . Url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId, 'ctype' => $ctype]) . '">' . rex_escape($label) . '</a></li>';
             $del->next();
         }
 
@@ -267,7 +268,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -305,7 +306,7 @@ if ('add' == $function || 'edit' == $function) {
                 for ($i = 0; $i < $gma->getRows(); ++$i) {
                     $iactionId = $gma->getValue(Core::getTablePrefix() . 'module_action.id');
                     $actionId = $gma->getValue(Core::getTablePrefix() . 'module_action.action_id');
-                    $actionEditUrl = rex_url::backendPage('modules/actions', ['action_id' => $actionId, 'function' => 'edit']);
+                    $actionEditUrl = Url::backendPage('modules/actions', ['action_id' => $actionId, 'function' => 'edit']);
                     $actionName = I18n::translate($gma->getValue('name'));
 
                     $actions .= '<tr>
@@ -313,7 +314,7 @@ if ('add' == $function || 'edit' == $function) {
                         <td class="rex-table-id" data-title="' . I18n::msg('id') . '">' . (int) $gma->getValue('id') . '</td>
                         <td data-title="' . I18n::msg('action_name') . '"><a class="rex-link-expanded" href="' . $actionEditUrl . '">' . $actionName . '</a></td>
                         <td class="rex-table-action"><a class="rex-link-expanded" href="' . $actionEditUrl . '"><i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('edit') . '</a></td>
-                        <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['module_id' => $moduleId, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iactionId] + $csrfToken->getUrlParams()) . '" data-confirm="' . I18n::msg('confirm_delete_action') . '"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete') . '</a></td>
+                        <td class="rex-table-action"><a class="rex-link-expanded" href="' . Url::currentBackendPage(['module_id' => $moduleId, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iactionId] + $csrfToken->getUrlParams()) . '" data-confirm="' . I18n::msg('confirm_delete_action') . '"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete') . '</a></td>
                     </tr>';
 
                     $gma->next();
@@ -388,7 +389,7 @@ if ('add' == $function || 'edit' == $function) {
         }
 
         $content = '
-            <form action="' . rex_url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
+            <form action="' . Url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
             ' . $csrfToken->getHiddenField() . '
             ' . $content . '
             </form>';

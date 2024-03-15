@@ -14,6 +14,7 @@ use Redaxo\Core\Form\Field\RawField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Url;
 use rex_be_controller;
 use rex_csrf_token;
 use rex_exception;
@@ -23,7 +24,6 @@ use rex_form_widget_linklist_element;
 use rex_form_widget_linkmap_element;
 use rex_form_widget_media_element;
 use rex_form_widget_medialist_element;
-use rex_url;
 use rex_view;
 
 use function array_key_exists;
@@ -142,7 +142,7 @@ abstract class AbstractForm
         $params = array_merge($this->getParams(), $params);
         $params['form'] = $this->getName();
 
-        return Core::isBackend() ? rex_url::backendController($params) : rex_url::frontendController($params);
+        return Core::isBackend() ? Url::backendController($params) : Url::frontendController($params);
     }
 
     // --------- Sections
@@ -1270,7 +1270,7 @@ abstract class AbstractForm
         $s .= sprintf('<form %s %s action="%s" method="%s">' . "\n",
             $id,
             Str::buildAttributes($this->formAttributes),
-            rex_url::backendController($actionParams),
+            Url::backendController($actionParams),
             $this->method,
         );
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {

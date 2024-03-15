@@ -8,6 +8,7 @@ use Redaxo\Core\Util\LogEntry;
 use Redaxo\Core\Util\LogFile;
 use Redaxo\Core\Util\Logger;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\Util\Url;
 
 $error = '';
 $success = '';
@@ -122,7 +123,7 @@ if ($url = $editor->getUrl($logFile, 0)) {
 }
 
 if (is_file($logFile)) {
-    $url = rex_url::currentBackendPage(['func' => 'download'] + $csrfToken->getUrlParams());
+    $url = Url::currentBackendPage(['func' => 'download'] + $csrfToken->getUrlParams());
     $n = [];
     $n['field'] = '<a class="btn btn-save" href="' . $url . '" download>' . I18n::msg('syslog_download', Path::basename($logFile)) . '</a>';
     $formElements[] = $n;
@@ -139,7 +140,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-    <form action="' . rex_url::currentBackendPage() . '" method="post">
+    <form action="' . Url::currentBackendPage() . '" method="post">
         <input type="hidden" name="func" value="delLog" />
         ' . $csrfToken->getHiddenField() . '
         ' . $content . '

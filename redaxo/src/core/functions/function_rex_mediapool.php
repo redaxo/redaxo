@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Url;
 
 /**
  * Ausgabe des Medienpool Formulars.
@@ -128,7 +129,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     $fragment->setVar('buttons', $buttons, false);
     $content = $fragment->parse('core/page/section.php');
 
-    $s .= ' <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data" data-pjax="false">
+    $s .= ' <form action="' . Url::currentBackendPage() . '" method="post" enctype="multipart/form-data" data-pjax="false">
                 ' . rex_csrf_token::factory('mediapool')->getHiddenField() . '
                 <fieldset>
                     <input type="hidden" name="media_method" value="add_file" />

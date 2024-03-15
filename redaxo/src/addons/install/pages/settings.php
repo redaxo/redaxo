@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 $addon = rex_addon::get('install');
 
@@ -91,7 +92,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-    <form action="' . rex_url::currentBackendPage() . '" method="post">
+    <form action="' . Url::currentBackendPage() . '" method="post">
         ' . $content . '
     </form>';
 

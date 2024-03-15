@@ -6,6 +6,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Url;
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
@@ -860,7 +861,7 @@ class rex_list implements rex_url_provider_interface
             }
         }
 
-        return Core::isBackend() ? rex_url::backendController($flatParams) : rex_url::frontendController($flatParams);
+        return Core::isBackend() ? Url::backendController($flatParams) : Url::frontendController($flatParams);
     }
 
     /**
@@ -902,7 +903,7 @@ class rex_list implements rex_url_provider_interface
                 $flatParams[$name] = $this->replaceVariables((string) $value);
             }
         }
-        return Core::isBackend() ? rex_url::backendController($flatParams) : rex_url::frontendController($flatParams);
+        return Core::isBackend() ? Url::backendController($flatParams) : Url::frontendController($flatParams);
     }
 
     // ---------------------- Pagination

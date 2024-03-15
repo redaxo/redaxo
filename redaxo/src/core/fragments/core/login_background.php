@@ -1,4 +1,6 @@
 <?php
+use Redaxo\Core\Util\Url;
+
 /**
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
@@ -7,17 +9,17 @@
 <picture class="rex-background">
     <source
         srcset="
-            <?= rex_url::coreAssets('images/davide-cantelli-ajisKc2uuFk-unsplash-2400.avif') ?> 2400w,
-            <?= rex_url::coreAssets('images/davide-cantelli-ajisKc2uuFk-unsplash-3500.avif') ?> 3500w"
+            <?= Url::coreAssets('images/davide-cantelli-ajisKc2uuFk-unsplash-2400.avif') ?> 2400w,
+            <?= Url::coreAssets('images/davide-cantelli-ajisKc2uuFk-unsplash-3500.avif') ?> 3500w"
         sizes="100vw"
         type="image/avif"
     />
     <img
         alt=""
-        src="<?= rex_url::coreAssets('images/davide-cantelli-ajisKc2uuFk-unsplash-2400.webp') ?>"
+        src="<?= Url::coreAssets('images/davide-cantelli-ajisKc2uuFk-unsplash-2400.webp') ?>"
         srcset="
-            <?= rex_url::coreAssets('images/davide-cantelli-ajisKc2uuFk-unsplash-2400.webp') ?> 2400w,
-            <?= rex_url::coreAssets('images/davide-cantelli-ajisKc2uuFk-unsplash-3500.webp') ?> 3500w"
+            <?= Url::coreAssets('images/davide-cantelli-ajisKc2uuFk-unsplash-2400.webp') ?> 2400w,
+            <?= Url::coreAssets('images/davide-cantelli-ajisKc2uuFk-unsplash-3500.webp') ?> 3500w"
         sizes="100vw"
     />
 </picture>

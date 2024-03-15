@@ -3,9 +3,10 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\Url;
 
 if (Core::isSetup()) {
-    rex_response::sendRedirect(rex_url::backendController());
+    rex_response::sendRedirect(Url::backendController());
 }
 
 if (Core::isDebugMode()) {
@@ -152,7 +153,7 @@ if (!$article->setArticleId(rex_article::getCurrentId())) {
     }
 
     $fragment = new rex_fragment([
-        'content' => '<p><b>Article with ID ' . rex_article::getCurrentId() . ' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . rex_url::backendController() . '">REDAXO</a>.</p>',
+        'content' => '<p><b>Article with ID ' . rex_article::getCurrentId() . ' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . Url::backendController() . '">REDAXO</a>.</p>',
     ]);
     $content .= $fragment->parse('core/fe_ooops.php');
     rex_response::sendPage($content);

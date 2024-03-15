@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 /**
  * Regelt die Rechte an den einzelnen Kategorien und gibt den Pfad aus
@@ -34,14 +35,14 @@ if ($object) {
             $n = [];
             $n['title'] = str_replace(' ', '&nbsp;', rex_escape($parent->getName()));
             if ($parent->isStartarticle()) {
-                $n['href'] = rex_url::backendPage('structure', ['category_id' => $id, 'clang' => $clang]);
+                $n['href'] = Url::backendPage('structure', ['category_id' => $id, 'clang' => $clang]);
             }
             $navigation[] = $n;
         }
     }
 }
 
-$title = '<a class="rex-link-expanded" href="' . rex_url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . I18n::msg('root_level') . '</a>';
+$title = '<a class="rex-link-expanded" href="' . Url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . I18n::msg('root_level') . '</a>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('id', 'rex-js-structure-breadcrumb', false);

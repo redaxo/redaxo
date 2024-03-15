@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 class rex_template
 {
@@ -219,7 +220,7 @@ class rex_template
                 $label .= ' [' . $clang->getCode() . ']';
             }
 
-            $templateInUseMessage .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . rex_escape($label) . '</a></li>';
+            $templateInUseMessage .= '<li><a href="' . Url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . rex_escape($label) . '</a></li>';
             $check->next();
         }
 

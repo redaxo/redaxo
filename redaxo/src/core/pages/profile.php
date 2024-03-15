@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Url;
 use Redaxo\Core\Validator\Validator;
 
 $error = '';
@@ -105,7 +106,7 @@ if ($update && !$error) {
         ], true));
 
         // trigger a fullpage-reload which immediately reflects a possible changed language
-        rex_response::sendRedirect(rex_url::currentBackendPage(['rex_user_updated' => true]));
+        rex_response::sendRedirect(Url::currentBackendPage(['rex_user_updated' => true]));
     } catch (rex_sql_exception $e) {
         $error = $e->getMessage();
     }
@@ -276,7 +277,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-    <form action="' . rex_url::currentBackendPage() . '" method="post" data-pjax="false">
+    <form action="' . Url::currentBackendPage() . '" method="post" data-pjax="false">
         ' . $csrfToken->getHiddenField() . '
         ' . $content . '
     </form>';
@@ -375,7 +376,7 @@ $addPasskey = $fragment->parse('core/page/section.php');
 $content = '
     <div class="row">
         <div class="col-md-6">
-            <form class="rex-js-form-profile-password" action="' . rex_url::currentBackendPage() . '" method="post" data-auth-change-password>
+            <form class="rex-js-form-profile-password" action="' . Url::currentBackendPage() . '" method="post" data-auth-change-password>
                 ' . $csrfToken->getHiddenField() . '
                 ' . $changePassword . '
             </form>
@@ -383,7 +384,7 @@ $content = '
 if (!$passwordChangeRequired) {
     $content .= '
         <div class="col-md-6">
-            <form class="hidden" action="' . rex_url::currentBackendPage() . '" method="post" data-auth-add-passkey>
+            <form class="hidden" action="' . Url::currentBackendPage() . '" method="post" data-auth-add-passkey>
                 <input type="hidden" name="function" value="add_passkey"/>
                 ' . $csrfToken->getHiddenField() . '
                 ' . $addPasskey . '

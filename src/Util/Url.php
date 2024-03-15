@@ -1,12 +1,14 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
 use Redaxo\Core\Filesystem\DefaultPathProvider;
-use Redaxo\Core\Util\Str;
+use rex_be_controller;
 
 /**
  * Utility class to generate relative URLs.
  */
-class rex_url
+class Url
 {
     /** @var DefaultPathProvider */
     protected static $pathprovider;

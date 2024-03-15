@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -39,7 +40,7 @@ if ('add_file' == $mediaMethod) {
                     if ('' != $openerInputField) {
                         if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
                             $js = "selectMedialist('" . $data['filename'] . "');";
-                            $js .= 'location.href = "' . rex_url::backendPage('mediapool', ['info' => $info, 'opener_input_field' => $openerInputField]) . '";';
+                            $js .= 'location.href = "' . Url::backendPage('mediapool', ['info' => $info, 'opener_input_field' => $openerInputField]) . '";';
                         } else {
                             $js = "selectMedia('" . $data['filename'] . "');";
                         }
@@ -53,7 +54,7 @@ if ('add_file' == $mediaMethod) {
                     exit;
                 }
 
-                rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $openerInputField]));
+                rex_response::sendRedirect(Url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $openerInputField]));
             } catch (rex_api_exception $e) {
                 $warning = $e->getMessage();
             }

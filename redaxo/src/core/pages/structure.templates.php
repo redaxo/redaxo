@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Url;
 
 echo rex_view::title(I18n::msg('title_templates'));
 
@@ -443,7 +444,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -485,7 +486,7 @@ if ('add' == $function || 'edit' == $function) {
         $content = $fragment->parse('core/page/section.php');
 
         $content = '
-            <form id="rex-form-template" action="' . rex_url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
+            <form id="rex-form-template" action="' . Url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
                 ' . $csrfToken->getHiddenField() . '
                 ' . $content . '
             </form>

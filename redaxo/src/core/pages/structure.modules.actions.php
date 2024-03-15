@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 $ASTATUS = ['ADD', 'EDIT', 'DELETE'];
 
@@ -43,7 +44,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
         $actionInUseMsg = '';
         $actionName = $del->getValue('a.name');
         for ($i = 0; $i < $del->getRows(); ++$i) {
-            $actionInUseMsg .= '<li><a href="' . rex_url::backendPage('modules', ['function' => 'edit', 'module_id' => $del->getValue('ma.module_id')]) . '">' . rex_escape($del->getValue('m.name')) . ' [' . (int) $del->getValue('ma.module_id') . ']</a></li>';
+            $actionInUseMsg .= '<li><a href="' . Url::backendPage('modules', ['function' => 'edit', 'module_id' => $del->getValue('ma.module_id')]) . '">' . rex_escape($del->getValue('m.name')) . ' [' . (int) $del->getValue('ma.module_id') . ']</a></li>';
             $del->next();
         }
 
@@ -354,7 +355,7 @@ if ('add' == $function || 'edit' == $function) {
         $fragment = new rex_fragment();
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -378,7 +379,7 @@ if ('add' == $function || 'edit' == $function) {
         $content = $fragment->parse('core/page/section.php');
 
         $content = '
-        <form id="rex-form-action" action="' . rex_url::currentBackendPage() . '" method="post">
+        <form id="rex-form-action" action="' . Url::currentBackendPage() . '" method="post">
             ' . $csrfToken->getHiddenField() . '
             ' . $content . '
         </form>
@@ -424,7 +425,7 @@ if ($OUT) {
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'add']) . '"' . Core::getAccesskey(I18n::msg('action_create'), 'add') . ' title="' . I18n::msg('action_create') . '"><i class="rex-icon rex-icon-add-action"></i></a></th>
+                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . Url::currentBackendPage(['function' => 'add']) . '"' . Core::getAccesskey(I18n::msg('action_create'), 'add') . ' title="' . I18n::msg('action_create') . '"><i class="rex-icon rex-icon-add-action"></i></a></th>
                     <th class="rex-table-id">' . I18n::msg('id') . '</th>
                     <th>' . I18n::msg('action_name') . '</th>
                     <th>' . I18n::msg('action_header_preview') . '</th>
@@ -467,14 +468,14 @@ if ($OUT) {
 
             $content .= '
                         <tr>
-                            <td class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon rex-icon-action"></i></a></td>
+                            <td class="rex-table-icon"><a class="rex-link-expanded" href="' . Url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon rex-icon-action"></i></a></td>
                             <td class="rex-table-id" data-title="' . I18n::msg('id') . '">' . (int) $sql->getValue('id') . '</td>
-                            <td data-title="' . I18n::msg('action_name') . '"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '">' . rex_escape($sql->getValue('name')) . '</a></td>
+                            <td data-title="' . I18n::msg('action_name') . '"><a class="rex-link-expanded" href="' . Url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '">' . rex_escape($sql->getValue('name')) . '</a></td>
                             <td data-title="' . I18n::msg('action_header_preview') . '">' . implode('/', $previewmode) . '</td>
                             <td data-title="' . I18n::msg('action_header_presave') . '">' . implode('/', $presavemode) . '</td>
                             <td data-title="' . I18n::msg('action_header_postsave') . '">' . implode('/', $postsavemode) . '</td>
-                            <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '"><i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('change') . '</a></td>
-                            <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'delete'] + $csrfToken->getUrlParams()) . '" data-confirm="' . I18n::msg('action_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete') . '</a></td>
+                            <td class="rex-table-action"><a class="rex-link-expanded" href="' . Url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '"><i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('change') . '</a></td>
+                            <td class="rex-table-action"><a class="rex-link-expanded" href="' . Url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'delete'] + $csrfToken->getUrlParams()) . '" data-confirm="' . I18n::msg('action_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete') . '</a></td>
                         </tr>
                     ';
 

@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
+use Redaxo\Core\Util\Url;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -72,7 +73,7 @@ if (isset($REX['URL_PROVIDER']) && is_object($REX['URL_PROVIDER'])) {
     $urlProvider = new DefaultPathProvider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false);
 }
 
-rex_url::init($urlProvider);
+Url::init($urlProvider);
 
 // start timer at the very beginning
 Core::setProperty('timer', new Timer($_SERVER['REQUEST_TIME_FLOAT'] ?? null));
@@ -189,7 +190,7 @@ if (!Core::isSetup()) {
         ];
 
         if (preg_match('@^rex:///(template|module|action)/(\d+)@', $ep->getParam('file'), $match)) {
-            return rex_url::backendPage($urls[$match[1]][0], ['function' => 'edit', $urls[$match[1]][1] => $match[2]]);
+            return Url::backendPage($urls[$match[1]][0], ['function' => 'edit', $urls[$match[1]][1] => $match[2]]);
         }
 
         return null;

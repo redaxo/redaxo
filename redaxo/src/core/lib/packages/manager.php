@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Url;
 
 class rex_addon_manager
 {
@@ -457,7 +458,7 @@ class rex_addon_manager
                 $jumpToInstaller = '';
                 if (rex_addon::get('install')->isAvailable() && !rex_addon::exists($packageId)) {
                     // package need to be downloaded via installer
-                    $installUrl = rex_url::backendPage('install/packages/add', ['addonkey' => $packageId]);
+                    $installUrl = Url::backendPage('install/packages/add', ['addonkey' => $packageId]);
 
                     $jumpToInstaller = ' <a href="' . $installUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('search_in_installer', $packageId) . '"></i></a>';
                 }
@@ -469,7 +470,7 @@ class rex_addon_manager
             $jumpPackageUrl = '#package-' . Str::normalize($packageId, '-', '_');
             if ('packages' !== rex_be_controller::getCurrentPage()) {
                 // error while update/install within install-addon. x-link to packages core page
-                $jumpPackageUrl = rex_url::backendPage('packages') . $jumpPackageUrl;
+                $jumpPackageUrl = Url::backendPage('packages') . $jumpPackageUrl;
             }
 
             $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId . $requiredVersion) . ' <a href="' . $jumpPackageUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('jump_to', $packageId) . '"></i></a>';

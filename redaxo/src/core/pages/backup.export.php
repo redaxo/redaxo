@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Url;
 
 // Für größere Exports den Speicher für PHP erhöhen.
 if (rex_ini_get('memory_limit') < 67_108_864) {
@@ -285,7 +286,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-<form action="' . rex_url::currentBackendPage() . '" data-pjax="false" method="post">
+<form action="' . Url::currentBackendPage() . '" data-pjax="false" method="post">
     ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>

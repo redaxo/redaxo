@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Util\Url;
+
 class rex_be_page
 {
     /** @var string */
@@ -160,7 +162,7 @@ class rex_be_page
     public function setHref($href)
     {
         if (is_array($href)) {
-            $href = rex_url::backendController($href);
+            $href = Url::backendController($href);
         }
         $this->href = $href;
 
@@ -187,7 +189,7 @@ class rex_be_page
         if ($this->href) {
             return $this->href;
         }
-        return rex_url::backendPage($this->getFirstSubpagesLeaf()->getFullKey());
+        return Url::backendPage($this->getFirstSubpagesLeaf()->getFullKey());
     }
 
     /**

@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 $step = rex_request('step', 'int', 1);
 $lang = rex_request('lang', 'string');
@@ -40,7 +41,7 @@ if (!rex_setup::isInitialSetup()) {
     if ('abort' === $func) {
         rex_setup::markSetupCompleted();
 
-        rex_response::sendRedirect(rex_url::backendController());
+        rex_response::sendRedirect(Url::backendController());
     }
 }
 

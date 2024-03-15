@@ -4,6 +4,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Url;
 
 $success = '';
 $error = '';
@@ -161,7 +162,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-<form action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . I18n::msg('backup_proceed_db_import') . '">
+<form action="' . Url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . I18n::msg('backup_proceed_db_import') . '">
     ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';
@@ -203,7 +204,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-<form action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . I18n::msg('backup_proceed_file_import') . '" >
+<form action="' . Url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . I18n::msg('backup_proceed_file_import') . '" >
     ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';

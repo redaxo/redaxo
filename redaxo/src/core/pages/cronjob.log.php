@@ -5,6 +5,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\LogFile;
+use Redaxo\Core\Util\Url;
 
 $func = rex_request('func', 'string');
 $error = '';
@@ -51,7 +52,7 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     if ('--' == $data[1]) {
         $icon = '<i class="rex-icon rex-icon-cronjob" title="' . I18n::msg('cronjob_not_editable') . '"></i>';
     } else {
-        $icon = '<a href="' . rex_url::backendPage('cronjob', ['list' => 'cronjobs', 'func' => 'edit', 'oid' => $data[1]]) . '" title="' . I18n::msg('cronjob_edit') . '"><i class="rex-icon rex-icon-cronjob"></i></a>';
+        $icon = '<a href="' . Url::backendPage('cronjob', ['list' => 'cronjobs', 'func' => 'edit', 'oid' => $data[1]]) . '" title="' . I18n::msg('cronjob_edit') . '"><i class="rex-icon rex-icon-cronjob"></i></a>';
     }
     $content .= '
         <tr class="' . $class . '">
@@ -88,7 +89,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-    <form action="' . rex_url::currentBackendPage() . '" method="post">
+    <form action="' . Url::currentBackendPage() . '" method="post">
         <input type="hidden" name="func" value="cronjob_delLog" />
         ' . $content . '
     </form>';

@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 class rex_backup
 {
@@ -401,7 +402,7 @@ class rex_backup
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_FILE_EXPORT', $tar));
 
         foreach ($folders as $item) {
-            self::addFolderToTar($tar, rex_url::frontend(), $item);
+            self::addFolderToTar($tar, Url::frontend(), $item);
         }
 
         // ----- EXTENSION POINT

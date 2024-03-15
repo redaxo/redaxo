@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Url;
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab.
@@ -186,7 +187,7 @@ class rex_media
     public function getUrl()
     {
         $url = rex_extension::registerPoint(new rex_extension_point('MEDIA_URL_REWRITE', '', ['media' => $this]));
-        return $url ?: rex_url::media($this->getFileName());
+        return $url ?: Url::media($this->getFileName());
     }
 
     /**
@@ -270,7 +271,7 @@ class rex_media
             return '';
         }
 
-        $filename = rex_url::media($this->getFileName());
+        $filename = Url::media($this->getFileName());
         $title = $this->getTitle();
 
         if (!isset($params['alt'])) {

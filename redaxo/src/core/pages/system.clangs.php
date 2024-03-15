@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 /**
  * Verwaltung der Content Sprachen.
@@ -96,7 +97,7 @@ $content .= '
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['func' => 'addclang']) . '#clang"' . Core::getAccesskey(I18n::msg('clang_add'), 'add') . '><i class="rex-icon rex-icon-add-language"></i></a></th>
+                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . Url::currentBackendPage(['func' => 'addclang']) . '#clang"' . Core::getAccesskey(I18n::msg('clang_add'), 'add') . '><i class="rex-icon rex-icon-add-language"></i></a></th>
                     <th class="rex-table-id">' . I18n::msg('id') . '</th>
                     <th>' . I18n::msg('clang_code') . '</th>
                     <th>' . I18n::msg('clang_name') . '</th>
@@ -138,7 +139,7 @@ foreach ($sql as $row) {
     if ($langId == rex_clang::getStartId()) {
         $delLink = '<span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</span>';
     } else {
-        $delLink = '<a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $langId] + $csrfToken->getUrlParams()) . '" data-confirm="' . I18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</a>';
+        $delLink = '<a class="rex-link-expanded" href="' . Url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $langId] + $csrfToken->getUrlParams()) . '" data-confirm="' . I18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</a>';
     }
 
     // Edit form
@@ -160,7 +161,7 @@ foreach ($sql as $row) {
         // ----- EXTENSION POINT
         $content .= rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_EDIT', '', ['id' => $clangId, 'sql' => $sql]));
     } else {
-        $editLink = rex_url::currentBackendPage(['func' => 'editclang', 'clang_id' => $langId]) . '#clang';
+        $editLink = Url::currentBackendPage(['func' => 'editclang', 'clang_id' => $langId]) . '#clang';
 
         $status = $sql->getValue('status') ? 'online' : 'offline';
 
@@ -173,7 +174,7 @@ foreach ($sql as $row) {
                         <td class="rex-table-priority" data-title="' . I18n::msg('clang_priority') . '">' . rex_escape($sql->getValue('priority')) . '</td>
                         <td class="rex-table-action"><a class="rex-link-expanded" href="' . $editLink . '"><i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('edit') . '</a></td>
                         <td class="rex-table-action">' . $delLink . '</td>
-                        <td class="rex-table-action"><a class="rex-link-expanded rex-' . $status . '" href="' . rex_url::currentBackendPage(['clang_id' => $langId, 'func' => 'editstatus', 'clang_status' => $sql->getValue('status') ? 0 : 1] + $csrfToken->getUrlParams()) . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . I18n::msg('clang_' . $status) . '</a></td>
+                        <td class="rex-table-action"><a class="rex-link-expanded rex-' . $status . '" href="' . Url::currentBackendPage(['clang_id' => $langId, 'func' => 'editstatus', 'clang_status' => $sql->getValue('status') ? 0 : 1] + $csrfToken->getUrlParams()) . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . I18n::msg('clang_' . $status) . '</a></td>
                     </tr>';
     }
 }
@@ -191,7 +192,7 @@ $content = $fragment->parse('core/page/section.php');
 
 if ('addclang' == $func || 'editclang' == $func) {
     $content = '
-        <form id="rex-form-system-language" action="' . rex_url::currentBackendPage() . '" method="post">
+        <form id="rex-form-system-language" action="' . Url::currentBackendPage() . '" method="post">
             <fieldset>
                 <input type="hidden" name="clang_id" value="' . $clangId . '" />
                 ' . $csrfToken->getHiddenField() . '

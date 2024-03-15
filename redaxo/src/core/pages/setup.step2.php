@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Url;
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($successArray) && is_array($successArray));
@@ -31,19 +32,19 @@ $security .= '<noscript>' . rex_view::error(I18n::msg('setup_no_js_security_msg'
 $security .= '<script nonce="' . rex_response::getNonce() . '">
 
     jQuery(function($){
-        var allowedUrl = "' . rex_url::backend('index.php') . '";
+        var allowedUrl = "' . Url::backend('index.php') . '";
 
         // test url, which is not expected to be accessible
         // after each expected error, run a request which is expected to succeed.
         // that way we try to make sure tools like fail2ban dont block the client
         var urls = [
-            "' . rex_url::backend('bin/console') . '",
+            "' . Url::backend('bin/console') . '",
             allowedUrl,
-            "' . rex_url::backend('data/.redaxo') . '",
+            "' . Url::backend('data/.redaxo') . '",
             allowedUrl,
-            "' . rex_url::backend('src/core/boot.php') . '",
+            "' . Url::backend('src/core/boot.php') . '",
             allowedUrl,
-            "' . rex_url::backend('cache/.redaxo') . '"
+            "' . Url::backend('cache/.redaxo') . '"
         ];
 
         // NOTE: we have essentially a copy of this code in checkHtaccess() - see standard.js
