@@ -9,6 +9,7 @@ use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Url;
+use Redaxo\Core\Util\Version;
 
 $error = [];
 $success = '';
@@ -161,13 +162,13 @@ $dbconfig = Core::getDbConfig(1);
 
 $rexVersion = Core::getVersion();
 if (str_contains($rexVersion, '-dev')) {
-    $hash = rex_version::gitHash(Path::base(), 'redaxo/redaxo');
+    $hash = Version::gitHash(Path::base(), 'redaxo/redaxo');
     if ($hash) {
         $rexVersion .= '#' . $hash;
     }
 }
 
-if (rex_version::isUnstable($rexVersion)) {
+if (Version::isUnstable($rexVersion)) {
     $rexVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . rex_escape($rexVersion);
 }
 

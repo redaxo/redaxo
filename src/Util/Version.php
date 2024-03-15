@@ -1,6 +1,15 @@
 <?php
 
-class rex_version
+namespace Redaxo\Core\Util;
+
+use InvalidArgumentException;
+use rex_exception;
+
+use function count;
+use function function_exists;
+use function in_array;
+
+class Version
 {
     private function __construct()
     {

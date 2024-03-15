@@ -9,6 +9,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Url;
+use Redaxo\Core\Util\Version;
 
 class rex_addon_manager
 {
@@ -387,7 +388,7 @@ class rex_addon_manager
             if (!is_array($requirements['php'])) {
                 $requirements['php'] = ['version' => $requirements['php']];
             }
-            if (isset($requirements['php']['version']) && !rex_version::matchesConstraints(PHP_VERSION, $requirements['php']['version'])) {
+            if (isset($requirements['php']['version']) && !Version::matchesConstraints(PHP_VERSION, $requirements['php']['version'])) {
                 $state[] = $this->i18n('requirement_error_php_version', PHP_VERSION, $requirements['php']['version']);
             }
             if (isset($requirements['php']['extensions']) && $requirements['php']['extensions']) {
@@ -427,7 +428,7 @@ class rex_addon_manager
     public function checkRedaxoRequirement($redaxoVersion)
     {
         $requirements = $this->package->getProperty('requires', []);
-        if (isset($requirements['redaxo']) && !rex_version::matchesConstraints($redaxoVersion, $requirements['redaxo'])) {
+        if (isset($requirements['redaxo']) && !Version::matchesConstraints($redaxoVersion, $requirements['redaxo'])) {
             $this->message = $this->i18n('requirement_error_redaxo_version', $redaxoVersion, $requirements['redaxo']);
             return false;
         }
@@ -477,7 +478,7 @@ class rex_addon_manager
             return false;
         }
 
-        if (!rex_version::matchesConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
+        if (!Version::matchesConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
             $this->message = $this->i18n(
                 'requirement_error_' . $package->getType() . '_version',
                 $package->getPackageId(),
@@ -517,7 +518,7 @@ class rex_addon_manager
             $constraints = $conflicts['packages'][$this->package->getPackageId()];
             if (!is_string($constraints) || !$constraints || '*' === $constraints) {
                 $state[] = $this->i18n('reverse_conflict_error_' . $package->getType(), $package->getPackageId());
-            } elseif (rex_version::matchesConstraints($this->package->getVersion(), $constraints)) {
+            } elseif (Version::matchesConstraints($this->package->getVersion(), $constraints)) {
                 $state[] = $this->i18n('reverse_conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
             }
         }
@@ -548,7 +549,7 @@ class rex_addon_manager
             $this->message = $this->i18n('conflict_error_' . $package->getType(), $package->getPackageId());
             return false;
         }
-        if (rex_version::matchesConstraints($package->getVersion(), $constraints)) {
+        if (Version::matchesConstraints($package->getVersion(), $constraints)) {
             $this->message = $this->i18n('conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
             return false;
         }

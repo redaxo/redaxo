@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\Util\Url;
+use Redaxo\Core\Util\Version;
 
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
@@ -60,7 +61,7 @@ $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
 
 $coreVersion = rex_escape(Core::getVersion());
-if (rex_version::isUnstable($coreVersion)) {
+if (Version::isUnstable($coreVersion)) {
     $coreVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $coreVersion;
 }
 
@@ -103,7 +104,7 @@ foreach (rex_addon::getAvailableAddons() as $package) {
     }
 
     $packageVersion = rex_escape($package->getVersion());
-    if (rex_version::isUnstable($packageVersion)) {
+    if (Version::isUnstable($packageVersion)) {
         $packageVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $packageVersion;
     }
 

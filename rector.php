@@ -129,6 +129,7 @@ return RectorConfig::configure()
         'rex_url' => Util\Url::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
+        'rex_version' => Util\Version::class,
     ])
     ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(rex_addon::class, 'getRegisteredPackages', 'getRegisteredAddons'),
@@ -149,9 +150,9 @@ return RectorConfig::configure()
         new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
     ])
     ->withConfiguredRule(RenameStaticMethodRector::class, [
-        new RenameStaticMethod(Core::class, 'getVersionHash', rex_version::class, 'gitHash'),
-        new RenameStaticMethod(Util\Str::class, 'versionSplit', rex_version::class, 'split'),
-        new RenameStaticMethod(Util\Str::class, 'versionCompare', rex_version::class, 'compare'),
+        new RenameStaticMethod(Core::class, 'getVersionHash', Util\Version::class, 'gitHash'),
+        new RenameStaticMethod(Util\Str::class, 'versionSplit', Util\Version::class, 'split'),
+        new RenameStaticMethod(Util\Str::class, 'versionCompare', Util\Version::class, 'compare'),
     ])
     ->withConfiguredRule(NewToStaticCallRector::class, [
         new NewToStaticCall(rex_backend_password_policy::class, rex_backend_password_policy::class, 'factory'),

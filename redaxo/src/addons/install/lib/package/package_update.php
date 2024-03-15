@@ -5,6 +5,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Logger;
+use Redaxo\Core\Util\Version;
 
 /**
  * @internal
@@ -29,7 +30,7 @@ class rex_install_package_update extends rex_install_package_download
         $addon = rex_addon::get($this->addonkey);
         assert($addon instanceof rex_addon);
         $this->addon = $addon;
-        if (!rex_version::compare($this->file['version'], $this->addon->getVersion(), '>')) {
+        if (!Version::compare($this->file['version'], $this->addon->getVersion(), '>')) {
             throw new rex_functional_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
         }
     }

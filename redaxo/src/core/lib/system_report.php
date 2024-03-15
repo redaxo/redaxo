@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\Version;
 
 class rex_system_report
 {
@@ -28,7 +29,7 @@ class rex_system_report
         $data = [];
 
         $rexVersion = Core::getVersion();
-        $hash = rex_version::gitHash(Path::base(), 'redaxo/redaxo');
+        $hash = Version::gitHash(Path::base(), 'redaxo/redaxo');
         if ($hash) {
             $rexVersion .= '#' . $hash;
         }

@@ -3,6 +3,7 @@
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Url;
+use Redaxo\Core\Util\Version;
 
 echo rex_view::title(I18n::msg('addons'), '');
 
@@ -84,7 +85,7 @@ $getTableRow = static function (rex_addon $package) use ($getLink) {
     if ('' !== trim($package->getVersion())) {
         $version = ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>';
 
-        if (rex_version::isUnstable($package->getVersion())) {
+        if (Version::isUnstable($package->getVersion())) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $version;
         }
     }

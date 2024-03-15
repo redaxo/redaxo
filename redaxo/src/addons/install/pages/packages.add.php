@@ -5,6 +5,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Url;
+use Redaxo\Core\Util\Version;
 
 assert(isset($markdown) && is_callable($markdown));
 
@@ -90,7 +91,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         $version = rex_escape($file['version']);
         $description = $markdown($file['description']);
 
-        if (rex_version::isUnstable($version)) {
+        if (Version::isUnstable($version)) {
             $releaseLabel = '<br><span class="label label-warning" title="' . I18n::msg('unstable_version') . '">' . I18n::msg('unstable_version') . '</span> ';
             $confirm = ' data-confirm="' . I18n::msg('install_download_unstable') . '"';
             $packageIcon = '<i class="rex-icon rex-icon-unstable-version"></i>';

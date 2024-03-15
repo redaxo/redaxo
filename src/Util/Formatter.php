@@ -8,7 +8,6 @@ use IntlTimeZone;
 use InvalidArgumentException;
 use Locale;
 use rex_exception;
-use rex_version;
 
 use function call_user_func;
 use function is_array;
@@ -363,7 +362,7 @@ abstract class Formatter
      */
     public static function version($value, $format)
     {
-        return vsprintf($format, rex_version::split($value));
+        return vsprintf($format, Version::split($value));
     }
 
     /**

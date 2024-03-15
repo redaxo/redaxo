@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Logger;
+use Redaxo\Core\Util\Version;
 
 /**
  * @internal
@@ -37,7 +38,7 @@ class rex_api_install_core_update extends rex_api_function
             throw new rex_api_exception('The requested core version can not be loaded, maybe it is already installed.');
         }
         $version = $versions[$versionId];
-        if (!rex_version::compare($version['version'], Core::getVersion(), '>')) {
+        if (!Version::compare($version['version'], Core::getVersion(), '>')) {
             throw new rex_api_exception(sprintf('Existing version of Core (%s) is newer than %s', Core::getVersion(), $version['version']));
         }
         if (!is_writable(Path::core())) {
@@ -83,7 +84,7 @@ class rex_api_install_core_update extends rex_api_function
                     if (
                         '' == $addonkey
                         || !isset($config['version'])
-                        || rex_addon::exists($addonkey) && rex_version::compare($config['version'], rex_addon::get($addonkey)->getVersion(), '<')
+                        || rex_addon::exists($addonkey) && Version::compare($config['version'], rex_addon::get($addonkey)->getVersion(), '<')
                     ) {
                         continue;
                     }

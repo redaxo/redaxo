@@ -10,6 +10,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Util\Url;
+use Redaxo\Core\Util\Version;
 
 /**
  * @internal
@@ -161,7 +162,7 @@ class rex_setup
         }
 
         $minVersion = Sql::MARIADB === $type ? self::MIN_MARIADB_VERSION : self::MIN_MYSQL_VERSION;
-        if (rex_version::compare($version, $minVersion, '<')) {
+        if (Version::compare($version, $minVersion, '<')) {
             return I18n::msg('sql_database_required_version', $type, $version, self::MIN_MYSQL_VERSION, self::MIN_MARIADB_VERSION);
         }
 
