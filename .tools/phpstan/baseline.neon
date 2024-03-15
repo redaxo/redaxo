@@ -1526,16 +1526,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/var/var.php
 
 		-
-			message: "#^Call to method getUrl\\(\\) on an unknown class rex_editor\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/var_dumper.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$editor contains unknown class rex_editor\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/var_dumper.php
-
-		-
 			message: "#^Method rex_view\\:\\:getJsFilesWithOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/view.php

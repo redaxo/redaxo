@@ -89,7 +89,7 @@ abstract class rex_var_dumper
                 'fileLinkFormat' => new class() {
                     public function format(string $file, string $line): string|false
                     {
-                        /** @var rex_editor|null $editor */
+                        /** @var Editor|null $editor */
                         static $editor;
                         $editor ??= Editor::factory();
 
