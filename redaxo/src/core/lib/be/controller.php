@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Markdown;
 
 class rex_be_controller
 {
@@ -623,9 +624,9 @@ class rex_be_controller
             $path = $languagePath;
         }
 
-        [$toc, $content] = rex_markdown::factory()->parseWithToc(File::require($path), 2, 3, [
-            rex_markdown::SOFT_LINE_BREAKS => false,
-            rex_markdown::HIGHLIGHT_PHP => true,
+        [$toc, $content] = Markdown::factory()->parseWithToc(File::require($path), 2, 3, [
+            Markdown::SOFT_LINE_BREAKS => false,
+            Markdown::HIGHLIGHT_PHP => true,
         ]);
         $fragment = new rex_fragment();
         $fragment->setVar('content', $content, false);

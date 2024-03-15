@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Markdown;
 
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
@@ -12,7 +13,7 @@ use Redaxo\Core\Translation\I18n;
 echo rex_view::title(I18n::msg('credits'), '');
 
 if (rex_get('license')) {
-    $license = rex_markdown::factory()->parse(File::require(Path::base('LICENSE.md')));
+    $license = Markdown::factory()->parse(File::require(Path::base('LICENSE.md')));
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', 'REDAXO ' . I18n::msg('credits_license'));

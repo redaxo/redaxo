@@ -1,17 +1,20 @@
 <?php
 
+namespace Redaxo\Core\Tests\Util;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Util\Markdown;
 
 /**
  * @internal
  */
-class rex_markdown_test extends TestCase
+class MarkdownTest extends TestCase
 {
     #[DataProvider('parseProvider')]
     public function testParse(string $expected, string $code): void
     {
-        self::assertSame($expected, rex_markdown::factory()->parse($code));
+        self::assertSame($expected, Markdown::factory()->parse($code));
     }
 
     /** @return list<array{string, string}> */
@@ -77,7 +80,7 @@ class rex_markdown_test extends TestCase
             ## Title with "quotes" & 'other' special &lt;chars&gt;
             MARKDOWN;
 
-        [$toc] = rex_markdown::factory()->parseWithToc($input, 2, 4);
+        [$toc] = Markdown::factory()->parseWithToc($input, 2, 4);
 
         $expected = <<<'HTML'
             <ul>

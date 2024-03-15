@@ -2,12 +2,13 @@
 
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Markdown;
 
 $package = rex_addon::get(rex_request('package', 'string'));
 
 $license = null;
 if (is_readable($package->getPath('LICENSE.md'))) {
-    $license = rex_markdown::factory()->parse(File::require($package->getPath('LICENSE.md')));
+    $license = Markdown::factory()->parse(File::require($package->getPath('LICENSE.md')));
 } elseif (is_readable($package->getPath('LICENSE'))) {
     $license = nl2br(file_get_contents($package->getPath('LICENSE')));
 }
