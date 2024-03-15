@@ -1,12 +1,13 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
 use Redaxo\Core\Core;
-use Redaxo\Core\Util\Formatter;
 
 /**
  * Class to stop the script time.
  */
-class rex_timer
+class Timer
 {
     public const SEC = 1;
     public const MILLISEC = 1_000;

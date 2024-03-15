@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Stream;
+use Redaxo\Core\Util\Timer;
 
 /**
  * REX_TEMPLATE[2].
@@ -23,7 +24,7 @@ class rex_var_template extends rex_var
 
         if ($templateId > 0) {
             // the `require` statement must be in outer context, so that the included template uses the same variable scope
-            return self::class . '::getTemplateOutput(' . $templateId . ', new rex_timer(), require ' . self::class . '::getTemplateStream(' . $templateId . ', $this))';
+            return self::class . '::getTemplateOutput(' . $templateId . ', new \\Redaxo\\Core\\Util\\Timer(), require ' . self::class . '::getTemplateStream(' . $templateId . ', $this))';
         }
 
         return false;
@@ -56,12 +57,12 @@ class rex_var_template extends rex_var
      * @param mixed $template Param is not used, but the template file is included here so that it is timed between timer param and the execution of this method
      * @return false|string
      */
-    public static function getTemplateOutput($id, ?rex_timer $timer = null, $template = null)
+    public static function getTemplateOutput($id, ?Timer $timer = null, $template = null)
     {
         if ($timer && Core::isDebugMode()) {
             $timer->stop();
             $tmpl = new rex_template($id);
-            rex_timer::measured('Template: ' . ($tmpl->getKey() ?? $tmpl->getId()), $timer);
+            Timer::measured('Template: ' . ($tmpl->getKey() ?? $tmpl->getId()), $timer);
         }
 
         return ob_get_clean();

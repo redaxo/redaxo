@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Timer;
 
 /**
  * Methods declared here are available to be called from within a fragment-file, even if not public:.
@@ -109,7 +110,7 @@ class rex_fragment
         foreach (self::$fragmentDirs as $fragDir) {
             $fragment = $fragDir . $filename;
             if (is_readable($fragment)) {
-                $content = rex_timer::measure('Fragment: ' . $filename, function () use ($fragment) {
+                $content = Timer::measure('Fragment: ' . $filename, function () use ($fragment) {
                     ob_start();
                     require $fragment;
 

@@ -6,6 +6,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Logger;
+use Redaxo\Core\Util\Timer;
 
 if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
@@ -82,7 +83,7 @@ $shutdownFn = static function () {
 
     $clockwork->timeline()->finalize($clockwork->getRequest()->time);
 
-    foreach (rex_timer::$serverTimings as $label => $timings) {
+    foreach (Timer::$serverTimings as $label => $timings) {
         foreach ($timings['timings'] as $timing) {
             if ($timing['end'] - $timing['start'] >= 0.001) {
                 $clockwork->timeline()->event($label, ['start' => $timing['start'], 'end' => $timing['end']]);

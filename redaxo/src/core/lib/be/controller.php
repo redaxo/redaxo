@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
+use Redaxo\Core\Util\Timer;
 
 class rex_be_controller
 {
@@ -595,13 +596,13 @@ class rex_be_controller
             $currentPage->setHasLayout(false);
         }
 
-        rex_timer::measure('Layout: top.php', function () {
+        Timer::measure('Layout: top.php', function () {
             require Path::core('layout/top.php');
         });
 
         self::includePath(rex_type::string($currentPage->getPath()));
 
-        rex_timer::measure('Layout: bottom.php', function () {
+        Timer::measure('Layout: bottom.php', function () {
             require Path::core('layout/bottom.php');
         });
     }
@@ -650,7 +651,7 @@ class rex_be_controller
      */
     private static function includePath($path, array $context = [])
     {
-        return rex_timer::measure('Page: ' . Path::relative($path, Path::src()), function () use ($path, $context) {
+        return Timer::measure('Page: ' . Path::relative($path, Path::src()), function () use ($path, $context) {
             $pattern = '@' . preg_quote(Path::src('addons/'), '@') . '([^/\\\]+)@';
 
             if (!preg_match($pattern, $path, $matches)) {

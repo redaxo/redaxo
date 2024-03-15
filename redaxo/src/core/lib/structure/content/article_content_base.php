@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Stream;
+use Redaxo\Core\Util\Timer;
 
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.
@@ -431,7 +432,7 @@ class rex_article_content_base
 
                 $TEMPLATE = new rex_template($this->template_id);
 
-                rex_timer::measure('Template: ' . ($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
+                Timer::measure('Template: ' . ($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
                     $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
 
                     require Stream::factory('template/' . $this->template_id, $tplContent);

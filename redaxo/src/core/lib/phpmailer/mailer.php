@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\LogFile;
+use Redaxo\Core\Util\Timer;
 
 class rex_mailer extends PHPMailer
 {
@@ -96,7 +97,7 @@ class rex_mailer extends PHPMailer
      */
     public function send()
     {
-        return rex_timer::measure(__METHOD__, function () {
+        return Timer::measure(__METHOD__, function () {
             $logging = (int) Core::getConfig('phpmailer_logging');
             $detourModeActive = Core::getConfig('phpmailer_detour_mode') && '' !== Core::getConfig('phpmailer_test_address');
 

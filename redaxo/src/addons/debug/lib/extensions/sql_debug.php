@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Util\Timer;
 
 /**
  * @internal
@@ -10,7 +11,7 @@ class rex_sql_debug extends Sql
     public function setQuery($query, array $params = [], array $options = [])
     {
         try {
-            $timer = new rex_timer();
+            $timer = new Timer();
             parent::setQuery($query, $params, $options);
 
             // to prevent double entries, log only if no params are passed
@@ -43,7 +44,7 @@ class rex_sql_debug extends Sql
         assert($this->stmt instanceof PDOStatement);
         $qry = $this->stmt->queryString;
 
-        $timer = new rex_timer();
+        $timer = new Timer();
         parent::execute($params, $options);
 
         rex_debug_clockwork::getInstance()->getRequest()

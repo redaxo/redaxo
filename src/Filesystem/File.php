@@ -5,8 +5,8 @@ namespace Redaxo\Core\Filesystem;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Timer;
 use rex_exception;
-use rex_timer;
 
 use function dirname;
 
@@ -33,7 +33,7 @@ class File
      */
     public static function require(string $file): string
     {
-        return rex_timer::measure(__METHOD__, static function () use ($file) {
+        return Timer::measure(__METHOD__, static function () use ($file) {
             $content = @file_get_contents($file);
 
             if (false === $content) {
@@ -54,7 +54,7 @@ class File
      */
     public static function get($file, $default = null)
     {
-        return rex_timer::measure(__METHOD__, static function () use ($file, $default) {
+        return Timer::measure(__METHOD__, static function () use ($file, $default) {
             $content = @file_get_contents($file);
             return false !== $content ? $content : $default;
         });
@@ -100,7 +100,7 @@ class File
      */
     public static function put($file, $content)
     {
-        return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
+        return Timer::measure(__METHOD__, static function () use ($file, $content) {
             if (!Dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
                 return false;
             }
@@ -130,7 +130,7 @@ class File
      */
     public static function append(string $file, string $content, string $delimiter = '')
     {
-        return rex_timer::measure(__METHOD__, static function () use ($file, $content, $delimiter) {
+        return Timer::measure(__METHOD__, static function () use ($file, $content, $delimiter) {
             if (!Dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
                 return false;
             }
@@ -197,7 +197,7 @@ class File
      */
     public static function copy($srcfile, $dstfile)
     {
-        return rex_timer::measure(__METHOD__, static function () use ($srcfile, $dstfile) {
+        return Timer::measure(__METHOD__, static function () use ($srcfile, $dstfile) {
             if (is_file($srcfile)) {
                 if (is_dir($dstfile)) {
                     $dstdir = rtrim($dstfile, DIRECTORY_SEPARATOR);
@@ -248,7 +248,7 @@ class File
      */
     public static function delete($file)
     {
-        return rex_timer::measure(__METHOD__, static function () use ($file) {
+        return Timer::measure(__METHOD__, static function () use ($file) {
             $tryUnlink = @unlink($file);
 
             // re-try without error suppression to compensate possible race conditions

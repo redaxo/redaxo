@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Logger;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Timer;
 
 /**
  * Class for sockets.
@@ -307,7 +308,7 @@ class rex_socket
      */
     public function doRequest($method, $data = '')
     {
-        return rex_timer::measure('Socket request: ' . $this->host . $this->path, function () use ($method, $data) {
+        return Timer::measure('Socket request: ' . $this->host . $this->path, function () use ($method, $data) {
             if (!is_string($data) && !is_callable($data)) {
                 throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
             }
