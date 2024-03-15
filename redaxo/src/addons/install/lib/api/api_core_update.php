@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Logger;
 
 /**
  * @internal
@@ -49,7 +50,7 @@ class rex_api_install_core_update extends rex_api_function
         }
 
         // load logger class before core update to avoid getting logger class from new core while logging success message
-        $logger = rex_logger::factory();
+        $logger = Logger::factory();
 
         $message = '';
         $temppath = Path::coreCache('.new.core/');

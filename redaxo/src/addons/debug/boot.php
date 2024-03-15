@@ -5,6 +5,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Editor;
+use Redaxo\Core\Util\Logger;
 
 if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
@@ -68,7 +69,7 @@ if (Core::isBackend() && 'debug' === rex_request::get('page') && Core::getUser()
 Sql::setFactoryClass(rex_sql_debug::class);
 rex_extension::setFactoryClass(rex_extension_debug::class);
 
-rex_logger::setFactoryClass(rex_logger_debug::class);
+Logger::setFactoryClass(rex_logger_debug::class);
 rex_api_function::setFactoryClass(rex_api_function_debug::class);
 
 rex_response::setHeader('X-Clockwork-Id', rex_debug_clockwork::getInstance()->getRequest()->id);

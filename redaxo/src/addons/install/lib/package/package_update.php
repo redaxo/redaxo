@@ -4,6 +4,7 @@ use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Logger;
 
 /**
  * @internal
@@ -136,7 +137,7 @@ class rex_install_package_update extends rex_install_package_download
         $this->addon->setProperty('version', $this->file['version']);
         rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
 
-        rex_logger::factory()->info('AddOn ' . $this->addonkey . ' updated from ' . $oldVersion . ' to version ' . $this->file['version']);
+        Logger::factory()->info('AddOn ' . $this->addonkey . ' updated from ' . $oldVersion . ' to version ' . $this->file['version']);
 
         // re-generate opcache to make sure new/updated classes immediately are available
         if (function_exists('opcache_reset')) {

@@ -108,7 +108,7 @@ return RectorConfig::configure()
         'rex_i18n' => Translation\I18n::class,
         'rex_log_entry' => Util\LogEntry::class,
         'rex_log_file' => Util\LogFile::class,
-        // 'rex_logger' => Util\Logger::class,
+        'rex_logger' => Util\Logger::class,
         // 'rex_markdown' => Util\Markdown::class,
         // 'rex_pager' => Util\Pager::class,
         'rex_path' => Filesystem\Path::class,

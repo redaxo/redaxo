@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Editor;
+use Redaxo\Core\Util\Logger;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -53,7 +54,7 @@ abstract class rex_error_handler
     public static function handleException($exception)
     {
         try {
-            rex_logger::logException($exception, self::getUrl());
+            Logger::logException($exception, self::getUrl());
 
             // in case exceptions happen early - before symfony-console doRun()
             if ('cli' === PHP_SAPI) {
@@ -321,7 +322,7 @@ abstract class rex_error_handler
             }
         }
 
-        rex_logger::logError($errno, $errstr, $errfile, $errline, self::getUrl());
+        Logger::logError($errno, $errstr, $errfile, $errline, self::getUrl());
 
         return true;
     }

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\Logger;
 
 /**
  * Class for sockets.
@@ -311,7 +312,7 @@ class rex_socket
             }
 
             if (!$this->ssl) {
-                rex_logger::logError(E_WARNING, 'You should not use non-secure socket connections while connecting to "' . $this->host . '"!', __FILE__, __LINE__);
+                Logger::logError(E_WARNING, 'You should not use non-secure socket connections while connecting to "' . $this->host . '"!', __FILE__, __LINE__);
             }
 
             $this->openConnection();

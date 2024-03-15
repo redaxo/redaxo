@@ -6,12 +6,13 @@ use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\LogEntry;
 use Redaxo\Core\Util\LogFile;
+use Redaxo\Core\Util\Logger;
 
 $error = '';
 $success = '';
 
 $func = rex_request('func', 'string');
-$logFile = rex_logger::getPath();
+$logFile = Logger::getPath();
 
 $csrfToken = rex_csrf_token::factory('system');
 
@@ -20,7 +21,7 @@ if ($func && !$csrfToken->isValid()) {
 } elseif ('delLog' == $func) {
     // close logger, to free remaining file-handles to syslog
     // so we can safely delete the file
-    rex_logger::close();
+    Logger::close();
 
     if (LogFile::delete($logFile)) {
         $success = I18n::msg('syslog_deleted');
