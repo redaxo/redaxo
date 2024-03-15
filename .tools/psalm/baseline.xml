@@ -100,16 +100,12 @@
       <code><![CDATA[self::$listeners[$ep][]]]></code>
     </MixedArrayAssignment>
     <MixedAssignment>
-      <code><![CDATA[$absDur]]></code>
       <code><![CDATA[$data['listeners']]]></code>
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$trace['file']]]></code>
       <code><![CDATA[$trace['line']]]></code>
     </MixedOperand>
-    <UndefinedClass>
-      <code><![CDATA[$coreTimer]]></code>
-    </UndefinedClass>
   </file>
   <file src="redaxo/src/addons/debug/lib/extensions/logger_debug.php">
     <MixedArgument>
@@ -985,11 +981,6 @@
       <code><![CDATA[rex_escape($argValue)]]></code>
       <code><![CDATA[rex_escape($ftitle)]]></code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/layout/bottom.php">
-    <UndefinedClass>
-      <code><![CDATA[Core::getProperty('timer')]]></code>
-    </UndefinedClass>
   </file>
   <file src="redaxo/src/core/lib/api_function.php">
     <MixedAssignment>
