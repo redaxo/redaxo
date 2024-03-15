@@ -1,10 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Tests\Util;
+namespace Redaxo\Core\Tests\Log;
 
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
-use Redaxo\Core\Util\LogEntry;
+use Redaxo\Core\Log\LogEntry;
 
 /**
  * @internal

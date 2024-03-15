@@ -1,14 +1,14 @@
 <?php
 
-namespace Redaxo\Core\Tests\Util;
+namespace Redaxo\Core\Tests\Log;
 
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Util\LogEntry;
-use Redaxo\Core\Util\LogFile;
+use Redaxo\Core\Log\LogEntry;
+use Redaxo\Core\Log\LogFile;
 
 /**
  * @internal

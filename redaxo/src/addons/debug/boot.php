@@ -4,8 +4,8 @@ use Clockwork\Clockwork;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Editor;
-use Redaxo\Core\Util\Logger;
 use Redaxo\Core\Util\Timer;
 
 if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {

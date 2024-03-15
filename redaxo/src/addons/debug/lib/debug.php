@@ -1,7 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Util\Logger;
+use Redaxo\Core\Log\Logger;
 
 /**
  * @internal

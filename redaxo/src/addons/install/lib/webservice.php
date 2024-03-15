@@ -3,8 +3,8 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Logger;
 
 /**
  * @internal

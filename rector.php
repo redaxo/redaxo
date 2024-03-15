@@ -31,6 +31,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
+use Redaxo\Core\Log;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
 use Redaxo\Core\Validator;
@@ -106,9 +107,9 @@ return RectorConfig::configure()
         'rex_form_raw_element' => Form\Field\RawField::class,
         'rex_formatter' => Util\Formatter::class,
         'rex_i18n' => Translation\I18n::class,
-        'rex_log_entry' => Util\LogEntry::class,
-        'rex_log_file' => Util\LogFile::class,
-        'rex_logger' => Util\Logger::class,
+        'rex_log_entry' => Log\LogEntry::class,
+        'rex_log_file' => Log\LogFile::class,
+        'rex_logger' => Log\Logger::class,
         'rex_markdown' => Util\Markdown::class,
         'rex_pager' => Util\Pager::class,
         'rex_parsedown' => Util\Parsedown::class,

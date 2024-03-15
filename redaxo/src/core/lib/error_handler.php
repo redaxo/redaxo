@@ -2,8 +2,8 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Editor;
-use Redaxo\Core\Util\Logger;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Util\Url;
 use Whoops\Handler\PrettyPageHandler;

@@ -2,7 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Util\LogFile;
+use Redaxo\Core\Log\LogFile;
 
 class rex_cronjob_manager
 {

@@ -2,7 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Util\Logger;
+use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Timer;
 

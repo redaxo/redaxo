@@ -1,12 +1,12 @@
 <?php
 
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Log\LogEntry;
+use Redaxo\Core\Log\LogFile;
+use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Formatter;
-use Redaxo\Core\Util\LogEntry;
-use Redaxo\Core\Util\LogFile;
-use Redaxo\Core\Util\Logger;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Util\Url;
 

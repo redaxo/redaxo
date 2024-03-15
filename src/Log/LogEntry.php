@@ -1,6 +1,6 @@
 <?php
 
-namespace Redaxo\Core\Util;
+namespace Redaxo\Core\Log;
 
 class LogEntry
 {

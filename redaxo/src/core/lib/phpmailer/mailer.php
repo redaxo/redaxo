@@ -4,10 +4,10 @@ use PHPMailer\PHPMailer\PHPMailer;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Log\LogFile;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\LogEntry;
-use Redaxo\Core\Util\LogFile;
 use Redaxo\Core\Util\Timer;
 
 class rex_mailer extends PHPMailer
