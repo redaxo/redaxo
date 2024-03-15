@@ -32,6 +32,7 @@ use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
 use Redaxo\Core\Translation;
+use Redaxo\Core\Util;
 use Redaxo\Core\Validator;
 use Redaxo\Rector\Rule as RedaxoRule;
 
@@ -87,6 +88,7 @@ return RectorConfig::configure()
         'rex_package' => rex_addon::class,
         'rex_package_manager' => rex_addon_manager::class,
         'rex_dir' => Filesystem\Dir::class,
+        'rex_editor' => Util\Editor::class,
         'rex_file' => Filesystem\File::class,
         'rex_finder' => Filesystem\Finder::class,
         'rex_form_base' => Form\AbstractForm::class,
@@ -102,7 +104,12 @@ return RectorConfig::configure()
         'rex_form_prio_element' => Form\Field\PriorityField::class,
         'rex_form_perm_select_element' => Form\Field\PermissionSelectField::class,
         'rex_form_raw_element' => Form\Field\RawField::class,
+        // 'rex_formatter' => Util\Formatter::class,
         'rex_i18n' => Translation\I18n::class,
+        // 'rex_log_file' => Util\LogFile::class,
+        // 'rex_logger' => Util\Logger::class,
+        // 'rex_markdown' => Util\Markdown::class,
+        // 'rex_pager' => Util\Pager::class,
         'rex_path' => Filesystem\Path::class,
         'rex_path_default_provider' => Filesystem\DefaultPathProvider::class,
         'rex_sql' => Database\Sql::class,

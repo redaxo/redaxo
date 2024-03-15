@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Editor;
 
 $error = [];
 $success = '';
@@ -294,7 +295,7 @@ foreach (rex_system_setting::getAll() as $setting) {
 
 $formElements = [];
 
-$editor = rex_editor::factory();
+$editor = Editor::factory();
 $configYml = Path::coreData('config.yml');
 if ($url = $editor->getUrl($configYml, 0)) {
     $n = [];

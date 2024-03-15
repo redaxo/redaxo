@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\Editor;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider;
@@ -90,7 +91,7 @@ abstract class rex_var_dumper
                     {
                         /** @var rex_editor|null $editor */
                         static $editor;
-                        $editor ??= rex_editor::factory();
+                        $editor ??= Editor::factory();
 
                         return $editor->getUrl($file, $line) ?? false;
                     }

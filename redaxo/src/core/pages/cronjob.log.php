@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Editor;
 
 $func = rex_request('func', 'string');
 $error = '';
@@ -61,7 +62,7 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
 }
 
 // XXX calc last line and use it instead
-if ($url = rex_editor::factory()->getUrl($logFile, 1)) {
+if ($url = Editor::factory()->getUrl($logFile, 1)) {
     $n = [];
     $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . I18n::msg('system_editor_open_file', Path::basename($logFile)) . '</a>';
     $formElements[] = $n;

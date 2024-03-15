@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\Editor;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -114,7 +115,7 @@ abstract class rex_error_handler
         $handler = new PrettyPageHandler();
         $handler->setApplicationRootPath(rtrim(Path::base(), '/\\'));
 
-        $handler->setEditor([rex_editor::factory(), 'getUrl']);
+        $handler->setEditor([Editor::factory(), 'getUrl']);
 
         $handler->hideSuperglobalKey('_SESSION', rex_login::SESSION_ID);
         $handler->hideSuperglobalKey('_COOKIE', session_name());
@@ -313,7 +314,7 @@ abstract class rex_error_handler
                 echo self::getErrorType($errno) . ": $errstr in $file on line $errline";
             } else {
                 $file = rex_escape($file);
-                if ($url = rex_editor::factory()->getUrl($errfile, $errline)) {
+                if ($url = Editor::factory()->getUrl($errfile, $errline)) {
                     $file = '<a href="' . rex_escape($url) . '">' . $file . '</a>';
                 }
                 echo '<div><b>' . self::getErrorType($errno) . '</b>: ' . rex_escape($errstr) . " in <b>$file</b> on line <b>$errline</b></div>";

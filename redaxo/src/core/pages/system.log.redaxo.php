@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Editor;
 
 $error = '';
 $success = '';
@@ -46,7 +47,7 @@ $content = '
                 </thead>
                 <tbody>';
 
-$editor = rex_editor::factory();
+$editor = Editor::factory();
 
 $file = rex_log_file::factory($logFile);
 foreach (new LimitIterator($file, 0, 100) as $entry) {
