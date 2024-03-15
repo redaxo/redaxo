@@ -906,26 +906,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/null.php
 
 		-
-			message: "#^Call to method getData\\(\\) on an unknown class rex_log_entry\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
-
-		-
-			message: "#^Call to method getTimestamp\\(\\) on an unknown class rex_log_entry\\.$#"
-			count: 3
-			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$entry contains unknown class rex_log_entry\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
-
-		-
-			message: "#^PHPDoc tag @var with type rex_log_entry is not subtype of native type Redaxo\\\\Core\\\\Util\\\\LogEntry\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
-
-		-
 			message: "#^Property rex_mailer\\:\\:\\$xHeader type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
@@ -1591,26 +1571,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/view.php
 
 		-
-			message: "#^Call to method getData\\(\\) on an unknown class rex_log_entry\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/pages/cronjob.log.php
-
-		-
-			message: "#^Call to method getTimestamp\\(\\) on an unknown class rex_log_entry\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/pages/cronjob.log.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$entry contains unknown class rex_log_entry\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/pages/cronjob.log.php
-
-		-
-			message: "#^PHPDoc tag @var with type rex_log_entry is not subtype of native type Redaxo\\\\Core\\\\Util\\\\LogEntry\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/pages/cronjob.log.php
-
-		-
 			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(object\\|null\\), Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
@@ -2121,6 +2081,26 @@ parameters:
 			path: ../../src/Filesystem/Finder.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:backendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Url.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:backendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Url.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:currentBackendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Url.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:frontendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Url.php
+
+		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addCheckboxField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/AbstractForm.php
@@ -2394,26 +2374,6 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Type\\:\\:array\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Util/Type.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Url\\:\\:backendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Util/Url.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Url\\:\\:backendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Util/Url.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Url\\:\\:currentBackendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Util/Url.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Url\\:\\:frontendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Util/Url.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Validator\\\\Validator\\:\\:values\\(\\) has parameter \\$validValues with no value type specified in iterable type array\\.$#"

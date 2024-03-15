@@ -2532,37 +2532,23 @@
     <MixedArgument>
       <code><![CDATA[$address]]></code>
       <code><![CDATA[$bcc]]></code>
-      <code><![CDATA[$entry->getTimestamp()]]></code>
       <code><![CDATA[$exceptions]]></code>
       <code><![CDATA[$kind]]></code>
-      <code><![CDATA[$message]]></code>
       <code><![CDATA[$this->xHeader[$kind]]]></code>
       <code><![CDATA[$this->xHeader['to']]]></code>
-      <code><![CDATA[$type]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[array_column($this->getReplyToAddresses(), 0)]]></code>
       <code><![CDATA[array_column($this->getToAddresses(), 0)]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$data[0]]]></code>
-      <code><![CDATA[$data[1]]]></code>
-      <code><![CDATA[$data[2]]]></code>
-      <code><![CDATA[$data[3]]]></code>
-      <code><![CDATA[$data[4]]]></code>
-    </MixedArrayAccess>
     <MixedArrayOffset>
       <code><![CDATA[$this->xHeader[$kind]]]></code>
     </MixedArrayOffset>
     <MixedAssignment>
       <code><![CDATA[$address]]></code>
       <code><![CDATA[$bcc]]></code>
-      <code><![CDATA[$data]]></code>
       <code><![CDATA[$detourAddress]]></code>
-      <code><![CDATA[$file]]></code>
       <code><![CDATA[$lasterrors]]></code>
-      <code><![CDATA[$line]]></code>
-      <code><![CDATA[$message]]></code>
       <code><![CDATA[$sendTime]]></code>
       <code><![CDATA[$this->CharSet]]></code>
       <code><![CDATA[$this->ConfirmReadingTo]]></code>
@@ -2582,17 +2568,11 @@
       <code><![CDATA[$this->WordWrap]]></code>
       <code><![CDATA[$this->archive]]></code>
       <code><![CDATA[$timediff]]></code>
-      <code><![CDATA[$type]]></code>
-      <code><![CDATA[$url]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$line]]></code>
       <code><![CDATA[$sendTime]]></code>
       <code><![CDATA[$this->xHeader[$kind]]]></code>
       <code><![CDATA[$this->xHeader['to']]]></code>
-      <code><![CDATA[$type]]></code>
-      <code><![CDATA[$url]]></code>
     </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$address]]></code>
@@ -2600,13 +2580,6 @@
     <PossiblyNullOperand>
       <code><![CDATA[$sendTime]]></code>
     </PossiblyNullOperand>
-    <UndefinedDocblockClass>
-      <code><![CDATA[$entry]]></code>
-      <code><![CDATA[$entry]]></code>
-      <code><![CDATA[$entry]]></code>
-      <code><![CDATA[$entry]]></code>
-      <code><![CDATA[$entry]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="redaxo/src/core/lib/phpmailer/system_setting_phpmailer_errormail.php">
     <MixedArgument>
@@ -3554,33 +3527,6 @@
       <code><![CDATA[$typeFieldId]]></code>
       <code><![CDATA[rex_escape($field->getAttribute('id'), 'js')]]></code>
     </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/pages/cronjob.log.php">
-    <MixedArgument>
-      <code><![CDATA[$data[0]]]></code>
-      <code><![CDATA[$entry->getTimestamp()]]></code>
-      <code><![CDATA[rex_escape($data[3])]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$data[0]]]></code>
-      <code><![CDATA[$data[1]]]></code>
-      <code><![CDATA[$data[1]]]></code>
-      <code><![CDATA[$data[2]]]></code>
-      <code><![CDATA[$data[3]]]></code>
-      <code><![CDATA[$data[4]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$data]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$data[4]]]></code>
-      <code><![CDATA[rex_escape($data[2])]]></code>
-    </MixedOperand>
-    <UndefinedDocblockClass>
-      <code><![CDATA[$entry]]></code>
-      <code><![CDATA[$entry]]></code>
-      <code><![CDATA[$entry]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="redaxo/src/core/pages/login.php">
     <MixedArgument>
@@ -4853,6 +4799,19 @@
       <code><![CDATA[$this->languageSupport['id']]]></code>
     </MixedArgument>
   </file>
+  <file src="src/Log/Logger.php">
+    <MixedArgument>
+      <code><![CDATA[$level]]></code>
+      <code><![CDATA[$level]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$logData]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$replace['{' . $key . '}']]]></code>
+      <code><![CDATA[$val]]></code>
+    </MixedAssignment>
+  </file>
   <file src="src/Translation/I18n.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$args]]></code>
@@ -4945,19 +4904,6 @@
     <MixedReturnStatement>
       <code><![CDATA[self::$formatType($value, $format)]]></code>
     </MixedReturnStatement>
-  </file>
-  <file src="src/Util/Logger.php">
-    <MixedArgument>
-      <code><![CDATA[$level]]></code>
-      <code><![CDATA[$level]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$logData]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$replace['{' . $key . '}']]]></code>
-      <code><![CDATA[$val]]></code>
-    </MixedAssignment>
   </file>
   <file src="src/Util/Parsedown.php">
     <MixedArgument>
