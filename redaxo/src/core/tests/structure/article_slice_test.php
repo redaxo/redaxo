@@ -76,6 +76,6 @@ final class rex_article_slice_test extends TestCase
             ->addGlobalUpdateFields()
             ->insert();
 
-        return (int) $sql->getLastId();
+        return $sql->getLastId();
     }
 }

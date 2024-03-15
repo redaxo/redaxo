@@ -194,7 +194,7 @@ class rex_list implements rex_url_provider_interface
         // --------- Load Data
         $this->sql->setQuery($this->prepareQuery($query, $defaultSort));
         if (self::DISABLE_PAGINATION === $rowsPerPage) {
-            $this->rows = (int) $this->sql->getRows();
+            $this->rows = $this->sql->getRows();
         }
 
         foreach ($this->sql->getFieldnames() as $columnName) {

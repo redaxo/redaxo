@@ -16,7 +16,7 @@ use Redaxo\Core\Util\Type;
  * @param string $dbtype
  * @param int $dblength
  *
- * @return string
+ * @return int|string
  */
 function rex_metainfo_add_field_type($label, $dbtype, $dblength)
 {

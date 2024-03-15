@@ -36,7 +36,7 @@ class rex_media_category_service
         rex_media_cache::deleteCategoryList($parentId);
 
         rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_ADDED', [
-            'id' => (int) $db->getLastId(),
+            'id' => $db->getLastId(),
             'parent_id' => $parentId,
             'name' => $name,
         ]));

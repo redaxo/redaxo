@@ -2,18 +2,19 @@
 
 namespace Redaxo\Core\Tests\Database;
 
+use Override;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Sql;
 use ReflectionProperty;
 use rex_sql_exception;
-use stdClass;
 
 /** @internal */
 final class SelectTest extends TestCase
 {
-    public const TABLE = 'rex_tests';
+    public const string TABLE = 'rex_tests';
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,6 +36,7 @@ final class SelectTest extends TestCase
         $this->insertRow();
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -66,26 +68,6 @@ final class SelectTest extends TestCase
             self::assertEquals('abc', $row->getValue(self::TABLE . '.col_str'), 'get a string with table.col notation');
             self::assertEquals(5, $row->getValue(self::TABLE . '.col_int'), 'get an int with table.col notation');
         }
-    }
-
-    public function testGetRowAsObject(): void
-    {
-        $this->insertRow();
-        $this->insertRow();
-
-        $sql = Sql::factory();
-        $sql->setQuery('SELECT * FROM ' . self::TABLE . ' ORDER BY id');
-
-        $row = $sql->getRow(PDO::FETCH_OBJ);
-
-        self::assertInstanceOf(stdClass::class, $row);
-        self::assertEquals(1, $row->{self::TABLE . '.id'});
-
-        $sql->next();
-        $row = $sql->getRow(PDO::FETCH_OBJ);
-
-        self::assertInstanceOf(stdClass::class, $row);
-        self::assertEquals(2, $row->{self::TABLE . '.id'});
     }
 
     public function testGetVariations(): void

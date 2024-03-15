@@ -5,12 +5,12 @@ namespace Redaxo\Core\Database;
 /**
  * Class to represent sql foreign keys.
  */
-class ForeignKey
+final class ForeignKey
 {
-    public const RESTRICT = 'RESTRICT';
-    public const NO_ACTION = 'NO ACTION';
-    public const CASCADE = 'CASCADE';
-    public const SET_NULL = 'SET NULL';
+    public const string RESTRICT = 'RESTRICT';
+    public const string NO_ACTION = 'NO ACTION';
+    public const string CASCADE = 'CASCADE';
+    public const string SET_NULL = 'SET NULL';
 
     private bool $modified = false;
 
@@ -27,72 +27,46 @@ class ForeignKey
         private string $onDelete = self::RESTRICT,
     ) {}
 
-    /**
-     * @param bool $modified
-     *
-     * @return $this
-     */
-    public function setModified($modified)
+    public function setModified(bool $modified): self
     {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isModified()
+    public function isModified(): bool
     {
         return $this->modified;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this->setModified(true);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $table
-     *
-     * @return $this
-     */
-    public function setTable($table)
+    public function setTable(string $table): self
     {
         $this->table = $table;
 
         return $this->setModified(true);
     }
 
-    /**
-     * @return string
-     */
-    public function getTable()
+    public function getTable(): string
     {
         return $this->table;
     }
 
     /**
      * @param array<string, string> $columns Mapping of locale column to column in foreign table
-     *
-     * @return $this
      */
-    public function setColumns(array $columns)
+    public function setColumns(array $columns): self
     {
         $this->columns = $columns;
 
@@ -102,17 +76,15 @@ class ForeignKey
     /**
      * @return array<string, string>
      */
-    public function getColumns()
+    public function getColumns(): array
     {
         return $this->columns;
     }
 
     /**
      * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onUpdate
-     *
-     * @return $this
      */
-    public function setOnUpdate($onUpdate)
+    public function setOnUpdate(string $onUpdate): self
     {
         $this->onUpdate = $onUpdate;
 
@@ -122,17 +94,15 @@ class ForeignKey
     /**
      * @return self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL
      */
-    public function getOnUpdate()
+    public function getOnUpdate(): string
     {
         return $this->onUpdate;
     }
 
     /**
      * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onDelete
-     *
-     * @return $this
      */
-    public function setOnDelete($onDelete)
+    public function setOnDelete(string $onDelete): self
     {
         $this->onDelete = $onDelete;
 
@@ -142,15 +112,12 @@ class ForeignKey
     /**
      * @return self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL
      */
-    public function getOnDelete()
+    public function getOnDelete(): string
     {
         return $this->onDelete;
     }
 
-    /**
-     * @return bool
-     */
-    public function equals(self $index)
+    public function equals(self $index): bool
     {
         return
             $this->name === $index->name

@@ -5,11 +5,11 @@ namespace Redaxo\Core\Database;
 /**
  * Class to represent sql indexes.
  */
-class Index
+final class Index
 {
-    public const INDEX = 'INDEX';
-    public const UNIQUE = 'UNIQUE';
-    public const FULLTEXT = 'FULLTEXT';
+    public const string INDEX = 'INDEX';
+    public const string UNIQUE = 'UNIQUE';
+    public const string FULLTEXT = 'FULLTEXT';
 
     private bool $modified = false;
 
@@ -23,52 +23,34 @@ class Index
         private string $type = self::INDEX,
     ) {}
 
-    /**
-     * @param bool $modified
-     *
-     * @return $this
-     */
-    public function setModified($modified)
+    public function setModified(bool $modified): self
     {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isModified()
+    public function isModified(): bool
     {
         return $this->modified;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this->setModified(true);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * @param self::INDEX|self::UNIQUE|self::FULLTEXT $type
-     *
-     * @return $this
      */
-    public function setType($type)
+    public function setType(string $type): self
     {
         $this->type = $type;
 
@@ -78,17 +60,15 @@ class Index
     /**
      * @return self::INDEX|self::UNIQUE|self::FULLTEXT
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
     /**
      * @param list<string> $columns
-     *
-     * @return $this
      */
-    public function setColumns(array $columns)
+    public function setColumns(array $columns): self
     {
         $this->columns = $columns;
 
@@ -98,15 +78,12 @@ class Index
     /**
      * @return list<string>
      */
-    public function getColumns()
+    public function getColumns(): array
     {
         return $this->columns;
     }
 
-    /**
-     * @return bool
-     */
-    public function equals(self $index)
+    public function equals(self $index): bool
     {
         return
             $this->name === $index->name

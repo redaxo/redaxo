@@ -43,11 +43,6 @@ if (1 !== $article->getRows()) {
 // ----- ctype holen
 $templateAttributes = $article->getArrayValue('template_attributes');
 
-// Für Artikel ohne Template
-if (!is_array($templateAttributes)) {
-    $templateAttributes = [];
-}
-
 $ctypes = $templateAttributes['ctype'] ?? []; // ctypes - aus dem template
 
 $ctype = rex_request('ctype', 'int', 1);
@@ -244,7 +239,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                                 ]));
 
                                 $newsql->insert();
-                                $sliceId = (int) $newsql->getLastId();
+                                $sliceId = $newsql->getLastId();
 
                                 Util::organizePriorities(
                                     Core::getTable('article_slice'),

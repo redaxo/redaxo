@@ -5,7 +5,7 @@ namespace Redaxo\Core\Database;
 /**
  * Class to represent sql columns.
  */
-class Column
+final class Column
 {
     private bool $modified = false;
 
@@ -18,52 +18,31 @@ class Column
         private ?string $comment = null,
     ) {}
 
-    /**
-     * @param bool $modified
-     *
-     * @return $this
-     */
-    public function setModified($modified)
+    public function setModified(bool $modified): self
     {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isModified()
+    public function isModified(): bool
     {
         return $this->modified;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this->setModified(true);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $type
-     *
-     * @return $this
-     */
-    public function setType($type)
+    public function setType(string $type): self
     {
         $this->type = $type;
 
@@ -73,95 +52,60 @@ class Column
     /**
      * @return string The column type, including its size, e.g. int(10) or varchar(255)
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param bool $nullable
-     *
-     * @return $this
-     */
-    public function setNullable($nullable)
+    public function setNullable(bool $nullable): self
     {
         $this->nullable = $nullable;
 
         return $this->setModified(true);
     }
 
-    /**
-     * @return bool
-     */
-    public function isNullable()
+    public function isNullable(): bool
     {
         return $this->nullable;
     }
 
-    /**
-     * @param string|null $default
-     *
-     * @return $this
-     */
-    public function setDefault($default)
+    public function setDefault(?string $default): self
     {
         $this->default = $default;
 
         return $this->setModified(true);
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDefault()
+    public function getDefault(): ?string
     {
         return $this->default;
     }
 
-    /**
-     * @param string|null $extra
-     *
-     * @return $this
-     */
-    public function setExtra($extra)
+    public function setExtra(?string $extra): self
     {
         $this->extra = $extra;
 
         return $this->setModified(true);
     }
 
-    /**
-     * @return string|null
-     */
-    public function getExtra()
+    public function getExtra(): ?string
     {
         return $this->extra;
     }
 
-    /**
-     * @param string|null $comment
-     *
-     * @return $this
-     */
-    public function setComment($comment)
+    public function setComment(?string $comment): self
     {
         $this->comment = $comment;
 
         return $this->setModified(true);
     }
 
-    /**
-     * @return string|null
-     */
-    public function getComment()
+    public function getComment(): ?string
     {
         return $this->comment;
     }
 
-    /**
-     * @return bool
-     */
-    public function equals(self $column)
+    public function equals(self $column): bool
     {
         return
             $this->name === $column->name
