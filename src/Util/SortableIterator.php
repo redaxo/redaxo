@@ -1,11 +1,20 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
+use ArrayIterator;
+use IteratorAggregate;
+use ReturnTypeWillChange;
+use Traversable;
+
+use function is_callable;
+
 /**
  * @template TKey of array-key
  * @template TValue
  * @implements IteratorAggregate<TKey, TValue>
  */
-class rex_sortable_iterator implements IteratorAggregate
+class SortableIterator implements IteratorAggregate
 {
     public const VALUES = 1;
     public const KEYS = 2;

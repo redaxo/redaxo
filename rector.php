@@ -114,6 +114,7 @@ return RectorConfig::configure()
         'rex_parsedown' => Util\Parsedown::class,
         'rex_path' => Filesystem\Path::class,
         'rex_path_default_provider' => Filesystem\DefaultPathProvider::class,
+        'rex_sortable_iterator' => Util\SortableIterator::class,
         'rex_sql' => Database\Sql::class,
         'rex_sql_column' => Database\Column::class,
         'rex_sql_foreign_key' => Database\ForeignKey::class,
