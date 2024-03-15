@@ -5,6 +5,7 @@ namespace Redaxo\Core\Util;
 use ArrayIterator;
 use IteratorAggregate;
 use ReturnTypeWillChange;
+use rex_exception;
 use Traversable;
 
 use function is_callable;

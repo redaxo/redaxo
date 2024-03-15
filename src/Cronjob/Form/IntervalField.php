@@ -5,6 +5,7 @@ namespace Redaxo\Core\Cronjob\Form;
 use Generator;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
 use rex_fragment;
 use rex_response;
 
