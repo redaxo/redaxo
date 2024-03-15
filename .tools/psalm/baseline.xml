@@ -1373,34 +1373,6 @@
       <code><![CDATA[$rows]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/core/lib/cronjob/form.php">
-    <MixedArgument>
-      <code><![CDATA[$attributes]]></code>
-      <code><![CDATA[$value[$key]]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$value[$key]]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$attributes['class']]]></code>
-      <code><![CDATA[$attributes['internal::fieldClass']]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$this->intervalElements]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <PossiblyNullOperand>
-      <code><![CDATA[$this->getAttribute('id')]]></code>
-      <code><![CDATA[$this->getAttribute('id')]]></code>
-      <code><![CDATA[$this->getAttribute('name')]]></code>
-      <code><![CDATA[$this->getAttribute('name')]]></code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference>
-      <code><![CDATA[getIntervalElements]]></code>
-      <code><![CDATA[setValue]]></code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/lib/cronjob/manager.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$key]]></code>
@@ -4447,6 +4419,38 @@
       <code><![CDATA[($key is login ? (rex_backend_login | null) : ($key is live_mode ? bool : ($key is safe_mode ? bool : ($key is debug ? array{enabled: bool, throw_always_exception: (bool | int)} : ($key is lang_fallback ? string[] : ($key is use_accesskeys ? bool : ($key is accesskeys ? array<string, string> : ($key is editor ? (string | null) : ($key is editor_basepath ? (string | null) : ($key is timer ? Timer : ($key is timezone ? string : ($key is table_prefix ? non-empty-string : ($key is temp_prefix ? non-empty-string : ($key is version ? string : ($key is server ? string : ($key is servername ? string : ($key is error_email ? string : ($key is lang ? non-empty-string : ($key is instname ? non-empty-string : ($key is theme ? string : ($key is start_page ? non-empty-string : ($key is socket_proxy ? (non-empty-string | null) : ($key is password_policy ? array<string, scalar> : ($key is backend_login_policy ? array<string, (bool | int)> : ($key is db ? array<int, string[]> : ($key is setup ? (bool | array<string, int>) : ($key is system_addons ? non-empty-string[] : ($key is setup_addons ? non-empty-string[] : (mixed | null)))))))))))))))))))))))))))))]]></code>
       <code><![CDATA[($key is login ? (rex_backend_login | null) : ($key is live_mode ? bool : ($key is safe_mode ? bool : ($key is debug ? array{enabled: bool, throw_always_exception: (bool | int)} : ($key is lang_fallback ? string[] : ($key is use_accesskeys ? bool : ($key is accesskeys ? array<string, string> : ($key is editor ? (string | null) : ($key is editor_basepath ? (string | null) : ($key is timer ? Timer : ($key is timezone ? string : ($key is table_prefix ? non-empty-string : ($key is temp_prefix ? non-empty-string : ($key is version ? string : ($key is server ? string : ($key is servername ? string : ($key is error_email ? string : ($key is lang ? non-empty-string : ($key is instname ? non-empty-string : ($key is theme ? string : ($key is start_page ? non-empty-string : ($key is socket_proxy ? (non-empty-string | null) : ($key is password_policy ? array<string, scalar> : ($key is backend_login_policy ? array<string, (bool | int)> : ($key is db ? array<int, string[]> : ($key is setup ? (bool | array<string, int>) : ($key is system_addons ? non-empty-string[] : ($key is setup_addons ? non-empty-string[] : (mixed | null)))))))))))))))))))))))))))))]]></code>
     </UndefinedDocblockClass>
+  </file>
+  <file src="src/Cronjob/Form/CronjobForm.php">
+    <MixedArgument>
+      <code><![CDATA[$attributes]]></code>
+    </MixedArgument>
+    <MixedArrayAssignment>
+      <code><![CDATA[$attributes['class']]]></code>
+      <code><![CDATA[$attributes['internal::fieldClass']]]></code>
+    </MixedArrayAssignment>
+    <PossiblyNullReference>
+      <code><![CDATA[getIntervalElements]]></code>
+      <code><![CDATA[setValue]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Cronjob/Form/IntervalField.php">
+    <MixedArgument>
+      <code><![CDATA[$value[$key]]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$value[$key]]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$this->intervalElements]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <PossiblyNullOperand>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+    </PossiblyNullOperand>
   </file>
   <file src="src/Database/SchemaDumper.php">
     <RedundantCondition>

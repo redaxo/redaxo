@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
+use Rector\Arguments\Rector\ClassMethod\ArgumentAdderRector;
 use Rector\Arguments\Rector\ClassMethod\ReplaceArgumentDefaultValueRector;
+use Rector\Arguments\ValueObject\ArgumentAdder;
 use Rector\Arguments\ValueObject\ReplaceArgumentDefaultValue;
 use Rector\CodeQuality\Rector as CodeQuality;
 use Rector\Config\RectorConfig;
@@ -28,6 +30,7 @@ use Rector\Transform\ValueObject\FuncCallToStaticCall;
 use Rector\Transform\ValueObject\NewToStaticCall;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Core;
+use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
@@ -88,6 +91,8 @@ return RectorConfig::configure()
         'rex_null_package' => rex_null_addon::class,
         'rex_package' => rex_addon::class,
         'rex_package_manager' => rex_addon_manager::class,
+        'rex_cronjob_form' => Cronjob\Form\CronjobForm::class,
+        'rex_cronjob_form_interval_element' => Cronjob\Form\IntervalField::class,
         'rex_dir' => Filesystem\Dir::class,
         'rex_editor' => Util\Editor::class,
         'rex_file' => Filesystem\File::class,
@@ -132,6 +137,12 @@ return RectorConfig::configure()
         'rex_validation_rule' => Validator\ValidationRule::class,
         'rex_version' => Util\Version::class,
     ])
+    ->withConfiguredRule(ArgumentAdderRector::class, [
+        new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 1, 'value', null),
+        new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 2, 'arguments', ['multiple' => true]),
+        new ArgumentAdder(Form\AbstractForm::class, 'addMedialistField', 1, 'value', null),
+        new ArgumentAdder(Form\AbstractForm::class, 'addMedialistField', 2, 'arguments', ['multiple' => true]),
+    ])
     ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(rex_addon::class, 'getRegisteredPackages', 'getRegisteredAddons'),
         new MethodCallRename(rex_addon::class, 'getInstalledPackages', 'getInstalledAddons'),
@@ -149,6 +160,9 @@ return RectorConfig::configure()
         new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
 
         new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
+
+        new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addLinkmapField'),
+        new MethodCallRename(Form\AbstractForm::class, 'addMedialistField', 'addMediaField'),
     ])
     ->withConfiguredRule(RenameStaticMethodRector::class, [
         new RenameStaticMethod(Core::class, 'getVersionHash', Util\Version::class, 'gitHash'),
