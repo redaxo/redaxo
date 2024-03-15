@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Type;
 
 /**
  * @internal
@@ -98,7 +99,7 @@ class rex_setup
         ];
 
         $getMod = static function ($path) {
-            return rex_type::string(substr(sprintf('%o', fileperms($path)), -3));
+            return Type::string(substr(sprintf('%o', fileperms($path)), -3));
         };
 
         $func = static function ($dir) use (&$func, $getMod) {

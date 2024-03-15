@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 
 /**
  * Fügt einen neuen Feldtyp ein.
@@ -175,7 +176,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     $fieldId = $sql->getValue('id');
 
     $prefix = rex_metainfo_meta_prefix($name);
-    $metaTable = rex_type::string(rex_metainfo_meta_table($prefix));
+    $metaTable = Type::string(rex_metainfo_meta_table($prefix));
 
     // Spalte existiert?
     $sql->setQuery('SELECT * FROM ' . $metaTable . ' LIMIT 1');

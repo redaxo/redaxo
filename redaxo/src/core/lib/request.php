@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Util\Type;
 
 /**
  * Class for getting the superglobals.
@@ -87,11 +88,11 @@ class rex_request
         }
 
         if (isset($_SESSION[self::getSessionNamespace()][$varname])) {
-            return rex_type::cast($_SESSION[self::getSessionNamespace()][$varname], $vartype);
+            return Type::cast($_SESSION[self::getSessionNamespace()][$varname], $vartype);
         }
 
         if ('' === $default) {
-            return rex_type::cast($default, $vartype);
+            return Type::cast($default, $vartype);
         }
         return $default;
     }
@@ -215,11 +216,11 @@ class rex_request
                 array_unshift($vartype, $default);
             }
 
-            return rex_type::cast($haystack[$needle], $vartype);
+            return Type::cast($haystack[$needle], $vartype);
         }
 
         if ('' === $default) {
-            return rex_type::cast($default, $vartype);
+            return Type::cast($default, $vartype);
         }
         return $default;
     }

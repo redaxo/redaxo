@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
@@ -360,7 +361,7 @@ if (Core::getConfig('article_work_version', false)) {
         }
 
         $params = $ep->getParams();
-        $articleId = rex_type::int($params['article_id']);
+        $articleId = Type::int($params['article_id']);
 
         $version = rex_article_revision::getSessionArticleRevision($articleId);
         $newVersion = rex_request('rex_set_version', 'int', null);
@@ -387,9 +388,9 @@ if (Core::getConfig('article_work_version', false)) {
 
         $user = Core::requireUser();
         $params = $ep->getParams();
-        $articleId = rex_type::int($params['article_id']);
-        $clangId = rex_type::int($params['clang']);
-        $return = rex_type::string($ep->getSubject());
+        $articleId = Type::int($params['article_id']);
+        $clangId = Type::int($params['clang']);
+        $return = Type::string($ep->getSubject());
 
         $workingVersionEmpty = true;
         $gw = Sql::factory();
@@ -420,7 +421,7 @@ if (Core::getConfig('article_work_version', false)) {
                     );
                     $return .= rex_view::success(I18n::msg('version_info_working_version_to_live'));
 
-                    $article = rex_type::instanceOf(rex_article::get($articleId, $clangId), rex_article::class);
+                    $article = Type::instanceOf(rex_article::get($articleId, $clangId), rex_article::class);
                     rex_article_revision::setSessionArticleRevision($articleId, rex_article_revision::LIVE);
                     $return = rex_extension::registerPoint(
                         new rex_extension_point_art_content_updated($article, 'work_to_live', $return),

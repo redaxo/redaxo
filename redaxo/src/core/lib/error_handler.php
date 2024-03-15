@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Logger;
+use Redaxo\Core\Util\Type;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -236,7 +237,7 @@ abstract class rex_error_handler
                 "\n" . $bugBody;
         }
 
-        $bugBodyCompressed = rex_type::string(preg_replace('/ {2,}/u', ' ', $bugBody)); // replace multiple spaces with one space
+        $bugBodyCompressed = Type::string(preg_replace('/ {2,}/u', ' ', $bugBody)); // replace multiple spaces with one space
         $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels=' . rex_escape($bugLabel, 'url') . '&title=' . rex_escape($bugTitle, 'url') . '&body=' . rex_escape($bugBodyCompressed, 'url') . '" rel="noopener noreferrer" target="_blank">Report a REDAXO bug</a>';
 
         $url = Core::isFrontend() ? rex_url::frontendController() : rex_url::backendController();

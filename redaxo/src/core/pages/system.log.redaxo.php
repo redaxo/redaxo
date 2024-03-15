@@ -7,6 +7,7 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\LogEntry;
 use Redaxo\Core\Util\LogFile;
 use Redaxo\Core\Util\Logger;
+use Redaxo\Core\Util\Type;
 
 $error = '';
 $success = '';
@@ -58,8 +59,8 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     /** @var LogEntry $entry */
     $data = $entry->getData();
 
-    $type = rex_type::string($data[0]);
-    $message = rex_type::string($data[1]);
+    $type = Type::string($data[0]);
+    $message = Type::string($data[1]);
     $file = $data[2] ?? null;
     $line = $data[3] ?? null;
 

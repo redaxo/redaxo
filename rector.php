@@ -125,6 +125,7 @@ return RectorConfig::configure()
         'rex_stream' => Util\Stream::class,
         'rex_string' => Util\Str::class,
         'rex_timer' => Util\Timer::class,
+        'rex_type' => Util\Type::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
     ])

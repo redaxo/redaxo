@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -130,7 +131,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $requiredValue,
         );
 
-        $timezones = rex_type::array(DateTimeZone::listIdentifiers());
+        $timezones = Type::array(DateTimeZone::listIdentifiers());
 
         $q = new Question('Choose timezone', $config['timezone']);
         $q->setAutocompleterValues($timezones);
@@ -297,7 +298,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
             $importName = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
-            $importName = rex_type::string($importName);
+            $importName = Type::string($importName);
             if (!in_array($importName, $backups, true)) {
                 throw new InvalidArgumentException('Unknown import file "' . $importName . '" specified');
             }
@@ -452,7 +453,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return $default;
             }
             if ($successMessage) {
-                $this->io->success(sprintf($successMessage, rex_type::string($optionValue)));
+                $this->io->success(sprintf($successMessage, Type::string($optionValue)));
             }
             return $optionValue;
         }
@@ -460,7 +461,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         if (!$this->input->isInteractive()) {
             if (null !== $default) {
                 if ($successMessage) {
-                    $this->io->success(sprintf($successMessage, rex_type::string($default)));
+                    $this->io->success(sprintf($successMessage, Type::string($default)));
                 }
                 return $default;
             }
@@ -471,7 +472,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             return $this->io->askQuestion($question);
         }
 
-        return $this->io->ask($question, rex_type::nullOrString($default), $validator);
+        return $this->io->ask($question, Type::nullOrString($default), $validator);
     }
 
     private function performSystemcheck(): int

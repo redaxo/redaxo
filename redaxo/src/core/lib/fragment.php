@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
+use Redaxo\Core\Util\Type;
 
 /**
  * Methods declared here are available to be called from within a fragment-file, even if not public:.
@@ -114,7 +115,7 @@ class rex_fragment
                     ob_start();
                     require $fragment;
 
-                    return rex_type::string(ob_get_clean());
+                    return Type::string(ob_get_clean());
                 });
 
                 if ($this->decorator) {

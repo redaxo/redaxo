@@ -5,6 +5,8 @@ namespace Redaxo\Core;
 use InvalidArgumentException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Timer;
+use Redaxo\Core\Util\Type;
 use Redaxo\Core\Validator\Validator;
 use rex_backend_login;
 use rex_config;
@@ -12,7 +14,6 @@ use rex_config_db;
 use rex_console_application;
 use rex_exception;
 use rex_setup;
-use rex_type;
 use rex_user;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -160,7 +161,7 @@ class Core
      * @throws InvalidArgumentException on invalid parameters
      *
      * @return mixed The value for $key or $default if $key cannot be found
-     * @psalm-return ($key is login ? (rex_backend_login | null) : ($key is live_mode ? bool : ($key is safe_mode ? bool : ($key is debug ? array{enabled: bool, throw_always_exception: (bool | int)} : ($key is lang_fallback ? string[] : ($key is use_accesskeys ? bool : ($key is accesskeys ? array<string, string> : ($key is editor ? (string | null) : ($key is editor_basepath ? (string | null) : ($key is timer ? \Redaxo\Core\Util\Timer : ($key is timezone ? string : ($key is table_prefix ? non-empty-string : ($key is temp_prefix ? non-empty-string : ($key is version ? string : ($key is server ? string : ($key is servername ? string : ($key is error_email ? string : ($key is lang ? non-empty-string : ($key is instname ? non-empty-string : ($key is theme ? string : ($key is start_page ? non-empty-string : ($key is socket_proxy ? (non-empty-string | null) : ($key is password_policy ? array<string, scalar> : ($key is backend_login_policy ? array<string, (bool | int)> : ($key is db ? array<int, string[]> : ($key is setup ? (bool | array<string, int>) : ($key is system_addons ? non-empty-string[] : ($key is setup_addons ? non-empty-string[] : (mixed | null)))))))))))))))))))))))))))))
+     * @psalm-return ($key is login ? (rex_backend_login | null) : ($key is live_mode ? bool : ($key is safe_mode ? bool : ($key is debug ? array{enabled: bool, throw_always_exception: (bool | int)} : ($key is lang_fallback ? string[] : ($key is use_accesskeys ? bool : ($key is accesskeys ? array<string, string> : ($key is editor ? (string | null) : ($key is editor_basepath ? (string | null) : ($key is timer ? Timer : ($key is timezone ? string : ($key is table_prefix ? non-empty-string : ($key is temp_prefix ? non-empty-string : ($key is version ? string : ($key is server ? string : ($key is servername ? string : ($key is error_email ? string : ($key is lang ? non-empty-string : ($key is instname ? non-empty-string : ($key is theme ? string : ($key is start_page ? non-empty-string : ($key is socket_proxy ? (non-empty-string | null) : ($key is password_policy ? array<string, scalar> : ($key is backend_login_policy ? array<string, (bool | int)> : ($key is db ? array<int, string[]> : ($key is setup ? (bool | array<string, int>) : ($key is system_addons ? non-empty-string[] : ($key is setup_addons ? non-empty-string[] : (mixed | null)))))))))))))))))))))))))))))
      */
     public static function getProperty($key, $default = null)
     {
@@ -483,7 +484,7 @@ class Core
      */
     public static function getPackageConfig(): array
     {
-        return rex_type::array(self::getConfig('package-config', []));
+        return Type::array(self::getConfig('package-config', []));
     }
 
     /**
@@ -491,7 +492,7 @@ class Core
      */
     public static function getPackageOrder(): array
     {
-        return rex_type::array(self::getConfig('package-order', []));
+        return Type::array(self::getConfig('package-order', []));
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Form\AbstractForm;
-use rex_type;
+use Redaxo\Core\Util\Type;
 
 use function in_array;
 use function is_string;
@@ -106,7 +106,7 @@ class ContainerField extends BaseField
                 $values = [$this->active => $values];
             }
         }
-        $values = rex_type::array($values);
+        $values = Type::array($values);
 
         foreach ($this->fields as $group => $groupFields) {
             if (!$this->multiple && $this->active && $this->active !== $group) {

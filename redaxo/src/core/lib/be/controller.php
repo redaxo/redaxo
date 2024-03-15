@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\Util\Timer;
+use Redaxo\Core\Util\Type;
 
 class rex_be_controller
 {
@@ -69,7 +70,7 @@ class rex_be_controller
 
     public static function requireCurrentPageObject(): rex_be_page
     {
-        return rex_type::notNull(self::getCurrentPageObject());
+        return Type::notNull(self::getCurrentPageObject());
     }
 
     /**
@@ -569,7 +570,7 @@ class rex_be_controller
                 $page = self::getPageObject(Core::getProperty('start_page'));
                 if (!$page) {
                     // --- fallback zur profile page
-                    $page = rex_type::notNull(self::getPageObject('profile'));
+                    $page = Type::notNull(self::getPageObject('profile'));
                 }
             }
             rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
@@ -600,7 +601,7 @@ class rex_be_controller
             require Path::core('layout/top.php');
         });
 
-        self::includePath(rex_type::string($currentPage->getPath()));
+        self::includePath(Type::string($currentPage->getPath()));
 
         Timer::measure('Layout: bottom.php', function () {
             require Path::core('layout/bottom.php');
@@ -614,7 +615,7 @@ class rex_be_controller
      */
     public static function includeCurrentPageSubPath(array $context = [])
     {
-        $path = rex_type::string(self::requireCurrentPageObject()->getSubPath());
+        $path = Type::string(self::requireCurrentPageObject()->getSubPath());
 
         if ('.md' !== strtolower(substr($path, -3))) {
             return self::includePath($path, $context);
