@@ -2216,7 +2216,6 @@
       <code><![CDATA[$dbvalues]]></code>
       <code><![CDATA[$dbvalues[0]]]></code>
       <code><![CDATA[$dbvalues[0]]]></code>
-      <code><![CDATA[$dbvalues[0]]]></code>
     </ArgumentTypeCoercion>
     <MixedArgument>
       <code><![CDATA[$activeItem->getValue($name)]]></code>
@@ -2229,14 +2228,11 @@
       <code><![CDATA[$attrArray]]></code>
       <code><![CDATA[$attrArray]]></code>
       <code><![CDATA[$attrArray]]></code>
-      <code><![CDATA[$attrArray]]></code>
-      <code><![CDATA[$attrArray]]></code>
       <code><![CDATA[$attrName]]></code>
       <code><![CDATA[$postValue]]></code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$activeItem]]></code>
-      <code><![CDATA[$category]]></code>
       <code><![CDATA[$category]]></code>
       <code><![CDATA[$itemValue]]></code>
       <code><![CDATA[$postValue]]></code>
@@ -2246,7 +2242,6 @@
       <code><![CDATA[string|int|null]]></code>
     </MixedInferredReturnType>
     <MixedMethodCall>
-      <code><![CDATA[getValue]]></code>
       <code><![CDATA[getValue]]></code>
       <code><![CDATA[getValue]]></code>
       <code><![CDATA[getValue]]></code>
@@ -2264,7 +2259,6 @@
       <code><![CDATA[rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name))]]></code>
     </NullOperand>
     <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$dbvalues[0]]]></code>
       <code><![CDATA[$dbvalues[0]]]></code>
       <code><![CDATA[$dbvalues[0]]]></code>
       <code><![CDATA[$dbvalues[0]]]></code>

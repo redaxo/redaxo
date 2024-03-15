@@ -876,11 +876,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/metainfo/input/mediabutton.php
 
 		-
-			message: "#^Property rex_input_medialistbutton\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/metainfo/input/medialistbutton.php
-
-		-
 			message: "#^Method rex_addon\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/addon.php
