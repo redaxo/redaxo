@@ -8,6 +8,8 @@ class rex_form_widget_media_element extends BaseField
     /** @var array{category?: int, types?: string, preview?: bool} */
     private array $args = [];
 
+    private bool $multiple = false;
+
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
     /**
@@ -17,6 +19,10 @@ class rex_form_widget_media_element extends BaseField
     public function __construct($tag = '', ?AbstractForm $form = null, array $attributes = [])
     {
         parent::__construct('', $form, $attributes);
+
+        if ($this->hasAttribute('multiple')) {
+            $this->setMultiple();
+        }
     }
 
     /**
@@ -47,12 +53,21 @@ class rex_form_widget_media_element extends BaseField
         $this->args['preview'] = $preview;
     }
 
+    public function setMultiple(bool $multiple = true): void
+    {
+        $this->multiple = $multiple;
+    }
+
     public function formatElement()
     {
         /** @var int $widgetCounter */
         static $widgetCounter = 1;
 
-        $html = rex_var_media::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
+        if ($this->multiple) {
+            $html = rex_var_medialist::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
+        } else {
+            $html = rex_var_media::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
+        }
 
         ++$widgetCounter;
         return $html;

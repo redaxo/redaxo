@@ -1946,22 +1946,12 @@ parameters:
 			path: ../../src/Form/AbstractForm.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addLinklistField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Form/AbstractForm.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addLinkmapField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/AbstractForm.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addMediaField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Form/AbstractForm.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addMedialistField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/AbstractForm.php
 

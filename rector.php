@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
+use Rector\Arguments\Rector\ClassMethod\ArgumentAdderRector;
 use Rector\Arguments\Rector\ClassMethod\ReplaceArgumentDefaultValueRector;
+use Rector\Arguments\ValueObject\ArgumentAdder;
 use Rector\Arguments\ValueObject\ReplaceArgumentDefaultValue;
 use Rector\CodeQuality\Rector as CodeQuality;
 use Rector\Config\RectorConfig;
@@ -118,6 +120,12 @@ return RectorConfig::configure()
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
     ])
+    ->withConfiguredRule(ArgumentAdderRector::class, [
+        new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 1, 'value', null),
+        new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 2, 'arguments', ['multiple' => true]),
+        new ArgumentAdder(Form\AbstractForm::class, 'addMedialistField', 1, 'value', null),
+        new ArgumentAdder(Form\AbstractForm::class, 'addMedialistField', 2, 'arguments', ['multiple' => true]),
+    ])
     ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(rex_addon::class, 'getRegisteredPackages', 'getRegisteredAddons'),
         new MethodCallRename(rex_addon::class, 'getInstalledPackages', 'getInstalledAddons'),
@@ -135,6 +143,9 @@ return RectorConfig::configure()
         new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
 
         new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
+
+        new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addLinkmapField'),
+        new MethodCallRename(Form\AbstractForm::class, 'addMedialistField', 'addMediaField'),
     ])
     ->withConfiguredRule(RenameStaticMethodRector::class, [
         new RenameStaticMethod(Core::class, 'getVersionHash', rex_version::class, 'gitHash'),
