@@ -1,16 +1,20 @@
 <?php
 
+namespace Redaxo\Core\Tests\Util;
+
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Util\Stream;
+use ReflectionClass;
 
 /**
  * @internal
  */
-class rex_stream_test extends TestCase
+class StreamTest extends TestCase
 {
     public function testStreamInclude(): void
     {
         $content = 'foo <?php echo "bar";';
-        $streamUrl = rex_stream::factory('test-stream/1', $content);
+        $streamUrl = Stream::factory('test-stream/1', $content);
         ob_start();
         require $streamUrl;
         $result = ob_get_clean();
@@ -20,11 +24,11 @@ class rex_stream_test extends TestCase
 
     public function testStreamIncludeWithRealFile(): void
     {
-        $class = new ReflectionClass(rex_stream::class);
+        $class = new ReflectionClass(Stream::class);
         $class->setStaticPropertyValue('useRealFiles', true);
 
         $content = 'foo <?php echo "bar";';
-        $streamUrl = rex_stream::factory('test-stream/2', $content);
+        $streamUrl = Stream::factory('test-stream/2', $content);
         ob_start();
         require $streamUrl;
         $result = ob_get_clean();

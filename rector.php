@@ -121,6 +121,7 @@ return RectorConfig::configure()
         'rex_sql_schema_dumper' => Database\SchemaDumper::class,
         'rex_sql_table' => Database\Table::class,
         'rex_sql_util' => Database\Util::class,
+        'rex_stream' => Util\Stream::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
     ])

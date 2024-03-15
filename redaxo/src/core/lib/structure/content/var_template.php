@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Util\Stream;
 
 /**
  * REX_TEMPLATE[2].
@@ -45,7 +46,7 @@ class rex_var_template extends rex_var
             $tmpl = $article->replaceCommonVars($tmpl, $id);
         }
 
-        return rex_stream::factory('template/' . $id, $tmpl);
+        return Stream::factory('template/' . $id, $tmpl);
     }
 
     /**

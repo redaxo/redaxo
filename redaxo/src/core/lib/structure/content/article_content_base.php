@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Stream;
 
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.
@@ -433,7 +434,7 @@ class rex_article_content_base
                 rex_timer::measure('Template: ' . ($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
                     $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
 
-                    require rex_stream::factory('template/' . $this->template_id, $tplContent);
+                    require Stream::factory('template/' . $this->template_id, $tplContent);
                 });
             } finally {
                 $CONTENT = ob_get_clean();
@@ -454,14 +455,14 @@ class rex_article_content_base
     {
         if (!$this->eval) {
             $key = 'EOD_' . strtoupper(sha1((string) time()));
-            return "require rex_stream::factory('$path', <<<'$key'\n$content\n$key);\n";
+            return "require \\Redaxo\\Core\\Util\\Stream::factory('$path', <<<'$key'\n$content\n$key);\n";
         }
 
         ob_start();
         try {
             ob_implicit_flush(false);
 
-            $__stream = rex_stream::factory($path, $content);
+            $__stream = Stream::factory($path, $content);
 
             $sandbox = function () use ($__stream) {
                 require $__stream;
