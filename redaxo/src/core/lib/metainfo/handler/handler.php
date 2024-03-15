@@ -379,7 +379,12 @@ abstract class rex_metainfo_handler
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($mediaId);
                     $rexInput->setAttribute('name', $name);
-                    $rexInput->setValue($dbvalues[0]);
+                    if ($rexInput->hasAttribute('multiple')) {
+                        $rexInput->setMultiple();
+                        $rexInput->setValue(implode(',', $dbvalues));
+                    } else {
+                        $rexInput->setValue($dbvalues[0]);
+                    }
 
                     if (isset($paramArray['category'])) {
                         $rexInput->setCategoryId((int) $paramArray['category']);
@@ -404,42 +409,6 @@ abstract class rex_metainfo_handler
 
                     ++$mediaId;
                     break;
-                case 'REX_MEDIALIST_WIDGET':
-                    $tag = 'div';
-                    $tagAttr = ' class="rex-form-widget"';
-
-                    $paramArray = rex_string::split($params);
-
-                    $name .= '[]';
-                    $rexInput = new rex_input_medialistbutton();
-                    $rexInput->addAttributes($attrArray);
-                    $rexInput->setButtonId($mlistId);
-                    $rexInput->setAttribute('name', $name);
-                    $rexInput->setValue($dbvalues[0]);
-
-                    if (isset($paramArray['category'])) {
-                        $rexInput->setCategoryId((int) $paramArray['category']);
-                    }
-                    if (isset($paramArray['types'])) {
-                        $rexInput->setTypes($paramArray['types']);
-                    }
-                    if (isset($paramArray['preview'])) {
-                        $rexInput->setPreview((bool) $paramArray['preview']);
-                    }
-
-                    $id = (string) $rexInput->getAttribute('id');
-                    $field = $rexInput->getHtml();
-
-                    $e = [];
-                    $e['label'] = $label;
-                    $e['field'] = $field;
-                    $e['note'] = $note;
-                    $fragment = new rex_fragment();
-                    $fragment->setVar('elements', [$e], false);
-                    $field = $fragment->parse('core/form/form.php');
-
-                    ++$mlistId;
-                    break;
                 case 'REX_LINK_WIDGET':
                     $tag = 'div';
                     $tagAttr = ' class="rex-form-widget"';
@@ -457,7 +426,12 @@ abstract class rex_metainfo_handler
                     $rexInput->setButtonId($linkId);
                     $rexInput->setCategoryId($category ? (int) $category : null);
                     $rexInput->setAttribute('name', $name);
-                    $rexInput->setValue($dbvalues[0]);
+                    if ($rexInput->hasAttribute('multiple')) {
+                        $rexInput->setMultiple();
+                        $rexInput->setValue(implode(',', $dbvalues));
+                    } else {
+                        $rexInput->setValue($dbvalues[0]);
+                    }
                     $id = (string) $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
 
@@ -470,38 +444,6 @@ abstract class rex_metainfo_handler
                     $field = $fragment->parse('core/form/form.php');
 
                     ++$linkId;
-                    break;
-                case 'REX_LINKLIST_WIDGET':
-                    $tag = 'div';
-                    $tagAttr = ' class="rex-form-widget"';
-
-                    $paramArray = rex_string::split($params);
-                    $category = '';
-                    if (isset($paramArray['category'])) {
-                        $category = $paramArray['category'];
-                    } elseif ($activeItem) {
-                        $category = $activeItem->getValue('category_id');
-                    }
-
-                    $name .= '[]';
-                    $rexInput = new rex_input_linklistbutton();
-                    $rexInput->addAttributes($attrArray);
-                    $rexInput->setButtonId($llistId);
-                    $rexInput->setCategoryId($category ? (int) $category : null);
-                    $rexInput->setAttribute('name', $name);
-                    $rexInput->setValue(implode(',', $dbvalues));
-                    $id = (string) $rexInput->getAttribute('id');
-                    $field = $rexInput->getHtml();
-
-                    $e = [];
-                    $e['label'] = $label;
-                    $e['field'] = $field;
-                    $e['note'] = $note;
-                    $fragment = new rex_fragment();
-                    $fragment->setVar('elements', [$e], false);
-                    $field = $fragment->parse('core/form/form.php');
-
-                    ++$llistId;
                     break;
                 default:
                     // ----- EXTENSION POINT

@@ -50,8 +50,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                 $key = 'articles';
             }
             $where[$key][] = match ((int) $sql->getValue('type_id')) {
-                rex_metainfo_default_type::REX_MEDIA_WIDGET => $sql->escapeIdentifier($name) . ' = ' . $escapedFilename,
-                rex_metainfo_default_type::REX_MEDIALIST_WIDGET => 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($name) . ')',
+                rex_metainfo_default_type::REX_MEDIA_WIDGET => 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($name) . ')',
                 default => throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type_id') . '"!'),
             };
             $sql->next();

@@ -10,6 +10,8 @@ class rex_input_mediabutton extends rex_input
     private string $buttonId = '';
     private array $args = [];
 
+    private bool $multiple = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -52,6 +54,11 @@ class rex_input_mediabutton extends rex_input
         $this->args['preview'] = $preview;
     }
 
+    public function setMultiple(bool $multiple = true): void
+    {
+        $this->multiple = $multiple;
+    }
+
     public function getHtml()
     {
         $buttonId = $this->buttonId;
@@ -59,6 +66,10 @@ class rex_input_mediabutton extends rex_input
         $name = $this->attributes['name'];
         $args = $this->args;
 
+        if ($this->multiple) {
+            $name .= '[]';
+            return rex_var_medialist::getWidget($buttonId, $name, $value, $args);
+        }
         return rex_var_media::getWidget($buttonId, $name, $value, $args);
     }
 }
