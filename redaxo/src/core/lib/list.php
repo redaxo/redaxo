@@ -2,7 +2,11 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Pager;
+use Redaxo\Core\Util\Str;
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
@@ -115,7 +119,7 @@ class rex_list implements rex_url_provider_interface
     private array $linkAttributes;
 
     // --------- Pagination Attributes
-    private ?rex_pager $pager = null;
+    private ?Pager $pager = null;
 
     /**
      * Erstellt ein rex_list Objekt.
@@ -179,7 +183,7 @@ class rex_list implements rex_url_provider_interface
                 // BC: Fallback to "start"
                 $cursorName = 'start';
             }
-            $this->pager = new rex_pager($rowsPerPage, $cursorName);
+            $this->pager = new Pager($rowsPerPage, $cursorName);
 
             $sql = Sql::factory($db);
             $sql->setQuery(self::prepareCountQuery($query));
@@ -857,7 +861,7 @@ class rex_list implements rex_url_provider_interface
             }
         }
 
-        return Core::isBackend() ? rex_url::backendController($flatParams) : rex_url::frontendController($flatParams);
+        return Core::isBackend() ? Url::backendController($flatParams) : Url::frontendController($flatParams);
     }
 
     /**
@@ -899,7 +903,7 @@ class rex_list implements rex_url_provider_interface
                 $flatParams[$name] = $this->replaceVariables((string) $value);
             }
         }
-        return Core::isBackend() ? rex_url::backendController($flatParams) : rex_url::frontendController($flatParams);
+        return Core::isBackend() ? Url::backendController($flatParams) : Url::frontendController($flatParams);
     }
 
     // ---------------------- Pagination
@@ -977,7 +981,7 @@ class rex_list implements rex_url_provider_interface
     /**
      * Returns the pager for this list.
      *
-     * @return rex_pager|null
+     * @return Pager|null
      */
     public function getPager()
     {
@@ -1143,7 +1147,7 @@ class rex_list implements rex_url_provider_interface
                 $format[1] = [$format[1], ['list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params' => $format[2]]];
             }
 
-            $value = rex_formatter::format($value, $format[0], $format[1]);
+            $value = Formatter::format($value, $format[0], $format[1]);
         }
 
         // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
@@ -1160,7 +1164,7 @@ class rex_list implements rex_url_provider_interface
         if (is_callable($this->rowAttributes)) {
             $rowAttributesCallable = $this->rowAttributes;
         } elseif ($this->rowAttributes) {
-            $rowAttributes = rex_string::buildAttributes($this->rowAttributes);
+            $rowAttributes = Str::buildAttributes($this->rowAttributes);
             $rowAttributesCallable = function (self $list) use ($rowAttributes) {
                 return $this->replaceVariables($rowAttributes);
             };

@@ -4,7 +4,9 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 final class rex_mediapool
 {
@@ -17,7 +19,7 @@ final class rex_mediapool
     public static function filename(string $mediaName, $doSubindexing = true): string
     {
         // ----- neuer filename und extension holen
-        $newMediaName = rex_string::normalize($mediaName, '_', '.-@');
+        $newMediaName = Str::normalize($mediaName, '_', '.-@');
 
         if ('.' === $newMediaName[0]) {
             $newMediaName[0] = '_';
@@ -89,7 +91,7 @@ final class rex_mediapool
                 $clang = (int) $artArr['clang_id'];
                 $ooa = rex_article::get($aid, $clang);
                 $name = ($ooa) ? $ooa->getName() : '';
-                $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
+                $warning[0] .= '<li><a href="javascript:openPage(\'' . Url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
             }
             $warning[0] .= '</ul>';
         }

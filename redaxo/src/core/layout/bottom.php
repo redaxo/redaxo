@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Util\Timer;
 
 $curPage = rex_be_controller::requireCurrentPageObject();
 
@@ -24,7 +25,7 @@ echo '</div>';
 
 if ('login' !== rex_be_controller::getCurrentPage()) {
     $footerfragment = new rex_fragment();
-    $footerfragment->setVar('time', Core::getProperty('timer')->getFormattedDelta(rex_timer::SEC));
+    $footerfragment->setVar('time', Core::getProperty('timer')->getFormattedDelta(Timer::SEC));
     echo $footerfragment->parse('core/footer.php');
     unset($footerfragment);
 }

@@ -1,11 +1,14 @@
 <?php
 
-use Redaxo\Core\Filesystem\DefaultPathProvider;
+namespace Redaxo\Core\Filesystem;
+
+use Redaxo\Core\Util\Str;
+use rex_be_controller;
 
 /**
  * Utility class to generate relative URLs.
  */
-class rex_url
+class Url
 {
     /** @var DefaultPathProvider */
     protected static $pathprovider;
@@ -53,7 +56,7 @@ class rex_url
      */
     public static function frontendController(array $params = [])
     {
-        $query = rex_string::buildQuery($params);
+        $query = Str::buildQuery($params);
         $query = $query ? '?' . $query : '';
         return self::$pathprovider->frontendController() . $query;
     }
@@ -78,7 +81,7 @@ class rex_url
      */
     public static function backendController(array $params = [])
     {
-        $query = rex_string::buildQuery($params);
+        $query = Str::buildQuery($params);
         $query = $query ? '?' . $query : '';
         return self::$pathprovider->backendController() . $query;
     }

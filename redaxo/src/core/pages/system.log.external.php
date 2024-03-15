@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Editor;
 
 if (!isset($logFile)) {
     $logFile = ini_get('error_log');
@@ -39,7 +40,7 @@ if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
         </tr>';
     }
 
-    if ($url = rex_editor::factory()->getUrl($logFile, $lastLine)) {
+    if ($url = Editor::factory()->getUrl($logFile, $lastLine)) {
         $formElements = [];
 
         $n = [];

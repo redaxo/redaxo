@@ -4,6 +4,9 @@ use Clockwork\Clockwork;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Log\Logger;
+use Redaxo\Core\Util\Editor;
+use Redaxo\Core\Util\Timer;
 
 if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
@@ -12,7 +15,7 @@ if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_fun
 if (Core::isBackend() && 'debug' === rex_request::get('page') && Core::getUser()?->isAdmin()) {
     $index = file_get_contents(rex_addon::get('debug')->getAssetsPath('clockwork/index.html'));
 
-    $editor = rex_editor::factory();
+    $editor = Editor::factory();
     $curEditor = $editor->getName();
     $editorBasepath = $editor->getBasepath();
 
@@ -67,7 +70,7 @@ if (Core::isBackend() && 'debug' === rex_request::get('page') && Core::getUser()
 Sql::setFactoryClass(rex_sql_debug::class);
 rex_extension::setFactoryClass(rex_extension_debug::class);
 
-rex_logger::setFactoryClass(rex_logger_debug::class);
+Logger::setFactoryClass(rex_logger_debug::class);
 rex_api_function::setFactoryClass(rex_api_function_debug::class);
 
 rex_response::setHeader('X-Clockwork-Id', rex_debug_clockwork::getInstance()->getRequest()->id);
@@ -80,7 +83,7 @@ $shutdownFn = static function () {
 
     $clockwork->timeline()->finalize($clockwork->getRequest()->time);
 
-    foreach (rex_timer::$serverTimings as $label => $timings) {
+    foreach (Timer::$serverTimings as $label => $timings) {
         foreach ($timings['timings'] as $timing) {
             if ($timing['end'] - $timing['start'] >= 0.001) {
                 $clockwork->timeline()->event($label, ['start' => $timing['start'], 'end' => $timing['end']]);

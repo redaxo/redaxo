@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Util\Type;
+
 abstract class rex_cronjob
 {
     /** @var array<string, mixed> */
@@ -23,7 +25,7 @@ abstract class rex_cronjob
             return $class;
         }
 
-        return rex_type::instanceOf(new $class(), self::class);
+        return Type::instanceOf(new $class(), self::class);
     }
 
     /**

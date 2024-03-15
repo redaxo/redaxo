@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\Type;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -59,7 +60,7 @@ class rex_command_config_set extends rex_console_command implements rex_command_
             // a leading zero marks a octal-string
             $value = '0' . $value;
         } else {
-            $value = rex_type::cast($value, $type);
+            $value = Type::cast($value, $type);
         }
 
         $path = explode('.', $key);

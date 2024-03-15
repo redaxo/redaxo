@@ -1,11 +1,15 @@
 <?php
 
+namespace Redaxo\Core\Tests\Util;
+
+use ArrayIterator;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Util\SortableIterator;
 
 /**
  * @internal
  */
-class rex_sortable_iterator_test extends TestCase
+class SortableIteratorTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -20,7 +24,7 @@ class rex_sortable_iterator_test extends TestCase
     public function testValuesMode(): void
     {
         $array = [2, 'a10', 'a2', 1, "a\xcc\x884", 'ä3', 'b'];
-        $iterator = new rex_sortable_iterator(new ArrayIterator($array));
+        $iterator = new SortableIterator(new ArrayIterator($array));
         self::assertSame(
             [3 => 1, 0 => 2, 2 => 'a2', 5 => 'ä3', 4 => "a\xcc\x884", 1 => 'a10', 6 => 'b'],
             iterator_to_array($iterator),
@@ -31,7 +35,7 @@ class rex_sortable_iterator_test extends TestCase
     public function testKeysMode(): void
     {
         $array = [2 => 0, 'a' => 1, 1 => 2, 'b' => 3];
-        $iterator = new rex_sortable_iterator(new ArrayIterator($array), rex_sortable_iterator::KEYS);
+        $iterator = new SortableIterator(new ArrayIterator($array), SortableIterator::KEYS);
         self::assertEquals(['a' => 1, 'b' => 3, 1 => 2, 2 => 0], iterator_to_array($iterator), 'In KEYS mode the iterator sorts by keys');
     }
 
@@ -41,7 +45,7 @@ class rex_sortable_iterator_test extends TestCase
         $callback = static function ($a, $b) {
             return strcmp($b, $a);
         };
-        $iterator = new rex_sortable_iterator(new ArrayIterator($array), $callback);
+        $iterator = new SortableIterator(new ArrayIterator($array), $callback);
         self::assertEquals([0 => 2, 2 => 1, 3 => 'b', 1 => 'a'], iterator_to_array($iterator), 'If the secound parameter is a callback, the iterator sorts by using the function');
     }
 }

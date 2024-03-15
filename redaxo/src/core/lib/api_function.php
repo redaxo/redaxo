@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 
 /**
  * This is a base class for all functions which a component may provide for public use.
@@ -387,8 +388,8 @@ class rex_api_result
         }
 
         return new self(
-            rex_type::bool($json['succeeded'] ?? null),
-            rex_type::nullOrString($json['message'] ?? null),
+            Type::bool($json['succeeded'] ?? null),
+            Type::nullOrString($json['message'] ?? null),
         );
     }
 }

@@ -3,10 +3,10 @@
 namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Form\AbstractForm;
+use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
 use Redaxo\Core\Validator\Validator;
 use rex_fragment;
-use rex_string;
 
 use function is_array;
 
@@ -240,9 +240,9 @@ class BaseField
             $this->setValue($value);
         } else {
             if ('id' == $name) {
-                $value = rex_string::normalize((string) $value, '-');
+                $value = Str::normalize((string) $value, '-');
             } elseif ('name' == $name) {
-                $value = rex_string::normalize((string) $value, '_', '[]');
+                $value = Str::normalize((string) $value, '_', '[]');
             }
 
             $this->attributes[$name] = $value;

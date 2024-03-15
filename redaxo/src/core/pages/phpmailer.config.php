@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\Validator;
 
@@ -50,7 +51,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
             $warning = I18n::msg('phpmailer_check_settings_not_tested');
             echo rex_view::warning($warning);
         } else {
-            rex_response::sendRedirect(rex_url::backendPage('phpmailer/checkmail'));
+            rex_response::sendRedirect(Url::backendPage('phpmailer/checkmail'));
         }
     }
 
@@ -361,7 +362,7 @@ $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 echo '
-    <form action="' . rex_url::currentBackendPage() . '" method="post">
+    <form action="' . Url::currentBackendPage() . '" method="post">
         ' . $content . '
     </form>';
 ?>

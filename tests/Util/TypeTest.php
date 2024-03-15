@@ -1,12 +1,18 @@
 <?php
 
+namespace Redaxo\Core\Tests\Util;
+
+use BackedEnum;
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Util\Type;
+use stdClass;
 
 /**
  * @internal
  */
-class rex_type_test extends TestCase
+class TypeTest extends TestCase
 {
     /** @return list<array{mixed, string|callable(mixed):mixed|list<int|string|BackedEnum>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}>, mixed}> */
     public static function castProvider(): array
@@ -40,8 +46,8 @@ class rex_type_test extends TestCase
             ['qux', ['foo', 'bar', 'baz'], 'foo'],
             ['2', [1, 2, 4], 2],
             [3, [1, 2, 4], 1],
-            ['bar', rex_type_test_enum_string::cases(), rex_type_test_enum_string::Bar],
-            ['2', rex_type_test_enum_int::cases(), rex_type_test_enum_int::Bar],
+            ['bar', TypeTestEnumString::cases(), TypeTestEnumString::Bar],
+            ['2', TypeTestEnumInteger::cases(), TypeTestEnumInteger::Bar],
             [$arrayVar, $arrayCasts, $arrayExpected],
             [
                 ['k' => $arrayVar],
@@ -64,7 +70,7 @@ class rex_type_test extends TestCase
     #[DataProvider('castProvider')]
     public function testCast(mixed $var, string|callable|array $vartype, mixed $expectedResult): void
     {
-        self::assertSame($expectedResult, rex_type::cast($var, $vartype));
+        self::assertSame($expectedResult, Type::cast($var, $vartype));
     }
 
     /** @return list<array{mixed}> */
@@ -88,17 +94,17 @@ class rex_type_test extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         /** @psalm-suppress MixedArgument */
-        rex_type::cast(1, $vartype);
+        Type::cast(1, $vartype);
     }
 }
 
-enum rex_type_test_enum_string: string
+enum TypeTestEnumString: string
 {
     case Foo = 'foo';
     case Bar = 'bar';
 }
 
-enum rex_type_test_enum_int: int
+enum TypeTestEnumInteger: int
 {
     case Foo = 1;
     case Bar = 2;

@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 
 /**
  * @method rex_user|null getUser()
@@ -354,6 +355,6 @@ class rex_backend_login extends rex_login
             return;
         }
 
-        rex_user_session::updateSessionId(rex_type::string($ep->getParam('previous_id')), rex_type::string($ep->getParam('new_id')));
+        rex_user_session::updateSessionId(Type::string($ep->getParam('previous_id')), Type::string($ep->getParam('new_id')));
     }
 }

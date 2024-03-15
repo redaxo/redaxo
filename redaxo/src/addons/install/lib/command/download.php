@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Util\Version;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -50,12 +51,12 @@ class rex_command_install_download extends rex_console_command
         $fileId = null;
         $latestVersion = null;
         foreach ($files as $fId => $fileMeta) {
-            if (!rex_version::matchesConstraints($fileMeta['version'], $version)) {
+            if (!Version::matchesConstraints($fileMeta['version'], $version)) {
                 continue;
             }
 
             if (null !== $latestVersion
-                && !rex_version::compare($fileMeta['version'], $latestVersion, '>')) {
+                && !Version::compare($fileMeta['version'], $latestVersion, '>')) {
                 continue;
             }
 

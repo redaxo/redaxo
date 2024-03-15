@@ -1,11 +1,14 @@
 <?php
+
+use Redaxo\Core\Util\Pager;
+
 /**
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
  */
 ?>
 <?php
-    /** @var rex_pager $pager */
+    /** @var Pager $pager */
     $pager = $this->pager;
     /** @var rex_url_provider_interface $urlProvider */
     $urlProvider = $this->urlprovider;

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Url;
 
 /**
  * The rex_article_slice class is an object wrapper over the database table rex_article_slice.
@@ -437,7 +438,7 @@ class rex_article_slice
     {
         $media = $this->getMedia($index);
 
-        return null === $media ? null : rex_url::media($media);
+        return null === $media ? null : Url::media($media);
     }
 
     /**

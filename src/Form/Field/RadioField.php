@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Form\AbstractForm;
+use Redaxo\Core\Util\Str;
 use rex_fragment;
-use rex_string;
 
 class RadioField extends AbstractOptionField
 {
@@ -50,7 +50,7 @@ class RadioField extends AbstractOptionField
 
         foreach ($options as $optName => $optValue) {
             $checked = $optValue == $value ? ' checked="checked"' : '';
-            $optId = $id . '-' . rex_string::normalize($optValue, '-');
+            $optId = $id . '-' . Str::normalize($optValue, '-');
             $optAttr = $attr . ' id="' . $optId . '"';
 
             $n = [];

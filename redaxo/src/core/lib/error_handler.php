@@ -2,6 +2,10 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Log\Logger;
+use Redaxo\Core\Util\Editor;
+use Redaxo\Core\Util\Type;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -52,7 +56,7 @@ abstract class rex_error_handler
     public static function handleException($exception)
     {
         try {
-            rex_logger::logException($exception, self::getUrl());
+            Logger::logException($exception, self::getUrl());
 
             // in case exceptions happen early - before symfony-console doRun()
             if ('cli' === PHP_SAPI) {
@@ -114,7 +118,7 @@ abstract class rex_error_handler
         $handler = new PrettyPageHandler();
         $handler->setApplicationRootPath(rtrim(Path::base(), '/\\'));
 
-        $handler->setEditor([rex_editor::factory(), 'getUrl']);
+        $handler->setEditor([Editor::factory(), 'getUrl']);
 
         $handler->hideSuperglobalKey('_SESSION', rex_login::SESSION_ID);
         $handler->hideSuperglobalKey('_COOKIE', session_name());
@@ -221,7 +225,7 @@ abstract class rex_error_handler
 
         $saveModeLink = '';
         if (!Core::isSetup() && Core::isBackend() && !Core::isSafeMode()) {
-            $saveModeLink = '<a class="rex-safemode" href="' . rex_url::backendPage('packages', ['safemode' => 1]) . '">activate safe mode</a>';
+            $saveModeLink = '<a class="rex-safemode" href="' . Url::backendPage('packages', ['safemode' => 1]) . '">activate safe mode</a>';
         }
 
         $bugTitle = 'Exception: ' . $exception->getMessage();
@@ -234,10 +238,10 @@ abstract class rex_error_handler
                 "\n" . $bugBody;
         }
 
-        $bugBodyCompressed = rex_type::string(preg_replace('/ {2,}/u', ' ', $bugBody)); // replace multiple spaces with one space
+        $bugBodyCompressed = Type::string(preg_replace('/ {2,}/u', ' ', $bugBody)); // replace multiple spaces with one space
         $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels=' . rex_escape($bugLabel, 'url') . '&title=' . rex_escape($bugTitle, 'url') . '&body=' . rex_escape($bugBodyCompressed, 'url') . '" rel="noopener noreferrer" target="_blank">Report a REDAXO bug</a>';
 
-        $url = Core::isFrontend() ? rex_url::frontendController() : rex_url::backendController();
+        $url = Core::isFrontend() ? Url::frontendController() : Url::backendController();
 
         $errPage = str_replace(
             [
@@ -313,14 +317,14 @@ abstract class rex_error_handler
                 echo self::getErrorType($errno) . ": $errstr in $file on line $errline";
             } else {
                 $file = rex_escape($file);
-                if ($url = rex_editor::factory()->getUrl($errfile, $errline)) {
+                if ($url = Editor::factory()->getUrl($errfile, $errline)) {
                     $file = '<a href="' . rex_escape($url) . '">' . $file . '</a>';
                 }
                 echo '<div><b>' . self::getErrorType($errno) . '</b>: ' . rex_escape($errstr) . " in <b>$file</b> on line <b>$errline</b></div>";
             }
         }
 
-        rex_logger::logError($errno, $errstr, $errfile, $errline, self::getUrl());
+        Logger::logError($errno, $errstr, $errfile, $errline, self::getUrl());
 
         return true;
     }

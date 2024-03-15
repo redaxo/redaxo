@@ -231,26 +231,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/cronjob/command/run.php
 
 		-
-			message: "#^Method rex_cronjob_form\\:\\:addIntervalField\\(\\) has parameter \\$attributes with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/form.php
-
-		-
-			message: "#^Method rex_cronjob_form\\:\\:addIntervalField\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/form.php
-
-		-
-			message: "#^Method rex_cronjob_form_interval_element\\:\\:getIntervalElements\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/form.php
-
-		-
-			message: "#^Property rex_cronjob_form_interval_element\\:\\:\\$intervalElements type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/form.php
-
-		-
 			message: "#^Method rex_cronjob_manager\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/cronjob/manager.php
@@ -1516,91 +1496,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/structure/var_category.php
 
 		-
-			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<list\\<string\\>\\|string\\|null\\>, rex_extension_point\\<list\\<string\\>\\|string\\|null\\> given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/editor.php
-
-		-
-			message: "#^Method rex_formatter\\:\\:bytes\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/formatter.php
-
-		-
-			message: "#^Method rex_formatter\\:\\:custom\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/formatter.php
-
-		-
-			message: "#^Method rex_formatter\\:\\:email\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/formatter.php
-
-		-
-			message: "#^Method rex_formatter\\:\\:number\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/formatter.php
-
-		-
-			message: "#^Method rex_formatter\\:\\:url\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/formatter.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockFencedCodeComplete\\(\\) has parameter \\$Block with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockFencedCodeComplete\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockHeader\\(\\) has parameter \\$Line with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockSetextHeader\\(\\) has parameter \\$Block with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockSetextHeader\\(\\) has parameter \\$Line with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockSetextHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:handleHeader\\(\\) has parameter \\$block with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:handleHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:text\\(\\) has parameter \\$text with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$Block has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
 			message: "#^Method rex_socket\\:\\:factory\\(\\) should return static\\(rex_socket\\) but returns rex_socket_proxy\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
@@ -1619,41 +1514,6 @@ parameters:
 			message: "#^Property rex_socket_response\\:\\:\\$headers type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket_response.php
-
-		-
-			message: "#^Method rex_string\\:\\:buildQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/string.php
-
-		-
-			message: "#^Method rex_string\\:\\:yamlEncode\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/string.php
-
-		-
-			message: "#^Method rex_type\\:\\:array\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/type.php
-
-		-
-			message: "#^Method rex_url\\:\\:backendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/url.php
-
-		-
-			message: "#^Method rex_url\\:\\:backendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/url.php
-
-		-
-			message: "#^Method rex_url\\:\\:currentBackendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/url.php
-
-		-
-			message: "#^Method rex_url\\:\\:frontendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/url.php
 
 		-
 			message: "#^Method rex_var\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -1761,34 +1621,29 @@ parameters:
 			path: ../../redaxo/src/core/tests/structure/category_test.php
 
 		-
-			message: "#^Method rex_string_test\\:\\:buildQueryProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/string_test.php
-
-		-
-			message: "#^Method rex_string_test\\:\\:testBuildQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/string_test.php
-
-		-
-			message: "#^Method rex_string_test\\:\\:testSplit\\(\\) has parameter \\$expectedArray with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/string_test.php
-
-		-
-			message: "#^Dead catch \\- Throwable is never thrown in the try block\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/timer_test.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/timer_test.php
-
-		-
 			message: "#^Method rex_var_test\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/var/var_test.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\Form\\\\CronjobForm\\:\\:addIntervalField\\(\\) has parameter \\$attributes with no type specified\\.$#"
+			count: 1
+			path: ../../src/Cronjob/Form/CronjobForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\Form\\\\CronjobForm\\:\\:addIntervalField\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/Cronjob/Form/CronjobForm.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\Form\\\\IntervalField\\:\\:getIntervalElements\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Cronjob/Form/IntervalField.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Cronjob\\\\Form\\\\IntervalField\\:\\:\\$intervalElements type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Cronjob/Form/IntervalField.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:buildOnDuplicateKeyUpdate\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
@@ -1916,6 +1771,26 @@ parameters:
 			path: ../../src/Filesystem/File.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:backendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Url.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:backendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Url.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:currentBackendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Url.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:frontendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Url.php
+
+		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addCheckboxField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/AbstractForm.php
@@ -1941,22 +1816,12 @@ parameters:
 			path: ../../src/Form/AbstractForm.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addLinklistField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Form/AbstractForm.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addLinkmapField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/AbstractForm.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addMediaField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Form/AbstractForm.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addMedialistField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/AbstractForm.php
 
@@ -2079,6 +1944,106 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\Form\\\\Form\\:\\:\\$languageSupport type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/Form.php
+
+		-
+			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<list\\<string\\>\\|string\\|null\\>, rex_extension_point\\<list\\<string\\>\\|string\\|null\\> given\\.$#"
+			count: 1
+			path: ../../src/Util/Editor.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:bytes\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Formatter.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:custom\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Formatter.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:email\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Formatter.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:number\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Formatter.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:url\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Formatter.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockFencedCodeComplete\\(\\) has parameter \\$Block with no type specified\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockFencedCodeComplete\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockHeader\\(\\) has parameter \\$Line with no type specified\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockSetextHeader\\(\\) has parameter \\$Block with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockSetextHeader\\(\\) has parameter \\$Line with no type specified\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockSetextHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:handleHeader\\(\\) has parameter \\$block with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:handleHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:text\\(\\) has parameter \\$text with no type specified\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$Block has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Str\\:\\:buildQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Str.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Str\\:\\:yamlEncode\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Str.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Type\\:\\:array\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Type.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Validator\\\\Validator\\:\\:values\\(\\) has parameter \\$validValues with no value type specified in iterable type array\\.$#"

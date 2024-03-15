@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
@@ -55,7 +56,7 @@ if ($PERMALL) {
         $error = $e->getMessage();
     }
 
-    $link = rex_url::currentBackendPage(array_merge($argUrl, ['cat_id' => '']));
+    $link = Url::currentBackendPage(array_merge($argUrl, ['cat_id' => '']));
 
     $breadcrumb = [];
 
@@ -172,7 +173,7 @@ if ($PERMALL) {
         $method = $addMode ? 'add_file_cat' : 'edit_file_cat';
 
         $content = '
-            <form action="' . rex_url::currentBackendPage() . '" method="post">
+            <form action="' . Url::currentBackendPage() . '" method="post">
                 ' . $csrf->getHiddenField() . '
                 <fieldset>
                     <input type="hidden" name="media_method" value="' . $method . '" />

@@ -3,6 +3,8 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Pager;
 
 $structureContext = new rex_structure_context([
     'category_id' => rex_request('category_id', 'int'),
@@ -84,7 +86,7 @@ if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->ge
 
 // --------------------- ADD PAGINATION
 
-$catPager = new rex_pager($structureContext->getRowsPerPage(), 'catstart');
+$catPager = new Pager($structureContext->getRowsPerPage(), 'catstart');
 $catPager->setRowCount((int) $KAT->getValue('rowCount'));
 $catFragment = new rex_fragment();
 $catFragment->setVar('urlprovider', $structureContext->getContext());
@@ -355,7 +357,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     // --------------------- ADD PAGINATION
 
-    $artPager = new rex_pager($structureContext->getRowsPerPage(), 'artstart');
+    $artPager = new Pager($structureContext->getRowsPerPage(), 'artstart');
     $artPager->setRowCount((int) $sql->getValue('artCount'));
     $artFragment = new rex_fragment();
     $artFragment->setVar('urlprovider', $structureContext->getContext());
@@ -417,7 +419,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                     <td class="rex-table-id" data-title="' . I18n::msg('header_id') . '">-</td>
                     <td class="rex-table-article-name" data-title="' . I18n::msg('header_article_name') . '"><input class="form-control" type="text" name="article-name" required maxlength="255" autofocus /></td>
                     ' . $tmplTd . '
-                    <td class="rex-table-date" data-title="' . I18n::msg('header_date') . '">' . rex_formatter::intlDate(time()) . '</td>
+                    <td class="rex-table-date" data-title="' . I18n::msg('header_date') . '">' . Formatter::intlDate(time()) . '</td>
                     <td class="rex-table-priority" data-title="' . I18n::msg('header_priority') . '"><input class="form-control" type="number" name="article-position" value="' . ($artPager->getRowCount() + 1) . '" required min="1" inputmode="numeric" /></td>
                     <td class="rex-table-action" colspan="' . $colspan . '">' . rex_api_article_add::getHiddenFields() . '<button class="btn btn-save" type="submit" name="artadd_function"' . Core::getAccesskey(I18n::msg('article_add'), 'save') . '>' . I18n::msg('article_add') . '</button></td>
                 </tr>
@@ -462,7 +464,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                             <td class="rex-table-id" data-title="' . I18n::msg('header_id') . '">' . (int) $sql->getValue('id') . '</td>
                             <td class="rex-table-article-name" data-title="' . I18n::msg('header_article_name') . '"><input class="form-control" type="text" name="article-name" value="' . rex_escape($sql->getValue('name')) . '" required maxlength="255" autofocus /></td>
                             ' . $tmplTd . '
-                            <td class="rex-table-date" data-title="' . I18n::msg('header_date') . '">' . rex_formatter::intlDate($sql->getDateTimeValue('createdate')) . '</td>
+                            <td class="rex-table-date" data-title="' . I18n::msg('header_date') . '">' . Formatter::intlDate($sql->getDateTimeValue('createdate')) . '</td>
                             <td class="rex-table-priority" data-title="' . I18n::msg('header_priority') . '"><input class="form-control" type="number" name="article-position" value="' . rex_escape($sql->getValue('priority')) . '" required min="1" inputmode="numeric" /></td>
                             <td class="rex-table-action" colspan="' . $colspan . '">' . rex_api_article_edit::getHiddenFields() . '<button class="btn btn-save" type="submit" name="artedit_function"' . Core::getAccesskey(I18n::msg('article_save'), 'save') . '>' . I18n::msg('article_save') . '</button></td>
                         </tr>';
@@ -524,7 +526,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                             <td class="rex-table-id" data-title="' . I18n::msg('header_id') . '">' . (int) $sql->getValue('id') . '</td>
                             <td class="rex-table-article-name" data-title="' . I18n::msg('header_article_name') . '"><a class="rex-link-expanded" href="' . $editModeUrl . '">' . rex_escape($sql->getValue('name')) . '</a></td>
                             ' . $tmplTd . '
-                            <td class="rex-table-date" data-title="' . I18n::msg('header_date') . '">' . rex_formatter::intlDate($sql->getDateTimeValue('createdate')) . '</td>
+                            <td class="rex-table-date" data-title="' . I18n::msg('header_date') . '">' . Formatter::intlDate($sql->getDateTimeValue('createdate')) . '</td>
                             <td class="rex-table-priority" data-title="' . I18n::msg('header_priority') . '">' . rex_escape($sql->getValue('priority')) . '</td>
                             ' . $addExtra . '
                         </tr>
@@ -546,7 +548,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                             <td class="rex-table-id" data-title="' . I18n::msg('header_id') . '">' . (int) $sql->getValue('id') . '</td>
                             <td class="rex-table-article-name" data-title="' . I18n::msg('header_article_name') . '">' . rex_escape($sql->getValue('name')) . '</td>
                             ' . $tmplTd . '
-                            <td class="rex-table-date" data-title="' . I18n::msg('header_date') . '">' . rex_formatter::intlDate($sql->getDateTimeValue('createdate')) . '</td>
+                            <td class="rex-table-date" data-title="' . I18n::msg('header_date') . '">' . Formatter::intlDate($sql->getDateTimeValue('createdate')) . '</td>
                             <td class="rex-table-priority" data-title="' . I18n::msg('header_priority') . '">' . rex_escape($sql->getValue('priority')) . '</td>';
             if ($canEdit) {
                 $echo .= '

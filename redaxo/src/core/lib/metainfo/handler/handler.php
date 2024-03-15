@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 /**
  * @internal
@@ -43,7 +44,7 @@ abstract class rex_metainfo_handler
             $attr = (string) $sqlFields->getValue('attributes');
             $dblength = (int) $sqlFields->getValue('dblength');
 
-            $attrArray = rex_string::split($attr);
+            $attrArray = Str::split($attr);
             if (isset($attrArray['perm'])) {
                 if (!Core::requireUser()->hasPerm($attrArray['perm'])) {
                     continue;
@@ -57,7 +58,7 @@ abstract class rex_metainfo_handler
                 unset($attrArray['note']);
             }
 
-            // `rex_string::split` transforms attributes without value (like `disabled`, `data-foo` etc.) to an int based array element
+            // `Str::split` transforms attributes without value (like `disabled`, `data-foo` etc.) to an int based array element
             // we transform them to array elements with the attribute name as key and empty value
             foreach ($attrArray as $key => $value) {
                 if (is_int($key)) {
@@ -161,7 +162,7 @@ abstract class rex_metainfo_handler
                     $inline = isset($attrArray['inline']);
                     unset($attrArray['inline']);
 
-                    $attrStr = rex_string::buildAttributes($attrArray);
+                    $attrStr = Str::buildAttributes($attrArray);
 
                     if (!$activeItem) {
                         $dbvalues = (array) $defaultValue;
@@ -310,7 +311,7 @@ abstract class rex_metainfo_handler
                     $rexInput->setValue($inputValue);
 
                     if (!$rexInput instanceof rex_input_time) {
-                        $paramArray = rex_string::split($params);
+                        $paramArray = Str::split($params);
 
                         if (isset($paramArray['start-year'])) {
                             $rexInput->setStartYear((int) $paramArray['start-year']);
@@ -365,7 +366,7 @@ abstract class rex_metainfo_handler
                     // tabindex entfernen, macht bei einer legend wenig sinn
                     unset($attrArray['tabindex']);
 
-                    $attrStr = rex_string::buildAttributes($attrArray);
+                    $attrStr = Str::buildAttributes($attrArray);
 
                     $field = '</fieldset><fieldset><legend id="' . $id . '"' . $attrStr . '>' . $label . '</legend>';
                     break;
@@ -373,7 +374,7 @@ abstract class rex_metainfo_handler
                     $tag = 'div';
                     $tagAttr = ' class="rex-form-widget"';
 
-                    $paramArray = rex_string::split($params);
+                    $paramArray = Str::split($params);
 
                     $rexInput = new rex_input_mediabutton();
                     $rexInput->addAttributes($attrArray);
@@ -413,7 +414,7 @@ abstract class rex_metainfo_handler
                     $tag = 'div';
                     $tagAttr = ' class="rex-form-widget"';
 
-                    $paramArray = rex_string::split($params);
+                    $paramArray = Str::split($params);
                     $category = null;
                     if (isset($paramArray['category'])) {
                         $category = $paramArray['category'];
@@ -491,7 +492,7 @@ abstract class rex_metainfo_handler
             $fieldAttributes = (string) $sqlFields->getValue('attributes');
 
             // dont save restricted fields
-            $attrArray = rex_string::split($fieldAttributes);
+            $attrArray = Str::split($fieldAttributes);
             if (isset($attrArray['perm'])) {
                 if (!Core::requireUser()->hasPerm($attrArray['perm'])) {
                     continue;

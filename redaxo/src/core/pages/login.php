@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
 global $rexUserLoginmessage;
@@ -114,7 +115,7 @@ $content = $fragment->parse('core/page/section.php');
 $webauthn = new rex_webauthn();
 
 $content = '
-<form id="rex-form-login" action="' . rex_url::backendController() . '" method="post" data-auth-login>
+<form id="rex-form-login" action="' . Url::backendController() . '" method="post" data-auth-login>
     ' . $content . '
     ' . rex_csrf_token::factory('backend_login')->getHiddenField() . '
     <input type="hidden" name="rex_user_passkey" data-auth-passkey="' . rex_escape($webauthn->getGetArgs()) . '"/>

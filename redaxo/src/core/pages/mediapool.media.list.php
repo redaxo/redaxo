@@ -4,7 +4,10 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Pager;
 
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
@@ -134,7 +137,7 @@ if (!empty($argUrl['args']['types'])) {
 
 // deletefilelist und cat change
 $panel = '
-<form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
+<form action="' . Url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
     <fieldset>
         ' . $csrf->getHiddenField() . '
         <input type="hidden" id="media_method" name="media_method" value="" />
@@ -143,7 +146,7 @@ $panel = '
         <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::backendController(array_merge(['page' => 'mediapool/upload'], $argUrl)) . '"' . Core::getAccesskey(I18n::msg('pool_file_insert'), 'add') . ' title="' . I18n::msg('pool_file_insert') . '"><i class="rex-icon rex-icon-add-media"></i></a></th>
+                <th class="rex-table-icon"><a class="rex-link-expanded" href="' . Url::backendController(array_merge(['page' => 'mediapool/upload'], $argUrl)) . '"' . Core::getAccesskey(I18n::msg('pool_file_insert'), 'add') . ' title="' . I18n::msg('pool_file_insert') . '"><i class="rex-icon rex-icon-add-media"></i></a></th>
                 <th class="rex-table-thumbnail">' . I18n::msg('pool_file_thumbnail') . '</th>
                 <th>' . I18n::msg('pool_file_info') . ' / ' . I18n::msg('pool_file_description') . '</th>
                 <th>' . I18n::msg('pool_last_update') . '</th>
@@ -246,7 +249,7 @@ if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
     $filter['types'] = $types;
 }
 
-$pager = new rex_pager(5000);
+$pager = new Pager(5000);
 
 $items = rex_media_service::getList($filter, [], $pager);
 
@@ -267,7 +270,7 @@ foreach ($items as $media) {
         $thumbnail = '<i class="rex-mime' . $iconClass . '" title="' . $alt . '" data-extension="' . $fileExt . '"></i><span class="sr-only">' . $media->getFileName() . '</span>';
 
         if (rex_media::isImageType(File::extension($media->getFileName()))) {
-            $thumbnail = '<img class="thumbnail" src="' . rex_url::media($media->getFileName()) . '?buster=' . $media->getValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
+            $thumbnail = '<img class="thumbnail" src="' . Url::media($media->getFileName()) . '?buster=' . $media->getValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
             if ('svg' != File::extension($media->getFileName())) {
                 $thumbnail = '<img class="thumbnail" src="' . rex_media_manager::getUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
             }
@@ -294,7 +297,7 @@ foreach ($items as $media) {
         }
     }
 
-    $ilink = rex_url::currentBackendPage(array_merge(['file_id' => $media->getId(), 'rex_file_category' => $rexFileCategory], $argUrl));
+    $ilink = Url::currentBackendPage(array_merge(['file_id' => $media->getId(), 'rex_file_category' => $rexFileCategory], $argUrl));
 
     $addTd = '<td></td>';
     if ($hasCategoryPerm) {
@@ -307,9 +310,9 @@ foreach ($items as $media) {
                     <td class="rex-word-break" data-title="' . I18n::msg('pool_file_info') . '">
                         <h3><a class="rex-link-expanded" href="' . $ilink . '">' . rex_escape($media->getTitle()) . '</a></h3>
                         ' . $desc . '
-                        <p>' . rex_escape($media->getFileName()) . ' <span class="rex-filesize">' . rex_formatter::bytes($media->getSize()) . '</span></p>
+                        <p>' . rex_escape($media->getFileName()) . ' <span class="rex-filesize">' . Formatter::bytes($media->getSize()) . '</span></p>
                     </td>
-                    <td data-title="' . I18n::msg('pool_last_update') . '"><p class="rex-date">' . rex_formatter::intlDateTime($media->getUpdateDate()) . '</p><p class="rex-author">' . rex_escape($media->getUpdateUser()) . '</p></td>
+                    <td data-title="' . I18n::msg('pool_last_update') . '"><p class="rex-date">' . Formatter::intlDateTime($media->getUpdateDate()) . '</p><p class="rex-author">' . rex_escape($media->getUpdateUser()) . '</p></td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $ilink . '">' . I18n::msg('edit') . '</a></td>
                     <td class="rex-table-action">';
 

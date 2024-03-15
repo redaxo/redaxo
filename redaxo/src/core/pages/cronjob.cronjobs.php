@@ -1,10 +1,13 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Cronjob\Form\CronjobForm;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
 
 $func = rex_request('func', 'string');
@@ -137,7 +140,7 @@ if ('' == $func) {
 } elseif ('edit' == $func || 'add' == $func) {
     $fieldset = 'edit' == $func ? I18n::msg('edit') : I18n::msg('add');
 
-    $form = new rex_cronjob_form(Core::getTable('cronjob'), $fieldset, 'id = ' . $oid, 'post', false);
+    $form = new CronjobForm(Core::getTable('cronjob'), $fieldset, 'id = ' . $oid, 'post', false);
     $form->addParam('oid', $oid);
     $form->setEditMode('edit' == $func);
 
@@ -196,7 +199,7 @@ if ('' == $func) {
     ksort($cronjobs);
     foreach ($cronjobs as $cronjob) {
         $class = $cronjob::class;
-        $select->addOption($cronjob->getTypeName(), $class, 0, 0, ['data-cronjob_id' => rex_string::normalize($class)]);
+        $select->addOption($cronjob->getTypeName(), $class, 0, 0, ['data-cronjob_id' => Str::normalize($class)]);
     }
     if ('add' == $func) {
         $select->setSelected(rex_cronjob_urlrequest::class);
@@ -209,7 +212,7 @@ if ('' == $func) {
         } else {
             $warning = I18n::rawMsg('cronjob_type_not_found', $field->getValue(), $activeType);
         }
-        rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning]));
+        rex_response::sendRedirect(Url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning]));
     }
 
     $form->addFieldset(I18n::msg('cronjob_type_parameters'));
@@ -218,7 +221,7 @@ if ('' == $func) {
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setMultiple(false);
     if ($activeType) {
-        $fieldContainer->setActive(rex_string::normalize($activeType));
+        $fieldContainer->setActive(Str::normalize($activeType));
     }
 
     $form->addFieldset(I18n::msg('cronjob_interval'));
@@ -237,7 +240,7 @@ if ('' == $func) {
     $envJs = '';
     $visible = [];
     foreach ($cronjobs as $cronjob) {
-        $group = rex_string::normalize($cronjob::class);
+        $group = Str::normalize($cronjob::class);
 
         $disabled = array_diff(['frontend', 'backend', 'script'], (array) $cronjob->getEnvironments());
         if (count($disabled) > 0) {

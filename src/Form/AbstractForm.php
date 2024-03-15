@@ -5,6 +5,7 @@ namespace Redaxo\Core\Form;
 use BadMethodCallException;
 use InvalidArgumentException;
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Form\Field\CheckboxField;
 use Redaxo\Core\Form\Field\ContainerField;
@@ -13,17 +14,14 @@ use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Form\Field\RawField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 use rex_be_controller;
 use rex_csrf_token;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
-use rex_form_widget_linklist_element;
 use rex_form_widget_linkmap_element;
 use rex_form_widget_media_element;
-use rex_form_widget_medialist_element;
-use rex_string;
-use rex_url;
 use rex_view;
 
 use function array_key_exists;
@@ -142,7 +140,7 @@ abstract class AbstractForm
         $params = array_merge($this->getParams(), $params);
         $params['form'] = $this->getName();
 
-        return Core::isBackend() ? rex_url::backendController($params) : rex_url::frontendController($params);
+        return Core::isBackend() ? Url::backendController($params) : Url::frontendController($params);
     }
 
     // --------- Sections
@@ -371,7 +369,6 @@ abstract class AbstractForm
 
     /**
      * Fuegt dem Formular ein Feld hinzu mit dem der Medienpool angebunden werden kann.
-     * Es kann nur ein Element aus dem Medienpool eingefuegt werden.
      *
      * @param string $name
      * @param mixed $value
@@ -389,27 +386,7 @@ abstract class AbstractForm
     }
 
     /**
-     * Fuegt dem Formular ein Feld hinzu mit dem der Medienpool angebunden werden kann.
-     * Damit koennen mehrere Elemente aus dem Medienpool eingefuegt werden.
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @throws rex_exception
-     *
-     * @return rex_form_widget_medialist_element
-     */
-    public function addMedialistField($name, $value = null, array $attributes = [])
-    {
-        $attributes['internal::fieldClass'] = rex_form_widget_medialist_element::class;
-        $field = $this->addField('', $name, $value, $attributes, true);
-        assert($field instanceof rex_form_widget_medialist_element);
-        return $field;
-    }
-
-    /**
      * Fuegt dem Formular ein Feld hinzu mit dem die Struktur-Verwaltung angebunden werden kann.
-     * Es kann nur ein Element aus der Struktur eingefuegt werden.
      *
      * @param string $name
      * @param mixed $value
@@ -423,25 +400,6 @@ abstract class AbstractForm
         $attributes['internal::fieldClass'] = rex_form_widget_linkmap_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_linkmap_element);
-        return $field;
-    }
-
-    /**
-     * Fuegt dem Formular ein Feld hinzu mit dem die Struktur-Verwaltung angebunden werden kann.
-     * Damit koennen mehrere Elemente aus der Struktur eingefuegt werden.
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @throws rex_exception
-     *
-     * @return rex_form_widget_linklist_element
-     */
-    public function addLinklistField($name, $value = null, array $attributes = [])
-    {
-        $attributes['internal::fieldClass'] = rex_form_widget_linklist_element::class;
-        $field = $this->addField('', $name, $value, $attributes, true);
-        assert($field instanceof rex_form_widget_linklist_element);
         return $field;
     }
 
@@ -587,7 +545,7 @@ abstract class AbstractForm
 
         // Eigentlichen Feldnamen nochmals speichern
         $fieldName = $name;
-        $fieldset = rex_string::normalize($this->fieldset);
+        $fieldset = Str::normalize($this->fieldset);
         if (true === $attributes['internal::useArraySyntax']) {
             $name = $fieldset . '[' . $name . ']';
         } elseif (false === $attributes['internal::useArraySyntax']) {
@@ -677,9 +635,7 @@ abstract class AbstractForm
             'radio' => RadioField::class,
             'select' => SelectField::class,
             'media' => rex_form_widget_media_element::class,
-            'medialist' => rex_form_widget_medialist_element::class,
             'link' => rex_form_widget_linkmap_element::class,
-            'linklist' => rex_form_widget_linklist_element::class,
             'hidden', 'readonly', 'readonlytext', 'text', 'textarea' => BaseField::class,
             default => throw new rex_exception("Unexpected inputType '" . $inputType . "'!"),
         };
@@ -939,8 +895,8 @@ abstract class AbstractForm
             return null;
         }
 
-        $normalizedName = rex_string::normalize($fieldsetName);
-        $normalizedName .= '[' . rex_string::normalize($elementName) . ']';
+        $normalizedName = Str::normalize($fieldsetName);
+        $normalizedName .= '[' . Str::normalize($elementName) . ']';
 
         for ($i = 0; $i < count($this->elements[$fieldsetName]); ++$i) {
             if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $normalizedName) {
@@ -1053,7 +1009,7 @@ abstract class AbstractForm
      */
     public function fieldsetPostValues($fieldsetName)
     {
-        return rex_post(rex_string::normalize($fieldsetName), 'array');
+        return rex_post(Str::normalize($fieldsetName), 'array');
     }
 
     /**
@@ -1068,7 +1024,7 @@ abstract class AbstractForm
         $fields = $this->fieldsetPostValues($fieldsetName);
 
         // name attributes are normalized
-        $normalizedFieldName = rex_string::normalize($fieldName);
+        $normalizedFieldName = Str::normalize($fieldName);
 
         return $fields[$normalizedFieldName] ?? $default;
     }
@@ -1163,7 +1119,7 @@ abstract class AbstractForm
             $params[$listName . '_warning'] = $listWarning;
         }
 
-        $paramString = '&' . rex_string::buildQuery($params);
+        $paramString = '&' . Str::buildQuery($params);
 
         if ($this->debug) {
             echo 'redirect to: ' . rex_escape($this->applyUrl . $paramString);
@@ -1269,13 +1225,13 @@ abstract class AbstractForm
 
         $s .= sprintf('<form %s %s action="%s" method="%s">' . "\n",
             $id,
-            rex_string::buildAttributes($this->formAttributes),
-            rex_url::backendController($actionParams),
+            Str::buildAttributes($this->formAttributes),
+            Url::backendController($actionParams),
             $this->method,
         );
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $attributes = $this->fieldsetAttributes[$fieldsetName] ?? [];
-            $s .= '<fieldset ' . rex_string::buildAttributes($attributes) . '>' . "\n";
+            $s .= '<fieldset ' . Str::buildAttributes($attributes) . '>' . "\n";
 
             if ('' != $fieldsetName && $fieldsetName != $this->name) {
                 $s .= '<legend>' . rex_escape($fieldsetName) . '</legend>' . "\n";

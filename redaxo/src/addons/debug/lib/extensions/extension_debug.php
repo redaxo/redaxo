@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Timer;
 
 /**
  * @internal
@@ -16,13 +18,13 @@ class rex_extension_debug extends rex_extension
         $coreTimer = Core::getProperty('timer');
         $absDur = $coreTimer->getDelta();
 
-        $timer = new rex_timer();
+        $timer = new Timer();
         $epStart = microtime(true);
         $res = parent::registerPoint($extensionPoint);
         $epEnd = microtime(true);
         $epDur = $timer->getDelta();
 
-        $memory = rex_formatter::bytes(memory_get_usage(true), [3]);
+        $memory = Formatter::bytes(memory_get_usage(true), [3]);
 
         self::$extensionPoints[] = [
             '#' => count(self::$extensionPoints),

@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
 
 /**
@@ -280,7 +281,7 @@ class rex_metainfo_table_expander extends Form
 
             if (
                 strlen($fieldDefault)
-                && (rex_metainfo_table_manager::FIELD_CHECKBOX === $fieldType || rex_metainfo_table_manager::FIELD_SELECT === $fieldType && isset(rex_string::split($fieldAttributes)['multiple']))
+                && (rex_metainfo_table_manager::FIELD_CHECKBOX === $fieldType || rex_metainfo_table_manager::FIELD_SELECT === $fieldType && isset(Str::split($fieldAttributes)['multiple']))
             ) {
                 $fieldDefault = '|' . trim($fieldDefault, '|') . '|';
             }

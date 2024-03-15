@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\PermissionSelectField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
@@ -70,7 +71,7 @@ if ('' == $func) {
 
     $form = Form::factory(Core::getTablePrefix() . 'user_role', '', 'id = ' . $id);
     $form->addParam('id', $id);
-    $form->setApplyUrl(rex_url::currentBackendPage());
+    $form->setApplyUrl(Url::currentBackendPage());
     $form->setEditMode('edit' == $func);
 
     $field = $form->addTextField('name');

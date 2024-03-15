@@ -3,7 +3,10 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Markdown;
+use Redaxo\Core\Util\Version;
 
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
@@ -12,7 +15,7 @@ use Redaxo\Core\Translation\I18n;
 echo rex_view::title(I18n::msg('credits'), '');
 
 if (rex_get('license')) {
-    $license = rex_markdown::factory()->parse(File::require(Path::base('LICENSE.md')));
+    $license = Markdown::factory()->parse(File::require(Path::base('LICENSE.md')));
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', 'REDAXO ' . I18n::msg('credits_license'));
@@ -58,12 +61,12 @@ $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
 
 $coreVersion = rex_escape(Core::getVersion());
-if (rex_version::isUnstable($coreVersion)) {
+if (Version::isUnstable($coreVersion)) {
     $coreVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $coreVersion;
 }
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', 'REDAXO <small>' . $coreVersion . ' &ndash; <a href="' . rex_url::backendPage('credits', ['license' => 'core']) . '">' . I18n::msg('credits_license') . '</a></small>', false);
+$fragment->setVar('title', 'REDAXO <small>' . $coreVersion . ' &ndash; <a href="' . Url::backendPage('credits', ['license' => 'core']) . '">' . I18n::msg('credits_license') . '</a></small>', false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
@@ -85,7 +88,7 @@ $content .= '
         <tbody>';
 
 foreach (rex_addon::getAvailableAddons() as $package) {
-    $helpUrl = rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]);
+    $helpUrl = Url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]);
 
     $license = '';
     if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
@@ -97,11 +100,11 @@ foreach (rex_addon::getAvailableAddons() as $package) {
             $firstLine = 'MIT License';
         }
 
-        $license = '<a href="' . rex_url::backendPage('packages', ['subpage' => 'license', 'package' => $package->getPackageId()]) . '"><i class="rex-icon rex-icon-license"></i> ' . rex_escape($firstLine) . '</a>';
+        $license = '<a href="' . Url::backendPage('packages', ['subpage' => 'license', 'package' => $package->getPackageId()]) . '"><i class="rex-icon rex-icon-license"></i> ' . rex_escape($firstLine) . '</a>';
     }
 
     $packageVersion = rex_escape($package->getVersion());
-    if (rex_version::isUnstable($packageVersion)) {
+    if (Version::isUnstable($packageVersion)) {
         $packageVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $packageVersion;
     }
 

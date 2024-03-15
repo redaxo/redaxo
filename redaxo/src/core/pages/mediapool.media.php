@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
@@ -53,7 +54,7 @@ $toolbar = '<div class="rex-truncate-dropdown">' . $fragment->parse('core/form/i
 
 $toolbar = '
 <div class="navbar-form navbar-right">
-<form action="' . rex_url::currentBackendPage() . '" method="post">
+<form action="' . Url::currentBackendPage() . '" method="post">
     ' . $argFields . '
     <div class="form-group">
     ' . $toolbar . '

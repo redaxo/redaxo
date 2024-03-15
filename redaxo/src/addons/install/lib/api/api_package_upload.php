@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -58,7 +59,7 @@ class rex_api_install_package_upload extends rex_api_function
                 }
                 rex_install_archive::copyDirToArchive(Path::addon($addonkey), $archive, null, $exclude);
                 if ($upload['replace_assets']) {
-                    rex_install_archive::copyDirToArchive(rex_url::addonAssets($addonkey), $archive, $addonkey . '/assets');
+                    rex_install_archive::copyDirToArchive(Url::addonAssets($addonkey), $archive, $addonkey . '/assets');
                 }
                 $file['checksum'] = md5_file($archive);
             }

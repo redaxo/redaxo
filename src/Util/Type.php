@@ -1,9 +1,24 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
+use BackedEnum;
+use InvalidArgumentException;
+
+use function array_key_exists;
+use function call_user_func;
+use function gettype;
+use function is_array;
+use function is_bool;
+use function is_callable;
+use function is_int;
+use function is_scalar;
+use function is_string;
+
 /**
  * Class for var casting.
  */
-class rex_type
+class Type
 {
     /**
      * Casts the variable $var to $vartype.

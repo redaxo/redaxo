@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
+use Rector\Arguments\Rector\ClassMethod\ArgumentAdderRector;
 use Rector\Arguments\Rector\ClassMethod\ReplaceArgumentDefaultValueRector;
+use Rector\Arguments\ValueObject\ArgumentAdder;
 use Rector\Arguments\ValueObject\ReplaceArgumentDefaultValue;
 use Rector\CodeQuality\Rector as CodeQuality;
 use Rector\Config\RectorConfig;
@@ -28,10 +30,13 @@ use Rector\Transform\ValueObject\FuncCallToStaticCall;
 use Rector\Transform\ValueObject\NewToStaticCall;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Core;
+use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
+use Redaxo\Core\Log;
 use Redaxo\Core\Translation;
+use Redaxo\Core\Util;
 use Redaxo\Core\Validator;
 use Redaxo\Rector\Rule as RedaxoRule;
 
@@ -86,7 +91,10 @@ return RectorConfig::configure()
         'rex_null_package' => rex_null_addon::class,
         'rex_package' => rex_addon::class,
         'rex_package_manager' => rex_addon_manager::class,
+        'rex_cronjob_form' => Cronjob\Form\CronjobForm::class,
+        'rex_cronjob_form_interval_element' => Cronjob\Form\IntervalField::class,
         'rex_dir' => Filesystem\Dir::class,
+        'rex_editor' => Util\Editor::class,
         'rex_file' => Filesystem\File::class,
         'rex_finder' => Filesystem\Finder::class,
         'rex_form_base' => Form\AbstractForm::class,
@@ -102,9 +110,17 @@ return RectorConfig::configure()
         'rex_form_prio_element' => Form\Field\PriorityField::class,
         'rex_form_perm_select_element' => Form\Field\PermissionSelectField::class,
         'rex_form_raw_element' => Form\Field\RawField::class,
+        'rex_formatter' => Util\Formatter::class,
         'rex_i18n' => Translation\I18n::class,
+        'rex_log_entry' => Log\LogEntry::class,
+        'rex_log_file' => Log\LogFile::class,
+        'rex_logger' => Log\Logger::class,
+        'rex_markdown' => Util\Markdown::class,
+        'rex_pager' => Util\Pager::class,
+        'rex_parsedown' => Util\Parsedown::class,
         'rex_path' => Filesystem\Path::class,
         'rex_path_default_provider' => Filesystem\DefaultPathProvider::class,
+        'rex_sortable_iterator' => Util\SortableIterator::class,
         'rex_sql' => Database\Sql::class,
         'rex_sql_column' => Database\Column::class,
         'rex_sql_foreign_key' => Database\ForeignKey::class,
@@ -112,8 +128,20 @@ return RectorConfig::configure()
         'rex_sql_schema_dumper' => Database\SchemaDumper::class,
         'rex_sql_table' => Database\Table::class,
         'rex_sql_util' => Database\Util::class,
+        'rex_stream' => Util\Stream::class,
+        'rex_string' => Util\Str::class,
+        'rex_timer' => Util\Timer::class,
+        'rex_type' => Util\Type::class,
+        'rex_url' => Filesystem\Url::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
+        'rex_version' => Util\Version::class,
+    ])
+    ->withConfiguredRule(ArgumentAdderRector::class, [
+        new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 1, 'value', null),
+        new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 2, 'arguments', ['multiple' => true]),
+        new ArgumentAdder(Form\AbstractForm::class, 'addMedialistField', 1, 'value', null),
+        new ArgumentAdder(Form\AbstractForm::class, 'addMedialistField', 2, 'arguments', ['multiple' => true]),
     ])
     ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(rex_addon::class, 'getRegisteredPackages', 'getRegisteredAddons'),
@@ -132,15 +160,18 @@ return RectorConfig::configure()
         new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
 
         new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
+
+        new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addLinkmapField'),
+        new MethodCallRename(Form\AbstractForm::class, 'addMedialistField', 'addMediaField'),
     ])
     ->withConfiguredRule(RenameStaticMethodRector::class, [
-        new RenameStaticMethod(Core::class, 'getVersionHash', rex_version::class, 'gitHash'),
-        new RenameStaticMethod(rex_string::class, 'versionSplit', rex_version::class, 'split'),
-        new RenameStaticMethod(rex_string::class, 'versionCompare', rex_version::class, 'compare'),
+        new RenameStaticMethod(Core::class, 'getVersionHash', Util\Version::class, 'gitHash'),
+        new RenameStaticMethod(Util\Str::class, 'versionSplit', Util\Version::class, 'split'),
+        new RenameStaticMethod(Util\Str::class, 'versionCompare', Util\Version::class, 'compare'),
     ])
     ->withConfiguredRule(NewToStaticCallRector::class, [
         new NewToStaticCall(rex_backend_password_policy::class, rex_backend_password_policy::class, 'factory'),
-        new NewToStaticCall(rex_log_file::class, rex_log_file::class, 'factory'),
+        new NewToStaticCall(Log\LogFile::class, Log\LogFile::class, 'factory'),
     ])
     ->withConfiguredRule(FuncCallToStaticCallRector::class, [
         new FuncCallToStaticCall('rex_mediapool_filename', rex_mediapool::class, 'filename'),
@@ -160,30 +191,30 @@ return RectorConfig::configure()
         new RemoveFuncCallArg('rex_getUrl', 3),
     ])
     ->withConfiguredRule(ArgumentRemoverRector::class, [
-        new ArgumentRemover(rex_string::class, 'buildQuery', 1, null),
+        new ArgumentRemover(Util\Str::class, 'buildQuery', 1, null),
         new ArgumentRemover(rex_url_provider_interface::class, 'getUrl', 1, null),
-        new ArgumentRemover(rex_url::class, 'frontendController', 1, null),
-        new ArgumentRemover(rex_url::class, 'backendController', 1, null),
-        new ArgumentRemover(rex_url::class, 'backendPage', 2, null),
-        new ArgumentRemover(rex_url::class, 'currentBackendPage', 1, null),
+        new ArgumentRemover(Filesystem\Url::class, 'frontendController', 1, null),
+        new ArgumentRemover(Filesystem\Url::class, 'backendController', 1, null),
+        new ArgumentRemover(Filesystem\Url::class, 'backendPage', 2, null),
+        new ArgumentRemover(Filesystem\Url::class, 'currentBackendPage', 1, null),
         new ArgumentRemover(Form\AbstractForm::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
         new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_media_manager::class, 'getUrl', 3, null),
 
-        new ArgumentRemover(rex_markdown::class, 'parse', 1, [true]),
-        new ArgumentRemover(rex_markdown::class, 'parseWithToc', 3, [true]),
+        new ArgumentRemover(Util\Markdown::class, 'parse', 1, [true]),
+        new ArgumentRemover(Util\Markdown::class, 'parseWithToc', 3, [true]),
     ])
     ->withConfiguredRule(ReplaceArgumentDefaultValueRector::class, [
         new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_ADDED', 'SLICE_ADDED'),
         new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_UPDATED', 'SLICE_UPDATED'),
         new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_DELETED', 'SLICE_DELETED'),
 
-        new ReplaceArgumentDefaultValue(rex_markdown::class, 'parse', 1, false, $options = [
-            new Expr\ArrayItem(new Expr\ConstFetch(new Name('false')), new Expr\ClassConstFetch(new Name(rex_markdown::class), 'SOFT_LINE_BREAKS')),
+        new ReplaceArgumentDefaultValue(Util\Markdown::class, 'parse', 1, false, $options = [
+            new Expr\ArrayItem(new Expr\ConstFetch(new Name('false')), new Expr\ClassConstFetch(new Name(Util\Markdown::class), 'SOFT_LINE_BREAKS')),
         ]),
-        new ReplaceArgumentDefaultValue(rex_markdown::class, 'parseWithToc', 3, false, $options),
+        new ReplaceArgumentDefaultValue(Util\Markdown::class, 'parseWithToc', 3, false, $options),
     ])
     ->withConfiguredRule(ConstFetchToClassConstFetchRector::class, [
         new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', Form\Form::class, 'ERROR_VIOLATE_UNIQUE_KEY'),

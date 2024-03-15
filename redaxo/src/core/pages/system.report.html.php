@@ -1,6 +1,8 @@
 <?php
 
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Version;
 
 $report = rex_system_report::factory()->get();
 
@@ -18,7 +20,7 @@ foreach ($report as $title => $group) {
             if (null === $value) {
                 throw new rex_exception('Package ' . $label . ' does not define a proper version in its package.yml');
             }
-            if (rex_version::isUnstable($value)) {
+            if (Version::isUnstable($value)) {
                 $value = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . rex_escape($value);
             }
         } elseif (is_bool($value)) {
@@ -41,7 +43,7 @@ foreach ($report as $title => $group) {
     $fragment->setVar('title', $title);
 
     if (rex_system_report::TITLE_PHP === $title) {
-        $phpinfo = '<a href="' . rex_url::backendPage('system/phpinfo') . '" class="btn btn-primary btn-xs" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;">phpinfo</a>';
+        $phpinfo = '<a href="' . Url::backendPage('system/phpinfo') . '" class="btn btn-primary btn-xs" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;">phpinfo</a>';
         $fragment->setVar('options', $phpinfo, false);
     }
 

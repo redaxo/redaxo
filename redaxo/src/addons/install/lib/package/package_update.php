@@ -3,7 +3,9 @@
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Version;
 
 /**
  * @internal
@@ -28,7 +30,7 @@ class rex_install_package_update extends rex_install_package_download
         $addon = rex_addon::get($this->addonkey);
         assert($addon instanceof rex_addon);
         $this->addon = $addon;
-        if (!rex_version::compare($this->file['version'], $this->addon->getVersion(), '>')) {
+        if (!Version::compare($this->file['version'], $this->addon->getVersion(), '>')) {
             throw new rex_functional_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
         }
     }
@@ -136,7 +138,7 @@ class rex_install_package_update extends rex_install_package_download
         $this->addon->setProperty('version', $this->file['version']);
         rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
 
-        rex_logger::factory()->info('AddOn ' . $this->addonkey . ' updated from ' . $oldVersion . ' to version ' . $this->file['version']);
+        Logger::factory()->info('AddOn ' . $this->addonkey . ' updated from ' . $oldVersion . ' to version ' . $this->file['version']);
 
         // re-generate opcache to make sure new/updated classes immediately are available
         if (function_exists('opcache_reset')) {

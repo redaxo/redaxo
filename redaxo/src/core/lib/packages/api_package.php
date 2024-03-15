@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Util\Type;
 
 /**
  * @internal
@@ -32,7 +33,7 @@ class rex_api_package extends rex_api_function
         }
         $reinstall = 'install' === $function && $package->isInstalled();
         $manager = rex_addon_manager::factory($package);
-        $success = rex_type::bool($manager->$function());
+        $success = Type::bool($manager->$function());
         $message = $manager->getMessage();
         $result = new rex_api_result($success, $message);
         if ($success && !$reinstall) {

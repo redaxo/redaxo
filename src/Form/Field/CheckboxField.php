@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Form\AbstractForm;
+use Redaxo\Core\Util\Str;
 use rex_fragment;
-use rex_string;
 
 use function in_array;
 
@@ -58,7 +58,7 @@ class CheckboxField extends AbstractOptionField
         foreach ($options as $optName => $optValue) {
             $optId = $id;
             if ('' != $optValue) {
-                $optId .= '-' . rex_string::normalize($optValue, '-');
+                $optId .= '-' . Str::normalize($optValue, '-');
             }
             $optAttr = $attr . ' id="' . rex_escape($optId) . '"';
             $checked = in_array($optValue, $values) ? ' checked="checked"' : '';

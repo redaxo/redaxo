@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 
@@ -17,7 +18,7 @@ $folderFiles = [];
 $path = Path::media();
 $iterator = Finder::factory($path)->filesOnly()->ignoreFiles(['.*', Core::getTempPrefix() . '*'])->sort();
 foreach ($iterator as $file) {
-    $folderFiles[] = rex_string::normalizeEncoding($file->getFilename());
+    $folderFiles[] = Str::normalizeEncoding($file->getFilename());
 }
 
 // ---- Dateien aus der DB lesen

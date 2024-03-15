@@ -1,9 +1,10 @@
 <?php
 
+use Redaxo\Core\Util\Str;
+
 /**
  * Klasse zum Erstellen von Navigationen.
  */
-
 /*
  * Beispiel:
  *
@@ -28,7 +29,6 @@
  * $nav = rex_navigation::factory();
  * $nav->showBreadcrumb(true);
  */
-
 class rex_navigation
 {
     use rex_factory_trait;
@@ -437,7 +437,7 @@ class rex_navigation
      */
     protected function getBreadcrumbListTag(array $items, array $attributes): string
     {
-        return '<ul' . rex_string::buildAttributes($attributes) . ">\n" . implode('', $items) . "</ul>\n";
+        return '<ul' . Str::buildAttributes($attributes) . ">\n" . implode('', $items) . "</ul>\n";
     }
 
     /**
@@ -445,7 +445,7 @@ class rex_navigation
      */
     protected function getBreadcrumbListItemTag(string $item, array $attributes, int $depth): string
     {
-        return '<li' . rex_string::buildAttributes($attributes) . '>' . $item . "</li>\n";
+        return '<li' . Str::buildAttributes($attributes) . '>' . $item . "</li>\n";
     }
 
     /**
@@ -457,7 +457,7 @@ class rex_navigation
             $attributes['href'] = $category->getUrl();
         }
 
-        return '<a' . rex_string::buildAttributes($attributes) . '>' . $content . '</a>';
+        return '<a' . Str::buildAttributes($attributes) . '>' . $content . '</a>';
     }
 
     /**
@@ -466,7 +466,7 @@ class rex_navigation
      */
     protected function getListTag(array $items, array $attributes, int $depth): string
     {
-        return '<ul' . rex_string::buildAttributes($attributes) . ">\n" . implode('', $items) . "</ul>\n";
+        return '<ul' . Str::buildAttributes($attributes) . ">\n" . implode('', $items) . "</ul>\n";
     }
 
     /**
@@ -474,7 +474,7 @@ class rex_navigation
      */
     protected function getListItemTag(rex_category $category, string $item, array $attributes, int $depth): string
     {
-        return '<li' . rex_string::buildAttributes($attributes) . '>' . $item . "</li>\n";
+        return '<li' . Str::buildAttributes($attributes) . '>' . $item . "</li>\n";
     }
 
     /**
@@ -486,6 +486,6 @@ class rex_navigation
             $attributes['href'] = $category->getUrl();
         }
 
-        return '<a' . rex_string::buildAttributes($attributes) . '>' . $content . '</a>';
+        return '<a' . Str::buildAttributes($attributes) . '>' . $content . '</a>';
     }
 }
