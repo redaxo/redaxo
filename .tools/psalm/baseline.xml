@@ -3309,14 +3309,6 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$line]]></code>
     </ArgumentTypeCoercion>
-    <ReferenceConstraintViolation>
-      <code><![CDATA[$editor]]></code>
-    </ReferenceConstraintViolation>
-    <UndefinedDocblockClass>
-      <code><![CDATA[$editor]]></code>
-      <code><![CDATA[$editor]]></code>
-      <code><![CDATA[static $editor;]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="redaxo/src/core/lib/view.php">
     <MixedArgument>
