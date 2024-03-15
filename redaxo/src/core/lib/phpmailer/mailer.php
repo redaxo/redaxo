@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\LogEntry;
 use Redaxo\Core\Util\LogFile;
 use Redaxo\Core\Util\Timer;
 
@@ -258,7 +259,7 @@ class rex_mailer extends PHPMailer
         $mailBody .= '    </thead>';
         $mailBody .= '    <tbody>';
 
-        /** @var rex_log_entry $entry */
+        /** @var LogEntry $entry */
         foreach (new LimitIterator($file, 0, 30) as $entry) {
             $data = $entry->getData();
             $time = Formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]);

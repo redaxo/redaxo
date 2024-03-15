@@ -45,7 +45,7 @@ $formElements = [];
 
 $file = LogFile::factory($logFile);
 
-/** @var rex_log_entry $entry */
+/** @var LogEntry $entry */
 foreach (new LimitIterator($file, 0, 100) as $entry) {
     $data = $entry->getData();
     $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-state-success';
