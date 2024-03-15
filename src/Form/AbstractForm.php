@@ -369,7 +369,6 @@ abstract class AbstractForm
 
     /**
      * Fuegt dem Formular ein Feld hinzu mit dem der Medienpool angebunden werden kann.
-     * Es kann nur ein Element aus dem Medienpool eingefuegt werden.
      *
      * @param string $name
      * @param mixed $value
@@ -388,7 +387,6 @@ abstract class AbstractForm
 
     /**
      * Fuegt dem Formular ein Feld hinzu mit dem die Struktur-Verwaltung angebunden werden kann.
-     * Es kann nur ein Element aus der Struktur eingefuegt werden.
      *
      * @param string $name
      * @param mixed $value
