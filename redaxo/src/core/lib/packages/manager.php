@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 class rex_addon_manager
 {
@@ -465,7 +466,7 @@ class rex_addon_manager
                 return false;
             }
 
-            $jumpPackageUrl = '#package-' . rex_string::normalize($packageId, '-', '_');
+            $jumpPackageUrl = '#package-' . Str::normalize($packageId, '-', '_');
             if ('packages' !== rex_be_controller::getCurrentPage()) {
                 // error while update/install within install-addon. x-link to packages core page
                 $jumpPackageUrl = rex_url::backendPage('packages') . $jumpPackageUrl;

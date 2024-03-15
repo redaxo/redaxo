@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 // Für größere Exports den Speicher für PHP erhöhen.
 if (rex_ini_get('memory_limit') < 67_108_864) {
@@ -23,7 +24,7 @@ $EXPTABLES = rex_post('EXPTABLES', 'array');
 $EXPDIR = rex_post('EXPDIR', 'array');
 
 if ('' == $exportfilename) {
-    $exportfilename = rex_string::normalize(Core::getServerName()) . '_' . date('Ymd_Hi') . '_rex' . Core::getVersion();
+    $exportfilename = Str::normalize(Core::getServerName()) . '_' . date('Ymd_Hi') . '_rex' . Core::getVersion();
 }
 
 if ($EXPTABLES) {

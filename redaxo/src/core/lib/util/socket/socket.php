@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Logger;
+use Redaxo\Core\Util\Str;
 
 /**
  * Class for sockets.
@@ -245,19 +246,19 @@ class rex_socket
                 $fileFormat = '--' . $boundary . $eol . 'Content-Disposition: form-data; name="%s"; filename="%s"' . $eol . 'Content-Type: %s' . $eol . $eol;
                 $end = '--' . $boundary . '--' . $eol;
                 $length = 0;
-                $temp = explode('&', rex_string::buildQuery($data));
+                $temp = explode('&', Str::buildQuery($data));
                 $data = [];
-                $partLength = rex_string::size(sprintf($dataFormat, '') . $eol);
+                $partLength = Str::size(sprintf($dataFormat, '') . $eol);
                 foreach ($temp as $t) {
                     [$key, $value] = array_map('urldecode', explode('=', $t, 2));
                     $data[$key] = $value;
-                    $length += $partLength + rex_string::size($key) + rex_string::size($value);
+                    $length += $partLength + Str::size($key) + Str::size($value);
                 }
-                $partLength = rex_string::size(sprintf($fileFormat, '', '', '') . $eol);
+                $partLength = Str::size(sprintf($fileFormat, '', '', '') . $eol);
                 foreach ($files as $key => $file) {
-                    $length += $partLength + rex_string::size($key) + rex_string::size(Path::basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
+                    $length += $partLength + Str::size($key) + Str::size(Path::basename($file['path'])) + Str::size($file['type']) + filesize($file['path']);
                 }
-                $length += rex_string::size($end);
+                $length += Str::size($end);
                 fwrite($stream, 'Content-Length: ' . $length . $eol . $eol);
                 foreach ($data as $key => $value) {
                     fwrite($stream, sprintf($dataFormat, $key) . $value . $eol);
@@ -275,7 +276,7 @@ class rex_socket
             };
         } elseif (!is_callable($data)) {
             if (is_array($data)) {
-                $data = rex_string::buildQuery($data);
+                $data = Str::buildQuery($data);
                 $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
             }
         }
@@ -418,7 +419,7 @@ class rex_socket
             fwrite($this->stream, str_replace(["\r", "\n"], '', $header) . $eol);
         }
         if (!is_callable($data)) {
-            fwrite($this->stream, 'Content-Length: ' . rex_string::size($data) . $eol);
+            fwrite($this->stream, 'Content-Length: ' . Str::size($data) . $eol);
             fwrite($this->stream, $eol . $data);
         } else {
             call_user_func($data, $this->stream);

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Util\Str;
+
 /**
  * Gibt eine Url zu einem Artikel zurück.
  *
@@ -36,7 +38,7 @@ function rex_getUrl($id = null, $clang = null, array $params = [])
             $clang = '';
         }
 
-        $params = rex_string::buildQuery($params);
+        $params = Str::buildQuery($params);
         $params = $params ? '&' . $params : '';
 
         $url = rex_url::frontendController() . '?article_id=' . $id . $clang . $params;

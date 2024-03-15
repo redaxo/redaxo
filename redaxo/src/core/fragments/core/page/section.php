@@ -1,4 +1,6 @@
 <?php
+use Redaxo\Core\Util\Str;
+
 /**
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
@@ -14,7 +16,7 @@ if (isset($sectionAttributes['class']) && !is_array($sectionAttributes['class'])
 $sectionAttributes['class'][] = 'rex-page-section';
 
 ?>
-<section<?= rex_string::buildAttributes($sectionAttributes) ?>>
+<section<?= Str::buildAttributes($sectionAttributes) ?>>
 
     <?php if (isset($this->before)): ?>
         <?= $this->before ?>
@@ -50,7 +52,7 @@ $sectionAttributes['class'][] = 'rex-page-section';
             $attributes['data-toggle'] = 'collapse';
             $attributes['data-target'] = '#' . $collapseId;
         }
-        echo '' != $header ? '<header' . rex_string::buildAttributes($attributes) . '>' . $header . '</header>' : '';
+        echo '' != $header ? '<header' . Str::buildAttributes($attributes) . '>' . $header . '</header>' : '';
         ?>
 
         <?php if (isset($this->collapse) && $this->collapse): ?>

@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\Validator;
 
 $currentUser = Core::requireUser();
@@ -423,7 +424,7 @@ if ('' != $fUNCADD || $userId > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-js-user-password" class="required">' . I18n::msg('password') . '</label>';
-    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password" autocorrect="off" autocapitalize="off" ' . rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
+    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password" autocorrect="off" autocapitalize="off" ' . Str::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
     $n['note'] = $passwordPolicy->getDescription();
 
     $formElements[] = $n;

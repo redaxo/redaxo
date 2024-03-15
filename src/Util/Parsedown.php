@@ -3,7 +3,6 @@
 namespace Redaxo\Core\Util;
 
 use ParsedownExtra;
-use rex_string;
 
 use const E_DEPRECATED;
 
@@ -130,7 +129,7 @@ final class Parsedown extends ParsedownExtra
         $plainText = htmlspecialchars_decode($plainText);
 
         if (!isset($block['element']['attributes']['id'])) {
-            $baseId = $id = rex_string::normalize($plainText, '-');
+            $baseId = $id = Str::normalize($plainText, '-');
 
             for ($i = 1; isset($this->ids[$id]); ++$i) {
                 $id = $baseId . '-' . $i;

@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\Validator;
 
 $error = '';
@@ -316,7 +317,7 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw-new-1">' . I18n::msg('new_password') . '</label>';
-$n['field'] = '<input class="form-control rex-js-userpsw-new-1" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="new-password" autocorrect="off" autocapitalize="off" required ' . rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
+$n['field'] = '<input class="form-control rex-js-userpsw-new-1" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="new-password" autocorrect="off" autocapitalize="off" required ' . Str::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
 $n['note'] = $passwordPolicy->getDescription();
 $formElements[] = $n;
 

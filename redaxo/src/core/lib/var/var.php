@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Util\Str;
+
 /**
  * Abstract baseclass for REX_VARS.
  */
@@ -237,7 +239,7 @@ abstract class rex_var
      */
     private function setArgs($argString)
     {
-        $this->args = rex_string::split($argString);
+        $this->args = Str::split($argString);
     }
 
     /**

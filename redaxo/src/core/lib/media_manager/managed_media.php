@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\Str;
 
 class rex_managed_media
 {
@@ -247,7 +248,7 @@ class rex_managed_media
 
         if ($this->asImage) {
             $src = $this->getSource();
-            $this->setHeader('Content-Length', (string) rex_string::size($src));
+            $this->setHeader('Content-Length', (string) Str::size($src));
 
             rex_response::cleanOutputBuffers();
             foreach ($this->header as $t => $c) {
@@ -480,7 +481,7 @@ class rex_managed_media
     private function prepareHeaders($src = null)
     {
         if (null !== $src) {
-            $this->setHeader('Content-Length', (string) rex_string::size($src));
+            $this->setHeader('Content-Length', (string) Str::size($src));
         }
 
         $header = $this->getHeader();

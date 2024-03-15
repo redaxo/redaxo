@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 final class rex_mediapool
 {
@@ -17,7 +18,7 @@ final class rex_mediapool
     public static function filename(string $mediaName, $doSubindexing = true): string
     {
         // ----- neuer filename und extension holen
-        $newMediaName = rex_string::normalize($mediaName, '_', '.-@');
+        $newMediaName = Str::normalize($mediaName, '_', '.-@');
 
         if ('.' === $newMediaName[0]) {
             $newMediaName[0] = '_';

@@ -122,6 +122,7 @@ return RectorConfig::configure()
         'rex_sql_table' => Database\Table::class,
         'rex_sql_util' => Database\Util::class,
         'rex_stream' => Util\Stream::class,
+        'rex_string' => Util\Str::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
     ])
@@ -145,8 +146,8 @@ return RectorConfig::configure()
     ])
     ->withConfiguredRule(RenameStaticMethodRector::class, [
         new RenameStaticMethod(Core::class, 'getVersionHash', rex_version::class, 'gitHash'),
-        new RenameStaticMethod(rex_string::class, 'versionSplit', rex_version::class, 'split'),
-        new RenameStaticMethod(rex_string::class, 'versionCompare', rex_version::class, 'compare'),
+        new RenameStaticMethod(Str::class, 'versionSplit', rex_version::class, 'split'),
+        new RenameStaticMethod(Str::class, 'versionCompare', rex_version::class, 'compare'),
     ])
     ->withConfiguredRule(NewToStaticCallRector::class, [
         new NewToStaticCall(rex_backend_password_policy::class, rex_backend_password_policy::class, 'factory'),
@@ -170,7 +171,7 @@ return RectorConfig::configure()
         new RemoveFuncCallArg('rex_getUrl', 3),
     ])
     ->withConfiguredRule(ArgumentRemoverRector::class, [
-        new ArgumentRemover(rex_string::class, 'buildQuery', 1, null),
+        new ArgumentRemover(Str::class, 'buildQuery', 1, null),
         new ArgumentRemover(rex_url_provider_interface::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_url::class, 'frontendController', 1, null),
         new ArgumentRemover(rex_url::class, 'backendController', 1, null),

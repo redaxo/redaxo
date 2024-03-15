@@ -1,16 +1,19 @@
 <?php
 
+namespace Redaxo\Core\Tests\Util;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Util\Str;
 
 /**
  * @internal
  */
-class rex_string_test extends TestCase
+class StrTest extends TestCase
 {
     public function testSize(): void
     {
-        self::assertEquals(3, rex_string::size('aä'));
+        self::assertEquals(3, Str::size('aä'));
     }
 
     /** @return list<array{0: string, 1: string, 2?: string, 3?: string}> */
@@ -30,7 +33,7 @@ class rex_string_test extends TestCase
     #[DataProvider('normalizeProvider')]
     public function testNormalize(string $expected, string $string, string $replaceChar = '_', string $allowedChars = ''): void
     {
-        self::assertEquals($expected, rex_string::normalize($string, $replaceChar, $allowedChars));
+        self::assertEquals($expected, Str::normalize($string, $replaceChar, $allowedChars));
     }
 
     /** @return list<array{string, array<int|string, string|int>}> */
@@ -51,7 +54,7 @@ class rex_string_test extends TestCase
     #[DataProvider('splitProvider')]
     public function testSplit(string $string, array $expectedArray): void
     {
-        self::assertSame($expectedArray, rex_string::split($string));
+        self::assertSame($expectedArray, Str::split($string));
     }
 
     /** @return list<array{0: string, 1: array}> */
@@ -67,14 +70,14 @@ class rex_string_test extends TestCase
     #[DataProvider('buildQueryProvider')]
     public function testBuildQuery(string $expected, array $params): void
     {
-        self::assertEquals($expected, rex_string::buildQuery($params));
+        self::assertEquals($expected, Str::buildQuery($params));
     }
 
     public function testBuildAttributes(): void
     {
         self::assertEquals(
             ' id="rex-test" class="a b" alt="" checked data-foo="&lt;foo&gt; &amp; &quot;bar&quot;" href="index.php?foo=1&amp;bar=2"',
-            rex_string::buildAttributes([
+            Str::buildAttributes([
                 'id' => 'rex-test',
                 'class' => ['a', 'b'],
                 'alt' => '',
@@ -124,6 +127,6 @@ class rex_string_test extends TestCase
             </code></pre>
             EXPECTED;
 
-        self::assertSame($expected, rex_string::sanitizeHtml($input));
+        self::assertSame($expected, Str::sanitizeHtml($input));
     }
 }

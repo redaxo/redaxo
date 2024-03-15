@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
+use Redaxo\Core\Util\Str;
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
@@ -1162,7 +1163,7 @@ class rex_list implements rex_url_provider_interface
         if (is_callable($this->rowAttributes)) {
             $rowAttributesCallable = $this->rowAttributes;
         } elseif ($this->rowAttributes) {
-            $rowAttributes = rex_string::buildAttributes($this->rowAttributes);
+            $rowAttributes = Str::buildAttributes($this->rowAttributes);
             $rowAttributesCallable = function (self $list) use ($rowAttributes) {
                 return $this->replaceVariables($rowAttributes);
             };

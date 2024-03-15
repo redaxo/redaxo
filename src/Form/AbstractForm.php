@@ -13,6 +13,7 @@ use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Form\Field\RawField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 use rex_be_controller;
 use rex_csrf_token;
 use rex_exception;
@@ -22,7 +23,6 @@ use rex_form_widget_linklist_element;
 use rex_form_widget_linkmap_element;
 use rex_form_widget_media_element;
 use rex_form_widget_medialist_element;
-use rex_string;
 use rex_url;
 use rex_view;
 
@@ -587,7 +587,7 @@ abstract class AbstractForm
 
         // Eigentlichen Feldnamen nochmals speichern
         $fieldName = $name;
-        $fieldset = rex_string::normalize($this->fieldset);
+        $fieldset = Str::normalize($this->fieldset);
         if (true === $attributes['internal::useArraySyntax']) {
             $name = $fieldset . '[' . $name . ']';
         } elseif (false === $attributes['internal::useArraySyntax']) {
@@ -939,8 +939,8 @@ abstract class AbstractForm
             return null;
         }
 
-        $normalizedName = rex_string::normalize($fieldsetName);
-        $normalizedName .= '[' . rex_string::normalize($elementName) . ']';
+        $normalizedName = Str::normalize($fieldsetName);
+        $normalizedName .= '[' . Str::normalize($elementName) . ']';
 
         for ($i = 0; $i < count($this->elements[$fieldsetName]); ++$i) {
             if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $normalizedName) {
@@ -1053,7 +1053,7 @@ abstract class AbstractForm
      */
     public function fieldsetPostValues($fieldsetName)
     {
-        return rex_post(rex_string::normalize($fieldsetName), 'array');
+        return rex_post(Str::normalize($fieldsetName), 'array');
     }
 
     /**
@@ -1068,7 +1068,7 @@ abstract class AbstractForm
         $fields = $this->fieldsetPostValues($fieldsetName);
 
         // name attributes are normalized
-        $normalizedFieldName = rex_string::normalize($fieldName);
+        $normalizedFieldName = Str::normalize($fieldName);
 
         return $fields[$normalizedFieldName] ?? $default;
     }
@@ -1163,7 +1163,7 @@ abstract class AbstractForm
             $params[$listName . '_warning'] = $listWarning;
         }
 
-        $paramString = '&' . rex_string::buildQuery($params);
+        $paramString = '&' . Str::buildQuery($params);
 
         if ($this->debug) {
             echo 'redirect to: ' . rex_escape($this->applyUrl . $paramString);
@@ -1269,13 +1269,13 @@ abstract class AbstractForm
 
         $s .= sprintf('<form %s %s action="%s" method="%s">' . "\n",
             $id,
-            rex_string::buildAttributes($this->formAttributes),
+            Str::buildAttributes($this->formAttributes),
             rex_url::backendController($actionParams),
             $this->method,
         );
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $attributes = $this->fieldsetAttributes[$fieldsetName] ?? [];
-            $s .= '<fieldset ' . rex_string::buildAttributes($attributes) . '>' . "\n";
+            $s .= '<fieldset ' . Str::buildAttributes($attributes) . '>' . "\n";
 
             if ('' != $fieldsetName && $fieldsetName != $this->name) {
                 $s .= '<legend>' . rex_escape($fieldsetName) . '</legend>' . "\n";

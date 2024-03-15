@@ -4,7 +4,6 @@ namespace Redaxo\Core\Util;
 
 use rex_exception;
 use rex_factory_trait;
-use rex_string;
 
 /**
  * Markdown parser.
@@ -41,7 +40,7 @@ class Markdown
         $parser->setBreaksEnabled($options[self::SOFT_LINE_BREAKS] ?? true);
         $parser->highlightPhp = $options[self::HIGHLIGHT_PHP] ?? false;
 
-        return rex_string::sanitizeHtml($parser->text($code));
+        return Str::sanitizeHtml($parser->text($code));
     }
 
     /**
@@ -64,7 +63,7 @@ class Markdown
         $parser->topLevel = $topLevel;
         $parser->bottomLevel = $bottomLevel;
 
-        $content = rex_string::sanitizeHtml($parser->text($code));
+        $content = Str::sanitizeHtml($parser->text($code));
         $headers = $parser->headers;
 
         $previous = $topLevel - 1;

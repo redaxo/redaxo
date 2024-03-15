@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 echo rex_view::title(I18n::msg('addons'), '');
 
@@ -101,7 +102,7 @@ $getTableRow = static function (rex_addon $package) use ($getLink) {
     }
 
     return '
-                <tr id="package-' . rex_escape(rex_string::normalize($packageId, '-', '_')) . '" class="rex-package-is-' . $type . $class . '">
+                <tr id="package-' . rex_escape(Str::normalize($packageId, '-', '_')) . '" class="rex-package-is-' . $type . $class . '">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $type . '"></i></td>
                     <td data-title="' . I18n::msg('package_hname') . '">' . $name . '</td>
                     <td data-title="' . I18n::msg('package_hversion') . '">' . $version . '</td>

@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 global $ftitle, $error, $success;
 
@@ -77,7 +78,7 @@ $PERMALL = Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(0);
 // -------------- Header
 $subline = rex_be_controller::getPageObject('mediapool')->getSubpages();
 
-$argUrlString = rex_string::buildQuery($argUrl);
+$argUrlString = Str::buildQuery($argUrl);
 $argUrlString = $argUrlString ? '&' . $argUrlString : '';
 foreach ($subline as $sp) {
     $sp->setHref($sp->getHref() . $argUrlString);

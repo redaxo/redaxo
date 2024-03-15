@@ -5,6 +5,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
 
 $func = rex_request('func', 'string');
@@ -196,7 +197,7 @@ if ('' == $func) {
     ksort($cronjobs);
     foreach ($cronjobs as $cronjob) {
         $class = $cronjob::class;
-        $select->addOption($cronjob->getTypeName(), $class, 0, 0, ['data-cronjob_id' => rex_string::normalize($class)]);
+        $select->addOption($cronjob->getTypeName(), $class, 0, 0, ['data-cronjob_id' => Str::normalize($class)]);
     }
     if ('add' == $func) {
         $select->setSelected(rex_cronjob_urlrequest::class);
@@ -218,7 +219,7 @@ if ('' == $func) {
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setMultiple(false);
     if ($activeType) {
-        $fieldContainer->setActive(rex_string::normalize($activeType));
+        $fieldContainer->setActive(Str::normalize($activeType));
     }
 
     $form->addFieldset(I18n::msg('cronjob_interval'));
@@ -237,7 +238,7 @@ if ('' == $func) {
     $envJs = '';
     $visible = [];
     foreach ($cronjobs as $cronjob) {
-        $group = rex_string::normalize($cronjob::class);
+        $group = Str::normalize($cronjob::class);
 
         $disabled = array_diff(['frontend', 'backend', 'script'], (array) $cronjob->getEnvironments());
         if (count($disabled) > 0) {

@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 class rex_cronjob_export extends rex_cronjob
 {
@@ -12,7 +13,7 @@ class rex_cronjob_export extends rex_cronjob
     public function execute()
     {
         $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
-        $filename = str_replace('%REX_SERVER', rex_string::normalize(Core::getServerName(), '-'), $filename);
+        $filename = str_replace('%REX_SERVER', Str::normalize(Core::getServerName(), '-'), $filename);
         $filename = str_replace('%REX_VERSION', Core::getVersion(), $filename);
         $now = new DateTimeImmutable();
         $filename = str_replace(

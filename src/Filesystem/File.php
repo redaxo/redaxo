@@ -4,8 +4,8 @@ namespace Redaxo\Core\Filesystem;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Str;
 use rex_exception;
-use rex_string;
 use rex_timer;
 
 use function dirname;
@@ -71,7 +71,7 @@ class File
     public static function getConfig($file, $default = [])
     {
         $content = self::get($file);
-        return null === $content ? $default : rex_string::yamlDecode($content);
+        return null === $content ? $default : Str::yamlDecode($content);
     }
 
     /**
@@ -166,7 +166,7 @@ class File
      */
     public static function putConfig($file, $content, $inline = 3)
     {
-        return self::put($file, rex_string::yamlEncode($content, $inline));
+        return self::put($file, Str::yamlEncode($content, $inline));
     }
 
     /**

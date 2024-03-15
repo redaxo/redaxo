@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 /**
  * Layout Kopf des Backends.
@@ -25,8 +26,8 @@ if (!$curPage->hasLayout()) {
 
 $bodyAttr = [];
 
-// rex_string::normalize requires intl extension, which may not exist before extensions check in setup
-$bodyId = Core::isSetup() ? 'setup' : rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
+// Str::normalize requires intl extension, which may not exist before extensions check in setup
+$bodyId = Core::isSetup() ? 'setup' : Str::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
 
 $bodyAttr['id'] = ['rex-page-' . $bodyId];
 
