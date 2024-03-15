@@ -1,7 +1,7 @@
 <?php
 
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Url;
 
 $package = rex_addon::get(rex_request('package', 'string'));
 $subPage = rex_request('subpage', 'string');

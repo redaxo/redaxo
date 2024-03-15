@@ -2,11 +2,11 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\PermissionSelectField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Url;
 use Redaxo\Core\Validator\ValidationRule;
 
 $func = rex_request('func', 'string');

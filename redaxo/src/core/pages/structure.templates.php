@@ -2,9 +2,9 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
-use Redaxo\Core\Util\Url;
 
 echo rex_view::title(I18n::msg('title_templates'));
 

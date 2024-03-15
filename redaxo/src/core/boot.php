@@ -4,9 +4,9 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
-use Redaxo\Core\Util\Url;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

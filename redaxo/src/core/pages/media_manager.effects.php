@@ -3,10 +3,10 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Url;
 
 $effectId = rex_request('effect_id', 'int');
 $typeId = rex_request('type_id', 'int');

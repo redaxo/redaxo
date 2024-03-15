@@ -157,7 +157,7 @@ return RectorConfig::configure()
     ])
     ->withConfiguredRule(NewToStaticCallRector::class, [
         new NewToStaticCall(rex_backend_password_policy::class, rex_backend_password_policy::class, 'factory'),
-        new NewToStaticCall(Util\LogFile::class, Util\LogFile::class, 'factory'),
+        new NewToStaticCall(Log\LogFile::class, Log\LogFile::class, 'factory'),
     ])
     ->withConfiguredRule(FuncCallToStaticCallRector::class, [
         new FuncCallToStaticCall('rex_mediapool_filename', rex_mediapool::class, 'filename'),
@@ -179,10 +179,10 @@ return RectorConfig::configure()
     ->withConfiguredRule(ArgumentRemoverRector::class, [
         new ArgumentRemover(Util\Str::class, 'buildQuery', 1, null),
         new ArgumentRemover(rex_url_provider_interface::class, 'getUrl', 1, null),
-        new ArgumentRemover(Util\Url::class, 'frontendController', 1, null),
-        new ArgumentRemover(Util\Url::class, 'backendController', 1, null),
-        new ArgumentRemover(Util\Url::class, 'backendPage', 2, null),
-        new ArgumentRemover(Util\Url::class, 'currentBackendPage', 1, null),
+        new ArgumentRemover(Filesystem\Url::class, 'frontendController', 1, null),
+        new ArgumentRemover(Filesystem\Url::class, 'backendController', 1, null),
+        new ArgumentRemover(Filesystem\Url::class, 'backendPage', 2, null),
+        new ArgumentRemover(Filesystem\Url::class, 'currentBackendPage', 1, null),
         new ArgumentRemover(Form\AbstractForm::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),

@@ -1,7 +1,7 @@
 <?php
 
 use Clockwork\Helpers\StackTrace;
-use Redaxo\Core\Util\Logger;
+use Redaxo\Core\Log\Logger;
 
 /**
  * @internal
