@@ -906,6 +906,26 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/null.php
 
 		-
+			message: "#^Call to method getData\\(\\) on an unknown class rex_log_entry\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
+
+		-
+			message: "#^Call to method getTimestamp\\(\\) on an unknown class rex_log_entry\\.$#"
+			count: 3
+			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$entry contains unknown class rex_log_entry\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
+
+		-
+			message: "#^PHPDoc tag @var with type rex_log_entry is not subtype of native type Redaxo\\\\Core\\\\Util\\\\LogEntry\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
+
+		-
 			message: "#^Property rex_mailer\\:\\:\\$xHeader type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
@@ -1521,91 +1541,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/structure/var_category.php
 
 		-
-			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<list\\<string\\>\\|string\\|null\\>, rex_extension_point\\<list\\<string\\>\\|string\\|null\\> given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/editor.php
-
-		-
-			message: "#^Method rex_formatter\\:\\:bytes\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/formatter.php
-
-		-
-			message: "#^Method rex_formatter\\:\\:custom\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/formatter.php
-
-		-
-			message: "#^Method rex_formatter\\:\\:email\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/formatter.php
-
-		-
-			message: "#^Method rex_formatter\\:\\:number\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/formatter.php
-
-		-
-			message: "#^Method rex_formatter\\:\\:url\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/formatter.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockFencedCodeComplete\\(\\) has parameter \\$Block with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockFencedCodeComplete\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockHeader\\(\\) has parameter \\$Line with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockSetextHeader\\(\\) has parameter \\$Block with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockSetextHeader\\(\\) has parameter \\$Line with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:blockSetextHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:handleHeader\\(\\) has parameter \\$block with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:handleHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:text\\(\\) has parameter \\$text with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$Block has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
 			message: "#^Method rex_socket\\:\\:factory\\(\\) should return static\\(rex_socket\\) but returns rex_socket_proxy\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
@@ -1626,44 +1561,19 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/socket/socket_response.php
 
 		-
-			message: "#^Method rex_string\\:\\:buildQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/string.php
-
-		-
-			message: "#^Method rex_string\\:\\:yamlEncode\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/string.php
-
-		-
-			message: "#^Method rex_type\\:\\:array\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/type.php
-
-		-
-			message: "#^Method rex_url\\:\\:backendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/url.php
-
-		-
-			message: "#^Method rex_url\\:\\:backendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/url.php
-
-		-
-			message: "#^Method rex_url\\:\\:currentBackendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/url.php
-
-		-
-			message: "#^Method rex_url\\:\\:frontendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/url.php
-
-		-
 			message: "#^Method rex_var\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/var/var.php
+
+		-
+			message: "#^Call to method getUrl\\(\\) on an unknown class rex_editor\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/var_dumper.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$editor contains unknown class rex_editor\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/var_dumper.php
 
 		-
 			message: "#^Method rex_view\\:\\:getJsFilesWithOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -1679,6 +1589,26 @@ parameters:
 			message: "#^Property rex_view\\:\\:\\$jsFiles type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/view.php
+
+		-
+			message: "#^Call to method getData\\(\\) on an unknown class rex_log_entry\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/pages/cronjob.log.php
+
+		-
+			message: "#^Call to method getTimestamp\\(\\) on an unknown class rex_log_entry\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/pages/cronjob.log.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$entry contains unknown class rex_log_entry\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/pages/cronjob.log.php
+
+		-
+			message: "#^PHPDoc tag @var with type rex_log_entry is not subtype of native type Redaxo\\\\Core\\\\Util\\\\LogEntry\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/pages/cronjob.log.php
 
 		-
 			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(object\\|null\\), Closure\\(mixed, mixed\\)\\: void given\\.$#"
@@ -1766,34 +1696,284 @@ parameters:
 			path: ../../redaxo/src/core/tests/structure/category_test.php
 
 		-
-			message: "#^Method rex_string_test\\:\\:buildQueryProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/string_test.php
-
-		-
-			message: "#^Method rex_string_test\\:\\:testBuildQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/string_test.php
-
-		-
-			message: "#^Method rex_string_test\\:\\:testSplit\\(\\) has parameter \\$expectedArray with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/string_test.php
-
-		-
-			message: "#^Dead catch \\- Throwable is never thrown in the try block\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/timer_test.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/timer_test.php
-
-		-
 			message: "#^Method rex_var_test\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/var/var_test.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\Util\\\\Timer\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\accesskeys\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\backend_login_policy\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\db\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\debug\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\editor\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\editor_basepath\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\error_email\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\instname\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\lang\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\lang_fallback\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\live_mode\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\login\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\password_policy\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\safe_mode\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\server\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\servername\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\setup\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\setup_addons\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\socket_proxy\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\start_page\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\system_addons\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\table_prefix\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\temp_prefix\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\theme\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\timezone\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\use_accesskeys\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Condition \"string is Redaxo\\\\Core\\\\version\" in conditional return type is always false\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\accesskeys\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\backend_login_policy\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\db\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\debug\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\editor\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\editor_basepath\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\error_email\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\instname\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\lang\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\lang_fallback\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\live_mode\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\login\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\password_policy\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\safe_mode\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\server\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\servername\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\setup\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\setup_addons\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\socket_proxy\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\start_page\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\system_addons\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\table_prefix\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\temp_prefix\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\theme\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\timezone\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\use_accesskeys\\.$#"
+			count: 1
+			path: ../../src/Core.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Core\\:\\:getProperty\\(\\) has invalid return type Redaxo\\\\Core\\\\version\\.$#"
+			count: 1
+			path: ../../src/Core.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:buildOnDuplicateKeyUpdate\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
@@ -1919,6 +2099,26 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\File\\:\\:formattedSize\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Filesystem/File.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Finder\\:\\:sort\\(\\) has parameter \\$sort with no type specified\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Finder.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$sort contains unresolvable type\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Finder.php
+
+		-
+			message: "#^PHPDoc tag @var for property Redaxo\\\\Core\\\\Filesystem\\\\Finder\\:\\:\\$sort contains unresolvable type\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Finder.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Filesystem\\\\Finder\\:\\:\\$sort has no type specified\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Finder.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addCheckboxField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
@@ -2084,6 +2284,136 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\Form\\\\Form\\:\\:\\$languageSupport type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/Form.php
+
+		-
+			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<list\\<string\\>\\|string\\|null\\>, rex_extension_point\\<list\\<string\\>\\|string\\|null\\> given\\.$#"
+			count: 1
+			path: ../../src/Util/Editor.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:bytes\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Formatter.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:custom\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Formatter.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:email\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Formatter.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:number\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Formatter.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:url\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Formatter.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockFencedCodeComplete\\(\\) has parameter \\$Block with no type specified\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockFencedCodeComplete\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockHeader\\(\\) has parameter \\$Line with no type specified\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockSetextHeader\\(\\) has parameter \\$Block with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockSetextHeader\\(\\) has parameter \\$Line with no type specified\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:blockSetextHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:handleHeader\\(\\) has parameter \\$block with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:handleHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Parsedown\\:\\:text\\(\\) has parameter \\$text with no type specified\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$Block has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^Instantiated class Redaxo\\\\Core\\\\Util\\\\rex_exception not found\\.$#"
+			count: 1
+			path: ../../src/Util/SortableIterator.php
+
+		-
+			message: "#^Throwing object of an unknown class Redaxo\\\\Core\\\\Util\\\\rex_exception\\.$#"
+			count: 1
+			path: ../../src/Util/SortableIterator.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Str\\:\\:buildQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Str.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Str\\:\\:yamlEncode\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Str.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Type\\:\\:array\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Type.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Url\\:\\:backendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Url.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Url\\:\\:backendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Url.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Url\\:\\:currentBackendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Url.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Url\\:\\:frontendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Url.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Validator\\\\Validator\\:\\:values\\(\\) has parameter \\$validValues with no value type specified in iterable type array\\.$#"
