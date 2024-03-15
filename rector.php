@@ -146,12 +146,12 @@ return RectorConfig::configure()
     ])
     ->withConfiguredRule(RenameStaticMethodRector::class, [
         new RenameStaticMethod(Core::class, 'getVersionHash', rex_version::class, 'gitHash'),
-        new RenameStaticMethod(Str::class, 'versionSplit', rex_version::class, 'split'),
-        new RenameStaticMethod(Str::class, 'versionCompare', rex_version::class, 'compare'),
+        new RenameStaticMethod(Util\Str::class, 'versionSplit', rex_version::class, 'split'),
+        new RenameStaticMethod(Util\Str::class, 'versionCompare', rex_version::class, 'compare'),
     ])
     ->withConfiguredRule(NewToStaticCallRector::class, [
         new NewToStaticCall(rex_backend_password_policy::class, rex_backend_password_policy::class, 'factory'),
-        new NewToStaticCall(rex_log_file::class, rex_log_file::class, 'factory'),
+        new NewToStaticCall(Util\LogFile::class, Util\LogFile::class, 'factory'),
     ])
     ->withConfiguredRule(FuncCallToStaticCallRector::class, [
         new FuncCallToStaticCall('rex_mediapool_filename', rex_mediapool::class, 'filename'),
@@ -171,7 +171,7 @@ return RectorConfig::configure()
         new RemoveFuncCallArg('rex_getUrl', 3),
     ])
     ->withConfiguredRule(ArgumentRemoverRector::class, [
-        new ArgumentRemover(Str::class, 'buildQuery', 1, null),
+        new ArgumentRemover(Util\Str::class, 'buildQuery', 1, null),
         new ArgumentRemover(rex_url_provider_interface::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_url::class, 'frontendController', 1, null),
         new ArgumentRemover(rex_url::class, 'backendController', 1, null),
@@ -183,18 +183,18 @@ return RectorConfig::configure()
         new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_media_manager::class, 'getUrl', 3, null),
 
-        new ArgumentRemover(rex_markdown::class, 'parse', 1, [true]),
-        new ArgumentRemover(rex_markdown::class, 'parseWithToc', 3, [true]),
+        new ArgumentRemover(Util\Markdown::class, 'parse', 1, [true]),
+        new ArgumentRemover(Util\Markdown::class, 'parseWithToc', 3, [true]),
     ])
     ->withConfiguredRule(ReplaceArgumentDefaultValueRector::class, [
         new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_ADDED', 'SLICE_ADDED'),
         new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_UPDATED', 'SLICE_UPDATED'),
         new ReplaceArgumentDefaultValue(rex_extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_DELETED', 'SLICE_DELETED'),
 
-        new ReplaceArgumentDefaultValue(rex_markdown::class, 'parse', 1, false, $options = [
-            new Expr\ArrayItem(new Expr\ConstFetch(new Name('false')), new Expr\ClassConstFetch(new Name(rex_markdown::class), 'SOFT_LINE_BREAKS')),
+        new ReplaceArgumentDefaultValue(Util\Markdown::class, 'parse', 1, false, $options = [
+            new Expr\ArrayItem(new Expr\ConstFetch(new Name('false')), new Expr\ClassConstFetch(new Name(Util\Markdown::class), 'SOFT_LINE_BREAKS')),
         ]),
-        new ReplaceArgumentDefaultValue(rex_markdown::class, 'parseWithToc', 3, false, $options),
+        new ReplaceArgumentDefaultValue(Util\Markdown::class, 'parseWithToc', 3, false, $options),
     ])
     ->withConfiguredRule(ConstFetchToClassConstFetchRector::class, [
         new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', Form\Form::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
