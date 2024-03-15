@@ -4420,9 +4420,6 @@
     </MixedReturnStatement>
   </file>
   <file src="src/Filesystem/Finder.php">
-    <InvalidParamDefault>
-      <code><![CDATA[rex_sortable_iterator::*|callable(mixed, mixed): int]]></code>
-    </InvalidParamDefault>
     <MixedArgument>
       <code><![CDATA[$filename]]></code>
       <code><![CDATA[$pattern]]></code>
@@ -4431,21 +4428,10 @@
       <code><![CDATA[$this->$var[]]]></code>
       <code><![CDATA[$this->$var[]]]></code>
     </MixedArrayAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[$this]]></code>
-    </MixedInferredReturnType>
     <MixedOperand>
       <code><![CDATA[$this->$var]]></code>
       <code><![CDATA[$this->$var]]></code>
     </MixedOperand>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$this->sort]]></code>
-    </PossiblyInvalidArgument>
-    <UndefinedDocblockClass>
-      <code><![CDATA[false|rex_sortable_iterator::*|callable(mixed, mixed): int]]></code>
-      <code><![CDATA[private $sort = false;]]></code>
-      <code><![CDATA[rex_sortable_iterator::*|callable(mixed, mixed): int]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="src/Filesystem/Path.php">
     <LessSpecificReturnStatement>

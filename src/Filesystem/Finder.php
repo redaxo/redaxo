@@ -41,7 +41,7 @@ class Finder implements IteratorAggregate, Countable
     /** @var list<string> */
     private array $ignoreDirsRecursive = [];
     private bool $ignoreSystemStuff = true;
-    /** @var false|rex_sortable_iterator::*|callable(mixed, mixed): int */
+    /** @var false|SortableIterator::*|callable(mixed, mixed): int */
     private $sort = false;
 
     private function __construct(string $dir)
@@ -187,7 +187,7 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Sorts the elements.
      *
-     * @param rex_sortable_iterator::*|callable(mixed, mixed): int $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
+     * @param SortableIterator::*|callable(mixed, mixed): int $sort Sort mode, see {@link SortableIterator::__construct()}
      *
      * @return $this
      */

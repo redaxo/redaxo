@@ -1776,26 +1776,6 @@ parameters:
 			path: ../../src/Filesystem/File.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Finder\\:\\:sort\\(\\) has parameter \\$sort with no type specified\\.$#"
-			count: 1
-			path: ../../src/Filesystem/Finder.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$sort contains unresolvable type\\.$#"
-			count: 1
-			path: ../../src/Filesystem/Finder.php
-
-		-
-			message: "#^PHPDoc tag @var for property Redaxo\\\\Core\\\\Filesystem\\\\Finder\\:\\:\\$sort contains unresolvable type\\.$#"
-			count: 1
-			path: ../../src/Filesystem/Finder.php
-
-		-
-			message: "#^Property Redaxo\\\\Core\\\\Filesystem\\\\Finder\\:\\:\\$sort has no type specified\\.$#"
-			count: 1
-			path: ../../src/Filesystem/Finder.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:backendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Filesystem/Url.php
