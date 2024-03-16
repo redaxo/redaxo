@@ -10,6 +10,7 @@ class rex_i18n_trans_cb
         return 'translated';
     }
 }
+
 /** @internal */
 final class rex_i18n_test extends TestCase
 {

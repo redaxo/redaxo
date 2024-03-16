@@ -64,7 +64,7 @@ final class rex_extension_test extends TestCase
         $subject = 'test';
         rex_extension::registerPoint(new rex_extension_point($EP, $subject, [], true));
 
-        self::assertEquals($subject, $subjectActual, 'read-only extention points don\'t change subject param');
+        self::assertEquals($subject, $subjectActual, "read-only extention points don't change subject param");
     }
 
     public function testRegisterPointWithParams(): void

@@ -7,6 +7,7 @@ final class rex_test_singleton
 {
     use rex_singleton_trait;
 }
+
 /** @internal */
 final class rex_singleton_trait_test extends TestCase
 {

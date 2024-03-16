@@ -61,6 +61,7 @@ final class rex_alternative_test_factory extends rex_test_factory
         return 'static-overridden';
     }
 }
+
 /** @internal */
 final class rex_factory_trait_test extends TestCase
 {

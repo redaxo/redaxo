@@ -22,6 +22,7 @@ final class rex_test_instance_list_pool
         return new self($id);
     }
 }
+
 /** @internal */
 final class rex_instance_list_pool_trait_test extends TestCase
 {

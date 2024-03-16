@@ -21,6 +21,7 @@ final class rex_test_instance_pool_1 extends rex_test_instance_pool_base {}
 
 /** @internal */
 final class rex_test_instance_pool_2 extends rex_test_instance_pool_base {}
+
 /** @internal */
 final class rex_instance_pool_trait_test extends TestCase
 {
