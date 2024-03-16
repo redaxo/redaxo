@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_navigation_test extends TestCase
+/** @internal */
+final class rex_navigation_test extends TestCase
 {
     public function testContruct(): void
     {

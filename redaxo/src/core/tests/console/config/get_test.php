@@ -4,10 +4,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * @internal
- */
-class rex_command_config_get_test extends TestCase
+/** @internal */
+final class rex_command_config_get_test extends TestCase
 {
     #[DataProvider('dataKeyFound')]
     public function testKeyFound(string $expectedValue, string $key): void

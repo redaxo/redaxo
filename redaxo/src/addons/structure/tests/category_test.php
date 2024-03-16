@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_category_test extends TestCase
+/** @internal */
+final class rex_category_test extends TestCase
 {
     protected function setUp(): void
     {
@@ -179,7 +177,7 @@ class rex_category_test extends TestCase
                 }
             }
 
-            public function getParent()
+            public function getParent(): ?rex_category
             {
                 /** @var static|null */
                 return $this->parent;

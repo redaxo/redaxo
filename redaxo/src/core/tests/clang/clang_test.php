@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_clang_test extends TestCase
+/** @internal */
+final class rex_clang_test extends TestCase
 {
     public function testGetCurrentId(): void
     {

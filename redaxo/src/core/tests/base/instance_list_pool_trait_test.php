@@ -3,7 +3,8 @@
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
-class rex_test_instance_list_pool
+/** @internal */
+final class rex_test_instance_list_pool
 {
     use rex_instance_list_pool_trait {
         addInstanceList as public;
@@ -22,10 +23,8 @@ class rex_test_instance_list_pool
     }
 }
 
-/**
- * @internal
- */
-class rex_instance_list_pool_trait_test extends TestCase
+/** @internal */
+final class rex_instance_list_pool_trait_test extends TestCase
 {
     public function testAddHasInstanceList(): void
     {

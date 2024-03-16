@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_sql_select_test extends TestCase
+/** @internal */
+final class rex_sql_select_test extends TestCase
 {
     public const TABLE = 'rex_tests';
 

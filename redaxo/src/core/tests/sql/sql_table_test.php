@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_sql_table_test extends TestCase
+/** @internal */
+final class rex_sql_table_test extends TestCase
 {
     public const TABLE = 'rex_sql_table_test';
     public const TABLE2 = 'rex_sql_table_test2';
@@ -20,7 +18,7 @@ class rex_sql_table_test extends TestCase
         rex_sql_table::clearInstancePool();
     }
 
-    protected function createTable(): rex_sql_table
+    private function createTable(): rex_sql_table
     {
         $table = rex_sql_table::get(self::TABLE);
 
@@ -34,7 +32,7 @@ class rex_sql_table_test extends TestCase
         return $table;
     }
 
-    protected function createTable2(): rex_sql_table
+    private function createTable2(): rex_sql_table
     {
         $table = rex_sql_table::get(self::TABLE2);
 

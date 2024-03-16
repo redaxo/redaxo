@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_password_policy_test extends TestCase
+/** @internal */
+final class rex_password_policy_test extends TestCase
 {
     #[DataProvider('provideCheck')]
     public function testCheck(array $options, bool $expected, string $password): void

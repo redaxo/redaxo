@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_article_slice_test extends TestCase
+/** @internal */
+final class rex_article_slice_test extends TestCase
 {
     private const FAKE_ID = 2_147_483_647; // max int on 32bit
 

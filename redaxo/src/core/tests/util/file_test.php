@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_file_test extends TestCase
+/** @internal */
+final class rex_file_test extends TestCase
 {
     protected function setUp(): void
     {

@@ -3378,6 +3378,11 @@
       <code><![CDATA[(array) $key]]></code>
     </MixedArgumentTypeCoercion>
   </file>
+  <file src="redaxo/src/core/lib/base/singleton_trait.php">
+    <PropertyTypeCoercion>
+      <code><![CDATA[self::$instances]]></code>
+    </PropertyTypeCoercion>
+  </file>
   <file src="redaxo/src/core/lib/be/controller.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[str_replace($package->getPath(), '', $path)]]></code>

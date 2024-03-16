@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_pager_test extends TestCase
+/** @internal */
+final class rex_pager_test extends TestCase
 {
     public function testSetCursor(): void
     {

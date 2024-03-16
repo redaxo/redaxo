@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_markdown_test extends TestCase
+/** @internal */
+final class rex_markdown_test extends TestCase
 {
     #[DataProvider('parseProvider')]
     public function testParse(string $expected, string $code): void

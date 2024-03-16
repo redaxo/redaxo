@@ -7,6 +7,7 @@ use Rector\Config\RectorConfig;
 use Rector\Php70\Rector as Php70;
 use Rector\Php80\Rector as Php80;
 use Rector\Php81\Rector as Php81;
+use Rector\Privatization\Rector as Privatization;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Rector\Rule as RedaxoRule;
 
@@ -43,6 +44,7 @@ return RectorConfig::configure()
     ])
     ->withParallel()
     ->withPhpVersion(PhpVersion::PHP_81)
+    ->withPreparedSets(privatization: true)
     ->withImportNames()
     ->withRules([
         CodeQuality\Assign\CombinedAssignRector::class,
@@ -64,6 +66,7 @@ return RectorConfig::configure()
         Php80\NotIdentical\StrContainsRector::class,
         Php80\Switch_\ChangeSwitchToMatchRector::class,
         Php81\Array_\FirstClassCallableRector::class,
+        Privatization\Class_\FinalizeTestCaseClassRector::class,
 
         // Own rules
         RedaxoRule\UnderscoreToCamelCasePropertyNameRector::class,

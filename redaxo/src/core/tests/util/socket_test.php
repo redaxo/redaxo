@@ -4,10 +4,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_socket_test extends TestCase
+/** @internal */
+final class rex_socket_test extends TestCase
 {
     private ?string $proxy = null;
 
