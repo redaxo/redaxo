@@ -2,7 +2,7 @@ name: Code Style
 
 on:
     push:
-        branches: [main, bugfix, temp]
+        branches: [temp]
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
 

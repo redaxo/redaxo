@@ -5,10 +5,8 @@ namespace Redaxo\Core\Tests\Util;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Util\Pager;
 
-/**
- * @internal
- */
-class PagerTest extends TestCase
+/** @internal */
+final class PagerTest extends TestCase
 {
     public function testSetCursor(): void
     {

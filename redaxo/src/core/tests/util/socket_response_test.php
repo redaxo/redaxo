@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_socket_response_test extends TestCase
+/** @internal */
+final class rex_socket_response_test extends TestCase
 {
     private function getResponse(string $content): rex_socket_response
     {

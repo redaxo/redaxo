@@ -4,10 +4,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
 
-/**
- * @internal
- */
-class rex_mediapool_test extends TestCase
+/** @internal */
+final class rex_mediapool_test extends TestCase
 {
     #[DataProvider('provideIsAllowedExtension')]
     public function testIsAllowedExtension(bool $expected, string $filename, array $args = []): void

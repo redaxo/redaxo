@@ -3,6 +3,7 @@
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
+/** @internal */
 class rex_test_instance_pool_base
 {
     use rex_instance_pool_trait {
@@ -15,14 +16,14 @@ class rex_test_instance_pool_base
     public function __construct() {}
 }
 
+/** @internal */
 final class rex_test_instance_pool_1 extends rex_test_instance_pool_base {}
 
+/** @internal */
 final class rex_test_instance_pool_2 extends rex_test_instance_pool_base {}
 
-/**
- * @internal
- */
-class rex_instance_pool_trait_test extends TestCase
+/** @internal */
+final class rex_instance_pool_trait_test extends TestCase
 {
     public function testAddHasInstance(): void
     {

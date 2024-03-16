@@ -6,10 +6,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Util\Markdown;
 
-/**
- * @internal
- */
-class MarkdownTest extends TestCase
+/** @internal */
+final class MarkdownTest extends TestCase
 {
     #[DataProvider('parseProvider')]
     public function testParse(string $expected, string $code): void

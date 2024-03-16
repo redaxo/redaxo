@@ -11,10 +11,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use rex_sql_exception;
 
-/**
- * @internal
- */
-class SqlTest extends TestCase
+/** @internal */
+final class SqlTest extends TestCase
 {
     public const TABLE = 'rex_tests_table';
     public const VIEW = 'rex_tests_view';

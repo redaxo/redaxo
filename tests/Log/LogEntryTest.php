@@ -6,10 +6,8 @@ use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Log\LogEntry;
 
-/**
- * @internal
- */
-class LogEntryTest extends TestCase
+/** @internal */
+final class LogEntryTest extends TestCase
 {
     public function testConstruct(): void
     {

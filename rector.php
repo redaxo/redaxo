@@ -10,9 +10,11 @@ use Rector\Arguments\ValueObject\ArgumentAdder;
 use Rector\Arguments\ValueObject\ReplaceArgumentDefaultValue;
 use Rector\CodeQuality\Rector as CodeQuality;
 use Rector\Config\RectorConfig;
+use Rector\Php55\Rector as Php55;
 use Rector\Php70\Rector as Php70;
 use Rector\Php80\Rector as Php80;
 use Rector\Php81\Rector as Php81;
+use Rector\Privatization\Rector as Privatization;
 use Rector\Removing\Rector\ClassMethod\ArgumentRemoverRector;
 use Rector\Removing\Rector\FuncCall\RemoveFuncCallArgRector;
 use Rector\Removing\ValueObject\ArgumentRemover;
@@ -57,11 +59,14 @@ return RectorConfig::configure()
     ])
     ->withParallel()
     ->withPhpVersion(PhpVersion::PHP_83)
+    ->withPreparedSets(privatization: true)
     ->withImportNames()
     ->withRules([
         CodeQuality\Assign\CombinedAssignRector::class,
         CodeQuality\BooleanNot\SimplifyDeMorganBinaryRector::class,
         CodeQuality\Class_\InlineConstructorDefaultToPropertyRector::class,
+        CodeQuality\Class_\StaticToSelfStaticMethodCallOnFinalClassRector::class,
+        CodeQuality\ClassConstFetch\ConvertStaticPrivateConstantToSelfRector::class,
         CodeQuality\Foreach_\SimplifyForeachToCoalescingRector::class,
         CodeQuality\FuncCall\SimplifyRegexPatternRector::class,
         CodeQuality\FuncCall\SingleInArrayToCompareRector::class,
@@ -70,6 +75,7 @@ return RectorConfig::configure()
         CodeQuality\If_\SimplifyIfReturnBoolRector::class,
         CodeQuality\NullsafeMethodCall\CleanupUnneededNullsafeOperatorRector::class,
         CodeQuality\Ternary\UnnecessaryTernaryExpressionRector::class,
+        Php55\ClassConstFetch\StaticToSelfOnFinalClassRector::class,
         Php70\StmtsAwareInterface\IfIssetToCoalescingRector::class,
         Php70\Ternary\TernaryToNullCoalescingRector::class,
         Php80\Catch_\RemoveUnusedVariableInCatchRector::class,
@@ -78,6 +84,7 @@ return RectorConfig::configure()
         Php80\NotIdentical\StrContainsRector::class,
         Php80\Switch_\ChangeSwitchToMatchRector::class,
         Php81\Array_\FirstClassCallableRector::class,
+        Privatization\Class_\FinalizeTestCaseClassRector::class,
 
         // Own rules
         RedaxoRule\UnderscoreToCamelCasePropertyNameRector::class,

@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Util\Stream;
 
+/** @internal */
 abstract class rex_var_test_base extends TestCase
 {
     protected function getParseOutput(string $content): string

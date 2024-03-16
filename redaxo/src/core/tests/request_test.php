@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_request_test extends TestCase
+/** @internal */
+final class rex_request_test extends TestCase
 {
     #[DataProvider('dataArrayKeyCast')]
     public function testArrayKeyCast(mixed $expected, mixed $value, mixed $vartype, mixed $default = ''): void

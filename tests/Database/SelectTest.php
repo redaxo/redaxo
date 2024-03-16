@@ -9,10 +9,8 @@ use ReflectionProperty;
 use rex_sql_exception;
 use stdClass;
 
-/**
- * @internal
- */
-class SelectTest extends TestCase
+/** @internal */
+final class SelectTest extends TestCase
 {
     public const TABLE = 'rex_tests';
 

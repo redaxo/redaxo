@@ -9,10 +9,8 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Util\Type;
 use stdClass;
 
-/**
- * @internal
- */
-class TypeTest extends TestCase
+/** @internal */
+final class TypeTest extends TestCase
 {
     /** @return list<array{mixed, string|callable(mixed):mixed|list<int|string|BackedEnum>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}>, mixed}> */
     public static function castProvider(): array

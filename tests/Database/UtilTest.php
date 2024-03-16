@@ -9,10 +9,8 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 use Redaxo\Core\Database\Util;
 
-/**
- * @internal
- */
-class UtilTest extends TestCase
+/** @internal */
+final class UtilTest extends TestCase
 {
     public const TABLE = 'rex_sql_util_test';
     public const TABLE2 = 'rex_sql_util_test2';

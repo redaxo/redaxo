@@ -5,10 +5,8 @@ use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
 
-/**
- * @internal
- */
-class rex_socket_test extends TestCase
+/** @internal */
+final class rex_socket_test extends TestCase
 {
     private ?string $proxy = null;
 

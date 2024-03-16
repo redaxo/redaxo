@@ -55,3 +55,11 @@ $config = array_merge(
 File::putConfig($path, $config);
 
 require __DIR__ . '/install.php';
+
+// remove old login background images
+$files = glob(Path::coreAssets('images/*-unsplash*')) ?: [];
+foreach ($files as $file) {
+    if (!is_file(Path::core('assets/images/' . Path::basename($file)))) {
+        File::delete($file);
+    }
+}

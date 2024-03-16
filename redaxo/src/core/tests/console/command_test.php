@@ -4,10 +4,8 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * @internal
- */
-class rex_console_command_test extends TestCase
+/** @internal */
+final class rex_console_command_test extends TestCase
 {
     public function testDecodeMessage(): void
     {

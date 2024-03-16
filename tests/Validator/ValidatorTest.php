@@ -7,10 +7,8 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Validator\ValidationRule;
 use Redaxo\Core\Validator\Validator;
 
-/**
- * @internal
- */
-class ValidatorTest extends TestCase
+/** @internal */
+final class ValidatorTest extends TestCase
 {
     public function testNotEmpty(): void
     {

@@ -11,10 +11,8 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 use rex_exception;
 
-/**
- * @internal
- */
-class TableTest extends TestCase
+/** @internal */
+final class TableTest extends TestCase
 {
     public const TABLE = 'rex_sql_table_test';
     public const TABLE2 = 'rex_sql_table_test2';
@@ -28,7 +26,7 @@ class TableTest extends TestCase
         Table::clearInstancePool();
     }
 
-    protected function createTable(): Table
+    private function createTable(): Table
     {
         $table = Table::get(self::TABLE);
 
@@ -42,7 +40,7 @@ class TableTest extends TestCase
         return $table;
     }
 
-    protected function createTable2(): Table
+    private function createTable2(): Table
     {
         $table = Table::get(self::TABLE2);
 

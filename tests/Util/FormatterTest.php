@@ -14,10 +14,8 @@ use Redaxo\Core\Util\Formatter;
 
 use const PHP_INT_SIZE;
 
-/**
- * @internal
- */
-class FormatterTest extends TestCase
+/** @internal */
+final class FormatterTest extends TestCase
 {
     private string $previousLocale;
 

@@ -10,10 +10,8 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Log\LogEntry;
 use Redaxo\Core\Log\LogFile;
 
-/**
- * @internal
- */
-class LogFileTest extends TestCase
+/** @internal */
+final class LogFileTest extends TestCase
 {
     protected function tearDown(): void
     {

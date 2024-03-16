@@ -6,10 +6,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Util\Str;
 
-/**
- * @internal
- */
-class StrTest extends TestCase
+/** @internal */
+final class StrTest extends TestCase
 {
     public function testSize(): void
     {

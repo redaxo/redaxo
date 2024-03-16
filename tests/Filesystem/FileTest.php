@@ -9,10 +9,8 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use rex_exception;
 
-/**
- * @internal
- */
-class FileTest extends TestCase
+/** @internal */
+final class FileTest extends TestCase
 {
     protected function setUp(): void
     {

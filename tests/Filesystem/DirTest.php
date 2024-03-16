@@ -7,10 +7,8 @@ use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
-/**
- * @internal
- */
-class DirTest extends TestCase
+/** @internal */
+final class DirTest extends TestCase
 {
     protected function setUp(): void
     {

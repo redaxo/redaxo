@@ -8,10 +8,8 @@ use Redaxo\Core\Core;
 use const E_NOTICE;
 use const E_WARNING;
 
-/**
- * @internal
- */
-class CoreTest extends TestCase
+/** @internal */
+final class CoreTest extends TestCase
 {
     public function testRexConfig(): void
     {

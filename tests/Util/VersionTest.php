@@ -6,10 +6,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Util\Version;
 
-/**
- * @internal
- */
-class VersionTest extends TestCase
+/** @internal */
+final class VersionTest extends TestCase
 {
     public function testIsUnstable(): void
     {
