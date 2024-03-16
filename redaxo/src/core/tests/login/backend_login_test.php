@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_backend_login_test extends TestCase
+/** @internal */
+final class rex_backend_login_test extends TestCase
 {
     private const LOGIN = 'testusr';
     private const PASSWORD = 'test1234';

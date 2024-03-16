@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_sql_test extends TestCase
+/** @internal */
+final class rex_sql_test extends TestCase
 {
     public const TABLE = 'rex_tests_table';
     public const VIEW = 'rex_tests_view';

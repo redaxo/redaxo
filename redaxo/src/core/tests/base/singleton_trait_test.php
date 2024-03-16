@@ -2,15 +2,13 @@
 
 use PHPUnit\Framework\TestCase;
 
-class rex_test_singleton
+/** @internal */
+final class rex_test_singleton
 {
     use rex_singleton_trait;
 }
-
-/**
- * @internal
- */
-class rex_singleton_trait_test extends TestCase
+/** @internal */
+final class rex_singleton_trait_test extends TestCase
 {
     public function testGetInstance(): void
     {

@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+/** @internal */
 class rex_test_factory
 {
     use rex_factory_trait;
@@ -41,7 +42,9 @@ class rex_test_factory
         return 'static-base';
     }
 }
-class rex_alternative_test_factory extends rex_test_factory
+
+/** @internal */
+final class rex_alternative_test_factory extends rex_test_factory
 {
     public function doSomething(): string
     {
@@ -58,11 +61,8 @@ class rex_alternative_test_factory extends rex_test_factory
         return 'static-overridden';
     }
 }
-
-/**
- * @internal
- */
-class rex_factory_trait_test extends TestCase
+/** @internal */
+final class rex_factory_trait_test extends TestCase
 {
     public function testFactoryCreation(): void
     {

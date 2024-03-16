@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_package_test extends TestCase
+/** @internal */
+final class rex_package_test extends TestCase
 {
     /** @param array{string, ?string} $expected */
     #[DataProvider('dataSplitId')]

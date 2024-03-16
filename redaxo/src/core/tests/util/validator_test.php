@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_validator_test extends TestCase
+/** @internal */
+final class rex_validator_test extends TestCase
 {
     public function testNotEmpty(): void
     {

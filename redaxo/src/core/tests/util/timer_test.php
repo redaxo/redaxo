@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_timer_test extends TestCase
+/** @internal */
+final class rex_timer_test extends TestCase
 {
     /** @var array{enabled: bool, throw_always_exception: bool|int} */
     private array $orgDebug;

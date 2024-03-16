@@ -2,7 +2,8 @@
 
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class rex_var_test_var extends rex_var
+/** @internal */
+final class rex_var_test_var extends rex_var
 {
     public function getOutput()
     {
@@ -16,7 +17,8 @@ class rex_var_test_var extends rex_var
     }
 }
 
-class rex_var_2nd_test_var extends rex_var
+/** @internal */
+final class rex_var_2nd_test_var extends rex_var
 {
     public function getOutput()
     {
@@ -26,7 +28,7 @@ class rex_var_2nd_test_var extends rex_var
 
 require_once __DIR__ . '/var_test_base.php';
 
-class rex_var_test extends rex_var_test_base
+final class rex_var_test extends rex_var_test_base
 {
     /** @return list<array{string, string}> */
     public static function parseTokensProvider(): array

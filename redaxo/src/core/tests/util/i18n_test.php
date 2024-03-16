@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+/** @internal */
 class rex_i18n_trans_cb
 {
     public static function mytranslate(): string
@@ -9,11 +10,8 @@ class rex_i18n_trans_cb
         return 'translated';
     }
 }
-
-/**
- * @internal
- */
-class rex_i18n_test extends TestCase
+/** @internal */
+final class rex_i18n_test extends TestCase
 {
     private string $previousLocale;
 

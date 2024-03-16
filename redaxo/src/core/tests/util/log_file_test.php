@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_log_file_test extends TestCase
+/** @internal */
+final class rex_log_file_test extends TestCase
 {
     protected function tearDown(): void
     {

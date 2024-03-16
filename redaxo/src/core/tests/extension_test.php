@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_extension_test extends TestCase
+/** @internal */
+final class rex_extension_test extends TestCase
 {
     protected function setUp(): void
     {

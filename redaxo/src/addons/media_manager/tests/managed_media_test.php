@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_managed_media_test extends TestCase
+/** @internal */
+final class rex_managed_media_test extends TestCase
 {
     public function testConstructor(): void
     {
