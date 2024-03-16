@@ -10,7 +10,7 @@ final class rex_media_test extends TestCase
         $media = $this->createMediaWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $media->med_foo = 'teststring';
+        $media->med_foo = 'teststring'; // @phpstan-ignore-line
 
         self::assertTrue($media->hasValue('med_foo'));
         self::assertTrue($media->hasValue('foo'));
@@ -24,7 +24,7 @@ final class rex_media_test extends TestCase
         $media = $this->createMediaWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $media->med_foo = 'teststring';
+        $media->med_foo = 'teststring'; // @phpstan-ignore-line
 
         self::assertEquals('teststring', $media->getValue('med_foo'));
         self::assertEquals('teststring', $media->getValue('foo'));

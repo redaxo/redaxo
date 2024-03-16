@@ -31,7 +31,7 @@ final class rex_article_test extends TestCase
         $instance = $this->createArticleWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $instance->art_foo = 'teststring';
+        $instance->art_foo = 'teststring'; // @phpstan-ignore-line
 
         self::assertTrue($instance->hasValue('foo'));
         self::assertTrue($instance->hasValue('art_foo'));
@@ -45,7 +45,7 @@ final class rex_article_test extends TestCase
         $instance = $this->createArticleWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $instance->art_foo = 'teststring';
+        $instance->art_foo = 'teststring'; // @phpstan-ignore-line
 
         self::assertEquals('teststring', $instance->getValue('foo'));
         self::assertEquals('teststring', $instance->getValue('art_foo'));
