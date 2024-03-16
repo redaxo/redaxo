@@ -5,7 +5,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 /** @internal */
 final class rex_var_test_var extends rex_var
 {
-    public function getOutput()
+    public function getOutput(): string
     {
         return $this->getParsedArg('content', "'default'", true);
     }
@@ -20,7 +20,7 @@ final class rex_var_test_var extends rex_var
 /** @internal */
 final class rex_var_2nd_test_var extends rex_var
 {
-    public function getOutput()
+    public function getOutput(): string
     {
         return '2';
     }
