@@ -75,12 +75,12 @@ final class rex_media_manager_test extends TestCase
 
             public function __construct() {}
 
-            public function getFileName()
+            public function getFileName(): string
             {
                 return 'test.jpg';
             }
 
-            public function getUpdateDate()
+            public function getUpdateDate(): int
             {
                 return $this->fakeUpdateDate;
             }
