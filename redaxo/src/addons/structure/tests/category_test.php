@@ -32,7 +32,7 @@ final class rex_category_test extends TestCase
         $instance = $this->createCategoryWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $instance->cat_foo = 'teststring';
+        $instance->cat_foo = 'teststring'; // @phpstan-ignore-line
 
         self::assertTrue($instance->hasValue('foo'));
         self::assertTrue($instance->hasValue('cat_foo'));
@@ -46,7 +46,7 @@ final class rex_category_test extends TestCase
         $instance = $this->createCategoryWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $instance->cat_foo = 'teststring';
+        $instance->cat_foo = 'teststring'; // @phpstan-ignore-line
 
         self::assertEquals('teststring', $instance->getValue('foo'));
         self::assertEquals('teststring', $instance->getValue('cat_foo'));

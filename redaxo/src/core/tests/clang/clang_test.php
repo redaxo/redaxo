@@ -30,7 +30,7 @@ final class rex_clang_test extends TestCase
         $clang = $this->createClangWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $clang->clang_foo = 'teststring';
+        $clang->clang_foo = 'teststring'; // @phpstan-ignore-line
 
         self::assertTrue($clang->hasValue('foo'));
         self::assertTrue($clang->hasValue('clang_foo'));
@@ -46,7 +46,7 @@ final class rex_clang_test extends TestCase
         $clang = $this->createClangWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $clang->clang_foo = 'teststring';
+        $clang->clang_foo = 'teststring'; // @phpstan-ignore-line
 
         self::assertEquals('teststring', $clang->getValue('foo'));
         self::assertEquals('teststring', $clang->getValue('clang_foo'));

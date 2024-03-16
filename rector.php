@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector as CodeQuality;
 use Rector\Config\RectorConfig;
+use Rector\Php55\Rector as Php55;
 use Rector\Php70\Rector as Php70;
 use Rector\Php80\Rector as Php80;
 use Rector\Php81\Rector as Php81;
@@ -50,6 +51,8 @@ return RectorConfig::configure()
         CodeQuality\Assign\CombinedAssignRector::class,
         CodeQuality\BooleanNot\SimplifyDeMorganBinaryRector::class,
         CodeQuality\Class_\InlineConstructorDefaultToPropertyRector::class,
+        CodeQuality\Class_\StaticToSelfStaticMethodCallOnFinalClassRector::class,
+        CodeQuality\ClassConstFetch\ConvertStaticPrivateConstantToSelfRector::class,
         CodeQuality\Foreach_\SimplifyForeachToCoalescingRector::class,
         CodeQuality\FuncCall\SimplifyRegexPatternRector::class,
         CodeQuality\FuncCall\SingleInArrayToCompareRector::class,
@@ -58,6 +61,7 @@ return RectorConfig::configure()
         CodeQuality\If_\SimplifyIfReturnBoolRector::class,
         CodeQuality\NullsafeMethodCall\CleanupUnneededNullsafeOperatorRector::class,
         CodeQuality\Ternary\UnnecessaryTernaryExpressionRector::class,
+        Php55\ClassConstFetch\StaticToSelfOnFinalClassRector::class,
         Php70\StmtsAwareInterface\IfIssetToCoalescingRector::class,
         Php70\Ternary\TernaryToNullCoalescingRector::class,
         Php80\Catch_\RemoveUnusedVariableInCatchRector::class,
