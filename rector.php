@@ -44,6 +44,7 @@ return RectorConfig::configure()
     ])
     ->withParallel()
     ->withPhpVersion(PhpVersion::PHP_81)
+    ->withPreparedSets(privatization: true)
     ->withImportNames()
     ->withRules([
         CodeQuality\Assign\CombinedAssignRector::class,

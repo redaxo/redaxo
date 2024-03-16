@@ -18,7 +18,7 @@ final class rex_sql_table_test extends TestCase
         rex_sql_table::clearInstancePool();
     }
 
-    protected function createTable(): rex_sql_table
+    private function createTable(): rex_sql_table
     {
         $table = rex_sql_table::get(self::TABLE);
 
@@ -32,7 +32,7 @@ final class rex_sql_table_test extends TestCase
         return $table;
     }
 
-    protected function createTable2(): rex_sql_table
+    private function createTable2(): rex_sql_table
     {
         $table = rex_sql_table::get(self::TABLE2);
 
