@@ -1955,7 +1955,7 @@ class rex_sql implements Iterator
         #[SensitiveParameter] $login,
         #[SensitiveParameter] $password,
         #[SensitiveParameter] $database,
-        $createDb = false
+        $createDb = false,
     ) {
         if (!$database) {
             return rex_i18n::msg('sql_database_name_missing');
