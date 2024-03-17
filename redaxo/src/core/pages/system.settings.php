@@ -5,6 +5,7 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;

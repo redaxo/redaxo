@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Validator;
 
-use InvalidArgumentException;
 use Redaxo\Core\Base\FactoryTrait;
+use Redaxo\Core\Exception\InvalidArgumentException;
 
 use function in_array;
 
@@ -34,8 +34,6 @@ class Validator
      * @param string|null $message Message which is used if this validator type does not match
      * @param mixed|null $option Type specific option
      *
-     * @throws InvalidArgumentException
-     *
      * @return $this
      */
     public function add(string $type, ?string $message = null, mixed $option = null): static
@@ -46,8 +44,6 @@ class Validator
     /**
      * Adds a validation rule.
      *
-     * @throws InvalidArgumentException
-     *
      * @return $this
      */
     public function addRule(ValidationRule $rule): static
@@ -55,7 +51,7 @@ class Validator
         $type = $rule->getType();
 
         if (!method_exists($this, $type)) {
-            throw new InvalidArgumentException('Unknown validator type: ' . $type);
+            throw new InvalidArgumentException('Unknown validator type "' . $type . '".');
         }
 
         $this->rules[] = $rule;
@@ -110,15 +106,13 @@ class Validator
 
     /**
      * Checks whether the value is from the given type.
-     *
-     * @throws InvalidArgumentException
      */
     public function type(string $value, string $type): bool
     {
         return match ($type) {
             'int', 'integer' => $this->match($value, '/^\d+$/'),
             'float', 'real' => is_numeric($value),
-            default => throw new InvalidArgumentException('Unknown $type:' . $type),
+            default => throw new InvalidArgumentException('Unknown $type "' . $type . '".'),
         };
     }
 

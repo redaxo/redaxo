@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Form\Select\Select;
 use rex_exception;
 
@@ -72,7 +72,7 @@ class DateInput extends AbstractInput
     public function setValue($value)
     {
         if (!is_array($value)) {
-            throw new InvalidArgumentException('Expecting $value to be an array!');
+            throw new InvalidArgumentException('Expecting $value to be an array.');
         }
 
         foreach (['year', 'month', 'day'] as $reqIndex) {

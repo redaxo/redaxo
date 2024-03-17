@@ -3,10 +3,10 @@
 namespace Redaxo\Core\Http;
 
 use DateTimeInterface;
-use InvalidArgumentException;
 use Ramsey\Http\Range\Exception\HttpRangeException;
 use Ramsey\Http\Range\UnitFactory;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
@@ -50,13 +50,11 @@ final class Response
 
     /**
      * Sets the HTTP Status code.
-     *
-     * @throws InvalidArgumentException
      */
     public static function setStatus(string $httpStatus): void
     {
         if (str_contains($httpStatus, "\n")) {
-            throw new InvalidArgumentException('Illegal http-status "' . $httpStatus . '", contains newlines');
+            throw new InvalidArgumentException('Invalid http-status "' . $httpStatus . '", contains newlines.');
         }
 
         self::$httpStatus = $httpStatus;
@@ -121,12 +119,11 @@ final class Response
      * NOTE: Execution will stop within this method!
      *
      * @param self::HTTP_MOVED_PERMANENTLY|self::HTTP_MOVED_TEMPORARILY|null $httpStatus
-     * @throws InvalidArgumentException
      */
     public static function sendRedirect(string $url, ?string $httpStatus = null): never
     {
         if (str_contains($url, "\n")) {
-            throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
+            throw new InvalidArgumentException('Invalid redirect url "' . $url . '", contains newlines');
         }
 
         if ($httpStatus) {
@@ -478,8 +475,6 @@ final class Response
      *                             "httponly" bool                        Whether the cookie will be made accessible only through the HTTP protocol
      *                             "samesite" string|null                 Whether the cookie will be available for cross-site requests
      *                             "raw" bool                             Whether the cookie value should be sent with no url encoding
-     *
-     * @throws InvalidArgumentException
      */
     public static function sendCookie(string $name, ?string $value, array $options = []): void
     {
@@ -560,8 +555,6 @@ final class Response
      *                        "secure" bool          Whether the cookie should only be transmitted over a secure HTTPS connection from the client
      *                        "httponly" bool        Whether the cookie will be made accessible only through the HTTP protocol
      *                        "samesite" string|null Whether the cookie will be available for cross-site requests
-     *
-     * @throws InvalidArgumentException
      */
     public static function clearCookie(string $name, array $options = []): void
     {

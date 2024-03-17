@@ -7,7 +7,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\CronjobManager;
 use Redaxo\Core\Database\Sql;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\InvalidArgumentException as SymfonyInvalidArgumentException;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -86,7 +86,7 @@ class CronjobRunCommand extends AbstractCommand
                 $selected = trim($selected);
 
                 if (!isset($jobs[$selected])) {
-                    throw new SymfonyInvalidArgumentException(sprintf('Value "%s" is invalid.', $selected));
+                    throw new InvalidArgumentException(sprintf('Value "%s" is invalid.', $selected));
                 }
 
                 return $selected;

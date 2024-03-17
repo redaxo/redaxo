@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Database;
 
-use InvalidArgumentException;
 use LogicException;
 use Redaxo\Core\Base\InstancePoolTrait;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Util\Type;
 use rex_exception;
 use rex_sql_exception;

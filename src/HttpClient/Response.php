@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\HttpClient;
 
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Filesystem\Dir;
 use rex_exception;
 use rex_socket_exception;
@@ -39,8 +39,6 @@ final class Response
 
     /**
      * @param resource $stream Socket stream
-     *
-     * @throws InvalidArgumentException
      */
     public function __construct($stream)
     {

@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Util;
 
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
@@ -49,9 +49,6 @@ class Stream
      *
      * @param string $path Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
      * @param string $content Content which will be included
-     *
-     * @throws InvalidArgumentException
-     *
      * @return string Full path with protocol (e.g. "rex:///template/1")
      *
      * @psalm-taint-specialize
@@ -59,7 +56,7 @@ class Stream
     public static function factory(string $path, string $content): string
     {
         if (empty($path)) {
-            throw new InvalidArgumentException('Expecting $path to be a string and not empty!');
+            throw new InvalidArgumentException('Expecting $path to be a string and not empty.');
         }
 
         if (null === self::$useRealFiles) {

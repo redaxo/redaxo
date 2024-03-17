@@ -3,7 +3,6 @@
 namespace Redaxo\Core\Console\Command;
 
 use DateTimeZone;
-use InvalidArgumentException;
 use Override;
 use PDOException;
 use Redaxo\Core\Backup\Backup;
@@ -19,6 +18,7 @@ use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;

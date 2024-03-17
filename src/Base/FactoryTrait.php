@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Base;
 
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 
 /**
  * Factory trait.
@@ -36,14 +36,12 @@ trait FactoryTrait
      *
      * @psalm-param class-string<self> $subClass https://github.com/vimeo/psalm/issues/5535
      * @phpstan-param class-string<static> $subClass
-     *
-     * @throws InvalidArgumentException
      */
     public static function setFactoryClass(string $subClass): void
     {
         $calledClass = static::class;
         if ($subClass !== $calledClass && !is_subclass_of($subClass, $calledClass)) {
-            throw new InvalidArgumentException('$subClass "' . $subClass . '" is expected to define a subclass of ' . $calledClass . '!');
+            throw new InvalidArgumentException('Factory class "' . $subClass . '" is expected to define a subclass of ' . $calledClass . '.');
         }
 
         self::$factoryClasses[$calledClass] = $subClass;

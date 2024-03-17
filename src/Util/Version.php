@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Util;
 
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use rex_exception;
 
 use function count;

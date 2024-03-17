@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\View;
 
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
@@ -97,8 +97,6 @@ class Fragment
      * Parses the variables of the fragment into the file $filename.
      *
      * @param string $filename the filename of the fragment to parse
-     *
-     * @throws InvalidArgumentException
      */
     public function parse(string $filename): string
     {
@@ -123,7 +121,7 @@ class Fragment
             }
         }
 
-        throw new InvalidArgumentException(sprintf('Fragmentfile "%s" not found!', $filename));
+        throw new InvalidArgumentException(sprintf('Fragment file "%s" not found.', $filename));
     }
 
     /**
@@ -152,8 +150,6 @@ class Fragment
      * @param T $value The value to escape
      * @param string $strategy One of "html", "html_attr", "css", "js", "url"
      * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
-     *
-     * @throws InvalidArgumentException
      *
      * @return mixed
      * @psalm-return (T is Stringable ? string : T)

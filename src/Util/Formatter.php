@@ -5,8 +5,8 @@ namespace Redaxo\Core\Util;
 use DateTimeInterface;
 use IntlDateFormatter;
 use IntlTimeZone;
-use InvalidArgumentException;
 use Locale;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use rex_exception;
 
 use function call_user_func;
@@ -36,13 +36,11 @@ final class Formatter
      *
      * @param string $formatType Format type (any method name of this class)
      * @param mixed $format For possible values look at the other methods of this class
-     *
-     * @throws InvalidArgumentException
      */
     public static function format(?string $value, string $formatType, mixed $format): string
     {
         if (!method_exists(self::class, $formatType)) {
-            throw new InvalidArgumentException('Unknown $formatType: "' . $formatType . '"!');
+            throw new InvalidArgumentException('Unknown $formatType "' . $formatType . '".');
         }
 
         return Type::string(self::$formatType($value, $format));

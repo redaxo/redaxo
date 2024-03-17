@@ -3,9 +3,9 @@
 namespace Redaxo\Core\Form;
 
 use BadMethodCallException;
-use InvalidArgumentException;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
@@ -22,6 +22,7 @@ use Redaxo\Core\Http\Request;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Message;
 use rex_exception;
 
@@ -87,7 +88,7 @@ abstract class AbstractForm
     protected function __construct(?string $fieldset, string $name, string $method = 'post', bool $debug = false)
     {
         if (!in_array($method, ['post', 'get'])) {
-            throw new InvalidArgumentException("Form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!");
+            throw new InvalidArgumentException('Parameter $method must be "post" or "get", but "' . $method . '" given.');
         }
 
         $this->name = $name;

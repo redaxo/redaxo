@@ -2,7 +2,6 @@
 
 namespace Redaxo\Core\Database;
 
-use InvalidArgumentException;
 use Iterator;
 use JsonException;
 use Override;
@@ -11,6 +10,7 @@ use PDOException;
 use PDOStatement;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 use rex_sql_could_not_connect_exception;

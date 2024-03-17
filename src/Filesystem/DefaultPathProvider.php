@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Filesystem;
 
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 
 use const DIRECTORY_SEPARATOR;
 

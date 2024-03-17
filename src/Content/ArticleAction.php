@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Content;
 
-use InvalidArgumentException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Util\Stream;
@@ -84,7 +84,7 @@ class ArticleAction
     public function exec($type)
     {
         if (!in_array($type, [self::PREVIEW, self::PRESAVE, self::POSTSAVE])) {
-            throw new InvalidArgumentException('$type musst be ArticleAction::PREVIEW, ::PRESAVE or ::POSTSAVE');
+            throw new InvalidArgumentException('$type must be ArticleAction::PREVIEW, ::PRESAVE or ::POSTSAVE.');
         }
 
         $this->messages = [];

@@ -4,6 +4,7 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\Linkmap\ArticleList;
 use Redaxo\Core\Content\Linkmap\CategoryTree;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;

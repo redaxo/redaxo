@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Security;
 
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 
 use function array_key_exists;
 
@@ -27,7 +27,7 @@ final class LoginPolicy
         if (array_key_exists($key, $this->options)) {
             $val = (int) $this->options[$key];
             if ($val <= 0) {
-                throw new InvalidArgumentException('Invalid value for option "' . $key . '": ' . $val);
+                throw new InvalidArgumentException('Invalid value "' . $val . '" for option "' . $key . '".');
             }
             return $val;
         }
@@ -49,7 +49,7 @@ final class LoginPolicy
         if (array_key_exists($key, $this->options)) {
             $val = (int) $this->options[$key];
             if ($val <= 0) {
-                throw new InvalidArgumentException('Invalid value for option "' . $key . '": ' . $val);
+                throw new InvalidArgumentException('Invalid value "' . $val . '" for option "' . $key . '".');
             }
             return $val;
         }
@@ -71,7 +71,7 @@ final class LoginPolicy
         if (array_key_exists($key, $this->options)) {
             $val = (int) $this->options[$key];
             if ($val <= 0) {
-                throw new InvalidArgumentException('Invalid value for option "' . $key . '": ' . $val);
+                throw new InvalidArgumentException('Invalid value "' . $val . '" for option "' . $key . '".');
             }
             return $val;
         }

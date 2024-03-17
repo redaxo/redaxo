@@ -4,10 +4,7 @@ namespace Redaxo\Core\Exception;
 
 use Throwable;
 
-/**
- * Exception class for user-friendly error messages.
- */
-final class UserMessageException extends \Exception implements Exception
+final class InvalidArgumentException extends \InvalidArgumentException implements Exception
 {
     /** @pure */
     public function __construct(string $message, ?Throwable $previous = null)
