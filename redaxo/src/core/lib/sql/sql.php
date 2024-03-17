@@ -1325,10 +1325,17 @@ class rex_sql implements Iterator
                     }
 
                     foreach ($keys as $key) {
-                        if (array_key_exists($key, $params)) {
-                            ++$i;
-                            return $this->escape($params[$key]);
+                        if (!array_key_exists($key, $params)) {
+                            continue;
                         }
+
+                        ++$i;
+                        return match (gettype($params[$key])) {
+                            'boolean' => $params[$key] ? '1' : '0',
+                            'integer' => (string) $params[$key],
+                            'NULL' => 'NULL',
+                            default => $this->escape($params[$key]),
+                        };
                     }
 
                     return $matches[0];
