@@ -9,11 +9,14 @@ use Rector\Arguments\Rector\ClassMethod\ReplaceArgumentDefaultValueRector;
 use Rector\Arguments\ValueObject\ArgumentAdder;
 use Rector\Arguments\ValueObject\ReplaceArgumentDefaultValue;
 use Rector\CodeQuality\Rector as CodeQuality;
+use Rector\CodingStyle\Rector as CodingStyle;
 use Rector\Config\RectorConfig;
 use Rector\Php55\Rector as Php55;
 use Rector\Php70\Rector as Php70;
+use Rector\Php74\Rector as Php74;
 use Rector\Php80\Rector as Php80;
 use Rector\Php81\Rector as Php81;
+use Rector\Php82\Rector as Php82;
 use Rector\Privatization\Rector as Privatization;
 use Rector\Removing\Rector\ClassMethod\ArgumentRemoverRector;
 use Rector\Removing\Rector\FuncCall\RemoveFuncCallArgRector;
@@ -30,6 +33,7 @@ use Rector\Transform\Rector\New_\NewToStaticCallRector;
 use Rector\Transform\ValueObject\ConstFetchToClassConstFetch;
 use Rector\Transform\ValueObject\FuncCallToStaticCall;
 use Rector\Transform\ValueObject\NewToStaticCall;
+use Rector\TypeDeclaration\Rector as TypeDeclaration;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob;
@@ -54,7 +58,8 @@ return RectorConfig::configure()
     ])
     ->withParallel()
     ->withPhpVersion(PhpVersion::PHP_83)
-    ->withPreparedSets(privatization: true)
+    ->withPreparedSets(typeDeclarations: false, privatization: true)
+    // ->withPhpSets()
     ->withImportNames()
     ->withRules([
         CodeQuality\Assign\CombinedAssignRector::class,
@@ -70,6 +75,8 @@ return RectorConfig::configure()
         CodeQuality\If_\SimplifyIfReturnBoolRector::class,
         CodeQuality\NullsafeMethodCall\CleanupUnneededNullsafeOperatorRector::class,
         CodeQuality\Ternary\UnnecessaryTernaryExpressionRector::class,
+        CodingStyle\ClassConst\RemoveFinalFromConstRector::class,
+        // CodingStyle\String_\SymplifyQuoteEscapeRector::class,
         Php55\ClassConstFetch\StaticToSelfOnFinalClassRector::class,
         Php70\StmtsAwareInterface\IfIssetToCoalescingRector::class,
         Php70\Ternary\TernaryToNullCoalescingRector::class,
@@ -79,11 +86,19 @@ return RectorConfig::configure()
         Php80\NotIdentical\StrContainsRector::class,
         Php80\Switch_\ChangeSwitchToMatchRector::class,
         Php81\Array_\FirstClassCallableRector::class,
+        // Php81\Property\ReadOnlyPropertyRector::class,
+        // Php82\Class_\ReadOnlyClassRector::class,
         Privatization\Class_\FinalizeTestCaseClassRector::class,
 
         // Own rules
         RedaxoRule\UnderscoreToCamelCasePropertyNameRector::class,
         RedaxoRule\UnderscoreToCamelCaseVariableNameRector::class,
+    ])
+    ->withSkip([
+        Php74\Closure\ClosureToArrowFunctionRector::class,
+        Php81\FuncCall\NullToStrictStringFuncCallArgRector::class,
+        TypeDeclaration\ArrowFunction\AddArrowFunctionReturnTypeRector::class,
+        TypeDeclaration\Closure\AddClosureVoidReturnTypeWhereNoReturnRector::class,
     ])
 
     // Upgrade REDAXO 5 to 6

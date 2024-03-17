@@ -131,7 +131,7 @@ if ('add' == $function || 'edit' == $function) {
                 $IMOD->addGlobalUpdateFields();
 
                 $IMOD->insert();
-                $moduleId = (int) $IMOD->getLastId();
+                $moduleId = $IMOD->getLastId();
                 rex_module_cache::delete($moduleId);
                 $success = I18n::msg('module_added');
                 $success = rex_extension::registerPoint(new rex_extension_point('MODULE_ADDED', $success, [

@@ -12,14 +12,12 @@ use function strlen;
  *
  * Especially useful to generate the code for the `install.php` of packages.
  */
-class SchemaDumper
+final readonly class SchemaDumper
 {
     /**
      * Dumps the schema for the given table as php code (using `Table`).
-     *
-     * @return string
      */
-    public function dumpTable(Table $table)
+    public function dumpTable(Table $table): string
     {
         $code = '\\' . Table::class . '::get(' . $this->tableName($table->getName()) . ')';
 
@@ -41,9 +39,9 @@ class SchemaDumper
         $code = str_replace(
             '
     ->ensureColumn(new \\' . Column::class . "('createdate', 'datetime'))
-    ->ensureColumn(new  \\" . Column::class . "('createuser', 'varchar(255)'))
-    ->ensureColumn(new  \\" . Column::class . "('updatedate', 'datetime'))
-    ->ensureColumn(new  \\" . Column::class . "('updateuser', 'varchar(255)'))",
+    ->ensureColumn(new \\" . Column::class . "('createuser', 'varchar(255)'))
+    ->ensureColumn(new \\" . Column::class . "('updatedate', 'datetime'))
+    ->ensureColumn(new \\" . Column::class . "('updateuser', 'varchar(255)'))",
             '
     ->ensureGlobalColumns()',
             $code,
@@ -162,8 +160,7 @@ class SchemaDumper
         return '\\' . Core::class . '::getTable(' . $this->scalar($name) . ')';
     }
 
-    /** @param scalar|null $scalar */
-    private function scalar($scalar): string
+    private function scalar(string|bool|null $scalar): string
     {
         if (null === $scalar) {
             return 'null';
@@ -175,7 +172,7 @@ class SchemaDumper
         return var_export($scalar, true);
     }
 
-    /** @param list<scalar> $list */
+    /** @param list<string|bool|null> $list */
     private function simpleArray(array $list): string
     {
         $parts = [];
@@ -187,7 +184,7 @@ class SchemaDumper
         return '[' . implode(', ', $parts) . ']';
     }
 
-    /** @param array<string, scalar> $map */
+    /** @param array<string, string|bool|null> $map */
     private function map(array $map): string
     {
         $parts = [];

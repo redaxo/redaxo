@@ -132,7 +132,7 @@ if ('add' == $function || 'edit' == $function) {
 
             try {
                 $TPL->insert();
-                $templateId = (int) $TPL->getLastId();
+                $templateId = $TPL->getLastId();
                 rex_template_cache::delete($templateId);
                 $success = I18n::msg('template_added');
                 $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_ADDED', $success, [

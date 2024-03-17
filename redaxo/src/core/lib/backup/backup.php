@@ -153,8 +153,7 @@ class rex_backup
         self::importScript(str_replace('.sql', '.php', $filename), self::IMPORT_DB, self::IMPORT_EVENT_PRE);
 
         // Datei aufteilen
-        $lines = [];
-        Util::splitSqlFile($lines, $conts, 0);
+        $lines = Util::splitSqlFile($conts);
 
         $error = [];
 
@@ -532,6 +531,8 @@ class rex_backup
                             $record[] = sprintf('%.10F', (float) $column);
                             break;
                         case 'string':
+                            $column = (string) $column;
+
                             // fast-exit for very frequent used harmless values
                             if ('0' === $column || '' === $column || ' ' === $column || '|' === $column || '||' === $column) {
                                 $record[] = "'" . $column . "'";
@@ -545,7 +546,7 @@ class rex_backup
                             }
                             // no break
                         default:
-                            $record[] = $sql->escape($column);
+                            $record[] = $sql->escape((string) $column);
                             break;
                     }
                 }

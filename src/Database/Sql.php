@@ -5,13 +5,13 @@ namespace Redaxo\Core\Database;
 use InvalidArgumentException;
 use Iterator;
 use JsonException;
+use Override;
 use PDO;
 use PDOException;
 use PDOStatement;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
-use ReturnTypeWillChange;
 use rex_factory_trait;
 use rex_sql_could_not_connect_exception;
 use rex_sql_exception;
@@ -35,96 +35,74 @@ use const JSON_THROW_ON_ERROR;
 use const PHP_SAPI;
 
 /**
- * Klasse zur Verbindung und Interatkion mit der Datenbank.
+ * Connect and interact with the database.
  *
- * see https://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
- *
- * @implements Iterator<int<0, max>, Sql>
+ * @implements Iterator<int<0, max>, static>
  * @psalm-consistent-constructor
  */
 class Sql implements Iterator
 {
     use rex_factory_trait;
 
-    public const MYSQL = 'MySQL';
-    public const MARIADB = 'MariaDB';
+    final public const string MYSQL = 'MySQL';
+    final public const string MARIADB = 'MariaDB';
 
-    public const ERROR_VIOLATE_UNIQUE_KEY = 1062;
-    public const ERRNO_TABLE_OR_VIEW_DOESNT_EXIST = '42S02';
+    final public const int ERROR_VIOLATE_UNIQUE_KEY = 1062;
+    final public const string ERRNO_TABLE_OR_VIEW_DOESNT_EXIST = '42S02';
 
-    /**
-     * Default SQL datetime format.
-     */
-    public const FORMAT_DATETIME = 'Y-m-d H:i:s';
+    /** Default SQL datetime format */
+    final public const string FORMAT_DATETIME = 'Y-m-d H:i:s';
 
-    /**
-     * Controls query buffering.
-     *
-     * View `PDO::MYSQL_ATTR_USE_BUFFERED_QUERY` for more details.
-     */
-    public const OPT_BUFFERED = 'buffered';
+    /** Controls query buffering, view `PDO::MYSQL_ATTR_USE_BUFFERED_QUERY` for more details */
+    final public const string OPT_BUFFERED = 'buffered';
 
-    /** @var bool */
-    protected $debug = false; // debug schalter
+    protected bool $debug = false; // debug schalter
     /** @var array<string, scalar|null> */
-    protected $values; // Werte von setValue
+    protected array $values = []; // Werte von setValue
     /** @var array<string, string> */
-    protected $rawValues; // Werte von setRawValue
+    protected array $rawValues = []; // Werte von setRawValue
     /** @var list<string>|null */
-    protected $fieldnames; // Spalten im ResultSet
+    protected ?array $fieldnames = null; // Spalten im ResultSet
     /** @var list<string>|null */
-    protected $rawFieldnames;
+    protected ?array $rawFieldnames = null;
     /** @var list<string>|null */
-    protected $tablenames; // Tabelle im ResultSet
-    /** @var array|null */
-    protected $lastRow; // Wert der zuletzt gefetchten zeile
-    /** @var string */
-    protected $table; // Tabelle setzen
+    protected ?array $tablenames = null; // Tabelle im ResultSet
+    /** @var array<scalar|null>|null */
+    protected ?array $lastRow = null; // Wert der zuletzt gefetchten zeile
+    /** @var non-empty-string|null */
+    protected ?string $table = null; // Tabelle setzen
 
     /**
      * Where condition as string or as nested array (see `setWhere` for examples).
-     *
      * @var string|array<scalar|array<scalar|array<mixed>>>|null
      */
-    protected $wherevar;
+    protected string|array|null $wherevar;
 
-    /**
-     * Params for where condition.
-     *
-     * @var array<scalar>
-     */
-    protected $whereParams = [];
+    /** @var array<scalar> */
+    protected array $whereParams = [];
 
-    /** @var int */
-    protected $rows = 0; // anzahl der treffer
+    protected int $rows = 0; // anzahl der treffer
     /** @var int<0, max> */
-    protected $counter; // pointer
-    /** @var string */
-    protected $query; // Die Abfrage
+    protected int $counter = 0; // pointer
+
+    protected string $query = ''; // Die Abfrage
     /** @var array<scalar|null> */
-    protected $params; // Die Abfrage-Parameter
+    protected array $params = []; // Die Abfrage-Parameter
     /** @var positive-int */
-    protected $DBID; // ID der Verbindung
+    protected int $DBID; // ID der Verbindung
 
-    /**
-     * Store the lastInsertId per Sql object, so Sql objects don't override each other because of the shared static PDO instance.
-     *
-     * @var numeric-string
-     */
-    private $lastInsertId = '0'; // compatibility to PDO, which uses string '0' as default
+    /** Store the lastInsertId per Sql object, so Sql objects don't override each other because of the shared static PDO instance.*/
+    private ?int $lastInsertId = null;
     /** @var list<Sql> */
-    protected $records;
+    protected array $records = [];
 
-    /** @var PDOStatement|null */
-    protected $stmt;
+    protected ?PDOStatement $stmt = null;
 
     /** @var array<positive-int, PDO> */
-    protected static $pdo = [];
+    protected static array $pdo = [];
 
-    /**
-     * @param positive-int $db
-     */
-    protected function __construct($db = 1)
+    /** @param positive-int $db */
+    protected function __construct(int $db = 1)
     {
         $this->flush();
 
@@ -132,13 +110,23 @@ class Sql implements Iterator
     }
 
     /**
+     * Creates a Sql instance.
+     *
+     * @param positive-int $db
+     */
+    public static function factory(int $db = 1): static
+    {
+        $class = static::getFactoryClass();
+        return new $class($db);
+    }
+
+    /**
      * Stellt die Verbindung zur Datenbank her.
      *
      * @param positive-int $db
      * @throws rex_sql_exception
-     * @return void
      */
-    protected function selectDB($db)
+    protected function selectDB(int $db): void
     {
         $this->DBID = $db;
 
@@ -199,21 +187,15 @@ class Sql implements Iterator
 
     /**
      * @param string $host the host. might optionally include a port.
-     * @param string $database
-     * @param string $login
-     * @param string $password
-     * @param bool $persistent
-     *
-     * @return PDO
      */
     protected static function createConnection(
-        #[SensitiveParameter] $host,
-        #[SensitiveParameter] $database,
-        #[SensitiveParameter] $login,
-        #[SensitiveParameter] $password,
-        $persistent = false,
+        #[SensitiveParameter] string $host,
+        #[SensitiveParameter] string $database,
+        #[SensitiveParameter] string $login,
+        #[SensitiveParameter] string $password,
+        bool $persistent = false,
         array $options = [],
-    ) {
+    ): PDO {
         if (!$database) {
             throw new InvalidArgumentException('Database name can not be empty.');
         }
@@ -232,7 +214,7 @@ class Sql implements Iterator
 
         // array_merge() doesnt work because it looses integer keys
         $options += [
-            PDO::ATTR_PERSISTENT => (bool) $persistent,
+            PDO::ATTR_PERSISTENT => $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
         ];
 
@@ -245,11 +227,9 @@ class Sql implements Iterator
      * Gibt die DatenbankId der Abfrage (SQL) zurueck,
      * oder false wenn die Abfrage keine DBID enthaelt.
      *
-     * @param string $query
-     *
      * @return false|positive-int
      */
-    protected static function getQueryDBID($query)
+    protected static function getQueryDBID(string $query): int|false
     {
         $query = trim($query);
 
@@ -266,11 +246,9 @@ class Sql implements Iterator
      * Entfernt die DBID aus einer Abfrage (SQL) und gibt die DBID zurueck falls
      * vorhanden, sonst false.
      *
-     * @param string $query Abfrage
-     *
      * @return false|positive-int
      */
-    protected static function stripQueryDBID(&$query)
+    protected static function stripQueryDBID(string &$query): int|false
     {
         $query = trim($query);
 
@@ -295,12 +273,8 @@ class Sql implements Iterator
      * - CREATE
      * - CALL
      * - OPTIMIZE
-     *
-     * @param string $query
-     *
-     * @return bool|string
      */
-    public static function getQueryType($query)
+    public static function getQueryType(string $query): string|false
     {
         $query = trim($query);
         // DBID aus dem Query herausschneiden, falls vorhanden
@@ -316,12 +290,8 @@ class Sql implements Iterator
     /**
      * Returns a datetime string in sql datetime format (Y-m-d H:i:s) using the given timestamp or the current time
      * if no timestamp (or `null`) is given.
-     *
-     * @param int|null $timestamp
-     *
-     * @return string
      */
-    public static function datetime($timestamp = null)
+    public static function datetime(?int $timestamp = null): string
     {
         return date(self::FORMAT_DATETIME, $timestamp ?? time());
     }
@@ -337,12 +307,10 @@ class Sql implements Iterator
      *
      * @throws rex_sql_exception on errors
      *
-     * @return $this
-     *
      * @psalm-taint-sink sql $query
      * @psalm-taint-specialize
      */
-    public function setDBQuery($query, array $params = [], array $options = [])
+    public function setDBQuery(string $query, array $params = [], array $options = []): static
     {
         // save origin connection-id
         $oldDBID = $this->DBID;
@@ -364,12 +332,8 @@ class Sql implements Iterator
 
     /**
      * Setzt Debugmodus an/aus.
-     *
-     * @param bool $debug Debug TRUE/FALSE
-     *
-     * @return $this the current Sql object
      */
-    public function setDebug($debug = true)
+    public function setDebug(bool $debug = true): static
     {
         $this->debug = $debug;
 
@@ -380,14 +344,12 @@ class Sql implements Iterator
      * Prepares a PDOStatement.
      *
      * @param string $query A query string with placeholders
-     *
      * @throws rex_sql_exception
-     *
      * @return PDOStatement The prepared statement
      *
      * @psalm-taint-sink sql $query
      */
-    public function prepareQuery($query)
+    public function prepareQuery(string $query): PDOStatement
     {
         $pdo = $this->getConnection();
         try {
@@ -406,10 +368,8 @@ class Sql implements Iterator
      * @param array<self::OPT_*, bool> $options For possible option keys view `Sql::OPT_*` constants
      *
      * @throws rex_sql_exception
-     *
-     * @return $this
      */
-    public function execute(array $params = [], array $options = [])
+    public function execute(array $params = [], array $options = []): static
     {
         if (!$this->stmt) {
             throw new rex_sql_exception('you need to prepare a query before calling execute()', null, $this);
@@ -440,7 +400,7 @@ class Sql implements Iterator
 
             $this->stmt->execute();
             $this->rows = $this->stmt->rowCount();
-            $this->lastInsertId = $this->getConnection()->lastInsertId();
+            $this->lastInsertId = ((int) $this->getConnection()->lastInsertId()) ?: null;
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . '! ' . $e->getMessage(), $e, $this);
         } finally {
@@ -472,11 +432,9 @@ class Sql implements Iterator
      *
      * @throws rex_sql_exception on errors
      *
-     * @return $this
-     *
      * @psalm-taint-specialize
      */
-    public function setQuery($query, array $params = [], array $options = [])
+    public function setQuery(string $query, array $params = [], array $options = []): static
     {
         // Alle Werte zuruecksetzen
         $this->flush();
@@ -494,11 +452,13 @@ class Sql implements Iterator
      * Setzt den Tabellennamen.
      *
      * @param string $table Tabellenname
-     *
-     * @return $this the current Sql object
      */
-    public function setTable($table)
+    public function setTable(string $table): static
     {
+        if ('' === $table) {
+            throw new InvalidArgumentException('Table name can not be empty');
+        }
+
         $this->table = $table;
 
         return $this;
@@ -510,11 +470,9 @@ class Sql implements Iterator
      * @param string $column Name of the column
      * @param string $value The raw value
      *
-     * @return $this the current Sql object
-     *
      * @psalm-taint-sink sql $value
      */
-    public function setRawValue($column, $value)
+    public function setRawValue(string $column, string $value): static
     {
         $this->rawValues[$column] = $value;
         unset($this->values[$column]);
@@ -527,10 +485,8 @@ class Sql implements Iterator
      *
      * @param string $column Name of the column
      * @param scalar|null $value The value
-     *
-     * @return $this the current Sql object
      */
-    public function setValue($column, $value)
+    public function setValue(string $column, string|int|float|bool|null $value): static
     {
         $this->values[$column] = $value;
         unset($this->rawValues[$column]);
@@ -543,10 +499,8 @@ class Sql implements Iterator
      *
      * @param string $column Name of the column
      * @param array<mixed> $value The value
-     *
-     * @return $this the current Sql object
      */
-    public function setArrayValue($column, array $value)
+    public function setArrayValue(string $column, array $value): static
     {
         return $this->setValue($column, json_encode($value));
     }
@@ -556,10 +510,8 @@ class Sql implements Iterator
      *
      * @param string $column Name of the column
      * @param int|null $timestamp Unix timestamp (if `null` is given, the current time is used)
-     *
-     * @return $this the current Sql object
      */
-    public function setDateTimeValue($column, $timestamp)
+    public function setDateTimeValue(string $column, ?int $timestamp): static
     {
         return $this->setValue($column, self::datetime($timestamp));
     }
@@ -568,10 +520,8 @@ class Sql implements Iterator
      * Setzt ein Array von Werten zugleich.
      *
      * @param array<string, scalar|null> $valueArray Ein Array von Werten
-     *
-     * @return $this the current Sql object
      */
-    public function setValues(array $valueArray)
+    public function setValues(array $valueArray): static
     {
         foreach ($valueArray as $name => $value) {
             $this->setValue($name, $value);
@@ -582,12 +532,10 @@ class Sql implements Iterator
 
     /**
      * Returns whether values are set inside this Sql object.
-     *
-     * @return bool True if value isset and not null, otherwise False
      */
-    public function hasValues()
+    public function hasValues(): bool
     {
-        return !empty($this->values);
+        return [] !== $this->values;
     }
 
     /**
@@ -597,10 +545,8 @@ class Sql implements Iterator
      * @param string $value Wert, der enthalten sein soll
      *
      * @throws rex_sql_exception
-     *
-     * @return bool
      */
-    protected function isValueOf($column, $value)
+    protected function isValueOf(string $column, string $value): bool
     {
         if ('' == $value) {
             return true;
@@ -621,10 +567,8 @@ class Sql implements Iterator
      *
      * @param callable(self):void $callback The callback receives a new `Sql` instance for the new record
      *                           and must set the values of the new record on that instance (see example above)
-     *
-     * @return $this
      */
-    public function addRecord(callable $callback)
+    public function addRecord(callable $callback): static
     {
         $record = self::factory($this->DBID);
 
@@ -650,28 +594,15 @@ class Sql implements Iterator
      *
      * @param string|array<scalar|array<scalar|array<mixed>>> $where
      * @param array<scalar> $params
-     *
-     * @throws rex_sql_exception
-     *
-     * @return $this the current Sql object
      */
-    public function setWhere($where, $params = [])
+    public function setWhere(string|array $where, array $params = []): static
     {
         if (is_array($where)) {
             $this->wherevar = $where;
             $this->whereParams = [];
-        } elseif (is_string($where) && is_array($params)) {
+        } else {
             $this->wherevar = 'WHERE ' . $where;
             $this->whereParams = $params;
-        } elseif (is_string($where)) {
-            // $trace = debug_backtrace();
-            // $loc = $trace[0];
-            // trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
-
-            $this->wherevar = 'WHERE ' . $where;
-            $this->whereParams = [];
-        } else {
-            throw new rex_sql_exception('expecting $where to be an array, "' . gettype($where) . '" given!', null, $this);
         }
 
         return $this;
@@ -704,11 +635,8 @@ class Sql implements Iterator
      *
      * @param array<scalar|array<scalar|array<mixed>>> $columns
      * @param array<scalar> $params
-     * @param int $level
-     *
-     * @return string
      */
-    private function buildWhereArg(array $columns, array &$params, $level = 0)
+    private function buildWhereArg(array $columns, array &$params, int $level = 0): string
     {
         if (1 == $level % 2) {
             $op = ' OR ';
@@ -743,14 +671,12 @@ class Sql implements Iterator
      * Returns the value of a column.
      *
      * @param string $column Name of the column
-     *
      * @throws rex_sql_exception
-     *
      * @return scalar|null
      *
      * @psalm-taint-source input
      */
-    public function getValue($column)
+    public function getValue(string $column): string|int|float|bool|null
     {
         if (empty($column)) {
             throw new rex_sql_exception('parameter $column must not be empty!', null, $this);
@@ -779,12 +705,10 @@ class Sql implements Iterator
      * Returns the array value of a (json encoded) column.
      *
      * @param string $column Name of the column
-     *
      * @throws rex_sql_exception
-     *
      * @return array<mixed>
      */
-    public function getArrayValue($column)
+    public function getArrayValue(string $column): array
     {
         $value = $this->getValue($column);
         if (null === $value) {
@@ -807,23 +731,19 @@ class Sql implements Iterator
      * Returns the unix timestamp of a datetime column.
      *
      * @param string $column Name of the column
-     *
      * @throws rex_sql_exception
-     *
      * @return int|null Unix timestamp or `null` if the column is `null` or not in sql datetime format
      */
-    public function getDateTimeValue($column)
+    public function getDateTimeValue(string $column): ?int
     {
         $value = $this->getValue($column);
         return $value ? strtotime($value) : null;
     }
 
     /**
-     * @param string $column
-     *
      * @return scalar|null
      */
-    protected function fetchValue($column)
+    protected function fetchValue(string $column): string|int|float|bool|null
     {
         if (isset($this->values[$column])) {
             return $this->values[$column];
@@ -850,19 +770,20 @@ class Sql implements Iterator
      * Falls es noch keine erste Zeile (lastRow) gibt, wird der Satzzeiger
      * initialisiert. Weitere Satzwechsel mittels next().
      *
-     * @param int $fetchType
-     *
-     * @return mixed
+     * @template TFetchType of PDO::FETCH_ASSOC|PDO::FETCH_NUM
+     * @param TFetchType $fetchType
+     * @psalm-return (TFetchType is PDO::FETCH_NUM ? list<scalar|null> : array<string, scalar|null>)
      *
      * @psalm-taint-source input
      */
-    public function getRow($fetchType = PDO::FETCH_ASSOC)
+    public function getRow(int $fetchType = PDO::FETCH_ASSOC): array
     {
         if (!$this->lastRow) {
             $lastRow = $this->stmt->fetch($fetchType);
             if (false === $lastRow) {
                 throw new rex_sql_exception('Unable to fetch row for statement "' . $this->query . '"', null, $this);
             }
+            /** @var array<scalar|null> $lastRow */
             $this->lastRow = $lastRow;
         }
         return $this->lastRow;
@@ -873,11 +794,10 @@ class Sql implements Iterator
      *
      * @template T as string
      * @param T $column Name der Spalte
-     * @return bool
      *
      * @psalm-assert-if-true !null $this->isNull(T)
      */
-    public function hasValue($column)
+    public function hasValue(string $column): bool
     {
         // fast fail,... value already set manually?
         if (isset($this->values[$column])) {
@@ -897,13 +817,9 @@ class Sql implements Iterator
      * Falls das Feld nicht vorhanden ist,
      * wird Null zurueckgegeben, sonst True/False
      *
-     * @param string $column
-     *
      * @throws rex_sql_exception
-     *
-     * @return bool|null
      */
-    public function isNull($column)
+    public function isNull(string $column): ?bool
     {
         if ($this->hasValue($column)) {
             return null === $this->getValue($column);
@@ -915,20 +831,17 @@ class Sql implements Iterator
     /**
      * Gibt die Anzahl der Zeilen zurueck.
      *
-     * @return int
      * @phpstan-impure
      */
-    public function getRows()
+    public function getRows(): int
     {
         return $this->rows;
     }
 
     /**
      * Gibt die Anzahl der Felder/Spalten zurueck.
-     *
-     * @return int
      */
-    public function getFields()
+    public function getFields(): int
     {
         return $this->stmt ? $this->stmt->columnCount() : 0;
     }
@@ -938,30 +851,24 @@ class Sql implements Iterator
      * verfuegbaren values zusammen und gibt diesen zurueck.
      *
      * @see setValue
-     *
-     * @return string
      */
-    protected function buildPreparedValues()
+    protected function buildPreparedValues(): string
     {
         $qry = '';
-        if (is_array($this->values)) {
-            foreach ($this->values as $fldName => $value) {
-                if ('' != $qry) {
-                    $qry .= ', ';
-                }
-
-                /** @psalm-taint-escape sql */ // psalm marks whole array (keys and values) as tainted, not values only
-                $qry .= $this->escapeIdentifier($fldName) . ' = :' . $fldName;
+        foreach ($this->values as $fldName => $value) {
+            if ('' != $qry) {
+                $qry .= ', ';
             }
+
+            /** @psalm-taint-escape sql */ // psalm marks whole array (keys and values) as tainted, not values only
+            $qry .= $this->escapeIdentifier($fldName) . ' = :' . $fldName;
         }
-        if (is_array($this->rawValues)) {
-            foreach ($this->rawValues as $fldName => $value) {
-                if ('' != $qry) {
-                    $qry .= ', ';
-                }
-
-                $qry .= $this->escapeIdentifier($fldName) . ' = ' . $value;
+        foreach ($this->rawValues as $fldName => $value) {
+            if ('' != $qry) {
+                $qry .= ', ';
             }
+
+            $qry .= $this->escapeIdentifier($fldName) . ' = ' . $value;
         }
 
         if ('' == trim($qry)) {
@@ -972,39 +879,27 @@ class Sql implements Iterator
         return $qry;
     }
 
-    /**
-     * @return string
-     */
-    public function getWhere()
+    public function getWhere(): string
     {
         [$where] = $this->buildWhere();
 
-        // we have an custom where criteria, so we don't need to build one automatically
-        if ('' != $where) {
-            return $where;
-        }
-
-        return '';
+        return $where;
     }
 
     /**
      * Setzt eine Select-Anweisung auf die angegebene Tabelle
      * mit den WHERE Parametern ab.
      *
-     * @param string $columns
-     *
      * @throws rex_sql_exception
-     *
-     * @return $this
      *
      * @psalm-taint-sink sql $columns
      */
-    public function select($columns = '*')
+    public function select(string $columns = '*'): static
     {
         [$where, $whereParams] = $this->buildWhere();
 
         $this->setQuery(
-            'SELECT ' . $columns . ' FROM ' . $this->escapeIdentifier($this->table) . ' ' . $where,
+            'SELECT ' . $columns . ' FROM ' . $this->escapeIdentifier(Type::notNull($this->table)) . ' ' . $where,
             $whereParams,
         );
         return $this;
@@ -1015,15 +910,13 @@ class Sql implements Iterator
      * mit den angegebenen Werten und WHERE Parametern ab.
      *
      * @throws rex_sql_exception
-     *
-     * @return $this
      */
-    public function update()
+    public function update(): static
     {
         [$where, $whereParams] = $this->buildWhere();
 
         $this->setQuery(
-            'UPDATE ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $where,
+            'UPDATE ' . $this->escapeIdentifier(Type::notNull($this->table)) . ' SET ' . $this->buildPreparedValues() . ' ' . $where,
             array_merge($this->values, $whereParams),
         );
         return $this;
@@ -1034,17 +927,15 @@ class Sql implements Iterator
      * mit den angegebenen Werten ab.
      *
      * @throws rex_sql_exception
-     *
-     * @return $this
      */
-    public function insert()
+    public function insert(): static
     {
         if ($this->records) {
             return $this->setMultiRecordQuery('INSERT');
         }
 
         // hold a copies of the query fields for later debug out (the class property will be reverted in setQuery())
-        $tableName = $this->table;
+        $tableName = Type::notNull($this->table);
         $values = $this->values;
 
         if ($this->values || $this->rawValues) {
@@ -1054,7 +945,7 @@ class Sql implements Iterator
         }
 
         $this->setQuery(
-            'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' ' . $setValues,
+            'INSERT INTO ' . $this->escapeIdentifier($tableName) . ' ' . $setValues,
             $this->values,
         );
 
@@ -1071,10 +962,8 @@ class Sql implements Iterator
 
     /**
      * @throws rex_sql_exception
-     *
-     * @return $this
      */
-    public function insertOrUpdate()
+    public function insertOrUpdate(): static
     {
         if ($this->records) {
             return $this->setMultiRecordQuery('INSERT', true);
@@ -1082,7 +971,7 @@ class Sql implements Iterator
 
         $onDuplicateKeyUpdate = $this->buildOnDuplicateKeyUpdate(array_keys(array_merge($this->values, $this->rawValues)));
         $this->setQuery(
-            'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $onDuplicateKeyUpdate,
+            'INSERT INTO ' . $this->escapeIdentifier(Type::notNull($this->table)) . ' SET ' . $this->buildPreparedValues() . ' ' . $onDuplicateKeyUpdate,
             $this->values,
         );
 
@@ -1098,10 +987,8 @@ class Sql implements Iterator
      * the old row is deleted before the new row is inserted.
      *
      * @throws rex_sql_exception
-     *
-     * @return $this
      */
-    public function replace()
+    public function replace(): static
     {
         if ($this->records) {
             return $this->setMultiRecordQuery('REPLACE');
@@ -1110,7 +997,7 @@ class Sql implements Iterator
         [$where, $whereParams] = $this->buildWhere();
 
         $this->setQuery(
-            'REPLACE INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $where,
+            'REPLACE INTO ' . $this->escapeIdentifier(Type::notNull($this->table)) . ' SET ' . $this->buildPreparedValues() . ' ' . $where,
             array_merge($this->values, $whereParams),
         );
         return $this;
@@ -1121,15 +1008,13 @@ class Sql implements Iterator
      * mit den angegebenen WHERE Parametern ab.
      *
      * @throws rex_sql_exception
-     *
-     * @return $this
      */
-    public function delete()
+    public function delete(): static
     {
         [$where, $whereParams] = $this->buildWhere();
 
         $this->setQuery(
-            'DELETE FROM ' . $this->escapeIdentifier($this->table) . ' ' . $where,
+            'DELETE FROM ' . $this->escapeIdentifier(Type::notNull($this->table)) . ' ' . $where,
             $whereParams,
         );
         return $this;
@@ -1137,25 +1022,23 @@ class Sql implements Iterator
 
     /**
      * Stellt alle Werte auf den Ursprungszustand zurueck.
-     *
-     * @return $this the current Sql object
      */
-    private function flush()
+    private function flush(): static
     {
         $this->values = [];
         $this->rawValues = [];
         $this->records = [];
         $this->whereParams = [];
-        $this->lastRow = [];
+        $this->lastRow = null;
         $this->fieldnames = null;
         $this->rawFieldnames = null;
         $this->tablenames = null;
 
-        $this->table = '';
-        $this->wherevar = '';
+        $this->table = null;
+        $this->wherevar = null;
         $this->counter = 0;
         $this->rows = 0;
-        $this->lastInsertId = '0';
+        $this->lastInsertId = null;
 
         return $this;
     }
@@ -1164,10 +1047,8 @@ class Sql implements Iterator
      * Stellt alle Values, die mit setValue() gesetzt wurden, zurueck.
      *
      * @see setValue(), #getValue()
-     *
-     * @return $this the current Sql object
      */
-    public function flushValues()
+    public function flushValues(): static
     {
         $this->values = [];
         $this->rawValues = [];
@@ -1177,10 +1058,8 @@ class Sql implements Iterator
 
     /**
      * Prueft ob das Resultset weitere Datensaetze enthaelt.
-     *
-     * @return bool
      */
-    public function hasNext()
+    public function hasNext(): bool
     {
         return $this->counter < $this->rows;
     }
@@ -1189,13 +1068,11 @@ class Sql implements Iterator
      * Setzt den Cursor des Resultsets zurueck zum Anfang.
      *
      * @throws rex_sql_exception
-     *
-     * @return $this the current Sql object
      */
-    public function reset()
+    public function reset(): static
     {
         // re-execute the statement
-        if ($this->stmt && 0 != $this->counter) {
+        if ($this->stmt && 0 !== $this->counter) {
             $this->execute($this->params);
             $this->counter = 0;
         }
@@ -1205,11 +1082,13 @@ class Sql implements Iterator
 
     /**
      * Gibt die letzte InsertId zurueck.
-     *
-     * @return numeric-string
      */
-    public function getLastId()
+    public function getLastId(): int
     {
+        if (null === $this->lastInsertId) {
+            throw new rex_sql_exception('No last insert id available.', null, $this);
+        }
+
         return $this->lastInsertId;
     }
 
@@ -1236,7 +1115,7 @@ class Sql implements Iterator
      * @psalm-taint-source input
      * @psalm-taint-sink sql $query
      */
-    public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
+    public function getDBArray(?string $query = null, array $params = [], int $fetchType = PDO::FETCH_ASSOC): array
     {
         if (!$query) {
             $query = $this->query;
@@ -1274,7 +1153,7 @@ class Sql implements Iterator
      * @psalm-taint-source input
      * @psalm-taint-sink sql $query
      */
-    public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
+    public function getArray(?string $query = null, array $params = [], int $fetchType = PDO::FETCH_ASSOC): array
     {
         if (!$query) {
             $query = $this->query;
@@ -1292,18 +1171,13 @@ class Sql implements Iterator
 
     /**
      * Gibt die zuletzt aufgetretene Fehlernummer zurueck.
-     *
-     * @return string|null
      */
-    public function getErrno()
+    public function getErrno(): ?string
     {
         return $this->stmt ? $this->stmt->errorCode() : $this->getConnection()->errorCode();
     }
 
-    /**
-     * @return int
-     */
-    public function getMysqlErrno()
+    public function getMysqlErrno(): int
     {
         $errorInfos = $this->stmt ? $this->stmt->errorInfo() : $this->getConnection()->errorInfo();
 
@@ -1312,9 +1186,8 @@ class Sql implements Iterator
 
     /**
      * Gibt den zuletzt aufgetretene Fehler zurueck.
-     * @return string|null
      */
-    public function getError()
+    public function getError(): ?string
     {
         $errorInfos = $this->stmt ? $this->stmt->errorInfo() : $this->getConnection()->errorInfo();
         // idx0   SQLSTATE error code (a five characters alphanumeric identifier defined in the ANSI SQL standard).
@@ -1325,10 +1198,8 @@ class Sql implements Iterator
 
     /**
      * Prueft, ob ein Fehler aufgetreten ist.
-     *
-     * @return bool
      */
-    public function hasError()
+    public function hasError(): bool
     {
         return 0 != $this->getErrno();
     }
@@ -1336,11 +1207,9 @@ class Sql implements Iterator
     /**
      * Gibt die letzte Fehlermeldung aus.
      *
-     * @param string $query
      * @param array<scalar|null> $params
-     * @return void
      */
-    protected function printError($query, $params)
+    protected function printError(string $query, array $params): void
     {
         $errors = [];
         $errors['query'] = $query;
@@ -1351,7 +1220,7 @@ class Sql implements Iterator
             $i = 0;
             $errors['fullquery'] = preg_replace_callback(
                 '/\?|((?<!:):[a-z0-9_]+)/i',
-                function ($matches) use ($params, &$i) {
+                function (array $matches) use ($params, &$i): string {
                     if ('?' === $matches[0]) {
                         $keys = [$i];
                     } else {
@@ -1392,17 +1261,13 @@ class Sql implements Iterator
      * Setzt eine Spalte auf den naechst moeglich auto_increment Wert.
      *
      * @param string $column Name der Spalte
-     * @param int $startId
-     *
      * @throws rex_sql_exception
-     *
-     * @return int
      */
-    public function setNewId($column, $startId = 0)
+    public function setNewId(string $column, int $startId = 0): int
     {
         // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt ueberschrieben werden
         $sql = self::factory();
-        $sql->setQuery('SELECT ' . $this->escapeIdentifier($column) . ' FROM ' . $this->escapeIdentifier($this->table) . ' ORDER BY ' . $this->escapeIdentifier($column) . ' DESC LIMIT 1');
+        $sql->setQuery('SELECT ' . $this->escapeIdentifier($column) . ' FROM ' . $this->escapeIdentifier(Type::notNull($this->table)) . ' ORDER BY ' . $this->escapeIdentifier($column) . ' DESC LIMIT 1');
         if (0 == $sql->getRows()) {
             $id = $startId;
         } else {
@@ -1419,7 +1284,7 @@ class Sql implements Iterator
      *
      * @return list<string>
      */
-    public function getFieldnames()
+    public function getFieldnames(): array
     {
         $this->fetchMeta();
 
@@ -1429,7 +1294,7 @@ class Sql implements Iterator
     /**
      * @return list<string>
      */
-    public function getTablenames()
+    public function getTablenames(): array
     {
         $this->fetchMeta();
 
@@ -1440,9 +1305,8 @@ class Sql implements Iterator
      * @psalm-assert !null $this->fieldnames
      * @psalm-assert !null $this->rawFieldnames
      * @psalm-assert !null $this->tablenames
-     * @return void
      */
-    private function fetchMeta()
+    private function fetchMeta(): void
     {
         if (null === $this->fieldnames) {
             $this->rawFieldnames = [];
@@ -1474,13 +1338,11 @@ class Sql implements Iterator
     /**
      * Escaped den uebergeben Wert fuer den DB Query.
      *
-     * @param string $value den zu escapenden Wert
-     *
      * @return non-falsy-string
      *
      * @psalm-taint-escape sql
      */
-    public function escape($value)
+    public function escape(string $value): string
     {
         return $this->getConnection()->quote($value);
     }
@@ -1488,13 +1350,9 @@ class Sql implements Iterator
     /**
      * Escapes and adds backsticks around.
      *
-     * @param string $name
-     *
-     * @return string
-     *
      * @psalm-taint-escape sql
      */
-    public function escapeIdentifier($name)
+    public function escapeIdentifier(string $name): string
     {
         return self::_escapeIdentifier($name);
     }
@@ -1502,11 +1360,9 @@ class Sql implements Iterator
     /**
      * Escapes and adds backsticks around.
      *
-     * @param string $name
-     *
      * @psalm-taint-escape sql
      */
-    private static function _escapeIdentifier($name): string
+    private static function _escapeIdentifier(string $name): string
     {
         return '`' . str_replace('`', '``', $name) . '`';
     }
@@ -1561,10 +1417,8 @@ class Sql implements Iterator
 
     /**
      * @param string|null $user the name of the user who created the dataset. Defaults to the current user
-     *
-     * @return $this the current Sql object
      */
-    public function addGlobalUpdateFields($user = null)
+    public function addGlobalUpdateFields(?string $user = null): static
     {
         if (!$user) {
             $user = Core::getUser()?->getLogin() ?? Core::getEnvironment();
@@ -1578,10 +1432,8 @@ class Sql implements Iterator
 
     /**
      * @param string|null $user the name of the user who updated the dataset. Defaults to the current user
-     *
-     * @return $this the current Sql object
      */
-    public function addGlobalCreateFields($user = null)
+    public function addGlobalCreateFields(?string $user = null): static
     {
         if (!$user) {
             $user = Core::getUser()?->getLogin() ?? Core::getEnvironment();
@@ -1600,7 +1452,7 @@ class Sql implements Iterator
      *
      * @return bool Indicating whether the transaction was successfully started
      */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         if ($this->getConnection()->inTransaction()) {
             throw new rex_sql_exception('Transaction already started', null, $this);
@@ -1615,7 +1467,7 @@ class Sql implements Iterator
      *
      * @return bool Indicating whether the transaction was successfully rollbacked
      */
-    public function rollBack()
+    public function rollBack(): bool
     {
         if (!$this->getConnection()->inTransaction()) {
             throw new rex_sql_exception('Unable to rollback, no transaction started before', null, $this);
@@ -1630,7 +1482,7 @@ class Sql implements Iterator
      *
      * @return bool Indicating whether the transaction was successfully committed
      */
-    public function commit()
+    public function commit(): bool
     {
         if (!$this->getConnection()->inTransaction()) {
             throw new rex_sql_exception('Unable to commit, no transaction started before', null, $this);
@@ -1641,7 +1493,7 @@ class Sql implements Iterator
     /**
      * @return bool whether a transaction was already started/is already running
      */
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         return $this->getConnection()->inTransaction();
     }
@@ -1654,10 +1506,9 @@ class Sql implements Iterator
      *
      * @template T
      * @param callable():T $callable
-     * @throws Throwable
      * @return T
      */
-    public function transactional(callable $callable)
+    public function transactional(callable $callable): mixed
     {
         $connection = $this->getConnection();
         $inTransaction = $connection->inTransaction();
@@ -1681,52 +1532,38 @@ class Sql implements Iterator
 
     // ----------------- iterator interface
 
-    /**
-     * @see https://www.php.net/manual/en/iterator.rewind.php
-     *
-     * @throws rex_sql_exception
-     */
-    #[ReturnTypeWillChange]
-    public function rewind()
+    /** @see https://www.php.net/manual/en/iterator.rewind.php */
+    #[Override]
+    public function rewind(): void
     {
         $this->reset();
     }
 
-    /**
-     * @see https://www.php.net/manual/en/iterator.current.php
-     *
-     * @return $this
-     */
-    #[ReturnTypeWillChange]
-    public function current()
+    /** @see https://www.php.net/manual/en/iterator.current.php */
+    #[Override]
+    public function current(): static
     {
         return $this;
     }
 
-    /**
-     * @see https://www.php.net/manual/en/iterator.key.php
-     */
-    #[ReturnTypeWillChange]
-    public function key()
+    /** @see https://www.php.net/manual/en/iterator.key.php */
+    #[Override]
+    public function key(): int
     {
         return $this->counter;
     }
 
-    /**
-     * @see https://www.php.net/manual/en/iterator.next.php
-     */
-    #[ReturnTypeWillChange]
-    public function next()
+    /** @see https://www.php.net/manual/en/iterator.next.php */
+    #[Override]
+    public function next(): void
     {
         ++$this->counter;
         $this->lastRow = null;
     }
 
-    /**
-     * @see https://www.php.net/manual/en/iterator.valid.php
-     */
-    #[ReturnTypeWillChange]
-    public function valid()
+    /** @see https://www.php.net/manual/en/iterator.valid.php */
+    #[Override]
+    public function valid(): bool
     {
         return $this->hasNext();
     }
@@ -1742,9 +1579,9 @@ class Sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
+     * @return string CREATE TABLE Sql-Statement zu erstellung der Tabelle
      */
-    public static function showCreateTable($table, $db = 1)
+    public static function showCreateTable(string $table, int $db = 1): string
     {
         $sql = self::factory($db);
         $sql->setQuery('SHOW CREATE TABLE ' . $sql->escapeIdentifier($table));
@@ -1769,7 +1606,7 @@ class Sql implements Iterator
      *
      * @return list<string> Ein Array von Tabellennamen
      */
-    public function getTablesAndViews($tablePrefix = null)
+    public function getTablesAndViews(?string $tablePrefix = null): array
     {
         return $this->fetchTablesAndViews($tablePrefix);
     }
@@ -1784,7 +1621,7 @@ class Sql implements Iterator
      *
      * @return list<string> Ein Array von Tabellennamen
      */
-    public function getTables($tablePrefix = null)
+    public function getTables(?string $tablePrefix = null): array
     {
         return $this->fetchTablesAndViews($tablePrefix, 'Table_type = "BASE TABLE"');
     }
@@ -1799,20 +1636,16 @@ class Sql implements Iterator
      *
      * @return list<string> Ein Array von Viewnamen
      */
-    public function getViews($tablePrefix = null)
+    public function getViews(?string $tablePrefix = null): array
     {
         return $this->fetchTablesAndViews($tablePrefix, 'Table_type = "VIEW"');
     }
 
     /**
-     * @param string|null $tablePrefix
-     * @param string|null $where
-     *
      * @throws rex_sql_exception
-     *
      * @return list<string>
      */
-    private function fetchTablesAndViews($tablePrefix = null, $where = null)
+    private function fetchTablesAndViews(?string $tablePrefix = null, ?string $where = null): array
     {
         $dbConfig = Core::getDbConfig($this->DBID);
 
@@ -1831,7 +1664,7 @@ class Sql implements Iterator
 
         $tables = $this->getArray($qry);
 
-        return array_map(static function (array $table) {
+        return array_map(static function (array $table): string {
             return Type::string(reset($table));
         }, $tables);
     }
@@ -1868,7 +1701,7 @@ class Sql implements Iterator
      * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
      * @psalm-return list<array{name: string, type: string, null: 'YES'|'NO', key: string, default: null|string, extra: string, comment: null|string}>
      */
-    public static function showColumns($table, $db = 1)
+    public static function showColumns(string $table, int $db = 1): array
     {
         $sql = self::factory($db);
         $sql->setQuery('SHOW FULL COLUMNS FROM ' . $sql->escapeIdentifier($table));
@@ -1901,7 +1734,7 @@ class Sql implements Iterator
      * @param positive-int $db
      * @return string E.g. "5.7.7" or "5.5.5-10.4.9-MariaDB"
      */
-    public static function getServerVersion($db = 1)
+    public static function getServerVersion(int $db = 1): string
     {
         return Type::string(self::factory($db)->getConnection()->getAttribute(PDO::ATTR_SERVER_VERSION));
     }
@@ -1934,18 +1767,6 @@ class Sql implements Iterator
         return $version;
     }
 
-    /**
-     * Creates a Sql instance.
-     *
-     * @param positive-int $db
-     * @return static Returns a Sql instance
-     */
-    public static function factory($db = 1)
-    {
-        $class = static::getFactoryClass();
-        return new $class($db);
-    }
-
     public static function closeConnection(int $db = 1): void
     {
         unset(self::$pdo[$db]);
@@ -1956,20 +1777,14 @@ class Sql implements Iterator
      * Datenbank an.
      *
      * @param string $host the host. might optionally include a port.
-     * @param string $login
-     * @param string $password
-     * @param string $database
-     * @param bool $createDb
-     *
-     * @return true|string
      */
     public static function checkDbConnection(
-        #[SensitiveParameter] $host,
-        #[SensitiveParameter] $login,
-        #[SensitiveParameter] $password,
-        #[SensitiveParameter] $database,
-        $createDb = false,
-    ) {
+        #[SensitiveParameter] string $host,
+        #[SensitiveParameter] string $login,
+        #[SensitiveParameter] string $password,
+        #[SensitiveParameter] string $database,
+        bool $createDb = false,
+    ): true|string {
         if (!$database) {
             return I18n::msg('sql_database_name_missing');
         }
@@ -2061,14 +1876,9 @@ class Sql implements Iterator
     }
 
     /**
-     * @param string $verb
-     * @param bool $onDuplicateKeyUpdate
-     *
      * @throws rex_sql_exception
-     *
-     * @return $this
      */
-    private function setMultiRecordQuery($verb, $onDuplicateKeyUpdate = false)
+    private function setMultiRecordQuery(string $verb, bool $onDuplicateKeyUpdate = false): static
     {
         $fields = [];
 
@@ -2109,7 +1919,7 @@ class Sql implements Iterator
             $rows[] = '(' . implode(', ', $row) . ')';
         }
 
-        $query = $verb . ' INTO ' . $this->escapeIdentifier($this->table) . "\n";
+        $query = $verb . ' INTO ' . $this->escapeIdentifier(Type::notNull($this->table)) . "\n";
         $query .= '(' . implode(', ', array_map($this->escapeIdentifier(...), $fields)) . ")\n";
         $query .= "VALUES\n";
         $query .= implode(",\n", $rows);
@@ -2121,12 +1931,8 @@ class Sql implements Iterator
         return $this->setQuery($query, $params);
     }
 
-    /**
-     * @param list<string> $fields
-     *
-     * @return string
-     */
-    private function buildOnDuplicateKeyUpdate($fields)
+    /** @param list<string> $fields */
+    private function buildOnDuplicateKeyUpdate(array $fields): string
     {
         $updates = [];
 
