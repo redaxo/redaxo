@@ -37,6 +37,21 @@
         </testsuite>
     </testsuites>
     <source restrictDeprecations="true">
+        <include>
+            <directory>redaxo/src/core</directory>
+            <directory>redaxo/src/addons/backup</directory>
+            <directory>redaxo/src/addons/be_style</directory>
+            <directory>redaxo/src/addons/cronjob</directory>
+            <directory>redaxo/src/addons/debug</directory>
+            <directory>redaxo/src/addons/install</directory>
+            <directory>redaxo/src/addons/media_manager</directory>
+            <directory>redaxo/src/addons/mediapool</directory>
+            <directory>redaxo/src/addons/metainfo</directory>
+            <directory>redaxo/src/addons/phpmailer</directory>
+            <directory>redaxo/src/addons/project</directory>
+            <directory>redaxo/src/addons/structure</directory>
+            <directory>redaxo/src/addons/users</directory>
+        </include>
         <exclude>
             <directory>redaxo/src/core/vendor</directory>
             <directory>redaxo/src/addons/backup/vendor</directory>
