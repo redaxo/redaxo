@@ -79,7 +79,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Redaxo\\Core\\Tests\\": "tests"
+            "Redaxo\\Core\\Tests\\": "tests",
+            "Redaxo\\Rector\\": ".tools/rector"
         },
         "classmap": [
             "redaxo/src/core/tests/"

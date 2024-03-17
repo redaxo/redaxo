@@ -4329,7 +4329,6 @@
   </file>
   <file src="src/Database/Sql.php">
     <ArgumentTypeCoercion>
-      <code><![CDATA[$params[$key]]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </ArgumentTypeCoercion>
@@ -4392,7 +4391,6 @@
       <code><![CDATA[$sql->getValue('Create Table')]]></code>
     </NullableReturnStatement>
     <PossiblyNullArgument>
-      <code><![CDATA[$params[$key]]]></code>
       <code><![CDATA[$this->rawFieldnames]]></code>
     </PossiblyNullArgument>
     <PossiblyNullReference>

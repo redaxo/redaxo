@@ -78,7 +78,8 @@ class Sql implements Iterator
      */
     protected string|array|null $wherevar;
 
-    /** @var array<scalar> */
+    /** @var array<scalar>
+     */
     protected array $whereParams = [];
 
     protected int $rows = 0; // anzahl der treffer
@@ -1228,10 +1229,17 @@ class Sql implements Iterator
                     }
 
                     foreach ($keys as $key) {
-                        if (array_key_exists($key, $params)) {
-                            ++$i;
-                            return $this->escape($params[$key]);
+                        if (!array_key_exists($key, $params)) {
+                            continue;
                         }
+
+                        ++$i;
+                        return match (gettype($params[$key])) {
+                            'boolean' => $params[$key] ? '1' : '0',
+                            'integer' => (string) $params[$key],
+                            'NULL' => 'NULL',
+                            default => $this->escape((string) $params[$key]),
+                        };
                     }
 
                     return $matches[0];
