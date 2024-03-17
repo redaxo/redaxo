@@ -92,6 +92,9 @@
         ]
     },
     "autoload-dev": {
+        "psr-4": {
+            "Redaxo\\Rector\\": ".tools/rector"
+        },
         "classmap": [
             "redaxo/src/addons/media_manager/tests/",
             "redaxo/src/addons/mediapool/tests/",
