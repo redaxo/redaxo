@@ -22,10 +22,12 @@ use Rector\Removing\Rector\ClassMethod\ArgumentRemoverRector;
 use Rector\Removing\Rector\FuncCall\RemoveFuncCallArgRector;
 use Rector\Removing\ValueObject\ArgumentRemover;
 use Rector\Removing\ValueObject\RemoveFuncCallArg;
+use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Renaming\Rector\StaticCall\RenameStaticMethodRector;
 use Rector\Renaming\ValueObject\MethodCallRename;
+use Rector\Renaming\ValueObject\RenameClassConstFetch;
 use Rector\Renaming\ValueObject\RenameStaticMethod;
 use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
 use Rector\Transform\Rector\FuncCall\FuncCallToStaticCallRector;
@@ -242,13 +244,19 @@ return RectorConfig::configure()
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_RADIO', rex_metainfo_table_manager::class, 'FIELD_RADIO'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_CHECKBOX', rex_metainfo_table_manager::class, 'FIELD_CHECKBOX'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_MEDIA_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_MEDIA_WIDGET'),
-        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_MEDIALIST_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_MEDIALIST_WIDGET'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_MEDIALIST_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_MEDIA_WIDGET'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_LINK_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_LINK_WIDGET'),
-        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_LINKLIST_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_LINKLIST_WIDGET'),
+        new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_REX_LINKLIST_WIDGET', rex_metainfo_table_manager::class, 'FIELD_REX_LINK_WIDGET'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_DATE', rex_metainfo_table_manager::class, 'FIELD_DATE'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_DATETIME', rex_metainfo_table_manager::class, 'FIELD_DATETIME'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_LEGEND', rex_metainfo_table_manager::class, 'FIELD_LEGEND'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_TIME', rex_metainfo_table_manager::class, 'FIELD_TIME'),
         new ConstFetchToClassConstFetch('REX_METAINFO_FIELD_COUNT', rex_metainfo_table_manager::class, 'FIELD_COUNT'),
+    ])
+    ->withConfiguredRule(RenameClassConstFetchRector::class, [
+        new RenameClassConstFetch(rex_metainfo_table_manager::class, 'FIELD_REX_MEDIALIST_WIDGET', 'FIELD_REX_MEDIA_WIDGET'),
+        new RenameClassConstFetch(rex_metainfo_table_manager::class, 'FIELD_REX_LINKLIST_WIDGET', 'FIELD_REX_LINK_WIDGET'),
+        new RenameClassConstFetch(rex_metainfo_default_type::class, 'REX_MEDIALIST_WIDGET', 'REX_MEDIA_WIDGET'),
+        new RenameClassConstFetch(rex_metainfo_default_type::class, 'REX_LINKLIST_WIDGET', 'REX_LINK_WIDGET'),
     ])
 ;

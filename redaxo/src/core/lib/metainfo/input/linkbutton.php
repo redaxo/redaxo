@@ -3,12 +3,14 @@
 /**
  * @internal
  *
- * @extends rex_input<int>
+ * @extends rex_input<int|string>
  */
 class rex_input_linkbutton extends rex_input
 {
     private string $buttonId = '';
     private ?int $categoryId = null;
+
+    private bool $multiple = false;
 
     public function __construct()
     {
@@ -34,6 +36,11 @@ class rex_input_linkbutton extends rex_input
         $this->categoryId = $categoryId;
     }
 
+    public function setMultiple(bool $multiple = true): void
+    {
+        $this->multiple = $multiple;
+    }
+
     public function getHtml()
     {
         $buttonId = $this->buttonId;
@@ -41,6 +48,10 @@ class rex_input_linkbutton extends rex_input
         $value = rex_escape($this->value);
         $name = $this->attributes['name'];
 
+        if ($this->multiple) {
+            $name .= '[]';
+            return rex_var_linklist::getWidget($buttonId, $name, $value, ['category' => $categoryId]);
+        }
         return rex_var_link::getWidget($buttonId, $name, $value, ['category' => $categoryId]);
     }
 }

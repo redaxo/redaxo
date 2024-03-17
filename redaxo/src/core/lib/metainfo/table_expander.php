@@ -33,7 +33,7 @@ class rex_metainfo_table_expander extends Form
 
         // ----- EXTENSION POINT
         // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
-        $typeFields = rex_extension::registerPoint(new rex_extension_point('METAINFO_TYPE_FIELDS', [rex_metainfo_table_manager::FIELD_SELECT, rex_metainfo_table_manager::FIELD_RADIO, rex_metainfo_table_manager::FIELD_CHECKBOX, rex_metainfo_table_manager::FIELD_REX_MEDIA_WIDGET, rex_metainfo_table_manager::FIELD_REX_MEDIALIST_WIDGET, rex_metainfo_table_manager::FIELD_REX_LINK_WIDGET, rex_metainfo_table_manager::FIELD_REX_LINKLIST_WIDGET, rex_metainfo_table_manager::FIELD_DATE, rex_metainfo_table_manager::FIELD_DATETIME]));
+        $typeFields = rex_extension::registerPoint(new rex_extension_point('METAINFO_TYPE_FIELDS', [rex_metainfo_table_manager::FIELD_SELECT, rex_metainfo_table_manager::FIELD_RADIO, rex_metainfo_table_manager::FIELD_CHECKBOX, rex_metainfo_table_manager::FIELD_REX_MEDIA_WIDGET, rex_metainfo_table_manager::FIELD_REX_LINK_WIDGET, rex_metainfo_table_manager::FIELD_DATE, rex_metainfo_table_manager::FIELD_DATETIME]));
 
         $field = $this->addReadOnlyField('prefix', $this->metaPrefix);
         $field->setLabel(I18n::msg('minfo_field_label_prefix'));
