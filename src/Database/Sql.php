@@ -78,8 +78,7 @@ class Sql implements Iterator
      */
     protected string|array|null $wherevar;
 
-    /** @var array<scalar>
-     */
+    /** @var array<scalar> */
     protected array $whereParams = [];
 
     protected int $rows = 0; // anzahl der treffer
