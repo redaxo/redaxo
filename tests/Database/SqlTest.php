@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Util\Type;
 use rex_sql_exception;
 
 /** @internal */
@@ -126,14 +127,14 @@ final class SqlTest extends TestCase
 
     private function getVersionMock(string $version): Sql
     {
-        return new class($version) extends Sql {
-            public function __construct(string $version)
+        return new class(version: $version) extends Sql {
+            public function __construct($DBID = 999, ?string $version = null)
             {
-                $this->DBID = 999;
+                parent::__construct($DBID);
 
-                self::$pdo[$this->DBID] = new class($version) extends PDO {
+                self::$pdo[$DBID] = new class(Type::notNull($version)) extends PDO {
                     public function __construct(
-                        private string $version,
+                        private readonly string $version,
                     ) {}
 
                     public function getAttribute(int $attribute): string

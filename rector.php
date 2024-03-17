@@ -42,12 +42,7 @@ use Redaxo\Core\Util;
 use Redaxo\Core\Validator;
 use Redaxo\Rector\Rule as RedaxoRule;
 
-require_once __DIR__ . '/.tools/rector/autoload.php';
-
 return RectorConfig::configure()
-    ->withBootstrapFiles([
-        __DIR__ . '/.tools/constants.php',
-    ])
     ->withPaths([
         // restrict to core and core addons, ignore other locally installed addons
         'src/',
