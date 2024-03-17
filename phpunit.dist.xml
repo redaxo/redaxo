@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap=".tools/bootstrap.php"
+    beStrictAboutCoverageMetadata="true"
+    beStrictAboutOutputDuringTests="true"
+    failOnWarning="true"
+    failOnNotice="true"
+    failOnDeprecation="true"
+    failOnRisky="true"
+    failOnEmptyTestSuite="true"
+    displayDetailsOnTestsThatTriggerErrors="true"
+    displayDetailsOnTestsThatTriggerNotices="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    colors="true"
+    stderr="true"
+    cacheDirectory=".phpunit.cache"
+>
+    <php>
+        <ini name="error_reporting" value="E_ALL"/>
+        <ini name="display_errors" value="1"/>
+    </php>
+    <testsuites>
+        <testsuite name="core">
+            <directory>tests</directory>
+            <directory suffix="_test.php">redaxo/src/core/tests</directory>
+        </testsuite>
+    </testsuites>
+    <source restrictDeprecations="true">
+        <include>
+            <directory>src</directory>
+            <directory>tests</directory>
+            <directory>redaxo/src/core</directory>
+            <directory>redaxo/src/addons/debug</directory>
+            <directory>redaxo/src/addons/install</directory>
+            <directory>redaxo/src/addons/project</directory>
+        </include>
+    </source>
+</phpunit>

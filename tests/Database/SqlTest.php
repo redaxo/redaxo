@@ -4,21 +4,22 @@ namespace Redaxo\Core\Tests\Database;
 
 use DateTime;
 use DateTimeZone;
+use Override;
 use PDO;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Util\Type;
 use rex_sql_exception;
 
-/**
- * @internal
- */
-class SqlTest extends TestCase
+/** @internal */
+final class SqlTest extends TestCase
 {
-    public const TABLE = 'rex_tests_table';
-    public const VIEW = 'rex_tests_view';
+    public const string TABLE = 'rex_tests_table';
+    public const string VIEW = 'rex_tests_view';
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -27,19 +28,20 @@ class SqlTest extends TestCase
 
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE . '`');
         $sql->setQuery('CREATE TABLE `' . self::TABLE . '` (
-                `id` INT NOT NULL AUTO_INCREMENT ,
-                `col_str` VARCHAR( 255 ) NULL ,
-                `col_int` INT NULL ,
-                `col_date` DATE NULL ,
-                `col_time` DATETIME NULL ,
-                `col_text` TEXT NULL ,
-                PRIMARY KEY ( `id` )
-                ) ENGINE = InnoDB ;');
+            `id` INT NOT NULL AUTO_INCREMENT ,
+            `col_str` VARCHAR( 255 ) NULL ,
+            `col_int` INT NULL ,
+            `col_date` DATE NULL ,
+            `col_time` DATETIME NULL ,
+            `col_text` TEXT NULL ,
+            PRIMARY KEY ( `id` )
+        ) ENGINE = InnoDB ;');
 
         $sql->setQuery('DROP VIEW IF EXISTS `' . self::VIEW . '`');
         $sql->setQuery('CREATE VIEW `' . self::VIEW . '` AS SELECT * FROM `' . self::TABLE . '`');
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -52,7 +54,7 @@ class SqlTest extends TestCase
     public function testFactory(): void
     {
         $sql = Sql::factory();
-        self::assertNotNull($sql);
+        self::assertInstanceOf(Sql::class, $sql);
     }
 
     public function testCheckConnection(): void
@@ -128,14 +130,14 @@ class SqlTest extends TestCase
 
     private function getVersionMock(string $version): Sql
     {
-        return new class($version) extends Sql {
-            public function __construct(string $version)
+        return new class(version: $version) extends Sql {
+            public function __construct(int $DBID = 999, ?string $version = null)
             {
-                $this->DBID = 999;
+                parent::__construct($DBID);
 
-                self::$pdo[$this->DBID] = new class($version) extends PDO {
+                self::$pdo[$DBID] = new class(Type::notNull($version)) extends PDO {
                     public function __construct(
-                        private string $version,
+                        private readonly string $version,
                     ) {}
 
                     public function getAttribute(int $attribute): string
@@ -516,7 +518,12 @@ class SqlTest extends TestCase
     {
         $sql = Sql::factory();
 
-        self::assertSame('0', $sql->getLastId(), 'Initial value for LastId');
+        $exception = null;
+        try {
+            $sql->getLastId();
+        } catch (rex_sql_exception $exception) {
+        }
+        self::assertInstanceOf(rex_sql_exception::class, $exception, 'LastId() without previous insert');
 
         $sql->setTable(self::TABLE);
         $sql->setValue('col_int', 5);
@@ -524,24 +531,35 @@ class SqlTest extends TestCase
         $sql->setValue('col_text', 'mytext');
         $sql->insert();
 
-        self::assertSame('1', $sql->getLastId(), 'LastId after ->insert()');
+        self::assertSame(1, $sql->getLastId(), 'LastId after ->insert()');
 
         $sql->setTable(self::TABLE);
         $sql->setWhere(['id' => 1]);
         $sql->setValue('col_int', 6);
         $sql->update();
 
-        self::assertSame('0', $sql->getLastId(), 'LastId after ->update()');
+        $exception = null;
+        try {
+            $sql->getLastId();
+        } catch (rex_sql_exception $exception) {
+        }
+        self::assertInstanceOf(rex_sql_exception::class, $exception, 'LastId after ->update()');
 
         $sql->setQuery('INSERT INTO ' . self::TABLE . ' SET col_int = 3');
 
-        self::assertSame('2', $sql->getLastId(), 'LastId after second INSERT query');
+        self::assertSame(2, $sql->getLastId(), 'LastId after second INSERT query');
 
         $secondSql = Sql::factory();
         $secondSql->setQuery('SELECT * FROM ' . self::TABLE);
 
-        self::assertSame('0', $secondSql->getLastId(), 'LastId after SELECT query');
-        self::assertSame('2', $sql->getLastId(), 'LastId still the same in other sql object');
+        $exception = null;
+        try {
+            $secondSql->getLastId();
+        } catch (rex_sql_exception $exception) {
+        }
+        self::assertInstanceOf(rex_sql_exception::class, $exception, 'LastId after SELECT query');
+
+        self::assertSame(2, $sql->getLastId(), 'LastId still the same in other sql object');
     }
 
     public function testGetTables(): void

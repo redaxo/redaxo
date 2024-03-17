@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_category_test extends TestCase
+/** @internal */
+final class rex_category_test extends TestCase
 {
     protected function setUp(): void
     {
@@ -34,7 +32,7 @@ class rex_category_test extends TestCase
         $instance = $this->createCategoryWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $instance->cat_foo = 'teststring';
+        $instance->cat_foo = 'teststring'; // @phpstan-ignore-line
 
         self::assertTrue($instance->hasValue('foo'));
         self::assertTrue($instance->hasValue('cat_foo'));
@@ -48,7 +46,7 @@ class rex_category_test extends TestCase
         $instance = $this->createCategoryWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $instance->cat_foo = 'teststring';
+        $instance->cat_foo = 'teststring'; // @phpstan-ignore-line
 
         self::assertEquals('teststring', $instance->getValue('foo'));
         self::assertEquals('teststring', $instance->getValue('cat_foo'));
@@ -179,7 +177,7 @@ class rex_category_test extends TestCase
                 }
             }
 
-            public function getParent()
+            public function getParent(): ?rex_category
             {
                 /** @var static|null */
                 return $this->parent;

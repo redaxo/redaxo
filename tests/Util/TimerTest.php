@@ -8,10 +8,8 @@ use Redaxo\Core\Util\Timer;
 use RuntimeException;
 use Throwable;
 
-/**
- * @internal
- */
-class TimerTest extends TestCase
+/** @internal */
+final class TimerTest extends TestCase
 {
     /** @var array{enabled: bool, throw_always_exception: bool|int} */
     private array $orgDebug;

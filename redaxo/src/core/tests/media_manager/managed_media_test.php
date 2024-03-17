@@ -3,10 +3,8 @@
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Path;
 
-/**
- * @internal
- */
-class rex_managed_media_test extends TestCase
+/** @internal */
+final class rex_managed_media_test extends TestCase
 {
     public function testConstructor(): void
     {

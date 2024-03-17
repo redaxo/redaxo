@@ -4,10 +4,8 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
-/**
- * @internal
- */
-class rex_be_navigation_test extends TestCase
+/** @internal */
+final class rex_be_navigation_test extends TestCase
 {
     public function testSetPrio(): void
     {

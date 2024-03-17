@@ -20,10 +20,6 @@ parameters:
     symfony:
         console_application_loader: .tools/phpstan/console.php
     ignoreErrors:
-        - '#Access to an undefined property rex_media::\$med_foo\.#'
-        - '#Access to an undefined property rex_article::\$art_foo\.#'
-        - '#Access to an undefined property rex_category::\$cat_foo\.#'
-        - '#Access to an undefined property rex_clang::\$clang_foo\.#'
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class (.*Field|rex_form_.*_element) has an unused parameter \$tag.#'
         - '#^Offset .* on .* always exists#'

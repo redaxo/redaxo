@@ -8,10 +8,8 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 
-/**
- * @internal
- */
-class rex_article_content_test extends TestCase
+/** @internal */
+final class rex_article_content_test extends TestCase
 {
     protected function setUp(): void
     {

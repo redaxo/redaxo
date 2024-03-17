@@ -7,14 +7,15 @@ use rex_exception;
 use rex_sql_exception;
 
 use function dirname;
-use function is_array;
 use function strlen;
 
 /**
  * Class to execute a sql dump.
  */
-class Util
+final readonly class Util
 {
+    private function __construct() {}
+
     /**
      * @psalm-taint-escape file
      */
@@ -87,9 +88,8 @@ class Util
      * @param string $whereCondition Where-Bedingung zur Einschränkung des ResultSets
      * @param string $orderBy Sortierung des ResultSets
      * @param int $startBy Startpriorität
-     * @return void
      */
-    public static function organizePriorities($tableName, $prioColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
+    public static function organizePriorities(string $tableName, string $prioColumnName, string $whereCondition = '', string $orderBy = '', int $startBy = 1): void
     {
         // Datenbankvariable initialisieren
         $qry = 'SET @count=' . ($startBy - 1);
@@ -114,13 +114,10 @@ class Util
      * Importiert die gegebene SQL-Datei in die Datenbank.
      *
      * @param non-empty-string $file
-     * @param bool $debug
      *
      * @throws rex_sql_exception
-     *
-     * @return bool true bei Erfolg
      */
-    public static function importDump($file, $debug = false)
+    public static function importDump(string $file, bool $debug = false): void
     {
         if (!str_ends_with($file, '.sql')) {
             throw new rex_exception('Expecting a .sql file, "' . $file . '" given.');
@@ -140,16 +137,11 @@ class Util
         if ($error) {
             throw new rex_sql_exception($error, null, $sql);
         }
-
-        return true;
     }
 
-    /**
-     * @return string
-     */
-    private static function prepareQuery(string $query)
+    private static function prepareQuery(string $query): string
     {
-        // rex::getUser() gibts im Setup nicht
+        // Core::getUser() gibts im Setup nicht
         /** @psalm-taint-escape sql */ // we trust the user db table
         $user = Core::getUser()?->getLogin() ?? '';
 
@@ -165,21 +157,17 @@ class Util
      * Reads a file and split all statements in it.
      *
      * @param non-empty-string $file Path to the SQL-dump-file
-     *
-     * @return array
+     * @return list<string>
      */
-    private static function readSqlDump($file)
+    private static function readSqlDump(string $file): array
     {
         if (is_file($file) && is_readable($file)) {
             $ret = [];
-            $sqlsplit = [];
             $fileContent = file_get_contents($file);
-            self::splitSqlFile($sqlsplit, $fileContent, 0);
+            $sqlsplit = self::splitSqlFile($fileContent);
 
-            if (is_array($sqlsplit)) {
-                foreach ($sqlsplit as $qry) {
-                    $ret[] = $qry['query'];
-                }
+            foreach ($sqlsplit as $qry) {
+                $ret[] = $qry['query'];
             }
 
             return $ret;
@@ -195,14 +183,10 @@ class Util
      *
      * Last revision: September 23, 2001 - gandon
      *
-     * @param array $queries the splitted sql commands
      * @param string $sql the sql commands
-     * @param int $release the MySQL release number (because certains php3 versions
-     *                     can't get the value of a constant from within a function)
-     *
-     * @return bool always true
+     * @return list<array{query: string, empty: bool}> the splitted sql commands
      */
-    public static function splitSqlFile(&$queries, $sql, $release)
+    public static function splitSqlFile(string $sql): array
     {
         // do not trim, see bug #1030644
         // $sql          = trim($sql);
@@ -212,6 +196,7 @@ class Util
         $inString = false;
         $nothing = true;
         $time0 = time();
+        $queries = [];
 
         for ($i = 0; $i < $sqlLen; ++$i) {
             $char = $sql[$i];
@@ -224,8 +209,8 @@ class Util
                     // No end of string found -> add the current substring to the
                     // returned array
                     if (!$i) {
-                        $queries[] = $sql;
-                        return true;
+                        $queries[] = ['query' => $sql, 'empty' => $nothing];
+                        return $queries;
                     }
                     // Backquotes or no backslashes before quotes: it's indeed the
                     // end of the string -> exit the loop
@@ -282,12 +267,12 @@ class Util
                     $i = -1;
                 } else {
                     // The submited statement(s) end(s) here
-                    return true;
+                    return $queries;
                 }
             } // end else if (is delimiter)
 
             // ... then check for start of a string,...
-            elseif (('"' == $char) || ('\'' == $char) || ('`' == $char)) {
+            elseif (('"' == $char) || ("'" == $char) || ('`' == $char)) {
                 $inString = true;
                 $nothing = false;
                 $stringStart = $char;
@@ -310,6 +295,6 @@ class Util
             $queries[] = ['query' => $sql, 'empty' => $nothing];
         }
 
-        return true;
+        return $queries;
     }
 }

@@ -18,16 +18,16 @@ use function is_array;
 /**
  * Class to represent sql tables.
  */
-class Table
+final class Table
 {
     use rex_instance_pool_trait {
         clearInstance as private baseClearInstance;
     }
 
-    public const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
+    public const string FIRST = 'FIRST '; // The space is intended: column names cannot end with space
 
-    private int $db;
-    private Sql $sql;
+    private readonly int $db;
+    private readonly Sql $sql;
     private bool $new;
     private string $name;
     private string $originalName;
@@ -170,78 +170,42 @@ class Table
     /**
      * @param non-empty-string $name
      * @param positive-int $db
-     *
-     * @return self
      */
-    public static function get($name, int $db = 1)
+    public static function get(string $name, int $db = 1): self
     {
-        $table = static::getInstance(
-            [$db, $name],
-            /** @param positive-int $db */
-            static fn (int $db, string $name) => new static($name, $db),
-        );
+        $table = self::getInstance([$db, $name], static fn (): self => new self($name, $db));
 
         return Type::instanceOf($table, self::class);
     }
 
-    /**
-     * @param string|array{int, string} $key A table-name or a array[db-id, table-name]
-     * @return void
-     */
-    public static function clearInstance($key)
+    public static function clearInstance(string $name, int $db = 1): void
     {
-        // BC layer for old cache keys without db id
-        if (!is_array($key)) {
-            $key = [1, $key];
-        }
-
-        static::baseClearInstance($key);
+        self::baseClearInstance([$db, $name]);
     }
 
-    /**
-     * @return bool
-     */
-    public function exists()
+    public function exists(): bool
     {
         return !$this->new;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasColumn($name)
+    public function hasColumn(string $name): bool
     {
         return isset($this->columns[$name]);
     }
 
-    /**
-     * @param string $name
-     *
-     * @return Column|null
-     */
-    public function getColumn($name)
+    public function getColumn(string $name): ?Column
     {
         if (!$this->hasColumn($name)) {
             return null;
@@ -253,17 +217,15 @@ class Table
     /**
      * @return array<string, Column>
      */
-    public function getColumns()
+    public function getColumns(): array
     {
         return $this->columns;
     }
 
     /**
      * @param string|null $afterColumn Column name or `Table::FIRST`
-     *
-     * @return $this
      */
-    public function addColumn(Column $column, $afterColumn = null)
+    public function addColumn(Column $column, ?string $afterColumn = null): self
     {
         $name = $column->getName();
 
@@ -280,10 +242,8 @@ class Table
 
     /**
      * @param string|null $afterColumn Column name or `Table::FIRST`
-     *
-     * @return $this
      */
-    public function ensureColumn(Column $column, $afterColumn = null)
+    public function ensureColumn(Column $column, ?string $afterColumn = null): self
     {
         $name = $column->getName();
         $existing = $this->getColumn($name);
@@ -303,10 +263,7 @@ class Table
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function ensurePrimaryIdColumn()
+    public function ensurePrimaryIdColumn(): self
     {
         return $this
             ->ensureColumn(new Column('id', 'int(10) unsigned', false, null, 'auto_increment'))
@@ -316,10 +273,8 @@ class Table
 
     /**
      * @param string|null $afterColumn Column name or `Table::FIRST`
-     *
-     * @return $this
      */
-    public function ensureGlobalColumns($afterColumn = null)
+    public function ensureGlobalColumns(?string $afterColumn = null): self
     {
         return $this
             ->ensureColumn(new Column('createdate', 'datetime'), $afterColumn)
@@ -330,14 +285,9 @@ class Table
     }
 
     /**
-     * @param string $oldName
-     * @param string $newName
-     *
      * @throws rex_exception
-     *
-     * @return $this
      */
-    public function renameColumn($oldName, $newName)
+    public function renameColumn(string $oldName, string $newName): self
     {
         $column = $this->getColumn($oldName);
         if (!$column) {
@@ -370,12 +320,7 @@ class Table
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function removeColumn($name)
+    public function removeColumn(string $name): self
     {
         unset($this->columns[$name]);
 
@@ -385,7 +330,7 @@ class Table
     /**
      * @return non-empty-list<string>|null Column names
      */
-    public function getPrimaryKey()
+    public function getPrimaryKey(): ?array
     {
         return $this->primaryKey ?: null;
     }
@@ -394,10 +339,8 @@ class Table
      * @param string|list<string>|null $columns Column name(s)
      *
      * @throws rex_exception
-     *
-     * @return $this
      */
-    public function setPrimaryKey($columns)
+    public function setPrimaryKey(string|array|null $columns): self
     {
         if (is_array($columns) && !$columns) {
             throw new rex_exception('The primary key column array can not be empty. To delete the primary key use `null` instead.');
@@ -414,22 +357,12 @@ class Table
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasIndex($name)
+    public function hasIndex(string $name): bool
     {
         return isset($this->indexes[$name]);
     }
 
-    /**
-     * @param string $name
-     *
-     * @return Index|null
-     */
-    public function getIndex($name)
+    public function getIndex(string $name): ?Index
     {
         if (!$this->hasIndex($name)) {
             return null;
@@ -441,15 +374,12 @@ class Table
     /**
      * @return array<string, Index>
      */
-    public function getIndexes()
+    public function getIndexes(): array
     {
         return $this->indexes;
     }
 
-    /**
-     * @return $this
-     */
-    public function addIndex(Index $index)
+    public function addIndex(Index $index): self
     {
         $name = $index->getName();
 
@@ -462,10 +392,7 @@ class Table
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function ensureIndex(Index $index)
+    public function ensureIndex(Index $index): self
     {
         $name = $index->getName();
         $existing = $this->getIndex($name);
@@ -484,14 +411,9 @@ class Table
     }
 
     /**
-     * @param string $oldName
-     * @param string $newName
-     *
      * @throws rex_exception
-     *
-     * @return $this
      */
-    public function renameIndex($oldName, $newName)
+    public function renameIndex(string $oldName, string $newName): self
     {
         $index = $this->getIndex($oldName);
         if (!$index) {
@@ -519,34 +441,19 @@ class Table
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function removeIndex($name)
+    public function removeIndex(string $name): self
     {
         unset($this->indexes[$name]);
 
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasForeignKey($name)
+    public function hasForeignKey(string $name): bool
     {
         return isset($this->foreignKeys[$name]);
     }
 
-    /**
-     * @param string $name
-     *
-     * @return ForeignKey|null
-     */
-    public function getForeignKey($name)
+    public function getForeignKey(string $name): ?ForeignKey
     {
         if (!$this->hasForeignKey($name)) {
             return null;
@@ -558,15 +465,12 @@ class Table
     /**
      * @return array<string, ForeignKey>
      */
-    public function getForeignKeys()
+    public function getForeignKeys(): array
     {
         return $this->foreignKeys;
     }
 
-    /**
-     * @return $this
-     */
-    public function addForeignKey(ForeignKey $foreignKey)
+    public function addForeignKey(ForeignKey $foreignKey): self
     {
         $name = $foreignKey->getName();
 
@@ -579,10 +483,7 @@ class Table
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function ensureForeignKey(ForeignKey $foreignKey)
+    public function ensureForeignKey(ForeignKey $foreignKey): self
     {
         $name = $foreignKey->getName();
         $existing = $this->getForeignKey($name);
@@ -601,14 +502,9 @@ class Table
     }
 
     /**
-     * @param string $oldName
-     * @param string $newName
-     *
      * @throws rex_exception
-     *
-     * @return $this
      */
-    public function renameForeignKey($oldName, $newName)
+    public function renameForeignKey(string $oldName, string $newName): self
     {
         $foreignKey = $this->getForeignKey($oldName);
         if (!$foreignKey) {
@@ -636,12 +532,7 @@ class Table
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function removeForeignKey($name)
+    public function removeForeignKey(string $name): self
     {
         unset($this->foreignKeys[$name]);
 
@@ -650,9 +541,8 @@ class Table
 
     /**
      * Ensures that the table exists with the given definition.
-     * @return void
      */
-    public function ensure()
+    public function ensure(): void
     {
         if ($this->new) {
             $this->create();
@@ -694,9 +584,8 @@ class Table
 
     /**
      * Drops the table if it exists.
-     * @return void
      */
-    public function drop()
+    public function drop(): void
     {
         if (!$this->new) {
             $this->sql->setQuery(sprintf('DROP TABLE %s', $this->sql->escapeIdentifier($this->name)));
@@ -714,9 +603,8 @@ class Table
      * Creates the table.
      *
      * @throws rex_exception
-     * @return void
      */
-    public function create()
+    public function create(): void
     {
         if (!$this->new) {
             throw new rex_exception(sprintf('Table "%s" already exists.', $this->name));
@@ -758,9 +646,8 @@ class Table
      * Alters the table.
      *
      * @throws rex_exception
-     * @return void
      */
-    public function alter()
+    public function alter(): void
     {
         if ($this->new) {
             throw new rex_exception(sprintf('Table "%s" does not exist.', $this->originalName));
@@ -971,6 +858,7 @@ class Table
         );
     }
 
+    /** @param array<string> $columns */
     private function getKeyColumnsDefintion(array $columns): string
     {
         $columns = array_map($this->sql->escapeIdentifier(...), $columns);
@@ -1022,7 +910,7 @@ class Table
         $this->new = false;
 
         if ($this->originalName !== $this->name) {
-            self::clearInstance([$this->db, $this->originalName]);
+            self::clearInstance($this->originalName, $this->db);
             self::addInstance([$this->db, $this->name], $this);
         }
 

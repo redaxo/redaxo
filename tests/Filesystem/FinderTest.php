@@ -12,10 +12,8 @@ use Traversable;
 
 use function count;
 
-/**
- * @internal
- */
-class FinderTest extends TestCase
+/** @internal */
+final class FinderTest extends TestCase
 {
     protected function setUp(): void
     {

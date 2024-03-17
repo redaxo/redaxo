@@ -6,10 +6,8 @@ use ArrayIterator;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Util\SortableIterator;
 
-/**
- * @internal
- */
-class SortableIteratorTest extends TestCase
+/** @internal */
+final class SortableIteratorTest extends TestCase
 {
     protected function setUp(): void
     {

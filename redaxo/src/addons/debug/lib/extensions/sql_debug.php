@@ -8,7 +8,8 @@ use Redaxo\Core\Util\Timer;
  */
 class rex_sql_debug extends Sql
 {
-    public function setQuery($query, array $params = [], array $options = [])
+    #[Override]
+    public function setQuery(string $query, array $params = [], array $options = []): static
     {
         try {
             $timer = new Timer();
@@ -39,7 +40,8 @@ class rex_sql_debug extends Sql
         return $this;
     }
 
-    public function execute(array $params = [], array $options = [])
+    #[Override]
+    public function execute(array $params = [], array $options = []): static
     {
         assert($this->stmt instanceof PDOStatement);
         $qry = $this->stmt->queryString;

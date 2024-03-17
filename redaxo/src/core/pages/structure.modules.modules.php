@@ -131,7 +131,7 @@ if ('add' == $function || 'edit' == $function) {
                 $IMOD->addGlobalUpdateFields();
 
                 $IMOD->insert();
-                $moduleId = (int) $IMOD->getLastId();
+                $moduleId = $IMOD->getLastId();
                 rex_module_cache::delete($moduleId);
                 $success = I18n::msg('module_added');
                 $success = rex_extension::registerPoint(new rex_extension_point('MODULE_ADDED', $success, [
@@ -249,7 +249,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $n = [];
         $n['label'] = '<label for="minput">' . I18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code2 rex-js-code2" id="minput" name="eingabe" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($eingabe) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="minput" name="eingabe" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($eingabe) . '</textarea>';
         $formElements[] = $n;
 
         $n = [];

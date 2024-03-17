@@ -6,10 +6,8 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * @internal
- */
-class rex_command_config_set_test extends TestCase
+/** @internal */
+final class rex_command_config_set_test extends TestCase
 {
     private string $initialConfig;
 

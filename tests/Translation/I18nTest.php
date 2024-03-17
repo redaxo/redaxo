@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
+/** @internal */
 class I18nTransCb
 {
     public static function mytranslate(): string
@@ -16,10 +17,8 @@ class I18nTransCb
     }
 }
 
-/**
- * @internal
- */
-class I18nTest extends TestCase
+/** @internal */
+final class I18nTest extends TestCase
 {
     private string $previousLocale;
 

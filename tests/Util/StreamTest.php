@@ -6,10 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Util\Stream;
 use ReflectionClass;
 
-/**
- * @internal
- */
-class StreamTest extends TestCase
+/** @internal */
+final class StreamTest extends TestCase
 {
     public function testStreamInclude(): void
     {

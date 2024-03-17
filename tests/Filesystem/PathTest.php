@@ -9,10 +9,8 @@ use Redaxo\Core\Filesystem\Path;
 use const DIRECTORY_SEPARATOR;
 use const PHP_BINARY;
 
-/**
- * @internal
- */
-class PathTest extends TestCase
+/** @internal */
+final class PathTest extends TestCase
 {
     public function testAbsoluteConversion(): void
     {

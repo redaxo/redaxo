@@ -7,10 +7,8 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
-/**
- * @internal
- */
-class rex_media_manager_test extends TestCase
+/** @internal */
+final class rex_media_manager_test extends TestCase
 {
     public function testGetCacheFilename(): void
     {
@@ -81,12 +79,12 @@ class rex_media_manager_test extends TestCase
 
             public function __construct() {}
 
-            public function getFileName()
+            public function getFileName(): string
             {
                 return 'test.jpg';
             }
 
-            public function getUpdateDate()
+            public function getUpdateDate(): int
             {
                 return $this->fakeUpdateDate;
             }

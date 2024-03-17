@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Tests\Database;
 
+use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Column;
 use Redaxo\Core\Database\Index;
@@ -9,14 +10,13 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 use Redaxo\Core\Database\Util;
 
-/**
- * @internal
- */
-class UtilTest extends TestCase
+/** @internal */
+final class UtilTest extends TestCase
 {
-    public const TABLE = 'rex_sql_util_test';
-    public const TABLE2 = 'rex_sql_util_test2';
+    public const string TABLE = 'rex_sql_util_test';
+    public const string TABLE2 = 'rex_sql_util_test2';
 
+    #[Override]
     protected function tearDown(): void
     {
         $sql = Sql::factory();

@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Tests\Database;
 
+use Override;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Column;
@@ -11,14 +12,13 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 use rex_exception;
 
-/**
- * @internal
- */
-class TableTest extends TestCase
+/** @internal */
+final class TableTest extends TestCase
 {
-    public const TABLE = 'rex_sql_table_test';
-    public const TABLE2 = 'rex_sql_table_test2';
+    public const string TABLE = 'rex_sql_table_test';
+    public const string TABLE2 = 'rex_sql_table_test2';
 
+    #[Override]
     protected function tearDown(): void
     {
         $sql = Sql::factory();
@@ -28,7 +28,7 @@ class TableTest extends TestCase
         Table::clearInstancePool();
     }
 
-    protected function createTable(): Table
+    private function createTable(): Table
     {
         $table = Table::get(self::TABLE);
 
@@ -42,7 +42,7 @@ class TableTest extends TestCase
         return $table;
     }
 
-    protected function createTable2(): Table
+    private function createTable2(): Table
     {
         $table = Table::get(self::TABLE2);
 
@@ -725,7 +725,7 @@ class TableTest extends TestCase
 
         self::assertNotSame($table2, $table);
 
-        Table::clearInstance([1, self::TABLE]);
+        Table::clearInstance(self::TABLE, 1);
         $table3 = Table::get(self::TABLE);
 
         self::assertNotSame($table3, $table);

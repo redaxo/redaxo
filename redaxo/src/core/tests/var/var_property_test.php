@@ -5,7 +5,7 @@ use Redaxo\Core\Core;
 
 require_once __DIR__ . '/var_test_base.php';
 
-class rex_var_property_test extends rex_var_test_base
+final class rex_var_property_test extends rex_var_test_base
 {
     protected function setUp(): void
     {

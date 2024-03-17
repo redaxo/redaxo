@@ -4,10 +4,8 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
-/**
- * @internal
- */
-class rex_article_slice_test extends TestCase
+/** @internal */
+final class rex_article_slice_test extends TestCase
 {
     private const FAKE_ID = 2_147_483_647; // max int on 32bit
 
@@ -78,6 +76,6 @@ class rex_article_slice_test extends TestCase
             ->addGlobalUpdateFields()
             ->insert();
 
-        return (int) $sql->getLastId();
+        return $sql->getLastId();
     }
 }
