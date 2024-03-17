@@ -71,17 +71,9 @@ class rex_fragment
      * @param string $name The name of the variable
      * @param mixed $value The value for the variable
      * @param bool $escape Flag which indicates if the value should be escaped or not
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return $this
      */
-    public function setVar($name, $value, $escape = true)
+    public function setVar(string $name, mixed $value, bool $escape = true): static
     {
-        if (null === $name) {
-            throw new InvalidArgumentException('Expecting $name to be not null!');
-        }
-
         if ($escape) {
             $this->vars[$name] = $this->escape($value);
         } else {
@@ -97,15 +89,9 @@ class rex_fragment
      * @param string $filename the filename of the fragment to parse
      *
      * @throws InvalidArgumentException
-     *
-     * @return string
      */
-    public function parse($filename)
+    public function parse(string $filename): string
     {
-        if (!is_string($filename)) {
-            throw new InvalidArgumentException(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
-        }
-
         $this->filename = $filename;
 
         foreach (self::$fragmentDirs as $fragDir) {
@@ -203,12 +189,8 @@ class rex_fragment
      *
      * @return string Translation for the key
      */
-    protected function i18n($key, ...$replacements)
+    protected function i18n(string $key, string|int ...$replacements): string
     {
-        if (!is_string($key)) {
-            throw new InvalidArgumentException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
-        }
-
         return I18n::msg($key, ...$replacements);
     }
 

@@ -18,7 +18,6 @@ use rex_user;
 use Symfony\Component\HttpFoundation\Request;
 
 use function constant;
-use function gettype;
 use function in_array;
 use function is_array;
 use function is_string;
@@ -46,7 +45,7 @@ class Core
      * @param mixed $value The value to save
      * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
-    public static function setConfig($key, $value = null)
+    public static function setConfig(string|array $key, mixed $value = null): bool
     {
         return rex_config::set(self::CONFIG_NAMESPACE, $key, $value);
     }
@@ -57,11 +56,10 @@ class Core
      * @template T as ?string
      * @param T $key The associated key
      * @param mixed $default Default return value if no associated-value can be found
-     * @throws InvalidArgumentException
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
-    public static function getConfig($key = null, $default = null)
+    public static function getConfig(?string $key = null, mixed $default = null): mixed
     {
         return rex_config::get(self::CONFIG_NAMESPACE, $key, $default);
     }
@@ -72,7 +70,7 @@ class Core
      * @param string $key The associated key
      * @return bool TRUE if the key is set, otherwise FALSE
      */
-    public static function hasConfig($key)
+    public static function hasConfig(string $key): bool
     {
         return rex_config::has(self::CONFIG_NAMESPACE, $key);
     }
@@ -83,7 +81,7 @@ class Core
      * @param string $key The associated key
      * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
-    public static function removeConfig($key)
+    public static function removeConfig(string $key): bool
     {
         return rex_config::remove(self::CONFIG_NAMESPACE, $key);
     }
@@ -98,11 +96,8 @@ class Core
      *
      * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
-    public static function setProperty($key, $value)
+    public static function setProperty(string $key, mixed $value): bool
     {
-        if (!is_string($key)) {
-            throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
-        }
         switch ($key) {
             case 'debug':
                 // bc for boolean "debug" property
@@ -158,8 +153,6 @@ class Core
      * @param string $key Key of the property
      * @param mixed $default Default value, will be returned if the property isn't set
      *
-     * @throws InvalidArgumentException on invalid parameters
-     *
      * @return mixed The value for $key or $default if $key cannot be found
      * @psalm-return (
      *      $key is 'login' ? rex_backend_login|null :
@@ -194,12 +187,8 @@ class Core
      *      )))))))))))))))))))))))))))
      *  )
      */
-    public static function getProperty($key, $default = null)
+    public static function getProperty(string $key, mixed $default = null): mixed
     {
-        /** @psalm-suppress TypeDoesNotContainType */
-        if (!is_string($key)) {
-            throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
-        }
         /** @psalm-suppress MixedReturnStatement */
         return self::$properties[$key] ?? $default;
     }
@@ -211,25 +200,19 @@ class Core
      *
      * @return bool TRUE if the key is set, otherwise FALSE
      */
-    public static function hasProperty($key)
+    public static function hasProperty(string $key): bool
     {
-        return is_string($key) && isset(self::$properties[$key]);
+        return isset(self::$properties[$key]);
     }
 
     /**
      * Removes a property.
      *
      * @param string $key Key of the property
-     *
-     * @throws InvalidArgumentException on invalid parameters
-     *
      * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
-    public static function removeProperty($key)
+    public static function removeProperty(string $key): bool
     {
-        if (!is_string($key)) {
-            throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
-        }
         $exists = isset(self::$properties[$key]);
         unset(self::$properties[$key]);
         return $exists;

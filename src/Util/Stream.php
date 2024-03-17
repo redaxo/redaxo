@@ -56,13 +56,10 @@ class Stream
      *
      * @psalm-taint-specialize
      */
-    public static function factory($path, $content)
+    public static function factory(string $path, string $content): string
     {
-        if (!is_string($path) || empty($path)) {
+        if (empty($path)) {
             throw new InvalidArgumentException('Expecting $path to be a string and not empty!');
-        }
-        if (!is_string($content)) {
-            throw new InvalidArgumentException('Expecting $content to be a string!');
         }
 
         if (null === self::$useRealFiles) {

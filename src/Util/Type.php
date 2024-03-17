@@ -51,7 +51,7 @@ class Type
      *
      * @psalm-taint-specialize
      */
-    public static function cast($var, $vartype)
+    public static function cast(mixed $var, string|array|callable $vartype): mixed
     {
         if (is_string($vartype)) {
             switch ($vartype) {
@@ -124,7 +124,7 @@ class Type
         if (is_string($vartype)) {
             throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
         }
-        if (!is_array($vartype) || [] === $vartype) {
+        if ([] === $vartype) {
             throw new InvalidArgumentException('Unexpected vartype in cast()!');
         }
 

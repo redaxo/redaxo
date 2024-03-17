@@ -76,7 +76,7 @@ interface rex_addon_interface
      * @param mixed $value The value to save
      * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
-    public function setConfig($key, $value = null);
+    public function setConfig(string|array $key, mixed $value = null): bool;
 
     /**
      * @see rex_config::get()
@@ -84,61 +84,52 @@ interface rex_addon_interface
      * @template T as ?string
      * @param T $key The associated key
      * @param mixed $default Default return value if no associated-value can be found
-     * @throws InvalidArgumentException
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
-    public function getConfig($key = null, $default = null);
+    public function getConfig(?string $key = null, mixed $default = null): mixed;
 
     /**
      * @see rex_config::has()
      * @param string|null $key The associated key
-     * @return bool
      */
-    public function hasConfig($key = null);
+    public function hasConfig(?string $key = null): bool;
 
     /**
      * @see rex_config::remove()
      * @param string $key The associated key
-     * @return bool
      */
-    public function removeConfig($key);
+    public function removeConfig(string $key): bool;
 
     /**
      * Sets a property.
      *
      * @param non-empty-string $key Key of the property
      * @param mixed $value New value for the property
-     * @return void
      */
-    public function setProperty($key, $value);
+    public function setProperty(string $key, mixed $value): void;
 
     /**
      * Returns a property.
      *
      * @param non-empty-string $key Key of the property
      * @param mixed $default Default value, will be returned if the property isn't set
-     *
-     * @return mixed
      */
-    public function getProperty($key, $default = null);
+    public function getProperty(string $key, mixed $default = null): mixed;
 
     /**
      * Returns if a property is set.
      *
      * @param non-empty-string $key Key of the property
-     *
-     * @return bool
      */
-    public function hasProperty($key);
+    public function hasProperty(string $key): bool;
 
     /**
      * Removes a property.
      *
      * @param non-empty-string $key Key of the property
-     * @return void
      */
-    public function removeProperty($key);
+    public function removeProperty(string $key): void;
 
     /**
      * Returns if the package is available (activated and installed).

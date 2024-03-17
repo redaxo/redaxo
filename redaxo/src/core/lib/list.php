@@ -393,12 +393,8 @@ class rex_list implements rex_url_provider_interface
      * @param array<string, string|int>|callable(self):string $attr Entweder ein array: [attributname => attribut, ...]
      *                                                              oder eine Callback-Funktion
      */
-    public function setRowAttributes($attr): void
+    public function setRowAttributes(array|callable $attr): void
     {
-        if (!is_array($attr) && !is_callable($attr)) {
-            throw new InvalidArgumentException('$attr must be an array or a callable, but "' . get_debug_type($attr) . '" given');
-        }
-
         $this->rowAttributes = $attr;
     }
 

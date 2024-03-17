@@ -195,22 +195,14 @@ class rex_request
      * Searches the value $needle in array $haystack and returns the casted value.
      *
      * @param array $haystack Array
-     * @param string|int $needle Value to search
+     * @param string $needle Value to search
      * @param mixed $vartype Variable type
      * @param mixed $default Default value
      *
-     * @throws InvalidArgumentException
-     *
-     * @return mixed
-     *
      * @psalm-taint-specialize
      */
-    private static function arrayKeyCast(array $haystack, $needle, $vartype, $default = '')
+    private static function arrayKeyCast(array $haystack, string $needle, $vartype, mixed $default = ''): mixed
     {
-        if (!is_scalar($needle)) {
-            throw new InvalidArgumentException('Scalar expected for $needle in arrayKeyCast(), got ' . gettype($needle) . '!');
-        }
-
         if (array_key_exists($needle, $haystack)) {
             if (is_array($vartype) && '' !== $default && is_scalar($vartype[0] ?? null) && $vartype[0] !== $default) {
                 array_unshift($vartype, $default);

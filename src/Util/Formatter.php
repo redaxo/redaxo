@@ -474,19 +474,11 @@ abstract class Formatter
      *
      * @see https://en.m.wikipedia.org/wiki/Unix_time
      * @see https://en.m.wikipedia.org/wiki/Year_2038_problem
-     *
-     * @param string|int $value
-     *
-     * @return int|null
      */
-    private static function getTimestamp($value)
+    private static function getTimestamp(string|int $value): ?int
     {
         if (is_int($value) || ctype_digit($value)) {
             return (int) $value;
-        }
-
-        if (!is_string($value)) {
-            throw new InvalidArgumentException('$value must be a unix timestamp as int or a date(time) string, but "' . get_debug_type($value) . '" given');
         }
 
         if (str_starts_with($value, '0000-00-00')) {

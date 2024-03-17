@@ -9,16 +9,9 @@ class rex_be_page_main extends rex_be_page
 
     /**
      * @param string $block Navigation block
-     * @param string $key
-     * @param string $title
-     *
-     * @throws InvalidArgumentException
      */
-    public function __construct($block, $key, $title)
+    public function __construct(string $block, string $key, string $title)
     {
-        if (!is_string($block)) {
-            throw new InvalidArgumentException('Expecting $block to be a string, ' . gettype($block) . 'given!');
-        }
         $this->block = $block;
 
         parent::__construct($key, $title);
