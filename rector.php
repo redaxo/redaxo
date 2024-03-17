@@ -50,6 +50,7 @@ use Redaxo\Core\Content;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
+use Redaxo\Core\Exception;
 use Redaxo\Core\ExtensionPoint;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
@@ -393,6 +394,7 @@ return RectorConfig::configure()
         'rex_view' => View\View::class,
         'rex_be_style' => Backend\Style::class,
         'rex_scss_compiler' => Util\ScssCompiler::class,
+        'rex_functional_exception' => Exception\UserMessageException::class,
     ])
     ->withConfiguredRule(RenameFunctionRector::class, [
         'rex_escape' => 'Redaxo\\Core\\View\\escape',

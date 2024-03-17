@@ -286,7 +286,6 @@ package_caption = Lijst van beschikbare pakketten
 addon_systemaddon = Systeem AddOn
 addon_systempackage_delete_not_allowed = Systeem AddOns mogen niet verwijderd worden!
 addon_dir_not_writable = Schrijftoegang mist in de AddOn map!
-addon_cache_not_writable = De AddOn cachemap is niet schrijfbaar!
 package_missing_yml_file = Het bestand package.yml ontbreekt!
 package_invalid_yml_file = Het bestand package.yml is ongeldig:
 package_missing_id = "package" is niet opgegeven in package.yml ("package: {0}")!

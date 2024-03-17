@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -32,7 +33,7 @@ abstract class rex_install_package_download
 
         $packages = $this->getPackages();
         if (!isset($packages[$this->addonkey]['files'][$this->fileId])) {
-            throw new rex_functional_exception('The requested addon version can not be loaded, maybe it is already installed.');
+            throw new UserMessageException('The requested addon version can not be loaded, maybe it is already installed.');
         }
         $this->file = $packages[$this->addonkey]['files'][$this->fileId];
         $this->checkPreConditions();

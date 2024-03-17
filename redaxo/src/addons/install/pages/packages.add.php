@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
@@ -31,7 +32,7 @@ try {
     if (isset($config['api_login']) && $config['api_login'] && isset($config['api_key'])) {
         echo Message::info($package->i18n('info_myredaxo'));
     }
-} catch (rex_functional_exception $e) {
+} catch (UserMessageException $e) {
     echo Message::warning($e->getMessage());
     $addonkey = '';
 }

@@ -325,7 +325,6 @@ package_caption = List av alla tillgängliga paket (Packages)
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns får inte raderas!
 addon_dir_not_writable = AddOn-mappen saknar skrivrättigheter!
-addon_cache_not_writable = Addon-Cache mappen har inga skrivrättigheter!
 package_missing_yml_file = package.yml-filen saknas!
 package_invalid_yml_file = Die package.yml ist invalid:
 package_missing_id = "package"-beteckningen saknas i package.yml ("package: {0}")!

@@ -327,7 +327,6 @@ package_caption = Список доступных пакетов
 addon_systemaddon = Системный аддон
 addon_systempackage_delete_not_allowed = Системные аддоны не могут быть удалены!
 addon_dir_not_writable = Для директории Аддонов отсутствуют права на запись!
-addon_cache_not_writable = Директория кэша Аддонов недоступна для записи!
 package_missing_yml_file = Файл package.yml отсутствует!
 package_invalid_yml_file = Файл package.yml неверен:
 package_missing_id = "пакет" не указан в package.yml ("пакет: {0}")!

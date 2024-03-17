@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
@@ -23,7 +24,7 @@ echo ApiFunction::getMessage();
 
 try {
     $addons = rex_install_packages::getMyPackages();
-} catch (rex_functional_exception $e) {
+} catch (UserMessageException $e) {
     echo Message::error($e->getMessage());
     $addonkey = '';
 }

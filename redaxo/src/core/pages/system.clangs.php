@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
@@ -43,13 +44,13 @@ $csrfToken = CsrfToken::factory('clang');
 if ('deleteclang' == $func && '' != $clangId && Language::exists($clangId)) {
     try {
         if (!$csrfToken->isValid()) {
-            throw new rex_functional_exception(I18n::msg('csrf_token_invalid'));
+            throw new UserMessageException(I18n::msg('csrf_token_invalid'));
         }
         LanguageHandler::deleteCLang($clangId);
         $success = I18n::msg('clang_deleted');
         $func = '';
         $clangId = 0;
-    } catch (rex_functional_exception $e) {
+    } catch (UserMessageException $e) {
         echo Message::error($e->getMessage());
     }
 }
@@ -57,14 +58,14 @@ if ('deleteclang' == $func && '' != $clangId && Language::exists($clangId)) {
 if ('editstatus' === $func && Language::exists($clangId)) {
     try {
         if (!$csrfToken->isValid()) {
-            throw new rex_functional_exception(I18n::msg('csrf_token_invalid'));
+            throw new UserMessageException(I18n::msg('csrf_token_invalid'));
         }
         $clang = Language::get($clangId);
         LanguageHandler::editCLang($clangId, $clang->getCode(), $clang->getName(), $clang->getPriority(), $clangStatus);
         $success = I18n::msg('clang_edited');
         $func = '';
         $clangId = 0;
-    } catch (rex_functional_exception $e) {
+    } catch (UserMessageException $e) {
         echo Message::error($e->getMessage());
     }
 }

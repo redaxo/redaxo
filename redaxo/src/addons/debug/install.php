@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
@@ -37,5 +38,5 @@ try {
 }
 
 if ('' != $message) {
-    throw new rex_functional_exception($message);
+    throw new UserMessageException($message);
 }

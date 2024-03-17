@@ -5,6 +5,7 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
@@ -69,7 +70,7 @@ class rex_api_install_package_upload extends ApiFunction
                 $file['checksum'] = md5_file($archive);
             }
             rex_install_webservice::post(rex_install_packages::getPath('?package=' . urlencode($addonkey) . '&file_id=' . Request::request('file', 'int', 0)), ['file' => $file], $archive);
-        } catch (rex_functional_exception $e) {
+        } catch (UserMessageException $e) {
             throw new ApiFunctionException($e->getMessage());
         } finally {
             if ($archive) {

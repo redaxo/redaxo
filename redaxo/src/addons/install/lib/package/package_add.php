@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Path;
 
 /**
@@ -19,7 +20,7 @@ class rex_install_package_add extends rex_install_package_download
     protected function checkPreConditions()
     {
         if (Addon::exists($this->addonkey)) {
-            throw new rex_functional_exception(sprintf('AddOn "%s" already exist!', $this->addonkey));
+            throw new UserMessageException(sprintf('AddOn "%s" already exist!', $this->addonkey));
         }
     }
 
