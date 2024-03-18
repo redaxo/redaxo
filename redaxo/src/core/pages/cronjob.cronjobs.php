@@ -267,9 +267,7 @@ if ('' == $func) {
                     case 'text':
                     case 'textarea':
                     case 'media':
-                    case 'medialist':
-                    case 'link':
-                    case 'linklist':
+                    case 'article':
                     case 'readonly':
                     case 'readonlytext':
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);

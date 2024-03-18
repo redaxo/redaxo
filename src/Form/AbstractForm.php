@@ -635,7 +635,7 @@ abstract class AbstractForm
             'radio' => RadioField::class,
             'select' => SelectField::class,
             'media' => MediaField::class,
-            'link' => ArticleField::class,
+            'article' => ArticleField::class,
             'hidden', 'readonly', 'readonlytext', 'text', 'textarea' => BaseField::class,
             default => throw new rex_exception("Unexpected inputType '" . $inputType . "'!"),
         };
