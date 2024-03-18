@@ -314,6 +314,20 @@ abstract class rex_package implements rex_package_interface
         $this->propertiesLoaded = true;
     }
 
+    public function getLicense(): string
+    {
+        $license = $this->getProperty('license', '');
+        if ('' == $license) {
+            $licensePath = $this->getPath('LICENSE');
+            if (file_exists($licensePath)) {
+                $license = file_get_contents($licensePath);
+                $license = strtok($license, "\n");
+                $license = trim($license);
+            }
+        }
+        return $license;
+    }
+
     /**
      * Clears the cache of the package.
      *

@@ -50,6 +50,7 @@ class rex_command_package_list extends rex_console_command
                 'version' => $package->getVersion(),
                 'installed' => $package->isInstalled(),
                 'activated' => $package->isAvailable(),
+                'license' => $package->getLicense()
             ];
 
             if (!$jsonOutput) {
@@ -81,7 +82,7 @@ class rex_command_package_list extends rex_console_command
             return $usingExitCode ? (int) (0 === count($rows)) : 0;
         }
 
-        $io->table(['package-id', 'author', 'version', 'installed', 'activated'], $rows);
+        $io->table(['package-id', 'author', 'version', 'installed', 'activated', 'license'], $rows);
         return $usingExitCode ? (int) (0 === count($rows)) : 0;
     }
 }
