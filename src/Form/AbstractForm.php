@@ -6,10 +6,12 @@ use BadMethodCallException;
 use InvalidArgumentException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Field\ArticleField;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Form\Field\CheckboxField;
 use Redaxo\Core\Form\Field\ContainerField;
 use Redaxo\Core\Form\Field\ControlField;
+use Redaxo\Core\Form\Field\MediaField;
 use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Form\Field\RawField;
 use Redaxo\Core\Form\Field\SelectField;
@@ -20,8 +22,6 @@ use rex_csrf_token;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
-use rex_form_widget_linkmap_element;
-use rex_form_widget_media_element;
 use rex_view;
 
 use function array_key_exists;
@@ -375,13 +375,13 @@ abstract class AbstractForm
      *
      * @throws rex_exception
      *
-     * @return rex_form_widget_media_element
+     * @return MediaField
      */
     public function addMediaField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = rex_form_widget_media_element::class;
+        $attributes['internal::fieldClass'] = MediaField::class;
         $field = $this->addField('', $name, $value, $attributes, true);
-        assert($field instanceof rex_form_widget_media_element);
+        assert($field instanceof MediaField);
         return $field;
     }
 
@@ -393,13 +393,13 @@ abstract class AbstractForm
      *
      * @throws rex_exception
      *
-     * @return rex_form_widget_linkmap_element
+     * @return ArticleField
      */
-    public function addLinkmapField($name, $value = null, array $attributes = [])
+    public function addArticleField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = rex_form_widget_linkmap_element::class;
+        $attributes['internal::fieldClass'] = ArticleField::class;
         $field = $this->addField('', $name, $value, $attributes, true);
-        assert($field instanceof rex_form_widget_linkmap_element);
+        assert($field instanceof ArticleField);
         return $field;
     }
 
@@ -634,8 +634,8 @@ abstract class AbstractForm
             'checkbox' => CheckboxField::class,
             'radio' => RadioField::class,
             'select' => SelectField::class,
-            'media' => rex_form_widget_media_element::class,
-            'link' => rex_form_widget_linkmap_element::class,
+            'media' => MediaField::class,
+            'article' => ArticleField::class,
             'hidden', 'readonly', 'readonlytext', 'text', 'textarea' => BaseField::class,
             default => throw new rex_exception("Unexpected inputType '" . $inputType . "'!"),
         };

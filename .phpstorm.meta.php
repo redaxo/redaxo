@@ -23,7 +23,7 @@ expectedArguments(\Redaxo\Core\Util\SortableIterator::__construct(), 1, \Redaxo\
 
 expectedArguments(\Redaxo\Core\Form\Form::factory(), 3, 'get', 'post');
 
-registerArgumentsSet('form_field_type', 'text', 'textarea', 'checkbox', 'radio', 'select', 'media', 'medialist', 'link', 'linklist', 'hidden', 'readonly', 'readonlytext', 'control');
+registerArgumentsSet('form_field_type', 'text', 'textarea', 'checkbox', 'radio', 'select', 'media', 'article', 'hidden', 'readonly', 'readonlytext', 'control');
 expectedArguments(\Redaxo\Core\Form\Form::createInput(), 0, argumentsSet('form_field_type'));
 expectedArguments(\Redaxo\Core\Form\Field\ContainerField::addField(), 0, argumentsSet('form_field_type'));
 expectedArguments(\Redaxo\Core\Form\Field\ContainerField::addGroupedField(), 1, argumentsSet('form_field_type'));
