@@ -1466,11 +1466,6 @@ parameters:
 			path: ../../src/Database/Sql.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\File\\:\\:formattedSize\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Filesystem/File.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:backendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Filesystem/Url.php
@@ -1801,22 +1796,12 @@ parameters:
 			path: ../../src/Util/Editor.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:bytes\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Util/Formatter.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:custom\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Util/Formatter.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:email\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Util/Formatter.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:number\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Util/Formatter.php
 

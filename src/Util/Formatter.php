@@ -199,16 +199,12 @@ abstract class Formatter
      * @see https://www.php.net/manual/en/function.number-format.php
      *
      * @param string|float $value Value
-     * @param array $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
+     * @param array{0?: int, 1?: string, 2?: string} $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
      *
      * @return string
      */
-    public static function number($value, $format = [])
+    public static function number($value, array $format = [])
     {
-        if (!is_array($format)) {
-            $format = [];
-        }
-
         // Kommastellen
         if (!isset($format[0])) {
             $format[0] = 2;
@@ -228,11 +224,11 @@ abstract class Formatter
      * Formats a string as bytes.
      *
      * @param string|int $value Value
-     * @param array $format Same as {@link rex_formatter::number()}
+     * @param array{0?: int, 1?: string, 2?: string} $format Same as {@link rex_formatter::number()}
      *
      * @return string
      */
-    public static function bytes($value, $format = [])
+    public static function bytes($value, array $format = [])
     {
         $value = (int) $value;
 

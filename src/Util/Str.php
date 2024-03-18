@@ -14,6 +14,8 @@ use function is_int;
 
 /**
  * String utility class.
+ *
+ * @psalm-type TUrlParams = array<string, string|int|bool|array<string|int|bool|null>|null>
  */
 class Str
 {
@@ -156,9 +158,9 @@ class Str
     /**
      * Generates URL-encoded query string.
      *
-     * @return string
+     * @param TUrlParams $params
      */
-    public static function buildQuery(array $params)
+    public static function buildQuery(array $params): string
     {
         $query = [];
         $func = static function (array $params, ?string $fullkey = null) use (&$query, &$func) {

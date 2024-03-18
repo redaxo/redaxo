@@ -169,6 +169,7 @@
   <file src="redaxo/src/addons/install/lib/api/api_package_upload.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$addonkey]]></code>
+      <code><![CDATA[$addonkey]]></code>
     </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/command/download.php">
@@ -977,6 +978,11 @@
       <code><![CDATA[rex_escape($ftitle)]]></code>
     </MixedOperand>
   </file>
+  <file src="redaxo/src/core/functions/function_structure_rex_url.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$params]]></code>
+    </MixedArgumentTypeCoercion>
+  </file>
   <file src="redaxo/src/core/lib/api_function.php">
     <MixedAssignment>
       <code><![CDATA[$json]]></code>
@@ -1050,6 +1056,11 @@
     <PossiblyInvalidArgument>
       <code><![CDATA[$subProperties]]></code>
     </PossiblyInvalidArgument>
+  </file>
+  <file src="redaxo/src/core/lib/be/page.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$href]]></code>
+    </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/be_style/scss_compiler.php">
     <MixedOperand>
@@ -1126,6 +1137,10 @@
       <code><![CDATA[$_GET + $_POST]]></code>
       <code><![CDATA[$_POST]]></code>
     </InvalidArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$params]]></code>
+      <code><![CDATA[$params]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$valVal]]></code>
       <code><![CDATA[$value]]></code>
@@ -1190,6 +1205,12 @@
       <code><![CDATA[$params]]></code>
       <code><![CDATA[$v]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$flatParams]]></code>
+      <code><![CDATA[$flatParams]]></code>
+      <code><![CDATA[$flatParams]]></code>
+      <code><![CDATA[$flatParams]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayAssignment>
       <code><![CDATA[$groupColumns[]]]></code>
     </MixedArrayAssignment>
@@ -1638,6 +1659,9 @@
     </RedundantCast>
   </file>
   <file src="redaxo/src/core/lib/media_manager/media_manager.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[['effects' => 1, 'type_id' => $sql->getValue('type_id'), 'effect_id' => $sql->getValue('effect_id'), 'func' => 'edit']]]></code>
+    </ArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$effparams[str_replace('rex_effect_' . $effname . '_', '', $name)]]]></code>
       <code><![CDATA[$value]]></code>
@@ -2606,6 +2630,7 @@
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <InvalidArgument>
+      <code><![CDATA[$data]]></code>
       <code><![CDATA[static function ($errno, $errstr) use (&$prevError) {
             if (null === $prevError) {
                 $prevError = $errstr;
@@ -2885,6 +2910,8 @@
       <code><![CDATA[$error]]></code>
       <code><![CDATA[$success]]></code>
       <code><![CDATA[['filename' => $fileName]]]></code>
+      <code><![CDATA[array_merge(['file_id' => $media->getId(), 'rex_file_category' => $rexFileCategory], $argUrl)]]></code>
+      <code><![CDATA[array_merge(['page' => 'mediapool/upload'], $argUrl)]]></code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$fileName]]></code>
@@ -2901,6 +2928,9 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/pages/mediapool.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$argUrl]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$argValue]]></code>
     </MixedAssignment>
@@ -2917,6 +2947,9 @@
       <code><![CDATA[$error]]></code>
       <code><![CDATA[$success]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[array_merge($argUrl, ['cat_id' => ''])]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$OOCat]]></code>
       <code><![CDATA[$OOCats]]></code>
@@ -2987,6 +3020,12 @@
     </TypeDoesNotContainType>
   </file>
   <file src="redaxo/src/core/pages/packages.list.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[
+        'package' => $package->getPackageId(),
+        'function' => $function,
+    ] + rex_api_package::getUrlParams()]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedOperand>
       <code><![CDATA[$function]]></code>
       <code><![CDATA[$icon]]></code>
@@ -3213,6 +3252,11 @@
   <file src="redaxo/src/core/pages/structure.modules.actions.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$actionName]]></code>
+      <code><![CDATA[['action_id' => $sql->getValue('id'), 'function' => 'delete'] + $csrfToken->getUrlParams()]]></code>
+      <code><![CDATA[['action_id' => $sql->getValue('id'), 'function' => 'edit']]]></code>
+      <code><![CDATA[['action_id' => $sql->getValue('id'), 'function' => 'edit']]]></code>
+      <code><![CDATA[['action_id' => $sql->getValue('id'), 'function' => 'edit']]]></code>
+      <code><![CDATA[['function' => 'edit', 'module_id' => $del->getValue('ma.module_id')]]]></code>
     </ArgumentTypeCoercion>
     <InvalidOperand>
       <code><![CDATA[$sql->getValue('postsavemode')]]></code>
@@ -3277,6 +3321,9 @@
       <code><![CDATA[$gma->getValue('name')]]></code>
       <code><![CDATA[$list->getValue('name')]]></code>
       <code><![CDATA[$modulname]]></code>
+      <code><![CDATA[['action_id' => $actionId, 'function' => 'edit']]]></code>
+      <code><![CDATA[['article_id' => $aid, 'clang' => $clangId, 'ctype' => $ctype]]]></code>
+      <code><![CDATA[['module_id' => $moduleId, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iactionId] + $csrfToken->getUrlParams()]]></code>
     </ArgumentTypeCoercion>
     <InvalidArrayOffset>
       <code><![CDATA[$usedIds[$list->getValue('id')]]]></code>
@@ -3472,6 +3519,7 @@
       <code><![CDATA[$userrole]]></code>
       <code><![CDATA[$userrole]]></code>
       <code><![CDATA[$userrole]]></code>
+      <code><![CDATA[['_impersonate' => $list->getValue('id')] + rex_api_user_impersonate::getUrlParams()]]></code>
     </ArgumentTypeCoercion>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$userrole]]></code>
@@ -4113,14 +4161,6 @@
       <code><![CDATA[non-empty-string]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="src/Filesystem/File.php">
-    <MixedInferredReturnType>
-      <code><![CDATA[array<mixed>|T]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[null === $content ? $default : json_decode($content, true)]]></code>
-    </MixedReturnStatement>
-  </file>
   <file src="src/Filesystem/Finder.php">
     <MixedArgument>
       <code><![CDATA[$filename]]></code>
@@ -4154,6 +4194,11 @@
       <code><![CDATA[$this->preView($fieldsetName, $element->getFieldName(), $element->getValue())]]></code>
       <code><![CDATA[$value]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$params]]></code>
+      <code><![CDATA[$params]]></code>
+      <code><![CDATA[$params]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$separateEnding]]></code>
       <code><![CDATA[$value]]></code>
@@ -4582,6 +4627,9 @@
     </MixedReturnStatement>
   </file>
   <file src="src/MetaInfo/Handler/MediaHandler.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[['clang_id' => $clangArr['id'], 'func' => 'editclang']]]></code>
+    </ArgumentTypeCoercion>
     <MixedArgument>
       <code><![CDATA[$catId]]></code>
       <code><![CDATA[$params['filename']]]></code>
@@ -4669,9 +4717,6 @@
     <MixedArgument>
       <code><![CDATA[$format['params']]]></code>
       <code><![CDATA[$format['params']]]></code>
-      <code><![CDATA[$format[0]]]></code>
-      <code><![CDATA[$format[1]]]></code>
-      <code><![CDATA[$format[2]]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$params['params']]]></code>
@@ -4853,6 +4898,11 @@
       <code><![CDATA[$a]]></code>
       <code><![CDATA[$b]]></code>
     </MixedArgument>
+  </file>
+  <file src="tests/Util/StrTest.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$params]]></code>
+    </MixedArgumentTypeCoercion>
   </file>
   <file src="tests/Util/TypeTest.php">
     <MixedOperand>

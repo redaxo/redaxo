@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Util;
 
 use ArrayIterator;
+use Closure;
 use IteratorAggregate;
-use ReturnTypeWillChange;
 use rex_exception;
 use Traversable;
 
@@ -15,28 +15,21 @@ use function is_callable;
  * @template TValue
  * @implements IteratorAggregate<TKey, TValue>
  */
-class SortableIterator implements IteratorAggregate
+readonly class SortableIterator implements IteratorAggregate
 {
-    public const VALUES = 1;
-    public const KEYS = 2;
-
-    /** @var Traversable<TKey, TValue> */
-    private Traversable $iterator;
-    /** @var self::VALUES|self::KEYS|callable(mixed,mixed):int */
-    private $sort;
+    final public const int VALUES = 1;
+    final public const int KEYS = 2;
 
     /**
      * @param Traversable<TKey, TValue> $iterator Inner iterator
-     * @param self::VALUES|self::KEYS|callable(mixed,mixed):int $sort Sort mode, possible values are rex_sortable_iterator::VALUES (default), rex_sortable_iterator::KEYS or a callable
+     * @param self::VALUES|self::KEYS|Closure(mixed,mixed):int $sort Sort mode, possible values are rex_sortable_iterator::VALUES (default), rex_sortable_iterator::KEYS or a callable
      */
-    public function __construct(Traversable $iterator, $sort = self::VALUES)
-    {
-        $this->iterator = $iterator;
-        $this->sort = $sort;
-    }
+    public function __construct(
+        private Traversable $iterator,
+        private int|Closure $sort = self::VALUES,
+    ) {}
 
-    #[ReturnTypeWillChange]
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         $array = iterator_to_array($this->iterator);
         $normalize = static function ($string) {

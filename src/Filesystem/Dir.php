@@ -14,8 +14,10 @@ use const DIRECTORY_SEPARATOR;
 /**
  * Class for handling directories.
  */
-class Dir
+final class Dir
 {
+    private function __construct() {}
+
     /**
      * Creates a directory.
      *
@@ -26,7 +28,7 @@ class Dir
      *
      * @psalm-assert-if-true =non-empty-string $dir
      */
-    public static function create($dir, $recursive = true)
+    public static function create(string $dir, bool $recursive = true): bool
     {
         if (is_dir($dir)) {
             return true;
@@ -50,11 +52,9 @@ class Dir
      *
      * @param string $dir Path of the directory
      *
-     * @return bool
-     *
      * @psalm-assert-if-true =non-empty-string $dir
      */
-    public static function isWritable($dir)
+    public static function isWritable(string $dir): bool
     {
         $dir = rtrim($dir, DIRECTORY_SEPARATOR);
         return @is_dir($dir) && @is_writable($dir . DIRECTORY_SEPARATOR . '.');
@@ -71,7 +71,7 @@ class Dir
      * @psalm-assert-if-true =non-empty-string $srcdir
      * @psalm-assert-if-true =non-empty-string $dstdir
      */
-    public static function copy($srcdir, $dstdir)
+    public static function copy(string $srcdir, string $dstdir): bool
     {
         $srcdir = rtrim($srcdir, DIRECTORY_SEPARATOR);
         $dstdir = rtrim($dstdir, DIRECTORY_SEPARATOR);
@@ -102,7 +102,7 @@ class Dir
      *
      * @return bool TRUE on success, FALSE on failure
      */
-    public static function delete($dir, $deleteSelf = true)
+    public static function delete(string $dir, bool $deleteSelf = true): bool
     {
         if (!is_dir($dir)) {
             return true;
@@ -124,7 +124,7 @@ class Dir
      *
      * @return bool TRUE on success, FALSE on failure
      */
-    public static function deleteFiles($dir, $recursive = true)
+    public static function deleteFiles(string $dir, bool $recursive = true): bool
     {
         $iterator = Finder::factory($dir)->recursive($recursive)->filesOnly()->ignoreSystemStuff(false);
         return self::deleteIterator($iterator);
@@ -137,7 +137,7 @@ class Dir
      *
      * @return bool TRUE on success, FALSE on failure
      */
-    public static function deleteIterator(Traversable $iterator)
+    public static function deleteIterator(Traversable $iterator): bool
     {
         $state = true;
 
