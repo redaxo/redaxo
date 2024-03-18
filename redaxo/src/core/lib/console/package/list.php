@@ -50,7 +50,7 @@ class rex_command_package_list extends rex_console_command
                 'version' => $package->getVersion(),
                 'installed' => $package->isInstalled(),
                 'activated' => $package->isAvailable(),
-                'license' => $package->getLicense()
+                'license' => $package->getLicense(),
             ];
 
             if (!$jsonOutput) {
