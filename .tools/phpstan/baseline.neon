@@ -1666,6 +1666,11 @@ parameters:
 			path: ../../src/Filesystem/Url.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addArticleField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Form/AbstractForm.php
+
+		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addCheckboxField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/AbstractForm.php
@@ -1687,11 +1692,6 @@ parameters:
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addInputField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Form/AbstractForm.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addLinkmapField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/AbstractForm.php
 
