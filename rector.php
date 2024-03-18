@@ -129,6 +129,8 @@ return RectorConfig::configure()
         'rex_form_prio_element' => Form\Field\PriorityField::class,
         'rex_form_perm_select_element' => Form\Field\PermissionSelectField::class,
         'rex_form_raw_element' => Form\Field\RawField::class,
+        'rex_form_widget_linkmap_element' => Form\Field\ArticleField::class,
+        'rex_form_widget_media_element' => Form\Field\MediaField::class,
         'rex_formatter' => Util\Formatter::class,
         'rex_i18n' => Translation\I18n::class,
         'rex_log_entry' => Log\LogEntry::class,
@@ -180,7 +182,8 @@ return RectorConfig::configure()
 
         new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
 
-        new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addLinkmapField'),
+        new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addArticleField'),
+        new MethodCallRename(Form\AbstractForm::class, 'addLinkmapField', 'addArticleField'),
         new MethodCallRename(Form\AbstractForm::class, 'addMedialistField', 'addMediaField'),
     ])
     ->withConfiguredRule(RenameStaticMethodRector::class, [
