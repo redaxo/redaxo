@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Form\Field\ArticleField;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -21,7 +22,7 @@ class rex_system_setting_article_id extends rex_system_setting
 
     public function getField()
     {
-        $field = new rex_form_widget_linkmap_element();
+        $field = new ArticleField();
         $field->setAttribute('class', 'rex-form-widget');
         $field->setLabel(I18n::msg('system_setting_' . $this->key));
         $field->setValue(Core::getConfig($this->key, 1));
