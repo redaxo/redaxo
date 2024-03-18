@@ -151,16 +151,6 @@ parameters:
 			path: ../../redaxo/src/core/functions/function_structure_rex_url.php
 
 		-
-			message: "#^Method rex_be_controller\\:\\:includeCurrentPageSubPath\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/be/controller.php
-
-		-
-			message: "#^Method rex_be_controller\\:\\:includePath\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/be/controller.php
-
-		-
 			message: "#^Method rex_be_controller\\:\\:pageAddProperties\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/be/controller.php
@@ -846,29 +836,9 @@ parameters:
 			path: ../../redaxo/src/core/lib/metainfo/input/mediabutton.php
 
 		-
-			message: "#^Method rex_addon\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: "#^Call to static method Redaxo\\\\Core\\\\Util\\\\Type\\:\\:string\\(\\) on a separate line has no effect\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/addon.php
-
-		-
-			message: "#^Property rex_addon\\:\\:\\$properties type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/addon.php
-
-		-
-			message: "#^Method rex_addon_interface\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/interface.php
-
-		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/manager.php
-
-		-
-			message: "#^Method rex_null_addon\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/null.php
 
 		-
 			message: "#^Property rex_mailer\\:\\:\\$xHeader type has no value type specified in iterable type array\\.$#"
@@ -1569,6 +1539,11 @@ parameters:
 			message: "#^Static property rex_test_instance_pool_base\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_test_instance_pool_base\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_test_instance_pool_base\\|null\\>\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
+
+		-
+			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with arguments 'rex_test_singleton', rex_test_singleton and 'instance of the…' will always evaluate to true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/base/singleton_trait_test.php
 
 		-
 			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<string\\|null\\>, rex_extension_point\\<string\\|null\\> given\\.$#"

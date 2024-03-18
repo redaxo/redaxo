@@ -109,8 +109,8 @@ foreach (rex_addon::getAvailableAddons() as $package) {
     }
 
     $content .= '
-            <tr class="rex-package-is-' . $package->getType() . '">
-                <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $package->getType() . '"></i></td>
+            <tr class="rex-package-is-addon">
+                <td class="rex-table-icon"><i class="rex-icon rex-icon-package-addon"></i></td>
                 <td data-title="' . I18n::msg('credits_name') . '">' . $package->getName() . ' </td>
                 <td data-title="' . I18n::msg('credits_version') . '">' . $packageVersion . '</td>
                 <td class="rex-table-slimmer" data-title="' . I18n::msg('credits_help') . '">
