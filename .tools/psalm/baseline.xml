@@ -133,7 +133,6 @@
       <code><![CDATA[$addon->getProperty('requires', [])]]></code>
       <code><![CDATA[$config['version']]]></code>
       <code><![CDATA[$key]]></code>
-      <code><![CDATA[$key]]></code>
       <code><![CDATA[$msg]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
@@ -189,7 +188,6 @@
   </file>
   <file src="redaxo/src/addons/install/lib/package/package_update.php">
     <MixedArgument>
-      <code><![CDATA[$key]]></code>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$this->addon->getProperty('conflicts', [])]]></code>
       <code><![CDATA[$this->addon->getProperty('requires', [])]]></code>
@@ -1510,9 +1508,6 @@
       <code><![CDATA[rex_escape($name, 'html_attr')]]></code>
       <code><![CDATA[rex_escape($value)]]></code>
     </MixedOperand>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$attr]]></code>
-    </MixedPropertyTypeCoercion>
     <MixedReturnStatement>
       <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
       <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
@@ -2405,7 +2400,6 @@
       <code><![CDATA[$args]]></code>
       <code><![CDATA[$instmsg]]></code>
       <code><![CDATA[$instmsg]]></code>
-      <code><![CDATA[$key]]></code>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$packageId]]></code>
       <code><![CDATA[$requirements['packages'][$packageId]]]></code>
@@ -4818,9 +4812,6 @@
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$cast[2]]]></code>
     </PossiblyUndefinedArrayOffset>
-    <RedundantCondition>
-      <code><![CDATA[!is_array($vartype)]]></code>
-    </RedundantCondition>
   </file>
   <file src="src/Util/Version.php">
     <FalsableReturnStatement>

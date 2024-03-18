@@ -302,17 +302,11 @@ class rex_socket
      * @param string $method HTTP method, e.g. "GET"
      * @param string|callable(resource): void $data Body data as string or a callback for writing the body
      *
-     * @throws InvalidArgumentException
-     *
      * @return rex_socket_response Response
      */
-    public function doRequest($method, $data = '')
+    public function doRequest($method, string|callable $data = '')
     {
         return Timer::measure('Socket request: ' . $this->host . $this->path, function () use ($method, $data) {
-            if (!is_string($data) && !is_callable($data)) {
-                throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
-            }
-
             if (!$this->ssl) {
                 Logger::logError(E_WARNING, 'You should not use non-secure socket connections while connecting to "' . $this->host . '"!', __FILE__, __LINE__);
             }

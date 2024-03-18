@@ -45,21 +45,8 @@ class rex_be_page
     /** @var list<string> */
     private $requiredPermissions = [];
 
-    /**
-     * @param string $key
-     * @param string $title
-     *
-     * @throws InvalidArgumentException
-     */
-    public function __construct($key, $title)
+    public function __construct(string $key, string $title)
     {
-        if (!is_string($key)) {
-            throw new InvalidArgumentException('Expecting $key to be a string, ' . gettype($key) . ' given!');
-        }
-        if (!is_string($title)) {
-            throw new InvalidArgumentException('Expecting $title to be a string, ' . gettype($title) . ' given!');
-        }
-
         $this->key = $key;
         $this->fullKey = $key;
         $this->title = $title;
@@ -194,23 +181,10 @@ class rex_be_page
 
     /**
      * Sets an item attribute.
-     *
-     * @param string $name
-     * @param string $value
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return $this
      */
-    public function setItemAttr($name, $value)
+    public function setItemAttr(string $name, string|int $value): static
     {
-        if (!is_string($name)) {
-            throw new InvalidArgumentException('Expecting $name to be a string, ' . gettype($name) . 'given!');
-        }
-        if (!is_scalar($value)) {
-            throw new InvalidArgumentException('Expecting $value to be a scalar, ' . gettype($value) . 'given!');
-        }
-        $this->itemAttr[$name] = $value;
+        $this->itemAttr[$name] = (string) $value;
 
         return $this;
     }
@@ -220,11 +194,10 @@ class rex_be_page
      *
      * @template T as ?string
      * @param T $name
-     * @param string $default
      * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
      * @psalm-return (T is string ? string : array<string, string>)
      */
-    public function getItemAttr($name, $default = '')
+    public function getItemAttr(?string $name, string $default = ''): string|array
     {
         // return all attributes if null is passed as name
         if (null === $name) {
@@ -236,30 +209,17 @@ class rex_be_page
 
     /**
      * Removes an item attribute.
-     *
-     * @param string $name
-     * @return void
      */
-    public function removeItemAttr($name)
+    public function removeItemAttr(string $name): void
     {
         unset($this->itemAttr[$name]);
     }
 
     /**
      * Adds an item class.
-     *
-     * @param string $class
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return $this
      */
-    public function addItemClass($class)
+    public function addItemClass(string $class): static
     {
-        if (!is_string($class)) {
-            throw new InvalidArgumentException('Expecting $class to be a string, ' . gettype($class) . 'given!');
-        }
-
         $classAttr = $this->getItemAttr('class');
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
             $this->setItemAttr('class', ltrim($classAttr . ' ' . $class));
@@ -270,45 +230,26 @@ class rex_be_page
 
     /**
      * Removes an item class.
-     *
-     * @param string $class
-     * @return void
      */
-    public function removeItemClass($class)
+    public function removeItemClass(string $class): void
     {
         $this->setItemAttr('class', preg_replace('/\b' . preg_quote($class, '/') . '\b/', '', $this->getItemAttr('class')));
     }
 
     /**
      * Sets an link attribute.
-     *
-     * @param string $name
-     * @param string $value
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return $this
      */
-    public function setLinkAttr($name, $value)
+    public function setLinkAttr(string $name, string|int $value): static
     {
-        if (!is_string($name)) {
-            throw new InvalidArgumentException('Expecting $name to be a string, ' . gettype($name) . 'given!');
-        }
-        if (!is_scalar($value)) {
-            throw new InvalidArgumentException('Expecting $value to be a scalar, ' . gettype($value) . 'given!');
-        }
-        $this->linkAttr[$name] = $value;
+        $this->linkAttr[$name] = (string) $value;
 
         return $this;
     }
 
     /**
      * Removes an link attribute.
-     *
-     * @param string $name
-     * @return void
      */
-    public function removeLinkAttr($name)
+    public function removeLinkAttr(string $name): void
     {
         unset($this->linkAttr[$name]);
     }
@@ -318,11 +259,10 @@ class rex_be_page
      *
      * @template T as ?string
      * @param T $name
-     * @param string $default
      * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
      * @psalm-return (T is string ? string : array<string, string>)
      */
-    public function getLinkAttr($name, $default = '')
+    public function getLinkAttr(?string $name, string $default = ''): string|array
     {
         // return all attributes if null is passed as name
         if (null === $name) {
@@ -334,19 +274,9 @@ class rex_be_page
 
     /**
      * Adds an link class.
-     *
-     * @param string $class
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return $this
      */
-    public function addLinkClass($class)
+    public function addLinkClass(string $class): static
     {
-        if (!is_string($class)) {
-            throw new InvalidArgumentException('Expecting $class to be a string, ' . gettype($class) . 'given!');
-        }
-
         $classAttr = $this->getLinkAttr('class');
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
             $this->setLinkAttr('class', ltrim($classAttr . ' ' . $class));
@@ -357,11 +287,8 @@ class rex_be_page
 
     /**
      * Removes an link class.
-     *
-     * @param string $class
-     * @return void
      */
-    public function removeLinkClass($class)
+    public function removeLinkClass(string $class): void
     {
         $this->setLinkAttr('class', preg_replace('/\b' . preg_quote($class, '/') . '\b/', '', $this->getLinkAttr('class')));
     }

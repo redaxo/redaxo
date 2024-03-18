@@ -4,7 +4,6 @@ namespace Redaxo\Core\Log;
 
 use ErrorException;
 use Exception;
-use InvalidArgumentException;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 use Redaxo\Core\Core;
@@ -17,9 +16,6 @@ use Stringable;
 use Throwable;
 
 use function function_exists;
-use function gettype;
-use function is_int;
-use function is_string;
 
 use const E_COMPILE_WARNING;
 use const E_DEPRECATED;
@@ -85,25 +81,9 @@ class Logger extends AbstractLogger
      * @param string $errstr The error message
      * @param string $errfile The file in which the error occured
      * @param int $errline The line of the file in which the error occured
-     *
-     * @throws InvalidArgumentException
-     * @return void
      */
-    public static function logError($errno, $errstr, $errfile, $errline, ?string $url = null)
+    public static function logError(int $errno, string $errstr, string $errfile, int $errline, ?string $url = null): void
     {
-        if (!is_int($errno)) {
-            throw new InvalidArgumentException('Expecting $errno to be integer, but ' . gettype($errno) . ' given!');
-        }
-        if (!is_string($errstr)) {
-            throw new InvalidArgumentException('Expecting $errstr to be string, but ' . gettype($errstr) . ' given!');
-        }
-        if (!is_string($errfile)) {
-            throw new InvalidArgumentException('Expecting $errfile to be string, but ' . gettype($errfile) . ' given!');
-        }
-        if (!is_int($errline)) {
-            throw new InvalidArgumentException('Expecting $errline to be integer, but ' . gettype($errline) . ' given!');
-        }
-
         $logger = self::factory();
         $logger->log(rex_error_handler::getErrorType($errno), $errstr, [], $errfile, $errline, $url);
     }
@@ -112,25 +92,16 @@ class Logger extends AbstractLogger
      * Logs with an arbitrary level.
      *
      * @param mixed $level either one of LogLevel::* or also any other string
-     * @param string|Stringable $message
      * @param array<mixed> $context
-     * @param string|null $file
-     * @param int|null $line
-     *
-     * @throws InvalidArgumentException
      */
-    public function log($level, $message, array $context = [], $file = null, $line = null, ?string $url = null): void
+    public function log($level, string|Stringable $message, array $context = [], ?string $file = null, ?int $line = null, ?string $url = null): void
     {
         if ($factoryClass = static::getExplicitFactoryClass()) {
             $factoryClass::log($level, $message, $context, $file, $line);
             return;
         }
 
-        if ($message instanceof Stringable) {
-            $message = (string) $message;
-        } elseif (!is_string($message)) {
-            throw new InvalidArgumentException('Expecting $message to be string or \Stringable, but ' . gettype($message) . ' given!');
-        }
+        $message = (string) $message;
 
         self::open();
         // build a replacement array with braces around the context keys

@@ -60,17 +60,11 @@ class rex_config
      * @param string|array<string, mixed> $key The associated key or an associative array of key/value pairs
      * @param mixed $value The value to save
      *
-     * @throws InvalidArgumentException
-     *
      * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
-    public static function set($namespace, $key, $value = null): bool
+    public static function set(string $namespace, string|array $key, mixed $value = null): bool
     {
         self::init();
-
-        if (!is_string($namespace)) {
-            throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
-        }
 
         if (is_array($key)) {
             $existed = false;
@@ -78,10 +72,6 @@ class rex_config
                 $existed = self::set($namespace, $k, $v) || $existed;
             }
             return $existed;
-        }
-
-        if (!is_string($key)) {
-            throw new InvalidArgumentException('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
         }
 
         if (!isset(self::$data[$namespace])) {
@@ -114,25 +104,17 @@ class rex_config
      * @param string $namespace The namespace e.g. an addon name
      * @param T $key The associated key
      * @param mixed $default Default return value if no associated-value can be found
-     * @throws InvalidArgumentException
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
-    public static function get($namespace, $key = null, $default = null)
+    public static function get(string $namespace, ?string $key = null, mixed $default = null)
     {
         self::init();
-
-        if (!is_string($namespace)) {
-            throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
-        }
 
         if (null === $key) {
             return self::$data[$namespace] ?? [];
         }
 
-        if (!is_string($key)) {
-            throw new InvalidArgumentException('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
-        }
         return self::$data[$namespace][$key] ?? $default;
     }
 
@@ -142,24 +124,14 @@ class rex_config
      * @param string $namespace The namespace e.g. an addon name
      * @param string|null $key The associated key
      *
-     * @throws InvalidArgumentException
-     *
      * @return bool TRUE if the key is set, otherwise FALSE
      */
-    public static function has($namespace, $key = null): bool
+    public static function has(string $namespace, ?string $key = null): bool
     {
         self::init();
 
-        if (!is_string($namespace)) {
-            throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
-        }
-
         if (null === $key) {
             return isset(self::$data[$namespace]);
-        }
-
-        if (!is_string($key)) {
-            throw new InvalidArgumentException('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
         }
 
         return isset(self::$data[$namespace][$key]);
@@ -171,20 +143,11 @@ class rex_config
      * @param string $namespace The namespace e.g. an addon name
      * @param string $key The associated key
      *
-     * @throws InvalidArgumentException
-     *
      * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
-    public static function remove($namespace, $key): bool
+    public static function remove(string $namespace, string $key): bool
     {
         self::init();
-
-        if (!is_string($namespace)) {
-            throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
-        }
-        if (!is_string($key)) {
-            throw new InvalidArgumentException('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
-        }
 
         if (isset(self::$data[$namespace][$key])) {
             // keep track of deleted data
@@ -212,17 +175,11 @@ class rex_config
      *
      * @param string $namespace The namespace e.g. an addon name
      *
-     * @throws InvalidArgumentException
-     *
      * @return bool TRUE if the namespace was found and removed, otherwise FALSE
      */
-    public static function removeNamespace($namespace): bool
+    public static function removeNamespace(string $namespace): bool
     {
         self::init();
-
-        if (!is_string($namespace)) {
-            throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
-        }
 
         if (isset(self::$data[$namespace])) {
             foreach (self::$data[$namespace] as $key => $value) {

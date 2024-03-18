@@ -16,12 +16,8 @@ class rex_article_service
      *
      * @return string Eine Statusmeldung
      */
-    public static function addArticle($data)
+    public static function addArticle(array $data): string
     {
-        if (!is_array($data)) {
-            throw new rex_api_exception('Expecting $data to be an array!');
-        }
-
         self::reqKey($data, 'category_id');
         self::reqKey($data, 'priority');
         self::reqKey($data, 'name');
@@ -120,12 +116,8 @@ class rex_article_service
      *
      * @return string Eine Statusmeldung
      */
-    public static function editArticle($articleId, $clang, $data)
+    public static function editArticle(int $articleId, int $clang, array $data): string
     {
-        if (!is_array($data)) {
-            throw new rex_api_exception('Expecting $data to be an array!');
-        }
-
         self::reqKey($data, 'name');
 
         // Artikel mit alten Daten selektieren

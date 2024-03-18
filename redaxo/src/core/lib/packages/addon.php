@@ -60,17 +60,10 @@ class rex_addon implements rex_addon_interface
      * Returns the addon by the given name.
      *
      * @param string $addon Addon name
-     *
-     * @throws InvalidArgumentException
-     *
      * @return rex_addon_interface If the package exists, a `rex_addon` is returned, otherwise a `rex_null_addon`
      */
-    public static function get($addon)
+    public static function get(string $addon): rex_addon_interface
     {
-        if (!is_string($addon)) {
-            throw new InvalidArgumentException('Expecting $addon to be string, but ' . gettype($addon) . ' given!');
-        }
-
         if (!isset(self::$addons[$addon])) {
             return rex_null_addon::getInstance();
         }
@@ -162,35 +155,32 @@ class rex_addon implements rex_addon_interface
         return in_array($this->getPackageId(), Core::getProperty('system_addons'));
     }
 
-    public function setConfig($key, $value = null)
+    public function setConfig(string|array $key, mixed $value = null): bool
     {
         return rex_config::set($this->getPackageId(), $key, $value);
     }
 
-    public function getConfig($key = null, $default = null)
+    public function getConfig(?string $key = null, mixed $default = null): mixed
     {
         return rex_config::get($this->getPackageId(), $key, $default);
     }
 
-    public function hasConfig($key = null)
+    public function hasConfig(?string $key = null): bool
     {
         return rex_config::has($this->getPackageId(), $key);
     }
 
-    public function removeConfig($key)
+    public function removeConfig(string $key): bool
     {
         return rex_config::remove($this->getPackageId(), $key);
     }
 
-    public function setProperty($key, $value)
+    public function setProperty(string $key, mixed $value): void
     {
-        if (!is_string($key)) {
-            throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
-        }
         $this->properties[$key] = $value;
     }
 
-    public function getProperty($key, $default = null)
+    public function getProperty(string $key, mixed $default = null): mixed
     {
         if ($this->hasProperty($key)) {
             return $this->properties[$key];
@@ -198,22 +188,16 @@ class rex_addon implements rex_addon_interface
         return $default;
     }
 
-    public function hasProperty($key)
+    public function hasProperty(string $key): bool
     {
-        if (!is_string($key)) {
-            throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
-        }
         if (!isset($this->properties[$key]) && !$this->propertiesLoaded) {
             $this->loadProperties();
         }
         return isset($this->properties[$key]);
     }
 
-    public function removeProperty($key)
+    public function removeProperty(string $key): void
     {
-        if (!is_string($key)) {
-            throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
-        }
         unset($this->properties[$key]);
     }
 

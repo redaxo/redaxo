@@ -137,7 +137,7 @@ class I18n
      * @psalm-taint-escape has_quotes
      * @psalm-taint-escape html
      */
-    public static function msg($key, ...$replacements)
+    public static function msg(string $key, string|int ...$replacements): string
     {
         return self::getMsg($key, true, func_get_args());
     }
@@ -250,16 +250,13 @@ class I18n
     /**
      * Returns the translation for the given key.
      *
-     * @param string $key
-     * @param bool $escape
      * @param list<string|int> $replacements A arbritary number of strings/ints used for interpolating within the resolved message
-     * @param string $locale A Locale
      *
      * @psalm-taint-escape ($escape is true ? "html" : null)
      *
      * @return non-empty-string
      */
-    private static function getMsg($key, $escape, array $replacements, $locale = null)
+    private static function getMsg(string $key, bool $escape, array $replacements, ?string $locale = null): string
     {
         if (!$locale) {
             $locale = self::getLocale();
@@ -369,19 +366,13 @@ class I18n
      * @param bool $escape Flag whether the translated text should be escaped
      * @param callable(string):string|null $i18nFunction Function that returns the translation for the i18n key
      *
-     * @throws InvalidArgumentException
-     *
      * @psalm-taint-escape ($escape is true ? "html" : null)
      * @psalm-taint-specialize
      *
      * @return non-empty-string Translated text
      */
-    public static function translate($text, $escape = true, ?callable $i18nFunction = null)
+    public static function translate(string $text, bool $escape = true, ?callable $i18nFunction = null): string
     {
-        if (!is_string($text)) {
-            throw new InvalidArgumentException('Expecting $text to be a String, "' . gettype($text) . '" given!');
-        }
-
         $tranKey = 'translate:';
         $transKeyLen = strlen($tranKey);
         if (substr($text, 0, $transKeyLen) == $tranKey) {

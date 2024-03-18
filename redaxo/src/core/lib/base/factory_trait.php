@@ -34,13 +34,9 @@ trait rex_factory_trait
      * @psalm-param class-string<self> $subclass https://github.com/vimeo/psalm/issues/5535
      *
      * @throws InvalidArgumentException
-     * @return void
      */
-    public static function setFactoryClass($subclass)
+    public static function setFactoryClass(string $subclass): void
     {
-        if (!is_string($subclass)) {
-            throw new InvalidArgumentException('Expecting $subclass to be a string, ' . gettype($subclass) . ' given!');
-        }
         $calledClass = static::class;
         if ($subclass != $calledClass && !is_subclass_of($subclass, $calledClass)) {
             throw new InvalidArgumentException('$class "' . $subclass . '" is expected to define a subclass of ' . $calledClass . '!');

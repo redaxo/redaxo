@@ -8,6 +8,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Util\Type;
 use stdClass;
+use Throwable;
+use TypeError;
 
 /** @internal */
 final class TypeTest extends TestCase
@@ -71,25 +73,25 @@ final class TypeTest extends TestCase
         self::assertSame($expectedResult, Type::cast($var, $vartype));
     }
 
-    /** @return list<array{mixed}> */
+    /** @return list<array{0: mixed, 1?: class-string<Throwable>}> */
     public static function castWrongVartypeProvider(): array
     {
         return [
             ['wrongVartype'],
             [1],
-            [false],
             ['array['],
             ['array[abc]'],
             [[]],
             [[1, ['foo', 'bool']]],
-            [new stdClass()],
+            [new stdClass(), TypeError::class],
         ];
     }
 
+    /** @param class-string<Throwable> $exceptionClass */
     #[DataProvider('castWrongVartypeProvider')]
-    public function testCastWrongVartype(mixed $vartype): void
+    public function testCastWrongVartype(mixed $vartype, string $exceptionClass = InvalidArgumentException::class): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException($exceptionClass);
 
         /** @psalm-suppress MixedArgument */
         Type::cast(1, $vartype);

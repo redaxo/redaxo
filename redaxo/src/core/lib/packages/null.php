@@ -62,39 +62,39 @@ class rex_null_addon implements rex_addon_interface
         throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
-    public function setConfig($key, $value = null)
+    public function setConfig(string|array $key, mixed $value = null): bool
     {
         return false;
     }
 
-    public function getConfig($key = null, $default = null)
+    public function getConfig(?string $key = null, mixed $default = null): mixed
     {
         return $default;
     }
 
-    public function hasConfig($key = null)
+    public function hasConfig(?string $key = null): bool
     {
         return false;
     }
 
-    public function removeConfig($key)
+    public function removeConfig(string $key): bool
     {
         return false;
     }
 
-    public function setProperty($key, $value) {}
+    public function setProperty(string $key, mixed $value): void {}
 
-    public function getProperty($key, $default = null)
+    public function getProperty(string $key, mixed $default = null): mixed
     {
         return $default;
     }
 
-    public function hasProperty($key)
+    public function hasProperty(string $key): bool
     {
         return false;
     }
 
-    public function removeProperty($key) {}
+    public function removeProperty(string $key): void {}
 
     public function isAvailable()
     {

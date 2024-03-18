@@ -6,19 +6,14 @@ use Redaxo\Core\Util\Str;
 /**
  * Gibt eine Url zu einem Artikel zurück.
  *
- * @param int|string|null $id
- * @param int|string|null $clang SprachId des Artikels
  * @param array $params Array von Parametern
- *
- * @return string
  */
-function rex_getUrl($id = null, $clang = null, array $params = [])
+function rex_getUrl(?int $id = null, ?int $clang = null, array $params = []): string
 {
-    $id = (int) $id;
     $clang = (int) $clang;
 
     // ----- get id
-    if (0 == $id) {
+    if (!$id) {
         $id = rex_article::getCurrentId();
     }
 
@@ -50,18 +45,8 @@ function rex_getUrl($id = null, $clang = null, array $params = [])
 
 /**
  * Leitet auf einen anderen Artikel weiter.
- *
- * @param int|string|null $articleId
- * @param int|string|null $clang SprachId des Artikels
- *
- * @throws InvalidArgumentException
- * @return never
  */
-function rex_redirect($articleId, $clang = null, array $params = [])
+function rex_redirect(?int $articleId = null, ?int $clang = null, array $params = []): never
 {
-    if (null !== $articleId && '' !== $articleId && !is_int($articleId) && $articleId !== (string) (int) $articleId) {
-        throw new InvalidArgumentException(sprintf('"%s" is not a valid article_id!', $articleId));
-    }
-
     rex_response::sendRedirect(rex_getUrl($articleId, $clang, $params));
 }

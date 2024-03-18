@@ -8,7 +8,7 @@ use Redaxo\Core\Log\Logger;
  */
 class rex_logger_debug extends Logger
 {
-    public function log($level, $message, array $context = [], $file = null, $line = null, ?string $url = null): void
+    public function log($level, string|Stringable $message, array $context = [], ?string $file = null, ?int $line = null, ?string $url = null): void
     {
         $levelType = is_int($level) ? self::getLogLevel($level) : $level;
 
