@@ -1,8 +1,14 @@
 <?php
 
-use Redaxo\Core\Translation\I18n;
+namespace Redaxo\Core\Cronjob\Type;
 
-class rex_cronjob_urlrequest extends rex_cronjob
+use Redaxo\Core\Translation\I18n;
+use rex_exception;
+use rex_socket;
+
+use function in_array;
+
+class UrlRequestType extends AbstractType
 {
     public function execute()
     {
