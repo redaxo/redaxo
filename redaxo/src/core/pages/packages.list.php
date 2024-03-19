@@ -85,17 +85,9 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
         }
     }
 
-    $license = '';
-    if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
-        $f = fopen($licenseFile, 'r');
-        $firstLine = fgets($f) ?: '';
-        fclose($f);
-
-        if (preg_match('/^The MIT License(?: \(MIT\))$/i', $firstLine)) {
-            $firstLine = 'MIT License';
-        }
-
-        $license = '<a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) . '" data-pjax-scroll-to="0"><i class="rex-icon rex-icon-license"></i> ' . rex_escape($firstLine) . '</a>';
+    $license = $package->getLicense();
+    if ('' !== $license) {
+        $license = '<a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) . '" data-pjax-scroll-to="0"><i class="rex-icon rex-icon-license"></i> ' . rex_escape($license) . '</a>';
     }
 
     return '
