@@ -148,6 +148,7 @@ return RectorConfig::configure()
         'rex_log_file' => Log\LogFile::class,
         'rex_logger' => Log\Logger::class,
         'rex_markdown' => Util\Markdown::class,
+        'rex_metainfo_default_type' => MetaInfo\Form\DefaultType::class,
         'rex_metainfo_table_expander' => MetaInfo\Form\MetaInfoForm::class,
         'rex_pager' => Util\Pager::class,
         'rex_parsedown' => Util\Parsedown::class,

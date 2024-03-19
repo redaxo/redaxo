@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MetaInfo\Form\DefaultType;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -51,7 +52,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                 $key = 'articles';
             }
             $where[$key][] = match ((int) $sql->getValue('type_id')) {
-                rex_metainfo_default_type::REX_MEDIA_WIDGET => 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($name) . ')',
+                DefaultType::REX_MEDIA_WIDGET => 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($name) . ')',
                 default => throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type_id') . '"!'),
             };
             $sql->next();

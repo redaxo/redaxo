@@ -1,9 +1,11 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Form;
+
 /**
  * @api
  */
-final class rex_metainfo_default_type
+final class DefaultType
 {
     public const TEXT = 1;
     public const TEXTAREA = 2;
