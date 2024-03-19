@@ -241,11 +241,11 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
 
     // include extensions
     if ('structure' == $page) {
-        require_once __DIR__ . '/../lib/metainfo/handler/category_handler.php';
+        require_once dirname(__DIR__, 4) . '/src/MetaInfo/Handler/CategoryHandler.php';
     } elseif ('mediapool' == $mainpage) {
-        require_once __DIR__ . '/../lib/metainfo/handler/media_handler.php';
+        require_once dirname(__DIR__, 4) . '/src/MetaInfo/Handler/MediaHandler.php';
     } elseif ('system/lang' == $page) {
-        require_once __DIR__ . '/../lib/metainfo/handler/clang_handler.php';
+        require_once dirname(__DIR__, 4) . '/src/MetaInfo/Handler/LanguageHandler.php';
     } elseif ('backup' == $page) {
         require_once __DIR__ . '/function_metainfo_extension_cleanup.php';
     }
