@@ -31,9 +31,7 @@ abstract class rex_metainfo_handler
 
         // Startwert für MEDIABUTTON, MEDIALIST, LINKLIST zähler
         $mediaId = 1;
-        $mlistId = 1;
         $linkId = 1;
-        $llistId = 1;
 
         $activeItem = $epParams['activeItem'] ?? null;
 
