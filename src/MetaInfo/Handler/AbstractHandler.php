@@ -533,7 +533,7 @@ abstract class AbstractHandler
      * Retrieves the posted value for the given field and converts it into a saveable format.
      *
      * @param string $fieldName The name of the field
-     * @param int $fieldType One of the rex_metainfo_table_manager::FIELD_* constants
+     * @param int $fieldType One of the Table::FIELD_* constants
      * @param string $fieldAttributes The attributes of the field
      *
      * @return string|int|null
