@@ -992,26 +992,6 @@
       <code><![CDATA[$message]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/core/lib/backup/cronjob.php">
-    <MixedArgument>
-      <code><![CDATA[$excludedTables]]></code>
-      <code><![CDATA[$filename]]></code>
-      <code><![CDATA[$this->getParam('delete_interval')]]></code>
-      <code><![CDATA[$this->getParam('mailaddress')]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$excludedTables]]></code>
-      <code><![CDATA[$filename]]></code>
-    </MixedAssignment>
-    <PossiblyInvalidOperand>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$filename]]></code>
-    </PossiblyInvalidOperand>
-  </file>
   <file src="redaxo/src/core/lib/base/instance_list_pool_trait.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[(array) $key]]></code>
@@ -1349,73 +1329,6 @@
     <MixedAssignment>
       <code><![CDATA[$id]]></code>
       <code><![CDATA[$name]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/cronjob/manager.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$cronjob::class]]></code>
-    </MixedOperand>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[str_replace($type . '_', '', $key)]]></code>
-    </PossiblyInvalidArgument>
-  </file>
-  <file src="redaxo/src/core/lib/cronjob/manager_sql.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['interval']]]></code>
-      <code><![CDATA[$job['name']]]></code>
-      <code><![CDATA[$jobs[0]]]></code>
-      <code><![CDATA[$jobs[0]['name']]]></code>
-      <code><![CDATA[$type]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidArgument>
-      <code><![CDATA[$job]]></code>
-      <code><![CDATA[$jobs[0]]]></code>
-    </InvalidArgument>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->sql->getValue('name')]]></code>
-    </LessSpecificReturnStatement>
-    <MixedArgument>
-      <code><![CDATA[$status]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[json_decode($interval, true)]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$params]]></code>
-    </MixedAssignment>
-    <MoreSpecificReturnType>
-      <code><![CDATA[string]]></code>
-    </MoreSpecificReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->sql->getValue('name')]]></code>
-    </NullableReturnStatement>
-    <PossiblyNullArgument>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['interval']]]></code>
-      <code><![CDATA[$job['name']]]></code>
-      <code><![CDATA[$jobs[0]['name']]]></code>
-      <code><![CDATA[$type]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/cronjob/types/urlrequest.php">
-    <MixedArgument>
-      <code><![CDATA[$post]]></code>
-      <code><![CDATA[$this->getParam('password')]]></code>
-      <code><![CDATA[$this->getParam('url')]]></code>
-      <code><![CDATA[$this->getParam('user')]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$post]]></code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/csrf_token.php">
@@ -2935,16 +2848,6 @@
       <code><![CDATA[getValue]]></code>
     </MixedMethodCall>
   </file>
-  <file src="redaxo/src/core/lib/structure/history/cronjob.php">
-    <MixedAssignment>
-      <code><![CDATA[$period]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$period]]></code>
-      <code><![CDATA[$period]]></code>
-      <code><![CDATA[$period]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/lib/structure/history/history_login.php">
     <MixedArgument>
       <code><![CDATA[$key1]]></code>
@@ -4277,6 +4180,62 @@
       <code><![CDATA[$server]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
+  <file src="src/Cronjob/CronjobExecutor.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$key]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$cronjob::class]]></code>
+    </MixedOperand>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[str_replace($type . '_', '', $key)]]></code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="src/Cronjob/CronjobManager.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['interval']]]></code>
+      <code><![CDATA[$job['name']]]></code>
+      <code><![CDATA[$jobs[0]]]></code>
+      <code><![CDATA[$jobs[0]['name']]]></code>
+      <code><![CDATA[$type]]></code>
+    </ArgumentTypeCoercion>
+    <InvalidArgument>
+      <code><![CDATA[$job]]></code>
+      <code><![CDATA[$jobs[0]]]></code>
+    </InvalidArgument>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->sql->getValue('name')]]></code>
+    </LessSpecificReturnStatement>
+    <MixedArgument>
+      <code><![CDATA[$status]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[json_decode($interval, true)]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$params]]></code>
+    </MixedAssignment>
+    <MoreSpecificReturnType>
+      <code><![CDATA[string]]></code>
+    </MoreSpecificReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->sql->getValue('name')]]></code>
+    </NullableReturnStatement>
+    <PossiblyNullArgument>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['id']]]></code>
+      <code><![CDATA[$job['interval']]]></code>
+      <code><![CDATA[$job['name']]]></code>
+      <code><![CDATA[$jobs[0]['name']]]></code>
+      <code><![CDATA[$type]]></code>
+    </PossiblyNullArgument>
+  </file>
   <file src="src/Cronjob/Form/CronjobForm.php">
     <MixedArgument>
       <code><![CDATA[$attributes]]></code>
@@ -4308,6 +4267,47 @@
       <code><![CDATA[$this->getAttribute('name')]]></code>
       <code><![CDATA[$this->getAttribute('name')]]></code>
     </PossiblyNullOperand>
+  </file>
+  <file src="src/Cronjob/Type/ClearArticleHistoryType.php">
+    <MixedAssignment>
+      <code><![CDATA[$period]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$period]]></code>
+      <code><![CDATA[$period]]></code>
+      <code><![CDATA[$period]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/Cronjob/Type/ExportType.php">
+    <MixedArgument>
+      <code><![CDATA[$excludedTables]]></code>
+      <code><![CDATA[$filename]]></code>
+      <code><![CDATA[$this->getParam('delete_interval')]]></code>
+      <code><![CDATA[$this->getParam('mailaddress')]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$excludedTables]]></code>
+      <code><![CDATA[$filename]]></code>
+    </MixedAssignment>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$filename]]></code>
+    </PossiblyInvalidOperand>
+  </file>
+  <file src="src/Cronjob/Type/UrlRequestType.php">
+    <MixedArgument>
+      <code><![CDATA[$post]]></code>
+      <code><![CDATA[$this->getParam('password')]]></code>
+      <code><![CDATA[$this->getParam('url')]]></code>
+      <code><![CDATA[$this->getParam('user')]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$post]]></code>
+    </MixedAssignment>
   </file>
   <file src="src/Database/SchemaDumper.php">
     <RedundantCondition>

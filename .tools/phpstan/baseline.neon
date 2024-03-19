@@ -221,26 +221,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/cronjob/command/run.php
 
 		-
-			message: "#^Method rex_cronjob_manager\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/manager.php
-
-		-
-			message: "#^Method rex_cronjob_manager_sql\\:\\:calculateNextTime\\(\\) has parameter \\$interval with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/manager_sql.php
-
-		-
-			message: "#^Method rex_cronjob_manager_sql\\:\\:setExecutionStart\\(\\) has parameter \\$reset with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/manager_sql.php
-
-		-
-			message: "#^Method rex_cronjob_manager_sql\\:\\:setStatus\\(\\) has parameter \\$status with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/manager_sql.php
-
-		-
 			message: "#^Method rex_list\\:\\:_getAttributeString\\(\\) has parameter \\$array with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
@@ -1614,6 +1594,26 @@ parameters:
 			message: "#^Method rex_var_test\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/var/var_test.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\CronjobExecutor\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Cronjob/CronjobExecutor.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\CronjobManager\\:\\:calculateNextTime\\(\\) has parameter \\$interval with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Cronjob/CronjobManager.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\CronjobManager\\:\\:setExecutionStart\\(\\) has parameter \\$reset with no type specified\\.$#"
+			count: 1
+			path: ../../src/Cronjob/CronjobManager.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\CronjobManager\\:\\:setStatus\\(\\) has parameter \\$status with no type specified\\.$#"
+			count: 1
+			path: ../../src/Cronjob/CronjobManager.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\Form\\\\CronjobForm\\:\\:addIntervalField\\(\\) has parameter \\$attributes with no type specified\\.$#"
