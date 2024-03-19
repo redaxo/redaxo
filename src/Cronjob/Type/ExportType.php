@@ -1,12 +1,21 @@
 <?php
 
+namespace Redaxo\Core\Cronjob\Type;
+
+use DateTimeImmutable;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use rex_backup;
+use rex_backup_file_compressor;
+use rex_mailer;
 
-class rex_cronjob_export extends rex_cronjob
+use const GLOB_NOSORT;
+use const SORT_NUMERIC;
+
+class ExportType extends AbstractType
 {
     public const DEFAULT_FILENAME = '%REX_SERVER_%Y%m%d_%H%M_rex%REX_VERSION';
 
