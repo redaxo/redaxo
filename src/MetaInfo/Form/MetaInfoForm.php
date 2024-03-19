@@ -8,6 +8,10 @@ use Redaxo\Core\Database\Util;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\MetaInfo\Database\Table;
 use Redaxo\Core\MetaInfo\Form\Field\RestrictionField;
+use Redaxo\Core\MetaInfo\Handler\ArticleHandler;
+use Redaxo\Core\MetaInfo\Handler\CategoryHandler;
+use Redaxo\Core\MetaInfo\Handler\LanguageHandler;
+use Redaxo\Core\MetaInfo\Handler\MediaHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
@@ -17,10 +21,6 @@ use rex_exception;
 use rex_extension;
 use rex_extension_point;
 use rex_media_category_select;
-use rex_metainfo_article_handler;
-use rex_metainfo_category_handler;
-use rex_metainfo_clang_handler;
-use rex_metainfo_media_handler;
 use rex_response;
 use rex_template_select;
 
@@ -147,21 +147,21 @@ class MetaInfoForm extends Form
         $field->setLabel(I18n::msg('minfo_field_label_default'));
         $field->getValidator()->add(ValidationRule::MAX_LENGTH, null, 255);
 
-        if (rex_metainfo_clang_handler::PREFIX !== $this->metaPrefix) {
+        if (LanguageHandler::PREFIX !== $this->metaPrefix) {
             $field = $this->addRestrictionsField('restrictions');
             $field->setLabel(I18n::msg('minfo_field_label_restrictions'));
             $field->setAllCheckboxLabel(I18n::msg('minfo_field_label_no_restrictions'));
 
-            if (rex_metainfo_article_handler::PREFIX == $this->metaPrefix || rex_metainfo_category_handler::PREFIX == $this->metaPrefix) {
+            if (ArticleHandler::PREFIX == $this->metaPrefix || CategoryHandler::PREFIX == $this->metaPrefix) {
                 $field->setSelect(new rex_category_select(false, false, true, false));
-            } elseif (rex_metainfo_media_handler::PREFIX == $this->metaPrefix) {
+            } elseif (MediaHandler::PREFIX == $this->metaPrefix) {
                 $field->setSelect(new rex_media_category_select());
             } else {
                 throw new rex_exception('Unexpected TablePrefix "' . $this->metaPrefix . '".');
             }
         }
 
-        if (rex_metainfo_article_handler::PREFIX === $this->metaPrefix) {
+        if (ArticleHandler::PREFIX === $this->metaPrefix) {
             $field = $this->addRestrictionsField('templates');
             $field->setLabel(I18n::msg('minfo_field_label_templates'));
             $field->setAllCheckboxLabel(I18n::msg('minfo_field_label_all_templates'));

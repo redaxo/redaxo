@@ -1,5 +1,9 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Handler;
+
+use Exception;
+use PDO;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\MetaInfo\Database\Table;
@@ -12,11 +16,19 @@ use Redaxo\Core\MetaInfo\Form\Input\TextInput;
 use Redaxo\Core\MetaInfo\Form\Input\TimeInput;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use rex_extension;
+use rex_extension_point;
+use rex_fragment;
+use rex_select;
+
+use function count;
+use function in_array;
+use function is_int;
 
 /**
  * @internal
  */
-abstract class rex_metainfo_handler
+abstract class AbstractHandler
 {
     /**
      * Erstellt den nötigen HTML Code um ein Formular zu erweitern.
