@@ -1,9 +1,12 @@
 <?php
 
+namespace Redaxo\Core\Cronjob\Type;
+
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
+use rex_mailer;
 
-class rex_cronjob_mailer_purge extends rex_cronjob
+class ClearMailerArchiveType extends AbstractType
 {
     private function purgeMailarchive(int $days = 7, string $dir = ''): int
     {
