@@ -316,7 +316,7 @@ abstract class rex_package implements rex_package_interface
 
     public function getLicense(): string
     {
-        $license = $this->getProperty('license', '');
+        $license = (string) $this->getProperty('license', '');
 
         if ('' === $license && (is_readable($licenseFile = $this->getPath('LICENSE.md')) || is_readable($licenseFile = $this->getPath('LICENSE')))) {
             $f = fopen($licenseFile, 'r');
