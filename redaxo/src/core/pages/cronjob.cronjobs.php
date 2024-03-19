@@ -1,7 +1,11 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Cronjob\CronjobExecutor;
+use Redaxo\Core\Cronjob\CronjobManager;
 use Redaxo\Core\Cronjob\Form\CronjobForm;
+use Redaxo\Core\Cronjob\Type\AbstractType;
+use Redaxo\Core\Cronjob\Type\UrlRequestType;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\RadioField;
@@ -19,7 +23,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
     echo rex_view::error(I18n::msg('csrf_token_invalid'));
     $func = '';
 } elseif ('setstatus' == $func) {
-    $manager = rex_cronjob_manager_sql::factory();
+    $manager = CronjobManager::factory();
     $name = $manager->getName($oid);
     $status = (rex_request('oldstatus', 'int') + 1) % 2;
     $msg = 1 == $status ? 'status_activate' : 'status_deactivate';
@@ -30,7 +34,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
     }
     $func = '';
 } elseif ('delete' == $func) {
-    $manager = rex_cronjob_manager_sql::factory();
+    $manager = CronjobManager::factory();
     $name = $manager->getName($oid);
     if ($manager->delete($oid)) {
         echo rex_view::success(I18n::msg('cronjob_delete_success', $name));
@@ -39,7 +43,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
     }
     $func = '';
 } elseif ('execute' == $func) {
-    $manager = rex_cronjob_manager_sql::factory();
+    $manager = CronjobManager::factory();
     $name = $manager->getName($oid);
     $success = $manager->tryExecute($oid);
     $msg = '';
@@ -104,7 +108,7 @@ if ('' == $func) {
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->setColumnLayout('status', ['<th class="rex-table-action" colspan="4">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnFormat('status', 'custom', static function () use ($list) {
-        if (!class_exists($list->getValue('type')) || !in_array($list->getValue('type'), rex_cronjob_manager::getTypes())) {
+        if (!class_exists($list->getValue('type')) || !in_array($list->getValue('type'), CronjobExecutor::getTypes())) {
             $str = I18n::msg('cronjob_status_invalid');
         } elseif (1 == $list->getValue('status')) {
             $str = $list->getColumnLink('status', '<span class="rex-online"><i class="rex-icon rex-icon-active-true"></i> ' . I18n::msg('cronjob_status_activated') . '</span>');
@@ -188,11 +192,11 @@ if ('' == $func) {
     $select = $field->getSelect();
     $select->setSize(1);
     $typeFieldId = rex_escape($field->getAttribute('id'), 'js');
-    $types = rex_cronjob_manager::getTypes();
+    $types = CronjobExecutor::getTypes();
     $cronjobs = [];
     foreach ($types as $class) {
-        $cronjob = rex_cronjob::factory($class);
-        if ($cronjob instanceof rex_cronjob) {
+        $cronjob = AbstractType::factory($class);
+        if ($cronjob instanceof AbstractType) {
             $cronjobs[$cronjob->getTypeName() . $class] = $cronjob;
         }
     }
@@ -202,7 +206,7 @@ if ('' == $func) {
         $select->addOption($cronjob->getTypeName(), $class, 0, 0, ['data-cronjob_id' => Str::normalize($class)]);
     }
     if ('add' == $func) {
-        $select->setSelected(rex_cronjob_urlrequest::class);
+        $select->setSelected(UrlRequestType::class);
     }
     $activeType = $field->getValue();
 
