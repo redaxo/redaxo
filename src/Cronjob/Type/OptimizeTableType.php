@@ -1,10 +1,13 @@
 <?php
 
+namespace Redaxo\Core\Cronjob\Type;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use rex_sql_exception;
 
-class rex_cronjob_optimize_tables extends rex_cronjob
+class OptimizeTableType extends AbstractType
 {
     public function execute()
     {
