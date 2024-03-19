@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\MetaInfo\Database\Table;
 use Redaxo\Core\MetaInfo\Form\Input\ArticleInput;
 use Redaxo\Core\MetaInfo\Form\Input\DateInput;
 use Redaxo\Core\MetaInfo\Form\Input\DateTimeInput;
@@ -563,8 +564,8 @@ abstract class rex_metainfo_handler
             } else {
                 $postValue = $postValue[0] ?? '';
                 if (
-                    rex_metainfo_table_manager::FIELD_SELECT == $fieldType && str_contains($fieldAttributes, 'multiple')
-                    || rex_metainfo_table_manager::FIELD_CHECKBOX == $fieldType
+                    Table::FIELD_SELECT == $fieldType && str_contains($fieldAttributes, 'multiple')
+                    || Table::FIELD_CHECKBOX == $fieldType
                 ) {
                     // Mehrwertiges Feld, aber nur ein Wert ausgewählt
                     $saveValue = '|' . $postValue . '|';

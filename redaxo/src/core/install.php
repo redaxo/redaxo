@@ -6,6 +6,7 @@ use Redaxo\Core\Database\ForeignKey;
 use Redaxo\Core\Database\Index;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
+use Redaxo\Core\MetaInfo\Database\Table as MetaInfoTable;
 use Redaxo\Core\MetaInfo\Form\DefaultType;
 
 Table::get(Core::getTable('clang'))
@@ -527,9 +528,9 @@ foreach ($tablePrefixes as $table => $prefixes) {
 $sql = Sql::factory();
 $sql->setQuery('SELECT p.name, p.default, t.dbtype, t.dblength FROM ' . Core::getTable('metainfo_field') . ' p, ' . Core::getTable('metainfo_type') . ' t WHERE p.type_id = t.id');
 $managers = [
-    'article' => new rex_metainfo_table_manager(Core::getTable('article')),
-    'media' => new rex_metainfo_table_manager(Core::getTable('media')),
-    'clang' => new rex_metainfo_table_manager(Core::getTable('clang')),
+    'article' => new MetaInfoTable(Core::getTable('article')),
+    'media' => new MetaInfoTable(Core::getTable('media')),
+    'clang' => new MetaInfoTable(Core::getTable('clang')),
 ];
 for ($i = 0; $i < $sql->getRows(); ++$i) {
     $column = (string) $sql->getValue('name');

@@ -150,6 +150,7 @@ return RectorConfig::configure()
         'rex_markdown' => Util\Markdown::class,
         'rex_metainfo_default_type' => MetaInfo\Form\DefaultType::class,
         'rex_metainfo_table_expander' => MetaInfo\Form\MetaInfoForm::class,
+        'rex_metainfo_table_manager' => MetaInfo\Database\Table::class,
         'rex_pager' => Util\Pager::class,
         'rex_parsedown' => Util\Parsedown::class,
         'rex_path' => Filesystem\Path::class,

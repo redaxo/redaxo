@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MetaInfo\Database\Table;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 
@@ -142,7 +143,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
 
     Util::organizePriorities(Core::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE ' . $prefix, 'priority, updatedate');
 
-    $tableManager = new rex_metainfo_table_manager($metaTable);
+    $tableManager = new Table($metaTable);
     return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);
 }
 
@@ -190,7 +191,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
 
     $sql->delete();
 
-    $tableManager = new rex_metainfo_table_manager($metaTable);
+    $tableManager = new Table($metaTable);
     return $tableManager->deleteColumn($name);
 }
 
