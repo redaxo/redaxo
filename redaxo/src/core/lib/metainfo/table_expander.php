@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\MetaInfo\Form\Field\RestrictionField;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
@@ -152,10 +153,10 @@ class rex_metainfo_table_expander extends Form
         parent::init();
     }
 
-    private function addRestrictionsField(string $name): rex_form_restrictons_element
+    private function addRestrictionsField(string $name): RestrictionField
     {
-        /** @var rex_form_restrictons_element $field */
-        $field = $this->addField('', $name, null, ['internal::fieldClass' => rex_form_restrictons_element::class]);
+        /** @var RestrictionField $field */
+        $field = $this->addField('', $name, null, ['internal::fieldClass' => RestrictionField::class]);
         $field->setAttribute('size', 10);
         $field->setAttribute('class', 'form-control');
 

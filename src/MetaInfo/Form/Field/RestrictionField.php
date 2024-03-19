@@ -1,13 +1,17 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Form\Field;
+
 use Redaxo\Core\Form\Field\CheckboxField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
+use rex_metainfo_table_expander;
+use rex_response;
 
 /**
  * @internal
  */
-class rex_form_restrictons_element extends SelectField
+class RestrictionField extends SelectField
 {
     /** @var string */
     private $allCheckboxLabel;

@@ -129,6 +129,7 @@ return RectorConfig::configure()
         'rex_form_select_element' => Form\Field\SelectField::class,
         'rex_form_prio_element' => Form\Field\PriorityField::class,
         'rex_form_perm_select_element' => Form\Field\PermissionSelectField::class,
+        'rex_form_restrictons_element' => MetaInfo\Form\Field\RestrictionField::class,
         'rex_form_raw_element' => Form\Field\RawField::class,
         'rex_form_widget_linkmap_element' => Form\Field\ArticleField::class,
         'rex_form_widget_media_element' => Form\Field\MediaField::class,
