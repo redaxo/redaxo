@@ -43,6 +43,7 @@ use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
 use Redaxo\Core\Log;
+use Redaxo\Core\MetaInfo;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
 use Redaxo\Core\Validator;
@@ -133,6 +134,15 @@ return RectorConfig::configure()
         'rex_form_widget_media_element' => Form\Field\MediaField::class,
         'rex_formatter' => Util\Formatter::class,
         'rex_i18n' => Translation\I18n::class,
+        'rex_input' => MetaInfo\Form\Input\AbstractInput::class,
+        'rex_input_date' => MetaInfo\Form\Input\DateInput::class,
+        'rex_input_datetime' => MetaInfo\Form\Input\DateTimeInput::class,
+        'rex_input_linkbutton' => MetaInfo\Form\Input\ArticleInput::class,
+        'rex_input_mediabutton' => MetaInfo\Form\Input\MediaInput::class,
+        'rex_input_select' => MetaInfo\Form\Input\SelectInput::class,
+        'rex_input_text' => MetaInfo\Form\Input\TextInput::class,
+        'rex_input_textarea' => MetaInfo\Form\Input\TextareaInput::class,
+        'rex_input_time' => MetaInfo\Form\Input\TimeInput::class,
         'rex_log_entry' => Log\LogEntry::class,
         'rex_log_file' => Log\LogFile::class,
         'rex_logger' => Log\Logger::class,

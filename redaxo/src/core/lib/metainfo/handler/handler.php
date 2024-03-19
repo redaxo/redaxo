@@ -2,6 +2,13 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\MetaInfo\Form\Input\ArticleInput;
+use Redaxo\Core\MetaInfo\Form\Input\DateInput;
+use Redaxo\Core\MetaInfo\Form\Input\DateTimeInput;
+use Redaxo\Core\MetaInfo\Form\Input\MediaInput;
+use Redaxo\Core\MetaInfo\Form\Input\TextareaInput;
+use Redaxo\Core\MetaInfo\Form\Input\TextInput;
+use Redaxo\Core\MetaInfo\Form\Input\TimeInput;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 
@@ -99,7 +106,7 @@ abstract class rex_metainfo_handler
                 case 'text':
                     $tagAttr = ' class="form-control"';
 
-                    $rexInput = new rex_input_text();
+                    $rexInput = new TextInput();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
@@ -282,11 +289,11 @@ abstract class rex_metainfo_handler
                 case 'time':
                 case 'datetime':
                     if ('date' == $typeLabel) {
-                        $rexInput = new rex_input_date();
+                        $rexInput = new DateInput();
                     } elseif ('time' == $typeLabel) {
-                        $rexInput = new rex_input_time();
+                        $rexInput = new TimeInput();
                     } elseif ('datetime' == $typeLabel) {
-                        $rexInput = new rex_input_datetime();
+                        $rexInput = new DateTimeInput();
                     } else {
                         throw new Exception('Unexpected $typeLabel "' . $typeLabel . '"');
                     }
@@ -310,7 +317,7 @@ abstract class rex_metainfo_handler
                     $rexInput->setAttribute('name', $name);
                     $rexInput->setValue($inputValue);
 
-                    if (!$rexInput instanceof rex_input_time) {
+                    if (!$rexInput instanceof TimeInput) {
                         $paramArray = Str::split($params);
 
                         if (isset($paramArray['start-year'])) {
@@ -338,7 +345,7 @@ abstract class rex_metainfo_handler
                 case 'textarea':
                     $tagAttr = ' class="form-control"';
 
-                    $rexInput = new rex_input_textarea();
+                    $rexInput = new TextareaInput();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
@@ -376,7 +383,7 @@ abstract class rex_metainfo_handler
 
                     $paramArray = Str::split($params);
 
-                    $rexInput = new rex_input_mediabutton();
+                    $rexInput = new MediaInput();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($mediaId);
                     $rexInput->setAttribute('name', $name);
@@ -422,7 +429,7 @@ abstract class rex_metainfo_handler
                         $category = $activeItem->getValue('category_id');
                     }
 
-                    $rexInput = new rex_input_linkbutton();
+                    $rexInput = new ArticleInput();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($linkId);
                     $rexInput->setCategoryId($category ? (int) $category : null);
