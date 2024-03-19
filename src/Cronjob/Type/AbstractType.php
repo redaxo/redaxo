@@ -1,8 +1,13 @@
 <?php
 
+namespace Redaxo\Core\Cronjob\Type;
+
+use Redaxo\Core\Cronjob\CronjobExecutor;
 use Redaxo\Core\Util\Type;
 
-abstract class rex_cronjob
+use function in_array;
+
+abstract class AbstractType
 {
     /** @var array<string, mixed> */
     private $params = [];
@@ -10,18 +15,18 @@ abstract class rex_cronjob
     private $message = '';
 
     /**
-     * @param class-string<rex_cronjob> $class
+     * @param class-string<AbstractType> $class
      *
-     * @return class-string<rex_cronjob>|rex_cronjob
+     * @return class-string<AbstractType>|AbstractType
      */
     final public static function factory($class)
     {
         if (!class_exists($class)) {
-            /** @var class-string<rex_cronjob> */
+            /** @var class-string<AbstractType> */
             return $class;
         }
 
-        if (!in_array($class, rex_cronjob_manager::getTypes())) {
+        if (!in_array($class, CronjobExecutor::getTypes())) {
             return $class;
         }
 
