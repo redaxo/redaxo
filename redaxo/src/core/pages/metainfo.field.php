@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MetaInfo\Form\MetaInfoForm;
 use Redaxo\Core\Translation\I18n;
 
 $content = '';
@@ -91,7 +92,7 @@ if ('' == $func) {
 // ------------------------------> Formular
 elseif ('edit' == $func || 'add' == $func) {
     $title = I18n::msg('minfo_field_fieldset');
-    $form = new rex_metainfo_table_expander($prefix, $metaTable, Core::getTablePrefix() . 'metainfo_field', 'id=' . $fieldId);
+    $form = new MetaInfoForm($prefix, $metaTable, Core::getTablePrefix() . 'metainfo_field', 'id=' . $fieldId);
 
     if ('edit' == $func) {
         $form->addParam('field_id', $fieldId);

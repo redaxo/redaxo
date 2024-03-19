@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Form;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
@@ -8,11 +10,27 @@ use Redaxo\Core\MetaInfo\Form\Field\RestrictionField;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
+use rex_category_select;
+use rex_clang;
+use rex_exception;
+use rex_extension;
+use rex_extension_point;
+use rex_media_category_select;
+use rex_metainfo_article_handler;
+use rex_metainfo_category_handler;
+use rex_metainfo_clang_handler;
+use rex_metainfo_media_handler;
+use rex_metainfo_table_manager;
+use rex_response;
+use rex_template_select;
+
+use function assert;
+use function strlen;
 
 /**
  * @internal
  */
-class rex_metainfo_table_expander extends Form
+class MetaInfoForm extends Form
 {
     private string $metaPrefix;
     private rex_metainfo_table_manager $tableManager;

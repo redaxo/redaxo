@@ -4,8 +4,8 @@ namespace Redaxo\Core\MetaInfo\Form\Field;
 
 use Redaxo\Core\Form\Field\CheckboxField;
 use Redaxo\Core\Form\Field\SelectField;
+use Redaxo\Core\MetaInfo\Form\MetaInfoForm;
 use Redaxo\Core\Translation\I18n;
-use rex_metainfo_table_expander;
 use rex_response;
 
 /**
@@ -22,7 +22,7 @@ class RestrictionField extends SelectField
      * @param string $tag
      * @param array<string, int|string> $attributes
      */
-    public function __construct($tag = '', ?rex_metainfo_table_expander $form = null, array $attributes = [])
+    public function __construct($tag = '', ?MetaInfoForm $form = null, array $attributes = [])
     {
         parent::__construct('', $form, $attributes);
 
