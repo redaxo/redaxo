@@ -314,23 +314,25 @@ abstract class rex_package implements rex_package_interface
         $this->propertiesLoaded = true;
     }
 
-    public function getLicense(): string
+    public function getLicense(): ?string
     {
-        $license = (string) $this->getProperty('license', '');
+        $license = trim((string) $this->getProperty('license', ''));
 
-        if ('' === $license && (is_readable($licenseFile = $this->getPath('LICENSE.md')) || is_readable($licenseFile = $this->getPath('LICENSE')))) {
-            $f = fopen($licenseFile, 'r');
-            $firstLine = fgets($f) ?: '';
-            fclose($f);
-
-            if (preg_match('/^The MIT License(?: \(MIT\))$/i', $firstLine)) {
-                $firstLine = 'MIT License';
-            }
-
-            $license = $firstLine;
+        if ('' !== $license) {
+            return $license;
         }
 
-        return trim($license);
+        if (is_readable($licenseFile = $this->getPath('LICENSE')) || is_readable($licenseFile = $this->getPath('LICENSE.md'))) {
+            $f = fopen($licenseFile, 'r');
+            $license = trim(fgets($f) ?: '');
+            fclose($f);
+
+            if (preg_match('/^The MIT License(?: \(MIT\))$/i', $license)) {
+                return 'MIT License';
+            }
+        }
+
+        return $license ?: null;
     }
 
     /**
