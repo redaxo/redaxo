@@ -64,7 +64,7 @@ class rex_release
         };
 
         foreach (self::$addons as $addon) {
-            $addon = rex_addon::get($addon);
+            $addon = rex_addon::require($addon);
             $updateVersion($addon);
         }
     }
