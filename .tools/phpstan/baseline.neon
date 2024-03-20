@@ -206,11 +206,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/context.php
 
 		-
-			message: "#^Method rex_command_cronjob_run\\:\\:executeSingleJob\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/cronjob/command/run.php
-
-		-
 			message: "#^Method rex_cronjob_manager\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/cronjob/manager.php
@@ -1589,6 +1584,11 @@ parameters:
 			message: "#^Method rex_var_test\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/var/var_test.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Console\\\\Command\\\\CronjobRunCommand\\:\\:executeSingleJob\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../src/Console/Command/CronjobRunCommand.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\Form\\\\CronjobForm\\:\\:addIntervalField\\(\\) has parameter \\$attributes with no type specified\\.$#"

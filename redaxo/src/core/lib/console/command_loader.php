@@ -1,45 +1,74 @@
 <?php
 
+namespace Redaxo\Core\Console;
+
+use Redaxo\Core\Console\Command\AbstractCommand;
+use Redaxo\Core\Console\Command\AddonActivateCommand;
+use Redaxo\Core\Console\Command\AddonDeactivateCommand;
+use Redaxo\Core\Console\Command\AddonDeleteCommand;
+use Redaxo\Core\Console\Command\AddonInstallCommand;
+use Redaxo\Core\Console\Command\AddonListCommand;
+use Redaxo\Core\Console\Command\AddonRunUpdateScriptCommand;
+use Redaxo\Core\Console\Command\AddonUninstallCommand;
+use Redaxo\Core\Console\Command\AssetsCompileStylesCommand;
+use Redaxo\Core\Console\Command\AssetsSyncCommand;
+use Redaxo\Core\Console\Command\CacheClearCommand;
+use Redaxo\Core\Console\Command\ConfigGetCommand;
+use Redaxo\Core\Console\Command\ConfigSetCommand;
+use Redaxo\Core\Console\Command\CronjobRunCommand;
+use Redaxo\Core\Console\Command\DatabaseConnectionOptionsCommand;
+use Redaxo\Core\Console\Command\DatabaseDumpSchemaCommand;
+use Redaxo\Core\Console\Command\DatabaseSetConnectionCommand;
+use Redaxo\Core\Console\Command\SetupCheckCommand;
+use Redaxo\Core\Console\Command\SetupRunCommand;
+use Redaxo\Core\Console\Command\SystemReportCommand;
+use Redaxo\Core\Console\Command\UserCreateCommand;
+use Redaxo\Core\Console\Command\UserSetPasswordCommand;
 use Redaxo\Core\Core;
+use rex_addon;
+use rex_exception;
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
+
+use function gettype;
+use function is_array;
 
 /**
  * @internal
  */
-class rex_console_command_loader implements CommandLoaderInterface
+class CommandLoader implements CommandLoaderInterface
 {
-    /** @var array<string, array{class: class-string<rex_console_command>, package?: rex_addon}> */
+    /** @var array<string, array{class: class-string<AbstractCommand>, package?: rex_addon}> */
     private $commands = [];
 
     public function __construct()
     {
         $commands = [
-            'cache:clear' => rex_command_cache_clear::class,
-            'config:get' => rex_command_config_get::class,
-            'config:set' => rex_command_config_set::class,
-            'db:connection-options' => rex_command_db_connection_options::class,
-            'db:set-connection' => rex_command_db_set_connection::class,
-            'setup:check' => rex_command_setup_check::class,
-            'setup:run' => rex_command_setup_run::class,
-            'user:create' => rex_command_user_create::class,
+            'cache:clear' => CacheClearCommand::class,
+            'config:get' => ConfigGetCommand::class,
+            'config:set' => ConfigSetCommand::class,
+            'db:connection-options' => DatabaseConnectionOptionsCommand::class,
+            'db:set-connection' => DatabaseSetConnectionCommand::class,
+            'setup:check' => SetupCheckCommand::class,
+            'setup:run' => SetupRunCommand::class,
+            'user:create' => UserCreateCommand::class,
         ];
 
         if (!Core::isSetup()) {
             $commands = array_merge($commands, [
-                'assets:sync' => rex_command_assets_sync::class,
-                'be_style:compile' => rex_command_be_style_compile::class,
-                'cronjob:run' => rex_command_cronjob_run::class,
-                'db:dump-schema' => rex_command_db_dump_schema::class,
-                'package:activate' => rex_command_package_activate::class,
-                'package:deactivate' => rex_command_package_deactivate::class,
-                'package:delete' => rex_command_package_delete::class,
-                'package:list' => rex_command_package_list::class,
-                'package:install' => rex_command_package_install::class,
-                'package:run-update-script' => rex_command_package_run_update_script::class,
-                'package:uninstall' => rex_command_package_uninstall::class,
-                'system:report' => rex_command_system_report::class,
-                'user:set-password' => rex_command_user_set_password::class,
+                'assets:sync' => AssetsSyncCommand::class,
+                'assets:compile-styles' => AssetsCompileStylesCommand::class,
+                'cronjob:run' => CronjobRunCommand::class,
+                'db:dump-schema' => DatabaseDumpSchemaCommand::class,
+                'addon:activate' => AddonActivateCommand::class,
+                'addon:deactivate' => AddonDeactivateCommand::class,
+                'addon:delete' => AddonDeleteCommand::class,
+                'addon:list' => AddonListCommand::class,
+                'addon:install' => AddonInstallCommand::class,
+                'addon:run-update-script' => AddonRunUpdateScriptCommand::class,
+                'addon:uninstall' => AddonUninstallCommand::class,
+                'system:report' => SystemReportCommand::class,
+                'user:set-password' => UserSetPasswordCommand::class,
             ]);
         }
 
@@ -48,7 +77,7 @@ class rex_console_command_loader implements CommandLoaderInterface
         }
 
         foreach (rex_addon::getAvailableAddons() as $package) {
-            /** @var array<string, class-string<rex_console_command>> $commands */
+            /** @var array<string, class-string<AbstractCommand>> $commands */
             $commands = $package->getProperty('console_commands');
 
             if (!$commands) {
@@ -68,7 +97,7 @@ class rex_console_command_loader implements CommandLoaderInterface
         }
     }
 
-    public function get(string $name): rex_console_command
+    public function get(string $name): AbstractCommand
     {
         if (!isset($this->commands[$name])) {
             throw new CommandNotFoundException(sprintf('Command "%s" does not exist.', $name));
