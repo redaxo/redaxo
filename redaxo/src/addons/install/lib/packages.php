@@ -29,7 +29,7 @@ class rex_install_packages
 
         foreach (self::$updatePackages as $key => $addon) {
             if (rex_addon::exists($key) && isset($addon['files'])) {
-                self::unsetOlderVersions($key, rex_addon::get($key)->getVersion());
+                self::unsetOlderVersions($key, rex_addon::require($key)->getVersion());
             } else {
                 unset(self::$updatePackages[$key]);
             }

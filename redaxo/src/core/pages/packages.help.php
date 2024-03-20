@@ -7,7 +7,7 @@ use Redaxo\Core\Util\Markdown;
 
 $content = '';
 
-$package = rex_addon::get(rex_request('package', 'string'));
+$package = rex_addon::require(rex_request('package', 'string'));
 $name = $package->getPackageId();
 $version = $package->getVersion();
 $author = $package->getAuthor();

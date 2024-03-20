@@ -34,7 +34,7 @@ $content = '
 $getLink = static function (rex_addon $package, $function, $icon = '', $confirm = false, $key = null) {
     $onclick = '';
     if ($confirm) {
-        $onclick = ' data-confirm="' . I18n::msg($package->getType() . '_' . $function . '_question', $package->getName()) . '"';
+        $onclick = ' data-confirm="' . I18n::msg('addon_' . $function . '_question', $package->getName()) . '"';
     }
     $text = I18n::msg('package_' . ($key ?: $function));
     $url = Url::currentBackendPage([
@@ -48,9 +48,8 @@ $getLink = static function (rex_addon $package, $function, $icon = '', $confirm 
 
 $getTableRow = static function (rex_addon $package) use ($getLink) {
     $packageId = $package->getPackageId();
-    $type = $package->getType();
 
-    $delete = $package->isSystemPackage() ? '<small class="text-muted">' . I18n::msg($type . '_system' . $type) . '</small>' : $getLink($package, 'delete', 'rex-icon-package-delete', true);
+    $delete = $package->isSystemPackage() ? '<small class="text-muted">' . I18n::msg('addon_systemaddon') . '</small>' : $getLink($package, 'delete', 'rex-icon-package-delete', true);
 
     $uninstall = '&nbsp;';
     if ($package->isInstalled()) {
@@ -72,9 +71,9 @@ $getTableRow = static function (rex_addon $package) use ($getLink) {
     } else {
         $class .= ' rex-package-not-installed';
     }
-    $name = '<span class="rex-' . $type . '-name">' . rex_escape($package->getName()) . '</span>';
+    $name = '<span class="rex-addon-name">' . rex_escape($package->getName()) . '</span>';
 
-    $class .= $package->isSystemPackage() ? ' rex-system-' . $type : '';
+    $class .= $package->isSystemPackage() ? ' rex-system-addon' : '';
 
     // --------------------------------------------- API MESSAGES
     if (($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage()) || ($package->getPackageId() == rex_get('mark', 'string'))) {
@@ -83,7 +82,7 @@ $getTableRow = static function (rex_addon $package) use ($getLink) {
 
     $version = '';
     if ('' !== trim($package->getVersion())) {
-        $version = ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>';
+        $version = ' <span class="rex-addon-version">' . trim($package->getVersion()) . '</span>';
 
         if (Version::isUnstable($package->getVersion())) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $version;
@@ -104,8 +103,8 @@ $getTableRow = static function (rex_addon $package) use ($getLink) {
     }
 
     return '
-                <tr id="package-' . rex_escape(Str::normalize($packageId, '-', '_')) . '" class="rex-package-is-' . $type . $class . '">
-                    <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $type . '"></i></td>
+                <tr id="package-' . rex_escape(Str::normalize($packageId, '-', '_')) . '" class="rex-package-is-addon' . $class . '">
+                    <td class="rex-table-icon"><i class="rex-icon rex-icon-package-addon"></i></td>
                     <td data-title="' . I18n::msg('package_hname') . '">' . $name . '</td>
                     <td data-title="' . I18n::msg('package_hversion') . '">' . $version . '</td>
                     <td class="rex-table-slim" data-title="' . I18n::msg('package_hhelp') . '">

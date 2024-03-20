@@ -15,28 +15,17 @@ class rex_addon_manager
 {
     use rex_factory_trait;
 
-    /** @var rex_addon */
-    protected $package;
+    protected bool $generatePackageOrder = true;
+    protected string $message = '';
 
-    /** @var bool */
-    protected $generatePackageOrder = true;
-
-    /** @var string */
-    protected $message;
-
-    protected function __construct(rex_addon $package)
-    {
-        $this->package = $package;
-    }
+    protected function __construct(
+        protected readonly rex_addon $package,
+    ) {}
 
     /**
      * Creates the manager for the package.
-     *
-     * @param rex_addon $package Package
-     *
-     * @return static
      */
-    public static function factory(rex_addon $package)
+    public static function factory(rex_addon $package): static
     {
         $class = static::getFactoryClass();
         return new $class($package);
@@ -44,10 +33,8 @@ class rex_addon_manager
 
     /**
      * Returns the message.
-     *
-     * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
@@ -61,7 +48,7 @@ class rex_addon_manager
      *
      * @return bool TRUE on success, FALSE on error
      */
-    public function install($installDump = true)
+    public function install(bool $installDump = true): bool
     {
         try {
             // check package directory perms
@@ -177,7 +164,7 @@ class rex_addon_manager
      *
      * @return bool TRUE on success, FALSE on error
      */
-    public function uninstall($installDump = true)
+    public function uninstall(bool $installDump = true): bool
     {
         $isActivated = $this->package->isAvailable();
         if ($isActivated && !$this->deactivate()) {
@@ -245,7 +232,7 @@ class rex_addon_manager
      *
      * @return bool TRUE on success, FALSE on error
      */
-    public function activate()
+    public function activate(): bool
     {
         if ($this->package->isInstalled()) {
             $state = '';
@@ -284,7 +271,7 @@ class rex_addon_manager
      *
      * @return bool TRUE on success, FALSE on error
      */
-    public function deactivate()
+    public function deactivate(): bool
     {
         $state = $this->checkDependencies();
 
@@ -312,7 +299,7 @@ class rex_addon_manager
      *
      * @return bool TRUE on success, FALSE on error
      */
-    public function delete()
+    public function delete(): bool
     {
         if ($this->package->isSystemPackage()) {
             $this->message = $this->i18n('systempackage_delete_not_allowed');
@@ -326,11 +313,9 @@ class rex_addon_manager
     /**
      * Deletes a package.
      *
-     * @param bool $ignoreState
-     *
      * @return bool TRUE on success, FALSE on error
      */
-    protected function _delete($ignoreState = false)
+    protected function _delete(bool $ignoreState = false): bool
     {
         // if package is installed, uninstall it first
         if ($this->package->isInstalled() && !$this->uninstall() && !$ignoreState) {
@@ -353,22 +338,15 @@ class rex_addon_manager
         return true;
     }
 
-    /**
-     * @param string $addonName
-     *
-     * @return string
-     */
-    protected function wrongPackageId($addonName)
+    protected function wrongPackageId(string $addonName): string
     {
         return $this->i18n('wrong_dir_name', $addonName);
     }
 
     /**
      * Checks whether the requirements are met.
-     *
-     * @return bool
      */
-    public function checkRequirements()
+    public function checkRequirements(): bool
     {
         $requirements = $this->package->getProperty('requires', []);
 
@@ -422,10 +400,8 @@ class rex_addon_manager
      * Checks whether the redaxo requirement is met.
      *
      * @param string $redaxoVersion REDAXO version
-     *
-     * @return bool
      */
-    public function checkRedaxoRequirement($redaxoVersion)
+    public function checkRedaxoRequirement(string $redaxoVersion): bool
     {
         $requirements = $this->package->getProperty('requires', []);
         if (isset($requirements['redaxo']) && !Version::matchesConstraints($redaxoVersion, $requirements['redaxo'])) {
@@ -437,12 +413,8 @@ class rex_addon_manager
 
     /**
      * Checks whether the package requirement is met.
-     *
-     * @param string $packageId Package ID
-     *
-     * @return bool
      */
-    public function checkPackageRequirement($packageId)
+    public function checkPackageRequirement(string $packageId): bool
     {
         $requirements = $this->package->getProperty('requires', []);
         if (!isset($requirements['packages'][$packageId])) {
@@ -457,14 +429,14 @@ class rex_addon_manager
 
             if (!rex_addon::exists($packageId)) {
                 $jumpToInstaller = '';
-                if (rex_addon::get('install')->isAvailable() && !rex_addon::exists($packageId)) {
+                if (rex_addon::get('install')->isAvailable()) {
                     // package need to be downloaded via installer
                     $installUrl = Url::backendPage('install/packages/add', ['addonkey' => $packageId]);
 
                     $jumpToInstaller = ' <a href="' . $installUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('search_in_installer', $packageId) . '"></i></a>';
                 }
 
-                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId . $requiredVersion) . $jumpToInstaller;
+                $this->message = $this->i18n('requirement_error_addon', $packageId . $requiredVersion) . $jumpToInstaller;
                 return false;
             }
 
@@ -474,13 +446,13 @@ class rex_addon_manager
                 $jumpPackageUrl = Url::backendPage('packages') . $jumpPackageUrl;
             }
 
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId . $requiredVersion) . ' <a href="' . $jumpPackageUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('jump_to', $packageId) . '"></i></a>';
+            $this->message = $this->i18n('requirement_error_addon', $packageId . $requiredVersion) . ' <a href="' . $jumpPackageUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('jump_to', $packageId) . '"></i></a>';
             return false;
         }
 
         if (!Version::matchesConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
             $this->message = $this->i18n(
-                'requirement_error_' . $package->getType() . '_version',
+                'requirement_error_addon_version',
                 $package->getPackageId(),
                 $package->getVersion(),
                 $requirements['packages'][$packageId],
@@ -492,10 +464,8 @@ class rex_addon_manager
 
     /**
      * Checks whether the package is in conflict with other packages.
-     *
-     * @return bool
      */
-    public function checkConflicts()
+    public function checkConflicts(): bool
     {
         $state = [];
         $conflicts = $this->package->getProperty('conflicts', []);
@@ -517,9 +487,9 @@ class rex_addon_manager
 
             $constraints = $conflicts['packages'][$this->package->getPackageId()];
             if (!is_string($constraints) || !$constraints || '*' === $constraints) {
-                $state[] = $this->i18n('reverse_conflict_error_' . $package->getType(), $package->getPackageId());
+                $state[] = $this->i18n('reverse_conflict_error_addon', $package->getPackageId());
             } elseif (Version::matchesConstraints($this->package->getVersion(), $constraints)) {
-                $state[] = $this->i18n('reverse_conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
+                $state[] = $this->i18n('reverse_conflict_error_addon_version', $package->getPackageId(), $constraints);
             }
         }
 
@@ -532,12 +502,8 @@ class rex_addon_manager
 
     /**
      * Checks whether the package is in conflict with another package.
-     *
-     * @param string $packageId Package ID
-     *
-     * @return bool
      */
-    public function checkPackageConflict($packageId)
+    public function checkPackageConflict(string $packageId): bool
     {
         $conflicts = $this->package->getProperty('conflicts', []);
         $package = rex_addon::get($packageId);
@@ -546,11 +512,11 @@ class rex_addon_manager
         }
         $constraints = $conflicts['packages'][$packageId];
         if (!is_string($constraints) || !$constraints || '*' === $constraints) {
-            $this->message = $this->i18n('conflict_error_' . $package->getType(), $package->getPackageId());
+            $this->message = $this->i18n('conflict_error_addon', $package->getPackageId());
             return false;
         }
         if (Version::matchesConstraints($package->getVersion(), $constraints)) {
-            $this->message = $this->i18n('conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
+            $this->message = $this->i18n('conflict_error_addon_version', $package->getPackageId(), $constraints);
             return false;
         }
         return true;
@@ -558,22 +524,20 @@ class rex_addon_manager
 
     /**
      * Checks if another Package which is activated, depends on the given package.
-     *
-     * @return bool
      */
-    public function checkDependencies()
+    public function checkDependencies(): bool
     {
         $i18nPrefix = 'package_dependencies_error_';
         $state = [];
 
         foreach (rex_addon::getAvailableAddons() as $package) {
-            if ($package === $this->package || $package->getAddon() === $this->package) {
+            if ($package === $this->package) {
                 continue;
             }
 
             $requirements = $package->getProperty('requires', []);
             if (isset($requirements['packages'][$this->package->getPackageId()])) {
-                $state[] = I18n::msg($i18nPrefix . $package->getType(), $package->getPackageId());
+                $state[] = I18n::msg($i18nPrefix . 'addon', $package->getPackageId());
             }
         }
 
@@ -591,23 +555,20 @@ class rex_addon_manager
      *
      * @return string Tranlates text
      */
-    protected function i18n($key)
+    protected function i18n(string $key, string|int ...$replacements): string
     {
-        $args = func_get_args();
-        $key = 'addon_' . $args[0];
-        if (!I18n::hasMsg($key)) {
-            $key = 'package_' . $args[0];
+        $fullKey = 'addon_' . $key;
+        if (!I18n::hasMsg($fullKey)) {
+            $fullKey = 'package_' . $key;
         }
-        $args[0] = $key;
 
-        return call_user_func_array(I18n::msg(...), $args);
+        return I18n::msg($fullKey, ...$replacements);
     }
 
     /**
      * Generates the package order.
-     * @return void
      */
-    public static function generatePackageOrder()
+    public static function generatePackageOrder(): void
     {
         /** @var list<string> $early */
         $early = [];
@@ -655,9 +616,8 @@ class rex_addon_manager
 
     /**
      * Saves the package config.
-     * @return void
      */
-    protected static function saveConfig()
+    protected static function saveConfig(): void
     {
         $config = [];
         foreach (rex_addon::getRegisteredAddons() as $addonName => $addon) {
@@ -669,9 +629,8 @@ class rex_addon_manager
 
     /**
      * Synchronizes the packages with the file system.
-     * @return void
      */
-    public static function synchronizeWithFileSystem()
+    public static function synchronizeWithFileSystem(): void
     {
         $config = Core::getPackageConfig();
         $addons = self::readPackageFolder(Path::src('addons'));
@@ -700,11 +659,9 @@ class rex_addon_manager
     /**
      * Returns the subfolders of the given folder.
      *
-     * @param string $folder Folder
-     *
      * @return list<non-empty-string>
      */
-    private static function readPackageFolder($folder)
+    private static function readPackageFolder(string $folder): array
     {
         $packages = [];
 

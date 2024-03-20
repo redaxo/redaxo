@@ -973,7 +973,6 @@
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$buttonTitle]]></code>
-      <code><![CDATA[$buttonTitle]]></code>
       <code><![CDATA[rex_escape($argValue)]]></code>
       <code><![CDATA[rex_escape($ftitle)]]></code>
     </MixedOperand>
@@ -1031,6 +1030,7 @@
   </file>
   <file src="redaxo/src/core/lib/base/singleton_trait.php">
     <PropertyTypeCoercion>
+      <code><![CDATA[self::$instances]]></code>
       <code><![CDATA[self::$instances]]></code>
     </PropertyTypeCoercion>
   </file>
@@ -2376,12 +2376,7 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/packages/addon.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$args]]></code>
-    </InvalidScalarArgument>
     <MixedArgument>
-      <code><![CDATA[$args]]></code>
-      <code><![CDATA[$args]]></code>
       <code><![CDATA[$value]]></code>
     </MixedArgument>
     <MixedAssignment>
@@ -2397,13 +2392,15 @@
       <code><![CDATA[$packages]]></code>
     </LessSpecificReturnStatement>
     <MixedArgument>
-      <code><![CDATA[$args]]></code>
       <code><![CDATA[$instmsg]]></code>
       <code><![CDATA[$instmsg]]></code>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$packageId]]></code>
       <code><![CDATA[$requirements['packages'][$packageId]]]></code>
+      <code><![CDATA[$requirements['packages'][$packageId]]]></code>
       <code><![CDATA[$requirements['php']['version']]]></code>
+      <code><![CDATA[$requirements['php']['version']]]></code>
+      <code><![CDATA[$requirements['redaxo']]]></code>
       <code><![CDATA[$requirements['redaxo']]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
@@ -2412,6 +2409,7 @@
       <code><![CDATA[$packageId]]></code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
+      <code><![CDATA[$conflicts['packages']]]></code>
       <code><![CDATA[$conflicts['packages']]]></code>
       <code><![CDATA[$conflicts['packages'][$packageId]]]></code>
       <code><![CDATA[$conflicts['packages'][$this->package->getPackageId()]]]></code>
@@ -2431,6 +2429,7 @@
     <MixedAssignment>
       <code><![CDATA[$conflicts]]></code>
       <code><![CDATA[$conflicts]]></code>
+      <code><![CDATA[$conflicts]]></code>
       <code><![CDATA[$constraints]]></code>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$load]]></code>
@@ -2447,20 +2446,19 @@
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$args[0]]]></code>
-      <code><![CDATA[$args[0]]]></code>
       <code><![CDATA[$requirements['packages'][$packageId]]]></code>
       <code><![CDATA[$successMessage]]></code>
     </MixedOperand>
     <MoreSpecificReturnType>
       <code><![CDATA[list<non-empty-string>]]></code>
     </MoreSpecificReturnType>
+    <PossiblyNullArgument>
+      <code><![CDATA[$package->getPackageId()]]></code>
+      <code><![CDATA[$package->getPackageId()]]></code>
+      <code><![CDATA[$package->getPackageId()]]></code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/packages/null.php">
-    <MixedArgument>
-      <code><![CDATA[$args]]></code>
-      <code><![CDATA[$args]]></code>
-    </MixedArgument>
     <MixedReturnStatement>
       <code><![CDATA[$default]]></code>
     </MixedReturnStatement>
@@ -3652,16 +3650,6 @@
       <code><![CDATA[!is_string($metaTable)]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="redaxo/src/core/pages/packages.details.php">
-    <PossiblyNullOperand>
-      <code><![CDATA[$packageId]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/pages/packages.help.php">
-    <NullOperand>
-      <code><![CDATA[rex_escape($name)]]></code>
-    </NullOperand>
-  </file>
   <file src="redaxo/src/core/pages/packages.list.php">
     <MixedOperand>
       <code><![CDATA[$function]]></code>
@@ -4252,12 +4240,12 @@
       <code><![CDATA[$item]]></code>
       <code><![CDATA[$login]]></code>
       <code><![CDATA[$request]]></code>
-      <code><![CDATA[$value['throw_always_exception']]]></code>
       <code><![CDATA[self::$properties[$key]]]></code>
     </MixedAssignment>
     <MixedInferredReturnType>
+      <code><![CDATA[?rex_user]]></code>
       <code><![CDATA[Request]]></code>
-      <code><![CDATA[rex_user|null]]></code>
+      <code><![CDATA[int]]></code>
     </MixedInferredReturnType>
     <MixedMethodCall>
       <code><![CDATA[getImpersonator]]></code>
@@ -4269,6 +4257,7 @@
       <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
       <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
       <code><![CDATA[$request]]></code>
+      <code><![CDATA[$result | $item]]></code>
     </MixedReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[list<non-empty-string>]]></code>
