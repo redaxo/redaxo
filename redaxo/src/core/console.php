@@ -1,5 +1,8 @@
 <?php
 
+use Redaxo\Core\Console\Application;
+use Redaxo\Core\Console\Command\ListCommand;
+use Redaxo\Core\Console\CommandLoader;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
@@ -21,7 +24,7 @@ Core::setProperty('debug', true);
 Core::setProperty('lang', 'en_gb');
 I18n::setLocale('en_gb');
 
-$application = new rex_console_application();
+$application = new Application();
 Core::setProperty('console', $application);
 
 rex_addon::initialize(!Core::isSetup());
@@ -32,10 +35,10 @@ if (!Core::isSetup()) {
     }
 }
 
-$application->setCommandLoader(new rex_console_command_loader());
+$application->setCommandLoader(new CommandLoader());
 
 // Override default list command to display information, that more commands are available after setup.
-$command = new rex_command_list();
+$command = new ListCommand();
 $application->add($command);
 $application->setDefaultCommand($command->getName());
 

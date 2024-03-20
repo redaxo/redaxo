@@ -14,7 +14,7 @@ permissions:
 
 jobs:
     compile:
-        name: be_style:compile
+        name: assets:compile-styles
         runs-on: ubuntu-latest
         timeout-minutes: 30
         permissions:
@@ -53,13 +53,13 @@ jobs:
                     php redaxo/bin/console config:set --type boolean debug.throw_always_exception true -v
 
             -   name: Compile styles
-                run: php redaxo/bin/console be_style:compile --ansi -v
+                run: php redaxo/bin/console assets:compile-styles --ansi -v
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v5
                 if: env.writable == 1
                 with:
-                    commit_message: Apply be_style:compile
+                    commit_message: Apply assets:compile-styles
                     commit_user_name: rex-bot
                     commit_user_email: rex-bot@users.noreply.github.com
                     file_pattern: "*.css"
@@ -71,4 +71,4 @@ jobs:
                     git checkout -- redaxo/src/core/default.config.yml
 
                     # check if compiling the scss lead to uncommitted changes
-                    git diff HEAD --exit-code --output=/dev/null || (echo "::error::It seems you missed to commit the compiled css files, run 'redaxo/bin/console be_style:compile' and push the changes." && exit 1)
+                    git diff HEAD --exit-code --output=/dev/null || (echo "::error::It seems you missed to commit the compiled css files, run 'redaxo/bin/console assets:compile-styles' and push the changes." && exit 1)
