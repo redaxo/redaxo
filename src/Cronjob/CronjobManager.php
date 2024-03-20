@@ -20,7 +20,7 @@ class CronjobManager
     private Sql $sql;
 
     private function __construct(
-        private ?CronjobExecutor $manager = null,
+        private ?CronjobExecutor $executor = null,
     ) {
         $this->sql = Sql::factory();
     }
@@ -28,9 +28,9 @@ class CronjobManager
     /**
      * @return self
      */
-    public static function factory(?CronjobExecutor $manager = null)
+    public static function factory(?CronjobExecutor $executor = null)
     {
-        return new self($manager);
+        return new self($executor);
     }
 
     /**
@@ -38,10 +38,10 @@ class CronjobManager
      */
     public function getExecutor()
     {
-        if (!is_object($this->manager)) {
-            $this->manager = CronjobExecutor::factory();
+        if (!is_object($this->executor)) {
+            $this->executor = CronjobExecutor::factory();
         }
-        return $this->manager;
+        return $this->executor;
     }
 
     /**
@@ -50,7 +50,7 @@ class CronjobManager
      */
     public function hasExecutor()
     {
-        return is_object($this->manager);
+        return is_object($this->executor);
     }
 
     /**
@@ -206,9 +206,9 @@ class CronjobManager
                 /** @psalm-taint-escape callable */ // It is intended that the class name is coming from database
                 $type = $job['type'];
 
-                $manager = $this->getExecutor();
-                $manager->setCronjob(AbstractType::factory($type));
-                $manager->log(false, 0 != connection_status() ? 'Timeout' : 'Unknown error');
+                $executor = $this->getExecutor();
+                $executor->setCronjob(AbstractType::factory($type));
+                $executor->log(false, 0 != connection_status() ? 'Timeout' : 'Unknown error');
                 $this->setNextTime($job['id'], $job['interval'], true);
             }
 
