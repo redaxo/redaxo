@@ -33,13 +33,9 @@ if (('' != $addAction || 'delete' == $functionAction) && !$csrfToken->isValid())
     $action->setValue('module_id', $moduleId);
     $action->setValue('action_id', $actionId);
 
-    try {
-        $action->insert();
-        $success = rex_i18n::msg('action_taken');
-        $goon = '1';
-    } catch (rex_sql_exception) {
-        $error = $action->getError();
-    }
+    $action->insert();
+    $success = rex_i18n::msg('action_taken');
+    $goon = '1';
 } elseif ('delete' == $functionAction) {
     $action = rex_sql::factory();
     $action->setTable(rex::getTablePrefix() . 'module_action');
