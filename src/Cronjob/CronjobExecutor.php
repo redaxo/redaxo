@@ -6,7 +6,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\Type\AbstractType;
 use Redaxo\Core\Cronjob\Type\ArticleStatusType;
 use Redaxo\Core\Cronjob\Type\ClearArticleHistoryType;
-use Redaxo\Core\Cronjob\Type\ClearMailerArchiveType;
+use Redaxo\Core\Cronjob\Type\PurgeMailerArchiveType;
 use Redaxo\Core\Cronjob\Type\ExportType;
 use Redaxo\Core\Cronjob\Type\OptimizeTableType;
 use Redaxo\Core\Cronjob\Type\UrlRequestType;
@@ -170,7 +170,7 @@ class CronjobExecutor
             self::$types[] = OptimizeTableType::class;
             self::$types[] = ArticleStatusType::class;
             self::$types[] = ClearArticleHistoryType::class;
-            self::$types[] = ClearMailerArchiveType::class;
+            self::$types[] = PurgeMailerArchiveType::class;
         }
 
         return self::$types;

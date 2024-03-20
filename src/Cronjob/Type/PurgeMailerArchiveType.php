@@ -6,7 +6,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 use rex_mailer;
 
-class ClearMailerArchiveType extends AbstractType
+class PurgeMailerArchiveType extends AbstractType
 {
     private function purgeMailarchive(int $days = 7, string $dir = ''): int
     {

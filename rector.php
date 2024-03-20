@@ -118,7 +118,7 @@ return RectorConfig::configure()
         'rex_cronjob_optimize_tables' => Cronjob\Type\OptimizeTableType::class,
         'rex_cronjob_export' => Cronjob\Type\ExportType::class,
         'rex_cronjob_structure_history' => Cronjob\Type\ClearArticleHistoryType::class,
-        'rex_cronjob_mailer_purge' => Cronjob\Type\ClearMailerArchiveType::class,
+        'rex_cronjob_mailer_purge' => Cronjob\Type\PurgeMailerArchiveType::class,
         'rex_cronjob_manager' => Cronjob\CronjobExecutor::class,
         'rex_cronjob_manager_sql' => Cronjob\CronjobManager::class,
         'rex_dir' => Filesystem\Dir::class,
