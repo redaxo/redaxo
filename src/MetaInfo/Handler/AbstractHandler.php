@@ -1,14 +1,34 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Handler;
+
+use Exception;
+use PDO;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\MetaInfo\Database\Table;
+use Redaxo\Core\MetaInfo\Form\Input\ArticleInput;
+use Redaxo\Core\MetaInfo\Form\Input\DateInput;
+use Redaxo\Core\MetaInfo\Form\Input\DateTimeInput;
+use Redaxo\Core\MetaInfo\Form\Input\MediaInput;
+use Redaxo\Core\MetaInfo\Form\Input\TextareaInput;
+use Redaxo\Core\MetaInfo\Form\Input\TextInput;
+use Redaxo\Core\MetaInfo\Form\Input\TimeInput;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use rex_extension;
+use rex_extension_point;
+use rex_fragment;
+use rex_select;
+
+use function count;
+use function in_array;
+use function is_int;
 
 /**
  * @internal
  */
-abstract class rex_metainfo_handler
+abstract class AbstractHandler
 {
     /**
      * Erstellt den nötigen HTML Code um ein Formular zu erweitern.
@@ -24,9 +44,7 @@ abstract class rex_metainfo_handler
 
         // Startwert für MEDIABUTTON, MEDIALIST, LINKLIST zähler
         $mediaId = 1;
-        $mlistId = 1;
         $linkId = 1;
-        $llistId = 1;
 
         $activeItem = $epParams['activeItem'] ?? null;
 
@@ -99,7 +117,7 @@ abstract class rex_metainfo_handler
                 case 'text':
                     $tagAttr = ' class="form-control"';
 
-                    $rexInput = new rex_input_text();
+                    $rexInput = new TextInput();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
@@ -282,11 +300,11 @@ abstract class rex_metainfo_handler
                 case 'time':
                 case 'datetime':
                     if ('date' == $typeLabel) {
-                        $rexInput = new rex_input_date();
+                        $rexInput = new DateInput();
                     } elseif ('time' == $typeLabel) {
-                        $rexInput = new rex_input_time();
+                        $rexInput = new TimeInput();
                     } elseif ('datetime' == $typeLabel) {
-                        $rexInput = new rex_input_datetime();
+                        $rexInput = new DateTimeInput();
                     } else {
                         throw new Exception('Unexpected $typeLabel "' . $typeLabel . '"');
                     }
@@ -310,7 +328,7 @@ abstract class rex_metainfo_handler
                     $rexInput->setAttribute('name', $name);
                     $rexInput->setValue($inputValue);
 
-                    if (!$rexInput instanceof rex_input_time) {
+                    if (!$rexInput instanceof TimeInput) {
                         $paramArray = Str::split($params);
 
                         if (isset($paramArray['start-year'])) {
@@ -338,7 +356,7 @@ abstract class rex_metainfo_handler
                 case 'textarea':
                     $tagAttr = ' class="form-control"';
 
-                    $rexInput = new rex_input_textarea();
+                    $rexInput = new TextareaInput();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
@@ -376,7 +394,7 @@ abstract class rex_metainfo_handler
 
                     $paramArray = Str::split($params);
 
-                    $rexInput = new rex_input_mediabutton();
+                    $rexInput = new MediaInput();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($mediaId);
                     $rexInput->setAttribute('name', $name);
@@ -422,7 +440,7 @@ abstract class rex_metainfo_handler
                         $category = $activeItem->getValue('category_id');
                     }
 
-                    $rexInput = new rex_input_linkbutton();
+                    $rexInput = new ArticleInput();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($linkId);
                     $rexInput->setCategoryId($category ? (int) $category : null);
@@ -515,7 +533,7 @@ abstract class rex_metainfo_handler
      * Retrieves the posted value for the given field and converts it into a saveable format.
      *
      * @param string $fieldName The name of the field
-     * @param int $fieldType One of the rex_metainfo_table_manager::FIELD_* constants
+     * @param int $fieldType One of the Table::FIELD_* constants
      * @param string $fieldAttributes The attributes of the field
      *
      * @return string|int|null
@@ -558,8 +576,8 @@ abstract class rex_metainfo_handler
             } else {
                 $postValue = $postValue[0] ?? '';
                 if (
-                    rex_metainfo_table_manager::FIELD_SELECT == $fieldType && str_contains($fieldAttributes, 'multiple')
-                    || rex_metainfo_table_manager::FIELD_CHECKBOX == $fieldType
+                    Table::FIELD_SELECT == $fieldType && str_contains($fieldAttributes, 'multiple')
+                    || Table::FIELD_CHECKBOX == $fieldType
                 ) {
                     // Mehrwertiges Feld, aber nur ein Wert ausgewählt
                     $saveValue = '|' . $postValue . '|';

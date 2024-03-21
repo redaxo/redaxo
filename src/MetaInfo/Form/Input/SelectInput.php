@@ -1,11 +1,15 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Form\Input;
+
+use rex_select;
+
 /**
  * @internal
  *
- * @extends rex_input<string|array<string>>
+ * @extends AbstractInput<string|array<string>>
  */
-class rex_input_select extends rex_input
+class SelectInput extends AbstractInput
 {
     private rex_select $select;
 

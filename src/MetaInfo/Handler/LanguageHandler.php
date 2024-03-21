@@ -1,12 +1,17 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Handler;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use rex_clang_service;
+use rex_extension;
+use rex_extension_point;
 
 /**
  * @internal
  */
-class rex_metainfo_clang_handler extends rex_metainfo_handler
+class LanguageHandler extends AbstractHandler
 {
     public const PREFIX = 'clang_';
     public const CONTAINER = 'rex-clang-metainfo';
@@ -91,12 +96,12 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
     }
 }
 
-$clangHandler = new rex_metainfo_clang_handler();
+$languageHandler = new LanguageHandler();
 
-rex_extension::register('CLANG_FORM_ADD', $clangHandler->extendForm(...));
-rex_extension::register('CLANG_FORM_EDIT', $clangHandler->extendForm(...));
+rex_extension::register('CLANG_FORM_ADD', $languageHandler->extendForm(...));
+rex_extension::register('CLANG_FORM_EDIT', $languageHandler->extendForm(...));
 
-rex_extension::register('CLANG_ADDED', $clangHandler->extendForm(...), rex_extension::EARLY);
-rex_extension::register('CLANG_UPDATED', $clangHandler->extendForm(...), rex_extension::EARLY);
+rex_extension::register('CLANG_ADDED', $languageHandler->extendForm(...), rex_extension::EARLY);
+rex_extension::register('CLANG_UPDATED', $languageHandler->extendForm(...), rex_extension::EARLY);
 
-rex_extension::register('CLANG_FORM_BUTTONS', $clangHandler->renderToggleButton(...));
+rex_extension::register('CLANG_FORM_BUTTONS', $languageHandler->renderToggleButton(...));

@@ -1,11 +1,19 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Form\Input;
+
+use InvalidArgumentException;
+use rex_exception;
+use rex_select;
+
+use function is_array;
+
 /**
  * @internal
  *
- * @extends rex_input<array{year: numeric-string, month: numeric-string, day: numeric-string, hour?: numeric-string, minute?: numeric-string}>
+ * @extends AbstractInput<array{year: numeric-string, month: numeric-string, day: numeric-string, hour?: numeric-string, minute?: numeric-string}>
  */
-class rex_input_date extends rex_input
+class DateInput extends AbstractInput
 {
     private ?int $startYear = null;
     private ?int $endYear = null;

@@ -1,12 +1,18 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Handler;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use rex_article_cache;
+use rex_category;
+use rex_extension;
+use rex_extension_point;
 
 /**
  * @internal
  */
-class rex_metainfo_category_handler extends rex_metainfo_handler
+class CategoryHandler extends AbstractHandler
 {
     public const PREFIX = 'cat_';
     public const CONTAINER = 'rex-structure-category-metainfo';
@@ -116,12 +122,12 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
     }
 }
 
-$catHandler = new rex_metainfo_category_handler();
+$categoryHandler = new CategoryHandler();
 
-rex_extension::register('CAT_FORM_ADD', $catHandler->extendForm(...));
-rex_extension::register('CAT_FORM_EDIT', $catHandler->extendForm(...));
+rex_extension::register('CAT_FORM_ADD', $categoryHandler->extendForm(...));
+rex_extension::register('CAT_FORM_EDIT', $categoryHandler->extendForm(...));
 
-rex_extension::register('CAT_ADDED', $catHandler->extendForm(...), rex_extension::EARLY);
-rex_extension::register('CAT_UPDATED', $catHandler->extendForm(...), rex_extension::EARLY);
+rex_extension::register('CAT_ADDED', $categoryHandler->extendForm(...), rex_extension::EARLY);
+rex_extension::register('CAT_UPDATED', $categoryHandler->extendForm(...), rex_extension::EARLY);
 
-rex_extension::register('CAT_FORM_BUTTONS', $catHandler->renderToggleButton(...));
+rex_extension::register('CAT_FORM_BUTTONS', $categoryHandler->renderToggleButton(...));

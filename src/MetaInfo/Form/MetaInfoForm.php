@@ -1,20 +1,39 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Form;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\MetaInfo\Database\Table;
+use Redaxo\Core\MetaInfo\Form\Field\RestrictionField;
+use Redaxo\Core\MetaInfo\Handler\ArticleHandler;
+use Redaxo\Core\MetaInfo\Handler\CategoryHandler;
+use Redaxo\Core\MetaInfo\Handler\LanguageHandler;
+use Redaxo\Core\MetaInfo\Handler\MediaHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
+use rex_category_select;
+use rex_clang;
+use rex_exception;
+use rex_extension;
+use rex_extension_point;
+use rex_media_category_select;
+use rex_response;
+use rex_template_select;
+
+use function assert;
+use function strlen;
 
 /**
  * @internal
  */
-class rex_metainfo_table_expander extends Form
+class MetaInfoForm extends Form
 {
     private string $metaPrefix;
-    private rex_metainfo_table_manager $tableManager;
+    private Table $tableManager;
 
     /**
      * @param 'post'|'get' $method
@@ -22,7 +41,7 @@ class rex_metainfo_table_expander extends Form
     public function __construct(string $metaPrefix, string $metaTable, string $tableName, string $whereCondition, string $method = 'post', bool $debug = false)
     {
         $this->metaPrefix = $metaPrefix;
-        $this->tableManager = new rex_metainfo_table_manager($metaTable);
+        $this->tableManager = new Table($metaTable);
 
         parent::__construct($tableName, I18n::msg('minfo_field_fieldset'), $whereCondition, $method, $debug);
     }
@@ -33,7 +52,7 @@ class rex_metainfo_table_expander extends Form
 
         // ----- EXTENSION POINT
         // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
-        $typeFields = rex_extension::registerPoint(new rex_extension_point('METAINFO_TYPE_FIELDS', [rex_metainfo_table_manager::FIELD_SELECT, rex_metainfo_table_manager::FIELD_RADIO, rex_metainfo_table_manager::FIELD_CHECKBOX, rex_metainfo_table_manager::FIELD_REX_MEDIA_WIDGET, rex_metainfo_table_manager::FIELD_REX_LINK_WIDGET, rex_metainfo_table_manager::FIELD_DATE, rex_metainfo_table_manager::FIELD_DATETIME]));
+        $typeFields = rex_extension::registerPoint(new rex_extension_point('METAINFO_TYPE_FIELDS', [Table::FIELD_SELECT, Table::FIELD_RADIO, Table::FIELD_CHECKBOX, Table::FIELD_REX_MEDIA_WIDGET, Table::FIELD_REX_LINK_WIDGET, Table::FIELD_DATE, Table::FIELD_DATETIME]));
 
         $field = $this->addReadOnlyField('prefix', $this->metaPrefix);
         $field->setLabel(I18n::msg('minfo_field_label_prefix'));
@@ -102,7 +121,7 @@ class rex_metainfo_table_expander extends Form
         $select->addSqlOptions($qry);
 
         $notices = '';
-        for ($i = 1; $i < rex_metainfo_table_manager::FIELD_COUNT; ++$i) {
+        for ($i = 1; $i < Table::FIELD_COUNT; ++$i) {
             if (I18n::hasMsg('minfo_field_params_notice_' . $i)) {
                 $notices .= '<span id="metainfo-field-params-notice-' . $i . '" style="display:none">' . I18n::msg('minfo_field_params_notice_' . $i) . '</span>' . "\n";
             }
@@ -128,21 +147,21 @@ class rex_metainfo_table_expander extends Form
         $field->setLabel(I18n::msg('minfo_field_label_default'));
         $field->getValidator()->add(ValidationRule::MAX_LENGTH, null, 255);
 
-        if (rex_metainfo_clang_handler::PREFIX !== $this->metaPrefix) {
+        if (LanguageHandler::PREFIX !== $this->metaPrefix) {
             $field = $this->addRestrictionsField('restrictions');
             $field->setLabel(I18n::msg('minfo_field_label_restrictions'));
             $field->setAllCheckboxLabel(I18n::msg('minfo_field_label_no_restrictions'));
 
-            if (rex_metainfo_article_handler::PREFIX == $this->metaPrefix || rex_metainfo_category_handler::PREFIX == $this->metaPrefix) {
+            if (ArticleHandler::PREFIX == $this->metaPrefix || CategoryHandler::PREFIX == $this->metaPrefix) {
                 $field->setSelect(new rex_category_select(false, false, true, false));
-            } elseif (rex_metainfo_media_handler::PREFIX == $this->metaPrefix) {
+            } elseif (MediaHandler::PREFIX == $this->metaPrefix) {
                 $field->setSelect(new rex_media_category_select());
             } else {
                 throw new rex_exception('Unexpected TablePrefix "' . $this->metaPrefix . '".');
             }
         }
 
-        if (rex_metainfo_article_handler::PREFIX === $this->metaPrefix) {
+        if (ArticleHandler::PREFIX === $this->metaPrefix) {
             $field = $this->addRestrictionsField('templates');
             $field->setLabel(I18n::msg('minfo_field_label_templates'));
             $field->setAllCheckboxLabel(I18n::msg('minfo_field_label_all_templates'));
@@ -152,10 +171,10 @@ class rex_metainfo_table_expander extends Form
         parent::init();
     }
 
-    private function addRestrictionsField(string $name): rex_form_restrictons_element
+    private function addRestrictionsField(string $name): RestrictionField
     {
-        /** @var rex_form_restrictons_element $field */
-        $field = $this->addField('', $name, null, ['internal::fieldClass' => rex_form_restrictons_element::class]);
+        /** @var RestrictionField $field */
+        $field = $this->addField('', $name, null, ['internal::fieldClass' => RestrictionField::class]);
         $field->setAttribute('size', 10);
         $field->setAttribute('class', 'form-control');
 
@@ -281,7 +300,7 @@ class rex_metainfo_table_expander extends Form
 
             if (
                 strlen($fieldDefault)
-                && (rex_metainfo_table_manager::FIELD_CHECKBOX === $fieldType || rex_metainfo_table_manager::FIELD_SELECT === $fieldType && isset(Str::split($fieldAttributes)['multiple']))
+                && (Table::FIELD_CHECKBOX === $fieldType || Table::FIELD_SELECT === $fieldType && isset(Str::split($fieldAttributes)['multiple']))
             ) {
                 $fieldDefault = '|' . trim($fieldDefault, '|') . '|';
             }
