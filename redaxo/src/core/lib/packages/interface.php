@@ -7,68 +7,49 @@ interface rex_addon_interface
      *
      * @return non-empty-string Name
      */
-    public function getName();
-
-    /**
-     * Returns the related Addon.
-     *
-     * @return rex_addon_interface
-     */
-    public function getAddon();
+    public function getName(): string;
 
     /**
      * Returns the package ID.
      *
      * @return non-empty-string|null
      */
-    public function getPackageId();
-
-    /**
-     * Returns the package type as string.
-     *
-     * @return 'addon'
-     */
-    public function getType();
+    public function getPackageId(): ?string;
 
     /**
      * Returns the base path.
      *
-     * @param string $file File
      * @return non-empty-string
      */
-    public function getPath($file = '');
+    public function getPath(string $file = ''): string;
 
     /**
      * Returns the assets path.
      *
-     * @param string $file File
      * @return non-empty-string
      */
-    public function getAssetsPath($file = '');
+    public function getAssetsPath(string $file = ''): string;
 
     /**
      * Returns the assets url.
      *
-     * @param string $file File
      * @return non-empty-string
      */
-    public function getAssetsUrl($file = '');
+    public function getAssetsUrl(string $file = ''): string;
 
     /**
      * Returns the data path.
      *
-     * @param string $file File
      * @return non-empty-string
      */
-    public function getDataPath($file = '');
+    public function getDataPath(string $file = ''): string;
 
     /**
      * Returns the cache path.
      *
-     * @param string $file File
      * @return non-empty-string
      */
-    public function getCachePath($file = '');
+    public function getCachePath(string $file = ''): string;
 
     /**
      * @see rex_config::set()
@@ -134,59 +115,52 @@ interface rex_addon_interface
     /**
      * Returns if the package is available (activated and installed).
      *
-     * @return bool
+     * @psalm-assert-if-true =rex_addon $this
      */
-    public function isAvailable();
+    public function isAvailable(): bool;
 
     /**
      * Returns if the package is installed.
      *
-     * @return bool
+     * @psalm-assert-if-true =rex_addon $this
      */
-    public function isInstalled();
+    public function isInstalled(): bool;
 
     /**
      * Returns if it is a system package.
      *
-     * @return bool
+     * @psalm-assert-if-true =rex_addon $this
      */
-    public function isSystemPackage();
+    public function isSystemPackage(): bool;
 
     /**
      * Returns the author.
      *
      * @param string|null $default Default value, will be returned if the property isn't set
-     *
-     * @return string|null
      */
-    public function getAuthor($default = null);
+    public function getAuthor(?string $default = null): ?string;
 
     /**
      * Returns the version.
      *
-     * @param string $format See {@link rex_formatter::version()}
-     *
-     * @return string
+     * @param string|null $format See {@link rex_formatter::version()}
      */
-    public function getVersion($format = null);
+    public function getVersion(?string $format = null): string;
 
     /**
      * Returns the supportpage.
      *
      * @param string|null $default Default value, will be returned if the property isn't set
-     *
-     * @return string|null
      */
-    public function getSupportPage($default = null);
+    public function getSupportPage(?string $default = null): ?string;
 
     /**
      * Includes a file in the package context.
      *
      * @param non-empty-string $file Filename
-     * @param array $context Context values, available as variables in given file
-     * @return mixed
+     * @param array<string, mixed> $context Context values, available as variables in given file
      */
-    public function includeFile($file, array $context = []);
+    public function includeFile(string $file, array $context = []): mixed;
 
     /**
      * Adds the package prefix to the given key and returns the translation for it.
@@ -196,5 +170,5 @@ interface rex_addon_interface
      *
      * @return non-empty-string Translation for the key
      */
-    public function i18n($key, ...$replacements);
+    public function i18n(string $key, string|int ...$replacements): string;
 }

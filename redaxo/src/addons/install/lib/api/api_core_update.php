@@ -300,6 +300,6 @@ class rex_api_install_core_update extends rex_api_function
 
     private function messageFromPackage(rex_addon $package, rex_addon_manager $manager): string
     {
-        return I18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
+        return I18n::msg('install_warning_message_from_addon', $package->getPackageId()) . ' ' . $manager->getMessage();
     }
 }

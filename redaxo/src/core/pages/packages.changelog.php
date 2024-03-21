@@ -7,7 +7,7 @@ use Redaxo\Core\Util\Markdown;
 
 $content = '';
 
-$package = rex_addon::get(rex_request('package', 'string'));
+$package = rex_addon::require(rex_request('package', 'string'));
 
 if (is_readable($package->getPath('CHANGELOG.md'))) {
     [$readmeToc, $readmeContent] = Markdown::factory()->parseWithToc(File::require($package->getPath('CHANGELOG.md')), 1, 2, [

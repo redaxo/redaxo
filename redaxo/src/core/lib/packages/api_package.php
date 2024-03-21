@@ -6,9 +6,10 @@ use Redaxo\Core\Util\Type;
 /**
  * @internal
  */
-class rex_api_package extends rex_api_function
+final class rex_api_package extends rex_api_function
 {
-    public function execute()
+    #[Override]
+    public function execute(): rex_api_result
     {
         if (Core::isLiveMode()) {
             throw new rex_api_exception('Package management is not available in live mode!');
@@ -42,7 +43,8 @@ class rex_api_package extends rex_api_function
         return $result;
     }
 
-    protected function requiresCsrfProtection()
+    #[Override]
+    protected function requiresCsrfProtection(): true
     {
         return true;
     }

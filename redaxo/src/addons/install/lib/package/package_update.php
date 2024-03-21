@@ -184,7 +184,7 @@ class rex_install_package_update extends rex_install_package_download
 
         if (empty($messages)) {
             foreach (rex_addon::getAvailableAddons() as $package) {
-                if ($package->getAddon() === $this->addon) {
+                if ($package === $this->addon) {
                     continue;
                 }
                 $manager = rex_addon_manager::factory($package);
@@ -210,6 +210,6 @@ class rex_install_package_update extends rex_install_package_download
 
     private function messageFromPackage(rex_addon $package, rex_addon_manager $manager): string
     {
-        return I18n::msg('install_warning_message_from_' . $package->getType(), $package->getPackageId()) . ' ' . $manager->getMessage();
+        return I18n::msg('install_warning_message_from_addon', $package->getPackageId()) . ' ' . $manager->getMessage();
     }
 }

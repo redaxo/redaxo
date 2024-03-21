@@ -3,6 +3,7 @@
 namespace Redaxo\Core;
 
 use InvalidArgumentException;
+use Redaxo\Core\Console\Application;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
@@ -11,7 +12,6 @@ use Redaxo\Core\Validator\Validator;
 use rex_backend_login;
 use rex_config;
 use rex_config_db;
-use rex_console_application;
 use rex_exception;
 use rex_setup;
 use rex_user;
@@ -27,16 +27,18 @@ use const PHP_SESSION_ACTIVE;
 /**
  * REX base class for core properties etc.
  */
-class Core
+final class Core
 {
-    public const CONFIG_NAMESPACE = 'core';
+    public const string CONFIG_NAMESPACE = 'core';
 
     /**
      * Array of properties.
      *
      * @var array<string, mixed>
      */
-    protected static $properties = [];
+    private static array $properties = [];
+
+    private function __construct() {}
 
     /**
      * @see rex_config::set()
@@ -110,7 +112,7 @@ class Core
                 if (!isset($value['throw_always_exception']) || !$value['throw_always_exception']) {
                     $value['throw_always_exception'] = false;
                 } elseif (is_array($value['throw_always_exception'])) {
-                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], static function ($result, $item) {
+                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], static function ($result, $item): int {
                         if (is_string($item)) {
                             // $item is string, e.g. "E_WARNING"
                             $item = constant($item);
@@ -132,8 +134,8 @@ class Core
                 }
                 break;
             case 'console':
-                if (null !== $value && !$value instanceof rex_console_application) {
-                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, get_debug_type($value)));
+                if (null !== $value && !$value instanceof Application) {
+                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of %s, "%s" found!', $key, Application::class, get_debug_type($value)));
                 }
                 break;
             case 'version':
@@ -220,30 +222,24 @@ class Core
 
     /**
      * Returns if the setup is active.
-     *
-     * @return bool
      */
-    public static function isSetup()
+    public static function isSetup(): bool
     {
         return rex_setup::isEnabled();
     }
 
     /**
      * Returns if the environment is the backend.
-     *
-     * @return bool
      */
-    public static function isBackend()
+    public static function isBackend(): bool
     {
         return (bool) self::getProperty('redaxo', false);
     }
 
     /**
      * Returns if the environment is the frontend.
-     *
-     * @return bool
      */
-    public static function isFrontend()
+    public static function isFrontend(): bool
     {
         if (self::getConsole()) {
             return false;
@@ -254,10 +250,9 @@ class Core
     /**
      * Returns the environment.
      *
-     * @return string
-     * @psalm-return 'console'|'backend'|'frontend'
+     * @return 'console'|'backend'|'frontend'
      */
-    public static function getEnvironment()
+    public static function getEnvironment(): string
     {
         if (self::getConsole()) {
             return 'console';
@@ -268,10 +263,8 @@ class Core
 
     /**
      * Returns if the debug mode is active.
-     *
-     * @return bool
      */
-    public static function isDebugMode()
+    public static function isDebugMode(): bool
     {
         if (self::isLiveMode()) {
             return false;
@@ -287,7 +280,7 @@ class Core
      *
      * @return array{enabled: bool, throw_always_exception: bool|int}
      */
-    public static function getDebugFlags()
+    public static function getDebugFlags(): array
     {
         $flags = self::getProperty('debug', []);
 
@@ -299,10 +292,8 @@ class Core
 
     /**
      * Returns if the safe mode is active.
-     *
-     * @return bool
      */
-    public static function isSafeMode()
+    public static function isSafeMode(): bool
     {
         if (!self::isBackend() || self::isLiveMode()) {
             return false;
@@ -331,7 +322,7 @@ class Core
      * @phpstandba-inference-placeholder 'rex_'
      * @psalm-taint-escape sql
      */
-    public static function getTablePrefix()
+    public static function getTablePrefix(): string
     {
         return self::getProperty('table_prefix');
     }
@@ -343,7 +334,7 @@ class Core
      *
      * @return non-empty-string
      */
-    public static function getTable($table)
+    public static function getTable(string $table): string
     {
         return self::getTablePrefix() . $table;
     }
@@ -356,17 +347,15 @@ class Core
      * @phpstandba-inference-placeholder 'tmp_'
      * @psalm-taint-escape sql
      */
-    public static function getTempPrefix()
+    public static function getTempPrefix(): string
     {
         return self::getProperty('temp_prefix');
     }
 
     /**
      * Returns the current user.
-     *
-     * @return rex_user|null
      */
-    public static function getUser()
+    public static function getUser(): ?rex_user
     {
         return self::getProperty('user');
     }
@@ -389,10 +378,8 @@ class Core
 
     /**
      * Returns the current impersonator user.
-     *
-     * @return rex_user|null
      */
-    public static function getImpersonator()
+    public static function getImpersonator(): ?rex_user
     {
         $login = self::$properties['login'] ?? null;
 
@@ -401,10 +388,8 @@ class Core
 
     /**
      * Returns the console application.
-     *
-     * @return rex_console_application|null
      */
-    public static function getConsole()
+    public static function getConsole(): ?Application
     {
         return self::getProperty('console', null);
     }
@@ -440,12 +425,8 @@ class Core
 
     /**
      * Returns the server URL.
-     *
-     * @param string|null $protocol
-     *
-     * @return string
      */
-    public static function getServer($protocol = null)
+    public static function getServer(?string $protocol = null): string
     {
         if (null === $protocol) {
             return self::getProperty('server');
@@ -456,20 +437,16 @@ class Core
 
     /**
      * Returns the server name.
-     *
-     * @return string
      */
-    public static function getServerName()
+    public static function getServerName(): string
     {
         return self::getProperty('servername');
     }
 
     /**
      * Returns the error email.
-     *
-     * @return string
      */
-    public static function getErrorEmail()
+    public static function getErrorEmail(): string
     {
         return self::getProperty('error_email');
     }
@@ -478,10 +455,8 @@ class Core
      * Returns the redaxo version.
      *
      * @param string $format See {@link rex_formatter::version()}
-     *
-     * @return string
      */
-    public static function getVersion($format = null)
+    public static function getVersion(?string $format = null): string
     {
         /** @psalm-taint-escape file */
         $version = self::getProperty('version');
@@ -514,10 +489,9 @@ class Core
      *
      * @param string $title Title
      * @param string $key Key for the accesskey
-     *
-     * @return string
+     * @return non-empty-string
      */
-    public static function getAccesskey($title, $key)
+    public static function getAccesskey(string $title, string $key): string
     {
         if (self::getProperty('use_accesskeys')) {
             $accesskeys = (array) self::getProperty('accesskeys', []);
@@ -531,20 +505,16 @@ class Core
 
     /**
      * Returns the file perm.
-     *
-     * @return int
      */
-    public static function getFilePerm()
+    public static function getFilePerm(): int
     {
         return (int) self::getProperty('fileperm', 0o664);
     }
 
     /**
      * Returns the dir perm.
-     *
-     * @return int
      */
-    public static function getDirPerm()
+    public static function getDirPerm(): int
     {
         return (int) self::getProperty('dirperm', 0o775);
     }

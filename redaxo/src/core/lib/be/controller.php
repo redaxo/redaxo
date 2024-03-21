@@ -611,6 +611,7 @@ class rex_be_controller
     /**
      * Includes the sub-path of current page.
      *
+     * @param array<string, mixed> $context
      * @return mixed
      */
     public static function includeCurrentPageSubPath(array $context = [])
@@ -646,11 +647,9 @@ class rex_be_controller
     /**
      * Includes a path in correct package context.
      *
-     * @param string $path
-     *
-     * @return mixed
+     * @param array<string, mixed> $context
      */
-    private static function includePath($path, array $context = [])
+    private static function includePath(string $path, array $context = []): mixed
     {
         return Timer::measure('Page: ' . Path::relative($path, Path::src()), function () use ($path, $context) {
             $pattern = '@' . preg_quote(Path::src('addons/'), '@') . '([^/\\\]+)@';
