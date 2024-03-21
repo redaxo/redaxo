@@ -37,6 +37,7 @@ use Rector\Transform\ValueObject\FuncCallToStaticCall;
 use Rector\Transform\ValueObject\NewToStaticCall;
 use Rector\TypeDeclaration\Rector as TypeDeclaration;
 use Rector\ValueObject\PhpVersion;
+use Redaxo\Core\Console;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
@@ -111,6 +112,33 @@ return RectorConfig::configure()
         'rex_null_package' => rex_null_addon::class,
         'rex_package' => rex_addon::class,
         'rex_package_manager' => rex_addon_manager::class,
+        'rex_console_application' => Console\Application::class,
+        'rex_console_command' => Console\Command\AbstractCommand::class,
+        'rex_console_command_loader' => Console\CommandLoader::class,
+        'rex_command_cache_clear' => Console\Command\CacheClearCommand::class,
+        'rex_command_config_get' => Console\Command\ConfigGetCommand::class,
+        'rex_command_config_set' => Console\Command\ConfigSetCommand::class,
+        'rex_command_db_connection_options' => Console\Command\DatabaseConnectionOptionsCommand::class,
+        'rex_command_db_dump_schema' => Console\Command\DatabaseDumpSchemaCommand::class,
+        'rex_command_db_set_connection' => Console\Command\DatabaseSetConnectionCommand::class,
+        'rex_command_setup_check' => Console\Command\SetupCheckCommand::class,
+        'rex_command_setup_run' => Console\Command\SetupRunCommand::class,
+        'rex_command_assets_sync' => Console\Command\AssetsSyncCommand::class,
+        'rex_command_be_style_compile' => Console\Command\AssetsCompileStylesCommand::class,
+        'rex_command_cronjob_run' => Console\Command\CronjobRunCommand::class,
+        'rex_command_list' => Console\Command\ListCommand::class,
+        'rex_command_package_activate' => Console\Command\AddonActivateCommand::class,
+        'rex_command_package_deactivate' => Console\Command\AddonDeactivateCommand::class,
+        'rex_command_package_delete' => Console\Command\AddonDeleteCommand::class,
+        'rex_command_package_list' => Console\Command\AddonListCommand::class,
+        'rex_command_package_install' => Console\Command\AddonInstallCommand::class,
+        'rex_command_package_run_update_script' => Console\Command\AddonRunUpdateScriptCommand::class,
+        'rex_command_package_uninstall' => Console\Command\AddonUninstallCommand::class,
+        'rex_command_system_report' => Console\Command\SystemReportCommand::class,
+        'rex_command_user_create' => Console\Command\UserCreateCommand::class,
+        'rex_command_user_set_password' => Console\Command\UserSetPasswordCommand::class,
+        'rex_command_only_setup_packages' => Console\Command\OnlySetupAddonsInterface::class,
+        'rex_command_standalone' => Console\Command\StandaloneInterface::class,
         'rex_cronjob_form' => Cronjob\Form\CronjobForm::class,
         'rex_cronjob_form_interval_element' => Cronjob\Form\IntervalField::class,
         'rex_dir' => Filesystem\Dir::class,

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Console\Command\AbstractCommand;
 use Redaxo\Core\Util\Version;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -8,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @internal
  */
-class rex_command_install_download extends rex_console_command
+class rex_command_install_download extends AbstractCommand
 {
     protected function configure(): void
     {

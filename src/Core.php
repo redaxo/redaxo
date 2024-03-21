@@ -3,6 +3,7 @@
 namespace Redaxo\Core;
 
 use InvalidArgumentException;
+use Redaxo\Core\Console\Application;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
@@ -11,7 +12,6 @@ use Redaxo\Core\Validator\Validator;
 use rex_backend_login;
 use rex_config;
 use rex_config_db;
-use rex_console_application;
 use rex_exception;
 use rex_setup;
 use rex_user;
@@ -134,8 +134,8 @@ final class Core
                 }
                 break;
             case 'console':
-                if (null !== $value && !$value instanceof rex_console_application) {
-                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, get_debug_type($value)));
+                if (null !== $value && !$value instanceof Application) {
+                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of %s, "%s" found!', $key, Application::class, get_debug_type($value)));
                 }
                 break;
             case 'version':
@@ -389,7 +389,7 @@ final class Core
     /**
      * Returns the console application.
      */
-    public static function getConsole(): ?rex_console_application
+    public static function getConsole(): ?Application
     {
         return self::getProperty('console', null);
     }

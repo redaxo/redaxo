@@ -1,5 +1,8 @@
 <?php
 
+use Redaxo\Core\Console\Application;
+use Redaxo\Core\Console\CommandLoader;
+
 if (!defined('REX_MIN_PHP_VERSION')) {
     unset($REX);
     $REX['REDAXO'] = true;
@@ -14,7 +17,7 @@ if (!defined('REX_MIN_PHP_VERSION')) {
     class_exists(rex_backend_login::class);
 }
 
-$application = new rex_console_application();
-$application->setCommandLoader(new rex_console_command_loader());
+$application = new Application();
+$application->setCommandLoader(new CommandLoader());
 
 return $application;

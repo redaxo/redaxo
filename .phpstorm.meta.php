@@ -7,7 +7,7 @@ namespace PHPSTORM_META;
 override(
     \Redaxo\Core\Core::getProperty(0),
     map([
-        'console' => \rex_console_application::class,
+        'console' => \Redaxo\Core\Console\Application::class,
         'login' => \rex_backend_login::class,
         'timer' => \Redaxo\Core\Util\Timer::class,
         'user' => \rex_user::class,

@@ -23,8 +23,8 @@ users
 "
 
 for package in $packages; do
-    if redaxo/bin/console package:list --package $package --installed-only --error-when-empty --quiet; then
-        redaxo/bin/console package:install --ansi --re-install $package
+    if redaxo/bin/console addon:list --package $package --installed-only --error-when-empty --quiet; then
+        redaxo/bin/console addon:install --ansi --re-install $package
     fi
 done
 
