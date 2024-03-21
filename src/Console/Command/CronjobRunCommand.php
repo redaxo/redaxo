@@ -5,7 +5,6 @@ namespace Redaxo\Core\Console\Command;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\CronjobManager;
 use Redaxo\Core\Database\Sql;
-use rex_cronjob_manager_sql;
 use Symfony\Component\Console\Exception\InvalidArgumentException as SymfonyInvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
