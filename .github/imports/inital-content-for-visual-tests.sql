@@ -19,8 +19,8 @@ REPLACE INTO `rex_config` VALUES
 ('core','article_work_version','true');
 
 INSERT IGNORE INTO `rex_cronjob` VALUES
-(1,'Artikel-Status',NULL,'rex_cronjob_article_status',NULL,'{\"minutes\":[0],\"hours\":[0],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}',NULL,'|frontend|backend|script|',1,'0000-00-00 00:00:00',0,'2022-07-17 21:08:53','admin','2022-07-18 00:03:20','admin'),
-(2,'Tabellen-Optimierung',NULL,'rex_cronjob_optimize_tables',NULL,'{\"minutes\":[0],\"hours\":[0],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}',NULL,'|frontend|backend|script|',0,'0000-00-00 00:00:00',0,'2022-07-17 21:08:54','admin','2022-07-17 21:18:38','admin');
+(1,'Artikel-Status',NULL,'rex_cronjob_article_status',NULL,'{\"minutes\":[0],\"hours\":[0],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}',NULL,'|frontend|backend|script|',1,NULL,0,'2022-07-17 21:08:53','admin','2022-07-18 00:03:20','admin'),
+(2,'Tabellen-Optimierung',NULL,'rex_cronjob_optimize_tables',NULL,'{\"minutes\":[0],\"hours\":[0],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}',NULL,'|frontend|backend|script|',0,NULL,0,'2022-07-17 21:08:54','admin','2022-07-17 21:18:38','admin');
 
 INSERT IGNORE INTO `rex_media` VALUES
 (1,0,'image/jpeg','redaxo_2018_berlin_sticker.jpg','redaxo_2018_berlin_sticker.jpg','78410',1200,900,'Sticker','2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername');
