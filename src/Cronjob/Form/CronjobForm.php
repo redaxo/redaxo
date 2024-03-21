@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Cronjob\Form;
 
+use Redaxo\Core\Cronjob\CronjobManager;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Form;
-use rex_cronjob_manager_sql;
 
 /**
  * @internal
@@ -48,11 +48,11 @@ class CronjobForm extends Form
     protected function save()
     {
         $nexttime = $this->getElement($this->mainFieldset, 'nexttime');
-        $timestamp = rex_cronjob_manager_sql::calculateNextTime($this->intervalField->getIntervalElements());
+        $timestamp = CronjobManager::calculateNextTime($this->intervalField->getIntervalElements());
         $nexttime->setValue($timestamp ? Sql::datetime($timestamp) : null);
 
         $return = parent::save();
-        rex_cronjob_manager_sql::factory()->saveNextTime();
+        CronjobManager::factory()->saveNextTime();
         return $return;
     }
 }

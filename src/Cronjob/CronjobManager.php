@@ -1,14 +1,26 @@
 <?php
 
-use Redaxo\Core\Core;
-use Redaxo\Core\Database\Sql;
+namespace Redaxo\Core\Cronjob;
 
-class rex_cronjob_manager_sql
+use DateTime;
+use Redaxo\Core\Core;
+use Redaxo\Core\Cronjob\Type\AbstractType;
+use Redaxo\Core\Database\Sql;
+use rex_exception;
+use rex_extension;
+use rex_sql_exception;
+
+use function in_array;
+use function ini_get;
+use function is_array;
+use function is_object;
+
+class CronjobManager
 {
     private Sql $sql;
 
     private function __construct(
-        private ?rex_cronjob_manager $manager = null,
+        private ?CronjobExecutor $executor = null,
     ) {
         $this->sql = Sql::factory();
     }
@@ -16,29 +28,29 @@ class rex_cronjob_manager_sql
     /**
      * @return self
      */
-    public static function factory(?rex_cronjob_manager $manager = null)
+    public static function factory(?CronjobExecutor $executor = null)
     {
-        return new self($manager);
+        return new self($executor);
     }
 
     /**
-     * @return rex_cronjob_manager
+     * @return CronjobExecutor
      */
-    public function getManager()
+    public function getExecutor()
     {
-        if (!is_object($this->manager)) {
-            $this->manager = rex_cronjob_manager::factory();
+        if (!is_object($this->executor)) {
+            $this->executor = CronjobExecutor::factory();
         }
-        return $this->manager;
+        return $this->executor;
     }
 
     /**
      * @api
      * @return bool
      */
-    public function hasManager()
+    public function hasExecutor()
     {
-        return is_object($this->manager);
+        return is_object($this->executor);
     }
 
     /**
@@ -48,7 +60,7 @@ class rex_cronjob_manager_sql
      */
     public function setMessage($message)
     {
-        $this->getManager()->setMessage($message);
+        $this->getExecutor()->setMessage($message);
     }
 
     /**
@@ -56,7 +68,7 @@ class rex_cronjob_manager_sql
      */
     public function getMessage()
     {
-        return $this->getManager()->getMessage();
+        return $this->getExecutor()->getMessage();
     }
 
     /**
@@ -64,7 +76,7 @@ class rex_cronjob_manager_sql
      */
     public function hasMessage()
     {
-        return $this->getManager()->hasMessage();
+        return $this->getExecutor()->hasMessage();
     }
 
     /**
@@ -148,7 +160,7 @@ class rex_cronjob_manager_sql
      */
     public function check(?callable $callback = null)
     {
-        $env = rex_cronjob_manager::getCurrentEnvironment();
+        $env = CronjobExecutor::getCurrentEnvironment();
         $script = 'script' === $env;
 
         $sql = Sql::factory();
@@ -194,9 +206,9 @@ class rex_cronjob_manager_sql
                 /** @psalm-taint-escape callable */ // It is intended that the class name is coming from database
                 $type = $job['type'];
 
-                $manager = $this->getManager();
-                $manager->setCronjob(rex_cronjob::factory($type));
-                $manager->log(false, 0 != connection_status() ? 'Timeout' : 'Unknown error');
+                $executor = $this->getExecutor();
+                $executor->setCronjob(AbstractType::factory($type));
+                $executor->log(false, 0 != connection_status() ? 'Timeout' : 'Unknown error');
                 $this->setNextTime($job['id'], $job['interval'], true);
             }
 
@@ -246,10 +258,10 @@ class rex_cronjob_manager_sql
             FROM      ' . Core::getTable('cronjob') . '
             WHERE     id = ? AND environment LIKE ?
             LIMIT     1
-        ', [$id, '%|' . rex_cronjob_manager::getCurrentEnvironment() . '|%']);
+        ', [$id, '%|' . CronjobExecutor::getCurrentEnvironment() . '|%']);
 
         if (!$jobs) {
-            $this->getManager()->setMessage('Cronjob not found in database');
+            $this->getExecutor()->setMessage('Cronjob not found in database');
             $this->saveNextTime();
             return false;
         }
@@ -258,7 +270,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @param array{id: int, interval: string, name: string, parameters: ?string, type: class-string<rex_cronjob>} $job
+     * @param array{id: int, interval: string, name: string, parameters: ?string, type: class-string<AbstractType>} $job
      * @param bool $log
      * @param bool $resetExecutionStart
      * @return bool
@@ -273,11 +285,11 @@ class rex_cronjob_manager_sql
         /** @psalm-taint-escape callable */ // It is intended that the class name is coming from database
         $type = $job['type'];
 
-        $cronjob = rex_cronjob::factory($type);
+        $cronjob = AbstractType::factory($type);
 
         $this->setNextTime($job['id'], $job['interval'], $resetExecutionStart);
 
-        return $this->getManager()->tryExecute($cronjob, $job['name'], $params, $log, $job['id']);
+        return $this->getExecutor()->tryExecute($cronjob, $job['name'], $params, $log, $job['id']);
     }
 
     /**

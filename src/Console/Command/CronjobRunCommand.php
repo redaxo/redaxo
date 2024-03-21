@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Console\Command;
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Cronjob\CronjobManager;
 use Redaxo\Core\Database\Sql;
-use rex_cronjob_manager_sql;
 use Symfony\Component\Console\Exception\InvalidArgumentException as SymfonyInvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -40,7 +40,7 @@ class CronjobRunCommand extends AbstractCommand
             return $this->executeSingleJob($io, $job);
         }
 
-        $manager = rex_cronjob_manager_sql::factory();
+        $manager = CronjobManager::factory();
 
         $errors = 0;
         $manager->check(static function (string $name, bool $success, string $message) use ($io, &$errors) {
@@ -68,7 +68,7 @@ class CronjobRunCommand extends AbstractCommand
      */
     private function executeSingleJob(SymfonyStyle $io, $id)
     {
-        $manager = rex_cronjob_manager_sql::factory();
+        $manager = CronjobManager::factory();
 
         if (null === $id) {
             $jobs = Sql::factory()->getArray('

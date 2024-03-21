@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Cronjob\CronjobExecutor;
+use Redaxo\Core\Cronjob\CronjobManager;
 use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -155,11 +157,11 @@ rex_extension::register('SESSION_REGENERATED', rex_backend_login::sessionRegener
 
 $nexttime = Core::isSetup() || Core::getConsole() ? 0 : (int) Core::getConfig('cronjob_nexttime', 0);
 if (0 !== $nexttime && time() >= $nexttime) {
-    $env = rex_cronjob_manager::getCurrentEnvironment();
+    $env = CronjobExecutor::getCurrentEnvironment();
     $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
     rex_extension::register($EP, static function () use ($env) {
         if ('backend' !== $env || !in_array(rex_be_controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'], true)) {
-            rex_cronjob_manager_sql::factory()->check();
+            CronjobManager::factory()->check();
         }
     });
 }

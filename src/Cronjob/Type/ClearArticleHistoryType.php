@@ -1,8 +1,12 @@
 <?php
 
-use Redaxo\Core\Translation\I18n;
+namespace Redaxo\Core\Cronjob\Type;
 
-class rex_cronjob_structure_history extends rex_cronjob
+use DateTimeImmutable;
+use Redaxo\Core\Translation\I18n;
+use rex_article_slice_history;
+
+class ClearArticleHistoryType extends AbstractType
 {
     public function execute()
     {

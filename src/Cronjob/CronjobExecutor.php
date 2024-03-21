@@ -1,17 +1,30 @@
 <?php
 
+namespace Redaxo\Core\Cronjob;
+
 use Redaxo\Core\Core;
+use Redaxo\Core\Cronjob\Type\AbstractType;
+use Redaxo\Core\Cronjob\Type\ArticleStatusType;
+use Redaxo\Core\Cronjob\Type\ClearArticleHistoryType;
+use Redaxo\Core\Cronjob\Type\ExportType;
+use Redaxo\Core\Cronjob\Type\OptimizeTableType;
+use Redaxo\Core\Cronjob\Type\PurgeMailerArchiveType;
+use Redaxo\Core\Cronjob\Type\UrlRequestType;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Log\LogFile;
+use Throwable;
 
-class rex_cronjob_manager
+use function defined;
+use function is_object;
+
+class CronjobExecutor
 {
-    /** @var list<class-string<rex_cronjob>>|null */
+    /** @var list<class-string<AbstractType>>|null */
     private static ?array $types = null;
 
     /** @var string */
     private $message = '';
-    /** @var rex_cronjob|class-string<rex_cronjob>|null */
+    /** @var AbstractType|class-string<AbstractType>|null */
     private $cronjob;
     /** @var string|null */
     private $name;
@@ -53,7 +66,7 @@ class rex_cronjob_manager
 
     /**
      * @api
-     * @param rex_cronjob|class-string<rex_cronjob> $cronjob
+     * @param AbstractType|class-string<AbstractType> $cronjob
      * @return void
      */
     public function setCronjob($cronjob)
@@ -62,7 +75,7 @@ class rex_cronjob_manager
     }
 
     /**
-     * @param rex_cronjob|class-string<rex_cronjob> $cronjob
+     * @param AbstractType|class-string<AbstractType> $cronjob
      * @param string $name
      * @param array $params
      * @param bool $log
@@ -71,7 +84,7 @@ class rex_cronjob_manager
      */
     public function tryExecute($cronjob, $name = '', $params = [], $log = true, $id = null)
     {
-        if (!$cronjob instanceof rex_cronjob) {
+        if (!$cronjob instanceof AbstractType) {
             $success = false;
             if (is_object($cronjob)) {
                 $message = 'Invalid cronjob class "' . $cronjob::class . '"';
@@ -120,7 +133,7 @@ class rex_cronjob_manager
     {
         $name = $this->name;
         if (!$name) {
-            if ($this->cronjob instanceof rex_cronjob) {
+            if ($this->cronjob instanceof AbstractType) {
                 $name = Core::isBackend() ? $this->cronjob->getTypeName() : $this->cronjob->getType();
             } else {
                 $name = '[no name]';
@@ -145,26 +158,26 @@ class rex_cronjob_manager
     }
 
     /**
-     * @return list<class-string<rex_cronjob>>
+     * @return list<class-string<AbstractType>>
      */
     public static function getTypes()
     {
         if (null === self::$types) {
             self::$types = [];
 
-            self::$types[] = rex_cronjob_urlrequest::class;
-            self::$types[] = rex_cronjob_export::class;
-            self::$types[] = rex_cronjob_optimize_tables::class;
-            self::$types[] = rex_cronjob_article_status::class;
-            self::$types[] = rex_cronjob_structure_history::class;
-            self::$types[] = rex_cronjob_mailer_purge::class;
+            self::$types[] = UrlRequestType::class;
+            self::$types[] = ExportType::class;
+            self::$types[] = OptimizeTableType::class;
+            self::$types[] = ArticleStatusType::class;
+            self::$types[] = ClearArticleHistoryType::class;
+            self::$types[] = PurgeMailerArchiveType::class;
         }
 
         return self::$types;
     }
 
     /**
-     * @param class-string<rex_cronjob> $class
+     * @param class-string<AbstractType> $class
      * @return void
      */
     public static function registerType($class)
