@@ -115,7 +115,7 @@ class rex_cronjob_manager_sql
     {
         $this->sql->setTable(Core::getTable('cronjob'));
         $this->sql->setWhere(['id' => $id]);
-        $this->sql->setDateTimeValue('execution_start', $reset ? 0 : time());
+        $this->sql->setDateTimeValue('execution_start', $reset ? null : time());
         try {
             $this->sql->update();
             return true;
@@ -291,7 +291,7 @@ class rex_cronjob_manager_sql
     {
         $nexttime = self::calculateNextTime(json_decode($interval, true));
         $nexttime = $nexttime ? Sql::datetime($nexttime) : null;
-        $add = $resetExecutionStart ? ', execution_start = 0' : '';
+        $add = $resetExecutionStart ? ', execution_start = NULL' : '';
         try {
             $this->sql->setQuery('
                 UPDATE  ' . Core::getTable('cronjob') . '
