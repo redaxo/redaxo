@@ -7,18 +7,19 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Type;
 
-class rex_addon implements rex_addon_interface
+final class rex_addon implements rex_addon_interface
 {
-    public const FILE_PACKAGE = 'package.yml';
-    public const FILE_BOOT = 'boot.php';
-    public const FILE_INSTALL = 'install.php';
-    public const FILE_INSTALL_SQL = 'install.sql';
-    public const FILE_UNINSTALL = 'uninstall.php';
-    public const FILE_UNINSTALL_SQL = 'uninstall.sql';
-    public const FILE_UPDATE = 'update.php';
+    public const string FILE_PACKAGE = 'package.yml';
+    public const string FILE_BOOT = 'boot.php';
+    public const string FILE_INSTALL = 'install.php';
+    public const string FILE_INSTALL_SQL = 'install.sql';
+    public const string FILE_UNINSTALL = 'uninstall.php';
+    public const string FILE_UNINSTALL_SQL = 'uninstall.sql';
+    public const string FILE_UPDATE = 'update.php';
 
-    private const PROPERTIES_CACHE_FILE = 'packages.cache';
+    private const string PROPERTIES_CACHE_FILE = 'packages.cache';
 
     /**
      * Array of all addons.
@@ -28,33 +29,23 @@ class rex_addon implements rex_addon_interface
     private static array $addons = [];
 
     /**
-     * Name of the package.
-     *
-     * @var non-empty-string
-     */
-    private $name;
-
-    /**
      * Properties.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    private $properties = [];
+    private array $properties = [];
 
     /**
      * Flag whether the properties of package.yml are loaded.
-     *
-     * @var bool
      */
-    private $propertiesLoaded = false;
+    private bool $propertiesLoaded = false;
 
     /**
-     * @param non-empty-string $name Name
+     * @param non-empty-string $name Name of the addon
      */
-    public function __construct($name)
-    {
-        $this->name = $name;
-    }
+    public function __construct(
+        private readonly string $name,
+    ) {}
 
     /**
      * Returns the addon by the given name.
@@ -75,6 +66,7 @@ class rex_addon implements rex_addon_interface
      * Returns the addon by the given name.
      *
      * @throws RuntimeException if the package does not exist
+     * @psalm-assert =non-empty-string $addon
      */
     public static function require(string $addon): self
     {
@@ -90,96 +82,98 @@ class rex_addon implements rex_addon_interface
      *
      * @param string $addon Addon name
      *
-     * @return bool
-     *
      * @psalm-assert-if-true =non-empty-string $addon
      */
-    public static function exists($addon)
+    public static function exists(string $addon): bool
     {
-        return is_string($addon) && isset(self::$addons[$addon]);
+        return isset(self::$addons[$addon]);
     }
 
     /**
      * @return non-empty-string
      */
-    public function getPackageId()
-    {
-        return $this->getName();
-    }
-
-    /**
-     * @return non-empty-string
-     */
-    public function getName()
+    #[Override]
+    public function getPackageId(): string
     {
         return $this->name;
     }
 
-    public function getAddon()
+    /**
+     * @return non-empty-string
+     */
+    #[Override]
+    public function getName(): string
     {
-        return $this;
+        return $this->name;
     }
 
-    public function getType()
+    #[Override]
+    public function getPath(string $file = ''): string
     {
-        return 'addon';
+        return Path::addon($this->name, $file);
     }
 
-    public function getPath($file = '')
+    #[Override]
+    public function getAssetsPath(string $file = ''): string
     {
-        return Path::addon($this->getName(), $file);
+        return Path::addonAssets($this->name, $file);
     }
 
-    public function getAssetsPath($file = '')
+    #[Override]
+    public function getAssetsUrl(string $file = ''): string
     {
-        return Path::addonAssets($this->getName(), $file);
+        return Url::addonAssets($this->name, $file);
     }
 
-    public function getAssetsUrl($file = '')
+    #[Override]
+    public function getDataPath(string $file = ''): string
     {
-        return Url::addonAssets($this->getName(), $file);
+        return Path::addonData($this->name, $file);
     }
 
-    public function getDataPath($file = '')
+    #[Override]
+    public function getCachePath(string $file = ''): string
     {
-        return Path::addonData($this->getName(), $file);
+        return Path::addonCache($this->name, $file);
     }
 
-    public function getCachePath($file = '')
+    #[Override]
+    public function isSystemPackage(): bool
     {
-        return Path::addonCache($this->getName(), $file);
+        return in_array($this->name, Core::getProperty('system_addons'));
     }
 
-    public function isSystemPackage()
-    {
-        return in_array($this->getPackageId(), Core::getProperty('system_addons'));
-    }
-
+    #[Override]
     public function setConfig(string|array $key, mixed $value = null): bool
     {
-        return rex_config::set($this->getPackageId(), $key, $value);
+        return rex_config::set($this->name, $key, $value);
     }
 
+    #[Override]
     public function getConfig(?string $key = null, mixed $default = null): mixed
     {
-        return rex_config::get($this->getPackageId(), $key, $default);
+        return rex_config::get($this->name, $key, $default);
     }
 
+    #[Override]
     public function hasConfig(?string $key = null): bool
     {
-        return rex_config::has($this->getPackageId(), $key);
+        return rex_config::has($this->name, $key);
     }
 
+    #[Override]
     public function removeConfig(string $key): bool
     {
-        return rex_config::remove($this->getPackageId(), $key);
+        return rex_config::remove($this->name, $key);
     }
 
+    #[Override]
     public function setProperty(string $key, mixed $value): void
     {
         $this->properties[$key] = $value;
     }
 
+    #[Override]
     public function getProperty(string $key, mixed $default = null): mixed
     {
         if ($this->hasProperty($key)) {
@@ -188,6 +182,7 @@ class rex_addon implements rex_addon_interface
         return $default;
     }
 
+    #[Override]
     public function hasProperty(string $key): bool
     {
         if (!isset($this->properties[$key]) && !$this->propertiesLoaded) {
@@ -196,29 +191,34 @@ class rex_addon implements rex_addon_interface
         return isset($this->properties[$key]);
     }
 
+    #[Override]
     public function removeProperty(string $key): void
     {
         unset($this->properties[$key]);
     }
 
-    public function isAvailable()
+    #[Override]
+    public function isAvailable(): bool
     {
         return $this->isInstalled() && (bool) $this->getProperty('status', false);
     }
 
-    public function isInstalled()
+    #[Override]
+    public function isInstalled(): bool
     {
         return (bool) $this->getProperty('install', false);
     }
 
-    public function getAuthor($default = null)
+    #[Override]
+    public function getAuthor(?string $default = null): ?string
     {
         $author = (string) $this->getProperty('author', '');
 
         return '' === $author ? $default : $author;
     }
 
-    public function getVersion($format = null)
+    #[Override]
+    public function getVersion(?string $format = null): string
     {
         $version = (string) $this->getProperty('version');
 
@@ -228,14 +228,16 @@ class rex_addon implements rex_addon_interface
         return $version;
     }
 
-    public function getSupportPage($default = null)
+    #[Override]
+    public function getSupportPage(?string $default = null): ?string
     {
         $supportPage = (string) $this->getProperty('supportpage', '');
 
         return '' === $supportPage ? $default : $supportPage;
     }
 
-    public function includeFile($file, array $context = [])
+    #[Override]
+    public function includeFile(string $file, array $context = []): mixed
     {
         $__file = $file;
         $__context = $context;
@@ -252,24 +254,23 @@ class rex_addon implements rex_addon_interface
             return require $__file;
         }
 
-        throw new rex_exception(sprintf('Package "%s": the page path "%s" neither exists as standalone path nor as package subpath "%s"', $this->getPackageId(), $__file, $__path));
+        throw new rex_exception(sprintf('Package "%s": the page path "%s" neither exists as standalone path nor as package subpath "%s"', $this->name, $__file, $__path));
     }
 
-    public function i18n($key, ...$replacements)
+    #[Override]
+    public function i18n(string $key, string|int ...$replacements): string
     {
-        $args = func_get_args();
-        $key = $this->getName() . '_' . $key;
-        if (I18n::hasMsgOrFallback($key)) {
-            $args[0] = $key;
+        $fullKey = $this->name . '_' . $key;
+        if (I18n::hasMsgOrFallback($fullKey)) {
+            $key = $fullKey;
         }
-        return call_user_func_array(I18n::msg(...), $args);
+        return I18n::msg($key, ...$replacements);
     }
 
     /**
      * Loads the properties of package.yml.
-     * @return void
      */
-    public function loadProperties(bool $force = false)
+    public function loadProperties(bool $force = false): void
     {
         $file = $this->getPath(self::FILE_PACKAGE);
         if (!is_file($file)) {
@@ -283,7 +284,7 @@ class rex_addon implements rex_addon_interface
             /** @var array<string, array{timestamp: int, data: array<string, mixed>}> $cache */
             $cache = File::getCache(Path::coreCache(self::PROPERTIES_CACHE_FILE));
         }
-        $id = $this->getPackageId();
+        $id = $this->name;
 
         if ($force) {
             unset($cache[$id]);
@@ -325,6 +326,7 @@ class rex_addon implements rex_addon_interface
         $this->properties = array_intersect_key($this->properties, ['install' => null, 'status' => null]);
         if ($properties) {
             foreach ($properties as $key => $value) {
+                Type::string($key);
                 if (isset($this->properties[$key])) {
                     continue;
                 }
@@ -343,9 +345,8 @@ class rex_addon implements rex_addon_interface
      * Clears the cache of the package.
      *
      * @throws rex_functional_exception
-     * @return void
      */
-    public function clearCache()
+    public function clearCache(): void
     {
         $cacheDir = $this->getCachePath();
         if (!Dir::delete($cacheDir)) {
@@ -354,17 +355,14 @@ class rex_addon implements rex_addon_interface
 
         $cache = File::getCache($path = Path::coreCache(self::PROPERTIES_CACHE_FILE));
         if ($cache) {
-            unset($cache[$this->getPackageId()]);
+            unset($cache[$this->name]);
             File::putCache($path, $cache);
         }
 
         rex_extension::registerPoint(new rex_extension_point_package_cache_deleted($this));
     }
 
-    /**
-     * @return void
-     */
-    public function enlist()
+    public function enlist(): void
     {
         $folder = $this->getPath();
 
@@ -378,10 +376,7 @@ class rex_addon implements rex_addon_interface
         }
     }
 
-    /**
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         if (is_readable($this->getPath(self::FILE_BOOT))) {
             $this->includeFile(self::FILE_BOOT);
@@ -393,7 +388,7 @@ class rex_addon implements rex_addon_interface
      *
      * @return array<non-empty-string, self>
      */
-    public static function getRegisteredAddons()
+    public static function getRegisteredAddons(): array
     {
         return self::$addons;
     }
@@ -403,7 +398,7 @@ class rex_addon implements rex_addon_interface
      *
      * @return array<non-empty-string, self>
      */
-    public static function getInstalledAddons()
+    public static function getInstalledAddons(): array
     {
         return self::filterPackages(self::$addons, 'isInstalled');
     }
@@ -413,7 +408,7 @@ class rex_addon implements rex_addon_interface
      *
      * @return array<non-empty-string, self>
      */
-    public static function getAvailableAddons()
+    public static function getAvailableAddons(): array
     {
         return self::filterPackages(self::$addons, 'isAvailable');
     }
@@ -421,9 +416,9 @@ class rex_addon implements rex_addon_interface
     /**
      * Returns the setup addons.
      *
-     * @return array<string, self>
+     * @return array<non-empty-string, self>
      */
-    public static function getSetupAddons()
+    public static function getSetupAddons(): array
     {
         $addons = [];
         foreach ((array) Core::getProperty('setup_addons', []) as $addon) {
@@ -437,9 +432,9 @@ class rex_addon implements rex_addon_interface
     /**
      * Returns the system addons.
      *
-     * @return array<string, self>
+     * @return array<non-empty-string, self>
      */
-    public static function getSystemAddons()
+    public static function getSystemAddons(): array
     {
         $addons = [];
         foreach ((array) Core::getProperty('system_addons', []) as $addon) {
@@ -452,10 +447,8 @@ class rex_addon implements rex_addon_interface
 
     /**
      * Initializes all packages.
-     * @param bool $dbExists
-     * @return void
      */
-    public static function initialize($dbExists = true)
+    public static function initialize(bool $dbExists = true): void
     {
         if ($dbExists) {
             $config = Core::getPackageConfig();
@@ -482,7 +475,7 @@ class rex_addon implements rex_addon_interface
      * @param string $method A rex_addon method
      * @return array<non-empty-string, self>
      */
-    private static function filterPackages(array $packages, $method)
+    private static function filterPackages(array $packages, string $method): array
     {
         return array_filter($packages, static function (rex_addon $package) use ($method): bool {
             $return = $package->$method();

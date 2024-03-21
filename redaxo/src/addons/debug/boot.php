@@ -13,7 +13,7 @@ if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_fun
 }
 
 if (Core::isBackend() && 'debug' === rex_request::get('page') && Core::getUser()?->isAdmin()) {
-    $index = file_get_contents(rex_addon::get('debug')->getAssetsPath('clockwork/index.html'));
+    $index = file_get_contents(rex_addon::require('debug')->getAssetsPath('clockwork/index.html'));
 
     $editor = Editor::factory();
     $curEditor = $editor->getName();
@@ -95,7 +95,7 @@ $shutdownFn = static function () {
 
     if (Core::isBackend()) {
         $req->controller = 'page: ' . rex_be_controller::getCurrentPage();
-    } elseif (rex_addon::get('structure')->isAvailable()) {
+    } else {
         $req->controller = 'article: ' . rex_article::getCurrentId() . '; clang: ' . rex_clang::getCurrent()->getCode();
     }
 

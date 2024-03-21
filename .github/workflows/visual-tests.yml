@@ -85,7 +85,7 @@ jobs:
                     php redaxo/bin/console setup:run -n --lang=de_de --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=myusername --admin-password=mypassword --ansi -v
             -   name: Install packages
                 run: |
-                    php redaxo/bin/console package:install debug --ansi -v
+                    php redaxo/bin/console addon:install debug --ansi -v
 
             -   name: Setup nodejs
                 uses: actions/setup-node@v4

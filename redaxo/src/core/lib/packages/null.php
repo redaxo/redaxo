@@ -10,130 +10,139 @@ use Redaxo\Core\Translation\I18n;
  * Other methods should not be called on null-addons since they do not return useful values.
  * Some methods like `getPath()` throw exceptions.
  */
-class rex_null_addon implements rex_addon_interface
+final class rex_null_addon implements rex_addon_interface
 {
     use rex_singleton_trait;
 
-    public function getName()
+    #[Override]
+    public function getName(): string
     {
-        return static::class;
+        return self::class;
     }
 
-    /**
-     * @return rex_null_addon
-     */
-    public function getAddon()
-    {
-        return self::getInstance();
-    }
-
-    public function getPackageId()
+    #[Override]
+    public function getPackageId(): null
     {
         return null;
     }
 
-    public function getType()
-    {
-        return 'addon';
-    }
-
-    public function getPath($file = '')
+    #[Override]
+    public function getPath(string $file = ''): never
     {
         throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
-    public function getAssetsPath($file = '')
+    #[Override]
+    public function getAssetsPath(string $file = ''): never
     {
         throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
-    public function getAssetsUrl($file = '')
+    #[Override]
+    public function getAssetsUrl(string $file = ''): never
     {
         throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
-    public function getDataPath($file = '')
+    #[Override]
+    public function getDataPath(string $file = ''): never
     {
         throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
-    public function getCachePath($file = '')
+    #[Override]
+    public function getCachePath(string $file = ''): never
     {
         throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
-    public function setConfig(string|array $key, mixed $value = null): bool
+    #[Override]
+    public function setConfig(string|array $key, mixed $value = null): false
     {
         return false;
     }
 
+    #[Override]
     public function getConfig(?string $key = null, mixed $default = null): mixed
     {
         return $default;
     }
 
-    public function hasConfig(?string $key = null): bool
+    #[Override]
+    public function hasConfig(?string $key = null): false
     {
         return false;
     }
 
-    public function removeConfig(string $key): bool
+    #[Override]
+    public function removeConfig(string $key): false
     {
         return false;
     }
 
+    #[Override]
     public function setProperty(string $key, mixed $value): void {}
 
+    #[Override]
     public function getProperty(string $key, mixed $default = null): mixed
     {
         return $default;
     }
 
-    public function hasProperty(string $key): bool
+    #[Override]
+    public function hasProperty(string $key): false
     {
         return false;
     }
 
+    #[Override]
     public function removeProperty(string $key): void {}
 
-    public function isAvailable()
+    #[Override]
+    public function isAvailable(): false
     {
         return false;
     }
 
-    public function isInstalled()
+    #[Override]
+    public function isInstalled(): false
     {
         return false;
     }
 
-    public function isSystemPackage()
+    #[Override]
+    public function isSystemPackage(): false
     {
         return false;
     }
 
-    public function getAuthor($default = null)
+    #[Override]
+    public function getAuthor(?string $default = null): ?string
     {
         return $default;
     }
 
-    public function getVersion($format = null)
+    #[Override]
+    public function getVersion(?string $format = null): string
     {
         return '';
     }
 
-    public function getSupportPage($default = null)
+    #[Override]
+    public function getSupportPage(?string $default = null): ?string
     {
         return $default;
     }
 
-    public function includeFile($file, array $context = [])
+    #[Override]
+    public function includeFile(string $file, array $context = []): null
     {
         return null;
     }
 
-    public function i18n($key, ...$replacements)
+    #[Override]
+    public function i18n(string $key, string|int ...$replacements): string
     {
-        $args = func_get_args();
-        return call_user_func_array(I18n::msg(...), $args);
+        return I18n::msg($key, ...$replacements);
     }
 }

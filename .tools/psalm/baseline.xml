@@ -973,7 +973,6 @@
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$buttonTitle]]></code>
-      <code><![CDATA[$buttonTitle]]></code>
       <code><![CDATA[rex_escape($argValue)]]></code>
       <code><![CDATA[rex_escape($ftitle)]]></code>
     </MixedOperand>
@@ -1031,6 +1030,7 @@
   </file>
   <file src="redaxo/src/core/lib/base/singleton_trait.php">
     <PropertyTypeCoercion>
+      <code><![CDATA[self::$instances]]></code>
       <code><![CDATA[self::$instances]]></code>
     </PropertyTypeCoercion>
   </file>
@@ -1140,186 +1140,6 @@
       <code><![CDATA[$this->sslVerifyServerCert]]></code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/lib/console/application.php">
-    <PossiblyNullReference>
-      <code><![CDATA[boot]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/core/lib/console/command_loader.php">
-    <TypeDoesNotContainType>
-      <code><![CDATA[is_array($commands)]]></code>
-    </TypeDoesNotContainType>
-  </file>
-  <file src="redaxo/src/core/lib/console/config/get.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$propertyKey]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[$config]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$config]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/console/config/set.php">
-    <MixedAssignment>
-      <code><![CDATA[$config[$pathPart]]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <PossiblyNullOperand>
-      <code><![CDATA[$value]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/db/connection_options.php">
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$port]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/core/lib/console/db/dump_schema.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$input->getArgument('table')]]></code>
-    </ArgumentTypeCoercion>
-  </file>
-  <file src="redaxo/src/core/lib/console/db/set_connection.php">
-    <MixedArgument>
-      <code><![CDATA[$db['host']]]></code>
-      <code><![CDATA[$db['login']]]></code>
-      <code><![CDATA[$db['name']]]></code>
-      <code><![CDATA[$db['password']]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$db['host']]]></code>
-      <code><![CDATA[$db['login']]]></code>
-      <code><![CDATA[$db['name']]]></code>
-      <code><![CDATA[$db['password']]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$db['host']]]></code>
-      <code><![CDATA[$db['login']]]></code>
-      <code><![CDATA[$db['name']]]></code>
-      <code><![CDATA[$db['password']]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$db]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$config['db'][1] ?? []]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/package/install.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[ask]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
-  <file src="redaxo/src/core/lib/console/setup/check.php">
-    <MixedArgument>
-      <code><![CDATA[$message]]></code>
-      <code><![CDATA[$messages]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$message]]></code>
-      <code><![CDATA[$messages]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/console/setup/run.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$login]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['error_email']]]></code>
-      <code><![CDATA[$config['server']]]></code>
-      <code><![CDATA[$config['servername']]]></code>
-      <code><![CDATA[$config['timezone']]]></code>
-      <code><![CDATA[$config['timezone']]]></code>
-      <code><![CDATA[$dbCreate]]></code>
-      <code><![CDATA[$login]]></code>
-      <code><![CDATA[$login]]></code>
-      <code><![CDATA[$message]]></code>
-      <code><![CDATA[$messages]]></code>
-      <code><![CDATA[$password]]></code>
-      <code><![CDATA[$password]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[['login' => $login]]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
-      <code><![CDATA[$config['error_email']]]></code>
-      <code><![CDATA[$config['lang']]]></code>
-      <code><![CDATA[$config['server']]]></code>
-      <code><![CDATA[$config['servername']]]></code>
-      <code><![CDATA[$config['timezone']]]></code>
-      <code><![CDATA[$createdb]]></code>
-      <code><![CDATA[$dbCreate]]></code>
-      <code><![CDATA[$dbHost]]></code>
-      <code><![CDATA[$dbLogin]]></code>
-      <code><![CDATA[$dbName]]></code>
-      <code><![CDATA[$dbPassword]]></code>
-      <code><![CDATA[$login]]></code>
-      <code><![CDATA[$message]]></code>
-      <code><![CDATA[$messages]]></code>
-      <code><![CDATA[$password]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$createdb]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/console/user/create.php">
-    <MixedArgument>
-      <code><![CDATA[$password]]></code>
-      <code><![CDATA[$password]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$password]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/console/user/set_password.php">
-    <MixedArgument>
-      <code><![CDATA[$password]]></code>
-      <code><![CDATA[$password]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$password]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/context.php">
     <InvalidArgument>
       <code><![CDATA[$_GET]]></code>
@@ -1334,22 +1154,6 @@
       <code><![CDATA[rex_escape($valVal)]]></code>
       <code><![CDATA[rex_escape($value)]]></code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/cronjob/command/run.php">
-    <MixedArgument>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$selected]]></code>
-    </MixedArgument>
-    <MixedArrayOffset>
-      <code><![CDATA[$jobs[$id]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$name]]></code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/cronjob/manager.php">
     <MixedArgumentTypeCoercion>
@@ -2376,12 +2180,7 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/packages/addon.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$args]]></code>
-    </InvalidScalarArgument>
     <MixedArgument>
-      <code><![CDATA[$args]]></code>
-      <code><![CDATA[$args]]></code>
       <code><![CDATA[$value]]></code>
     </MixedArgument>
     <MixedAssignment>
@@ -2397,13 +2196,15 @@
       <code><![CDATA[$packages]]></code>
     </LessSpecificReturnStatement>
     <MixedArgument>
-      <code><![CDATA[$args]]></code>
       <code><![CDATA[$instmsg]]></code>
       <code><![CDATA[$instmsg]]></code>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$packageId]]></code>
       <code><![CDATA[$requirements['packages'][$packageId]]]></code>
+      <code><![CDATA[$requirements['packages'][$packageId]]]></code>
       <code><![CDATA[$requirements['php']['version']]]></code>
+      <code><![CDATA[$requirements['php']['version']]]></code>
+      <code><![CDATA[$requirements['redaxo']]]></code>
       <code><![CDATA[$requirements['redaxo']]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
@@ -2412,6 +2213,7 @@
       <code><![CDATA[$packageId]]></code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
+      <code><![CDATA[$conflicts['packages']]]></code>
       <code><![CDATA[$conflicts['packages']]]></code>
       <code><![CDATA[$conflicts['packages'][$packageId]]]></code>
       <code><![CDATA[$conflicts['packages'][$this->package->getPackageId()]]]></code>
@@ -2431,6 +2233,7 @@
     <MixedAssignment>
       <code><![CDATA[$conflicts]]></code>
       <code><![CDATA[$conflicts]]></code>
+      <code><![CDATA[$conflicts]]></code>
       <code><![CDATA[$constraints]]></code>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$load]]></code>
@@ -2447,20 +2250,19 @@
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$args[0]]]></code>
-      <code><![CDATA[$args[0]]]></code>
       <code><![CDATA[$requirements['packages'][$packageId]]]></code>
       <code><![CDATA[$successMessage]]></code>
     </MixedOperand>
     <MoreSpecificReturnType>
       <code><![CDATA[list<non-empty-string>]]></code>
     </MoreSpecificReturnType>
+    <PossiblyNullArgument>
+      <code><![CDATA[$package->getPackageId()]]></code>
+      <code><![CDATA[$package->getPackageId()]]></code>
+      <code><![CDATA[$package->getPackageId()]]></code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/packages/null.php">
-    <MixedArgument>
-      <code><![CDATA[$args]]></code>
-      <code><![CDATA[$args]]></code>
-    </MixedArgument>
     <MixedReturnStatement>
       <code><![CDATA[$default]]></code>
     </MixedReturnStatement>
@@ -3652,16 +3454,6 @@
       <code><![CDATA[!is_string($metaTable)]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="redaxo/src/core/pages/packages.details.php">
-    <PossiblyNullOperand>
-      <code><![CDATA[$packageId]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/pages/packages.help.php">
-    <NullOperand>
-      <code><![CDATA[rex_escape($name)]]></code>
-    </NullOperand>
-  </file>
   <file src="redaxo/src/core/pages/packages.list.php">
     <MixedOperand>
       <code><![CDATA[$function]]></code>
@@ -4239,6 +4031,202 @@
       <code><![CDATA[$params['var']]]></code>
     </MixedArgument>
   </file>
+  <file src="src/Console/Application.php">
+    <PossiblyNullReference>
+      <code><![CDATA[boot]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Console/Command/AddonInstallCommand.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[ask]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/Console/Command/ConfigGetCommand.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$propertyKey]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$config]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$config]]></code>
+      <code><![CDATA[$config]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Console/Command/ConfigSetCommand.php">
+    <MixedAssignment>
+      <code><![CDATA[$config[$pathPart]]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <PossiblyNullOperand>
+      <code><![CDATA[$value]]></code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="src/Console/Command/CronjobRunCommand.php">
+    <MixedArgument>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$selected]]></code>
+    </MixedArgument>
+    <MixedArrayOffset>
+      <code><![CDATA[$jobs[$id]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$name]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Console/Command/DatabaseConnectionOptionsCommand.php">
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$port]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Console/Command/DatabaseDumpSchemaCommand.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$input->getArgument('table')]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="src/Console/Command/DatabaseSetConnectionCommand.php">
+    <MixedArgument>
+      <code><![CDATA[$db['host']]]></code>
+      <code><![CDATA[$db['login']]]></code>
+      <code><![CDATA[$db['name']]]></code>
+      <code><![CDATA[$db['password']]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$db['host']]]></code>
+      <code><![CDATA[$db['login']]]></code>
+      <code><![CDATA[$db['name']]]></code>
+      <code><![CDATA[$db['password']]]></code>
+    </MixedArrayAccess>
+    <MixedArrayAssignment>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$db['host']]]></code>
+      <code><![CDATA[$db['login']]]></code>
+      <code><![CDATA[$db['name']]]></code>
+      <code><![CDATA[$db['password']]]></code>
+    </MixedArrayAssignment>
+    <MixedAssignment>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$db]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$config['db'][1] ?? []]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/Console/Command/SetupCheckCommand.php">
+    <MixedArgument>
+      <code><![CDATA[$message]]></code>
+      <code><![CDATA[$messages]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$key]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$message]]></code>
+      <code><![CDATA[$messages]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Console/Command/SetupRunCommand.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$login]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$config['db'][1]['host']]]></code>
+      <code><![CDATA[$config['db'][1]['login']]]></code>
+      <code><![CDATA[$config['db'][1]['name']]]></code>
+      <code><![CDATA[$config['error_email']]]></code>
+      <code><![CDATA[$config['server']]]></code>
+      <code><![CDATA[$config['servername']]]></code>
+      <code><![CDATA[$config['timezone']]]></code>
+      <code><![CDATA[$config['timezone']]]></code>
+      <code><![CDATA[$dbCreate]]></code>
+      <code><![CDATA[$login]]></code>
+      <code><![CDATA[$login]]></code>
+      <code><![CDATA[$message]]></code>
+      <code><![CDATA[$messages]]></code>
+      <code><![CDATA[$password]]></code>
+      <code><![CDATA[$password]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[['login' => $login]]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]['host']]]></code>
+      <code><![CDATA[$config['db'][1]['login']]]></code>
+      <code><![CDATA[$config['db'][1]['name']]]></code>
+    </MixedArrayAccess>
+    <MixedArrayAssignment>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]['host']]]></code>
+      <code><![CDATA[$config['db'][1]['login']]]></code>
+      <code><![CDATA[$config['db'][1]['name']]]></code>
+      <code><![CDATA[$config['db'][1]['password']]]></code>
+    </MixedArrayAssignment>
+    <MixedAssignment>
+      <code><![CDATA[$config['db'][1]['host']]]></code>
+      <code><![CDATA[$config['db'][1]['login']]]></code>
+      <code><![CDATA[$config['db'][1]['name']]]></code>
+      <code><![CDATA[$config['db'][1]['password']]]></code>
+      <code><![CDATA[$config['error_email']]]></code>
+      <code><![CDATA[$config['lang']]]></code>
+      <code><![CDATA[$config['server']]]></code>
+      <code><![CDATA[$config['servername']]]></code>
+      <code><![CDATA[$config['timezone']]]></code>
+      <code><![CDATA[$createdb]]></code>
+      <code><![CDATA[$dbCreate]]></code>
+      <code><![CDATA[$dbHost]]></code>
+      <code><![CDATA[$dbLogin]]></code>
+      <code><![CDATA[$dbName]]></code>
+      <code><![CDATA[$dbPassword]]></code>
+      <code><![CDATA[$login]]></code>
+      <code><![CDATA[$message]]></code>
+      <code><![CDATA[$messages]]></code>
+      <code><![CDATA[$password]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$createdb]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/Console/Command/UserCreateCommand.php">
+    <MixedArgument>
+      <code><![CDATA[$password]]></code>
+      <code><![CDATA[$password]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$password]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Console/Command/UserSetPasswordCommand.php">
+    <MixedArgument>
+      <code><![CDATA[$password]]></code>
+      <code><![CDATA[$password]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$password]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Console/CommandLoader.php">
+    <TypeDoesNotContainType>
+      <code><![CDATA[is_array($commands)]]></code>
+    </TypeDoesNotContainType>
+  </file>
   <file src="src/Core.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[Type::array(self::getConfig('package-order', []))]]></code>
@@ -4252,12 +4240,12 @@
       <code><![CDATA[$item]]></code>
       <code><![CDATA[$login]]></code>
       <code><![CDATA[$request]]></code>
-      <code><![CDATA[$value['throw_always_exception']]]></code>
       <code><![CDATA[self::$properties[$key]]]></code>
     </MixedAssignment>
     <MixedInferredReturnType>
+      <code><![CDATA[?rex_user]]></code>
       <code><![CDATA[Request]]></code>
-      <code><![CDATA[rex_user|null]]></code>
+      <code><![CDATA[int]]></code>
     </MixedInferredReturnType>
     <MixedMethodCall>
       <code><![CDATA[getImpersonator]]></code>
@@ -4269,6 +4257,7 @@
       <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
       <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
       <code><![CDATA[$request]]></code>
+      <code><![CDATA[$result | $item]]></code>
     </MixedReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[list<non-empty-string>]]></code>

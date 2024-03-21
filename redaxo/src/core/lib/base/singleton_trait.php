@@ -11,10 +11,8 @@ trait rex_singleton_trait
 
     /**
      * Returns the singleton instance.
-     *
-     * @return static
      */
-    public static function getInstance()
+    public static function getInstance(): static
     {
         $class = static::class;
         if (!isset(self::$instances[$class])) {

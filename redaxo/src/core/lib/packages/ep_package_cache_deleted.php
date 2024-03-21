@@ -5,7 +5,7 @@
  */
 final class rex_extension_point_package_cache_deleted extends rex_extension_point
 {
-    public const NAME = 'PACKAGE_CACHE_DELETED';
+    public const string NAME = 'PACKAGE_CACHE_DELETED';
 
     public function __construct(rex_addon $package)
     {

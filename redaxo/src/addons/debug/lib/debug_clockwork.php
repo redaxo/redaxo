@@ -83,7 +83,7 @@ class rex_debug_clockwork
      */
     public static function getStoragePath()
     {
-        return rex_addon::get('debug')->getCachePath('clockwork.db');
+        return rex_addon::require('debug')->getCachePath('clockwork.db');
     }
 
     /**
