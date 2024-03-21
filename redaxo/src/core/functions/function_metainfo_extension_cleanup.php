@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
+use Redaxo\Core\MetaInfo\Database\Table as MetaInfoTable;
 use Redaxo\Core\Util\Type;
 
 rex_extension::register('BACKUP_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
@@ -36,7 +37,7 @@ function rex_metainfo_cleanup($epOrParams)
     for ($i = 0; $i < $sql->getRows(); ++$i) {
         $prefix = rex_metainfo_meta_prefix((string) $sql->getValue('name'));
         $table = Type::string(rex_metainfo_meta_table($prefix));
-        $tableManager = new rex_metainfo_table_manager($table);
+        $tableManager = new MetaInfoTable($table);
 
         $tableManager->deleteColumn((string) $sql->getValue('name'));
 
@@ -47,7 +48,7 @@ function rex_metainfo_cleanup($epOrParams)
     $tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_'], 'clang' => ['clang_']];
     foreach ($tablePrefixes as $table => $prefixes) {
         $table = Core::getTablePrefix() . $table;
-        $tableManager = new rex_metainfo_table_manager($table);
+        $tableManager = new MetaInfoTable($table);
 
         foreach (Sql::showColumns($table) as $column) {
             $column = $column['name'];

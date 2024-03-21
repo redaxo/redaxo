@@ -6,6 +6,8 @@ use Redaxo\Core\Database\ForeignKey;
 use Redaxo\Core\Database\Index;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
+use Redaxo\Core\MetaInfo\Database\Table as MetaInfoTable;
+use Redaxo\Core\MetaInfo\Form\DefaultType;
 
 Table::get(Core::getTable('clang'))
     ->ensurePrimaryIdColumn()
@@ -489,17 +491,17 @@ foreach ($defaultConfig as $key => $value) {
 }
 
 $data = [
-    ['id' => rex_metainfo_default_type::TEXT, 'label' => 'text', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => rex_metainfo_default_type::TEXTAREA, 'label' => 'textarea', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => rex_metainfo_default_type::SELECT, 'label' => 'select', 'dbtype' => 'varchar', 'dblength' => 255],
-    ['id' => rex_metainfo_default_type::RADIO, 'label' => 'radio', 'dbtype' => 'varchar', 'dblength' => 255],
-    ['id' => rex_metainfo_default_type::CHECKBOX, 'label' => 'checkbox', 'dbtype' => 'varchar', 'dblength' => 255],
-    ['id' => rex_metainfo_default_type::REX_MEDIA_WIDGET, 'label' => 'REX_MEDIA_WIDGET', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => rex_metainfo_default_type::REX_LINK_WIDGET, 'label' => 'REX_LINK_WIDGET', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => rex_metainfo_default_type::DATE, 'label' => 'date', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => rex_metainfo_default_type::DATETIME, 'label' => 'datetime', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => rex_metainfo_default_type::LEGEND, 'label' => 'legend', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => rex_metainfo_default_type::TIME, 'label' => 'time', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => DefaultType::TEXT, 'label' => 'text', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => DefaultType::TEXTAREA, 'label' => 'textarea', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => DefaultType::SELECT, 'label' => 'select', 'dbtype' => 'varchar', 'dblength' => 255],
+    ['id' => DefaultType::RADIO, 'label' => 'radio', 'dbtype' => 'varchar', 'dblength' => 255],
+    ['id' => DefaultType::CHECKBOX, 'label' => 'checkbox', 'dbtype' => 'varchar', 'dblength' => 255],
+    ['id' => DefaultType::REX_MEDIA_WIDGET, 'label' => 'REX_MEDIA_WIDGET', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => DefaultType::REX_LINK_WIDGET, 'label' => 'REX_LINK_WIDGET', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => DefaultType::DATE, 'label' => 'date', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => DefaultType::DATETIME, 'label' => 'datetime', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => DefaultType::LEGEND, 'label' => 'legend', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => DefaultType::TIME, 'label' => 'time', 'dbtype' => 'text', 'dblength' => 0],
     // XXX neue konstanten koennen hier nicht verwendet werden, da die updates mit der vorherigen version der klasse ausgefuehrt werden
 ];
 
@@ -526,9 +528,9 @@ foreach ($tablePrefixes as $table => $prefixes) {
 $sql = Sql::factory();
 $sql->setQuery('SELECT p.name, p.default, t.dbtype, t.dblength FROM ' . Core::getTable('metainfo_field') . ' p, ' . Core::getTable('metainfo_type') . ' t WHERE p.type_id = t.id');
 $managers = [
-    'article' => new rex_metainfo_table_manager(Core::getTable('article')),
-    'media' => new rex_metainfo_table_manager(Core::getTable('media')),
-    'clang' => new rex_metainfo_table_manager(Core::getTable('clang')),
+    'article' => new MetaInfoTable(Core::getTable('article')),
+    'media' => new MetaInfoTable(Core::getTable('media')),
+    'clang' => new MetaInfoTable(Core::getTable('clang')),
 ];
 for ($i = 0; $i < $sql->getRows(); ++$i) {
     $column = (string) $sql->getValue('name');

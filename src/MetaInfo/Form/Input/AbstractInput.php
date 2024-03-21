@@ -1,11 +1,13 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Form\Input;
+
 /**
  * @internal
  *
  * @template T
  */
-abstract class rex_input
+abstract class AbstractInput
 {
     /** @var T */
     protected $value;

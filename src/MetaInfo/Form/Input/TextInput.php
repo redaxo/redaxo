@@ -1,23 +1,24 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Form\Input;
+
 /**
  * @internal
  *
- * @extends rex_input<string>
+ * @extends AbstractInput<string>
  */
-class rex_input_textarea extends rex_input
+class TextInput extends AbstractInput
 {
     public function __construct()
     {
         parent::__construct();
         $this->setAttribute('class', 'form-control');
-        $this->setAttribute('cols', '50');
-        $this->setAttribute('rows', '6');
+        $this->setAttribute('type', 'text');
     }
 
     public function getHtml()
     {
         $value = rex_escape($this->value);
-        return '<textarea' . $this->getAttributeString() . '>' . $value . '</textarea>';
+        return '<input' . $this->getAttributeString() . ' value="' . $value . '" />';
     }
 }

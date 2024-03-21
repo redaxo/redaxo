@@ -1,11 +1,15 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Database;
+
+use InvalidArgumentException;
 use Redaxo\Core\Database\Sql;
+use rex_sql_exception;
 
 /**
  * @internal
  */
-class rex_metainfo_table_manager
+class Table
 {
     public const FIELD_TEXT = 1;
     public const FIELD_TEXTAREA = 2;

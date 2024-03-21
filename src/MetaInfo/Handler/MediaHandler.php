@@ -1,14 +1,23 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Handler;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MetaInfo\Form\DefaultType;
 use Redaxo\Core\Translation\I18n;
+use rex_exception;
+use rex_extension;
+use rex_extension_point;
+use rex_media_category;
+
+use function in_array;
 
 /**
  * @internal
  */
-class rex_metainfo_media_handler extends rex_metainfo_handler
+class MediaHandler extends AbstractHandler
 {
     public const PREFIX = 'med_';
 
@@ -43,15 +52,15 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             $prefix = rex_metainfo_meta_prefix($name);
             if (self::PREFIX === $prefix) {
                 $key = 'media';
-            } elseif (rex_metainfo_clang_handler::PREFIX === $prefix) {
+            } elseif (LanguageHandler::PREFIX === $prefix) {
                 $key = 'clangs';
-            } elseif (rex_metainfo_category_handler::PREFIX === $prefix) {
+            } elseif (CategoryHandler::PREFIX === $prefix) {
                 $key = 'categories';
             } else {
                 $key = 'articles';
             }
             $where[$key][] = match ((int) $sql->getValue('type_id')) {
-                rex_metainfo_default_type::REX_MEDIA_WIDGET => 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($name) . ')',
+                DefaultType::REX_MEDIA_WIDGET => 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($name) . ')',
                 default => throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type_id') . '"!'),
             };
             $sql->next();
@@ -206,7 +215,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     }
 }
 
-$mediaHandler = new rex_metainfo_media_handler();
+$mediaHandler = new MediaHandler();
 
 rex_extension::register('MEDIA_FORM_EDIT', $mediaHandler->extendForm(...));
 rex_extension::register('MEDIA_FORM_ADD', $mediaHandler->extendForm(...));
@@ -214,4 +223,4 @@ rex_extension::register('MEDIA_FORM_ADD', $mediaHandler->extendForm(...));
 rex_extension::register('MEDIA_ADDED', $mediaHandler->extendForm(...), rex_extension::EARLY);
 rex_extension::register('MEDIA_UPDATED', $mediaHandler->extendForm(...), rex_extension::EARLY);
 
-rex_extension::register('MEDIA_IS_IN_USE', rex_metainfo_media_handler::isMediaInUse(...));
+rex_extension::register('MEDIA_IS_IN_USE', MediaHandler::isMediaInUse(...));

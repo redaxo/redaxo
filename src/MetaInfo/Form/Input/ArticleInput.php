@@ -1,14 +1,19 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Form\Input;
+
+use rex_var_link;
+use rex_var_linklist;
+
 /**
  * @internal
  *
- * @extends rex_input<string>
+ * @extends AbstractInput<int|string>
  */
-class rex_input_mediabutton extends rex_input
+class ArticleInput extends AbstractInput
 {
     private string $buttonId = '';
-    private array $args = [];
+    private ?int $categoryId = null;
 
     private bool $multiple = false;
 
@@ -24,7 +29,7 @@ class rex_input_mediabutton extends rex_input
     public function setButtonId($buttonId)
     {
         $this->buttonId = 'METAINFO_' . $buttonId;
-        $this->setAttribute('id', 'REX_MEDIA_' . $this->buttonId);
+        $this->setAttribute('id', 'REX_LINK_' . $this->buttonId);
     }
 
     /**
@@ -33,25 +38,7 @@ class rex_input_mediabutton extends rex_input
      */
     public function setCategoryId($categoryId)
     {
-        $this->args['category'] = $categoryId;
-    }
-
-    /**
-     * @param string $types
-     * @return void
-     */
-    public function setTypes($types)
-    {
-        $this->args['types'] = $types;
-    }
-
-    /**
-     * @param bool $preview
-     * @return void
-     */
-    public function setPreview($preview = true)
-    {
-        $this->args['preview'] = $preview;
+        $this->categoryId = $categoryId;
     }
 
     public function setMultiple(bool $multiple = true): void
@@ -62,14 +49,14 @@ class rex_input_mediabutton extends rex_input
     public function getHtml()
     {
         $buttonId = $this->buttonId;
+        $categoryId = $this->categoryId;
         $value = rex_escape($this->value);
         $name = $this->attributes['name'];
-        $args = $this->args;
 
         if ($this->multiple) {
             $name .= '[]';
-            return rex_var_medialist::getWidget($buttonId, $name, $value, $args);
+            return rex_var_linklist::getWidget($buttonId, $name, $value, ['category' => $categoryId]);
         }
-        return rex_var_media::getWidget($buttonId, $name, $value, $args);
+        return rex_var_link::getWidget($buttonId, $name, $value, ['category' => $categoryId]);
     }
 }

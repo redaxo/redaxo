@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\MetaInfo\Handler\ArticleHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
@@ -96,7 +97,7 @@ if (1 == $article->getRows()) {
         'ctype' => $ctype,
     ]);
 
-    $metainfoHandler = new rex_metainfo_article_handler();
+    $metainfoHandler = new ArticleHandler();
     $form = $metainfoHandler->getForm([
         'id' => $articleId,
         'clang' => $clang,

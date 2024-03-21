@@ -1,12 +1,18 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Handler;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use rex_article;
+use rex_article_cache;
+use rex_extension;
+use rex_extension_point;
 
 /**
  * @internal
  */
-class rex_metainfo_article_handler extends rex_metainfo_handler
+class ArticleHandler extends AbstractHandler
 {
     public const PREFIX = 'art_';
 
