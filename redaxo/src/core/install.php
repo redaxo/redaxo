@@ -276,7 +276,7 @@ Table::get(Core::getTable('cronjob'))
     ->ensureColumn(new Column('nexttime', 'datetime', true))
     ->ensureColumn(new Column('environment', 'varchar(255)'))
     ->ensureColumn(new Column('execution_moment', 'tinyint(1)'))
-    ->ensureColumn(new Column('execution_start', 'datetime'))
+    ->ensureColumn(new Column('execution_start', 'datetime', true))
     ->ensureColumn(new Column('status', 'tinyint(1)'))
     ->ensureGlobalColumns()
     ->ensure();
