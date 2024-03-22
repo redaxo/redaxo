@@ -1416,11 +1416,6 @@ parameters:
 			path: ../../src/Addon/Addon.php
 
 		-
-			message: "#^Access to an undefined property Redaxo\\\\Core\\\\Addon\\\\AddonManager\\:\\:\\$package\\.$#"
-			count: 65
-			path: ../../src/Addon/AddonManager.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Console\\\\Command\\\\CronjobRunCommand\\:\\:executeSingleJob\\(\\) has parameter \\$id with no type specified\\.$#"
 			count: 1
 			path: ../../src/Console/Command/CronjobRunCommand.php

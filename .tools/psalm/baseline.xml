@@ -3580,47 +3580,16 @@
       <code><![CDATA[$addons]]></code>
     </LessSpecificReturnStatement>
     <MixedArgument>
-      <code><![CDATA[$addonFile]]></code>
-      <code><![CDATA[$addonFile]]></code>
       <code><![CDATA[$addonId]]></code>
-      <code><![CDATA[$assets]]></code>
-      <code><![CDATA[$assets]]></code>
-      <code><![CDATA[$assets]]></code>
-      <code><![CDATA[$assets]]></code>
-      <code><![CDATA[$installDir]]></code>
-      <code><![CDATA[$installDir]]></code>
-      <code><![CDATA[$installSql]]></code>
-      <code><![CDATA[$installSql]]></code>
       <code><![CDATA[$instmsg]]></code>
       <code><![CDATA[$instmsg]]></code>
+      <code><![CDATA[$key]]></code>
       <code><![CDATA[$requirements['packages'][$addonId]]]></code>
       <code><![CDATA[$requirements['packages'][$addonId]]]></code>
       <code><![CDATA[$requirements['php']['version']]]></code>
       <code><![CDATA[$requirements['php']['version']]]></code>
       <code><![CDATA[$requirements['redaxo']]]></code>
       <code><![CDATA[$requirements['redaxo']]]></code>
-      <code><![CDATA[$this->package->getAssetsPath()]]></code>
-      <code><![CDATA[$this->package->getName()]]></code>
-      <code><![CDATA[$this->package->getName()]]></code>
-      <code><![CDATA[$this->package->getName()]]></code>
-      <code><![CDATA[$this->package->getName()]]></code>
-      <code><![CDATA[$this->package->getName()]]></code>
-      <code><![CDATA[$this->package->getName()]]></code>
-      <code><![CDATA[$this->package->getName()]]></code>
-      <code><![CDATA[$this->package->getName()]]></code>
-      <code><![CDATA[$this->package->getName()]]></code>
-      <code><![CDATA[$this->package->getName()]]></code>
-      <code><![CDATA[$this->package->getName()]]></code>
-      <code><![CDATA[$this->package->getPackageId()]]></code>
-      <code><![CDATA[$this->package->getPackageId()]]></code>
-      <code><![CDATA[$this->package->getPath('lang')]]></code>
-      <code><![CDATA[$this->package->getPath('lang')]]></code>
-      <code><![CDATA[$this->package->getPath()]]></code>
-      <code><![CDATA[$this->package->getPath(Addon::FILE_INSTALL)]]></code>
-      <code><![CDATA[$this->package->getPath(Addon::FILE_UNINSTALL)]]></code>
-      <code><![CDATA[$this->package->getVersion()]]></code>
-      <code><![CDATA[$uninstallSql]]></code>
-      <code><![CDATA[$uninstallSql]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$addon]]></code>
@@ -3631,7 +3600,7 @@
       <code><![CDATA[$conflicts['packages']]]></code>
       <code><![CDATA[$conflicts['packages']]]></code>
       <code><![CDATA[$conflicts['packages'][$addonId]]]></code>
-      <code><![CDATA[$conflicts['packages'][$this->package->getPackageId()]]]></code>
+      <code><![CDATA[$conflicts['packages'][$this->addon->getPackageId()]]]></code>
       <code><![CDATA[$requirements['packages']]]></code>
       <code><![CDATA[$requirements['packages']]]></code>
       <code><![CDATA[$requirements['packages']]]></code>
@@ -3642,24 +3611,15 @@
       <code><![CDATA[$requirements['packages'][$addonId]]]></code>
     </MixedArrayAccess>
     <MixedArrayOffset>
-      <code><![CDATA[$conflicts['packages'][$this->package->getPackageId()]]]></code>
-      <code><![CDATA[$conflicts['packages'][$this->package->getPackageId()]]]></code>
       <code><![CDATA[$ps[$id]]]></code>
-      <code><![CDATA[$requirements['packages'][$this->package->getPackageId()]]]></code>
       <code><![CDATA[$requires[$id]]]></code>
     </MixedArrayOffset>
     <MixedAssignment>
-      <code><![CDATA[$addonFile]]></code>
       <code><![CDATA[$addonId]]></code>
-      <code><![CDATA[$assets]]></code>
-      <code><![CDATA[$assets]]></code>
       <code><![CDATA[$conflicts]]></code>
       <code><![CDATA[$conflicts]]></code>
       <code><![CDATA[$conflicts]]></code>
       <code><![CDATA[$constraints]]></code>
-      <code><![CDATA[$installDir]]></code>
-      <code><![CDATA[$installSql]]></code>
-      <code><![CDATA[$isActivated]]></code>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$load]]></code>
       <code><![CDATA[$normal[]]]></code>
@@ -3671,75 +3631,8 @@
       <code><![CDATA[$requirements]]></code>
       <code><![CDATA[$requirements]]></code>
       <code><![CDATA[$successMessage]]></code>
-      <code><![CDATA[$uninstallSql]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[clearCache]]></code>
-      <code><![CDATA[clearCache]]></code>
-      <code><![CDATA[clearCache]]></code>
-      <code><![CDATA[getAssetsPath]]></code>
-      <code><![CDATA[getAssetsPath]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getPackageId]]></code>
-      <code><![CDATA[getPackageId]]></code>
-      <code><![CDATA[getPackageId]]></code>
-      <code><![CDATA[getPackageId]]></code>
-      <code><![CDATA[getPackageId]]></code>
-      <code><![CDATA[getPackageId]]></code>
-      <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getProperty]]></code>
-      <code><![CDATA[getVersion]]></code>
-      <code><![CDATA[hasConfig]]></code>
-      <code><![CDATA[includeFile]]></code>
-      <code><![CDATA[includeFile]]></code>
-      <code><![CDATA[isAvailable]]></code>
-      <code><![CDATA[isInstalled]]></code>
-      <code><![CDATA[isInstalled]]></code>
-      <code><![CDATA[isInstalled]]></code>
-      <code><![CDATA[isInstalled]]></code>
-      <code><![CDATA[isSystemPackage]]></code>
-      <code><![CDATA[setConfig]]></code>
-      <code><![CDATA[setProperty]]></code>
-      <code><![CDATA[setProperty]]></code>
-      <code><![CDATA[setProperty]]></code>
-      <code><![CDATA[setProperty]]></code>
-      <code><![CDATA[setProperty]]></code>
-      <code><![CDATA[setProperty]]></code>
-      <code><![CDATA[setProperty]]></code>
-      <code><![CDATA[setProperty]]></code>
-      <code><![CDATA[setProperty]]></code>
-    </MixedMethodCall>
     <MixedOperand>
       <code><![CDATA[$requirements['packages'][$addonId]]]></code>
       <code><![CDATA[$successMessage]]></code>
@@ -3752,21 +3645,6 @@
       <code><![CDATA[$addon->getPackageId()]]></code>
       <code><![CDATA[$addon->getPackageId()]]></code>
     </PossiblyNullArgument>
-    <UndefinedThisPropertyFetch>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-      <code><![CDATA[$this->package]]></code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="src/Addon/NullAddon.php">
     <MixedReturnStatement>
