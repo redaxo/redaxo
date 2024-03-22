@@ -42,7 +42,7 @@ final class Addon implements AddonInterface
     /**
      * Array of all addons.
      *
-     * @var array<non-empty-string, Addon>
+     * @var array<non-empty-string, self>
      */
     private static array $addons = [];
 
@@ -404,7 +404,7 @@ final class Addon implements AddonInterface
     /**
      * Returns the registered addons.
      *
-     * @return array<non-empty-string, Addon>
+     * @return array<non-empty-string, self>
      */
     public static function getRegisteredAddons(): array
     {
@@ -414,7 +414,7 @@ final class Addon implements AddonInterface
     /**
      * Returns the installed addons.
      *
-     * @return array<non-empty-string, Addon>
+     * @return array<non-empty-string, self>
      */
     public static function getInstalledAddons(): array
     {
@@ -424,7 +424,7 @@ final class Addon implements AddonInterface
     /**
      * Returns the available addons.
      *
-     * @return array<non-empty-string, Addon>
+     * @return array<non-empty-string, self>
      */
     public static function getAvailableAddons(): array
     {
@@ -434,7 +434,7 @@ final class Addon implements AddonInterface
     /**
      * Returns the setup addons.
      *
-     * @return array<non-empty-string, Addon>
+     * @return array<non-empty-string, self>
      */
     public static function getSetupAddons(): array
     {
@@ -450,7 +450,7 @@ final class Addon implements AddonInterface
     /**
      * Returns the system addons.
      *
-     * @return array<non-empty-string, Addon>
+     * @return array<non-empty-string, self>
      */
     public static function getSystemAddons(): array
     {
@@ -489,7 +489,7 @@ final class Addon implements AddonInterface
     /**
      * Filters packages by the given method.
      *
-     * @param array<non-empty-string, Addon> $packages Array of packages
+     * @param array<non-empty-string, self> $packages Array of packages
      * @param string $method A Addon method
      * @return array<non-empty-string, Addon>
      */
