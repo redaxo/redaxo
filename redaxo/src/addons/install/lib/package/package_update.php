@@ -157,11 +157,11 @@ class rex_install_package_update extends rex_install_package_download
         $temppath = Path::addon('.new.' . $this->addonkey);
 
         // ---- update "version", "requires" and "conflicts" properties
-        /** @var SplObjectStorage<\Redaxo\Core\Addon\Addon, string> $versions */
+        /** @var SplObjectStorage<Addon, string> $versions */
         $versions = new SplObjectStorage();
-        /** @var SplObjectStorage<\Redaxo\Core\Addon\Addon, array> $requirements */
+        /** @var SplObjectStorage<Addon, array> $requirements */
         $requirements = new SplObjectStorage();
-        /** @var SplObjectStorage<\Redaxo\Core\Addon\Addon, array> $conflicts */
+        /** @var SplObjectStorage<Addon, array> $conflicts */
         $conflicts = new SplObjectStorage();
 
         $requirements[$this->addon] = $this->addon->getProperty('requires', []);

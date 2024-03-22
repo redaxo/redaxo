@@ -38,7 +38,7 @@ use function is_array;
  */
 class CommandLoader implements CommandLoaderInterface
 {
-    /** @var array<string, array{class: class-string<AbstractCommand>, package?: \Redaxo\Core\Addon\Addon}> */
+    /** @var array<string, array{class: class-string<AbstractCommand>, package?: Addon}> */
     private $commands = [];
 
     public function __construct()
