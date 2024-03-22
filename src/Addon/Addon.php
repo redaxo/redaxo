@@ -11,7 +11,6 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
-use rex_addon_interface;
 use rex_config;
 use rex_exception;
 use rex_extension;
@@ -29,7 +28,7 @@ use function is_bool;
 use const DIRECTORY_SEPARATOR;
 use const EXTR_SKIP;
 
-final class Addon implements rex_addon_interface
+final class Addon implements AddonInterface
 {
     public const string FILE_PACKAGE = 'package.yml';
     public const string FILE_BOOT = 'boot.php';
@@ -71,9 +70,9 @@ final class Addon implements rex_addon_interface
      * Returns the addon by the given name.
      *
      * @param string $addon Addon name
-     * @return rex_addon_interface If the package exists, a `rex_addon` is returned, otherwise a `rex_null_addon`
+     * @return AddonInterface If the package exists, a `rex_addon` is returned, otherwise a `rex_null_addon`
      */
-    public static function get(string $addon): rex_addon_interface
+    public static function get(string $addon): AddonInterface
     {
         if (!isset(self::$addons[$addon])) {
             return rex_null_addon::getInstance();

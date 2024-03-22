@@ -1,6 +1,8 @@
 <?php
 
-interface rex_addon_interface
+namespace Redaxo\Core\Addon;
+
+interface AddonInterface
 {
     /**
      * Returns the name of the package.

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Addon\AddonInterface;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -250,11 +251,11 @@ class rex_api_install_core_update extends rex_api_function
         $coreVersion = Core::getVersion();
         Core::setProperty('version', $version);
 
-        /** @var SplObjectStorage<rex_addon_interface, string> $versions */
+        /** @var SplObjectStorage<AddonInterface, string> $versions */
         $versions = new SplObjectStorage();
-        /** @var SplObjectStorage<rex_addon_interface, array> $requirements */
+        /** @var SplObjectStorage<AddonInterface, array> $requirements */
         $requirements = new SplObjectStorage();
-        /** @var SplObjectStorage<rex_addon_interface, array> $conflicts */
+        /** @var SplObjectStorage<AddonInterface, array> $conflicts */
         $conflicts = new SplObjectStorage();
 
         foreach ($addons as $addonkey => $config) {
