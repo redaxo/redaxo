@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
@@ -57,14 +58,14 @@ class rex_release
             $suffix = substr($this->version, $pos);
         }
 
-        $updateVersion = static function (rex_addon $package) use ($suffix) {
-            $content = File::get($package->getPath(rex_addon::FILE_PACKAGE));
+        $updateVersion = static function (Addon $package) use ($suffix) {
+            $content = File::get($package->getPath(Addon::FILE_PACKAGE));
             $content = preg_replace('/^version: \'(.+?)-.*$/m', "version: '\\1$suffix'", $content);
-            File::put($package->getPath(rex_addon::FILE_PACKAGE), $content);
+            File::put($package->getPath(Addon::FILE_PACKAGE), $content);
         };
 
         foreach (self::$addons as $addon) {
-            $addon = rex_addon::require($addon);
+            $addon = Addon::require($addon);
             $updateVersion($addon);
         }
     }
