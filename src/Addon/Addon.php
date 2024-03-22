@@ -17,7 +17,6 @@ use rex_extension;
 use rex_extension_point_package_cache_deleted;
 use rex_fragment;
 use rex_functional_exception;
-use rex_null_addon;
 use rex_yaml_parse_exception;
 use RuntimeException;
 
@@ -70,12 +69,12 @@ final class Addon implements AddonInterface
      * Returns the addon by the given name.
      *
      * @param string $addon Addon name
-     * @return AddonInterface If the package exists, a `Addon` is returned, otherwise a `rex_null_addon`
+     * @return AddonInterface If the package exists, a `Addon` is returned, otherwise a `NullAddon`
      */
     public static function get(string $addon): AddonInterface
     {
         if (!isset(self::$addons[$addon])) {
-            return rex_null_addon::getInstance();
+            return NullAddon::getInstance();
         }
 
         return self::$addons[$addon];

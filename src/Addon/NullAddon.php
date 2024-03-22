@@ -1,7 +1,11 @@
 <?php
 
-use Redaxo\Core\Addon\AddonInterface;
+namespace Redaxo\Core\Addon;
+
+use Override;
 use Redaxo\Core\Translation\I18n;
+use rex_exception;
+use rex_singleton_trait;
 
 /**
  * Represents a null addon.
@@ -11,7 +15,7 @@ use Redaxo\Core\Translation\I18n;
  * Other methods should not be called on null-addons since they do not return useful values.
  * Some methods like `getPath()` throw exceptions.
  */
-final class rex_null_addon implements AddonInterface
+final class NullAddon implements AddonInterface
 {
     use rex_singleton_trait;
 
