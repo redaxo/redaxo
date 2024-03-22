@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Console\Command;
 
-use rex_addon;
+use Redaxo\Core\Addon\Addon;
 use rex_addon_manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -44,7 +44,7 @@ class AddonListCommand extends AbstractCommand
         $jsonOutput = false !== $input->getOption('json');
         $usingExitCode = false !== $input->getOption('error-when-empty');
 
-        $packages = rex_addon::getRegisteredAddons();
+        $packages = Addon::getRegisteredAddons();
 
         $rows = [];
         foreach ($packages as $package) {

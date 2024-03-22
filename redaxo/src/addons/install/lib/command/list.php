@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Console\Command\AbstractCommand;
 use Redaxo\Core\Util\Formatter;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,7 +43,7 @@ class rex_command_install_list extends AbstractCommand
                 'author' => $package['author'],
                 'last updated' => Formatter::intlDate($package['updated']),
                 'latest version' => reset($package['files'])['version'],
-                'installed version' => rex_addon::get($key)->getVersion(),
+                'installed version' => Addon::get($key)->getVersion(),
             ];
 
             if (null !== $search

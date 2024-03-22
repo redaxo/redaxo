@@ -1,6 +1,8 @@
 <?php
 
-$addon = rex_addon::require('project');
+use Redaxo\Core\Addon\Addon;
+
+$addon = Addon::require('project');
 
 // register a custom yrewrite scheme
 // rex_yrewrite::setScheme(new rex_project_rewrite_scheme());

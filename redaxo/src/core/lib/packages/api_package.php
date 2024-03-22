@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Type;
 
@@ -20,16 +21,16 @@ final class rex_api_package extends rex_api_function
             throw new rex_api_exception('Unknown package function "' . $function . '"!');
         }
         $packageId = rex_request('package', 'string');
-        $package = rex_addon::get($packageId);
+        $package = Addon::get($packageId);
         if ('uninstall' == $function && !$package->isInstalled()
             || 'activate' == $function && $package->isAvailable()
             || 'deactivate' == $function && !$package->isAvailable()
-            || 'delete' == $function && !rex_addon::exists($packageId)
+            || 'delete' == $function && !Addon::exists($packageId)
         ) {
             return new rex_api_result(true);
         }
 
-        if (!$package instanceof rex_addon) {
+        if (!$package instanceof Addon) {
             throw new rex_api_exception('Package "' . $packageId . '" doesn\'t exists!');
         }
         $reinstall = 'install' === $function && $package->isInstalled();

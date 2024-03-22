@@ -1,5 +1,8 @@
 <?php
 
+namespace Redaxo\Core\Addon;
+
+use Override;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -8,8 +11,25 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
+use rex_addon_interface;
+use rex_config;
+use rex_exception;
+use rex_extension;
+use rex_extension_point_package_cache_deleted;
+use rex_fragment;
+use rex_functional_exception;
+use rex_null_addon;
+use rex_yaml_parse_exception;
+use RuntimeException;
 
-final class rex_addon implements rex_addon_interface
+use function assert;
+use function in_array;
+use function is_bool;
+
+use const DIRECTORY_SEPARATOR;
+use const EXTR_SKIP;
+
+final class Addon implements rex_addon_interface
 {
     public const string FILE_PACKAGE = 'package.yml';
     public const string FILE_BOOT = 'boot.php';
@@ -24,7 +44,7 @@ final class rex_addon implements rex_addon_interface
     /**
      * Array of all addons.
      *
-     * @var array<non-empty-string, self>
+     * @var array<non-empty-string, Addon>
      */
     private static array $addons = [];
 
@@ -386,7 +406,7 @@ final class rex_addon implements rex_addon_interface
     /**
      * Returns the registered addons.
      *
-     * @return array<non-empty-string, self>
+     * @return array<non-empty-string, Addon>
      */
     public static function getRegisteredAddons(): array
     {
@@ -396,7 +416,7 @@ final class rex_addon implements rex_addon_interface
     /**
      * Returns the installed addons.
      *
-     * @return array<non-empty-string, self>
+     * @return array<non-empty-string, Addon>
      */
     public static function getInstalledAddons(): array
     {
@@ -406,7 +426,7 @@ final class rex_addon implements rex_addon_interface
     /**
      * Returns the available addons.
      *
-     * @return array<non-empty-string, self>
+     * @return array<non-empty-string, Addon>
      */
     public static function getAvailableAddons(): array
     {
@@ -416,7 +436,7 @@ final class rex_addon implements rex_addon_interface
     /**
      * Returns the setup addons.
      *
-     * @return array<non-empty-string, self>
+     * @return array<non-empty-string, Addon>
      */
     public static function getSetupAddons(): array
     {
@@ -432,7 +452,7 @@ final class rex_addon implements rex_addon_interface
     /**
      * Returns the system addons.
      *
-     * @return array<non-empty-string, self>
+     * @return array<non-empty-string, Addon>
      */
     public static function getSystemAddons(): array
     {
@@ -471,13 +491,13 @@ final class rex_addon implements rex_addon_interface
     /**
      * Filters packages by the given method.
      *
-     * @param array<non-empty-string, self> $packages Array of packages
+     * @param array<non-empty-string, Addon> $packages Array of packages
      * @param string $method A rex_addon method
-     * @return array<non-empty-string, self>
+     * @return array<non-empty-string, Addon>
      */
     private static function filterPackages(array $packages, string $method): array
     {
-        return array_filter($packages, static function (rex_addon $package) use ($method): bool {
+        return array_filter($packages, static function (Addon $package) use ($method): bool {
             $return = $package->$method();
             assert(is_bool($return));
 

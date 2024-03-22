@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Console\Command;
 
-use rex_addon;
+use Redaxo\Core\Addon\Addon;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,13 +13,13 @@ use const ENT_QUOTES;
 
 abstract class AbstractCommand extends Command
 {
-    /** @var rex_addon|null */
+    /** @var Addon|null */
     protected $package;
 
     /**
      * @return $this
      */
-    public function setPackage(?rex_addon $package = null)
+    public function setPackage(?Addon $package = null)
     {
         $this->package = $package;
 
@@ -27,7 +27,7 @@ abstract class AbstractCommand extends Command
     }
 
     /**
-     * @return rex_addon|null In core commands it returns `null`, otherwise the corresponding package object
+     * @return Addon|null In core commands it returns `null`, otherwise the corresponding package object
      */
     public function getPackage()
     {

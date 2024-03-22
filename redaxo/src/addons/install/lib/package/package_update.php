@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -14,7 +15,7 @@ use Redaxo\Core\Util\Version;
  */
 class rex_install_package_update extends rex_install_package_download
 {
-    /** @var rex_addon */
+    /** @var Addon */
     private $addon;
 
     protected function getPackages()
@@ -24,11 +25,11 @@ class rex_install_package_update extends rex_install_package_download
 
     protected function checkPreConditions()
     {
-        if (!rex_addon::exists($this->addonkey)) {
+        if (!Addon::exists($this->addonkey)) {
             throw new rex_functional_exception(sprintf('AddOn "%s" does not exist!', $this->addonkey));
         }
-        $addon = rex_addon::get($this->addonkey);
-        assert($addon instanceof rex_addon);
+        $addon = Addon::get($this->addonkey);
+        assert($addon instanceof Addon);
         $this->addon = $addon;
         if (!Version::compare($this->file['version'], $this->addon->getVersion(), '>')) {
             throw new rex_functional_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
@@ -49,7 +50,7 @@ class rex_install_package_update extends rex_install_package_download
         }
 
         // ---- check package.yml
-        $packageFile = $temppath . rex_addon::FILE_PACKAGE;
+        $packageFile = $temppath . Addon::FILE_PACKAGE;
         if (!is_file($packageFile)) {
             return I18n::msg('package_missing_yml_file');
         }
@@ -64,9 +65,9 @@ class rex_install_package_update extends rex_install_package_download
         }
 
         // ---- include update.php
-        if ($this->addon->isInstalled() && is_file($temppath . rex_addon::FILE_UPDATE)) {
+        if ($this->addon->isInstalled() && is_file($temppath . Addon::FILE_UPDATE)) {
             try {
-                $this->addon->includeFile('../.new.' . $this->addonkey . '/' . rex_addon::FILE_UPDATE);
+                $this->addon->includeFile('../.new.' . $this->addonkey . '/' . Addon::FILE_UPDATE);
             } catch (rex_functional_exception $e) {
                 return $e->getMessage();
             } catch (rex_sql_exception $e) {
@@ -90,7 +91,7 @@ class rex_install_package_update extends rex_install_package_download
 
         // ---- backup
         $assets = $this->addon->getAssetsPath();
-        $installConfig = File::getCache(rex_addon::get('install')->getDataPath('config.json'));
+        $installConfig = File::getCache(Addon::get('install')->getDataPath('config.json'));
         if (isset($installConfig['backups']) && $installConfig['backups']) {
             $archivePath = Path::addonData('install', $this->addonkey . '/');
             Dir::create($archivePath);
@@ -156,11 +157,11 @@ class rex_install_package_update extends rex_install_package_download
         $temppath = Path::addon('.new.' . $this->addonkey);
 
         // ---- update "version", "requires" and "conflicts" properties
-        /** @var SplObjectStorage<rex_addon, string> $versions */
+        /** @var SplObjectStorage<\Redaxo\Core\Addon\Addon, string> $versions */
         $versions = new SplObjectStorage();
-        /** @var SplObjectStorage<rex_addon, array> $requirements */
+        /** @var SplObjectStorage<\Redaxo\Core\Addon\Addon, array> $requirements */
         $requirements = new SplObjectStorage();
-        /** @var SplObjectStorage<rex_addon, array> $conflicts */
+        /** @var SplObjectStorage<\Redaxo\Core\Addon\Addon, array> $conflicts */
         $conflicts = new SplObjectStorage();
 
         $requirements[$this->addon] = $this->addon->getProperty('requires', []);
@@ -183,7 +184,7 @@ class rex_install_package_update extends rex_install_package_download
         }
 
         if (empty($messages)) {
-            foreach (rex_addon::getAvailableAddons() as $package) {
+            foreach (Addon::getAvailableAddons() as $package) {
                 if ($package === $this->addon) {
                     continue;
                 }
@@ -208,7 +209,7 @@ class rex_install_package_update extends rex_install_package_download
         return empty($messages) ? true : '<ul><li>' . implode('</li><li>', $messages) . '</li></ul>';
     }
 
-    private function messageFromPackage(rex_addon $package, rex_addon_manager $manager): string
+    private function messageFromPackage(Addon $package, rex_addon_manager $manager): string
     {
         return I18n::msg('install_warning_message_from_addon', $package->getPackageId()) . ' ' . $manager->getMessage();
     }

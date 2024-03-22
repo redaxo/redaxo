@@ -1,8 +1,9 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Util\Markdown;
 
-$addon = rex_addon::get('install');
+$addon = Addon::get('install');
 
 echo rex_view::title($addon->i18n('title'));
 

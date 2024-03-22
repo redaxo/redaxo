@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -30,7 +31,7 @@ class rex_api_install_package_upload extends rex_api_function
         ]);
         $file = [];
         $archive = null;
-        $file['version'] = $upload['upload_file'] ? rex_addon::get($addonkey)->getVersion() : $upload['oldversion'];
+        $file['version'] = $upload['upload_file'] ? Addon::get($addonkey)->getVersion() : $upload['oldversion'];
         $file['redaxo_versions'] = ['5.x'];
         $file['description'] = $upload['description'];
         $file['status'] = $upload['status'];
@@ -51,7 +52,7 @@ class rex_api_install_package_upload extends rex_api_function
                     $exclude[] = 'tests';
                 }
                 /** @var list<string>|null $packageExclude */
-                $packageExclude = rex_addon::get($addonkey)->getProperty('installer_ignore');
+                $packageExclude = Addon::get($addonkey)->getProperty('installer_ignore');
                 if (is_array($packageExclude)) {
                     foreach ($packageExclude as $excludeItem) {
                         $exclude[] = $excludeItem;

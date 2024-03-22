@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -10,7 +11,7 @@ use Redaxo\Core\Util\Version;
 
 assert(isset($markdown) && is_callable($markdown));
 
-$package = rex_addon::get('install');
+$package = Addon::get('install');
 
 $core = rex_request('core', 'boolean');
 $addonkey = rex_request('addonkey', 'string');
@@ -81,7 +82,7 @@ if ($core && !empty($coreVersions)) {
 } elseif ($addonkey && isset($addons[$addonkey])) {
     $addon = $addons[$addonkey];
 
-    $version = rex_escape(rex_addon::get($addonkey)->getVersion());
+    $version = rex_escape(Addon::get($addonkey)->getVersion());
     if (Version::isUnstable($version)) {
         $version = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $version;
     }
@@ -225,7 +226,7 @@ if ($core && !empty($coreVersions)) {
 
         $url = Url::currentBackendPage(['addonkey' => $key]);
 
-        $packageVersion = rex_escape(rex_addon::get($key)->getVersion());
+        $packageVersion = rex_escape(Addon::get($key)->getVersion());
         if (Version::isUnstable($packageVersion)) {
             $packageVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $packageVersion;
         }

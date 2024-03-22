@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
@@ -7,7 +8,7 @@ use Redaxo\Core\Util\Markdown;
 
 $content = '';
 
-$package = rex_addon::require(rex_request('package', 'string'));
+$package = Addon::require(rex_request('package', 'string'));
 $name = $package->getPackageId();
 $version = $package->getVersion();
 $author = $package->getAuthor();

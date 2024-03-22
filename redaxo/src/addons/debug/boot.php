@@ -1,6 +1,7 @@
 <?php
 
 use Clockwork\Clockwork;
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
@@ -13,7 +14,7 @@ if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_fun
 }
 
 if (Core::isBackend() && 'debug' === rex_request::get('page') && Core::getUser()?->isAdmin()) {
-    $index = file_get_contents(rex_addon::require('debug')->getAssetsPath('clockwork/index.html'));
+    $index = file_get_contents(Addon::require('debug')->getAssetsPath('clockwork/index.html'));
 
     $editor = Editor::factory();
     $curEditor = $editor->getName();

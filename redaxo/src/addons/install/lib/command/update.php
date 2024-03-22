@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +24,7 @@ class rex_command_install_update extends AbstractCommand
 
         $addonKey = $input->getArgument('addonkey');
 
-        if (!rex_addon::exists($addonKey)) {
+        if (!Addon::exists($addonKey)) {
             $io->error(sprintf('AddOn "%s" does not exist!', $addonKey));
             return 1;
         }

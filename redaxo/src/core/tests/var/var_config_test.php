@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 
 require_once __DIR__ . '/var_test_base.php';
@@ -10,13 +11,13 @@ final class rex_var_config_test extends rex_var_test_base
     protected function setUp(): void
     {
         Core::setConfig('myCoreConfig', 'myCoreConfigValue');
-        rex_addon::get('project')->setConfig('myPackageConfig', 'myPackageConfigValue');
+        Addon::get('project')->setConfig('myPackageConfig', 'myPackageConfigValue');
     }
 
     protected function tearDown(): void
     {
         Core::removeConfig('myCoreConfig');
-        rex_addon::get('project')->removeConfig('tests');
+        Addon::get('project')->removeConfig('tests');
     }
 
     /** @return list<array{string, string}> */

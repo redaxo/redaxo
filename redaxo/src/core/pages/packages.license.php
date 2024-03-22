@@ -1,10 +1,11 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
 
-$package = rex_addon::require(rex_request('package', 'string'));
+$package = Addon::require(rex_request('package', 'string'));
 
 $license = null;
 if (is_readable($package->getPath('LICENSE.md'))) {

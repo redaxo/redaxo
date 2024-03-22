@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Console;
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Console\Command\AbstractCommand;
 use Redaxo\Core\Console\Command\AddonActivateCommand;
 use Redaxo\Core\Console\Command\AddonDeactivateCommand;
@@ -25,7 +26,6 @@ use Redaxo\Core\Console\Command\SystemReportCommand;
 use Redaxo\Core\Console\Command\UserCreateCommand;
 use Redaxo\Core\Console\Command\UserSetPasswordCommand;
 use Redaxo\Core\Core;
-use rex_addon;
 use rex_exception;
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
@@ -38,7 +38,7 @@ use function is_array;
  */
 class CommandLoader implements CommandLoaderInterface
 {
-    /** @var array<string, array{class: class-string<AbstractCommand>, package?: rex_addon}> */
+    /** @var array<string, array{class: class-string<AbstractCommand>, package?: \Redaxo\Core\Addon\Addon}> */
     private $commands = [];
 
     public function __construct()
@@ -76,7 +76,7 @@ class CommandLoader implements CommandLoaderInterface
             $this->commands[$command] = ['class' => $class];
         }
 
-        foreach (rex_addon::getAvailableAddons() as $package) {
+        foreach (Addon::getAvailableAddons() as $package) {
             /** @var array<string, class-string<AbstractCommand>> $commands */
             $commands = $package->getProperty('console_commands');
 

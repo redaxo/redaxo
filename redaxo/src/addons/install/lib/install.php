@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
+
 class rex_install
 {
     /**
@@ -13,7 +15,7 @@ class rex_install
      */
     public function downloadAddon(string $addonKey, string $version): void
     {
-        if (rex_addon::exists($addonKey)) {
+        if (Addon::exists($addonKey)) {
             throw new rex_exception(sprintf('AddOn "%s" already exists!', $addonKey));
         }
 
@@ -57,7 +59,7 @@ class rex_install
      */
     public function updateAddon(string $addonKey, string $version): void
     {
-        if (!rex_addon::exists($addonKey)) {
+        if (!Addon::exists($addonKey)) {
             throw new rex_exception(sprintf('AddOn "%s" does not exist!', $addonKey));
         }
 

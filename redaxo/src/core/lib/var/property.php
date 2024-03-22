@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 
 /**
@@ -18,7 +19,7 @@ class rex_var_property extends rex_var
             return false;
         }
         $namespace = $this->getParsedArg('namespace');
-        $base = $namespace ? rex_addon::class . '::get(' . $namespace . ')->' : Core::class . '::';
+        $base = $namespace ? Addon::class . '::get(' . $namespace . ')->' : Core::class . '::';
         return 'htmlspecialchars(' . $base . 'getProperty(' . $key . '))';
     }
 }
