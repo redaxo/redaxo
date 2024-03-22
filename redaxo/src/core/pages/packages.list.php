@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -10,7 +11,7 @@ echo rex_view::title(I18n::msg('addons'), '');
 
 // the package manager don't know new packages in the addon folder
 // so we need to make them available
-rex_addon_manager::synchronizeWithFileSystem();
+AddonManager::synchronizeWithFileSystem();
 
 $fragment = new rex_fragment();
 $fragment->setVar('id', 'rex-js-available-addon-search');

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonInterface;
+use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -218,7 +219,7 @@ class rex_api_install_core_update extends rex_api_function
                     $addon->loadProperties(true);
                 }
             }
-            rex_addon_manager::generatePackageOrder();
+            AddonManager::generatePackageOrder();
 
             // re-generate opcache to make sure new/updated classes immediately are available
             if (function_exists('opcache_reset')) {
@@ -275,7 +276,7 @@ class rex_api_install_core_update extends rex_api_function
         // ---- check requirements
         $messages = [];
         foreach (Addon::getAvailableAddons() as $package) {
-            $manager = rex_addon_manager::factory($package);
+            $manager = AddonManager::factory($package);
             if (!$manager->checkRequirements()) {
                 $messages[] = $this->messageFromPackage($package, $manager);
             } elseif (!$manager->checkConflicts()) {
@@ -300,7 +301,7 @@ class rex_api_install_core_update extends rex_api_function
         }
     }
 
-    private function messageFromPackage(Addon $package, rex_addon_manager $manager): string
+    private function messageFromPackage(Addon $package, AddonManager $manager): string
     {
         return I18n::msg('install_warning_message_from_addon', $package->getPackageId()) . ' ' . $manager->getMessage();
     }

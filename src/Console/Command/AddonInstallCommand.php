@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Console\Command;
 
 use Redaxo\Core\Addon\Addon;
-use rex_addon_manager;
+use Redaxo\Core\Addon\AddonManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -40,7 +40,7 @@ class AddonInstallCommand extends AbstractCommand
 
         // the package manager don't know new packages in the addon folder
         // so we need to make them available
-        rex_addon_manager::synchronizeWithFileSystem();
+        AddonManager::synchronizeWithFileSystem();
 
         $package = Addon::get($packageId);
         if (!$package instanceof Addon) {
@@ -57,7 +57,7 @@ class AddonInstallCommand extends AbstractCommand
             }
         }
 
-        $manager = rex_addon_manager::factory($package);
+        $manager = AddonManager::factory($package);
         $success = $manager->install();
         $message = $this->decodeMessage($manager->getMessage());
 

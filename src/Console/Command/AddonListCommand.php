@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Console\Command;
 
 use Redaxo\Core\Addon\Addon;
-use rex_addon_manager;
+use Redaxo\Core\Addon\AddonManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,7 +34,7 @@ class AddonListCommand extends AbstractCommand
 
         // the package manager don't know new packages in the addon folder
         // so we need to make them available
-        rex_addon_manager::synchronizeWithFileSystem();
+        AddonManager::synchronizeWithFileSystem();
 
         $search = $input->getOption('search');
         $packageId = $input->getOption('package');

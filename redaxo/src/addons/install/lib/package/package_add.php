@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Filesystem\Path;
 
 /**
@@ -27,7 +28,7 @@ class rex_install_package_add extends rex_install_package_download
         if (true !== ($msg = $this->extractArchiveTo(Path::addon($this->addonkey)))) {
             return $msg;
         }
-        rex_addon_manager::synchronizeWithFileSystem();
+        AddonManager::synchronizeWithFileSystem();
         rex_install_packages::deleteCacheMyPackages();
 
         return null;

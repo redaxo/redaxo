@@ -1,6 +1,7 @@
 <?php
 
-use Redaxo\Core\Addon\Addon;
+namespace Redaxo\Core\Addon;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Dir;
@@ -11,8 +12,21 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Version;
+use rex_be_controller;
+use rex_config;
+use rex_factory_trait;
+use rex_functional_exception;
+use rex_sql_exception;
+use rex_yaml_parse_exception;
 
-class rex_addon_manager
+use function extension_loaded;
+use function in_array;
+use function is_array;
+use function is_string;
+
+use const PHP_VERSION;
+
+class AddonManager
 {
     use rex_factory_trait;
 

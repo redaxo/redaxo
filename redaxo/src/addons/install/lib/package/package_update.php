@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -133,7 +134,7 @@ class rex_install_package_update extends rex_install_package_download
         // ---- update package order
         if ($this->addon->isAvailable()) {
             $this->addon->loadProperties(true);
-            rex_addon_manager::generatePackageOrder();
+            AddonManager::generatePackageOrder();
         }
 
         $this->addon->setProperty('version', $this->file['version']);
@@ -175,7 +176,7 @@ class rex_install_package_update extends rex_install_package_download
 
         // ---- check requirements
         $messages = [];
-        $manager = rex_addon_manager::factory($this->addon);
+        $manager = AddonManager::factory($this->addon);
         if (!$manager->checkRequirements()) {
             $messages[] = $manager->getMessage();
         }
@@ -188,7 +189,7 @@ class rex_install_package_update extends rex_install_package_download
                 if ($package === $this->addon) {
                     continue;
                 }
-                $manager = rex_addon_manager::factory($package);
+                $manager = AddonManager::factory($package);
                 if (!$manager->checkPackageRequirement($this->addon->getPackageId())) {
                     $messages[] = $this->messageFromPackage($package, $manager);
                 }
@@ -209,7 +210,7 @@ class rex_install_package_update extends rex_install_package_download
         return empty($messages) ? true : '<ul><li>' . implode('</li><li>', $messages) . '</li></ul>';
     }
 
-    private function messageFromPackage(Addon $package, rex_addon_manager $manager): string
+    private function messageFromPackage(Addon $package, AddonManager $manager): string
     {
         return I18n::msg('install_warning_message_from_addon', $package->getPackageId()) . ' ' . $manager->getMessage();
     }

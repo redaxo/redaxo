@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Type;
 
@@ -34,7 +35,7 @@ final class rex_api_package extends rex_api_function
             throw new rex_api_exception('Package "' . $packageId . '" doesn\'t exists!');
         }
         $reinstall = 'install' === $function && $package->isInstalled();
-        $manager = rex_addon_manager::factory($package);
+        $manager = AddonManager::factory($package);
         $success = Type::bool($manager->$function());
         $message = $manager->getMessage();
         $result = new rex_api_result($success, $message);
