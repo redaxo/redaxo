@@ -69,7 +69,7 @@ final class Addon implements AddonInterface
      * Returns the addon by the given name.
      *
      * @param string $addon Addon name
-     * @return AddonInterface If the package exists, a `Addon` is returned, otherwise a `NullAddon`
+     * @return AddonInterface If the addon exists, a `Addon` is returned, otherwise a `NullAddon`
      */
     public static function get(string $addon): AddonInterface
     {
@@ -83,7 +83,7 @@ final class Addon implements AddonInterface
     /**
      * Returns the addon by the given name.
      *
-     * @throws RuntimeException if the package does not exist
+     * @throws RuntimeException if the addon does not exist
      * @psalm-assert =non-empty-string $addon
      */
     public static function require(string $addon): self
@@ -272,7 +272,7 @@ final class Addon implements AddonInterface
             return require $__file;
         }
 
-        throw new rex_exception(sprintf('Package "%s": the page path "%s" neither exists as standalone path nor as package subpath "%s"', $this->name, $__file, $__path));
+        throw new rex_exception(sprintf('Addon "%s": the page path "%s" neither exists as standalone path nor as addon subpath "%s"', $this->name, $__file, $__path));
     }
 
     #[Override]
@@ -322,9 +322,9 @@ final class Addon implements AddonInterface
                 if (!$registeredShutdown) {
                     $registeredShutdown = true;
                     register_shutdown_function(static function () use (&$cache) {
-                        foreach ($cache as $package => $_) {
-                            if (!self::exists($package)) {
-                                unset($cache[$package]);
+                        foreach ($cache as $addon => $_) {
+                            if (!self::exists($addon)) {
+                                unset($cache[$addon]);
                             }
                         }
                         File::putCache(Path::coreCache(self::PROPERTIES_CACHE_FILE), $cache);
@@ -360,7 +360,7 @@ final class Addon implements AddonInterface
     }
 
     /**
-     * Clears the cache of the package.
+     * Clears the cache of the addon.
      *
      * @throws rex_functional_exception
      */
@@ -388,7 +388,7 @@ final class Addon implements AddonInterface
         if (is_readable($folder . 'lang')) {
             I18n::addDirectory($folder . 'lang');
         }
-        // add package path for fragment loading
+        // add addon path for fragment loading
         if (is_readable($folder . 'fragments')) {
             rex_fragment::addDirectory($folder . 'fragments' . DIRECTORY_SEPARATOR);
         }
@@ -464,7 +464,7 @@ final class Addon implements AddonInterface
     }
 
     /**
-     * Initializes all packages.
+     * Initializes all addons.
      */
     public static function initialize(bool $dbExists = true): void
     {
@@ -487,16 +487,16 @@ final class Addon implements AddonInterface
     }
 
     /**
-     * Filters packages by the given method.
+     * Filters addons by the given method.
      *
-     * @param array<non-empty-string, self> $packages Array of packages
+     * @param array<non-empty-string, self> $addons Array of addons
      * @param string $method A Addon method
      * @return array<non-empty-string, Addon>
      */
-    private static function filterPackages(array $packages, string $method): array
+    private static function filterPackages(array $addons, string $method): array
     {
-        return array_filter($packages, static function (Addon $package) use ($method): bool {
-            $return = $package->$method();
+        return array_filter($addons, static function (Addon $addon) use ($method): bool {
+            $return = $addon->$method();
             assert(is_bool($return));
 
             return $return;

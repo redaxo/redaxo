@@ -34,16 +34,16 @@ class AddonManager
     protected string $message = '';
 
     protected function __construct(
-        protected readonly Addon $package,
+        protected readonly Addon $addon,
     ) {}
 
     /**
-     * Creates the manager for the package.
+     * Creates the manager for the addon.
      */
-    public static function factory(Addon $package): static
+    public static function factory(Addon $addon): static
     {
         $class = static::getFactoryClass();
-        return new $class($package);
+        return new $class($addon);
     }
 
     /**
@@ -55,7 +55,7 @@ class AddonManager
     }
 
     /**
-     * Installs a package.
+     * Installs a addon.
      *
      * @param bool $installDump When TRUE, the sql dump will be importet
      *
@@ -73,21 +73,21 @@ class AddonManager
             }
 
             // check package.yml
-            $packageFile = $this->package->getPath(Addon::FILE_PACKAGE);
-            if (!is_readable($packageFile)) {
+            $addonFile = $this->package->getPath(Addon::FILE_PACKAGE);
+            if (!is_readable($addonFile)) {
                 throw new rex_functional_exception($this->i18n('missing_yml_file'));
             }
             try {
-                File::getConfig($packageFile);
+                File::getConfig($addonFile);
             } catch (rex_yaml_parse_exception $e) {
                 throw new rex_functional_exception($this->i18n('invalid_yml_file') . ' ' . $e->getMessage());
             }
-            $packageId = $this->package->getProperty('package');
-            if (null === $packageId) {
+            $addonId = $this->package->getProperty('package');
+            if (null === $addonId) {
                 throw new rex_functional_exception($this->i18n('missing_id', $this->package->getPackageId()));
             }
-            if ($packageId != $this->package->getPackageId()) {
-                throw new rex_functional_exception($this->wrongPackageId($packageId));
+            if ($addonId != $this->package->getPackageId()) {
+                throw new rex_functional_exception($this->wrongPackageId($addonId));
             }
             if (null === $this->package->getProperty('version')) {
                 throw new rex_functional_exception($this->i18n('missing_version'));
@@ -171,7 +171,7 @@ class AddonManager
     }
 
     /**
-     * Uninstalls a package.
+     * Uninstalls a addon.
      *
      * @param bool $installDump When TRUE, the sql dump will be importet
      *
@@ -217,7 +217,7 @@ class AddonManager
                 throw new rex_functional_exception($this->i18n('install_cant_delete_files'));
             }
 
-            // clear cache of package
+            // clear cache of addon
             $this->package->clearCache();
 
             rex_config::removeNamespace($this->package->getPackageId());
@@ -243,7 +243,7 @@ class AddonManager
     }
 
     /**
-     * Activates a package.
+     * Activates a addon.
      *
      * @return bool TRUE on success, FALSE on error
      */
@@ -282,7 +282,7 @@ class AddonManager
     }
 
     /**
-     * Deactivates a package.
+     * Deactivates a addon.
      *
      * @return bool TRUE on success, FALSE on error
      */
@@ -294,7 +294,7 @@ class AddonManager
             $this->package->setProperty('status', false);
             static::saveConfig();
 
-            // clear cache of package
+            // clear cache of addon
             $this->package->clearCache();
 
             if ($this->generatePackageOrder) {
@@ -310,7 +310,7 @@ class AddonManager
     }
 
     /**
-     * Deletes a package.
+     * Deletes a addon.
      *
      * @return bool TRUE on success, FALSE on error
      */
@@ -326,13 +326,13 @@ class AddonManager
     }
 
     /**
-     * Deletes a package.
+     * Deletes a addon.
      *
      * @return bool TRUE on success, FALSE on error
      */
     protected function _delete(bool $ignoreState = false): bool
     {
-        // if package is installed, uninstall it first
+        // if addon is installed, uninstall it first
         if ($this->package->isInstalled() && !$this->uninstall() && !$ignoreState) {
             // message is set by uninstall()
             return false;
@@ -396,8 +396,8 @@ class AddonManager
 
         if (empty($state)) {
             if (isset($requirements['packages']) && is_array($requirements['packages'])) {
-                foreach ($requirements['packages'] as $package => $_) {
-                    if (!$this->checkPackageRequirement($package)) {
+                foreach ($requirements['packages'] as $addon => $_) {
+                    if (!$this->checkPackageRequirement($addon)) {
                         $state[] = $this->message;
                     }
                 }
@@ -427,50 +427,50 @@ class AddonManager
     }
 
     /**
-     * Checks whether the package requirement is met.
+     * Checks whether the addon requirement is met.
      */
-    public function checkPackageRequirement(string $packageId): bool
+    public function checkPackageRequirement(string $addonId): bool
     {
         $requirements = $this->package->getProperty('requires', []);
-        if (!isset($requirements['packages'][$packageId])) {
+        if (!isset($requirements['packages'][$addonId])) {
             return true;
         }
-        $package = Addon::get($packageId);
+        $addon = Addon::get($addonId);
         $requiredVersion = '';
-        if (!$package->isAvailable()) {
-            if ('' != $requirements['packages'][$packageId]) {
-                $requiredVersion = ' ' . $requirements['packages'][$packageId];
+        if (!$addon->isAvailable()) {
+            if ('' != $requirements['packages'][$addonId]) {
+                $requiredVersion = ' ' . $requirements['packages'][$addonId];
             }
 
-            if (!Addon::exists($packageId)) {
+            if (!Addon::exists($addonId)) {
                 $jumpToInstaller = '';
                 if (Addon::get('install')->isAvailable()) {
-                    // package need to be downloaded via installer
-                    $installUrl = Url::backendPage('install/packages/add', ['addonkey' => $packageId]);
+                    // addon need to be downloaded via installer
+                    $installUrl = Url::backendPage('install/packages/add', ['addonkey' => $addonId]);
 
-                    $jumpToInstaller = ' <a href="' . $installUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('search_in_installer', $packageId) . '"></i></a>';
+                    $jumpToInstaller = ' <a href="' . $installUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('search_in_installer', $addonId) . '"></i></a>';
                 }
 
-                $this->message = $this->i18n('requirement_error_addon', $packageId . $requiredVersion) . $jumpToInstaller;
+                $this->message = $this->i18n('requirement_error_addon', $addonId . $requiredVersion) . $jumpToInstaller;
                 return false;
             }
 
-            $jumpPackageUrl = '#package-' . Str::normalize($packageId, '-', '_');
+            $jumpPackageUrl = '#package-' . Str::normalize($addonId, '-', '_');
             if ('packages' !== rex_be_controller::getCurrentPage()) {
                 // error while update/install within install-addon. x-link to packages core page
                 $jumpPackageUrl = Url::backendPage('packages') . $jumpPackageUrl;
             }
 
-            $this->message = $this->i18n('requirement_error_addon', $packageId . $requiredVersion) . ' <a href="' . $jumpPackageUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('jump_to', $packageId) . '"></i></a>';
+            $this->message = $this->i18n('requirement_error_addon', $addonId . $requiredVersion) . ' <a href="' . $jumpPackageUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('jump_to', $addonId) . '"></i></a>';
             return false;
         }
 
-        if (!Version::matchesConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
+        if (!Version::matchesConstraints($addon->getVersion(), $requirements['packages'][$addonId])) {
             $this->message = $this->i18n(
                 'requirement_error_addon_version',
-                $package->getPackageId(),
-                $package->getVersion(),
-                $requirements['packages'][$packageId],
+                $addon->getPackageId(),
+                $addon->getVersion(),
+                $requirements['packages'][$addonId],
             );
             return false;
         }
@@ -478,7 +478,7 @@ class AddonManager
     }
 
     /**
-     * Checks whether the package is in conflict with other packages.
+     * Checks whether the addon is in conflict with other packages.
      */
     public function checkConflicts(): bool
     {
@@ -486,15 +486,15 @@ class AddonManager
         $conflicts = $this->package->getProperty('conflicts', []);
 
         if (isset($conflicts['packages']) && is_array($conflicts['packages'])) {
-            foreach ($conflicts['packages'] as $package => $_) {
-                if (!$this->checkPackageConflict($package)) {
+            foreach ($conflicts['packages'] as $addon => $_) {
+                if (!$this->checkPackageConflict($addon)) {
                     $state[] = $this->message;
                 }
             }
         }
 
-        foreach (Addon::getAvailableAddons() as $package) {
-            $conflicts = $package->getProperty('conflicts', []);
+        foreach (Addon::getAvailableAddons() as $addon) {
+            $conflicts = $addon->getProperty('conflicts', []);
 
             if (!isset($conflicts['packages'][$this->package->getPackageId()])) {
                 continue;
@@ -502,9 +502,9 @@ class AddonManager
 
             $constraints = $conflicts['packages'][$this->package->getPackageId()];
             if (!is_string($constraints) || !$constraints || '*' === $constraints) {
-                $state[] = $this->i18n('reverse_conflict_error_addon', $package->getPackageId());
+                $state[] = $this->i18n('reverse_conflict_error_addon', $addon->getPackageId());
             } elseif (Version::matchesConstraints($this->package->getVersion(), $constraints)) {
-                $state[] = $this->i18n('reverse_conflict_error_addon_version', $package->getPackageId(), $constraints);
+                $state[] = $this->i18n('reverse_conflict_error_addon_version', $addon->getPackageId(), $constraints);
             }
         }
 
@@ -516,43 +516,43 @@ class AddonManager
     }
 
     /**
-     * Checks whether the package is in conflict with another package.
+     * Checks whether the addon is in conflict with another package.
      */
-    public function checkPackageConflict(string $packageId): bool
+    public function checkPackageConflict(string $addonId): bool
     {
         $conflicts = $this->package->getProperty('conflicts', []);
-        $package = Addon::get($packageId);
-        if (!isset($conflicts['packages'][$packageId]) || !$package->isAvailable()) {
+        $addon = Addon::get($addonId);
+        if (!isset($conflicts['packages'][$addonId]) || !$addon->isAvailable()) {
             return true;
         }
-        $constraints = $conflicts['packages'][$packageId];
+        $constraints = $conflicts['packages'][$addonId];
         if (!is_string($constraints) || !$constraints || '*' === $constraints) {
-            $this->message = $this->i18n('conflict_error_addon', $package->getPackageId());
+            $this->message = $this->i18n('conflict_error_addon', $addon->getPackageId());
             return false;
         }
-        if (Version::matchesConstraints($package->getVersion(), $constraints)) {
-            $this->message = $this->i18n('conflict_error_addon_version', $package->getPackageId(), $constraints);
+        if (Version::matchesConstraints($addon->getVersion(), $constraints)) {
+            $this->message = $this->i18n('conflict_error_addon_version', $addon->getPackageId(), $constraints);
             return false;
         }
         return true;
     }
 
     /**
-     * Checks if another Package which is activated, depends on the given package.
+     * Checks if another addon which is activated, depends on the given package.
      */
     public function checkDependencies(): bool
     {
         $i18nPrefix = 'package_dependencies_error_';
         $state = [];
 
-        foreach (Addon::getAvailableAddons() as $package) {
-            if ($package === $this->package) {
+        foreach (Addon::getAvailableAddons() as $addon) {
+            if ($addon === $this->package) {
                 continue;
             }
 
-            $requirements = $package->getProperty('requires', []);
+            $requirements = $addon->getProperty('requires', []);
             if (isset($requirements['packages'][$this->package->getPackageId()])) {
-                $state[] = I18n::msg($i18nPrefix . 'addon', $package->getPackageId());
+                $state[] = I18n::msg($i18nPrefix . 'addon', $addon->getPackageId());
             }
         }
 
@@ -581,7 +581,7 @@ class AddonManager
     }
 
     /**
-     * Generates the package order.
+     * Generates the addon order.
      */
     public static function generatePackageOrder(): void
     {
@@ -604,20 +604,20 @@ class AddonManager
                 }
             }
         };
-        foreach (Addon::getAvailableAddons() as $package) {
-            $id = $package->getPackageId();
-            $load = $package->getProperty('load');
+        foreach (Addon::getAvailableAddons() as $addon) {
+            $id = $addon->getPackageId();
+            $load = $addon->getProperty('load');
             if ('early' === $load) {
                 $early[] = $id;
             } elseif ('late' === $load) {
                 $late[] = $id;
             } else {
-                $req = $package->getProperty('requires');
+                $req = $addon->getProperty('requires');
                 if (isset($req['packages']) && is_array($req['packages'])) {
-                    foreach ($req['packages'] as $packageId => $reqP) {
-                        $package = Addon::get($packageId);
-                        if (!in_array($packageId, $normal) && !in_array($package->getProperty('load'), ['early', 'late'])) {
-                            $requires[$id][$packageId] = true;
+                    foreach ($req['packages'] as $addonId => $reqP) {
+                        $addon = Addon::get($addonId);
+                        if (!in_array($addonId, $normal) && !in_array($addon->getProperty('load'), ['early', 'late'])) {
+                            $requires[$id][$addonId] = true;
                         }
                     }
                 }
@@ -630,7 +630,7 @@ class AddonManager
     }
 
     /**
-     * Saves the package config.
+     * Saves the addon config.
      */
     protected static function saveConfig(): void
     {
@@ -643,7 +643,7 @@ class AddonManager
     }
 
     /**
-     * Synchronizes the packages with the file system.
+     * Synchronizes the addons with the file system.
      */
     public static function synchronizeWithFileSystem(): void
     {
@@ -678,14 +678,14 @@ class AddonManager
      */
     private static function readPackageFolder(string $folder): array
     {
-        $packages = [];
+        $addons = [];
 
         if (is_dir($folder)) {
             foreach (Finder::factory($folder)->dirsOnly() as $file) {
-                $packages[] = $file->getBasename();
+                $addons[] = $file->getBasename();
             }
         }
 
-        return $packages;
+        return $addons;
     }
 }
