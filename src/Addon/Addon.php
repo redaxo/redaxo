@@ -70,7 +70,7 @@ final class Addon implements AddonInterface
      * Returns the addon by the given name.
      *
      * @param string $addon Addon name
-     * @return AddonInterface If the package exists, a `rex_addon` is returned, otherwise a `rex_null_addon`
+     * @return AddonInterface If the package exists, a `Addon` is returned, otherwise a `rex_null_addon`
      */
     public static function get(string $addon): AddonInterface
     {
@@ -491,7 +491,7 @@ final class Addon implements AddonInterface
      * Filters packages by the given method.
      *
      * @param array<non-empty-string, Addon> $packages Array of packages
-     * @param string $method A rex_addon method
+     * @param string $method A Addon method
      * @return array<non-empty-string, Addon>
      */
     private static function filterPackages(array $packages, string $method): array

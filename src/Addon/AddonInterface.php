@@ -117,21 +117,21 @@ interface AddonInterface
     /**
      * Returns if the package is available (activated and installed).
      *
-     * @psalm-assert-if-true =rex_addon $this
+     * @psalm-assert-if-true =Addon $this
      */
     public function isAvailable(): bool;
 
     /**
      * Returns if the package is installed.
      *
-     * @psalm-assert-if-true =rex_addon $this
+     * @psalm-assert-if-true =Addon $this
      */
     public function isInstalled(): bool;
 
     /**
      * Returns if it is a system package.
      *
-     * @psalm-assert-if-true =rex_addon $this
+     * @psalm-assert-if-true =Addon $this
      */
     public function isSystemPackage(): bool;
 

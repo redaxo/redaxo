@@ -3,7 +3,7 @@
 use Redaxo\Core\Addon\Addon;
 
 /**
- * @extends rex_extension_point<rex_addon>
+ * @extends rex_extension_point<Addon>
  */
 final class rex_extension_point_package_cache_deleted extends rex_extension_point
 {

@@ -106,8 +106,8 @@ class rex_api_install_core_update extends rex_api_function
             }
             // $config = File::getConfig($temppath . 'core/default.config.yml');
             // foreach ($config['system_addons'] as $addonkey) {
-            //    if (is_dir($temppath . 'addons/' . $addonkey) && rex_addon::exists($addonkey)) {
-            //        $updateAddons[$addonkey] = rex_addon::get($addonkey);
+            //    if (is_dir($temppath . 'addons/' . $addonkey) && Addon::exists($addonkey)) {
+            //        $updateAddons[$addonkey] = Addon::get($addonkey);
             //    }
             // }
             $this->checkRequirements($temppath, $version['version'], $updateAddonsConfig);
@@ -212,7 +212,7 @@ class rex_api_install_core_update extends rex_api_function
             Core::setConfig('version', $version['version']);
 
             // ---- update package order
-            /** @var rex_addon $addon */
+            /** @var Addon $addon */
             foreach ($updateAddons as $addon) {
                 if ($addon->isAvailable()) {
                     $addon->loadProperties(true);

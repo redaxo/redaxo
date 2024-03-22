@@ -15,7 +15,7 @@ $addon = Addon::require('project');
 
 // Example list of allowed mime types for mediapool
 /*
-rex_addon::get('mediapool')->setProperty('allowed_mime_types', [
+Addon::get('mediapool')->setProperty('allowed_mime_types', [
     'gif'   => ['image/gif'],
     'jpg'   => ['image/jpeg', 'image/pjpeg'],
     'jpeg'  => ['image/jpeg', 'image/pjpeg'],
