@@ -88,20 +88,16 @@ if ($update && !$error) {
 
     $updateuser->addGlobalUpdateFields();
 
-    try {
-        $updateuser->update();
-        rex_user::clearInstance($userId);
+    $updateuser->update();
+    rex_user::clearInstance($userId);
 
-        rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
-            'user_id' => $userId,
-            'user' => rex_user::require($userId),
-        ], true));
+    rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
+        'user_id' => $userId,
+        'user' => rex_user::require($userId),
+    ], true));
 
-        // trigger a fullpage-reload which immediately reflects a possible changed language
-        rex_response::sendRedirect(rex_url::currentBackendPage(['rex_user_updated' => true], false));
-    } catch (rex_sql_exception $e) {
-        $error = $e->getMessage();
-    }
+    // trigger a fullpage-reload which immediately reflects a possible changed language
+    rex_response::sendRedirect(rex_url::currentBackendPage(['rex_user_updated' => true], false));
 }
 
 $verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool|string {
@@ -148,25 +144,21 @@ if (rex_post('upd_psw_button', 'bool')) {
         $updateuser->setDateTimeValue('password_changed', time());
         $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $userpswNew1));
 
-        try {
-            $updateuser->update();
-            rex_user::clearInstance($userId);
+        $updateuser->update();
+        rex_user::clearInstance($userId);
 
-            $success = rex_i18n::msg('user_psw_updated');
+        $success = rex_i18n::msg('user_psw_updated');
 
-            if ($passwordChangeRequired) {
-                $passwordChangeRequired = false;
-            }
-            $login->changedPassword($userpswNew1);
-
-            rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
-                'user_id' => $userId,
-                'user' => rex_user::require($userId),
-                'password' => $userpswNew2,
-            ], true));
-        } catch (rex_sql_exception $e) {
-            $error = $e->getMessage();
+        if ($passwordChangeRequired) {
+            $passwordChangeRequired = false;
         }
+        $login->changedPassword($userpswNew1);
+
+        rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
+            'user_id' => $userId,
+            'user' => rex_user::require($userId),
+            'password' => $userpswNew2,
+        ], true));
     }
 }
 
