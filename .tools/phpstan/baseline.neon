@@ -1466,26 +1466,6 @@ parameters:
 			path: ../../src/Database/Sql.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:backendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Filesystem/Url.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:backendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Filesystem/Url.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:currentBackendPage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Filesystem/Url.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:frontendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Filesystem/Url.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addArticleField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/AbstractForm.php
@@ -1864,11 +1844,6 @@ parameters:
 			message: "#^PHPDoc tag @var for variable \\$Block has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Util/Parsedown.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Str\\:\\:buildQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Util/Str.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Str\\:\\:yamlEncode\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
