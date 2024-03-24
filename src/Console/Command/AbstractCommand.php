@@ -7,54 +7,28 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TypeError;
 
 use const ENT_QUOTES;
 
 abstract class AbstractCommand extends Command
 {
-    /** @var Addon|null */
-    protected $package;
+    protected ?Addon $addon = null;
 
-    /**
-     * @return $this
-     */
-    public function setPackage(?Addon $package = null)
+    /** @internal */
+    public function setAddon(?Addon $addon = null): void
     {
-        $this->package = $package;
-
-        return $this;
+        $this->addon = $addon;
     }
 
     /**
-     * @return Addon|null In core commands it returns `null`, otherwise the corresponding package object
+     * @return Addon|null In core commands it returns `null`, otherwise the corresponding addon object
      */
-    public function getPackage()
+    public function getAddon(): ?Addon
     {
-        return $this->package;
+        return $this->addon;
     }
 
-    public function run(InputInterface $input, OutputInterface $output): int
-    {
-        try {
-            return parent::run($input, $output);
-        } catch (TypeError $error) {
-            $msg = $error->getMessage();
-
-            // compat to symfony 4.x, where it wasn't required to return a status code from command::execute()
-            // (redaxo < 5.12 uses symfony 4.x)
-            if (str_starts_with($msg, 'Return value of "') && strpos($msg, '::execute()" must be of the type int,')) {
-                return 0;
-            }
-
-            throw $error;
-        }
-    }
-
-    /**
-     * @return SymfonyStyle
-     */
-    protected function getStyle(InputInterface $input, OutputInterface $output)
+    protected function getStyle(InputInterface $input, OutputInterface $output): SymfonyStyle
     {
         return new SymfonyStyle($input, $output);
     }
@@ -64,9 +38,9 @@ abstract class AbstractCommand extends Command
      *
      * @param string $message A html message
      *
-     * @return string A cli optimzed message
+     * @return string A cli optimized message
      */
-    protected function decodeMessage($message)
+    protected function decodeMessage(string $message): string
     {
         $message = preg_replace('/<br ?\/?>\r?\n?/', "\n", $message);
         $message = strip_tags($message);

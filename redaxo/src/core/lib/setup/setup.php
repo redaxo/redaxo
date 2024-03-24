@@ -87,9 +87,9 @@ class rex_setup
     /**
      * checks permissions of all required filesystem resources.
      *
-     * @return array An array of error messages
+     * @return array<string, non-empty-list<string>> An array of error messages
      */
-    public static function checkFilesystem()
+    public static function checkFilesystem(): array
     {
         // -------------------------- SCHREIBRECHTE
         $writables = [
@@ -104,7 +104,7 @@ class rex_setup
             return Type::string(substr(sprintf('%o', fileperms($path)), -3));
         };
 
-        $func = static function ($dir) use (&$func, $getMod) {
+        $func = static function (string $dir) use (&$func, $getMod) {
             if (!Dir::isWritable($dir)) {
                 return ['setup_204' => [$dir]];
             }

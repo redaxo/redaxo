@@ -2,11 +2,13 @@
 
 namespace Redaxo\Core\Console\Command;
 
+use Override;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -16,6 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class AssetsSyncCommand extends AbstractCommand
 {
+    #[Override]
     protected function configure(): void
     {
         $this
@@ -29,6 +32,7 @@ class AssetsSyncCommand extends AbstractCommand
         ;
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $created = $updated = $errored = 0;
@@ -86,17 +90,17 @@ class AssetsSyncCommand extends AbstractCommand
 
         if (0 === $errored) {
             $io->success(sprintf('Created %s and updated %s file(s).', $created, $updated));
-            return 0;
+            return Command::SUCCESS;
         }
 
         $io->error(sprintf('Created %s, updated %s file(s) while running into %s errors.', $created, $updated, $errored));
-        return 1;
+        return Command::FAILURE;
     }
 
     /**
-     * @return array{0: int, 1: int, 2: int}
+     * @return list{int, int, int}
      */
-    private function sync(SymfonyStyle $io, string $folder1, string $folder2)
+    private function sync(SymfonyStyle $io, string $folder1, string $folder2): array
     {
         $created = $updated = $errored = 0;
 

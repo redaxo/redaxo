@@ -696,11 +696,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/setup/setup.php
 
 		-
-			message: "#^Method rex_setup\\:\\:checkFilesystem\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/setup/setup.php
-
-		-
 			message: "#^Method rex_template\\:\\:__construct\\(\\) has parameter \\$templateId with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/content/api_template.php
@@ -1344,11 +1339,6 @@ parameters:
 			message: "#^Call to static method Redaxo\\\\Core\\\\Util\\\\Type\\:\\:string\\(\\) on a separate line has no effect\\.$#"
 			count: 1
 			path: ../../src/Addon/Addon.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Console\\\\Command\\\\CronjobRunCommand\\:\\:executeSingleJob\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../src/Console/Command/CronjobRunCommand.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\CronjobExecutor\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"

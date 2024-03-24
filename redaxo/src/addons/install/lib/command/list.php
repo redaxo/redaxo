@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_install_list extends AbstractCommand
 {
+    #[Override]
     protected function configure(): void
     {
         $this->setDescription('List available packages on redaxo.org')
@@ -21,6 +22,7 @@ class rex_command_install_list extends AbstractCommand
         ;
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);

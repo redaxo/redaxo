@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_install_update extends AbstractCommand
 {
+    #[Override]
     protected function configure(): void
     {
         $this->setDescription('Updates an AddOn from redaxo.org')
@@ -18,6 +19,7 @@ class rex_command_install_update extends AbstractCommand
             ->addArgument('version', InputArgument::OPTIONAL, 'Version, e.g. "3.2.1"');
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
