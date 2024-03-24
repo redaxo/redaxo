@@ -37,6 +37,7 @@ use Rector\Transform\ValueObject\FuncCallToStaticCall;
 use Rector\Transform\ValueObject\NewToStaticCall;
 use Rector\TypeDeclaration\Rector as TypeDeclaration;
 use Rector\ValueObject\PhpVersion;
+use Redaxo\Core\Addon;
 use Redaxo\Core\Console;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob;
@@ -108,10 +109,14 @@ return RectorConfig::configure()
     // Upgrade REDAXO 5 to 6
     ->withConfiguredRule(RenameClassRector::class, [
         'rex' => Core::class,
-        'rex_package_interface' => rex_addon_interface::class,
-        'rex_null_package' => rex_null_addon::class,
-        'rex_package' => rex_addon::class,
-        'rex_package_manager' => rex_addon_manager::class,
+        'rex_package_interface' => Addon\AddonInterface::class,
+        'rex_null_package' => Addon\NullAddon::class,
+        'rex_package' => Addon\Addon::class,
+        'rex_package_manager' => Addon\AddonManager::class,
+        'rex_addon' => Addon\Addon::class,
+        'rex_addon_interface' => Addon\AddonInterface::class,
+        'rex_addon_manager' => Addon\AddonManager::class,
+        'rex_null_addon' => Addon\NullAddon::class,
         'rex_console_application' => Console\Application::class,
         'rex_console_command' => Console\Command\AbstractCommand::class,
         'rex_console_command_loader' => Console\CommandLoader::class,
@@ -221,11 +226,11 @@ return RectorConfig::configure()
         new ArgumentAdder(Form\AbstractForm::class, 'addMedialistField', 2, 'arguments', ['multiple' => true]),
     ])
     ->withConfiguredRule(RenameMethodRector::class, [
-        new MethodCallRename(rex_addon::class, 'getRegisteredPackages', 'getRegisteredAddons'),
-        new MethodCallRename(rex_addon::class, 'getInstalledPackages', 'getInstalledAddons'),
-        new MethodCallRename(rex_addon::class, 'getAvailablePackages', 'getAvailableAddons'),
-        new MethodCallRename(rex_addon::class, 'getSetupPackages', 'getSetupAddons'),
-        new MethodCallRename(rex_addon::class, 'getSystemPackages', 'getSystemAddons'),
+        new MethodCallRename(Addon\Addon::class, 'getRegisteredPackages', 'getRegisteredAddons'),
+        new MethodCallRename(Addon\Addon::class, 'getInstalledPackages', 'getInstalledAddons'),
+        new MethodCallRename(Addon\Addon::class, 'getAvailablePackages', 'getAvailableAddons'),
+        new MethodCallRename(Addon\Addon::class, 'getSetupPackages', 'getSetupAddons'),
+        new MethodCallRename(Addon\Addon::class, 'getSystemPackages', 'getSystemAddons'),
 
         new MethodCallRename(rex_password_policy::class, 'getRule', 'getDescription'),
 

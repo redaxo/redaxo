@@ -2,11 +2,11 @@
 
 namespace Redaxo\Core\Console\Command;
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
-use rex_addon;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -34,7 +34,7 @@ class AssetsSyncCommand extends AbstractCommand
         $created = $updated = $errored = 0;
         $io = $this->getStyle($input, $output);
 
-        foreach (rex_addon::getInstalledAddons() as $package) {
+        foreach (Addon::getInstalledAddons() as $package) {
             $assetsPublicPath = $package->getAssetsPath();
             $assetsSrcPath = $package->getPath('assets/');
 

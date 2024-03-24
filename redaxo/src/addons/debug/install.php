@@ -1,9 +1,10 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Translation\I18n;
 
-$addon = rex_addon::require('debug');
+$addon = Addon::require('debug');
 
 // the filenames contain rev hashes and the old ones would never be cleaned up
 Dir::delete($addon->getAssetsPath());

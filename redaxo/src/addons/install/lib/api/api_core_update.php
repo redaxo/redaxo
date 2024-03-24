@@ -1,5 +1,8 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Addon\AddonInterface;
+use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -30,7 +33,7 @@ class rex_api_install_core_update extends rex_api_function
         if (!Core::getUser()?->isAdmin()) {
             throw new rex_api_exception('You do not have the permission!');
         }
-        $installAddon = rex_addon::get('install');
+        $installAddon = Addon::get('install');
         $versions = self::getVersions();
         $versionId = rex_request('version_id', 'int');
 
@@ -76,22 +79,22 @@ class rex_api_install_core_update extends rex_api_function
                 foreach (Finder::factory($temppath . 'addons')->dirsOnly() as $dir) {
                     $addonkey = $dir->getBasename();
                     $addonPath = $dir->getRealPath() . '/';
-                    if (!is_file($addonPath . rex_addon::FILE_PACKAGE)) {
+                    if (!is_file($addonPath . Addon::FILE_PACKAGE)) {
                         continue;
                     }
 
-                    $config = File::getConfig($addonPath . rex_addon::FILE_PACKAGE);
+                    $config = File::getConfig($addonPath . Addon::FILE_PACKAGE);
                     if (
                         '' == $addonkey
                         || !isset($config['version'])
-                        || rex_addon::exists($addonkey) && Version::compare($config['version'], rex_addon::get($addonkey)->getVersion(), '<')
+                        || Addon::exists($addonkey) && Version::compare($config['version'], Addon::get($addonkey)->getVersion(), '<')
                     ) {
                         continue;
                     }
 
                     $coreAddons[$addonkey] = $addonkey;
-                    if (rex_addon::exists($addonkey)) {
-                        $addon = rex_addon::get($addonkey);
+                    if (Addon::exists($addonkey)) {
+                        $addon = Addon::get($addonkey);
 
                         if (!is_writable($addon->getPath())) {
                             throw new rex_functional_exception($installAddon->i18n('warning_directory_not_writable', $addon->getPath()));
@@ -104,8 +107,8 @@ class rex_api_install_core_update extends rex_api_function
             }
             // $config = File::getConfig($temppath . 'core/default.config.yml');
             // foreach ($config['system_addons'] as $addonkey) {
-            //    if (is_dir($temppath . 'addons/' . $addonkey) && rex_addon::exists($addonkey)) {
-            //        $updateAddons[$addonkey] = rex_addon::get($addonkey);
+            //    if (is_dir($temppath . 'addons/' . $addonkey) && Addon::exists($addonkey)) {
+            //        $updateAddons[$addonkey] = Addon::get($addonkey);
             //    }
             // }
             $this->checkRequirements($temppath, $version['version'], $updateAddonsConfig);
@@ -113,7 +116,7 @@ class rex_api_install_core_update extends rex_api_function
                 include $temppath . 'core/update.php';
             }
             foreach ($updateAddons as $addonkey => $addon) {
-                if ($addon->isInstalled() && is_file($file = $temppath . 'addons/' . $addonkey . '/' . rex_addon::FILE_UPDATE)) {
+                if ($addon->isInstalled() && is_file($file = $temppath . 'addons/' . $addonkey . '/' . Addon::FILE_UPDATE)) {
                     try {
                         $addon->includeFile($file);
                         if ($msg = $addon->getProperty('updatemsg', '')) {
@@ -210,13 +213,13 @@ class rex_api_install_core_update extends rex_api_function
             Core::setConfig('version', $version['version']);
 
             // ---- update package order
-            /** @var rex_addon $addon */
+            /** @var Addon $addon */
             foreach ($updateAddons as $addon) {
                 if ($addon->isAvailable()) {
                     $addon->loadProperties(true);
                 }
             }
-            rex_addon_manager::generatePackageOrder();
+            AddonManager::generatePackageOrder();
 
             // re-generate opcache to make sure new/updated classes immediately are available
             if (function_exists('opcache_reset')) {
@@ -249,15 +252,15 @@ class rex_api_install_core_update extends rex_api_function
         $coreVersion = Core::getVersion();
         Core::setProperty('version', $version);
 
-        /** @var SplObjectStorage<rex_addon_interface, string> $versions */
+        /** @var SplObjectStorage<AddonInterface, string> $versions */
         $versions = new SplObjectStorage();
-        /** @var SplObjectStorage<rex_addon_interface, array> $requirements */
+        /** @var SplObjectStorage<AddonInterface, array> $requirements */
         $requirements = new SplObjectStorage();
-        /** @var SplObjectStorage<rex_addon_interface, array> $conflicts */
+        /** @var SplObjectStorage<AddonInterface, array> $conflicts */
         $conflicts = new SplObjectStorage();
 
         foreach ($addons as $addonkey => $config) {
-            $addon = rex_addon::get($addonkey);
+            $addon = Addon::get($addonkey);
             $addonPath = $temppath . 'addons/' . $addonkey . '/';
 
             $requirements[$addon] = $addon->getProperty('requires', []);
@@ -272,8 +275,8 @@ class rex_api_install_core_update extends rex_api_function
 
         // ---- check requirements
         $messages = [];
-        foreach (rex_addon::getAvailableAddons() as $package) {
-            $manager = rex_addon_manager::factory($package);
+        foreach (Addon::getAvailableAddons() as $package) {
+            $manager = AddonManager::factory($package);
             if (!$manager->checkRequirements()) {
                 $messages[] = $this->messageFromPackage($package, $manager);
             } elseif (!$manager->checkConflicts()) {
@@ -298,7 +301,7 @@ class rex_api_install_core_update extends rex_api_function
         }
     }
 
-    private function messageFromPackage(rex_addon $package, rex_addon_manager $manager): string
+    private function messageFromPackage(Addon $package, AddonManager $manager): string
     {
         return I18n::msg('install_warning_message_from_addon', $package->getPackageId()) . ' ' . $manager->getMessage();
     }

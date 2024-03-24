@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
@@ -9,7 +10,7 @@ use Redaxo\Core\Util\Version;
 
 assert(isset($markdown) && is_callable($markdown));
 
-$package = rex_addon::get('install');
+$package = Addon::get('install');
 
 $addonkey = rex_request('addonkey', 'string');
 $addons = [];
@@ -28,7 +29,7 @@ try {
     $addonkey = '';
 }
 
-if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
+if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
     $addon = $addons[$addonkey];
 
     $content = '
@@ -198,7 +199,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     foreach ($addons as $key => $addon) {
         $downloads = $addon['counter'] ?: 0;
 
-        if (rex_addon::exists($key)) {
+        if (Addon::exists($key)) {
             $content .= '
                 <tr>
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>

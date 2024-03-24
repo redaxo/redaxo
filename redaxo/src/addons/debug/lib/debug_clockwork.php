@@ -3,6 +3,7 @@
 use Clockwork\Clockwork;
 use Clockwork\DataSource\XdebugDataSource;
 use Clockwork\Support\Vanilla\Clockwork as VanillaClockwork;
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -83,7 +84,7 @@ class rex_debug_clockwork
      */
     public static function getStoragePath()
     {
-        return rex_addon::require('debug')->getCachePath('clockwork.db');
+        return Addon::require('debug')->getCachePath('clockwork.db');
     }
 
     /**

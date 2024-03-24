@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -9,7 +11,7 @@ echo rex_view::title(I18n::msg('addons'), '');
 
 // the package manager don't know new packages in the addon folder
 // so we need to make them available
-rex_addon_manager::synchronizeWithFileSystem();
+AddonManager::synchronizeWithFileSystem();
 
 $fragment = new rex_fragment();
 $fragment->setVar('id', 'rex-js-available-addon-search');
@@ -31,7 +33,7 @@ $content = '
         </thead>
         <tbody>';
 
-$getLink = static function (rex_addon $package, $function, $icon = '', $confirm = false, $key = null) {
+$getLink = static function (Addon $package, $function, $icon = '', $confirm = false, $key = null) {
     $onclick = '';
     if ($confirm) {
         $onclick = ' data-confirm="' . I18n::msg('addon_' . $function . '_question', $package->getName()) . '"';
@@ -46,7 +48,7 @@ $getLink = static function (rex_addon $package, $function, $icon = '', $confirm 
     return '<a class="rex-link-expanded" href="' . $url . '"' . $onclick . ' data-pjax="false">' . $icon . ' ' . $text . '</a>';
 };
 
-$getTableRow = static function (rex_addon $package) use ($getLink) {
+$getTableRow = static function (Addon $package) use ($getLink) {
     $packageId = $package->getPackageId();
 
     $delete = $package->isSystemPackage() ? '<small class="text-muted">' . I18n::msg('addon_systemaddon') . '</small>' : $getLink($package, 'delete', 'rex-icon-package-delete', true);
@@ -118,7 +120,7 @@ $getTableRow = static function (rex_addon $package) use ($getLink) {
                 </tr>' . "\n   ";
 };
 
-foreach (rex_addon::getRegisteredAddons() as $addon) {
+foreach (Addon::getRegisteredAddons() as $addon) {
     $content .= $getTableRow($addon);
 }
 

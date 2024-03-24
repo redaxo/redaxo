@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Util\Version;
 
 /**
@@ -28,8 +29,8 @@ class rex_install_packages
         self::$updatePackages = self::getPackages();
 
         foreach (self::$updatePackages as $key => $addon) {
-            if (rex_addon::exists($key) && isset($addon['files'])) {
-                self::unsetOlderVersions($key, rex_addon::require($key)->getVersion());
+            if (Addon::exists($key) && isset($addon['files'])) {
+                self::unsetOlderVersions($key, Addon::require($key)->getVersion());
             } else {
                 unset(self::$updatePackages[$key]);
             }
@@ -113,7 +114,7 @@ class rex_install_packages
         $myPackages = self::getPackages('?only_my=1');
         self::$myPackages = $myPackages;
         foreach (self::$myPackages as $key => $_) {
-            if (!rex_addon::exists($key)) {
+            if (!Addon::exists($key)) {
                 unset(self::$myPackages[$key]);
             }
         }

@@ -1,5 +1,8 @@
 <?php
 
+namespace Redaxo\Core\Addon;
+
+use Override;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -8,8 +11,23 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
+use rex_config;
+use rex_exception;
+use rex_extension;
+use rex_extension_point_package_cache_deleted;
+use rex_fragment;
+use rex_functional_exception;
+use rex_yaml_parse_exception;
+use RuntimeException;
 
-final class rex_addon implements rex_addon_interface
+use function assert;
+use function in_array;
+use function is_bool;
+
+use const DIRECTORY_SEPARATOR;
+use const EXTR_SKIP;
+
+final class Addon implements AddonInterface
 {
     public const string FILE_PACKAGE = 'package.yml';
     public const string FILE_BOOT = 'boot.php';
@@ -51,12 +69,12 @@ final class rex_addon implements rex_addon_interface
      * Returns the addon by the given name.
      *
      * @param string $addon Addon name
-     * @return rex_addon_interface If the package exists, a `rex_addon` is returned, otherwise a `rex_null_addon`
+     * @return AddonInterface If the addon exists, a `Addon` is returned, otherwise a `NullAddon`
      */
-    public static function get(string $addon): rex_addon_interface
+    public static function get(string $addon): AddonInterface
     {
         if (!isset(self::$addons[$addon])) {
-            return rex_null_addon::getInstance();
+            return NullAddon::getInstance();
         }
 
         return self::$addons[$addon];
@@ -65,7 +83,7 @@ final class rex_addon implements rex_addon_interface
     /**
      * Returns the addon by the given name.
      *
-     * @throws RuntimeException if the package does not exist
+     * @throws RuntimeException if the addon does not exist
      * @psalm-assert =non-empty-string $addon
      */
     public static function require(string $addon): self
@@ -254,7 +272,7 @@ final class rex_addon implements rex_addon_interface
             return require $__file;
         }
 
-        throw new rex_exception(sprintf('Package "%s": the page path "%s" neither exists as standalone path nor as package subpath "%s"', $this->name, $__file, $__path));
+        throw new rex_exception(sprintf('Addon "%s": the page path "%s" neither exists as standalone path nor as addon subpath "%s"', $this->name, $__file, $__path));
     }
 
     #[Override]
@@ -304,9 +322,9 @@ final class rex_addon implements rex_addon_interface
                 if (!$registeredShutdown) {
                     $registeredShutdown = true;
                     register_shutdown_function(static function () use (&$cache) {
-                        foreach ($cache as $package => $_) {
-                            if (!self::exists($package)) {
-                                unset($cache[$package]);
+                        foreach ($cache as $addon => $_) {
+                            if (!self::exists($addon)) {
+                                unset($cache[$addon]);
                             }
                         }
                         File::putCache(Path::coreCache(self::PROPERTIES_CACHE_FILE), $cache);
@@ -342,7 +360,7 @@ final class rex_addon implements rex_addon_interface
     }
 
     /**
-     * Clears the cache of the package.
+     * Clears the cache of the addon.
      *
      * @throws rex_functional_exception
      */
@@ -370,7 +388,7 @@ final class rex_addon implements rex_addon_interface
         if (is_readable($folder . 'lang')) {
             I18n::addDirectory($folder . 'lang');
         }
-        // add package path for fragment loading
+        // add addon path for fragment loading
         if (is_readable($folder . 'fragments')) {
             rex_fragment::addDirectory($folder . 'fragments' . DIRECTORY_SEPARATOR);
         }
@@ -446,7 +464,7 @@ final class rex_addon implements rex_addon_interface
     }
 
     /**
-     * Initializes all packages.
+     * Initializes all addons.
      */
     public static function initialize(bool $dbExists = true): void
     {
@@ -469,16 +487,16 @@ final class rex_addon implements rex_addon_interface
     }
 
     /**
-     * Filters packages by the given method.
+     * Filters addons by the given method.
      *
-     * @param array<non-empty-string, self> $packages Array of packages
-     * @param string $method A rex_addon method
-     * @return array<non-empty-string, self>
+     * @param array<non-empty-string, self> $addons Array of addons
+     * @param string $method A Addon method
+     * @return array<non-empty-string, Addon>
      */
-    private static function filterPackages(array $packages, string $method): array
+    private static function filterPackages(array $addons, string $method): array
     {
-        return array_filter($packages, static function (rex_addon $package) use ($method): bool {
-            $return = $package->$method();
+        return array_filter($addons, static function (Addon $addon) use ($method): bool {
+            $return = $addon->$method();
             assert(is_bool($return));
 
             return $return;

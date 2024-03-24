@@ -5,12 +5,12 @@ namespace Redaxo\Core\Console;
 use ErrorException;
 use Exception;
 use ParseError;
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Console\Command\AbstractCommand;
 use Redaxo\Core\Console\Command\OnlySetupAddonsInterface;
 use Redaxo\Core\Console\Command\StandaloneInterface;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
-use rex_addon;
 use rex_extension;
 use rex_extension_point;
 use rex_extension_point_console_shutdown;
@@ -91,11 +91,11 @@ class Application extends SymfonyApplication
         // there a packages which are needed during the setup e.g. backup
         if ($command instanceof OnlySetupAddonsInterface) {
             if (Core::isSetup()) {
-                foreach (rex_addon::getSetupAddons() as $package) {
+                foreach (Addon::getSetupAddons() as $package) {
                     $package->enlist();
                 }
             }
-            foreach (rex_addon::getSetupAddons() as $package) {
+            foreach (Addon::getSetupAddons() as $package) {
                 $package->boot();
             }
             return;
@@ -112,7 +112,7 @@ class Application extends SymfonyApplication
             // boot all known packages in the defined order
             // which reflects dependencies before consumers
             foreach (Core::getPackageOrder() as $packageId) {
-                rex_addon::require($packageId)->boot();
+                Addon::require($packageId)->boot();
             }
         }
 

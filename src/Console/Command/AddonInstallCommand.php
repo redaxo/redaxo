@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Console\Command;
 
-use rex_addon;
-use rex_addon_manager;
+use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Addon\AddonManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,7 +22,7 @@ class AddonInstallCommand extends AbstractCommand
             ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the addon, e.g. "yform"', null, static function () {
                 $packageNames = [];
 
-                foreach (rex_addon::getRegisteredAddons() as $package) {
+                foreach (Addon::getRegisteredAddons() as $package) {
                     // allow all packages, because we support --re-intall for already installed ones
                     $packageNames[] = $package->getPackageId();
                 }
@@ -40,10 +40,10 @@ class AddonInstallCommand extends AbstractCommand
 
         // the package manager don't know new packages in the addon folder
         // so we need to make them available
-        rex_addon_manager::synchronizeWithFileSystem();
+        AddonManager::synchronizeWithFileSystem();
 
-        $package = rex_addon::get($packageId);
-        if (!$package instanceof rex_addon) {
+        $package = Addon::get($packageId);
+        if (!$package instanceof Addon) {
             $io->error('Package "' . $packageId . '" doesn\'t exists!');
             return 1;
         }
@@ -57,7 +57,7 @@ class AddonInstallCommand extends AbstractCommand
             }
         }
 
-        $manager = rex_addon_manager::factory($package);
+        $manager = AddonManager::factory($package);
         $success = $manager->install();
         $message = $this->decodeMessage($manager->getMessage());
 

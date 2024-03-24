@@ -1,16 +1,21 @@
 <?php
 
+namespace Redaxo\Core\Addon;
+
+use Override;
 use Redaxo\Core\Translation\I18n;
+use rex_exception;
+use rex_singleton_trait;
 
 /**
  * Represents a null addon.
  *
- * Instances of this class are returned by `rex_addon::get()` for non-existing addons.
- * Thereby it is safe to call `rex_addon::get(...)->isAvailable()` and `isInstalled()`.
+ * Instances of this class are returned by `Addon::get()` for non-existing addons.
+ * Thereby it is safe to call `Addon::get(...)->isAvailable()` and `isInstalled()`.
  * Other methods should not be called on null-addons since they do not return useful values.
  * Some methods like `getPath()` throw exceptions.
  */
-final class rex_null_addon implements rex_addon_interface
+final class NullAddon implements AddonInterface
 {
     use rex_singleton_trait;
 

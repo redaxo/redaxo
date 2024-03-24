@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Console\Application;
 use Redaxo\Core\Console\Command\ListCommand;
 use Redaxo\Core\Console\CommandLoader;
@@ -27,11 +28,11 @@ I18n::setLocale('en_gb');
 $application = new Application();
 Core::setProperty('console', $application);
 
-rex_addon::initialize(!Core::isSetup());
+Addon::initialize(!Core::isSetup());
 
 if (!Core::isSetup()) {
     foreach (Core::getPackageOrder() as $packageId) {
-        rex_addon::require($packageId)->enlist();
+        Addon::require($packageId)->enlist();
     }
 }
 

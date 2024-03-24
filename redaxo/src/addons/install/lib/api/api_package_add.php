@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
@@ -32,7 +33,7 @@ class rex_api_install_package_add extends rex_api_function
             $message = I18n::msg('install_warning_addon_not_downloaded', $addonkey) . '<br />' . $message;
             $success = false;
         } else {
-            $package = rex_addon::get($addonkey);
+            $package = Addon::get($addonkey);
             $packageInstallUrl = Url::currentBackendPage([
                 'package' => $package->getPackageId(),
                 'function' => 'install',

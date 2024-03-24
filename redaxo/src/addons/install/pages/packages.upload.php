@@ -1,12 +1,13 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($markdown) && is_callable($markdown));
 
-$package = rex_addon::get('install');
+$package = Addon::get('install');
 
 $addonkey = rex_request('addonkey', 'string');
 $addons = [];
@@ -28,11 +29,11 @@ if ($addonkey && isset($addons[$addonkey])) {
         $new = 'new' == $fileId;
         $file = $new ? ['version' => '', 'description' => '', 'status' => 1] : $addon['files'][(int) $fileId];
 
-        $newVersion = rex_addon::get($addonkey)->getVersion();
+        $newVersion = Addon::get($addonkey)->getVersion();
 
         $uploadCheckboxDisabled = '';
         $hiddenField = '';
-        if ($new || !rex_addon::exists($addonkey)) {
+        if ($new || !Addon::exists($addonkey)) {
             $uploadCheckboxDisabled = ' disabled="disabled"';
             $hiddenField = '<input type="hidden" name="upload[upload_file]" value="' . ((int) $new) . '" />';
         }
@@ -70,7 +71,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $n['field'] = '<input id="rex-js-install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" ' . ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled . '/>';
         $formElements[] = $n;
 
-        if (rex_addon::get($addonkey)->isInstalled() && is_dir(Url::addonAssets($addonkey))) {
+        if (Addon::get($addonkey)->isInstalled() && is_dir(Url::addonAssets($addonkey))) {
             $n = [];
             $n['reverse'] = true;
             $n['label'] = '<label for="rex-js-install-packages-upload-replace-assets">' . $package->i18n('replace_assets') . '</label>';
@@ -150,7 +151,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         }
     } else {
         $icon = '';
-        if (rex_addon::exists($addonkey)) {
+        if (Addon::exists($addonkey)) {
             $icon = '<a class="rex-link-expanded" href="' . Url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $package->i18n('file_add') . '"><i class="rex-icon rex-icon-add-package"></i></a>';
         }
 

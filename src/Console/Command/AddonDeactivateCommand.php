@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Console\Command;
 
-use rex_addon;
-use rex_addon_manager;
+use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Addon\AddonManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,7 +20,7 @@ class AddonDeactivateCommand extends AbstractCommand
             ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the addon, e.g. "yform"', null, static function () {
                 $packageNames = [];
 
-                foreach (rex_addon::getRegisteredAddons() as $package) {
+                foreach (Addon::getRegisteredAddons() as $package) {
                     if (!$package->isAvailable()) {
                         continue;
                     }
@@ -40,15 +40,15 @@ class AddonDeactivateCommand extends AbstractCommand
 
         // the package manager don't know new packages in the addon folder
         // so we need to make them available
-        rex_addon_manager::synchronizeWithFileSystem();
+        AddonManager::synchronizeWithFileSystem();
 
-        $package = rex_addon::get($packageId);
-        if (!$package instanceof rex_addon) {
+        $package = Addon::get($packageId);
+        if (!$package instanceof Addon) {
             $io->error('Package "' . $packageId . '" doesn\'t exists!');
             return 1;
         }
 
-        $manager = rex_addon_manager::factory($package);
+        $manager = AddonManager::factory($package);
         $success = $manager->deactivate();
         $message = $this->decodeMessage($manager->getMessage());
 

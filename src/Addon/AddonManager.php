@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\Addon;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Dir;
@@ -10,8 +12,21 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Version;
+use rex_be_controller;
+use rex_config;
+use rex_factory_trait;
+use rex_functional_exception;
+use rex_sql_exception;
+use rex_yaml_parse_exception;
 
-class rex_addon_manager
+use function extension_loaded;
+use function in_array;
+use function is_array;
+use function is_string;
+
+use const PHP_VERSION;
+
+class AddonManager
 {
     use rex_factory_trait;
 
@@ -19,16 +34,16 @@ class rex_addon_manager
     protected string $message = '';
 
     protected function __construct(
-        protected readonly rex_addon $package,
+        protected readonly Addon $addon,
     ) {}
 
     /**
-     * Creates the manager for the package.
+     * Creates the manager for the addon.
      */
-    public static function factory(rex_addon $package): static
+    public static function factory(Addon $addon): static
     {
         $class = static::getFactoryClass();
-        return new $class($package);
+        return new $class($addon);
     }
 
     /**
@@ -40,7 +55,7 @@ class rex_addon_manager
     }
 
     /**
-     * Installs a package.
+     * Installs a addon.
      *
      * @param bool $installDump When TRUE, the sql dump will be importet
      *
@@ -52,29 +67,29 @@ class rex_addon_manager
     {
         try {
             // check package directory perms
-            $installDir = $this->package->getPath();
+            $installDir = $this->addon->getPath();
             if (!Dir::isWritable($installDir)) {
                 throw new rex_functional_exception($this->i18n('dir_not_writable', $installDir));
             }
 
             // check package.yml
-            $packageFile = $this->package->getPath(rex_addon::FILE_PACKAGE);
-            if (!is_readable($packageFile)) {
+            $addonFile = $this->addon->getPath(Addon::FILE_PACKAGE);
+            if (!is_readable($addonFile)) {
                 throw new rex_functional_exception($this->i18n('missing_yml_file'));
             }
             try {
-                File::getConfig($packageFile);
+                File::getConfig($addonFile);
             } catch (rex_yaml_parse_exception $e) {
                 throw new rex_functional_exception($this->i18n('invalid_yml_file') . ' ' . $e->getMessage());
             }
-            $packageId = $this->package->getProperty('package');
-            if (null === $packageId) {
-                throw new rex_functional_exception($this->i18n('missing_id', $this->package->getPackageId()));
+            $addonId = $this->addon->getProperty('package');
+            if (null === $addonId) {
+                throw new rex_functional_exception($this->i18n('missing_id', $this->addon->getPackageId()));
             }
-            if ($packageId != $this->package->getPackageId()) {
-                throw new rex_functional_exception($this->wrongPackageId($packageId));
+            if ($addonId != $this->addon->getPackageId()) {
+                throw new rex_functional_exception($this->wrongPackageId($addonId));
             }
-            if (null === $this->package->getProperty('version')) {
+            if (null === $this->addon->getProperty('version')) {
                 throw new rex_functional_exception($this->i18n('missing_version'));
             }
 
@@ -90,54 +105,54 @@ class rex_addon_manager
                 throw new rex_functional_exception($message);
             }
 
-            $reinstall = $this->package->getProperty('install');
-            $this->package->setProperty('install', true);
+            $reinstall = $this->addon->getProperty('install');
+            $this->addon->setProperty('install', true);
 
-            I18n::addDirectory($this->package->getPath('lang'));
+            I18n::addDirectory($this->addon->getPath('lang'));
 
             // include install.php
             $successMessage = '';
-            if (is_readable($this->package->getPath(rex_addon::FILE_INSTALL))) {
-                $this->package->includeFile(rex_addon::FILE_INSTALL);
-                $successMessage = $this->package->getProperty('successmsg', '');
+            if (is_readable($this->addon->getPath(Addon::FILE_INSTALL))) {
+                $this->addon->includeFile(Addon::FILE_INSTALL);
+                $successMessage = $this->addon->getProperty('successmsg', '');
 
-                if ('' != ($instmsg = $this->package->getProperty('installmsg', ''))) {
+                if ('' != ($instmsg = $this->addon->getProperty('installmsg', ''))) {
                     throw new rex_functional_exception($instmsg);
                 }
-                if (!$this->package->isInstalled()) {
+                if (!$this->addon->isInstalled()) {
                     throw new rex_functional_exception($this->i18n('no_reason'));
                 }
             }
 
             // import install.sql
-            $installSql = $this->package->getPath(rex_addon::FILE_INSTALL_SQL);
+            $installSql = $this->addon->getPath(Addon::FILE_INSTALL_SQL);
             if ($installDump && is_readable($installSql)) {
                 Util::importDump($installSql);
             }
 
             if (!$reinstall) {
-                $this->package->setProperty('status', true);
+                $this->addon->setProperty('status', true);
             }
             static::saveConfig();
             if ($this->generatePackageOrder) {
                 self::generatePackageOrder();
             }
 
-            foreach ($this->package->getProperty('default_config', []) as $key => $value) {
-                if (!$this->package->hasConfig($key)) {
-                    $this->package->setConfig($key, $value);
+            foreach ($this->addon->getProperty('default_config', []) as $key => $value) {
+                if (!$this->addon->hasConfig($key)) {
+                    $this->addon->setConfig($key, $value);
                 }
             }
 
             // copy assets
-            $assets = $this->package->getPath('assets');
+            $assets = $this->addon->getPath('assets');
             if (is_dir($assets)) {
-                if (!Dir::copy($assets, $this->package->getAssetsPath())) {
+                if (!Dir::copy($assets, $this->addon->getAssetsPath())) {
                     throw new rex_functional_exception($this->i18n('install_cant_copy_files'));
                 }
             }
 
-            $this->message = $this->i18n($reinstall ? 'reinstalled' : 'installed', $this->package->getName());
+            $this->message = $this->i18n($reinstall ? 'reinstalled' : 'installed', $this->addon->getName());
             if ($successMessage) {
                 $this->message .= ' ' . $successMessage;
             }
@@ -149,14 +164,14 @@ class rex_addon_manager
             $this->message = 'SQL error: ' . $e->getMessage();
         }
 
-        $this->package->setProperty('install', false);
-        $this->message = $this->i18n('no_install', $this->package->getName()) . '<br />' . $this->message;
+        $this->addon->setProperty('install', false);
+        $this->message = $this->i18n('no_install', $this->addon->getName()) . '<br />' . $this->message;
 
         return false;
     }
 
     /**
-     * Uninstalls a package.
+     * Uninstalls a addon.
      *
      * @param bool $installDump When TRUE, the sql dump will be importet
      *
@@ -166,49 +181,49 @@ class rex_addon_manager
      */
     public function uninstall(bool $installDump = true): bool
     {
-        $isActivated = $this->package->isAvailable();
+        $isActivated = $this->addon->isAvailable();
         if ($isActivated && !$this->deactivate()) {
             return false;
         }
 
         try {
-            $this->package->setProperty('install', false);
+            $this->addon->setProperty('install', false);
 
             // include uninstall.php
-            if (is_readable($this->package->getPath(rex_addon::FILE_UNINSTALL))) {
+            if (is_readable($this->addon->getPath(Addon::FILE_UNINSTALL))) {
                 if (!$isActivated) {
-                    I18n::addDirectory($this->package->getPath('lang'));
+                    I18n::addDirectory($this->addon->getPath('lang'));
                 }
 
-                $this->package->includeFile(rex_addon::FILE_UNINSTALL);
+                $this->addon->includeFile(Addon::FILE_UNINSTALL);
 
-                if ('' != ($instmsg = $this->package->getProperty('installmsg', ''))) {
+                if ('' != ($instmsg = $this->addon->getProperty('installmsg', ''))) {
                     throw new rex_functional_exception($instmsg);
                 }
-                if ($this->package->isInstalled()) {
+                if ($this->addon->isInstalled()) {
                     throw new rex_functional_exception($this->i18n('no_reason'));
                 }
             }
 
             // import uninstall.sql
-            $uninstallSql = $this->package->getPath(rex_addon::FILE_UNINSTALL_SQL);
+            $uninstallSql = $this->addon->getPath(Addon::FILE_UNINSTALL_SQL);
             if ($installDump && is_readable($uninstallSql)) {
                 Util::importDump($uninstallSql);
             }
 
             // delete assets
-            $assets = $this->package->getAssetsPath();
+            $assets = $this->addon->getAssetsPath();
             if (is_dir($assets) && !Dir::delete($assets)) {
                 throw new rex_functional_exception($this->i18n('install_cant_delete_files'));
             }
 
-            // clear cache of package
-            $this->package->clearCache();
+            // clear cache of addon
+            $this->addon->clearCache();
 
-            rex_config::removeNamespace($this->package->getPackageId());
+            rex_config::removeNamespace($this->addon->getPackageId());
 
             static::saveConfig();
-            $this->message = $this->i18n('uninstalled', $this->package->getName());
+            $this->message = $this->i18n('uninstalled', $this->addon->getName());
 
             return true;
         } catch (rex_functional_exception $e) {
@@ -217,24 +232,24 @@ class rex_addon_manager
             $this->message = 'SQL error: ' . $e->getMessage();
         }
 
-        $this->package->setProperty('install', true);
+        $this->addon->setProperty('install', true);
         if ($isActivated) {
-            $this->package->setProperty('status', true);
+            $this->addon->setProperty('status', true);
         }
         static::saveConfig();
-        $this->message = $this->i18n('no_uninstall', $this->package->getName()) . '<br />' . $this->message;
+        $this->message = $this->i18n('no_uninstall', $this->addon->getName()) . '<br />' . $this->message;
 
         return false;
     }
 
     /**
-     * Activates a package.
+     * Activates a addon.
      *
      * @return bool TRUE on success, FALSE on error
      */
     public function activate(): bool
     {
-        if ($this->package->isInstalled()) {
+        if ($this->addon->isInstalled()) {
             $state = '';
             if (!$this->checkRequirements()) {
                 $state .= $this->message;
@@ -245,29 +260,29 @@ class rex_addon_manager
             $state = $state ?: true;
 
             if (true === $state) {
-                $this->package->setProperty('status', true);
+                $this->addon->setProperty('status', true);
                 static::saveConfig();
             }
             if (true === $state && $this->generatePackageOrder) {
                 self::generatePackageOrder();
             }
         } else {
-            $state = $this->i18n('not_installed', $this->package->getName());
+            $state = $this->i18n('not_installed', $this->addon->getName());
         }
 
         if (true !== $state) {
             // error while config generation, rollback addon status
-            $this->package->setProperty('status', false);
-            $this->message = $this->i18n('no_activation', $this->package->getName()) . '<br />' . $state;
+            $this->addon->setProperty('status', false);
+            $this->message = $this->i18n('no_activation', $this->addon->getName()) . '<br />' . $state;
             return false;
         }
 
-        $this->message = $this->i18n('activated', $this->package->getName());
+        $this->message = $this->i18n('activated', $this->addon->getName());
         return true;
     }
 
     /**
-     * Deactivates a package.
+     * Deactivates a addon.
      *
      * @return bool TRUE on success, FALSE on error
      */
@@ -276,32 +291,32 @@ class rex_addon_manager
         $state = $this->checkDependencies();
 
         if ($state) {
-            $this->package->setProperty('status', false);
+            $this->addon->setProperty('status', false);
             static::saveConfig();
 
-            // clear cache of package
-            $this->package->clearCache();
+            // clear cache of addon
+            $this->addon->clearCache();
 
             if ($this->generatePackageOrder) {
                 self::generatePackageOrder();
             }
 
-            $this->message = $this->i18n('deactivated', $this->package->getName());
+            $this->message = $this->i18n('deactivated', $this->addon->getName());
             return true;
         }
 
-        $this->message = $this->i18n('no_deactivation', $this->package->getName()) . '<br />' . $this->message;
+        $this->message = $this->i18n('no_deactivation', $this->addon->getName()) . '<br />' . $this->message;
         return false;
     }
 
     /**
-     * Deletes a package.
+     * Deletes a addon.
      *
      * @return bool TRUE on success, FALSE on error
      */
     public function delete(): bool
     {
-        if ($this->package->isSystemPackage()) {
+        if ($this->addon->isSystemPackage()) {
             $this->message = $this->i18n('systempackage_delete_not_allowed');
             return false;
         }
@@ -311,29 +326,29 @@ class rex_addon_manager
     }
 
     /**
-     * Deletes a package.
+     * Deletes a addon.
      *
      * @return bool TRUE on success, FALSE on error
      */
     protected function _delete(bool $ignoreState = false): bool
     {
-        // if package is installed, uninstall it first
-        if ($this->package->isInstalled() && !$this->uninstall() && !$ignoreState) {
+        // if addon is installed, uninstall it first
+        if ($this->addon->isInstalled() && !$this->uninstall() && !$ignoreState) {
             // message is set by uninstall()
             return false;
         }
 
-        if (!Dir::delete($this->package->getPath()) && !$ignoreState) {
-            $this->message = $this->i18n('not_deleted', $this->package->getName());
+        if (!Dir::delete($this->addon->getPath()) && !$ignoreState) {
+            $this->message = $this->i18n('not_deleted', $this->addon->getName());
             return false;
         }
 
         if (!$ignoreState) {
             static::saveConfig();
-            $this->message = $this->i18n('deleted', $this->package->getName());
+            $this->message = $this->i18n('deleted', $this->addon->getName());
         }
 
-        $this->package->clearCache();
+        $this->addon->clearCache();
 
         return true;
     }
@@ -348,7 +363,7 @@ class rex_addon_manager
      */
     public function checkRequirements(): bool
     {
-        $requirements = $this->package->getProperty('requires', []);
+        $requirements = $this->addon->getProperty('requires', []);
 
         if (!is_array($requirements)) {
             $this->message = $this->i18n('requirement_wrong_format');
@@ -381,8 +396,8 @@ class rex_addon_manager
 
         if (empty($state)) {
             if (isset($requirements['packages']) && is_array($requirements['packages'])) {
-                foreach ($requirements['packages'] as $package => $_) {
-                    if (!$this->checkPackageRequirement($package)) {
+                foreach ($requirements['packages'] as $addon => $_) {
+                    if (!$this->checkPackageRequirement($addon)) {
                         $state[] = $this->message;
                     }
                 }
@@ -403,7 +418,7 @@ class rex_addon_manager
      */
     public function checkRedaxoRequirement(string $redaxoVersion): bool
     {
-        $requirements = $this->package->getProperty('requires', []);
+        $requirements = $this->addon->getProperty('requires', []);
         if (isset($requirements['redaxo']) && !Version::matchesConstraints($redaxoVersion, $requirements['redaxo'])) {
             $this->message = $this->i18n('requirement_error_redaxo_version', $redaxoVersion, $requirements['redaxo']);
             return false;
@@ -412,50 +427,50 @@ class rex_addon_manager
     }
 
     /**
-     * Checks whether the package requirement is met.
+     * Checks whether the addon requirement is met.
      */
-    public function checkPackageRequirement(string $packageId): bool
+    public function checkPackageRequirement(string $addonId): bool
     {
-        $requirements = $this->package->getProperty('requires', []);
-        if (!isset($requirements['packages'][$packageId])) {
+        $requirements = $this->addon->getProperty('requires', []);
+        if (!isset($requirements['packages'][$addonId])) {
             return true;
         }
-        $package = rex_addon::get($packageId);
+        $addon = Addon::get($addonId);
         $requiredVersion = '';
-        if (!$package->isAvailable()) {
-            if ('' != $requirements['packages'][$packageId]) {
-                $requiredVersion = ' ' . $requirements['packages'][$packageId];
+        if (!$addon->isAvailable()) {
+            if ('' != $requirements['packages'][$addonId]) {
+                $requiredVersion = ' ' . $requirements['packages'][$addonId];
             }
 
-            if (!rex_addon::exists($packageId)) {
+            if (!Addon::exists($addonId)) {
                 $jumpToInstaller = '';
-                if (rex_addon::get('install')->isAvailable()) {
-                    // package need to be downloaded via installer
-                    $installUrl = Url::backendPage('install/packages/add', ['addonkey' => $packageId]);
+                if (Addon::get('install')->isAvailable()) {
+                    // addon need to be downloaded via installer
+                    $installUrl = Url::backendPage('install/packages/add', ['addonkey' => $addonId]);
 
-                    $jumpToInstaller = ' <a href="' . $installUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('search_in_installer', $packageId) . '"></i></a>';
+                    $jumpToInstaller = ' <a href="' . $installUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('search_in_installer', $addonId) . '"></i></a>';
                 }
 
-                $this->message = $this->i18n('requirement_error_addon', $packageId . $requiredVersion) . $jumpToInstaller;
+                $this->message = $this->i18n('requirement_error_addon', $addonId . $requiredVersion) . $jumpToInstaller;
                 return false;
             }
 
-            $jumpPackageUrl = '#package-' . Str::normalize($packageId, '-', '_');
+            $jumpPackageUrl = '#package-' . Str::normalize($addonId, '-', '_');
             if ('packages' !== rex_be_controller::getCurrentPage()) {
                 // error while update/install within install-addon. x-link to packages core page
                 $jumpPackageUrl = Url::backendPage('packages') . $jumpPackageUrl;
             }
 
-            $this->message = $this->i18n('requirement_error_addon', $packageId . $requiredVersion) . ' <a href="' . $jumpPackageUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('jump_to', $packageId) . '"></i></a>';
+            $this->message = $this->i18n('requirement_error_addon', $addonId . $requiredVersion) . ' <a href="' . $jumpPackageUrl . '"><i class="rex-icon fa-arrow-circle-right" title="' . $this->i18n('jump_to', $addonId) . '"></i></a>';
             return false;
         }
 
-        if (!Version::matchesConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
+        if (!Version::matchesConstraints($addon->getVersion(), $requirements['packages'][$addonId])) {
             $this->message = $this->i18n(
                 'requirement_error_addon_version',
-                $package->getPackageId(),
-                $package->getVersion(),
-                $requirements['packages'][$packageId],
+                $addon->getPackageId(),
+                $addon->getVersion(),
+                $requirements['packages'][$addonId],
             );
             return false;
         }
@@ -463,33 +478,33 @@ class rex_addon_manager
     }
 
     /**
-     * Checks whether the package is in conflict with other packages.
+     * Checks whether the addon is in conflict with other packages.
      */
     public function checkConflicts(): bool
     {
         $state = [];
-        $conflicts = $this->package->getProperty('conflicts', []);
+        $conflicts = $this->addon->getProperty('conflicts', []);
 
         if (isset($conflicts['packages']) && is_array($conflicts['packages'])) {
-            foreach ($conflicts['packages'] as $package => $_) {
-                if (!$this->checkPackageConflict($package)) {
+            foreach ($conflicts['packages'] as $addon => $_) {
+                if (!$this->checkPackageConflict($addon)) {
                     $state[] = $this->message;
                 }
             }
         }
 
-        foreach (rex_addon::getAvailableAddons() as $package) {
-            $conflicts = $package->getProperty('conflicts', []);
+        foreach (Addon::getAvailableAddons() as $addon) {
+            $conflicts = $addon->getProperty('conflicts', []);
 
-            if (!isset($conflicts['packages'][$this->package->getPackageId()])) {
+            if (!isset($conflicts['packages'][$this->addon->getPackageId()])) {
                 continue;
             }
 
-            $constraints = $conflicts['packages'][$this->package->getPackageId()];
+            $constraints = $conflicts['packages'][$this->addon->getPackageId()];
             if (!is_string($constraints) || !$constraints || '*' === $constraints) {
-                $state[] = $this->i18n('reverse_conflict_error_addon', $package->getPackageId());
-            } elseif (Version::matchesConstraints($this->package->getVersion(), $constraints)) {
-                $state[] = $this->i18n('reverse_conflict_error_addon_version', $package->getPackageId(), $constraints);
+                $state[] = $this->i18n('reverse_conflict_error_addon', $addon->getPackageId());
+            } elseif (Version::matchesConstraints($this->addon->getVersion(), $constraints)) {
+                $state[] = $this->i18n('reverse_conflict_error_addon_version', $addon->getPackageId(), $constraints);
             }
         }
 
@@ -501,43 +516,43 @@ class rex_addon_manager
     }
 
     /**
-     * Checks whether the package is in conflict with another package.
+     * Checks whether the addon is in conflict with another package.
      */
-    public function checkPackageConflict(string $packageId): bool
+    public function checkPackageConflict(string $addonId): bool
     {
-        $conflicts = $this->package->getProperty('conflicts', []);
-        $package = rex_addon::get($packageId);
-        if (!isset($conflicts['packages'][$packageId]) || !$package->isAvailable()) {
+        $conflicts = $this->addon->getProperty('conflicts', []);
+        $addon = Addon::get($addonId);
+        if (!isset($conflicts['packages'][$addonId]) || !$addon->isAvailable()) {
             return true;
         }
-        $constraints = $conflicts['packages'][$packageId];
+        $constraints = $conflicts['packages'][$addonId];
         if (!is_string($constraints) || !$constraints || '*' === $constraints) {
-            $this->message = $this->i18n('conflict_error_addon', $package->getPackageId());
+            $this->message = $this->i18n('conflict_error_addon', $addon->getPackageId());
             return false;
         }
-        if (Version::matchesConstraints($package->getVersion(), $constraints)) {
-            $this->message = $this->i18n('conflict_error_addon_version', $package->getPackageId(), $constraints);
+        if (Version::matchesConstraints($addon->getVersion(), $constraints)) {
+            $this->message = $this->i18n('conflict_error_addon_version', $addon->getPackageId(), $constraints);
             return false;
         }
         return true;
     }
 
     /**
-     * Checks if another Package which is activated, depends on the given package.
+     * Checks if another addon which is activated, depends on the given package.
      */
     public function checkDependencies(): bool
     {
         $i18nPrefix = 'package_dependencies_error_';
         $state = [];
 
-        foreach (rex_addon::getAvailableAddons() as $package) {
-            if ($package === $this->package) {
+        foreach (Addon::getAvailableAddons() as $addon) {
+            if ($addon === $this->addon) {
                 continue;
             }
 
-            $requirements = $package->getProperty('requires', []);
-            if (isset($requirements['packages'][$this->package->getPackageId()])) {
-                $state[] = I18n::msg($i18nPrefix . 'addon', $package->getPackageId());
+            $requirements = $addon->getProperty('requires', []);
+            if (isset($requirements['packages'][$this->addon->getPackageId()])) {
+                $state[] = I18n::msg($i18nPrefix . 'addon', $addon->getPackageId());
             }
         }
 
@@ -566,7 +581,7 @@ class rex_addon_manager
     }
 
     /**
-     * Generates the package order.
+     * Generates the addon order.
      */
     public static function generatePackageOrder(): void
     {
@@ -589,20 +604,20 @@ class rex_addon_manager
                 }
             }
         };
-        foreach (rex_addon::getAvailableAddons() as $package) {
-            $id = $package->getPackageId();
-            $load = $package->getProperty('load');
+        foreach (Addon::getAvailableAddons() as $addon) {
+            $id = $addon->getPackageId();
+            $load = $addon->getProperty('load');
             if ('early' === $load) {
                 $early[] = $id;
             } elseif ('late' === $load) {
                 $late[] = $id;
             } else {
-                $req = $package->getProperty('requires');
+                $req = $addon->getProperty('requires');
                 if (isset($req['packages']) && is_array($req['packages'])) {
-                    foreach ($req['packages'] as $packageId => $reqP) {
-                        $package = rex_addon::get($packageId);
-                        if (!in_array($packageId, $normal) && !in_array($package->getProperty('load'), ['early', 'late'])) {
-                            $requires[$id][$packageId] = true;
+                    foreach ($req['packages'] as $addonId => $reqP) {
+                        $addon = Addon::get($addonId);
+                        if (!in_array($addonId, $normal) && !in_array($addon->getProperty('load'), ['early', 'late'])) {
+                            $requires[$id][$addonId] = true;
                         }
                     }
                 }
@@ -615,12 +630,12 @@ class rex_addon_manager
     }
 
     /**
-     * Saves the package config.
+     * Saves the addon config.
      */
     protected static function saveConfig(): void
     {
         $config = [];
-        foreach (rex_addon::getRegisteredAddons() as $addonName => $addon) {
+        foreach (Addon::getRegisteredAddons() as $addonName => $addon) {
             $config[$addonName]['install'] = $addon->isInstalled();
             $config[$addonName]['status'] = $addon->isAvailable();
         }
@@ -628,24 +643,24 @@ class rex_addon_manager
     }
 
     /**
-     * Synchronizes the packages with the file system.
+     * Synchronizes the addons with the file system.
      */
     public static function synchronizeWithFileSystem(): void
     {
         $config = Core::getPackageConfig();
         $addons = self::readPackageFolder(Path::src('addons'));
-        $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
+        $registeredAddons = array_keys(Addon::getRegisteredAddons());
         foreach (array_diff($registeredAddons, $addons) as $addonName) {
-            $manager = self::factory(rex_addon::require($addonName));
+            $manager = self::factory(Addon::require($addonName));
             $manager->_delete(true);
             unset($config[$addonName]);
         }
         foreach ($addons as $addonName) {
-            if (!rex_addon::exists($addonName)) {
+            if (!Addon::exists($addonName)) {
                 $config[$addonName]['install'] = false;
                 $config[$addonName]['status'] = false;
             } else {
-                $addon = rex_addon::get($addonName);
+                $addon = Addon::get($addonName);
                 $config[$addonName]['install'] = $addon->isInstalled();
                 $config[$addonName]['status'] = $addon->isAvailable();
             }
@@ -653,7 +668,7 @@ class rex_addon_manager
         ksort($config);
 
         Core::setConfig('package-config', $config);
-        rex_addon::initialize();
+        Addon::initialize();
     }
 
     /**
@@ -663,14 +678,14 @@ class rex_addon_manager
      */
     private static function readPackageFolder(string $folder): array
     {
-        $packages = [];
+        $addons = [];
 
         if (is_dir($folder)) {
             foreach (Finder::factory($folder)->dirsOnly() as $file) {
-                $packages[] = $file->getBasename();
+                $addons[] = $file->getBasename();
             }
         }
 
-        return $packages;
+        return $addons;
     }
 }

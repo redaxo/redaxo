@@ -1,9 +1,10 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
-$package = rex_addon::require(rex_request('package', 'string'));
+$package = Addon::require(rex_request('package', 'string'));
 $subPage = rex_request('subpage', 'string');
 $packageId = $package->getPackageId();
 

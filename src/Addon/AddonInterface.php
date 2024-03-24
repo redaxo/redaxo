@@ -1,16 +1,18 @@
 <?php
 
-interface rex_addon_interface
+namespace Redaxo\Core\Addon;
+
+interface AddonInterface
 {
     /**
-     * Returns the name of the package.
+     * Returns the name of the addon.
      *
      * @return non-empty-string Name
      */
     public function getName(): string;
 
     /**
-     * Returns the package ID.
+     * Returns the addon ID.
      *
      * @return non-empty-string|null
      */
@@ -113,23 +115,23 @@ interface rex_addon_interface
     public function removeProperty(string $key): void;
 
     /**
-     * Returns if the package is available (activated and installed).
+     * Returns if the addon is available (activated and installed).
      *
-     * @psalm-assert-if-true =rex_addon $this
+     * @psalm-assert-if-true =Addon $this
      */
     public function isAvailable(): bool;
 
     /**
-     * Returns if the package is installed.
+     * Returns if the addon is installed.
      *
-     * @psalm-assert-if-true =rex_addon $this
+     * @psalm-assert-if-true =Addon $this
      */
     public function isInstalled(): bool;
 
     /**
-     * Returns if it is a system package.
+     * Returns if it is a system addon.
      *
-     * @psalm-assert-if-true =rex_addon $this
+     * @psalm-assert-if-true =Addon $this
      */
     public function isSystemPackage(): bool;
 
@@ -155,7 +157,7 @@ interface rex_addon_interface
     public function getSupportPage(?string $default = null): ?string;
 
     /**
-     * Includes a file in the package context.
+     * Includes a file in the addon context.
      *
      * @param non-empty-string $file Filename
      * @param array<string, mixed> $context Context values, available as variables in given file
@@ -163,7 +165,7 @@ interface rex_addon_interface
     public function includeFile(string $file, array $context = []): mixed;
 
     /**
-     * Adds the package prefix to the given key and returns the translation for it.
+     * Adds the addon prefix to the given key and returns the translation for it.
      *
      * @param string $key Key
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved messag

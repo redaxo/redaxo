@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Console\Command;
 
-use rex_addon;
+use Redaxo\Core\Addon\Addon;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,7 +19,7 @@ class AddonRunUpdateScriptCommand extends AbstractCommand
             ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the addon, e.g. "yform"', null, static function () {
                 $packageNames = [];
 
-                foreach (rex_addon::getRegisteredAddons() as $package) {
+                foreach (Addon::getRegisteredAddons() as $package) {
                     if (!$package->isInstalled()) {
                         continue;
                     }
@@ -39,7 +39,7 @@ class AddonRunUpdateScriptCommand extends AbstractCommand
 
         $packageId = $input->getArgument('package-id');
 
-        $package = rex_addon::get($packageId);
+        $package = Addon::get($packageId);
         if (!$package->isInstalled()) {
             $io->error('Package "' . $packageId . '" is not installed!');
             return 1;
@@ -49,7 +49,7 @@ class AddonRunUpdateScriptCommand extends AbstractCommand
         $package->setProperty('version', $input->getArgument('previous-version'));
 
         try {
-            $package->includeFile(rex_addon::FILE_UPDATE);
+            $package->includeFile(Addon::FILE_UPDATE);
         } finally {
             $package->setProperty('version', $version);
         }

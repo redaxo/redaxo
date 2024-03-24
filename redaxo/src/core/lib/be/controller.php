@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\File;
@@ -390,7 +391,7 @@ class rex_be_controller
     public static function appendPackagePages()
     {
         $insertPages = [];
-        $addons = Core::isSafeMode() ? rex_addon::getSetupAddons() : rex_addon::getAvailableAddons();
+        $addons = Core::isSafeMode() ? Addon::getSetupAddons() : Addon::getAvailableAddons();
         foreach ($addons as $addon) {
             $mainPage = self::pageCreate($addon->getProperty('page'), $addon, true);
 
@@ -428,7 +429,7 @@ class rex_be_controller
      *
      * @return rex_be_page|null
      */
-    private static function pageCreate($page, rex_addon $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
+    private static function pageCreate($page, Addon $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
     {
         if (is_array($page) && isset($page['title']) && (false !== ($page['live_mode'] ?? null) || !Core::isLiveMode())) {
             $pageArray = $page;
@@ -468,7 +469,7 @@ class rex_be_controller
      * @param string $prefix
      * @return void
      */
-    private static function pageSetSubPaths(rex_be_page $page, rex_addon $package, $prefix = '')
+    private static function pageSetSubPaths(rex_be_page $page, Addon $package, $prefix = '')
     {
         foreach ($page->getSubpages() as $subpage) {
             if (!$subpage->hasSubPath()) {
@@ -481,7 +482,7 @@ class rex_be_controller
     /**
      * @return void
      */
-    private static function pageAddProperties(rex_be_page $page, array $properties, rex_addon $package)
+    private static function pageAddProperties(rex_be_page $page, array $properties, Addon $package)
     {
         foreach ($properties as $key => $value) {
             switch (strtolower($key)) {
@@ -665,7 +666,7 @@ class rex_be_controller
                 return include $__path;
             }
 
-            $package = rex_addon::get($matches[1]);
+            $package = Addon::get($matches[1]);
             return $package->includeFile(str_replace($package->getPath(), '', $path), $context);
         });
     }

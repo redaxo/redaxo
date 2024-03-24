@@ -1,6 +1,8 @@
 <?php
 
-$addon = rex_addon::require('project');
+use Redaxo\Core\Addon\Addon;
+
+$addon = Addon::require('project');
 
 // register a custom yrewrite scheme
 // rex_yrewrite::setScheme(new rex_project_rewrite_scheme());
@@ -13,7 +15,7 @@ $addon = rex_addon::require('project');
 
 // Example list of allowed mime types for mediapool
 /*
-rex_addon::get('mediapool')->setProperty('allowed_mime_types', [
+Addon::get('mediapool')->setProperty('allowed_mime_types', [
     'gif'   => ['image/gif'],
     'jpg'   => ['image/jpeg', 'image/pjpeg'],
     'jpeg'  => ['image/jpeg', 'image/pjpeg'],

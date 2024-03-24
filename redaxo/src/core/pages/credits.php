@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -87,7 +88,7 @@ $content .= '
 
         <tbody>';
 
-foreach (rex_addon::getAvailableAddons() as $package) {
+foreach (Addon::getAvailableAddons() as $package) {
     $helpUrl = Url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]);
 
     $license = '';

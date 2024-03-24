@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
@@ -98,7 +99,7 @@ class rex_system_report
         }
 
         $packages = [];
-        foreach (rex_addon::getAvailableAddons() as $package) {
+        foreach (Addon::getAvailableAddons() as $package) {
             $packages[$package->getPackageId()] = $package->getVersion();
         }
 

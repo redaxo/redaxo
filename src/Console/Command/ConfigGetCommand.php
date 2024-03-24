@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Console\Command;
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
-use rex_addon;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,7 +43,7 @@ class ConfigGetCommand extends AbstractCommand implements StandaloneInterface
         if ('core' === $package) {
             $config = Core::getProperty($propertyKey);
         } else {
-            $config = rex_addon::get($package)->getProperty($propertyKey);
+            $config = Addon::get($package)->getProperty($propertyKey);
         }
 
         if (null === $config) {

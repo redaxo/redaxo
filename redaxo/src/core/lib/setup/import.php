@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
@@ -194,11 +196,11 @@ class rex_setup_importer
     private static function installAddons(bool $uninstallBefore = false, bool $installDump = true): string
     {
         $addonErr = '';
-        rex_addon_manager::synchronizeWithFileSystem();
+        AddonManager::synchronizeWithFileSystem();
 
         if ($uninstallBefore) {
-            foreach (array_reverse(rex_addon::getSystemAddons()) as $package) {
-                $manager = rex_addon_manager::factory($package);
+            foreach (array_reverse(Addon::getSystemAddons()) as $package) {
+                $manager = AddonManager::factory($package);
                 $state = $manager->uninstall($installDump);
 
                 if (!$state) {
@@ -208,8 +210,8 @@ class rex_setup_importer
         }
         foreach (Core::getProperty('system_addons') as $packageRepresentation) {
             $state = true;
-            $package = rex_addon::require($packageRepresentation);
-            $manager = rex_addon_manager::factory($package);
+            $package = Addon::require($packageRepresentation);
+            $manager = AddonManager::factory($package);
 
             if (!$package->isInstalled()) {
                 $state = $manager->install($installDump);
@@ -247,16 +249,16 @@ class rex_setup_importer
     private static function reinstallPackages(): string
     {
         $error = '';
-        rex_addon::initialize();
-        rex_addon_manager::synchronizeWithFileSystem();
+        Addon::initialize();
+        AddonManager::synchronizeWithFileSystem();
 
         // enlist activated packages to ensure that all their classess are known in autoloader and can be referenced in other package's install.php
         foreach (Core::getPackageOrder() as $packageId) {
-            rex_addon::require($packageId)->enlist();
+            Addon::require($packageId)->enlist();
         }
         foreach (Core::getPackageOrder() as $packageId) {
-            $package = rex_addon::require($packageId);
-            $manager = rex_addon_manager::factory($package);
+            $package = Addon::require($packageId);
+            $manager = AddonManager::factory($package);
 
             if (!$manager->install()) {
                 $error .= '<li>' . rex_escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';

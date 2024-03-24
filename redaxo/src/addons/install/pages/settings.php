@@ -1,10 +1,11 @@
 <?php
 
+use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
-$addon = rex_addon::get('install');
+$addon = Addon::get('install');
 
 $panel = '';
 
