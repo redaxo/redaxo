@@ -12,30 +12,26 @@ use const DIRECTORY_SEPARATOR;
 /**
  * Utility class to generate absolute paths.
  */
-class Path
+final class Path
 {
-    /** @var DefaultPathProvider */
-    protected static $pathprovider;
+    private static DefaultPathProvider $pathprovider;
+
+    private function __construct() {}
 
     /**
      * Initializes the class.
-     *
-     * @param DefaultPathProvider $pathprovider A path provider
-     * @return void
      */
-    public static function init($pathprovider)
+    public static function init(DefaultPathProvider $pathProvider): void
     {
-        self::$pathprovider = $pathprovider;
+        self::$pathprovider = $pathProvider;
     }
 
     /**
      * Returns the base/root path.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function base($file = '')
+    public static function base(string $file = ''): string
     {
         return self::$pathprovider->base($file);
     }
@@ -43,11 +39,9 @@ class Path
     /**
      * Returns the path to the frontend (the document root).
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function frontend($file = '')
+    public static function frontend(string $file = ''): string
     {
         return self::$pathprovider->frontend($file);
     }
@@ -57,7 +51,7 @@ class Path
      *
      * @return non-empty-string
      */
-    public static function frontendController()
+    public static function frontendController(): string
     {
         return self::$pathprovider->frontendController();
     }
@@ -65,11 +59,9 @@ class Path
     /**
      * Returns the path to the backend (folder where the backend controller is placed).
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function backend($file = '')
+    public static function backend(string $file = ''): string
     {
         return self::$pathprovider->backend($file);
     }
@@ -79,7 +71,7 @@ class Path
      *
      * @return non-empty-string
      */
-    public static function backendController()
+    public static function backendController(): string
     {
         return self::$pathprovider->backendController();
     }
@@ -87,11 +79,9 @@ class Path
     /**
      * Returns the path to the media-folder.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function media($file = '')
+    public static function media(string $file = ''): string
     {
         return self::$pathprovider->media($file);
     }
@@ -99,11 +89,9 @@ class Path
     /**
      * Returns the path to the assets folder.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function assets($file = '')
+    public static function assets(string $file = ''): string
     {
         return self::$pathprovider->assets($file);
     }
@@ -111,11 +99,9 @@ class Path
     /**
      * Returns the path to the assets folder of the core, which contains all assets required by the core to work properly.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function coreAssets($file = '')
+    public static function coreAssets(string $file = ''): string
     {
         return self::$pathprovider->coreAssets($file);
     }
@@ -123,14 +109,10 @@ class Path
     /**
      * Returns the path to the public assets folder of the given addon.
      *
-     * @param non-empty-string $addon Addon
-     * @param string $file File
-     *
+     * @param non-empty-string $addon
      * @return non-empty-string
-     *
-     * @see assets()
      */
-    public static function addonAssets($addon, $file = '')
+    public static function addonAssets(string $addon, string $file = ''): string
     {
         return self::$pathprovider->addonAssets($addon, $file);
     }
@@ -138,11 +120,9 @@ class Path
     /**
      * Returns the path to the bin folder.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function bin($file = '')
+    public static function bin(string $file = ''): string
     {
         return self::$pathprovider->bin($file);
     }
@@ -150,11 +130,9 @@ class Path
     /**
      * Returns the path to the data folder.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function data($file = '')
+    public static function data(string $file = ''): string
     {
         return self::$pathprovider->data($file);
     }
@@ -162,11 +140,9 @@ class Path
     /**
      * Returns the path to the data folder of the core.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function coreData($file = '')
+    public static function coreData(string $file = ''): string
     {
         return self::$pathprovider->coreData($file);
     }
@@ -174,12 +150,10 @@ class Path
     /**
      * Returns the path to the data folder of the given addon.
      *
-     * @param non-empty-string $addon Addon
-     * @param string $file File
-     *
+     * @param non-empty-string $addon
      * @return non-empty-string
      */
-    public static function addonData($addon, $file = '')
+    public static function addonData(string $addon, string $file = ''): string
     {
         return self::$pathprovider->addonData($addon, $file);
     }
@@ -191,22 +165,15 @@ class Path
      */
     public static function log(string $file = ''): string
     {
-        // BC
-        if (!method_exists(self::$pathprovider, 'log')) {
-            return self::data('log/' . $file);
-        }
-
         return self::$pathprovider->log($file);
     }
 
     /**
      * Returns the path to the cache folder.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function cache($file = '')
+    public static function cache(string $file = ''): string
     {
         return self::$pathprovider->cache($file);
     }
@@ -214,11 +181,9 @@ class Path
     /**
      * Returns the path to the cache folder of the core.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function coreCache($file = '')
+    public static function coreCache(string $file = ''): string
     {
         return self::$pathprovider->coreCache($file);
     }
@@ -226,12 +191,10 @@ class Path
     /**
      * Returns the path to the cache folder of the given addon.
      *
-     * @param non-empty-string $addon Addon
-     * @param string $file File
-     *
+     * @param non-empty-string $addon
      * @return non-empty-string
      */
-    public static function addonCache($addon, $file = '')
+    public static function addonCache(string $addon, string $file = ''): string
     {
         return self::$pathprovider->addonCache($addon, $file);
     }
@@ -239,11 +202,9 @@ class Path
     /**
      * Returns the path to the src folder.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function src($file = '')
+    public static function src(string $file = ''): string
     {
         return self::$pathprovider->src($file);
     }
@@ -251,11 +212,9 @@ class Path
     /**
      * Returns the path to the actual core.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function core($file = '')
+    public static function core(string $file = ''): string
     {
         return self::$pathprovider->core($file);
     }
@@ -263,12 +222,10 @@ class Path
     /**
      * Returns the base path to the folder of the given addon.
      *
-     * @param non-empty-string $addon Addon
-     * @param string $file File
-     *
+     * @param non-empty-string $addon
      * @return non-empty-string
      */
-    public static function addon($addon, $file = '')
+    public static function addon(string $addon, string $file = ''): string
     {
         return self::$pathprovider->addon($addon, $file);
     }
@@ -277,10 +234,9 @@ class Path
      * Converts a relative path to an absolute.
      *
      * @param non-empty-string $relPath The relative path
-     *
      * @return string Absolute path
      */
-    public static function absolute($relPath)
+    public static function absolute(string $relPath): string
     {
         $stack = [];
 
@@ -292,13 +248,10 @@ class Path
                 continue;
             }
 
-            // Zum Parent
             if ('..' == $dir) {
-                array_pop($stack);
-            }
-            // Normaler Ordner
-            else {
-                $stack[] = $dir;
+                array_pop($stack); // Zum Parent
+            } else {
+                $stack[] = $dir; // Normaler Ordner
             }
         }
 
@@ -310,12 +263,9 @@ class Path
      *
      * If the path is outside of the base path, the absolute path will be kept.
      *
-     * @param string $absPath
      * @param string|null $basePath Defaults to `Path::base()`
-     *
-     * @return string
      */
-    public static function relative($absPath, $basePath = null)
+    public static function relative(string $absPath, ?string $basePath = null): string
     {
         if (null === $basePath) {
             $basePath = self::base();
@@ -339,12 +289,8 @@ class Path
      * Returns the basename (filename) of the path independent of directory separator (/ or \).
      *
      * This method should be used to secure incoming GET/POST parameters containing a filename.
-     *
-     * @param string $path
-     *
-     * @return string
      */
-    public static function basename($path)
+    public static function basename(string $path): string
     {
         /** @psalm-taint-escape text */
         $path = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);

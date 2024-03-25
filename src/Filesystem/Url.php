@@ -7,31 +7,29 @@ use rex_be_controller;
 
 /**
  * Utility class to generate relative URLs.
+ *
+ * @psalm-import-type TUrlParams from Str
  */
-class Url
+final class Url
 {
-    /** @var DefaultPathProvider */
-    protected static $pathprovider;
+    private static DefaultPathProvider $pathprovider;
+
+    private function __construct() {}
 
     /**
      * Initializes the class.
-     *
-     * @param DefaultPathProvider $pathprovider A path provider
-     * @return void
      */
-    public static function init($pathprovider)
+    public static function init(DefaultPathProvider $pathProvider): void
     {
-        self::$pathprovider = $pathprovider;
+        self::$pathprovider = $pathProvider;
     }
 
     /**
      * Returns a base url.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function base($file = '')
+    public static function base(string $file = ''): string
     {
         return self::$pathprovider->base($file);
     }
@@ -39,11 +37,9 @@ class Url
     /**
      * Returns the url to the frontend.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function frontend($file = '')
+    public static function frontend(string $file = ''): string
     {
         return self::$pathprovider->frontend($file);
     }
@@ -51,10 +47,10 @@ class Url
     /**
      * Returns the url to the frontend-controller (index.php from frontend).
      *
-     * @param array $params Params
+     * @param TUrlParams $params
      * @return non-empty-string
      */
-    public static function frontendController(array $params = [])
+    public static function frontendController(array $params = []): string
     {
         $query = Str::buildQuery($params);
         $query = $query ? '?' . $query : '';
@@ -64,11 +60,9 @@ class Url
     /**
      * Returns the url to the backend.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function backend($file = '')
+    public static function backend(string $file = ''): string
     {
         return self::$pathprovider->backend($file);
     }
@@ -76,10 +70,10 @@ class Url
     /**
      * Returns the url to the backend-controller (index.php from backend).
      *
-     * @param array $params Params
+     * @param TUrlParams $params
      * @return non-empty-string
      */
-    public static function backendController(array $params = [])
+    public static function backendController(array $params = []): string
     {
         $query = Str::buildQuery($params);
         $query = $query ? '?' . $query : '';
@@ -89,11 +83,10 @@ class Url
     /**
      * Returns the url to a backend page.
      *
-     * @param string $page Page
-     * @param array $params Params
+     * @param TUrlParams $params
      * @return non-empty-string
      */
-    public static function backendPage($page, array $params = [])
+    public static function backendPage(string $page, array $params = []): string
     {
         return self::backendController(array_merge(['page' => $page], $params));
     }
@@ -101,10 +94,10 @@ class Url
     /**
      * Returns the url to the current backend page.
      *
-     * @param array $params Params
+     * @param TUrlParams $params
      * @return non-empty-string
      */
-    public static function currentBackendPage(array $params = [])
+    public static function currentBackendPage(array $params = []): string
     {
         return self::backendPage(rex_be_controller::getCurrentPage(), $params);
     }
@@ -112,11 +105,9 @@ class Url
     /**
      * Returns the url to the media-folder.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function media($file = '')
+    public static function media(string $file = ''): string
     {
         return self::$pathprovider->media($file);
     }
@@ -124,11 +115,9 @@ class Url
     /**
      * Returns the url to the assets folder.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function assets($file = '')
+    public static function assets(string $file = ''): string
     {
         return self::$pathprovider->assets($file);
     }
@@ -136,11 +125,9 @@ class Url
     /**
      * Returns the url to the assets folder of the core, which contains all assets required by the core to work properly.
      *
-     * @param string $file File
-     *
      * @return non-empty-string
      */
-    public static function coreAssets($file = '')
+    public static function coreAssets(string $file = ''): string
     {
         return self::$pathprovider->coreAssets($file);
     }
@@ -148,14 +135,10 @@ class Url
     /**
      * Returns the url to the assets folder of the given addon, which contains all assets required by the addon to work properly.
      *
-     * @param string $addon Addon
-     * @param string $file File
-     *
+     * @param non-empty-string $addon
      * @return non-empty-string
-     *
-     * @see assets()
      */
-    public static function addonAssets($addon, $file = '')
+    public static function addonAssets(string $addon, string $file = ''): string
     {
         return self::$pathprovider->addonAssets($addon, $file);
     }

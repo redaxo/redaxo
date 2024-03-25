@@ -2,16 +2,17 @@
 
 namespace Redaxo\Core\Filesystem;
 
+use Closure;
 use Countable;
 use FilesystemIterator;
 use InvalidArgumentException;
 use IteratorAggregate;
+use Override;
 use RecursiveCallbackFilterIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIterator;
 use RecursiveIteratorIterator;
 use Redaxo\Core\Util\SortableIterator;
-use ReturnTypeWillChange;
 use rex_factory_trait;
 use SplFileInfo;
 use Traversable;
@@ -25,9 +26,8 @@ class Finder implements IteratorAggregate, Countable
 {
     use rex_factory_trait;
 
-    public const ALL = '__ALL__';
+    final public const string ALL = '__ALL__';
 
-    private string $dir;
     private bool $recursive = false;
     /** @var RecursiveIteratorIterator::SELF_FIRST|RecursiveIteratorIterator::CHILD_FIRST|RecursiveIteratorIterator::LEAVES_ONLY */
     private int $recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
@@ -41,13 +41,12 @@ class Finder implements IteratorAggregate, Countable
     /** @var list<string> */
     private array $ignoreDirsRecursive = [];
     private bool $ignoreSystemStuff = true;
-    /** @var false|SortableIterator::*|callable(mixed, mixed): int */
-    private $sort = false;
+    /** @var SortableIterator::*|Closure(mixed, mixed):int|null */
+    private int|Closure|null $sort = null;
 
-    private function __construct(string $dir)
-    {
-        $this->dir = $dir;
-    }
+    final private function __construct(
+        private readonly string $dir,
+    ) {}
 
     /**
      * Returns a new finder object.
@@ -55,10 +54,8 @@ class Finder implements IteratorAggregate, Countable
      * @param string $dir Path to a directory
      *
      * @throws InvalidArgumentException
-     *
-     * @return static
      */
-    public static function factory($dir)
+    public static function factory(string $dir): static
     {
         if (!is_dir($dir)) {
             throw new InvalidArgumentException('Folder "' . $dir . '" not found!');
@@ -70,12 +67,8 @@ class Finder implements IteratorAggregate, Countable
 
     /**
      * Activate/Deactivate recursive directory scanning.
-     *
-     * @param bool $recursive
-     *
-     * @return $this
      */
-    public function recursive($recursive = true)
+    public function recursive(bool $recursive = true): static
     {
         $this->recursive = $recursive;
 
@@ -84,10 +77,8 @@ class Finder implements IteratorAggregate, Countable
 
     /**
      * Fetch directory contents before recurse its subdirectories.
-     *
-     * @return $this
      */
-    public function selfFirst()
+    public function selfFirst(): static
     {
         $this->recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
 
@@ -96,10 +87,8 @@ class Finder implements IteratorAggregate, Countable
 
     /**
      * Fetch child directories before their parent directory.
-     *
-     * @return $this
      */
-    public function childFirst()
+    public function childFirst(): static
     {
         $this->recursiveMode = RecursiveIteratorIterator::CHILD_FIRST;
 
@@ -108,10 +97,8 @@ class Finder implements IteratorAggregate, Countable
 
     /**
      * Fetch files only.
-     *
-     * @return $this
      */
-    public function filesOnly()
+    public function filesOnly(): static
     {
         $this->recursiveMode = RecursiveIteratorIterator::LEAVES_ONLY;
 
@@ -120,10 +107,8 @@ class Finder implements IteratorAggregate, Countable
 
     /**
      * Fetch dirs only.
-     *
-     * @return $this
      */
-    public function dirsOnly()
+    public function dirsOnly(): static
     {
         $this->dirsOnly = true;
 
@@ -135,10 +120,8 @@ class Finder implements IteratorAggregate, Countable
      *
      * @param string|list<string> $glob Glob pattern or an array of glob patterns
      * @param bool $recursive When FALSE the patterns won't be checked in child directories
-     *
-     * @return $this
      */
-    public function ignoreFiles($glob, $recursive = true)
+    public function ignoreFiles($glob, bool $recursive = true): static
     {
         $var = $recursive ? 'ignoreFilesRecursive' : 'ignoreFiles';
         if (is_array($glob)) {
@@ -155,10 +138,8 @@ class Finder implements IteratorAggregate, Countable
      *
      * @param string|list<string> $glob Glob pattern or an array of glob patterns
      * @param bool $recursive When FALSE the patterns won't be checked in child directories
-     *
-     * @return $this
      */
-    public function ignoreDirs($glob, $recursive = true)
+    public function ignoreDirs($glob, bool $recursive = true): static
     {
         $var = $recursive ? 'ignoreDirsRecursive' : 'ignoreDirs';
         if (is_array($glob)) {
@@ -172,12 +153,8 @@ class Finder implements IteratorAggregate, Countable
 
     /**
      * Ignores system stuff (like .DS_Store, .svn, .git etc.).
-     *
-     * @param bool $ignoreSystemStuff
-     *
-     * @return $this
      */
-    public function ignoreSystemStuff($ignoreSystemStuff = true)
+    public function ignoreSystemStuff(bool $ignoreSystemStuff = true): static
     {
         $this->ignoreSystemStuff = $ignoreSystemStuff;
 
@@ -187,11 +164,9 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Sorts the elements.
      *
-     * @param SortableIterator::*|callable(mixed, mixed): int $sort Sort mode, see {@link SortableIterator::__construct()}
-     *
-     * @return $this
+     * @param SortableIterator::*|Closure(mixed, mixed): int $sort Sort mode, see {@link SortableIterator::__construct()}
      */
-    public function sort($sort = SortableIterator::KEYS)
+    public function sort(int|Closure $sort = SortableIterator::KEYS): static
     {
         $this->sort = $sort;
 
@@ -199,17 +174,17 @@ class Finder implements IteratorAggregate, Countable
     }
 
     /** @return Traversable<string, SplFileInfo> */
-    #[ReturnTypeWillChange]
-    public function getIterator()
+    #[Override]
+    public function getIterator(): Traversable
     {
         /** @var RecursiveIterator<string, SplFileInfo> $iterator */
         $iterator = new RecursiveDirectoryIterator($this->dir, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS);
 
-        $iterator = new RecursiveCallbackFilterIterator($iterator, function (SplFileInfo $current, $key, $currentIterator) use ($iterator) {
+        $iterator = new RecursiveCallbackFilterIterator($iterator, function (SplFileInfo $current, $key, $currentIterator) use ($iterator): bool {
             $filename = $current->getFilename();
             $isRoot = $currentIterator === $iterator;
 
-            $match = static function ($pattern, $filename) {
+            $match = static function ($pattern, $filename): int|false {
                 $regex = '/^' . strtr(preg_quote($pattern, '/'), ['\*' => '.*', '\?' => '.']) . '$/i';
                 return preg_match($regex, $filename);
             };
@@ -261,8 +236,8 @@ class Finder implements IteratorAggregate, Countable
         return $iterator;
     }
 
-    #[ReturnTypeWillChange]
-    public function count()
+    #[Override]
+    public function count(): int
     {
         return iterator_count($this->getIterator());
     }

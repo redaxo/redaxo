@@ -6,6 +6,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Timer;
+use Redaxo\Core\Util\Type;
 use rex_exception;
 
 use function dirname;
@@ -18,8 +19,10 @@ use const PATHINFO_EXTENSION;
 /**
  * Class for handling files.
  */
-class File
+final class File
 {
+    private function __construct() {}
+
     /**
      * Returns the content of a file.
      *
@@ -33,7 +36,7 @@ class File
      */
     public static function require(string $file): string
     {
-        return Timer::measure(__METHOD__, static function () use ($file) {
+        return Timer::measure(__METHOD__, static function () use ($file): string {
             $content = @file_get_contents($file);
 
             if (false === $content) {
@@ -47,14 +50,14 @@ class File
     /**
      * Returns the content of a file.
      *
-     * @template T
      * @param string $file Path to the file
-     * @param T $default Default value
-     * @return string|T Content of the file or default value if the file isn't readable
+     * @param string|null $default Default value
+     * @return string|null Content of the file or default value if the file isn't readable
+     * @psalm-return ($default is null ? string|null : string)
      */
-    public static function get($file, $default = null)
+    public static function get(string $file, ?string $default = null): ?string
     {
-        return Timer::measure(__METHOD__, static function () use ($file, $default) {
+        return Timer::measure(__METHOD__, static function () use ($file, $default): ?string {
             $content = @file_get_contents($file);
             return false !== $content ? $content : $default;
         });
@@ -63,12 +66,12 @@ class File
     /**
      * Returns the content of a config file.
      *
-     * @template T
      * @param string $file Path to the file
-     * @param T $default Default value
-     * @return array<mixed>|T Content of the file or default value if the file isn't readable
+     * @param array<mixed>|null $default Default value
+     * @return array<mixed>|null Content of the file or default value if the file isn't readable
+     * @psalm-return ($default is null ? array<mixed>|null : array<mixed>)
      */
-    public static function getConfig($file, $default = [])
+    public static function getConfig(string $file, ?array $default = []): ?array
     {
         $content = self::get($file);
         return null === $content ? $default : Str::yamlDecode($content);
@@ -77,15 +80,15 @@ class File
     /**
      * Returns the content of a cache file.
      *
-     * @template T
      * @param string $file Path to the file
-     * @param T $default Default value
-     * @return array<mixed>|T Content of the file or default value if the file isn't readable
+     * @param array<mixed>|null $default Default value
+     * @return array<mixed>|null Content of the file or default value if the file isn't readable
+     * @psalm-return ($default is null ? array<mixed>|null : array<mixed>)
      */
-    public static function getCache($file, $default = [])
+    public static function getCache(string $file, ?array $default = []): ?array
     {
         $content = self::get($file);
-        return null === $content ? $default : json_decode($content, true);
+        return null === $content ? $default : Type::array(json_decode($content, true));
     }
 
     /**
@@ -98,9 +101,9 @@ class File
      *
      * @psalm-assert-if-true =non-empty-string $file
      */
-    public static function put($file, $content)
+    public static function put(string $file, string $content): bool
     {
-        return Timer::measure(__METHOD__, static function () use ($file, $content) {
+        return Timer::measure(__METHOD__, static function () use ($file, $content): bool {
             if (!Dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
                 return false;
             }
@@ -128,9 +131,9 @@ class File
      *
      * @psalm-assert-if-true =non-empty-string $file
      */
-    public static function append(string $file, string $content, string $delimiter = '')
+    public static function append(string $file, string $content, string $delimiter = ''): bool
     {
-        return Timer::measure(__METHOD__, static function () use ($file, $content, $delimiter) {
+        return Timer::measure(__METHOD__, static function () use ($file, $content, $delimiter): bool {
             if (!Dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
                 return false;
             }
@@ -164,7 +167,7 @@ class File
      *
      * @psalm-assert-if-true =non-empty-string $file
      */
-    public static function putConfig($file, $content, $inline = 3)
+    public static function putConfig(string $file, array $content, int $inline = 3): bool
     {
         return self::put($file, Str::yamlEncode($content, $inline));
     }
@@ -179,7 +182,7 @@ class File
      *
      * @psalm-assert-if-true =non-empty-string $file
      */
-    public static function putCache($file, $content)
+    public static function putCache(string $file, array $content): bool
     {
         return self::put($file, json_encode($content));
     }
@@ -195,9 +198,9 @@ class File
      * @psalm-assert-if-true =non-empty-string $srcfile
      * @psalm-assert-if-true =non-empty-string $dstfile
      */
-    public static function copy($srcfile, $dstfile)
+    public static function copy(string $srcfile, string $dstfile): bool
     {
-        return Timer::measure(__METHOD__, static function () use ($srcfile, $dstfile) {
+        return Timer::measure(__METHOD__, static function () use ($srcfile, $dstfile): bool {
             if (is_file($srcfile)) {
                 if (is_dir($dstfile)) {
                     $dstdir = rtrim($dstfile, DIRECTORY_SEPARATOR);
@@ -246,9 +249,9 @@ class File
      *
      * @return bool TRUE on success, FALSE on failure
      */
-    public static function delete($file)
+    public static function delete(string $file): bool
     {
-        return Timer::measure(__METHOD__, static function () use ($file) {
+        return Timer::measure(__METHOD__, static function () use ($file): bool {
             $tryUnlink = @unlink($file);
 
             // re-try without error suppression to compensate possible race conditions
@@ -272,7 +275,7 @@ class File
      *
      * @psalm-assert-if-true =non-empty-string $filename
      */
-    public static function extension($filename)
+    public static function extension(string $filename): string
     {
         return pathinfo($filename, PATHINFO_EXTENSION);
     }
@@ -284,7 +287,7 @@ class File
      *
      * @return string|null Mime type or `null` if the type could not be detected
      */
-    public static function mimeType($file): ?string
+    public static function mimeType(string $file): ?string
     {
         $mimeType = mime_content_type($file);
 
@@ -313,11 +316,11 @@ class File
      * Formates the filesize of the given file into a userfriendly form.
      *
      * @param string $file Path to the file
-     * @param array $format
+     * @param array{0?: int, 1?: string, 2?: string} $format
      *
      * @return string Formatted filesize
      */
-    public static function formattedSize($file, $format = [])
+    public static function formattedSize(string $file, array $format = []): string
     {
         return Formatter::bytes(filesize($file), $format);
     }
@@ -329,7 +332,7 @@ class File
      *
      * @return string executed Content
      */
-    public static function getOutput($file)
+    public static function getOutput(string $file): string
     {
         ob_start();
         require $file;

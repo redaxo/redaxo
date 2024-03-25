@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Tests\Filesystem;
 
+use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -15,6 +16,7 @@ use function count;
 /** @internal */
 final class FinderTest extends TestCase
 {
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,6 +33,7 @@ final class FinderTest extends TestCase
         File::put($this->getPath('dir1/Thumbs.db'), '');
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         parent::tearDown();

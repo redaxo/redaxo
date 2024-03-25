@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Tests\Filesystem;
 
+use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -10,6 +11,7 @@ use Redaxo\Core\Filesystem\Path;
 /** @internal */
 final class DirTest extends TestCase
 {
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -17,6 +19,7 @@ final class DirTest extends TestCase
         Dir::create($this->getPath());
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         parent::tearDown();
