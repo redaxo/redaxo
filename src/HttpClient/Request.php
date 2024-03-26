@@ -1,10 +1,24 @@
 <?php
 
+namespace Redaxo\Core\HttpClient;
+
+use InvalidArgumentException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Timer;
+use rex_socket_exception;
+use SensitiveParameter;
+
+use function call_user_func;
+use function in_array;
+use function ini_get;
+use function is_array;
+use function is_callable;
+
+use const E_WARNING;
+use const STREAM_CLIENT_CONNECT;
 
 /**
  * Class for sockets.
@@ -13,8 +27,8 @@ use Redaxo\Core\Util\Timer;
  * <code>
  *  try {
  *      //Open socket connection. (Host, Port, SSL)
- *      $socket = rex_socket::factory('www.example.com','443', true);
- *      //set path to rex_socket
+ *      $socket = Request::factory('www.example.com','443', true);
+ *      //set path to Request
  *      $socket->setPath('/url/to/my/resource?param=1');
  *      //set PHP Context-Option
  *      $socket->setOptions([
@@ -23,7 +37,7 @@ use Redaxo\Core\Util\Timer;
  *              'verify_peer_name' => false
  *          ]
  *      ]);
- *      //make request and get rex_socket_request-Objekt back
+ *      //make request and get Response-Object back
  *      $response = $socket->doGet();
  *      //check if status code is 200
  *      if($response->isOk()) {
@@ -35,7 +49,7 @@ use Redaxo\Core\Util\Timer;
  *  }
  * </code>
  */
-class rex_socket
+class Request
 {
     /** @var string */
     protected $host;
@@ -83,12 +97,12 @@ class rex_socket
      *
      * @return static Socket instance
      *
-     * @see rex_socket::factoryUrl()
+     * @see Request::factoryUrl()
      */
     public static function factory($host, $port = 443, $ssl = true)
     {
         if (self::class === static::class && ($proxy = Core::getProperty('socket_proxy'))) {
-            return rex_socket_proxy::factoryUrl($proxy)->setDestination($host, $port, $ssl);
+            return ProxyRequest::factoryUrl($proxy)->setDestination($host, $port, $ssl);
         }
 
         return new static($host, $port, $ssl);
@@ -103,7 +117,7 @@ class rex_socket
      *
      * @return static Socket instance
      *
-     * @see rex_socket::factory()
+     * @see Request::factory()
      */
     public static function factoryUrl($url)
     {
@@ -219,7 +233,7 @@ class rex_socket
      *
      * @throws rex_socket_exception
      *
-     * @return rex_socket_response Response
+     * @return Response
      */
     public function doGet()
     {
@@ -234,7 +248,7 @@ class rex_socket
      *
      * @throws rex_socket_exception
      *
-     * @return rex_socket_response Response
+     * @return Response
      */
     public function doPost($data = '', array $files = [])
     {
@@ -289,7 +303,7 @@ class rex_socket
      *
      * @throws rex_socket_exception
      *
-     * @return rex_socket_response Response
+     * @return Response Response
      */
     public function doDelete()
     {
@@ -302,7 +316,7 @@ class rex_socket
      * @param string $method HTTP method, e.g. "GET"
      * @param string|callable(resource): void $data Body data as string or a callback for writing the body
      *
-     * @return rex_socket_response Response
+     * @return Response
      */
     public function doRequest($method, string|callable $data = '')
     {
@@ -400,7 +414,7 @@ class rex_socket
      *
      * @throws rex_socket_exception
      *
-     * @return rex_socket_response Response
+     * @return Response Response
      */
     protected function writeRequest($method, $path, array $headers = [], $data = '')
     {
@@ -425,7 +439,7 @@ class rex_socket
             throw new rex_socket_exception('Timeout!');
         }
 
-        return (new rex_socket_response($this->stream))->decompressContent($this->acceptCompression);
+        return (new Response($this->stream))->decompressContent($this->acceptCompression);
     }
 
     /**
@@ -473,10 +487,3 @@ class rex_socket
         ];
     }
 }
-
-/**
- * Socket exception.
- *
- * @see rex_socket
- */
-class rex_socket_exception extends rex_exception {}
