@@ -300,7 +300,7 @@
             "type": "string"
         },
         "socket_proxy": {
-            "description": "Proxy used for all rex_socket connections",
+            "description": "Proxy used for all \\Redaxo\\Core\\HttpClient\\Request connections",
             "type": ["null", "string"]
         },
         "setup_addons": {
