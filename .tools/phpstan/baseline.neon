@@ -1316,56 +1316,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/view.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(object\\|null\\), Closure\\(mixed, mixed\\)\\: void given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
-
-		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(rex_test_instance_list_pool\\|null\\), Closure\\(int\\)\\: rex_test_instance_list_pool given\\.$#"
-			count: 4
-			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
-
-		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed\\)\\: array\\{1, 2\\} given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
-
-		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array\\{\\} given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
-
-		-
-			message: "#^Unable to resolve the template type T in call to method static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\)$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(rex_test_instance_pool_1\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: rex_test_instance_pool_1 given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(rex_test_instance_pool_1\\|null\\)\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(rex_test_instance_pool_2\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: rex_test_instance_pool_2 given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
-
-		-
-			message: "#^Static property rex_test_instance_pool_base\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_test_instance_pool_base\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_test_instance_pool_base\\|null\\>\\>\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
-
-		-
-			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with arguments 'rex_test_singleton', rex_test_singleton and 'instance of the…' will always evaluate to true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/singleton_trait_test.php
-
-		-
 			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<string\\|null\\>, rex_extension_point\\<string\\|null\\> given\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/tests/extension_test.php
