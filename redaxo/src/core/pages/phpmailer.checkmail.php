@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
 
 $content = $mailerDebug = '';
@@ -8,7 +9,7 @@ $date = new DateTime();
 if ('' == Core::getConfig('phpmailer_from') || '' == Core::getConfig('phpmailer_test_address')) {
     $content .= rex_view::error(I18n::msg('phpmailer_checkmail_noadress'));
 } else {
-    $mail = new rex_mailer();
+    $mail = new Mailer();
     $mail->addAddress(Core::getConfig('phpmailer_test_address'));
     $mail->Subject = 'PHPMailer-Test | ' . rex_escape(Core::getServerName()) . ' | ' . date_format($date, 'Y-m-d H:i:s');
 

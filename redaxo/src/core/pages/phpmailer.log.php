@@ -2,13 +2,14 @@
 
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Log\LogFile;
+use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
 $func = rex_request('func', 'string');
 $error = '';
 $success = '';
-$logFile = rex_mailer::logFile();
+$logFile = Mailer::logFile();
 
 if ('mailer_delLog' == $func) {
     if (LogFile::delete($logFile)) {
