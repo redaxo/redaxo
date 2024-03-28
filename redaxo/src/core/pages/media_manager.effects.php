@@ -6,6 +6,7 @@ use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\MediaManager\MediaManagerManager;
 use Redaxo\Core\Translation\I18n;
 
 $effectId = rex_request('effect_id', 'int');
@@ -18,7 +19,7 @@ $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type W
 if (1 != $sql->getRows()) {
     throw new Exception('Invalid type_id "' . $typeId . '"');
 }
-if (rex_media_manager::STATUS_SYSTEM_TYPE === (int) $sql->getValue('status')) {
+if (MediaManagerManager::STATUS_SYSTEM_TYPE === (int) $sql->getValue('status')) {
     throw new rex_exception('System media types can not be edited.');
 }
 $typeName = (string) $sql->getValue('name');
@@ -45,7 +46,7 @@ if ('delete' == $func && $effectId > 0) {
 
         $info = I18n::msg('media_manager_effect_deleted');
 
-        rex_media_manager::deleteCacheByType($typeId);
+        MediaManagerManager::deleteCacheByType($typeId);
 
         Sql::factory()
             ->setTable(Core::getTable('media_manager_type'))
@@ -67,7 +68,7 @@ if ('' != $warning) {
 }
 
 $effects = [];
-foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
+foreach (MediaManagerManager::getSupportedEffects() as $class => $shortName) {
     $effects[$shortName] = new $class();
 }
 
@@ -277,7 +278,7 @@ if ('' == $func) {
             return;
         }
 
-        rex_media_manager::deleteCacheByType($typeId);
+        MediaManagerManager::deleteCacheByType($typeId);
 
         Sql::factory()
             ->setTable(Core::getTable('media_manager_type'))

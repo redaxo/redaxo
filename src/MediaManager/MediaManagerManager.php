@@ -1,13 +1,30 @@
 <?php
 
+namespace Redaxo\Core\MediaManager;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use rex_effect_abstract;
+use rex_extension;
+use rex_extension_point;
+use rex_media;
+use rex_media_manager_not_found_exception;
+use rex_response;
 
-class rex_media_manager
+use function assert;
+use function count;
+use function in_array;
+use function is_string;
+
+use const DIRECTORY_SEPARATOR;
+use const GLOB_NOSORT;
+use const PHP_SESSION_ACTIVE;
+
+class MediaManagerManager
 {
     /**
      * status of a system mediatyp.
@@ -16,7 +33,7 @@ class rex_media_manager
      */
     public const STATUS_SYSTEM_TYPE = 1;
 
-    /** @var rex_managed_media */
+    /** @var MediaManagerExecutor */
     private $media;
 
     /** @var string */
@@ -43,7 +60,7 @@ class rex_media_manager
     /** @var list<class-string<rex_effect_abstract>> */
     private static $effects = [];
 
-    public function __construct(rex_managed_media $media)
+    public function __construct(MediaManagerExecutor $media)
     {
         $this->media = $media;
         $this->originalFilename = $media->getMediaFilename();
@@ -63,7 +80,7 @@ class rex_media_manager
         $mediaPath = Path::media($file);
         $cachePath = Path::coreCache('media_manager/');
 
-        $media = new rex_managed_media($mediaPath);
+        $media = new MediaManagerExecutor($mediaPath);
         $manager = new self($media);
         $manager->setCachePath($cachePath);
         $manager->applyEffects($type);
@@ -78,7 +95,7 @@ class rex_media_manager
     }
 
     /**
-     * @return rex_managed_media
+     * @return MediaManagerExecutor
      */
     public function getMedia()
     {
@@ -504,7 +521,7 @@ class rex_media_manager
             $mediaPath = Path::media($rexMediaManagerFile);
             $cachePath = self::$cacheDirectory ?? Path::coreCache('media_manager/');
 
-            $media = new rex_managed_media($mediaPath);
+            $media = new MediaManagerExecutor($mediaPath);
             $mediaManager = new self($media);
             $mediaManager->setCachePath($cachePath);
             $mediaManager->applyEffects($rexMediaManagerType);
