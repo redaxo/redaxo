@@ -4382,8 +4382,11 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[['effects' => 1, 'type_id' => $sql->getValue('type_id'), 'effect_id' => $sql->getValue('effect_id'), 'func' => 'edit']]]></code>
     </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$file]]></code>
+    </MixedArgument>
     <MixedAssignment>
-      <code><![CDATA[$effparams[str_replace('rex_effect_' . $effname . '_', '', $name)]]]></code>
+      <code><![CDATA[$effparams[str_replace($effParamKey . '_', '', $name)]]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
   </file>
