@@ -38,13 +38,13 @@ final class InstanceListPoolTraitTest extends TestCase
 
     public function testGetInstanceList(): void
     {
-        self::assertSame([], TestInstanceListPool::getInstanceList(2, rex_test_instance_list_pool::get(...)), 'getInstanceList returns empty array for non-existing key');
+        self::assertSame([], TestInstanceListPool::getInstanceList(2, TestInstanceListPool::get(...)), 'getInstanceList returns empty array for non-existing key');
 
         $expected = [
             TestInstanceListPool::get(1),
             TestInstanceListPool::get(2),
         ];
-        self::assertEquals($expected, TestInstanceListPool::getInstanceList(2, rex_test_instance_list_pool::get(...), function ($id) {
+        self::assertEquals($expected, TestInstanceListPool::getInstanceList(2, TestInstanceListPool::get(...), function ($id) {
             $this->assertEquals(2, $id);
             return [1, 2];
         }), 'getInstance returns array of instances');
