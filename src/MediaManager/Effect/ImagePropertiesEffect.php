@@ -1,9 +1,14 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\MediaManager\MediaManagerExecutor;
 use Redaxo\Core\Translation\I18n;
+use rex_response;
 
-class rex_effect_image_properties extends rex_effect_abstract
+use function in_array;
+
+class ImagePropertiesEffect extends AbstractEffect
 {
     private const NO_INTERLACING = '- off -';
 

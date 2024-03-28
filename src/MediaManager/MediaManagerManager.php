@@ -7,8 +7,8 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\Translation\I18n;
-use rex_effect_abstract;
 use rex_extension;
 use rex_extension_point;
 use rex_media;
@@ -57,7 +57,7 @@ class MediaManagerManager
     /** @var string|null */
     private static $cacheDirectory;
 
-    /** @var list<class-string<rex_effect_abstract>> */
+    /** @var list<class-string<AbstractEffect>> */
     private static $effects = [];
 
     public function __construct(MediaManagerExecutor $media)
@@ -123,10 +123,10 @@ class MediaManagerManager
 
             // execute effects on image
             foreach ($set as $effectParams) {
-                /** @var class-string<rex_effect_abstract> $effectClass */
+                /** @var class-string<AbstractEffect> $effectClass */
                 $effectClass = 'rex_effect_' . $effectParams['effect'];
                 /**
-                 * @var rex_effect_abstract $effect
+                 * @var AbstractEffect $effect
                  * @psalm-ignore-var
                  */
                 $effect = new $effectClass();
@@ -410,7 +410,7 @@ class MediaManagerManager
     }
 
     /**
-     * @return array<class-string<rex_effect_abstract>, string>
+     * @return array<class-string<AbstractEffect>, string>
      */
     public static function getSupportedEffects()
     {
@@ -436,7 +436,7 @@ class MediaManagerManager
     }
 
     /**
-     * @param class-string<rex_effect_abstract> $class
+     * @param class-string<AbstractEffect> $class
      * @return void
      */
     public static function addEffect($class)
@@ -454,7 +454,7 @@ class MediaManagerManager
     }
 
     /**
-     * @return class-string<rex_effect_abstract>
+     * @return class-string<AbstractEffect>
      */
     private static function getEffectClass(string $effectFile): string
     {

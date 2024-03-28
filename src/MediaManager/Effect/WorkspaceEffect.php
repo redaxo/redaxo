@@ -1,10 +1,13 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\MediaManager\MediaManagerExecutor;
 use Redaxo\Core\Translation\I18n;
+use rex_response;
 
-class rex_effect_workspace extends rex_effect_abstract
+class WorkspaceEffect extends AbstractEffect
 {
     public function execute()
     {

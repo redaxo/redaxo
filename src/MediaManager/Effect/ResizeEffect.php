@@ -1,8 +1,13 @@
 <?php
 
-use Redaxo\Core\Translation\I18n;
+namespace Redaxo\Core\MediaManager\Effect;
 
-class rex_effect_resize extends rex_effect_abstract
+use Redaxo\Core\Translation\I18n;
+use rex_response;
+
+use function in_array;
+
+class ResizeEffect extends AbstractEffect
 {
     private const OPTIONS = ['maximum', 'minimum', 'exact'];
 

@@ -1,8 +1,10 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\MediaManager\MediaManagerExecutor;
 
-abstract class rex_effect_abstract
+abstract class AbstractEffect
 {
     /** @var MediaManagerExecutor */
     public $media;

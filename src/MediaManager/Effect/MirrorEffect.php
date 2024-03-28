@@ -1,8 +1,15 @@
 <?php
 
-use Redaxo\Core\Translation\I18n;
+namespace Redaxo\Core\MediaManager\Effect;
 
-class rex_effect_mirror extends rex_effect_abstract
+use GdImage;
+use LogicException;
+use Redaxo\Core\Translation\I18n;
+use rex_response;
+
+use const IMG_FILTER_COLORIZE;
+
+class MirrorEffect extends AbstractEffect
 {
     public function execute()
     {

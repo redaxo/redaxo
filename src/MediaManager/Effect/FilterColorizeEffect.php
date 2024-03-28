@@ -1,8 +1,10 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Translation\I18n;
 
-class rex_effect_filter_colorize extends rex_effect_abstract
+class FilterColorizeEffect extends AbstractEffect
 {
     public function execute()
     {

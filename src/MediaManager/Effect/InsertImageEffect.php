@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\MediaManager\MediaManagerExecutor;
 use Redaxo\Core\Translation\I18n;
@@ -7,7 +9,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * Branded ein Bild mit einem Wasserzeichen.
  */
-class rex_effect_insert_image extends rex_effect_abstract
+class InsertImageEffect extends AbstractEffect
 {
     public function execute()
     {

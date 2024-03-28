@@ -1,11 +1,17 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Translation\I18n;
+
+use const IMG_FLIP_BOTH;
+use const IMG_FLIP_HORIZONTAL;
+use const IMG_FLIP_VERTICAL;
 
 /**
  * Spiegel ein Bild.
  */
-class rex_effect_flip extends rex_effect_abstract
+class FlipEffect extends AbstractEffect
 {
     private const OPTIONS = ['X', 'Y', 'XY'];
 

@@ -6,6 +6,7 @@ use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\MediaManager\MediaManagerManager;
 use Redaxo\Core\Translation\I18n;
 
@@ -128,7 +129,7 @@ if ('' == $func) {
 
     echo $content;
 } elseif ('add' == $func || 'edit' == $func && $effectId > 0) {
-    uasort($effects, static function (rex_effect_abstract $a, rex_effect_abstract $b) {
+    uasort($effects, static function (AbstractEffect $a, AbstractEffect $b) {
         return strnatcmp($a->getName(), $b->getName());
     });
 
