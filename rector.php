@@ -45,6 +45,7 @@ use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
 use Redaxo\Core\Log;
+use Redaxo\Core\Mailer;
 use Redaxo\Core\MetaInfo;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
@@ -190,6 +191,7 @@ return RectorConfig::configure()
         'rex_log_file' => Log\LogFile::class,
         'rex_logger' => Log\Logger::class,
         'rex_markdown' => Util\Markdown::class,
+        'rex_mailer' => Mailer\Mailer::class,
         'rex_metainfo_default_type' => MetaInfo\Form\DefaultType::class,
         'rex_metainfo_handler' => MetaInfo\Handler\AbstractHandler::class,
         'rex_metainfo_article_handler' => MetaInfo\Handler\ArticleHandler::class,
