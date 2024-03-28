@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
@@ -56,7 +57,7 @@ $list->setColumnFormat('id',                                     // field name
  */
 class rex_list implements rex_url_provider_interface
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     public const DISABLE_PAGINATION = null;
 

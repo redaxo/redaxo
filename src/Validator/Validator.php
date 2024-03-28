@@ -3,13 +3,13 @@
 namespace Redaxo\Core\Validator;
 
 use InvalidArgumentException;
-use rex_factory_trait;
+use Redaxo\Core\Base\FactoryTrait;
 
 use function in_array;
 
 class Validator
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     /** @var list<ValidationRule> */
     private array $rules = [];

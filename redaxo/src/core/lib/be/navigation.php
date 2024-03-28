@@ -1,11 +1,12 @@
 <?php
 
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
 class rex_be_navigation
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     /** @var array<string, string> */
     private array $headlines = [];

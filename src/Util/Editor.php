@@ -2,11 +2,11 @@
 
 namespace Redaxo\Core\Util;
 
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use rex_extension;
 use rex_extension_point;
-use rex_factory_trait;
 
 use function array_key_exists;
 use function ini_get;
@@ -15,7 +15,7 @@ use const DIRECTORY_SEPARATOR;
 
 class Editor
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     public const EDITOR_ATOM = 'atom';
     public const EDITOR_EMACS = 'emacs';

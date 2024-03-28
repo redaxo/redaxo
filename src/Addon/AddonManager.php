@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Addon;
 
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Dir;
@@ -14,7 +15,6 @@ use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Version;
 use rex_be_controller;
 use rex_config;
-use rex_factory_trait;
 use rex_functional_exception;
 use rex_sql_exception;
 use rex_yaml_parse_exception;
@@ -28,7 +28,7 @@ use const PHP_VERSION;
 
 class AddonManager
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     protected bool $generatePackageOrder = true;
     protected string $message = '';

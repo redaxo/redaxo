@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
@@ -23,7 +24,7 @@ use Redaxo\Core\Util\Type;
  */
 abstract class rex_api_function
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     public const REQ_CALL_PARAM = 'rex-api-call';
     public const REQ_RESULT_PARAM = 'rex-api-result';

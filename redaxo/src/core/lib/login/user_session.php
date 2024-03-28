@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Base\SingletonTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
@@ -8,7 +9,7 @@ use Redaxo\Core\Database\Sql;
  */
 class rex_user_session
 {
-    use rex_singleton_trait;
+    use SingletonTrait;
 
     public const STAY_LOGGED_IN_DURATION = 3; // months
     private const SESSION_VAR_LAST_DB_UPDATE = 'last_db_update';

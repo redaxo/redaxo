@@ -2,10 +2,10 @@
 
 namespace Redaxo\Core\Form;
 
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 use rex_config;
-use rex_factory_trait;
 
 use function is_string;
 
@@ -14,7 +14,7 @@ use function is_string;
  */
 class ConfigForm extends AbstractForm
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     /** @var string */
     private $namespace;
