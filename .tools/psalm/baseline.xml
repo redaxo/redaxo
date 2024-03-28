@@ -997,29 +997,6 @@
       <code><![CDATA[$message]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/core/lib/base/instance_list_pool_trait.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[(array) $key]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$instanceKey]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/base/instance_pool_trait.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[(array) $key]]></code>
-    </MixedArgumentTypeCoercion>
-    <PropertyTypeCoercion>
-      <code><![CDATA[self::$instances]]></code>
-      <code><![CDATA[self::$instances]]></code>
-    </PropertyTypeCoercion>
-  </file>
-  <file src="redaxo/src/core/lib/base/singleton_trait.php">
-    <PropertyTypeCoercion>
-      <code><![CDATA[self::$instances]]></code>
-      <code><![CDATA[self::$instances]]></code>
-    </PropertyTypeCoercion>
-  </file>
   <file src="redaxo/src/core/lib/be/controller.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[str_replace($package->getPath(), '', $path)]]></code>
@@ -3663,6 +3640,29 @@
     <MixedReturnStatement>
       <code><![CDATA[$default]]></code>
     </MixedReturnStatement>
+  </file>
+  <file src="src/Base/InstanceListPoolTrait.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[(array) $key]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$instanceKey]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Base/InstancePoolTrait.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[(array) $key]]></code>
+    </MixedArgumentTypeCoercion>
+    <PropertyTypeCoercion>
+      <code><![CDATA[self::$instances]]></code>
+      <code><![CDATA[self::$instances]]></code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/Base/SingletonTrait.php">
+    <PropertyTypeCoercion>
+      <code><![CDATA[self::$instances]]></code>
+      <code><![CDATA[self::$instances]]></code>
+    </PropertyTypeCoercion>
   </file>
   <file src="src/Console/Application.php">
     <PossiblyNullReference>

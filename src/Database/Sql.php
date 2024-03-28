@@ -9,10 +9,10 @@ use Override;
 use PDO;
 use PDOException;
 use PDOStatement;
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
-use rex_factory_trait;
 use rex_sql_could_not_connect_exception;
 use rex_sql_exception;
 use SensitiveParameter;
@@ -42,7 +42,7 @@ use const PHP_SAPI;
  */
 class Sql implements Iterator
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     final public const string MYSQL = 'MySQL';
     final public const string MARIADB = 'MariaDB';

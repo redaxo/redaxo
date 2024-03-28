@@ -1,27 +1,33 @@
 <?php
 
+namespace Redaxo\Core\Tests\Base;
+
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Base\SingletonTrait;
+
+use function get_class;
 
 /** @internal */
-final class rex_test_singleton
+final class TestSingleton
 {
-    use rex_singleton_trait;
+    use SingletonTrait;
 }
 
 /** @internal */
-final class rex_singleton_trait_test extends TestCase
+final class SingletonTraitTest extends TestCase
 {
     public function testGetInstance(): void
     {
-        self::assertInstanceOf(rex_test_singleton::class, rex_test_singleton::getInstance(), 'instance of the correct class is returned');
-        self::assertEquals(rex_test_singleton::class, get_class(rex_test_singleton::getInstance()), 'excact class is returned');
-        self::assertTrue(rex_test_singleton::getInstance() === rex_test_singleton::getInstance(), 'the very same instance is returned on every invocation');
+        self::assertInstanceOf(TestSingleton::class, TestSingleton::getInstance(), 'instance of the correct class is returned');
+        self::assertEquals(TestSingleton::class, get_class(TestSingleton::getInstance()), 'excact class is returned');
+        self::assertTrue(TestSingleton::getInstance() === TestSingleton::getInstance(), 'the very same instance is returned on every invocation');
     }
 
     public function testClone(): void
     {
         $this->expectException(BadMethodCallException::class);
 
-        clone rex_test_singleton::getInstance();
+        clone TestSingleton::getInstance();
     }
 }

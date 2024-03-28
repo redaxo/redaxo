@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Base\InstanceListPoolTrait;
+use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
@@ -8,8 +10,8 @@ use Redaxo\Core\Filesystem\Path;
  */
 class rex_media_category
 {
-    use rex_instance_list_pool_trait;
-    use rex_instance_pool_trait;
+    use InstanceListPoolTrait;
+    use InstancePoolTrait;
 
     /** @var int */
     private $id;

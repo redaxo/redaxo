@@ -38,6 +38,7 @@ use Rector\Transform\ValueObject\NewToStaticCall;
 use Rector\TypeDeclaration\Rector as TypeDeclaration;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Addon;
+use Redaxo\Core\Base;
 use Redaxo\Core\Console;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob;
@@ -218,6 +219,10 @@ return RectorConfig::configure()
         'rex_string' => Util\Str::class,
         'rex_timer' => Util\Timer::class,
         'rex_type' => Util\Type::class,
+        'rex_factory_trait' => Base\FactoryTrait::class,
+        'rex_instance_list_pool_trait' => Base\InstanceListPoolTrait::class,
+        'rex_instance_pool_trait' => Base\InstancePoolTrait::class,
+        'rex_singleton_trait' => Base\SingletonTrait::class,
         'rex_url' => Filesystem\Url::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
