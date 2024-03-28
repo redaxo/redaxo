@@ -1,14 +1,24 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
+use Imagick;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
+use rex_exception;
+
+use function function_exists;
+use function in_array;
+use function strlen;
+
+use const PATHINFO_EXTENSION;
 
 /**
  * Benutzt den Konsolen convert oder ffmpeg Befehl.
  */
-class rex_effect_convert2img extends rex_effect_abstract
+class ConvertToImageEffect extends AbstractEffect
 {
     private const CONVERT_TYPES = [
         'pdf',

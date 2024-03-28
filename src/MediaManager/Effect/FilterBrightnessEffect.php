@@ -1,8 +1,12 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Translation\I18n;
 
-class rex_effect_filter_brightness extends rex_effect_abstract
+use const IMG_FILTER_BRIGHTNESS;
+
+class FilterBrightnessEffect extends AbstractEffect
 {
     public function execute()
     {

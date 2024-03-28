@@ -1,9 +1,15 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 
-class rex_effect_image_format extends rex_effect_abstract
+use function function_exists;
+use function in_array;
+use function strlen;
+
+class ImageFormatEffect extends AbstractEffect
 {
     private const CONVERT_TYPES = [
         'jpg',

@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MediaManager\MediaManagerManager;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Symfony\Component\HttpFoundation\Request;
@@ -166,10 +167,10 @@ if (0 !== $nexttime && time() >= $nexttime) {
     });
 }
 
-rex_extension::register('PACKAGES_INCLUDED', [rex_media_manager::class, 'init'], rex_extension::EARLY);
-rex_extension::register('MEDIA_UPDATED', [rex_media_manager::class, 'mediaUpdated']);
-rex_extension::register('MEDIA_DELETED', [rex_media_manager::class, 'mediaUpdated']);
-rex_extension::register('MEDIA_IS_IN_USE', [rex_media_manager::class, 'mediaIsInUse']);
+rex_extension::register('PACKAGES_INCLUDED', [MediaManagerManager::class, 'init'], rex_extension::EARLY);
+rex_extension::register('MEDIA_UPDATED', [MediaManagerManager::class, 'mediaUpdated']);
+rex_extension::register('MEDIA_DELETED', [MediaManagerManager::class, 'mediaUpdated']);
+rex_extension::register('MEDIA_IS_IN_USE', [MediaManagerManager::class, 'mediaIsInUse']);
 
 if (!Core::isSetup()) {
     Core::setProperty('start_article_id', Core::getConfig('start_article_id', 1));

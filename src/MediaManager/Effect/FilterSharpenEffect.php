@@ -1,6 +1,10 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Translation\I18n;
+
+use function function_exists;
 
 // //////////////////////////////////////////////////////////////////////////////////////////////
 // //
@@ -13,7 +17,7 @@ use Redaxo\Core\Translation\I18n;
 // /////////////////////////////////////////////////////////////////////////////////////////////
 // $img is an image that is already created within php using
 // imgcreatetruecolor. No url! $img must be a truecolor image.
-class rex_effect_filter_sharpen extends rex_effect_abstract
+class FilterSharpenEffect extends AbstractEffect
 {
     public function execute()
     {

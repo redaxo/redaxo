@@ -1,8 +1,16 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Translation\I18n;
 
-class rex_effect_filter_blur extends rex_effect_abstract
+use function in_array;
+
+use const IMG_FILTER_GAUSSIAN_BLUR;
+use const IMG_FILTER_SELECTIVE_BLUR;
+use const IMG_FILTER_SMOOTH;
+
+class FilterBlurEffect extends AbstractEffect
 {
     private const OPTIONS = ['', 'gaussian', 'selective'];
     private const OPTIONS_SMOOTHIT = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, '', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

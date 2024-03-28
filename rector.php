@@ -45,6 +45,7 @@ use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
 use Redaxo\Core\Log;
+use Redaxo\Core\MediaManager;
 use Redaxo\Core\MetaInfo;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
@@ -190,6 +191,29 @@ return RectorConfig::configure()
         'rex_log_file' => Log\LogFile::class,
         'rex_logger' => Log\Logger::class,
         'rex_markdown' => Util\Markdown::class,
+        'rex_media_manager' => MediaManager\MediaManagerManager::class,
+        'rex_managed_media' => MediaManager\MediaManagerExecutor::class,
+        'rex_effect_abstract' => MediaManager\Effect\AbstractEffect::class,
+        'rex_effect_convert2img' => MediaManager\Effect\ConvertToImageEffect::class,
+        'rex_effect_crop' => MediaManager\Effect\CropEffect::class,
+        'rex_effect_filter_blur' => MediaManager\Effect\FilterBlurEffect::class,
+        'rex_effect_filter_brightness' => MediaManager\Effect\FilterBrightnessEffect::class,
+        'rex_effect_filter_colorize' => MediaManager\Effect\FilterColorizeEffect::class,
+        'rex_effect_filter_contrast' => MediaManager\Effect\FilterContrastEffect::class,
+        'rex_effect_filter_greyscale' => MediaManager\Effect\FilterGreyscaleEffect::class,
+        'rex_effect_filter_sepia' => MediaManager\Effect\FilterSepiaEffect::class,
+        'rex_effect_filter_sharpen' => MediaManager\Effect\FilterSharpenEffect::class,
+        'rex_effect_flip' => MediaManager\Effect\FlipEffect::class,
+        'rex_effect_header' => MediaManager\Effect\HeaderEffect::class,
+        'rex_effect_image_format' => MediaManager\Effect\ImageFormatEffect::class,
+        'rex_effect_image_properties' => MediaManager\Effect\ImagePropertiesEffect::class,
+        'rex_effect_insert_image' => MediaManager\Effect\InsertImageEffect::class,
+        'rex_effect_mediapath' => MediaManager\Effect\MediaPathEffect::class,
+        'rex_effect_mirror' => MediaManager\Effect\MirrorEffect::class,
+        'rex_effect_resize' => MediaManager\Effect\ResizeEffect::class,
+        'rex_effect_rotate' => MediaManager\Effect\RotateEffect::class,
+        'rex_effect_rounded_corners' => MediaManager\Effect\RoundedCornersEffect::class,
+        'rex_effect_workspace' => MediaManager\Effect\WorkspaceEffect::class,
         'rex_metainfo_default_type' => MetaInfo\Form\DefaultType::class,
         'rex_metainfo_handler' => MetaInfo\Handler\AbstractHandler::class,
         'rex_metainfo_article_handler' => MetaInfo\Handler\ArticleHandler::class,
@@ -238,8 +262,8 @@ return RectorConfig::configure()
         new MethodCallRename(rex_article_slice::class, 'getClang', 'getClangId'),
         new MethodCallRename(rex_structure_element::class, 'getClang', 'getClangId'),
 
-        new MethodCallRename(rex_managed_media::class, 'getImageWidth', 'getWidth'),
-        new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
+        new MethodCallRename(MediaManager\MediaManagerExecutor::class, 'getImageWidth', 'getWidth'),
+        new MethodCallRename(MediaManager\MediaManagerExecutor::class, 'getImageHeight', 'getHeight'),
 
         new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
 
@@ -286,7 +310,7 @@ return RectorConfig::configure()
         new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
         new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
-        new ArgumentRemover(rex_media_manager::class, 'getUrl', 3, null),
+        new ArgumentRemover(MediaManager\MediaManagerManager::class, 'getUrl', 3, null),
 
         new ArgumentRemover(Util\Markdown::class, 'parse', 1, [true]),
         new ArgumentRemover(Util\Markdown::class, 'parseWithToc', 3, [true]),

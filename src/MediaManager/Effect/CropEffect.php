@@ -1,11 +1,13 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Translation\I18n;
 
 /**
  * Schneidet einen Ausschnitt aus einem Bild heraus. Es wird dabei nicht skaliert.
  */
-class rex_effect_crop extends rex_effect_abstract
+class CropEffect extends AbstractEffect
 {
     public function execute()
     {
