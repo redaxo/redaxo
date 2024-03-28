@@ -6,6 +6,8 @@ use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Base\SingletonTrait;
 
+use function get_class;
+
 /** @internal */
 final class TestSingleton
 {
