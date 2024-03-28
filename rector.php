@@ -243,7 +243,7 @@ return RectorConfig::configure()
         new MethodCallRename(rex_managed_media::class, 'getImageWidth', 'getWidth'),
         new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
 
-        new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
+        new MethodCallRename(Mailer\Mailer::class, 'setLog', 'setArchive'),
 
         new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addArticleField'),
         new MethodCallRename(Form\AbstractForm::class, 'addLinkmapField', 'addArticleField'),
