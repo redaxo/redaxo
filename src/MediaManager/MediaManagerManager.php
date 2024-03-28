@@ -9,6 +9,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 use rex_extension;
 use rex_extension_point;
 use rex_media;
@@ -124,7 +125,7 @@ class MediaManagerManager
             // execute effects on image
             foreach ($set as $effectParams) {
                 /** @var class-string<AbstractEffect> $effectClass */
-                $effectClass = 'rex_effect_' . $effectParams['effect'];
+                $effectClass = $effectParams['effect'];
                 /**
                  * @var AbstractEffect $effect
                  * @psalm-ignore-var
@@ -180,14 +181,15 @@ class MediaManagerManager
         $effects = [];
         foreach ($sql as $row) {
             $effname = (string) $row->getValue('effect');
+            $effParamKey = Str::normalize($effname);
             /** @var array<string, array<string, mixed>> $params */
             $params = $row->getArrayValue('parameters');
             $effparams = [];
 
             // extract parameter out of array
-            if (isset($params['rex_effect_' . $effname])) {
-                foreach ($params['rex_effect_' . $effname] as $name => $value) {
-                    $effparams[str_replace('rex_effect_' . $effname . '_', '', $name)] = $value;
+            if (isset($params[$effParamKey])) {
+                foreach ($params[$effParamKey] as $name => $value) {
+                    $effparams[str_replace($effParamKey . '_', '', $name)] = $value;
                     unset($effparams[$name]);
                 }
             }

@@ -72,7 +72,8 @@ if ('' != $warning) {
 
 $effects = [];
 foreach (MediaManagerManager::getSupportedEffects() as $class => $shortName) {
-    $effects[$shortName] = new $class();
+    $class = new $class();
+    $effects[$class::class] = $class;
 }
 
 if ('' == $func) {
@@ -163,7 +164,7 @@ if ('' == $func) {
     $field->setAttribute('data-live-search', 'true');
     $select = $field->getSelect();
     foreach ($effects as $name => $effect) {
-        $select->addOption($effect->getName(), strtolower($name));
+        $select->addOption($effect->getName(), $name);
     }
     $select->setSize(1);
 
@@ -175,8 +176,9 @@ if ('' == $func) {
         var currentShown = null;
         $("#' . $field->getAttribute('id') . '").change(function(){
             if(currentShown) currentShown.hide();
-console.log(jQuery(this).val());
-            var effectParamsId = "#rex-redaxo-core-mediamanager-"+ jQuery(this).val();
+
+            let effectParamsId = "#rex-" + jQuery(this).val().toLowerCase().replace(/\\\/g,"_");
+            console.log(effectParamsId);
             currentShown = $(effectParamsId);
             currentShown.show();
         }).change();
@@ -189,17 +191,17 @@ console.log(jQuery(this).val());
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setSuffix($script);
 
-    foreach ($effects as $effectObj) {
+    foreach ($effects as $effect => $effectObj) {
         $effectClass = $effectObj::class;
         $effectParams = $effectObj->getParams();
-        $group = Str::normalize(str_replace('Effect', '', $effectClass), '-');
+        $group = Str::normalize($effect, '_');
 
         if (empty($effectParams)) {
             continue;
         }
 
         foreach ($effectParams as $param) {
-            $name = Str::normalize($effectClass . '_' . $param['name']);
+            $name = Str::normalize($effectClass . '-' . $param['name']);
             /** @psalm-suppress MixedAssignment */
             $value = $param['default'] ?? null;
             $attributes = [];
@@ -214,7 +216,7 @@ console.log(jQuery(this).val());
                     $type = 'text';
                     $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                     $field->setLabel($param['label']);
-                    $field->setAttribute('id', "media_manager $name $type");
+                    $field->setAttribute('id', "rex $name $type");
                     if (!empty($param['notice'])) {
                         $field->setNotice($param['notice']);
                     }
@@ -230,7 +232,7 @@ console.log(jQuery(this).val());
                     /** @var SelectField $field */
                     $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                     $field->setLabel($param['label']);
-                    $field->setAttribute('id', "media_manager $name $type");
+                    $field->setAttribute('id', "rex $name $type");
                     $field->setAttribute('class', 'form-control selectpicker');
                     if (!empty($param['notice'])) {
                         $field->setNotice($param['notice']);
@@ -252,7 +254,7 @@ console.log(jQuery(this).val());
                     $type = $param['type'];
                     $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                     $field->setLabel($param['label']);
-                    $field->setAttribute('id', "media_manager $name $type");
+                    $field->setAttribute('id', "rex $name $type");
                     if (!empty($param['notice'])) {
                         $field->setNotice($param['notice']);
                     }
