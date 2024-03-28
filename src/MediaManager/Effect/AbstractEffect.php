@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\MediaManager\Effect;
 
+use GdImage;
 use Redaxo\Core\MediaManager\MediaManagerExecutor;
 
 abstract class AbstractEffect

@@ -2,8 +2,10 @@
 
 namespace Redaxo\Core\MediaManager\Effect;
 
+use LogicException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use rex_media;
 
 class HeaderEffect extends AbstractEffect
 {
