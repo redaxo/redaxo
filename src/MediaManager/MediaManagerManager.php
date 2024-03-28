@@ -458,7 +458,7 @@ class MediaManagerManager
      */
     private static function getEffectClass(string $effectFile): string
     {
-        /** @var class-string<rex_effect_abstract> */
+        /** @var class-string<AbstractEffect> */
         return 'rex_' . str_replace(
             '.php',
             '',
