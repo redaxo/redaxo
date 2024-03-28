@@ -64,7 +64,7 @@ use_etag: true
 use_last_modified: false
 start_page: structure
 timezone: Europe/Berlin
-socket_proxy: null
+http_client_proxy: null
 setup_addons:
     - install
 system_addons:

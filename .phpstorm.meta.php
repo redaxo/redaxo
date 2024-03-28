@@ -58,8 +58,8 @@ expectedArguments(\rex_response::preload(), 1, 'audio', 'document', 'embed', 'fe
 expectedArguments(\rex_response::sendFile(), 2, 'inline', 'attachment');
 expectedArguments(\rex_response::sendResource(), 4, 'inline', 'attachment');
 
-expectedArguments(\rex_socket::factory(), 1, 80, 443);
-expectedArguments(\rex_socket_proxy::setDestination(), 1, 80, 443);
+expectedArguments(\Redaxo\Core\HttpClient\Request::factory(), 1, 80, 443);
+expectedArguments(\Redaxo\Core\HttpClient\ProxyRequest::setDestination(), 1, 80, 443);
 
 expectedReturnValues(\Redaxo\Core\Database\Sql::getDbType(), \Redaxo\Core\Database\Sql::MYSQL, \Redaxo\Core\Database\Sql::MARIADB);
 

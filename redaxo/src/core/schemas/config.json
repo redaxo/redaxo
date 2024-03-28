@@ -299,8 +299,8 @@
             "description": "Timezone (e.g. Europe/Berlin)",
             "type": "string"
         },
-        "socket_proxy": {
-            "description": "Proxy used for all rex_socket connections",
+        "http_client_proxy": {
+            "description": "Proxy used for all HttpClient connections",
             "type": ["null", "string"]
         },
         "setup_addons": {

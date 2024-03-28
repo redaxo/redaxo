@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\HttpClient\Request;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Translation\I18n;
 
@@ -38,7 +39,7 @@ class rex_install_webservice
 
         $error = null;
         try {
-            $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
+            $socket = Request::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
             $response = $socket->doGet();
             if ($response->isOk()) {
@@ -73,7 +74,7 @@ class rex_install_webservice
     public static function getArchive($url)
     {
         try {
-            $socket = rex_socket::factoryUrl($url);
+            $socket = Request::factoryUrl($url);
             $response = $socket->doGet();
             if ($response->isOk()) {
                 $filename = Path::basename($url);
@@ -101,7 +102,7 @@ class rex_install_webservice
         $fullpath = self::PATH . self::getPath($path);
         $error = null;
         try {
-            $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
+            $socket = Request::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
             $files = [];
             if ($archive) {
@@ -139,7 +140,7 @@ class rex_install_webservice
         $fullpath = self::PATH . self::getPath($path);
         $error = null;
         try {
-            $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
+            $socket = Request::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
             $response = $socket->doDelete();
             if ($response->isOk()) {

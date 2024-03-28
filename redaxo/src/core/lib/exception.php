@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\HttpClient\Request;
 
 class rex_exception extends Exception
 {
@@ -91,3 +92,10 @@ class rex_http_exception extends rex_exception
  * Exception class for yaml parse errors.
  */
 class rex_yaml_parse_exception extends rex_exception {}
+
+/**
+ * Socket exception.
+ *
+ * @see Request
+ */
+class rex_socket_exception extends rex_exception {}

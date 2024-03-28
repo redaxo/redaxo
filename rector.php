@@ -44,6 +44,7 @@ use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
+use Redaxo\Core\HttpClient;
 use Redaxo\Core\Log;
 use Redaxo\Core\MetaInfo;
 use Redaxo\Core\Translation;
@@ -202,6 +203,9 @@ return RectorConfig::configure()
         'rex_parsedown' => Util\Parsedown::class,
         'rex_path' => Filesystem\Path::class,
         'rex_path_default_provider' => Filesystem\DefaultPathProvider::class,
+        'rex_socket' => HttpClient\Request::class,
+        'rex_socket_response' => HttpClient\Response::class,
+        'rex_socket_proxy' => HttpClient\ProxyRequest::class,
         'rex_sortable_iterator' => Util\SortableIterator::class,
         'rex_sql' => Database\Sql::class,
         'rex_sql_column' => Database\Column::class,

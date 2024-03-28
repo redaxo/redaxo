@@ -2,9 +2,10 @@
 
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
+use Redaxo\Core\HttpClient\ProxyRequest;
 
 /** @internal */
-final class rex_socket_proxy_test extends TestCase
+final class ProxyRequestTest extends TestCase
 {
     private ?string $proxy = null;
 
@@ -21,13 +22,13 @@ final class rex_socket_proxy_test extends TestCase
 
     public function testFactory(): void
     {
-        $socket = rex_socket_proxy::factory('www.example.com');
-        self::assertEquals(rex_socket_proxy::class, $socket::class);
+        $socket = ProxyRequest::factory('www.example.com');
+        self::assertEquals(ProxyRequest::class, $socket::class);
     }
 
     public function testFactoryUrl(): void
     {
-        $socket = rex_socket_proxy::factoryUrl('www.example.com');
-        self::assertEquals(rex_socket_proxy::class, $socket::class);
+        $socket = ProxyRequest::factoryUrl('www.example.com');
+        self::assertEquals(ProxyRequest::class, $socket::class);
     }
 }
