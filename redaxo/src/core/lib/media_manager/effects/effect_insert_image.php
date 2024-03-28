@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\MediaManager\MediaManagerExecutor;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -42,7 +43,7 @@ class rex_effect_insert_image extends rex_effect_abstract
         }
 
         // -------------------------------------- /CONFIG
-        $brand = new rex_managed_media($brandimage);
+        $brand = new MediaManagerExecutor($brandimage);
         $brand->asImage();
         $gdbrand = $brand->getImage();
         $gdimage = $this->media->getImage();

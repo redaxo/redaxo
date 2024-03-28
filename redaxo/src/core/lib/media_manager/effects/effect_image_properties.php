@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\MediaManager\MediaManagerExecutor;
 use Redaxo\Core\Translation\I18n;
 
 class rex_effect_image_properties extends rex_effect_abstract
@@ -13,28 +14,28 @@ class rex_effect_image_properties extends rex_effect_abstract
         $media->asImage();
 
         if (!empty($this->params['jpg_quality'])) {
-            $media->setImageProperty(rex_managed_media::PROP_JPG_QUALITY, $this->params['jpg_quality']);
+            $media->setImageProperty(MediaManagerExecutor::PROP_JPG_QUALITY, $this->params['jpg_quality']);
         }
 
         if (!empty($this->params['png_compression'])) {
-            $media->setImageProperty(rex_managed_media::PROP_PNG_COMPRESSION, $this->params['png_compression']);
+            $media->setImageProperty(MediaManagerExecutor::PROP_PNG_COMPRESSION, $this->params['png_compression']);
         }
 
         if (!empty($this->params['webp_quality'])) {
-            $media->setImageProperty(rex_managed_media::PROP_WEBP_QUALITY, $this->params['webp_quality']);
+            $media->setImageProperty(MediaManagerExecutor::PROP_WEBP_QUALITY, $this->params['webp_quality']);
         }
 
         if (!empty($this->params['avif_quality'])) {
-            $media->setImageProperty(rex_managed_media::PROP_AVIF_QUALITY, $this->params['avif_quality']);
+            $media->setImageProperty(MediaManagerExecutor::PROP_AVIF_QUALITY, $this->params['avif_quality']);
         }
         if (!empty($this->params['avif_speed'])) {
-            $media->setImageProperty(rex_managed_media::PROP_AVIF_SPEED, $this->params['avif_speed']);
+            $media->setImageProperty(MediaManagerExecutor::PROP_AVIF_SPEED, $this->params['avif_speed']);
         }
 
         if ($this->params['interlace']) {
             $interlace = explode('|', trim($this->params['interlace'], '|'));
             $interlace = in_array(self::NO_INTERLACING, $interlace) ? [] : $interlace;
-            $media->setImageProperty(rex_managed_media::PROP_INTERLACE, $interlace);
+            $media->setImageProperty(MediaManagerExecutor::PROP_INTERLACE, $interlace);
         }
     }
 

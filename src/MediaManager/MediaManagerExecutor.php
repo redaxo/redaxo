@@ -1,11 +1,22 @@
 <?php
 
+namespace Redaxo\Core\MediaManager;
+
+use BadMethodCallException;
+use GdImage;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Str;
+use rex_media_manager_not_found_exception;
+use rex_response;
 
-class rex_managed_media
+use function array_key_exists;
+use function assert;
+use function function_exists;
+use function in_array;
+
+class MediaManagerExecutor
 {
     public const PROP_JPG_QUALITY = 'jpg_quality';
     public const PROP_PNG_COMPRESSION = 'png_compression';

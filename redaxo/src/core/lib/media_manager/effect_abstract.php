@@ -1,8 +1,10 @@
 <?php
 
+use Redaxo\Core\MediaManager\MediaManagerExecutor;
+
 abstract class rex_effect_abstract
 {
-    /** @var rex_managed_media */
+    /** @var MediaManagerExecutor */
     public $media;
 
     /**
@@ -17,7 +19,7 @@ abstract class rex_effect_abstract
     /**
      * @return void
      */
-    public function setMedia(rex_managed_media $media)
+    public function setMedia(MediaManagerExecutor $media)
     {
         $this->media = $media;
     }

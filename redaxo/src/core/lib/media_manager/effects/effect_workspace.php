@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\MediaManager\MediaManagerExecutor;
 use Redaxo\Core\Translation\I18n;
 
 class rex_effect_workspace extends rex_effect_abstract
@@ -74,7 +75,7 @@ class rex_effect_workspace extends rex_effect_abstract
             if (!is_file($bgimage)) {
                 return;
             }
-            $bg = new rex_managed_media($bgimage);
+            $bg = new MediaManagerExecutor($bgimage);
             $bg->asImage();
             $workspace = $bg->getImage();
             $this->keepTransparent($workspace);
