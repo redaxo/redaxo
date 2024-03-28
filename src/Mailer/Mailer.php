@@ -1,5 +1,9 @@
 <?php
 
+namespace Redaxo\Core\Mailer;
+
+use IntlDateFormatter;
+use LimitIterator;
 use PHPMailer\PHPMailer\PHPMailer;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
@@ -9,8 +13,13 @@ use Redaxo\Core\Log\LogFile;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
+use rex_extension;
+use rex_extension_point;
+use rex_response;
 
-class rex_mailer extends PHPMailer
+use function count;
+
+class Mailer extends PHPMailer
 {
     public const LOG_ERRORS = 1;
     public const LOG_ALL = 2;

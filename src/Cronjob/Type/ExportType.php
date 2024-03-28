@@ -6,11 +6,11 @@ use DateTimeImmutable;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use rex_backup;
 use rex_backup_file_compressor;
-use rex_mailer;
 
 use const GLOB_NOSORT;
 use const SORT_NUMERIC;
@@ -107,7 +107,7 @@ class ExportType extends AbstractType
             }
 
             if ($this->getParam('sendmail')) {
-                $mail = new rex_mailer();
+                $mail = new Mailer();
                 $mail->addAddress($this->getParam('mailaddress'));
                 $mail->Subject = I18n::rawMsg('backup_mail_subject');
                 $mail->Body = I18n::rawMsg('backup_mail_body', Core::getServerName());

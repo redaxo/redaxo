@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Cronjob\Type;
 
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
-use rex_mailer;
 
 class PurgeMailerArchiveType extends AbstractType
 {
@@ -22,7 +22,7 @@ class PurgeMailerArchiveType extends AbstractType
                     }
                 }
             }
-            if ('' != $dir && $dir != rex_mailer::logFolder() && is_dir($dir)) {
+            if ('' != $dir && $dir != Mailer::logFolder() && is_dir($dir)) {
                 @rmdir($dir);
             }
         }
@@ -31,7 +31,7 @@ class PurgeMailerArchiveType extends AbstractType
 
     public function execute()
     {
-        $logfolder = rex_mailer::logFolder();
+        $logfolder = Mailer::logFolder();
         if ('' != $logfolder && is_dir($logfolder)) {
             $days = (int) $this->getParam('days');
             $purgeLog = self::purgeMailarchive($days, $logfolder);

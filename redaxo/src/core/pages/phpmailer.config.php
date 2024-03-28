@@ -3,13 +3,14 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\Validator;
 
 $message = '';
 
 if ('' != rex_post('btn_delete_archive', 'string')) {
-    if (Dir::delete(rex_mailer::logFolder(), true)) {
+    if (Dir::delete(Mailer::logFolder(), true)) {
         echo rex_view::success(I18n::msg('phpmailer_archive_deleted'));
     }
 }
@@ -131,8 +132,8 @@ $selLog->setSize(1);
 $selLog->setAttribute('class', 'form-control selectpicker');
 $selLog->setSelected(Core::getConfig('phpmailer_logging'));
 $selLog->addOption(I18n::msg('phpmailer_log_no'), 0);
-$selLog->addOption(I18n::msg('phpmailer_log_errors'), rex_mailer::LOG_ERRORS);
-$selLog->addOption(I18n::msg('phpmailer_log_all'), rex_mailer::LOG_ALL);
+$selLog->addOption(I18n::msg('phpmailer_log_errors'), Mailer::LOG_ERRORS);
+$selLog->addOption(I18n::msg('phpmailer_log_all'), Mailer::LOG_ALL);
 
 $selArchive = new rex_select();
 $selArchive->setId('phpmailer-archive');
@@ -321,10 +322,10 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="phpmailer-archive">' . I18n::msg('phpmailer_archive') . '</label>';
 $n['field'] = $selArchive->get();
-$n['note'] = I18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...' . substr(rex_mailer::logFolder(), -30));
+$n['note'] = I18n::rawMsg('phpmailer_archive_info', Mailer::logFolder(), '...' . substr(Mailer::logFolder(), -30));
 $formElements[] = $n;
 
-if (is_dir(rex_mailer::logFolder())) {
+if (is_dir(Mailer::logFolder())) {
     $n = [];
     $n['field'] = '<button data-confirm="' . I18n::msg('phpmailer_archive_delete_confirm') . '" class="btn btn-danger pull-right" type="submit" name="btn_delete_archive" value="' . I18n::msg('phpmailer_archive_delete') . '">' . I18n::msg('phpmailer_archive_delete') . '</button>';
     $formElements[] = $n;

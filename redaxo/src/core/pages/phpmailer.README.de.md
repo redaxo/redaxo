@@ -9,7 +9,7 @@ Das PHPMailer-AddOn ermöglicht den Versand von E-Mails. Zusätzlich kann PHPMai
 - SMTP/SMTPS
 - SMTP/SMTPS-Auth
 
-Der Aufruf erfolgt über die Klasse `rex_mailer`. Dabei werden die nachfolgend beschriebenen und in der Konfiguration hinterlegten Einstellungen berücksichtigt.
+Der Aufruf erfolgt über die Klasse `Mailer`. Dabei werden die nachfolgend beschriebenen und in der Konfiguration hinterlegten Einstellungen berücksichtigt.
 
 Die Werte der Konfiguration können in AddOns oder Modulen leicht überschrieben werden, siehe [Beispiele](#beispiele).
 
@@ -28,8 +28,10 @@ E-Mail an einen bestimmten Empfänger senden.
 
 ```php
 <?php
+  use Redaxo\Core\Mailer\Mailer;
+  
   // PHPMailer-Instanz
-  $mail = new rex_mailer();
+  $mail = new mailer();
 
   //Absenderadresse überschreiben
  // $mail->From = "absender@domain.tld";
@@ -78,8 +80,9 @@ E-Mail an einen Empfängerkreis senden, der aus der Datenbank ausgelesen wird.
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Mailer\Mailer;
 
-$mail = new rex_mailer();
+$mail = new Mailer();
 $sql = Sql::factory();
 
 $query = "SELECT full_name, email, photo FROM employee WHERE id= ?";
