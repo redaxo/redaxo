@@ -6,9 +6,11 @@ use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\MediaManager\Effect;
 use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\MediaManager\MediaManagerManager;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 $effectId = rex_request('effect_id', 'int');
 $typeId = rex_request('type_id', 'int');
@@ -161,7 +163,7 @@ if ('' == $func) {
     $field->setAttribute('data-live-search', 'true');
     $select = $field->getSelect();
     foreach ($effects as $name => $effect) {
-        $select->addOption($effect->getName(), $name);
+        $select->addOption($effect->getName(), strtolower($name));
     }
     $select->setSize(1);
 
@@ -173,8 +175,8 @@ if ('' == $func) {
         var currentShown = null;
         $("#' . $field->getAttribute('id') . '").change(function(){
             if(currentShown) currentShown.hide();
-
-            var effectParamsId = "#rex-rex_effect_"+ jQuery(this).val();
+console.log(jQuery(this).val());
+            var effectParamsId = "#rex-redaxo-core-mediamanager-"+ jQuery(this).val();
             currentShown = $(effectParamsId);
             currentShown.show();
         }).change();
@@ -190,14 +192,14 @@ if ('' == $func) {
     foreach ($effects as $effectObj) {
         $effectClass = $effectObj::class;
         $effectParams = $effectObj->getParams();
-        $group = $effectClass;
+        $group = Str::normalize(str_replace('Effect', '', $effectClass), '-');
 
         if (empty($effectParams)) {
             continue;
         }
 
         foreach ($effectParams as $param) {
-            $name = $effectClass . '_' . $param['name'];
+            $name = Str::normalize($effectClass . '_' . $param['name']);
             /** @psalm-suppress MixedAssignment */
             $value = $param['default'] ?? null;
             $attributes = [];

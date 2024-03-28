@@ -415,12 +415,14 @@ class MediaManagerManager
     public static function getSupportedEffects()
     {
         $dirs = [
-            __DIR__ . '/effects/',
+            __DIR__ . '/Effect/',
         ];
 
         $effects = [];
         foreach ($dirs as $dir) {
-            $files = glob($dir . 'effect_*.php');
+            $files = array_filter(glob($dir . '*Effect.php'), static function ($file) {
+                return 'AbstractEffect.php' !== Path::basename($file);
+            });
             if ($files) {
                 foreach ($files as $file) {
                     $effects[self::getEffectClass($file)] = self::getEffectName($file);
@@ -447,7 +449,7 @@ class MediaManagerManager
     private static function getEffectName(string $effectFile): string
     {
         return str_replace(
-            ['effect_', '.php'],
+            ['Effect', '.php'],
             '',
             Path::basename($effectFile),
         );
@@ -459,7 +461,7 @@ class MediaManagerManager
     private static function getEffectClass(string $effectFile): string
     {
         /** @var class-string<AbstractEffect> */
-        return 'rex_' . str_replace(
+        return '\\Redaxo\\Core\\MediaManager\\Effect\\' . str_replace(
             '.php',
             '',
             Path::basename($effectFile),
