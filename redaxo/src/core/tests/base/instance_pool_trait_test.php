@@ -2,11 +2,12 @@
 
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Base\InstancePoolTrait;
 
 /** @internal */
 class rex_test_instance_pool_base
 {
-    use rex_instance_pool_trait {
+    use InstancePoolTrait {
         addInstance as public;
         hasInstance as public;
         getInstance as public;

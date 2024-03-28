@@ -1,6 +1,10 @@
 <?php
 
-trait rex_instance_pool_trait
+namespace Redaxo\Core\Base;
+
+use function call_user_func_array;
+
+trait InstancePoolTrait
 {
     /** @var array<class-string, array<string, static|null>> */
     private static array $instances = [];

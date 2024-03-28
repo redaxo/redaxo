@@ -1,11 +1,12 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Base\SingletonTrait;
 
 /** @internal */
 final class rex_test_singleton
 {
-    use rex_singleton_trait;
+    use SingletonTrait;
 }
 
 /** @internal */

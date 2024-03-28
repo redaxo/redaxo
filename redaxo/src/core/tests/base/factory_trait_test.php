@@ -1,11 +1,12 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Base\FactoryTrait;
 
 /** @internal */
 class rex_test_factory
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     /** @return class-string<self> */
     public static function factory(): string

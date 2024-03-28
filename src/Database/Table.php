@@ -4,9 +4,9 @@ namespace Redaxo\Core\Database;
 
 use InvalidArgumentException;
 use LogicException;
+use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Util\Type;
 use rex_exception;
-use rex_instance_pool_trait;
 use rex_sql_exception;
 use RuntimeException;
 
@@ -20,7 +20,7 @@ use function is_array;
  */
 final class Table
 {
-    use rex_instance_pool_trait {
+    use InstancePoolTrait {
         clearInstance as private baseClearInstance;
     }
 
