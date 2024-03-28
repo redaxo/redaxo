@@ -3,9 +3,9 @@
 namespace Redaxo\Core\Addon;
 
 use Override;
+use Redaxo\Core\Base\SingletonTrait;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
-use rex_singleton_trait;
 
 /**
  * Represents a null addon.
@@ -17,7 +17,7 @@ use rex_singleton_trait;
  */
 final class NullAddon implements AddonInterface
 {
-    use rex_singleton_trait;
+    use SingletonTrait;
 
     #[Override]
     public function getName(): string

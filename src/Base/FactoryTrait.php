@@ -1,13 +1,17 @@
 <?php
 
+namespace Redaxo\Core\Base;
+
+use InvalidArgumentException;
+
 /**
  * Factory trait.
  *
  * Example child class:
  * <code>
- * class rex_example
+ * class Example
  * {
- *     use rex_factory;
+ *     use FactoryTrait;
  *
  *     private function __construct($param)
  *     {
@@ -22,7 +26,7 @@
  * }
  * </code>
  */
-trait rex_factory_trait
+trait FactoryTrait
 {
     /** @var array<class-string<static>, class-string<static>> */
     private static array $factoryClasses = [];

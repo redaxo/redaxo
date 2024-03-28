@@ -1,12 +1,15 @@
 <?php
 
+namespace Redaxo\Core\Tests\Base;
+
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Base\InstancePoolTrait;
 
 /** @internal */
-class rex_test_instance_pool_base
+class TestInstancePoolBase
 {
-    use rex_instance_pool_trait {
+    use InstancePoolTrait {
         addInstance as public;
         hasInstance as public;
         getInstance as public;
@@ -17,44 +20,44 @@ class rex_test_instance_pool_base
 }
 
 /** @internal */
-final class rex_test_instance_pool_1 extends rex_test_instance_pool_base {}
+final class TestInstancePool1 extends TestInstancePoolBase {}
 
 /** @internal */
-final class rex_test_instance_pool_2 extends rex_test_instance_pool_base {}
+final class TestInstancePool2 extends TestInstancePoolBase {}
 
 /** @internal */
-final class rex_instance_pool_trait_test extends TestCase
+final class InstancePoolTraitTest extends TestCase
 {
     public function testAddHasInstance(): void
     {
-        self::assertFalse(rex_test_instance_pool_1::hasInstance(1), 'hasInstance returns false for non-existing instance');
-        rex_test_instance_pool_1::addInstance(1, new rex_test_instance_pool_1());
-        self::assertTrue(rex_test_instance_pool_1::hasInstance(1), 'hasInstance returns true for added instance');
-        self::assertFalse(rex_test_instance_pool_2::hasInstance(1), 'hasInstance uses LSB, instance is only added for subclass 1');
+        self::assertFalse(TestInstancePool1::hasInstance(1), 'hasInstance returns false for non-existing instance');
+        TestInstancePool1::addInstance(1, new TestInstancePool1());
+        self::assertTrue(TestInstancePool1::hasInstance(1), 'hasInstance returns true for added instance');
+        self::assertFalse(TestInstancePool2::hasInstance(1), 'hasInstance uses LSB, instance is only added for subclass 1');
     }
 
     public function testGetInstance(): void
     {
-        self::assertNull(rex_test_instance_pool_1::getInstance(2), 'getInstance returns null for non-existing key');
-        $instance1 = new rex_test_instance_pool_1();
-        self::assertSame($instance1, rex_test_instance_pool_1::getInstance(2, function ($id) use ($instance1) {
+        self::assertNull(TestInstancePool1::getInstance(2), 'getInstance returns null for non-existing key');
+        $instance1 = new TestInstancePool1();
+        self::assertSame($instance1, TestInstancePool1::getInstance(2, function ($id) use ($instance1) {
             $this->assertEquals(2, $id);
             return $instance1;
         }), 'getInstance returns the instance that is returned by the callback');
 
-        $instance2 = new rex_test_instance_pool_2();
-        self::assertSame($instance2, rex_test_instance_pool_2::getInstance(2, function ($id) use ($instance2) {
+        $instance2 = new TestInstancePool2();
+        self::assertSame($instance2, TestInstancePool2::getInstance(2, function ($id) use ($instance2) {
             $this->assertEquals(2, $id);
             return $instance2;
         }), 'getInstance uses LSB, so other instance is returned for subclass 2');
 
-        self::assertSame($instance1, rex_test_instance_pool_1::getInstance(2), 'getInstance uses LSB, $instance1 still exists');
+        self::assertSame($instance1, TestInstancePool1::getInstance(2), 'getInstance uses LSB, $instance1 still exists');
 
-        rex_test_instance_pool_1::getInstance(2, function () {
+        TestInstancePool1::getInstance(2, function () {
             $this->fail('getInstance does not call $createCallback if instance alreays exists');
         });
 
-        rex_test_instance_pool_1::getInstance([3, 'test'], function ($key1, $key2) {
+        TestInstancePool1::getInstance([3, 'test'], function ($key1, $key2) {
             $this->assertEquals(3, $key1, 'getInstance passes key array as arguments to callback');
             $this->assertEquals('test', $key2, 'getInstance passes key array as arguments to callback');
         });
@@ -63,24 +66,24 @@ final class rex_instance_pool_trait_test extends TestCase
     #[Depends('testGetInstance')]
     public function testClearInstance(): void
     {
-        rex_test_instance_pool_1::clearInstance(2);
-        self::assertFalse(rex_test_instance_pool_1::hasInstance(2), 'instance is cleared after clearInstance()');
-        self::assertTrue(rex_test_instance_pool_2::hasInstance(2), 'clearInstance uses LSB, instance of subclass 2 still exists');
+        TestInstancePool1::clearInstance(2);
+        self::assertFalse(TestInstancePool1::hasInstance(2), 'instance is cleared after clearInstance()');
+        self::assertTrue(TestInstancePool2::hasInstance(2), 'clearInstance uses LSB, instance of subclass 2 still exists');
     }
 
     #[Depends('testClearInstance')]
     public function testClearInstancePool(): void
     {
-        rex_test_instance_pool_2::clearInstancePool();
-        self::assertFalse(rex_test_instance_pool_2::hasInstance(2), 'instances are cleared after clearInstancePool()');
-        self::assertTrue(rex_test_instance_pool_1::hasInstance(1), 'clearInstancePool uses LSB, instances of subclass 2 still exist');
-        rex_test_instance_pool_base::clearInstancePool();
-        self::assertFalse(rex_test_instance_pool_1::hasInstance(1), 'baseClass::clearInstancePool clears all instances');
+        TestInstancePool2::clearInstancePool();
+        self::assertFalse(TestInstancePool2::hasInstance(2), 'instances are cleared after clearInstancePool()');
+        self::assertTrue(TestInstancePool1::hasInstance(1), 'clearInstancePool uses LSB, instances of subclass 2 still exist');
+        TestInstancePoolBase::clearInstancePool();
+        self::assertFalse(TestInstancePool1::hasInstance(1), 'baseClass::clearInstancePool clears all instances');
     }
 
     public function testGetInstancePoolKey(): void
     {
-        self::assertEquals('1', rex_test_instance_pool_1::getInstancePoolKey(1));
-        self::assertEquals('2###test', rex_test_instance_pool_1::getInstancePoolKey([2, 'test']));
+        self::assertEquals('1', TestInstancePool1::getInstancePoolKey(1));
+        self::assertEquals('2###test', TestInstancePool1::getInstancePoolKey([2, 'test']));
     }
 }
