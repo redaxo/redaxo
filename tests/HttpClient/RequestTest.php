@@ -15,13 +15,13 @@ final class RequestTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->proxy = Core::getProperty('socket_proxy');
-        Core::setProperty('socket_proxy', null);
+        $this->proxy = Core::getProperty('http_client_proxy');
+        Core::setProperty('http_client_proxy', null);
     }
 
     protected function tearDown(): void
     {
-        Core::setProperty('socket_proxy', $this->proxy);
+        Core::setProperty('http_client_proxy', $this->proxy);
     }
 
     public function testFactory(): Request
@@ -34,7 +34,7 @@ final class RequestTest extends TestCase
 
     public function testFactoryProxy(): void
     {
-        Core::setProperty('socket_proxy', 'proxy.example.com:8888');
+        Core::setProperty('http_client_proxy', 'proxy.example.com:8888');
         $socket = Request::factory('www.example.com');
         $socket->setOptions([]);
         self::assertEquals(ProxyRequest::class, $socket::class);
@@ -49,7 +49,7 @@ final class RequestTest extends TestCase
 
     public function testFactoryUrlProxy(): void
     {
-        Core::setProperty('socket_proxy', 'proxy.example.com:8888');
+        Core::setProperty('http_client_proxy', 'proxy.example.com:8888');
         $socket = Request::factoryUrl('www.example.com');
         $socket->setOptions([]);
         self::assertEquals(ProxyRequest::class, $socket::class);
