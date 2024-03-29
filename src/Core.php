@@ -178,7 +178,7 @@ final class Core
      *      ($key is 'instname' ? non-empty-string :
      *      ($key is 'theme' ? string :
      *      ($key is 'start_page' ? non-empty-string :
-     *      ($key is 'socket_proxy' ? non-empty-string|null :
+     *      ($key is 'http_client_proxy' ? non-empty-string|null :
      *      ($key is 'password_policy' ? array<string, scalar> :
      *      ($key is 'backend_login_policy' ? array<string, bool|int> :
      *      ($key is 'db' ? array<int, string[]> :

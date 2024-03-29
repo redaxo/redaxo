@@ -101,7 +101,7 @@ class Request
      */
     public static function factory($host, $port = 443, $ssl = true)
     {
-        if (self::class === static::class && ($proxy = Core::getProperty('socket_proxy'))) {
+        if (self::class === static::class && ($proxy = Core::getProperty('http_client_proxy'))) {
             return ProxyRequest::factoryUrl($proxy)->setDestination($host, $port, $ssl);
         }
 

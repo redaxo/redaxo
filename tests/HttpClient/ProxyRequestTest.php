@@ -11,13 +11,13 @@ final class ProxyRequestTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->proxy = Core::getProperty('socket_proxy');
-        Core::setProperty('socket_proxy', null);
+        $this->proxy = Core::getProperty('http_client_proxy');
+        Core::setProperty('http_client_proxy', null);
     }
 
     protected function tearDown(): void
     {
-        Core::setProperty('socket_proxy', $this->proxy);
+        Core::setProperty('http_client_proxy', $this->proxy);
     }
 
     public function testFactory(): void
