@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 
 /**
@@ -7,7 +8,7 @@ use Redaxo\Core\Core;
  */
 class rex_csrf_token
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     public const PARAM = '_csrf_token';
 

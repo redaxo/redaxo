@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Util\Str;
 
 /**
@@ -31,7 +32,7 @@ use Redaxo\Core\Util\Str;
  */
 class rex_navigation
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     private int $depth = -1; // Wieviele Ebene tief, ab der Startebene
     private bool $open = false; // alles aufgeklappt, z.b. Sitemap

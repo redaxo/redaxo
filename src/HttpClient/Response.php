@@ -1,11 +1,24 @@
 <?php
 
+namespace Redaxo\Core\HttpClient;
+
+use InvalidArgumentException;
 use Redaxo\Core\Filesystem\Dir;
+use rex_exception;
+
+use function dirname;
+use function gettype;
+use function in_array;
+use function is_resource;
+use function is_string;
+
+use const STREAM_FILTER_READ;
+use const STREAM_FILTER_WRITE;
 
 /**
- * Class for rex_socket responses.
+ * Class for request responses.
  */
-class rex_socket_response
+class Response
 {
     /** @var resource */
     private $stream;

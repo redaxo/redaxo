@@ -1,12 +1,13 @@
 <?php
 
+use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\MediaPool\MediaPoolPermission;
 
 class rex_user
 {
-    use rex_instance_pool_trait {
+    use InstancePoolTrait {
         clearInstance as baseClearInstance;
     }
 

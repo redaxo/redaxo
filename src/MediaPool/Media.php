@@ -3,6 +3,8 @@
 namespace Redaxo\Core\MediaPool;
 
 use AllowDynamicProperties;
+use Redaxo\Core\Base\InstanceListPoolTrait;
+use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
@@ -11,8 +13,6 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Util\Formatter;
 use rex_extension;
 use rex_extension_point;
-use rex_instance_list_pool_trait;
-use rex_instance_pool_trait;
 use rex_sql_exception;
 
 use function in_array;
@@ -23,8 +23,8 @@ use function in_array;
 #[AllowDynamicProperties]
 class Media
 {
-    use rex_instance_list_pool_trait;
-    use rex_instance_pool_trait;
+    use InstanceListPoolTrait;
+    use InstancePoolTrait;
 
     /** @var int */
     protected $id;

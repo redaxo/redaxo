@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Mailer\Mailer;
 
 if (Core::isSetup()) {
     rex_response::sendRedirect(Url::backendController());
@@ -15,7 +16,7 @@ if (Core::isDebugMode()) {
 
 if (0 != Core::getConfig('phpmailer_errormail')) {
     rex_extension::register('RESPONSE_SHUTDOWN', static function () {
-        rex_mailer::errorMail();
+        Mailer::errorMail();
     });
 }
 

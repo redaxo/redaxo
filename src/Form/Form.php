@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Form;
 
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Field\PriorityField;
@@ -10,7 +11,6 @@ use rex_clang;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
-use rex_factory_trait;
 use rex_sql_exception;
 
 use function assert;
@@ -29,7 +29,7 @@ use function is_string;
  */
 class Form extends AbstractForm
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     public const ERROR_VIOLATE_UNIQUE_KEY = 1062;
 

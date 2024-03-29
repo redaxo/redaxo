@@ -9,7 +9,7 @@ The PHPMailer-AddOn allows you to send e-mails. In addition, PHPMailer can notif
 - SMTP/SMTPS
 - SMTP/SMTPS-Auth
 
-The call is made via the class `rex_mailer`. The settings stored in the configuration are taken into account.
+The call is made via the class `Mailer`. The settings stored in the configuration are taken into account.
 
 The configuration values can easily be overwritten by AddOns or modules, see [Examples](#examples).
 
@@ -28,8 +28,10 @@ Send an e-mail to a specific recipient.
 
 ```php
 <?php
+  use Redaxo\Core\Mailer\Mailer;
+  
   // PHPMailer Instance
-  $mail = new rex_mailer();
+  $mail = new Mailer();
 
   //Overwrite sender address
  // $mail->From = "sender@domain.tld";
@@ -77,8 +79,9 @@ Send an e-mail to a group of recipients that is read from the database.
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Mailer\Mailer;
 
-$mail = new rex_mailer();
+$mail = new Mailer();
 $sql = Sql::factory();
 
 $query = "SELECT full_name, email, photo FROM employee WHERE id= ?";
