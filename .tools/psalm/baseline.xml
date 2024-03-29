@@ -1667,126 +1667,10 @@
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/lib/mediapool/media.php">
-    <MixedArgument>
-      <code><![CDATA[$filename]]></code>
-      <code><![CDATA[$name]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[list<string>]]></code>
-      <code><![CDATA[list<string>]]></code>
-      <code><![CDATA[string|int|null]]></code>
-    </MixedInferredReturnType>
-    <MixedOperand>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->$value]]></code>
-      <code><![CDATA[Core::getProperty('allowed_doctypes', [])]]></code>
-      <code><![CDATA[Core::getProperty('allowed_doctypes', [])]]></code>
-      <code><![CDATA[Core::getProperty('image_extensions', [])]]></code>
-      <code><![CDATA[Core::getProperty('image_extensions', [])]]></code>
-    </MixedReturnStatement>
-    <NullableReturnStatement>
-      <code><![CDATA[Core::getProperty('allowed_doctypes', [])]]></code>
-      <code><![CDATA[Core::getProperty('image_extensions', [])]]></code>
-    </NullableReturnStatement>
-    <PossiblyNullArgument>
-      <code><![CDATA[$this->getValue('med_description')]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/mediapool/media_category.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[self::getInstanceList([$this->getId(), 'media'], rex_media::get(...), static function ($id) {
-            $listPath = Path::coreCache('mediapool/' . $id . '.mlist');
-
-            $list = File::getCache($listPath, null);
-            if (null === $list) {
-                rex_media_cache::generateList($id);
-                $list = File::getCache($listPath);
-            }
-
-            return $list;
-        })]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[list<rex_media>]]></code>
-    </InvalidReturnType>
-    <MixedArgument>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$parentId]]></code>
-    </MixedArgument>
-    <MixedOperand>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$parentId]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/lib/mediapool/media_category_select.php">
     <MixedAssignment>
       <code><![CDATA[$this->checkPerms]]></code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/mediapool/mediapool.php">
-    <MixedArgument>
-      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
-      <code><![CDATA[$args['types']]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$allowedMimetypes]]></code>
-      <code><![CDATA[$blockedExtension]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[array]]></code>
-    </MixedInferredReturnType>
-    <MixedOperand>
-      <code><![CDATA[$blockedExtension]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
-      <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
-    </MixedReturnStatement>
-    <NullableReturnStatement>
-      <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
-    </NullableReturnStatement>
-  </file>
-  <file src="redaxo/src/core/lib/mediapool/service_media.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$allowedExtensions]]></code>
-      <code><![CDATA[$queryParams]]></code>
-      <code><![CDATA[rex_mediapool::getBlockedExtensions()]]></code>
-    </MixedArgumentTypeCoercion>
-    <PossiblyNullOperand>
-      <code><![CDATA[File::mimeType($data['file']['path'])]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/mediapool/service_media_category.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$catName]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[$catName]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$catName]]></code>
-    </MixedAssignment>
-    <NoValue>
-      <code><![CDATA[$warning]]></code>
-    </NoValue>
   </file>
   <file src="redaxo/src/core/lib/mediapool/var_media.php">
     <MixedArgument>
@@ -3574,11 +3458,6 @@
       <code><![CDATA[$rule]]></code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/tests/mediapool/mediapool_test.php">
-    <MixedAssignment>
-      <code><![CDATA[$allowedMimeTypes]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/tests/structure/article_slice_test.php">
     <PossiblyNullReference>
       <code><![CDATA[getId]]></code>
@@ -4387,6 +4266,122 @@
       <code><![CDATA[$val]]></code>
     </MixedAssignment>
   </file>
+  <file src="src/MediaPool/Category.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[self::getInstanceList([$this->getId(), 'media'], Media::get(...), static function ($id) {
+            $listPath = Path::coreCache('mediapool/' . $id . '.mlist');
+
+            $list = File::getCache($listPath, null);
+            if (null === $list) {
+                MediaPoolCache::generateList($id);
+                $list = File::getCache($listPath);
+            }
+
+            return $list;
+        })]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[list<Media>]]></code>
+    </InvalidReturnType>
+    <MixedArgument>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$parentId]]></code>
+    </MixedArgument>
+    <MixedOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$parentId]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/MediaPool/Media.php">
+    <MixedArgument>
+      <code><![CDATA[$filename]]></code>
+      <code><![CDATA[$name]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[list<string>]]></code>
+      <code><![CDATA[list<string>]]></code>
+      <code><![CDATA[string|int|null]]></code>
+    </MixedInferredReturnType>
+    <MixedOperand>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->$value]]></code>
+      <code><![CDATA[Core::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[Core::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[Core::getProperty('image_extensions', [])]]></code>
+      <code><![CDATA[Core::getProperty('image_extensions', [])]]></code>
+    </MixedReturnStatement>
+    <NullableReturnStatement>
+      <code><![CDATA[Core::getProperty('allowed_doctypes', [])]]></code>
+      <code><![CDATA[Core::getProperty('image_extensions', [])]]></code>
+    </NullableReturnStatement>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->getValue('med_description')]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/MediaPool/Mediapool.php">
+    <MixedArgument>
+      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
+      <code><![CDATA[$args['types']]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$allowedMimetypes]]></code>
+      <code><![CDATA[$blockedExtension]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[array]]></code>
+    </MixedInferredReturnType>
+    <MixedOperand>
+      <code><![CDATA[$blockedExtension]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
+      <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
+    </MixedReturnStatement>
+    <NullableReturnStatement>
+      <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="src/MediaPool/ServiceCategory.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$catName]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$catName]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$catName]]></code>
+    </MixedAssignment>
+    <NoValue>
+      <code><![CDATA[$warning]]></code>
+    </NoValue>
+  </file>
+  <file src="src/MediaPool/ServiceMedia.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$allowedExtensions]]></code>
+      <code><![CDATA[$queryParams]]></code>
+      <code><![CDATA[MediaPool::getBlockedExtensions()]]></code>
+    </MixedArgumentTypeCoercion>
+    <PossiblyNullOperand>
+      <code><![CDATA[File::mimeType($data['file']['path'])]]></code>
+    </PossiblyNullOperand>
+  </file>
   <file src="src/MetaInfo/Form/Field/RestrictionField.php">
     <PossiblyNullOperand>
       <code><![CDATA[$id]]></code>
@@ -4882,6 +4877,11 @@
       <code><![CDATA[setExtra]]></code>
       <code><![CDATA[setType]]></code>
     </PossiblyNullReference>
+  </file>
+  <file src="tests/MediaPool/MediaPoolTest.php">
+    <MixedAssignment>
+      <code><![CDATA[$allowedMimeTypes]]></code>
+    </MixedAssignment>
   </file>
   <file src="tests/Util/FormatterTest.php">
     <MixedArrayAccess>
