@@ -5,6 +5,9 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MediaPool\Media;
+use Redaxo\Core\MediaPool\MediaPoolCache;
+use Redaxo\Core\MediaPool\ServiceMedia;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
@@ -49,7 +52,7 @@ if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
                 try {
                     $db->update();
                     $success = I18n::msg('pool_selectedmedia_moved');
-                    rex_media_cache::delete($fileName);
+                    MediaPoolCache::delete($fileName);
 
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
                         'filename' => $fileName,
@@ -76,11 +79,11 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
 
             $countDeleted = 0;
             foreach ($selectedmedia as $filename) {
-                $media = rex_media::get($filename);
+                $media = Media::get($filename);
                 if ($media) {
                     if ($perm->hasCategoryPerm($media->getCategoryId())) {
                         try {
-                            rex_media_service::deleteMedia($filename);
+                            ServiceMedia::deleteMedia($filename);
                             ++$countDeleted;
                         } catch (rex_api_exception $e) {
                             $error[] = $e->getMessage();
@@ -251,7 +254,7 @@ if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
 
 $pager = new Pager(5000);
 
-$items = rex_media_service::getList($filter, [], $pager);
+$items = ServiceMedia::getList($filter, [], $pager);
 
 $panel .= '<tbody>';
 
@@ -264,12 +267,12 @@ foreach ($items as $media) {
     } else {
         $fileExt = File::extension($media->getFileName());
         $iconClass = ' rex-mime-default';
-        if (rex_media::isDocType($fileExt)) {
+        if (Media::isDocType($fileExt)) {
             $iconClass = ' rex-mime-' . $fileExt;
         }
         $thumbnail = '<i class="rex-mime' . $iconClass . '" title="' . $alt . '" data-extension="' . $fileExt . '"></i><span class="sr-only">' . $media->getFileName() . '</span>';
 
-        if (rex_media::isImageType(File::extension($media->getFileName()))) {
+        if (Media::isImageType(File::extension($media->getFileName()))) {
             $thumbnail = '<img class="thumbnail" src="' . Url::media($media->getFileName()) . '?buster=' . $media->getValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
             if ('svg' != File::extension($media->getFileName())) {
                 $thumbnail = '<img class="thumbnail" src="' . rex_media_manager::getUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';

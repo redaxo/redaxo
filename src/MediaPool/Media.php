@@ -1,17 +1,27 @@
 <?php
 
+namespace Redaxo\Core\MediaPool;
+
+use AllowDynamicProperties;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Util\Formatter;
+use rex_extension;
+use rex_extension_point;
+use rex_instance_list_pool_trait;
+use rex_instance_pool_trait;
+use rex_sql_exception;
+
+use function in_array;
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab.
  */
 #[AllowDynamicProperties]
-class rex_media
+class Media
 {
     use rex_instance_list_pool_trait;
     use rex_instance_pool_trait;
@@ -64,7 +74,7 @@ class rex_media
 
             $cache = File::getCache($mediaPath, []);
             if (!$cache) {
-                rex_media_cache::generate($name);
+                MediaPoolCache::generate($name);
                 $cache = File::getCache($mediaPath, []);
             }
 
@@ -125,7 +135,7 @@ class rex_media
 
             $list = File::getCache($listPath, null);
             if (null === $list) {
-                rex_media_cache::generateList(0);
+                MediaPoolCache::generateList(0);
                 $list = File::getCache($listPath);
             }
 
@@ -142,11 +152,11 @@ class rex_media
     }
 
     /**
-     * @return rex_media_category|null
+     * @return Category|null
      */
     public function getCategory()
     {
-        return rex_media_category::get($this->getCategoryId());
+        return Category::get($this->getCategoryId());
     }
 
     /**

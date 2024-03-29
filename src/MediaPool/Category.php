@@ -1,12 +1,19 @@
 <?php
 
+namespace Redaxo\Core\MediaPool;
+
+use LogicException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use rex_instance_list_pool_trait;
+use rex_instance_pool_trait;
+
+use function in_array;
 
 /**
  * Object Oriented Framework: Bildet eine Kategorie im Medienpool ab.
  */
-class rex_media_category
+class Category
 {
     use rex_instance_list_pool_trait;
     use rex_instance_pool_trait;
@@ -49,7 +56,7 @@ class rex_media_category
             $cache = File::getCache($catPath);
 
             if (!$cache) {
-                rex_media_cache::generateCategory($id);
+                MediaPoolCache::generateCategory($id);
                 $cache = File::getCache($catPath);
             }
 
@@ -101,7 +108,7 @@ class rex_media_category
 
             $list = File::getCache($catlistPath, null);
             if (null === $list) {
-                rex_media_cache::generateCategoryList($parentId);
+                MediaPoolCache::generateCategoryList($parentId);
                 $list = File::getCache($catlistPath);
             }
 
@@ -243,16 +250,16 @@ class rex_media_category
     }
 
     /**
-     * @return list<rex_media>
+     * @return list<Media>
      */
     public function getMedia()
     {
-        return self::getInstanceList([$this->getId(), 'media'], rex_media::get(...), static function ($id) {
+        return self::getInstanceList([$this->getId(), 'media'], Media::get(...), static function ($id) {
             $listPath = Path::coreCache('mediapool/' . $id . '.mlist');
 
             $list = File::getCache($listPath, null);
             if (null === $list) {
-                rex_media_cache::generateList($id);
+                MediaPoolCache::generateList($id);
                 $list = File::getCache($listPath);
             }
 

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\Translation\I18n;
 
 class rex_effect_header extends rex_effect_abstract
@@ -34,7 +35,7 @@ class rex_effect_header extends rex_effect_abstract
         $disposition .= '; filename="' . Path::basename($this->media->getMediaFilename()) . '"';
 
         if ('originalname' == $this->params['filename']) {
-            $disposition .= "; filename*=utf-8''" . rawurldecode(rex_media::get($this->media->getMediaFilename())->getOriginalFileName());
+            $disposition .= "; filename*=utf-8''" . rawurldecode(Media::get($this->media->getMediaFilename())->getOriginalFileName());
         }
 
         if ('noindex' === ($this->params['index'] ?? null)) {

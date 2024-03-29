@@ -5,6 +5,9 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MediaPool\Category;
+use Redaxo\Core\MediaPool\Media;
+use Redaxo\Core\MediaPool\ServiceMedia;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
@@ -37,14 +40,14 @@ if (rex_post('btn_delete', 'string')) {
         $sql = Sql::factory()->setQuery('SELECT filename FROM ' . Core::getTable('media') . ' WHERE id = ?', [$fileId]);
         $media = null;
         if (1 == $sql->getRows()) {
-            $media = rex_media::get((string) $sql->getValue('filename'));
+            $media = Media::get((string) $sql->getValue('filename'));
         }
 
         if ($media) {
             $filename = $media->getFileName();
             if ($perm->hasCategoryPerm($media->getCategoryId())) {
                 try {
-                    rex_media_service::deleteMedia($filename);
+                    ServiceMedia::deleteMedia($filename);
                     $success = I18n::msg('pool_file_deleted');
                     $fileId = 0;
 
@@ -88,7 +91,7 @@ if (rex_post('btn_update', 'string')) {
             }
 
             try {
-                rex_media_service::updateMedia($filename, $data);
+                ServiceMedia::updateMedia($filename, $data);
 
                 if ($gf->getValue('category_id') != $rexFileCategory) {
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
@@ -129,7 +132,7 @@ $sidebar = '';
 $addExtInfo = '';
 $encodedFname = urlencode($fname);
 
-$isImage = rex_media::isImageType(File::extension($fname));
+$isImage = Media::isImageType(File::extension($fname));
 if ($isImage) {
     $fwidth = (int) $gf->getValue('width');
     $fheight = (int) $gf->getValue('height');
@@ -304,7 +307,7 @@ if ($TPERM) {
     $panel = '';
 
     $catname = I18n::msg('pool_kats_no');
-    $Cat = rex_media_category::get($rexFileCategory);
+    $Cat = Category::get($rexFileCategory);
     if ($Cat) {
         $catname = $Cat->getName();
     }

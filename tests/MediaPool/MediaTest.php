@@ -1,6 +1,10 @@
 <?php
 
+namespace Redaxo\Core\Tests\MediaPool;
+
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\MediaPool\Media;
+use ReflectionClass;
 
 /** @internal */
 final class rex_media_test extends TestCase
@@ -33,8 +37,8 @@ final class rex_media_test extends TestCase
         self::assertNull($media->getValue('med_bar'));
     }
 
-    private function createMediaWithoutConstructor(): rex_media
+    private function createMediaWithoutConstructor(): Media
     {
-        return (new ReflectionClass(rex_media::class))->newInstanceWithoutConstructor();
+        return (new ReflectionClass(Media::class))->newInstanceWithoutConstructor();
     }
 }

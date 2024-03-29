@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MediaPool\ServiceMedia;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
@@ -34,7 +35,7 @@ if ('add_file' == $mediaMethod) {
             ]);
 
             try {
-                $data = rex_media_service::addMedia($data, true, rex_post('args', 'array'));
+                $data = ServiceMedia::addMedia($data, true, rex_post('args', 'array'));
                 $info = I18n::msg('pool_file_added');
                 if (rex_post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {

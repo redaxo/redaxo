@@ -5,12 +5,12 @@ namespace Redaxo\Core\MetaInfo\Handler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MediaPool\Category;
 use Redaxo\Core\MetaInfo\Form\DefaultType;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
-use rex_media_category;
 
 use function in_array;
 
@@ -142,7 +142,7 @@ class MediaHandler extends AbstractHandler
         if ('' !== $catId) {
             $s = '';
             if (0 != $catId) {
-                $OOCat = rex_media_category::get($catId);
+                $OOCat = Category::get($catId);
 
                 // Alle Metafelder des Pfades sind erlaubt
                 foreach ($OOCat->getPathAsArray() as $pathElement) {

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\MediaPool\MediaPoolPermission;
 
 class rex_user
 {
@@ -222,7 +223,7 @@ class rex_user
      *
      * @return rex_complex_perm|null Complex perm
      * @psalm-return rex_complex_perm|null
-     * @phpstan-return rex_media_perm|rex_structure_perm|rex_module_perm|rex_clang_perm|null
+     * @phpstan-return MediaPoolPermission|rex_structure_perm|rex_module_perm|rex_clang_perm|null
      */
     public function getComplexPerm($key)
     {

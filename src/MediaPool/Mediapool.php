@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\MediaPool;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
@@ -7,8 +9,15 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use rex_article;
+use rex_extension;
+use rex_extension_point;
 
-final class rex_mediapool
+use function count;
+use function in_array;
+use function strlen;
+
+final class MediaPool
 {
     /**
      * Erstellt einen Filename der eindeutig ist für den Medienpool.
@@ -46,7 +55,7 @@ final class rex_mediapool
         if ($doSubindexing || $mediaName != $newMediaName) {
             // ----- datei schon vorhanden -> namen aendern -> _1 ..
             $cnt = 0;
-            while (is_file(Path::media($newMediaName)) || rex_media::get($newMediaName)) {
+            while (is_file(Path::media($newMediaName)) || Media::get($newMediaName)) {
                 ++$cnt;
                 $newMediaName = $newMediaBaseName . '_' . $cnt . $newMediaExtension;
             }

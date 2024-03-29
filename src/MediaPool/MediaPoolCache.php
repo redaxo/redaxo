@@ -1,11 +1,17 @@
 <?php
 
+namespace Redaxo\Core\MediaPool;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
-class rex_media_cache
+use function is_array;
+
+use const GLOB_NOSORT;
+
+class MediaPoolCache
 {
     /**
      * Löscht die gecachte Medium-Datei.
@@ -16,7 +22,7 @@ class rex_media_cache
     public static function delete($filename)
     {
         File::delete(Path::coreCache('mediapool/' . $filename . '.media'));
-        rex_media::clearInstance($filename);
+        Media::clearInstance($filename);
         self::deleteLists();
     }
 
@@ -29,7 +35,7 @@ class rex_media_cache
     public static function deleteCategory($categoryId)
     {
         File::delete(Path::coreCache('mediapool/' . $categoryId . '.mcat'));
-        rex_media_category::clearInstance($categoryId);
+        Category::clearInstance($categoryId);
         self::deleteCategoryLists();
     }
 
@@ -47,7 +53,7 @@ class rex_media_cache
                 File::delete($file);
             }
         }
-        rex_media_category::clearInstanceListPool();
+        Category::clearInstanceListPool();
     }
 
     /**
@@ -59,7 +65,7 @@ class rex_media_cache
     public static function deleteList($categoryId)
     {
         File::delete(Path::coreCache('mediapool/' . $categoryId . '.mlist'));
-        rex_media_category::clearInstanceList([$categoryId, 'media']);
+        Category::clearInstanceList([$categoryId, 'media']);
     }
 
     /**
@@ -76,7 +82,7 @@ class rex_media_cache
                 File::delete($file);
             }
         }
-        rex_media_category::clearInstanceListPool();
+        Category::clearInstanceListPool();
     }
 
     /**
@@ -88,7 +94,7 @@ class rex_media_cache
     public static function deleteCategoryList($categoryId)
     {
         File::delete(Path::coreCache('mediapool/' . $categoryId . '.mclist'));
-        rex_media_category::clearInstanceList([$categoryId, 'children']);
+        Category::clearInstanceList([$categoryId, 'children']);
     }
 
     /**
