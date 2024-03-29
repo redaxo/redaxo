@@ -4286,36 +4286,6 @@
       <code><![CDATA[$this->languageSupport['id']]]></code>
     </MixedArgument>
   </file>
-  <file src="src/HttpClient/Request.php">
-    <InvalidArgument>
-      <code><![CDATA[$data]]></code>
-      <code><![CDATA[static function ($errno, $errstr) use (&$prevError) {
-            if (null === $prevError) {
-                $prevError = $errstr;
-            }
-        }]]></code>
-    </InvalidArgument>
-    <MixedArgument>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-    </MixedArgument>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$value]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="src/HttpClient/Response.php">
-    <MixedInferredReturnType>
-      <code><![CDATA[string|null]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->headers[$key]]]></code>
-    </MixedReturnStatement>
-  </file>
   <file src="src/Log/Logger.php">
     <MixedArgument>
       <code><![CDATA[$level]]></code>
@@ -4877,11 +4847,6 @@
       <code><![CDATA[setExtra]]></code>
       <code><![CDATA[setType]]></code>
     </PossiblyNullReference>
-  </file>
-  <file src="tests/HttpClient/RequestTest.php">
-    <MixedAssignment>
-      <code><![CDATA[$result]]></code>
-    </MixedAssignment>
   </file>
   <file src="tests/Util/FormatterTest.php">
     <MixedArrayAccess>

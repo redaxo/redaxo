@@ -1546,26 +1546,6 @@ parameters:
 			path: ../../src/Form/Form.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\HttpClient\\\\Request\\:\\:factory\\(\\) should return static\\(Redaxo\\\\Core\\\\HttpClient\\\\Request\\) but returns Redaxo\\\\Core\\\\HttpClient\\\\ProxyRequest\\.$#"
-			count: 1
-			path: ../../src/HttpClient/Request.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\HttpClient\\\\Request\\:\\:setOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/HttpClient/Request.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
-			count: 1
-			path: ../../src/HttpClient/Request.php
-
-		-
-			message: "#^Property Redaxo\\\\Core\\\\HttpClient\\\\Response\\:\\:\\$headers type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/HttpClient/Response.php
-
-		-
 			message: "#^Property Redaxo\\\\Core\\\\Mailer\\\\Mailer\\:\\:\\$xHeader type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Mailer/Mailer.php
