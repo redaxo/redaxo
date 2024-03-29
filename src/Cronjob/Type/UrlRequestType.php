@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Cronjob\Type;
 
+use Redaxo\Core\HttpClient\Request;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
-use rex_socket;
 
 use function in_array;
 
@@ -13,7 +13,7 @@ class UrlRequestType extends AbstractType
     public function execute()
     {
         try {
-            $socket = rex_socket::factoryUrl($this->getParam('url'));
+            $socket = Request::factoryUrl($this->getParam('url'));
             if ('|1|' == $this->getParam('http-auth')) {
                 $socket->addBasicAuthorization($this->getParam('user'), $this->getParam('password'));
             }

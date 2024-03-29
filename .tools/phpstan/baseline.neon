@@ -1276,26 +1276,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/structure/var_category.php
 
 		-
-			message: "#^Method rex_socket\\:\\:factory\\(\\) should return static\\(rex_socket\\) but returns rex_socket_proxy\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/socket/socket.php
-
-		-
-			message: "#^Method rex_socket\\:\\:setOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/socket/socket.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/socket/socket.php
-
-		-
-			message: "#^Property rex_socket_response\\:\\:\\$headers type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/socket/socket_response.php
-
-		-
 			message: "#^Method rex_var\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/var/var.php
@@ -1619,6 +1599,26 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\Form\\\\Form\\:\\:\\$languageSupport type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/Form.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\HttpClient\\\\Request\\:\\:factory\\(\\) should return static\\(Redaxo\\\\Core\\\\HttpClient\\\\Request\\) but returns Redaxo\\\\Core\\\\HttpClient\\\\ProxyRequest\\.$#"
+			count: 1
+			path: ../../src/HttpClient/Request.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\HttpClient\\\\Request\\:\\:setOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/HttpClient/Request.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			count: 1
+			path: ../../src/HttpClient/Request.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\HttpClient\\\\Response\\:\\:\\$headers type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/HttpClient/Response.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Form\\\\Input\\\\AbstractInput\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
