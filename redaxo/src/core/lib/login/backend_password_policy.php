@@ -1,12 +1,13 @@
 <?php
 
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 
 class rex_backend_password_policy extends rex_password_policy
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     /**
      * Forbid to reuse the last X previous passwords.

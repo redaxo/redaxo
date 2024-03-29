@@ -12,8 +12,8 @@ use RecursiveCallbackFilterIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIterator;
 use RecursiveIteratorIterator;
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Util\SortableIterator;
-use rex_factory_trait;
 use SplFileInfo;
 use Traversable;
 
@@ -24,7 +24,7 @@ use function is_array;
  */
 class Finder implements IteratorAggregate, Countable
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     final public const string ALL = '__ALL__';
 

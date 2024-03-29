@@ -38,12 +38,14 @@ use Rector\Transform\ValueObject\NewToStaticCall;
 use Rector\TypeDeclaration\Rector as TypeDeclaration;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Addon;
+use Redaxo\Core\Base;
 use Redaxo\Core\Console;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
+use Redaxo\Core\HttpClient;
 use Redaxo\Core\Log;
 use Redaxo\Core\Mailer;
 use Redaxo\Core\MetaInfo;
@@ -204,6 +206,9 @@ return RectorConfig::configure()
         'rex_parsedown' => Util\Parsedown::class,
         'rex_path' => Filesystem\Path::class,
         'rex_path_default_provider' => Filesystem\DefaultPathProvider::class,
+        'rex_socket' => HttpClient\Request::class,
+        'rex_socket_response' => HttpClient\Response::class,
+        'rex_socket_proxy' => HttpClient\ProxyRequest::class,
         'rex_sortable_iterator' => Util\SortableIterator::class,
         'rex_sql' => Database\Sql::class,
         'rex_sql_column' => Database\Column::class,
@@ -216,6 +221,10 @@ return RectorConfig::configure()
         'rex_string' => Util\Str::class,
         'rex_timer' => Util\Timer::class,
         'rex_type' => Util\Type::class,
+        'rex_factory_trait' => Base\FactoryTrait::class,
+        'rex_instance_list_pool_trait' => Base\InstanceListPoolTrait::class,
+        'rex_instance_pool_trait' => Base\InstancePoolTrait::class,
+        'rex_singleton_trait' => Base\SingletonTrait::class,
         'rex_url' => Filesystem\Url::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,

@@ -6,11 +6,11 @@ use ErrorException;
 use Exception;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use rex_backend_login;
 use rex_error_handler;
-use rex_factory_trait;
 use rex_http_exception;
 use Stringable;
 use Throwable;
@@ -31,7 +31,7 @@ use const E_WARNING;
  */
 class Logger extends AbstractLogger
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     /** @var LogFile|null */
     private static $file;

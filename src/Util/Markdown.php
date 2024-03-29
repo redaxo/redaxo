@@ -2,15 +2,15 @@
 
 namespace Redaxo\Core\Util;
 
+use Redaxo\Core\Base\FactoryTrait;
 use rex_exception;
-use rex_factory_trait;
 
 /**
  * Markdown parser.
  */
 class Markdown
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     public const SOFT_LINE_BREAKS = 'soft_line_breaks';
     public const HIGHLIGHT_PHP = 'highlight_php';
