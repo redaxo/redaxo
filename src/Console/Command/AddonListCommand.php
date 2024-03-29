@@ -23,7 +23,7 @@ class AddonListCommand extends AbstractCommand
         $this
             ->setDescription('List available addons')
             ->addOption('search', 's', InputOption::VALUE_REQUIRED, 'filter list')
-            ->addOption('addon', 'a', InputOption::VALUE_REQUIRED, 'search for exactly this addon-id')
+            ->addOption('addon', 'p', InputOption::VALUE_REQUIRED, 'search for exactly this addon-id')
             ->addOption('installed-only', 'i', InputOption::VALUE_NONE, 'only list installed addons')
             ->addOption('activated-only', 'a', InputOption::VALUE_NONE, 'only list active addons')
             ->addOption('error-when-empty', null, InputOption::VALUE_NONE, 'if no addon matches your filter the command exits with error-code 1, otherwise with 0')

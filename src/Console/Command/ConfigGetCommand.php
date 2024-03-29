@@ -25,7 +25,7 @@ class ConfigGetCommand extends AbstractCommand implements StandaloneInterface
         $this->setDescription('Get config variables')
             ->addArgument('config-key', InputArgument::REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"')
             ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'php type of the returned value, e.g. "octal"', 'string')
-            ->addOption('addon', 'a', InputOption::VALUE_REQUIRED, 'addon to inspect, defaults to redaxo-core', 'core')
+            ->addOption('addon', 'p', InputOption::VALUE_REQUIRED, 'addon to inspect, defaults to redaxo-core', 'core')
         ;
     }
 
