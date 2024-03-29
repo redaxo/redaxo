@@ -3,10 +3,10 @@
 namespace Redaxo\Core\Log;
 
 use Iterator;
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Filesystem\File;
 use ReturnTypeWillChange;
 use rex_exception;
-use rex_factory_trait;
 
 use function assert;
 use function strlen;
@@ -18,7 +18,7 @@ use const SEEK_END;
  */
 class LogFile implements Iterator
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     /** @var string */
     private $path;

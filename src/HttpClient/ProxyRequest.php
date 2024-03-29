@@ -1,9 +1,15 @@
 <?php
 
+namespace Redaxo\Core\HttpClient;
+
+use rex_socket_exception;
+
+use const STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+
 /**
  * Class for sockets over a proxy.
  */
-class rex_socket_proxy extends rex_socket
+class ProxyRequest extends Request
 {
     /** @var string */
     protected $destinationHost;

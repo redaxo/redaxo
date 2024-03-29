@@ -2,17 +2,18 @@
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\HttpClient\Response;
 
 /** @internal */
-final class rex_socket_response_test extends TestCase
+final class ResponseTest extends TestCase
 {
-    private function getResponse(string $content): rex_socket_response
+    private function getResponse(string $content): Response
     {
         $stream = fopen('php://temp', 'r+');
         fwrite($stream, $content);
         fseek($stream, 0);
 
-        return new rex_socket_response($stream);
+        return new Response($stream);
     }
 
     /** @return list<array{string, ?int, ?string, string}> */
@@ -91,14 +92,14 @@ final class rex_socket_response_test extends TestCase
 
         // Test combination with chunked with real responses from the redaxo webservice
         $decodedResponseContent =
-            file_get_contents(__DIR__ . '/socket_response_testfiles/response_decoded');
+            file_get_contents(__DIR__ . '/ResponseTestFiles/response_decoded');
 
         self::assertSame($decodedResponseContent, $this->getResponse(
-            file_get_contents(__DIR__ . '/socket_response_testfiles/response_chunked.testresp'),
+            file_get_contents(__DIR__ . '/ResponseTestFiles/response_chunked.testresp'),
         )->decompressContent(true)->getBody());
 
         self::assertSame($decodedResponseContent, $this->getResponse(
-            file_get_contents(__DIR__ . '/socket_response_testfiles/response_chunked_gzip.testresp'),
+            file_get_contents(__DIR__ . '/ResponseTestFiles/response_chunked_gzip.testresp'),
         )->decompressContent(true)->getBody());
     }
 
@@ -114,7 +115,7 @@ final class rex_socket_response_test extends TestCase
             ->getContentEncodings(), );
     }
 
-    private function createResponseWithEncoding(string $encoding, string $body): rex_socket_response
+    private function createResponseWithEncoding(string $encoding, string $body): Response
     {
         return $this->getResponse(
             sprintf("HTTP/1.1 200 OK\r\nContent-Encoding: %s\r\n\r\n%s", $encoding, $body),

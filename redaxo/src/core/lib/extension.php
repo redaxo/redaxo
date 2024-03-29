@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Util\Timer;
 
 /**
@@ -7,7 +8,7 @@ use Redaxo\Core\Util\Timer;
  */
 abstract class rex_extension
 {
-    use rex_factory_trait;
+    use FactoryTrait;
 
     public const EARLY = -1;
     public const NORMAL = 0;

@@ -1,6 +1,10 @@
 <?php
 
-trait rex_singleton_trait
+namespace Redaxo\Core\Base;
+
+use BadMethodCallException;
+
+trait SingletonTrait
 {
     /**
      * Singleton instances.
