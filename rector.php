@@ -45,6 +45,7 @@ use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
 use Redaxo\Core\Log;
+use Redaxo\Core\MediaPool;
 use Redaxo\Core\MetaInfo;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
@@ -190,6 +191,13 @@ return RectorConfig::configure()
         'rex_log_file' => Log\LogFile::class,
         'rex_logger' => Log\Logger::class,
         'rex_markdown' => Util\Markdown::class,
+        'rex_media' => MediaPool\Media::class,
+        'rex_media_cache' => MediaPool\MediaPoolCache::class,
+        'rex_media_category' => MediaPool\Category::class,
+        'rex_media_service' => MediaPool\ServiceMedia::class,
+        'rex_media_category_service' => MediaPool\ServiceCategory::class,
+        'rex_media_perm' => MediaPool\MediaPoolPermission::class,
+        'rex_mediapool' => MediaPool\MediaPool::class,
         'rex_metainfo_default_type' => MetaInfo\Form\DefaultType::class,
         'rex_metainfo_handler' => MetaInfo\Handler\AbstractHandler::class,
         'rex_metainfo_article_handler' => MetaInfo\Handler\ArticleHandler::class,
@@ -259,18 +267,18 @@ return RectorConfig::configure()
         new NewToStaticCall(Log\LogFile::class, Log\LogFile::class, 'factory'),
     ])
     ->withConfiguredRule(FuncCallToStaticCallRector::class, [
-        new FuncCallToStaticCall('rex_mediapool_filename', rex_mediapool::class, 'filename'),
-        new FuncCallToStaticCall('rex_mediapool_mediaIsInUse', rex_mediapool::class, 'mediaIsInUse'),
-        new FuncCallToStaticCall('rex_mediapool_isAllowedMediaType', rex_mediapool::class, 'isAllowedExtension'),
-        new FuncCallToStaticCall('rex_mediapool_isAllowedMimeType', rex_mediapool::class, 'isAllowedMimeType'),
-        new FuncCallToStaticCall('rex_mediapool_getMediaTypeWhitelist', rex_mediapool::class, 'getAllowedExtensions'),
-        new FuncCallToStaticCall('rex_mediapool_getMediaTypeBlacklist', rex_mediapool::class, 'getBlockedExtensions'),
+        new FuncCallToStaticCall('rex_mediapool_filename', MediaPool\MediaPool::class, 'filename'),
+        new FuncCallToStaticCall('rex_mediapool_mediaIsInUse', MediaPool\MediaPool::class, 'mediaIsInUse'),
+        new FuncCallToStaticCall('rex_mediapool_isAllowedMediaType', MediaPool\MediaPool::class, 'isAllowedExtension'),
+        new FuncCallToStaticCall('rex_mediapool_isAllowedMimeType', MediaPool\MediaPool::class, 'isAllowedMimeType'),
+        new FuncCallToStaticCall('rex_mediapool_getMediaTypeWhitelist', MediaPool\MediaPool::class, 'getAllowedExtensions'),
+        new FuncCallToStaticCall('rex_mediapool_getMediaTypeBlacklist', MediaPool\MediaPool::class, 'getBlockedExtensions'),
 
         // additional adjustments necessary afterward, see https://github.com/redaxo/redaxo/pull/5918/files
-        new FuncCallToStaticCall('rex_mediapool_saveMedia', rex_mediapool::class, 'addMedia'), // different params
-        new FuncCallToStaticCall('rex_mediapool_updateMedia', rex_mediapool::class, 'updateMedia'), // different params
-        new FuncCallToStaticCall('rex_mediapool_syncFile', rex_mediapool::class, 'addMedia'), // different params
-        new FuncCallToStaticCall('rex_mediapool_deleteMedia', rex_mediapool::class, 'deleteMedia'), // different return value
+        new FuncCallToStaticCall('rex_mediapool_saveMedia', MediaPool\MediaPool::class, 'addMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_updateMedia', MediaPool\MediaPool::class, 'updateMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_syncFile', MediaPool\MediaPool::class, 'addMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_deleteMedia', MediaPool\MediaPool::class, 'deleteMedia'), // different return value
     ])
     ->withConfiguredRule(RemoveFuncCallArgRector::class, [
         new RemoveFuncCallArg('rex_getUrl', 3),
