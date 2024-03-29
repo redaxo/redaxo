@@ -4332,7 +4332,7 @@
       <code><![CDATA[$this->getValue('med_description')]]></code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/MediaPool/Mediapool.php">
+  <file src="src/MediaPool/MediaPool.php">
     <MixedArgument>
       <code><![CDATA[$allowedMimetypes[$extension]]]></code>
       <code><![CDATA[$args['types']]]></code>

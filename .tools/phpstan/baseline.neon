@@ -1571,29 +1571,29 @@ parameters:
 			path: ../../src/MediaPool/Media.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPoolPermission\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/MediaPool/MediaPoolPermission.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPool\\:\\:getAllowedExtensions\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/MediaPool/Mediapool.php
+			path: ../../src/MediaPool/MediaPool.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPool\\:\\:getAllowedExtensions\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/MediaPool/Mediapool.php
+			path: ../../src/MediaPool/MediaPool.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPool\\:\\:getBlockedExtensions\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/MediaPool/Mediapool.php
+			path: ../../src/MediaPool/MediaPool.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPool\\:\\:isAllowedExtension\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/MediaPool/Mediapool.php
+			path: ../../src/MediaPool/MediaPool.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPoolPermission\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaPoolPermission.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\ServiceCategory\\:\\:editCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
