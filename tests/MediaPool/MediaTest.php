@@ -7,7 +7,7 @@ use Redaxo\Core\MediaPool\Media;
 use ReflectionClass;
 
 /** @internal */
-final class rex_media_test extends TestCase
+final class MediaTest extends TestCase
 {
     public function testHasValue(): void
     {
