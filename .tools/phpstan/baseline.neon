@@ -661,11 +661,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/mediapool/var_medialist.php
 
 		-
-			message: "#^Property rex_mailer\\:\\:\\$xHeader type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/phpmailer/mailer.php
-
-		-
 			message: "#^Method rex_request\\:\\:arrayKeyCast\\(\\) has parameter \\$haystack with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/request.php
@@ -1569,6 +1564,11 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\HttpClient\\\\Response\\:\\:\\$headers type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/HttpClient/Response.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Mailer\\\\Mailer\\:\\:\\$xHeader type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Mailer/Mailer.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Form\\\\Input\\\\AbstractInput\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"

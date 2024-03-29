@@ -47,6 +47,7 @@ use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
 use Redaxo\Core\HttpClient;
 use Redaxo\Core\Log;
+use Redaxo\Core\Mailer;
 use Redaxo\Core\MetaInfo;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
@@ -192,6 +193,7 @@ return RectorConfig::configure()
         'rex_log_file' => Log\LogFile::class,
         'rex_logger' => Log\Logger::class,
         'rex_markdown' => Util\Markdown::class,
+        'rex_mailer' => Mailer\Mailer::class,
         'rex_metainfo_default_type' => MetaInfo\Form\DefaultType::class,
         'rex_metainfo_handler' => MetaInfo\Handler\AbstractHandler::class,
         'rex_metainfo_article_handler' => MetaInfo\Handler\ArticleHandler::class,
@@ -250,7 +252,7 @@ return RectorConfig::configure()
         new MethodCallRename(rex_managed_media::class, 'getImageWidth', 'getWidth'),
         new MethodCallRename(rex_managed_media::class, 'getImageHeight', 'getHeight'),
 
-        new MethodCallRename(rex_mailer::class, 'setLog', 'setArchive'),
+        new MethodCallRename(Mailer\Mailer::class, 'setLog', 'setArchive'),
 
         new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addArticleField'),
         new MethodCallRename(Form\AbstractForm::class, 'addLinkmapField', 'addArticleField'),
