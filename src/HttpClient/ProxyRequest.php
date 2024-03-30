@@ -2,21 +2,19 @@
 
 namespace Redaxo\Core\HttpClient;
 
+use Override;
 use rex_socket_exception;
 
 use const STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
 
 /**
- * Class for sockets over a proxy.
+ * Class for HttpClient requests over a proxy.
  */
 class ProxyRequest extends Request
 {
-    /** @var string */
-    protected $destinationHost;
-    /** @var int */
-    protected $destinationPort;
-    /** @var bool */
-    protected $destinationSsl;
+    protected string $destinationHost;
+    protected int $destinationPort;
+    protected bool $destinationSsl;
 
     /**
      * Sets the destination.
@@ -25,9 +23,9 @@ class ProxyRequest extends Request
      * @param int $port Port number
      * @param bool $ssl SSL flag
      *
-     * @return $this Current socket
+     * @return $this
      */
-    public function setDestination($host, $port = 443, $ssl = true)
+    public function setDestination(string $host, int $port = 443, bool $ssl = true): static
     {
         $this->destinationHost = $host;
         $this->destinationPort = $port;
@@ -43,16 +41,17 @@ class ProxyRequest extends Request
      *
      * @param string $url Full URL
      *
-     * @return $this Current socket
+     * @return $this
      */
-    public function setDestinationUrl($url)
+    public function setDestinationUrl(string $url): static
     {
         $parts = self::parseUrl($url);
 
         return $this->setDestination($parts['host'], $parts['port'], $parts['ssl'])->setPath($parts['path']);
     }
 
-    protected function openConnection()
+    #[Override]
+    protected function openConnection(): void
     {
         parent::openConnection();
 

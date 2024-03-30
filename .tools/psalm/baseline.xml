@@ -1810,59 +1810,6 @@
       <code><![CDATA[$return]]></code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/lib/phpmailer/mailer.php">
-    <MixedArgument>
-      <code><![CDATA[$address]]></code>
-      <code><![CDATA[$bcc]]></code>
-      <code><![CDATA[$exceptions]]></code>
-      <code><![CDATA[$kind]]></code>
-      <code><![CDATA[$this->xHeader[$kind]]]></code>
-      <code><![CDATA[$this->xHeader['to']]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[array_column($this->getReplyToAddresses(), 0)]]></code>
-      <code><![CDATA[array_column($this->getToAddresses(), 0)]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayOffset>
-      <code><![CDATA[$this->xHeader[$kind]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code><![CDATA[$address]]></code>
-      <code><![CDATA[$bcc]]></code>
-      <code><![CDATA[$detourAddress]]></code>
-      <code><![CDATA[$lasterrors]]></code>
-      <code><![CDATA[$sendTime]]></code>
-      <code><![CDATA[$this->CharSet]]></code>
-      <code><![CDATA[$this->ConfirmReadingTo]]></code>
-      <code><![CDATA[$this->Encoding]]></code>
-      <code><![CDATA[$this->From]]></code>
-      <code><![CDATA[$this->FromName]]></code>
-      <code><![CDATA[$this->Host]]></code>
-      <code><![CDATA[$this->Mailer]]></code>
-      <code><![CDATA[$this->Password]]></code>
-      <code><![CDATA[$this->Port]]></code>
-      <code><![CDATA[$this->Priority]]></code>
-      <code><![CDATA[$this->SMTPAuth]]></code>
-      <code><![CDATA[$this->SMTPAutoTLS]]></code>
-      <code><![CDATA[$this->SMTPDebug]]></code>
-      <code><![CDATA[$this->SMTPSecure]]></code>
-      <code><![CDATA[$this->Username]]></code>
-      <code><![CDATA[$this->WordWrap]]></code>
-      <code><![CDATA[$this->archive]]></code>
-      <code><![CDATA[$timediff]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$sendTime]]></code>
-      <code><![CDATA[$this->xHeader[$kind]]]></code>
-      <code><![CDATA[$this->xHeader['to']]]></code>
-    </MixedOperand>
-    <PossiblyNullArgument>
-      <code><![CDATA[$address]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$sendTime]]></code>
-    </PossiblyNullOperand>
-  </file>
   <file src="redaxo/src/core/lib/phpmailer/system_setting_phpmailer_errormail.php">
     <MixedArgument>
       <code><![CDATA[rex_config::get('phpmailer', 'errormail', 1)]]></code>
@@ -4308,36 +4255,6 @@
       <code><![CDATA[$this->languageSupport['id']]]></code>
     </MixedArgument>
   </file>
-  <file src="src/HttpClient/Request.php">
-    <InvalidArgument>
-      <code><![CDATA[$data]]></code>
-      <code><![CDATA[static function ($errno, $errstr) use (&$prevError) {
-            if (null === $prevError) {
-                $prevError = $errstr;
-            }
-        }]]></code>
-    </InvalidArgument>
-    <MixedArgument>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[$stream]]></code>
-    </MixedArgument>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$value]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="src/HttpClient/Response.php">
-    <MixedInferredReturnType>
-      <code><![CDATA[string|null]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->headers[$key]]]></code>
-    </MixedReturnStatement>
-  </file>
   <file src="src/Log/Logger.php">
     <MixedArgument>
       <code><![CDATA[$level]]></code>
@@ -4350,6 +4267,59 @@
       <code><![CDATA[$replace['{' . $key . '}']]]></code>
       <code><![CDATA[$val]]></code>
     </MixedAssignment>
+  </file>
+  <file src="src/Mailer/Mailer.php">
+    <MixedArgument>
+      <code><![CDATA[$address]]></code>
+      <code><![CDATA[$bcc]]></code>
+      <code><![CDATA[$exceptions]]></code>
+      <code><![CDATA[$kind]]></code>
+      <code><![CDATA[$this->xHeader[$kind]]]></code>
+      <code><![CDATA[$this->xHeader['to']]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[array_column($this->getReplyToAddresses(), 0)]]></code>
+      <code><![CDATA[array_column($this->getToAddresses(), 0)]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayOffset>
+      <code><![CDATA[$this->xHeader[$kind]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code><![CDATA[$address]]></code>
+      <code><![CDATA[$bcc]]></code>
+      <code><![CDATA[$detourAddress]]></code>
+      <code><![CDATA[$lasterrors]]></code>
+      <code><![CDATA[$sendTime]]></code>
+      <code><![CDATA[$this->CharSet]]></code>
+      <code><![CDATA[$this->ConfirmReadingTo]]></code>
+      <code><![CDATA[$this->Encoding]]></code>
+      <code><![CDATA[$this->From]]></code>
+      <code><![CDATA[$this->FromName]]></code>
+      <code><![CDATA[$this->Host]]></code>
+      <code><![CDATA[$this->Mailer]]></code>
+      <code><![CDATA[$this->Password]]></code>
+      <code><![CDATA[$this->Port]]></code>
+      <code><![CDATA[$this->Priority]]></code>
+      <code><![CDATA[$this->SMTPAuth]]></code>
+      <code><![CDATA[$this->SMTPAutoTLS]]></code>
+      <code><![CDATA[$this->SMTPDebug]]></code>
+      <code><![CDATA[$this->SMTPSecure]]></code>
+      <code><![CDATA[$this->Username]]></code>
+      <code><![CDATA[$this->WordWrap]]></code>
+      <code><![CDATA[$this->archive]]></code>
+      <code><![CDATA[$timediff]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$sendTime]]></code>
+      <code><![CDATA[$this->xHeader[$kind]]]></code>
+      <code><![CDATA[$this->xHeader['to']]]></code>
+    </MixedOperand>
+    <PossiblyNullArgument>
+      <code><![CDATA[$address]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand>
+      <code><![CDATA[$sendTime]]></code>
+    </PossiblyNullOperand>
   </file>
   <file src="src/MetaInfo/Form/Field/RestrictionField.php">
     <PossiblyNullOperand>
@@ -4846,11 +4816,6 @@
       <code><![CDATA[setExtra]]></code>
       <code><![CDATA[setType]]></code>
     </PossiblyNullReference>
-  </file>
-  <file src="tests/HttpClient/RequestTest.php">
-    <MixedAssignment>
-      <code><![CDATA[$result]]></code>
-    </MixedAssignment>
   </file>
   <file src="tests/Util/FormatterTest.php">
     <MixedArrayAccess>
