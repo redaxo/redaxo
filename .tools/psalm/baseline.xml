@@ -338,7 +338,7 @@
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
-      <code><![CDATA[[MediaManagerManager::class, 'init']]]></code>
+      <code><![CDATA[[MediaManager::class, 'init']]]></code>
     </PossiblyInvalidArgument>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
@@ -4367,13 +4367,13 @@
       <code><![CDATA[$this->params['rotate']]]></code>
     </MixedArgument>
   </file>
-  <file src="src/MediaManager/MediaManagerExecutor.php">
+  <file src="src/MediaManager/ManagedMedia.php">
     <RedundantCast>
       <code><![CDATA[(int) $size[0]]]></code>
       <code><![CDATA[(int) $size[1]]]></code>
     </RedundantCast>
   </file>
-  <file src="src/MediaManager/MediaManagerManager.php">
+  <file src="src/MediaManager/MediaManager.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[['effects' => 1, 'type_id' => $sql->getValue('type_id'), 'effect_id' => $sql->getValue('effect_id'), 'func' => 'edit']]]></code>
     </ArgumentTypeCoercion>

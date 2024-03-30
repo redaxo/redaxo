@@ -1561,14 +1561,14 @@ parameters:
 			path: ../../src/MediaManager/Effect/WorkspaceEffect.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\MediaManagerManager\\:\\:mediaIsInUse\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\MediaManager\\:\\:mediaIsInUse\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
 			count: 1
-			path: ../../src/MediaManager/MediaManagerManager.php
+			path: ../../src/MediaManager/MediaManager.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\MediaManagerManager\\:\\:mediaUpdated\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\MediaManager\\:\\:mediaUpdated\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
 			count: 1
-			path: ../../src/MediaManager/MediaManagerManager.php
+			path: ../../src/MediaManager/MediaManager.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Form\\\\Input\\\\AbstractInput\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
