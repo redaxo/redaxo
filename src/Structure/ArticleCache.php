@@ -1,12 +1,15 @@
 <?php
 
+namespace Redaxo\Core\Structure;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use rex_clang;
 
-class rex_article_cache
+class ArticleCache
 {
     /**
      * Löscht die gecachten Dateien eines Artikels. Wenn keine clang angegeben, wird
@@ -61,8 +64,8 @@ class rex_article_cache
             }
 
             File::delete($cachePath . $id . '.' . $otherClangId . '.article');
-            rex_article::clearInstance([$id, $otherClangId]);
-            rex_category::clearInstance([$id, $otherClangId]);
+            Article::clearInstance([$id, $otherClangId]);
+            Category::clearInstance([$id, $otherClangId]);
         }
 
         return true;
@@ -116,7 +119,7 @@ class rex_article_cache
 
         foreach (['alist', 'clist'] as $list) {
             File::delete($cachePath . $id . '.' . $list);
-            rex_structure_element::clearInstanceList([$id, $list]);
+            AbstractElement::clearInstanceList([$id, $list]);
         }
 
         return true;

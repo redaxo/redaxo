@@ -1,9 +1,16 @@
 <?php
 
+namespace Redaxo\Core\Structure;
+
+use rex_extension;
+use rex_extension_point;
+
+use function assert;
+
 /**
  * Object Oriented Framework: Bildet eine Kategorie der Struktur ab.
  */
-class rex_category extends rex_structure_element
+class Category extends AbstractElement
 {
     /**
      * Return the current category.
@@ -14,7 +21,7 @@ class rex_category extends rex_structure_element
      */
     public static function getCurrent($clang = null)
     {
-        $article = rex_article::getCurrent($clang);
+        $article = Article::getCurrent($clang);
 
         return $article ? $article->getCategory() : null;
     }
@@ -92,22 +99,22 @@ class rex_category extends rex_structure_element
      *
      * @param bool $ignoreOfflines
      *
-     * @return list<rex_article>
+     * @return list<Article>
      */
     public function getArticles($ignoreOfflines = false)
     {
-        return rex_article::getChildElements($this->id, 'alist', $ignoreOfflines, $this->clang_id);
+        return Article::getChildElements($this->id, 'alist', $ignoreOfflines, $this->clang_id);
     }
 
     /**
      * Return the start article for this category.
      *
-     * @return rex_article
+     * @return Article
      */
     public function getStartArticle()
     {
-        $article = rex_article::get($this->id, $this->clang_id);
-        assert($article instanceof rex_article);
+        $article = Article::get($this->id, $this->clang_id);
+        assert($article instanceof Article);
         return $article;
     }
 

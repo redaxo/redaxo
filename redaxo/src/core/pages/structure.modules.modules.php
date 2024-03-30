@@ -3,6 +3,8 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Structure\ArticleCache;
 use Redaxo\Core\Translation\I18n;
 
 $OUT = true;
@@ -81,7 +83,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
             $aid = $del->getValue('article_id');
             $clangId = $del->getValue('clang_id');
             $ctype = $del->getValue('ctype_id');
-            $OOArt = rex_article::get($aid, $clangId);
+            $OOArt = Article::get($aid, $clangId);
 
             $label = $OOArt->getName() . ' [' . $aid . ']';
             if (rex_clang::count() > 1) {
@@ -175,7 +177,7 @@ if ('add' == $function || 'edit' == $function) {
                                 LEFT JOIN ' . Core::getTablePrefix() . 'article_slice ON ' . Core::getTablePrefix() . 'article.id=' . Core::getTablePrefix() . 'article_slice.article_id
                                 WHERE ' . Core::getTablePrefix() . 'article_slice.module_id=?', [$moduleId]);
                         for ($i = 0; $i < $gc->getRows(); ++$i) {
-                            rex_article_cache::delete($gc->getValue(Core::getTablePrefix() . 'article.id'));
+                            ArticleCache::delete($gc->getValue(Core::getTablePrefix() . 'article.id'));
                             $gc->next();
                         }
                     }

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Structure\Category;
+
 /**
  * @internal
  */
@@ -23,7 +25,7 @@ class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
     /**
      * @return string
      */
-    protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon)
+    protected function treeItem(Category $cat, $liClasses, $linkClasses, $subHtml, $liIcon)
     {
         $linkClasses .= '';
 

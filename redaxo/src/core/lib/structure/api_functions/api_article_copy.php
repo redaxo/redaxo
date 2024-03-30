@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Structure\ArticleHandler;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -22,7 +23,7 @@ class rex_api_article_copy extends rex_api_function
         ]);
 
         if ($user->hasPerm('copyArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryCopyIdNew)) {
-            if (false !== ($newId = rex_article_service::copyArticle($articleId, $categoryCopyIdNew))) {
+            if (false !== ($newId = ArticleHandler::copyArticle($articleId, $categoryCopyIdNew))) {
                 $result = new rex_api_result(true, I18n::msg('content_articlecopied'));
                 rex_response::sendRedirect($context->getUrl([
                     'article_id' => $newId,

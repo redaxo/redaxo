@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Structure\Article;
+
 /**
  * REX_ARTICLE[1]
  * REX_ARTICLE[id=1].
@@ -55,7 +57,7 @@ class rex_var_article extends rex_var
         if (null === $clang) {
             $clang = rex_clang::getCurrentId();
         }
-        $article = rex_article::get($id, $clang);
+        $article = Article::get($id, $clang);
         return rex_escape($article->getValue($field));
     }
 

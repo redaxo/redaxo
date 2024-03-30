@@ -4,13 +4,15 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Structure\ArticleCache;
 use Redaxo\Core\Translation\I18n;
 
 $articleId = rex_request('article_id', 'int');
 $clang = rex_request('clang', 'int');
 $sliceId = rex_request('slice_id', 'int', '');
 
-$articleId = rex_article::get($articleId) ? $articleId : 0;
+$articleId = Article::get($articleId) ? $articleId : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
 $articleRevision = 0;
@@ -51,7 +53,7 @@ if (!array_key_exists($ctype, $ctypes)) {
 }
 
 // ----- Artikel wurde gefunden - Kategorie holen
-$OOArt = rex_article::get($articleId, $clang);
+$OOArt = Article::get($articleId, $clang);
 $categoryId = $OOArt->getCategoryId();
 
 // ----- Request Parameter
@@ -303,7 +305,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                     $EA->setWhere(['id' => $articleId, 'clang_id' => $clang]);
                     $EA->addGlobalUpdateFields();
                     $EA->update();
-                    rex_article_cache::delete($articleId, $clang);
+                    ArticleCache::delete($articleId, $clang);
 
                     rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_ARTICLE_UPDATED', '', [
                         'id' => $articleId,

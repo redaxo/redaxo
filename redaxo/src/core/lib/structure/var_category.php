@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Structure\Category;
+
 /**
  * REX_CATEGORY[xzy]
  * REX_CATEGORY[field=xzy]
@@ -36,7 +38,7 @@ class rex_var_category extends rex_var
         if (null === $clang) {
             $clang = rex_clang::getCurrentId();
         }
-        $cat = rex_category::get($id, $clang);
+        $cat = Category::get($id, $clang);
         if ($cat) {
             return rex_escape($cat->getValue($field));
         }

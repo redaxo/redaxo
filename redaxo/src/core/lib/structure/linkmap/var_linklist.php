@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Structure\Category;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -46,7 +48,7 @@ class rex_var_linklist extends rex_var
      */
     public static function getWidget($id, $name, $value, array $args = [])
     {
-        $category = rex_category::getCurrent() ? rex_category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
+        $category = Category::getCurrent() ? Category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
 
         // Falls ein Kategorie-Parameter angegeben wurde, die Linkmap in dieser Kategorie öffnen
         if (isset($args['category'])) {
@@ -61,7 +63,7 @@ class rex_var_linklist extends rex_var
             if ('' == $link) {
                 continue;
             }
-            if ($article = rex_article::get((int) $link)) {
+            if ($article = Article::get((int) $link)) {
                 $options .= '<option value="' . $link . '">' . rex_escape(trim(sprintf('%s [%s]', $article->getName(), $article->getId()))) . '</option>';
             }
         }

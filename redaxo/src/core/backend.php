@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Structure\Article;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 
@@ -331,14 +332,14 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
 
     rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
         if ('content/edit' == $ep->getParam('page')) {
-            $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId());
+            $articleLink = rex_getUrl(Article::getCurrentId(), rex_clang::getCurrentId());
             if (str_starts_with($articleLink, 'http')) {
                 $user = Core::requireUser();
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
                 $userHistorySession = rex_history_login::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
-                $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [
+                $articleLink = rex_getUrl(Article::getCurrentId(), rex_clang::getCurrentId(), [
                     'rex_history_login' => $userLogin,
                     'rex_history_session' => $userHistorySession,
                     'rex_history_validtime' => $historyValidTime,
@@ -346,7 +347,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
             }
 
             echo '<script nonce="' . rex_response::getNonce() . '">
-                    var history_article_id = ' . rex_article::getCurrentId() . ';
+                    var history_article_id = ' . Article::getCurrentId() . ';
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
                     var history_article_link = "' . rex_escape($articleLink, 'js') . '";
@@ -422,7 +423,7 @@ if (Core::getConfig('article_work_version', false)) {
                     );
                     $return .= rex_view::success(I18n::msg('version_info_working_version_to_live'));
 
-                    $article = Type::instanceOf(rex_article::get($articleId, $clangId), rex_article::class);
+                    $article = Type::instanceOf(Article::get($articleId, $clangId), Article::class);
                     rex_article_revision::setSessionArticleRevision($articleId, rex_article_revision::LIVE);
                     $return = rex_extension::registerPoint(
                         new rex_extension_point_art_content_updated($article, 'work_to_live', $return),

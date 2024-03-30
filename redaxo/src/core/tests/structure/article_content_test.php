@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Structure\Article;
 
 /** @internal */
 final class rex_article_content_test extends TestCase
@@ -38,8 +39,8 @@ final class rex_article_content_test extends TestCase
         ]);
 
         // generate classVars and add test column
-        rex_article::getClassVars();
-        $class = new ReflectionClass(rex_article::class);
+        Article::getClassVars();
+        $class = new ReflectionClass(Article::class);
         /** @psalm-suppress MixedArgument */
         $class->setStaticPropertyValue('classVars', array_merge(
             $class->getStaticPropertyValue('classVars'),
@@ -57,10 +58,10 @@ final class rex_article_content_test extends TestCase
         Dir::deleteIterator($finder);
 
         // reset static properties
-        $class = new ReflectionClass(rex_article::class);
+        $class = new ReflectionClass(Article::class);
         $class->setStaticPropertyValue('classVars', null);
 
-        rex_article::clearInstancePool();
+        Article::clearInstancePool();
     }
 
     public function testBcHasValue(): void

@@ -1,17 +1,23 @@
 <?php
 
+namespace Redaxo\Core\Structure;
+
 use Redaxo\Core\Core;
+use rex_clang;
+use rex_context;
+
+use function count;
 
 /**
  * @internal
  */
-class rex_structure_context
+class StructureContext
 {
     private array $params;
 
     public function __construct(array $params)
     {
-        if (!isset($params['category_id']) || !rex_category::get($params['category_id'])) {
+        if (!isset($params['category_id']) || !Category::get($params['category_id'])) {
             $params['category_id'] = 0;
         }
         // Only one mountpoint -> jump to category
@@ -20,7 +26,7 @@ class rex_structure_context
             $params['category_id'] = current($mountpoints);
         }
 
-        if (!isset($params['article_id']) || !rex_article::get($params['article_id'])) {
+        if (!isset($params['article_id']) || !Article::get($params['article_id'])) {
             $params['article_id'] = 0;
         }
 

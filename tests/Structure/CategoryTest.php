@@ -1,16 +1,21 @@
 <?php
 
+namespace Redaxo\Core\Tests\Structure;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Structure\Category;
+use ReflectionClass;
 
 /** @internal */
-final class rex_category_test extends TestCase
+final class CategoryTest extends TestCase
 {
     protected function setUp(): void
     {
         // generate classVars and add test column
-        rex_category::getClassVars();
-        $class = new ReflectionClass(rex_category::class);
+        Category::getClassVars();
+        $class = new ReflectionClass(Category::class);
         /** @psalm-suppress MixedArgument */
         $class->setStaticPropertyValue('classVars', array_merge(
             $class->getStaticPropertyValue('classVars'),
@@ -21,10 +26,10 @@ final class rex_category_test extends TestCase
     protected function tearDown(): void
     {
         // reset static properties
-        $class = new ReflectionClass(rex_article::class);
+        $class = new ReflectionClass(Article::class);
         $class->setStaticPropertyValue('classVars', null);
 
-        rex_category::clearInstancePool();
+        Category::clearInstancePool();
     }
 
     public function testHasValue(): void
@@ -56,12 +61,12 @@ final class rex_category_test extends TestCase
     }
 
     #[DataProvider('dataGetClosestValue')]
-    public function testGetClosestValue(string|int|null $expectedValue, rex_category $category): void
+    public function testGetClosestValue(string|int|null $expectedValue, Category $category): void
     {
         self::assertSame($expectedValue, $category->getClosestValue('cat_foo'));
     }
 
-    /** @return iterable<int, array{int|string|null, rex_category}> */
+    /** @return iterable<int, array{(int|string|null), Category}> */
     public static function dataGetClosestValue(): iterable
     {
         [$lev1, $_, $lev3] = self::createCategories([], [], []);
@@ -89,12 +94,12 @@ final class rex_category_test extends TestCase
     }
 
     #[DataProvider('dataIsOnlineIncludingParents')]
-    public function testIsOnlineIncludingParents(bool $expected, rex_category $category): void
+    public function testIsOnlineIncludingParents(bool $expected, Category $category): void
     {
         self::assertSame($expected, $category->isOnlineIncludingParents());
     }
 
-    /** @return iterable<int, array{bool, rex_category}> */
+    /** @return iterable<int, array{bool, Category}> */
     public static function dataIsOnlineIncludingParents(): iterable
     {
         [$lev1, $_, $lev3] = self::createCategories(['status' => 0], ['status' => 0], ['status' => 0]);
@@ -116,15 +121,15 @@ final class rex_category_test extends TestCase
     }
 
     #[DataProvider('dataGetClosest')]
-    public function testGetClosest(?rex_category $expected, rex_category $category, callable $callback): void
+    public function testGetClosest(?Category $expected, Category $category, callable $callback): void
     {
         self::assertSame($expected, $category->getClosest($callback));
     }
 
-    /** @return iterable<int, array{?rex_category, rex_category, callable}> */
+    /** @return iterable<int, array{?Category, Category, callable}> */
     public static function dataGetClosest(): iterable
     {
-        $callback = static function (rex_category $category) {
+        $callback = static function (Category $category) {
             return 1 === $category->getValue('status');
         };
 
@@ -142,7 +147,7 @@ final class rex_category_test extends TestCase
         [$lev1, $_, $lev3] = self::createCategories(['status' => 1], ['status' => 0], ['status' => 0]);
         yield [$lev1, $lev3, $callback];
 
-        $callback = static function (rex_category $category) {
+        $callback = static function (Category $category) {
             return $category->getValue('cat_foo') > 3;
         };
 
@@ -150,12 +155,12 @@ final class rex_category_test extends TestCase
         yield [$lev1, $lev3, $callback];
     }
 
-    private function createCategoryWithoutConstructor(): rex_category
+    private function createCategoryWithoutConstructor(): Category
     {
-        return (new ReflectionClass(rex_category::class))->newInstanceWithoutConstructor();
+        return (new ReflectionClass(Category::class))->newInstanceWithoutConstructor();
     }
 
-    /** @return array{rex_category, rex_category, rex_category} */
+    /** @return array{Category, Category, Category} */
     private static function createCategories(array $lev1Params, array $lev2Params, array $lev3Params): array
     {
         $lev1 = self::createCategory(null, $lev1Params);
@@ -165,11 +170,11 @@ final class rex_category_test extends TestCase
         return [$lev1, $lev2, $lev3];
     }
 
-    private static function createCategory(?rex_category $parent, array $params): rex_category
+    private static function createCategory(?Category $parent, array $params): Category
     {
-        return new class($parent, $params) extends rex_category {
+        return new class($parent, $params) extends Category {
             public function __construct(
-                private ?rex_category $parent,
+                private ?Category $parent,
                 array $params,
             ) {
                 foreach ($params as $key => $value) {
@@ -177,7 +182,7 @@ final class rex_category_test extends TestCase
                 }
             }
 
-            public function getParent(): ?rex_category
+            public function getParent(): ?Category
             {
                 /** @var static|null */
                 return $this->parent;

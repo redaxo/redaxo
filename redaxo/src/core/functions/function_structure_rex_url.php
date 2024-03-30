@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Structure\Article;
 use Redaxo\Core\Util\Str;
 
 /**
@@ -14,7 +15,7 @@ function rex_getUrl(?int $id = null, ?int $clang = null, array $params = []): st
 
     // ----- get id
     if (!$id) {
-        $id = rex_article::getCurrentId();
+        $id = Article::getCurrentId();
     }
 
     // ----- get clang

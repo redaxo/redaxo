@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Structure\CategoryHandler;
 
 /**
  * @internal
@@ -20,7 +21,7 @@ class rex_api_category_delete extends rex_api_function
             throw new rex_api_exception('user has no permission for this category!');
         }
 
-        return new rex_api_result(true, rex_category_service::deleteCategory($catId));
+        return new rex_api_result(true, CategoryHandler::deleteCategory($catId));
     }
 
     protected function requiresCsrfProtection()

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Form\Field\ArticleField;
+use Redaxo\Core\Structure\Article;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -35,8 +36,8 @@ class rex_system_setting_article_id extends rex_system_setting
     public function setValue($value)
     {
         $value = (int) $value;
-        $article = rex_article::get($value);
-        if (!$article instanceof rex_article) {
+        $article = Article::get($value);
+        if (!$article instanceof Article) {
             return I18n::msg('system_setting_' . $this->key . '_invalid');
         }
         Core::setConfig($this->key, $value);

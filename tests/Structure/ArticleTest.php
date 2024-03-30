@@ -1,15 +1,19 @@
 <?php
 
+namespace Redaxo\Core\Tests\Structure;
+
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Structure\Article;
+use ReflectionClass;
 
 /** @internal */
-final class rex_article_test extends TestCase
+final class ArticleTest extends TestCase
 {
     protected function setUp(): void
     {
         // generate classVars and add test column
-        rex_article::getClassVars();
-        $class = new ReflectionClass(rex_article::class);
+        Article::getClassVars();
+        $class = new ReflectionClass(Article::class);
         /** @psalm-suppress MixedArgument */
         $class->setStaticPropertyValue('classVars', array_merge(
             $class->getStaticPropertyValue('classVars'),
@@ -20,10 +24,10 @@ final class rex_article_test extends TestCase
     protected function tearDown(): void
     {
         // reset static properties
-        $class = new ReflectionClass(rex_article::class);
+        $class = new ReflectionClass(Article::class);
         $class->setStaticPropertyValue('classVars', null);
 
-        rex_article::clearInstancePool();
+        Article::clearInstancePool();
     }
 
     public function testHasValue(): void
@@ -54,8 +58,8 @@ final class rex_article_test extends TestCase
         self::assertNull($instance->getValue('art_bar'));
     }
 
-    private function createArticleWithoutConstructor(): rex_article
+    private function createArticleWithoutConstructor(): Article
     {
-        return (new ReflectionClass(rex_article::class))->newInstanceWithoutConstructor();
+        return (new ReflectionClass(Article::class))->newInstanceWithoutConstructor();
     }
 }

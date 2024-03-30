@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Structure\Category;
 
 /**
  * @internal
@@ -13,7 +14,7 @@ class rex_api_sitemap_tree extends rex_api_function
     {
         // check if a new category was folded
         $categoryId = rex_request('toggle_category_id', 'int', -1);
-        $categoryId = rex_category::get($categoryId) ? $categoryId : -1;
+        $categoryId = Category::get($categoryId) ? $categoryId : -1;
 
         $user = Core::requireUser();
 

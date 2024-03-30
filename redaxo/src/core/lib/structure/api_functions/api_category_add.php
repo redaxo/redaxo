@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Structure\CategoryHandler;
 
 /**
  * @internal
@@ -24,7 +25,7 @@ class rex_api_category_add extends rex_api_function
         $data = [];
         $data['catpriority'] = rex_post('category-position', 'int');
         $data['catname'] = rex_post('category-name', 'string');
-        return new rex_api_result(true, rex_category_service::addCategory($parentId, $data));
+        return new rex_api_result(true, CategoryHandler::addCategory($parentId, $data));
     }
 
     protected function requiresCsrfProtection()

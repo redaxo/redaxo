@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Mailer\Mailer;
+use Redaxo\Core\Structure\Article;
 
 if (Core::isSetup()) {
     rex_response::sendRedirect(Url::backendController());
@@ -83,7 +84,7 @@ if (Core::getConfig('article_history', false)) {
             $historyDate = rex_request('rex_history_date', 'string');
             $article = $ep->getParam('article');
 
-            if ($article instanceof rex_article_content && $article->getArticleId() == rex_article::getCurrentId()) {
+            if ($article instanceof rex_article_content && $article->getArticleId() == Article::getCurrentId()) {
                 $articleLimit = '';
                 if (0 != $article->getArticleId()) {
                     $articleLimit = ' AND ' . Core::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
@@ -142,19 +143,19 @@ if (Core::getConfig('article_work_version', false)) {
 
 $clangId = rex_get('clang', 'int');
 if ($clangId && !rex_clang::exists($clangId)) {
-    rex_redirect(rex_article::getNotfoundArticleId(), rex_clang::getStartId());
+    rex_redirect(Article::getNotfoundArticleId(), rex_clang::getStartId());
 }
 
 $article = new rex_article_content();
 $article->setClang(rex_clang::getCurrentId());
 
-if (!$article->setArticleId(rex_article::getCurrentId())) {
+if (!$article->setArticleId(Article::getCurrentId())) {
     if (!Core::isDebugMode() && !rex_backend_login::hasSession()) {
-        throw new rex_exception('Article with id ' . rex_article::getCurrentId() . ' does not exist');
+        throw new rex_exception('Article with id ' . Article::getCurrentId() . ' does not exist');
     }
 
     $fragment = new rex_fragment([
-        'content' => '<p><b>Article with ID ' . rex_article::getCurrentId() . ' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . Url::backendController() . '">REDAXO</a>.</p>',
+        'content' => '<p><b>Article with ID ' . Article::getCurrentId() . ' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . Url::backendController() . '">REDAXO</a>.</p>',
     ]);
     $content .= $fragment->parse('core/fe_ooops.php');
     rex_response::sendPage($content);
@@ -166,13 +167,13 @@ try {
 } catch (rex_article_not_found_exception) {
     $article = new rex_article_content();
     $article->setClang(rex_clang::getCurrentId());
-    $article->setArticleId(rex_article::getNotfoundArticleId());
+    $article->setArticleId(Article::getNotfoundArticleId());
 
     $content .= $article->getArticleTemplate();
 }
 
 $artId = $article->getArticleId();
-if ($artId == rex_article::getNotfoundArticleId() && $artId != rex_article::getSiteStartArticleId()) {
+if ($artId == Article::getNotfoundArticleId() && $artId != Article::getSiteStartArticleId()) {
     rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
 }
 

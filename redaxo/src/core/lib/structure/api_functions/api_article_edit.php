@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Structure\ArticleHandler;
 
 /**
  * @internal
@@ -27,7 +28,7 @@ class rex_api_article_edit extends rex_api_function
         $data['priority'] = rex_post('article-position', 'int');
         $data['name'] = rex_post('article-name', 'string');
         $data['template_id'] = rex_post('template_id', 'int');
-        return new rex_api_result(true, rex_article_service::editArticle($articleId, $clang, $data));
+        return new rex_api_result(true, ArticleHandler::editArticle($articleId, $clang, $data));
     }
 
     protected function requiresCsrfProtection()

@@ -1,17 +1,25 @@
 <?php
 
+namespace Redaxo\Core\Structure;
+
+use AllowDynamicProperties;
+use LogicException;
 use Redaxo\Core\Base\InstanceListPoolTrait;
 use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use rex_clang;
+
+use function in_array;
+use function is_string;
 
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten.
  */
 #[AllowDynamicProperties]
-abstract class rex_structure_element
+abstract class AbstractElement
 {
     use InstanceListPoolTrait;
     use InstancePoolTrait;
@@ -134,7 +142,7 @@ abstract class rex_structure_element
         if (empty(self::$classVars)) {
             self::$classVars = [];
 
-            $startId = rex_article::getSiteStartArticleId();
+            $startId = Article::getSiteStartArticleId();
             $file = Path::coreCache('structure/' . $startId . '.1.article');
             if (!Core::isBackend() && is_file($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
@@ -194,7 +202,7 @@ abstract class rex_structure_element
 
             // generate cache if not exists
             if (!$metadata) {
-                rex_article_cache::generateMeta($id, $clang);
+                ArticleCache::generateMeta($id, $clang);
                 $metadata = File::getCache($articlePath);
             }
 
@@ -204,7 +212,7 @@ abstract class rex_structure_element
             }
 
             // don't allow to retrieve non-categories (startarticle=0) as rex_category
-            if (!$metadata['startarticle'] && (rex_category::class === static::class || is_subclass_of(static::class, rex_category::class))) {
+            if (!$metadata['startarticle'] && (Category::class === static::class || is_subclass_of(static::class, Category::class))) {
                 return null;
             }
 
@@ -248,7 +256,7 @@ abstract class rex_structure_element
 
                 $list = File::getCache($listFile, null);
                 if (null === $list) {
-                    rex_article_cache::generateLists($parentId);
+                    ArticleCache::generateLists($parentId);
                     $list = File::getCache($listFile);
                 }
                 return $list;
@@ -456,9 +464,9 @@ abstract class rex_structure_element
 
     /**
      * Get an array of all parentCategories.
-     * Returns an array of rex_structure_element objects.
+     * Returns an array of AbstractElement objects.
      *
-     * @return list<rex_category>
+     * @return list<Category>
      */
     public function getParentTree()
     {
@@ -473,7 +481,7 @@ abstract class rex_structure_element
 
             foreach ($explode as $var) {
                 if ('' != $var) {
-                    $cat = rex_category::get((int) $var, $this->clang_id);
+                    $cat = Category::get((int) $var, $this->clang_id);
                     if (!$cat) {
                         throw new LogicException('No category found with id=' . $var . ' and clang=' . $this->clang_id . '.');
                     }
@@ -561,7 +569,7 @@ abstract class rex_structure_element
      */
     public function isSiteStartArticle()
     {
-        return $this->id == rex_article::getSiteStartArticleId();
+        return $this->id == Article::getSiteStartArticleId();
     }
 
     /**
@@ -571,6 +579,6 @@ abstract class rex_structure_element
      */
     public function isNotFoundArticle()
     {
-        return $this->id == rex_article::getNotfoundArticleId();
+        return $this->id == Article::getNotfoundArticleId();
     }
 }

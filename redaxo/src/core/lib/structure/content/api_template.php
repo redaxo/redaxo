@@ -4,6 +4,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Structure\Category;
 use Redaxo\Core\Translation\I18n;
 
 class rex_template
@@ -115,7 +117,7 @@ class rex_template
                 }
             }
         } else {
-            if ($c = rex_category::get($categoryId)) {
+            if ($c = Category::get($categoryId)) {
                 $path = $c->getPathAsArray();
                 $path[] = $categoryId;
                 foreach ($tSql as $row) {
@@ -207,7 +209,7 @@ class rex_template
         while ($check->hasNext()) {
             $aid = (int) $check->getValue('article.id');
             $clangId = (int) $check->getValue('article.clang_id');
-            $article = rex_article::get($aid, $clangId);
+            $article = Article::get($aid, $clangId);
             if (null == $article) {
                 continue;
             }

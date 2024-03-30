@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Base\FactoryTrait;
+use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Structure\Category;
 use Redaxo\Core\Util\Str;
 
 /**
@@ -44,12 +46,7 @@ class rex_navigation
     private array $linkclasses = [];
     /** @var list<array{metafield: string, value: int|string, type: string, depth: int|''}> */
     private array $filter = [];
-    /**
-     * @var list<array{
-     *     callback: callable(rex_category, int, array<int|string, int|string|list<string>>,array<int|string, int|string|list<string>>, string):bool,
-     *     depth: int|''
-     * }>
-     */
+    /** @var list<array{callback: callable(Category, int, array<(int | string), (int | string | list<string>)>, array<(int | string), (int | string | list<string>)>, string):bool, depth: (int | )}> */
     private array $callbacks = [];
 
     private int $currentArticleId = -1; // Aktueller Artikel
@@ -136,14 +133,14 @@ class rex_navigation
         $lis = [];
 
         if ($startPageLabel) {
-            $link = '<a href="' . rex_getUrl(rex_article::getSiteStartArticleId()) . '">' . rex_escape($startPageLabel) . '</a>';
+            $link = '<a href="' . rex_getUrl(Article::getSiteStartArticleId()) . '">' . rex_escape($startPageLabel) . '</a>';
             $lis[] = $this->getBreadcrumbListItemTag($link, [
                 'class' => 'rex-lvl' . $i,
             ], $i);
             ++$i;
 
             // StartArticle nicht doppelt anzeigen
-            if (isset($path[0]) && $path[0] == rex_article::getSiteStartArticleId()) {
+            if (isset($path[0]) && $path[0] == Article::getSiteStartArticleId()) {
                 unset($path[0]);
             }
         }
@@ -158,7 +155,7 @@ class rex_navigation
                 }
             }
 
-            $cat = rex_category::get($pathItem);
+            $cat = Category::get($pathItem);
             $link = $this->getBreadcrumbLinkTag($cat, rex_escape($cat->getName()), [
                 'href' => $cat->getUrl(),
             ], $i);
@@ -169,14 +166,14 @@ class rex_navigation
         }
 
         if ($includeCurrent) {
-            if ($art = rex_article::get($this->currentArticleId)) {
+            if ($art = Article::get($this->currentArticleId)) {
                 if (!$art->isStartArticle()) {
                     $lis[] = $this->getBreadcrumbListItemTag(rex_escape($art->getName()), [
                         'class' => 'rex-lvl' . $i,
                     ], $i);
                 }
             } else {
-                $cat = rex_category::get($this->currentArticleId);
+                $cat = Category::get($this->currentArticleId);
                 $lis[] = $this->getBreadcrumbListItemTag(rex_escape($cat->getName()), [
                     'class' => 'rex-lvl' . $i,
                 ], $i);
@@ -238,7 +235,7 @@ class rex_navigation
     /**
      * Fügt einen Callback hinzu.
      *
-     * @param callable(rex_category,int,array<int|string, int|string|list<string>>,array<int|string, int|string|list<string>>,string):bool $callback z.B. myFunc oder myClass::myMethod
+     * @param callable(Category, int, array<(int|string), (int|string|list<string>)>, array<(int|string), (int|string|list<string>)>, string):bool $callback z.B. myFunc oder myClass::myMethod
      * @param int|'' $depth "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
      *
      * @return $this
@@ -256,8 +253,8 @@ class rex_navigation
      */
     private function _setActivePath()
     {
-        $articleId = rex_article::getCurrentId();
-        if ($OOArt = rex_article::get($articleId)) {
+        $articleId = Article::getCurrentId();
+        if ($OOArt = Article::get($articleId)) {
             $path = trim($OOArt->getPath(), '|');
 
             $this->path = [];
@@ -277,7 +274,7 @@ class rex_navigation
      * @param int $depth
      * @return bool
      */
-    private function checkFilter(rex_category $category, $depth)
+    private function checkFilter(Category $category, $depth)
     {
         foreach ($this->filter as $f) {
             if ('' == $f['depth'] || $f['depth'] == $depth) {
@@ -337,7 +334,7 @@ class rex_navigation
      * @param string $aContent
      * @return bool
      */
-    private function checkCallbacks(rex_category $category, $depth, &$li, &$a, &$aContent)
+    private function checkCallbacks(Category $category, $depth, &$li, &$a, &$aContent)
     {
         foreach ($this->callbacks as $c) {
             if ('' == $c['depth'] || $c['depth'] == $depth) {
@@ -375,9 +372,9 @@ class rex_navigation
     protected function _getNavigation($categoryId, $depth = 1)
     {
         if ($categoryId < 1) {
-            $navObj = rex_category::getRootCategories();
+            $navObj = Category::getRootCategories();
         } else {
-            $navObj = rex_category::get($categoryId)->getChildren();
+            $navObj = Category::get($categoryId)->getChildren();
         }
 
         $lis = [];
@@ -452,7 +449,7 @@ class rex_navigation
     /**
      * @param array<int|string, int|string|list<string>> $attributes
      */
-    protected function getBreadcrumbLinkTag(rex_category $category, string $content, array $attributes, int $depth): string
+    protected function getBreadcrumbLinkTag(Category $category, string $content, array $attributes, int $depth): string
     {
         if (!isset($attributes['href'])) {
             $attributes['href'] = $category->getUrl();
@@ -473,7 +470,7 @@ class rex_navigation
     /**
      * @param array<int|string, int|string|list<string>> $attributes
      */
-    protected function getListItemTag(rex_category $category, string $item, array $attributes, int $depth): string
+    protected function getListItemTag(Category $category, string $item, array $attributes, int $depth): string
     {
         return '<li' . Str::buildAttributes($attributes) . '>' . $item . "</li>\n";
     }
@@ -481,7 +478,7 @@ class rex_navigation
     /**
      * @param array<int|string, int|string|list<string>> $attributes
      */
-    protected function getLinkTag(rex_category $category, string $content, array $attributes, int $depth): string
+    protected function getLinkTag(Category $category, string $content, array $attributes, int $depth): string
     {
         if (!isset($attributes['href'])) {
             $attributes['href'] = $category->getUrl();

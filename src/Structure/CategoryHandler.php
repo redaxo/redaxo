@@ -1,14 +1,26 @@
 <?php
 
+namespace Redaxo\Core\Structure;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Translation\I18n;
+use rex_api_exception;
+use rex_clang;
+use rex_complex_perm;
+use rex_extension;
+use rex_extension_point;
+use rex_sql_exception;
+use rex_template;
+
+use function count;
+use function in_array;
 
 /**
  * Funktionensammlung für die Strukturverwaltung.
  */
-class rex_category_service
+class CategoryHandler
 {
     /**
      * Erstellt eine neue Kategorie.
@@ -28,7 +40,7 @@ class rex_category_service
         self::reqKey($data, 'catname');
 
         // parent may be null, when adding in the root cat
-        $parent = rex_category::get($categoryId);
+        $parent = Category::get($categoryId);
         if ($parent) {
             $path = $parent->getPath();
             $path .= $parent->getId() . '|';
@@ -116,7 +128,7 @@ class rex_category_service
 
                 $message = I18n::msg('category_added_and_startarticle_created');
 
-                rex_article_cache::delete($id, $key);
+                ArticleCache::delete($id, $key);
 
                 // ----- EXTENSION POINT
                 // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
@@ -189,7 +201,7 @@ class rex_category_service
                     $EART->addGlobalUpdateFields($user);
 
                     $EART->update();
-                    rex_article_cache::delete((int) $ArtSql->getValue('id'), $clang);
+                    ArticleCache::delete((int) $ArtSql->getValue('id'), $clang);
 
                     $ArtSql->next();
                 }
@@ -220,7 +232,7 @@ class rex_category_service
 
             $message = I18n::msg('category_updated');
 
-            rex_article_cache::delete($categoryId);
+            ArticleCache::delete($categoryId);
 
             // ----- EXTENSION POINT
             // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
@@ -276,7 +288,7 @@ class rex_category_service
                     $thisCat->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE id=?', [$categoryId]);
 
                     $parentId = (int) $thisCat->getValue('parent_id');
-                    $message = rex_article_service::_deleteArticle($categoryId);
+                    $message = ArticleHandler::_deleteArticle($categoryId);
 
                     foreach ($thisCat as $row) {
                         $clang = (int) $row->getValue('clang_id');
@@ -343,7 +355,7 @@ class rex_category_service
             try {
                 $EKAT->update();
 
-                rex_article_cache::delete($categoryId, $clang);
+                ArticleCache::delete($categoryId, $clang);
 
                 // ----- EXTENSION POINT
                 rex_extension::registerPoint(new rex_extension_point('CAT_STATUS', null, [
@@ -444,12 +456,12 @@ class rex_category_service
                 'catpriority,updatedate ' . $addsql,
             );
 
-            rex_article_cache::deleteLists($parentId);
-            rex_article_cache::deleteMeta($parentId);
+            ArticleCache::deleteLists($parentId);
+            ArticleCache::deleteMeta($parentId);
 
             $ids = Sql::factory()->getArray('SELECT id FROM ' . Core::getTable('article') . ' WHERE startarticle=1 AND parent_id = ? GROUP BY id', [$parentId]);
             foreach ($ids as $id) {
-                rex_article_cache::deleteMeta((int) $id['id']);
+                ArticleCache::deleteMeta((int) $id['id']);
             }
         }
     }
@@ -546,7 +558,7 @@ class rex_category_service
 
         // ----- generiere artikel neu - ohne neue inhaltsgenerierung
         foreach ($RC as $id => $key) {
-            rex_article_cache::delete($id);
+            ArticleCache::delete($id);
         }
 
         foreach (rex_clang::getAllIds() as $clang) {

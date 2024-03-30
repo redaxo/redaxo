@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Structure\Article;
 
 /**
  * The rex_article_slice class is an object wrapper over the database table rex_article_slice.
@@ -298,11 +299,11 @@ class rex_article_slice
     }
 
     /**
-     * @return rex_article
+     * @return Article
      */
     public function getArticle()
     {
-        $article = rex_article::get($this->getArticleId());
+        $article = Article::get($this->getArticleId());
 
         if (!$article) {
             throw new LogicException(sprintf('Article with id=%d not found.', $this->getArticleId()));

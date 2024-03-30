@@ -1,11 +1,24 @@
 <?php
 
+namespace Redaxo\Core\Structure;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Translation\I18n;
+use rex_api_exception;
+use rex_clang;
+use rex_complex_perm;
+use rex_content_service;
+use rex_extension;
+use rex_extension_point;
+use rex_sql_exception;
+use rex_template;
 
-class rex_article_service
+use function count;
+use function is_array;
+
+class ArticleHandler
 {
     /**
      * Erstellt einen neuen Artikel.
@@ -27,7 +40,7 @@ class rex_article_service
         }
 
         // parent may be null, when adding in the root cat
-        $parent = rex_category::get($data['category_id']);
+        $parent = Category::get($data['category_id']);
         if ($parent) {
             $path = $parent->getPath();
             $path .= $parent->getId() . '|';
@@ -52,7 +65,7 @@ class rex_article_service
         $user = self::getUser();
         foreach (rex_clang::getAllIds() as $key) {
             // ------- Kategorienamen holen
-            $category = rex_category::get($data['category_id'], $key);
+            $category = Category::get($data['category_id'], $key);
 
             $categoryName = '';
             if ($category) {
@@ -86,7 +99,7 @@ class rex_article_service
                 throw new rex_api_exception($e->getMessage(), $e);
             }
 
-            rex_article_cache::delete($id, $key);
+            ArticleCache::delete($id, $key);
 
             // ----- EXTENSION POINT
             $message = rex_extension::registerPoint(new rex_extension_point('ART_ADDED', $message, [
@@ -128,7 +141,7 @@ class rex_article_service
             throw new rex_api_exception('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
         }
 
-        $ooArt = rex_article::get($articleId, $clang);
+        $ooArt = Article::get($articleId, $clang);
         $data['category_id'] = $ooArt->getCategoryId();
 
         $templates = rex_template::getTemplatesForCategory($data['category_id']);
@@ -180,7 +193,7 @@ class rex_article_service
                 }
             }
 
-            rex_article_cache::delete($articleId);
+            ArticleCache::delete($articleId);
 
             // ----- EXTENSION POINT
             $message = rex_extension::registerPoint(new rex_extension_point('ART_UPDATED', $message, [
@@ -270,10 +283,10 @@ class rex_article_service
         // -> startarticle = 1
         // --> rekursiv aufrufen
 
-        if ($id == rex_article::getSiteStartArticleId()) {
+        if ($id == Article::getSiteStartArticleId()) {
             throw new rex_api_exception(I18n::msg('cant_delete_sitestartarticle'));
         }
-        if ($id == rex_article::getNotfoundArticleId()) {
+        if ($id == Article::getNotfoundArticleId()) {
             throw new rex_api_exception(I18n::msg('cant_delete_notfoundarticle'));
         }
 
@@ -305,12 +318,12 @@ class rex_article_service
                 $message = I18n::msg('article_deleted');
             }
 
-            rex_article_cache::delete($id);
+            ArticleCache::delete($id);
             $ART->setQuery('delete from ' . Core::getTablePrefix() . 'article where id=?', [$id]);
             $ART->setQuery('delete from ' . Core::getTablePrefix() . 'article_slice where article_id=?', [$id]);
 
             // --------------------------------------------------- Listen generieren
-            rex_article_cache::deleteLists($parentId);
+            ArticleCache::deleteLists($parentId);
 
             return $message;
         }
@@ -350,7 +363,7 @@ class rex_article_service
             try {
                 $EA->update();
 
-                rex_article_cache::delete($articleId, $clang);
+                ArticleCache::delete($articleId, $clang);
 
                 // ----- EXTENSION POINT
                 rex_extension::registerPoint(new rex_extension_point('ART_STATUS', null, [
@@ -441,12 +454,12 @@ class rex_article_service
                 'priority,updatedate ' . $addsql,
             );
 
-            rex_article_cache::deleteLists($parentId);
-            rex_article_cache::deleteMeta($parentId);
+            ArticleCache::deleteLists($parentId);
+            ArticleCache::deleteMeta($parentId);
 
             $ids = Sql::factory()->getArray('SELECT id FROM ' . Core::getTable('article') . ' WHERE startarticle=0 AND parent_id = ? GROUP BY id', [$parentId]);
             foreach ($ids as $id) {
-                rex_article_cache::deleteMeta((int) $id['id']);
+                ArticleCache::deleteMeta((int) $id['id']);
             }
         }
     }
@@ -481,11 +494,11 @@ class rex_article_service
             $sql->setValue('priority', 1);
             $sql->update();
 
-            rex_category_service::newCatPrio($parentId, $clang, 0, 100);
+            CategoryHandler::newCatPrio($parentId, $clang, 0, 100);
         }
 
-        rex_article_cache::deleteLists($parentId);
-        rex_article_cache::delete($artId);
+        ArticleCache::deleteLists($parentId);
+        ArticleCache::delete($artId);
 
         foreach (rex_clang::getAllIds() as $clang) {
             rex_extension::registerPoint(new rex_extension_point('ART_TO_CAT', '', [
@@ -542,8 +555,8 @@ class rex_article_service
             self::newArtPrio($parentId, $clang, 0, 100);
         }
 
-        rex_article_cache::deleteLists($parentId);
-        rex_article_cache::delete($artId);
+        ArticleCache::deleteLists($parentId);
+        ArticleCache::delete($artId);
 
         foreach (rex_clang::getAllIds() as $clang) {
             rex_extension::registerPoint(new rex_extension_point('CAT_TO_ART', '', [
@@ -590,7 +603,7 @@ class rex_article_service
 
         // cat felder sammeln. +
         $params = ['path', 'priority', 'catname', 'startarticle', 'catpriority', 'status'];
-        $dbFields = rex_structure_element::getClassVars();
+        $dbFields = AbstractElement::getClassVars();
         foreach ($dbFields as $field) {
             if (str_starts_with($field, 'cat_')) {
                 $params[] = $field;
@@ -652,7 +665,7 @@ class rex_article_service
         $GAID[$parentId] = $parentId;
 
         foreach ($GAID as $gid) {
-            rex_article_cache::delete($gid);
+            ArticleCache::delete($gid);
         }
 
         rex_complex_perm::replaceItem('structure', $altId, $neuId);
@@ -709,7 +722,7 @@ class rex_article_service
 
             $uc->update();
 
-            rex_article_cache::deleteMeta($toId, $toClang);
+            ArticleCache::deleteMeta($toId, $toClang);
             return true;
         }
         return false;
@@ -805,10 +818,10 @@ class rex_article_service
         }
 
         // Caches des Artikels löschen, in allen Sprachen
-        rex_article_cache::delete($id);
+        ArticleCache::delete($id);
 
         // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
-        rex_article_cache::delete($toCatId);
+        ArticleCache::delete($toCatId);
 
         return $newId;
     }
@@ -889,11 +902,11 @@ class rex_article_service
         }
 
         // Caches des Artikels löschen, in allen Sprachen
-        rex_article_cache::delete($id);
+        ArticleCache::delete($id);
 
         // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
-        rex_article_cache::delete($fromCatId);
-        rex_article_cache::delete($toCatId);
+        ArticleCache::delete($fromCatId);
+        ArticleCache::delete($toCatId);
 
         return true;
     }

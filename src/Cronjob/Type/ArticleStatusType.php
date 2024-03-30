@@ -4,8 +4,8 @@ namespace Redaxo\Core\Cronjob\Type;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Structure\ArticleHandler;
 use Redaxo\Core\Translation\I18n;
-use rex_article_service;
 
 class ArticleStatusType extends AbstractType
 {
@@ -69,7 +69,7 @@ class ArticleStatusType extends AbstractType
                 $status = $to['after'];
             }
 
-            rex_article_service::articleStatus((int) $sql->getValue('id'), (int) $sql->getValue('clang_id'), $status);
+            ArticleHandler::articleStatus((int) $sql->getValue('id'), (int) $sql->getValue('clang_id'), $status);
             $sql->next();
         }
         $this->setMessage('Updated articles: ' . $rows);

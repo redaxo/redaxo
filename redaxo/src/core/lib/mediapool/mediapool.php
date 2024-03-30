@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Structure\Article;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 
@@ -89,7 +90,7 @@ final class rex_mediapool
             foreach ($res as $artArr) {
                 $aid = (int) $artArr['article_id'];
                 $clang = (int) $artArr['clang_id'];
-                $ooa = rex_article::get($aid, $clang);
+                $ooa = Article::get($aid, $clang);
                 $name = ($ooa) ? $ooa->getName() : '';
                 $warning[0] .= '<li><a href="javascript:openPage(\'' . Url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
             }

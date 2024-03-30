@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Structure\ArticleCache;
 
 class rex_article_revision
 {
@@ -49,7 +50,7 @@ class rex_article_revision
             $ins->insert();
         }
 
-        rex_article_cache::delete($articleId);
+        ArticleCache::delete($articleId);
         return true;
     }
 

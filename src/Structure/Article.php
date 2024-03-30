@@ -1,11 +1,15 @@
 <?php
 
+namespace Redaxo\Core\Structure;
+
 use Redaxo\Core\Core;
+use rex_extension;
+use rex_extension_point;
 
 /**
  * Object Oriented Framework: Bildet einen Artikel der Struktur ab.
  */
-class rex_article extends rex_structure_element
+class Article extends AbstractElement
 {
     /**
      * Return the current article id.
@@ -99,11 +103,11 @@ class rex_article extends rex_structure_element
     /**
      * Returns the parent category.
      *
-     * @return rex_category|null
+     * @return Category|null
      */
     public function getCategory()
     {
-        return rex_category::get($this->getCategoryId(), $this->getClangId());
+        return Category::get($this->getCategoryId(), $this->getClangId());
     }
 
     /**

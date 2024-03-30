@@ -1,6 +1,9 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Structure\AbstractElement;
+use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Structure\Category;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -13,7 +16,7 @@ abstract class rex_linkmap_tree_renderer
      */
     public function getTree($categoryId)
     {
-        $category = rex_category::get($categoryId);
+        $category = Category::get($categoryId);
 
         $mountpoints = Core::requireUser()->getComplexPerm('structure')->getMountpointCategories();
         if (count($mountpoints) > 0) {
@@ -22,7 +25,7 @@ abstract class rex_linkmap_tree_renderer
                 $category = $roots[0];
             }
         } else {
-            $roots = rex_category::getRootCategories();
+            $roots = Category::getRootCategories();
         }
 
         $tree = [];
@@ -40,7 +43,7 @@ abstract class rex_linkmap_tree_renderer
     /**
      * Returns the markup of a tree structure, with $children as root categories and respecing $activeTreeIds as the active path.
      *
-     * @param list<rex_category> $children A array of rex_category objects representing the top level objects
+     * @param list<Category> $children A array of rex_category objects representing the top level objects
      * @param list<int> $activeTreeIds
      *
      * @return string the rendered markup
@@ -77,12 +80,12 @@ abstract class rex_linkmap_tree_renderer
     /**
      * @return string
      */
-    abstract protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon);
+    abstract protected function treeItem(Category $cat, $liClasses, $linkClasses, $subHtml, $liIcon);
 
     /**
      * @return string
      */
-    public static function formatLabel(rex_structure_element $OOobject)
+    public static function formatLabel(AbstractElement $OOobject)
     {
         $label = $OOobject->getName();
 
@@ -90,7 +93,7 @@ abstract class rex_linkmap_tree_renderer
             $label = '&nbsp;';
         }
 
-        if ($OOobject instanceof rex_article && !$OOobject->hasTemplate()) {
+        if ($OOobject instanceof Article && !$OOobject->hasTemplate()) {
             $label .= ' [' . I18n::msg('linkmap_has_no_template') . ']';
         }
 
@@ -100,7 +103,7 @@ abstract class rex_linkmap_tree_renderer
     /**
      * @return string
      */
-    public static function formatLi(rex_structure_element $OOobject, $currentCategoryId, rex_context $context, $liAttr = '', $linkAttr = '')
+    public static function formatLi(AbstractElement $OOobject, $currentCategoryId, rex_context $context, $liAttr = '', $linkAttr = '')
     {
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offline') . '"';
 
@@ -135,11 +138,11 @@ abstract class rex_linkmap_article_list_renderer
         }
 
         if ($isRoot && 0 == count($mountpoints)) {
-            $articles = rex_article::getRootArticles();
+            $articles = Article::getRootArticles();
         } elseif ($isRoot) {
             $articles = [];
         } else {
-            $articles = rex_category::get($categoryId)->getArticles();
+            $articles = Category::get($categoryId)->getArticles();
         }
         return self::renderList($articles, $categoryId);
     }
@@ -165,5 +168,5 @@ abstract class rex_linkmap_article_list_renderer
     /**
      * @return string
      */
-    abstract protected function listItem(rex_article $article, $categoryId);
+    abstract protected function listItem(Article $article, $categoryId);
 }

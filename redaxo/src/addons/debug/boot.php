@@ -6,6 +6,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Log\Logger;
+use Redaxo\Core\Structure\Article;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Timer;
 
@@ -97,7 +98,7 @@ $shutdownFn = static function () {
     if (Core::isBackend()) {
         $req->controller = 'page: ' . rex_be_controller::getCurrentPage();
     } else {
-        $req->controller = 'article: ' . rex_article::getCurrentId() . '; clang: ' . rex_clang::getCurrent()->getCode();
+        $req->controller = 'article: ' . Article::getCurrentId() . '; clang: ' . rex_clang::getCurrent()->getCode();
     }
 
     foreach ($req->databaseQueries as $query) {

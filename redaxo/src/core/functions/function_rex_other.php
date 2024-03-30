@@ -4,6 +4,7 @@ use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Log\Logger;
+use Redaxo\Core\Structure\AbstractElement;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -25,9 +26,9 @@ function rex_delete_cache()
 
     rex_clang::reset();
 
-    rex_structure_element::clearInstancePool();
-    rex_structure_element::clearInstanceListPool();
-    rex_structure_element::resetClassVars();
+    AbstractElement::clearInstancePool();
+    AbstractElement::clearInstanceListPool();
+    AbstractElement::resetClassVars();
 
     if (function_exists('opcache_reset')) {
         opcache_reset();

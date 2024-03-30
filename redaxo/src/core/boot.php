@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Structure\Article;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Symfony\Component\HttpFoundation\Request;
@@ -177,10 +178,10 @@ if (!Core::isSetup()) {
     Core::setProperty('rows_per_page', 50);
 
     if (0 == rex_request('article_id', 'int')) {
-        Core::setProperty('article_id', rex_article::getSiteStartArticleId());
+        Core::setProperty('article_id', Article::getSiteStartArticleId());
     } else {
         $articleId = rex_request('article_id', 'int');
-        $articleId = rex_article::get($articleId) ? $articleId : rex_article::getNotfoundArticleId();
+        $articleId = Article::get($articleId) ? $articleId : Article::getNotfoundArticleId();
         Core::setProperty('article_id', $articleId);
     }
 

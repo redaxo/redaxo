@@ -4,8 +4,8 @@ namespace Redaxo\Core\MetaInfo\Handler;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use rex_article;
-use rex_article_cache;
+use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Structure\ArticleCache;
 use rex_extension;
 use rex_extension_point;
 
@@ -41,7 +41,7 @@ class ArticleHandler extends AbstractHandler
             $article->update();
         }
 
-        rex_article_cache::deleteMeta($params['id'], $params['clang']);
+        ArticleCache::deleteMeta($params['id'], $params['clang']);
 
         rex_extension::registerPoint(new rex_extension_point('ART_META_UPDATED', '', $params));
 
@@ -57,7 +57,7 @@ class ArticleHandler extends AbstractHandler
 
         if (!empty($params['id'])) {
             $s = '';
-            $OOArt = rex_article::get($params['id'], $params['clang']);
+            $OOArt = Article::get($params['id'], $params['clang']);
 
             // Alle Metafelder des Pfades sind erlaubt
             foreach ($OOArt->getPathAsArray() as $pathElement) {
@@ -84,7 +84,7 @@ class ArticleHandler extends AbstractHandler
      */
     public function getForm(array $params)
     {
-        $OOArt = rex_article::get($params['id'], $params['clang']);
+        $OOArt = Article::get($params['id'], $params['clang']);
 
         $params['activeItem'] = $params['article'];
         // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet

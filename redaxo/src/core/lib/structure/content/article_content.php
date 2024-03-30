@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Structure\Article;
 
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.
@@ -51,8 +52,8 @@ class rex_article_content extends rex_article_content_base
         $articleId = (int) $articleId;
         $this->article_id = $articleId;
 
-        $rexArticle = rex_article::get($articleId, $this->clang);
-        if ($rexArticle instanceof rex_article) {
+        $rexArticle = Article::get($articleId, $this->clang);
+        if ($rexArticle instanceof Article) {
             $this->category_id = $rexArticle->getCategoryId();
             $this->template_id = $rexArticle->getTemplateId();
             return true;
@@ -73,11 +74,11 @@ class rex_article_content extends rex_article_content_base
 
         $value = $this->correctValue($value);
 
-        if (!rex_article::hasValue($value)) {
+        if (!Article::hasValue($value)) {
             throw new rex_exception('Articles do not have the property "' . $value . '"');
         }
 
-        $article = rex_article::get($this->article_id, $this->clang);
+        $article = Article::get($this->article_id, $this->clang);
 
         if (!$article) {
             throw new rex_exception('Article for id=' . $this->article_id . ' and clang=' . $this->clang . ' does not exist');
@@ -95,7 +96,7 @@ class rex_article_content extends rex_article_content_base
 
         $value = $this->correctValue($value);
 
-        return rex_article::hasValue($value);
+        return Article::hasValue($value);
     }
 
     public function getArticle($curctype = -1)

@@ -5,6 +5,8 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Structure\ArticleCache;
 use Redaxo\Core\Translation\I18n;
 
 class rex_content_service
@@ -55,11 +57,11 @@ class rex_content_service
             throw new rex_api_exception($e->getMessage(), $e);
         }
 
-        rex_article_cache::delete($articleId, $clangId);
+        ArticleCache::delete($articleId, $clangId);
 
         $message = I18n::msg('slice_added');
 
-        $article = rex_article::get($articleId, $clangId);
+        $article = Article::get($articleId, $clangId);
 
         // ----- EXTENSION POINT
         $message = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $message, [
@@ -148,10 +150,10 @@ class rex_content_service
                     throw new rex_api_exception(I18n::msg('slice_moved_error'));
                 }
 
-                rex_article_cache::deleteContent($articleId, $clang);
+                ArticleCache::deleteContent($articleId, $clang);
 
                 $info = I18n::msg('slice_moved');
-                $article = rex_article::get($articleId, $clang);
+                $article = Article::get($articleId, $clang);
                 $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_moved', $info));
             } else {
                 throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!');
@@ -214,14 +216,14 @@ class rex_content_service
             throw new rex_exception(sprintf('Slice with id=%d not found.', $sliceId));
         }
 
-        $article = rex_article::get($sql->getValue('article_id'), $sql->getValue('clang_id'));
+        $article = Article::get($sql->getValue('article_id'), $sql->getValue('clang_id'));
 
         $sql->setTable(Core::getTable('article_slice'));
         $sql->setWhere(['id' => $sliceId]);
         $sql->setValue('status', $status);
         $sql->update();
 
-        rex_article_cache::deleteContent($article->getId(), $article->getClangId());
+        ArticleCache::deleteContent($article->getId(), $article->getClangId());
 
         rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_status'));
     }
@@ -321,9 +323,9 @@ class rex_content_service
             }
         }
 
-        rex_article_cache::deleteContent($toId, $toClang);
+        ArticleCache::deleteContent($toId, $toClang);
 
-        $article = rex_article::get($toId, $toClang);
+        $article = Article::get($toId, $toClang);
         rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'content_copied'));
 
         return true;

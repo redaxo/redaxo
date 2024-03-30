@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Structure\Category;
 use Redaxo\Core\Translation\I18n;
 
 // ------- Default Values
@@ -7,7 +8,7 @@ use Redaxo\Core\Translation\I18n;
 $openerInputField = rex_request('opener_input_field', 'string');
 $openerInputFieldName = rex_request('opener_input_field_name', 'string');
 $categoryId = rex_request('category_id', 'int');
-$categoryId = rex_category::get($categoryId) ? $categoryId : 0;
+$categoryId = Category::get($categoryId) ? $categoryId : 0;
 $clang = rex_request('clang', 'int');
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
@@ -81,7 +82,7 @@ if (!rex_request::isXmlHttpRequest()) {
 <?php
 
 $isRoot = 0 === $categoryId;
-$category = rex_category::get($categoryId);
+$category = Category::get($categoryId);
 
 $navigation = [];
 if ($category) {

@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Structure\ArticleHandler;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -17,7 +19,7 @@ class rex_api_article_move extends rex_api_function
     {
         // The article to move
         $articleId = rex_request('article_id', 'int');
-        $categoryId = rex_article::get($articleId)->getCategoryId();
+        $categoryId = Article::get($articleId)->getCategoryId();
         // The destination category in which the given category will be moved
         $categoryIdNew = rex_request('category_id_new', 'int');
 
@@ -25,7 +27,7 @@ class rex_api_article_move extends rex_api_function
 
         // Check permissions
         if ($user->hasPerm('moveArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)) {
-            if (rex_article_service::moveArticle($articleId, $categoryId, $categoryIdNew)) {
+            if (ArticleHandler::moveArticle($articleId, $categoryId, $categoryIdNew)) {
                 return new rex_api_result(true, I18n::msg('content_articlemoved'));
             }
 

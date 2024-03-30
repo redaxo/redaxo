@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
+use Redaxo\Core\Structure\ArticleCache;
 
 class rex_article_slice_history
 {
@@ -113,7 +114,7 @@ class rex_article_slice_history
 
             $sql->insert();
         }
-        rex_article_cache::delete($articleId, $clangId);
+        ArticleCache::delete($articleId, $clangId);
         return true;
     }
 
