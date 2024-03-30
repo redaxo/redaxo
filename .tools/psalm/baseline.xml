@@ -4261,34 +4261,6 @@
       <code><![CDATA[$sendTime]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="src/MediaPool/Category.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[self::getInstanceList([$this->getId(), 'media'], Media::get(...), static function ($id) {
-            $listPath = Path::coreCache('mediapool/' . $id . '.mlist');
-
-            $list = File::getCache($listPath, null);
-            if (null === $list) {
-                MediaPoolCache::generateList($id);
-                $list = File::getCache($listPath);
-            }
-
-            return $list;
-        })]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[list<Media>]]></code>
-    </InvalidReturnType>
-    <MixedArgument>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$parentId]]></code>
-    </MixedArgument>
-    <MixedOperand>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$parentId]]></code>
-    </MixedOperand>
-  </file>
   <file src="src/MediaPool/Media.php">
     <MixedArgument>
       <code><![CDATA[$filename]]></code>
@@ -4327,6 +4299,58 @@
       <code><![CDATA[$this->getValue('med_description')]]></code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/MediaPool/MediaCategory.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[self::getInstanceList([$this->getId(), 'media'], Media::get(...), static function ($id) {
+            $listPath = Path::coreCache('mediapool/' . $id . '.mlist');
+
+            $list = File::getCache($listPath, null);
+            if (null === $list) {
+                MediaPoolCache::generateList($id);
+                $list = File::getCache($listPath);
+            }
+
+            return $list;
+        })]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[list<Media>]]></code>
+    </InvalidReturnType>
+    <MixedArgument>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$parentId]]></code>
+    </MixedArgument>
+    <MixedOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$parentId]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/MediaPool/MediaCategoryHandler.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$catName]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$catName]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$catName]]></code>
+    </MixedAssignment>
+    <NoValue>
+      <code><![CDATA[$warning]]></code>
+    </NoValue>
+  </file>
+  <file src="src/MediaPool/MediaHandler.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$allowedExtensions]]></code>
+      <code><![CDATA[$queryParams]]></code>
+      <code><![CDATA[MediaPool::getBlockedExtensions()]]></code>
+    </MixedArgumentTypeCoercion>
+    <PossiblyNullOperand>
+      <code><![CDATA[File::mimeType($data['file']['path'])]]></code>
+    </PossiblyNullOperand>
+  </file>
   <file src="src/MediaPool/MediaPool.php">
     <MixedArgument>
       <code><![CDATA[$allowedMimetypes[$extension]]]></code>
@@ -4352,30 +4376,6 @@
     <NullableReturnStatement>
       <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
     </NullableReturnStatement>
-  </file>
-  <file src="src/MediaPool/ServiceCategory.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$catName]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[$catName]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$catName]]></code>
-    </MixedAssignment>
-    <NoValue>
-      <code><![CDATA[$warning]]></code>
-    </NoValue>
-  </file>
-  <file src="src/MediaPool/ServiceMedia.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$allowedExtensions]]></code>
-      <code><![CDATA[$queryParams]]></code>
-      <code><![CDATA[MediaPool::getBlockedExtensions()]]></code>
-    </MixedArgumentTypeCoercion>
-    <PossiblyNullOperand>
-      <code><![CDATA[File::mimeType($data['file']['path'])]]></code>
-    </PossiblyNullOperand>
   </file>
   <file src="src/MetaInfo/Form/Field/RestrictionField.php">
     <PossiblyNullOperand>

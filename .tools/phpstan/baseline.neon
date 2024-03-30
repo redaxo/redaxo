@@ -1441,31 +1441,6 @@ parameters:
 			path: ../../src/Mailer/Mailer.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method Redaxo\\\\Core\\\\MediaPool\\\\Category\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: \\(static\\|null\\) given\\.$#"
-			count: 1
-			path: ../../src/MediaPool/Category.php
-
-		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method Redaxo\\\\Core\\\\MediaPool\\\\Category\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(Redaxo\\\\Core\\\\MediaPool\\\\Media\\|null\\), Closure\\(string\\)\\: \\(Redaxo\\\\Core\\\\MediaPool\\\\Media\\|null\\) given\\.$#"
-			count: 1
-			path: ../../src/MediaPool/Category.php
-
-		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method Redaxo\\\\Core\\\\MediaPool\\\\Category\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\), Closure\\(int\\)\\: \\(static\\|null\\) given\\.$#"
-			count: 1
-			path: ../../src/MediaPool/Category.php
-
-		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method Redaxo\\\\Core\\\\MediaPool\\\\Category\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed\\)\\: array given\\.$#"
-			count: 2
-			path: ../../src/MediaPool/Category.php
-
-		-
-			message: "#^Static property Redaxo\\\\Core\\\\MediaPool\\\\Category\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(Redaxo\\\\Core\\\\MediaPool\\\\Category\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, Redaxo\\\\Core\\\\MediaPool\\\\Category\\|null\\>\\>\\.$#"
-			count: 1
-			path: ../../src/MediaPool/Category.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\Media\\:\\:getRootMedia\\(\\) should return list\\<static\\(Redaxo\\\\Core\\\\MediaPool\\\\Media\\)\\> but returns list\\<object\\>\\.$#"
 			count: 1
 			path: ../../src/MediaPool/Media.php
@@ -1521,6 +1496,66 @@ parameters:
 			path: ../../src/MediaPool/Media.php
 
 		-
+			message: "#^Parameter \\#2 \\$createCallback of static method Redaxo\\\\Core\\\\MediaPool\\\\MediaCategory\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: \\(static\\|null\\) given\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaCategory.php
+
+		-
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method Redaxo\\\\Core\\\\MediaPool\\\\MediaCategory\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(Redaxo\\\\Core\\\\MediaPool\\\\Media\\|null\\), Closure\\(string\\)\\: \\(Redaxo\\\\Core\\\\MediaPool\\\\Media\\|null\\) given\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaCategory.php
+
+		-
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method Redaxo\\\\Core\\\\MediaPool\\\\MediaCategory\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\), Closure\\(int\\)\\: \\(static\\|null\\) given\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaCategory.php
+
+		-
+			message: "#^Parameter \\#3 \\$createListCallback of static method Redaxo\\\\Core\\\\MediaPool\\\\MediaCategory\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed\\)\\: array given\\.$#"
+			count: 2
+			path: ../../src/MediaPool/MediaCategory.php
+
+		-
+			message: "#^Static property Redaxo\\\\Core\\\\MediaPool\\\\MediaCategory\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(Redaxo\\\\Core\\\\MediaPool\\\\MediaCategory\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, Redaxo\\\\Core\\\\MediaPool\\\\MediaCategory\\|null\\>\\>\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaCategory.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaCategoryHandler\\:\\:editCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaCategoryHandler.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array\\<non\\-falsy\\-string, int\\|non\\-falsy\\-string\\> will always evaluate to true\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaHandler\\:\\:addMedia\\(\\) has parameter \\$allowedExtensions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaHandler\\:\\:addMedia\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaHandler\\:\\:updateMedia\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
+			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<string\\|null\\>, rex_extension_point\\<string\\|null\\> given\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
 			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPool\\:\\:getAllowedExtensions\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/MediaPool/MediaPool.php
@@ -1544,41 +1579,6 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPoolPermission\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/MediaPool/MediaPoolPermission.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\ServiceCategory\\:\\:editCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/MediaPool/ServiceCategory.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array\\<non\\-falsy\\-string, int\\|non\\-falsy\\-string\\> will always evaluate to true\\.$#"
-			count: 1
-			path: ../../src/MediaPool/ServiceMedia.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\ServiceMedia\\:\\:addMedia\\(\\) has parameter \\$allowedExtensions with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/MediaPool/ServiceMedia.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\ServiceMedia\\:\\:addMedia\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/MediaPool/ServiceMedia.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\ServiceMedia\\:\\:updateMedia\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/MediaPool/ServiceMedia.php
-
-		-
-			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<string\\|null\\>, rex_extension_point\\<string\\|null\\> given\\.$#"
-			count: 1
-			path: ../../src/MediaPool/ServiceMedia.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: ../../src/MediaPool/ServiceMedia.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Form\\\\Input\\\\AbstractInput\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
