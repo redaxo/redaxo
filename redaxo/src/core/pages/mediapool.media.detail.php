@@ -5,9 +5,9 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\MediaPool\Category;
 use Redaxo\Core\MediaPool\Media;
-use Redaxo\Core\MediaPool\ServiceMedia;
+use Redaxo\Core\MediaPool\MediaCategory;
+use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
@@ -47,7 +47,7 @@ if (rex_post('btn_delete', 'string')) {
             $filename = $media->getFileName();
             if ($perm->hasCategoryPerm($media->getCategoryId())) {
                 try {
-                    ServiceMedia::deleteMedia($filename);
+                    MediaHandler::deleteMedia($filename);
                     $success = I18n::msg('pool_file_deleted');
                     $fileId = 0;
 
@@ -91,7 +91,7 @@ if (rex_post('btn_update', 'string')) {
             }
 
             try {
-                ServiceMedia::updateMedia($filename, $data);
+                MediaHandler::updateMedia($filename, $data);
 
                 if ($gf->getValue('category_id') != $rexFileCategory) {
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
@@ -307,7 +307,7 @@ if ($TPERM) {
     $panel = '';
 
     $catname = I18n::msg('pool_kats_no');
-    $Cat = Category::get($rexFileCategory);
+    $Cat = MediaCategory::get($rexFileCategory);
     if ($Cat) {
         $catname = $Cat->getName();
     }

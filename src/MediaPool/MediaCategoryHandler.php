@@ -9,7 +9,7 @@ use rex_extension;
 use rex_extension_point;
 use rex_functional_exception;
 
-class ServiceCategory
+class MediaCategoryHandler
 {
     /**
      * @param string $name The name of the new category

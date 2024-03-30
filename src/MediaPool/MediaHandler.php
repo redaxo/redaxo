@@ -26,7 +26,7 @@ use function strlen;
 use const PATHINFO_EXTENSION;
 use const UPLOAD_ERR_INI_SIZE;
 
-final class ServiceMedia
+final class MediaHandler
 {
     private const ORDER_BY = [
         'filename',

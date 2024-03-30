@@ -6,8 +6,8 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MediaPool\Media;
+use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\MediaPool\MediaPoolCache;
-use Redaxo\Core\MediaPool\ServiceMedia;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
@@ -83,7 +83,7 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
                 if ($media) {
                     if ($perm->hasCategoryPerm($media->getCategoryId())) {
                         try {
-                            ServiceMedia::deleteMedia($filename);
+                            MediaHandler::deleteMedia($filename);
                             ++$countDeleted;
                         } catch (rex_api_exception $e) {
                             $error[] = $e->getMessage();
@@ -254,7 +254,7 @@ if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
 
 $pager = new Pager(5000);
 
-$items = ServiceMedia::getList($filter, [], $pager);
+$items = MediaHandler::getList($filter, [], $pager);
 
 $panel .= '<tbody>';
 

@@ -13,7 +13,7 @@ use function in_array;
 /**
  * Object Oriented Framework: Bildet eine Kategorie im Medienpool ab.
  */
-class Category
+class MediaCategory
 {
     use InstanceListPoolTrait;
     use InstancePoolTrait;

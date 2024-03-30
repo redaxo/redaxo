@@ -4,8 +4,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\MediaPool\MediaPoolCache;
-use Redaxo\Core\MediaPool\ServiceMedia;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 
@@ -89,7 +89,7 @@ if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
                 ];
 
                 try {
-                    ServiceMedia::addMedia($data, false);
+                    MediaHandler::addMedia($data, false);
 
                     unset($diffFiles[$key]);
                     if ($first) {
