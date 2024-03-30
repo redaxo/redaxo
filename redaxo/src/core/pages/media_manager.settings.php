@@ -2,7 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\MediaManager\MediaManagerManager;
+use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 
 $func = rex_request('func', 'string');
@@ -24,7 +24,7 @@ if ('update' == $func) {
     $config['media_manager_avif_speed'] = max(0, min(10, $config['media_manager_avif_speed']));
 
     Core::setConfig($config);
-    MediaManagerManager::deleteCache();
+    MediaManager::deleteCache();
     echo rex_view::info(I18n::msg('media_manager_config_saved'));
 }
 

@@ -3,7 +3,7 @@
 namespace Redaxo\Core\MediaManager\Effect;
 
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\MediaManager\MediaManagerExecutor;
+use Redaxo\Core\MediaManager\ManagedMedia;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -45,7 +45,7 @@ class InsertImageEffect extends AbstractEffect
         }
 
         // -------------------------------------- /CONFIG
-        $brand = new MediaManagerExecutor($brandimage);
+        $brand = new ManagedMedia($brandimage);
         $brand->asImage();
         $gdbrand = $brand->getImage();
         $gdimage = $this->media->getImage();

@@ -25,7 +25,7 @@ use const DIRECTORY_SEPARATOR;
 use const GLOB_NOSORT;
 use const PHP_SESSION_ACTIVE;
 
-class MediaManagerManager
+class MediaManager
 {
     /**
      * status of a system mediatyp.
@@ -34,7 +34,7 @@ class MediaManagerManager
      */
     public const STATUS_SYSTEM_TYPE = 1;
 
-    /** @var MediaManagerExecutor */
+    /** @var ManagedMedia */
     private $media;
 
     /** @var string */
@@ -61,7 +61,7 @@ class MediaManagerManager
     /** @var list<class-string<AbstractEffect>> */
     private static $effects = [];
 
-    public function __construct(MediaManagerExecutor $media)
+    public function __construct(ManagedMedia $media)
     {
         $this->media = $media;
         $this->originalFilename = $media->getMediaFilename();
@@ -81,7 +81,7 @@ class MediaManagerManager
         $mediaPath = Path::media($file);
         $cachePath = Path::coreCache('media_manager/');
 
-        $media = new MediaManagerExecutor($mediaPath);
+        $media = new ManagedMedia($mediaPath);
         $manager = new self($media);
         $manager->setCachePath($cachePath);
         $manager->applyEffects($type);
@@ -96,7 +96,7 @@ class MediaManagerManager
     }
 
     /**
-     * @return MediaManagerExecutor
+     * @return ManagedMedia
      */
     public function getMedia()
     {
@@ -525,7 +525,7 @@ class MediaManagerManager
             $mediaPath = Path::media($rexMediaManagerFile);
             $cachePath = self::$cacheDirectory ?? Path::coreCache('media_manager/');
 
-            $media = new MediaManagerExecutor($mediaPath);
+            $media = new ManagedMedia($mediaPath);
             $mediaManager = new self($media);
             $mediaManager->setCachePath($cachePath);
             $mediaManager->applyEffects($rexMediaManagerType);

@@ -3,7 +3,7 @@
 namespace Redaxo\Core\MediaManager\Effect;
 
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\MediaManager\MediaManagerExecutor;
+use Redaxo\Core\MediaManager\ManagedMedia;
 use Redaxo\Core\Translation\I18n;
 use rex_response;
 
@@ -78,7 +78,7 @@ class WorkspaceEffect extends AbstractEffect
             if (!is_file($bgimage)) {
                 return;
             }
-            $bg = new MediaManagerExecutor($bgimage);
+            $bg = new ManagedMedia($bgimage);
             $bg->asImage();
             $workspace = $bg->getImage();
             $this->keepTransparent($workspace);

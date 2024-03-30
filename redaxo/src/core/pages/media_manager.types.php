@@ -3,7 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Form;
-use Redaxo\Core\MediaManager\MediaManagerManager;
+use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
 
@@ -23,7 +23,7 @@ $error = '';
 // -------------- delete type
 if ('delete' == $func && $typeId > 0) {
     // must be called before deletion, otherwise the method can not resolve the id to type name
-    MediaManagerManager::deleteCacheByType($typeId);
+    MediaManager::deleteCacheByType($typeId);
 
     $sql = Sql::factory();
     //  $sql->setDebug();
@@ -48,7 +48,7 @@ if ('delete' == $func && $typeId > 0) {
 
 // -------------- delete cache by type-id
 if ('delete_cache' == $func && $typeId > 0) {
-    $counter = MediaManagerManager::deleteCacheByType($typeId);
+    $counter = MediaManager::deleteCacheByType($typeId);
     $success = I18n::msg('media_manager_cache_files_removed', $counter);
     $func = '';
 }
@@ -106,7 +106,7 @@ if ('' == $func) {
     $list->setColumnParams($thIcon, ['func' => 'edit', 'type_id' => '###id###']);
     $list->setColumnFormat($thIcon, 'custom', static function () use ($list, $thIcon) {
         $tdIcon = '<i class="rex-icon rex-icon-mediatype"></i>';
-        if (MediaManagerManager::STATUS_SYSTEM_TYPE == $list->getValue('status')) {
+        if (MediaManager::STATUS_SYSTEM_TYPE == $list->getValue('status')) {
             return $tdIcon;
         }
         return $list->getColumnLink($thIcon, $tdIcon);
@@ -118,7 +118,7 @@ if ('' == $func) {
     $list->addColumn($funcs, '', -1, ['<th class="rex-table-action" colspan="5">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams($funcs, ['type_id' => '###id###', 'effects' => 1]);
     $list->setColumnFormat($funcs, 'custom', static function () use ($list, $funcs) {
-        if (MediaManagerManager::STATUS_SYSTEM_TYPE == $list->getValue('status')) {
+        if (MediaManager::STATUS_SYSTEM_TYPE == $list->getValue('status')) {
             return '<small class="text-muted">' . I18n::msg('media_manager_type_system') . '</small>';
         }
         return $list->getColumnLink($funcs, '<i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('media_manager_type_effekts_edit'));
@@ -131,7 +131,7 @@ if ('' == $func) {
     $list->addColumn('editType', '', -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('editType', ['func' => 'edit', 'type_id' => '###id###']);
     $list->setColumnFormat('editType', 'custom', static function () use ($list) {
-        if (MediaManagerManager::STATUS_SYSTEM_TYPE == $list->getValue('status')) {
+        if (MediaManager::STATUS_SYSTEM_TYPE == $list->getValue('status')) {
             return '';
         }
         return $list->getColumnLink('editType', '<i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('media_manager_type_edit'));
@@ -145,7 +145,7 @@ if ('' == $func) {
     $list->setColumnParams('deleteType', ['type_id' => '###id###', 'func' => 'delete']);
     $list->addLinkAttribute('deleteType', 'data-confirm', I18n::msg('delete') . ' ?');
     $list->setColumnFormat('deleteType', 'custom', static function () use ($list) {
-        if (MediaManagerManager::STATUS_SYSTEM_TYPE == $list->getValue('status')) {
+        if (MediaManager::STATUS_SYSTEM_TYPE == $list->getValue('status')) {
             return '';
         }
         return $list->getColumnLink('deleteType', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('media_manager_type_delete'));
@@ -172,7 +172,7 @@ if ('' == $func) {
         $sql = $form->getSql();
 
         // remove delete button on internal types
-        if ($sql->getRows() > 0 && MediaManagerManager::STATUS_SYSTEM_TYPE == $sql->getValue('status')) {
+        if ($sql->getRows() > 0 && MediaManager::STATUS_SYSTEM_TYPE == $sql->getValue('status')) {
             $controlFields['delete'] = '';
         }
         return $controlFields;
@@ -180,7 +180,7 @@ if ('' == $func) {
 
     $form = Form::factory(Core::getTablePrefix() . 'media_manager_type', '', 'id = ' . $typeId);
 
-    if ($typeId && MediaManagerManager::STATUS_SYSTEM_TYPE === (int) $form->getSql()->getValue('status')) {
+    if ($typeId && MediaManager::STATUS_SYSTEM_TYPE === (int) $form->getSql()->getValue('status')) {
         throw new rex_exception('System media types can not be edited.');
     }
 
@@ -193,7 +193,7 @@ if ('' == $func) {
                 return;
             }
 
-            MediaManagerManager::deleteCacheByType($typeId);
+            MediaManager::deleteCacheByType($typeId);
         });
     }
 
@@ -210,7 +210,7 @@ if ('' == $func) {
 
     // system mediatypes are not editable
     if ('edit' == $func) {
-        if (MediaManagerManager::STATUS_SYSTEM_TYPE == $form->getSql()->getValue('status')) {
+        if (MediaManager::STATUS_SYSTEM_TYPE == $form->getSql()->getValue('status')) {
             $field->setAttribute('readonly', 'readonly');
         }
     }

@@ -5,7 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\MediaManager\MediaManagerManager;
+use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
@@ -158,8 +158,8 @@ if ($isImage) {
     $imgMax = Url::media($fname);
 
     if ('svg' != File::extension($fname)) {
-        $imgn = MediaManagerManager::getUrl('rex_media_medium', $encodedFname, $gf->getDateTimeValue('updatedate'));
-        $imgMax = MediaManagerManager::getUrl('rex_media_large', $encodedFname, $gf->getDateTimeValue('updatedate'));
+        $imgn = MediaManager::getUrl('rex_media_medium', $encodedFname, $gf->getDateTimeValue('updatedate'));
+        $imgMax = MediaManager::getUrl('rex_media_large', $encodedFname, $gf->getDateTimeValue('updatedate'));
 
         $width = '';
     }

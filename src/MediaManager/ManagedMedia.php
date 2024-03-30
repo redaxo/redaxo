@@ -16,7 +16,7 @@ use function assert;
 use function function_exists;
 use function in_array;
 
-class MediaManagerExecutor
+class ManagedMedia
 {
     public const PROP_JPG_QUALITY = 'jpg_quality';
     public const PROP_PNG_COMPRESSION = 'png_compression';

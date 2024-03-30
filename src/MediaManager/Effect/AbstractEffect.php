@@ -3,11 +3,11 @@
 namespace Redaxo\Core\MediaManager\Effect;
 
 use GdImage;
-use Redaxo\Core\MediaManager\MediaManagerExecutor;
+use Redaxo\Core\MediaManager\ManagedMedia;
 
 abstract class AbstractEffect
 {
-    /** @var MediaManagerExecutor */
+    /** @var ManagedMedia */
     public $media;
 
     /**
@@ -22,7 +22,7 @@ abstract class AbstractEffect
     /**
      * @return void
      */
-    public function setMedia(MediaManagerExecutor $media)
+    public function setMedia(ManagedMedia $media)
     {
         $this->media = $media;
     }
