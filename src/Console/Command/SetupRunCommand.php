@@ -4,6 +4,7 @@ namespace Redaxo\Core\Console\Command;
 
 use DateTimeZone;
 use InvalidArgumentException;
+use Override;
 use PDOException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -17,6 +18,7 @@ use rex_backup;
 use rex_clang_service;
 use rex_setup;
 use rex_setup_importer;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,15 +40,11 @@ use const PHP_VERSION;
  */
 class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterface
 {
-    /** @var SymfonyStyle */
-    private $io;
+    private SymfonyStyle $io;
+    private InputInterface $input;
+    private bool $forceAsking = false;
 
-    /** @var InputInterface */
-    private $input;
-
-    /** @var bool */
-    private $forceAsking = false;
-
+    #[Override]
     protected function configure(): void
     {
         $this
@@ -69,6 +67,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
         ;
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
@@ -117,7 +116,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
 
         $io->warning('The checks are executed only in the cli environment and do not guarantee correctness in the web server environment.');
 
-        if (0 !== $code = $this->performSystemcheck()) {
+        if (Command::SUCCESS !== $code = $this->performSystemcheck()) {
             return $code;
         }
 
@@ -244,7 +243,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
             if ('' !== $err) {
                 $io->error($err);
                 if (!$input->isInteractive()) {
-                    return 1;
+                    return Command::FAILURE;
                 }
                 $this->forceAsking = true;
             }
@@ -338,13 +337,13 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
 
         if ('' !== $error) {
             $io->error($this->decodeMessage($error));
-            return 1;
+            return Command::FAILURE;
         }
 
         $error = rex_setup_importer::verifyDbSchema();
         if ('' != $error) {
             $io->error($this->decodeMessage($error));
-            return 1;
+            return Command::FAILURE;
         }
 
         rex_clang_service::generateCache();
@@ -444,12 +443,12 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
         $config['setup'] = is_array($config['setup']) ? $config['setup'] : false;
         if (!File::putConfig($configFile, $config)) {
             $io->error('Writing to config.yml failed.');
-            return 1;
+            return Command::FAILURE;
         }
         File::delete(Path::coreCache('config.yml.cache'));
 
         $io->success('Congratulations! REDAXO has successfully been installed.');
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
@@ -461,10 +460,8 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
      * @param string|bool|null $default default value for ask()
      * @param string|null $successMessage success message for using the option value
      * @param callable(mixed):mixed|null $validator validator callback for option value and ask()
-     *
-     * @return mixed
      */
-    private function getOptionOrAsk($question, string $option, $default = null, ?string $successMessage = null, ?callable $validator = null)
+    private function getOptionOrAsk(string|Question $question, string $option, string|bool|null $default = null, ?string $successMessage = null, ?callable $validator = null): mixed
     {
         $optionValue = $this->input->getOption($option);
         if (!$this->forceAsking && null !== $optionValue) {
@@ -510,7 +507,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
         } else {
             $errors = array_map($this->decodeMessage(...), $errors);
             $this->io->error("PHP version errors:\n" . implode("\n", $errors));
-            return 1;
+            return Command::FAILURE;
         }
 
         $res = rex_setup::checkFilesystem();
@@ -528,10 +525,10 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
 
             $errors = array_map($this->decodeMessage(...), $errors);
             $this->io->error("Directory permissions error:\n" . implode("\n", $errors));
-            return 1;
+            return Command::FAILURE;
         }
         $this->io->success('Directory permissions ok');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

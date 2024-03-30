@@ -1906,8 +1906,6 @@
       <code><![CDATA[$config['db'][1]['name']]]></code>
       <code><![CDATA[$config['db'][1]['password']]]></code>
       <code><![CDATA[$destination]]></code>
-      <code><![CDATA[$dir]]></code>
-      <code><![CDATA[$dir]]></code>
       <code><![CDATA[$func($path)]]></code>
       <code><![CDATA[$path]]></code>
     </MixedArgument>
@@ -2997,12 +2995,9 @@
   <file src="redaxo/src/core/pages/setup.php">
     <MixedArgument>
       <code><![CDATA[$config['timezone']]]></code>
-      <code><![CDATA[$message]]></code>
-      <code><![CDATA[$messages]]></code>
       <code><![CDATA[$value]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
       <code><![CDATA[$key]]></code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAssignment>
@@ -3016,8 +3011,6 @@
       <code><![CDATA[$config['db'][1]['password']]]></code>
     </MixedArrayAssignment>
     <MixedAssignment>
-      <code><![CDATA[$message]]></code>
-      <code><![CDATA[$messages]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
   </file>
@@ -3616,11 +3609,6 @@
       <code><![CDATA[boot]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Console/Command/AddonInstallCommand.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[ask]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="src/Console/Command/ConfigGetCommand.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$propertyKey]]></code>
@@ -3644,7 +3632,6 @@
   </file>
   <file src="src/Console/Command/CronjobRunCommand.php">
     <MixedArgument>
-      <code><![CDATA[$id]]></code>
       <code><![CDATA[$id]]></code>
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$name]]></code>
@@ -3696,19 +3683,6 @@
       <code><![CDATA[$config['db'][1] ?? []]]></code>
     </MixedOperand>
   </file>
-  <file src="src/Console/Command/SetupCheckCommand.php">
-    <MixedArgument>
-      <code><![CDATA[$message]]></code>
-      <code><![CDATA[$messages]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$message]]></code>
-      <code><![CDATA[$messages]]></code>
-    </MixedAssignment>
-  </file>
   <file src="src/Console/Command/SetupRunCommand.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$login]]></code>
@@ -3725,8 +3699,6 @@
       <code><![CDATA[$dbCreate]]></code>
       <code><![CDATA[$login]]></code>
       <code><![CDATA[$login]]></code>
-      <code><![CDATA[$message]]></code>
-      <code><![CDATA[$messages]]></code>
       <code><![CDATA[$password]]></code>
       <code><![CDATA[$password]]></code>
       <code><![CDATA[$value]]></code>
@@ -3734,7 +3706,6 @@
       <code><![CDATA[$value]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
       <code><![CDATA[['login' => $login]]]></code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
@@ -3772,8 +3743,6 @@
       <code><![CDATA[$dbName]]></code>
       <code><![CDATA[$dbPassword]]></code>
       <code><![CDATA[$login]]></code>
-      <code><![CDATA[$message]]></code>
-      <code><![CDATA[$messages]]></code>
       <code><![CDATA[$password]]></code>
     </MixedAssignment>
     <MixedOperand>

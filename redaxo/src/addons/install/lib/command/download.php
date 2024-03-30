@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_install_download extends AbstractCommand
 {
+    #[Override]
     protected function configure(): void
     {
         $this->setDescription('Download an AddOn from redaxo.org')
@@ -19,6 +20,7 @@ class rex_command_install_download extends AbstractCommand
             ->addArgument('version', InputArgument::OPTIONAL, "Version, e.g. '3.2.1', '^3.2' or '3.*'");
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);

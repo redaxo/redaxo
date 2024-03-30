@@ -2,9 +2,11 @@
 
 namespace Redaxo\Core\Console\Command;
 
+use Override;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\CronjobManager;
 use Redaxo\Core\Database\Sql;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException as SymfonyInvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,6 +21,7 @@ use function define;
  */
 class CronjobRunCommand extends AbstractCommand
 {
+    #[Override]
     protected function configure(): void
     {
         $this
@@ -27,6 +30,7 @@ class CronjobRunCommand extends AbstractCommand
         ;
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
@@ -37,7 +41,7 @@ class CronjobRunCommand extends AbstractCommand
         $job = $input->getOption('job');
 
         if (false !== $job) {
-            return $this->executeSingleJob($io, $job);
+            return $this->executeSingleJob($io, (int) $job);
         }
 
         $manager = CronjobManager::factory();
@@ -56,17 +60,14 @@ class CronjobRunCommand extends AbstractCommand
         /** @var int $errors */
         if ($errors) {
             $io->error('Cronjobs checked, ' . $errors . ' failed.');
-            return 1;
+            return Command::FAILURE;
         }
 
         $io->success('Cronjobs checked.');
-        return 0;
+        return Command::SUCCESS;
     }
 
-    /**
-     * @return int
-     */
-    private function executeSingleJob(SymfonyStyle $io, $id)
+    private function executeSingleJob(SymfonyStyle $io, ?int $id): int
     {
         $manager = CronjobManager::factory();
 
@@ -106,11 +107,11 @@ class CronjobRunCommand extends AbstractCommand
         if ($success) {
             $io->success(sprintf('Cronjob "%s" executed successfully%s.', $name, $msg));
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $io->error(sprintf('Cronjob "%s" failed%s.', $name, $msg));
 
-        return 1;
+        return Command::FAILURE;
     }
 }

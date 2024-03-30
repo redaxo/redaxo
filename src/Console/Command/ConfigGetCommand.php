@@ -2,8 +2,10 @@
 
 namespace Redaxo\Core\Console\Command;
 
+use Override;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,15 +19,17 @@ use function is_array;
  */
 class ConfigGetCommand extends AbstractCommand implements StandaloneInterface
 {
+    #[Override]
     protected function configure(): void
     {
         $this->setDescription('Get config variables')
             ->addArgument('config-key', InputArgument::REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"')
             ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'php type of the returned value, e.g. "octal"', 'string')
-            ->addOption('package', 'p', InputOption::VALUE_REQUIRED, 'package to inspect, defaults to redaxo-core', 'core')
+            ->addOption('addon', 'p', InputOption::VALUE_REQUIRED, 'addon to inspect, defaults to redaxo-core', 'core')
         ;
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
@@ -39,7 +43,7 @@ class ConfigGetCommand extends AbstractCommand implements StandaloneInterface
         $path = explode('.', $key);
         $propertyKey = array_shift($path);
 
-        $package = $input->getOption('package');
+        $package = $input->getOption('addon');
         if ('core' === $package) {
             $config = Core::getProperty($propertyKey);
         } else {
@@ -48,12 +52,12 @@ class ConfigGetCommand extends AbstractCommand implements StandaloneInterface
 
         if (null === $config) {
             $io->getErrorStyle()->error('Config key not found');
-            return 1;
+            return Command::FAILURE;
         }
         foreach ($path as $pathPart) {
             if (!is_array($config) || !isset($config[$pathPart])) {
                 $io->getErrorStyle()->error('Config key not found');
-                return 1;
+                return Command::FAILURE;
             }
             $config = $config[$pathPart];
         }
@@ -65,6 +69,6 @@ class ConfigGetCommand extends AbstractCommand implements StandaloneInterface
             $output->writeln(json_encode($config));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

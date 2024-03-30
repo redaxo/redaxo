@@ -2,7 +2,9 @@
 
 namespace Redaxo\Core\Console\Command;
 
+use Override;
 use Redaxo\Core\Core;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -11,6 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DatabaseConnectionOptionsCommand extends AbstractCommand implements StandaloneInterface
 {
+    #[Override]
     protected function configure(): void
     {
         $this
@@ -31,6 +34,7 @@ class DatabaseConnectionOptionsCommand extends AbstractCommand implements Standa
         ;
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $db = Core::getDbConfig(1);
@@ -52,6 +56,6 @@ class DatabaseConnectionOptionsCommand extends AbstractCommand implements Standa
             escapeshellarg($db->name),
         ]);
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

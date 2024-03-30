@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Console\Command;
 
+use Override;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use rex_backend_login;
@@ -9,6 +10,7 @@ use rex_backend_password_policy;
 use rex_extension;
 use rex_extension_point;
 use rex_user;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,6 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class UserSetPasswordCommand extends AbstractCommand
 {
+    #[Override]
     protected function configure(): void
     {
         $this
@@ -32,6 +35,7 @@ class UserSetPasswordCommand extends AbstractCommand
         ;
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
@@ -97,6 +101,6 @@ class UserSetPasswordCommand extends AbstractCommand
 
         $io->success(sprintf('Saved new password for user "%s".', $username));
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

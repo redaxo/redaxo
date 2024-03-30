@@ -39,12 +39,12 @@ final class ConfigGetCommandTest extends TestCase
         self::assertEquals(1, $commandTester->getStatusCode());
     }
 
-    public function testPackageKeyFound(): void
+    public function testAddonKeyFound(): void
     {
         $commandTester = new CommandTester(new ConfigGetCommand());
         $commandTester->execute([
             'config-key' => 'author',
-            '--package' => 'project', ],
+            '--addon' => 'project', ],
         );
         self::assertEquals("\"Project Admin\"\n", $commandTester->getDisplay(true));
         self::assertEquals(0, $commandTester->getStatusCode());
