@@ -50,13 +50,10 @@ class Form extends AbstractForm
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
      *
      * @param non-empty-string $tableName
-     * @param string $fieldset
-     * @param string $whereCondition
      * @param 'post'|'get' $method
-     * @param bool $debug
      * @param positive-int $db DB connection ID
      */
-    protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
+    protected function __construct(string $tableName, string $fieldset, string $whereCondition, string $method = 'post', bool $debug = false, int $db = 1)
     {
         $name = md5($tableName . $whereCondition . $method);
 
@@ -93,16 +90,11 @@ class Form extends AbstractForm
     /**
      * Methode zum erstellen von Form Instanzen.
      *
-     * @param string $tableName
-     * @param string $fieldset
-     * @param string $whereCondition
+     * @param non-empty-string $tableName
      * @param 'post'|'get' $method
-     * @param bool $debug
      * @param positive-int $db DB connection ID
-     *
-     * @return static a Form instance
      */
-    public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
+    public static function factory(string $tableName, string $fieldset, string $whereCondition, string $method = 'post', bool $debug = false, int $db = 1): static
     {
         $class = static::getFactoryClass();
         return new $class($tableName, $fieldset, $whereCondition, $method, $debug, $db);

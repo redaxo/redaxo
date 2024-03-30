@@ -21,12 +21,10 @@ class ConfigForm extends AbstractForm
 
     /**
      * @param string $namespace `rex_config` namespace, usually the package key
-     * @param string|null $fieldset
-     * @param bool $debug
      */
-    protected function __construct($namespace, $fieldset = null, $debug = false)
+    protected function __construct(string $namespace, ?string $fieldset = null, bool $debug = false)
     {
-        parent::__construct($fieldset, md5($namespace . $fieldset), 'post', $debug);
+        parent::__construct($fieldset, md5($namespace . (string) $fieldset), 'post', $debug);
 
         $this->namespace = $namespace;
 
@@ -38,12 +36,8 @@ class ConfigForm extends AbstractForm
 
     /**
      * @param string $namespace `rex_config` namespace, usually the package key
-     * @param string|null $fieldset
-     * @param bool $debug
-     *
-     * @return static
      */
-    public static function factory($namespace, $fieldset = null, $debug = false)
+    public static function factory(string $namespace, ?string $fieldset = null, bool $debug = false): static
     {
         $class = static::getFactoryClass();
         return new $class($namespace, $fieldset, $debug);

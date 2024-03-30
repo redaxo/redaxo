@@ -4,6 +4,9 @@ use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
+/**
+ * @psalm-consistent-constructor
+ */
 class rex_be_navigation
 {
     use FactoryTrait;
@@ -21,10 +24,7 @@ class rex_be_navigation
     /** @var array<string, list<rex_be_page>> */
     private array $pages = [];
 
-    /**
-     * @return static
-     */
-    public static function factory()
+    public static function factory(): static
     {
         $class = static::getFactoryClass();
         return new $class();
