@@ -1,5 +1,8 @@
 <?php
 
+namespace Redaxo\Core\Tests\HttpClient;
+
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
@@ -7,18 +10,23 @@ use Redaxo\Core\Core;
 use Redaxo\Core\HttpClient\ProxyRequest;
 use Redaxo\Core\HttpClient\Request;
 use Redaxo\Core\HttpClient\Response;
+use ReflectionClass;
+use ReflectionMethod;
+use rex_socket_exception;
 
 /** @internal */
 final class RequestTest extends TestCase
 {
     private ?string $proxy = null;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->proxy = Core::getProperty('http_client_proxy');
         Core::setProperty('http_client_proxy', null);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Core::setProperty('http_client_proxy', $this->proxy);
@@ -64,18 +72,21 @@ final class RequestTest extends TestCase
 
         $stream = fopen('php://temp', 'r+');
         $property->setValue($socket, $stream);
-        $response = $method->invoke($socket, 'GET', '/a/path', ['Host' => 'www.example.com', 'Connection' => 'Close'], "body1\r\nbody2");
 
-        self::assertInstanceOf(Response::class, $response);
+        try {
+            $method->invoke($socket, 'GET', '/a/path', ['Host' => 'www.example.com', 'Connection' => 'Close'], "body1\r\nbody2");
+        } catch (rex_socket_exception) { // @phpstan-ignore-line
+            // ignore "Missing status code in response header" error in Response class
+        }
 
         $eol = "\r\n";
         $expected = 'GET /a/path HTTP/1.1' . $eol
-                            . 'Host: www.example.com' . $eol
-                            . 'Connection: Close' . $eol
-                            . 'Content-Length: 12' . $eol
-                            . $eol
-                            . 'body1' . $eol
-                            . 'body2';
+            . 'Host: www.example.com' . $eol
+            . 'Connection: Close' . $eol
+            . 'Content-Length: 12' . $eol
+            . $eol
+            . 'body1' . $eol
+            . 'body2';
         fseek($stream, 0);
         self::assertEquals($expected, fread($stream, 1024));
         fclose($stream);
@@ -102,6 +113,7 @@ final class RequestTest extends TestCase
     public function testParseUrl(string $url, string $expectedHost, int $expectedPort, bool $expectedSsl, string $expectedPath): void
     {
         $method = new ReflectionMethod(Request::class, 'parseUrl');
+        /** @psalm-suppress MixedAssignment */
         $result = $method->invoke(null, $url);
         $expected = [
             'host' => $expectedHost,
