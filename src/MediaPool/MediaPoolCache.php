@@ -35,7 +35,7 @@ class MediaPoolCache
     public static function deleteCategory($categoryId)
     {
         File::delete(Path::coreCache('mediapool/' . $categoryId . '.mcat'));
-        Category::clearInstance($categoryId);
+        MediaCategory::clearInstance($categoryId);
         self::deleteCategoryLists();
     }
 
@@ -53,7 +53,7 @@ class MediaPoolCache
                 File::delete($file);
             }
         }
-        Category::clearInstanceListPool();
+        MediaCategory::clearInstanceListPool();
     }
 
     /**
@@ -65,7 +65,7 @@ class MediaPoolCache
     public static function deleteList($categoryId)
     {
         File::delete(Path::coreCache('mediapool/' . $categoryId . '.mlist'));
-        Category::clearInstanceList([$categoryId, 'media']);
+        MediaCategory::clearInstanceList([$categoryId, 'media']);
     }
 
     /**
@@ -82,7 +82,7 @@ class MediaPoolCache
                 File::delete($file);
             }
         }
-        Category::clearInstanceListPool();
+        MediaCategory::clearInstanceListPool();
     }
 
     /**
@@ -94,7 +94,7 @@ class MediaPoolCache
     public static function deleteCategoryList($categoryId)
     {
         File::delete(Path::coreCache('mediapool/' . $categoryId . '.mclist'));
-        Category::clearInstanceList([$categoryId, 'children']);
+        MediaCategory::clearInstanceList([$categoryId, 'children']);
     }
 
     /**

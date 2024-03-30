@@ -202,7 +202,7 @@ class MediaCategory
 
     /**
      * Get an array of all parentCategories.
-     * Returns an array of rex_media_category objects sorted by $priority.
+     * Returns an array of MediaCategory objects sorted by $priority.
      *
      * @return list<self>
      */

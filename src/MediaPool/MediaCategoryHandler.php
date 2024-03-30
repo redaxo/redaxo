@@ -13,7 +13,7 @@ class MediaCategoryHandler
 {
     /**
      * @param string $name The name of the new category
-     * @param Category|null $parent The category in which the new category should be created, or null for a top/root level category
+     * @param MediaCategory|null $parent The category in which the new category should be created, or null for a top/root level category
      *
      * @return string A success message
      */

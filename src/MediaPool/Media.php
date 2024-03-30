@@ -152,11 +152,11 @@ class Media
     }
 
     /**
-     * @return Category|null
+     * @return MediaCategory|null
      */
     public function getCategory()
     {
-        return Category::get($this->getCategoryId());
+        return MediaCategory::get($this->getCategoryId());
     }
 
     /**
