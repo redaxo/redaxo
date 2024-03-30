@@ -211,7 +211,7 @@ abstract class AbstractElement
                 return null;
             }
 
-            // don't allow to retrieve non-categories (startarticle=0) as rex_category
+            // don't allow to retrieve non-categories (startarticle=0) as Category
             if (!$metadata['startarticle'] && (Category::class === static::class || is_subclass_of(static::class, Category::class))) {
                 return null;
             }

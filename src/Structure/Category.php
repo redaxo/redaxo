@@ -29,7 +29,7 @@ class Category extends AbstractElement
     /**
      * Return a list of top level categories, ie.
      * categories that have no parent.
-     * Returns an array of rex_category objects sorted by $priority.
+     * Returns an array of Category objects sorted by $priority.
      *
      * If $ignore_offlines is set to TRUE,
      * all categories with status 0 will be
@@ -52,7 +52,7 @@ class Category extends AbstractElement
 
     /**
      * Return a list of all subcategories.
-     * Returns an array of rex_category objects sorted by $priority.
+     * Returns an array of Category objects sorted by $priority.
      *
      * If $ignore_offlines is set to TRUE,
      * all categories with status 0 will be
