@@ -143,3 +143,44 @@ jobs:
 
             -   name: Run phpstan analysis
                 run: vendor/bin/phpstan analyse --ansi
+
+    rexstan-analysis:
+        name: rexstan static code analysis
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+            contents: write  # for Git to git apply
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.2'
+                    extensions: gd, intl, imagick, pdo_mysql
+                    coverage: none # disable xdebug, pcov
+
+            -   name: Composer install
+                uses: ramsey/composer-install@v2
+                with:
+                    composer-options: --ansi --prefer-dist
+
+            -   name: Setup REDAXO
+                run: |
+                    sudo /etc/init.d/mysql start
+                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
+                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo5 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
+                    php redaxo/bin/console config:set --type boolean debug.enabled true
+                    php redaxo/bin/console config:set --type boolean debug.throw_always_exception true
+
+            -   name: Download & install rexstan
+                run: |
+                    php redaxo/bin/console install:download rexstan '^1'
+                    php redaxo/bin/console package:install rexstan
+                    php redaxo/bin/console package:activate rexstan
+                    php .tools/phpstan/rexstan.php
+
+            -   name: Run rexstan analysis
+                run: php redaxo/bin/console rexstan:analyze
