@@ -6,9 +6,9 @@
         "lbuchs/webauthn": "^2.1.1",
         "psr/log": "^3",
         "ramsey/http-range": "^1.1",
-        "symfony/console": "^6.4.4",
+        "symfony/console": "^6.4.6",
         "symfony/http-foundation": "^6.4.4",
-        "symfony/var-dumper": "^6.4.4",
+        "symfony/var-dumper": "^6.4.6",
         "symfony/yaml": "^6.4.3",
         "voku/anti-xss": "^4.1.42"
     },

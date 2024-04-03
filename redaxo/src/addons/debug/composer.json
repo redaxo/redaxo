@@ -1,6 +1,6 @@
 {
     "require": {
-        "itsgoingd/clockwork": "^5.2.0"
+        "itsgoingd/clockwork": "^5.2.1"
     },
 
     "config": {
