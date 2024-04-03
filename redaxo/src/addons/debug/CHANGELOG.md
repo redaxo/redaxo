@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 1.3.2 – 07.04.2024
+--------------------------
+
+### Bugfixes
+
+* Als erster Request erschien immer der Abruf der `manifest.json` (@gharlan)
+
+
 Version 1.3.1 – 24.02.2024
 --------------------------
 
