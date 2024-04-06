@@ -6,7 +6,7 @@ on:
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
     repository_dispatch:
-        types: [visual-test-command] # triggered by /visual-test PR comment
+        types: [visual-tests-command] # triggered by /visual-tests PR comment
 
 env:
     writable: ${{ (github.event_name == 'repository_dispatch' || github.ref == 'refs/heads/temp' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
@@ -29,10 +29,7 @@ jobs:
                     token: ${{ secrets.BOT_TOKEN }}
                     repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
                     comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
-                    body: |
-                        ```
-                        https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-                        ```
+                    body: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
             -   name: Checkout
                 uses: actions/checkout@v4
@@ -149,8 +146,7 @@ jobs:
                     commit_user_name: rex-bot
                     commit_user_email: rex-bot@users.noreply.github.com
                     file_pattern: .github/tests-visual/*
-                    # repo dispatch needs the target branch
-                    branch: ${{ github.head_ref }}
+                    branch: ${{ github.head_ref }} # repo dispatch needs the target branch
 
             -   name: Remove automerge label
                 uses: actions-ecosystem/action-remove-labels@v1
