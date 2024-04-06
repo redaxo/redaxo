@@ -58,8 +58,6 @@ jobs:
 
             -   name: Composer install
                 uses: ramsey/composer-install@v3
-                with:
-                    composer-options: --ansi --prefer-dist
 
             -   name: Fix code style
                 if: env.writable == 1
@@ -104,8 +102,6 @@ jobs:
 
             -   name: Composer install
                 uses: ramsey/composer-install@v3
-                with:
-                    composer-options: --ansi --prefer-dist
 
             -   name: Fix code style
                 if: env.writable == 1
