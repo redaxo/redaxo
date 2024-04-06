@@ -361,146 +361,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/user_role.php
 
 		-
-			message: "#^Method rex_effect_abstract\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effect_abstract.php
-
-		-
-			message: "#^Method rex_effect_convert2img\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_convert2img.php
-
-		-
-			message: "#^Method rex_effect_crop\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_crop.php
-
-		-
-			message: "#^Method rex_effect_filter_blur\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_filter_blur.php
-
-		-
-			message: "#^Method rex_effect_filter_brightness\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_filter_brightness.php
-
-		-
-			message: "#^Method rex_effect_filter_colorize\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_filter_colorize.php
-
-		-
-			message: "#^Method rex_effect_filter_contrast\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_filter_contrast.php
-
-		-
-			message: "#^Method rex_effect_filter_greyscale\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_filter_greyscale.php
-
-		-
-			message: "#^Method rex_effect_filter_sepia\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_filter_sepia.php
-
-		-
-			message: "#^Method rex_effect_filter_sharpen\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_filter_sharpen.php
-
-		-
-			message: "#^Method rex_effect_flip\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_flip.php
-
-		-
-			message: "#^Method rex_effect_header\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_header.php
-
-		-
-			message: "#^Method rex_effect_image_format\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_image_format.php
-
-		-
-			message: "#^Method rex_effect_image_properties\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_image_properties.php
-
-		-
-			message: "#^Method rex_effect_insert_image\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_insert_image.php
-
-		-
-			message: "#^Method rex_effect_mediapath\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_mediapath.php
-
-		-
-			message: "#^Method rex_effect_mirror\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_mirror.php
-
-		-
-			message: "#^Method rex_effect_mirror\\:\\:imagereflection\\(\\) has parameter \\$bgColor with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_mirror.php
-
-		-
-			message: "#^Method rex_effect_mirror\\:\\:imagereflection\\(\\) has parameter \\$image with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_mirror.php
-
-		-
-			message: "#^Method rex_effect_mirror\\:\\:imagereflection\\(\\) has parameter \\$reflectionHeight with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_mirror.php
-
-		-
-			message: "#^Method rex_effect_mirror\\:\\:imagereflection\\(\\) has parameter \\$reflectionOpacity with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_mirror.php
-
-		-
-			message: "#^Method rex_effect_mirror\\:\\:imagereflection\\(\\) has parameter \\$transparent with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_mirror.php
-
-		-
-			message: "#^Method rex_effect_resize\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_resize.php
-
-		-
-			message: "#^Method rex_effect_rotate\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_rotate.php
-
-		-
-			message: "#^Method rex_effect_rounded_corners\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_rounded_corners.php
-
-		-
-			message: "#^Method rex_effect_workspace\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/media_manager/effects/effect_workspace.php
-
-		-
-			message: "#^Method rex_media_manager\\:\\:mediaIsInUse\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/media_manager/media_manager.php
-
-		-
-			message: "#^Method rex_media_manager\\:\\:mediaUpdated\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/media_manager/media_manager.php
-
-		-
 			message: "#^Method rex_media\\:\\:getValue\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/mediapool/media.php
@@ -1399,6 +1259,146 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\Mailer\\\\Mailer\\:\\:\\$xHeader type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Mailer/Mailer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\AbstractEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/AbstractEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\ConvertToImageEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/ConvertToImageEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\CropEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/CropEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\FilterBlurEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/FilterBlurEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\FilterBrightnessEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/FilterBrightnessEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\FilterColorizeEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/FilterColorizeEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\FilterContrastEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/FilterContrastEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\FilterGreyscaleEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/FilterGreyscaleEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\FilterSepiaEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/FilterSepiaEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\FilterSharpenEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/FilterSharpenEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\FlipEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/FlipEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\HeaderEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/HeaderEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\ImageFormatEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/ImageFormatEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\ImagePropertiesEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/ImagePropertiesEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\InsertImageEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/InsertImageEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\MediaPathEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/MediaPathEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\MirrorEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/MirrorEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\MirrorEffect\\:\\:imagereflection\\(\\) has parameter \\$bgColor with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaManager/Effect/MirrorEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\MirrorEffect\\:\\:imagereflection\\(\\) has parameter \\$image with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaManager/Effect/MirrorEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\MirrorEffect\\:\\:imagereflection\\(\\) has parameter \\$reflectionHeight with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaManager/Effect/MirrorEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\MirrorEffect\\:\\:imagereflection\\(\\) has parameter \\$reflectionOpacity with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaManager/Effect/MirrorEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\MirrorEffect\\:\\:imagereflection\\(\\) has parameter \\$transparent with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaManager/Effect/MirrorEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\ResizeEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/ResizeEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\RotateEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/RotateEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\RoundedCornersEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/RoundedCornersEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\Effect\\\\WorkspaceEffect\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../src/MediaManager/Effect/WorkspaceEffect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\MediaManager\\:\\:mediaIsInUse\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../src/MediaManager/MediaManager.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\MediaManager\\:\\:mediaUpdated\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../src/MediaManager/MediaManager.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Form\\\\Input\\\\AbstractInput\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"

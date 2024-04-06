@@ -1,13 +1,31 @@
 <?php
 
+namespace Redaxo\Core\MediaManager;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
+use rex_extension;
+use rex_extension_point;
+use rex_media;
+use rex_media_manager_not_found_exception;
+use rex_response;
 
-class rex_media_manager
+use function assert;
+use function count;
+use function in_array;
+use function is_string;
+
+use const DIRECTORY_SEPARATOR;
+use const GLOB_NOSORT;
+use const PHP_SESSION_ACTIVE;
+
+class MediaManager
 {
     /**
      * status of a system mediatyp.
@@ -16,7 +34,7 @@ class rex_media_manager
      */
     public const STATUS_SYSTEM_TYPE = 1;
 
-    /** @var rex_managed_media */
+    /** @var ManagedMedia */
     private $media;
 
     /** @var string */
@@ -40,10 +58,10 @@ class rex_media_manager
     /** @var string|null */
     private static $cacheDirectory;
 
-    /** @var list<class-string<rex_effect_abstract>> */
+    /** @var list<class-string<AbstractEffect>> */
     private static $effects = [];
 
-    public function __construct(rex_managed_media $media)
+    public function __construct(ManagedMedia $media)
     {
         $this->media = $media;
         $this->originalFilename = $media->getMediaFilename();
@@ -63,7 +81,7 @@ class rex_media_manager
         $mediaPath = Path::media($file);
         $cachePath = Path::coreCache('media_manager/');
 
-        $media = new rex_managed_media($mediaPath);
+        $media = new ManagedMedia($mediaPath);
         $manager = new self($media);
         $manager->setCachePath($cachePath);
         $manager->applyEffects($type);
@@ -78,7 +96,7 @@ class rex_media_manager
     }
 
     /**
-     * @return rex_managed_media
+     * @return ManagedMedia
      */
     public function getMedia()
     {
@@ -106,10 +124,10 @@ class rex_media_manager
 
             // execute effects on image
             foreach ($set as $effectParams) {
-                /** @var class-string<rex_effect_abstract> $effectClass */
-                $effectClass = 'rex_effect_' . $effectParams['effect'];
+                /** @var class-string<AbstractEffect> $effectClass */
+                $effectClass = $effectParams['effect'];
                 /**
-                 * @var rex_effect_abstract $effect
+                 * @var AbstractEffect $effect
                  * @psalm-ignore-var
                  */
                 $effect = new $effectClass();
@@ -163,14 +181,15 @@ class rex_media_manager
         $effects = [];
         foreach ($sql as $row) {
             $effname = (string) $row->getValue('effect');
+            $effParamKey = Str::normalize($effname);
             /** @var array<string, array<string, mixed>> $params */
             $params = $row->getArrayValue('parameters');
             $effparams = [];
 
             // extract parameter out of array
-            if (isset($params['rex_effect_' . $effname])) {
-                foreach ($params['rex_effect_' . $effname] as $name => $value) {
-                    $effparams[str_replace('rex_effect_' . $effname . '_', '', $name)] = $value;
+            if (isset($params[$effParamKey])) {
+                foreach ($params[$effParamKey] as $name => $value) {
+                    $effparams[str_replace($effParamKey . '_', '', $name)] = $value;
                     unset($effparams[$name]);
                 }
             }
@@ -393,17 +412,19 @@ class rex_media_manager
     }
 
     /**
-     * @return array<class-string<rex_effect_abstract>, string>
+     * @return array<class-string<AbstractEffect>, string>
      */
     public static function getSupportedEffects()
     {
         $dirs = [
-            __DIR__ . '/effects/',
+            __DIR__ . '/Effect/',
         ];
 
         $effects = [];
         foreach ($dirs as $dir) {
-            $files = glob($dir . 'effect_*.php');
+            $files = array_filter(glob($dir . '*Effect.php'), static function ($file) {
+                return 'AbstractEffect.php' !== Path::basename($file);
+            });
             if ($files) {
                 foreach ($files as $file) {
                     $effects[self::getEffectClass($file)] = self::getEffectName($file);
@@ -419,7 +440,7 @@ class rex_media_manager
     }
 
     /**
-     * @param class-string<rex_effect_abstract> $class
+     * @param class-string<AbstractEffect> $class
      * @return void
      */
     public static function addEffect($class)
@@ -430,19 +451,19 @@ class rex_media_manager
     private static function getEffectName(string $effectFile): string
     {
         return str_replace(
-            ['effect_', '.php'],
+            ['Effect', '.php'],
             '',
             Path::basename($effectFile),
         );
     }
 
     /**
-     * @return class-string<rex_effect_abstract>
+     * @return class-string<AbstractEffect>
      */
     private static function getEffectClass(string $effectFile): string
     {
-        /** @var class-string<rex_effect_abstract> */
-        return 'rex_' . str_replace(
+        /** @var class-string<AbstractEffect> */
+        return 'Redaxo\\Core\\MediaManager\\Effect\\' . str_replace(
             '.php',
             '',
             Path::basename($effectFile),
@@ -504,7 +525,7 @@ class rex_media_manager
             $mediaPath = Path::media($rexMediaManagerFile);
             $cachePath = self::$cacheDirectory ?? Path::coreCache('media_manager/');
 
-            $media = new rex_managed_media($mediaPath);
+            $media = new ManagedMedia($mediaPath);
             $mediaManager = new self($media);
             $mediaManager->setCachePath($cachePath);
             $mediaManager->applyEffects($rexMediaManagerType);

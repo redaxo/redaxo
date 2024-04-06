@@ -1,8 +1,10 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Translation\I18n;
 
-class rex_effect_rotate extends rex_effect_abstract
+class RotateEffect extends AbstractEffect
 {
     private const OPTIONS = ['0', '90', '180', '270'];
 
