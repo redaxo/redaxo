@@ -15,6 +15,9 @@
     </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/fe_ooops.php">
+    <TaintedHtml>
+      <code><![CDATA[$this->getVar('content', '')]]></code>
+    </TaintedHtml>
     <TaintedTextWithQuotes>
       <code><![CDATA[$this->getVar('content', '')]]></code>
     </TaintedTextWithQuotes>
