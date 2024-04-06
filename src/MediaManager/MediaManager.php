@@ -463,7 +463,7 @@ class MediaManager
     private static function getEffectClass(string $effectFile): string
     {
         /** @var class-string<AbstractEffect> */
-        return '\\Redaxo\\Core\\MediaManager\\Effect\\' . str_replace(
+        return 'Redaxo\\Core\\MediaManager\\Effect\\' . str_replace(
             '.php',
             '',
             Path::basename($effectFile),
