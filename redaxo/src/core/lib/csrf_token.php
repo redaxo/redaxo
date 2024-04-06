@@ -5,6 +5,8 @@ use Redaxo\Core\Core;
 
 /**
  * Class for generating and validating csrf tokens.
+ *
+ * @psalm-consistent-constructor
  */
 class rex_csrf_token
 {
@@ -16,12 +18,7 @@ class rex_csrf_token
         private string $id,
     ) {}
 
-    /**
-     * @param string $tokenId
-     *
-     * @return static
-     */
-    public static function factory($tokenId)
+    public static function factory(string $tokenId): static
     {
         $class = static::getFactoryClass();
 

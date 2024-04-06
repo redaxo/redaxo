@@ -15,6 +15,8 @@ use const SEEK_END;
 
 /**
  * @implements Iterator<int, LogEntry>
+ *
+ * @psalm-consistent-constructor
  */
 class LogFile implements Iterator
 {

@@ -38,20 +38,13 @@ class MediaCategory
     /** @var string */
     private $updateuser = '';
 
-    /**
-     * @param int $id
-     *
-     * @return static|null
-     */
-    public static function get($id)
+    public static function get(int $id): ?static
     {
-        $id = (int) $id;
-
         if (0 >= $id) {
             return null;
         }
 
-        return static::getInstance($id, static function ($id) {
+        return static::getInstance($id, static function () use ($id) {
             $catPath = Path::coreCache('mediapool/' . $id . '.mcat');
             $cache = File::getCache($catPath);
 
@@ -91,19 +84,16 @@ class MediaCategory
     }
 
     /**
-     * @param int $parentId
-     *
      * @return list<self>
      */
-    protected static function getChildCategories($parentId)
+    protected static function getChildCategories(int $parentId): array
     {
-        $parentId = (int) $parentId;
         // for $parentId=0 root categories will be returned, so abort here for $parentId<0 only
         if (0 > $parentId) {
             return [];
         }
 
-        return self::getInstanceList([$parentId, 'children'], self::get(...), static function ($parentId) {
+        return self::getInstanceList([$parentId, 'children'], self::get(...), static function () use ($parentId) {
             $catlistPath = Path::coreCache('mediapool/' . $parentId . '.mclist');
 
             $list = File::getCache($catlistPath, null);
@@ -112,6 +102,7 @@ class MediaCategory
                 $list = File::getCache($catlistPath);
             }
 
+            /** @var list<int> */
             return $list;
         });
     }
@@ -252,9 +243,11 @@ class MediaCategory
     /**
      * @return list<Media>
      */
-    public function getMedia()
+    public function getMedia(): array
     {
-        return self::getInstanceList([$this->getId(), 'media'], Media::get(...), static function ($id) {
+        $id = $this->getId();
+
+        return self::getInstanceList([$id, 'media'], Media::get(...), static function () use ($id) {
             $listPath = Path::coreCache('mediapool/' . $id . '.mlist');
 
             $list = File::getCache($listPath, null);
@@ -263,6 +256,7 @@ class MediaCategory
                 $list = File::getCache($listPath);
             }
 
+            /** @var list<string> */
             return $list;
         });
     }

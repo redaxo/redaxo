@@ -18,7 +18,7 @@ final class rex_navigation_test extends TestCase
     {
         $nav = rex_navigation::factory();
 
-        self::assertInstanceOf(rex_navigation::class, $nav);
+        self::assertInstanceOf(rex_navigation::class, $nav); // @phpstan-ignore-line
     }
 
     #[DoesNotPerformAssertions]

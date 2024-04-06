@@ -15,12 +15,9 @@ class Markdown
     public const SOFT_LINE_BREAKS = 'soft_line_breaks';
     public const HIGHLIGHT_PHP = 'highlight_php';
 
-    private function __construct() {}
+    final private function __construct() {}
 
-    /**
-     * @return static
-     */
-    public static function factory()
+    public static function factory(): static
     {
         $class = static::getFactoryClass();
         return new $class();

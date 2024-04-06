@@ -7,6 +7,9 @@ use Redaxo\Core\Base\FactoryTrait;
 
 use function in_array;
 
+/**
+ * @psalm-consistent-constructor
+ */
 class Validator
 {
     use FactoryTrait;
@@ -16,17 +19,9 @@ class Validator
 
     private ?string $message = null;
 
-    protected function __construct()
-    {
-        // noop
-    }
+    protected function __construct() {}
 
-    /**
-     * Factory method.
-     *
-     * @return static
-     */
-    public static function factory()
+    public static function factory(): static
     {
         $class = static::getFactoryClass();
         return new $class();

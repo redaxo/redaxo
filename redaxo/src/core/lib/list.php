@@ -54,6 +54,8 @@ $list->setColumnFormat('id',                                     // field name
 
 /**
  * Klasse zum erstellen von Listen.
+ *
+ * @psalm-consistent-constructor
  */
 class rex_list implements rex_url_provider_interface
 {
@@ -128,11 +130,10 @@ class rex_list implements rex_url_provider_interface
      * @param string $query SELECT Statement
      * @param int|self::DISABLE_PAGINATION $rowsPerPage
      * @param string|null $listName Name der Liste
-     * @param bool $debug
      * @param positive-int $db
      * @param array<string, 'asc'|'desc'> $defaultSort
      */
-    protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1, array $defaultSort = [])
+    protected function __construct(string $query, ?int $rowsPerPage = 30, ?string $listName = null, bool $debug = false, int $db = 1, array $defaultSort = [])
     {
         // --------- Validation
         if (!$listName) {
@@ -211,16 +212,11 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string $query
      * @param int|self::DISABLE_PAGINATION $rowsPerPage
-     * @param string|null $listName
-     * @param bool $debug
      * @param positive-int $db DB connection ID
      * @param array<string, 'asc'|'desc'> $defaultSort
-     *
-     * @return static
      */
-    public static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1, array $defaultSort = [])
+    public static function factory(string $query, ?int $rowsPerPage = 30, ?string $listName = null, bool $debug = false, int $db = 1, array $defaultSort = []): static
     {
         $class = static::getFactoryClass();
         return new $class($query, $rowsPerPage, $listName, $debug, $db, $defaultSort);

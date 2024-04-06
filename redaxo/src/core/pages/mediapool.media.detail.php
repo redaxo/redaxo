@@ -12,11 +12,12 @@ use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
-assert(isset($csrf) && $csrf instanceof rex_csrf_token);
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
 assert(isset($argFields) && is_string($argFields));
 assert(isset($toolbar) && is_string($toolbar));
+/** @psalm-suppress RedundantCondition */
+assert(isset($csrf) && $csrf instanceof rex_csrf_token);
 
 // defaults for globals passed in from index.php
 if (!isset($success)) {

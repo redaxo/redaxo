@@ -5,7 +5,10 @@ namespace Redaxo\Core\Tests\Base;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Base\FactoryTrait;
 
-/** @internal */
+/**
+ * @internal
+ * @psalm-consistent-constructor
+ */
 class TestFactory
 {
     use FactoryTrait;

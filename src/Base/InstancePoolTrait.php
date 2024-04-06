@@ -2,40 +2,37 @@
 
 namespace Redaxo\Core\Base;
 
-use function call_user_func_array;
+use Redaxo\Core\Util\Type;
 
+/**
+ * @psalm-type TKey = int|string|list<int|string>
+ */
 trait InstancePoolTrait
 {
-    /** @var array<class-string, array<string, static|null>> */
+    /** @var array<class-string<self>, array<string, static|null>> */
     private static array $instances = [];
 
-    private function __construct()
-    {
-        // noop
-    }
+    private function __construct() {}
 
     /**
      * Adds an instance.
      *
-     * @param mixed $key Key
-     * @param self $instance Instance
-     * @return void
+     * @param TKey $key
      */
-    protected static function addInstance($key, self $instance)
+    protected static function addInstance(int|string|array $key, self $instance): void
     {
         $key = self::getInstancePoolKey($key);
         $class = static::class;
-        self::$instances[$class][$key] = $instance;
+        /** @psalm-suppress PropertyTypeCoercion https://github.com/vimeo/psalm/issues/10835 */
+        self::$instances[$class][$key] = Type::instanceOf($instance, $class);
     }
 
     /**
      * Checks whether an instance exists for the given key.
      *
-     * @param mixed $key Key
-     *
-     * @return bool
+     * @param TKey $key
      */
-    protected static function hasInstance($key)
+    protected static function hasInstance(int|string|array $key): bool
     {
         $key = self::getInstancePoolKey($key);
         $class = static::class;
@@ -47,19 +44,17 @@ trait InstancePoolTrait
      *
      * If the instance does not exist it will be created by calling the $createCallback
      *
-     * @param mixed $key Key
-     * @param callable $createCallback Callback, will be called to create a new instance
-     * @psalm-param callable(mixed...):?static $createCallback
-     *
-     * @return static|null
+     * @param TKey $key
+     * @param callable():(static|null)|null $createCallback Callback, will be called to create a new instance
      */
-    protected static function getInstance($key, ?callable $createCallback = null)
+    protected static function getInstance(int|string|array $key, ?callable $createCallback = null): ?static
     {
         $args = (array) $key;
         $key = self::getInstancePoolKey($args);
         $class = static::class;
         if (!isset(self::$instances[$class][$key]) && $createCallback) {
-            $instance = call_user_func_array($createCallback, $args);
+            $instance = $createCallback();
+            /** @psalm-suppress PropertyTypeCoercion https://github.com/vimeo/psalm/issues/10835 */
             self::$instances[$class][$key] = $instance instanceof static ? $instance : null;
         }
         return self::$instances[$class][$key] ?? null;
@@ -68,10 +63,9 @@ trait InstancePoolTrait
     /**
      * Removes the instance of the given key.
      *
-     * @param mixed $key Key
-     * @return void
+     * @param TKey $key
      */
-    public static function clearInstance($key)
+    public static function clearInstance(int|string|array $key): void
     {
         $key = self::getInstancePoolKey($key);
         $class = static::class;
@@ -80,9 +74,8 @@ trait InstancePoolTrait
 
     /**
      * Clears the instance pool.
-     * @return void
      */
-    public static function clearInstancePool()
+    public static function clearInstancePool(): void
     {
         $calledClass = static::class;
         // unset instances of calledClass and of all subclasses of calledClass
@@ -98,11 +91,9 @@ trait InstancePoolTrait
      *
      * The original key can be a scalar value or an array of scalar values
      *
-     * @param mixed $key Key
-     *
-     * @return string
+     * @param TKey $key
      */
-    private static function getInstancePoolKey($key)
+    private static function getInstancePoolKey(int|string|array $key): string
     {
         return implode('###', (array) $key);
     }

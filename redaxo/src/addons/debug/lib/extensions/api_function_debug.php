@@ -9,9 +9,10 @@ abstract class rex_api_function_debug extends rex_api_function
     {
         $apiFunc = self::factory();
 
-        if (null != $apiFunc) {
-            rex_debug_clockwork::getInstance()->log('debug', 'called api function "' . get_class(self::factory()) . '"');
+        if (null !== $apiFunc) {
+            rex_debug_clockwork::getInstance()->log('debug', 'called api function "' . $apiFunc::class . '"');
         }
+
         parent::handleCall();
     }
 }
