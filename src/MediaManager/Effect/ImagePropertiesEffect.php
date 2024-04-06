@@ -1,8 +1,14 @@
 <?php
 
-use Redaxo\Core\Translation\I18n;
+namespace Redaxo\Core\MediaManager\Effect;
 
-class rex_effect_image_properties extends rex_effect_abstract
+use Redaxo\Core\MediaManager\ManagedMedia;
+use Redaxo\Core\Translation\I18n;
+use rex_response;
+
+use function in_array;
+
+class ImagePropertiesEffect extends AbstractEffect
 {
     private const NO_INTERLACING = '- off -';
 
@@ -13,28 +19,28 @@ class rex_effect_image_properties extends rex_effect_abstract
         $media->asImage();
 
         if (!empty($this->params['jpg_quality'])) {
-            $media->setImageProperty(rex_managed_media::PROP_JPG_QUALITY, $this->params['jpg_quality']);
+            $media->setImageProperty(ManagedMedia::PROP_JPG_QUALITY, $this->params['jpg_quality']);
         }
 
         if (!empty($this->params['png_compression'])) {
-            $media->setImageProperty(rex_managed_media::PROP_PNG_COMPRESSION, $this->params['png_compression']);
+            $media->setImageProperty(ManagedMedia::PROP_PNG_COMPRESSION, $this->params['png_compression']);
         }
 
         if (!empty($this->params['webp_quality'])) {
-            $media->setImageProperty(rex_managed_media::PROP_WEBP_QUALITY, $this->params['webp_quality']);
+            $media->setImageProperty(ManagedMedia::PROP_WEBP_QUALITY, $this->params['webp_quality']);
         }
 
         if (!empty($this->params['avif_quality'])) {
-            $media->setImageProperty(rex_managed_media::PROP_AVIF_QUALITY, $this->params['avif_quality']);
+            $media->setImageProperty(ManagedMedia::PROP_AVIF_QUALITY, $this->params['avif_quality']);
         }
         if (!empty($this->params['avif_speed'])) {
-            $media->setImageProperty(rex_managed_media::PROP_AVIF_SPEED, $this->params['avif_speed']);
+            $media->setImageProperty(ManagedMedia::PROP_AVIF_SPEED, $this->params['avif_speed']);
         }
 
         if ($this->params['interlace']) {
             $interlace = explode('|', trim($this->params['interlace'], '|'));
             $interlace = in_array(self::NO_INTERLACING, $interlace) ? [] : $interlace;
-            $media->setImageProperty(rex_managed_media::PROP_INTERLACE, $interlace);
+            $media->setImageProperty(ManagedMedia::PROP_INTERLACE, $interlace);
         }
     }
 

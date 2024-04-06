@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\MediaPool\MediaPoolCache;
@@ -275,7 +276,7 @@ foreach ($items as $media) {
         if (Media::isImageType(File::extension($media->getFileName()))) {
             $thumbnail = '<img class="thumbnail" src="' . Url::media($media->getFileName()) . '?buster=' . $media->getValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
             if ('svg' != File::extension($media->getFileName())) {
-                $thumbnail = '<img class="thumbnail" src="' . rex_media_manager::getUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
+                $thumbnail = '<img class="thumbnail" src="' . MediaManager::getUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
             }
         }
     }

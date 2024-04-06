@@ -5,6 +5,7 @@ namespace Redaxo\Core\HttpClient;
 use InvalidArgumentException;
 use Redaxo\Core\Filesystem\Dir;
 use rex_exception;
+use rex_socket_exception;
 
 use function dirname;
 use function gettype;
@@ -16,26 +17,24 @@ use const STREAM_FILTER_READ;
 use const STREAM_FILTER_WRITE;
 
 /**
- * Class for request responses.
+ * Class for HttpClient responses.
  */
-class Response
+final class Response
 {
-    /** @var resource */
+    /**
+     * @var resource
+     * @readonly
+     */
     private $stream;
-    private bool $chunked;
-    /** @var int */
-    private $statusCode;
-    /** @var string */
-    private $statusMessage;
-    private string $header = '';
-    /** @var array */
-    private $headers = [];
-    /** @var string|null */
-    private $body;
-    /** @var bool */
-    private $decompressContent = false;
-    /** @var bool */
-    private $streamFiltersInitialized = false;
+    private readonly bool $chunked;
+    private readonly int $statusCode;
+    private readonly string $statusMessage;
+    private readonly string $header;
+    /** @var array<string, string> */
+    private array $headers = [];
+    private ?string $body = null;
+    private bool $decompressContent = false;
+    private bool $streamFiltersInitialized = false;
 
     /**
      * @param resource $stream Socket stream
@@ -50,14 +49,19 @@ class Response
 
         $this->stream = $stream;
 
-        while (!feof($this->stream) && !str_contains($this->header, "\r\n\r\n")) {
-            $this->header .= fgets($this->stream);
+        $header = '';
+        while (!feof($this->stream) && !str_contains($header, "\r\n\r\n")) {
+            $header .= fgets($this->stream);
         }
-        $this->header = rtrim($this->header);
-        if (preg_match('@^HTTP/1\.\d ([0-9]+) (\V+)@', $this->header, $matches)) {
-            $this->statusCode = (int) $matches[1];
-            $this->statusMessage = $matches[2];
+        $this->header = rtrim($header);
+
+        if (!preg_match('@^HTTP/1\.\d ([0-9]+) (\V+)@', $this->header, $matches)) {
+            throw new rex_socket_exception('Missing status code in response header');
         }
+
+        $this->statusCode = (int) $matches[1];
+        $this->statusMessage = $matches[2];
+
         $this->chunked = false !== stripos($this->header, 'transfer-encoding: chunked');
     }
 
@@ -72,90 +76,72 @@ class Response
 
     /**
      * Returns the HTTP status code, e.g. 200.
-     *
-     * @return int
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->statusCode;
     }
 
     /**
      * Returns the HTTP status message, e.g. "OK".
-     *
-     * @return string
      */
-    public function getStatusMessage()
+    public function getStatusMessage(): string
     {
         return $this->statusMessage;
     }
 
     /**
      * Returns wether the status is "200 OK".
-     *
-     * @return bool
      */
-    public function isOk()
+    public function isOk(): bool
     {
         return 200 == $this->statusCode;
     }
 
     /**
      * Returns wether the status class is "Informational".
-     *
-     * @return bool
      */
-    public function isInformational()
+    public function isInformational(): bool
     {
         return $this->statusCode >= 100 && $this->statusCode < 200;
     }
 
     /**
      * Returns wether the status class is "Success".
-     *
-     * @return bool
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         return $this->statusCode >= 200 && $this->statusCode < 300;
     }
 
     /**
      * Returns wether the status class is "Redirection".
-     *
-     * @return bool
      */
-    public function isRedirection()
+    public function isRedirection(): bool
     {
         return $this->statusCode >= 300 && $this->statusCode < 400;
     }
 
     /**
      * Returns wether the status class is "Client Error".
-     *
-     * @return bool
      */
-    public function isClientError()
+    public function isClientError(): bool
     {
         return $this->statusCode >= 400 && $this->statusCode < 500;
     }
 
     /**
      * Returns wether the status class is "Server Error".
-     *
-     * @return bool
      */
-    public function isServerError()
+    public function isServerError(): bool
     {
         return $this->statusCode >= 500 && $this->statusCode < 600;
     }
 
     /**
-     * Returns wether the status is invalid.
-     *
-     * @return bool
+     * Returns whether the status is invalid.
      */
-    public function isInvalid()
+    public function isInvalid(): bool
     {
         return $this->statusCode < 100 || $this->statusCode >= 600;
     }
@@ -163,24 +149,26 @@ class Response
     /**
      * Returns the header for the given key, or the entire header if no key is given.
      *
-     * @param string $key Header key
-     * @param string $default Default value (is returned if the header is not set)
+     * @param string|null $key Header key; if not set the entire header is returned
      *
-     * @return string|null
+     * @return ($key is null ? string : string|null)
      */
-    public function getHeader($key = null, $default = null)
+    public function getHeader(?string $key = null): ?string
     {
         if (null === $key) {
             return $this->header;
         }
+
         $key = strtolower($key);
         if (isset($this->headers[$key])) {
             return $this->headers[$key];
         }
+
         if (preg_match('@^' . preg_quote($key, '@') . ': (\V*)@im', $this->header, $matches)) {
             return $this->headers[$key] = $matches[1];
         }
-        return $this->headers[$key] = $default;
+
+        return null;
     }
 
     /**
@@ -196,7 +184,7 @@ class Response
             return [];
         }
 
-        return array_map(static function ($encoding) {
+        return array_map(static function ($encoding): string {
             return trim(strtolower($encoding));
         }, explode(',', $contenEncodingHeader));
     }
@@ -205,10 +193,8 @@ class Response
      * Returns up to `$length` bytes from the body, or `false` if the end is reached.
      *
      * @param int $length Max number of bytes
-     *
-     * @return false|string
      */
-    public function getBufferedBody($length = 1024)
+    public function getBufferedBody(int $length = 1024): false|string
     {
         if (feof($this->stream)) {
             return false;
@@ -233,10 +219,8 @@ class Response
 
     /**
      * Returns the entire body.
-     *
-     * @return string
      */
-    public function getBody()
+    public function getBody(): string
     {
         if (null === $this->body) {
             $this->body = '';
@@ -245,12 +229,14 @@ class Response
                 $this->body .= $buf;
             }
         }
+
         return $this->body;
     }
 
-    protected function isGzipOrDeflateEncoded(): bool
+    private function isGzipOrDeflateEncoded(): bool
     {
         $contentEncodings = $this->getContentEncodings();
+
         return in_array('gzip', $contentEncodings) || in_array('deflate', $contentEncodings);
     }
 
@@ -294,7 +280,7 @@ class Response
      *
      * @return bool `true` on success, `false` on failure
      */
-    public function writeBodyTo($resource)
+    public function writeBodyTo($resource): bool
     {
         $close = false;
         if (is_string($resource) && Dir::create(dirname($resource))) {

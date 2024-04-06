@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Console;
 
+use Override;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Console\Command\AbstractCommand;
 use Redaxo\Core\Console\Command\AddonActivateCommand;
@@ -36,10 +37,10 @@ use function is_array;
 /**
  * @internal
  */
-class CommandLoader implements CommandLoaderInterface
+final class CommandLoader implements CommandLoaderInterface
 {
-    /** @var array<string, array{class: class-string<AbstractCommand>, package?: Addon}> */
-    private $commands = [];
+    /** @var array<string, array{class: class-string<AbstractCommand>, addon?: Addon}> */
+    private array $commands = [];
 
     public function __construct()
     {
@@ -76,27 +77,28 @@ class CommandLoader implements CommandLoaderInterface
             $this->commands[$command] = ['class' => $class];
         }
 
-        foreach (Addon::getAvailableAddons() as $package) {
+        foreach (Addon::getAvailableAddons() as $addon) {
             /** @var array<string, class-string<AbstractCommand>> $commands */
-            $commands = $package->getProperty('console_commands');
+            $commands = $addon->getProperty('console_commands');
 
             if (!$commands) {
                 continue;
             }
 
             if (!is_array($commands)) {
-                throw new rex_exception('Expecting "console_commands" property to be an array, got "' . gettype($commands) . '" from package.yml of "' . $package->getName() . '"');
+                throw new rex_exception('Expecting "console_commands" property to be an array, got "' . gettype($commands) . '" from package.yml of "' . $addon->getName() . '"');
             }
 
             foreach ($commands as $command => $class) {
                 $this->commands[$command] = [
-                    'package' => $package,
+                    'addon' => $addon,
                     'class' => $class,
                 ];
             }
         }
     }
 
+    #[Override]
     public function get(string $name): AbstractCommand
     {
         if (!isset($this->commands[$name])) {
@@ -108,13 +110,14 @@ class CommandLoader implements CommandLoaderInterface
         $command = new $class();
         $command->setName($name);
 
-        if (isset($this->commands[$name]['package'])) {
-            $command->setPackage($this->commands[$name]['package']);
+        if (isset($this->commands[$name]['addon'])) {
+            $command->setAddon($this->commands[$name]['addon']);
         }
 
         return $command;
     }
 
+    #[Override]
     public function has(string $name): bool
     {
         return isset($this->commands[$name]);
@@ -123,6 +126,7 @@ class CommandLoader implements CommandLoaderInterface
     /**
      * @return list<string>
      */
+    #[Override]
     public function getNames(): array
     {
         return array_keys($this->commands);

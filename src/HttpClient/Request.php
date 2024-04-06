@@ -2,26 +2,27 @@
 
 namespace Redaxo\Core\HttpClient;
 
+use Closure;
 use InvalidArgumentException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Timer;
+use Redaxo\Core\Util\Type;
 use rex_socket_exception;
 use SensitiveParameter;
 
-use function call_user_func;
 use function in_array;
 use function ini_get;
 use function is_array;
-use function is_callable;
+use function is_string;
 
 use const E_WARNING;
 use const STREAM_CLIENT_CONNECT;
 
 /**
- * Class for sockets.
+ * Class for HttpClient requests.
  *
  * Example:
  * <code>
@@ -51,33 +52,26 @@ use const STREAM_CLIENT_CONNECT;
  */
 class Request
 {
-    /** @var string */
-    protected $host;
-    /** @var int */
-    protected $port;
-    /** @var bool */
-    protected $ssl;
-    /** @var string */
-    protected $path = '/';
-    /** @var int */
-    protected $timeout = 15;
-    /** @var false|int */
-    protected $followRedirects = false;
+    protected string $host;
+    protected int $port;
+    protected bool $ssl;
+    protected string $path = '/';
+    protected int $timeout = 15;
+    protected int|false $followRedirects = false;
     /** @var array<string, string> */
-    protected $headers = [];
+    protected array $headers = [];
     /** @var resource */
     protected $stream;
-    /** @var array<array-key, mixed> */
-    protected $options = [];
-    /** @var bool */
-    protected $acceptCompression = false;
+    /** @var array<mixed> */
+    protected array $options = [];
+    protected bool $acceptCompression = false;
 
     /**
      * @param string $host Host name
      * @param int $port Port number
      * @param bool $ssl SSL flag
      */
-    protected function __construct($host, $port = 443, $ssl = true)
+    protected function __construct(string $host, int $port = 443, bool $ssl = true)
     {
         $this->host = $host;
         $this->port = $port;
@@ -89,20 +83,16 @@ class Request
     }
 
     /**
-     * Factory method.
-     *
-     * @param string $host Host name
-     * @param int $port Port number
-     * @param bool $ssl SSL flag
-     *
-     * @return static Socket instance
-     *
      * @see Request::factoryUrl()
      */
-    public static function factory($host, $port = 443, $ssl = true)
+    public static function factory(string $host, int $port = 443, bool $ssl = true): static
     {
-        if (self::class === static::class && ($proxy = Core::getProperty('socket_proxy'))) {
-            return ProxyRequest::factoryUrl($proxy)->setDestination($host, $port, $ssl);
+        if (self::class === static::class && ($proxy = Core::getProperty('http_client_proxy'))) {
+            $request = ProxyRequest::factoryUrl($proxy);
+            $request->setDestination($host, $port, $ssl);
+
+            /** @psalm-suppress LessSpecificReturnStatement */
+            return $request; // @phpstan-ignore-line
         }
 
         return new static($host, $port, $ssl);
@@ -111,25 +101,18 @@ class Request
     /**
      * Creates a socket by a full URL.
      *
-     * @param string $url URL
-     *
      * @throws rex_socket_exception
-     *
-     * @return static Socket instance
      *
      * @see Request::factory()
      */
-    public static function factoryUrl($url)
+    public static function factoryUrl(string $url): static
     {
         $parts = self::parseUrl($url);
 
         return static::factory($parts['host'], $parts['port'], $parts['ssl'])->setPath($parts['path']);
     }
 
-    /**
-     * @return $this
-     */
-    public function acceptCompression(): self
+    public function acceptCompression(): static
     {
         $this->acceptCompression = true;
         $this->addHeader('Accept-Encoding', 'gzip, deflate');
@@ -137,13 +120,9 @@ class Request
     }
 
     /**
-     * Sets the path.
-     *
-     * @param string $path
-     *
-     * @return $this Current socket
+     * @return $this
      */
-    public function setPath($path)
+    public function setPath(string $path): static
     {
         $this->path = $path;
 
@@ -155,9 +134,10 @@ class Request
      *
      * Available options can be found on https://www.php.net/manual/en/context.php
      *
-     * @return $this Current socket
+     * @param array<mixed> $options
+     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         $this->options = $options;
 
@@ -167,12 +147,9 @@ class Request
     /**
      * Adds a header to the current request.
      *
-     * @param string $key
-     * @param string $value
-     *
-     * @return $this Current socket
+     * @return $this
      */
-    public function addHeader($key, $value)
+    public function addHeader(string $key, string $value): static
     {
         $this->headers[$key] = $value;
 
@@ -182,12 +159,9 @@ class Request
     /**
      * Adds the basic authorization header to the current request.
      *
-     * @param string $user
-     * @param string $password
-     *
-     * @return $this Current socket
+     * @return $this
      */
-    public function addBasicAuthorization(#[SensitiveParameter] $user, #[SensitiveParameter] $password)
+    public function addBasicAuthorization(#[SensitiveParameter] string $user, #[SensitiveParameter] string $password): static
     {
         $this->addHeader('Authorization', 'Basic ' . base64_encode($user . ':' . $password));
 
@@ -197,11 +171,9 @@ class Request
     /**
      * Sets the timeout for the connection.
      *
-     * @param int $timeout Timeout
-     *
-     * @return $this Current socket
+     * @return $this
      */
-    public function setTimeout($timeout)
+    public function setTimeout(int $timeout): static
     {
         $this->timeout = $timeout;
 
@@ -215,9 +187,9 @@ class Request
      *
      * @param false|int $redirects Number of max redirects
      *
-     * @return $this Current socket
+     * @return $this
      */
-    public function followRedirects($redirects)
+    public function followRedirects(int|false $redirects): static
     {
         if (false !== $redirects && $redirects < 0) {
             throw new InvalidArgumentException(sprintf('$redirects must be `false` or an int >= 0, given "%s".', $redirects));
@@ -232,10 +204,8 @@ class Request
      * Makes a GET request.
      *
      * @throws rex_socket_exception
-     *
-     * @return Response
      */
-    public function doGet()
+    public function doGet(): Response
     {
         return $this->doRequest('GET');
     }
@@ -243,17 +213,15 @@ class Request
     /**
      * Makes a POST request.
      *
-     * @param string|array<string, string>|callable(resource): void $data Body data as string or array (POST parameters) or a callback for writing the body
+     * @param string|array<string, string>|Closure(resource): void $data Body data as string or array (POST parameters) or a Closure for writing the body
      * @param array<string, array{path: string, type: string}> $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
      *
      * @throws rex_socket_exception
-     *
-     * @return Response
      */
-    public function doPost($data = '', array $files = [])
+    public function doPost(string|array|Closure $data = '', array $files = []): Response
     {
         if (is_array($data) && !empty($files)) {
-            $data = static function ($stream) use ($data, $files) {
+            $data = /** @param resource $stream */ static function ($stream) use ($data, $files) {
                 $boundary = '----------6n2Yd9bk2liD6piRHb5xF6';
                 $eol = "\r\n";
                 fwrite($stream, 'Content-Type: multipart/form-data; boundary=' . $boundary . $eol);
@@ -265,7 +233,9 @@ class Request
                 $data = [];
                 $partLength = Str::size(sprintf($dataFormat, '') . $eol);
                 foreach ($temp as $t) {
-                    [$key, $value] = array_map('urldecode', explode('=', $t, 2));
+                    $t = explode('=', $t, 2);
+                    $key = urldecode($t[0]);
+                    $value = urldecode(Type::notNull($t[1] ?? null));
                     $data[$key] = $value;
                     $length += $partLength + Str::size($key) + Str::size($value);
                 }
@@ -289,12 +259,11 @@ class Request
                 }
                 fwrite($stream, $end);
             };
-        } elseif (!is_callable($data)) {
-            if (is_array($data)) {
-                $data = Str::buildQuery($data);
-                $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
-            }
+        } elseif (!$data instanceof Closure && is_array($data)) {
+            $data = Str::buildQuery($data);
+            $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
         }
+
         return $this->doRequest('POST', $data);
     }
 
@@ -302,10 +271,8 @@ class Request
      * Makes a DELETE request.
      *
      * @throws rex_socket_exception
-     *
-     * @return Response Response
      */
-    public function doDelete()
+    public function doDelete(): Response
     {
         return $this->doRequest('DELETE');
     }
@@ -314,11 +281,9 @@ class Request
      * Makes a request.
      *
      * @param string $method HTTP method, e.g. "GET"
-     * @param string|callable(resource): void $data Body data as string or a callback for writing the body
-     *
-     * @return Response
+     * @param string|Closure(resource): void $data Body data as string or a Closure for writing the body
      */
-    public function doRequest($method, string|callable $data = '')
+    public function doRequest(string $method, string|Closure $data = ''): Response
     {
         return Timer::measure('Socket request: ' . $this->host . $this->path, function () use ($method, $data) {
             if (!$this->ssl) {
@@ -365,19 +330,20 @@ class Request
      * Opens the socket connection.
      *
      * @throws rex_socket_exception
-     * @return void
      */
-    protected function openConnection()
+    protected function openConnection(): void
     {
         $host = ($this->ssl ? 'ssl://' : '') . $this->host;
 
         $errno = 0;
         $errstr = '';
         $prevError = null;
-        set_error_handler(static function ($errno, $errstr) use (&$prevError) {
+        set_error_handler(static function (int $errno, string $errstr) use (&$prevError): false {
             if (null === $prevError) {
                 $prevError = $errstr;
             }
+
+            return false;
         });
 
         try {
@@ -410,13 +376,11 @@ class Request
      * @param string $method HTTP method, e.g. "GET"
      * @param string $path Path
      * @param array<string, string> $headers Headers
-     * @param string|callable(resource): void $data Body data as string or a callback for writing the body
+     * @param string|Closure(resource): void $data Body data as string or a Closure for writing the body
      *
      * @throws rex_socket_exception
-     *
-     * @return Response Response
      */
-    protected function writeRequest($method, $path, array $headers = [], $data = '')
+    protected function writeRequest(string $method, string $path, array $headers = [], string|Closure $data = ''): Response
     {
         $eol = "\r\n";
         $headerStrings = [];
@@ -427,11 +391,11 @@ class Request
         foreach ($headerStrings as $header) {
             fwrite($this->stream, str_replace(["\r", "\n"], '', $header) . $eol);
         }
-        if (!is_callable($data)) {
+        if (is_string($data)) {
             fwrite($this->stream, 'Content-Length: ' . Str::size($data) . $eol);
             fwrite($this->stream, $eol . $data);
         } else {
-            call_user_func($data, $this->stream);
+            $data($this->stream);
         }
 
         $meta = stream_get_meta_data($this->stream);
@@ -451,7 +415,7 @@ class Request
      *
      * @return array{host: string, port: int, ssl: bool, path: string} URL parts
      */
-    protected static function parseUrl($url)
+    protected static function parseUrl(string $url): array
     {
         $parts = parse_url($url);
         if (false !== $parts && !isset($parts['host']) && !str_starts_with($url, 'http')) {

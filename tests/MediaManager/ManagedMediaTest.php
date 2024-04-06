@@ -1,17 +1,20 @@
 <?php
 
+namespace Redaxo\Core\Tests\MediaManager;
+
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\MediaManager\ManagedMedia;
 
 /** @internal */
-final class rex_managed_media_test extends TestCase
+final class ManagedMediaTest extends TestCase
 {
     public function testConstructor(): void
     {
         $filename = 'CHANGELOG.md';
         $path = Path::addon('media_manager', $filename);
 
-        $media = new rex_managed_media($path);
+        $media = new ManagedMedia($path);
 
         self::assertSame($path, $media->getMediaPath());
         self::assertSame($filename, $media->getMediaFilename());
@@ -20,7 +23,7 @@ final class rex_managed_media_test extends TestCase
         $filename = 'non_existing.jpg';
         $path = Path::addon($filename);
 
-        $media = new rex_managed_media($path);
+        $media = new ManagedMedia($path);
 
         self::assertSame($path, $media->getMediaPath());
         self::assertSame($filename, $media->getMediaFilename());

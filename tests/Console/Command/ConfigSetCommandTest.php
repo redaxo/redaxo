@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Tests\Console\Command;
 
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Console\Command\ConfigSetCommand;
@@ -14,12 +15,14 @@ final class ConfigSetCommandTest extends TestCase
 {
     private string $initialConfig;
 
+    #[Override]
     protected function setUp(): void
     {
         $configPath = Path::coreData('config.yml');
         $this->initialConfig = file_get_contents($configPath);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         $configPath = Path::coreData('config.yml');
