@@ -62,8 +62,6 @@ jobs:
 
             -   name: Composer install
                 uses: ramsey/composer-install@v3
-                with:
-                    composer-options: --ansi --prefer-dist
 
             -   name: Run psalm analysis
                 if: github.event_name != 'repository_dispatch'
@@ -135,8 +133,6 @@ jobs:
 
             -   name: Composer install
                 uses: ramsey/composer-install@v3
-                with:
-                    composer-options: --ansi --prefer-dist
 
             -   name: Run psalm taint analysis
                 if: github.event_name != 'repository_dispatch'
@@ -202,8 +198,6 @@ jobs:
 
             -   name: Composer install
                 uses: ramsey/composer-install@v3
-                with:
-                    composer-options: --ansi --prefer-dist
 
             -   name: Setup REDAXO
                 run: |
