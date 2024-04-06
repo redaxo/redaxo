@@ -19,11 +19,10 @@ fi
 packages="
 debug
 install
-users
 "
 
 for package in $packages; do
-    if redaxo/bin/console addon:list --package $package --installed-only --error-when-empty --quiet; then
+    if redaxo/bin/console addon:list --addon $package --installed-only --error-when-empty --quiet; then
         redaxo/bin/console addon:install --ansi --re-install $package
     fi
 done
