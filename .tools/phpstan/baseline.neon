@@ -316,11 +316,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/api_user_impersonate.php
 
 		-
-			message: "#^Parameter \\#1 \\$options of method rex_password_policy\\:\\:__construct\\(\\) expects array\\<string, array\\{min\\?\\: int, max\\?\\: int\\}\\>, array\\{no_reuse_of_last\\?\\: int, no_reuse_within\\?\\: string, force_renew_after\\?\\: string, block_account_after\\?\\: string\\} given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/backend_password_policy.php
-
-		-
 			message: "#^Method rex_complex_perm\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/complex_perm.php
@@ -338,16 +333,6 @@ parameters:
 		-
 			message: "#^Method rex_user\\:\\:getComplexPerm\\(\\) should return rex_clang_perm\\|rex_media_perm\\|rex_module_perm\\|rex_structure_perm\\|null but returns rex_complex_perm\\|null\\.$#"
 			count: 2
-			path: ../../redaxo/src/core/lib/login/user.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_user\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(int\\)\\: \\(static\\|null\\) given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/user.php
-
-		-
-			message: "#^Static property rex_user\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_user\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_user\\|null\\>\\>\\.$#"
-			count: 1
 			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
@@ -384,46 +369,6 @@ parameters:
 			message: "#^Method rex_media\\:\\:toImage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/mediapool/media.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_media\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: \\(static\\|null\\) given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media.php
-
-		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\), Closure\\(string\\)\\: static given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media.php
-
-		-
-			message: "#^Static property rex_media\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_media\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_media\\|null\\>\\>\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_media_category\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: \\(static\\|null\\) given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media_category.php
-
-		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(rex_media\\|null\\), Closure\\(string\\)\\: \\(rex_media\\|null\\) given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media_category.php
-
-		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\), Closure\\(int\\)\\: \\(static\\|null\\) given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media_category.php
-
-		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed\\)\\: array given\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/mediapool/media_category.php
-
-		-
-			message: "#^Static property rex_media_category\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_media_category\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_media_category\\|null\\>\\>\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media_category.php
 
 		-
 			message: "#^Method rex_media_category_select\\:\\:__construct\\(\\) has parameter \\$checkPerms with no type specified\\.$#"
@@ -1586,26 +1531,6 @@ parameters:
 			path: ../../src/Structure/AbstractElement.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\)\\)\\|null, Closure\\(mixed, mixed\\)\\: \\(static\\|null\\) given\\.$#"
-			count: 1
-			path: ../../src/Structure/AbstractElement.php
-
-		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(static\\|null\\), Closure\\(mixed\\)\\: \\(static\\|null\\) given\\.$#"
-			count: 1
-			path: ../../src/Structure/AbstractElement.php
-
-		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array given\\.$#"
-			count: 1
-			path: ../../src/Structure/AbstractElement.php
-
-		-
-			message: "#^Static property Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\|null\\>\\>\\.$#"
-			count: 1
-			path: ../../src/Structure/AbstractElement.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\ArticleHandler\\:\\:addArticle\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Structure/ArticleHandler.php
@@ -1764,56 +1689,6 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Validator\\\\Validator\\:\\:values\\(\\) has parameter \\$validValues with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Validator/Validator.php
-
-		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstanceListPool\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstanceListPool\\|null\\), Closure\\(int\\)\\: Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstanceListPool given\\.$#"
-			count: 4
-			path: ../../tests/Base/InstanceListPoolTraitTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstanceListPool\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(object\\|null\\), Closure\\(mixed, mixed\\)\\: void given\\.$#"
-			count: 1
-			path: ../../tests/Base/InstanceListPoolTraitTest.php
-
-		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstanceListPool\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed\\)\\: array\\{1, 2\\} given\\.$#"
-			count: 1
-			path: ../../tests/Base/InstanceListPoolTraitTest.php
-
-		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstanceListPool\\:\\:getInstanceList\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array\\{\\} given\\.$#"
-			count: 1
-			path: ../../tests/Base/InstanceListPoolTraitTest.php
-
-		-
-			message: "#^Unable to resolve the template type T in call to method static method Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstanceListPool\\:\\:getInstanceList\\(\\)$#"
-			count: 1
-			path: ../../tests/Base/InstanceListPoolTraitTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstancePoolBase\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstancePool1\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstancePool1 given\\.$#"
-			count: 1
-			path: ../../tests/Base/InstancePoolTraitTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstancePoolBase\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstancePool1\\|null\\)\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
-			count: 1
-			path: ../../tests/Base/InstancePoolTraitTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstancePoolBase\\:\\:getInstance\\(\\) expects \\(callable\\(mixed \\.\\.\\.\\)\\: \\(Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstancePool2\\|null\\)\\)\\|null, Closure\\(mixed\\)\\: Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstancePool2 given\\.$#"
-			count: 1
-			path: ../../tests/Base/InstancePoolTraitTest.php
-
-		-
-			message: "#^Static property Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstancePoolBase\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstancePoolBase\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstancePoolBase\\|null\\>\\>\\.$#"
-			count: 1
-			path: ../../tests/Base/InstancePoolTraitTest.php
-
-		-
-			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with arguments 'Redaxo\\\\\\\\Core\\\\\\\\Tests\\\\\\\\Base\\\\\\\\TestSingleton', Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestSingleton and 'instance of the…' will always evaluate to true\\.$#"
-			count: 1
-			path: ../../tests/Base/SingletonTraitTest.php
 
 		-
 			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with 'Redaxo\\\\\\\\Core\\\\\\\\Database\\\\\\\\Sql' and Redaxo\\\\Core\\\\Database\\\\Sql will always evaluate to true\\.$#"

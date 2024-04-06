@@ -21,6 +21,8 @@ use Redaxo\Core\Util\Type;
  * The api functions return meaningfull error messages which the caller may display to the end-user.
  *
  * Calling a api function with the backend-frontcontroller (index.php) requires a valid page parameter and the current user needs permissions to access the given page.
+ *
+ * @psalm-consistent-constructor
  */
 abstract class rex_api_function
 {
@@ -57,10 +59,7 @@ abstract class rex_api_function
      */
     private static $instance;
 
-    protected function __construct()
-    {
-        // NOOP
-    }
+    protected function __construct() {}
 
     /**
      * This method have to be overriden by a subclass and does all logic which the api function represents.
@@ -78,10 +77,8 @@ abstract class rex_api_function
      * Returns the api function instance which is bound to the current request, or null if no api function was bound.
      *
      * @throws rex_exception
-     *
-     * @return self|null
      */
-    public static function factory()
+    public static function factory(): ?self
     {
         if (self::$instance) {
             return self::$instance;

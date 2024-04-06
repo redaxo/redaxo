@@ -7,7 +7,7 @@ use Redaxo\Core\Database\Sql;
 /**
  * @internal
  */
-class rex_user_session
+final class rex_user_session
 {
     use SingletonTrait;
 

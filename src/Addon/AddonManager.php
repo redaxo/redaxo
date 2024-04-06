@@ -33,7 +33,7 @@ class AddonManager
     protected bool $generatePackageOrder = true;
     protected string $message = '';
 
-    protected function __construct(
+    final protected function __construct(
         protected readonly Addon $addon,
     ) {}
 

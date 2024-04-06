@@ -28,6 +28,8 @@ use const E_WARNING;
 
 /**
  * Simple Logger class.
+ *
+ * @psalm-consistent-constructor
  */
 class Logger extends AbstractLogger
 {
@@ -35,6 +37,12 @@ class Logger extends AbstractLogger
 
     /** @var LogFile|null */
     private static $file;
+
+    public static function factory(): static
+    {
+        $class = self::getFactoryClass();
+        return new $class();
+    }
 
     /**
      * Returns the path to the system.log file.
@@ -172,14 +180,5 @@ class Logger extends AbstractLogger
             E_USER_NOTICE, E_NOTICE => LogLevel::NOTICE,
             default => LogLevel::ERROR,
         };
-    }
-
-    /**
-     * @return Logger
-     */
-    public static function factory()
-    {
-        $class = self::getFactoryClass();
-        return new $class();
     }
 }

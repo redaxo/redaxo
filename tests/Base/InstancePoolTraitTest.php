@@ -40,14 +40,12 @@ final class InstancePoolTraitTest extends TestCase
     {
         self::assertNull(TestInstancePool1::getInstance(2), 'getInstance returns null for non-existing key');
         $instance1 = new TestInstancePool1();
-        self::assertSame($instance1, TestInstancePool1::getInstance(2, function ($id) use ($instance1) {
-            $this->assertEquals(2, $id);
+        self::assertSame($instance1, TestInstancePool1::getInstance(2, static function () use ($instance1) {
             return $instance1;
         }), 'getInstance returns the instance that is returned by the callback');
 
         $instance2 = new TestInstancePool2();
-        self::assertSame($instance2, TestInstancePool2::getInstance(2, function ($id) use ($instance2) {
-            $this->assertEquals(2, $id);
+        self::assertSame($instance2, TestInstancePool2::getInstance(2, static function () use ($instance2) {
             return $instance2;
         }), 'getInstance uses LSB, so other instance is returned for subclass 2');
 
@@ -55,11 +53,6 @@ final class InstancePoolTraitTest extends TestCase
 
         TestInstancePool1::getInstance(2, function () {
             $this->fail('getInstance does not call $createCallback if instance alreays exists');
-        });
-
-        TestInstancePool1::getInstance([3, 'test'], function ($key1, $key2) {
-            $this->assertEquals(3, $key1, 'getInstance passes key array as arguments to callback');
-            $this->assertEquals('test', $key2, 'getInstance passes key array as arguments to callback');
         });
     }
 

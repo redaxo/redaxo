@@ -79,12 +79,9 @@ abstract class AbstractForm
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
      *
-     * @param string|null $fieldset
-     * @param string $name
      * @param 'post'|'get' $method
-     * @param bool $debug
      */
-    protected function __construct($fieldset, $name, $method = 'post', $debug = false)
+    protected function __construct(?string $fieldset, string $name, string $method = 'post', bool $debug = false)
     {
         if (!in_array($method, ['post', 'get'])) {
             throw new InvalidArgumentException("Form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!");

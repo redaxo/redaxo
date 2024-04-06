@@ -50,18 +50,13 @@ class rex_media
     /** @var string */
     protected $createuser = '';
 
-    /**
-     * @param string $name
-     *
-     * @return static|null
-     */
-    public static function get($name)
+    public static function get(string $name): ?static
     {
         if (!$name) {
             return null;
         }
 
-        return static::getInstance($name, static function ($name) {
+        return static::getInstance($name, static function () use ($name) {
             $mediaPath = Path::coreCache('mediapool/' . $name . '.media');
 
             $cache = File::getCache($mediaPath, []);
@@ -117,22 +112,24 @@ class rex_media
     /**
      * @return list<static>
      */
-    public static function getRootMedia()
+    public static function getRootMedia(): array
     {
-        /** @var Closure(string):static $getInstance */
-        $getInstance = static::get(...);
+        return static::getInstanceList(
+            'root_media',
+            static fn (string $name): ?static => static::get($name),
+            static function (): array {
+                $listPath = Path::coreCache('mediapool/0.mlist');
 
-        return static::getInstanceList('root_media', $getInstance, static function () {
-            $listPath = Path::coreCache('mediapool/0.mlist');
+                $list = File::getCache($listPath, null);
+                if (null === $list) {
+                    rex_media_cache::generateList(0);
+                    $list = File::getCache($listPath);
+                }
 
-            $list = File::getCache($listPath, null);
-            if (null === $list) {
-                rex_media_cache::generateList(0);
-                $list = File::getCache($listPath);
-            }
-
-            return $list;
-        });
+                /** @var list<string> */
+                return $list;
+            },
+        );
     }
 
     /**

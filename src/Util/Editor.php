@@ -42,14 +42,12 @@ class Editor
     ];
 
     // we expect instantiation via factory()
-    private function __construct() {}
+    final private function __construct() {}
 
     /**
      * Creates a rex_editor instance.
-     *
-     * @return static Returns a rex_editor instance
      */
-    public static function factory()
+    public static function factory(): static
     {
         $class = static::getFactoryClass();
         return new $class();

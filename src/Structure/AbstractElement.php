@@ -177,14 +177,12 @@ abstract class AbstractElement
      * The instance will be cached in an instance-pool and therefore re-used by a later call.
      *
      * @param int $id the article id
-     * @param int $clang the clang id
+     * @param int|null $clang the clang id
      *
      * @return static|null A rex_structure_element instance typed to the late-static binding type of the caller
      */
-    public static function get($id, $clang = null)
+    public static function get(int $id, ?int $clang = null): ?static
     {
-        $id = (int) $id;
-
         if ($id <= 0) {
             return null;
         }
@@ -193,8 +191,7 @@ abstract class AbstractElement
             $clang = rex_clang::getCurrentId();
         }
 
-        $class = static::class;
-        return static::getInstance([$id, $clang], static function ($id, $clang) use ($class) {
+        return static::getInstance([$id, $clang], static function () use ($id, $clang) {
             $articlePath = Path::coreCache('structure/' . $id . '.' . $clang . '.article');
 
             // load metadata from cache
@@ -216,21 +213,15 @@ abstract class AbstractElement
                 return null;
             }
 
-            return new $class($metadata);
+            return new static($metadata);
         });
     }
 
     /**
-     * @param int $parentId
-     * @param string $listType
-     * @param bool $ignoreOfflines
-     * @param int $clang
-     *
      * @return list<static>
      */
-    protected static function getChildElements($parentId, $listType, $ignoreOfflines = false, $clang = null)
+    protected static function getChildElements(int $parentId, string $listType, bool $ignoreOfflines = false, ?int $clang = null): array
     {
-        $parentId = (int) $parentId;
         // for $parentId=0 root elements will be returned, so abort here for $parentId<0 only
         if (0 > $parentId) {
             return [];
@@ -244,14 +235,14 @@ abstract class AbstractElement
             // list key
             [$parentId, $listType],
             // callback to get an instance for a given ID, status will be checked if $ignoreOfflines==true
-            static function ($id) use ($class, $ignoreOfflines, $clang) {
+            static function (int $id) use ($class, $ignoreOfflines, $clang) {
                 if ($instance = $class::get($id, $clang)) {
                     return !$ignoreOfflines || $instance->isOnline() ? $instance : null;
                 }
                 return null;
             },
             // callback to create the list of IDs
-            static function ($parentId, $listType) {
+            static function () use ($parentId, $listType) {
                 $listFile = Path::coreCache('structure/' . $parentId . '.' . $listType);
 
                 $list = File::getCache($listFile, null);
@@ -259,6 +250,8 @@ abstract class AbstractElement
                     ArticleCache::generateLists($parentId);
                     $list = File::getCache($listFile);
                 }
+
+                /** @var list<int> */
                 return $list;
             },
         );

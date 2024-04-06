@@ -2,22 +2,23 @@
 
 namespace Redaxo\Core\Base;
 
-use function call_user_func_array;
 use function is_array;
 
+/**
+ * @psalm-type TKey = int|string|list<int|string>
+ */
 trait InstanceListPoolTrait
 {
-    /** @var array<string, array<mixed>> */
+    /** @var array<string, list<TKey>> */
     private static array $instanceLists = [];
 
     /**
      * Adds an instance list.
      *
-     * @param mixed $key Key
-     * @param array<mixed> $instanceKeyList Array of instance keys
-     * @return void
+     * @param TKey $key
+     * @param list<TKey> $instanceKeyList Array of instance keys
      */
-    protected static function addInstanceList($key, array $instanceKeyList)
+    protected static function addInstanceList(int|string|array $key, array $instanceKeyList): void
     {
         $key = self::getInstanceListPoolKey($key);
         self::$instanceLists[$key] = $instanceKeyList;
@@ -26,11 +27,9 @@ trait InstanceListPoolTrait
     /**
      * Checks whether an instance list exists for the given key.
      *
-     * @param mixed $key Key
-     *
-     * @return bool
+     * @param TKey $key
      */
-    protected static function hasInstanceList($key)
+    protected static function hasInstanceList(int|string|array $key): bool
     {
         $key = self::getInstanceListPoolKey($key);
         return isset(self::$instanceLists[$key]);
@@ -41,45 +40,45 @@ trait InstanceListPoolTrait
      *
      * If the instance list does not exist it will be created by calling the $createListCallback
      *
-     * @param mixed $key Key
-     * @param callable $getInstanceCallback Callback, will be called for every list item to get the instance
-     * @param callable|null $createListCallback Callback, will be called to create the list of instance keys
-     *
-     * @return array
-     *
-     * @template T as object
-     * @psalm-param callable(mixed...):?T $getInstanceCallback
-     * @psalm-param callable(mixed...):mixed[]|null $createListCallback
-     * @psalm-return list<T>
+     * @template TInstance as object
+     * @template TInstanceKey as int|string|list<int|string>
+     * @param TKey $key
+     * @param callable(TInstanceKey):(TInstance|null) $getInstanceCallback Callback, will be called for every list item to get the instance
+     * @param callable():list<TInstanceKey>|null $createListCallback Callback, will be called to create the list of instance keys
+     * @return list<TInstance>
      */
-    protected static function getInstanceList($key, callable $getInstanceCallback, ?callable $createListCallback = null)
+    protected static function getInstanceList(int|string|array $key, callable $getInstanceCallback, ?callable $createListCallback = null): array
     {
         $args = (array) $key;
         $key = self::getInstanceListPoolKey($args);
+
         if (!isset(self::$instanceLists[$key]) && $createListCallback) {
-            $list = call_user_func_array($createListCallback, $args);
+            $list = $createListCallback();
             self::$instanceLists[$key] = is_array($list) ? $list : [];
         }
+
         if (!isset(self::$instanceLists[$key])) {
             return [];
         }
+
         $list = [];
         foreach (self::$instanceLists[$key] as $instanceKey) {
-            $instance = call_user_func_array($getInstanceCallback, (array) $instanceKey);
+            /** @psalm-suppress PossiblyInvalidArgument */
+            $instance = $getInstanceCallback($instanceKey);
             if ($instance) {
                 $list[] = $instance;
             }
         }
+
         return $list;
     }
 
     /**
      * Clears the instance list of the given key.
      *
-     * @param mixed $key Key
-     * @return void
+     * @param TKey $key
      */
-    public static function clearInstanceList($key)
+    public static function clearInstanceList(int|string|array $key): void
     {
         $key = self::getInstanceListPoolKey($key);
         unset(self::$instanceLists[$key]);
@@ -87,9 +86,8 @@ trait InstanceListPoolTrait
 
     /**
      * Clears the instance list pool.
-     * @return void
      */
-    public static function clearInstanceListPool()
+    public static function clearInstanceListPool(): void
     {
         self::$instanceLists = [];
     }
@@ -99,11 +97,9 @@ trait InstanceListPoolTrait
      *
      * The original key can be a scalar value or an array of scalar values
      *
-     * @param mixed $key Key
-     *
-     * @return string
+     * @param TKey $key
      */
-    private static function getInstanceListPoolKey($key)
+    private static function getInstanceListPoolKey(int|string|array $key): string
     {
         return implode('###', (array) $key);
     }
