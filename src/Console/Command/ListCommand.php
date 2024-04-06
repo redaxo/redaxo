@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Console\Command;
 
+use Override;
 use Redaxo\Core\Core;
 use Symfony\Component\Console\Command\ListCommand as SymfonyListCommand;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -14,6 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ListCommand extends SymfonyListCommand
 {
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $exitCode = parent::execute($input, $output);

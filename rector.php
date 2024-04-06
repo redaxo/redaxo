@@ -13,6 +13,7 @@ use Rector\CodingStyle\Rector as CodingStyle;
 use Rector\Config\RectorConfig;
 use Rector\Php55\Rector as Php55;
 use Rector\Php70\Rector as Php70;
+use Rector\Php73\Rector as Php73;
 use Rector\Php74\Rector as Php74;
 use Rector\Php80\Rector as Php80;
 use Rector\Php81\Rector as Php81;
@@ -104,6 +105,7 @@ return RectorConfig::configure()
         RedaxoRule\UnderscoreToCamelCaseVariableNameRector::class,
     ])
     ->withSkip([
+        Php73\FuncCall\StringifyStrNeedlesRector::class,
         Php74\Closure\ClosureToArrowFunctionRector::class,
         Php81\FuncCall\NullToStrictStringFuncCallArgRector::class,
         TypeDeclaration\ArrowFunction\AddArrowFunctionReturnTypeRector::class,
@@ -266,6 +268,8 @@ return RectorConfig::configure()
         new MethodCallRename(Addon\Addon::class, 'getAvailablePackages', 'getAvailableAddons'),
         new MethodCallRename(Addon\Addon::class, 'getSetupPackages', 'getSetupAddons'),
         new MethodCallRename(Addon\Addon::class, 'getSystemPackages', 'getSystemAddons'),
+        new MethodCallRename(Console\Command\AbstractCommand::class, 'getPackage', 'getAddon'),
+        new MethodCallRename(Console\Command\AbstractCommand::class, 'setPackage', 'setAddon'),
 
         new MethodCallRename(rex_password_policy::class, 'getRule', 'getDescription'),
 
@@ -281,6 +285,7 @@ return RectorConfig::configure()
         new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addArticleField'),
         new MethodCallRename(Form\AbstractForm::class, 'addLinkmapField', 'addArticleField'),
         new MethodCallRename(Form\AbstractForm::class, 'addMedialistField', 'addMediaField'),
+
         new MethodCallRename(Cronjob\CronjobManager::class, 'getManager', 'getExecutor'),
         new MethodCallRename(Cronjob\CronjobManager::class, 'hasManager', 'hasExecutor'),
     ])

@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Console\Command;
 
+use Override;
 use PDOException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -19,6 +20,7 @@ use const PHP_VERSION;
  */
 class SetupCheckCommand extends AbstractCommand
 {
+    #[Override]
     protected function configure(): void
     {
         $this
@@ -26,6 +28,7 @@ class SetupCheckCommand extends AbstractCommand
         ;
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $exitCode = 0;

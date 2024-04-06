@@ -1,8 +1,14 @@
 <?php
 
+namespace Redaxo\Core\Tests\HttpClient;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\HttpClient\Response;
+use rex_socket_exception;
+
+use const ZLIB_ENCODING_DEFLATE;
+use const ZLIB_ENCODING_GZIP;
 
 /** @internal */
 final class ResponseTest extends TestCase
@@ -16,13 +22,29 @@ final class ResponseTest extends TestCase
         return new Response($stream);
     }
 
+    /** @return list<array{string}> */
+    public static function getInvalidHeader(): array
+    {
+        return [
+            [''],
+            ['abc'],
+            ['200 OK'],
+        ];
+    }
+
+    #[DataProvider('getInvalidHeader')]
+    public function testConstructWithInvalidHeader(string $header): void
+    {
+        $this->expectException(rex_socket_exception::class);
+        $this->expectExceptionMessage('Missing status code in response header');
+
+        $this->getResponse($header . "\r\n");
+    }
+
     /** @return list<array{string, ?int, ?string, string}> */
     public static function getStatusProvider(): array
     {
         return [
-            ['',                              null, null,                'isInvalid'],
-            ['abc',                           null, null,                'isInvalid'],
-            ['200 OK',                        null, null,                'isInvalid'],
             ['HTTP/1.1 99 Message',             99, 'Message',           'isInvalid'],
             ['HTTP/1.1 600 Message',           600, 'Message',           'isInvalid'],
             ['HTTP/1.1 100 Continue',          100, 'Continue',          'isInformational'],
@@ -55,9 +77,8 @@ final class ResponseTest extends TestCase
 
         self::assertSame($header, $response->getHeader(), 'getHeader() without params returns full header');
         self::assertSame('Value1', $response->getHeader('Key1'), 'getHeader($key) returns the value of the key');
-        self::assertSame('Value2', $response->getHeader('Key2', 'default'), 'getHeader($key, $default) returns the value of the key');
+        self::assertSame('Value2', $response->getHeader('Key2'), 'getHeader($key) returns the value of the key');
         self::assertNull($response->getHeader('Key3'), 'getHeader($key) returns null for non-existing keys');
-        self::assertSame('default', $response->getHeader('Key3', 'default'), 'getHeader($key, $default) returns $default for non-existing keys');
     }
 
     public function testGetBody(): void

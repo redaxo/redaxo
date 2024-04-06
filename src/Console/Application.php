@@ -4,6 +4,7 @@ namespace Redaxo\Core\Console;
 
 use ErrorException;
 use Exception;
+use Override;
 use ParseError;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Console\Command\AbstractCommand;
@@ -35,7 +36,8 @@ class Application extends SymfonyApplication
         parent::__construct('REDAXO', Core::getVersion());
     }
 
-    public function doRun(InputInterface $input, OutputInterface $output)
+    #[Override]
+    public function doRun(InputInterface $input, OutputInterface $output): int
     {
         try {
             $this->checkConsoleUser($input, $output);
@@ -61,7 +63,8 @@ class Application extends SymfonyApplication
         }
     }
 
-    protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output)
+    #[Override]
+    protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
     {
         if ($command instanceof AbstractCommand) {
             $this->loadPackages($command);
@@ -74,12 +77,9 @@ class Application extends SymfonyApplication
         return $exitCode;
     }
 
-    /**
-     * @return void
-     */
-    private function loadPackages(AbstractCommand $command)
+    private function loadPackages(AbstractCommand $command): void
     {
-        // Some packages requires a working db connection in their boot.php
+        // Some packages require a working db connection in their boot.php
         // in this case if no connection is available, no commands can be used
         // but this command should be always usable
         if ($command instanceof StandaloneInterface) {
@@ -103,7 +103,7 @@ class Application extends SymfonyApplication
 
         if ('ydeploy:migrate' === $command->getName()) {
             // boot only the ydeploy package, which provides the migrate command
-            $command->getPackage()->boot();
+            $command->getAddon()->boot();
 
             return;
         }
@@ -119,22 +119,21 @@ class Application extends SymfonyApplication
         rex_extension::registerPoint(new rex_extension_point('PACKAGES_INCLUDED'));
     }
 
-    private function checkConsoleUser(InputInterface $input, OutputInterface $output): bool
+    private function checkConsoleUser(InputInterface $input, OutputInterface $output): void
     {
         $io = new SymfonyStyle($input, $output);
 
-        if (function_exists('posix_getuid')) {
-            $currentuser = posix_getpwuid(posix_getuid());
-            $webuser = posix_getpwuid(fileowner(Path::backend()));
-            if ($currentuser['name'] !== $webuser['name']) {
-                $io->warning([
-                    'Current user: ' . $currentuser['name'] . "\nOwner of redaxo: " . $webuser['name'],
-                    'Running the console with a different user might cause unexpected side-effects.',
-                ]);
-                return false;
-            }
+        if (!function_exists('posix_getuid')) {
+            return;
         }
 
-        return true;
+        $currentuser = posix_getpwuid(posix_getuid());
+        $webuser = posix_getpwuid(fileowner(Path::backend()));
+        if ($currentuser['name'] !== $webuser['name']) {
+            $io->warning([
+                'Current user: ' . $currentuser['name'] . "\nOwner of redaxo: " . $webuser['name'],
+                'Running the console with a different user might cause unexpected side-effects.',
+            ]);
+        }
     }
 }

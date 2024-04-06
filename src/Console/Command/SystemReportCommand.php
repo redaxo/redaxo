@@ -2,7 +2,9 @@
 
 namespace Redaxo\Core\Console\Command;
 
+use Override;
 use rex_system_report;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableStyle;
@@ -20,6 +22,7 @@ use const STR_PAD_LEFT;
  */
 class SystemReportCommand extends AbstractCommand
 {
+    #[Override]
     protected function configure(): void
     {
         $this
@@ -28,6 +31,7 @@ class SystemReportCommand extends AbstractCommand
         ;
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $formats = ['cli', 'markdown'];
@@ -43,7 +47,7 @@ class SystemReportCommand extends AbstractCommand
         if ('markdown' === $format) {
             $output->writeln($report->asMarkdown());
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $io = $this->getStyle($input, $output);
@@ -85,6 +89,6 @@ class SystemReportCommand extends AbstractCommand
             $io->newLine();
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

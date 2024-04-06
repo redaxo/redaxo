@@ -1,5 +1,8 @@
 <?php
 
+namespace Redaxo\Core\Tests\HttpClient;
+
+use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
 use Redaxo\Core\HttpClient\ProxyRequest;
@@ -9,15 +12,17 @@ final class ProxyRequestTest extends TestCase
 {
     private ?string $proxy = null;
 
+    #[Override]
     protected function setUp(): void
     {
-        $this->proxy = Core::getProperty('socket_proxy');
-        Core::setProperty('socket_proxy', null);
+        $this->proxy = Core::getProperty('http_client_proxy');
+        Core::setProperty('http_client_proxy', null);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
-        Core::setProperty('socket_proxy', $this->proxy);
+        Core::setProperty('http_client_proxy', $this->proxy);
     }
 
     public function testFactory(): void

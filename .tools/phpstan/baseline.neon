@@ -551,11 +551,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/setup/setup.php
 
 		-
-			message: "#^Method rex_setup\\:\\:checkFilesystem\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/setup/setup.php
-
-		-
 			message: "#^Method rex_template\\:\\:__construct\\(\\) has parameter \\$templateId with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/content/api_template.php
@@ -1201,11 +1196,6 @@ parameters:
 			path: ../../src/Addon/Addon.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Console\\\\Command\\\\CronjobRunCommand\\:\\:executeSingleJob\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../src/Console/Command/CronjobRunCommand.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\CronjobExecutor\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Cronjob/CronjobExecutor.php
@@ -1404,26 +1394,6 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\Form\\\\Form\\:\\:\\$languageSupport type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/Form.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\HttpClient\\\\Request\\:\\:factory\\(\\) should return static\\(Redaxo\\\\Core\\\\HttpClient\\\\Request\\) but returns Redaxo\\\\Core\\\\HttpClient\\\\ProxyRequest\\.$#"
-			count: 1
-			path: ../../src/HttpClient/Request.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\HttpClient\\\\Request\\:\\:setOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/HttpClient/Request.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
-			count: 1
-			path: ../../src/HttpClient/Request.php
-
-		-
-			message: "#^Property Redaxo\\\\Core\\\\HttpClient\\\\Response\\:\\:\\$headers type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/HttpClient/Response.php
 
 		-
 			message: "#^Property Redaxo\\\\Core\\\\Mailer\\\\Mailer\\:\\:\\$xHeader type has no value type specified in iterable type array\\.$#"
