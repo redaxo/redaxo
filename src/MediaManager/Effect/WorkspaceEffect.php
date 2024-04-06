@@ -1,9 +1,13 @@
 <?php
 
-use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Translation\I18n;
+namespace Redaxo\Core\MediaManager\Effect;
 
-class rex_effect_workspace extends rex_effect_abstract
+use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\MediaManager\ManagedMedia;
+use Redaxo\Core\Translation\I18n;
+use rex_response;
+
+class WorkspaceEffect extends AbstractEffect
 {
     public function execute()
     {
@@ -74,7 +78,7 @@ class rex_effect_workspace extends rex_effect_abstract
             if (!is_file($bgimage)) {
                 return;
             }
-            $bg = new rex_managed_media($bgimage);
+            $bg = new ManagedMedia($bgimage);
             $bg->asImage();
             $workspace = $bg->getImage();
             $this->keepTransparent($workspace);

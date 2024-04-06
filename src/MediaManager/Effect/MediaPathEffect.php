@@ -1,9 +1,11 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
-class rex_effect_mediapath extends rex_effect_abstract
+class MediaPathEffect extends AbstractEffect
 {
     public function __construct() {}
 

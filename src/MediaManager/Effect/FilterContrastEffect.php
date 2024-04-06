@@ -1,8 +1,12 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Translation\I18n;
 
-class rex_effect_filter_contrast extends rex_effect_abstract
+use const IMG_FILTER_CONTRAST;
+
+class FilterContrastEffect extends AbstractEffect
 {
     public function execute()
     {

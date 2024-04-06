@@ -1,8 +1,13 @@
 <?php
 
-abstract class rex_effect_abstract
+namespace Redaxo\Core\MediaManager\Effect;
+
+use GdImage;
+use Redaxo\Core\MediaManager\ManagedMedia;
+
+abstract class AbstractEffect
 {
-    /** @var rex_managed_media */
+    /** @var ManagedMedia */
     public $media;
 
     /**
@@ -17,7 +22,7 @@ abstract class rex_effect_abstract
     /**
      * @return void
      */
-    public function setMedia(rex_managed_media $media)
+    public function setMedia(ManagedMedia $media)
     {
         $this->media = $media;
     }
