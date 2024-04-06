@@ -6,7 +6,11 @@ use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\MediaManager\Effect;
+use Redaxo\Core\MediaManager\Effect\AbstractEffect;
+use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Str;
 
 $effectId = rex_request('effect_id', 'int');
 $typeId = rex_request('type_id', 'int');
@@ -18,7 +22,7 @@ $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type W
 if (1 != $sql->getRows()) {
     throw new Exception('Invalid type_id "' . $typeId . '"');
 }
-if (rex_media_manager::STATUS_SYSTEM_TYPE === (int) $sql->getValue('status')) {
+if (MediaManager::STATUS_SYSTEM_TYPE === (int) $sql->getValue('status')) {
     throw new rex_exception('System media types can not be edited.');
 }
 $typeName = (string) $sql->getValue('name');
@@ -45,7 +49,7 @@ if ('delete' == $func && $effectId > 0) {
 
         $info = I18n::msg('media_manager_effect_deleted');
 
-        rex_media_manager::deleteCacheByType($typeId);
+        MediaManager::deleteCacheByType($typeId);
 
         Sql::factory()
             ->setTable(Core::getTable('media_manager_type'))
@@ -67,8 +71,9 @@ if ('' != $warning) {
 }
 
 $effects = [];
-foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
-    $effects[$shortName] = new $class();
+foreach (MediaManager::getSupportedEffects() as $class => $shortName) {
+    $class = new $class();
+    $effects[$class::class] = $class;
 }
 
 if ('' == $func) {
@@ -127,7 +132,7 @@ if ('' == $func) {
 
     echo $content;
 } elseif ('add' == $func || 'edit' == $func && $effectId > 0) {
-    uasort($effects, static function (rex_effect_abstract $a, rex_effect_abstract $b) {
+    uasort($effects, static function (AbstractEffect $a, AbstractEffect $b) {
         return strnatcmp($a->getName(), $b->getName());
     });
 
@@ -172,7 +177,8 @@ if ('' == $func) {
         $("#' . $field->getAttribute('id') . '").change(function(){
             if(currentShown) currentShown.hide();
 
-            var effectParamsId = "#rex-rex_effect_"+ jQuery(this).val();
+            let effectParamsId = "#rex-" + jQuery(this).val().toLowerCase().replace(/\\\/g,"_");
+            console.log(effectParamsId);
             currentShown = $(effectParamsId);
             currentShown.show();
         }).change();
@@ -185,17 +191,17 @@ if ('' == $func) {
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setSuffix($script);
 
-    foreach ($effects as $effectObj) {
+    foreach ($effects as $effect => $effectObj) {
         $effectClass = $effectObj::class;
         $effectParams = $effectObj->getParams();
-        $group = $effectClass;
+        $group = Str::normalize($effect, '_');
 
         if (empty($effectParams)) {
             continue;
         }
 
         foreach ($effectParams as $param) {
-            $name = $effectClass . '_' . $param['name'];
+            $name = Str::normalize($effectClass . '-' . $param['name']);
             /** @psalm-suppress MixedAssignment */
             $value = $param['default'] ?? null;
             $attributes = [];
@@ -210,7 +216,7 @@ if ('' == $func) {
                     $type = 'text';
                     $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                     $field->setLabel($param['label']);
-                    $field->setAttribute('id', "media_manager $name $type");
+                    $field->setAttribute('id', "rex $name $type");
                     if (!empty($param['notice'])) {
                         $field->setNotice($param['notice']);
                     }
@@ -226,7 +232,7 @@ if ('' == $func) {
                     /** @var SelectField $field */
                     $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                     $field->setLabel($param['label']);
-                    $field->setAttribute('id', "media_manager $name $type");
+                    $field->setAttribute('id', "rex $name $type");
                     $field->setAttribute('class', 'form-control selectpicker');
                     if (!empty($param['notice'])) {
                         $field->setNotice($param['notice']);
@@ -248,7 +254,7 @@ if ('' == $func) {
                     $type = $param['type'];
                     $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                     $field->setLabel($param['label']);
-                    $field->setAttribute('id', "media_manager $name $type");
+                    $field->setAttribute('id', "rex $name $type");
                     if (!empty($param['notice'])) {
                         $field->setNotice($param['notice']);
                     }
@@ -277,7 +283,7 @@ if ('' == $func) {
             return;
         }
 
-        rex_media_manager::deleteCacheByType($typeId);
+        MediaManager::deleteCacheByType($typeId);
 
         Sql::factory()
             ->setTable(Core::getTable('media_manager_type'))

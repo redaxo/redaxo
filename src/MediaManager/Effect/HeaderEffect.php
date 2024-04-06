@@ -1,9 +1,13 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
+use LogicException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use rex_media;
 
-class rex_effect_header extends rex_effect_abstract
+class HeaderEffect extends AbstractEffect
 {
     public function execute()
     {

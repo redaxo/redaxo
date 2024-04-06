@@ -1,8 +1,10 @@
 <?php
 
+namespace Redaxo\Core\MediaManager\Effect;
+
 use Redaxo\Core\Translation\I18n;
 
-class rex_effect_rounded_corners extends rex_effect_abstract
+class RoundedCornersEffect extends AbstractEffect
 {
     public function execute()
     {

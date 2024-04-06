@@ -1,26 +1,32 @@
 <?php
 
+namespace Redaxo\Core\Tests\MediaManager;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\MediaManager\ManagedMedia;
+use Redaxo\Core\MediaManager\MediaManager;
+use ReflectionProperty;
+use rex_media;
 
 /** @internal */
-final class rex_media_manager_test extends TestCase
+final class MediaManagerTest extends TestCase
 {
     public function testGetCacheFilename(): void
     {
-        $media = new rex_managed_media(__DIR__ . '/foo.jpg');
-        $manager = new rex_media_manager($media);
+        $media = new ManagedMedia(__DIR__ . '/foo.jpg');
+        $manager = new MediaManager($media);
 
         $cachePath = Path::addonCache('media_manager');
         $manager->setCachePath($cachePath);
 
         $media->setMediaPath(__DIR__ . '/bar.gif');
 
-        $property = new ReflectionProperty(rex_media_manager::class, 'type');
+        $property = new ReflectionProperty(MediaManager::class, 'type');
         $property->setValue($manager, 'test');
 
         self::assertSame($cachePath . 'test/foo.jpg', $manager->getCacheFilename());
@@ -29,10 +35,10 @@ final class rex_media_manager_test extends TestCase
     public function testGetMediaFile(): void
     {
         $_GET['rex_media_file'] = '../foo/bar/baz.jpg';
-        self::assertSame('baz.jpg', rex_media_manager::getMediaFile());
+        self::assertSame('baz.jpg', MediaManager::getMediaFile());
 
         $_GET['rex_media_file'] = '..\\foo\\bar\\baz.jpg';
-        self::assertSame('baz.jpg', rex_media_manager::getMediaFile());
+        self::assertSame('baz.jpg', MediaManager::getMediaFile());
     }
 
     public function testCreate(): void
@@ -43,12 +49,12 @@ final class rex_media_manager_test extends TestCase
         File::put($path, base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII='));
 
         try {
-            $manager = rex_media_manager::create('rex_media_small', $filename);
+            $manager = MediaManager::create('rex_media_small', $filename);
 
             self::assertFileExists($manager->getCacheFilename());
             self::assertFileExists($manager->getHeaderCacheFilename());
 
-            $manager = rex_media_manager::create('non_existing_type', $filename);
+            $manager = MediaManager::create('non_existing_type', $filename);
 
             self::assertFileDoesNotExist($manager->getCacheFilename());
             self::assertFileDoesNotExist($manager->getHeaderCacheFilename());
@@ -60,7 +66,7 @@ final class rex_media_manager_test extends TestCase
     #[DataProvider('dataGetUrl')]
     public function testGetUrl(int|false $expectedBuster, string $type, string|rex_media $file, ?int $timestamp = null): void
     {
-        $url = rex_media_manager::getUrl($type, $file, $timestamp);
+        $url = MediaManager::getUrl($type, $file, $timestamp);
 
         if (false === $expectedBuster) {
             self::assertStringNotContainsString('buster=', $url);

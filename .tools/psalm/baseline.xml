@@ -338,7 +338,7 @@
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
       <code><![CDATA[$REX['HTDOCS_PATH']]]></code>
-      <code><![CDATA[[rex_media_manager::class, 'init']]]></code>
+      <code><![CDATA[[MediaManager::class, 'init']]]></code>
     </PossiblyInvalidArgument>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
@@ -1432,217 +1432,6 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[[$data->id, $id]]]></code>
     </MixedArgumentTypeCoercion>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_convert2img.php">
-    <MixedArgument>
-      <code><![CDATA[$color]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$color]]></code>
-    </MixedAssignment>
-    <PossiblyNullArgument>
-      <code><![CDATA[$this->media->getMediaPath()]]></code>
-      <code><![CDATA[$this->media->getMediaPath()]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_crop.php">
-    <MixedArgument>
-      <code><![CDATA[$offsetHeight]]></code>
-      <code><![CDATA[$offsetWidth]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$offsetHeight]]></code>
-      <code><![CDATA[$offsetHeight]]></code>
-      <code><![CDATA[$offsetHeight]]></code>
-      <code><![CDATA[$offsetWidth]]></code>
-      <code><![CDATA[$offsetWidth]]></code>
-      <code><![CDATA[$offsetWidth]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$this->params['offset_height']]]></code>
-      <code><![CDATA[$this->params['offset_height']]]></code>
-      <code><![CDATA[$this->params['offset_height']]]></code>
-      <code><![CDATA[$this->params['offset_width']]]></code>
-      <code><![CDATA[$this->params['offset_width']]]></code>
-      <code><![CDATA[$this->params['offset_width']]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_filter_blur.php">
-    <MixedArgument>
-      <code><![CDATA[$options[$this->params['type']]]]></code>
-    </MixedArgument>
-    <MixedArrayOffset>
-      <code><![CDATA[$options[$this->params['type']]]]></code>
-    </MixedArrayOffset>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$this->params['smoothit']]]></code>
-      <code><![CDATA[$this->params['type']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_filter_colorize.php">
-    <MixedArgument>
-      <code><![CDATA[$TabColors['blue'] * $this->params['filter_b'] / 255]]></code>
-      <code><![CDATA[$TabColors['green'] * $this->params['filter_g'] / 255]]></code>
-      <code><![CDATA[$TabColors['red'] * $this->params['filter_r'] / 255]]></code>
-    </MixedArgument>
-    <MixedOperand>
-      <code><![CDATA[$TabColors['blue']]]></code>
-      <code><![CDATA[$TabColors['green']]]></code>
-      <code><![CDATA[$TabColors['red']]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_filter_sharpen.php">
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$this->params['radius']]]></code>
-      <code><![CDATA[$this->params['threshold']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_header.php">
-    <MixedArgument>
-      <code><![CDATA[$this->params['cache']]]></code>
-    </MixedArgument>
-    <PossiblyNullReference>
-      <code><![CDATA[getOriginalFileName]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_image_format.php">
-    <MixedArgument>
-      <code><![CDATA[$transparencyColor['blue']]]></code>
-      <code><![CDATA[$transparencyColor['green']]]></code>
-      <code><![CDATA[$transparencyColor['red']]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_image_properties.php">
-    <MixedArgument>
-      <code><![CDATA[$this->params['interlace']]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_insert_image.php">
-    <MixedArgument>
-      <code><![CDATA[$this->params['brandimage']]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_mediapath.php">
-    <MixedOperand>
-      <code><![CDATA[$this->params['mediapath']]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_mirror.php">
-    <MixedArgument>
-      <code><![CDATA[$alpha]]></code>
-      <code><![CDATA[$bgColor[0]]]></code>
-      <code><![CDATA[$bgColor[1]]]></code>
-      <code><![CDATA[$bgColor[2]]]></code>
-      <code><![CDATA[$destHeight]]></code>
-      <code><![CDATA[$image]]></code>
-      <code><![CDATA[$image]]></code>
-      <code><![CDATA[$image]]></code>
-      <code><![CDATA[$image]]></code>
-      <code><![CDATA[$image]]></code>
-      <code><![CDATA[$image]]></code>
-      <code><![CDATA[$rgba['blue']]]></code>
-      <code><![CDATA[$rgba['green']]]></code>
-      <code><![CDATA[$rgba['red']]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[127 * $transparency]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$bgColor[0]]]></code>
-      <code><![CDATA[$bgColor[1]]]></code>
-      <code><![CDATA[$bgColor[2]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$alpha]]></code>
-      <code><![CDATA[$alphaStep]]></code>
-      <code><![CDATA[$destHeight]]></code>
-      <code><![CDATA[$transparency]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$alphaStep]]></code>
-      <code><![CDATA[$reflectionHeight]]></code>
-      <code><![CDATA[$reflectionHeight]]></code>
-      <code><![CDATA[$reflectionOpacity]]></code>
-      <code><![CDATA[$reflectionOpacity / 100]]></code>
-      <code><![CDATA[$transparency]]></code>
-      <code><![CDATA[$y * $alphaStep]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_resize.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-    </InvalidScalarArgument>
-    <MixedArgument>
-      <code><![CDATA[$height / $imgFactor]]></code>
-      <code><![CDATA[$height / $imgFactor]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['height'] / $height * $width]]></code>
-      <code><![CDATA[$this->params['height'] / $height * $width]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-      <code><![CDATA[$this->params['width'] / $width * $height]]></code>
-      <code><![CDATA[$this->params['width'] / $width * $height]]></code>
-      <code><![CDATA[$width / $imgFactor]]></code>
-      <code><![CDATA[$width / $imgFactor]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$imgFactor]]></code>
-      <code><![CDATA[$imgFactor]]></code>
-      <code><![CDATA[$imgFactor]]></code>
-      <code><![CDATA[$imgFactor]]></code>
-      <code><![CDATA[$resizeRatio]]></code>
-      <code><![CDATA[$resizeRatio]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$imgFactor]]></code>
-      <code><![CDATA[$imgFactor]]></code>
-      <code><![CDATA[$imgFactor]]></code>
-      <code><![CDATA[$imgFactor]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-    </MixedOperand>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['height']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-      <code><![CDATA[$this->params['width']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/effects/effect_rotate.php">
-    <MixedArgument>
-      <code><![CDATA[$this->params['rotate']]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/managed_media.php">
-    <RedundantCast>
-      <code><![CDATA[(int) $size[0]]]></code>
-      <code><![CDATA[(int) $size[1]]]></code>
-    </RedundantCast>
-  </file>
-  <file src="redaxo/src/core/lib/media_manager/media_manager.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[['effects' => 1, 'type_id' => $sql->getValue('type_id'), 'effect_id' => $sql->getValue('effect_id'), 'func' => 'edit']]]></code>
-    </ArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$effparams[str_replace('rex_effect_' . $effname . '_', '', $name)]]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/mediapool/media.php">
     <MixedArgument>
@@ -4320,6 +4109,220 @@
     <PossiblyNullOperand>
       <code><![CDATA[$sendTime]]></code>
     </PossiblyNullOperand>
+  </file>
+  <file src="src/MediaManager/Effect/ConvertToImageEffect.php">
+    <MixedArgument>
+      <code><![CDATA[$color]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$color]]></code>
+    </MixedAssignment>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->media->getMediaPath()]]></code>
+      <code><![CDATA[$this->media->getMediaPath()]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/MediaManager/Effect/CropEffect.php">
+    <MixedArgument>
+      <code><![CDATA[$offsetHeight]]></code>
+      <code><![CDATA[$offsetWidth]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$offsetHeight]]></code>
+      <code><![CDATA[$offsetHeight]]></code>
+      <code><![CDATA[$offsetHeight]]></code>
+      <code><![CDATA[$offsetWidth]]></code>
+      <code><![CDATA[$offsetWidth]]></code>
+      <code><![CDATA[$offsetWidth]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$this->params['offset_height']]]></code>
+      <code><![CDATA[$this->params['offset_height']]]></code>
+      <code><![CDATA[$this->params['offset_height']]]></code>
+      <code><![CDATA[$this->params['offset_width']]]></code>
+      <code><![CDATA[$this->params['offset_width']]]></code>
+      <code><![CDATA[$this->params['offset_width']]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/MediaManager/Effect/FilterBlurEffect.php">
+    <MixedArgument>
+      <code><![CDATA[$options[$this->params['type']]]]></code>
+    </MixedArgument>
+    <MixedArrayOffset>
+      <code><![CDATA[$options[$this->params['type']]]]></code>
+    </MixedArrayOffset>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$this->params['smoothit']]]></code>
+      <code><![CDATA[$this->params['type']]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/MediaManager/Effect/FilterColorizeEffect.php">
+    <MixedArgument>
+      <code><![CDATA[$TabColors['blue'] * $this->params['filter_b'] / 255]]></code>
+      <code><![CDATA[$TabColors['green'] * $this->params['filter_g'] / 255]]></code>
+      <code><![CDATA[$TabColors['red'] * $this->params['filter_r'] / 255]]></code>
+    </MixedArgument>
+    <MixedOperand>
+      <code><![CDATA[$TabColors['blue']]]></code>
+      <code><![CDATA[$TabColors['green']]]></code>
+      <code><![CDATA[$TabColors['red']]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/MediaManager/Effect/FilterSharpenEffect.php">
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$this->params['radius']]]></code>
+      <code><![CDATA[$this->params['threshold']]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/MediaManager/Effect/HeaderEffect.php">
+    <MixedArgument>
+      <code><![CDATA[$this->params['cache']]]></code>
+    </MixedArgument>
+    <PossiblyNullReference>
+      <code><![CDATA[getOriginalFileName]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/MediaManager/Effect/ImageFormatEffect.php">
+    <MixedArgument>
+      <code><![CDATA[$transparencyColor['blue']]]></code>
+      <code><![CDATA[$transparencyColor['green']]]></code>
+      <code><![CDATA[$transparencyColor['red']]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/MediaManager/Effect/ImagePropertiesEffect.php">
+    <MixedArgument>
+      <code><![CDATA[$this->params['interlace']]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/MediaManager/Effect/InsertImageEffect.php">
+    <MixedArgument>
+      <code><![CDATA[$this->params['brandimage']]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/MediaManager/Effect/MediaPathEffect.php">
+    <MixedOperand>
+      <code><![CDATA[$this->params['mediapath']]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/MediaManager/Effect/MirrorEffect.php">
+    <MixedArgument>
+      <code><![CDATA[$alpha]]></code>
+      <code><![CDATA[$bgColor[0]]]></code>
+      <code><![CDATA[$bgColor[1]]]></code>
+      <code><![CDATA[$bgColor[2]]]></code>
+      <code><![CDATA[$destHeight]]></code>
+      <code><![CDATA[$image]]></code>
+      <code><![CDATA[$image]]></code>
+      <code><![CDATA[$image]]></code>
+      <code><![CDATA[$image]]></code>
+      <code><![CDATA[$image]]></code>
+      <code><![CDATA[$image]]></code>
+      <code><![CDATA[$rgba['blue']]]></code>
+      <code><![CDATA[$rgba['green']]]></code>
+      <code><![CDATA[$rgba['red']]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[127 * $transparency]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$bgColor[0]]]></code>
+      <code><![CDATA[$bgColor[1]]]></code>
+      <code><![CDATA[$bgColor[2]]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$alpha]]></code>
+      <code><![CDATA[$alphaStep]]></code>
+      <code><![CDATA[$destHeight]]></code>
+      <code><![CDATA[$transparency]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$alphaStep]]></code>
+      <code><![CDATA[$reflectionHeight]]></code>
+      <code><![CDATA[$reflectionHeight]]></code>
+      <code><![CDATA[$reflectionOpacity]]></code>
+      <code><![CDATA[$reflectionOpacity / 100]]></code>
+      <code><![CDATA[$transparency]]></code>
+      <code><![CDATA[$y * $alphaStep]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/MediaManager/Effect/ResizeEffect.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+    </InvalidScalarArgument>
+    <MixedArgument>
+      <code><![CDATA[$height / $imgFactor]]></code>
+      <code><![CDATA[$height / $imgFactor]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['height'] / $height * $width]]></code>
+      <code><![CDATA[$this->params['height'] / $height * $width]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+      <code><![CDATA[$this->params['width'] / $width * $height]]></code>
+      <code><![CDATA[$this->params['width'] / $width * $height]]></code>
+      <code><![CDATA[$width / $imgFactor]]></code>
+      <code><![CDATA[$width / $imgFactor]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$imgFactor]]></code>
+      <code><![CDATA[$imgFactor]]></code>
+      <code><![CDATA[$imgFactor]]></code>
+      <code><![CDATA[$imgFactor]]></code>
+      <code><![CDATA[$resizeRatio]]></code>
+      <code><![CDATA[$resizeRatio]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$imgFactor]]></code>
+      <code><![CDATA[$imgFactor]]></code>
+      <code><![CDATA[$imgFactor]]></code>
+      <code><![CDATA[$imgFactor]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+    </MixedOperand>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['height']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+      <code><![CDATA[$this->params['width']]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/MediaManager/Effect/RotateEffect.php">
+    <MixedArgument>
+      <code><![CDATA[$this->params['rotate']]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/MediaManager/ManagedMedia.php">
+    <RedundantCast>
+      <code><![CDATA[(int) $size[0]]]></code>
+      <code><![CDATA[(int) $size[1]]]></code>
+    </RedundantCast>
+  </file>
+  <file src="src/MediaManager/MediaManager.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[['effects' => 1, 'type_id' => $sql->getValue('type_id'), 'effect_id' => $sql->getValue('effect_id'), 'func' => 'edit']]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$file]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$effparams[str_replace($effParamKey . '_', '', $name)]]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
   </file>
   <file src="src/MetaInfo/Form/Field/RestrictionField.php">
     <PossiblyNullOperand>
