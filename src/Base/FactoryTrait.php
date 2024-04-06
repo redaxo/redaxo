@@ -34,19 +34,19 @@ trait FactoryTrait
     /**
      * Sets the class for the factory.
      *
-     * @param class-string<static> $subclass Classname
-     * @psalm-param class-string<self> $subclass https://github.com/vimeo/psalm/issues/5535
+     * @psalm-param class-string<self> $subClass https://github.com/vimeo/psalm/issues/5535
+     * @phpstan-param class-string<static> $subClass
      *
      * @throws InvalidArgumentException
      */
-    public static function setFactoryClass(string $subclass): void
+    public static function setFactoryClass(string $subClass): void
     {
         $calledClass = static::class;
-        if ($subclass != $calledClass && !is_subclass_of($subclass, $calledClass)) {
-            throw new InvalidArgumentException('$class "' . $subclass . '" is expected to define a subclass of ' . $calledClass . '!');
+        if ($subClass !== $calledClass && !is_subclass_of($subClass, $calledClass)) {
+            throw new InvalidArgumentException('$subClass "' . $subClass . '" is expected to define a subclass of ' . $calledClass . '!');
         }
 
-        self::$factoryClasses[$calledClass] = $subclass; /** @phpstan-ignore-line */
+        self::$factoryClasses[$calledClass] = $subClass;
     }
 
     /**
@@ -54,10 +54,9 @@ trait FactoryTrait
      *
      * @return class-string<static>
      */
-    public static function getFactoryClass()
+    public static function getFactoryClass(): string
     {
-        $calledClass = static::class;
-        return self::$factoryClasses[$calledClass] ?? $calledClass;
+        return self::$factoryClasses[static::class] ?? static::class;
     }
 
     /**
@@ -67,18 +66,14 @@ trait FactoryTrait
      */
     public static function getExplicitFactoryClass(): ?string
     {
-        $calledClass = static::class;
-        return self::$factoryClasses[$calledClass] ?? null;
+        return self::$factoryClasses[static::class] ?? null;
     }
 
     /**
      * Returns if the class has a custom factory class.
-     *
-     * @return bool
      */
-    public static function hasFactoryClass()
+    public static function hasFactoryClass(): bool
     {
-        $calledClass = static::class;
-        return isset(self::$factoryClasses[$calledClass]) && self::$factoryClasses[$calledClass] != $calledClass;
+        return isset(self::$factoryClasses[static::class]);
     }
 }

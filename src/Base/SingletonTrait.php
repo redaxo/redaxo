@@ -13,6 +13,8 @@ trait SingletonTrait
      */
     private static array $instances = [];
 
+    private function __construct() {}
+
     /**
      * Returns the singleton instance.
      */
@@ -20,8 +22,10 @@ trait SingletonTrait
     {
         $class = static::class;
         if (!isset(self::$instances[$class])) {
+            /** @psalm-suppress PropertyTypeCoercion */
             self::$instances[$class] = new static();
         }
+
         return self::$instances[$class];
     }
 

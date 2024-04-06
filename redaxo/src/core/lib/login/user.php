@@ -41,7 +41,7 @@ class rex_user
 
     public static function get(int $id): ?self
     {
-        return static::getInstance($id, static function (int $id) {
+        return static::getInstance($id, static function () use ($id) {
             $sql = Sql::factory()->setQuery('SELECT * FROM ' . Core::getTable('user') . ' WHERE id = ?', [$id]);
 
             if ($sql->getRows()) {
@@ -246,11 +246,8 @@ class rex_user
 
     /**
      * Removes the instance of the given key.
-     *
-     * @param mixed $key Key
-     * @return void
      */
-    public static function clearInstance($key)
+    public static function clearInstance(int|string $key): void
     {
         $user = static::getInstance($key);
 

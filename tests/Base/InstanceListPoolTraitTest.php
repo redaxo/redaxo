@@ -44,29 +44,24 @@ final class InstanceListPoolTraitTest extends TestCase
             TestInstanceListPool::get(1),
             TestInstanceListPool::get(2),
         ];
-        self::assertEquals($expected, TestInstanceListPool::getInstanceList(2, TestInstanceListPool::get(...), function ($id) {
-            $this->assertEquals(2, $id);
+        self::assertEquals($expected, TestInstanceListPool::getInstanceList(2, TestInstanceListPool::get(...), static function () {
             return [1, 2];
         }), 'getInstance returns array of instances');
 
-        TestInstanceListPool::getInstanceList(2, TestInstanceListPool::get(...), function (): array {
-            $this->fail('getInstanceList does not call $createListCallback if list alreays exists');
+        TestInstanceListPool::getInstanceList(2, TestInstanceListPool::get(...), static function (): array {
+            self::fail('getInstanceList does not call $createListCallback if list alreays exists');
         });
 
-        TestInstanceListPool::getInstanceList([3, 'test'], TestInstanceListPool::get(...), function ($key1, $key2): array {
-            $this->assertEquals(3, $key1, 'getInstanceList passes key array as arguments to callback');
-            $this->assertEquals('test', $key2, 'getInstanceList passes key array as arguments to callback');
-
-            return [];
-        });
-
+        /** @psalm-suppress InvalidArgument */
         TestInstanceListPool::getInstanceList(
             4,
-            function ($key1, $key2) {
-                $this->assertEquals(3, $key1, 'getInstanceList passes instance key array as arguments to callback');
-                $this->assertEquals('test', $key2, 'getInstanceList passes instance key array as arguments to callback');
+            static function (array $keys): ?object {
+                self::assertEquals(3, $keys[0], 'getInstanceList passes instance key array as arguments to callback');
+                self::assertEquals('test', $keys[1], 'getInstanceList passes instance key array as arguments to callback');
+
+                return null;
             },
-            static function () {
+            static function (): array {
                 return [[3, 'test']];
             },
         );

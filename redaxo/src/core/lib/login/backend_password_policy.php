@@ -37,7 +37,7 @@ class rex_backend_password_policy extends rex_password_policy
      */
     private $blockAccountAfter;
 
-    private function __construct()
+    final private function __construct()
     {
         /** @var array{no_reuse_of_last?: int, no_reuse_within?: string, force_renew_after?: string, block_account_after?: string} $options */
         $options = Core::getProperty('password_policy', []);
@@ -60,13 +60,10 @@ class rex_backend_password_policy extends rex_password_policy
         }
 
         /** @psalm-suppress InvalidArgument */
-        parent::__construct($options);
+        parent::__construct($options); // @phpstan-ignore-line
     }
 
-    /**
-     * @return static
-     */
-    public static function factory()
+    public static function factory(): static
     {
         $class = static::getFactoryClass();
 

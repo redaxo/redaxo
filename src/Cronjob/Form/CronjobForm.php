@@ -18,13 +18,10 @@ class CronjobForm extends Form
 
     /**
      * @param non-empty-string $tableName
-     * @param string $fieldset
-     * @param string $whereCondition
      * @param 'post'|'get' $method
-     * @param bool $debug
      * @param positive-int $db DB connection ID
      */
-    public function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
+    public function __construct(string $tableName, string $fieldset, string $whereCondition, string $method = 'post', bool $debug = false, int $db = 1)
     {
         parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug, $db);
         $this->mainFieldset = $fieldset;

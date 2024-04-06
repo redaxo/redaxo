@@ -66,10 +66,7 @@ class rex_navigation
         self::$factoryCall = false;
     }
 
-    /**
-     * @return static
-     */
-    public static function factory()
+    public static function factory(): static
     {
         $class = self::getFactoryClass();
         self::$factoryCall = true;
