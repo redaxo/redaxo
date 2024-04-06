@@ -15,20 +15,6 @@ permissions:
     contents: read
 
 jobs:
-    command-url:
-        name: Add action run link to trigger comment
-        runs-on: ubuntu-latest
-        if: github.event_name == 'repository_dispatch'
-
-        steps:
-            -   name: Add action run link to trigger comment
-                uses: peter-evans/create-or-update-comment@v4
-                with:
-                    token: ${{ secrets.BOT_TOKEN }}
-                    repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
-                    comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
-                    body: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
     psalm-analysis:
         name: psalm static code analysis
         runs-on: ubuntu-latest
@@ -38,6 +24,19 @@ jobs:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
         steps:
+            -   &comment-action-link
+                name: Add action run link to trigger comment
+                uses: peter-evans/create-or-update-comment@v4
+                if: github.event_name == 'repository_dispatch'
+                with:
+                    token: ${{ secrets.BOT_TOKEN }}
+                    repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+                    comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+                    edit-mode: replace
+                    body: |
+                        ${{ github.event.client_payload.github.payload.comment.body }}
+                        https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
             -   name: Checkout
                 uses: actions/checkout@v4
                 if: env.writable == 1 && github.event_name != 'repository_dispatch'
@@ -99,6 +98,8 @@ jobs:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
         steps:
+            -   *comment-action-link
+
             -   name: Checkout
                 uses: actions/checkout@v4
                 if: env.writable == 1 && github.event_name != 'repository_dispatch'
@@ -160,6 +161,8 @@ jobs:
             contents: write  # for Git to git apply
 
         steps:
+            -   *comment-action-link
+
             -   name: Checkout fork
                 uses: actions/checkout@v4
                 if: github.event_name != 'repository_dispatch'
@@ -210,7 +213,7 @@ jobs:
                 uses: stefanzweifel/git-auto-commit-action@v5
                 if: failure() && steps.baseline.conclusion != 'skipped' && env.writable == 1
                 with:
-                    commit_message: Update psalm taint baseline
+                    commit_message: Update phpstan baseline
                     commit_user_name: rex-bot
                     commit_user_email: rex-bot@users.noreply.github.com
                     file_pattern: .tools/phpstan/baseline.neon
