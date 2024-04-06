@@ -11,11 +11,6 @@ parameters:
 			path: ../../redaxo/src/addons/cronjob/lib/form.php
 
 		-
-			message: "#^Method rex_cronjob_form\\:\\:addIntervalField\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/form.php
-
-		-
 			message: "#^Method rex_cronjob_form_interval_element\\:\\:getIntervalElements\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/cronjob/lib/form.php
@@ -2094,4 +2089,3 @@ parameters:
 			message: "#^Method rex_var_test\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/var/var_test.php
-
