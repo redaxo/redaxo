@@ -15,8 +15,7 @@ permissions:
     contents: read
 
 jobs:
-    psalm-analysis:
-        name: psalm static code analysis
+    psalm:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         if: github.event_name != 'repository_dispatch' || github.event.client_payload.slash_command.args.unnamed.all == '' || contains(github.event.client_payload.slash_command.args.unnamed.all, 'psalm')
@@ -86,8 +85,7 @@ jobs:
                     commit_user_email: rex-bot@users.noreply.github.com
                     file_pattern: .tools/psalm/baseline.xml
 
-    psalm-taint-analysis:
-        name: psalm taint analysis
+    psalm-taint:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         if: github.event.pull_request.draft == false && (github.event_name != 'repository_dispatch' || github.event.client_payload.slash_command.args.unnamed.all == '' || contains(github.event.client_payload.slash_command.args.unnamed.all, 'taint'))
@@ -157,8 +155,7 @@ jobs:
                     commit_user_email: rex-bot@users.noreply.github.com
                     file_pattern: .tools/psalm/baseline-taint.xml
 
-    phpstan-analysis:
-        name: phpstan static code analysis
+    phpstan:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         if: github.event_name != 'repository_dispatch' || github.event.client_payload.slash_command.args.unnamed.all == '' || contains(github.event.client_payload.slash_command.args.unnamed.all, 'phpstan')
