@@ -75,7 +75,7 @@ jobs:
 
             -   name: Git pull
                 if: failure() && steps.baseline.conclusion != 'skipped' && github.event_name == 'repository_dispatch'
-                run: git pull --rebase --autostash
+                run: git pull --ff-only --no-tags --depth=1
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v5
@@ -145,7 +145,7 @@ jobs:
                     git diff --exit-code .tools/psalm/baseline-taint.xml || (echo "::error file=.tools/psalm/baseline-taint.xml,line=1,col=1::Psalm taint baseline file is outdated and must be regenerated via \`composer taint-baseline\`." && exit 1)
 
             -   name: Git pull
-                #if: failure() && steps.baseline.conclusion != 'skipped' && github.event_name == 'repository_dispatch'
+                if: failure() && steps.baseline.conclusion != 'skipped' && github.event_name == 'repository_dispatch'
                 run: git pull --ff-only --no-tags --depth=1
 
             -   name: Commit changed files
