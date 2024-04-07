@@ -359,6 +359,27 @@ final class Addon implements AddonInterface
         $this->propertiesLoaded = true;
     }
 
+    public function getLicense(): ?string
+    {
+        $license = trim((string) $this->getProperty('license', ''));
+
+        if ('' !== $license) {
+            return $license;
+        }
+
+        if (is_readable($licenseFile = $this->getPath('LICENSE')) || is_readable($licenseFile = $this->getPath('LICENSE.md'))) {
+            $f = fopen($licenseFile, 'r');
+            $license = trim(fgets($f) ?: '');
+            fclose($f);
+
+            if (preg_match('/^The MIT License(?: \(MIT\))$/i', $license)) {
+                return 'MIT License';
+            }
+        }
+
+        return $license ?: null;
+    }
+
     /**
      * Clears the cache of the addon.
      *

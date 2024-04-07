@@ -26,36 +26,32 @@ $csrf = rex_csrf_token::factory('mediapool_structure');
 if ($PERMALL) {
     $editId = rex_request('edit_id', 'int');
 
-    try {
-        if (in_array($mediaMethod, ['edit_file_cat', 'delete_file_cat', 'add_file_cat'])) {
-            if (!$csrf->isValid()) {
-                $error = I18n::msg('csrf_token_invalid');
-            } else {
-                if ('edit_file_cat' == $mediaMethod) {
-                    $catName = rex_request('cat_name', 'string');
-                    $data = ['name' => $catName];
-                    $success = MediaCategoryHandler::editCategory($editId, $data);
-                } elseif ('delete_file_cat' == $mediaMethod) {
-                    try {
-                        $success = MediaCategoryHandler::deleteCategory($editId);
-                    } catch (rex_functional_exception $e) {
-                        $error = $e->getMessage();
-                    }
-                } elseif ('add_file_cat' == $mediaMethod) {
-                    $parent = null;
-                    $parentId = rex_request('cat_id', 'int');
-                    if ($parentId) {
-                        $parent = MediaCategory::get($parentId);
-                    }
-                    $success = MediaCategoryHandler::addCategory(
-                        rex_request('catname', 'string'),
-                        $parent,
-                    );
+    if (in_array($mediaMethod, ['edit_file_cat', 'delete_file_cat', 'add_file_cat'])) {
+        if (!$csrf->isValid()) {
+            $error = I18n::msg('csrf_token_invalid');
+        } else {
+            if ('edit_file_cat' == $mediaMethod) {
+                $catName = rex_request('cat_name', 'string');
+                $data = ['name' => $catName];
+                $success = MediaCategoryHandler::editCategory($editId, $data);
+            } elseif ('delete_file_cat' == $mediaMethod) {
+                try {
+                    $success = MediaCategoryHandler::deleteCategory($editId);
+                } catch (rex_functional_exception $e) {
+                    $error = $e->getMessage();
                 }
+            } elseif ('add_file_cat' == $mediaMethod) {
+                $parent = null;
+                $parentId = rex_request('cat_id', 'int');
+                if ($parentId) {
+                    $parent = MediaCategory::get($parentId);
+                }
+                $success = MediaCategoryHandler::addCategory(
+                    rex_request('catname', 'string'),
+                    $parent,
+                );
             }
         }
-    } catch (rex_sql_exception $e) {
-        $error = $e->getMessage();
     }
 
     $link = Url::currentBackendPage(array_merge($argUrl, ['cat_id' => '']));
