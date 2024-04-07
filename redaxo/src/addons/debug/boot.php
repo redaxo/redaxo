@@ -153,7 +153,7 @@ if ('cli' === PHP_SAPI) {
 } else {
     register_shutdown_function(static function () use ($shutdownFn) {
         // don't track preflight requests
-        if ('/__clockwork/latest' === $_SERVER['REQUEST_URI']) {
+        if (in_array($_SERVER['REQUEST_URI'], ['/__clockwork/latest', '/assets/addons/debug/clockwork/manifest.json'], true)) {
             return;
         }
 

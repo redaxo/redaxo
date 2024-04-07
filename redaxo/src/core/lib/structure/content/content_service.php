@@ -43,19 +43,15 @@ class rex_content_service
         $sql->addGlobalCreateFields();
         $sql->addGlobalUpdateFields();
 
-        try {
-            $sql->insert();
-            $sliceId = $sql->getLastId();
+        $sql->insert();
+        $sliceId = $sql->getLastId();
 
-            Util::organizePriorities(
-                Core::getTable('article_slice'),
-                'priority',
-                $where,
-                'priority, updatedate DESC',
-            );
-        } catch (rex_sql_exception $e) {
-            throw new rex_api_exception($e->getMessage(), $e);
-        }
+        Util::organizePriorities(
+            Core::getTable('article_slice'),
+            'priority',
+            $where,
+            'priority, updatedate DESC',
+        );
 
         ArticleCache::delete($articleId, $clangId);
 

@@ -91,13 +91,9 @@ class ArticleHandler
             $AART->addGlobalCreateFields($user);
             $AART->addGlobalUpdateFields($user);
 
-            try {
-                $AART->insert();
-                // ----- PRIOR
-                self::newArtPrio($data['category_id'], $key, 0, $data['priority']);
-            } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e->getMessage(), $e);
-            }
+            $AART->insert();
+            // ----- PRIOR
+            self::newArtPrio($data['category_id'], $key, 0, $data['priority']);
 
             ArticleCache::delete($id, $key);
 
@@ -173,45 +169,41 @@ class ArticleHandler
         $EA->setValue('priority', $data['priority']);
         $EA->addGlobalUpdateFields(self::getUser());
 
-        try {
-            $EA->update();
-            $message = I18n::msg('article_updated');
+        $EA->update();
+        $message = I18n::msg('article_updated');
 
-            // ----- PRIOR
-            $oldPrio = (int) $thisArt->getValue('priority');
+        // ----- PRIOR
+        $oldPrio = (int) $thisArt->getValue('priority');
 
-            if ($oldPrio != $data['priority']) {
-                Sql::factory()
-                    ->setTable(Core::getTable('article'))
-                    ->setWhere('id = :id AND clang_id != :clang', ['id' => $articleId, 'clang' => $clang])
-                    ->setValue('priority', $data['priority'])
-                    ->addGlobalUpdateFields(self::getUser())
-                    ->update();
+        if ($oldPrio != $data['priority']) {
+            Sql::factory()
+                ->setTable(Core::getTable('article'))
+                ->setWhere('id = :id AND clang_id != :clang', ['id' => $articleId, 'clang' => $clang])
+                ->setValue('priority', $data['priority'])
+                ->addGlobalUpdateFields(self::getUser())
+                ->update();
 
-                foreach (rex_clang::getAllIds() as $clangId) {
-                    self::newArtPrio($data['category_id'], $clangId, $data['priority'], $oldPrio);
-                }
+            foreach (rex_clang::getAllIds() as $clangId) {
+                self::newArtPrio($data['category_id'], $clangId, $data['priority'], $oldPrio);
             }
-
-            ArticleCache::delete($articleId);
-
-            // ----- EXTENSION POINT
-            $message = rex_extension::registerPoint(new rex_extension_point('ART_UPDATED', $message, [
-                'id' => $articleId,
-                'article' => clone $EA,
-                'article_old' => clone $thisArt,
-                'status' => $thisArt->getValue('status'),
-                'name' => $data['name'],
-                'clang' => $clang,
-                'parent_id' => $data['category_id'],
-                'priority' => $data['priority'],
-                'path' => $data['path'],
-                'template_id' => $data['template_id'],
-                'data' => $data,
-            ]));
-        } catch (rex_sql_exception $e) {
-            throw new rex_api_exception($e->getMessage(), $e);
         }
+
+        ArticleCache::delete($articleId);
+
+        // ----- EXTENSION POINT
+        $message = rex_extension::registerPoint(new rex_extension_point('ART_UPDATED', $message, [
+            'id' => $articleId,
+            'article' => clone $EA,
+            'article_old' => clone $thisArt,
+            'status' => $thisArt->getValue('status'),
+            'name' => $data['name'],
+            'clang' => $clang,
+            'parent_id' => $data['category_id'],
+            'priority' => $data['priority'],
+            'path' => $data['path'],
+            'template_id' => $data['template_id'],
+            'data' => $data,
+        ]));
 
         return $message;
     }
@@ -360,20 +352,16 @@ class ArticleHandler
             $EA->setValue('status', $newstatus);
             $EA->addGlobalUpdateFields(self::getUser());
 
-            try {
-                $EA->update();
+            $EA->update();
 
-                ArticleCache::delete($articleId, $clang);
+            ArticleCache::delete($articleId, $clang);
 
-                // ----- EXTENSION POINT
-                rex_extension::registerPoint(new rex_extension_point('ART_STATUS', null, [
-                    'id' => $articleId,
-                    'clang' => $clang,
-                    'status' => $newstatus,
-                ]));
-            } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e->getMessage(), $e);
-            }
+            // ----- EXTENSION POINT
+            rex_extension::registerPoint(new rex_extension_point('ART_STATUS', null, [
+                'id' => $articleId,
+                'clang' => $clang,
+                'status' => $newstatus,
+            ]));
         } else {
             throw new rex_api_exception(I18n::msg('no_such_category'));
         }
