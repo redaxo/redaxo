@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.17.1 – 07.04.2024
+---------------------------
+
+### Bugfixes
+
+* Modulverwaltung: "Eingabe"-Feld wurde ohne Codemirror angezeigt (@skerbis)
+
+
 Version 2.17.0 – 12.03.2024
 ---------------------------
 
