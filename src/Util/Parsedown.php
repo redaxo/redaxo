@@ -11,20 +11,16 @@ use const E_DEPRECATED;
  */
 final class Parsedown extends ParsedownExtra
 {
-    /** @var bool */
-    public $highlightPhp = false;
+    public bool $highlightPhp = false;
+    public bool $generateToc = false;
+    public int $topLevel = 2;
+    public int $bottomLevel = 3;
 
-    /** @var bool */
-    public $generateToc = false;
-    /** @var int */
-    public $topLevel = 2;
-    /** @var int */
-    public $bottomLevel = 3;
     /** @var list<array{level: int, id: string, text: string}> */
-    public $headers = [];
+    public array $headers = [];
 
     /** @var array<string, true> */
-    private $ids = [];
+    private array $ids = [];
 
     /**
      * @return string
@@ -110,10 +106,7 @@ final class Parsedown extends ParsedownExtra
         return $Block;
     }
 
-    /**
-     * @return array|null
-     */
-    private function handleHeader(?array $block = null)
+    private function handleHeader(?array $block = null): ?array
     {
         if (!$this->generateToc) {
             return $block;

@@ -19,39 +19,38 @@ use function is_resource;
 
 use const FORCE_GZIP;
 
-class Response
+final class Response
 {
-    public const HTTP_OK = '200 OK';
-    public const HTTP_PARTIAL_CONTENT = '206 Partial Content';
-    public const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
-    public const HTTP_NOT_MODIFIED = '304 Not Modified';
-    public const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
-    public const HTTP_BAD_REQUEST = '400 Bad Request';
-    public const HTTP_NOT_FOUND = '404 Not Found';
-    public const HTTP_FORBIDDEN = '403 Forbidden';
-    public const HTTP_UNAUTHORIZED = '401 Unauthorized';
-    public const HTTP_RANGE_NOT_SATISFIABLE = '416 Range Not Satisfiable';
-    public const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
-    public const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
+    public const string HTTP_OK = '200 OK';
+    public const string HTTP_PARTIAL_CONTENT = '206 Partial Content';
+    public const string HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
+    public const string HTTP_NOT_MODIFIED = '304 Not Modified';
+    public const string HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
+    public const string HTTP_BAD_REQUEST = '400 Bad Request';
+    public const string HTTP_NOT_FOUND = '404 Not Found';
+    public const string HTTP_FORBIDDEN = '403 Forbidden';
+    public const string HTTP_UNAUTHORIZED = '401 Unauthorized';
+    public const string HTTP_RANGE_NOT_SATISFIABLE = '416 Range Not Satisfiable';
+    public const string HTTP_INTERNAL_ERROR = '500 Internal Server Error';
+    public const string HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
 
     private static string $httpStatus = self::HTTP_OK;
     private static bool $sentLastModified = false;
     private static bool $sentEtag = false;
     private static bool $sentContentType = false;
     private static bool $sentCacheControl = false;
+    /** @var array<string, string> */
     private static array $additionalHeaders = [];
+    /** @var list<array{file: string, type: string, mimeType: string}> */
     private static array $preloadFiles = [];
     private static string $nonce = '';
 
     /**
      * Sets the HTTP Status code.
      *
-     * @param string $httpStatus
-     *
      * @throws InvalidArgumentException
-     * @return void
      */
-    public static function setStatus($httpStatus)
+    public static function setStatus(string $httpStatus): void
     {
         if (str_contains($httpStatus, "\n")) {
             throw new InvalidArgumentException('Illegal http-status "' . $httpStatus . '", contains newlines');
@@ -62,10 +61,8 @@ class Response
 
     /**
      * Returns the HTTP Status code.
-     *
-     * @return string
      */
-    public static function getStatus()
+    public static function getStatus(): string
     {
         return self::$httpStatus;
     }
@@ -83,20 +80,13 @@ class Response
 
     /**
      * Set a http response header. A existing header with the same name will be overridden.
-     *
-     * @param string $name
-     * @param string $value
-     * @return void
      */
-    public static function setHeader($name, $value)
+    public static function setHeader(string $name, string $value): void
     {
         self::$additionalHeaders[$name] = $value;
     }
 
-    /**
-     * @return void
-     */
-    private static function sendAdditionalHeaders()
+    private static function sendAdditionalHeaders(): void
     {
         foreach (self::$additionalHeaders as $name => $value) {
             header($name . ': ' . $value);
@@ -105,13 +95,8 @@ class Response
 
     /**
      * Set a file to be preload via http link header.
-     *
-     * @param string $file
-     * @param string $type
-     * @param string $mimeType
-     * @return void
      */
-    public static function preload($file, $type, $mimeType)
+    public static function preload(string $file, string $type, string $mimeType): void
     {
         self::$preloadFiles[] = [
             'file' => $file,
@@ -120,10 +105,7 @@ class Response
         ];
     }
 
-    /**
-     * @return void
-     */
-    private static function sendPreloadHeaders()
+    private static function sendPreloadHeaders(): void
     {
         foreach (self::$preloadFiles as $preloadFile) {
             header('Link: <' . $preloadFile['file'] . '>; rel=preload; as=' . $preloadFile['type'] . '; type="' . $preloadFile['mimeType'] . '"; crossorigin; nopush', false);
@@ -135,14 +117,10 @@ class Response
      *
      * NOTE: Execution will stop within this method!
      *
-     * @param string $url URL
      * @param self::HTTP_MOVED_PERMANENTLY|self::HTTP_MOVED_TEMPORARILY|null $httpStatus
-     *
      * @throws InvalidArgumentException
-     *
-     * @return never
      */
-    public static function sendRedirect($url, $httpStatus = null)
+    public static function sendRedirect(string $url, ?string $httpStatus = null): never
     {
         if (str_contains($url, "\n")) {
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
@@ -168,9 +146,8 @@ class Response
      * @param string $contentType Content type
      * @param string $contentDisposition Content disposition ("inline" or "attachment")
      * @param string|null $filename Custom Filename
-     * @return void|never
      */
-    public static function sendFile($file, $contentType, $contentDisposition = 'inline', $filename = null)
+    public static function sendFile(string $file, string $contentType, string $contentDisposition = 'inline', ?string $filename = null): void
     {
         self::cleanOutputBuffers();
 
@@ -250,15 +227,11 @@ class Response
     /**
      * Sends a resource to the client.
      *
-     * @param string $content Content
-     * @param string|null $contentType Content type
      * @param int|null $lastModified HTTP Last-Modified Timestamp
      * @param string|null $etag HTTP Cachekey to identify the cache
      * @param string|null $contentDisposition Content disposition ("inline" or "attachment")
-     * @param string|null $filename Filename
-     * @return void
      */
-    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null)
+    public static function sendResource(string $content, ?string $contentType = null, ?int $lastModified = null, ?string $etag = null, ?string $contentDisposition = null, ?string $filename = null): void
     {
         if ($contentDisposition) {
             header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
@@ -275,11 +248,9 @@ class Response
      *
      * The page content can be modified by the Extension Point OUTPUT_FILTER
      *
-     * @param string $content Content of page
-     * @param int $lastModified HTTP Last-Modified Timestamp
-     * @return void
+     * @param int|null $lastModified HTTP Last-Modified Timestamp
      */
-    public static function sendPage($content, $lastModified = null)
+    public static function sendPage(string $content, ?int $lastModified = null): void
     {
         // ----- EXTENSION POINT
         $content = Extension::registerPoint(new ExtensionPoint('OUTPUT_FILTER', $content));
@@ -303,13 +274,10 @@ class Response
     /**
      * Sends content to the client.
      *
-     * @param string $content Content
-     * @param string|null $contentType Content type
      * @param int|null $lastModified HTTP Last-Modified Timestamp
      * @param string|null $etag HTTP Cachekey to identify the cache
-     * @return void
      */
-    public static function sendContent($content, $contentType = null, $lastModified = null, $etag = null)
+    public static function sendContent(string $content, ?string $contentType = null, ?int $lastModified = null, ?string $etag = null): void
     {
         if (!self::$sentContentType) {
             self::sendContentType($contentType);
@@ -363,16 +331,15 @@ class Response
      * @param int|null $lastModified HTTP Last-Modified Timestamp
      * @param string|null $etag HTTP Cachekey to identify the cache
      */
-    public static function sendJson($data, ?int $lastModified = null, ?string $etag = null): void
+    public static function sendJson(mixed $data, ?int $lastModified = null, ?string $etag = null): void
     {
         self::sendContent(json_encode($data), 'application/json', $lastModified, $etag);
     }
 
     /**
      * Cleans all output buffers.
-     * @return void
      */
-    public static function cleanOutputBuffers()
+    public static function cleanOutputBuffers(): void
     {
         while (ob_get_level()) {
             ob_end_clean();
@@ -381,11 +348,8 @@ class Response
 
     /**
      * Sends the content type header.
-     *
-     * @param string $contentType
-     * @return void
      */
-    public static function sendContentType($contentType = null)
+    public static function sendContentType(?string $contentType = null): void
     {
         header('Content-Type: ' . ($contentType ?: 'text/html; charset=utf-8'));
         self::$sentContentType = true;
@@ -393,10 +357,8 @@ class Response
 
     /**
      * Sends the cache control header.
-     * @param string $cacheControl
-     * @return void
      */
-    public static function sendCacheControl($cacheControl = 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0')
+    public static function sendCacheControl(string $cacheControl = 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0'): void
     {
         header('Cache-Control: ' . $cacheControl);
         self::$sentCacheControl = true;
@@ -408,15 +370,14 @@ class Response
      * HTTP_IF_MODIFIED_SINCE feature
      *
      * @param int|null $lastModified HTTP Last-Modified Timestamp
-     * @return void|never
      */
-    public static function sendLastModified($lastModified = null)
+    public static function sendLastModified(?int $lastModified = null): void
     {
         if (!$lastModified) {
             $lastModified = time();
         }
 
-        $lastModified = gmdate('D, d M Y H:i:s T', (int) $lastModified);
+        $lastModified = gmdate('D, d M Y H:i:s T', $lastModified);
 
         // Sende Last-Modification time
         header('Last-Modified: ' . $lastModified);
@@ -438,9 +399,8 @@ class Response
      * HTTP_IF_NONE_MATCH feature
      *
      * @param string $cacheKey HTTP Cachekey to identify the cache
-     * @return void|never
      */
-    public static function sendEtag($cacheKey)
+    public static function sendEtag(string $cacheKey): void
     {
         // Laut HTTP Spec muss der Etag in " sein
         $cacheKey = '"' . $cacheKey . '"';
@@ -463,12 +423,8 @@ class Response
      * Encodes the content with GZIP/X-GZIP if the browser supports one of them.
      *
      * HTTP_ACCEPT_ENCODING feature
-     *
-     * @param string $content Content
-     *
-     * @return string
      */
-    protected static function sendGzip($content)
+    protected static function sendGzip(string $content): string
     {
         $enc = '';
         $encodings = [];
@@ -510,9 +466,8 @@ class Response
      *                             "raw" bool                             Whether the cookie value should be sent with no url encoding
      *
      * @throws InvalidArgumentException
-     * @return void
      */
-    public static function sendCookie($name, $value, array $options = [])
+    public static function sendCookie(string $name, ?string $value, array $options = []): void
     {
         $expire = $options['expires'] ?? 0;
         $path = $options['path'] ?? '/';
@@ -605,20 +560,13 @@ class Response
      * Creates the md5 checksum for the content.
      *
      * Dynamic content surrounded by `<!--DYN-->…<!--/DYN-->` is ignored.
-     *
-     * @param string $content
-     *
-     * @return string
      */
-    private static function md5($content)
+    private static function md5(string $content): string
     {
         return md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@U', '', $content));
     }
 
-    /**
-     * @return void
-     */
-    public static function enforceHttps()
+    public static function enforceHttps(): void
     {
         if (!Request::isHttps()) {
             self::setStatus(self::HTTP_MOVED_PERMANENTLY);

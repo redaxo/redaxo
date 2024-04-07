@@ -2,6 +2,8 @@
 
 namespace Redaxo\Core\Http;
 
+use BackedEnum;
+use Closure;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Type;
 use rex_exception;
@@ -15,94 +17,88 @@ use const PHP_SESSION_ACTIVE;
 
 /**
  * Class for getting the superglobals.
+ *
+ * @psalm-import-type TCastType from Type
  */
-class Request
+final class Request
 {
+    private function __construct() {}
+
     /**
      * Returns the variable $varname of $_GET and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed $vartype Variable type
+     * @param TCastType $type Cast type
      * @param mixed $default Default value
      *
-     * @return mixed
-     *
-     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
+     * @psalm-taint-escape ($type is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
-    public static function get($varname, $vartype = '', $default = '')
+    public static function get(string $varname, string|array|Closure|null $type = null, mixed $default = ''): mixed
     {
-        return self::arrayKeyCast($_GET, $varname, $vartype, $default);
+        return self::arrayKeyCast($_GET, $varname, $type, $default);
     }
 
     /**
      * Returns the variable $varname of $_POST and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed $vartype Variable type
+     * @param TCastType $type Cast type
      * @param mixed $default Default value
      *
-     * @return mixed
-     *
-     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
+     * @psalm-taint-escape ($type is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
-    public static function post($varname, $vartype = '', $default = '')
+    public static function post(string $varname, string|array|Closure|null $type = null, mixed $default = ''): mixed
     {
-        return self::arrayKeyCast($_POST, $varname, $vartype, $default);
+        return self::arrayKeyCast($_POST, $varname, $type, $default);
     }
 
     /**
      * Returns the variable $varname of $_REQUEST and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed $vartype Variable type
+     * @param TCastType $type Cast type
      * @param mixed $default Default value
      *
-     * @return mixed
-     *
-     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
+     * @psalm-taint-escape ($type is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
-    public static function request($varname, $vartype = '', $default = '')
+    public static function request(string $varname, string|array|Closure|null $type = null, mixed $default = ''): mixed
     {
-        return self::arrayKeyCast($_REQUEST, $varname, $vartype, $default);
+        return self::arrayKeyCast($_REQUEST, $varname, $type, $default);
     }
 
     /**
      * Returns the variable $varname of $_SERVER and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed $vartype Variable type
+     * @param TCastType $type Cast type
      * @param mixed $default Default value
-     *
-     * @return mixed
      */
-    public static function server($varname, $vartype = '', $default = '')
+    public static function server(string $varname, string|array|Closure|null $type = null, mixed $default = ''): mixed
     {
-        return self::arrayKeyCast($_SERVER, $varname, $vartype, $default);
+        return self::arrayKeyCast($_SERVER, $varname, $type, $default);
     }
 
     /**
      * Returns the variable $varname of $_SESSION and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed $vartype Variable type
+     * @param TCastType $type Cast type
      * @param mixed $default Default value
      *
      * @throws rex_exception
-     *
-     * @return mixed
      */
-    public static function session($varname, $vartype = '', $default = '')
+    public static function session(string $varname, string|array|Closure|null $type = null, mixed $default = ''): mixed
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
             throw new rex_exception('Session not started, call Login::startSession() before!');
         }
 
         if (isset($_SESSION[self::getSessionNamespace()][$varname])) {
-            return Type::cast($_SESSION[self::getSessionNamespace()][$varname], $vartype);
+            return Type::cast($_SESSION[self::getSessionNamespace()][$varname], $type);
         }
 
         if ('' === $default) {
-            return Type::cast($default, $vartype);
+            return Type::cast($default, $type);
         }
         return $default;
     }
@@ -114,9 +110,8 @@ class Request
      * @param mixed $value Value
      *
      * @throws rex_exception
-     * @return void
      */
-    public static function setSession($varname, $value)
+    public static function setSession(string $varname, mixed $value): void
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
             throw new rex_exception('Session not started, call Login::startSession() before!');
@@ -131,9 +126,8 @@ class Request
      * @param string $varname Variable name
      *
      * @throws rex_exception
-     * @return void
      */
-    public static function unsetSession($varname)
+    public static function unsetSession(string $varname): void
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
             throw new rex_exception('Session not started, call Login::startSession() before!');
@@ -146,9 +140,8 @@ class Request
      * clear redaxo session contents within the current namespace (the session itself stays alive).
      *
      * @throws rex_exception
-     * @return void
      */
-    public static function clearSession()
+    public static function clearSession(): void
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
             throw new rex_exception('Session not started, call Login::startSession() before!');
@@ -161,68 +154,62 @@ class Request
      * Returns the variable $varname of $_COOKIE and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed $vartype Variable type
+     * @param TCastType $type Cast type
      * @param mixed $default Default value
      *
-     * @return mixed
-     *
-     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
+     * @psalm-taint-escape ($type is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
-    public static function cookie($varname, $vartype = '', $default = '')
+    public static function cookie(string $varname, string|array|Closure|null $type = null, mixed $default = ''): mixed
     {
-        return self::arrayKeyCast($_COOKIE, $varname, $vartype, $default);
+        return self::arrayKeyCast($_COOKIE, $varname, $type, $default);
     }
 
     /**
      * Returns the variable $varname of $_FILES and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed $vartype Variable type
+     * @param TCastType $type Cast type
      * @param mixed $default Default value
-     *
-     * @return mixed
      */
-    public static function files($varname, $vartype = '', $default = '')
+    public static function files(string $varname, string|array|Closure|null $type = null, mixed $default = ''): mixed
     {
-        return self::arrayKeyCast($_FILES, $varname, $vartype, $default);
+        return self::arrayKeyCast($_FILES, $varname, $type, $default);
     }
 
     /**
      * Returns the variable $varname of $_ENV and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed $vartype Variable type
+     * @param TCastType $type Cast type
      * @param mixed $default Default value
-     *
-     * @return mixed
      */
-    public static function env($varname, $vartype = '', $default = '')
+    public static function env(string $varname, string|array|Closure|null $type = null, mixed $default = ''): mixed
     {
-        return self::arrayKeyCast($_ENV, $varname, $vartype, $default);
+        return self::arrayKeyCast($_ENV, $varname, $type, $default);
     }
 
     /**
      * Searches the value $needle in array $haystack and returns the casted value.
      *
-     * @param array $haystack Array
+     * @param array<mixed> $haystack Array
      * @param string $needle Value to search
-     * @param mixed $vartype Variable type
+     * @param TCastType $type Cast type
      * @param mixed $default Default value
      *
      * @psalm-taint-specialize
      */
-    private static function arrayKeyCast(array $haystack, string $needle, $vartype, mixed $default = ''): mixed
+    private static function arrayKeyCast(array $haystack, string $needle, string|array|Closure|null $type, mixed $default = ''): mixed
     {
         if (array_key_exists($needle, $haystack)) {
-            if (is_array($vartype) && '' !== $default && is_scalar($vartype[0] ?? null) && $vartype[0] !== $default) {
-                array_unshift($vartype, $default);
+            if (is_array($type) && '' !== $default && is_scalar($type[0] ?? null) && $type[0] !== $default) {
+                array_unshift($type, $default);
             }
 
-            return Type::cast($haystack[$needle], $vartype);
+            return Type::cast($haystack[$needle], $type);
         }
 
         if ('' === $default) {
-            return Type::cast($default, $vartype);
+            return Type::cast($default, $type);
         }
         return $default;
     }
@@ -230,10 +217,9 @@ class Request
     /**
      * Returns the HTTP method of the current request.
      *
-     * @return string HTTP method in lowercase (head,get,post,put,delete)
-     * @psalm-return lowercase-string
+     * @return lowercase-string HTTP method in lowercase (head,get,post,put,delete)
      */
-    public static function requestMethod()
+    public static function requestMethod(): string
     {
         return strtolower(Core::getRequest()->getMethod());
     }
@@ -248,7 +234,7 @@ class Request
      *
      * @return bool true if the request is an XMLHttpRequest, false otherwise
      */
-    public static function isXmlHttpRequest()
+    public static function isXmlHttpRequest(): bool
     {
         return Core::getRequest()->isXmlHttpRequest();
     }
@@ -257,10 +243,8 @@ class Request
      * Returns true if the request is a PJAX-Request.
      *
      * @see http://pjax.heroku.com/
-     *
-     * @return bool
      */
-    public static function isPJAXRequest()
+    public static function isPJAXRequest(): bool
     {
         if ('cli' === PHP_SAPI) {
             return false;
@@ -271,12 +255,8 @@ class Request
 
     /**
      * Returns true when the current request is a PJAX-Request and the requested container matches the given $containerId.
-     *
-     * @param string $containerId
-     *
-     * @return bool
      */
-    public static function isPJAXContainer($containerId)
+    public static function isPJAXContainer(string $containerId): bool
     {
         if (!self::isPJAXRequest()) {
             return false;
@@ -290,7 +270,7 @@ class Request
      *
      * @return bool true when https/ssl, otherwise false
      */
-    public static function isHttps()
+    public static function isHttps(): bool
     {
         return Core::getRequest()->isSecure();
     }
@@ -298,9 +278,9 @@ class Request
     /**
      * Returns the session namespace for the current http request.
      *
-     * @return string
+     * @return non-empty-string
      */
-    public static function getSessionNamespace()
+    public static function getSessionNamespace(): string
     {
         // separate backend from frontend namespace,
         // so we can e.g. clear the backend session without

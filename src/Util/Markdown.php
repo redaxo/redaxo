@@ -12,8 +12,8 @@ class Markdown
 {
     use FactoryTrait;
 
-    public const SOFT_LINE_BREAKS = 'soft_line_breaks';
-    public const HIGHLIGHT_PHP = 'highlight_php';
+    public const string SOFT_LINE_BREAKS = 'soft_line_breaks';
+    public const string HIGHLIGHT_PHP = 'highlight_php';
 
     final private function __construct() {}
 
@@ -31,7 +31,7 @@ class Markdown
      *
      * @return string HTML code
      */
-    public function parse($code, $options = [])
+    public function parse(string $code, array $options = []): string
     {
         $parser = new Parsedown();
         $parser->setBreaksEnabled($options[self::SOFT_LINE_BREAKS] ?? true);
@@ -50,7 +50,7 @@ class Markdown
      *
      * @return list{string, string} tupel of table-of-content and content
      */
-    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, $options = [])
+    public function parseWithToc(string $code, int $topLevel = 2, int $bottomLevel = 3, array $options = []): array
     {
         $parser = new Parsedown();
         $parser->setBreaksEnabled($options[self::SOFT_LINE_BREAKS] ?? true);

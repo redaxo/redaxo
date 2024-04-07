@@ -3,6 +3,7 @@
 namespace Redaxo\Core\View;
 
 use InvalidArgumentException;
+use Override;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Base\UrlProviderInterface;
@@ -584,7 +585,7 @@ class DataList implements UrlProviderInterface
      * @param array $params Custom params für callback func bei format_type 'custom'
      * @return void
      */
-    public function setColumnFormat($columnName, $formatType, $format = '', array $params = [])
+    public function setColumnFormat($columnName, $formatType, $format = null, array $params = [])
     {
         $this->columnFormates[$columnName] = [$formatType, $format, $params];
     }
@@ -838,10 +839,8 @@ class DataList implements UrlProviderInterface
 
     // ---------------------- Url generation
 
-    /**
-     * @return string
-     */
-    public function getUrl(array $params = [])
+    #[Override]
+    public function getUrl(array $params = []): string
     {
         $params = array_merge($this->getParams(), $params);
 

@@ -131,11 +131,11 @@ class View
         $items = [];
         foreach (Language::getAll() as $id => $clang) {
             if (Core::requireUser()->getComplexPerm('clang')->hasPerm($id)) {
-                $icon = ($id == $context->getParam('clang')) ? '<i class="rex-icon rex-icon-language-active"></i> ' : '<i class="rex-icon rex-icon-language"></i> ';
+                $icon = $id === $context->getParam('clang') ? '<i class="rex-icon rex-icon-language-active"></i> ' : '<i class="rex-icon rex-icon-language"></i> ';
                 $item = [];
                 $item['href'] = $context->getUrl(['clang' => $id]);
                 $item['title'] = $icon . I18n::translate($clang->getName());
-                if ($id == $context->getParam('clang')) {
+                if ($id === $context->getParam('clang')) {
                     $item['active'] = true;
                 }
                 $items[] = $item;
@@ -173,7 +173,7 @@ class View
                 $item['url'] = $context->getUrl(['clang' => $id]);
                 $item['attributes']['class'][] = 'btn-clang';
                 $item['attributes']['title'] = I18n::translate($clang->getName());
-                if ($id == $context->getParam('clang')) {
+                if ($id === $context->getParam('clang')) {
                     $item['attributes']['class'][] = 'active';
                 }
                 $items[] = $item;
@@ -205,7 +205,7 @@ class View
                 $item = [];
                 $item['title'] = I18n::translate($clang->getName());
                 $item['href'] = $context->getUrl(['clang' => $id]);
-                if ($id == $context->getParam('clang')) {
+                if ($id === $context->getParam('clang')) {
                     $item['active'] = true;
                     $buttonLabel = I18n::translate($clang->getName());
                 }

@@ -115,6 +115,7 @@ class Version
         $comparator ??= '<';
 
         if (!in_array($comparator, ['=', '==', '!=', '<>', '<', '<=', '>', '>='], true)) {
+            /** @psalm-suppress NoValue */
             throw new InvalidArgumentException(sprintf('Unknown comparator "%s".', $comparator));
         }
 
@@ -147,7 +148,7 @@ class Version
             $command = 'git -C ' . escapeshellarg($path) . ' ls-remote --get-url';
             $remote = @exec($command, $output, $exitCode);
 
-            if (0 !== $exitCode || !preg_match('{github.com[:/]' . preg_quote($repo) . '\.git$}i', $remote)) {
+            if (0 !== $exitCode || !preg_match('{github.com[:/]' . preg_quote($repo) . '\.git$}i', Type::string($remote))) {
                 return null;
             }
         }
@@ -155,6 +156,6 @@ class Version
         $command = 'git -C ' . escapeshellarg($path) . ' log -1 --pretty=format:%h';
         $version = @exec($command, $output, $exitCode);
 
-        return 0 === $exitCode ? $version : null;
+        return 0 === $exitCode ? Type::string($version) : null;
     }
 }

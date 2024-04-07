@@ -8,16 +8,10 @@ use Redaxo\Core\Http\Request;
  * The Pager-class implements all the logic
  * which is necessary to implement some sort of pagination.
  */
-class Pager
+final class Pager
 {
-    /** @var int */
-    private $rowCount;
-    /** @var int */
-    private $rowsPerPage;
-    /** @var string */
-    private $cursorName;
-    /** @var int|null */
-    private $cursor;
+    private ?int $rowCount = null;
+    private ?int $cursor = null;
 
     /**
      * Constructs a rex_pager.
@@ -25,21 +19,17 @@ class Pager
      * @param int $rowsPerPage The number of rows which should be displayed on one page
      * @param string $cursorName The name of the parameter used for pagination
      */
-    public function __construct($rowsPerPage = 30, $cursorName = 'start')
-    {
-        $this->rowsPerPage = (int) $rowsPerPage;
-        $this->cursorName = $cursorName;
-    }
+    public function __construct(
+        private readonly int $rowsPerPage = 30,
+        private readonly string $cursorName = 'start',
+    ) {}
 
     /**
      * Sets the row count.
-     *
-     * @param int $rowCount
-     * @return void
      */
-    public function setRowCount($rowCount)
+    public function setRowCount(int $rowCount): void
     {
-        $this->rowCount = (int) $rowCount;
+        $this->rowCount = $rowCount;
     }
 
     /**
@@ -47,9 +37,9 @@ class Pager
      *
      * @return int The number of rows
      */
-    public function getRowCount()
+    public function getRowCount(): int
     {
-        return $this->rowCount;
+        return $this->rowCount ?? 0;
     }
 
     /**
@@ -58,7 +48,7 @@ class Pager
      *
      * @return int The number of pages
      */
-    public function getPageCount()
+    public function getPageCount(): int
     {
         return $this->getLastPage() + 1;
     }
@@ -68,7 +58,7 @@ class Pager
      *
      * @return int The rows displayed on a page
      */
-    public function getRowsPerPage()
+    public function getRowsPerPage(): int
     {
         return $this->rowsPerPage;
     }
@@ -88,12 +78,8 @@ class Pager
      *
      * When the parameter pageNo is given, the cursor for the given page is returned.
      * When no parameter is given, the cursor for active page is returned.
-     *
-     * @param int $pageNo
-     *
-     * @return int
      */
-    public function getCursor($pageNo = null)
+    public function getCursor(?int $pageNo = null): int
     {
         if (null !== $pageNo) {
             return $pageNo * $this->rowsPerPage;
@@ -112,18 +98,14 @@ class Pager
 
     /**
      * Validates the cursor.
-     *
-     * @param int $cursor
-     *
-     * @return int
      */
-    public function validateCursor($cursor)
+    public function validateCursor(int $cursor): int
     {
         // $cursor innerhalb des zulässigen Zahlenbereichs?
         if ($cursor < 0) {
             $cursor = 0;
         } elseif ($cursor > $this->rowCount) {
-            $cursor = (int) ($this->rowCount / $this->rowsPerPage) * $this->rowsPerPage;
+            $cursor = (int) ((int) $this->rowCount / $this->rowsPerPage) * $this->rowsPerPage;
         }
 
         return $cursor;
@@ -131,30 +113,24 @@ class Pager
 
     /**
      * Returns the name of the parameter which is used for pagination.
-     *
-     * @return string The name of the cursor
      */
-    public function getCursorName()
+    public function getCursorName(): string
     {
         return $this->cursorName;
     }
 
     /**
      * Returns the first page for pagination.
-     *
-     * @return int The first page number
      */
-    public function getFirstPage()
+    public function getFirstPage(): int
     {
         return 0;
     }
 
     /**
      * Returns the previous page in respect to the current page.
-     *
-     * @return int The previous page number
      */
-    public function getPrevPage()
+    public function getPrevPage(): int
     {
         $prevPage = $this->getCurrentPage() - 1;
         if ($prevPage < $this->getFirstPage()) {
@@ -165,10 +141,8 @@ class Pager
 
     /**
      * Returns the number of the current page.
-     *
-     * @return int The current page number
      */
-    public function getCurrentPage()
+    public function getCurrentPage(): int
     {
         $cursor = $this->cursor ?? Request::request($this->cursorName, 'int', null);
 
@@ -181,10 +155,8 @@ class Pager
 
     /**
      * Returns the number of the next page in respect to the current page.
-     *
-     * @return int The next page number
      */
-    public function getNextPage()
+    public function getNextPage(): int
     {
         $nextPage = $this->getCurrentPage() + 1;
         if ($nextPage > $this->getLastPage()) {
@@ -195,22 +167,18 @@ class Pager
 
     /**
      * Return the page number of the last page.
-     *
-     * @return int the last page number
      */
-    public function getLastPage()
+    public function getLastPage(): int
     {
-        return (int) (ceil($this->rowCount / $this->rowsPerPage) - 1);
+        return (int) (ceil((int) $this->rowCount / $this->rowsPerPage) - 1);
     }
 
     /**
      * Checks wheter the given page number is the active/current page.
      *
-     * @param int $pageNo
-     *
      * @return bool True when the given pageNo is the current page, otherwise False
      */
-    public function isActivePage($pageNo)
+    public function isActivePage(int $pageNo): bool
     {
         return $pageNo == $this->getCurrentPage();
     }

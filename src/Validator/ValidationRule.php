@@ -2,19 +2,19 @@
 
 namespace Redaxo\Core\Validator;
 
-final class ValidationRule
+final readonly class ValidationRule
 {
-    public const NOT_EMPTY = 'notEmpty';
-    public const MIN_LENGTH = 'minLength';
-    public const MAX_LENGTH = 'maxLength';
-    public const MIN = 'min';
-    public const MAX = 'max';
-    public const URL = 'url';
-    public const EMAIL = 'email';
-    public const MATCH = 'match';
-    public const NOT_MATCH = 'notMatch';
-    public const VALUES = 'values';
-    public const CUSTOM = 'custom';
+    public const string NOT_EMPTY = 'notEmpty';
+    public const string MIN_LENGTH = 'minLength';
+    public const string MAX_LENGTH = 'maxLength';
+    public const string MIN = 'min';
+    public const string MAX = 'max';
+    public const string URL = 'url';
+    public const string EMAIL = 'email';
+    public const string MATCH = 'match';
+    public const string NOT_MATCH = 'notMatch';
+    public const string VALUES = 'values';
+    public const string CUSTOM = 'custom';
 
     /**
      * @param ValidationRule::*|string $type Validator type, e.g. one of ValidationRule::* but could also be extended via rex-factory
@@ -39,10 +39,8 @@ final class ValidationRule
 
     /**
      * Type specific option.
-     *
-     * @return mixed
      */
-    public function getOption()
+    public function getOption(): mixed
     {
         return $this->option;
     }

@@ -40,7 +40,7 @@ final class SortableIteratorTest extends TestCase
     public function testCallbackMode(): void
     {
         $array = [2, 'a', 1, 'b'];
-        $callback = static function ($a, $b) {
+        $callback = static function (string $a, string $b) {
             return strcmp($b, $a);
         };
         $iterator = new SortableIterator(new ArrayIterator($array), $callback);

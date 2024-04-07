@@ -15,18 +15,19 @@ use function is_int;
 /**
  * String utility class.
  *
- * @psalm-type TUrlParams = array<string, string|int|bool|array<string|int|bool|null>|null>
+ * @psalm-type TUrlParam = string|int|bool|array<string|int|bool|null>|null
+ * @psalm-type TUrlParams = array<string, TUrlParam>
  */
-class Str
+final class Str
 {
+    private function __construct() {}
+
     /**
      * Returns the string size in bytes.
      *
-     * @param string $string String
-     *
      * @return int Size in bytes
      */
-    public static function size($string)
+    public static function size(string $string): int
     {
         return mb_strlen($string, '8bit');
     }
@@ -36,12 +37,8 @@ class Str
      *
      * On HFS+ filesystem (OS X) filenames are stored in UTF8 NFD while all other filesystems are
      * using UTF8 NFC. NFC is more common in general.
-     *
-     * @param string $string Input string
-     *
-     * @return string
      */
-    public static function normalizeEncoding($string)
+    public static function normalizeEncoding(string $string): string
     {
         return Normalizer::normalize($string, Normalizer::FORM_C);
     }
@@ -52,13 +49,10 @@ class Str
      * Makes the string lowercase, replaces umlauts by their ascii representation (ä -> ae etc.), and replaces all
      * other chars that do not match a-z, 0-9 or $allowedChars by $replaceChar.
      *
-     * @param string $string Input string
      * @param string $replaceChar Character that is used to replace not allowed chars
      * @param string $allowedChars Allowed character list
-     *
-     * @return string
      */
-    public static function normalize($string, $replaceChar = '_', $allowedChars = '')
+    public static function normalize(string $string, string $replaceChar = '_', string $allowedChars = ''): string
     {
         $string = self::normalizeEncoding($string);
         $string = mb_strtolower($string);
@@ -75,11 +69,9 @@ class Str
      * "a b 'c d'"   -> array('a', 'b', 'c d')
      * "a=1 b='c d'" -> array('a' => 1, 'b' => 'c d')
      *
-     * @param string $string
-     *
      * @return array<string>
      */
-    public static function split($string)
+    public static function split(string $string): array
     {
         $string = trim($string);
         if (empty($string)) {
@@ -117,12 +109,10 @@ class Str
     /**
      * Returns a string containing the YAML representation of $value.
      *
-     * @param array $value The value being encoded
+     * @param array<mixed> $value The value being encoded
      * @param int $inline The level where you switch to inline YAML
-     *
-     * @return string
      */
-    public static function yamlEncode(array $value, $inline = 3)
+    public static function yamlEncode(array $value, int $inline = 3): string
     {
         return Yaml::dump($value, $inline, 4);
     }
@@ -136,7 +126,7 @@ class Str
      *
      * @return array<mixed>
      */
-    public static function yamlDecode($value)
+    public static function yamlDecode(string $value): array
     {
         if ('' === $value) {
             return [];
@@ -163,7 +153,7 @@ class Str
     public static function buildQuery(array $params): string
     {
         $query = [];
-        $func = static function (array $params, ?string $fullkey = null) use (&$query, &$func) {
+        $func = /** @param TUrlParams $params */ static function (array $params, ?string $fullkey = null) use (&$query, &$func) {
             foreach ($params as $key => $value) {
                 $key = $fullkey ? $fullkey . '[' . urlencode($key) . ']' : urlencode($key);
                 if (is_array($value)) {
@@ -181,9 +171,8 @@ class Str
      * Returns a string by key="value" pair.
      *
      * @param array<int|string, int|string|list<string>> $attributes
-     * @return string
      */
-    public static function buildAttributes(array $attributes)
+    public static function buildAttributes(array $attributes): string
     {
         $attr = '';
 
@@ -208,12 +197,8 @@ class Str
 
     /**
      * Highlights a string.
-     *
-     * @param string $string
-     *
-     * @return string
      */
-    public static function highlight($string)
+    public static function highlight(string $string): string
     {
         $text = highlight_string($string, true);
 

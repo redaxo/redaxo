@@ -32,13 +32,13 @@ class Validator
      *
      * @param string $type Validator type (any static method name of this class)
      * @param string|null $message Message which is used if this validator type does not match
-     * @param mixed $option Type specific option
+     * @param mixed|null $option Type specific option
      *
      * @throws InvalidArgumentException
      *
      * @return $this
      */
-    public function add($type, $message = null, $option = null)
+    public function add(string $type, ?string $message = null, mixed $option = null): static
     {
         return $this->addRule(new ValidationRule($type, $message, $option));
     }
@@ -50,7 +50,7 @@ class Validator
      *
      * @return $this
      */
-    public function addRule(ValidationRule $rule)
+    public function addRule(ValidationRule $rule): static
     {
         $type = $rule->getType();
 
@@ -73,12 +73,8 @@ class Validator
 
     /**
      * Checks whether the given value matches all added validators.
-     *
-     * @param string $value
-     *
-     * @return bool
      */
-    public function isValid($value)
+    public function isValid(string $value): bool
     {
         $this->message = null;
         foreach ($this->rules as $rule) {
@@ -98,22 +94,16 @@ class Validator
 
     /**
      * Returns the message.
-     *
-     * @return string|null
      */
-    public function getMessage()
+    public function getMessage(): ?string
     {
         return $this->message;
     }
 
     /**
      * Checks whether the value is not empty.
-     *
-     * @param string $value
-     *
-     * @return bool
      */
-    public function notEmpty($value)
+    public function notEmpty(string $value): bool
     {
         return '' !== $value;
     }
@@ -121,14 +111,9 @@ class Validator
     /**
      * Checks whether the value is from the given type.
      *
-     * @param string $value
-     * @param string $type
-     *
      * @throws InvalidArgumentException
-     *
-     * @return bool
      */
-    public function type($value, $type)
+    public function type(string $value, string $type): bool
     {
         return match ($type) {
             'int', 'integer' => $this->match($value, '/^\d+$/'),
@@ -139,76 +124,48 @@ class Validator
 
     /**
      * Checks whether the value has the given min length.
-     *
-     * @param string $value
-     * @param int $minLength
-     *
-     * @return bool
      */
-    public function minLength($value, $minLength)
+    public function minLength(string $value, int $minLength): bool
     {
         return mb_strlen($value) >= $minLength;
     }
 
     /**
      * Checks whether the value has the given max value.
-     *
-     * @param string $value
-     * @param int $maxLength
-     *
-     * @return bool
      */
-    public function maxLength($value, $maxLength)
+    public function maxLength(string $value, int $maxLength): bool
     {
         return mb_strlen($value) <= $maxLength;
     }
 
     /**
      * Checks whether the value is equal or greater than the given min value.
-     *
-     * @param string $value
-     * @param int $min
-     *
-     * @return bool
      */
-    public function min($value, $min)
+    public function min(string $value, int $min): bool
     {
         return $value >= $min;
     }
 
     /**
      * Checks whether the value is equal or lower than the given max value.
-     *
-     * @param string $value
-     * @param int $max
-     *
-     * @return bool
      */
-    public function max($value, $max)
+    public function max(string $value, int $max): bool
     {
         return $value <= $max;
     }
 
     /**
      * Checks whether the value is an URL.
-     *
-     * @param string $value
-     *
-     * @return bool
      */
-    public function url($value)
+    public function url(string $value): bool
     {
         return $this->match($value, '@^\w+://(?:[\w-]+\.)*[\w-]+(?::\d+)?(?:/.*)?$@u');
     }
 
     /**
      * Checks whether the value is an email address.
-     *
-     * @param string $value
-     *
-     * @return bool
      */
-    public function email($value)
+    public function email(string $value): bool
     {
         return $this->match($value, '/^[\w.-]+@[\w.-]+\.[a-z]{2,}$/ui');
     }
@@ -216,12 +173,9 @@ class Validator
     /**
      * Checks whether the value matches the given regex.
      *
-     * @param string $value
-     * @param string $regex
-     *
-     * @return bool
+     * @param non-empty-string $regex
      */
-    public function match($value, $regex)
+    public function match(string $value, string $regex): bool
     {
         return (bool) preg_match($regex, $value);
     }
@@ -229,12 +183,9 @@ class Validator
     /**
      * Checks whether the value does not match the given regex.
      *
-     * @param string $value
-     * @param string $regex
-     *
-     * @return bool
+     * @param non-empty-string $regex
      */
-    public function notMatch($value, $regex)
+    public function notMatch(string $value, string $regex): bool
     {
         return !$this->match($value, $regex);
     }
@@ -242,11 +193,9 @@ class Validator
     /**
      * Checks whether the value is one of the given valid values.
      *
-     * @param string $value
-     *
-     * @return bool
+     * @param list<string> $validValues
      */
-    public function values($value, array $validValues)
+    public function values(string $value, array $validValues): bool
     {
         return in_array($value, $validValues);
     }
@@ -254,12 +203,9 @@ class Validator
     /**
      * Checks the value by using the given callable.
      *
-     * @param string $value
      * @param callable(string):bool $callback
-     *
-     * @return bool
      */
-    public function custom($value, callable $callback)
+    public function custom(string $value, callable $callback): bool
     {
         return $callback($value);
     }

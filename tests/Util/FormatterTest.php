@@ -291,7 +291,8 @@ final class FormatterTest extends TestCase
         );
 
         $format = [
-            static function ($params) {
+            static function (array $params): string {
+                /** @psalm-suppress MixedOperand */
                 return $params['subject'] . ' ' . $params['some'];
             },
             ['some' => 'more params'],

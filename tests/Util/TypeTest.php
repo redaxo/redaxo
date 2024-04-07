@@ -2,7 +2,6 @@
 
 namespace Redaxo\Core\Tests\Util;
 
-use BackedEnum;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -11,10 +10,13 @@ use stdClass;
 use Throwable;
 use TypeError;
 
-/** @internal */
+/**
+ * @internal
+ * @psalm-import-type TCastType from Type
+ */
 final class TypeTest extends TestCase
 {
-    /** @return list<array{mixed, string|callable(mixed):mixed|list<int|string|BackedEnum>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}>, mixed}> */
+    /** @return list<array{mixed, TCastType, mixed}> */
     public static function castProvider(): array
     {
         $callback = static function ($var) {
@@ -31,7 +33,7 @@ final class TypeTest extends TestCase
         $arrayExpected = ['key1' => '1', 'key2' => 2, 'key3' => -1, 'key4' => 'ab'];
 
         return [
-            ['a', '', 'a'],
+            ['a', null, 'a'],
             [1, 'string', '1'],
             [1, 'bool', true],
             [[], 'bool', false],
@@ -66,11 +68,11 @@ final class TypeTest extends TestCase
         ];
     }
 
-    /** @param string|callable(mixed):mixed|list<int|string|BackedEnum>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype */
+    /** @param TCastType $type */
     #[DataProvider('castProvider')]
-    public function testCast(mixed $var, string|callable|array $vartype, mixed $expectedResult): void
+    public function testCast(mixed $var, string|callable|array|null $type, mixed $expectedResult): void
     {
-        self::assertSame($expectedResult, Type::cast($var, $vartype));
+        self::assertSame($expectedResult, Type::cast($var, $type));
     }
 
     /** @return list<array{0: mixed, 1?: class-string<Throwable>}> */
@@ -89,12 +91,12 @@ final class TypeTest extends TestCase
 
     /** @param class-string<Throwable> $exceptionClass */
     #[DataProvider('castWrongVartypeProvider')]
-    public function testCastWrongVartype(mixed $vartype, string $exceptionClass = InvalidArgumentException::class): void
+    public function testCastWrongVartype(mixed $type, string $exceptionClass = InvalidArgumentException::class): void
     {
         $this->expectException($exceptionClass);
 
         /** @psalm-suppress MixedArgument */
-        Type::cast(1, $vartype);
+        Type::cast(1, $type);
     }
 }
 

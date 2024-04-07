@@ -7,29 +7,25 @@ use Redaxo\Core\Core;
 /**
  * Class to stop the script time.
  */
-class Timer
+final class Timer
 {
-    public const SEC = 1;
-    public const MILLISEC = 1_000;
-    public const MICROSEC = 1_000_000;
+    public const int SEC = 1;
+    public const int MILLISEC = 1_000;
+    public const int MICROSEC = 1_000_000;
 
     /**
      * @internal
-     *
-     * @var array<string, array{sum: mixed, timings: list<array{start: float, end: float}>}>
+     * @var array<string, array{sum: float, timings: list<array{start: float, end: float}>}>
      */
     public static $serverTimings = [];
 
-    /** @var float */
-    private $start;
-
-    /** @var float|null */
-    private $duration;
+    private float $start;
+    private ?float $duration = null;
 
     /**
-     * @param float $start Start time
+     * @param float|null $start Start time
      */
-    public function __construct($start = null)
+    public function __construct(?float $start = null)
     {
         if ($start) {
             $this->start = $start;
@@ -45,12 +41,11 @@ class Timer
      *
      * @template T
      *
-     * @param string $label
      * @param callable():T $callable
      *
      * @return T result of callable
      */
-    public static function measure($label, callable $callable)
+    public static function measure(string $label, callable $callable): mixed
     {
         if (!Core::isDebugMode()) {
             return $callable();
@@ -86,18 +81,16 @@ class Timer
 
     /**
      * Resets the timer.
-     * @return void
      */
-    public function reset()
+    public function reset(): void
     {
         $this->start = microtime(true);
     }
 
     /**
      * Stops the timer.
-     * @return void
      */
-    public function stop()
+    public function stop(): void
     {
         $this->duration = microtime(true) - $this->start;
     }
@@ -105,11 +98,11 @@ class Timer
     /**
      * Returns the time difference.
      *
-     * @param int $precision Factor which will be multiplied, for convertion into different units (e.g. 1000 for milli,...)
+     * @param int $precision Factor which will be multiplied, for conversion into different units (e.g. 1000 for milli,...)
      *
      * @return float Time difference
      */
-    public function getDelta($precision = self::MILLISEC)
+    public function getDelta(int $precision = self::MILLISEC): float
     {
         $duration = $this->duration ?? microtime(true) - $this->start;
 
@@ -119,12 +112,12 @@ class Timer
     /**
      * Returns the formatted time difference.
      *
-     * @param int $precision Factor which will be multiplied, for convertion into different units (e.g. 1000 for milli,...)
+     * @param int $precision Factor which will be multiplied, for conversion into different units (e.g. 1000 for milli,...)
      * @param int $decimals Number of decimals points
      *
      * @return string Formatted time difference
      */
-    public function getFormattedDelta($precision = self::MILLISEC, $decimals = 3)
+    public function getFormattedDelta(int $precision = self::MILLISEC, int $decimals = 3): string
     {
         $time = $this->getDelta($precision);
         return Formatter::number($time, [$decimals]);

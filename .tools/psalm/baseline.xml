@@ -284,6 +284,14 @@
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$version['history_date']]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[
+            'page' => $params['page'],
+            'article_id' => $articleId,
+            'clang' => $clangId,
+            'ctype' => $params['ctype'],
+        ]]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
       <code><![CDATA[$version['history_date']]]></code>
       <code><![CDATA[$version['history_date']]]></code>
@@ -875,6 +883,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/frontend.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$article->getValue('updatedate')]]></code>
+    </InvalidScalarArgument>
     <MixedAssignment>
       <code><![CDATA[$article]]></code>
       <code><![CDATA[$article]]></code>
@@ -882,9 +893,6 @@
     <MixedMethodCall>
       <code><![CDATA[setEval]]></code>
     </MixedMethodCall>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$article->getValue('updatedate')]]></code>
-    </PossiblyInvalidArgument>
   </file>
   <file src="redaxo/src/core/functions/function_metainfo.php">
     <InvalidArgument>
@@ -1138,6 +1146,9 @@
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </ArgumentTypeCoercion>
+    <InvalidScalarArgument>
+      <code><![CDATA[$activeType]]></code>
+    </InvalidScalarArgument>
     <MixedArgument>
       <code><![CDATA[$attributes]]></code>
       <code><![CDATA[$attributes]]></code>
@@ -1170,9 +1181,6 @@
     <MixedOperand>
       <code><![CDATA[$param['name']]]></code>
     </MixedOperand>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$activeType]]></code>
-    </PossiblyInvalidArgument>
     <PossiblyNullArgument>
       <code><![CDATA[$activeType]]></code>
       <code><![CDATA[$field->getValue()]]></code>
@@ -1742,6 +1750,12 @@
       <code><![CDATA[$sql->getValue('template_id')]]></code>
       <code><![CDATA[$structureContext->getMountpoints()]]></code>
       <code><![CDATA[$structureContext->getMountpoints()]]></code>
+      <code><![CDATA[['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart(), 'art_status' => $artStatusKey] + ArticleStatusChange::getUrlParams()]]></code>
+      <code><![CDATA[['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + ArticleDelete::getUrlParams()]]></code>
+      <code><![CDATA[['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + ArticleStatusChange::getUrlParams()]]></code>
+      <code><![CDATA[['article_id' => $sql->getValue('id'), 'function' => 'edit_art', 'artstart' => $structureContext->getArtStart()]]]></code>
+      <code><![CDATA[['page' => 'content/edit', 'article_id' => $sql->getValue('id'), 'mode' => 'edit']]]></code>
+      <code><![CDATA[['page' => 'content/edit', 'article_id' => $sql->getValue('id')]]]></code>
     </ArgumentTypeCoercion>
     <InvalidArrayOffset>
       <code><![CDATA[$templateNames[$sql->getValue('template_id')]]]></code>
@@ -1828,7 +1842,6 @@
   </file>
   <file src="redaxo/src/core/pages/system.log.external.php">
     <MixedArgument>
-      <code><![CDATA[$logFile]]></code>
       <code><![CDATA[$logFile]]></code>
       <code><![CDATA[$logFile]]></code>
       <code><![CDATA[$logFile]]></code>
@@ -2719,7 +2732,6 @@
     <MixedArgument>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$item]]></code>
@@ -3172,9 +3184,6 @@
     <MixedAssignment>
       <code><![CDATA[$optValue]]></code>
     </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[rex_escape($optValue)]]></code>
-    </MixedOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$id]]></code>
     </PossiblyNullOperand>
@@ -3275,32 +3284,10 @@
       <code><![CDATA[array<int, string>]]></code>
     </MixedReturnTypeCoercion>
   </file>
-  <file src="src/Http/Context.php">
-    <InvalidArgument>
-      <code><![CDATA[$_GET]]></code>
-      <code><![CDATA[$_GET + $_POST]]></code>
-      <code><![CDATA[$_POST]]></code>
-    </InvalidArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$params]]></code>
-      <code><![CDATA[$params]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$valVal]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[rex_escape($valVal)]]></code>
-      <code><![CDATA[rex_escape($value)]]></code>
-    </MixedOperand>
-  </file>
   <file src="src/Http/Request.php">
-    <MixedArgument>
-      <code><![CDATA[$vartype]]></code>
-      <code><![CDATA[$vartype]]></code>
-      <code><![CDATA[$vartype]]></code>
-      <code><![CDATA[$vartype]]></code>
-    </MixedArgument>
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$type]]></code>
+    </ArgumentTypeCoercion>
     <MixedArrayAccess>
       <code><![CDATA[$_SESSION[self::getSessionNamespace()][$varname]]]></code>
       <code><![CDATA[$_SESSION[self::getSessionNamespace()][$varname]]]></code>
@@ -3311,33 +3298,19 @@
     <MixedAssignment>
       <code><![CDATA[$_SESSION[self::getSessionNamespace()][$varname]]]></code>
     </MixedAssignment>
-    <PossiblyInvalidArrayOffset>
-      <code><![CDATA[$_SESSION[self::getSessionNamespace()]]]></code>
-    </PossiblyInvalidArrayOffset>
   </file>
   <file src="src/Http/Response.php">
     <MixedArgument>
       <code><![CDATA[$chunkSize]]></code>
       <code><![CDATA[$range->getStart()]]></code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$preloadFile['file']]]></code>
-      <code><![CDATA[$preloadFile['mimeType']]]></code>
-      <code><![CDATA[$preloadFile['type']]]></code>
-    </MixedArrayAccess>
     <MixedAssignment>
       <code><![CDATA[$chunkSize]]></code>
-      <code><![CDATA[$preloadFile]]></code>
-      <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$preloadFile['file']]]></code>
-      <code><![CDATA[$preloadFile['mimeType']]]></code>
-      <code><![CDATA[$preloadFile['type']]]></code>
       <code><![CDATA[$range->getEnd()]]></code>
       <code><![CDATA[$range->getLength()]]></code>
       <code><![CDATA[$range->getStart()]]></code>
-      <code><![CDATA[$value]]></code>
     </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$value]]></code>
@@ -4410,31 +4383,6 @@
       <code><![CDATA[self::$msg]]></code>
     </PropertyTypeCoercion>
   </file>
-  <file src="src/Util/Formatter.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$units[$unitIndex]]]></code>
-    </InvalidArrayOffset>
-    <MixedArgument>
-      <code><![CDATA[$format['params']]]></code>
-      <code><![CDATA[$format['params']]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$params['params']]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string]]></code>
-    </MixedInferredReturnType>
-    <MixedOperand>
-      <code><![CDATA[$format['attr']]]></code>
-      <code><![CDATA[$format['attr']]]></code>
-      <code><![CDATA[$format['params']]]></code>
-      <code><![CDATA[$format['params']]]></code>
-      <code><![CDATA[$units[$unitIndex]]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[self::$formatType($value, $format)]]></code>
-    </MixedReturnStatement>
-  </file>
   <file src="src/Util/Parsedown.php">
     <MixedArgument>
       <code><![CDATA[$block]]></code>
@@ -4477,73 +4425,22 @@
       <code><![CDATA[$this->headers]]></code>
     </PropertyTypeCoercion>
   </file>
-  <file src="src/Util/SortableIterator.php">
-    <MixedArgument>
-      <code><![CDATA[$string]]></code>
-    </MixedArgument>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$string]]></code>
-    </PossiblyInvalidArgument>
-  </file>
-  <file src="src/Util/Str.php">
+  <file src="src/Util/Type.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$innerVartype]]></code>
+    </ArgumentTypeCoercion>
     <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$innerVartype]]></code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="src/Util/Timer.php">
-    <MixedAssignment>
-      <code><![CDATA[$duration]]></code>
-      <code><![CDATA[$duration]]></code>
-      <code><![CDATA[self::$serverTimings[$label]['sum']]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$duration]]></code>
-    </MixedOperand>
-  </file>
-  <file src="src/Util/Type.php">
-    <MixedArgument>
-      <code><![CDATA[$innerVartype]]></code>
-      <code><![CDATA[$innerVartype]]></code>
-      <code><![CDATA[$key]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$vartype[array_key_first($vartype)]]]></code>
-    </MixedArrayAccess>
-    <MixedArrayOffset>
-      <code><![CDATA[$newVar[$key]]]></code>
-      <code><![CDATA[$newVar[$key]]]></code>
-      <code><![CDATA[$newVar[$key]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code><![CDATA[$cast]]></code>
-      <code><![CDATA[$cast]]></code>
-      <code><![CDATA[$castValue]]></code>
       <code><![CDATA[$castedVar]]></code>
       <code><![CDATA[$default]]></code>
-      <code><![CDATA[$innerVartype]]></code>
-      <code><![CDATA[$key]]></code>
       <code><![CDATA[$newVar[$key]]]></code>
       <code><![CDATA[$newVar[$key]]]></code>
       <code><![CDATA[$newVar[$key]]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$var[$key]]]></code>
     </MixedAssignment>
-    <NoValue>
-      <code><![CDATA[$vartype]]></code>
-    </NoValue>
-    <NullArrayOffset>
-      <code><![CDATA[$vartype[array_key_first($vartype)]]]></code>
-    </NullArrayOffset>
-    <PossiblyNullArrayOffset>
-      <code><![CDATA[$vartype]]></code>
-    </PossiblyNullArrayOffset>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$cast[2]]]></code>
-    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="src/Util/VarDumper.php">
     <ArgumentTypeCoercion>
@@ -4551,26 +4448,9 @@
     </ArgumentTypeCoercion>
   </file>
   <file src="src/Util/Version.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[0 === $exitCode ? $version : null]]></code>
-    </FalsableReturnStatement>
-    <InvalidFalsableReturnType>
-      <code><![CDATA[?string]]></code>
-    </InvalidFalsableReturnType>
     <MixedArgument>
       <code><![CDATA[$pos]]></code>
     </MixedArgument>
-    <NoValue>
-      <code><![CDATA[$comparator]]></code>
-    </NoValue>
-    <PossiblyFalseArgument>
-      <code><![CDATA[$remote]]></code>
-    </PossiblyFalseArgument>
-  </file>
-  <file src="src/Validator/Validator.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$regex]]></code>
-    </ArgumentTypeCoercion>
   </file>
   <file src="src/View/Asset.php">
     <MixedAssignment>
@@ -4594,8 +4474,7 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$flatParams]]></code>
       <code><![CDATA[$flatParams]]></code>
-      <code><![CDATA[$flatParams]]></code>
-      <code><![CDATA[$flatParams]]></code>
+      <code><![CDATA[$params]]></code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAssignment>
       <code><![CDATA[$groupColumns[]]]></code>
@@ -4606,19 +4485,14 @@
     <MixedAssignment>
       <code><![CDATA[$column]]></code>
       <code><![CDATA[$columnSortType]]></code>
-      <code><![CDATA[$flatParams[$name]]]></code>
-      <code><![CDATA[$flatParams[$name]]]></code>
       <code><![CDATA[$format[2]]]></code>
       <code><![CDATA[$groupColumns]]></code>
       <code><![CDATA[$name]]></code>
-      <code><![CDATA[$params[$this->pager->getCursorName()]]]></code>
       <code><![CDATA[$params[$this->pager->getCursorName()]]]></code>
       <code><![CDATA[$tableColumn]]></code>
       <code><![CDATA[$tableColumn['class']]]></code>
       <code><![CDATA[$tableColumns]]></code>
       <code><![CDATA[$v]]></code>
-      <code><![CDATA[$v]]></code>
-      <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
@@ -4742,27 +4616,6 @@
       <code><![CDATA[$rule]]></code>
       <code><![CDATA[$rule]]></code>
     </MixedAssignment>
-  </file>
-  <file src="tests/Util/FormatterTest.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$params['some']]]></code>
-      <code><![CDATA[$params['subject']]]></code>
-    </MixedArrayAccess>
-    <MixedOperand>
-      <code><![CDATA[$params['some']]]></code>
-      <code><![CDATA[$params['subject']]]></code>
-    </MixedOperand>
-  </file>
-  <file src="tests/Util/SortableIteratorTest.php">
-    <MixedArgument>
-      <code><![CDATA[$a]]></code>
-      <code><![CDATA[$b]]></code>
-    </MixedArgument>
-  </file>
-  <file src="tests/Util/StrTest.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$params]]></code>
-    </MixedArgumentTypeCoercion>
   </file>
   <file src="tests/Util/TypeTest.php">
     <MixedOperand>

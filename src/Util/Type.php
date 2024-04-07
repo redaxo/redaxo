@@ -3,23 +3,26 @@
 namespace Redaxo\Core\Util;
 
 use BackedEnum;
+use Closure;
 use InvalidArgumentException;
 
 use function array_key_exists;
-use function call_user_func;
 use function gettype;
 use function is_array;
 use function is_bool;
-use function is_callable;
 use function is_int;
 use function is_scalar;
 use function is_string;
 
 /**
  * Class for var casting.
+ *
+ * @psalm-type TCastType = string|Closure(mixed):mixed|list<int|string|BackedEnum|null>|list<array{0: string, 1: string|Closure(mixed):mixed|list<mixed>, 2?: mixed}>|null
  */
-class Type
+final class Type
 {
+    private function __construct() {}
+
     /**
      * Casts the variable $var to $vartype.
      *
@@ -33,7 +36,7 @@ class Type
      *  - 'object'
      *  - 'array'
      *  - 'array[<type>]', e.g. 'array[int]'
-     *  - '' (don't cast)
+     *  - null (don't cast)
      *  - a callable
      *  - ['foo', 'bar', 'baz'] (cast to ony of the given values)
      *  - [
@@ -43,7 +46,7 @@ class Type
      *    ]
      *
      * @param mixed $var Variable to cast
-     * @param string|callable(mixed):mixed|list<int|string|BackedEnum|null>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype Variable type
+     * @param TCastType $type Cast type
      *
      * @throws InvalidArgumentException
      *
@@ -51,10 +54,14 @@ class Type
      *
      * @psalm-taint-specialize
      */
-    public static function cast(mixed $var, string|array|callable $vartype): mixed
+    public static function cast(mixed $var, string|array|Closure|null $type): mixed
     {
-        if (is_string($vartype)) {
-            switch ($vartype) {
+        if (null === $type) {
+            return $var;
+        }
+
+        if (is_string($type)) {
+            switch ($type) {
                 case 'bool':
                 case 'boolean':
                     return (bool) $var;
@@ -83,13 +90,9 @@ class Type
                     }
                     return (array) $var;
 
-                case '':
-                    // kein Cast, nichts tun
-                    return $var;
-
                 default:
                     // check for array with generic type
-                    if (!str_starts_with($vartype, 'array[')) {
+                    if (!str_starts_with($type, 'array[')) {
                         break;
                     }
 
@@ -101,8 +104,8 @@ class Type
 
                     // check if every element in the array is from the generic type
                     $matches = [];
-                    if (!preg_match('@array\[([^\]]*)\]@', $vartype, $matches)) {
-                        throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
+                    if (!preg_match('@array\[([^\]]*)\]@', $type, $matches)) {
+                        throw new InvalidArgumentException('Unexpected type "' . $type . '" in cast()!');
                     }
 
                     foreach ($var as $key => $value) {
@@ -110,7 +113,7 @@ class Type
                             $var[$key] = self::cast($value, $matches[1]);
                         } catch (InvalidArgumentException) {
                             // Evtl Typo im vartype, mit urspr. typ als fehler melden
-                            throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
+                            throw new InvalidArgumentException('Unexpected type "' . $type . '" in cast()!');
                         }
                     }
 
@@ -118,47 +121,47 @@ class Type
             }
         }
 
-        if (is_callable($vartype)) {
-            return call_user_func($vartype, $var);
+        if ($type instanceof Closure) {
+            return $type($var);
         }
-        if (is_string($vartype)) {
-            throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
+        if (is_string($type)) {
+            throw new InvalidArgumentException('Unexpected type "' . $type . '" in cast()!');
         }
-        if ([] === $vartype) {
-            throw new InvalidArgumentException('Unexpected vartype in cast()!');
+        if ([] === $type) {
+            throw new InvalidArgumentException('Unexpected type in cast()!');
         }
 
         $oneOf = false;
         $shape = false;
-        foreach ($vartype as $cast) {
+        foreach ($type as $cast) {
             if (is_array($cast)) {
                 $shape = true;
             } elseif (is_scalar($cast) || null === $cast || $cast instanceof BackedEnum) {
                 $oneOf = true;
             } else {
-                throw new InvalidArgumentException('Unexpected vartype in cast()!');
+                throw new InvalidArgumentException('Unexpected type in cast()!');
             }
         }
         if ($oneOf && $shape) {
-            throw new InvalidArgumentException('Unexpected vartype in cast()!');
+            throw new InvalidArgumentException('Unexpected type in cast()!');
         }
 
         if ($oneOf) {
-            foreach ($vartype as $cast) {
+            foreach ($type as $cast) {
                 $castValue = $cast instanceof BackedEnum ? $cast->value : $cast;
                 $castedVar = null === $cast ? $var : self::cast($var, gettype($castValue));
                 if ($castedVar === $castValue) {
                     return $cast;
                 }
             }
-            return $vartype[array_key_first($vartype)];
+            return $type[array_key_first($type)];
         }
 
         $var = self::cast($var, 'array');
         $newVar = [];
-        foreach ($vartype as $cast) {
+        foreach ($type as $cast) {
             if (!is_array($cast) || !isset($cast[0])) {
-                throw new InvalidArgumentException('Unexpected vartype in cast()!');
+                throw new InvalidArgumentException('Unexpected type in cast()!');
             }
 
             $key = $cast[0];
@@ -173,7 +176,7 @@ class Type
             } elseif ('' === $default) {
                 $newVar[$key] = self::cast('', $innerVartype);
             } else {
-                $newVar[$key] = $cast[2];
+                $newVar[$key] = $default;
             }
         }
 
@@ -219,11 +222,10 @@ class Type
     }
 
     /**
-     * @param mixed $value
      * @psalm-assert string $value
      * @psalm-pure
      */
-    public static function string($value): string
+    public static function string(mixed $value): string
     {
         if (!is_string($value)) {
             throw new InvalidArgumentException('Exptected a string, but got ' . get_debug_type($value));
@@ -233,21 +235,19 @@ class Type
     }
 
     /**
-     * @param mixed $value
      * @psalm-assert ?string $value
      * @psalm-pure
      */
-    public static function nullOrString($value): ?string
+    public static function nullOrString(mixed $value): ?string
     {
         return null === $value ? null : self::string($value);
     }
 
     /**
-     * @param mixed $value
      * @psalm-assert int $value
      * @psalm-pure
      */
-    public static function int($value): int
+    public static function int(mixed $value): int
     {
         if (!is_int($value)) {
             throw new InvalidArgumentException('Exptected an integer, but got ' . get_debug_type($value));
@@ -257,21 +257,20 @@ class Type
     }
 
     /**
-     * @param mixed $value
      * @psalm-assert ?int $value
      * @psalm-pure
      */
-    public static function nullOrInt($value): ?int
+    public static function nullOrInt(mixed $value): ?int
     {
         return null === $value ? null : self::int($value);
     }
 
     /**
-     * @param mixed $value
+     * @return array<mixed>
      * @psalm-assert array $value
      * @psalm-pure
      */
-    public static function array($value): array
+    public static function array(mixed $value): array
     {
         if (!is_array($value)) {
             throw new InvalidArgumentException('Exptected an array, but got ' . get_debug_type($value));
@@ -282,13 +281,12 @@ class Type
 
     /**
      * @template T of object
-     * @param mixed $value
      * @param class-string<T> $class
      * @return T
      * @psalm-assert T $value
      * @psalm-pure
      */
-    public static function instanceOf($value, string $class): object
+    public static function instanceOf(mixed $value, string $class): object
     {
         if (!$value instanceof $class) {
             throw new InvalidArgumentException('Exptected a ' . $class . ', but got ' . get_debug_type($value));
