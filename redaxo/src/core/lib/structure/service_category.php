@@ -48,7 +48,6 @@ class rex_category_service
             $data['status'] = 0;
         }
 
-        $templates = [];
         $startpageTemplates = [];
         if ('' != $categoryId) {
             // TemplateId vom Startartikel der jeweiligen Sprache vererben
@@ -106,35 +105,31 @@ class rex_category_service
             $AART->addGlobalUpdateFields($user);
             $AART->addGlobalCreateFields($user);
 
-            try {
-                $AART->insert();
+            $AART->insert();
 
-                // ----- PRIOR
-                if (isset($data['catpriority'])) {
-                    self::newCatPrio($categoryId, $key, 0, $data['catpriority']);
-                }
-
-                $message = I18n::msg('category_added_and_startarticle_created');
-
-                rex_article_cache::delete($id, $key);
-
-                // ----- EXTENSION POINT
-                // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
-                $message = rex_extension::registerPoint(new rex_extension_point('CAT_ADDED', $message, [
-                    'category' => clone $AART,
-                    'id' => $id,
-                    'parent_id' => $categoryId,
-                    'clang' => $key,
-                    'name' => $data['catname'],
-                    'priority' => $data['catpriority'],
-                    'path' => $path,
-                    'status' => $data['status'],
-                    'article' => clone $AART,
-                    'data' => $data,
-                ]));
-            } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e->getMessage(), $e);
+            // ----- PRIOR
+            if (isset($data['catpriority'])) {
+                self::newCatPrio($categoryId, $key, 0, $data['catpriority']);
             }
+
+            $message = I18n::msg('category_added_and_startarticle_created');
+
+            rex_article_cache::delete($id, $key);
+
+            // ----- EXTENSION POINT
+            // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
+            $message = rex_extension::registerPoint(new rex_extension_point('CAT_ADDED', $message, [
+                'category' => clone $AART,
+                'id' => $id,
+                'parent_id' => $categoryId,
+                'clang' => $key,
+                'name' => $data['catname'],
+                'priority' => $data['catpriority'],
+                'path' => $path,
+                'status' => $data['status'],
+                'article' => clone $AART,
+                'data' => $data,
+            ]));
         }
 
         return $message;
@@ -173,76 +168,72 @@ class rex_category_service
 
         $EKAT->addGlobalUpdateFields($user);
 
-        try {
-            $EKAT->update();
+        $EKAT->update();
 
-            // --- Kategorie Kindelemente updaten
-            if (isset($data['catname'])) {
-                $ArtSql = Sql::factory();
-                $ArtSql->setQuery('SELECT id FROM ' . Core::getTablePrefix() . 'article WHERE parent_id=? AND startarticle=0 AND clang_id=?', [$categoryId, $clang]);
+        // --- Kategorie Kindelemente updaten
+        if (isset($data['catname'])) {
+            $ArtSql = Sql::factory();
+            $ArtSql->setQuery('SELECT id FROM ' . Core::getTablePrefix() . 'article WHERE parent_id=? AND startarticle=0 AND clang_id=?', [$categoryId, $clang]);
 
-                $EART = Sql::factory();
-                for ($i = 0; $i < $ArtSql->getRows(); ++$i) {
-                    $EART->setTable(Core::getTablePrefix() . 'article');
-                    $EART->setWhere(['id' => $ArtSql->getValue('id'), 'startarticle' => '0', 'clang_id' => $clang]);
-                    $EART->setValue('catname', $data['catname']);
-                    $EART->addGlobalUpdateFields($user);
+            $EART = Sql::factory();
+            for ($i = 0; $i < $ArtSql->getRows(); ++$i) {
+                $EART->setTable(Core::getTablePrefix() . 'article');
+                $EART->setWhere(['id' => $ArtSql->getValue('id'), 'startarticle' => '0', 'clang_id' => $clang]);
+                $EART->setValue('catname', $data['catname']);
+                $EART->addGlobalUpdateFields($user);
 
-                    $EART->update();
-                    rex_article_cache::delete((int) $ArtSql->getValue('id'), $clang);
+                $EART->update();
+                rex_article_cache::delete((int) $ArtSql->getValue('id'), $clang);
 
-                    $ArtSql->next();
-                }
+                $ArtSql->next();
             }
-
-            // ----- PRIOR
-            if (isset($data['catpriority'])) {
-                $parentId = (int) $thisCat->getValue('parent_id');
-                $oldPrio = (int) $thisCat->getValue('catpriority');
-
-                if ($data['catpriority'] <= 0) {
-                    $data['catpriority'] = 1;
-                }
-
-                if ($oldPrio != $data['catpriority']) {
-                    Sql::factory()
-                        ->setTable(Core::getTable('article'))
-                        ->setWhere('id = :id AND clang_id != :clang', ['id' => $categoryId, 'clang' => $clang])
-                        ->setValue('catpriority', $data['catpriority'])
-                        ->addGlobalUpdateFields($user)
-                        ->update();
-
-                    foreach (rex_clang::getAllIds() as $clangId) {
-                        self::newCatPrio($parentId, $clangId, $data['catpriority'], $oldPrio);
-                    }
-                }
-            }
-
-            $message = I18n::msg('category_updated');
-
-            rex_article_cache::delete($categoryId);
-
-            // ----- EXTENSION POINT
-            // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
-            $message = rex_extension::registerPoint(new rex_extension_point('CAT_UPDATED', $message, [
-                'id' => $categoryId,
-
-                'category' => clone $EKAT,
-                'category_old' => clone $thisCat,
-                'article' => clone $EKAT,
-
-                'parent_id' => $thisCat->getValue('parent_id'),
-                'clang' => $clang,
-                'name' => $data['catname'] ?? $thisCat->getValue('catname'),
-                'priority' => $data['catpriority'] ?? $thisCat->getValue('catpriority'),
-                'path' => $thisCat->getValue('path'),
-                'status' => $thisCat->getValue('status'),
-
-                'data' => $data,
-            ]));
-        } catch (rex_sql_exception $e) {
-            throw new rex_api_exception($e->getMessage(), $e);
         }
+
+        // ----- PRIOR
+        if (isset($data['catpriority'])) {
+            $parentId = (int) $thisCat->getValue('parent_id');
+            $oldPrio = (int) $thisCat->getValue('catpriority');
+
+            if ($data['catpriority'] <= 0) {
+                $data['catpriority'] = 1;
+            }
+
+            if ($oldPrio != $data['catpriority']) {
+                Sql::factory()
+                    ->setTable(Core::getTable('article'))
+                    ->setWhere('id = :id AND clang_id != :clang', ['id' => $categoryId, 'clang' => $clang])
+                    ->setValue('catpriority', $data['catpriority'])
+                    ->addGlobalUpdateFields($user)
+                    ->update();
+
+                foreach (rex_clang::getAllIds() as $clangId) {
+                    self::newCatPrio($parentId, $clangId, $data['catpriority'], $oldPrio);
+                }
+            }
+        }
+
+        $message = I18n::msg('category_updated');
+
+        rex_article_cache::delete($categoryId);
+
+        // ----- EXTENSION POINT
+        // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
+        $message = rex_extension::registerPoint(new rex_extension_point('CAT_UPDATED', $message, [
+            'id' => $categoryId,
+
+            'category' => clone $EKAT,
+            'category_old' => clone $thisCat,
+            'article' => clone $EKAT,
+
+            'parent_id' => $thisCat->getValue('parent_id'),
+            'clang' => $clang,
+            'name' => $data['catname'] ?? $thisCat->getValue('catname'),
+            'priority' => $data['catpriority'] ?? $thisCat->getValue('catpriority'),
+            'path' => $thisCat->getValue('path'),
+            'status' => $thisCat->getValue('status'),
+
+            'data' => $data,
+        ]));
 
         return $message;
     }
@@ -340,20 +331,16 @@ class rex_category_service
             $EKAT->setValue('status', $newstatus);
             $EKAT->addGlobalUpdateFields(self::getUser());
 
-            try {
-                $EKAT->update();
+            $EKAT->update();
 
-                rex_article_cache::delete($categoryId, $clang);
+            rex_article_cache::delete($categoryId, $clang);
 
-                // ----- EXTENSION POINT
-                rex_extension::registerPoint(new rex_extension_point('CAT_STATUS', null, [
-                    'id' => $categoryId,
-                    'clang' => $clang,
-                    'status' => $newstatus,
-                ]));
-            } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e->getMessage(), $e);
-            }
+            // ----- EXTENSION POINT
+            rex_extension::registerPoint(new rex_extension_point('CAT_STATUS', null, [
+                'id' => $categoryId,
+                'clang' => $clang,
+                'status' => $newstatus,
+            ]));
         } else {
             throw new rex_api_exception(I18n::msg('no_such_category'));
         }

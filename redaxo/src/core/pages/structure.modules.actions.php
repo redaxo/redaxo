@@ -101,20 +101,16 @@ if ('add' == $function || 'edit' == $function) {
         $faction->setValue('postsavemode', $postsavemode);
         $faction->addGlobalUpdateFields();
 
-        try {
-            if ('add' == $function) {
-                $faction->addGlobalCreateFields();
+        if ('add' == $function) {
+            $faction->addGlobalCreateFields();
 
-                $faction->insert();
-                $success = I18n::msg('action_added');
-            } else {
-                $faction->setWhere(['id' => $actionId]);
+            $faction->insert();
+            $success = I18n::msg('action_added');
+        } else {
+            $faction->setWhere(['id' => $actionId]);
 
-                $faction->update();
-                $success = I18n::msg('action_updated');
-            }
-        } catch (rex_sql_exception $e) {
-            $error = $e->getMessage();
+            $faction->update();
+            $success = I18n::msg('action_updated');
         }
 
         if ('' != $goon) {

@@ -27,8 +27,6 @@ jobs:
 
             -   name: Composer install
                 uses: ramsey/composer-install@v3
-                with:
-                    composer-options: --ansi --prefer-dist
 
             -   name: Run rexlint
                 run: vendor/bin/rexlint

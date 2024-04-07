@@ -8,13 +8,17 @@ jobs:
     slash-command-dispatch:
         runs-on: ubuntu-latest
         timeout-minutes: 30
+        if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/')
 
         steps:
             -   name: Slash Command Dispatch
                 uses: peter-evans/slash-command-dispatch@v4
                 with:
                     token: ${{ secrets.BOT_TOKEN }}
-                    # reactions should be reported from github itself
-                    reaction-token: ${{ secrets.GITHUB_TOKEN }}
-                    commands: visual-test
+                    reaction-token: ${{ secrets.BOT_TOKEN }}
                     issue-type: pull-request
+                    commands: |
+                        baseline
+                        code-style
+                        compile-styles
+                        visual-tests

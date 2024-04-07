@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 5.17.1 – 07.04.2024
+---------------------------
+
+### Bugfixes
+
+* Exception-Messages wurden teils an Nicht-Admins ausgegeben (@gharlan)
+* `rex_sql`: In der Debug-Ausgabe wurden in der `fullquery` Integerwerte als Strings eingesetzt (@gharlan)
+
+
 Version 5.17.0 – 12.03.2024
 ---------------------------
 

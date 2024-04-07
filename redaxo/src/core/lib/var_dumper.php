@@ -20,10 +20,10 @@ abstract class rex_var_dumper
      */
     public static function register()
     {
-        VarDumper::setHandler(static function ($var) {
+        VarDumper::setHandler(static function ($var, ?string $label = null) {
             if (Core::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
                 VarDumper::setHandler(self::dump(...));
-                self::dump($var);
+                self::dump($var, $label);
 
                 return;
             }
@@ -39,7 +39,7 @@ abstract class rex_var_dumper
      * @param mixed $var
      * @return void
      */
-    public static function dump($var)
+    public static function dump($var, ?string $label = null)
     {
         if (!self::$cloner || !self::$dumper) {
             self::$cloner = new VarCloner();
@@ -101,6 +101,11 @@ abstract class rex_var_dumper
             self::$dumper = new ContextualizedDumper($dumper, [new SourceContextProvider(null, Path::base())]);
         }
 
-        self::$dumper->dump(self::$cloner->cloneVar($var));
+        $var = self::$cloner->cloneVar($var);
+        if (null !== $label) {
+            $var = $var->withContext(['label' => $label]);
+        }
+
+        self::$dumper->dump($var);
     }
 }
