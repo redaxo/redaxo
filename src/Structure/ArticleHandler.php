@@ -12,7 +12,6 @@ use rex_complex_perm;
 use rex_content_service;
 use rex_extension;
 use rex_extension_point;
-use rex_sql_exception;
 use rex_template;
 
 use function count;
