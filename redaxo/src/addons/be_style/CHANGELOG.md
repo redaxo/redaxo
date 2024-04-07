@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 3.4.1 – 07.04.2024
+--------------------------
+
+* Alte Login-Hintergründe wurden beim Update nicht aus dem Root-Assets-Ordner entfernt (@gharlan)
+
+
 Version 3.4.0 – 12.03.2024
 --------------------------
 

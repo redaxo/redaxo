@@ -5,31 +5,52 @@ on:
         branches: [main, temp]
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
+    repository_dispatch:
+        types: [baseline-command] # triggered by /baseline PR comment
 
 env:
-    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
+    writable: ${{ (github.event_name == 'repository_dispatch' || github.ref == 'refs/heads/temp' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
 
 permissions:
     contents: read
 
 jobs:
-    psalm-analysis:
-        name: psalm static code analysis
+    psalm:
         runs-on: ubuntu-latest
         timeout-minutes: 30
+        if: github.event_name != 'repository_dispatch' || github.event.client_payload.slash_command.args.unnamed.all == '' || contains(github.event.client_payload.slash_command.args.unnamed.all, 'psalm')
         permissions:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
         steps:
+            -   name: Add action run link to trigger comment
+                uses: peter-evans/create-or-update-comment@v4
+                if: github.event_name == 'repository_dispatch'
+                with:
+                    token: ${{ secrets.BOT_TOKEN }}
+                    repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+                    comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+                    edit-mode: replace
+                    body: |
+                        ${{ github.event.client_payload.github.payload.comment.body }}
+                        https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
             -   name: Checkout
                 uses: actions/checkout@v4
-                if: env.writable == 1
+                if: env.writable == 1 && github.event_name != 'repository_dispatch'
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
                 uses: actions/checkout@v4
                 if: env.writable == 0
+            -   name: Checkout on chat commnad
+                uses: actions/checkout@v4
+                if: github.event_name == 'repository_dispatch'
+                with:
+                    token: ${{ secrets.BOT_TOKEN }}
+                    repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+                    ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
@@ -40,17 +61,20 @@ jobs:
 
             -   name: Composer install
                 uses: ramsey/composer-install@v3
-                with:
-                    composer-options: --ansi --prefer-dist
 
             -   name: Run psalm analysis
+                if: github.event_name != 'repository_dispatch'
                 run: vendor/bin/psalm --show-info=false --shepherd --diff --output-format=github
 
             -   name: Check psalm baseline and show type coverage
                 id: baseline
                 run: |
                     vendor/bin/psalm --set-baseline=.tools/psalm/baseline.xml --stats
-                    git diff --exit-code .tools/psalm/baseline.xml || (echo "::error file=.tools/psalm/baseline.xml,line=1,col=1::Psalm baseline file is outdated and must be regenerated via \`composer psalm-baseline\`." && exit 1)
+                    git diff --exit-code .tools/psalm/baseline.xml || (echo "::error file=.tools/psalm/baseline.xml,line=1,col=1::Psalm baseline file is outdated and must be regenerated via \`composer psalm:baseline\`." && exit 1)
+
+            -   name: Git pull
+                if: failure() && steps.baseline.conclusion != 'skipped' && github.event_name == 'repository_dispatch'
+                run: git pull --ff-only --no-tags --depth=1
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v5
@@ -61,24 +85,42 @@ jobs:
                     commit_user_email: rex-bot@users.noreply.github.com
                     file_pattern: .tools/psalm/baseline.xml
 
-    psalm-taint-analysis:
-        name: psalm taint analysis
+    psalm-taint:
         runs-on: ubuntu-latest
         timeout-minutes: 30
-        if: github.event.pull_request.draft == false
+        if: github.event.pull_request.draft == false && (github.event_name != 'repository_dispatch' || github.event.client_payload.slash_command.args.unnamed.all == '' || contains(github.event.client_payload.slash_command.args.unnamed.all, 'taint'))
         permissions:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
         steps:
+            -   name: Add action run link to trigger comment
+                uses: peter-evans/create-or-update-comment@v4
+                if: github.event_name == 'repository_dispatch'
+                with:
+                    token: ${{ secrets.BOT_TOKEN }}
+                    repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+                    comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+                    edit-mode: replace
+                    body: |
+                        ${{ github.event.client_payload.github.payload.comment.body }}
+                        https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
             -   name: Checkout
                 uses: actions/checkout@v4
-                if: env.writable == 1
+                if: env.writable == 1 && github.event_name != 'repository_dispatch'
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
                 uses: actions/checkout@v4
                 if: env.writable == 0
+            -   name: Checkout on chat commnad
+                uses: actions/checkout@v4
+                if: github.event_name == 'repository_dispatch'
+                with:
+                    token: ${{ secrets.BOT_TOKEN }}
+                    repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+                    ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
@@ -89,17 +131,20 @@ jobs:
 
             -   name: Composer install
                 uses: ramsey/composer-install@v3
-                with:
-                    composer-options: --ansi --prefer-dist
 
             -   name: Run psalm taint analysis
+                if: github.event_name != 'repository_dispatch'
                 run: vendor/bin/psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache
 
             -   name: Check psalm baseline
                 id: baseline
                 run: |
-                    composer taint-baseline
-                    git diff --exit-code .tools/psalm/baseline-taint.xml || (echo "::error file=.tools/psalm/baseline-taint.xml,line=1,col=1::Psalm taint baseline file is outdated and must be regenerated via \`composer taint-baseline\`." && exit 1)
+                    composer taint:baseline
+                    git diff --exit-code .tools/psalm/baseline-taint.xml || (echo "::error file=.tools/psalm/baseline-taint.xml,line=1,col=1::Psalm taint baseline file is outdated and must be regenerated via \`composer taint:baseline\`." && exit 1)
+
+            -   name: Git pull
+                if: failure() && steps.baseline.conclusion != 'skipped' && github.event_name == 'repository_dispatch'
+                run: git pull --ff-only --no-tags --depth=1
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v5
@@ -110,16 +155,36 @@ jobs:
                     commit_user_email: rex-bot@users.noreply.github.com
                     file_pattern: .tools/psalm/baseline-taint.xml
 
-    phpstan-analysis:
-        name: phpstan static code analysis
+    phpstan:
         runs-on: ubuntu-latest
         timeout-minutes: 30
+        if: github.event_name != 'repository_dispatch' || github.event.client_payload.slash_command.args.unnamed.all == '' || contains(github.event.client_payload.slash_command.args.unnamed.all, 'phpstan')
         permissions:
             contents: write  # for Git to git apply
 
         steps:
+            -   name: Add action run link to trigger comment
+                uses: peter-evans/create-or-update-comment@v4
+                if: github.event_name == 'repository_dispatch'
+                with:
+                    token: ${{ secrets.BOT_TOKEN }}
+                    repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+                    comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+                    edit-mode: replace
+                    body: |
+                        ${{ github.event.client_payload.github.payload.comment.body }}
+                        https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
             -   name: Checkout
                 uses: actions/checkout@v4
+                if: github.event_name != 'repository_dispatch'
+            -   name: Checkout on chat commnad
+                uses: actions/checkout@v4
+                if: github.event_name == 'repository_dispatch'
+                with:
+                    token: ${{ secrets.BOT_TOKEN }}
+                    repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+                    ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
@@ -130,8 +195,6 @@ jobs:
 
             -   name: Composer install
                 uses: ramsey/composer-install@v3
-                with:
-                    composer-options: --ansi --prefer-dist
 
             -   name: Setup REDAXO
                 run: |
@@ -142,4 +205,25 @@ jobs:
                     php redaxo/bin/console config:set --type boolean debug.throw_always_exception true -v
 
             -   name: Run phpstan analysis
+                if: github.event_name != 'repository_dispatch'
                 run: vendor/bin/phpstan analyse --ansi
+
+            -   name: Check phpstan baseline
+                if: github.event_name == 'repository_dispatch'
+                id: baseline
+                run: |
+                    composer phpstan:baseline
+                    git diff --exit-code .tools/phpstan/baseline.neon || (echo "::error file=.tools/phpstan/baseline.neon,line=1,col=1::PHPStan baseline file is outdated and must be regenerated via \`composer phpstan:baseline\`." && exit 1)
+
+            -   name: Git pull
+                if: failure() && steps.baseline.conclusion != 'skipped' && github.event_name == 'repository_dispatch'
+                run: git pull --ff-only --no-tags --depth=1
+
+            -   name: Commit changed files
+                uses: stefanzweifel/git-auto-commit-action@v5
+                if: failure() && steps.baseline.conclusion != 'skipped' && env.writable == 1
+                with:
+                    commit_message: Update phpstan baseline
+                    commit_user_name: rex-bot
+                    commit_user_email: rex-bot@users.noreply.github.com
+                    file_pattern: .tools/phpstan/baseline.neon

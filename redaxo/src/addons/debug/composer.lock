@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1fee3deb4365c00b0a52aefd5fa68c8f",
+    "content-hash": "576f69278908c4848731242e8f54edaf",
     "packages": [
         {
             "name": "itsgoingd/clockwork",
-            "version": "v5.2.0",
+            "version": "v5.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "df52c7c4d8d60443ea1d14bcf9b182d4eaaeec26"
+                "reference": "356b2017decc88d42fc08e903cb41277e3966da1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/df52c7c4d8d60443ea1d14bcf9b182d4eaaeec26",
-                "reference": "df52c7c4d8d60443ea1d14bcf9b182d4eaaeec26",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/356b2017decc88d42fc08e903cb41277e3966da1",
+                "reference": "356b2017decc88d42fc08e903cb41277e3966da1",
                 "shasum": ""
             },
             "require": {
@@ -71,7 +71,7 @@
             ],
             "support": {
                 "issues": "https://github.com/itsgoingd/clockwork/issues",
-                "source": "https://github.com/itsgoingd/clockwork/tree/v5.2.0"
+                "source": "https://github.com/itsgoingd/clockwork/tree/v5.2.1"
             },
             "funding": [
                 {
@@ -79,7 +79,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-20T22:36:44+00:00"
+            "time": "2024-03-27T21:22:54+00:00"
         }
     ],
     "packages-dev": [],
