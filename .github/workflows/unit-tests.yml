@@ -57,7 +57,7 @@ jobs:
             -   name: Composer install
                 uses: ramsey/composer-install@v3
                 with:
-                    composer-options: --ansi --prefer-dist ${{ matrix.composer-flags }}
+                    composer-options: ${{ matrix.composer-flags }}
 
             -   name: Setup Problem Matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
