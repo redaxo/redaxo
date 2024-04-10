@@ -1,18 +1,24 @@
 <?php
 
+namespace Redaxo\Core\Tests\Content;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Content\ArticleContentBase;
 use Redaxo\Core\Database\Sql;
+use ReflectionClass;
+use ReflectionProperty;
+use rex_exception;
 
 /** @internal */
-final class rex_article_content_base_test extends TestCase
+final class ArticleContentBaseTest extends TestCase
 {
     public function testHasValue(): void
     {
         $instance = $this->createArticleContentBaseWithoutConstructor();
 
         // fake meta field in database structure
-        $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
+        $propArticle = new ReflectionProperty(ArticleContentBase::class, 'ARTICLE');
         $propArticle->setValue($instance, Sql::factory()->setValue('art_foo', 'teststring'));
 
         self::assertTrue($instance->hasValue('foo'));
@@ -27,7 +33,7 @@ final class rex_article_content_base_test extends TestCase
         $instance = $this->createArticleContentBaseWithoutConstructor();
 
         // fake meta field in database structure
-        $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
+        $propArticle = new ReflectionProperty(ArticleContentBase::class, 'ARTICLE');
         $propArticle->setValue($instance, Sql::factory()->setValue('art_foo', 'teststring'));
 
         self::assertEquals('teststring', $instance->getValue('foo'));
@@ -53,8 +59,8 @@ final class rex_article_content_base_test extends TestCase
         ];
     }
 
-    private function createArticleContentBaseWithoutConstructor(): rex_article_content_base
+    private function createArticleContentBaseWithoutConstructor(): ArticleContentBase
     {
-        return (new ReflectionClass(rex_article_content_base::class))->newInstanceWithoutConstructor();
+        return (new ReflectionClass(ArticleContentBase::class))->newInstanceWithoutConstructor();
     }
 }

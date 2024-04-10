@@ -1,9 +1,14 @@
 <?php
 
+namespace Redaxo\Core\Content;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use rex_complex_perm;
 
-class rex_module_perm extends rex_complex_perm
+use function in_array;
+
+class ModulePermission extends rex_complex_perm
 {
     /**
      * @param int $moduleId

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleCache;
+use Redaxo\Core\Content\ModuleCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
@@ -99,7 +100,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
         if ($del->getRows() > 0) {
             $del = Sql::factory();
             $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'module_action WHERE module_id=?', [$moduleId]);
-            rex_module_cache::delete($moduleId);
+            ModuleCache::delete($moduleId);
             $success = I18n::msg('module_deleted');
             $success = rex_extension::registerPoint(new rex_extension_point('MODULE_DELETED', $success, [
                 'id' => $moduleId,
@@ -130,7 +131,7 @@ if ('add' == $function || 'edit' == $function) {
 
                 $IMOD->insert();
                 $moduleId = $IMOD->getLastId();
-                rex_module_cache::delete($moduleId);
+                ModuleCache::delete($moduleId);
                 $success = I18n::msg('module_added');
                 $success = rex_extension::registerPoint(new rex_extension_point('MODULE_ADDED', $success, [
                     'id' => $moduleId,
@@ -154,7 +155,7 @@ if ('add' == $function || 'edit' == $function) {
                     $UMOD->addGlobalUpdateFields();
 
                     $UMOD->update();
-                    rex_module_cache::delete($moduleId);
+                    ModuleCache::delete($moduleId);
                     $success = I18n::msg('module_updated') . ' | ' . I18n::msg('articel_updated');
                     $success = rex_extension::registerPoint(new rex_extension_point('MODULE_UPDATED', $success, [
                         'id' => $moduleId,

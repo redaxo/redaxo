@@ -1,6 +1,8 @@
 <?php
 
+use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ModulePermission;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\CronjobExecutor;
 use Redaxo\Core\Cronjob\CronjobManager;
@@ -129,8 +131,8 @@ rex_var_dumper::register();
 rex_user::setRoleClass(rex_user_role::class);
 
 rex_complex_perm::register('clang', rex_clang_perm::class);
-rex_complex_perm::register('structure', rex_structure_perm::class);
-rex_complex_perm::register('modules', rex_module_perm::class);
+rex_complex_perm::register('structure', StructurePermission::class);
+rex_complex_perm::register('modules', ModulePermission::class);
 rex_complex_perm::register('media', rex_media_perm::class);
 
 rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);

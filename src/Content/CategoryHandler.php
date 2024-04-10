@@ -11,7 +11,6 @@ use rex_clang;
 use rex_complex_perm;
 use rex_extension;
 use rex_extension_point;
-use rex_template;
 
 use function count;
 use function in_array;
@@ -71,14 +70,14 @@ class CategoryHandler
         }
 
         // Alle Templates der Kategorie
-        $templates = rex_template::getTemplatesForCategory($categoryId);
+        $templates = Template::getTemplatesForCategory($categoryId);
 
         $user = self::getUser();
 
         // Kategorie in allen Sprachen anlegen
         $AART = Sql::factory();
         foreach (rex_clang::getAllIds() as $key) {
-            $templateId = rex_template::getDefaultId();
+            $templateId = Template::getDefaultId();
             if (isset($startpageTemplates[$key]) && '' != $startpageTemplates[$key]) {
                 $templateId = $startpageTemplates[$key];
             }

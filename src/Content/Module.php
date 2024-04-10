@@ -1,8 +1,12 @@
 <?php
 
+namespace Redaxo\Core\Content;
+
 use Redaxo\Core\Filesystem\File;
 
-class rex_module
+use function assert;
+
+class Module
 {
     private int $id;
     private ?string $key = '';
@@ -53,14 +57,14 @@ class rex_module
             return $mapping;
         }
 
-        $file = rex_module_cache::getKeyMappingPath();
+        $file = ModuleCache::getKeyMappingPath();
         $mapping = File::getCache($file, null);
 
         if (null !== $mapping) {
             return $mapping;
         }
 
-        rex_module_cache::generateKeyMapping();
+        ModuleCache::generateKeyMapping();
 
         return $mapping = File::getCache($file);
     }

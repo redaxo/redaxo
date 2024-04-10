@@ -1,11 +1,14 @@
 <?php
 
+namespace Redaxo\Core\Tests\Content;
+
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Content\ArticleSlice;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
 /** @internal */
-final class rex_article_slice_test extends TestCase
+final class ArticleSliceTest extends TestCase
 {
     private const FAKE_ID = 2_147_483_647; // max int on 32bit
 
@@ -21,7 +24,7 @@ final class rex_article_slice_test extends TestCase
     {
         $id = $this->addSlice(1, 1);
 
-        $slice = rex_article_slice::getArticleSliceById($id);
+        $slice = ArticleSlice::getArticleSliceById($id);
 
         self::assertNotNull($slice);
         self::assertSame('foo', $slice->getValue(1));
@@ -37,7 +40,7 @@ final class rex_article_slice_test extends TestCase
         $nextOnline = $this->addSlice(3, 1);
         $this->addSlice(5, 1);
 
-        $slice = rex_article_slice::getArticleSliceById($id);
+        $slice = ArticleSlice::getArticleSliceById($id);
 
         self::assertSame($next, $slice->getNextSlice()->getId());
         self::assertSame($nextOnline, $slice->getNextSlice(true)->getId());
@@ -51,7 +54,7 @@ final class rex_article_slice_test extends TestCase
         $previous = $this->addSlice(4, 0);
         $id = $this->addSlice(5, 1);
 
-        $slice = rex_article_slice::getArticleSliceById($id);
+        $slice = ArticleSlice::getArticleSliceById($id);
 
         self::assertSame($previous, $slice->getPreviousSlice()->getId());
         self::assertSame($previousOnline, $slice->getPreviousSlice(true)->getId());

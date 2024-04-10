@@ -1,14 +1,20 @@
 <?php
 
-use Redaxo\Core\Content\Article;
-use Redaxo\Core\Content\Category;
+namespace Redaxo\Core\Content;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use rex_clang;
+use rex_ctype;
 
-class rex_template
+use function assert;
+use function in_array;
+use function is_array;
+
+class Template
 {
     private int $id;
     private ?string $key = '';
@@ -68,10 +74,10 @@ class rex_template
             return false;
         }
 
-        $file = rex_template_cache::getPath($this->id);
+        $file = TemplateCache::getPath($this->id);
 
         if (!is_file($file)) {
-            rex_template_cache::generate($this->id);
+            TemplateCache::generate($this->id);
         }
 
         return $file;
@@ -166,14 +172,14 @@ class rex_template
             return $mapping;
         }
 
-        $file = rex_template_cache::getKeyMappingPath();
+        $file = TemplateCache::getKeyMappingPath();
         $mapping = File::getCache($file, null);
 
         if (null !== $mapping) {
             return $mapping;
         }
 
-        rex_template_cache::generateKeyMapping();
+        TemplateCache::generateKeyMapping();
 
         return $mapping = File::getCache($file);
     }

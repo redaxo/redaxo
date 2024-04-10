@@ -1,11 +1,15 @@
 <?php
 
+namespace Redaxo\Core\Content;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
-class rex_template_cache
+use function function_exists;
+
+class TemplateCache
 {
     public static function delete(int $id): void
     {

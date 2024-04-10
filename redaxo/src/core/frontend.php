@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleContent;
+use Redaxo\Core\Content\ArticleContentBase;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
@@ -74,7 +76,7 @@ if (Core::getConfig('article_history', false)) {
 
         rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
             $article = $ep->getParam('article');
-            if ($article instanceof rex_article_content) {
+            if ($article instanceof ArticleContent) {
                 $article->getContentAsQuery();
             }
             $article->setEval(true);
@@ -84,7 +86,7 @@ if (Core::getConfig('article_history', false)) {
             $historyDate = rex_request('rex_history_date', 'string');
             $article = $ep->getParam('article');
 
-            if ($article instanceof rex_article_content && $article->getArticleId() == Article::getCurrentId()) {
+            if ($article instanceof ArticleContent && $article->getArticleId() == Article::getCurrentId()) {
                 $articleLimit = '';
                 if (0 != $article->getArticleId()) {
                     $articleLimit = ' AND ' . Core::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
@@ -131,10 +133,10 @@ if (Core::getConfig('article_work_version', false)) {
             exit;
         }
 
-        /** @var rex_article_content_base $article */
+        /** @var ArticleContentBase $article */
         $article = $ep->getParam('article');
         $article->setSliceRevision($version);
-        if ($article instanceof rex_article_content) {
+        if ($article instanceof ArticleContent) {
             $article->getContentAsQuery();
         }
         $article->setEval(true);
@@ -146,7 +148,7 @@ if ($clangId && !rex_clang::exists($clangId)) {
     rex_redirect(Article::getNotfoundArticleId(), rex_clang::getStartId());
 }
 
-$article = new rex_article_content();
+$article = new ArticleContent();
 $article->setClang(rex_clang::getCurrentId());
 
 if (!$article->setArticleId(Article::getCurrentId())) {
@@ -165,7 +167,7 @@ if (!$article->setArticleId(Article::getCurrentId())) {
 try {
     $content .= $article->getArticleTemplate();
 } catch (rex_article_not_found_exception) {
-    $article = new rex_article_content();
+    $article = new ArticleContent();
     $article->setClang(rex_clang::getCurrentId());
     $article->setArticleId(Article::getNotfoundArticleId());
 

@@ -1,17 +1,23 @@
 <?php
 
-use Redaxo\Core\Content\Article;
+namespace Redaxo\Core\Content;
+
+use LogicException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use rex_clang;
+
+use function is_array;
+use function is_int;
 
 /**
- * The rex_article_slice class is an object wrapper over the database table rex_article_slice.
- * Together with rex_article and rex_category it provides an object oriented
+ * The ArticleSlice class is an object wrapper over the database table rex_article_slice.
+ * Together with Article and Category it provides an object oriented
  * Framework for accessing vital parts of your website.
  * This framework can be used in Modules, Templates and PHP-Slices!
  */
-class rex_article_slice
+class ArticleSlice
 {
     protected const ORDER_ASC = 'ASC';
     protected const ORDER_DESC = 'DESC';
@@ -242,13 +248,13 @@ class rex_article_slice
      * Gibt den Slice formatiert zurück.
      *
      * @since 4.1 - 29.05.2008
-     * @see rex_article_content::getSlice()
+     * @see ArticleContent::getSlice()
      *
      * @return string
      */
     public function getSlice()
     {
-        $art = new rex_article_content();
+        $art = new ArticleContent();
         $art->setArticleId($this->getArticleId());
         $art->setClang($this->getClangId());
         $art->setSliceRevision($this->getRevision());

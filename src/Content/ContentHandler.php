@@ -1,15 +1,24 @@
 <?php
 
-use Redaxo\Core\Content\Article;
-use Redaxo\Core\Content\ArticleCache;
+namespace Redaxo\Core\Content;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use rex_api_exception;
+use rex_be_controller;
+use rex_clang;
+use rex_exception;
+use rex_extension;
+use rex_extension_point;
+use rex_extension_point_art_content_updated;
 
-class rex_content_service
+use function function_exists;
+
+class ContentHandler
 {
     /**
      * @throws rex_api_exception
@@ -344,7 +353,7 @@ class rex_content_service
                 continue;
             }
 
-            $CONT = new rex_article_content_base();
+            $CONT = new ArticleContentBase();
             $CONT->setCLang($clangId);
             $CONT->setEval(false); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
             if (!$CONT->setArticleId($articleId)) {

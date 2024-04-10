@@ -1,20 +1,27 @@
 <?php
 
-use Redaxo\Core\Content\Article;
+namespace Redaxo\Core\Content;
+
 use Redaxo\Core\Filesystem\Path;
+use rex_exception;
+use rex_extension;
+use rex_extension_point;
+
+use function assert;
+use function is_string;
 
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.
  * DB Anfragen werden vermieden, caching läuft über generated Dateien.
  */
-class rex_article_content extends rex_article_content_base
+class ArticleContent extends ArticleContentBase
 {
     // bc schalter
     /** @var bool */
     private $viasql = false;
 
     /**
-     * @var rex_article_slice|null
+     * @var ArticleSlice|null
      * @phpstan-ignore-next-line this property looks unread, but is written from content cache file
      */
     private $currentSlice;
@@ -117,7 +124,7 @@ class rex_article_content extends rex_article_content_base
                 $articleContentFile = Path::coreCache('structure/' . $this->article_id . '.' . $this->clang . '.content');
 
                 if (!is_file($articleContentFile)) {
-                    rex_content_service::generateArticleContent($this->article_id, $this->clang);
+                    ContentHandler::generateArticleContent($this->article_id, $this->clang);
                 }
 
                 require $articleContentFile;
@@ -136,7 +143,7 @@ class rex_article_content extends rex_article_content_base
         ]));
     }
 
-    public function getCurrentSlice(): rex_article_slice
+    public function getCurrentSlice(): ArticleSlice
     {
         if ($this->viasql) {
             return parent::getCurrentSlice();

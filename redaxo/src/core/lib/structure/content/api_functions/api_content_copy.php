@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
@@ -24,7 +25,7 @@ class rex_api_content_copy extends rex_api_function
             && $user->getComplexPerm('clang')->hasPerm($clangA)
             && $user->getComplexPerm('clang')->hasPerm($clangB)
         ) {
-            if (rex_content_service::copyContent($articleId, $articleId, $clangA, $clangB)) {
+            if (ContentHandler::copyContent($articleId, $articleId, $clangA, $clangB)) {
                 return new rex_api_result(true, I18n::msg('content_contentcopy'));
             }
 

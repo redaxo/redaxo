@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Base\InstancePoolTrait;
+use Redaxo\Core\Content\ModulePermission;
+use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
@@ -223,7 +225,7 @@ class rex_user
      *
      * @return rex_complex_perm|null Complex perm
      * @psalm-return rex_complex_perm|null
-     * @phpstan-return rex_media_perm|rex_structure_perm|rex_module_perm|rex_clang_perm|null
+     * @phpstan-return rex_media_perm|StructurePermission|ModulePermission|rex_clang_perm|null
      */
     public function getComplexPerm($key)
     {

@@ -1,9 +1,12 @@
 <?php
 
-use Redaxo\Core\Content\Category;
-use Redaxo\Core\Translation\I18n;
+namespace Redaxo\Core\Content;
 
-class rex_structure_perm extends rex_complex_perm
+use Redaxo\Core\Translation\I18n;
+use rex_category_select;
+use rex_complex_perm;
+
+class StructurePermission extends rex_complex_perm
 {
     /**
      * @param int $categoryId

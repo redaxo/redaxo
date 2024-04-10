@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Content\Template;
+use Redaxo\Core\Content\TemplateCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
@@ -34,12 +36,12 @@ if ('delete' == $function) {
         $error = I18n::msg('csrf_token_invalid');
     } else {
         $del = Sql::factory();
-        $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_delete_template_because_its_in_use');
+        $templateIsInUseError = Template::templateIsInUse($templateId, 'cant_delete_template_because_its_in_use');
         if (false !== $templateIsInUseError) {
             $error .= $templateIsInUseError;
         }
 
-        if (rex_template::getDefaultId() == $templateId) {
+        if (Template::getDefaultId() == $templateId) {
             $del = Sql::factory();
             $del->setQuery('SELECT name FROM ' . Core::getTable('template') . ' WHERE id = ' . $templateId);
             $templatename = $del->getValue('name');
@@ -48,7 +50,7 @@ if ('delete' == $function) {
         }
         if ('' == $error) {
             $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'template WHERE id = "' . $templateId . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
-            rex_template_cache::delete($templateId);
+            TemplateCache::delete($templateId);
             $success = I18n::msg('template_deleted');
             $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
                 'id' => $templateId,
@@ -133,7 +135,7 @@ if ('add' == $function || 'edit' == $function) {
             try {
                 $TPL->insert();
                 $templateId = $TPL->getLastId();
-                rex_template_cache::delete($templateId);
+                TemplateCache::delete($templateId);
                 $success = I18n::msg('template_added');
                 $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_ADDED', $success, [
                     'id' => $templateId,
@@ -155,11 +157,11 @@ if ('add' == $function || 'edit' == $function) {
             }
         } else {
             if ($previousActive && !$active) {
-                if (rex_template::getDefaultId() == $templateId) {
+                if (Template::getDefaultId() == $templateId) {
                     $error .= I18n::msg('cant_inactivate_template_because_its_default_template', $templatename);
                 }
 
-                $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_inactivate_template_because_its_in_use');
+                $templateIsInUseError = Template::templateIsInUse($templateId, 'cant_inactivate_template_because_its_in_use');
                 if (false !== $templateIsInUseError) {
                     $error .= ($error ? '<br><br>' : '') . $templateIsInUseError;
                 }
@@ -170,7 +172,7 @@ if ('add' == $function || 'edit' == $function) {
 
                 try {
                     $TPL->update();
-                    rex_template_cache::delete($templateId);
+                    TemplateCache::delete($templateId);
                     $success = I18n::msg('template_updated');
                     $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
                         'id' => $templateId,

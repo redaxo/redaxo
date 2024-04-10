@@ -1,16 +1,31 @@
 <?php
 
+namespace Redaxo\Core\Content;
+
+use LogicException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
+use rex_clang;
+use rex_exception;
+use rex_extension;
+use rex_extension_point;
+use rex_sql_exception;
+use rex_var;
+
+use function assert;
+use function in_array;
+use function is_int;
+use function is_object;
+use function is_string;
 
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.
  * Alle benötigten Daten werden von der DB bezogen.
  */
-class rex_article_content_base
+class ArticleContentBase
 {
     /** @var string */
     public $warning;
@@ -319,13 +334,13 @@ class rex_article_content_base
         return $this->getStreamOutput('module/' . $moduleId . '/output', $output);
     }
 
-    public function getCurrentSlice(): rex_article_slice
+    public function getCurrentSlice(): ArticleSlice
     {
         if (!$this->sliceSql || !$this->sliceSql->valid()) {
             throw new rex_exception('There is no current slice; getCurrentSlice() can be called only while rendering slices');
         }
 
-        return rex_article_slice::fromSql($this->sliceSql);
+        return ArticleSlice::fromSql($this->sliceSql);
     }
 
     /**
@@ -430,7 +445,7 @@ class rex_article_content_base
             try {
                 ob_implicit_flush(false);
 
-                $TEMPLATE = new rex_template($this->template_id);
+                $TEMPLATE = new Template($this->template_id);
 
                 Timer::measure('Template: ' . ($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
                     $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
@@ -559,7 +574,7 @@ class rex_article_content_base
 
         // calculating the key takes an additional sql query... execute the query only when we are sure the var is used
         if (str_contains($content, 'REX_TEMPLATE_KEY')) {
-            $template = new rex_template($templateId);
+            $template = new Template($templateId);
             $content = str_replace('REX_TEMPLATE_KEY', $template->getKey(), $content);
         }
 
@@ -659,7 +674,7 @@ class rex_article_content_base
                         $articleContent .= "}\n\nif (\$this->ctype == '" . $sliceCtypeId . "' || \$this->ctype == '-1') {\n";
                     }
 
-                    $slice = rex_article_slice::fromSql($artDataSql);
+                    $slice = ArticleSlice::fromSql($artDataSql);
                     $articleContent .= '$this->currentSlice = ' . var_export($slice, true) . ";\n";
                 }
 

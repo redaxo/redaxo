@@ -1,11 +1,14 @@
 <?php
 
+namespace Redaxo\Core\Content;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use rex_exception;
 
-class rex_module_cache
+class ModuleCache
 {
     public static function delete(int $id): void
     {

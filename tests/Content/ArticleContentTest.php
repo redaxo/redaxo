@@ -1,16 +1,23 @@
 <?php
 
+namespace Redaxo\Core\Tests\Content;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleContent;
+use Redaxo\Core\Content\ArticleContentBase;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
+use ReflectionClass;
+use ReflectionProperty;
+use rex_exception;
 
 /** @internal */
-final class rex_article_content_test extends TestCase
+final class ArticleContentTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -66,13 +73,13 @@ final class rex_article_content_test extends TestCase
 
     public function testBcHasValue(): void
     {
-        $instance = new rex_article_content(1, 1);
+        $instance = new ArticleContent(1, 1);
+        $viaSql = new ReflectionProperty(ArticleContent::class, 'viasql');
 
-        $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
         $viaSql->setValue($instance, true);
 
         // fake meta field in database structure
-        $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
+        $propArticle = new ReflectionProperty(ArticleContentBase::class, 'ARTICLE');
         $propArticle->setValue($instance, Sql::factory()->setValue('art_foo', 'teststring'));
 
         self::assertTrue($instance->hasValue('foo'));
@@ -84,13 +91,13 @@ final class rex_article_content_test extends TestCase
 
     public function testBcGetValue(): void
     {
-        $instance = new rex_article_content(1, 1);
+        $instance = new ArticleContent(1, 1);
 
-        $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
+        $viaSql = new ReflectionProperty(ArticleContent::class, 'viasql');
         $viaSql->setValue($instance, true);
 
         // fake meta field in database structure
-        $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
+        $propArticle = new ReflectionProperty(ArticleContentBase::class, 'ARTICLE');
         $propArticle->setValue($instance, Sql::factory()->setValue('art_foo', 'teststring'));
 
         self::assertEquals('teststring', $instance->getValue('foo'));
@@ -100,9 +107,9 @@ final class rex_article_content_test extends TestCase
     #[DataProvider('dataBcGetValueNonExisting')]
     public function testBcGetValueNonExisting(string $value): void
     {
-        $instance = new rex_article_content(1, 1);
+        $instance = new ArticleContent(1, 1);
 
-        $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
+        $viaSql = new ReflectionProperty(ArticleContent::class, 'viasql');
         $viaSql->setValue($instance, true);
 
         $this->expectException(rex_exception::class);
@@ -121,7 +128,7 @@ final class rex_article_content_test extends TestCase
 
     public function testHasValue(): void
     {
-        $instance = new rex_article_content(1, 1);
+        $instance = new ArticleContent(1, 1);
 
         self::assertTrue($instance->hasValue('foo'));
         self::assertTrue($instance->hasValue('art_foo'));
@@ -132,7 +139,7 @@ final class rex_article_content_test extends TestCase
 
     public function testGetValue(): void
     {
-        $instance = new rex_article_content(1, 1);
+        $instance = new ArticleContent(1, 1);
 
         self::assertEquals('teststring', $instance->getValue('foo'));
         self::assertEquals('teststring', $instance->getValue('art_foo'));
@@ -141,7 +148,7 @@ final class rex_article_content_test extends TestCase
     #[DataProvider('dataGetValueNonExisting')]
     public function testGetValueNonExisting(string $value): void
     {
-        $instance = new rex_article_content(1, 1);
+        $instance = new ArticleContent(1, 1);
 
         $this->expectException(rex_exception::class);
 

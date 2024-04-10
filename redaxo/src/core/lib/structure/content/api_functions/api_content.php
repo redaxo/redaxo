@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
@@ -44,7 +45,7 @@ class rex_api_content_move_slice extends rex_api_function
 
         // ----- RECHTE AM MODUL ?
         if ($user->getComplexPerm('modules')->hasPerm($moduleId)) {
-            $message = rex_content_service::moveSlice($sliceId, $clang, $direction);
+            $message = ContentHandler::moveSlice($sliceId, $clang, $direction);
         } else {
             throw new rex_api_exception(I18n::msg('no_rights_to_this_function'));
         }

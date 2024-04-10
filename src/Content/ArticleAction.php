@@ -1,10 +1,17 @@
 <?php
 
+namespace Redaxo\Core\Content;
+
+use InvalidArgumentException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Util\Stream;
+use rex_var;
 
-class rex_article_action
+use function in_array;
+use function is_array;
+
+class ArticleAction
 {
     public const PREVIEW = 'preview';
     public const PRESAVE = 'presave';
@@ -76,7 +83,7 @@ class rex_article_action
     public function exec($type)
     {
         if (!in_array($type, [self::PREVIEW, self::PRESAVE, self::POSTSAVE])) {
-            throw new InvalidArgumentException('$type musst be rex_article_action::PREVIEW, ::PRESAVE or ::POSTSAVE');
+            throw new InvalidArgumentException('$type musst be ArticleAction::PREVIEW, ::PRESAVE or ::POSTSAVE');
         }
 
         $this->messages = [];

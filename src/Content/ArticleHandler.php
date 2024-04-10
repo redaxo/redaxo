@@ -9,10 +9,8 @@ use Redaxo\Core\Translation\I18n;
 use rex_api_exception;
 use rex_clang;
 use rex_complex_perm;
-use rex_content_service;
 use rex_extension;
 use rex_extension_point;
-use rex_template;
 
 use function count;
 use function is_array;
@@ -47,7 +45,7 @@ class ArticleHandler
             $path = '|';
         }
 
-        $templates = rex_template::getTemplatesForCategory($data['category_id']);
+        $templates = Template::getTemplatesForCategory($data['category_id']);
 
         // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
         // oder leer setzen.
@@ -139,7 +137,7 @@ class ArticleHandler
         $ooArt = Article::get($articleId, $clang);
         $data['category_id'] = $ooArt->getCategoryId();
 
-        $templates = rex_template::getTemplatesForCategory($data['category_id']);
+        $templates = Template::getTemplatesForCategory($data['category_id']);
 
         // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
         // oder leer setzen.
@@ -784,7 +782,7 @@ class ArticleHandler
                     foreach ($revisions as $rev) {
                         // FIXME this dependency is very ugly!
                         // ArticleSlices kopieren
-                        rex_content_service::copyContent($id, $newId, $clang, $clang, (int) $rev->getValue('revision'));
+                        ContentHandler::copyContent($id, $newId, $clang, $clang, (int) $rev->getValue('revision'));
                     }
 
                     // Prios neu berechnen

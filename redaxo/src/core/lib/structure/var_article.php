@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleContent;
 
 /**
  * REX_ARTICLE[1]
@@ -69,7 +70,7 @@ class rex_var_article extends rex_var
         if (null === $clang) {
             $clang = rex_clang::getCurrentId();
         }
-        $article = new rex_article_content($id, $clang);
+        $article = new ArticleContent($id, $clang);
         return $article->getArticle($ctype);
     }
 }

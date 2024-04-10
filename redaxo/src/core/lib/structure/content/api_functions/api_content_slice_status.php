@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
@@ -29,7 +30,7 @@ class rex_api_content_slice_status extends rex_api_function
         $sliceId = rex_request('slice_id', 'int');
         $status = rex_request('status', 'int');
 
-        rex_content_service::sliceStatus($sliceId, $status);
+        ContentHandler::sliceStatus($sliceId, $status);
 
         return new rex_api_result(true);
     }

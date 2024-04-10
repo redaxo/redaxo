@@ -1,14 +1,28 @@
 <?php
 
+namespace Redaxo\Core\Content;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use rex_api_content_move_slice;
+use rex_api_content_slice_status;
+use rex_be_controller;
+use rex_context;
+use rex_extension;
+use rex_extension_point;
+use rex_extension_point_slice_menu;
+use rex_fragment;
+use rex_response;
+use rex_view;
+
+use function count;
 
 /**
  * Erweiterung eines Artikels um slicemanagement.
  */
-class rex_article_content_editor extends rex_article_content
+class ArticleContentEditor extends ArticleContent
 {
     /** @var array<int, list<array{name: string, id: int, key: string}>> */
     private $MODULESELECT;
@@ -70,11 +84,11 @@ class rex_article_content_editor extends rex_article_content
                     // **************** Aktueller Slice
 
                     // ----- PRE VIEW ACTION [EDIT]
-                    $action = new rex_article_action($moduleId, 'edit', $artDataSql);
+                    $action = new ArticleAction($moduleId, 'edit', $artDataSql);
                     if ('post' == rex_request_method() && 'edit' == rex_request('function', 'string')) {
                         $action->setRequestValues();
                     }
-                    $action->exec(rex_article_action::PREVIEW);
+                    $action->exec(ArticleAction::PREVIEW);
                     // ----- / PRE VIEW ACTION
 
                     $moduleInput = $this->replaceVars($artDataSql, $moduleInput);
@@ -150,7 +164,7 @@ class rex_article_content_editor extends rex_article_content
         $menuMoveupAction = [];
         $menuMovedownAction = [];
         if (Core::requireUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
-            $templateHasModule = rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId);
+            $templateHasModule = Template::hasModule($this->template_attributes, $this->ctype, $moduleId);
             if ($templateHasModule) {
                 // edit
                 $item = [];
@@ -354,7 +368,7 @@ class rex_article_content_editor extends rex_article_content
                 foreach ($modules as $m) {
                     $id = (int) $m['id'];
                     if (Core::requireUser()->getComplexPerm('modules')->hasPerm($id)) {
-                        if (rex_template::hasModule($this->template_attributes, $ctId, $id)) {
+                        if (Template::hasModule($this->template_attributes, $ctId, $id)) {
                             $this->MODULESELECT[$ctId][] = ['name' => I18n::translate((string) $m['name'], false), 'id' => $id, 'key' => (string) $m['key']];
                         }
                     }
@@ -409,9 +423,9 @@ class rex_article_content_editor extends rex_article_content
             ->setValue('ctype_id', $this->ctype);
 
         // ----- PRE VIEW ACTION [ADD]
-        $action = new rex_article_action($moduleId, 'add', $initDataSql);
+        $action = new ArticleAction($moduleId, 'add', $initDataSql);
         $action->setRequestValues();
-        $action->exec(rex_article_action::PREVIEW);
+        $action->exec(ArticleAction::PREVIEW);
         // ----- / PRE VIEW ACTION
 
         $moduleInput = $this->replaceVars($initDataSql, (string) $MOD->getValue('input'));
