@@ -1879,11 +1879,6 @@
       <code><![CDATA[$id]]></code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/lib/structure/version/revision.php">
-    <NoValue>
-      <code><![CDATA[$fromRevisionId]]></code>
-    </NoValue>
-  </file>
   <file src="redaxo/src/core/lib/system_report.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$dbId]]></code>
@@ -3250,6 +3245,11 @@
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$data['template_id']]]></code>
     </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Content/ArticleRevision.php">
+    <NoValue>
+      <code><![CDATA[$fromRevisionId]]></code>
+    </NoValue>
   </file>
   <file src="src/Content/ArticleSlice.php">
     <MixedArgumentTypeCoercion>

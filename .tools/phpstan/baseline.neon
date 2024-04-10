@@ -521,91 +521,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/structure/content/extension_point/slice_menu.php
 
 		-
-			message: "#^Method rex_linkmap_article_list\\:\\:listItem\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/linkmap.php
-
-		-
-			message: "#^Method rex_linkmap_category_tree\\:\\:treeItem\\(\\) has parameter \\$liClasses with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/linkmap.php
-
-		-
-			message: "#^Method rex_linkmap_category_tree\\:\\:treeItem\\(\\) has parameter \\$liIcon with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/linkmap.php
-
-		-
-			message: "#^Method rex_linkmap_category_tree\\:\\:treeItem\\(\\) has parameter \\$linkClasses with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/linkmap.php
-
-		-
-			message: "#^Method rex_linkmap_category_tree\\:\\:treeItem\\(\\) has parameter \\$subHtml with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/linkmap.php
-
-		-
-			message: "#^Method rex_linkmap_article_list_renderer\\:\\:getList\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_article_list_renderer\\:\\:listItem\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_article_list_renderer\\:\\:renderList\\(\\) has parameter \\$articles with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_article_list_renderer\\:\\:renderList\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_tree_renderer\\:\\:formatLi\\(\\) has parameter \\$currentCategoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_tree_renderer\\:\\:formatLi\\(\\) has parameter \\$liAttr with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_tree_renderer\\:\\:formatLi\\(\\) has parameter \\$linkAttr with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_tree_renderer\\:\\:getTree\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_tree_renderer\\:\\:treeItem\\(\\) has parameter \\$liClasses with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_tree_renderer\\:\\:treeItem\\(\\) has parameter \\$liIcon with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_tree_renderer\\:\\:treeItem\\(\\) has parameter \\$linkClasses with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_tree_renderer\\:\\:treeItem\\(\\) has parameter \\$subHtml with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
-
-		-
 			message: "#^Method rex_sitemap_category_tree\\:\\:getTree\\(\\) has parameter \\$categoryId with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/linkmap/sitemap.php
@@ -1054,6 +969,91 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\HistoryLogin\\:\\:verifySessionKey\\(\\) has parameter \\$key2 with no type specified\\.$#"
 			count: 1
 			path: ../../src/Content/HistoryLogin.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractArticleListRenderer\\:\\:getList\\(\\) has parameter \\$categoryId with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractArticleListRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractArticleListRenderer\\:\\:listItem\\(\\) has parameter \\$categoryId with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractArticleListRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractArticleListRenderer\\:\\:renderList\\(\\) has parameter \\$articles with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractArticleListRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractArticleListRenderer\\:\\:renderList\\(\\) has parameter \\$categoryId with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractArticleListRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractCategoryTreeRenderer\\:\\:formatLi\\(\\) has parameter \\$currentCategoryId with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractCategoryTreeRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractCategoryTreeRenderer\\:\\:formatLi\\(\\) has parameter \\$liAttr with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractCategoryTreeRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractCategoryTreeRenderer\\:\\:formatLi\\(\\) has parameter \\$linkAttr with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractCategoryTreeRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractCategoryTreeRenderer\\:\\:getTree\\(\\) has parameter \\$categoryId with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractCategoryTreeRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractCategoryTreeRenderer\\:\\:treeItem\\(\\) has parameter \\$liClasses with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractCategoryTreeRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractCategoryTreeRenderer\\:\\:treeItem\\(\\) has parameter \\$liIcon with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractCategoryTreeRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractCategoryTreeRenderer\\:\\:treeItem\\(\\) has parameter \\$linkClasses with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractCategoryTreeRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\AbstractCategoryTreeRenderer\\:\\:treeItem\\(\\) has parameter \\$subHtml with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/AbstractCategoryTreeRenderer.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\ArticleList\\:\\:listItem\\(\\) has parameter \\$categoryId with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/ArticleList.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\CategoryTree\\:\\:treeItem\\(\\) has parameter \\$liClasses with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/CategoryTree.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\CategoryTree\\:\\:treeItem\\(\\) has parameter \\$liIcon with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/CategoryTree.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\CategoryTree\\:\\:treeItem\\(\\) has parameter \\$linkClasses with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/CategoryTree.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Linkmap\\\\CategoryTree\\:\\:treeItem\\(\\) has parameter \\$subHtml with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Linkmap/CategoryTree.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ModulePermission\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
