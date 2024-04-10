@@ -1,11 +1,18 @@
 <?php
 
+namespace Redaxo\Core\Content;
+
 use Redaxo\Core\Database\Sql;
+use rex_backend_login;
+use rex_login;
+use SensitiveParameter;
+
+use const PASSWORD_DEFAULT;
 
 /**
  * @internal
  */
-class rex_history_login extends rex_backend_login
+class HistoryLogin extends rex_backend_login
 {
     /**
      * @return bool

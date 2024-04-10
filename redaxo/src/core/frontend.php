@@ -3,6 +3,8 @@
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleContent;
 use Redaxo\Core\Content\ArticleContentBase;
+use Redaxo\Core\Content\ArticleSliceHistory;
+use Redaxo\Core\Content\HistoryLogin;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
@@ -52,7 +54,7 @@ if (Core::getConfig('article_history', false)) {
             $validtill = DateTime::createFromFormat('YmdHis', $historyValidtime);
             $now = new DateTime();
             if ($now < $validtill) {
-                $login = new rex_history_login();
+                $login = new HistoryLogin();
 
                 if ($login->checkTempSession($historyLogin, $historySession, $historyValidtime)) {
                     $user = $login->getUser();
@@ -92,7 +94,7 @@ if (Core::getConfig('article_history', false)) {
                     $articleLimit = ' AND ' . Core::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
                 }
 
-                rex_article_slice_history::checkTables();
+                ArticleSliceHistory::checkTables();
 
                 $escapeSql = Sql::factory();
 
@@ -100,7 +102,7 @@ if (Core::getConfig('article_history', false)) {
 
                 return 'SELECT ' . Core::getTablePrefix() . 'module.id, ' . Core::getTablePrefix() . 'module.key,' . Core::getTablePrefix() . 'module.name, ' . Core::getTablePrefix() . 'module.output, ' . Core::getTablePrefix() . 'module.input, ' . Core::getTablePrefix() . 'article_slice.*, ' . Core::getTablePrefix() . 'article.parent_id
                     FROM
-                        ' . rex_article_slice_history::getTable() . ' as ' . Core::getTablePrefix() . 'article_slice
+                        ' . ArticleSliceHistory::getTable() . ' as ' . Core::getTablePrefix() . 'article_slice
                     LEFT JOIN ' . Core::getTablePrefix() . 'module ON ' . Core::getTablePrefix() . 'article_slice.module_id=' . Core::getTablePrefix() . 'module.id
                     LEFT JOIN ' . Core::getTablePrefix() . 'article ON ' . Core::getTablePrefix() . 'article_slice.article_id=' . Core::getTablePrefix() . 'article.id
                     WHERE

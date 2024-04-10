@@ -1,11 +1,16 @@
 <?php
 
-use Redaxo\Core\Content\ArticleCache;
+namespace Redaxo\Core\Content;
+
+use DateTimeInterface;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 
-class rex_article_slice_history
+use function count;
+use function in_array;
+
+class ArticleSliceHistory
 {
     /**
      * @return non-empty-string

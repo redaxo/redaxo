@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleSliceHistory;
+use Redaxo\Core\Content\HistoryLogin;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
@@ -274,7 +276,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
             $sliceRevision = $ep->getParam('slice_revision');
 
             if (0 == $sliceRevision) {
-                rex_article_slice_history::makeSnapshot($articleId, $clangId, $type);
+                ArticleSliceHistory::makeSnapshot($articleId, $clangId, $type);
             }
         },
     );
@@ -289,13 +291,13 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
             $articleId = rex_request('history_article_id', 'int');
             $clangId = rex_request('history_clang_id', 'int');
             $historyDate = rex_request('history_date', 'string');
-            rex_article_slice_history::restoreSnapshot($historyDate, $articleId, $clangId);
+            ArticleSliceHistory::restoreSnapshot($historyDate, $articleId, $clangId);
 
             // no break
         case 'layer':
             $articleId = rex_request('history_article_id', 'int');
             $clangId = rex_request('history_clang_id', 'int');
-            $versions = rex_article_slice_history::getSnapshots($articleId, $clangId);
+            $versions = ArticleSliceHistory::getSnapshots($articleId, $clangId);
 
             $select1 = [];
             $select1[] = '<option value="0" selected="selected" data-revision="0">' . I18n::msg('structure_history_current_version') . '</option>';
@@ -338,7 +340,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
-                $userHistorySession = rex_history_login::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
+                $userHistorySession = HistoryLogin::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
                 $articleLink = rex_getUrl(Article::getCurrentId(), rex_clang::getCurrentId(), [
                     'rex_history_login' => $userLogin,
                     'rex_history_session' => $userHistorySession,
@@ -412,7 +414,7 @@ if (Core::getConfig('article_work_version', false)) {
                     $return .= rex_view::error(I18n::msg('version_warning_working_version_to_live'));
                 } elseif ($user->hasPerm('version[live_version]')) {
                     if (true === Core::getConfig('article_history', false)) {
-                        rex_article_slice_history::makeSnapshot($articleId, $clangId, 'work_to_live');
+                        ArticleSliceHistory::makeSnapshot($articleId, $clangId, 'work_to_live');
                     }
 
                     rex_article_revision::copyContent(
