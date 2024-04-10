@@ -5,6 +5,7 @@ use Redaxo\Core\Content\ModulePermission;
 use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\MediaPool\MediaPoolPermission;
 
 class rex_user
 {
@@ -225,7 +226,7 @@ class rex_user
      *
      * @return rex_complex_perm|null Complex perm
      * @psalm-return rex_complex_perm|null
-     * @phpstan-return rex_media_perm|StructurePermission|ModulePermission|rex_clang_perm|null
+     * @phpstan-return MediaPoolPermission|StructurePermission|ModulePermission|rex_clang_perm|null
      */
     public function getComplexPerm($key)
     {

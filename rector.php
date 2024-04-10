@@ -51,6 +51,7 @@ use Redaxo\Core\HttpClient;
 use Redaxo\Core\Log;
 use Redaxo\Core\Mailer;
 use Redaxo\Core\MediaManager;
+use Redaxo\Core\MediaPool;
 use Redaxo\Core\MetaInfo;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
@@ -198,6 +199,13 @@ return RectorConfig::configure()
         'rex_logger' => Log\Logger::class,
         'rex_markdown' => Util\Markdown::class,
         'rex_mailer' => Mailer\Mailer::class,
+        'rex_media' => MediaPool\Media::class,
+        'rex_media_cache' => MediaPool\MediaPoolCache::class,
+        'rex_media_category' => MediaPool\MediaCategory::class,
+        'rex_media_service' => MediaPool\MediaHandler::class,
+        'rex_media_category_service' => MediaPool\MediaCategoryHandler::class,
+        'rex_media_perm' => MediaPool\MediaPoolPermission::class,
+        'rex_mediapool' => MediaPool\MediaPool::class,
         'rex_media_manager' => MediaManager\MediaManager::class,
         'rex_managed_media' => MediaManager\ManagedMedia::class,
         'rex_effect_abstract' => MediaManager\Effect\AbstractEffect::class,
@@ -305,8 +313,8 @@ return RectorConfig::configure()
         new MethodCallRename(Content\ArticleSlice::class, 'getClang', 'getClangId'),
         new MethodCallRename(Content\AbstractElement::class, 'getClang', 'getClangId'),
 
-        new MethodCallRename(MediaManager\MediaManagerExecutor::class, 'getImageWidth', 'getWidth'),
-        new MethodCallRename(MediaManager\MediaManagerExecutor::class, 'getImageHeight', 'getHeight'),
+        new MethodCallRename(MediaManager\ManagedMedia::class, 'getImageWidth', 'getWidth'),
+        new MethodCallRename(MediaManager\ManagedMedia::class, 'getImageHeight', 'getHeight'),
 
         new MethodCallRename(Mailer\Mailer::class, 'setLog', 'setArchive'),
 
@@ -327,18 +335,18 @@ return RectorConfig::configure()
         new NewToStaticCall(Log\LogFile::class, Log\LogFile::class, 'factory'),
     ])
     ->withConfiguredRule(FuncCallToStaticCallRector::class, [
-        new FuncCallToStaticCall('rex_mediapool_filename', rex_mediapool::class, 'filename'),
-        new FuncCallToStaticCall('rex_mediapool_mediaIsInUse', rex_mediapool::class, 'mediaIsInUse'),
-        new FuncCallToStaticCall('rex_mediapool_isAllowedMediaType', rex_mediapool::class, 'isAllowedExtension'),
-        new FuncCallToStaticCall('rex_mediapool_isAllowedMimeType', rex_mediapool::class, 'isAllowedMimeType'),
-        new FuncCallToStaticCall('rex_mediapool_getMediaTypeWhitelist', rex_mediapool::class, 'getAllowedExtensions'),
-        new FuncCallToStaticCall('rex_mediapool_getMediaTypeBlacklist', rex_mediapool::class, 'getBlockedExtensions'),
+        new FuncCallToStaticCall('rex_mediapool_filename', MediaPool\MediaPool::class, 'filename'),
+        new FuncCallToStaticCall('rex_mediapool_mediaIsInUse', MediaPool\MediaPool::class, 'mediaIsInUse'),
+        new FuncCallToStaticCall('rex_mediapool_isAllowedMediaType', MediaPool\MediaPool::class, 'isAllowedExtension'),
+        new FuncCallToStaticCall('rex_mediapool_isAllowedMimeType', MediaPool\MediaPool::class, 'isAllowedMimeType'),
+        new FuncCallToStaticCall('rex_mediapool_getMediaTypeWhitelist', MediaPool\MediaPool::class, 'getAllowedExtensions'),
+        new FuncCallToStaticCall('rex_mediapool_getMediaTypeBlacklist', MediaPool\MediaPool::class, 'getBlockedExtensions'),
 
         // additional adjustments necessary afterward, see https://github.com/redaxo/redaxo/pull/5918/files
-        new FuncCallToStaticCall('rex_mediapool_saveMedia', rex_mediapool::class, 'addMedia'), // different params
-        new FuncCallToStaticCall('rex_mediapool_updateMedia', rex_mediapool::class, 'updateMedia'), // different params
-        new FuncCallToStaticCall('rex_mediapool_syncFile', rex_mediapool::class, 'addMedia'), // different params
-        new FuncCallToStaticCall('rex_mediapool_deleteMedia', rex_mediapool::class, 'deleteMedia'), // different return value
+        new FuncCallToStaticCall('rex_mediapool_saveMedia', MediaPool\MediaPool::class, 'addMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_updateMedia', MediaPool\MediaPool::class, 'updateMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_syncFile', MediaPool\MediaPool::class, 'addMedia'), // different params
+        new FuncCallToStaticCall('rex_mediapool_deleteMedia', MediaPool\MediaPool::class, 'deleteMedia'), // different return value
     ])
     ->withConfiguredRule(RemoveFuncCallArgRector::class, [
         new RemoveFuncCallArg('rex_getUrl', 3),
@@ -354,7 +362,7 @@ return RectorConfig::configure()
         new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
         new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
-        new ArgumentRemover(MediaManager\MediaManagerManager::class, 'getUrl', 3, null),
+        new ArgumentRemover(MediaManager\MediaManager::class, 'getUrl', 3, null),
 
         new ArgumentRemover(Util\Markdown::class, 'parse', 1, [true]),
         new ArgumentRemover(Util\Markdown::class, 'parseWithToc', 3, [true]),

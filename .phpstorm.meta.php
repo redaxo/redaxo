@@ -114,7 +114,7 @@ override(
     \rex_user::getComplexPerm(0),
     map([
         'clang' => \rex_clang_perm::class,
-        'media' => \rex_media_perm::class,
+        'media' => \Redaxo\Core\MediaPool\MediaPoolPermission::class,
         'modules' => \Redaxo\Core\Content\ModulePermission::class,
         'structure' => \Redaxo\Core\Content\StructurePermission::class,
     ])

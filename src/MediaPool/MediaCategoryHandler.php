@@ -1,14 +1,19 @@
 <?php
 
+namespace Redaxo\Core\MediaPool;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
+use rex_extension;
+use rex_extension_point;
+use rex_functional_exception;
 
-class rex_media_category_service
+class MediaCategoryHandler
 {
     /**
      * @param string $name The name of the new category
-     * @param rex_media_category|null $parent The category in which the new category should be created, or null for a top/root level category
+     * @param MediaCategory|null $parent The category in which the new category should be created, or null for a top/root level category
      *
      * @return string A success message
      */
@@ -33,7 +38,7 @@ class rex_media_category_service
 
         $db->insert();
 
-        rex_media_cache::deleteCategoryList($parentId);
+        MediaPoolCache::deleteCategoryList($parentId);
 
         rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_ADDED', [
             'id' => $db->getLastId(),
@@ -65,8 +70,8 @@ class rex_media_category_service
             }
 
             $gf->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'media_category WHERE id=?', [$categoryId]);
-            rex_media_cache::deleteCategory($categoryId);
-            rex_media_cache::deleteLists();
+            MediaPoolCache::deleteCategory($categoryId);
+            MediaPoolCache::deleteLists();
         } else {
             throw new rex_functional_exception(I18n::msg('pool_kat_not_deleted'));
         }
@@ -113,7 +118,7 @@ class rex_media_category_service
 
         $db->update();
 
-        rex_media_cache::deleteCategory($categoryId);
+        MediaPoolCache::deleteCategory($categoryId);
 
         rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_UPDATED', [
             'id' => $categoryId,

@@ -331,7 +331,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Method rex_user\\:\\:getComplexPerm\\(\\) should return Redaxo\\\\Core\\\\Content\\\\ModulePermission\\|Redaxo\\\\Core\\\\Content\\\\StructurePermission\\|rex_clang_perm\\|rex_media_perm\\|null but returns rex_complex_perm\\|null\\.$#"
+			message: "#^Method rex_user\\:\\:getComplexPerm\\(\\) should return Redaxo\\\\Core\\\\Content\\\\ModulePermission\\|Redaxo\\\\Core\\\\Content\\\\StructurePermission\\|Redaxo\\\\Core\\\\MediaPool\\\\MediaPoolPermission\\|rex_clang_perm\\|null but returns rex_complex_perm\\|null\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/login/user.php
 
@@ -346,94 +346,9 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/user_role.php
 
 		-
-			message: "#^Method rex_media\\:\\:getValue\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media.php
-
-		-
-			message: "#^Method rex_media\\:\\:hasValue\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media.php
-
-		-
-			message: "#^Method rex_media\\:\\:isDocType\\(\\) has parameter \\$type with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media.php
-
-		-
-			message: "#^Method rex_media\\:\\:isImageType\\(\\) has parameter \\$extension with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media.php
-
-		-
-			message: "#^Method rex_media\\:\\:toImage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media.php
-
-		-
 			message: "#^Method rex_media_category_select\\:\\:__construct\\(\\) has parameter \\$checkPerms with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/mediapool/media_category_select.php
-
-		-
-			message: "#^Method rex_mediapool\\:\\:getAllowedExtensions\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/mediapool.php
-
-		-
-			message: "#^Method rex_mediapool\\:\\:getAllowedExtensions\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/mediapool.php
-
-		-
-			message: "#^Method rex_mediapool\\:\\:getBlockedExtensions\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/mediapool.php
-
-		-
-			message: "#^Method rex_mediapool\\:\\:isAllowedExtension\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/mediapool.php
-
-		-
-			message: "#^Method rex_media_perm\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/perm.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array\\<non\\-falsy\\-string, int\\|non\\-falsy\\-string\\> will always evaluate to true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/service_media.php
-
-		-
-			message: "#^Method rex_media_service\\:\\:addMedia\\(\\) has parameter \\$allowedExtensions with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/service_media.php
-
-		-
-			message: "#^Method rex_media_service\\:\\:addMedia\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/service_media.php
-
-		-
-			message: "#^Method rex_media_service\\:\\:updateMedia\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/service_media.php
-
-		-
-			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<string\\|null\\>, rex_extension_point\\<string\\|null\\> given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/service_media.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/service_media.php
-
-		-
-			message: "#^Method rex_media_category_service\\:\\:editCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/service_media_category.php
 
 		-
 			message: "#^Method rex_var_media\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
@@ -519,31 +434,6 @@ parameters:
 			message: "#^Property rex_extension_point_slice_menu\\:\\:\\$additionalActions type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/content/extension_point/slice_menu.php
-
-		-
-			message: "#^Method rex_sitemap_category_tree\\:\\:getTree\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/sitemap.php
-
-		-
-			message: "#^Method rex_sitemap_category_tree\\:\\:treeItem\\(\\) has parameter \\$liClasses with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/sitemap.php
-
-		-
-			message: "#^Method rex_sitemap_category_tree\\:\\:treeItem\\(\\) has parameter \\$liIcon with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/sitemap.php
-
-		-
-			message: "#^Method rex_sitemap_category_tree\\:\\:treeItem\\(\\) has parameter \\$linkClasses with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/sitemap.php
-
-		-
-			message: "#^Method rex_sitemap_category_tree\\:\\:treeItem\\(\\) has parameter \\$subHtml with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/sitemap.php
 
 		-
 			message: "#^Method rex_var_link\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
@@ -689,11 +579,6 @@ parameters:
 			message: "#^Method rex_password_policy_test\\:\\:testCheck\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/login/password_policy_test.php
-
-		-
-			message: "#^Method rex_mediapool_test\\:\\:testIsAllowedExtension\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/mediapool/mediapool_test.php
 
 		-
 			message: "#^Method rex_var_test\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
@@ -1451,6 +1336,91 @@ parameters:
 			path: ../../src/MediaManager/MediaManager.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\Media\\:\\:getValue\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaPool/Media.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\Media\\:\\:hasValue\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaPool/Media.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\Media\\:\\:isDocType\\(\\) has parameter \\$type with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaPool/Media.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\Media\\:\\:isImageType\\(\\) has parameter \\$extension with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaPool/Media.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\Media\\:\\:toImage\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/Media.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaCategoryHandler\\:\\:editCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaCategoryHandler.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array\\<non\\-falsy\\-string, int\\|non\\-falsy\\-string\\> will always evaluate to true\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaHandler\\:\\:addMedia\\(\\) has parameter \\$allowedExtensions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaHandler\\:\\:addMedia\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaHandler\\:\\:updateMedia\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
+			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<string\\|null\\>, rex_extension_point\\<string\\|null\\> given\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPool\\:\\:getAllowedExtensions\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaPool.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPool\\:\\:getAllowedExtensions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaPool.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPool\\:\\:getBlockedExtensions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaPool.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPool\\:\\:isAllowedExtension\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaPool.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaPoolPermission\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/MediaPoolPermission.php
+
+		-
 			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Form\\\\Input\\\\AbstractInput\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
 			count: 1
 			path: ../../src/MetaInfo/Form/Input/AbstractInput.php
@@ -1734,6 +1704,11 @@ parameters:
 			message: "#^Parameter \\#1 \\$expected of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) contains unresolvable type\\.$#"
 			count: 1
 			path: ../../tests/Database/TableTest.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\MediaPool\\\\MediaPoolTest\\:\\:testIsAllowedExtension\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../tests/MediaPool/MediaPoolTest.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Util\\\\StrTest\\:\\:buildQueryProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
