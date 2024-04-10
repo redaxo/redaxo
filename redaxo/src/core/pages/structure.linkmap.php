@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Content\Category;
+use Redaxo\Core\Content\Linkmap\ArticleList;
+use Redaxo\Core\Content\Linkmap\CategoryTree;
 use Redaxo\Core\Translation\I18n;
 
 // ------- Default Values
@@ -105,7 +107,7 @@ echo $fragment->parse('core/navigations/breadcrumb.php');
 
 $content = [];
 
-$categoryTree = new rex_linkmap_category_tree($context);
+$categoryTree = new CategoryTree($context);
 $panel = $categoryTree->getTree($categoryId);
 
 $fragment = new rex_fragment();
@@ -113,7 +115,7 @@ $fragment->setVar('title', I18n::msg('linkmap_categories'), false);
 $fragment->setVar('content', $panel, false);
 $content[] = $fragment->parse('core/page/section.php');
 
-$articleList = new rex_linkmap_article_list($context);
+$articleList = new ArticleList($context);
 $panel = $articleList->getList($categoryId);
 
 $fragment = new rex_fragment();

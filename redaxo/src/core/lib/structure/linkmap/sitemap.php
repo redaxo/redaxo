@@ -1,11 +1,12 @@
 <?php
 
 use Redaxo\Core\Content\Category;
+use Redaxo\Core\Content\Linkmap\AbstractCategoryTreeRenderer;
 
 /**
  * @internal
  */
-class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
+class rex_sitemap_category_tree extends AbstractCategoryTreeRenderer
 {
     public function __construct(
         private rex_context $context,

@@ -1,12 +1,16 @@
 <?php
 
-use Redaxo\Core\Content\Article;
+namespace Redaxo\Core\Content\Linkmap;
+
 use Redaxo\Core\Content\Category;
+use rex_context;
+
+use function count;
 
 /**
  * @internal
  */
-class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
+class CategoryTree extends AbstractCategoryTreeRenderer
 {
     public function __construct(
         private rex_context $context,
@@ -37,25 +41,5 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
         $li .= '</li>' . "\n";
 
         return $li;
-    }
-}
-
-/**
- * @internal
- */
-class rex_linkmap_article_list extends rex_linkmap_article_list_renderer
-{
-    public function __construct(
-        private rex_context $context,
-    ) {}
-
-    /**
-     * @return string
-     */
-    protected function listItem(Article $article, $categoryId)
-    {
-        $liAttr = ' class="list-group-item"';
-        $url = 'javascript:insertLink(\'redaxo://' . $article->getId() . '\',\'' . rex_escape(trim(sprintf('%s [%s]', $article->getName(), $article->getId())), 'js') . '\');';
-        return rex_linkmap_tree_renderer::formatLi($article, $categoryId, $this->context, $liAttr, ' href="' . $url . '"') . '</li>' . "\n";
     }
 }
