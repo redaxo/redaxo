@@ -262,6 +262,7 @@ return RectorConfig::configure()
         'rex_article_content' => Content\ArticleContent::class,
         'rex_article_content_base' => Content\ArticleContentBase::class,
         'rex_article_content_editor' => Content\ArticleContentEditor::class,
+        'rex_article_revision' => Content\ArticleRevision::class,
         'rex_article_service' => Content\ArticleHandler::class,
         'rex_article_slice' => Content\ArticleSlice::class,
         'rex_article_slice_history' => Content\ArticleSliceHistory::class,
