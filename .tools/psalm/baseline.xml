@@ -1767,21 +1767,6 @@
       <code><![CDATA[getValue]]></code>
     </MixedMethodCall>
   </file>
-  <file src="redaxo/src/core/lib/structure/history/history_login.php">
-    <MixedArgument>
-      <code><![CDATA[$key1]]></code>
-      <code><![CDATA[$key2]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[[':login' => $historyLogin]]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedOperand>
-      <code><![CDATA[$historyLogin]]></code>
-      <code><![CDATA[$historyValidtime]]></code>
-      <code><![CDATA[$login]]></code>
-      <code><![CDATA[$validtime]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/lib/structure/linkmap/linkmap.php">
     <MixedArgument>
       <code><![CDATA[$liClasses]]></code>
@@ -3414,6 +3399,21 @@
       <code><![CDATA[getCategoryId]]></code>
       <code><![CDATA[getId]]></code>
     </PossiblyNullReference>
+  </file>
+  <file src="src/Content/HistoryLogin.php">
+    <MixedArgument>
+      <code><![CDATA[$key1]]></code>
+      <code><![CDATA[$key2]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[':login' => $historyLogin]]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedOperand>
+      <code><![CDATA[$historyLogin]]></code>
+      <code><![CDATA[$historyValidtime]]></code>
+      <code><![CDATA[$login]]></code>
+      <code><![CDATA[$validtime]]></code>
+    </MixedOperand>
   </file>
   <file src="src/Content/Module.php">
     <MixedInferredReturnType>

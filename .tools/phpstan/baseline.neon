@@ -521,51 +521,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/structure/content/extension_point/slice_menu.php
 
 		-
-			message: "#^Method rex_article_slice_history\\:\\:getSnapshots\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/history/article_slice_history.php
-
-		-
-			message: "#^Method rex_history_login\\:\\:checkTempSession\\(\\) has parameter \\$historyLogin with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/history/history_login.php
-
-		-
-			message: "#^Method rex_history_login\\:\\:checkTempSession\\(\\) has parameter \\$historySession with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/history/history_login.php
-
-		-
-			message: "#^Method rex_history_login\\:\\:checkTempSession\\(\\) has parameter \\$historyValidtime with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/history/history_login.php
-
-		-
-			message: "#^Method rex_history_login\\:\\:createSessionKey\\(\\) has parameter \\$login with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/history/history_login.php
-
-		-
-			message: "#^Method rex_history_login\\:\\:createSessionKey\\(\\) has parameter \\$session with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/history/history_login.php
-
-		-
-			message: "#^Method rex_history_login\\:\\:createSessionKey\\(\\) has parameter \\$validtime with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/history/history_login.php
-
-		-
-			message: "#^Method rex_history_login\\:\\:verifySessionKey\\(\\) has parameter \\$key1 with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/history/history_login.php
-
-		-
-			message: "#^Method rex_history_login\\:\\:verifySessionKey\\(\\) has parameter \\$key2 with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/history/history_login.php
-
-		-
 			message: "#^Method rex_linkmap_article_list\\:\\:listItem\\(\\) has parameter \\$categoryId with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/linkmap/linkmap.php
@@ -1026,6 +981,11 @@ parameters:
 			path: ../../src/Content/ArticleSlice.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleSliceHistory\\:\\:getSnapshots\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleSliceHistory.php
+
+		-
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\CategoryHandler\\:\\:addCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Content/CategoryHandler.php
@@ -1054,6 +1014,46 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ContentHandler\\:\\:addSlice\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Content/ContentHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\HistoryLogin\\:\\:checkTempSession\\(\\) has parameter \\$historyLogin with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/HistoryLogin.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\HistoryLogin\\:\\:checkTempSession\\(\\) has parameter \\$historySession with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/HistoryLogin.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\HistoryLogin\\:\\:checkTempSession\\(\\) has parameter \\$historyValidtime with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/HistoryLogin.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\HistoryLogin\\:\\:createSessionKey\\(\\) has parameter \\$login with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/HistoryLogin.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\HistoryLogin\\:\\:createSessionKey\\(\\) has parameter \\$session with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/HistoryLogin.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\HistoryLogin\\:\\:createSessionKey\\(\\) has parameter \\$validtime with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/HistoryLogin.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\HistoryLogin\\:\\:verifySessionKey\\(\\) has parameter \\$key1 with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/HistoryLogin.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\HistoryLogin\\:\\:verifySessionKey\\(\\) has parameter \\$key2 with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/HistoryLogin.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ModulePermission\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
