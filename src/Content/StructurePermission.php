@@ -6,6 +6,9 @@ use Redaxo\Core\Translation\I18n;
 use rex_category_select;
 use rex_complex_perm;
 
+use function count;
+use function in_array;
+
 class StructurePermission extends rex_complex_perm
 {
     /**

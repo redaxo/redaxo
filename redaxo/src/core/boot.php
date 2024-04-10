@@ -1,8 +1,8 @@
 <?php
 
-use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ModulePermission;
+use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\CronjobExecutor;
 use Redaxo\Core\Cronjob\CronjobManager;

@@ -6,7 +6,6 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-
 use rex_exception;
 use rex_var;
 
