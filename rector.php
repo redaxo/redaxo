@@ -257,12 +257,24 @@ return RectorConfig::configure()
         'rex_validation_rule' => Validator\ValidationRule::class,
         'rex_version' => Util\Version::class,
         'rex_article' => Content\Article::class,
+        'rex_article_action' => Content\ArticleAction::class,
         'rex_article_cache' => Content\ArticleCache::class,
+        'rex_article_content' => Content\ArticleContent::class,
+        'rex_article_content_base' => Content\ArticleContentBase::class,
+        'rex_article_content_editor' => Content\ArticleContentEditor::class,
         'rex_article_service' => Content\ArticleHandler::class,
+        'rex_article_slice' => Content\ArticleSlice::class,
         'rex_category' => Content\Category::class,
         'rex_category_service' => Content\CategoryHandler::class,
+        'rex_content_service' => Content\ContentHandler::class,
+        'rex_module' => Content\Module::class,
+        'rex_module_cache' => Content\ModuleCache::class,
+        'rex_module_perm' => Content\ModulePermission::class,
         'rex_structure_context' => Content\StructureContext::class,
         'rex_structure_element' => Content\AbstractElement::class,
+        'rex_structure_perm' => Content\StructurePermission::class,
+        'rex_template' => Content\Template::class,
+        'rex_template_cache' => Content\TemplateCache::class,
     ])
     ->withConfiguredRule(ArgumentAdderRector::class, [
         new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 1, 'value', null),
@@ -281,8 +293,8 @@ return RectorConfig::configure()
 
         new MethodCallRename(rex_password_policy::class, 'getRule', 'getDescription'),
 
-        new MethodCallRename(rex_article_content_base::class, 'getClang', 'getClangId'),
-        new MethodCallRename(rex_article_slice::class, 'getClang', 'getClangId'),
+        new MethodCallRename(Content\ArticleContentBase::class, 'getClang', 'getClangId'),
+        new MethodCallRename(Content\ArticleSlice::class, 'getClang', 'getClangId'),
         new MethodCallRename(Content\AbstractElement::class, 'getClang', 'getClangId'),
 
         new MethodCallRename(MediaManager\MediaManagerExecutor::class, 'getImageWidth', 'getWidth'),
