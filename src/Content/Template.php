@@ -8,7 +8,6 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use rex_clang;
-use rex_ctype;
 
 use function assert;
 use function in_array;
@@ -185,11 +184,11 @@ class Template
     }
 
     /**
-     * @return list<rex_ctype>
+     * @return list<ContentSection>
      */
     public function getCtypes(): array
     {
-        return rex_ctype::forTemplate($this->id);
+        return ContentSection::forTemplate($this->id);
     }
 
     /**

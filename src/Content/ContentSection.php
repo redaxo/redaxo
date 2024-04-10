@@ -1,9 +1,11 @@
 <?php
 
+namespace Redaxo\Core\Content;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
-final class rex_ctype
+final class ContentSection
 {
     /**
      * @param positive-int $id
@@ -27,7 +29,7 @@ final class rex_ctype
     }
 
     /**
-     * @return list<rex_ctype>
+     * @return list<self>
      */
     public static function forTemplate(int $templateId): array
     {

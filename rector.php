@@ -267,6 +267,7 @@ return RectorConfig::configure()
         'rex_category' => Content\Category::class,
         'rex_category_service' => Content\CategoryHandler::class,
         'rex_content_service' => Content\ContentHandler::class,
+        'rex_ctype' => Content\ContentSection::class,
         'rex_module' => Content\Module::class,
         'rex_module_cache' => Content\ModuleCache::class,
         'rex_module_perm' => Content\ModulePermission::class,
