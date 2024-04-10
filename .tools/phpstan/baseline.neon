@@ -721,31 +721,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/structure/linkmap/renderer.php
 
 		-
-			message: "#^Method rex_sitemap_category_tree\\:\\:getTree\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/sitemap.php
-
-		-
-			message: "#^Method rex_sitemap_category_tree\\:\\:treeItem\\(\\) has parameter \\$liClasses with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/sitemap.php
-
-		-
-			message: "#^Method rex_sitemap_category_tree\\:\\:treeItem\\(\\) has parameter \\$liIcon with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/sitemap.php
-
-		-
-			message: "#^Method rex_sitemap_category_tree\\:\\:treeItem\\(\\) has parameter \\$linkClasses with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/sitemap.php
-
-		-
-			message: "#^Method rex_sitemap_category_tree\\:\\:treeItem\\(\\) has parameter \\$subHtml with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/linkmap/sitemap.php
-
-		-
 			message: "#^Method rex_var_link\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/linkmap/var_link.php

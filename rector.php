@@ -285,8 +285,8 @@ return RectorConfig::configure()
         new MethodCallRename(rex_article_slice::class, 'getClang', 'getClangId'),
         new MethodCallRename(rex_structure_element::class, 'getClang', 'getClangId'),
 
-        new MethodCallRename(MediaManager\MediaManagerExecutor::class, 'getImageWidth', 'getWidth'),
-        new MethodCallRename(MediaManager\MediaManagerExecutor::class, 'getImageHeight', 'getHeight'),
+        new MethodCallRename(MediaManager\ManagedMedia::class, 'getImageWidth', 'getWidth'),
+        new MethodCallRename(MediaManager\ManagedMedia::class, 'getImageHeight', 'getHeight'),
 
         new MethodCallRename(Mailer\Mailer::class, 'setLog', 'setArchive'),
 
@@ -334,7 +334,7 @@ return RectorConfig::configure()
         new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
         new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
-        new ArgumentRemover(MediaManager\MediaManagerManager::class, 'getUrl', 3, null),
+        new ArgumentRemover(MediaManager\MediaManager::class, 'getUrl', 3, null),
 
         new ArgumentRemover(Util\Markdown::class, 'parse', 1, [true]),
         new ArgumentRemover(Util\Markdown::class, 'parseWithToc', 3, [true]),

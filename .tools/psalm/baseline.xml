@@ -1938,16 +1938,6 @@
       <code><![CDATA[getArticles]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/core/lib/structure/linkmap/sitemap.php">
-    <MixedArgument>
-      <code><![CDATA[$liClasses]]></code>
-    </MixedArgument>
-    <MixedOperand>
-      <code><![CDATA[$liClasses]]></code>
-      <code><![CDATA[$linkClasses]]></code>
-      <code><![CDATA[$subHtml]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/lib/structure/linkmap/var_link.php">
     <MixedArgument>
       <code><![CDATA[$value]]></code>
