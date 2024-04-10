@@ -3,6 +3,7 @@
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleContent;
 use Redaxo\Core\Content\ArticleContentBase;
+use Redaxo\Core\Content\ArticleRevision;
 use Redaxo\Core\Content\ArticleSliceHistory;
 use Redaxo\Core\Content\HistoryLogin;
 use Redaxo\Core\Core;
@@ -122,7 +123,7 @@ if (Core::getConfig('article_history', false)) {
 if (Core::getConfig('article_work_version', false)) {
     rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
         $version = rex_request('rex_version', 'int');
-        if (rex_article_revision::WORK != $version) {
+        if (ArticleRevision::WORK != $version) {
             return;
         }
 

@@ -1,10 +1,14 @@
 <?php
 
-use Redaxo\Core\Content\ArticleCache;
+namespace Redaxo\Core\Content;
+
+use InvalidArgumentException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
-class rex_article_revision
+use function is_array;
+
+class ArticleRevision
 {
     public const LIVE = 0; // live revision
     public const WORK = 1; // working copy

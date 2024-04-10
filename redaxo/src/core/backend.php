@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleRevision;
 use Redaxo\Core\Content\ArticleSliceHistory;
 use Redaxo\Core\Content\HistoryLogin;
 use Redaxo\Core\Core;
@@ -367,20 +368,20 @@ if (Core::getConfig('article_work_version', false)) {
         $params = $ep->getParams();
         $articleId = Type::int($params['article_id']);
 
-        $version = rex_article_revision::getSessionArticleRevision($articleId);
+        $version = ArticleRevision::getSessionArticleRevision($articleId);
         $newVersion = rex_request('rex_set_version', 'int', null);
 
-        if (rex_article_revision::LIVE === $newVersion) {
-            $version = rex_article_revision::LIVE;
-        } elseif (rex_article_revision::WORK === $newVersion) {
-            $version = rex_article_revision::WORK;
+        if (ArticleRevision::LIVE === $newVersion) {
+            $version = ArticleRevision::LIVE;
+        } elseif (ArticleRevision::WORK === $newVersion) {
+            $version = ArticleRevision::WORK;
         }
 
         if (!Core::requireUser()->hasPerm('version[live_version]')) {
-            $version = rex_article_revision::WORK;
+            $version = ArticleRevision::WORK;
         }
 
-        rex_article_revision::setSessionArticleRevision($articleId, $version);
+        ArticleRevision::setSessionArticleRevision($articleId, $version);
 
         $params['slice_revision'] = $version;
     });
@@ -417,44 +418,44 @@ if (Core::getConfig('article_work_version', false)) {
                         ArticleSliceHistory::makeSnapshot($articleId, $clangId, 'work_to_live');
                     }
 
-                    rex_article_revision::copyContent(
+                    ArticleRevision::copyContent(
                         $articleId,
                         $clangId,
-                        rex_article_revision::WORK,
-                        rex_article_revision::LIVE,
+                        ArticleRevision::WORK,
+                        ArticleRevision::LIVE,
                     );
                     $return .= rex_view::success(I18n::msg('version_info_working_version_to_live'));
 
                     $article = Type::instanceOf(Article::get($articleId, $clangId), Article::class);
-                    rex_article_revision::setSessionArticleRevision($articleId, rex_article_revision::LIVE);
+                    ArticleRevision::setSessionArticleRevision($articleId, ArticleRevision::LIVE);
                     $return = rex_extension::registerPoint(
                         new rex_extension_point_art_content_updated($article, 'work_to_live', $return),
                     );
                 }
                 break;
             case 'copy_live_to_work':
-                rex_article_revision::copyContent(
+                ArticleRevision::copyContent(
                     $articleId,
                     $clangId,
-                    rex_article_revision::LIVE,
-                    rex_article_revision::WORK,
+                    ArticleRevision::LIVE,
+                    ArticleRevision::WORK,
                 );
                 $return .= rex_view::success(I18n::msg('version_info_live_version_to_working'));
-                rex_article_revision::setSessionArticleRevision($articleId, rex_article_revision::WORK);
+                ArticleRevision::setSessionArticleRevision($articleId, ArticleRevision::WORK);
                 break;
             case 'clear_work':
-                rex_article_revision::clearContent($articleId, $clangId, rex_article_revision::WORK);
+                ArticleRevision::clearContent($articleId, $clangId, ArticleRevision::WORK);
                 $return .= rex_view::success(I18n::msg('version_info_clear_workingversion'));
                 break;
         }
 
-        $revision = rex_article_revision::getSessionArticleRevision($articleId);
+        $revision = ArticleRevision::getSessionArticleRevision($articleId);
 
         $revisions = [];
         if ($user->hasPerm('version[live_version]')) {
-            $revisions[rex_article_revision::LIVE] = I18n::msg('version_liveversion');
+            $revisions[ArticleRevision::LIVE] = I18n::msg('version_liveversion');
         }
-        $revisions[rex_article_revision::WORK] = I18n::msg('version_workingversion');
+        $revisions[ArticleRevision::WORK] = I18n::msg('version_workingversion');
 
         $context = new rex_context([
             'page' => $params['page'],
@@ -492,7 +493,7 @@ if (Core::getConfig('article_work_version', false)) {
         if (!$user->hasPerm('version[live_version]')) {
             if ($revision > 0) {
                 $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '">' . I18n::msg('version_copy_from_liveversion') . '</a></li>';
-                $toolbar .= '<li><a href="' . rex_getUrl($articleId, $clangId, ['rex_version' => rex_article_revision::WORK]) . '" rel="noopener noreferrer" target="_blank">' . I18n::msg('version_preview') . '</a></li>';
+                $toolbar .= '<li><a href="' . rex_getUrl($articleId, $clangId, ['rex_version' => ArticleRevision::WORK]) . '" rel="noopener noreferrer" target="_blank">' . I18n::msg('version_preview') . '</a></li>';
             }
         } else {
             if ($revision > 0) {
@@ -500,14 +501,14 @@ if (Core::getConfig('article_work_version', false)) {
                     $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'clear_work']) . '" data-confirm="' . I18n::msg('version_confirm_clear_workingversion') . '">' . I18n::msg('version_clear_workingversion') . '</a></li>';
                     $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_work_to_live']) . '">' . I18n::msg('version_working_to_live') . '</a></li>';
                 }
-                $toolbar .= '<li><a href="' . rex_getUrl($articleId, $clangId, ['rex_version' => rex_article_revision::WORK]) . '" rel="noopener noreferrer" target="_blank">' . I18n::msg('version_preview') . '</a></li>';
+                $toolbar .= '<li><a href="' . rex_getUrl($articleId, $clangId, ['rex_version' => ArticleRevision::WORK]) . '" rel="noopener noreferrer" target="_blank">' . I18n::msg('version_preview') . '</a></li>';
             } else {
                 $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '" data-confirm="' . I18n::msg('version_confirm_copy_live_to_workingversion') . '">' . I18n::msg('version_copy_live_to_workingversion') . '</a></li>';
             }
         }
 
-        $inverse = rex_article_revision::WORK == $revision;
-        $cssClass = rex_article_revision::WORK == $revision ? 'rex-state-inprogress' : 'rex-state-live';
+        $inverse = ArticleRevision::WORK == $revision;
+        $cssClass = ArticleRevision::WORK == $revision ? 'rex-state-inprogress' : 'rex-state-live';
 
         $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', null, $cssClass, $inverse);
 
