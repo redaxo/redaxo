@@ -7,6 +7,9 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
+use rex_exception;
+use rex_var;
+
 use function function_exists;
 
 class TemplateCache
