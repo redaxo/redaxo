@@ -331,7 +331,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Method rex_user\\:\\:getComplexPerm\\(\\) should return rex_clang_perm\\|rex_media_perm\\|rex_module_perm\\|rex_structure_perm\\|null but returns rex_complex_perm\\|null\\.$#"
+			message: "#^Method rex_user\\:\\:getComplexPerm\\(\\) should return Redaxo\\\\Core\\\\Content\\\\ModulePermission\\|Redaxo\\\\Core\\\\Content\\\\StructurePermission\\|rex_clang_perm\\|rex_media_perm\\|null but returns rex_complex_perm\\|null\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/login/user.php
 
@@ -496,156 +496,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/setup/setup.php
 
 		-
-			message: "#^Method rex_template\\:\\:__construct\\(\\) has parameter \\$templateId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/api_template.php
-
-		-
-			message: "#^Method rex_template\\:\\:hasModule\\(\\) has parameter \\$ctype with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/api_template.php
-
-		-
-			message: "#^Method rex_template\\:\\:hasModule\\(\\) has parameter \\$moduleId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/api_template.php
-
-		-
-			message: "#^Method rex_template\\:\\:hasModule\\(\\) has parameter \\$templateAttributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/api_template.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:__construct\\(\\) has parameter \\$function with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:__construct\\(\\) has parameter \\$moduleId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:addMessage\\(\\) has parameter \\$message with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:getLink\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:getLinkList\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:getMedia\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:getMediaList\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:getMessages\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:getValue\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:setLink\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:setLink\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:setLinkList\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:setLinkList\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:setMedia\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:setMedia\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:setMediaList\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:setMediaList\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:setSave\\(\\) has parameter \\$save with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:setValue\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Method rex_article_action\\:\\:setValue\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Property rex_article_action\\:\\:\\$messages type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_action.php
-
-		-
-			message: "#^Property rex_article_content_base\\:\\:\\$template_attributes type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_content_base.php
-
-		-
-			message: "#^Method rex_article_slice\\:\\:getSliceWhere\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_slice.php
-
-		-
-			message: "#^Method rex_article_slice\\:\\:getSlicesWhere\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_slice.php
-
-		-
-			message: "#^Method rex_article_slice\\:\\:getValueArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/article_slice.php
-
-		-
-			message: "#^Method rex_content_service\\:\\:addSlice\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/content_service.php
-
-		-
 			message: "#^Method rex_event_select\\:\\:__construct\\(\\) has parameter \\$options with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/content/event_select.php
@@ -669,11 +519,6 @@ parameters:
 			message: "#^Property rex_extension_point_slice_menu\\:\\:\\$additionalActions type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/content/extension_point/slice_menu.php
-
-		-
-			message: "#^Method rex_module_perm\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/module_perm.php
 
 		-
 			message: "#^Method rex_article_slice_history\\:\\:getSnapshots\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -871,16 +716,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/structure/navigation.php
 
 		-
-			message: "#^Method rex_structure_perm\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/perm.php
-
-		-
-			message: "#^Method rex_structure_perm\\:\\:getMountpoints\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/perm.php
-
-		-
 			message: "#^Method rex_category_select\\:\\:__construct\\(\\) has parameter \\$addHomepage with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/select_category.php
@@ -1036,6 +871,116 @@ parameters:
 			path: ../../src/Content/AbstractElement.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:__construct\\(\\) has parameter \\$function with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:__construct\\(\\) has parameter \\$moduleId with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:addMessage\\(\\) has parameter \\$message with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:getLink\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:getLinkList\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:getMedia\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:getMediaList\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:getMessages\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:getValue\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:setLink\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:setLink\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:setLinkList\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:setLinkList\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:setMedia\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:setMedia\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:setMediaList\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:setMediaList\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:setSave\\(\\) has parameter \\$save with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:setValue\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:setValue\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:\\$messages type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleAction.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Content\\\\ArticleContentBase\\:\\:\\$template_attributes type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleContentBase.php
+
+		-
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleHandler\\:\\:addArticle\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Content/ArticleHandler.php
@@ -1066,6 +1011,21 @@ parameters:
 			path: ../../src/Content/ArticleHandler.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleSlice\\:\\:getSliceWhere\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleSlice.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleSlice\\:\\:getSlicesWhere\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleSlice.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleSlice\\:\\:getValueArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleSlice.php
+
+		-
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\CategoryHandler\\:\\:addCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Content/CategoryHandler.php
@@ -1091,6 +1051,16 @@ parameters:
 			path: ../../src/Content/CategoryHandler.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ContentHandler\\:\\:addSlice\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ContentHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ModulePermission\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ModulePermission.php
+
+		-
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\StructureContext\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Content/StructureContext.php
@@ -1104,6 +1074,36 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\Content\\\\StructureContext\\:\\:\\$params type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Content/StructureContext.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\StructurePermission\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/StructurePermission.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\StructurePermission\\:\\:getMountpoints\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/StructurePermission.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Template\\:\\:__construct\\(\\) has parameter \\$templateId with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Template.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Template\\:\\:hasModule\\(\\) has parameter \\$ctype with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Template.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Template\\:\\:hasModule\\(\\) has parameter \\$moduleId with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/Template.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\Template\\:\\:hasModule\\(\\) has parameter \\$templateAttributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/Template.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\CronjobExecutor\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"

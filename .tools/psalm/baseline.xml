@@ -1707,193 +1707,6 @@
       <code><![CDATA[getCategoryId]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/core/lib/structure/content/api_module.php">
-    <MixedInferredReturnType>
-      <code><![CDATA[array<int, string>]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$mapping]]></code>
-    </MixedReturnStatement>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[$mapping]]></code>
-      <code><![CDATA[$mapping = File::getCache($file)]]></code>
-    </MixedReturnTypeCoercion>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/api_template.php">
-    <MixedArrayOffset>
-      <code><![CDATA[$templateModules[$ctype]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code><![CDATA[$categories]]></code>
-      <code><![CDATA[$categories]]></code>
-      <code><![CDATA[$templateModules]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[array<int, string>]]></code>
-      <code><![CDATA[int]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$mapping]]></code>
-      <code><![CDATA[Core::getConfig('default_template_id', 1)]]></code>
-      <code><![CDATA[Core::getConfig('default_template_id', 1)]]></code>
-    </MixedReturnStatement>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[$mapping]]></code>
-      <code><![CDATA[$mapping = File::getCache($file)]]></code>
-    </MixedReturnTypeCoercion>
-    <NullableReturnStatement>
-      <code><![CDATA[Core::getConfig('default_template_id', 1)]]></code>
-    </NullableReturnStatement>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/article_action.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->sql->getValue('link' . $id)]]></code>
-      <code><![CDATA[$this->sql->getValue('linklist' . $id)]]></code>
-      <code><![CDATA[$this->sql->getValue('media' . $id)]]></code>
-      <code><![CDATA[$this->sql->getValue('medialist' . $id)]]></code>
-      <code><![CDATA[$this->sql->getValue('value' . $id)]]></code>
-    </LessSpecificReturnStatement>
-    <MixedArgument>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$values[$i]]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$this->event]]></code>
-      <code><![CDATA[$this->moduleId]]></code>
-      <code><![CDATA[$this->save]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-    </MixedOperand>
-    <MoreSpecificReturnType>
-      <code><![CDATA[string|null]]></code>
-      <code><![CDATA[string|null]]></code>
-      <code><![CDATA[string|null]]></code>
-      <code><![CDATA[string|null]]></code>
-      <code><![CDATA[string|null]]></code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/article_content_base.php">
-    <PossiblyFalseArgument>
-      <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
-    </PossiblyFalseArgument>
-    <PossiblyNullArgument>
-      <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
-      <code><![CDATA[$template->getKey()]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/article_content_editor.php">
-    <MixedArgument>
-      <code><![CDATA[$templateCtypes]]></code>
-    </MixedArgument>
-    <MixedArrayOffset>
-      <code><![CDATA[$this->MODULESELECT[$ctId]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code><![CDATA[$ctId]]></code>
-      <code><![CDATA[$ctName]]></code>
-      <code><![CDATA[$templateCtypes]]></code>
-    </MixedAssignment>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$this->MODULESELECT]]></code>
-    </MixedPropertyTypeCoercion>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/article_slice.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$params]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedInferredReturnType>
-      <code><![CDATA[(T is int ? string|null : int|string|null)]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->$index ?? null]]></code>
-      <code><![CDATA[$this->$index ?? null]]></code>
-    </MixedReturnStatement>
-    <PossiblyNullArgument>
-      <code><![CDATA[$data['link']]]></code>
-      <code><![CDATA[$data['linklist']]]></code>
-      <code><![CDATA[$data['media']]]></code>
-      <code><![CDATA[$data['medialist']]]></code>
-      <code><![CDATA[$data['value']]]></code>
-    </PossiblyNullArgument>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$data['link']]]></code>
-      <code><![CDATA[$data['linklist']]]></code>
-      <code><![CDATA[$data['media']]]></code>
-      <code><![CDATA[$data['medialist']]]></code>
-      <code><![CDATA[$data['value']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/cache_template.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$content]]></code>
-    </ArgumentTypeCoercion>
-    <PossiblyNullArgument>
-      <code><![CDATA[$content]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/content_service.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$colname]]></code>
-      <code><![CDATA[$colname]]></code>
-      <code><![CDATA[$colname]]></code>
-      <code><![CDATA[$sql->getValue('article_id')]]></code>
-      <code><![CDATA[$sql->getValue('clang_id')]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidArrayOffset>
-      <code><![CDATA[$maxPriority[$ctypeId]]]></code>
-    </InvalidArrayOffset>
-    <InvalidOperand>
-      <code><![CDATA[$CM->getValue('priority')]]></code>
-      <code><![CDATA[$CM->getValue('priority')]]></code>
-    </InvalidOperand>
-    <MixedArgument>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$data['revision']]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <PossiblyNullArgument>
-      <code><![CDATA[$article]]></code>
-      <code><![CDATA[$article]]></code>
-      <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$colname]]></code>
-      <code><![CDATA[$colname]]></code>
-      <code><![CDATA[$colname]]></code>
-      <code><![CDATA[$sql->getValue('article_id')]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullArrayOffset>
-      <code><![CDATA[$ctypes]]></code>
-    </PossiblyNullArrayOffset>
-    <PossiblyNullOperand>
-      <code><![CDATA[$CM->getValue('priority')]]></code>
-      <code><![CDATA[$CM->getValue('priority')]]></code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference>
-      <code><![CDATA[getCategoryId]]></code>
-      <code><![CDATA[getId]]></code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/lib/structure/content/event_select.php">
     <MixedArgument>
       <code><![CDATA[$key]]></code>
@@ -2071,14 +1884,6 @@
     <PropertyTypeCoercion>
       <code><![CDATA[$this->callbacks]]></code>
     </PropertyTypeCoercion>
-  </file>
-  <file src="redaxo/src/core/lib/structure/perm.php">
-    <MixedArgument>
-      <code><![CDATA[$id]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$id]]></code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/structure/select_category.php">
     <MixedArgument>
@@ -3052,16 +2857,6 @@
       <code><![CDATA[$allowedMimeTypes]]></code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/tests/structure/article_slice_test.php">
-    <PossiblyNullReference>
-      <code><![CDATA[getId]]></code>
-      <code><![CDATA[getId]]></code>
-      <code><![CDATA[getId]]></code>
-      <code><![CDATA[getId]]></code>
-      <code><![CDATA[getNextSlice]]></code>
-      <code><![CDATA[getPreviousSlice]]></code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/tests/var/var_test.php">
     <MixedArgument>
       <code><![CDATA[$params['class']]]></code>
@@ -3368,10 +3163,76 @@
       <code><![CDATA[Core::getProperty('start_article_id', 1)]]></code>
     </NullableReturnStatement>
   </file>
+  <file src="src/Content/ArticleAction.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->sql->getValue('link' . $id)]]></code>
+      <code><![CDATA[$this->sql->getValue('linklist' . $id)]]></code>
+      <code><![CDATA[$this->sql->getValue('media' . $id)]]></code>
+      <code><![CDATA[$this->sql->getValue('medialist' . $id)]]></code>
+      <code><![CDATA[$this->sql->getValue('value' . $id)]]></code>
+    </LessSpecificReturnStatement>
+    <MixedArgument>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$values[$i]]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$this->event]]></code>
+      <code><![CDATA[$this->moduleId]]></code>
+      <code><![CDATA[$this->save]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </MixedOperand>
+    <MoreSpecificReturnType>
+      <code><![CDATA[string|null]]></code>
+      <code><![CDATA[string|null]]></code>
+      <code><![CDATA[string|null]]></code>
+      <code><![CDATA[string|null]]></code>
+      <code><![CDATA[string|null]]></code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="src/Content/ArticleCache.php">
     <PossiblyNullOperand>
       <code><![CDATA[$clang]]></code>
     </PossiblyNullOperand>
+  </file>
+  <file src="src/Content/ArticleContentBase.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
+      <code><![CDATA[$template->getKey()]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Content/ArticleContentEditor.php">
+    <MixedArgument>
+      <code><![CDATA[$templateCtypes]]></code>
+    </MixedArgument>
+    <MixedArrayOffset>
+      <code><![CDATA[$this->MODULESELECT[$ctId]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code><![CDATA[$ctId]]></code>
+      <code><![CDATA[$ctName]]></code>
+      <code><![CDATA[$templateCtypes]]></code>
+    </MixedAssignment>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$this->MODULESELECT]]></code>
+    </MixedPropertyTypeCoercion>
   </file>
   <file src="src/Content/ArticleHandler.php">
     <ArgumentTypeCoercion>
@@ -3435,6 +3296,32 @@
       <code><![CDATA[$data['template_id']]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
+  <file src="src/Content/ArticleSlice.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$params]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedInferredReturnType>
+      <code><![CDATA[(T is int ? string|null : int|string|null)]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->$index ?? null]]></code>
+      <code><![CDATA[$this->$index ?? null]]></code>
+    </MixedReturnStatement>
+    <PossiblyNullArgument>
+      <code><![CDATA[$data['link']]]></code>
+      <code><![CDATA[$data['linklist']]]></code>
+      <code><![CDATA[$data['media']]]></code>
+      <code><![CDATA[$data['medialist']]]></code>
+      <code><![CDATA[$data['value']]]></code>
+    </PossiblyNullArgument>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$data['link']]]></code>
+      <code><![CDATA[$data['linklist']]]></code>
+      <code><![CDATA[$data['media']]]></code>
+      <code><![CDATA[$data['medialist']]]></code>
+      <code><![CDATA[$data['value']]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
   <file src="src/Content/CategoryHandler.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$id]]></code>
@@ -3479,6 +3366,67 @@
       <code><![CDATA[$tcat->getValue('path')]]></code>
     </PossiblyNullOperand>
   </file>
+  <file src="src/Content/ContentHandler.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$articleId]]></code>
+      <code><![CDATA[$articleId]]></code>
+      <code><![CDATA[$colname]]></code>
+      <code><![CDATA[$colname]]></code>
+      <code><![CDATA[$colname]]></code>
+      <code><![CDATA[$sql->getValue('article_id')]]></code>
+      <code><![CDATA[$sql->getValue('clang_id')]]></code>
+    </ArgumentTypeCoercion>
+    <InvalidArrayOffset>
+      <code><![CDATA[$maxPriority[$ctypeId]]]></code>
+    </InvalidArrayOffset>
+    <InvalidOperand>
+      <code><![CDATA[$CM->getValue('priority')]]></code>
+      <code><![CDATA[$CM->getValue('priority')]]></code>
+    </InvalidOperand>
+    <MixedArgument>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$key]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$data['revision']]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <PossiblyNullArgument>
+      <code><![CDATA[$article]]></code>
+      <code><![CDATA[$article]]></code>
+      <code><![CDATA[$articleId]]></code>
+      <code><![CDATA[$articleId]]></code>
+      <code><![CDATA[$colname]]></code>
+      <code><![CDATA[$colname]]></code>
+      <code><![CDATA[$colname]]></code>
+      <code><![CDATA[$sql->getValue('article_id')]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayOffset>
+      <code><![CDATA[$ctypes]]></code>
+    </PossiblyNullArrayOffset>
+    <PossiblyNullOperand>
+      <code><![CDATA[$CM->getValue('priority')]]></code>
+      <code><![CDATA[$CM->getValue('priority')]]></code>
+    </PossiblyNullOperand>
+    <PossiblyNullReference>
+      <code><![CDATA[getCategoryId]]></code>
+      <code><![CDATA[getId]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Content/Module.php">
+    <MixedInferredReturnType>
+      <code><![CDATA[array<int, string>]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$mapping]]></code>
+    </MixedReturnStatement>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$mapping]]></code>
+      <code><![CDATA[$mapping = File::getCache($file)]]></code>
+    </MixedReturnTypeCoercion>
+  </file>
   <file src="src/Content/StructureContext.php">
     <MixedArgument>
       <code><![CDATA[$params['article_id']]]></code>
@@ -3488,6 +3436,48 @@
     <MixedAssignment>
       <code><![CDATA[$params['category_id']]]></code>
     </MixedAssignment>
+  </file>
+  <file src="src/Content/StructurePermission.php">
+    <MixedArgument>
+      <code><![CDATA[$id]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$id]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Content/Template.php">
+    <MixedArrayOffset>
+      <code><![CDATA[$templateModules[$ctype]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code><![CDATA[$categories]]></code>
+      <code><![CDATA[$categories]]></code>
+      <code><![CDATA[$templateModules]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[array<int, string>]]></code>
+      <code><![CDATA[int]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$mapping]]></code>
+      <code><![CDATA[Core::getConfig('default_template_id', 1)]]></code>
+      <code><![CDATA[Core::getConfig('default_template_id', 1)]]></code>
+    </MixedReturnStatement>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$mapping]]></code>
+      <code><![CDATA[$mapping = File::getCache($file)]]></code>
+    </MixedReturnTypeCoercion>
+    <NullableReturnStatement>
+      <code><![CDATA[Core::getConfig('default_template_id', 1)]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="src/Content/TemplateCache.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$content]]></code>
+    </ArgumentTypeCoercion>
+    <PossiblyNullArgument>
+      <code><![CDATA[$content]]></code>
+    </PossiblyNullArgument>
   </file>
   <file src="src/Core.php">
     <LessSpecificReturnStatement>
@@ -4726,6 +4716,16 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$regex]]></code>
     </ArgumentTypeCoercion>
+  </file>
+  <file src="tests/Content/ArticleSliceTest.php">
+    <PossiblyNullReference>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getNextSlice]]></code>
+      <code><![CDATA[getPreviousSlice]]></code>
+    </PossiblyNullReference>
   </file>
   <file src="tests/Content/CategoryTest.php">
     <MixedArgumentTypeCoercion>
