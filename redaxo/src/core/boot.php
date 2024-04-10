@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MediaManager\MediaManager;
+use Redaxo\Core\MediaPool\MediaPoolPermission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Symfony\Component\HttpFoundation\Request;
@@ -130,7 +131,7 @@ rex_user::setRoleClass(rex_user_role::class);
 rex_complex_perm::register('clang', rex_clang_perm::class);
 rex_complex_perm::register('structure', rex_structure_perm::class);
 rex_complex_perm::register('modules', rex_module_perm::class);
-rex_complex_perm::register('media', rex_media_perm::class);
+rex_complex_perm::register('media', MediaPoolPermission::class);
 
 rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
 rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);

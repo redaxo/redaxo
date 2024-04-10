@@ -10,8 +10,8 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\MediaManager\ManagedMedia;
 use Redaxo\Core\MediaManager\MediaManager;
+use Redaxo\Core\MediaPool\Media;
 use ReflectionProperty;
-use rex_media;
 
 /** @internal */
 final class MediaManagerTest extends TestCase
@@ -64,7 +64,7 @@ final class MediaManagerTest extends TestCase
     }
 
     #[DataProvider('dataGetUrl')]
-    public function testGetUrl(int|false $expectedBuster, string $type, string|rex_media $file, ?int $timestamp = null): void
+    public function testGetUrl(int|false $expectedBuster, string $type, string|Media $file, ?int $timestamp = null): void
     {
         $url = MediaManager::getUrl($type, $file, $timestamp);
 
@@ -75,12 +75,12 @@ final class MediaManagerTest extends TestCase
         }
     }
 
-    /** @return iterable<int, array{0: false|int, 1: string, 2: string|rex_media, 3?: int}> */
+    /** @return iterable<int, array{0: (false|int), 1: string, 2: (string|Media), 3?: int}> */
     public static function dataGetUrl(): iterable
     {
         yield [false, 'non_existing', 'test.jpg', time()];
 
-        $media = new class() extends rex_media {
+        $media = new class() extends Media {
             public int $fakeUpdateDate = 0;
 
             public function __construct() {}

@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MediaManager\Effect\AbstractEffect;
+use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use rex_extension;
@@ -553,7 +554,7 @@ class MediaManager
 
     /**
      * @param string $type Media type
-     * @param string|rex_media $file Media file
+     * @param string|Media $file Media file
      * @param int|null $timestamp Last change timestamp of given file, for cache buster parameter
      *                            (not nessary when the file is given by a `rex_media` object)
      *
@@ -561,7 +562,7 @@ class MediaManager
      */
     public static function getUrl($type, $file, $timestamp = null)
     {
-        if ($file instanceof rex_media) {
+        if ($file instanceof Media) {
             if (null === $timestamp) {
                 $timestamp = $file->getUpdateDate();
             }
