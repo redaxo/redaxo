@@ -1001,6 +1001,111 @@ parameters:
 			path: ../../src/Addon/Addon.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\AbstractElement\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/AbstractElement.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\AbstractElement\\:\\:_hasValue\\(\\) has parameter \\$prefixes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/AbstractElement.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\AbstractElement\\:\\:_toAttributeString\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/AbstractElement.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\AbstractElement\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/AbstractElement.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\AbstractElement\\:\\:toLink\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/AbstractElement.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\AbstractElement\\:\\:toLink\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/AbstractElement.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\AbstractElement\\:\\:toLink\\(\\) has parameter \\$sorroundAttributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/AbstractElement.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleHandler\\:\\:addArticle\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleHandler\\:\\:copyMeta\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleHandler\\:\\:editArticle\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleHandler\\:\\:nextStatus\\(\\) has parameter \\$currentStatus with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleHandler\\:\\:prevStatus\\(\\) has parameter \\$currentStatus with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleHandler\\:\\:reqKey\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ArticleHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\CategoryHandler\\:\\:addCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/CategoryHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\CategoryHandler\\:\\:editCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/CategoryHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\CategoryHandler\\:\\:nextStatus\\(\\) has parameter \\$currentStatus with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/CategoryHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\CategoryHandler\\:\\:prevStatus\\(\\) has parameter \\$currentStatus with no type specified\\.$#"
+			count: 1
+			path: ../../src/Content/CategoryHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\CategoryHandler\\:\\:reqKey\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/CategoryHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\StructureContext\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/StructureContext.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\StructureContext\\:\\:getMountpoints\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/StructureContext.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Content\\\\StructureContext\\:\\:\\$params type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/StructureContext.php
+
+		-
 			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\CronjobExecutor\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Cronjob/CronjobExecutor.php
@@ -1496,111 +1601,6 @@ parameters:
 			path: ../../src/MetaInfo/Handler/MediaHandler.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/AbstractElement.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\:\\:_hasValue\\(\\) has parameter \\$prefixes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/AbstractElement.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\:\\:_toAttributeString\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/AbstractElement.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/AbstractElement.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\:\\:toLink\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/AbstractElement.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\:\\:toLink\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/AbstractElement.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\AbstractElement\\:\\:toLink\\(\\) has parameter \\$sorroundAttributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/AbstractElement.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\ArticleHandler\\:\\:addArticle\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/ArticleHandler.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\ArticleHandler\\:\\:copyMeta\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/ArticleHandler.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\ArticleHandler\\:\\:editArticle\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/ArticleHandler.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\ArticleHandler\\:\\:nextStatus\\(\\) has parameter \\$currentStatus with no type specified\\.$#"
-			count: 1
-			path: ../../src/Structure/ArticleHandler.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\ArticleHandler\\:\\:prevStatus\\(\\) has parameter \\$currentStatus with no type specified\\.$#"
-			count: 1
-			path: ../../src/Structure/ArticleHandler.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\ArticleHandler\\:\\:reqKey\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/ArticleHandler.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\CategoryHandler\\:\\:addCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/CategoryHandler.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\CategoryHandler\\:\\:editCategory\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/CategoryHandler.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\CategoryHandler\\:\\:nextStatus\\(\\) has parameter \\$currentStatus with no type specified\\.$#"
-			count: 1
-			path: ../../src/Structure/CategoryHandler.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\CategoryHandler\\:\\:prevStatus\\(\\) has parameter \\$currentStatus with no type specified\\.$#"
-			count: 1
-			path: ../../src/Structure/CategoryHandler.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\CategoryHandler\\:\\:reqKey\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/CategoryHandler.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\StructureContext\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/StructureContext.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Structure\\\\StructureContext\\:\\:getMountpoints\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/StructureContext.php
-
-		-
-			message: "#^Property Redaxo\\\\Core\\\\Structure\\\\StructureContext\\:\\:\\$params type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Structure/StructureContext.php
-
-		-
 			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<list\\<string\\>\\|string\\|null\\>, rex_extension_point\\<list\\<string\\>\\|string\\|null\\> given\\.$#"
 			count: 1
 			path: ../../src/Util/Editor.php
@@ -1691,6 +1691,31 @@ parameters:
 			path: ../../src/Validator/Validator.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Content\\\\CategoryTest\\:\\:createCategories\\(\\) has parameter \\$lev1Params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../tests/Content/CategoryTest.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Content\\\\CategoryTest\\:\\:createCategories\\(\\) has parameter \\$lev2Params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../tests/Content/CategoryTest.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Content\\\\CategoryTest\\:\\:createCategories\\(\\) has parameter \\$lev3Params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../tests/Content/CategoryTest.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Content\\\\CategoryTest\\:\\:createCategory\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../tests/Content/CategoryTest.php
+
+		-
+			message: "#^Method class@anonymous/tests/Content/CategoryTest\\.php\\:175\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../tests/Content/CategoryTest.php
+
+		-
 			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with 'Redaxo\\\\\\\\Core\\\\\\\\Database\\\\\\\\Sql' and Redaxo\\\\Core\\\\Database\\\\Sql will always evaluate to true\\.$#"
 			count: 1
 			path: ../../tests/Database/SqlTest.php
@@ -1709,31 +1734,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$expected of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) contains unresolvable type\\.$#"
 			count: 1
 			path: ../../tests/Database/TableTest.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Structure\\\\CategoryTest\\:\\:createCategories\\(\\) has parameter \\$lev1Params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../tests/Structure/CategoryTest.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Structure\\\\CategoryTest\\:\\:createCategories\\(\\) has parameter \\$lev2Params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../tests/Structure/CategoryTest.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Structure\\\\CategoryTest\\:\\:createCategories\\(\\) has parameter \\$lev3Params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../tests/Structure/CategoryTest.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Structure\\\\CategoryTest\\:\\:createCategory\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../tests/Structure/CategoryTest.php
-
-		-
-			message: "#^Method class@anonymous/tests/Structure/CategoryTest\\.php\\:175\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../tests/Structure/CategoryTest.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Util\\\\StrTest\\:\\:buildQueryProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
