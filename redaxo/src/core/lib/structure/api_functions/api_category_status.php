@@ -1,7 +1,7 @@
 <?php
 
+use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
-use Redaxo\Core\Structure\CategoryHandler;
 use Redaxo\Core\Translation\I18n;
 
 /**

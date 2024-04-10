@@ -1,9 +1,9 @@
 <?php
 
+use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
-use Redaxo\Core\Structure\ArticleCache;
 
 class rex_article_slice_history
 {

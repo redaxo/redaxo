@@ -1,11 +1,11 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleHandler;
+use Redaxo\Core\Content\StructureContext;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\MetaInfo\Handler\ArticleHandler as MetaInfoArticleHandler;
-use Redaxo\Core\Structure\Article;
-use Redaxo\Core\Structure\ArticleHandler;
-use Redaxo\Core\Structure\StructureContext;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 

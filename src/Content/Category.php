@@ -1,6 +1,6 @@
 <?php
 
-namespace Redaxo\Core\Structure;
+namespace Redaxo\Core\Content;
 
 use rex_extension;
 use rex_extension_point;

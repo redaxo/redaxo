@@ -1,9 +1,9 @@
 <?php
 
+use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Structure\Article;
 
 /**
  * The rex_article_slice class is an object wrapper over the database table rex_article_slice.

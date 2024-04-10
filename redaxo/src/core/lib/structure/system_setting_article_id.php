@@ -1,8 +1,8 @@
 <?php
 
+use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Form\Field\ArticleField;
-use Redaxo\Core\Structure\Article;
 use Redaxo\Core\Translation\I18n;
 
 /**

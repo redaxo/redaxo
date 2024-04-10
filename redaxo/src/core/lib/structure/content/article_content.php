@@ -1,7 +1,7 @@
 <?php
 
+use Redaxo\Core\Content\Article;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Structure\Article;
 
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.

@@ -1,6 +1,6 @@
 <?php
 
-use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Content\Article;
 
 /**
  * REX_ARTICLE[1]

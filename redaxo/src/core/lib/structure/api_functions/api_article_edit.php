@@ -1,7 +1,7 @@
 <?php
 
+use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
-use Redaxo\Core\Structure\ArticleHandler;
 
 /**
  * @internal

@@ -1,12 +1,12 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Structure\Article;
-use Redaxo\Core\Structure\ArticleCache;
 use Redaxo\Core\Translation\I18n;
 
 class rex_content_service

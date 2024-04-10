@@ -1,10 +1,10 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Structure\Article;
-use Redaxo\Core\Structure\ArticleCache;
 use Redaxo\Core\Translation\I18n;
 
 $OUT = true;

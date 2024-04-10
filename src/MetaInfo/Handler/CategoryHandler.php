@@ -2,10 +2,10 @@
 
 namespace Redaxo\Core\MetaInfo\Handler;
 
+use Redaxo\Core\Content\ArticleCache;
+use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Structure\ArticleCache;
-use Redaxo\Core\Structure\Category;
 use rex_extension;
 use rex_extension_point;
 

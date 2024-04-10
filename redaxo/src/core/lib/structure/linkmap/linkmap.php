@@ -1,7 +1,7 @@
 <?php
 
-use Redaxo\Core\Structure\Article;
-use Redaxo\Core\Structure\Category;
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\Category;
 
 /**
  * @internal

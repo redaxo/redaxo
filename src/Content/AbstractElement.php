@@ -1,6 +1,6 @@
 <?php
 
-namespace Redaxo\Core\Structure;
+namespace Redaxo\Core\Content;
 
 use AllowDynamicProperties;
 use LogicException;

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\CronjobExecutor;
 use Redaxo\Core\Cronjob\CronjobManager;
@@ -8,7 +9,6 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MediaManager\MediaManager;
-use Redaxo\Core\Structure\Article;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Symfony\Component\HttpFoundation\Request;

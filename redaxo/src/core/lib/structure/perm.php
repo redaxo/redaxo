@@ -1,6 +1,6 @@
 <?php
 
-use Redaxo\Core\Structure\Category;
+use Redaxo\Core\Content\Category;
 use Redaxo\Core\Translation\I18n;
 
 class rex_structure_perm extends rex_complex_perm

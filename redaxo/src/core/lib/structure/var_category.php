@@ -1,6 +1,6 @@
 <?php
 
-use Redaxo\Core\Structure\Category;
+use Redaxo\Core\Content\Category;
 
 /**
  * REX_CATEGORY[xzy]

@@ -1,9 +1,9 @@
 <?php
 
-namespace Redaxo\Core\Tests\Structure;
+namespace Redaxo\Core\Tests\Content;
 
 use PHPUnit\Framework\TestCase;
-use Redaxo\Core\Structure\Article;
+use Redaxo\Core\Content\Article;
 use ReflectionClass;
 
 /** @internal */

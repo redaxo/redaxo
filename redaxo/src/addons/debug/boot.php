@@ -2,11 +2,11 @@
 
 use Clockwork\Clockwork;
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Log\Logger;
-use Redaxo\Core\Structure\Article;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Timer;
 

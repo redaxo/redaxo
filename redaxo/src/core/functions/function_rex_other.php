@@ -1,10 +1,10 @@
 <?php
 
+use Redaxo\Core\Content\AbstractElement;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Log\Logger;
-use Redaxo\Core\Structure\AbstractElement;
 use Redaxo\Core\Translation\I18n;
 
 /**

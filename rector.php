@@ -41,6 +41,7 @@ use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Addon;
 use Redaxo\Core\Base;
 use Redaxo\Core\Console;
+use Redaxo\Core\Content;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
@@ -51,7 +52,6 @@ use Redaxo\Core\Log;
 use Redaxo\Core\Mailer;
 use Redaxo\Core\MediaManager;
 use Redaxo\Core\MetaInfo;
-use Redaxo\Core\Structure;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
 use Redaxo\Core\Validator;
@@ -256,13 +256,13 @@ return RectorConfig::configure()
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
         'rex_version' => Util\Version::class,
-        'rex_article' => Structure\Article::class,
-        'rex_article_cache' => Structure\ArticleCache::class,
-        'rex_article_service' => Structure\ArticleHandler::class,
-        'rex_category' => Structure\Category::class,
-        'rex_category_service' => Structure\CategoryHandler::class,
-        'rex_structure_context' => Structure\StructureContext::class,
-        'rex_structure_element' => Structure\AbstractElement::class,
+        'rex_article' => Content\Article::class,
+        'rex_article_cache' => Content\ArticleCache::class,
+        'rex_article_service' => Content\ArticleHandler::class,
+        'rex_category' => Content\Category::class,
+        'rex_category_service' => Content\CategoryHandler::class,
+        'rex_structure_context' => Content\StructureContext::class,
+        'rex_structure_element' => Content\AbstractElement::class,
     ])
     ->withConfiguredRule(ArgumentAdderRector::class, [
         new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 1, 'value', null),
@@ -283,7 +283,7 @@ return RectorConfig::configure()
 
         new MethodCallRename(rex_article_content_base::class, 'getClang', 'getClangId'),
         new MethodCallRename(rex_article_slice::class, 'getClang', 'getClangId'),
-        new MethodCallRename(Structure\AbstractElement::class, 'getClang', 'getClangId'),
+        new MethodCallRename(Content\AbstractElement::class, 'getClang', 'getClangId'),
 
         new MethodCallRename(MediaManager\MediaManagerExecutor::class, 'getImageWidth', 'getWidth'),
         new MethodCallRename(MediaManager\MediaManagerExecutor::class, 'getImageHeight', 'getHeight'),

@@ -1,11 +1,11 @@
 <?php
 
-namespace Redaxo\Core\Tests\Structure;
+namespace Redaxo\Core\Tests\Content;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Redaxo\Core\Structure\Article;
-use Redaxo\Core\Structure\Category;
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\Category;
 use ReflectionClass;
 
 /** @internal */

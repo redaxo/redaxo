@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Cronjob\Type;
 
+use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Structure\ArticleHandler;
 use Redaxo\Core\Translation\I18n;
 
 class ArticleStatusType extends AbstractType

@@ -1,7 +1,7 @@
 <?php
 
+use Redaxo\Core\Content\Article;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Structure\Article;
 use Redaxo\Core\Util\Str;
 
 /**

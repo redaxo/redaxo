@@ -1,6 +1,6 @@
 <?php
 
-use Redaxo\Core\Structure\Category;
+use Redaxo\Core\Content\Category;
 use Redaxo\Core\Translation\I18n;
 
 // ------- Default Values

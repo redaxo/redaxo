@@ -1,7 +1,7 @@
 <?php
 
+use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
-use Redaxo\Core\Structure\Category;
 
 class rex_category_select extends rex_select
 {

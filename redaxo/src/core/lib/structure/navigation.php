@@ -1,8 +1,8 @@
 <?php
 
 use Redaxo\Core\Base\FactoryTrait;
-use Redaxo\Core\Structure\Article;
-use Redaxo\Core\Structure\Category;
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\Category;
 use Redaxo\Core\Util\Str;
 
 /**

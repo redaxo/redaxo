@@ -1,11 +1,11 @@
 <?php
 
+use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Mailer\Mailer;
-use Redaxo\Core\Structure\Article;
 
 if (Core::isSetup()) {
     rex_response::sendRedirect(Url::backendController());

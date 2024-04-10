@@ -1,6 +1,6 @@
 <?php
 
-namespace Redaxo\Core\Structure;
+namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Core;
 use rex_extension;

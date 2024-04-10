@@ -1,11 +1,11 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Structure\Article;
-use Redaxo\Core\Structure\Category;
 use Redaxo\Core\Translation\I18n;
 
 class rex_template
