@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
@@ -134,7 +135,7 @@ class rex_article_content_editor extends rex_article_content
         $moduleName = I18n::translate((string) $artDataSql->getValue(Core::getTablePrefix() . 'module.name'));
 
         $context = new rex_context([
-            'page' => rex_be_controller::getCurrentPage(),
+            'page' => Controller::getCurrentPage(),
             'article_id' => $this->article_id,
             'slice_id' => $sliceId,
             'clang' => $this->clang,
@@ -289,7 +290,7 @@ class rex_article_content_editor extends rex_article_content
     {
         // ----- BLOCKAUSWAHL - SELECT
         $context = new rex_context([
-            'page' => rex_be_controller::getCurrentPage(),
+            'page' => Controller::getCurrentPage(),
             'article_id' => $this->article_id,
             'clang' => $this->clang,
             'ctype' => $this->ctype,
@@ -326,7 +327,7 @@ class rex_article_content_editor extends rex_article_content
             'STRUCTURE_CONTENT_MODULE_SELECT',
             $select,
             [
-                'page' => rex_be_controller::getCurrentPage(),
+                'page' => Controller::getCurrentPage(),
                 'article_id' => $this->article_id,
                 'clang' => $this->clang,
                 'ctype' => $this->ctype,

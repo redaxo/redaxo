@@ -1,18 +1,23 @@
 <?php
 
+namespace Redaxo\Core\Tests\Backend;
+
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Backend\MainPage;
+use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use rex_user;
 
 /** @internal */
-final class rex_be_navigation_test extends TestCase
+final class NavigationTest extends TestCase
 {
     public function testSetPrio(): void
     {
-        $navi = rex_be_navigation::factory();
-        $navi->addPage((new rex_be_page_main('addons', 'addon', 'addon'))->setIsActive(false));
-        $navi->addPage((new rex_be_page_main('system', 'system', 'system'))->setIsActive(true));
-        $navi->addPage((new rex_be_page_main('test', 'test', 'test'))->setIsActive(false));
+        $navi = Navigation::factory();
+        $navi->addPage((new MainPage('addons', 'addon', 'addon'))->setIsActive(false));
+        $navi->addPage((new MainPage('system', 'system', 'system'))->setIsActive(true));
+        $navi->addPage((new MainPage('test', 'test', 'test'))->setIsActive(false));
 
         $navi->setHeadline('test', 'Test');
         $navi->setHeadline('system', 'System');

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\MetaInfo\Handler\ArticleHandler;
@@ -91,7 +92,7 @@ if (1 == $article->getRows()) {
     } // default = 1
 
     $context = new rex_context([
-        'page' => rex_be_controller::getCurrentPage(),
+        'page' => Controller::getCurrentPage(),
         'article_id' => $articleId,
         'clang' => $clang,
         'ctype' => $ctype,

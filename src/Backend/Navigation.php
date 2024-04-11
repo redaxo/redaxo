@@ -1,13 +1,19 @@
 <?php
 
+namespace Redaxo\Core\Backend;
+
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use rex_fragment;
+
+use function count;
+use function is_array;
 
 /**
  * @psalm-consistent-constructor
  */
-class rex_be_navigation
+class Navigation
 {
     use FactoryTrait;
 
@@ -21,7 +27,7 @@ class rex_be_navigation
         'addons' => 20,
     ];
 
-    /** @var array<string, list<rex_be_page>> */
+    /** @var array<string, list<Page>> */
     private array $pages = [];
 
     public static function factory(): static
@@ -33,10 +39,10 @@ class rex_be_navigation
     /**
      * @return void
      */
-    public function addPage(rex_be_page $page)
+    public function addPage(Page $page)
     {
         $blockName = 'default';
-        if ($page instanceof rex_be_page_main) {
+        if ($page instanceof MainPage) {
             $blockName = $page->getBlock();
         }
 
@@ -69,10 +75,10 @@ class rex_be_navigation
         // $this->setActiveElements();
         $return = [];
         foreach ($this->pages as $block => $blockPages) {
-            if (count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {
-                uasort($blockPages, static function (rex_be_page $a, rex_be_page $b) {
-                    $aPrio = $a instanceof rex_be_page_main ? (int) $a->getPrio() : 0;
-                    $bPrio = $b instanceof rex_be_page_main ? (int) $b->getPrio() : 0;
+            if (count($blockPages) > 0 && $blockPages[0] instanceof MainPage) {
+                uasort($blockPages, static function (Page $a, Page $b) {
+                    $aPrio = $a instanceof MainPage ? (int) $a->getPrio() : 0;
+                    $bPrio = $b instanceof MainPage ? (int) $b->getPrio() : 0;
                     if ($aPrio === $bPrio || ($aPrio <= 0 && $bPrio <= 0)) {
                         return strnatcasecmp($a->getTitle(), $b->getTitle());
                     }
@@ -104,7 +110,7 @@ class rex_be_navigation
     }
 
     /**
-     * @param array<rex_be_page> $blockPages
+     * @param array<Page> $blockPages
      *
      * @return list<array<string, mixed>>
      */
@@ -139,7 +145,7 @@ class rex_be_navigation
 
             if ($page->hasIcon()) {
                 $n['icon'] = $page->getIcon();
-            } elseif ($page instanceof rex_be_page_main) {
+            } elseif ($page instanceof MainPage) {
                 $n['icon'] = 'rex-icon rex-icon-package-addon';
             }
 

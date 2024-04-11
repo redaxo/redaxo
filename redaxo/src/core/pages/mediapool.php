@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
@@ -8,7 +9,7 @@ use Redaxo\Core\Util\Str;
 global $ftitle, $error, $success;
 
 // -------------- Defaults
-$subpage = rex_be_controller::getCurrentPagePart(2);
+$subpage = Controller::getCurrentPagePart(2);
 $func = rex_request('func', 'string');
 $success = rex_escape(rex_request('info', 'string'));
 $error = rex_escape(rex_request('warning', 'string'));
@@ -76,7 +77,7 @@ rex_set_session('media[rex_file_category]', $rexFileCategory);
 $PERMALL = Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(0);
 
 // -------------- Header
-$subline = rex_be_controller::getPageObject('mediapool')->getSubpages();
+$subline = Controller::getPageObject('mediapool')->getSubpages();
 
 $argUrlString = Str::buildQuery($argUrl);
 $argUrlString = $argUrlString ? '&' . $argUrlString : '';
@@ -106,4 +107,4 @@ if (!rex_request::isXmlHttpRequest()) {
 }
 
 // -------------- Include Page
-rex_be_controller::includeCurrentPageSubPath(compact('openerInputField', 'openerLink', 'argUrl', 'args', 'argFields', 'rexFileCategory', 'rexFileCategoryName', 'PERMALL', 'fileId', 'error', 'success'));
+Controller::includeCurrentPageSubPath(compact('openerInputField', 'openerLink', 'argUrl', 'args', 'argFields', 'rexFileCategory', 'rexFileCategoryName', 'PERMALL', 'fileId', 'error', 'success'));

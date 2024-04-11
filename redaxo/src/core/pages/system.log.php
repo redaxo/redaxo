@@ -1,3 +1,5 @@
 <?php
 
-rex_be_controller::includeCurrentPageSubPath();
+use Redaxo\Core\Backend\Controller;
+
+Controller::includeCurrentPageSubPath();

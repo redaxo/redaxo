@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Filesystem;
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Util\Str;
-use rex_be_controller;
 
 /**
  * Utility class to generate relative URLs.
@@ -99,7 +99,7 @@ final class Url
      */
     public static function currentBackendPage(array $params = []): string
     {
-        return self::backendPage(rex_be_controller::getCurrentPage(), $params);
+        return self::backendPage(Controller::getCurrentPage(), $params);
     }
 
     /**
