@@ -1,4 +1,5 @@
 <?php
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -10,9 +11,9 @@ use Redaxo\Core\Translation\I18n;
  * @psalm-scope-this rex_fragment
  */
 
-$isPopup = rex_be_controller::requireCurrentPageObject()->isPopup();
-$isLogin = ('login' === rex_be_controller::getCurrentPage());
-$isSetup = ('setup' === rex_be_controller::getCurrentPage());
+$isPopup = Controller::requireCurrentPageObject()->isPopup();
+$isLogin = ('login' === Controller::getCurrentPage());
+$isSetup = ('setup' === Controller::getCurrentPage());
 ?>
 
         <div id="rex-js-nav-top" class="rex-nav-top<?php if (!$isPopup && !$isSetup): ?> rex-nav-top-is-fixed<?php endif ?>">

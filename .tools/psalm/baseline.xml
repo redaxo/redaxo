@@ -992,48 +992,6 @@
       <code><![CDATA[$message]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/core/lib/be/controller.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[str_replace($package->getPath(), '', $path)]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[$addon->getProperty('page')]]></code>
-      <code><![CDATA[$page]]></code>
-      <code><![CDATA[$page]]></code>
-      <code><![CDATA[$pageArray['title']]]></code>
-      <code><![CDATA[$pageArray['title']]]></code>
-      <code><![CDATA[$subProperties['title']]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$pageKey]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$k]]></code>
-      <code><![CDATA[$page]]></code>
-      <code><![CDATA[$page]]></code>
-      <code><![CDATA[$pages]]></code>
-      <code><![CDATA[$subProperties]]></code>
-      <code><![CDATA[$v]]></code>
-      <code><![CDATA[$v]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$subProperties]]></code>
-    </PossiblyInvalidArgument>
-  </file>
-  <file src="redaxo/src/core/lib/be/page.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$href]]></code>
-    </MixedArgumentTypeCoercion>
-  </file>
   <file src="redaxo/src/core/lib/be_style/scss_compiler.php">
     <MixedOperand>
       <code><![CDATA[$path]]></code>
@@ -2229,7 +2187,7 @@
       <code><![CDATA[self::$jsProperties[$key]]]></code>
     </MixedAssignment>
     <PossiblyNullArgument>
-      <code><![CDATA[rex_be_controller::getCurrentPagePart(1)]]></code>
+      <code><![CDATA[Controller::getCurrentPagePart(1)]]></code>
     </PossiblyNullArgument>
     <PossiblyNullReference>
       <code><![CDATA[getSubpages]]></code>
@@ -2770,7 +2728,7 @@
       <code><![CDATA[$val]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'templateAttributes', 'article', 'articleId', 'categoryId', 'clang', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'))]]></code>
+      <code><![CDATA[Controller::includeCurrentPageSubPath(compact('info', 'warning', 'templateAttributes', 'article', 'articleId', 'categoryId', 'clang', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'))]]></code>
     </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$moduleId]]></code>
@@ -3220,6 +3178,48 @@
     <MixedReturnStatement>
       <code><![CDATA[$default]]></code>
     </MixedReturnStatement>
+  </file>
+  <file src="src/Backend/Controller.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[str_replace($package->getPath(), '', $path)]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$addon->getProperty('page')]]></code>
+      <code><![CDATA[$page]]></code>
+      <code><![CDATA[$page]]></code>
+      <code><![CDATA[$pageArray['title']]]></code>
+      <code><![CDATA[$pageArray['title']]]></code>
+      <code><![CDATA[$subProperties['title']]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$pageKey]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$k]]></code>
+      <code><![CDATA[$page]]></code>
+      <code><![CDATA[$page]]></code>
+      <code><![CDATA[$pages]]></code>
+      <code><![CDATA[$subProperties]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$subProperties]]></code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="src/Backend/Page.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$href]]></code>
+    </MixedArgumentTypeCoercion>
   </file>
   <file src="src/Console/Application.php">
     <PossiblyNullReference>

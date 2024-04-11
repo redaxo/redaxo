@@ -1,5 +1,8 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Backend\Navigation;
+use Redaxo\Core\Backend\Page;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
@@ -288,16 +291,16 @@ class rex_view
      */
     public static function title($head, $subtitle = null)
     {
-        if (null !== $subtitle && !is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof rex_be_page)) {
-            throw new InvalidArgumentException('Expecting $subtitle to be a string or an array of rex_be_page!');
+        if (null !== $subtitle && !is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof Page)) {
+            throw new InvalidArgumentException('Expecting $subtitle to be a string or an array of Page!');
         }
 
         if (null === $subtitle) {
-            $subtitle = rex_be_controller::getPageObject(rex_be_controller::getCurrentPagePart(1))->getSubpages();
+            $subtitle = Controller::getPageObject(Controller::getCurrentPagePart(1))->getSubpages();
         }
 
-        if (is_array($subtitle) && count($subtitle) && reset($subtitle) instanceof rex_be_page) {
-            $nav = rex_be_navigation::factory();
+        if (is_array($subtitle) && count($subtitle) && reset($subtitle) instanceof Page) {
+            $nav = Navigation::factory();
             $nav->setHeadline('default', I18n::msg('subnavigation', $head));
             foreach ($subtitle as $pageObj) {
                 $nav->addPage($pageObj);

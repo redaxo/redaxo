@@ -4,6 +4,7 @@ namespace Redaxo\Core\Form;
 
 use BadMethodCallException;
 use InvalidArgumentException;
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\ArticleField;
@@ -17,7 +18,6 @@ use Redaxo\Core\Form\Field\RawField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
-use rex_be_controller;
 use rex_csrf_token;
 use rex_exception;
 use rex_extension;
@@ -115,7 +115,7 @@ abstract class AbstractForm
      */
     protected function loadBackendConfig()
     {
-        $this->addParam('page', rex_be_controller::getCurrentPage());
+        $this->addParam('page', Controller::getCurrentPage());
     }
 
     /**

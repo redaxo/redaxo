@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
@@ -63,7 +64,7 @@ class rex_content_service
             'clang' => $clangId,
             'function' => '',
             'slice_id' => $sliceId,
-            'page' => rex_be_controller::getCurrentPage(),
+            'page' => Controller::getCurrentPage(),
             'ctype' => $ctypeId,
             'category_id' => $article->getCategoryId(),
             'module_id' => $moduleId,

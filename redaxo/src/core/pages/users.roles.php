@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
@@ -101,7 +102,7 @@ if ('' == $func) {
             $registerImplicitePagePermissions($page->getSubpages());
         }
     };
-    $registerImplicitePagePermissions(rex_be_controller::getPages());
+    $registerImplicitePagePermissions(Controller::getPages());
 
     foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $permgroup) {
         /** @var SelectField $field */

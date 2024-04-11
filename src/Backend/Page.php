@@ -1,8 +1,14 @@
 <?php
 
-use Redaxo\Core\Filesystem\Url;
+namespace Redaxo\Core\Backend;
 
-class rex_be_page
+use Redaxo\Core\Filesystem\Url;
+use rex_user;
+
+use function is_array;
+use function is_string;
+
+class Page
 {
     /** @var string */
     private $key;
@@ -465,7 +471,7 @@ class rex_be_page
         if (null !== $this->isActive) {
             return $this->isActive;
         }
-        $page = rex_be_controller::requireCurrentPageObject();
+        $page = Controller::requireCurrentPageObject();
         do {
             if ($page === $this) {
                 return true;
