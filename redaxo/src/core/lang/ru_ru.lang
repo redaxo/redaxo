@@ -1,0 +1,501 @@
+lang = Russian
+htmllang = ru
+yes = да
+no = нет
+general = Основное
+setlocale = ru_RU,ru_UA,ru_BY,ru_KZ,ru_MD,ru_LV,ru_LT,Russian,RUS,Russian_Simplified
+phpini_settings = Настройки PHP.ini
+
+ctrl = Выберите несколько, используя <kbd>CTRL</kbd> или <kbd>CMD</kbd>, соответственно
+translatable = Переводится с помощью <code>translate:i18n_key</code>
+save_and_goon_tooltip = Сохранить и продолжить редактирование
+save_and_close_tooltip = Сохранить и закрыть
+
+# Allgemein
+abort = Отмена
+add = Добавить
+back = Назад
+delete = Удалить
+edit = Редактировать
+update = Обновить
+view = Просмотреть
+path = Путь
+id = ID
+name = Наименование
+description = Описание
+email = Эл.почта
+function = Функция
+no_editing_rights = Разрешение не получено
+check_rights_in_directory = Проверьте права доступа в директории
+error_undefined = Произошла ошибка неопределенного характера
+csrf_token_invalid = Пожалуйста, отправьте форму еще раз, повторите действие соответственно (ошибка: недействительный токен CSRF).
+unstable_version = Версия разработки
+copy_to_clipboard = Копировать в буфер обмена
+search_placeholder = Поиск...
+search_clear = Сброс ввода
+theme_light = Светлая
+theme_dark = Темная
+theme_auto = Автоматически
+
+# redaxo/redaxo/index.php
+system = Система
+user = Пользователи
+profile = Мой профиль
+logout = выйти
+navigation_system = Мое меню
+navigation_addons = Аддоны
+subnavigation = Поднавигация по {0}
+
+# redaxo/include/classes/class.login.php
+login = Вход
+login_name = Имя пользователя
+password = Пароль
+new_password = Новый пароль
+request_new_password = Запрос нового пароля
+login_error = Ошибка при входе.
+login_wait = Пожалуйста, подождите {0} перед следующей попыткой.
+login_session_expired = Сессия истекла.
+login_user_not_found = Пользователь не существует.
+login_welcome = Пожалуйста, войдите.
+login_logged_out = Осуществлен выход из системы.
+stay_logged_in = Оставайтесь в системе
+
+login_impersonate = сменить пользователя
+login_depersonate = назад
+
+# redaxo/include/layout_redaxo/top.php
+logged_out = Не выполнен вход
+logged_in_as = Вход выполнен как
+safemode = Безопасный режим
+safemode_text = В безопасном режиме все аддоны временно деактивируются. Если конкретноый аддон вызывает проблемы, его можно деактивировать или удалить в безопасном режиме.
+safemode_activate = Активировать безопасный режим
+safemode_deactivate = Дективировать безопасный режим
+
+# redaxo/include/classes/class.form.php
+form_field_first_priority = В начале
+form_field_after_priority = После поля "{0}"
+
+# src\core\pages\system.php
+info_updated = Информация обновлена!
+delete_cache = Удалить кэш
+delete_cache_description = Шаблоны и языковые файлы создаются, кэш статей удаляется. Как только статья будет вызвана во фронтенде, кэш соответствующей статьи/категории будет создан снова. Следует запускать только в случае возникновения проблемы.
+delete_cache_message = Кэш удален
+system_features = Фичи
+system_settings = Настройки
+general_info_header = Основная информация:
+db1_can_only_be_changed_by_setup = Базу данных[1] можно изменить только во время настройки.
+system_others = Другое
+system_update = Обновить
+main_preferences = Настройки
+language = Язык
+languages = Языки
+languages_edit = Редактировать языки
+id_exists = ID уже существует.
+enter_code = Пожалуйста, введите код.
+enter_name = Пожалуйста, введите наименование.
+clang_add = Добавить язык
+clang_edit = Редактировать язык
+clang_update = Обновить язык
+clang_created = Язык добавлен.
+clang_edited = Язык отредактирован
+clang_deleted = Язык удален
+clang_code = Код
+clang_name = Наименование
+clang_priority = Приоритет
+clang_online = онлайн
+clang_offline = офлайн
+clang_delete = Удалить язык
+clang_select = Выбрать язык
+clang_caption = Список доступных языков
+clang_function = Функции
+version = Версия
+mode = Режим
+charset = Набор символов (кодировка)
+host = Хост
+database = База данных
+installation = Инсталляция
+logfiles = Лог-файлы
+syslog_redaxo = REDAXO
+syslog_delete = Очистить лог-файл
+syslog_deleted = Лог-файл очищен
+syslog_delete_error = Ошибка при очистке лог-файла!
+syslog_timestamp = Время
+syslog_type = Тип
+syslog_message = Сообщение
+syslog_file = Файл
+syslog_line = Строка
+syslog_url = URL
+syslog_title = Лог-файл "{0}"
+syslog_phperrors = Лог ошибок PHP
+syslog_slowqueries = Лог медленных запросов к БД
+syslog_empty = Пустой лог-файл
+syslog_download = Скачать "{0}"
+server = URL веб-сайта
+servername = Название веб-сайта
+error_email = Адрес электронной почты в случае ошибок
+error_email_required = Адрес электронной почты обязателен!
+error_email_invalid = Адрес электронной почты, указанный для ошибок, не является действительным адресом!
+server_required = URL веб-сайта обязателен!
+server_invalid = URL веб-сайта недействителен, пожалуйста, введите действительный URL, включая протокол!
+servername_required = Имя сервера является обязательным!
+system_editor = Интеграция с редактором
+system_editor_note = Связывает REDAXO с редактором, чтобы редактировать исходные файлы непосредственно в выбранном редакторе. <br> Эти настройки могут быть заданы глобально в файле <code>config.yml</code> или сохранены индивидуально для каждого пользователя в виде cookie в браузере.
+system_editor_note_cookie = В настоящее время используются следующие параметры из файла cookie
+system_editor_name = Редактор
+system_editor_no_editor = Отключено
+system_editor_basepath = Базовый путь
+system_editor_basepath_note = Заменяет фактический базовый путь этой установки на локальный, указанный здесь (полезно для production environments, Docker и т. д.).
+system_editor_open_file = Открыть "{0}" в редакторе
+system_editor_update_configyml = Сохранить в config.yml
+system_editor_update_cookie = Сохранить как cookie
+system_editor_delete_cookie = Удалить cookie
+system_editor_success_configyml = Настройки редактора были сохранены в файле config.yml.
+system_editor_success_cookie = Настройки редактора были сохранены в файле cookie браузера.
+system_editor_success_cookie_deleted = Cookies, содержащие настройки редактора, были удалены, вместо них будут использоваться глобальные настройки.
+system_edit_config_note = Основная конфигурация REDAXO позволяет изменять внутренние параметры системы. Этот файл должен редактироваться только опытными пользователями.
+lang_required = Язык обязателен!
+debug_mode = Режим отладки
+debug_mode_note = Активация режима отладки позволит получить дополнительную информацию об ошибках PHP-скриптов во фронт- и бэкенде. Не забудьте деактивировать его в производстве, так как сообщения об ошибках могут содержать конфиденциальные данные.
+debug_mode_on = Активировать режим отладки
+debug_mode_off = Деактивировать отладки деактивирован
+debug_mode_info_on = Режим отладки активирован
+debug_mode_info_off = Режим отладки деактивирован
+debug_mode_marker = Режим отладки активен
+debug_confirm = Режим отладки не должен быть активирован в режиме реального времени. Все-таки активировать режим отладки?
+
+system_report = Отчет о системе
+system_report_markdown = В markdown
+
+# src\core\pages\setup.php
+setup = Установка
+setup_cancel = Отмена установки
+setup_restart = Перезапуск установки
+setup_text = Здесь можно перезапустить процесс настройки. Эта функция предназначена только для экстренных случаев и не должна требоваться при обычных обстоятельствах.
+setup_error2 = К сожалению, файл конфигурации не может быть записан. Пожалуйста, внесите изменение \"setup: true\" в config.yml
+
+
+
+setup_100 = Установка: Шаг 1 из 6 / Язык
+setup_101 = Выберите язык
+setup_110 = Перейти к Шагу 2
+setup_199 = 1 / Язык
+
+setup_200 = Установка: Шаг 2 из 6 / Проверка системы
+setup_201 = Версия PHP на этом сервере устарела ({0}), пожалуйста, обновите ее (минимальная версия {1}, рекомендуется последняя версия)
+setup_202 = Не удалось найти необходимый модуль расширения PHP <b>{0}</b>!
+setup_203 = Отсутствуют необходимые аддоны
+setup_204 = Следующие директории недоступны для записи:
+setup_205 = Следующие файлы недоступны для записи:
+setup_206 = Следующие директории не существуют или не имеют нужных прав доступа:
+setup_207 = Проверка версии PHP | Проверка прав доступа
+setup_208 = Версия PHP <b>{0}</b> в порядке
+setup_209 = Права доступа к директориям в порядке
+setup_210 = Перейти к Шагу 3
+setup_211 = Следующие файлы/директории могут редактировать все пользователи этого сервера ("Others"-Mode-Bit 7). Разрешения должны быть более строгими:
+setup_212 = Повторить Шаг 2
+setup_299 = 2 / Проверка системы
+
+setup_300 = Установка: Шаг 3 из 6 / Создание файла '{0}'
+setup_301 = '{0}' не может быть записан.
+setup_302 = Основное
+setup_303 = Информация о базе данных
+setup_304 = Указанная база данных уже существует!
+setup_308 = Наименование базы данных
+setup_309 = Пароль
+setup_310 = Перейти к Шагу 4
+setup_311 = Создать базу данных?
+setup_312 = Часовой пояс
+setup_313 = Часовой пояс неверен!
+setup_314 = Повторить Шаг 3
+setup_315 = Произошла следующая ошибка: {0}
+setup_316 = Настройки REDAXO
+setup_399 = 3 / config.yml
+
+setup_400 = Установка: Шаг 4 из 6  / База данных
+setup_401 = Настройка базы данных
+setup_402 = Таблица {0} не найдена!
+setup_403 = Пожалуйста, настройте базу данных еще раз.
+setup_404 = Настройка базы данных
+setup_405 = Настроить базу данных и перезаписать ее, если она уже существует
+setup_405_note = Внимание! Все существующие данные будут удалены!
+setup_406 = База данных уже существует
+setup_406_note = Продолжить без импорта базы данных
+setup_407 = Импорт существующей базы данных:
+setup_407_note = Импортировать Демо
+setup_408 = Пожалуйста, выберите экспорт базы данных!
+setup_409 = Экспортированных файлов не найдено!
+setup_410 = Бэкап-аддон не найден!
+setup_411 = Перейти к Шагу 5
+setup_412 = Повторить Шаг 4
+setup_413 = Не удалось установить системные аддоны
+setup_414 = Обновление базы данных
+setup_414_note = Обновление с предыдущей версии
+setup_charset_utf8mb4 = utf8mb4 [рекомендуется]
+setup_charset_utf8mb4_note = Требуется как минимум MySQL 5.7.7 или MariaDB 10.2. Полная поддержка Unicode, включая Emojis и другие специальные символы.
+setup_charset_utf8 = utf8 [устаревший]
+setup_charset_utf8_note = Нестандартный режим UTF8. Поддержка будет постепенно прекращена в последующих версиях REDAXO.
+setup_499 = 4 / База данных
+
+setup_500 = Установка: Шаг 5 из 6  / Администратор
+setup_501 = Пожалуйста, введите имя пользователя администратора!
+setup_502 = Пожалуйста, введите пароль администратора!
+setup_503 = Аккаунт уже существует!
+setup_504 = Не удалось создать аккаунт администратора.
+setup_505 = Пользователи не найдены. Пожалуйста, создайте пользователя.
+setup_506 = Создание аккаунта администратора
+setup_507 = Логин
+setup_508 = Пароль
+setup_509 = Не создавать пользователя
+setup_510 = Перейти к Шагу 6
+setup_511 = Повторить Шаг 5
+setup_599 = 5 / Администратор
+
+setup_600 = Установка: Шаг 6 из 6  / Финиш
+setup_601 = Не удалось выполнить запись в файл config.yml. Пожалуйста, измените файл вручную по FTP.
+setup_602 = Поздравляем! REDAXO успешно установлен!
+setup_603 = Пожалуйста, обратите внимание:
+setup_604 = <ol><li>Войдите в систему {0}с созданной учетной записью{1}</li><li>В рамках сообщества мы разработали несколько демонстрационных версий веб-сайтов, которые показывают типичные случаи использования REDAXO. Их можно скачать после входа в систему через уже имеющееся дополнение для <strong>установки</strong>. <a href="https://redaxo.org/download/website-demos/">Информация о демонстрационных версиях сайтов на сайте redaxo.org (на немецком)</a></li></ol>
+setup_605 = Удачи и веселья! <br />Команда REDAXO
+setup_606 = Вход
+setup_699 = 6 / Финал
+
+setup_security_msg = По крайней мере одна из папок <code>redaxo/bin</code>, <code>redaxo/cache</code>, <code>redaxo/data</code>, <code>redaxo/src</code> не защищена. Причиной этого часто является то, что файлы <code>.htaccess</code> в этих директориях не были перемещены или не была создана защита, например, для серверов nginx.
+setup_no_js_security_msg = Проверьте, можно ли получить доступ к файлам непосредственно из папок <code>redaxo/bin</code>, <code>redaxo/cache</code>, <code>redaxo/data</code> und <code>redaxo/src</code>. Это не должно быть возможно по соображениям безопасности!
+setup_security_no_https = Настройка будет продолжена без SSL-шифрования. Для обеспечения конфиденциальности и защиты данных рекомендуется использовать SSL-шифрование при каждом обращении к фронтенду и бэкенду.
+setup_security_warn_mod_security = Apache модуль "mod_security" загружен. При неправильной настройке это может вызвать проблемы.
+setup_security_deprecated_php = Используемая версия PHP Version {0} больше не будет получать обновления. Вам следует рассмотреть возможность обновления до более новой версии.
+setup_security_deprecated_mysql = Используемая версия MySQL Version {0} больше не будет получать обновления. Вам следует рассмотреть возможность обновления до более новой версии.
+setup_security_deprecated_mariadb = Используемая версия MariaDB Version {0} больше не будет получать обновления. Вам следует рассмотреть возможность обновления до более новой версии.
+setup_session_autostart_warning = Настройка php "session.auto_start" активирована. Рекомендуется отключить ее во избежание проблем.
+
+sql_database_name_missing = Введите наименование базы данных!
+sql_database_host_invalid = "{0}" не является допустимым хостом MySQL
+sql_database_already_exists = База данных уже существует!
+sql_database_required_version = Версия {0} {1} слишком старая, вам нужен как минимум MySQL {2} или MariaDB {3}!
+sql_unable_to_connect_database = Невозможно установить соединение с базой данных!
+sql_unable_to_connect_server = Невозможно установить соединение с сервером базы данных!
+sql_unable_to_create_database = Невозможно установить создать базу данных!
+sql_unable_to_find_database = Указанная база данных не найдена!
+sql_unable_to_open_database = Невозможно открыть указанную базу данных!
+
+setup_security = Безопасность
+
+https_only_over_https = Эта опция доступна только через HTTPS
+https_activate_redirect_for = Автоматическая HTTPS-переадресация
+https_disable = Отключен
+https_only_frontend = Активировать только для фронтенда
+https_only_backend = Активировать только для бэкенда
+https_activate = Активировать для фронтенда и бэкенда
+
+setup_password_hint = Введите новый пароль или оставьте ввод без изменений.
+hsts_more_information = Рекомендуется активировать HSTS в настройках хостинга вашего домена/доменов, но также может быть активирован в REDAXOs config.yml на более позднем этапе. Более подробную информацию можно найти в документации REDAXO
+
+# src\core\pages\addon.php
+addon = Аддон
+addons = Аддоны
+package_help = Справка по
+package_no_help_file = Не удалось найти файл справки
+package_back = назад
+addon_no_install = Аддон "{0}" <b>не удалось</b> установить по следующим причинам:
+addon_no_uninstall = Аддон "{0}" <b>не удалось</b> деинсталлировать по следующим причинам:
+package_no_reason = Причина не указана.
+addon_no_activation = Аддон "{0}" <b>не удалось</b> активировать по следующим причинам:
+addon_no_deactivation = Аддон "{0}" <b>не удалось</b> деактивировать по следующим причинам:
+package_not_installed = Еще не установлен!
+addon_installed = Аддон <b>{0}</b> установлен и активирован!
+addon_reinstalled = Аддон <b>{0}</b> был переустановлен!
+addon_activated = Аддон <b>{0}</b> активирован!
+addon_deactivated = Аддон <b>{0}</b> деактивирован!
+addon_uninstalled = Аддон <b>{0}</b> деинсталлирован!
+addon_deleted = Аддон <b>{0}</b> удален!
+addon_not_deleted = Аддон <b>{0}</b> не может быть удален!
+addon_delete_question = Удалить аддон "{0}"?
+addon_uninstall_question = Деинсталлировать аддон "{0}"?
+package_hname = Наименование
+package_hversion = Версия
+package_hhelp = Справка
+package_hinstall = Установлен
+package_hactive = Активирован
+package_hdelete = Удаление
+package_hinformation = Информация
+package_hlicense = Лицензия
+package_reinstall = переустановить
+package_install = установить
+package_notinstalled = не установлен
+package_uninstall = деинсталлировать
+package_delete = удалить
+package_deactivate = деактивировать
+package_activate = активировать
+package_yes = да
+package_no = нет
+package_caption = Список доступных пакетов
+addon_systemaddon = Системный аддон
+addon_systempackage_delete_not_allowed = Системные аддоны не могут быть удалены!
+addon_dir_not_writable = Для директории Аддонов отсутствуют права на запись!
+addon_cache_not_writable = Директория кэша Аддонов недоступна для записи!
+package_missing_yml_file = Файл package.yml отсутствует!
+package_invalid_yml_file = Файл package.yml неверен:
+package_missing_id = "пакет" не указан в package.yml ("пакет: {0}")!
+package_missing_version = В package.yml не указана версия!
+package_wrong_dir_name = Наименование директории не совпадает с наименованием в package.yml "<b>{0}</b>"!
+package_is_plugin = Пакет должен быть установлен как плагин "<b>{1}</b>" из Аддонов "<b>{0}</b>"!
+package_is_addon = Пакет должен быть установлен как аддон "<b>{0}</b>"!
+package_install_cant_copy_files = Произошла ошибка при копировании директории /assets!
+package_install_cant_delete_files = Произошла ошибка при удалении директории /assets!
+package_search_in_installer = Поиск "{0}" в установщике
+package_jump_to = Перейти к "{0}"
+package_requirement_wrong_format = Зависимости в package.yml должны быть в формате валидного массива!
+package_requirement_error_redaxo_version = Эта версия REDAXO (<b>{0}</b>) не соответствует указанным требованиям к версии <b>{1}</b>!
+package_requirement_error_php_version = Версия PHP (<b>{0}</b>) не соответствует указанным требованиям к версии <b>{1}</b>!
+package_requirement_error_php_extension = PHP модуль <b>{0}</b> необходим!
+package_requirement_error_addon = Аддон <b>{0}</b> необходим!
+package_requirement_error_addon_version = Аддон <b>{0}</b> (версия <b>{1}</b>) не соответствует указанным требованиям к версии <b>{2}</b>!
+package_requirement_error_plugin = Плагин <b>{0}</b> необходим!
+package_requirement_error_plugin_version = Плагин <b>{0}</b> (версия <b>{1}</b>) не соответствует указанным требованиям к версии <b>{2}</b>!
+package_conflict_error_addon = Невозможно активировать вместе с аддоном <b>{0}</b>!
+package_conflict_error_addon_version = Невозможно активировать вместе с аддоном <b>{0}</b> с требованиями к версии <b>{1}</b>!
+package_conflict_error_plugin = Невозможно активировать вместе с плагином <b>{0}</b>!
+package_conflict_error_plugin_version = Невозможно активировать вместе с плагином <b>{0}</b> с требованиями к версии <b>{1}</b>!
+package_reverse_conflict_error_addon = Невозможно активировать вместе с аддоном <b>{0}</b>!
+package_reverse_conflict_error_addon_version = Невозможно активировать вместе с аддоном <b>{0}</b> с требованиями к версии <b>{1}</b>!
+package_reverse_conflict_error_plugin = Невозможно активировать вместе с плагином <b>{0}</b>!
+package_reverse_conflict_error_plugin_version = Невозможно активировать вместе с плагином <b>{0}</b> с требованиями к версии <b>{1}</b>!
+package_dependencies_error_addon = Требуется из аддона <b>{0}</b>!
+package_dependencies_error_plugin = Требуется из плагина <b>{0}</b>!
+plugin_plugins_installed = Плагины установлены
+plugin_no_install = Плагин <b>{0}</b> <b>не удалось</b> установить по следующим причинам:
+plugin_no_uninstall = Плагин <b>{0}</b> <b>не удалось</b> деинсталлировать по следующим причинам:
+plugin_no_reason = Причина не указана.
+plugin_no_activation = Плагин <b>{0}</b> <b>не удалось</b> активировать по следующим причинам:
+plugin_no_deactivation = Плагин <b>{0}</b> <b>не удалось</b> деактивировать по следующим причинам:
+plugin_installed = Плагин <b>{0}</b> установлен и активирован!
+plugin_reinstalled = Плагин <b>{0}</b> был переустановлен!
+plugin_activated = Плагин <b>{0}</b> активирован!
+plugin_deactivated = Плагин <b>{0}</b> деактивирован!
+plugin_uninstalled = Плагин <b>{0}</b> деинсталлирован!
+plugin_deleted = Плагин <b>{0}</b> удален!
+plugin_not_deleted = Плагин <b>{0}</b> не может быть удален!
+plugin_delete_question = Удалить плагин "{0}"?
+plugin_uninstall_question = Деинсталлировать плагин "{0}"?
+plugin_systemplugin = Системный плагин
+plugin_systempackage_delete_not_allowed = Системные плагины не могут быть удалены!
+plugin_dir_not_writable = Для директории Плагинов отсутствуют права на запись!
+plugin_cache_not_writable = Директория кэша Плагинов недоступна для записи!
+
+# src\core\pages\credits.php
+credits = Информация
+credits_name = Наименование
+credits_help = Справка
+credits_information = Информация
+credits_version = Версия
+credits_author = Автор
+credits_supportpage = Поддержка
+credits_addon_inactive = Аддон неактивен
+credits_caption = Список используемых пакетов
+credits_open_help_file = Открыть файл справки:
+credits_inventor = Идея
+credits_developer = Разработчик
+credits_designer = Дизайнер
+credits_license = Лицензия
+credits_changelog = Изменения
+credits_explain_license = Подробно о лицензиях
+
+# src\core\pages\profile.php
+profile_myprofile = Редактировать мой профиль пользователя
+profile_title = Мой профиль
+profile_save = Сохранить профиль
+invalid_email = Указанный адрес электронной почты недействителен.
+user_psw_updated = Пароль обновлен
+user_psw_verify_error = Старый пароль неверен.
+user_psw_new_error = Новый пароль пуст или не совпадает.
+profile_changepsw = Смена пароля
+add_password = Добавить пароль
+current_password = Старый пароль
+new_password = Новый пароль
+new_password_repeat = Повторите новый пароль
+profile_save_psw = Сохранить пароль
+password_removed = Пароль удален.
+password_remove_error = Не удалось удалить пароль.
+passkey_current = Текущий Passkey
+passkey_current_verify = Подтверждение текущего Passkey
+passkey_verify_error = Подтверждение текущего Passkey не прошло.
+passkey_add = Добавить Passkey
+passkey_added = Passkey добавлен.
+passkey_removed = Passkey удален.
+passkey_remove_error = Не удалось удалить Passkey .
+backend_language = Язык в бэкенде
+user_data_updated = Данные пользователя обновлены!
+theme = Тема бэкенда
+
+# src\core\pages\profile.auth_methods.php
+auth_methods_caption = Методы аутентификации
+auth_method = Аутентификация
+passkey = Passkey
+confirm_remove_auth = Точно хотите удалить метод аутентификации?
+
+# src\core\pages\profile.sessions.php
+session_caption = Список всех открытых сессий
+session_id = ID сессии
+ip = IP-адрес
+user_agent = User-Agent
+last_activity = Последняя активность
+starttime = Начало
+active_session = Активная сессия
+confirm_remove_session = Действительно завершить сессию?
+session_removed = Сессия завершена
+session_remove_error = Сессия не может быть завершена
+
+password_change_required = Срок действия пароля истек. Чтобы продолжить, пожалуйста, введите новый пароль!
+password_not_changed = Новый пароль должен отличаться от предыдущего!
+password_already_used = Этот пароль уже использовался ранее и не может быть использован снова!
+password_invalid = Пароль не соответствует требуемым правилам: ({0})!
+password_admin_notice = Правила для паролей можно изменить в файле config.yml.
+password_rule_min = мин. {0}
+password_rule_max = макс. {0}
+password_rule_between = {0} до {1}
+password_rule_length = {0} символов
+password_rule_letter = {0} букв
+password_rule_uppercase = {0} заглавных(-ую) букв(-у)
+password_rule_lowercase = {0} строчных(-ую) букв(-у)
+password_rule_digit = {0} цифр(-у)
+password_rule_symbol = {0} специальный(-ых) символ(-а / -ов)
+
+# redaxo\include\classes\class.rex_list.php
+list_previous = Предыдущая страница
+list_next = Следующая страница
+list_rows_found = {0} записей найдено
+list_no_rows = Нет записей
+
+# redaxo\include\classes\class.rex_form.php
+form_save = Сохранить
+form_apply = Применить
+form_delete = Удалить
+form_reset = Сбросить
+form_abort = Отменить
+form_saved = Данные сохранены!
+form_save_error = Ошибка при сохранении данных!
+form_applied = Данные сохранены!
+form_deleted = Данные удалены!
+form_delete_error = Ошибка при удалении данных!
+form_resetted = Данные были обнулены!
+
+# clang
+all_clangs = Все языки
+clangs = Языки
+clang_error_startidcanotbedeleted = Язык по умолчанию (clang) с идентификатором "{0}" не может быть удален
+clang_error_idcanotbedeleted = Язык (clang) с идентификатором "{0}" не существует
+
+
+
+# footer
+footer_joinforum = Посетить форум
+footer_doku = Прочитать документацию
+footer_datetime = {0}
+footer_scripttime = {0} сек.
+footer_credits = Информация
+
+created_by = Создано
+created_on = Создано
+updated_by = Обновлено
+updated_on = Обновлено
+status = Статус

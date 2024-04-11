@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_article_content_test extends TestCase
+/** @internal */
+final class rex_article_content_test extends TestCase
 {
     protected function setUp(): void
     {
@@ -37,13 +35,11 @@ class rex_article_content_test extends TestCase
         // generate classVars and add test column
         rex_article::getClassVars();
         $class = new ReflectionClass(rex_article::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setValue(
-            array_merge(
-                $classVarsProperty->getValue(),
-                ['art_foo'],
-            ),
-        );
+        /** @psalm-suppress MixedArgument */
+        $class->setStaticPropertyValue('classVars', array_merge(
+            $class->getStaticPropertyValue('classVars'),
+            ['art_foo'],
+        ));
     }
 
     protected function tearDown(): void
@@ -57,8 +53,7 @@ class rex_article_content_test extends TestCase
 
         // reset static properties
         $class = new ReflectionClass(rex_article::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setValue(null);
+        $class->setStaticPropertyValue('classVars', null);
 
         rex_article::clearInstancePool();
     }
@@ -74,11 +69,11 @@ class rex_article_content_test extends TestCase
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
 
-        static::assertTrue($instance->hasValue('foo'));
-        static::assertTrue($instance->hasValue('art_foo'));
+        self::assertTrue($instance->hasValue('foo'));
+        self::assertTrue($instance->hasValue('art_foo'));
 
-        static::assertFalse($instance->hasValue('bar'));
-        static::assertFalse($instance->hasValue('art_bar'));
+        self::assertFalse($instance->hasValue('bar'));
+        self::assertFalse($instance->hasValue('art_bar'));
     }
 
     public function testBcGetValue(): void
@@ -92,8 +87,8 @@ class rex_article_content_test extends TestCase
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
 
-        static::assertEquals('teststring', $instance->getValue('foo'));
-        static::assertEquals('teststring', $instance->getValue('art_foo'));
+        self::assertEquals('teststring', $instance->getValue('foo'));
+        self::assertEquals('teststring', $instance->getValue('art_foo'));
     }
 
     #[DataProvider('dataBcGetValueNonExisting')]
@@ -122,19 +117,19 @@ class rex_article_content_test extends TestCase
     {
         $instance = new rex_article_content(1, 1);
 
-        static::assertTrue($instance->hasValue('foo'));
-        static::assertTrue($instance->hasValue('art_foo'));
+        self::assertTrue($instance->hasValue('foo'));
+        self::assertTrue($instance->hasValue('art_foo'));
 
-        static::assertFalse($instance->hasValue('bar'));
-        static::assertFalse($instance->hasValue('art_bar'));
+        self::assertFalse($instance->hasValue('bar'));
+        self::assertFalse($instance->hasValue('art_bar'));
     }
 
     public function testGetValue(): void
     {
         $instance = new rex_article_content(1, 1);
 
-        static::assertEquals('teststring', $instance->getValue('foo'));
-        static::assertEquals('teststring', $instance->getValue('art_foo'));
+        self::assertEquals('teststring', $instance->getValue('foo'));
+        self::assertEquals('teststring', $instance->getValue('art_foo'));
     }
 
     #[DataProvider('dataGetValueNonExisting')]

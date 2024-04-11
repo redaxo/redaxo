@@ -1,4 +1,6 @@
 setup: true
+live_mode: false
+safe_mode: false
 debug:
     enabled: false
     throw_always_exception: false # `true` for all error levels, `[E_WARNING, E_NOTICE]` for subset
@@ -89,6 +91,7 @@ db:
         ssl_key: null
         ssl_cert: null
         ssl_ca: null
+        ssl_verify_server_cert: true
     2:
         host: ''
         login: ''
@@ -98,6 +101,7 @@ db:
         ssl_key: null
         ssl_cert: null
         ssl_ca: null
+        ssl_verify_server_cert: true
 use_accesskeys: true
 accesskeys:
     save: s

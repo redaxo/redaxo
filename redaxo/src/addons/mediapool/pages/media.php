@@ -32,9 +32,16 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_MEDIAPOOL_HEADER
 
 $formElements = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . rex_escape($mediaName) . '" />';
-$n['before'] = $selMedia->get();
+$n['field'] = '<input class="form-control" style="border-left: 0;" type="text" name="media_name" id="be_search-media-name" value="' . rex_escape($mediaName) . '" />';
 $n['right'] = '<button class="btn btn-search" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
+$formElements[] = $n;
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+
+$formElements = [];
+$n = [];
+$n['before'] = $selMedia->get();
+$n['after'] = '<search role="search">' . $fragment->parse('core/form/input_group.php') . '</search>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * REDAXO main boot file.
  *
@@ -19,7 +21,7 @@ if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
 
-foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
+foreach (['HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO'] as $key) {
     if (!isset($REX[$key])) {
         throw new Exception('Missing required global variable $REX[\'' . $key . "']");
     }
@@ -90,7 +92,7 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.15.2-dev');
+rex::setProperty('version', '5.17.1');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
@@ -110,7 +112,7 @@ if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
  * @var mixed $value
  */
 foreach ($config as $key => $value) {
-    if (in_array($key, array('fileperm', 'dirperm'))) {
+    if (in_array($key, ['fileperm', 'dirperm'])) {
         $value = octdec((string) $value);
     }
     rex::setProperty($key, $value);
@@ -119,7 +121,7 @@ foreach ($config as $key => $value) {
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
 if ('cli' !== PHP_SAPI) {
-    rex::setProperty('request', Symfony\Component\HttpFoundation\Request::createFromGlobals());
+    rex::setProperty('request', Request::createFromGlobals());
 }
 
 rex_error_handler::register();
@@ -144,7 +146,7 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
     }
 
     if (true === rex::getProperty('use_hsts') && rex_request::isHttps()) {
-        rex_response::setHeader('Strict-Transport-Security', 'max-age='.(int) rex::getProperty('hsts_max_age', 31536000)); // default 1 year
+        rex_response::setHeader('Strict-Transport-Security', 'max-age=' . (int) rex::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }
 

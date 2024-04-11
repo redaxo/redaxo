@@ -10,7 +10,7 @@ class rex_install
      * Installation and Activation needs to be triggered in a separate step.
      *
      * @param non-empty-string $addonKey e.g. "yform"
-     * @param string $version  e.g. "3.2.1"
+     * @param string $version e.g. "3.2.1"
      *
      * @throws rex_exception
      */
@@ -54,7 +54,7 @@ class rex_install
      * The AddOn is not required to be installed beforehand.
      *
      * @param non-empty-string $addonKey e.g. "yform"
-     * @param string $version  e.g. "3.2.1"
+     * @param string $version e.g. "3.2.1"
      *
      * @throws rex_exception
      */

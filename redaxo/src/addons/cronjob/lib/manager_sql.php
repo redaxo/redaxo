@@ -10,16 +10,12 @@
 
 class rex_cronjob_manager_sql
 {
-    /** @var rex_sql */
-    private $sql;
-    /** @var rex_cronjob_manager|null */
-    private $manager;
+    private rex_sql $sql;
 
-    private function __construct(?rex_cronjob_manager $manager = null)
-    {
+    private function __construct(
+        private ?rex_cronjob_manager $manager = null,
+    ) {
         $this->sql = rex_sql::factory();
-        // $this->sql->setDebug();
-        $this->manager = $manager;
     }
 
     /**
@@ -150,7 +146,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @param null|callable(string,bool,string):void $callback Callback is called after every job execution (params: job name, success status, message)
+     * @param callable(string,bool,string):void|null $callback Callback is called after every job execution (params: job name, success status, message)
      * @return void
      */
     public function check(?callable $callback = null)
@@ -198,8 +194,11 @@ class rex_cronjob_manager_sql
                     continue;
                 }
 
+                /** @psalm-taint-escape callable */ // It is intended that the class name is coming from database
+                $type = $job['type'];
+
                 $manager = $this->getManager();
-                $manager->setCronjob(rex_cronjob::factory($job['type']));
+                $manager->setCronjob(rex_cronjob::factory($type));
                 $manager->log(false, 0 != connection_status() ? 'Timeout' : 'Unknown error');
                 $this->setNextTime($job['id'], $job['interval'], true);
             }
@@ -378,9 +377,9 @@ class rex_cronjob_manager_sql
         $validateTime();
 
         if (
-            !$isValid($interval['days'], $date->format('j')) ||
-            !$isValid($interval['weekdays'], $date->format('w')) ||
-            !$isValid($interval['months'], $date->format('n'))
+            !$isValid($interval['days'], $date->format('j'))
+            || !$isValid($interval['weekdays'], $date->format('w'))
+            || !$isValid($interval['months'], $date->format('n'))
         ) {
             $date->setTime(0, 0, 0);
             $validateTime();

@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+/** @internal */
 class rex_test_factory
 {
     use rex_factory_trait;
@@ -41,7 +42,9 @@ class rex_test_factory
         return 'static-base';
     }
 }
-class rex_alternative_test_factory extends rex_test_factory
+
+/** @internal */
+final class rex_alternative_test_factory extends rex_test_factory
 {
     public function doSomething(): string
     {
@@ -59,31 +62,29 @@ class rex_alternative_test_factory extends rex_test_factory
     }
 }
 
-/**
- * @internal
- */
-class rex_factory_trait_test extends TestCase
+/** @internal */
+final class rex_factory_trait_test extends TestCase
 {
     public function testFactoryCreation(): void
     {
-        static::assertFalse(rex_test_factory::hasFactoryClass(), 'initially no factory class is set');
-        static::assertEquals(rex_test_factory::class, rex_test_factory::getFactoryClass(), 'original factory class will be returned');
+        self::assertFalse(rex_test_factory::hasFactoryClass(), 'initially no factory class is set');
+        self::assertEquals(rex_test_factory::class, rex_test_factory::getFactoryClass(), 'original factory class will be returned');
         $clazz = rex_test_factory::factory();
-        static::assertEquals(rex_test_factory::class, $clazz, 'factory class defaults to the original impl');
+        self::assertEquals(rex_test_factory::class, $clazz, 'factory class defaults to the original impl');
         $obj = new $clazz();
-        static::assertEquals('base', $obj->doSomething(), 'call method of the original impl');
-        static::assertEquals('static-base', rex_test_factory::staticCall(), 'static method of original impl');
-        static::assertEquals('static-base', rex_test_factory::staticCallDeprecated(), 'static method of original impl');
+        self::assertEquals('base', $obj->doSomething(), 'call method of the original impl');
+        self::assertEquals('static-base', rex_test_factory::staticCall(), 'static method of original impl');
+        self::assertEquals('static-base', rex_test_factory::staticCallDeprecated(), 'static method of original impl');
 
         rex_test_factory::setFactoryClass(rex_alternative_test_factory::class);
 
-        static::assertTrue(rex_test_factory::hasFactoryClass(), 'factory class was set');
-        static::assertEquals(rex_alternative_test_factory::class, rex_test_factory::getFactoryClass(), 'factory class will be returned');
+        self::assertTrue(rex_test_factory::hasFactoryClass(), 'factory class was set');
+        self::assertEquals(rex_alternative_test_factory::class, rex_test_factory::getFactoryClass(), 'factory class will be returned');
         $clazz = rex_test_factory::factory();
-        static::assertEquals(rex_alternative_test_factory::class, $clazz, 'alternative factory class will be used');
+        self::assertEquals(rex_alternative_test_factory::class, $clazz, 'alternative factory class will be used');
         $obj = new $clazz();
-        static::assertEquals('overridden', $obj->doSomething(), 'call method of the alternative impl');
-        static::assertEquals('static-overridden', rex_test_factory::staticCall(), 'static method of alternative impl');
-        static::assertEquals('static-overridden', rex_test_factory::staticCallDeprecated(), 'static method of alternative impl');
+        self::assertEquals('overridden', $obj->doSomething(), 'call method of the alternative impl');
+        self::assertEquals('static-overridden', rex_test_factory::staticCall(), 'static method of alternative impl');
+        self::assertEquals('static-overridden', rex_test_factory::staticCallDeprecated(), 'static method of alternative impl');
     }
 }

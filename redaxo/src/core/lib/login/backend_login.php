@@ -3,8 +3,8 @@
 /**
  * @package redaxo\core\login
  *
- * @method null|rex_user getUser()
- * @method null|rex_user getImpersonator()
+ * @method rex_user|null getUser()
+ * @method rex_user|null getImpersonator()
  */
 class rex_backend_login extends rex_login
 {
@@ -12,16 +12,10 @@ class rex_backend_login extends rex_login
 
     private const SESSION_PASSWORD_CHANGE_REQUIRED = 'password_change_required';
 
-    /** @var string */
-    private $tableName;
-
+    private string $tableName;
     private ?string $passkey = null;
-
-    /** @var bool|null */
-    private $stayLoggedIn;
-
-    /** @var rex_backend_password_policy */
-    private $passwordPolicy;
+    private bool $stayLoggedIn = false;
+    private rex_backend_password_policy $passwordPolicy;
 
     public function __construct()
     {
@@ -74,7 +68,7 @@ class rex_backend_login extends rex_login
             $stayLoggedIn = false;
         }
 
-        $this->stayLoggedIn = $stayLoggedIn;
+        $this->stayLoggedIn = (bool) $stayLoggedIn;
     }
 
     public function checkLogin()
@@ -132,10 +126,12 @@ class rex_backend_login extends rex_login
                 $add = '';
                 if (($password = $this->user->getValue('password')) && self::passwordNeedsRehash($password)) {
                     $add .= 'password = ?, ';
-                    $params[] = self::passwordHash($this->userPassword, true);
+                    $params[] = $password = self::passwordHash($this->userPassword, true);
                 }
                 array_push($params, rex_sql::datetime(), rex_sql::datetime(), session_id(), $this->userLogin);
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
+
+                $this->setSessionVar(self::SESSION_PASSWORD, $password);
 
                 if ($this->stayLoggedIn || $loggedInViaCookie) {
                     if (!$cookiekey || !$loggedInViaCookie) {

@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\Deprecated;
+
 /**
  * @author gharlan
  *
@@ -7,20 +9,16 @@
  */
 class rex_password_policy
 {
-    /** @var array<string, array{min?: int, max?: int}> */
-    private $options;
-
     /**
      * @param array<string, array{min?: int, max?: int}> $options
      */
-    public function __construct(array $options)
-    {
-        $this->options = $options;
-    }
+    public function __construct(
+        private array $options,
+    ) {}
 
     /**
-     * @param string   $password
-     * @param null|int $id
+     * @param string $password
+     * @param int|null $id
      *
      * @throws rex_exception
      *
@@ -102,7 +100,7 @@ class rex_password_policy
      *
      * @deprecated since 5.12, use `getDescription` instead
      */
-    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.12, use `getDescription` instead', replacement: '%class%->getDescription()')]
+    #[Deprecated(reason: 'since 5.12, use `getDescription` instead', replacement: '%class%->getDescription()')]
     protected function getRule()
     {
         return $this->getDescription() ?? '';

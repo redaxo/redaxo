@@ -53,7 +53,7 @@ class rex_file
      * @template T
      * @param string $file Path to the file
      * @param T $default Default value
-     * @return array|T Content of the file or default value if the file isn't readable
+     * @return array<mixed>|T Content of the file or default value if the file isn't readable
      */
     public static function getConfig($file, $default = [])
     {
@@ -65,9 +65,9 @@ class rex_file
      * Returns the content of a cache file.
      *
      * @template T
-     * @param string $file    Path to the file
-     * @param T  $default Default value
-     * @return array|T Content of the file or default value if the file isn't readable
+     * @param string $file Path to the file
+     * @param T $default Default value
+     * @return array<mixed>|T Content of the file or default value if the file isn't readable
      */
     public static function getCache($file, $default = [])
     {
@@ -78,7 +78,7 @@ class rex_file
     /**
      * Puts content in a file.
      *
-     * @param string $file    Path to the file
+     * @param string $file Path to the file
      * @param string $content Content for the file
      *
      * @return bool TRUE on success, FALSE on failure
@@ -94,7 +94,7 @@ class rex_file
 
             // mimic a atomic write
             $tmpFile = @tempnam(dirname($file), rex_path::basename($file));
-            if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {
+            if (false !== file_put_contents($tmpFile, $content) && self::move($tmpFile, $file)) {
                 @chmod($file, rex::getFilePerm());
                 return true;
             }
@@ -107,7 +107,7 @@ class rex_file
     /**
      * Appends content to a file.
      *
-     * @param string $file    Path to the file
+     * @param string $file Path to the file
      * @param string $content Content for the file
      * @param string $delimiter delimiter for new Content
      *
@@ -143,9 +143,9 @@ class rex_file
     /**
      * Puts content in a config file.
      *
-     * @param string $file    Path to the file
-     * @param array  $content Content for the file
-     * @param int    $inline  The level where you switch to inline YAML
+     * @param string $file Path to the file
+     * @param array<mixed> $content Content for the file
+     * @param int $inline The level where you switch to inline YAML
      *
      * @return bool TRUE on success, FALSE on failure
      *
@@ -159,8 +159,8 @@ class rex_file
     /**
      * Puts content in a cache file.
      *
-     * @param string $file    Path to the file
-     * @param array  $content Content for the file
+     * @param string $file Path to the file
+     * @param array<mixed> $content Content for the file
      *
      * @return bool TRUE on success, FALSE on failure
      *
@@ -217,7 +217,13 @@ class rex_file
      */
     public static function move(string $srcfile, string $dstfile): bool
     {
-        return rename($srcfile, $dstfile);
+        if (@rename($srcfile, $dstfile)) {
+            return true;
+        }
+        if (copy($srcfile, $dstfile)) {
+            return unlink($srcfile);
+        }
+        return false;
     }
 
     /**
@@ -230,9 +236,16 @@ class rex_file
     public static function delete($file)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
-            if (is_file($file)) {
-                return unlink($file);
+            $tryUnlink = @unlink($file);
+
+            // re-try without error suppression to compensate possible race conditions
+            if (!$tryUnlink) {
+                clearstatcache(true, $file);
+                if (is_file($file)) {
+                    return unlink($file);
+                }
             }
+
             return true;
         });
     }
@@ -256,7 +269,7 @@ class rex_file
      *
      * @param string $file Path to the file
      *
-     * @return null|string Mime type or `null` if the type could not be detected
+     * @return string|null Mime type or `null` if the type could not be detected
      */
     public static function mimeType($file): ?string
     {
@@ -286,8 +299,8 @@ class rex_file
     /**
      * Formates the filesize of the given file into a userfriendly form.
      *
-     * @param string $file   Path to the file
-     * @param array  $format
+     * @param string $file Path to the file
+     * @param array $format
      *
      * @return string Formatted filesize
      */

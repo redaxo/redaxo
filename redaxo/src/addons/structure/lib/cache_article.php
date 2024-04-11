@@ -9,7 +9,7 @@ class rex_article_cache
      * Löscht die gecachten Dateien eines Artikels. Wenn keine clang angegeben, wird
      * der Artikel-Cache in allen Sprachen gelöscht.
      *
-     * @param int $id      ArtikelId des Artikels
+     * @param int $id ArtikelId des Artikels
      * @param int $clangId ClangId des Artikels
      *
      * @return bool True on success, False on errro
@@ -38,7 +38,7 @@ class rex_article_cache
      * Löscht die gecachten Meta-Dateien eines Artikels. Wenn keine clang angegeben, wird
      * der Artikel in allen Sprachen gelöscht.
      *
-     * @param int $id      ArtikelId des Artikels
+     * @param int $id ArtikelId des Artikels
      * @param int $clangId ClangId des Artikels
      *
      * @return bool True on success, False on errro
@@ -69,7 +69,7 @@ class rex_article_cache
      * Löscht die gecachten Content-Dateien eines Artikels. Wenn keine clang angegeben, wird
      * der Artikel in allen Sprachen gelöscht.
      *
-     * @param int $id      ArtikelId des Artikels
+     * @param int $id ArtikelId des Artikels
      * @param int $clangId ClangId des Artikels
      *
      * @return bool True on success, False on errro
@@ -123,7 +123,7 @@ class rex_article_cache
      * Generiert den Artikel-Cache der Metainformationen.
      *
      * @param int $articleId Id des zu generierenden Artikels
-     * @param int $clangId    ClangId des Artikels
+     * @param int $clangId ClangId des Artikels
      *
      * @return bool|string TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
      */

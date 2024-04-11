@@ -26,11 +26,16 @@ abstract class rex_cronjob
             return $class;
         }
 
+        if (!in_array($class, rex_cronjob_manager::getTypes())) {
+            return $class;
+        }
+
         return rex_type::instanceOf(new $class(), self::class);
     }
 
     /**
      * @param string $key
+     * @param mixed $value
      * @return void
      */
     public function setParam($key, $value)
@@ -49,6 +54,7 @@ abstract class rex_cronjob
 
     /**
      * @param string $key
+     * @param mixed $default
      * @return mixed
      */
     public function getParam($key, $default = null)
@@ -66,7 +72,7 @@ abstract class rex_cronjob
 
     /**
      * @param string $key
-     *
+     * @param mixed $value
      * @return void
      */
     public function __set($key, $value)
@@ -76,7 +82,6 @@ abstract class rex_cronjob
 
     /**
      * @param string $key
-     *
      * @return mixed
      */
     public function __get($key)
@@ -132,7 +137,7 @@ abstract class rex_cronjob
     }
 
     /**
-     * @return string[]
+     * @return list<'frontend'|'backend'|'script'>
      */
     public function getEnvironments()
     {
@@ -141,7 +146,7 @@ abstract class rex_cronjob
     }
 
     /**
-     * @return array
+     * @return list<array<string, mixed>>
      */
     public function getParamFields()
     {

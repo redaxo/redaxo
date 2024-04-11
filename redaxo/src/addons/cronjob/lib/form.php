@@ -22,7 +22,7 @@ class rex_cronjob_form extends rex_form
      * @param string $fieldset
      * @param string $whereCondition
      * @param 'post'|'get' $method
-     * @param bool   $debug
+     * @param bool $debug
      * @param positive-int $db DB connection ID
      */
     public function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
@@ -119,7 +119,8 @@ class rex_cronjob_form_interval_element extends rex_form_element
      */
     public function formatElement()
     {
-        $range = static function ($low, $high, $step = 1) {
+        /** @return iterable<int, string> */
+        $range = static function (int $low, int $high, int $step = 1): Generator {
             foreach (range($low, $high, $step) as $i) {
                 yield $i => str_pad((string) $i, 2, '0', STR_PAD_LEFT);
             }
@@ -191,6 +192,9 @@ class rex_cronjob_form_interval_element extends rex_form_element
     }
 
     /**
+     * @param string $group
+     * @param string $optionAll
+     * @param iterable<int, string> $options
      * @return string
      */
     protected function formatField($group, $optionAll, $options)

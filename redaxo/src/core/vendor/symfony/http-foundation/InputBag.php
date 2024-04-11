@@ -12,6 +12,7 @@
 namespace Symfony\Component\HttpFoundation;
 
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpFoundation\Exception\UnexpectedValueException;
 
 /**
  * InputBag is a container for user input values such as $_GET, $_POST, $_REQUEST, and $_COOKIE.
@@ -83,11 +84,11 @@ final class InputBag extends ParameterBag
      *
      * @return ?T
      */
-    public function getEnum(string $key, string $class, \BackedEnum $default = null): ?\BackedEnum
+    public function getEnum(string $key, string $class, ?\BackedEnum $default = null): ?\BackedEnum
     {
         try {
             return parent::getEnum($key, $class, $default);
-        } catch (\UnexpectedValueException $e) {
+        } catch (UnexpectedValueException $e) {
             throw new BadRequestException($e->getMessage(), $e->getCode(), $e);
         }
     }

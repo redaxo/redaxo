@@ -42,7 +42,7 @@ $content .= '
 
 $formElements = [];
 
-$file = new rex_log_file($logFile);
+$file = rex_log_file::factory($logFile);
 
 /** @var rex_log_entry $entry */
 foreach (new LimitIterator($file, 0, 100) as $entry) {

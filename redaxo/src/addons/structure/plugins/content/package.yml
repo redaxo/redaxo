@@ -1,5 +1,5 @@
 package: structure/content
-version: '2.15.0'
+version: '2.17.1'
 author: Markus Staab
 supportpage: https://github.com/redaxo/redaxo
 
@@ -20,6 +20,7 @@ pages:
         block: system
         prio: 30
         perm: admin
+        live_mode: false
         pjax: true
         icon: rex-icon rex-icon-template
     modules:
@@ -28,6 +29,7 @@ pages:
         block: system
         prio: 40
         perm: admin
+        live_mode: false
         pjax: true
         icon: rex-icon rex-icon-module
         subpages:

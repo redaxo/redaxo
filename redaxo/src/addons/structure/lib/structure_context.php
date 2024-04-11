@@ -7,8 +7,7 @@
  */
 class rex_structure_context
 {
-    /** @var array */
-    private $params;
+    private array $params;
 
     public function __construct(array $params)
     {
@@ -110,7 +109,7 @@ class rex_structure_context
 
     /**
      * @param string $key
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */

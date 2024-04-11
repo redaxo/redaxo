@@ -200,7 +200,7 @@ class rex_media_manager
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getCachePath()
     {
@@ -451,11 +451,11 @@ class rex_media_manager
 
     /**
      * Checks if media is used by this addon.
-     * @return string[] Warning message as array
+     * @return list<string> Warning message as array
      */
     public static function mediaIsInUse(rex_extension_point $ep)
     {
-        /** @var string[] $warning */
+        /** @var list<string> $warning */
         $warning = $ep->getSubject();
         $filename = $ep->getParam('filename');
         assert(is_string($filename));
@@ -539,11 +539,11 @@ class rex_media_manager
     }
 
     /**
-     * @param string           $type      Media type
-     * @param string|rex_media $file      Media file
-     * @param null|int         $timestamp Last change timestamp of given file, for cache buster parameter
-     *                                    (not nessary when the file is given by a `rex_media` object)
-     * @param bool             $escape
+     * @param string $type Media type
+     * @param string|rex_media $file Media file
+     * @param int|null $timestamp Last change timestamp of given file, for cache buster parameter
+     *                            (not nessary when the file is given by a `rex_media` object)
+     * @param bool $escape
      *
      * @return string
      */

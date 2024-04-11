@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_sql_util_test extends TestCase
+/** @internal */
+final class rex_sql_util_test extends TestCase
 {
     public const TABLE = 'rex_sql_util_test';
     public const TABLE2 = 'rex_sql_util_test2';
@@ -47,10 +45,10 @@ class rex_sql_util_test extends TestCase
 
         $table2 = rex_sql_table::get(self::TABLE2);
 
-        static::assertEquals($table2->getColumns(), $table->getColumns());
-        static::assertEquals($table2->getIndexes(), $table->getIndexes());
+        self::assertEquals($table2->getColumns(), $table->getColumns());
+        self::assertEquals($table2->getIndexes(), $table->getIndexes());
 
-        static::assertSame(0, rex_sql::factory()->setTable(self::TABLE2)->select()->getRows());
+        self::assertSame(0, rex_sql::factory()->setTable(self::TABLE2)->select()->getRows());
     }
 
     public function testCopyTableWithData(): void
@@ -61,9 +59,9 @@ class rex_sql_util_test extends TestCase
 
         $table2 = rex_sql_table::get(self::TABLE2);
 
-        static::assertEquals($table2->getColumns(), $table->getColumns());
-        static::assertEquals($table2->getIndexes(), $table->getIndexes());
+        self::assertEquals($table2->getColumns(), $table->getColumns());
+        self::assertEquals($table2->getIndexes(), $table->getIndexes());
 
-        static::assertSame(2, rex_sql::factory()->setTable(self::TABLE2)->select()->getRows());
+        self::assertSame(2, rex_sql::factory()->setTable(self::TABLE2)->select()->getRows());
     }
 }

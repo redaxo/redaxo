@@ -9,44 +9,16 @@
  */
 class rex_sql_column
 {
-    /** @var string */
-    private $name;
+    private bool $modified = false;
 
-    /** @var string */
-    private $type;
-
-    /** @var bool */
-    private $nullable;
-
-    /** @var null|string */
-    private $default;
-
-    /** @var null|string */
-    private $extra;
-
-    /** @var null|string */
-    private $comment;
-
-    /** @var bool */
-    private $modified = false;
-
-    /**
-     * @param string      $name
-     * @param string      $type
-     * @param bool        $nullable
-     * @param null|string $default
-     * @param null|string $extra
-     * @param null|string $comment
-     */
-    public function __construct($name, $type, $nullable = false, $default = null, $extra = null, $comment = null)
-    {
-        $this->name = $name;
-        $this->type = $type;
-        $this->nullable = $nullable;
-        $this->default = $default;
-        $this->extra = $extra;
-        $this->comment = $comment;
-    }
+    public function __construct(
+        private string $name,
+        private string $type,
+        private bool $nullable = false,
+        private ?string $default = null,
+        private ?string $extra = null,
+        private ?string $comment = null,
+    ) {}
 
     /**
      * @param bool $modified
@@ -129,7 +101,7 @@ class rex_sql_column
     }
 
     /**
-     * @param null|string $default
+     * @param string|null $default
      *
      * @return $this
      */
@@ -141,7 +113,7 @@ class rex_sql_column
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getDefault()
     {
@@ -149,7 +121,7 @@ class rex_sql_column
     }
 
     /**
-     * @param null|string $extra
+     * @param string|null $extra
      *
      * @return $this
      */
@@ -161,7 +133,7 @@ class rex_sql_column
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getExtra()
     {
@@ -169,7 +141,7 @@ class rex_sql_column
     }
 
     /**
-     * @param null|string $comment
+     * @param string|null $comment
      *
      * @return $this
      */
@@ -181,7 +153,7 @@ class rex_sql_column
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getComment()
     {
@@ -194,11 +166,11 @@ class rex_sql_column
     public function equals(self $column)
     {
         return
-            $this->name === $column->name &&
-            $this->type === $column->type &&
-            $this->nullable === $column->nullable &&
-            $this->default === $column->default &&
-            $this->extra === $column->extra &&
-            $this->comment === $column->comment;
+            $this->name === $column->name
+            && $this->type === $column->type
+            && $this->nullable === $column->nullable
+            && $this->default === $column->default
+            && $this->extra === $column->extra
+            && $this->comment === $column->comment;
     }
 }

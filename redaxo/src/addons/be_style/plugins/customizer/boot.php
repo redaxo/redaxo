@@ -154,7 +154,7 @@ if (rex::isBackend() && rex::getUser()) {
     if ($config['showlink']) {
         rex_view::setJsProperty(
             'customizer_showlink',
-            '<h1 class="be-style-customizer-title"><a href="' . rex_url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="fa fa-external-link"></i></a></h1>',
+            '<h1 class="be-style-customizer-title"><a href="' . rex_url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="rex-icon rex-icon-external-link"></i></a></h1>',
         );
     }
 }

@@ -1,6 +1,97 @@
 Changelog
 =========
 
+Version 5.17.1 – 07.04.2024
+---------------------------
+
+### Bugfixes
+
+* Exception-Messages wurden teils an Nicht-Admins ausgegeben (@gharlan)
+* `rex_sql`: In der Debug-Ausgabe wurden in der `fullquery` Integerwerte als Strings eingesetzt (@gharlan)
+
+
+Version 5.17.0 – 12.03.2024
+---------------------------
+
+### Neu
+
+* `rex_get`/`rex_post` etc.: Es kann ein Array mit möglichen Werten als Typ übergeben werden (@gharlan)
+* `rex_http_exception`: 
+    - Bei 4xx-Fehlercode wird nur noch bei Debug-Mode oder Backend-Admin ins Systemlog geschrieben (@gharlan)
+    - Verwendung an weiteren sinnvollen Stellen mit 4xx-Code (@gharlan)
+* `rex_log_file`: Neue `::factory()`-Methode, Nutzung von `new rex_log_file` ist deprecated (@dergel)
+* `rex_api_function`: Neue Methode `register` um API-Functions explizit registrieren zu können (relevant bei Namespaces) (@gharlan)
+* `rex_form`:
+    - `maxlength`- und `minlength`-Attribute werden automatisch entsprechend des Validators gesetzt (@gharlan)
+    - Neue Methode `disableSpellcheckAndAutoCorrect` um entsprechende Attribute zu setzen (@gharlan)
+* Formularfelder: Validierungen und geeignete weitere Feldattribute ergänzt (@gharlan)
+* HTML-Element `<search>` wird an geeigneten Stellen verwendet (@gharlan)
+* Code-Optimierungen (@tbaddade, @gharlan)
+
+### Bugfixes
+
+* Setup: Bei "Update der Datenbank" kam es bei Charset-Änderungen teils zum Fehler (@gharlan)
+* `rex_file`: `put` und `move` funktionierten teilweise nicht, wenn mehrere Filesysteme/Mounts involviert sind (@dergel)
+* `rex_list`: Der Page-Parameter wurde den Links nicht immer mitgegeben, sodass man nach Löschung z.B. auf der ersten Seite landete (@gharlan)
+* `rex_sql`: In `checkDbConnection` wurde ein relevanter Fehlercode nicht berücksichtigt (@gharlan)
+* Wenn nach Login das Passwort automatisch rehasht wurde, musste man sich danach erneut einloggen (@gharlan)
+* Wenn nach DB-Import der aktuelle Benutzer nicht mehr existiert, kam es zum Fehler (statt nur zum Logout) (@gharlan)
+
+
+Version 5.16.1 – 24.02.2024
+---------------------------
+
+### Bugfixes
+
+* DB-Verbindung:
+    - Die Konstante `PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT` wurde ohne Prüfung genutzt (nur bei Nutzung von mysqlnd verfügbar) (@gharlan)
+    - Die Option `ssl_ca` konnte nicht einzeln genutzt werden, nur in Kombi mit `ssl_cert` und `ssl_key` (@gharlan)
+
+
+Version 5.16.0 – 09.02.2024
+---------------------------
+
+### Neu
+
+* Neuer Live-Mode (über die `config.yml` aktivierbar), der problematische Bereiche im Backend für Produktivumgebungen sperrt (@gharlan)
+* Safe-Mode ist nur noch als eingeloggter Admin aktivierbar, oder neu alternativ global über die `config.yml` (@gharlan)
+* Setup: PHP-Version wird ausgegeben (@staabm)
+* DB-Config: Neue Option `ssl_verify_server_cert` (@gharlan)
+* Packages installieren/aktivieren etc. wird ohne PJAX durchgeführt (@tbaddade)
+* `rex_list`:
+    - Default-Sortierung soll nicht mehr über die Query übergeben werden, sondern über neuen separaten Parameter (@gharlan)
+      ACHTUNG: Bei Übergabe über die Query funktioniert aus Sicherheitsgründen die Sortierung bei Klick auf eine Spalte nicht mehr
+    - Neue Methoden um das Markup via Kindklassen leichter anpassen zu können (@staabm)
+* `rex_sql`: `getArrayValue` liefert bei `null` ein leeres Array und behandelt ungültiges JSON besser (@staabm)
+* `rex_file`: Neue Methode `append` (@skerbis)
+* `rex_response`: `sendFile` abbrechen, wenn die Verbindung zum Client abgebrochen wurde (@staabm)
+* `rex_version`: `gitHash` beschleunigt (@staabm)
+* `Permissions-Policy`-Header wird nicht mehr gesetzt, da Google FLoC beerdigt hat (@eznix86)
+* Text-Optimierungen (@Koala, @skerbis, @staabm)
+* Übersetzungen:
+    - Russisch hinzugefügt (@cosmopolityan)
+    - Italienisch korrigiert/ergänzt (@michael-kreatif)
+* JS: AJAX-Loader-Indicator als `rex_loader`-API ausgelagert (@staabm)
+* Schema für `package.yml` optimiert (@staabm, @gharlan)
+* Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @bloep, @gharlan)
+
+### Bugfixes
+
+* Escaping korrigiert/ergänzt (@staabm, @gharlan)
+* Core-Update stabilisiert (@gharlan)
+* Setup: gz-komprimierte Backups wurden nicht zum Import angeboten (@gharlan)
+* Systemlog: Farbe für `success`-Meldungen korrigiert (@danspringer)
+* `rex_sql`: Bei zusätzlichen Datenbanken wurde die Verbindung nicht korrekt initialisiert bzgl. SQL-Mode und Charset (@alxndr-w)
+* `rex_markdown`: PHP-Highlighting mit PHP 8.3 korrigiert (@bloep)
+* `rex_file`: `delete`-Methode stabilisiert (@staabm)
+* `rex_autoload`: Kompatibilität zu symfony/cache hergestellt (@staabm)
+* `dump()`: Layout in Kombination mit UiKit korrigiert (@skerbis)
+* `package.yml`: Deprecated-Meldunge vermeiden, wenn `supportpage` gleich `null` ist (@tbaddade)
+* Popup-Schließung korrigiert (@tbaddade)
+* `rex_logger`: Kompatibilität zu neueren PSR-Log-Versionen hergestellt (@michael-kreatif)
+* Whoops-Page bei sehr großen Fehlermeldungen korrigiert (@staabm)
+
+
 Version 5.15.1 – 18.03.2023
 ---------------------------
 

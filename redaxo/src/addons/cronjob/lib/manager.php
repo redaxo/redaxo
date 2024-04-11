@@ -9,12 +9,8 @@
  */
 class rex_cronjob_manager
 {
-    /** @var list<class-string<rex_cronjob>> */
-    private static $types = [
-        rex_cronjob_phpcode::class,
-        rex_cronjob_phpcallback::class,
-        rex_cronjob_urlrequest::class,
-    ];
+    /** @var list<class-string<rex_cronjob>>|null */
+    private static ?array $types = null;
 
     /** @var string */
     private $message = '';
@@ -121,7 +117,7 @@ class rex_cronjob_manager
     }
 
     /**
-     * @param bool   $success
+     * @param bool $success
      * @param string $message
      * @return void
      */
@@ -142,7 +138,7 @@ class rex_cronjob_manager
             $environment = rex::getEnvironment();
         }
 
-        $log = new rex_log_file(rex_path::log('cronjob.log'), 2_000_000);
+        $log = rex_log_file::factory(rex_path::log('cronjob.log'), 2_000_000);
         $data = [
             $success ? 'SUCCESS' : 'ERROR',
             $this->id ?: '--',
@@ -158,6 +154,16 @@ class rex_cronjob_manager
      */
     public static function getTypes()
     {
+        if (null === self::$types) {
+            self::$types = [];
+
+            if (!rex::isLiveMode()) {
+                self::$types[] = rex_cronjob_phpcode::class;
+                self::$types[] = rex_cronjob_phpcallback::class;
+            }
+            self::$types[] = rex_cronjob_urlrequest::class;
+        }
+
         return self::$types;
     }
 
@@ -167,7 +173,9 @@ class rex_cronjob_manager
      */
     public static function registerType($class)
     {
-        self::$types[] = $class;
+        $types = self::getTypes();
+        $types[] = $class;
+        self::$types = $types;
     }
 
     /**

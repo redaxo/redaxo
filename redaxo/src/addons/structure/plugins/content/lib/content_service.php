@@ -37,19 +37,15 @@ class rex_content_service
         $sql->addGlobalCreateFields();
         $sql->addGlobalUpdateFields();
 
-        try {
-            $sql->insert();
-            $sliceId = $sql->getLastId();
+        $sql->insert();
+        $sliceId = $sql->getLastId();
 
-            rex_sql_util::organizePriorities(
-                rex::getTable('article_slice'),
-                'priority',
-                $where,
-                'priority, updatedate DESC',
-            );
-        } catch (rex_sql_exception $e) {
-            throw new rex_api_exception($e->getMessage(), $e);
-        }
+        rex_sql_util::organizePriorities(
+            rex::getTable('article_slice'),
+            'priority',
+            $where,
+            'priority, updatedate DESC',
+        );
 
         rex_article_cache::delete($articleId, $clangId);
 
@@ -77,8 +73,8 @@ class rex_content_service
     /**
      * Verschiebt einen Slice.
      *
-     * @param int    $sliceId  Id des Slices
-     * @param int    $clang     Id der Sprache
+     * @param int $sliceId Id des Slices
+     * @param int $clang Id der Sprache
      * @param string $direction Richtung in die verschoben werden soll
      *
      * @throws rex_exception
@@ -225,11 +221,11 @@ class rex_content_service
     /**
      * Kopiert die Inhalte eines Artikels in einen anderen Artikel.
      *
-     * @param int $fromId    ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
-     * @param int $toId      ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
+     * @param int $fromId ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
+     * @param int $toId ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
      * @param int $fromClang ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
-     * @param int $toClang   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
-     * @param null|int $revision If null, slices of all revisions are copied
+     * @param int $toClang ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
+     * @param int|null $revision If null, slices of all revisions are copied
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
@@ -329,7 +325,7 @@ class rex_content_service
      * Generiert den Artikel-Cache des Artikelinhalts.
      *
      * @param int $articleId Id des zu generierenden Artikels
-     * @param int $clang      ClangId des Artikels
+     * @param int $clang ClangId des Artikels
      *
      * @throws rex_exception
      *

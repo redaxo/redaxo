@@ -8,8 +8,8 @@ final class rex_mediapool
     /**
      * Erstellt einen Filename der eindeutig ist für den Medienpool.
      *
-     * @param string $mediaName      Dateiname
-     * @param bool   $doSubindexing
+     * @param string $mediaName Dateiname
+     * @param bool $doSubindexing
      */
     public static function filename(string $mediaName, $doSubindexing = true): string
     {
@@ -134,8 +134,8 @@ final class rex_mediapool
     /**
      * Checks file against optional property `allowed_mime_types`.
      *
-     * @param string      $path     Path to the physical file
-     * @param null|string $filename Optional filename, will be used for extracting the file extension.
+     * @param string $path Path to the physical file
+     * @param string|null $filename Optional filename, will be used for extracting the file extension.
      *                              If not given, the extension is extracted from `$path`.
      */
     public static function isAllowedMimeType(string $path, ?string $filename = null): bool

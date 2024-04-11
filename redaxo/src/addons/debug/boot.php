@@ -1,5 +1,7 @@
 <?php
 
+use Clockwork\Clockwork;
+
 if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
 }
@@ -66,7 +68,7 @@ rex_logger::setFactoryClass(rex_logger_debug::class);
 rex_api_function::setFactoryClass(rex_api_function_debug::class);
 
 rex_response::setHeader('X-Clockwork-Id', rex_debug_clockwork::getInstance()->getRequest()->id);
-rex_response::setHeader('X-Clockwork-Version', \Clockwork\Clockwork::VERSION);
+rex_response::setHeader('X-Clockwork-Version', Clockwork::VERSION);
 
 rex_response::setHeader('X-Clockwork-Path', rex_debug_clockwork::getClockworkApiUrl());
 
@@ -143,7 +145,7 @@ if ('cli' === PHP_SAPI) {
 } else {
     register_shutdown_function(static function () use ($shutdownFn) {
         // don't track preflight requests
-        if ('/__clockwork/latest' === $_SERVER['REQUEST_URI']) {
+        if (in_array($_SERVER['REQUEST_URI'], ['/__clockwork/latest', '/assets/addons/debug/clockwork/manifest.json'], true)) {
             return;
         }
 

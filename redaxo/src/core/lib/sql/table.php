@@ -15,53 +15,43 @@ class rex_sql_table
 
     public const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
 
-    /** @var int */
-    private $db;
-
-    /** @var rex_sql */
-    private $sql;
-
-    /** @var bool */
-    private $new;
-
-    /** @var string */
-    private $name;
-
-    /** @var string */
-    private $originalName;
+    private int $db;
+    private rex_sql $sql;
+    private bool $new;
+    private string $name;
+    private string $originalName;
 
     /** @var array<string, rex_sql_column> */
-    private $columns = [];
+    private array $columns = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
-    private $columnsExisting = [];
+    private array $columnsExisting = [];
 
     /** @var list<string> */
-    private $implicitOrder = [];
+    private array $implicitOrder = [];
 
     /** @var array<string, string> */
-    private $positions = [];
+    private array $positions = [];
 
     /** @var list<string> */
-    private $primaryKey = [];
+    private array $primaryKey = [];
 
     /** @var list<string> */
-    private $primaryKeyExisting = [];
+    private array $primaryKeyExisting = [];
 
     /** @var array<string, rex_sql_index> */
-    private $indexes = [];
+    private array $indexes = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
-    private $indexesExisting = [];
+    private array $indexesExisting = [];
 
     /** @var array<string, rex_sql_foreign_key> */
-    private $foreignKeys = [];
+    private array $foreignKeys = [];
 
     /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
-    private $foreignKeysExisting = [];
+    private array $foreignKeysExisting = [];
 
-    /** @var string|null */
-    private static $explicitCharset;
+    private static ?string $explicitCharset = null;
 
     /**
      * @param positive-int $db
@@ -240,7 +230,7 @@ class rex_sql_table
     /**
      * @param string $name
      *
-     * @return null|rex_sql_column
+     * @return rex_sql_column|null
      */
     public function getColumn($name)
     {
@@ -252,7 +242,7 @@ class rex_sql_table
     }
 
     /**
-     * @return rex_sql_column[]
+     * @return array<string, rex_sql_column>
      */
     public function getColumns()
     {
@@ -260,7 +250,7 @@ class rex_sql_table
     }
 
     /**
-     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param string|null $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -280,7 +270,7 @@ class rex_sql_table
     }
 
     /**
-     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param string|null $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -316,7 +306,7 @@ class rex_sql_table
     }
 
     /**
-     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param string|null $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -384,7 +374,7 @@ class rex_sql_table
     }
 
     /**
-     * @return null|non-empty-list<string> Column names
+     * @return non-empty-list<string>|null Column names
      */
     public function getPrimaryKey()
     {
@@ -392,7 +382,7 @@ class rex_sql_table
     }
 
     /**
-     * @param null|string|list<string> $columns Column name(s)
+     * @param string|list<string>|null $columns Column name(s)
      *
      * @throws rex_exception
      *
@@ -428,7 +418,7 @@ class rex_sql_table
     /**
      * @param string $name
      *
-     * @return null|rex_sql_index
+     * @return rex_sql_index|null
      */
     public function getIndex($name)
     {
@@ -440,7 +430,7 @@ class rex_sql_table
     }
 
     /**
-     * @return rex_sql_index[]
+     * @return array<string, rex_sql_index>
      */
     public function getIndexes()
     {
@@ -545,7 +535,7 @@ class rex_sql_table
     /**
      * @param string $name
      *
-     * @return null|rex_sql_foreign_key
+     * @return rex_sql_foreign_key|null
      */
     public function getForeignKey($name)
     {
@@ -557,7 +547,7 @@ class rex_sql_table
     }
 
     /**
-     * @return rex_sql_foreign_key[]
+     * @return array<string, rex_sql_foreign_key>
      */
     public function getForeignKeys()
     {
@@ -931,8 +921,8 @@ class rex_sql_table
         if (null === $default) {
             $default = '';
         } elseif (
-            in_array(strtolower($column->getType()), ['timestamp', 'datetime'], true) &&
-            in_array(strtolower($default), ['current_timestamp', 'current_timestamp()'], true)
+            in_array(strtolower($column->getType()), ['timestamp', 'datetime'], true)
+            && in_array(strtolower($default), ['current_timestamp', 'current_timestamp()'], true)
         ) {
             $default = 'DEFAULT ' . $default;
         } else {

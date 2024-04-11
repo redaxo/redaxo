@@ -71,6 +71,7 @@ class rex_article_service
             }
             $AART->setValue('name', $data['name']);
             $AART->setValue('catname', $categoryName);
+            $AART->setValue('catpriority', 0);
             $AART->setValue('clang_id', $key);
             $AART->setValue('parent_id', $data['category_id']);
             $AART->setValue('priority', $data['priority']);
@@ -81,13 +82,9 @@ class rex_article_service
             $AART->addGlobalCreateFields($user);
             $AART->addGlobalUpdateFields($user);
 
-            try {
-                $AART->insert();
-                // ----- PRIOR
-                self::newArtPrio($data['category_id'], $key, 0, $data['priority']);
-            } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e->getMessage(), $e);
-            }
+            $AART->insert();
+            // ----- PRIOR
+            self::newArtPrio($data['category_id'], $key, 0, $data['priority']);
 
             rex_article_cache::delete($id, $key);
 
@@ -111,9 +108,9 @@ class rex_article_service
     /**
      * Bearbeitet einen Artikel.
      *
-     * @param int   $articleId Id des Artikels der verändert werden soll
-     * @param int   $clang      Id der Sprache
-     * @param array $data       Array mit den Daten des Artikels
+     * @param int $articleId Id des Artikels der verändert werden soll
+     * @param int $clang Id der Sprache
+     * @param array $data Array mit den Daten des Artikels
      *
      * @throws rex_api_exception
      *
@@ -169,45 +166,41 @@ class rex_article_service
         $EA->setValue('priority', $data['priority']);
         $EA->addGlobalUpdateFields(self::getUser());
 
-        try {
-            $EA->update();
-            $message = rex_i18n::msg('article_updated');
+        $EA->update();
+        $message = rex_i18n::msg('article_updated');
 
-            // ----- PRIOR
-            $oldPrio = (int) $thisArt->getValue('priority');
+        // ----- PRIOR
+        $oldPrio = (int) $thisArt->getValue('priority');
 
-            if ($oldPrio != $data['priority']) {
-                rex_sql::factory()
-                    ->setTable(rex::getTable('article'))
-                    ->setWhere('id = :id AND clang_id != :clang', ['id' => $articleId, 'clang' => $clang])
-                    ->setValue('priority', $data['priority'])
-                    ->addGlobalUpdateFields(self::getUser())
-                    ->update();
+        if ($oldPrio != $data['priority']) {
+            rex_sql::factory()
+                ->setTable(rex::getTable('article'))
+                ->setWhere('id = :id AND clang_id != :clang', ['id' => $articleId, 'clang' => $clang])
+                ->setValue('priority', $data['priority'])
+                ->addGlobalUpdateFields(self::getUser())
+                ->update();
 
-                foreach (rex_clang::getAllIds() as $clangId) {
-                    self::newArtPrio($data['category_id'], $clangId, $data['priority'], $oldPrio);
-                }
+            foreach (rex_clang::getAllIds() as $clangId) {
+                self::newArtPrio($data['category_id'], $clangId, $data['priority'], $oldPrio);
             }
-
-            rex_article_cache::delete($articleId);
-
-            // ----- EXTENSION POINT
-            $message = rex_extension::registerPoint(new rex_extension_point('ART_UPDATED', $message, [
-                'id' => $articleId,
-                'article' => clone $EA,
-                'article_old' => clone $thisArt,
-                'status' => $thisArt->getValue('status'),
-                'name' => $data['name'],
-                'clang' => $clang,
-                'parent_id' => $data['category_id'],
-                'priority' => $data['priority'],
-                'path' => $data['path'],
-                'template_id' => $data['template_id'],
-                'data' => $data,
-            ]));
-        } catch (rex_sql_exception $e) {
-            throw new rex_api_exception($e->getMessage(), $e);
         }
+
+        rex_article_cache::delete($articleId);
+
+        // ----- EXTENSION POINT
+        $message = rex_extension::registerPoint(new rex_extension_point('ART_UPDATED', $message, [
+            'id' => $articleId,
+            'article' => clone $EA,
+            'article_old' => clone $thisArt,
+            'status' => $thisArt->getValue('status'),
+            'name' => $data['name'],
+            'clang' => $clang,
+            'parent_id' => $data['category_id'],
+            'priority' => $data['priority'],
+            'path' => $data['path'],
+            'template_id' => $data['template_id'],
+            'data' => $data,
+        ]));
 
         return $message;
     }
@@ -329,9 +322,9 @@ class rex_article_service
     /**
      * Ändert den Status des Artikels.
      *
-     * @param int      $articleId Id des Artikels die gelöscht werden soll
-     * @param int      $clang      Id der Sprache
-     * @param int|null $status     Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
+     * @param int $articleId Id des Artikels die gelöscht werden soll
+     * @param int $clang Id der Sprache
+     * @param int|null $status Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
      * @throws rex_api_exception
      *
@@ -356,20 +349,16 @@ class rex_article_service
             $EA->setValue('status', $newstatus);
             $EA->addGlobalUpdateFields(self::getUser());
 
-            try {
-                $EA->update();
+            $EA->update();
 
-                rex_article_cache::delete($articleId, $clang);
+            rex_article_cache::delete($articleId, $clang);
 
-                // ----- EXTENSION POINT
-                rex_extension::registerPoint(new rex_extension_point('ART_STATUS', null, [
-                    'id' => $articleId,
-                    'clang' => $clang,
-                    'status' => $newstatus,
-                ]));
-            } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e->getMessage(), $e);
-            }
+            // ----- EXTENSION POINT
+            rex_extension::registerPoint(new rex_extension_point('ART_STATUS', null, [
+                'id' => $articleId,
+                'clang' => $clang,
+                'status' => $newstatus,
+            ]));
         } else {
             throw new rex_api_exception(rex_i18n::msg('no_such_category'));
         }
@@ -427,9 +416,9 @@ class rex_article_service
      * Berechnet die Prios der Artikel in einer Kategorie neu.
      *
      * @param int $parentId KategorieId der Kategorie, die erneuert werden soll
-     * @param int $clang     ClangId der Kategorie, die erneuert werden soll
-     * @param int $newPrio  Neue PrioNr der Kategorie
-     * @param int $oldPrio  Alte PrioNr der Kategorie
+     * @param int $clang ClangId der Kategorie, die erneuert werden soll
+     * @param int $newPrio Neue PrioNr der Kategorie
+     * @param int $oldPrio Alte PrioNr der Kategorie
      * @return void
      */
     public static function newArtPrio($parentId, $clang, $newPrio, $oldPrio)
@@ -680,11 +669,11 @@ class rex_article_service
     /**
      * Kopiert die Metadaten eines Artikels in einen anderen Artikel.
      *
-     * @param int   $fromId    ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
-     * @param int   $toId      ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
-     * @param int   $fromClang ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
-     * @param int   $toClang   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
-     * @param array $params     Array von Spaltennamen, welche kopiert werden sollen
+     * @param int $fromId ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
+     * @param int $toId ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
+     * @param int $fromClang ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
+     * @param int $toClang ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
+     * @param array $params Array von Spaltennamen, welche kopiert werden sollen
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
@@ -727,7 +716,7 @@ class rex_article_service
     /**
      * Kopieren eines Artikels von einer Kategorie in eine andere.
      *
-     * @param int $id        ArtikelId des zu kopierenden Artikels
+     * @param int $id ArtikelId des zu kopierenden Artikels
      * @param int $toCatId KategorieId in die der Artikel kopiert werden soll
      *
      * @return bool|int FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
@@ -825,9 +814,9 @@ class rex_article_service
     /**
      * Verschieben eines Artikels von einer Kategorie in eine Andere.
      *
-     * @param int $id          ArtikelId des zu verschiebenden Artikels
+     * @param int $id ArtikelId des zu verschiebenden Artikels
      * @param int $fromCatId KategorieId des Artikels, der Verschoben wird
-     * @param int $toCatId   KategorieId in die der Artikel verschoben werden soll
+     * @param int $toCatId KategorieId in die der Artikel verschoben werden soll
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
@@ -910,7 +899,7 @@ class rex_article_service
     /**
      * Checks whether the required array key $keyName isset.
      *
-     * @param array  $array   The array
+     * @param array $array The array
      * @param string $keyName The key
      *
      * @throws rex_api_exception

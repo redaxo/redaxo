@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_finder_test extends TestCase
+/** @internal */
+final class rex_finder_test extends TestCase
 {
     protected function setUp(): void
     {
@@ -42,9 +40,9 @@ class rex_finder_test extends TestCase
     private function assertIteratorContains(Traversable $iterator, array $contains): void
     {
         $array = iterator_to_array($iterator, true);
-        static::assertCount(count($contains), $array);
+        self::assertCount(count($contains), $array);
         foreach ($contains as $file) {
-            static::assertArrayHasKey($this->getPath($file), $array, $file . ' is in array');
+            self::assertArrayHasKey($this->getPath($file), $array, $file . ' is in array');
         }
     }
 

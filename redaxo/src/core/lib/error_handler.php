@@ -1,12 +1,14 @@
 <?php
 
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
+
 /**
  * @package redaxo\core
  */
 abstract class rex_error_handler
 {
-    /** @var bool */
-    private static $registered = false;
+    private static bool $registered = false;
 
     /**
      * Registers the class as php-error/exception handler.
@@ -85,7 +87,7 @@ abstract class rex_error_handler
             }
             rex_response::setStatus($status);
 
-            if (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+            if (rex::isSetup() || rex::isDebugMode() || !rex::isLiveMode() && rex_backend_login::createUser()?->isAdmin()) {
                 [$errPage, $contentType] = self::renderWhoops($exception);
                 rex_response::sendContent($errPage, $contentType);
                 exit(1);
@@ -116,11 +118,11 @@ abstract class rex_error_handler
      */
     private static function renderWhoops($exception)
     {
-        $whoops = new \Whoops\Run();
+        $whoops = new Run();
         $whoops->writeToOutput(false);
         $whoops->allowQuit(false);
 
-        $handler = new \Whoops\Handler\PrettyPageHandler();
+        $handler = new PrettyPageHandler();
         $handler->setApplicationRootPath(rtrim(rex_path::base(), '/\\'));
 
         $handler->setEditor([rex_editor::factory(), 'getUrl']);
@@ -287,10 +289,10 @@ abstract class rex_error_handler
     /**
      * Handles a error message.
      *
-     * @param int    $errno   The error code to handle
-     * @param string $errstr  The error message
+     * @param int $errno The error code to handle
+     * @param string $errstr The error message
      * @param string $errfile The file in which the error occured
-     * @param int    $errline The line of the file in which the error occured
+     * @param int $errline The line of the file in which the error occured
      *
      * @throws ErrorException
      * @return bool
@@ -310,13 +312,13 @@ abstract class rex_error_handler
         $alwaysThrow = $debug['throw_always_exception'];
 
         if (
-            true === $alwaysThrow ||
-            is_int($alwaysThrow) && $errno === ($errno & $alwaysThrow)
+            true === $alwaysThrow
+            || is_int($alwaysThrow) && $errno === ($errno & $alwaysThrow)
         ) {
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
 
-        if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
+        if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || !rex::isLiveMode() && rex_backend_login::createUser()?->isAdmin())) {
             $file = rex_path::relative($errfile);
             if ('cli' === PHP_SAPI) {
                 echo self::getErrorType($errno) . ": $errstr in $file on line $errline";

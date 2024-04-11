@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_navigation_test extends TestCase
+/** @internal */
+final class rex_navigation_test extends TestCase
 {
     public function testContruct(): void
     {
@@ -20,14 +18,13 @@ class rex_navigation_test extends TestCase
     {
         $nav = rex_navigation::factory();
 
-        static::assertInstanceOf(rex_navigation::class, $nav);
+        self::assertInstanceOf(rex_navigation::class, $nav);
     }
 
     #[DoesNotPerformAssertions]
     public function testConstructAnonymousClass(): void
     {
         // no exception
-        new class() extends rex_navigation {
-        };
+        new class() extends rex_navigation {};
     }
 }

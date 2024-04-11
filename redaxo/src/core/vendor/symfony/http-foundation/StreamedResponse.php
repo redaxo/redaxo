@@ -33,7 +33,7 @@ class StreamedResponse extends Response
     /**
      * @param int $status The HTTP status code (200 "OK" by default)
      */
-    public function __construct(callable $callback = null, int $status = 200, array $headers = [])
+    public function __construct(?callable $callback = null, int $status = 200, array $headers = [])
     {
         parent::__construct(null, $status, $headers);
 
@@ -51,20 +51,24 @@ class StreamedResponse extends Response
      */
     public function setCallback(callable $callback): static
     {
-        $this->callback = $callback;
+        $this->callback = $callback(...);
 
         return $this;
     }
 
-    public function getCallback(): \Closure
+    public function getCallback(): ?\Closure
     {
+        if (!isset($this->callback)) {
+            return null;
+        }
+
         return ($this->callback)(...);
     }
 
     /**
      * This method only sends the headers once.
      *
-     * @param null|positive-int $statusCode The status code to use, override the statusCode property if set and not null
+     * @param positive-int|null $statusCode The status code to use, override the statusCode property if set and not null
      *
      * @return $this
      */
@@ -95,8 +99,8 @@ class StreamedResponse extends Response
 
         $this->streamed = true;
 
-        if (null === $this->callback) {
-            throw new \LogicException('The Response callback must not be null.');
+        if (!isset($this->callback)) {
+            throw new \LogicException('The Response callback must be set.');
         }
 
         ($this->callback)();

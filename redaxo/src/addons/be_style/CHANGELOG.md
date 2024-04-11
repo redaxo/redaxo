@@ -1,6 +1,31 @@
 Changelog
 =========
 
+Version 3.4.1 – 07.04.2024
+--------------------------
+
+* Alte Login-Hintergründe wurden beim Update nicht aus dem Root-Assets-Ordner entfernt (@gharlan)
+
+
+Version 3.4.0 – 12.03.2024
+--------------------------
+
+* Login-Seite: Neues Hintergrundbild (@gharlan)
+
+
+Version 3.3.1 – 24.02.2024
+--------------------------
+
+* Customizer: Beim Header-Link zum Frontend wurde das Icon teilweise nicht angezeigt (@danspringer)
+
+
+Version 3.3.0 – 09.02.2024
+--------------------------
+
+* Font Awesome: Major-Update auf v6.5.1 (FA4-icons deprecated; Changelog FA: https://fontawesome.com/docs/changelog/) (@madiko, @tbaddade)
+* Login-Seite: Neues Hintergrundbild (@tbaddade, @gharlan)
+
+
 Version 3.2.0 – 28.02.2023
 --------------------------
 

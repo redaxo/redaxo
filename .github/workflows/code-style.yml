@@ -2,12 +2,14 @@ name: Code Style
 
 on:
     push:
-        branches: [main, bugfix, temp]
+        branches: [temp]
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
+    repository_dispatch:
+        types: [code-style-command] # triggered by /code-style PR comment
 
 env:
-    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
+    writable: ${{ (github.event_name == 'repository_dispatch' || github.ref == 'refs/heads/temp' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
 
 permissions:
     contents: read
@@ -21,15 +23,31 @@ jobs:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
         steps:
+            -   name: Add action run link to trigger comment
+                uses: peter-evans/create-or-update-comment@v4
+                if: github.event_name == 'repository_dispatch'
+                with:
+                    token: ${{ secrets.BOT_TOKEN }}
+                    repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+                    comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+                    body: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
             -   name: Checkout
-                uses: actions/checkout@v3
-                if: env.writable == 1
+                uses: actions/checkout@v4
+                if: env.writable == 1 && github.event_name != 'repository_dispatch'
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
-                uses: actions/checkout@v3
+                uses: actions/checkout@v4
                 if: env.writable == 0
+            -   name: Checkout on chat commnad
+                uses: actions/checkout@v4
+                if: github.event_name == 'repository_dispatch'
+                with:
+                    token: ${{ secrets.BOT_TOKEN }}
+                    repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+                    ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
@@ -39,21 +57,20 @@ jobs:
                     tools: cs2pr
 
             -   name: Composer install
-                uses: ramsey/composer-install@v2
-                with:
-                    composer-options: --ansi --prefer-dist
+                uses: ramsey/composer-install@v3
 
             -   name: Fix code style
                 if: env.writable == 1
                 run: vendor/bin/php-cs-fixer list-files --config=.php-cs-fixer.dist.php | xargs -n 250 -P 3 vendor/bin/php-cs-fixer fix --diff --config=.php-cs-fixer.dist.php
 
             -   name: Commit changed files
-                uses: stefanzweifel/git-auto-commit-action@v4
+                uses: stefanzweifel/git-auto-commit-action@v5
                 if: env.writable == 1
                 with:
                     commit_message: Apply php-cs-fixer changes
                     commit_user_name: rex-bot
                     commit_user_email: rex-bot@users.noreply.github.com
+                    branch: ${{ github.head_ref }} # repo dispatch needs the target branch
 
             -   name: Check code style
                 if: env.writable == 0
@@ -64,17 +81,17 @@ jobs:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
         runs-on: ubuntu-latest
         timeout-minutes: 30
-        if: github.event.pull_request.draft == false
+        if: github.event.pull_request.draft == false && github.event_name != 'repository_dispatch'
 
         steps:
             -   name: Checkout
-                uses: actions/checkout@v3
+                uses: actions/checkout@v4
                 if: env.writable == 1
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
-                uses: actions/checkout@v3
+                uses: actions/checkout@v4
                 if: env.writable == 0
 
             -   name: Setup PHP
@@ -84,16 +101,14 @@ jobs:
                     coverage: none # disable xdebug, pcov
 
             -   name: Composer install
-                uses: ramsey/composer-install@v2
-                with:
-                    composer-options: --ansi --prefer-dist
+                uses: ramsey/composer-install@v3
 
             -   name: Fix code style
                 if: env.writable == 1
                 run: vendor/bin/rector process --no-progress-bar
 
             -   name: Commit changed files
-                uses: stefanzweifel/git-auto-commit-action@v4
+                uses: stefanzweifel/git-auto-commit-action@v5
                 if: env.writable == 1
                 with:
                     commit_message: Apply rector changes

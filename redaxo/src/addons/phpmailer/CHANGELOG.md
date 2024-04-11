@@ -1,6 +1,22 @@
 Changelog
 =========
 
+Version 2.13.1 – 12.03.2024
+---------------------------
+
+* Code-Optimierung (@skerbis)
+
+
+Version 2.13.0 – 09.02.2024
+---------------------------
+
+### Neu
+
+* Error-Mails:
+    - Doppelte Mails werden vermieden (@skerbis)
+    - URLs, wo die Fehler auftraten, werden mit ausgegeben (@skerbis)
+
+
 Version 2.12.0 – 28.02.2023
 ---------------------------
 
@@ -221,4 +237,3 @@ Version 2.1.0 – 24.03.2016
 ### Bugfixes
 
 * Header X-Priority wird standardmäßig nicht mehr gesetzt, da die Mails sonst eher als Spam gewertet werden (@skerbis)
-

@@ -3,325 +3,430 @@
 }
 
 .rex-icon-action {
+    @extend .fa-solid;
     @extend .fa-bars;
 }
 .rex-icon-active-false {
-    @extend .fa-square-o;
+    @extend .fa-regular;
+    @extend .fa-square;
     @extend .fa-fw;
 }
 .rex-icon-active-true {
-    @extend .fa-check-square-o;
+    @extend .fa-regular;
+    @extend .fa-square-check;
     @extend .fa-fw;
 }
 .rex-icon-add {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-action {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-article {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-category {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-cronjob {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-language {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-media {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-media-category {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-mediatype {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-mediatype-effect {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-metainfo {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-module {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-package {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-template {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-user {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-add-userrole {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-article {
-    @extend .fa-file-text-o;
+    @extend .fa-regular;
+    @extend .fa-file-lines;
 }
 .rex-icon-back {
+    @extend .fa-solid;
     @extend .fa-reply;
 }
 .rex-icon-backup {
-    @extend .fa-hdd-o;
+    @extend .fa-regular;
+    @extend .fa-hard-drive;
 }
 .rex-icon-bottom {
-    @extend .fa-angle-double-down;
+    @extend .fa-solid;
+    @extend .fa-angles-down;
 }
 .rex-icon-category {
+    @extend .fa-solid;
     @extend .fa-folder;
 }
 .rex-icon-category-without-elements {
-    @extend .fa-folder-o;
+    @extend .fa-regular;    
+    @extend .fa-folder;
 }
 .rex-icon-clear {
-    @extend .fa-times-circle;
+    @extend .fa-solid;
+    @extend .fa-circle-xmark;
 }
 .rex-icon-cronjob {
-    @extend .fa-code;
+    @extend .fa-solid;
+    @extend .fa-clock-rotate-left;
 }
 .rex-icon-database {
+    @extend .fa-solid;
     @extend .fa-database;
 }
 .rex-icon-delete {
-    @extend .fa-trash-o;
+    @extend .fa-solid;
+    @extend .fa-trash-can;
 }
 .rex-icon-delete-link {
-    @extend .fa-chain-broken;
+    @extend .fa-solid;
+    @extend .fa-link-slash;
 }
 .rex-icon-delete-media {
+    @extend .fa-solid;
     @extend .fa-minus;
 }
 .rex-icon-down {
+    @extend .fa-solid;
     @extend .fa-angle-down;
 }
 .rex-icon-download {
+    @extend .fa-solid;
     @extend .fa-download;
 }
 .rex-icon-duplicate {
+    @extend .fa-regular;
     @extend .fa-clone;
 }
 .rex-icon-edit {
-    @extend .fa-edit;
+    @extend .fa-regular;
+    @extend .fa-pen-to-square;
 }
 .rex-icon-editmode {
+    @extend .fa-solid;
     @extend .fa-pencil;
 }
 .rex-icon-envelope {
+    @extend .fa-solid;
     @extend .fa-envelope;
 }
 .rex-icon-execute {
-    @extend .fa-sign-in;
+    @extend .fa-solid;
+    @extend .fa-arrow-right-to-bracket;
 }
 .rex-icon-external-link {
-    @extend .fa-external-link;
+    @extend .fa-solid;
+    @extend .fa-arrow-up-right-from-square;
 }
 .rex-icon-file-archive {
-    @extend .fa-file-archive-o;
+    @extend .fa-regular;
+    @extend .fa-file-zipper;
 }
 .rex-icon-first {
-    @extend .fa-angle-double-left;
+    @extend .fa-solid;
+    @extend .fa-angles-left;
 }
 .rex-icon-help {
+    @extend .fa-solid;
     @extend .fa-question;
 }
 .rex-icon-import {
+    @extend .fa-solid;
     @extend .fa-upload;
 }
 .rex-icon-info {
-    @extend .fa-info-circle;
+    @extend .fa-solid;
+    @extend .fa-circle-info;
 }
 .rex-icon-install {
+    @extend .fa-solid;
     @extend .fa-key;
 }
 .rex-icon-language {
+    @extend .fa-solid;
     @extend .fa-flag;
 }
 .rex-icon-language-active {
+    @extend .fa-solid;
     @extend .fa-flag;
 }
 .rex-icon-last {
-    @extend .fa-angle-double-right;
+    @extend .fa-solid;
+    @extend .fa-angles-right;
 }
 .rex-icon-license {
-    @extend .fa-balance-scale;
+    @extend .fa-solid;
+    @extend .fa-scale-balanced;
 }
 .rex-icon-linkmap {
+    @extend .fa-solid;
     @extend .fa-sitemap;
 }
 .rex-icon-loading {
-    @extend .fa-pulse;
+    @extend .fa-solid;
     @extend .fa-spinner;
+    @extend .fa-spin-pulse;
 }
 .rex-icon-media {
-    @extend .fa-picture-o;
+    @extend .fa-regular;
+    @extend .fa-image;
 }
 .rex-icon-media-category {
+    @extend .fa-solid;
     @extend .fa-folder;
 }
 .rex-icon-mediatype {
-    @extend .fa-picture-o;
+    @extend .fa-regular;
+    @extend .fa-image;
 }
 .rex-icon-mediatype-effect {
-    @extend .fa-eyedropper;
+    @extend .fa-solid;
+    @extend .fa-eye-dropper;
 }
 .rex-icon-metafuncs {
+    @extend .fa-solid;
     @extend .fa-wrench;
 }
 .rex-icon-metainfo {
-    @extend .fa-lemon-o;
+    @extend .fa-regular;
+    @extend .fa-lemon;
 }
 .rex-icon-module {
+    @extend .fa-solid;
     @extend .fa-database;
 }
 .rex-icon-next {
+    @extend .fa-solid;
     @extend .fa-angle-right;
 }
 .rex-icon-open-category {
+    @extend .fa-solid;
     @extend .fa-folder-open;
 }
 .rex-icon-open-linkmap {
+    @extend .fa-solid;
     @extend .fa-sitemap;
 }
 .rex-icon-open-mediapool {
+    @extend .fa-solid;
     @extend .fa-align-justify;
 }
 .rex-icon-online {
-    @extend .fa-dot-circle-o;
+    @extend .fa-regular;
+    @extend .fa-circle-dot;
 }
 .rex-icon-offline {
-    @extend .fa-circle-thin;
+    @extend .fa-regular;
+    @extend .fa-circle;
 }
 .rex-icon-package {
+    @extend .fa-solid;
     @extend .fa-bookmark;
 }
 .rex-icon-package-addon {
+    @extend .fa-solid;
     @extend .fa-bookmark;
 }
 .rex-icon-package-delete {
-    @extend .fa-trash;
+    @extend .fa-solid;
+    @extend .fa-trash-can;
 }
 .rex-icon-package-exists {
+    @extend .fa-solid;
     @extend .fa-eye-slash;
 }
 .rex-icon-package-is-activated {
+    @extend .fa-solid;
     @extend .fa-check;
     @extend .fa-fw;
 }
 .rex-icon-package-is-installed {
-    @extend .fa-refresh;
+    @extend .fa-solid;
+    @extend .fa-arrows-rotate;
     @extend .fa-fw;
 }
 .rex-icon-package-not-activated {
-    @extend .fa-times;
+    @extend .fa-solid;
+    @extend .fa-xmark;
     @extend .fa-fw;
 }
 .rex-icon-package-not-installed {
-    @extend .fa-rotate-right;
+    @extend .fa-solid;
+    @extend .fa-arrow-rotate-right;
     @extend .fa-fw;
 }
 .rex-icon-package-plugin {
-    @extend .fa-bookmark-o;
+    @extend .fa-regular;
+    @extend .fa-bookmark;
 }
 .rex-icon-package-uninstall {
-    @extend .fa-rotate-left;
+    @extend .fa-solid;
+    @extend .fa-arrow-rotate-left;
     @extend .fa-fw;
 }
 .rex-icon-password {
+    @extend .fa-solid;
     @extend .fa-lock;
 }
 .rex-icon-permissions {
+    @extend .fa-solid;
     @extend .fa-toggle-on;
 }
 .rex-icon-phpinfo {
-    @extend .fa-info-circle;
+    @extend .fa-solid;
+    @extend .fa-circle-info;
 }
 .rex-icon-previous {
+    @extend .fa-solid;
     @extend .fa-angle-left;
 }
 .rex-icon-refresh {
-    @extend .fa-refresh;
+    @extend .fa-solid;
+    @extend .fa-arrows-rotate;
 }
 .rex-icon-remove {
+    @extend .fa-solid;
     @extend .fa-minus;
 }
 .rex-icon-search {
-    @extend .fa-search;
+    @extend .fa-solid;
+    @extend .fa-magnifying-glass;
 }
 .rex-icon-sign-in {
-    @extend .fa-sign-in;
+    @extend .fa-solid;
+    @extend .fa-arrow-right-to-bracket;
 }
 .rex-icon-sign-out {
-    @extend .fa-sign-out;
+    @extend .fa-solid;
+    @extend .fa-arrow-right-from-bracket;
 }
 .rex-icon-sitestartarticle {
-    @extend .fa-home;
+    @extend .fa-solid;
+    @extend .fa-house;
 }
 .rex-icon-startarticle {
-    @extend .fa-file-text;
+    @extend .fa-solid;
+    @extend .fa-file-lines;
 }
 .rex-icon-structure-category-metainfo {
+    @extend .fa-solid;
     @extend .fa-minus;
 }
 .collapsed .rex-icon-structure-category-metainfo {
+    @extend .fa-solid;
     @extend .fa-plus;
 }
 .rex-icon-structure-root-level {
-    @extend .fa-globe;
+    @extend .fa-solid;
+    @extend .fa-earth-europe;
 }
 .rex-icon-seo {
-    @extend .fa-area-chart;
+    @extend .fa-solid;
+    @extend .fa-chart-area;
 }
 .rex-icon-system {
-    @extend .fa-cogs;
+    @extend .fa-solid;
+    @extend .fa-gears;
 }
 .rex-icon-table {
+    @extend .fa-solid;
     @extend .fa-table;
 }
 .rex-icon-template {
-    @extend .fa-newspaper-o;
+    @extend .fa-regular;
+    @extend .fa-newspaper;
 }
 .rex-icon-top {
-    @extend .fa-angle-double-up;
+    @extend .fa-solid;
+    @extend .fa-angles-up;
 }
 .rex-icon-up {
+    @extend .fa-solid;
     @extend .fa-angle-up;
 }
 .rex-icon-user {
+    @extend .fa-solid;
     @extend .fa-user;
 }
 .rex-icon-userrole {
-    @extend .fa-user;
+    @extend .fa-solid;
+    @extend .fa-users-line;
 }
 .rex-icon-user-secret {
+    @extend .fa-solid;
     @extend .fa-user-secret;
 }
 .rex-icon-user-inactive {
-    @extend .fa-user-o;
+    @extend .fa-regular;
+    @extend .fa-user;
 }
 .rex-icon-unstable-version {
+    @extend .fa-solid;
     @extend .fa-flask;
 }
 .rex-icon-view {
+    @extend .fa-solid;
     @extend .fa-eye;
 }
 .rex-icon-hide {
+    @extend .fa-solid;
     @extend .fa-eye-slash;
 }
 .rex-icon-view-icon {
-    @extend .fa-th-large;
+    @extend .fa-solid;
+    @extend .fa-table-cells-large;
 }
 .rex-icon-view-list {
+    @extend .fa-solid;
     @extend .fa-bars;
 }
 .rex-icon-view-media {
+    @extend .fa-solid;
     @extend .fa-eye;
 }
 .rex-icon-heartbeat {
-    @extend .fa-heartbeat;
+    @extend .fa-solid;
+    @extend .fa-heart-pulse;
 }

@@ -9,8 +9,8 @@
 /**
  * Erstellt einen Filename der eindeutig ist für den Medienpool.
  *
- * @param string $mediaName      Dateiname
- * @param bool   $doSubindexing
+ * @param string $mediaName Dateiname
+ * @param bool $doSubindexing
  *
  * @deprecated since 2.11, use `rex_mediapool::filename` instead
  */
@@ -24,11 +24,11 @@ function rex_mediapool_filename($mediaName, $doSubindexing = true): string
  * Dabei wird kontrolliert ob das File schon vorhanden ist und es
  * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
  *
- * @param array  $FILE
- * @param int    $rexFileCategory
- * @param array  $FILEINFOS
+ * @param array $FILE
+ * @param int $rexFileCategory
+ * @param array $FILEINFOS
  * @param string $userlogin
- * @param bool   $doSubindexing
+ * @param bool $doSubindexing
  *
  * @return array
  * @deprecated since 2.11, use `rex_media_service::addMedia` instead
@@ -74,8 +74,8 @@ function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin
  * Dabei wird kontrolliert ob das File schon vorhanden ist und es
  * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
  *
- * @param array  $FILE
- * @param array  $FILEINFOS
+ * @param array $FILE
+ * @param array $FILEINFOS
  * @param string $userlogin
  *
  * @return array
@@ -106,12 +106,12 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
  * Synchronisiert die Datei $physical_filename des Mediafolders in den
  * Medienpool.
  *
- * @param string      $physicalFilename
- * @param int         $categoryId
- * @param string      $title
- * @param null|int    $filesize
- * @param null|string $filetype
- * @param null|string $userlogin
+ * @param string $physicalFilename
+ * @param int $categoryId
+ * @param string $title
+ * @param int|null $filesize
+ * @param string|null $filetype
+ * @param string|null $userlogin
  *
  * @return array
  * @deprecated since 2.11, use `rex_media_service::addMedia` instead
@@ -241,7 +241,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
 
     $e = [];
     $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
-    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle) . '" />';
+    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle) . '" maxlength="255" />';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();
@@ -338,8 +338,8 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
 /**
  * Checks file against optional property `allowed_mime_types`.
  *
- * @param string      $path     Path to the physical file
- * @param null|string $filename Optional filename, will be used for extracting the file extension.
+ * @param string $path Path to the physical file
+ * @param string|null $filename Optional filename, will be used for extracting the file extension.
  *                              If not given, the extension is extracted from `$path`.
  *
  * @return bool

@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_timer_test extends TestCase
+/** @internal */
+final class rex_timer_test extends TestCase
 {
     /** @var array{enabled: bool, throw_always_exception: bool|int} */
     private array $orgDebug;
@@ -32,21 +30,21 @@ class rex_timer_test extends TestCase
         };
 
         $result = rex_timer::measure('test', $callable);
-        static::assertSame('result1', $result);
+        self::assertSame('result1', $result);
 
-        static::assertArrayHasKey('test', rex_timer::$serverTimings);
+        self::assertArrayHasKey('test', rex_timer::$serverTimings);
         $timing = rex_timer::$serverTimings['test'];
-        static::assertIsFloat($timing['sum']);
-        static::assertGreaterThan(0, $timing['sum']);
-        static::assertArrayHasKey(0, $timing['timings']);
-        static::assertIsFloat($timing['timings'][0]['start']);
-        static::assertIsFloat($timing['timings'][0]['end']);
-        static::assertGreaterThan($timing['timings'][0]['start'], $timing['timings'][0]['end']);
+        self::assertIsFloat($timing['sum']);
+        self::assertGreaterThan(0, $timing['sum']);
+        self::assertArrayHasKey(0, $timing['timings']);
+        self::assertIsFloat($timing['timings'][0]['start']);
+        self::assertIsFloat($timing['timings'][0]['end']);
+        self::assertGreaterThan($timing['timings'][0]['start'], $timing['timings'][0]['end']);
 
         $result = rex_timer::measure('test', $callable);
 
-        static::assertSame('result2', $result);
-        static::assertGreaterThan($timing['sum'], rex_timer::$serverTimings['test']['sum']);
+        self::assertSame('result2', $result);
+        self::assertGreaterThan($timing['sum'], rex_timer::$serverTimings['test']['sum']);
 
         $exception = null;
         try {
@@ -56,15 +54,15 @@ class rex_timer_test extends TestCase
         } catch (Throwable $exception) {
         }
 
-        static::assertInstanceOf(RuntimeException::class, $exception);
+        self::assertInstanceOf(RuntimeException::class, $exception);
 
-        static::assertArrayHasKey('test2', rex_timer::$serverTimings);
+        self::assertArrayHasKey('test2', rex_timer::$serverTimings);
         $timing = rex_timer::$serverTimings['test2'];
-        static::assertIsFloat($timing['sum']);
-        static::assertGreaterThan(0, $timing['sum']);
-        static::assertArrayHasKey(0, $timing['timings']);
-        static::assertIsFloat($timing['timings'][0]['start']);
-        static::assertIsFloat($timing['timings'][0]['end']);
-        static::assertGreaterThan($timing['timings'][0]['start'], $timing['timings'][0]['end']);
+        self::assertIsFloat($timing['sum']);
+        self::assertGreaterThan(0, $timing['sum']);
+        self::assertArrayHasKey(0, $timing['timings']);
+        self::assertIsFloat($timing['timings'][0]['start']);
+        self::assertIsFloat($timing['timings'][0]['end']);
+        self::assertGreaterThan($timing['timings'][0]['start'], $timing['timings'][0]['end']);
     }
 }

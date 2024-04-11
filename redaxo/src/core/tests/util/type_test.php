@@ -3,12 +3,10 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_type_test extends TestCase
+/** @internal */
+final class rex_type_test extends TestCase
 {
-    /** @return list<array{mixed, string|callable(mixed):mixed|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}>, mixed}> */
+    /** @return list<array{mixed, string|callable(mixed):mixed|list<int|string|BackedEnum>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}>, mixed}> */
     public static function castProvider(): array
     {
         $callback = static function ($var) {
@@ -35,20 +33,36 @@ class rex_type_test extends TestCase
             [1, 'array', [1]],
             [[1, '2'], 'array[int]', [1, 2]],
             ['a', $callback, 'ab'],
+            ['bar', ['foo', 'bar', 'baz'], 'bar'],
+            ['qux', ['foo', 'bar', 'baz'], 'foo'],
+            ['qux', ['foo', 'bar', 'baz'], 'foo'],
+            ['2', [1, 2, 4], 2],
+            [3, [1, 2, 4], 1],
+            ['bar', rex_type_test_enum_string::cases(), rex_type_test_enum_string::Bar],
+            ['2', rex_type_test_enum_int::cases(), rex_type_test_enum_int::Bar],
             [$arrayVar, $arrayCasts, $arrayExpected],
             [
                 ['k' => $arrayVar],
                 [['k', $arrayCasts]],
                 ['k' => $arrayExpected],
             ],
+            [
+                ['key1' => 'bar', 'key3' => 'qux'],
+                [
+                    ['key1', ['foo', 'bar', 'baz']],
+                    ['key2', ['foo', 'bar', 'baz']],
+                    ['key3', ['foo', 'bar'], 'baz'],
+                ],
+                ['key1' => 'bar', 'key2' => 'foo', 'key3' => 'baz'],
+            ],
         ];
     }
 
-    /** @param string|callable(mixed):mixed|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype */
+    /** @param string|callable(mixed):mixed|list<int|string|BackedEnum>|list<array{0: string, 1: string|callable(mixed):mixed|list<mixed>, 2?: mixed}> $vartype */
     #[DataProvider('castProvider')]
     public function testCast(mixed $var, string|callable|array $vartype, mixed $expectedResult): void
     {
-        static::assertSame($expectedResult, rex_type::cast($var, $vartype));
+        self::assertSame($expectedResult, rex_type::cast($var, $vartype));
     }
 
     /** @return list<array{mixed}> */
@@ -60,7 +74,8 @@ class rex_type_test extends TestCase
             [false],
             ['array['],
             ['array[abc]'],
-            [[1]],
+            [[]],
+            [[1, ['foo', 'bool']]],
             [new stdClass()],
         ];
     }
@@ -73,4 +88,16 @@ class rex_type_test extends TestCase
         /** @psalm-suppress MixedArgument */
         rex_type::cast(1, $vartype);
     }
+}
+
+enum rex_type_test_enum_string: string
+{
+    case Foo = 'foo';
+    case Bar = 'bar';
+}
+
+enum rex_type_test_enum_int: int
+{
+    case Foo = 1;
+    case Bar = 2;
 }

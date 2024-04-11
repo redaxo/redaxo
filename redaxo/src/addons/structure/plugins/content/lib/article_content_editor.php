@@ -264,7 +264,7 @@ class rex_article_content_editor extends rex_article_content
     /**
      * Wraps the output of a module.
      *
-     * @param int    $moduleId     The id of the module
+     * @param int $moduleId The id of the module
      * @param string $moduleOutput The output of the module
      *
      * @return string
@@ -472,10 +472,10 @@ class rex_article_content_editor extends rex_article_content
     // ----- EDIT Slice
 
     /**
-     * @param int     $sliceId
-     * @param string  $moduleInput
-     * @param int     $ctypeId
-     * @param int     $moduleId
+     * @param int $sliceId
+     * @param string $moduleInput
+     * @param int $ctypeId
+     * @param int $moduleId
      * @param rex_sql $artDataSql
      * @return string
      */

@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_password_policy_test extends TestCase
+/** @internal */
+final class rex_password_policy_test extends TestCase
 {
     #[DataProvider('provideCheck')]
     public function testCheck(array $options, bool $expected, string $password): void
@@ -16,9 +14,9 @@ class rex_password_policy_test extends TestCase
         $result = $policy->check($password);
 
         if ($expected) {
-            static::assertTrue($result);
+            self::assertTrue($result);
         } else {
-            static::assertIsString($result);
+            self::assertIsString($result);
         }
     }
 
@@ -58,19 +56,19 @@ class rex_password_policy_test extends TestCase
         $policy = new rex_password_policy(['length' => ['min' => 5, 'max' => 25]]);
         $rule = $getRule->invoke($policy);
 
-        static::assertStringContainsString('5', $rule);
-        static::assertStringContainsString('25', $rule);
+        self::assertStringContainsString('5', $rule);
+        self::assertStringContainsString('25', $rule);
 
         $policy = new rex_password_policy(['length' => ['min' => 0, 'max' => 25]]);
         $rule = $getRule->invoke($policy);
 
-        static::assertStringNotContainsString('0', $rule);
-        static::assertStringContainsString('25', $rule);
+        self::assertStringNotContainsString('0', $rule);
+        self::assertStringContainsString('25', $rule);
 
         $policy = new rex_password_policy(['length' => ['min' => 0]]);
         $rule = $getRule->invoke($policy);
 
-        static::assertSame('', $rule);
+        self::assertSame('', $rule);
     }
 
     /**
@@ -82,7 +80,7 @@ class rex_password_policy_test extends TestCase
     {
         $policy = new rex_password_policy($options);
 
-        static::assertSame($expected, $policy->getHtmlAttributes());
+        self::assertSame($expected, $policy->getHtmlAttributes());
     }
 
     /** @return iterable<int, array{array<string, string>, array<string, array{min?: int, max?: int}>}> */

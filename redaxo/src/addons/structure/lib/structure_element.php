@@ -163,7 +163,7 @@ abstract class rex_structure_element
      * Return an rex_structure_element object based on an id.
      * The instance will be cached in an instance-pool and therefore re-used by a later call.
      *
-     * @param int $id    the article id
+     * @param int $id the article id
      * @param int $clang the clang id
      *
      * @return static|null A rex_structure_element instance typed to the late-static binding type of the caller
@@ -208,12 +208,12 @@ abstract class rex_structure_element
     }
 
     /**
-     * @param int    $parentId
+     * @param int $parentId
      * @param string $listType
-     * @param bool   $ignoreOfflines
-     * @param int    $clang
+     * @param bool $ignoreOfflines
+     * @param int $clang
      *
-     * @return static[]
+     * @return list<static>
      */
     protected static function getChildElements($parentId, $listType, $ignoreOfflines = false, $clang = null)
     {
@@ -315,7 +315,7 @@ abstract class rex_structure_element
     /**
      * Returns the path ids of the category/article as an array.
      *
-     * @return int[]
+     * @return list<int>
      */
     public function getPathAsArray()
     {
@@ -430,10 +430,10 @@ abstract class rex_structure_element
     /**
      * Returns a link to this article.
      *
-     * @param array  $params             Parameter für den Link
-     * @param array  $attributes         Attribute die dem Link hinzugefügt werden sollen. Default: array
-     * @param string $sorroundTag        HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
-     * @param array  $sorroundAttributes Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: array
+     * @param array $params Parameter für den Link
+     * @param array $attributes Attribute die dem Link hinzugefügt werden sollen. Default: array
+     * @param string $sorroundTag HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
+     * @param array $sorroundAttributes Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: array
      *
      * @return string
      */

@@ -7,29 +7,28 @@
  */
 class rex_i18n
 {
-    /** @var string[] */
-    private static $locales = [];
-    /** @var string[] */
-    private static $directories = [];
+    /** @var list<string> */
+    private static array $locales = [];
+    /** @var list<string> */
+    private static array $directories = [];
     /** @var array<string, bool> Holds which locales are loaded. keyed by locale */
-    private static $loaded = [];
-    /** @var string|null */
-    private static $locale;
-    /** @var non-empty-string[][] */
-    private static $msg = [];
+    private static array $loaded = [];
+    private static ?string $locale = null;
+    /** @var array<string, array<string, non-empty-string>> */
+    private static array $msg = [];
 
     /**
      * Switches the current locale.
      *
-     * @param string $locale       The new locale
-     * @param bool   $phpSetLocale When TRUE, php function setlocale() will be called
+     * @param string $locale The new locale
+     * @param bool $phpSetLocale When TRUE, php function setlocale() will be called
      *
      * @return string The last locale
      */
     public static function setLocale($locale, $phpSetLocale = true)
     {
         $saveLocale = self::getLocale();
-        self::$locale = $locale;
+        self::$locale = self::validateLocale($locale);
 
         if (empty(self::$loaded[$locale])) {
             self::loadAll($locale);
@@ -66,7 +65,7 @@ class rex_i18n
     public static function getLocale()
     {
         if (!self::$locale) {
-            self::$locale = rex::getProperty('lang');
+            self::$locale = self::validateLocale(rex::getProperty('lang'));
         }
 
         return self::$locale;
@@ -107,7 +106,7 @@ class rex_i18n
     /**
      * Returns the translation htmlspecialchared for the given key.
      *
-     * @param string     $key             A Language-Key
+     * @param string $key A Language-Key
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return non-empty-string Translation for the key
@@ -123,7 +122,7 @@ class rex_i18n
     /**
      * Returns the translation for the given key.
      *
-     * @param string     $key             A Language-Key
+     * @param string $key A Language-Key
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return non-empty-string Translation for the key
@@ -138,8 +137,8 @@ class rex_i18n
     /**
      * Returns the translation htmlspecialchared for the given key and locale.
      *
-     * @param string     $key             A Language-Key
-     * @param string     $locale          A Locale
+     * @param string $key A Language-Key
+     * @param string $locale A Locale
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return non-empty-string Translation for the key
@@ -159,8 +158,8 @@ class rex_i18n
     /**
      * Returns the translation for the given key and locale.
      *
-     * @param string     $key             A Language-Key
-     * @param string     $locale          A Locale
+     * @param string $key A Language-Key
+     * @param string $locale A Locale
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return non-empty-string Translation for the key
@@ -177,9 +176,9 @@ class rex_i18n
     /**
      * Returns the message fallback for a missing key in main locale.
      *
-     * @param string         $key          A Language-Key
+     * @param string $key A Language-Key
      * @param list<string|int> $replacements A arbritary number of strings/ints used for interpolating within the resolved message
-     * @param string         $locale       A Locale
+     * @param string $locale A Locale
      *
      * @return non-empty-string
      */
@@ -228,10 +227,10 @@ class rex_i18n
     /**
      * Returns the translation for the given key.
      *
-     * @param string         $key
-     * @param bool           $escape
+     * @param string $key
+     * @param bool $escape
      * @param list<string|int> $replacements A arbritary number of strings/ints used for interpolating within the resolved message
-     * @param string         $locale       A Locale
+     * @param string $locale A Locale
      *
      * @psalm-taint-escape ($escape is true ? "html" : null)
      *
@@ -311,7 +310,7 @@ class rex_i18n
     /**
      * Adds a new translation to the catalogue.
      *
-     * @param string $key     Key
+     * @param string $key Key
      * @param non-empty-string $message Message for the key
      * @return void
      */
@@ -343,9 +342,9 @@ class rex_i18n
     /**
      * Translates the $text, if it begins with 'translate:', else it returns $text.
      *
-     * @param string   $text         The text for translation
-     * @param bool     $escape       Flag whether the translated text should be escaped
-     * @param null|callable(string):string $i18nFunction Function that returns the translation for the i18n key
+     * @param string $text The text for translation
+     * @param bool $escape Flag whether the translated text should be escaped
+     * @param callable(string):string|null $i18nFunction Function that returns the translation for the i18n key
      *
      * @throws InvalidArgumentException
      *
@@ -381,8 +380,8 @@ class rex_i18n
     /**
      * Translates all array elements.
      *
-     * @param mixed    $array        The Array of Strings for translation
-     * @param bool     $escape       Flag whether the translated text should be escaped
+     * @param mixed $array The Array of Strings for translation
+     * @param bool $escape Flag whether the translated text should be escaped
      * @param callable $i18nFunction Function that returns the translation for the i18n key
      *
      * @throws InvalidArgumentException
@@ -415,7 +414,7 @@ class rex_i18n
     /**
      * Loads the translation definitions of the given file.
      *
-     * @param string $dir    Path to the directory
+     * @param string $dir Path to the directory
      * @param string $locale Locale
      * @return void
      */
@@ -453,13 +452,13 @@ class rex_i18n
     /**
      * @param string $locale Locale
      *
-     * @return string the validated locale
+     * @return non-empty-string the validated locale
      *
      * @psalm-taint-escape file
      */
     private static function validateLocale(string $locale): string
     {
-        if (!preg_match('/^[a-z]{2}_[a-z]{2}$/', $locale)) {
+        if (!$locale || !preg_match('/^[a-z]{2}_[a-z]{2}$/', $locale)) {
             throw new rex_exception('Invalid locale "' . $locale . '"');
         }
         return $locale;

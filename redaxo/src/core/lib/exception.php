@@ -6,7 +6,7 @@
 class rex_exception extends Exception
 {
     /**
-     * @param string    $message
+     * @param string $message
      */
     public function __construct($message, ?Exception $previous = null)
     {
@@ -19,8 +19,7 @@ class rex_exception extends Exception
  */
 class rex_sql_exception extends rex_exception
 {
-    /** @var null|rex_sql */
-    private $sql;
+    private ?rex_sql $sql;
 
     /** @param string $message */
     public function __construct($message, ?Exception $previous = null, ?rex_sql $sql = null)
@@ -31,7 +30,7 @@ class rex_sql_exception extends rex_exception
     }
 
     /**
-     * @return null|rex_sql
+     * @return rex_sql|null
      */
     public function getSql()
     {
@@ -56,18 +55,14 @@ class rex_sql_exception extends rex_exception
  *
  * @package redaxo\core
  */
-class rex_sql_could_not_connect_exception extends rex_sql_exception
-{
-}
+class rex_sql_could_not_connect_exception extends rex_sql_exception {}
 
 /**
  * Exception class for user-friendly error messages.
  *
  * @package redaxo\core
  */
-class rex_functional_exception extends rex_exception
-{
-}
+class rex_functional_exception extends rex_exception {}
 
 /**
  * Exception class for http-status code handling.
@@ -95,6 +90,11 @@ class rex_http_exception extends rex_exception
     {
         return $this->httpCode;
     }
+
+    public function isClientError(): bool
+    {
+        return str_starts_with($this->httpCode, '4');
+    }
 }
 
 /**
@@ -102,6 +102,4 @@ class rex_http_exception extends rex_exception
  *
  * @package redaxo\core
  */
-class rex_yaml_parse_exception extends rex_exception
-{
-}
+class rex_yaml_parse_exception extends rex_exception {}

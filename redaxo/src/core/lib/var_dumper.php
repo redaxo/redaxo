@@ -4,7 +4,6 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider;
 use Symfony\Component\VarDumper\Dumper\ContextualizedDumper;
-use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -13,21 +12,18 @@ use Symfony\Component\VarDumper\VarDumper;
  */
 abstract class rex_var_dumper
 {
-    /** @var VarCloner|null */
-    private static $cloner;
-
-    /** @var DataDumperInterface */
-    private static $dumper;
+    private static ?VarCloner $cloner = null;
+    private static ?ContextualizedDumper $dumper = null;
 
     /**
      * @return void
      */
     public static function register()
     {
-        VarDumper::setHandler(static function ($var) {
+        VarDumper::setHandler(static function ($var, ?string $label = null) {
             if (rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
                 VarDumper::setHandler(self::dump(...));
-                self::dump($var);
+                self::dump($var, $label);
 
                 return;
             }
@@ -43,9 +39,9 @@ abstract class rex_var_dumper
      * @param mixed $var
      * @return void
      */
-    public static function dump($var)
+    public static function dump($var, ?string $label = null)
     {
-        if (!self::$cloner) {
+        if (!self::$cloner || !self::$dumper) {
             self::$cloner = new VarCloner();
             if ('cli' === PHP_SAPI) {
                 $dumper = new CliDumper();
@@ -105,6 +101,11 @@ abstract class rex_var_dumper
             self::$dumper = new ContextualizedDumper($dumper, [new SourceContextProvider(null, rex_path::base())]);
         }
 
-        self::$dumper->dump(self::$cloner->cloneVar($var));
+        $var = self::$cloner->cloneVar($var);
+        if (null !== $label) {
+            $var = $var->withContext(['label' => $label]);
+        }
+
+        self::$dumper->dump($var);
     }
 }

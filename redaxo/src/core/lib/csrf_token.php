@@ -13,13 +13,9 @@ class rex_csrf_token
 
     public const PARAM = '_csrf_token';
 
-    /** @var string */
-    private $id;
-
-    private function __construct(string $tokenId)
-    {
-        $this->id = $tokenId;
-    }
+    private function __construct(
+        private string $id,
+    ) {}
 
     /**
      * @param string $tokenId
@@ -70,7 +66,7 @@ class rex_csrf_token
     /**
      * Returns an array containing the `_csrf_token` param.
      *
-     * @return array
+     * @return array<self::PARAM, string>
      */
     public function getUrlParams()
     {

@@ -111,8 +111,8 @@ class rex_release
             $addonChangelog = rex_file::get(rex_path::addon($addon, 'CHANGELOG.md'));
 
             while (
-                ($part = $cutNextPart($addonChangelog)) &&
-                (!$part['date'] || $part['date'] > $previousDate)
+                ($part = $cutNextPart($addonChangelog))
+                && (!$part['date'] || $part['date'] > $previousDate)
             ) {
                 $changelog .= "\n\n\n" . substr_replace($part['content'], $addon, 0, 7);
             }

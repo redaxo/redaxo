@@ -11,17 +11,15 @@ class rex_socket_response
 {
     /** @var resource */
     private $stream;
-    /** @var bool */
-    private $chunked = false;
+    private bool $chunked;
     /** @var int */
     private $statusCode;
     /** @var string */
     private $statusMessage;
-    /** @var string */
-    private $header = '';
+    private string $header = '';
     /** @var array */
     private $headers = [];
-    /** @var null|string */
+    /** @var string|null */
     private $body;
     /** @var bool */
     private $decompressContent = false;
@@ -154,7 +152,7 @@ class rex_socket_response
     /**
      * Returns the header for the given key, or the entire header if no key is given.
      *
-     * @param string $key     Header key
+     * @param string $key Header key
      * @param string $default Default value (is returned if the header is not set)
      *
      * @return string|null
@@ -177,7 +175,7 @@ class rex_socket_response
     /**
      * Returns an array with all applied content encodings.
      *
-     * @return string[]
+     * @return list<string>
      */
     public function getContentEncodings(): array
     {
@@ -208,7 +206,7 @@ class rex_socket_response
         if (!$this->streamFiltersInitialized) {
             if ($this->chunked) {
                 if (!is_resource(stream_filter_append($this->stream, 'dechunk', STREAM_FILTER_READ))) {
-                    throw new \rex_exception('Could not add dechunk filter to socket stream');
+                    throw new rex_exception('Could not add dechunk filter to socket stream');
                 }
             }
 
@@ -253,15 +251,15 @@ class rex_socket_response
     private function addZlibStreamFilter($stream, int $mode)
     {
         if (!is_resource($stream)) {
-            throw new \rex_exception('The stream has to be a resource.');
+            throw new rex_exception('The stream has to be a resource.');
         }
 
         if (!in_array('zlib.*', stream_get_filters())) {
-            throw new \rex_exception('The zlib filter for streams is missing.');
+            throw new rex_exception('The zlib filter for streams is missing.');
         }
 
         if (!in_array($mode, [STREAM_FILTER_READ, STREAM_FILTER_WRITE])) {
-            throw new \rex_exception('Invalid stream filter mode.');
+            throw new rex_exception('Invalid stream filter mode.');
         }
 
         $appendedZlibStreamFilter = stream_filter_append(
@@ -272,7 +270,7 @@ class rex_socket_response
         );
 
         if (!is_resource($appendedZlibStreamFilter)) {
-            throw new \rex_exception('Could not add stream filter for gzip support.');
+            throw new rex_exception('Could not add stream filter for gzip support.');
         }
 
         return $appendedZlibStreamFilter;

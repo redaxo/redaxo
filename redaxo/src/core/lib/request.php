@@ -11,8 +11,8 @@ class rex_request
      * Returns the variable $varname of $_GET and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed  $vartype Variable type
-     * @param mixed  $default Default value
+     * @param mixed $vartype Variable type
+     * @param mixed $default Default value
      *
      * @return mixed
      *
@@ -27,8 +27,8 @@ class rex_request
      * Returns the variable $varname of $_POST and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed  $vartype Variable type
-     * @param mixed  $default Default value
+     * @param mixed $vartype Variable type
+     * @param mixed $default Default value
      *
      * @return mixed
      *
@@ -43,8 +43,8 @@ class rex_request
      * Returns the variable $varname of $_REQUEST and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed  $vartype Variable type
-     * @param mixed  $default Default value
+     * @param mixed $vartype Variable type
+     * @param mixed $default Default value
      *
      * @return mixed
      *
@@ -59,8 +59,8 @@ class rex_request
      * Returns the variable $varname of $_SERVER and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed  $vartype Variable type
-     * @param mixed  $default Default value
+     * @param mixed $vartype Variable type
+     * @param mixed $default Default value
      *
      * @return mixed
      */
@@ -73,8 +73,8 @@ class rex_request
      * Returns the variable $varname of $_SESSION and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed  $vartype Variable type
-     * @param mixed  $default Default value
+     * @param mixed $vartype Variable type
+     * @param mixed $default Default value
      *
      * @throws rex_exception
      *
@@ -100,7 +100,7 @@ class rex_request
      * Sets a session variable.
      *
      * @param string $varname Variable name
-     * @param mixed  $value   Value
+     * @param mixed $value Value
      *
      * @throws rex_exception
      * @return void
@@ -150,8 +150,8 @@ class rex_request
      * Returns the variable $varname of $_COOKIE and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed  $vartype Variable type
-     * @param mixed  $default Default value
+     * @param mixed $vartype Variable type
+     * @param mixed $default Default value
      *
      * @return mixed
      *
@@ -166,8 +166,8 @@ class rex_request
      * Returns the variable $varname of $_FILES and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed  $vartype Variable type
-     * @param mixed  $default Default value
+     * @param mixed $vartype Variable type
+     * @param mixed $default Default value
      *
      * @return mixed
      */
@@ -180,8 +180,8 @@ class rex_request
      * Returns the variable $varname of $_ENV and casts the value.
      *
      * @param string $varname Variable name
-     * @param mixed  $vartype Variable type
-     * @param mixed  $default Default value
+     * @param mixed $vartype Variable type
+     * @param mixed $default Default value
      *
      * @return mixed
      */
@@ -193,10 +193,10 @@ class rex_request
     /**
      * Searches the value $needle in array $haystack and returns the casted value.
      *
-     * @param array      $haystack Array
-     * @param string|int $needle   Value to search
-     * @param mixed      $vartype  Variable type
-     * @param mixed      $default  Default value
+     * @param array $haystack Array
+     * @param string|int $needle Value to search
+     * @param mixed $vartype Variable type
+     * @param mixed $default Default value
      *
      * @throws InvalidArgumentException
      *
@@ -211,6 +211,10 @@ class rex_request
         }
 
         if (array_key_exists($needle, $haystack)) {
+            if (is_array($vartype) && '' !== $default && is_scalar($vartype[0] ?? null) && $vartype[0] !== $default) {
+                array_unshift($vartype, $default);
+            }
+
             return rex_type::cast($haystack[$needle], $vartype);
         }
 

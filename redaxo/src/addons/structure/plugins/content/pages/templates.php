@@ -117,7 +117,7 @@ if ('add' == $function || 'edit' == $function) {
         $TPL->setValue('name', $templatename);
         $TPL->setValue('active', $active);
         $TPL->setValue('content', $template);
-        $TPL->addGlobalCreateFields();
+        $TPL->addGlobalUpdateFields();
 
         $TPL->setArrayValue('attributes', $attributes);
 
@@ -161,7 +161,6 @@ if ('add' == $function || 'edit' == $function) {
 
             if ('' == $error) {
                 $TPL->setWhere(['id' => $templateId]);
-                $TPL->addGlobalUpdateFields();
 
                 try {
                     $TPL->update();
@@ -352,13 +351,13 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-id-templatename">' . rex_i18n::msg('template_name') . '</label>';
-        $n['field'] = '<input class="form-control" id="rex-id-templatename" type="text" name="templatename" value="' . rex_escape($templatename) . '" />';
+        $n['field'] = '<input class="form-control" id="rex-id-templatename" type="text" name="templatename" value="' . rex_escape($templatename) . '" maxlength="255" />';
         $n['note'] = rex_i18n::msg('translatable');
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-id-templatekey">' . rex_i18n::msg('template_key') . '</label>';
-        $n['field'] = '<input class="form-control" id="rex-id-templatekey" type="text" name="templatekey" value="' . rex_escape($templatekey) . '" />';
+        $n['field'] = '<input class="form-control" id="rex-id-templatekey" type="text" name="templatekey" value="' . rex_escape($templatekey) . '" maxlength="191" autocorrect="off" autocapitalize="off" spellcheck="false" />';
         $n['note'] = rex_i18n::msg('template_key_notice');
         $formElements[] = $n;
 
@@ -381,7 +380,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-id-content">' . rex_i18n::msg('header_template') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="rex-id-content" name="content" spellcheck="false">' . rex_escape($template) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="rex-id-content" name="content" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($template) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();

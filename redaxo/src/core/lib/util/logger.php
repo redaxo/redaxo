@@ -37,19 +37,31 @@ class rex_logger extends AbstractLogger
     {
         if ($exception instanceof ErrorException) {
             self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $url);
-        } else {
-            $logger = self::factory();
-            $logger->log($exception::class, $exception->getMessage(), [], $exception->getFile(), $exception->getLine(), $url);
+
+            return;
         }
+
+        if ($exception instanceof rex_http_exception) {
+            // Client errors should not be logged to system error log (if not debug mode or backend admin).
+            // This prevents that external website visitors can fill up the log (and possibly trigger error emails etc.).
+            if (!rex::isDebugMode() && $exception->isClientError() && (!($user = rex_backend_login::createUser()) || !$user->isAdmin())) {
+                return;
+            }
+
+            $exception = $exception->getPrevious() ?? $exception; // log original exception
+        }
+
+        $logger = self::factory();
+        $logger->log($exception::class, $exception->getMessage(), [], $exception->getFile(), $exception->getLine(), $url);
     }
 
     /**
      * Shorthand: Logs a error message.
      *
-     * @param int    $errno   The error code to log, e.g. E_WARNING
-     * @param string $errstr  The error message
+     * @param int $errno The error code to log, e.g. E_WARNING
+     * @param string $errstr The error message
      * @param string $errfile The file in which the error occured
-     * @param int    $errline The line of the file in which the error occured
+     * @param int $errline The line of the file in which the error occured
      *
      * @throws InvalidArgumentException
      * @return void
@@ -76,10 +88,11 @@ class rex_logger extends AbstractLogger
     /**
      * Logs with an arbitrary level.
      *
-     * @param mixed  $level   either one of LogLevel::* or also any other string
-     * @param string $message
-     * @param string $file
-     * @param int    $line
+     * @param mixed $level either one of LogLevel::* or also any other string
+     * @param string|Stringable $message
+     * @param array<mixed> $context
+     * @param string|null $file
+     * @param int|null $line
      *
      * @throws InvalidArgumentException
      */
@@ -90,8 +103,10 @@ class rex_logger extends AbstractLogger
             return;
         }
 
-        if (!is_string($message)) {
-            throw new InvalidArgumentException('Expecting $message to be string, but ' . gettype($message) . ' given!');
+        if ($message instanceof Stringable) {
+            $message = (string) $message;
+        } elseif (!is_string($message)) {
+            throw new InvalidArgumentException('Expecting $message to be string or \Stringable, but ' . gettype($message) . ' given!');
         }
 
         self::open();
@@ -134,7 +149,7 @@ class rex_logger extends AbstractLogger
     {
         // check if already opened
         if (!self::$file) {
-            self::$file = new rex_log_file(self::getPath(), 2_000_000);
+            self::$file = rex_log_file::factory(self::getPath(), 2_000_000);
         }
     }
 

@@ -46,7 +46,7 @@ class rex_media
     /**
      * @param string $name
      *
-     * @return null|static
+     * @return static|null
      */
     public static function get($name)
     {
@@ -94,7 +94,7 @@ class rex_media
 
     /**
      * @throws rex_sql_exception
-     * @return null|static
+     * @return static|null
      */
     public static function forId(int $mediaId): ?self
     {
@@ -108,11 +108,11 @@ class rex_media
     }
 
     /**
-     * @return static[]
+     * @return list<static>
      */
     public static function getRootMedia()
     {
-        /** @var callable(string):static */
+        /** @var Closure(string):static $getInstance */
         $getInstance = static::get(...);
 
         return static::getInstanceList('root_media', $getInstance, static function () {

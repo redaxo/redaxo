@@ -14,24 +14,24 @@ class rex_user_role implements rex_user_role_interface
      *
      * @var list<string>
      */
-    private $perms = [];
+    private array $perms = [];
 
     /**
      * Complex perm params.
      *
-     * @var array<string, rex_complex_perm::ALL|string[]>
+     * @var array<string, rex_complex_perm::ALL|array<string>>
      */
-    private $complexPermParams = [];
+    private array $complexPermParams = [];
 
     /**
      * Cache for complex perm instances.
      *
      * @var array<string, rex_complex_perm|null>
      */
-    private $complexPerms = [];
+    private array $complexPerms = [];
 
     /**
-     * @param array[] $roles
+     * @param list<array> $roles
      */
     private function __construct(array $roles)
     {

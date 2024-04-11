@@ -1,5 +1,7 @@
 <?php
 
+use Composer\Autoload\ClassLoader;
+
 /**
  * REDAXO Autoloader.
  *
@@ -12,12 +14,17 @@
  */
 class rex_autoload
 {
-    /** @var Composer\Autoload\ClassLoader */
+    // see https://github.com/redaxo/redaxo/issues/5780
+    private const SYMFONY_NON_UTF8_CLASS = "\xA9";
+
+    private const SYMFONY_NON_UTF8_CLASS_REPLACEMENT = 'rexsymfonycachevaluewrappernonutf8class';
+
+    /** @var ClassLoader */
     protected static $composerLoader;
 
     /** @var bool */
     protected static $registered = false;
-    /** @var null|string */
+    /** @var string|null */
     protected static $cacheFile;
     /** @var bool */
     protected static $cacheChanged = false;
@@ -25,11 +32,11 @@ class rex_autoload
     protected static $cacheDeleted = false;
     /** @var bool */
     protected static $reloaded = false;
-    /** @var string[][] */
+    /** @var array<string, array<string, string>> */
     protected static $dirs = [];
-    /** @var string[] */
+    /** @var list<string> */
     protected static $addedDirs = [];
-    /** @var string[] */
+    /** @var array<string, string> */
     protected static $classes = [];
 
     /**
@@ -86,7 +93,13 @@ class rex_autoload
         }
 
         $force = false;
-        $lowerClass = strtolower($class);
+
+        if (self::SYMFONY_NON_UTF8_CLASS === $class) {
+            $lowerClass = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
+        } else {
+            $lowerClass = strtolower($class);
+        }
+
         if (isset(self::$classes[$lowerClass])) {
             $path = rex_path::base(self::$classes[$lowerClass]);
             // we have a class path for the class, let's include it
@@ -111,8 +124,8 @@ class rex_autoload
         // Class not found, so reanalyse all directories if not already done or if $force==true
         // but only if an admin is logged in
         if (
-            (!self::$reloaded || $force) &&
-            (rex::isSetup() || rex::getConsole() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())
+            (!self::$reloaded || $force)
+            && (rex::isSetup() || rex::getConsole() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())
         ) {
             self::reload($force);
             return self::autoload($class);
@@ -228,7 +241,7 @@ class rex_autoload
     /**
      * Returns the classes.
      *
-     * @return string[]
+     * @return list<string>
      */
     public static function getClasses()
     {
@@ -270,7 +283,11 @@ class rex_autoload
 
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
-                $class = strtolower($class);
+                if (self::SYMFONY_NON_UTF8_CLASS === $class) {
+                    $class = self::SYMFONY_NON_UTF8_CLASS_REPLACEMENT;
+                } else {
+                    $class = strtolower($class);
+                }
 
                 // Force usage of Parsedown and ParsedownExtra from core vendors (via composer autoloader)
                 // to avoid problems between incompatible version of Parsedown (from addon) and ParsedownExtra (from core)
@@ -299,7 +316,7 @@ class rex_autoload
      *
      * @throws RuntimeException
      *
-     * @return array The found classes
+     * @return list<string> The found classes
      */
     private static function findClasses($path)
     {

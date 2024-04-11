@@ -8,10 +8,8 @@
  */
 class rex_template
 {
-    /** @var int */
-    private $id;
-    /** @var string|null */
-    private $key = '';
+    private int $id;
+    private ?string $key = '';
 
     public function __construct($templateId)
     {
@@ -102,7 +100,7 @@ class rex_template
     }
 
     /**
-     * @return false|null|string
+     * @return false|string|null
      */
     public function getTemplate()
     {
@@ -145,7 +143,7 @@ class rex_template
      * if the category_id is non-positive all templates in the system are returned.
      * if the category_id is invalid an empty array is returned.
      *
-     * @param int  $categoryId
+     * @param int $categoryId
      * @param bool $ignoreInactive
      *
      * @return array<int, string>

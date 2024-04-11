@@ -18,9 +18,9 @@ abstract class rex_extension
     /**
      * Array of registered extensions.
      *
-     * @var array<string, array<self::*, list<array{callable, array}>>>
+     * @var array<string, array<self::*, list<array{callable, array<string, mixed>}>>>
      */
-    private static $extensions = [];
+    private static array $extensions = [];
 
     /**
      * Registers an extension point.
@@ -69,10 +69,10 @@ abstract class rex_extension
      * Registers an extension for an extension point.
      *
      * @template T as rex_extension_point
-     * @param string|string[] $extensionPoint Name(s) of extension point(s)
+     * @param string|list<string> $extensionPoint Name(s) of extension point(s)
      * @param callable(T):mixed $extension Callback extension
      * @param self::* $level Runlevel (`rex_extension::EARLY`, `rex_extension::NORMAL` or `rex_extension::LATE`)
-     * @param array $params Additional params
+     * @param array<string, mixed> $params Additional params
      * @return void
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])

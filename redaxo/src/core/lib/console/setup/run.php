@@ -6,6 +6,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @package redaxo\core
@@ -14,7 +15,7 @@ use Symfony\Component\Console\Question\Question;
  */
 class rex_command_setup_run extends rex_console_command implements rex_command_only_setup_packages
 {
-    /** @var \Symfony\Component\Console\Style\SymfonyStyle */
+    /** @var SymfonyStyle */
     private $io;
 
     /** @var InputInterface */
@@ -491,10 +492,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      * Helper function for getting values by option or ask()
      * Respects non-/interactive mode.
      *
-     * @param string|Question  $question       provide question string or full question object for ask()
-     * @param string           $option         cli option name
-     * @param string|bool|null $default        default value for ask()
-     * @param string|null      $successMessage success message for using the option value
+     * @param string|Question $question provide question string or full question object for ask()
+     * @param string $option cli option name
+     * @param string|bool|null $default default value for ask()
+     * @param string|null $successMessage success message for using the option value
      * @param callable(mixed):mixed|null $validator validator callback for option value and ask()
      *
      * @return mixed
@@ -540,7 +541,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     $this->io->warning($warning);
                 }
             } else {
-                $this->io->success(rex_i18n::msg('setup_208', PHP_VERSION));
+                $this->io->success($this->decodeMessage(rex_i18n::msg('setup_208', PHP_VERSION)));
             }
         } else {
             $errors = array_map($this->decodeMessage(...), $errors);

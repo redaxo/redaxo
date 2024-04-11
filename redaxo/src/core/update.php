@@ -1,5 +1,7 @@
 <?php
 
+use Psr\Log\LogLevel;
+
 // don't use REX_MIN_PHP_VERSION or rex_setup::MIN_* constants here!
 // while updating the core, the constants contain the old min versions from previous core version
 
@@ -97,4 +99,8 @@ if (rex_version::compare(rex::getVersion(), '5.15.0-dev', '<') && $user = rex::g
             throw $exception;
         }
     }
+}
+
+if (rex_version::compare(rex::getVersion(), '5.16.0', '<')) {
+    class_exists(LogLevel::class);
 }

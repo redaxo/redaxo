@@ -9,13 +9,12 @@ class rex_be_controller
     private static $page;
 
     /** @var list<string> */
-    private static $pageParts = [];
+    private static array $pageParts = [];
 
-    /** @var rex_be_page|null */
-    private static $pageObject;
+    private static ?rex_be_page $pageObject = null;
 
     /** @var array<string, rex_be_page> */
-    private static $pages = [];
+    private static array $pages = [];
 
     /**
      * @param string $page
@@ -39,7 +38,7 @@ class rex_be_controller
     /**
      * @template T of positive-int|null
      * @param T $part Part index, beginning with 1. If $part is null, an array of all current parts will be returned
-     * @param null|string $default Default value
+     * @param string|null $default Default value
      * @return list<string>|string|null
      * @psalm-return (T is null ? list<string> : string|null)
      */
@@ -161,13 +160,6 @@ class rex_be_controller
         self::$pages['credits'] = (new rex_be_page('credits', rex_i18n::msg('credits')))
             ->setPath(rex_path::core('pages/credits.php'));
 
-        self::$pages['packages'] = (new rex_be_page_main('system', 'packages', rex_i18n::msg('addons')))
-            ->setPath(rex_path::core('pages/packages.php'))
-            ->setRequiredPermissions('isAdmin')
-            ->setPrio(60)
-            ->setPjax()
-            ->setIcon('rex-icon rex-icon-package-addon');
-
         $logsPage = (new rex_be_page('log', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.log.php'));
         $logsPage->addSubpage((new rex_be_page('redaxo', rex_i18n::msg('syslog_redaxo')))->setSubPath(rex_path::core('pages/system.log.redaxo.php')));
         if ('' != ini_get('error_log') && @is_readable(ini_get('error_log'))) {
@@ -199,6 +191,17 @@ class rex_be_controller
                 ->setHasLayout(false)
                 ->setPath(rex_path::core('pages/system.phpinfo.php')),
             );
+
+        if (rex::isLiveMode()) {
+            return;
+        }
+
+        self::$pages['packages'] = (new rex_be_page_main('system', 'packages', rex_i18n::msg('addons')))
+            ->setPath(rex_path::core('pages/packages.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(60)
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-package-addon');
     }
 
     /**
@@ -255,15 +258,15 @@ class rex_be_controller
 
     /**
      * @param rex_be_page|array $page
-     * @param bool              $createMainPage
-     * @param string            $pageKey
-     * @param bool|string       $prefix
+     * @param bool $createMainPage
+     * @param string $pageKey
+     * @param bool|string $prefix
      *
-     * @return null|rex_be_page
+     * @return rex_be_page|null
      */
     private static function pageCreate($page, rex_package $package, $createMainPage, ?rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
     {
-        if (is_array($page) && isset($page['title'])) {
+        if (is_array($page) && isset($page['title']) && (false !== ($page['live_mode'] ?? null) || !rex::isLiveMode())) {
             $pageArray = $page;
             $pageKey = $pageKey ?: $package->getName();
             if ($createMainPage || isset($pageArray['main']) && $pageArray['main']) {
@@ -321,7 +324,7 @@ class rex_be_controller
                 case 'subpages':
                     if (is_array($value)) {
                         foreach ($value as $pageKey => $subProperties) {
-                            if (isset($subProperties['title'])) {
+                            if (isset($subProperties['title']) && (false !== ($subProperties['live_mode'] ?? null) || !rex::isLiveMode())) {
                                 $subpage = new rex_be_page($pageKey, $subProperties['title']);
                                 $page->addSubpage($subpage);
                                 self::pageAddProperties($subpage, $subProperties, $package);

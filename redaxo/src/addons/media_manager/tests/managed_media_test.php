@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_managed_media_test extends TestCase
+/** @internal */
+final class rex_managed_media_test extends TestCase
 {
     public function testConstructor(): void
     {
@@ -14,18 +12,18 @@ class rex_managed_media_test extends TestCase
 
         $media = new rex_managed_media($path);
 
-        static::assertSame($path, $media->getMediaPath());
-        static::assertSame($filename, $media->getMediaFilename());
-        static::assertSame($path, $media->getSourcePath());
+        self::assertSame($path, $media->getMediaPath());
+        self::assertSame($filename, $media->getMediaFilename());
+        self::assertSame($path, $media->getSourcePath());
 
         $filename = 'non_existing.jpg';
         $path = rex_path::addon($filename);
 
         $media = new rex_managed_media($path);
 
-        static::assertSame($path, $media->getMediaPath());
-        static::assertSame($filename, $media->getMediaFilename());
-        static::assertSame($path, $media->getSourcePath());
-        static::assertFalse($media->exists());
+        self::assertSame($path, $media->getMediaPath());
+        self::assertSame($filename, $media->getMediaFilename());
+        self::assertSame($path, $media->getSourcePath());
+        self::assertFalse($media->exists());
     }
 }

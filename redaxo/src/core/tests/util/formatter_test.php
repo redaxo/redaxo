@@ -3,20 +3,18 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_formatter_test extends TestCase
+/** @internal */
+final class rex_formatter_test extends TestCase
 {
     public function testDate(): void
     {
         $format = 'd.m.Y H:i';
 
-        static::assertEquals(
+        self::assertEquals(
             '12.05.2012 10:24',
             rex_formatter::date(1336811080, $format),
         );
-        static::assertEquals(
+        self::assertEquals(
             '27.06.2016 21:40',
             rex_formatter::date('2016-06-27 21:40:00', $format),
         );
@@ -35,24 +33,24 @@ class rex_formatter_test extends TestCase
         $value = 1336811080;
 
         $format = '%d.%m.%Y %H:%M';
-        static::assertEquals(
+        self::assertEquals(
             '12.05.2012 10:24',
             $strftime($value, $format),
         );
 
-        static::assertEquals(
+        self::assertEquals(
             '27.06.2016 21:40',
             $strftime('2016-06-27 21:40:00', $format),
         );
 
         $format = 'date';
-        static::assertEquals(
+        self::assertEquals(
             '12 May 2012',
             $strftime($value, $format),
         );
 
         $format = 'datetime';
-        static::assertEquals(
+        self::assertEquals(
             '12 May 2012, 10:24',
             $strftime($value, $format),
         );
@@ -71,11 +69,11 @@ class rex_formatter_test extends TestCase
             $string = rex_formatter::intlDateTime($value, $format);
         }
 
-        static::assertSame($expected, $string);
+        self::assertSame($expected, $string);
     }
 
     /**
-     * @return list<array{0: string, 1: string|int|DateTimeInterface|null, 2?: null|int|array{int, int}|string}>
+     * @return list<array{0: string, 1: string|int|DateTimeInterface|null, 2?: int|array{int, int}|string|null}>
      */
     public static function dataIntlDateTime(): array
     {
@@ -101,11 +99,11 @@ class rex_formatter_test extends TestCase
             $string = rex_formatter::intlDate($value, $format);
         }
 
-        static::assertSame($expected, $string);
+        self::assertSame($expected, $string);
     }
 
     /**
-     * @return list<array{0: string, 1: string|int|DateTimeInterface|null, 2?: null|int|string}>
+     * @return list<array{0: string, 1: string|int|DateTimeInterface|null, 2?: int|string|null}>
      */
     public static function dataIntlDate(): array
     {
@@ -129,11 +127,11 @@ class rex_formatter_test extends TestCase
             $string = rex_formatter::intlTime($value, $format);
         }
 
-        static::assertSame($expected, $string);
+        self::assertSame($expected, $string);
     }
 
     /**
-     * @return list<array{0: string, 1: string|int|DateTimeInterface|null, 2?: null|int|string}>
+     * @return list<array{0: string, 1: string|int|DateTimeInterface|null, 2?: int|string|null}>
      */
     public static function dataIntlTime(): array
     {
@@ -153,13 +151,13 @@ class rex_formatter_test extends TestCase
         $value = 1336811080.23;
 
         $format = [];
-        static::assertEquals(
+        self::assertEquals(
             '1 336 811 080,23',
             rex_formatter::number($value, $format),
         );
 
         $format = [5, ':', '`'];
-        static::assertEquals(
+        self::assertEquals(
             '1`336`811`080:23000',
             rex_formatter::number($value, $format),
         );
@@ -169,40 +167,40 @@ class rex_formatter_test extends TestCase
     {
         $value = 1000;
 
-        static::assertEquals(
+        self::assertEquals(
             '1 000,00 B',
             rex_formatter::bytes($value),
         );
 
-        static::assertEquals(
+        self::assertEquals(
             '976,56 KiB',
             rex_formatter::bytes($value * 1000),
         );
 
-        static::assertEquals(
+        self::assertEquals(
             '953,67 MiB',
             rex_formatter::bytes($value * 1000 * 1000),
         );
 
         // in 32 bit php the following tests use too big numbers
         if (PHP_INT_SIZE > 4) {
-            static::assertEquals(
+            self::assertEquals(
                 '931,32 GiB',
                 rex_formatter::bytes($value * 1000 * 1000 * 1000),
             );
 
-            static::assertEquals(
+            self::assertEquals(
                 '909,49 TiB',
                 rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000),
             );
 
-            static::assertEquals(
+            self::assertEquals(
                 '888,18 PiB',
                 rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000 * 1000),
             );
 
             $format = [5]; // number of signs behind comma
-            static::assertEquals(
+            self::assertEquals(
                 '953,67432 MiB',
                 rex_formatter::bytes($value * 1000 * 1000, $format),
             );
@@ -214,7 +212,7 @@ class rex_formatter_test extends TestCase
         $value = 'hallo';
         $format = 'X%sX';
 
-        static::assertEquals(
+        self::assertEquals(
             'XhalloX',
             rex_formatter::sprintf($value, $format),
         );
@@ -224,7 +222,7 @@ class rex_formatter_test extends TestCase
     {
         $value = "very\nloooooong\ntext lala";
 
-        static::assertEquals(
+        self::assertEquals(
             "very<br />\nloooooong<br />\ntext lala",
             rex_formatter::nl2br($value),
         );
@@ -239,7 +237,7 @@ class rex_formatter_test extends TestCase
             'etc' => ' usw.',
             'break_words' => true,
         ];
-        static::assertEquals(
+        self::assertEquals(
             'very  usw.',
             rex_formatter::truncate($value, $format),
         );
@@ -250,7 +248,7 @@ class rex_formatter_test extends TestCase
             'etc' => ' usw.',
             'break_words' => false,
         ];
-        static::assertEquals(
+        self::assertEquals(
             'very usw.',
             rex_formatter::truncate($value, $format),
         );
@@ -260,12 +258,12 @@ class rex_formatter_test extends TestCase
     {
         $value = '5.1.2-alpha1';
 
-        static::assertEquals(
+        self::assertEquals(
             '5_1',
             rex_formatter::version($value, '%s_%s'),
         );
 
-        static::assertEquals(
+        self::assertEquals(
             '2-1-5',
             rex_formatter::version($value, '%3$s-%2$s-%1$s'),
         );
@@ -279,7 +277,7 @@ class rex_formatter_test extends TestCase
             'attr' => ' data-haha="foo"',
             'params' => 'ilike=+1',
         ];
-        static::assertEquals(
+        self::assertEquals(
             '<a href="http://example.org?ilike=+1" data-haha="foo">http://example.org</a>',
             rex_formatter::url($value, $format),
         );
@@ -293,7 +291,7 @@ class rex_formatter_test extends TestCase
             'attr' => ' data-haha="foo"',
             'params' => 'ilike=+1',
         ];
-        static::assertEquals(
+        self::assertEquals(
             '<a href="mailto:dude@example.org?ilike=+1" data-haha="foo">dude@example.org</a>',
             rex_formatter::email($value, $format),
         );
@@ -302,7 +300,7 @@ class rex_formatter_test extends TestCase
     public function testCustom(): void
     {
         $format = 'strtoupper';
-        static::assertEquals(
+        self::assertEquals(
             'TEST',
             rex_formatter::custom('test', $format),
         );
@@ -314,7 +312,7 @@ class rex_formatter_test extends TestCase
             ['some' => 'more params'],
         ];
 
-        static::assertEquals(
+        self::assertEquals(
             '77 more params',
             rex_formatter::custom('77', $format),
         );

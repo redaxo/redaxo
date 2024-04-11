@@ -28,6 +28,11 @@ class rex_var_value extends rex_var
         if ('php' == $output) {
             if ($this->environmentIs(self::ENV_BACKEND)) {
                 $value = rex_string::highlight($value);
+                if (rex::isLiveMode()) {
+                    $value = rex_view::error('Modules with dynamic PHP code are not supported in live mode.') . $value;
+                }
+            } elseif (rex::isLiveMode()) {
+                return 'null';
             } else {
                 return 'rex_var::nothing(require rex_stream::factory(substr(__FILE__, 6) . \'/REX_VALUE/' . $id . '\', ' . self::quote($value) . '))';
             }

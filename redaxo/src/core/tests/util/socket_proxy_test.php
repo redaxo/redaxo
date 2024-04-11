@@ -2,10 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_socket_proxy_test extends TestCase
+/** @internal */
+final class rex_socket_proxy_test extends TestCase
 {
     private ?string $proxy = null;
 
@@ -23,12 +21,12 @@ class rex_socket_proxy_test extends TestCase
     public function testFactory(): void
     {
         $socket = rex_socket_proxy::factory('www.example.com');
-        static::assertEquals(rex_socket_proxy::class, $socket::class);
+        self::assertEquals(rex_socket_proxy::class, $socket::class);
     }
 
     public function testFactoryUrl(): void
     {
         $socket = rex_socket_proxy::factoryUrl('www.example.com');
-        static::assertEquals(rex_socket_proxy::class, $socket::class);
+        self::assertEquals(rex_socket_proxy::class, $socket::class);
     }
 }

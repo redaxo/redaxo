@@ -12,9 +12,9 @@ trait rex_singleton_trait
     /**
      * Singleton instances.
      *
-     * @var static[]
+     * @var array<class-string<static>, static>
      */
-    private static $instances = [];
+    private static array $instances = [];
 
     /**
      * Returns the singleton instance.

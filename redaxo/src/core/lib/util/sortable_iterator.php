@@ -17,12 +17,12 @@ class rex_sortable_iterator implements IteratorAggregate
     public const KEYS = 2;
 
     /** @var Traversable<TKey, TValue> */
-    private $iterator;
+    private Traversable $iterator;
     /** @var self::VALUES|self::KEYS|callable(mixed,mixed):int */
     private $sort;
 
     /**
-     * @param Traversable<TKey, TValue>  $iterator Inner iterator
+     * @param Traversable<TKey, TValue> $iterator Inner iterator
      * @param self::VALUES|self::KEYS|callable(mixed,mixed):int $sort Sort mode, possible values are rex_sortable_iterator::VALUES (default), rex_sortable_iterator::KEYS or a callable
      */
     public function __construct(Traversable $iterator, $sort = self::VALUES)

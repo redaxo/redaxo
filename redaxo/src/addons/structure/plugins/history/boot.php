@@ -37,11 +37,11 @@ if ('' != $historyDate) {
     }
 
     if (!$user) {
-        throw new rex_exception('no permission');
+        throw new rex_http_exception(new rex_exception('no permission'), rex_response::HTTP_UNAUTHORIZED);
     }
 
     if (!$user->hasPerm('history[article_rollback]')) {
-        throw new rex_exception('no permission for the slice version');
+        throw new rex_http_exception(new rex_exception('no permission for the slice version'), rex_response::HTTP_FORBIDDEN);
     }
 
     rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
@@ -62,8 +62,6 @@ if ('' != $historyDate) {
                 $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
             }
 
-            $sliceLimit = '';
-
             rex_article_slice_history::checkTables();
 
             $escapeSql = rex_sql::factory();
@@ -80,7 +78,6 @@ if ('' != $historyDate) {
                     " . rex::getTablePrefix() . "article.clang_id='" . $article->getClangId() . "' AND
                     " . rex::getTablePrefix() . 'article_slice.revision=0
                     ' . $articleLimit . '
-                    ' . $sliceLimit . '
                     ' . $sliceDate . '
                     ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
         }
@@ -169,14 +166,14 @@ if (rex::isBackend() && rex::getUser()?->hasPerm('history[article_rollback]')) {
                 $historyValidTime = new DateTime();
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
                 $userHistorySession = rex_history_login::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
-                $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [rex_history_login::class => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime], '&');
+                $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['rex_history_login' => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime], '&');
             }
 
             echo '<script nonce="' . rex_response::getNonce() . '">
                     var history_article_id = ' . rex_article::getCurrentId() . ';
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
-                    var history_article_link = "' . $articleLink . '";
+                    var history_article_link = "' . rex_escape($articleLink, 'js') . '";
                     </script>';
         }
     },

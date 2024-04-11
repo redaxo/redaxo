@@ -2,7 +2,7 @@ name: Unit tests
 
 on:
     push:
-        branches: [main, bugfix, temp]
+        branches: [temp]
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
 
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
     phpunit:
-        runs-on: ${{ matrix.os }}
+        runs-on: ${{ matrix.os || 'ubuntu-latest' }}
         timeout-minutes: 30
         permissions:
             contents: write  # for Git to git apply
@@ -19,20 +19,18 @@ jobs:
         strategy:
             matrix:
                 include:
-                    -   os: ubuntu-latest
-                        php-version: '8.1'
+                    -   php-version: '8.1'
                         db-image: 'mysql:5.6'
-                    -   os: ubuntu-latest
-                        php-version: '8.2'
+                    -   php-version: '8.2'
                         db-image: 'mysql:5.7'
-                    -   os: ubuntu-latest
-                        php-version: '8.3'
+                    -   php-version: '8.3'
                         db-image: 'mysql:8.0'
-                    -   os: ubuntu-latest
-                        php-version: '8.1'
+                    -   php-version: '8.4'
+                        db-image: 'mysql:latest'
+                        composer-flags: '--ignore-platform-req=php'
+                    -   php-version: '8.1'
                         db-image: 'mariadb:10.1'
-                    -   os: ubuntu-latest
-                        php-version: '8.2'
+                    -   php-version: '8.3'
                         db-image: 'mariadb:latest'
 
         # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
@@ -47,7 +45,7 @@ jobs:
 
         steps:
             -   name: Checkout
-                uses: actions/checkout@v3
+                uses: actions/checkout@v4
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
@@ -57,9 +55,9 @@ jobs:
                     coverage: none # disable xdebug, pcov
 
             -   name: Composer install
-                uses: ramsey/composer-install@v2
+                uses: ramsey/composer-install@v3
                 with:
-                    composer-options: ${{ matrix.php-version == '8.3' && '--ansi --prefer-dist --ignore-platform-req=php' || '--ansi --prefer-dist' }}
+                    composer-options: ${{ matrix.composer-flags }}
 
             -   name: Setup Problem Matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -67,10 +65,10 @@ jobs:
             -   name: Setup REDAXO
                 run: |
                     mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
-                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo5 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
-                    php redaxo/bin/console config:set --type boolean debug.enabled true
-                    php redaxo/bin/console config:set --type boolean debug.throw_always_exception true
-                    redaxo/bin/console system:report
+                    php redaxo/bin/console setup:run -n --lang=de_de --db-host=127.0.0.1 --db-name=redaxo5 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi -v
+                    php redaxo/bin/console config:set --type boolean debug.enabled true -v
+                    php redaxo/bin/console config:set --type boolean debug.throw_always_exception true -v
+                    redaxo/bin/console system:report -v
 
             -   name: Run phpunit
                 run: vendor/bin/phpunit --colors=always

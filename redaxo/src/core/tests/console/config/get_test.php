@@ -4,10 +4,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * @internal
- */
-class rex_command_config_get_test extends TestCase
+/** @internal */
+final class rex_command_config_get_test extends TestCase
 {
     #[DataProvider('dataKeyFound')]
     public function testKeyFound(string $expectedValue, string $key): void
@@ -16,8 +14,8 @@ class rex_command_config_get_test extends TestCase
         $commandTester->execute([
             'config-key' => $key,
         ]);
-        static::assertEquals($expectedValue, $commandTester->getDisplay(true));
-        static::assertEquals(0, $commandTester->getStatusCode());
+        self::assertEquals($expectedValue, $commandTester->getDisplay(true));
+        self::assertEquals(0, $commandTester->getStatusCode());
     }
 
     /** @return list<array{string, string}> */
@@ -35,7 +33,7 @@ class rex_command_config_get_test extends TestCase
         $commandTester->execute([
             'config-key' => 'foo.bar',
         ]);
-        static::assertEquals(1, $commandTester->getStatusCode());
+        self::assertEquals(1, $commandTester->getStatusCode());
     }
 
     public function testPackageKeyFound(): void
@@ -45,7 +43,7 @@ class rex_command_config_get_test extends TestCase
             'config-key' => 'author',
             '--package' => 'backup', ],
         );
-        static::assertEquals("\"Jan Kristinus, Markus Staab\"\n", $commandTester->getDisplay(true));
-        static::assertEquals(0, $commandTester->getStatusCode());
+        self::assertEquals("\"Jan Kristinus, Markus Staab\"\n", $commandTester->getDisplay(true));
+        self::assertEquals(0, $commandTester->getStatusCode());
     }
 }

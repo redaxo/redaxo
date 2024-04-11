@@ -5,18 +5,16 @@
  */
 class rex_select
 {
-    /** @var array */
-    private $attributes = [];
-    /** @var int */
-    private $currentOptgroup = 0;
-    /** @var array */
-    private $optgroups = [];
-    /** @var array */
-    private $options = [];
-    /** @var array */
-    private $optionSelected;
-    /** @var int */
-    private $optCount = 0;
+    /** @var array<string, int|string> */
+    private array $attributes = [];
+    private int $currentOptgroup = 0;
+    /** @var array<int, string> */
+    private array $optgroups = [];
+    /** @var array<int, array<int, list<list{string, string|int, int, array<string, string|int>}>>> */
+    private array $options = [];
+    /** @var list<string> */
+    private array $optionSelected = [];
+    private int $optCount = 0;
 
     public function __construct()
     {
@@ -36,6 +34,7 @@ class rex_select
     }
 
     /**
+     * @param array<string, int|string> $attributes
      * @return void
      */
     public function setAttributes($attributes)
@@ -44,6 +43,8 @@ class rex_select
     }
 
     /**
+     * @param string $name
+     * @param string|int $value
      * @return void
      */
     public function setAttribute($name, $value)
@@ -52,6 +53,7 @@ class rex_select
     }
 
     /**
+     * @param string $name
      * @return bool
      */
     public function delAttribute($name)
@@ -64,6 +66,7 @@ class rex_select
     }
 
     /**
+     * @param string $name
      * @return bool
      */
     public function hasAttribute($name)
@@ -72,6 +75,8 @@ class rex_select
     }
 
     /**
+     * @param string $name
+     * @param string|int $default
      * @return string|int
      */
     public function getAttribute($name, $default = '')
@@ -83,6 +88,7 @@ class rex_select
     }
 
     /**
+     * @param bool $multiple
      * @return void
      */
     public function setMultiple($multiple = true)
@@ -98,6 +104,7 @@ class rex_select
     }
 
     /**
+     * @param bool $disabled
      * @return void
      */
     public function setDisabled($disabled = true)
@@ -110,6 +117,7 @@ class rex_select
     }
 
     /**
+     * @param string $name
      * @return void
      */
     public function setName($name)
@@ -118,6 +126,7 @@ class rex_select
     }
 
     /**
+     * @param string $id
      * @return void
      */
     public function setId($id)
@@ -133,6 +142,8 @@ class rex_select
      * $sel_media->setStyle('class="inp100"');
      * und/oder
      * $sel_media->setStyle("width:150px;");
+     *
+     * @param string $style
      * @return void
      */
     public function setStyle($style)
@@ -147,6 +158,7 @@ class rex_select
     }
 
     /**
+     * @param int|numeric-string $size
      * @return void
      */
     public function setSize($size)
@@ -155,6 +167,7 @@ class rex_select
     }
 
     /**
+     * @param string|int|list<string|int> $selected
      * @return void
      */
     public function setSelected($selected)
@@ -177,6 +190,7 @@ class rex_select
     }
 
     /**
+     * @param string $label
      * @return void
      */
     public function addOptgroup($label)
@@ -192,6 +206,11 @@ class rex_select
 
     /**
      * Fügt eine Option hinzu.
+     * @param string $name
+     * @param string|int $value
+     * @param int $id
+     * @param int $parentId
+     * @param array<string, string|int> $attributes
      * @return void
      */
     public function addOption($name, $value, $id = 0, $parentId = 0, array $attributes = [])
@@ -211,6 +230,7 @@ class rex_select
      * 4.    Selected
      * 5.    Attributes
      *
+     * @param bool $useOnlyValues
      * @return void
      */
     public function addOptions($options, $useOnlyValues = false)
@@ -248,6 +268,8 @@ class rex_select
     /**
      * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
      * Wenn $useKeys mit false, werden die Array-Keys mit den Array-Values überschrieben.
+     * @param array<string|int, string> $options
+     * @param bool $useKeys
      * @return void
      */
     public function addArrayOptions(array $options, $useKeys = true)
@@ -271,6 +293,7 @@ class rex_select
 
     /**
      * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
+     * @param string $query
      * @param positive-int $db
      * @return void
      */
@@ -284,6 +307,7 @@ class rex_select
      * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
      *
      * @see rex_sql::setDBQuery()
+     * @param string $query
      * @return void
      */
     public function addDBSqlOptions($query)
@@ -304,7 +328,7 @@ class rex_select
             $useRexSelectStyle = true;
         }
         // RexSelectStyle nicht nutzen, wenn die Klasse `.selectpicker` gesetzt ist
-        if (isset($this->attributes['class']) && str_contains($this->attributes['class'], 'selectpicker')) {
+        if (isset($this->attributes['class']) && str_contains((string) $this->attributes['class'], 'selectpicker')) {
             $useRexSelectStyle = false;
         }
         // RexSelectStyle nicht nutzen, wenn das Selectfeld mehrzeilig ist
@@ -353,6 +377,8 @@ class rex_select
     }
 
     /**
+     * @param int $parentId
+     * @param int $level
      * @return string
      */
     protected function outGroup($parentId, $level = 0)
@@ -386,6 +412,10 @@ class rex_select
     }
 
     /**
+     * @param string $name
+     * @param string|int $value
+     * @param int $level
+     * @param array<string, string|int> $attributes
      * @return string
      */
     protected function outOption($name, $value, $level = 0, array $attributes = [])
@@ -400,7 +430,7 @@ class rex_select
             $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
         }
 
-        if (null !== $this->optionSelected && in_array($value, $this->optionSelected, true)) {
+        if (in_array($value, $this->optionSelected, true)) {
             $attributes['selected'] = 'selected';
         }
 
@@ -413,7 +443,9 @@ class rex_select
     }
 
     /**
-     * @return false|array
+     * @param int $parentId
+     * @param bool $ignoreMainGroup
+     * @return false|list<list{string, string|int, int, array<string, string|int>}>
      */
     protected function getGroup($parentId, $ignoreMainGroup = false)
     {

@@ -3,24 +3,22 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_version_test extends TestCase
+/** @internal */
+final class rex_version_test extends TestCase
 {
     public function testIsUnstable(): void
     {
-        static::assertTrue(rex_version::isUnstable('1.0-dev'));
-        static::assertTrue(rex_version::isUnstable('2.1.0beta'));
-        static::assertTrue(rex_version::isUnstable('1.0b1'));
-        static::assertTrue(rex_version::isUnstable('3.5.1-alpha'));
-        static::assertTrue(rex_version::isUnstable('99.99RC5'));
-        static::assertTrue(rex_version::isUnstable('199.199 RC3'));
+        self::assertTrue(rex_version::isUnstable('1.0-dev'));
+        self::assertTrue(rex_version::isUnstable('2.1.0beta'));
+        self::assertTrue(rex_version::isUnstable('1.0b1'));
+        self::assertTrue(rex_version::isUnstable('3.5.1-alpha'));
+        self::assertTrue(rex_version::isUnstable('99.99RC5'));
+        self::assertTrue(rex_version::isUnstable('199.199 RC3'));
 
-        static::assertFalse(rex_version::isUnstable('1.0'));
-        static::assertFalse(rex_version::isUnstable('1.0-final'));
-        static::assertFalse(rex_version::isUnstable('2.45 stable'));
-        static::assertFalse(rex_version::isUnstable('1.0 codename starship'));
+        self::assertFalse(rex_version::isUnstable('1.0'));
+        self::assertFalse(rex_version::isUnstable('1.0-final'));
+        self::assertFalse(rex_version::isUnstable('2.45 stable'));
+        self::assertFalse(rex_version::isUnstable('1.0 codename starship'));
     }
 
     /** @return list<array{string, list<string>}> */
@@ -38,10 +36,10 @@ class rex_version_test extends TestCase
     #[DataProvider('splitProvider')]
     public function testSplit(string $version, array $expected): void
     {
-        static::assertEquals($expected, rex_version::split($version));
+        self::assertEquals($expected, rex_version::split($version));
     }
 
-    /** @return list<array{bool, string, string, null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>='}> */
+    /** @return list<array{bool, string, string, '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>='|null}> */
     public static function compareProvider(): array
     {
         return [
@@ -75,24 +73,24 @@ class rex_version_test extends TestCase
         ];
     }
 
-    /** @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator */
+    /** @param '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>='|null $comparator */
     #[DataProvider('compareProvider')]
     public function testCompare(bool $expected, string $version1, string $version2, ?string $comparator): void
     {
-        static::assertSame($expected, rex_version::compare($version1, $version2, $comparator));
+        self::assertSame($expected, rex_version::compare($version1, $version2, $comparator));
     }
 
     public function testGitHash(): void
     {
-        static::assertIsString(rex_version::gitHash(__DIR__));
+        self::assertIsString(rex_version::gitHash(__DIR__));
 
-        static::assertNull(rex_version::gitHash(__DIR__, 'foo/bar'));
+        self::assertNull(rex_version::gitHash(__DIR__, 'foo/bar'));
     }
 
     #[DataProvider('dataMatchVersionConstraints')]
     public function testMatchVersionConstraints(bool $expected, string $version, string $constraints): void
     {
-        static::assertSame($expected, rex_version::matchesConstraints($version, $constraints));
+        self::assertSame($expected, rex_version::matchesConstraints($version, $constraints));
     }
 
     /** @return list<array{bool, string, string}> */

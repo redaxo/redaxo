@@ -17,30 +17,28 @@ abstract class rex_var
     private const PLACEHOLDER_INLINE_HTML = '@@@INLINE_HTML_REPLACEMENT_END@@@';
 
     /** @var array<string, class-string<self>> */
-    private static $vars = [];
+    private static array $vars = [];
 
-    /** @var null|int */
-    private static $env;
+    private static ?int $env = null;
 
-    /** @var null|string */
+    /** @var string|null */
     private static $context;
 
     /** @var mixed */
     private static $contextData;
 
-    /** @var string[] */
+    /** @var array<string> */
     private $args = [];
 
-    /** @var int */
-    private static $variableIndex = 0;
+    private static int $variableIndex = 0;
 
     /**
      * Parses all REX_VARs in the given content.
      *
-     * @param string $content     Content
-     * @param int    $env         Environment
-     * @param string $context     Context
-     * @param mixed  $contextData Context data
+     * @param string $content Content
+     * @param int $env Environment
+     * @param string $context Context
+     * @param mixed $contextData Context data
      *
      * @return string
      */
@@ -157,7 +155,7 @@ abstract class rex_var
      *
      * @param string $content
      * @param string $format
-     * @param bool   $useVariables
+     * @param bool $useVariables
      * @param string $stripslashes
      *
      * @return string
@@ -170,6 +168,7 @@ abstract class rex_var
             return $content;
         }
 
+        /** @var AppendIterator<int, array<string>, Iterator<int, array<string>>> $iterator */
         $iterator = new AppendIterator();
         $iterator->append(new ArrayIterator($matches));
         $variables = [];
@@ -247,7 +246,7 @@ abstract class rex_var
      * Checks whether the given arguments exists.
      *
      * @param string $key
-     * @param bool   $defaultArg
+     * @param bool $defaultArg
      *
      * @return bool
      */

@@ -1,5 +1,10 @@
 <?php
 
+use JetBrains\PhpStorm\Deprecated;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
+use voku\helper\AntiXSS;
+
 /**
  * String utility class.
  *
@@ -40,8 +45,8 @@ class rex_string
      * Makes the string lowercase, replaces umlauts by their ascii representation (ä -> ae etc.), and replaces all
      * other chars that do not match a-z, 0-9 or $allowedChars by $replaceChar.
      *
-     * @param string $string       Input string
-     * @param string $replaceChar  Character that is used to replace not allowed chars
+     * @param string $string Input string
+     * @param string $replaceChar Character that is used to replace not allowed chars
      * @param string $allowedChars Allowed character list
      *
      * @return string
@@ -65,7 +70,7 @@ class rex_string
      *
      * @param string $string
      *
-     * @return string[]
+     * @return array<string>
      */
     public static function split($string)
     {
@@ -108,7 +113,7 @@ class rex_string
      * @param string $version
      * @return list<string>
      */
-    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::split` instead', replacement: 'rex_version::split(%parameter0%)')]
+    #[Deprecated(reason: 'since 5.10, use `rex_version::split` instead', replacement: 'rex_version::split(%parameter0%)')]
     public static function versionSplit($version)
     {
         return rex_version::split($version);
@@ -119,11 +124,11 @@ class rex_string
      *
      * @param string $version1
      * @param string $version2
-     * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
+     * @param '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>='|null $comparator
      *
      * @return int|bool
      */
-    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::compare` instead', replacement: 'rex_version::compare(%parametersList%)')]
+    #[Deprecated(reason: 'since 5.10, use `rex_version::compare` instead', replacement: 'rex_version::compare(%parametersList%)')]
     public static function versionCompare($version1, $version2, $comparator = '<')
     {
         return rex_version::compare($version1, $version2, $comparator);
@@ -132,14 +137,14 @@ class rex_string
     /**
      * Returns a string containing the YAML representation of $value.
      *
-     * @param array $value  The value being encoded
-     * @param int   $inline The level where you switch to inline YAML
+     * @param array $value The value being encoded
+     * @param int $inline The level where you switch to inline YAML
      *
      * @return string
      */
     public static function yamlEncode(array $value, $inline = 3)
     {
-        return Symfony\Component\Yaml\Yaml::dump($value, $inline, 4);
+        return Yaml::dump($value, $inline, 4);
     }
 
     /**
@@ -149,7 +154,7 @@ class rex_string
      *
      * @throws rex_yaml_parse_exception
      *
-     * @return array
+     * @return array<mixed>
      */
     public static function yamlDecode($value)
     {
@@ -158,8 +163,8 @@ class rex_string
         }
 
         try {
-            $result = Symfony\Component\Yaml\Yaml::parse($value);
-        } catch (Symfony\Component\Yaml\Exception\ParseException $exception) {
+            $result = Yaml::parse($value);
+        } catch (ParseException $exception) {
             throw new rex_yaml_parse_exception($exception->getMessage(), $exception);
         }
 
@@ -241,11 +246,11 @@ class rex_string
      */
     public static function sanitizeHtml(string $html): string
     {
-        /** @var voku\helper\AntiXSS|null $antiXss */
+        /** @var AntiXSS|null $antiXss */
         static $antiXss;
 
         if (!$antiXss) {
-            $antiXss = new voku\helper\AntiXSS();
+            $antiXss = new AntiXSS();
             $antiXss->removeEvilAttributes(['style']);
             $antiXss->removeNeverAllowedRegex(['(\(?:?document\)?|\(?:?window\)?(?:\.document)?)\.(?:location|on\w*)' => '']);
             $antiXss->removeNeverAllowedStrAfterwards(['&lt;script&gt;', '&lt;/script&gt;']);

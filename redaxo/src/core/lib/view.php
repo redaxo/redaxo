@@ -9,12 +9,12 @@ class rex_view
     public const JS_ASYNC = 'async';
     public const JS_IMMUTABLE = 'immutable';
 
-    /** @var string[][] */
-    private static $cssFiles = [];
+    /** @var array<string, list<string>> */
+    private static array $cssFiles = [];
     /** @var list<array{string, array}> */
-    private static $jsFiles = [];
+    private static array $jsFiles = [];
     /** @var array<string, mixed> */
-    private static $jsProperties = [];
+    private static array $jsProperties = [];
     /** @var string */
     private static $favicon;
 
@@ -39,7 +39,7 @@ class rex_view
     /**
      * Returns the CSS files.
      *
-     * @return string[][]
+     * @return array<string, list<string>>
      */
     public static function getCssFiles()
     {
@@ -71,7 +71,7 @@ class rex_view
     /**
      * Returns the JS files.
      *
-     * @return string[]
+     * @return list<string>
      */
     public static function getJsFiles()
     {
@@ -95,7 +95,7 @@ class rex_view
      * Sets a JS property.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      * @return void
      */
     public static function setJsProperty($key, $value)
@@ -278,8 +278,8 @@ class rex_view
     /**
      * Returns the formatted title.
      *
-     * @param string            $head
-     * @param null|string|array $subtitle
+     * @param string $head
+     * @param string|array|null $subtitle
      *
      * @throws InvalidArgumentException
      *

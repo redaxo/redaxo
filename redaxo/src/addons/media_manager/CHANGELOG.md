@@ -1,6 +1,28 @@
 Changelog
 =========
 
+Version 2.16.0 – 12.03.2024
+---------------------------
+
+### Neu
+
+* Paginierung auf 100 Elemente pro Seite erhöht (@gharlan)
+
+
+Version 2.15.0 – 09.02.2024
+---------------------------
+
+### Neu
+
+* Effekt `convert2image`: Unterstützung für Videos (erfordert `ffmpeg`) (@skerbis)
+
+### Bugfixes
+
+* Auf Windows wurden Bilder teils neu generiert, obwohl sie bereits im Cache waren (@AndiLeni)
+* Effekt `resize`: Fehler vermeiden, wenn ein Werte (Breite/Höhe) leer gelassen wurden (@gharlan)
+* Effekt `header`: Fehler vermeiden bei Updates von älteren Versionen (@gharlan)
+
+
 Version 2.14.0 – 28.02.2023
 ---------------------------
 

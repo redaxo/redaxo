@@ -1,6 +1,40 @@
 Changelog
 =========
 
+Version 2.17.1 – 07.04.2024
+---------------------------
+
+### Bugfixes
+
+* Modulverwaltung: "Eingabe"-Feld wurde ohne Codemirror angezeigt (@skerbis)
+
+
+Version 2.17.0 – 12.03.2024
+---------------------------
+
+### Bugfixes
+
+* Der Templatename wurde in der Struktur ohne Escaping ausgegeben (@gharlan)
+* Create/Update-Felder (Datum/Benutzer) wurden teils nicht korrekt gesetzt (@gharlan)
+* `rex_module::forKey`: Im Objekt war der Key anschließend nicht gesetzt (@gharlan)
+
+
+Version 2.16.0 – 09.02.2024
+---------------------------
+
+### Neu
+
+* Neuer EP `PAGE_STRUCTURE_ARTICLE_ORDER_BY` um die Artikelsortierung zu ändern (@ynamite)
+* Neuer EP `SLICE_BE_PREVIEW` um die Slice-Vorschau im Backend ändern zu können (@michael-kreatif)
+
+### Bugfixes
+
+* Bei Kategorie-Statuswechsel wurde Createdate statt Updatedate gesetzt (@tbaddade)
+* Kategorie-Löschen funktionierte nicht, wenn es keine Clang mit ID 1 gibt (@alxndr-w)
+* Slice löschen: Bei anschließendem Reload Whoops vermeiden (@gharlan)
+* `rex_template::forKey()` korrigiert (@dgrothaus-mc)
+
+
 Version 2.15.0 – 28.02.2023
 ---------------------------
 

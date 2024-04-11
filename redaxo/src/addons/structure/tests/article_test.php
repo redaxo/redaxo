@@ -2,31 +2,26 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_article_test extends TestCase
+/** @internal */
+final class rex_article_test extends TestCase
 {
     protected function setUp(): void
     {
         // generate classVars and add test column
         rex_article::getClassVars();
         $class = new ReflectionClass(rex_article::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setValue(
-            array_merge(
-                $classVarsProperty->getValue(),
-                ['art_foo'],
-            ),
-        );
+        /** @psalm-suppress MixedArgument */
+        $class->setStaticPropertyValue('classVars', array_merge(
+            $class->getStaticPropertyValue('classVars'),
+            ['art_foo'],
+        ));
     }
 
     protected function tearDown(): void
     {
         // reset static properties
         $class = new ReflectionClass(rex_article::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setValue(null);
+        $class->setStaticPropertyValue('classVars', null);
 
         rex_article::clearInstancePool();
     }
@@ -36,13 +31,13 @@ class rex_article_test extends TestCase
         $instance = $this->createArticleWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $instance->art_foo = 'teststring';
+        $instance->art_foo = 'teststring'; // @phpstan-ignore-line
 
-        static::assertTrue($instance->hasValue('foo'));
-        static::assertTrue($instance->hasValue('art_foo'));
+        self::assertTrue($instance->hasValue('foo'));
+        self::assertTrue($instance->hasValue('art_foo'));
 
-        static::assertFalse($instance->hasValue('bar'));
-        static::assertFalse($instance->hasValue('art_bar'));
+        self::assertFalse($instance->hasValue('bar'));
+        self::assertFalse($instance->hasValue('art_bar'));
     }
 
     public function testGetValue(): void
@@ -50,13 +45,13 @@ class rex_article_test extends TestCase
         $instance = $this->createArticleWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $instance->art_foo = 'teststring';
+        $instance->art_foo = 'teststring'; // @phpstan-ignore-line
 
-        static::assertEquals('teststring', $instance->getValue('foo'));
-        static::assertEquals('teststring', $instance->getValue('art_foo'));
+        self::assertEquals('teststring', $instance->getValue('foo'));
+        self::assertEquals('teststring', $instance->getValue('art_foo'));
 
-        static::assertNull($instance->getValue('bar'));
-        static::assertNull($instance->getValue('art_bar'));
+        self::assertNull($instance->getValue('bar'));
+        self::assertNull($instance->getValue('art_bar'));
     }
 
     private function createArticleWithoutConstructor(): rex_article

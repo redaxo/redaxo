@@ -2,23 +2,21 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_media_test extends TestCase
+/** @internal */
+final class rex_media_test extends TestCase
 {
     public function testHasValue(): void
     {
         $media = $this->createMediaWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $media->med_foo = 'teststring';
+        $media->med_foo = 'teststring'; // @phpstan-ignore-line
 
-        static::assertTrue($media->hasValue('med_foo'));
-        static::assertTrue($media->hasValue('foo'));
+        self::assertTrue($media->hasValue('med_foo'));
+        self::assertTrue($media->hasValue('foo'));
 
-        static::assertFalse($media->hasValue('bar'));
-        static::assertFalse($media->hasValue('med_bar'));
+        self::assertFalse($media->hasValue('bar'));
+        self::assertFalse($media->hasValue('med_bar'));
     }
 
     public function testGetValue(): void
@@ -26,13 +24,13 @@ class rex_media_test extends TestCase
         $media = $this->createMediaWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $media->med_foo = 'teststring';
+        $media->med_foo = 'teststring'; // @phpstan-ignore-line
 
-        static::assertEquals('teststring', $media->getValue('med_foo'));
-        static::assertEquals('teststring', $media->getValue('foo'));
+        self::assertEquals('teststring', $media->getValue('med_foo'));
+        self::assertEquals('teststring', $media->getValue('foo'));
 
-        static::assertNull($media->getValue('bar'));
-        static::assertNull($media->getValue('med_bar'));
+        self::assertNull($media->getValue('bar'));
+        self::assertNull($media->getValue('med_bar'));
     }
 
     private function createMediaWithoutConstructor(): rex_media

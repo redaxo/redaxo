@@ -3,31 +3,26 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_category_test extends TestCase
+/** @internal */
+final class rex_category_test extends TestCase
 {
     protected function setUp(): void
     {
         // generate classVars and add test column
         rex_category::getClassVars();
         $class = new ReflectionClass(rex_category::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setValue(
-            array_merge(
-                $classVarsProperty->getValue(),
-                ['cat_foo'],
-            ),
-        );
+        /** @psalm-suppress MixedArgument */
+        $class->setStaticPropertyValue('classVars', array_merge(
+            $class->getStaticPropertyValue('classVars'),
+            ['cat_foo'],
+        ));
     }
 
     protected function tearDown(): void
     {
         // reset static properties
         $class = new ReflectionClass(rex_article::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setValue(null);
+        $class->setStaticPropertyValue('classVars', null);
 
         rex_category::clearInstancePool();
     }
@@ -37,13 +32,13 @@ class rex_category_test extends TestCase
         $instance = $this->createCategoryWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $instance->cat_foo = 'teststring';
+        $instance->cat_foo = 'teststring'; // @phpstan-ignore-line
 
-        static::assertTrue($instance->hasValue('foo'));
-        static::assertTrue($instance->hasValue('cat_foo'));
+        self::assertTrue($instance->hasValue('foo'));
+        self::assertTrue($instance->hasValue('cat_foo'));
 
-        static::assertFalse($instance->hasValue('bar'));
-        static::assertFalse($instance->hasValue('cat_bar'));
+        self::assertFalse($instance->hasValue('bar'));
+        self::assertFalse($instance->hasValue('cat_bar'));
     }
 
     public function testGetValue(): void
@@ -51,19 +46,19 @@ class rex_category_test extends TestCase
         $instance = $this->createCategoryWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
-        $instance->cat_foo = 'teststring';
+        $instance->cat_foo = 'teststring'; // @phpstan-ignore-line
 
-        static::assertEquals('teststring', $instance->getValue('foo'));
-        static::assertEquals('teststring', $instance->getValue('cat_foo'));
+        self::assertEquals('teststring', $instance->getValue('foo'));
+        self::assertEquals('teststring', $instance->getValue('cat_foo'));
 
-        static::assertNull($instance->getValue('bar'));
-        static::assertNull($instance->getValue('cat_bar'));
+        self::assertNull($instance->getValue('bar'));
+        self::assertNull($instance->getValue('cat_bar'));
     }
 
     #[DataProvider('dataGetClosestValue')]
     public function testGetClosestValue(string|int|null $expectedValue, rex_category $category): void
     {
-        static::assertSame($expectedValue, $category->getClosestValue('cat_foo'));
+        self::assertSame($expectedValue, $category->getClosestValue('cat_foo'));
     }
 
     /** @return iterable<int, array{int|string|null, rex_category}> */
@@ -96,7 +91,7 @@ class rex_category_test extends TestCase
     #[DataProvider('dataIsOnlineIncludingParents')]
     public function testIsOnlineIncludingParents(bool $expected, rex_category $category): void
     {
-        static::assertSame($expected, $category->isOnlineIncludingParents());
+        self::assertSame($expected, $category->isOnlineIncludingParents());
     }
 
     /** @return iterable<int, array{bool, rex_category}> */
@@ -123,7 +118,7 @@ class rex_category_test extends TestCase
     #[DataProvider('dataGetClosest')]
     public function testGetClosest(?rex_category $expected, rex_category $category, callable $callback): void
     {
-        static::assertSame($expected, $category->getClosest($callback));
+        self::assertSame($expected, $category->getClosest($callback));
     }
 
     /** @return iterable<int, array{?rex_category, rex_category, callable}> */
@@ -173,20 +168,18 @@ class rex_category_test extends TestCase
     private static function createCategory(?rex_category $parent, array $params): rex_category
     {
         return new class($parent, $params) extends rex_category {
-            private ?rex_category $parent;
-
-            public function __construct(?rex_category $parent, array $params)
-            {
-                $this->parent = $parent;
-
+            public function __construct(
+                private ?rex_category $parent,
+                array $params,
+            ) {
                 foreach ($params as $key => $value) {
                     $this->$key = $value;
                 }
             }
 
-            public function getParent()
+            public function getParent(): ?rex_category
             {
-                /** @var static */
+                /** @var static|null */
                 return $this->parent;
             }
         };

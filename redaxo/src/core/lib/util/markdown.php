@@ -48,12 +48,12 @@ class rex_markdown
     /**
      * Parses markdown code and extracts a table-of-content.
      *
-     * @param string $code        Markdown code
-     * @param int    $topLevel    Top included headline level for TOC, e.g. `1` for `<h1>`
-     * @param int    $bottomLevel Bottom included headline level for TOC, e.g. `6` for `<h6>`
+     * @param string $code Markdown code
+     * @param int $topLevel Top included headline level for TOC, e.g. `1` for `<h1>`
+     * @param int $bottomLevel Bottom included headline level for TOC, e.g. `6` for `<h6>`
      * @param array<self::*, bool>|bool $options
      *
-     * @return array tupel of table-of-content and content
+     * @return list{string, string} tupel of table-of-content and content
      */
     public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, $options = [])
     {
@@ -196,10 +196,17 @@ final class rex_parsedown extends ParsedownExtra
             $text = '<?php ' . $text;
         }
 
-        $text = str_replace("\n", '', highlight_string($text, true));
+        $text = highlight_string($text, true);
+        if (str_starts_with($text, '<pre>')) {
+            $text = substr($text, 5, -6);
+        }
+
+        // php 8.3 fix
+        $text = preg_replace('@<span style="color:[^"]+">\n(<span style="color:[^"]+">)@', '$1', $text, 1);
+        $text = preg_replace('@<\/span>\n(<\/span>\n<\/code>)$@', '$1', $text, 1);
 
         if ($missingPhpStart) {
-            $text = preg_replace('@(<span style="color:[^"]+">)&lt;\?php&nbsp;@', '$1', $text, 1);
+            $text = preg_replace('@(<span style="color:[^"]+">)(?:&lt;|<)\?php(?:&nbsp;|\s)@', '$1', $text, 1);
         }
 
         /** @psalm-suppress MixedArrayAssignment */

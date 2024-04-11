@@ -85,17 +85,9 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
         }
     }
 
-    $license = '';
-    if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
-        $f = fopen($licenseFile, 'r');
-        $firstLine = fgets($f) ?: '';
-        fclose($f);
-
-        if (preg_match('/^The MIT License(?: \(MIT\))$/i', $firstLine)) {
-            $firstLine = 'MIT License';
-        }
-
-        $license = '<a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) . '" data-pjax-scroll-to="0"><i class="rex-icon rex-icon-license"></i> ' . rex_escape($firstLine) . '</a>';
+    $license = $package->getLicense();
+    if ($license) {
+        $license = '<a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) . '" data-pjax-scroll-to="0"><i class="rex-icon rex-icon-license"></i> ' . rex_escape($license) . '</a>';
     }
 
     return '
@@ -106,7 +98,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
                     <td class="rex-table-slim" data-title="' . rex_i18n::msg('package_hhelp') . '">
                         <a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" data-pjax-scroll-to="0" title="' . rex_i18n::msg('package_help') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('package_hhelp') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
                     </td>
-                    <td class="rex-table-width-6" data-title="' . rex_i18n::msg('package_hlicense') . '">' . $license . '</td>
+                    <td class="rex-table-width-6" data-title="' . rex_i18n::msg('package_hlicense') . '">' . ($license ?? '') . '</td>
                     <td class="rex-table-action">' . $install . '</td>
                     <td class="rex-table-action">' . $status . '</td>
                     <td class="rex-table-action">' . $uninstall . '</td>

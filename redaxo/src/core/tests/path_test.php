@@ -3,24 +3,22 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_path_test extends TestCase
+/** @internal */
+final class rex_path_test extends TestCase
 {
     public function testAbsoluteConversion(): void
     {
         $path = rex_path::absolute('c:/abc/../def/./xy');
-        static::assertEquals($this->path('c:/def/xy'), $path, 'resolves .. and .');
+        self::assertEquals($this->path('c:/def/xy'), $path, 'resolves .. and .');
 
         $path = rex_path::absolute('c:\abc\..\def\.\xy');
-        static::assertEquals($this->path('c:\def\xy'), $path, 'resolves .. and .');
+        self::assertEquals($this->path('c:\def\xy'), $path, 'resolves .. and .');
     }
 
     #[DataProvider('dataRelative')]
     public function testRelative(string $expected, string $path, ?string $basePath = null): void
     {
-        static::assertSame($this->path($expected), rex_path::relative($path, $basePath));
+        self::assertSame($this->path($expected), rex_path::relative($path, $basePath));
     }
 
     /** @return list<array{0: string, 1: string, 2?: string}> */
@@ -40,21 +38,21 @@ class rex_path_test extends TestCase
 
     public function testBasename(): void
     {
-        static::assertSame('config.yml', rex_path::basename('../redaxo/data/core/config.yml'));
+        self::assertSame('config.yml', rex_path::basename('../redaxo/data/core/config.yml'));
 
-        static::assertSame('config.yml', rex_path::basename('..\redaxo\data\core\config.yml'));
+        self::assertSame('config.yml', rex_path::basename('..\redaxo\data\core\config.yml'));
     }
 
     public function testFindBinaryPath(): void
     {
         $path = rex_path::findBinaryPath('php');
-        static::assertNotNull($path);
-        static::assertSame(PHP_BINARY, realpath($path));
+        self::assertNotNull($path);
+        self::assertSame(PHP_BINARY, realpath($path));
     }
 
     public function testNotFoundBinaryPath(): void
     {
-        static::assertNull(rex_path::findBinaryPath('noone-knows'));
+        self::assertNull(rex_path::findBinaryPath('noone-knows'));
     }
 
     private function path(string $path): string

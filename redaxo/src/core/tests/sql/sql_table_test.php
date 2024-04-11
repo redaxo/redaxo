@@ -3,10 +3,8 @@
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_sql_table_test extends TestCase
+/** @internal */
+final class rex_sql_table_test extends TestCase
 {
     public const TABLE = 'rex_sql_table_test';
     public const TABLE2 = 'rex_sql_table_test2';
@@ -20,7 +18,7 @@ class rex_sql_table_test extends TestCase
         rex_sql_table::clearInstancePool();
     }
 
-    protected function createTable(): rex_sql_table
+    private function createTable(): rex_sql_table
     {
         $table = rex_sql_table::get(self::TABLE);
 
@@ -34,7 +32,7 @@ class rex_sql_table_test extends TestCase
         return $table;
     }
 
-    protected function createTable2(): rex_sql_table
+    private function createTable2(): rex_sql_table
     {
         $table = rex_sql_table::get(self::TABLE2);
 
@@ -50,69 +48,69 @@ class rex_sql_table_test extends TestCase
 
     public function testCreate(): void
     {
-        static::assertFalse(rex_sql_table::get(self::TABLE)->exists());
+        self::assertFalse(rex_sql_table::get(self::TABLE)->exists());
 
-        static::assertTrue($this->createTable()->exists());
+        self::assertTrue($this->createTable()->exists());
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertTrue($table->exists());
-        static::assertSame(self::TABLE, $table->getName());
+        self::assertTrue($table->exists());
+        self::assertSame(self::TABLE, $table->getName());
 
-        static::assertCount(2, $table->getColumns());
-        static::assertTrue($table->hasColumn('id'));
-        static::assertTrue($table->hasColumn('title'));
-        static::assertFalse($table->hasColumn('foo'));
-        static::assertSame(['id'], $table->getPrimaryKey());
+        self::assertCount(2, $table->getColumns());
+        self::assertTrue($table->hasColumn('id'));
+        self::assertTrue($table->hasColumn('title'));
+        self::assertFalse($table->hasColumn('foo'));
+        self::assertSame(['id'], $table->getPrimaryKey());
 
         $id = $table->getColumn('id');
 
-        static::assertInstanceOf(rex_sql_column::class, $id);
-        static::assertSame('id', $id->getName());
-        static::assertSame('int(11)', $id->getType());
-        static::assertFalse($id->isNullable());
-        static::assertNull($id->getDefault());
-        static::assertSame('auto_increment', $id->getExtra());
-        static::assertSame('initial comment for id col', $id->getComment());
+        self::assertInstanceOf(rex_sql_column::class, $id);
+        self::assertSame('id', $id->getName());
+        self::assertSame('int(11)', $id->getType());
+        self::assertFalse($id->isNullable());
+        self::assertNull($id->getDefault());
+        self::assertSame('auto_increment', $id->getExtra());
+        self::assertSame('initial comment for id col', $id->getComment());
 
         $title = $table->getColumn('title');
 
-        static::assertInstanceOf(rex_sql_column::class, $title);
-        static::assertSame('title', $title->getName());
-        static::assertSame('varchar(255)', $title->getType());
-        static::assertTrue($title->isNullable());
-        static::assertSame('Default title', $title->getDefault());
-        static::assertNull($title->getExtra());
+        self::assertInstanceOf(rex_sql_column::class, $title);
+        self::assertSame('title', $title->getName());
+        self::assertSame('varchar(255)', $title->getType());
+        self::assertTrue($title->isNullable());
+        self::assertSame('Default title', $title->getDefault());
+        self::assertNull($title->getExtra());
 
-        static::assertCount(1, $table->getIndexes());
-        static::assertTrue($table->hasIndex('i_title'));
-        static::assertFalse($table->hasIndex('i_foo'));
+        self::assertCount(1, $table->getIndexes());
+        self::assertTrue($table->hasIndex('i_title'));
+        self::assertFalse($table->hasIndex('i_foo'));
 
         $index = $table->getIndex('i_title');
 
-        static::assertInstanceOf(rex_sql_index::class, $index);
-        static::assertSame('i_title', $index->getName());
-        static::assertSame(rex_sql_index::INDEX, $index->getType());
-        static::assertSame(['title'], $index->getColumns());
+        self::assertInstanceOf(rex_sql_index::class, $index);
+        self::assertSame('i_title', $index->getName());
+        self::assertSame(rex_sql_index::INDEX, $index->getType());
+        self::assertSame(['title'], $index->getColumns());
 
-        static::assertTrue($this->createTable2()->exists());
+        self::assertTrue($this->createTable2()->exists());
 
         rex_sql_table::clearInstance(self::TABLE2);
         $table2 = rex_sql_table::get(self::TABLE2);
 
-        static::assertCount(1, $table2->getForeignKeys());
-        static::assertTrue($table2->hasForeignKey('test2_fk_test1'));
-        static::assertFalse($table2->hasForeignKey('foo'));
+        self::assertCount(1, $table2->getForeignKeys());
+        self::assertTrue($table2->hasForeignKey('test2_fk_test1'));
+        self::assertFalse($table2->hasForeignKey('foo'));
 
         $fk = $table2->getForeignKey('test2_fk_test1');
 
-        static::assertInstanceOf(rex_sql_foreign_key::class, $fk);
-        static::assertSame('test2_fk_test1', $fk->getName());
-        static::assertSame(self::TABLE, $fk->getTable());
-        static::assertSame(rex_sql_foreign_key::RESTRICT, $fk->getOnUpdate());
-        static::assertSame(rex_sql_foreign_key::RESTRICT, $fk->getOnDelete());
-        static::assertSame(['test1_id' => 'id'], $fk->getColumns());
+        self::assertInstanceOf(rex_sql_foreign_key::class, $fk);
+        self::assertSame('test2_fk_test1', $fk->getName());
+        self::assertSame(self::TABLE, $fk->getTable());
+        self::assertSame(rex_sql_foreign_key::RESTRICT, $fk->getOnUpdate());
+        self::assertSame(rex_sql_foreign_key::RESTRICT, $fk->getOnDelete());
+        self::assertSame(['test1_id' => 'id'], $fk->getColumns());
     }
 
     public function testDrop(): void
@@ -121,12 +119,12 @@ class rex_sql_table_test extends TestCase
 
         $table->drop();
 
-        static::assertFalse($table->exists());
+        self::assertFalse($table->exists());
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertFalse($table->exists());
+        self::assertFalse($table->exists());
 
         $table->drop();
     }
@@ -139,12 +137,12 @@ class rex_sql_table_test extends TestCase
             ->setName(self::TABLE2)
             ->alter();
 
-        static::assertFalse(rex_sql_table::get(self::TABLE)->exists());
+        self::assertFalse(rex_sql_table::get(self::TABLE)->exists());
 
         rex_sql_table::clearInstance(self::TABLE2);
         $table = rex_sql_table::get(self::TABLE2);
 
-        static::assertTrue($table->exists());
+        self::assertTrue($table->exists());
     }
 
     public function testAddColumn(): void
@@ -158,14 +156,14 @@ class rex_sql_table_test extends TestCase
             ->addColumn(new rex_sql_column('pid', 'int(11)'), rex_sql_table::FIRST)
             ->alter();
 
-        static::assertSame($description, $table->getColumn('description'));
+        self::assertSame($description, $table->getColumn('description'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertEquals($description, $table->getColumn('description'));
+        self::assertEquals($description, $table->getColumn('description'));
 
-        static::assertSame(['pid', 'id', 'name', 'title', 'description'], array_keys($table->getColumns()));
+        self::assertSame(['pid', 'id', 'name', 'title', 'description'], array_keys($table->getColumns()));
     }
 
     public function testAddColumnComment(): void
@@ -177,13 +175,13 @@ class rex_sql_table_test extends TestCase
             ->ensureColumn($title)
             ->alter();
 
-        static::assertSame($title, $table->getColumn('title'));
+        self::assertSame($title, $table->getColumn('title'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertEquals($title, $table->getColumn('title'));
-        static::assertSame('new title comment', $table->getColumn('title')?->getComment());
+        self::assertEquals($title, $table->getColumn('title'));
+        self::assertSame('new title comment', $table->getColumn('title')?->getComment());
     }
 
     public function testChangeColumnComment(): void
@@ -195,13 +193,13 @@ class rex_sql_table_test extends TestCase
             ->ensureColumn($id)
             ->alter();
 
-        static::assertSame($id, $table->getColumn('id'));
+        self::assertSame($id, $table->getColumn('id'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertEquals($id, $table->getColumn('id'));
-        static::assertSame('changed id comment', $table->getColumn('id')?->getComment());
+        self::assertEquals($id, $table->getColumn('id'));
+        self::assertSame('changed id comment', $table->getColumn('id')?->getComment());
     }
 
     public function testRemoveColumnComment(): void
@@ -213,15 +211,15 @@ class rex_sql_table_test extends TestCase
             ->ensureColumn($id)
             ->alter();
 
-        static::assertSame($id, $table->getColumn('id'));
+        self::assertSame($id, $table->getColumn('id'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
         $idNew = $table->getColumn('id');
-        static::assertInstanceOf(rex_sql_column::class, $idNew);
-        static::assertEquals($id, $idNew);
-        static::assertNull($idNew->getComment());
+        self::assertInstanceOf(rex_sql_column::class, $idNew);
+        self::assertEquals($id, $idNew);
+        self::assertNull($idNew->getComment());
     }
 
     public function testEnsureColumn(): void
@@ -235,16 +233,16 @@ class rex_sql_table_test extends TestCase
             ->ensureColumn($title, 'description')
             ->alter();
 
-        static::assertSame($title, $table->getColumn('title'));
-        static::assertSame($description, $table->getColumn('description'));
+        self::assertSame($title, $table->getColumn('title'));
+        self::assertSame($description, $table->getColumn('description'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertEquals($title, $table->getColumn('title'));
-        static::assertEquals($description, $table->getColumn('description'));
+        self::assertEquals($title, $table->getColumn('title'));
+        self::assertEquals($description, $table->getColumn('description'));
 
-        static::assertSame(['id', 'description', 'title'], array_keys($table->getColumns()));
+        self::assertSame(['id', 'description', 'title'], array_keys($table->getColumns()));
 
         $status = new rex_sql_column('status', 'tinyint(1)', false, '0');
         $amount = new rex_sql_column('amount', 'int(5)', true);
@@ -259,21 +257,21 @@ class rex_sql_table_test extends TestCase
 
         $expectedOrder = ['id', 'status', 'title', 'created', 'description', 'amount'];
 
-        static::assertSame($expectedOrder, array_keys($table->getColumns()));
+        self::assertSame($expectedOrder, array_keys($table->getColumns()));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertSame($expectedOrder, array_keys($table->getColumns()));
+        self::assertSame($expectedOrder, array_keys($table->getColumns()));
 
-        static::assertEquals($status, $table->getColumn('status'));
+        self::assertEquals($status, $table->getColumn('status'));
 
         $sql = rex_sql::factory();
         if (rex_sql::MYSQL === $sql->getDbType() && 8 <= (int) $sql->getDbVersion()) {
             // In MySQL 8 the display width of integers is simulated by rex_sql_table to the max width.
-            static::assertEquals('int(11)', $table->getColumn('amount')?->getType());
+            self::assertEquals('int(11)', $table->getColumn('amount')?->getType());
         } else {
-            static::assertEquals('int(5)', $table->getColumn('amount')?->getType());
+            self::assertEquals('int(5)', $table->getColumn('amount')?->getType());
         }
     }
 
@@ -285,12 +283,12 @@ class rex_sql_table_test extends TestCase
             ->create();
 
         $id = $table->getColumn('id');
-        static::assertInstanceOf(rex_sql_column::class, $id);
-        static::assertSame('int(10) unsigned', $id->getType());
-        static::assertFalse($id->isNullable());
-        static::assertNull($id->getDefault());
-        static::assertSame('auto_increment', $id->getExtra());
-        static::assertSame(['id'], $table->getPrimaryKey());
+        self::assertInstanceOf(rex_sql_column::class, $id);
+        self::assertSame('int(10) unsigned', $id->getType());
+        self::assertFalse($id->isNullable());
+        self::assertNull($id->getDefault());
+        self::assertSame('auto_increment', $id->getExtra());
+        self::assertSame(['id'], $table->getPrimaryKey());
     }
 
     public function testEnsureGlobalColumns(): void
@@ -300,14 +298,14 @@ class rex_sql_table_test extends TestCase
             ->ensureGlobalColumns()
             ->alter();
 
-        static::assertTrue($table->hasColumn('createdate'));
-        static::assertSame('datetime', $table->getColumn('createdate')?->getType());
-        static::assertTrue($table->hasColumn('createuser'));
-        static::assertSame('varchar(255)', $table->getColumn('createuser')?->getType());
-        static::assertTrue($table->hasColumn('updatedate'));
-        static::assertSame('datetime', $table->getColumn('updatedate')?->getType());
-        static::assertTrue($table->hasColumn('updateuser'));
-        static::assertSame('varchar(255)', $table->getColumn('updateuser')?->getType());
+        self::assertTrue($table->hasColumn('createdate'));
+        self::assertSame('datetime', $table->getColumn('createdate')?->getType());
+        self::assertTrue($table->hasColumn('createuser'));
+        self::assertSame('varchar(255)', $table->getColumn('createuser')?->getType());
+        self::assertTrue($table->hasColumn('updatedate'));
+        self::assertSame('datetime', $table->getColumn('updatedate')?->getType());
+        self::assertTrue($table->hasColumn('updateuser'));
+        self::assertSame('varchar(255)', $table->getColumn('updateuser')?->getType());
     }
 
     public function testRenameColumn(): void
@@ -316,30 +314,30 @@ class rex_sql_table_test extends TestCase
 
         $table->renameColumn('title', 'name');
 
-        static::assertFalse($table->hasColumn('title'));
-        static::assertTrue($table->hasColumn('name'));
+        self::assertFalse($table->hasColumn('title'));
+        self::assertTrue($table->hasColumn('name'));
 
         $table->alter();
 
-        static::assertTrue($table->hasColumn('name'));
+        self::assertTrue($table->hasColumn('name'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertFalse($table->hasColumn('title'));
-        static::assertTrue($table->hasColumn('name'));
-        static::assertSame('varchar(255)', $table->getColumn('name')?->getType());
+        self::assertFalse($table->hasColumn('title'));
+        self::assertTrue($table->hasColumn('name'));
+        self::assertSame('varchar(255)', $table->getColumn('name')?->getType());
 
         $table
             ->renameColumn('id', 'pid')
             ->alter();
 
-        static::assertSame(['pid'], $table->getPrimaryKey());
+        self::assertSame(['pid'], $table->getPrimaryKey());
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertSame(['pid'], $table->getPrimaryKey());
+        self::assertSame(['pid'], $table->getPrimaryKey());
     }
 
     public function testRenameColumnNonExisting(): void
@@ -366,12 +364,12 @@ class rex_sql_table_test extends TestCase
             ->removeColumn('title')
             ->alter();
 
-        static::assertFalse($table->hasColumn('title'));
+        self::assertFalse($table->hasColumn('title'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertFalse($table->hasColumn('title'));
+        self::assertFalse($table->hasColumn('title'));
     }
 
     public function testSetPrimaryKey(): void
@@ -383,12 +381,12 @@ class rex_sql_table_test extends TestCase
             ->setPrimaryKey($primaryKey)
             ->alter();
 
-        static::assertSame($primaryKey, $table->getPrimaryKey());
+        self::assertSame($primaryKey, $table->getPrimaryKey());
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertSame($primaryKey, $table->getPrimaryKey());
+        self::assertSame($primaryKey, $table->getPrimaryKey());
 
         $table->getColumn('id')->setExtra(null);
         $table
@@ -398,7 +396,7 @@ class rex_sql_table_test extends TestCase
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertNull($table->getPrimaryKey());
+        self::assertNull($table->getPrimaryKey());
 
         $table
             ->setPrimaryKey('id')
@@ -407,7 +405,7 @@ class rex_sql_table_test extends TestCase
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertSame(['id'], $table->getPrimaryKey());
+        self::assertSame(['id'], $table->getPrimaryKey());
     }
 
     public function testAddIndex(): void
@@ -426,16 +424,16 @@ class rex_sql_table_test extends TestCase
             ->addIndex($search)
             ->alter();
 
-        static::assertSame($uuid, $table->getIndex('i_uuid'));
-        static::assertSame($description, $table->getIndex('i_description'));
-        static::assertSame($search, $table->getIndex('i_search'));
+        self::assertSame($uuid, $table->getIndex('i_uuid'));
+        self::assertSame($description, $table->getIndex('i_description'));
+        self::assertSame($search, $table->getIndex('i_search'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertEquals($uuid, $table->getIndex('i_uuid'));
-        static::assertEquals($description, $table->getIndex('i_description'));
-        static::assertEquals($search, $table->getIndex('i_search'));
+        self::assertEquals($uuid, $table->getIndex('i_uuid'));
+        self::assertEquals($description, $table->getIndex('i_description'));
+        self::assertEquals($search, $table->getIndex('i_search'));
     }
 
     public function testEnsureIndex(): void
@@ -450,14 +448,14 @@ class rex_sql_table_test extends TestCase
             ->ensureIndex($title2)
             ->alter();
 
-        static::assertSame($title, $table->getIndex('i_title'));
-        static::assertSame($title2, $table->getIndex('i_title2'));
+        self::assertSame($title, $table->getIndex('i_title'));
+        self::assertSame($title2, $table->getIndex('i_title2'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertEquals($title, $table->getIndex('i_title'));
-        static::assertEquals($title2, $table->getIndex('i_title2'));
+        self::assertEquals($title, $table->getIndex('i_title'));
+        self::assertEquals($title2, $table->getIndex('i_title2'));
     }
 
     public function testRenameIndex(): void
@@ -466,19 +464,19 @@ class rex_sql_table_test extends TestCase
 
         $table->renameIndex('i_title', 'index_title');
 
-        static::assertFalse($table->hasIndex('i_title'));
-        static::assertTrue($table->hasIndex('index_title'));
+        self::assertFalse($table->hasIndex('i_title'));
+        self::assertTrue($table->hasIndex('index_title'));
 
         $table->alter();
 
-        static::assertTrue($table->hasIndex('index_title'));
+        self::assertTrue($table->hasIndex('index_title'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertFalse($table->hasIndex('i_title'));
-        static::assertTrue($table->hasIndex('index_title'));
-        static::assertSame(['title'], $table->getIndex('index_title')?->getColumns());
+        self::assertFalse($table->hasIndex('i_title'));
+        self::assertTrue($table->hasIndex('index_title'));
+        self::assertSame(['title'], $table->getIndex('index_title')?->getColumns());
     }
 
     public function testRemoveIndex(): void
@@ -489,12 +487,12 @@ class rex_sql_table_test extends TestCase
             ->removeIndex('i_title')
             ->alter();
 
-        static::assertFalse($table->hasColumn('i_title'));
+        self::assertFalse($table->hasColumn('i_title'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertFalse($table->hasColumn('i_title'));
+        self::assertFalse($table->hasColumn('i_title'));
     }
 
     public function testAddForeignKey(): void
@@ -512,12 +510,12 @@ class rex_sql_table_test extends TestCase
             ->addForeignKey($fk)
             ->alter();
 
-        static::assertSame($fk, $table->getForeignKey('test1_fk_config'));
+        self::assertSame($fk, $table->getForeignKey('test1_fk_config'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertEquals($fk, $table->getForeignKey('test1_fk_config'));
+        self::assertEquals($fk, $table->getForeignKey('test1_fk_config'));
     }
 
     public function testEnsureForeignKey(): void
@@ -541,14 +539,14 @@ class rex_sql_table_test extends TestCase
             ->ensureForeignKey($fk2)
             ->alter();
 
-        static::assertSame($fk1, $table2->getForeignKey('test2_fk_test1'));
-        static::assertSame($fk2, $table2->getForeignKey('test2_fk_config'));
+        self::assertSame($fk1, $table2->getForeignKey('test2_fk_test1'));
+        self::assertSame($fk2, $table2->getForeignKey('test2_fk_config'));
 
         rex_sql_table::clearInstance(self::TABLE2);
         $table2 = rex_sql_table::get(self::TABLE2);
 
-        static::assertEquals($fk1, $table2->getForeignKey('test2_fk_test1'));
-        static::assertEquals($fk2, $table2->getForeignKey('test2_fk_config'));
+        self::assertEquals($fk1, $table2->getForeignKey('test2_fk_test1'));
+        self::assertEquals($fk2, $table2->getForeignKey('test2_fk_config'));
     }
 
     public function testRenameForeignKey(): void
@@ -558,19 +556,19 @@ class rex_sql_table_test extends TestCase
 
         $table2->renameForeignKey('test2_fk_test1', 'fk_test2_test1');
 
-        static::assertFalse($table2->hasForeignKey('test2_fk_test1'));
-        static::assertTrue($table2->hasForeignKey('fk_test2_test1'));
+        self::assertFalse($table2->hasForeignKey('test2_fk_test1'));
+        self::assertTrue($table2->hasForeignKey('fk_test2_test1'));
 
         $table2->alter();
 
-        static::assertTrue($table2->hasForeignKey('fk_test2_test1'));
+        self::assertTrue($table2->hasForeignKey('fk_test2_test1'));
 
         rex_sql_table::clearInstance(self::TABLE2);
         $table2 = rex_sql_table::get(self::TABLE2);
 
-        static::assertFalse($table2->hasForeignKey('test2_fk_test1'));
-        static::assertTrue($table2->hasForeignKey('fk_test2_test1'));
-        static::assertSame(['test1_id' => 'id'], $table2->getForeignKey('fk_test2_test1')?->getColumns());
+        self::assertFalse($table2->hasForeignKey('test2_fk_test1'));
+        self::assertTrue($table2->hasForeignKey('fk_test2_test1'));
+        self::assertSame(['test1_id' => 'id'], $table2->getForeignKey('fk_test2_test1')?->getColumns());
     }
 
     public function testRemoveForeignKey(): void
@@ -582,12 +580,12 @@ class rex_sql_table_test extends TestCase
             ->removeForeignKey('test2_fk_test1')
             ->alter();
 
-        static::assertFalse($table2->hasForeignKey('test2_fk_test1'));
+        self::assertFalse($table2->hasForeignKey('test2_fk_test1'));
 
         rex_sql_table::clearInstance(self::TABLE2);
         $table2 = rex_sql_table::get(self::TABLE2);
 
-        static::assertFalse($table2->hasForeignKey('test2_fk_test1'));
+        self::assertFalse($table2->hasForeignKey('test2_fk_test1'));
     }
 
     public function testAlter(): void
@@ -606,13 +604,13 @@ class rex_sql_table_test extends TestCase
         rex_sql_table::clearInstance(self::TABLE2);
         $table = rex_sql_table::get(self::TABLE2);
 
-        static::assertFalse($table->hasColumn('title'));
-        static::assertFalse($table->hasIndex('i_title'));
-        static::assertTrue($table->hasColumn('name'));
-        static::assertTrue($table->hasIndex('i_name'));
-        static::assertSame('int(10) unsigned', $table->getColumn('id')?->getType());
-        static::assertEquals(['id', 'name'], $table->getPrimaryKey());
-        static::assertEquals(['name'], $table->getIndex('i_name')?->getColumns());
+        self::assertFalse($table->hasColumn('title'));
+        self::assertFalse($table->hasIndex('i_title'));
+        self::assertTrue($table->hasColumn('name'));
+        self::assertTrue($table->hasIndex('i_name'));
+        self::assertSame('int(10) unsigned', $table->getColumn('id')?->getType());
+        self::assertEquals(['id', 'name'], $table->getPrimaryKey());
+        self::assertEquals(['name'], $table->getIndex('i_name')?->getColumns());
     }
 
     public function testEnsure(): void
@@ -630,10 +628,10 @@ class rex_sql_table_test extends TestCase
             ->ensureIndex(new rex_sql_index('i_description', ['description'], rex_sql_index::FULLTEXT))
             ->ensure();
 
-        static::assertTrue($table->exists());
-        static::assertSame(['id', 'title', 'description', 'teaser', 'status', 'timestamp'], array_keys($table->getColumns()));
-        static::assertTrue($table->hasIndex('i_status_timestamp'));
-        static::assertTrue($table->hasIndex('i_description'));
+        self::assertTrue($table->exists());
+        self::assertSame(['id', 'title', 'description', 'teaser', 'status', 'timestamp'], array_keys($table->getColumns()));
+        self::assertTrue($table->hasIndex('i_status_timestamp'));
+        self::assertTrue($table->hasIndex('i_description'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
@@ -650,21 +648,21 @@ class rex_sql_table_test extends TestCase
 
         $expectedOrder = ['timestamp', 'title', 'id', 'status', 'teaser', 'description'];
 
-        static::assertSame($expectedOrder, array_keys($table->getColumns()));
-        static::assertTrue($table->hasIndex('i_status_timestamp'));
-        static::assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')?->getType());
-        static::assertTrue($table->hasIndex('i_description'));
+        self::assertSame($expectedOrder, array_keys($table->getColumns()));
+        self::assertTrue($table->hasIndex('i_status_timestamp'));
+        self::assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')?->getType());
+        self::assertTrue($table->hasIndex('i_description'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        static::assertSame(['title', 'id'], $table->getPrimaryKey());
-        static::assertTrue($table->hasColumn('description'));
-        static::assertNull($table->getColumn('title')->getDefault());
-        static::assertSame($expectedOrder, array_keys($table->getColumns()));
-        static::assertTrue($table->hasIndex('i_status_timestamp'));
-        static::assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')?->getType());
-        static::assertTrue($table->hasIndex('i_description'));
+        self::assertSame(['title', 'id'], $table->getPrimaryKey());
+        self::assertTrue($table->hasColumn('description'));
+        self::assertNull($table->getColumn('title')->getDefault());
+        self::assertSame($expectedOrder, array_keys($table->getColumns()));
+        self::assertTrue($table->hasIndex('i_status_timestamp'));
+        self::assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')?->getType());
+        self::assertTrue($table->hasIndex('i_description'));
     }
 
     #[DoesNotPerformAssertions]
@@ -694,7 +692,7 @@ class rex_sql_table_test extends TestCase
             rex_sql_table::clearInstance(self::TABLE);
             $table = rex_sql_table::get(self::TABLE);
 
-            static::assertSame($expectedOrder, array_keys($table->getColumns()), "Column order does not match expected order (\$i = $i)");
+            self::assertSame($expectedOrder, array_keys($table->getColumns()), "Column order does not match expected order (\$i = $i)");
         }
     }
 
@@ -715,12 +713,12 @@ class rex_sql_table_test extends TestCase
         rex_sql_table::clearInstance(self::TABLE);
         $table2 = rex_sql_table::get(self::TABLE);
 
-        static::assertNotSame($table2, $table);
+        self::assertNotSame($table2, $table);
 
         rex_sql_table::clearInstance([1, self::TABLE]);
         $table3 = rex_sql_table::get(self::TABLE);
 
-        static::assertNotSame($table3, $table);
-        static::assertNotSame($table3, $table2);
+        self::assertNotSame($table3, $table);
+        self::assertNotSame($table3, $table2);
     }
 }

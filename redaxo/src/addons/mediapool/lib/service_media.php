@@ -194,8 +194,8 @@ final class rex_media_service
             $extensionOld = mb_strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
             if (
-                $extensionNew == $extensionOld ||
-                in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
+                $extensionNew == $extensionOld
+                || in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
             ) {
                 if (!rex_file::move($srcFile, $dstFile)) {
                     throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
@@ -264,7 +264,7 @@ final class rex_media_service
     }
 
     /**
-     * @param array{category_id?: int, category_id_path?: int, types?: string[], term?: string} $filter
+     * @param array{category_id?: int, category_id_path?: int, types?: list<string>, term?: string} $filter
      * @param list<array{string, 'ASC'|'DESC'}> $orderBy
      * @throws rex_sql_exception
      * @return list<rex_media>
@@ -343,10 +343,10 @@ final class rex_media_service
         }
 
         if ($pager) {
-            $query .= ' ORDER BY ' . implode(', ', $orderbys);
             $sql->setQuery(str_replace('SELECT m.filename', 'SELECT count(*)', $query), $queryParams);
             $pager->setRowCount((int) $sql->getValue('count(*)'));
 
+            $query .= ' ORDER BY ' . implode(', ', $orderbys);
             $query .= ' LIMIT ' . $pager->getCursor() . ',' . $pager->getRowsPerPage();
         }
 

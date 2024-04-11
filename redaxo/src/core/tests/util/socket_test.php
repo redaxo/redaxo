@@ -4,10 +4,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-class rex_socket_test extends TestCase
+/** @internal */
+final class rex_socket_test extends TestCase
 {
     private ?string $proxy = null;
 
@@ -26,7 +24,7 @@ class rex_socket_test extends TestCase
     {
         $socket = rex_socket::factory('www.example.com');
         $socket->setOptions([]);
-        static::assertEquals(rex_socket::class, $socket::class);
+        self::assertEquals(rex_socket::class, $socket::class);
         return $socket;
     }
 
@@ -35,14 +33,14 @@ class rex_socket_test extends TestCase
         rex::setProperty('socket_proxy', 'proxy.example.com:8888');
         $socket = rex_socket::factory('www.example.com');
         $socket->setOptions([]);
-        static::assertEquals(rex_socket_proxy::class, $socket::class);
+        self::assertEquals(rex_socket_proxy::class, $socket::class);
     }
 
     public function testFactoryUrl(): void
     {
         $socket = rex_socket::factoryUrl('www.example.com');
         $socket->setOptions([]);
-        static::assertEquals(rex_socket::class, $socket::class);
+        self::assertEquals(rex_socket::class, $socket::class);
     }
 
     public function testFactoryUrlProxy(): void
@@ -50,7 +48,7 @@ class rex_socket_test extends TestCase
         rex::setProperty('socket_proxy', 'proxy.example.com:8888');
         $socket = rex_socket::factoryUrl('www.example.com');
         $socket->setOptions([]);
-        static::assertEquals(rex_socket_proxy::class, $socket::class);
+        self::assertEquals(rex_socket_proxy::class, $socket::class);
     }
 
     #[Depends('testFactory')]
@@ -64,7 +62,7 @@ class rex_socket_test extends TestCase
         $property->setValue($socket, $stream);
         $response = $method->invoke($socket, 'GET', '/a/path', ['Host' => 'www.example.com', 'Connection' => 'Close'], "body1\r\nbody2");
 
-        static::assertInstanceOf(rex_socket_response::class, $response);
+        self::assertInstanceOf(rex_socket_response::class, $response);
 
         $eol = "\r\n";
         $expected = 'GET /a/path HTTP/1.1' . $eol
@@ -75,7 +73,7 @@ class rex_socket_test extends TestCase
                             . 'body1' . $eol
                             . 'body2';
         fseek($stream, 0);
-        static::assertEquals($expected, fread($stream, 1024));
+        self::assertEquals($expected, fread($stream, 1024));
         fclose($stream);
     }
 
@@ -107,7 +105,7 @@ class rex_socket_test extends TestCase
             'ssl' => $expectedSsl,
             'path' => $expectedPath,
         ];
-        static::assertEquals($expected, $result);
+        self::assertEquals($expected, $result);
     }
 
     /** @return list<array{string}> */

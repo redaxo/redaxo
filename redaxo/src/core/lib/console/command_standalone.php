@@ -7,6 +7,4 @@
  *
  * @internal Only usable in rex core commands
  */
-interface rex_command_standalone
-{
-}
+interface rex_command_standalone {}

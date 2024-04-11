@@ -1,5 +1,5 @@
 package: backup
-version: '2.9.0'
+version: '2.9.1'
 author: 'Jan Kristinus, Markus Staab'
 supportpage: https://github.com/redaxo/redaxo
 
@@ -13,6 +13,7 @@ page:
         import:
             title: 'translate:backup_import'
             perm: 'admin[]'
+            live_mode: false
             subpages:
                 upload: { title: 'translate:backup_upload' }
                 server: { title: 'translate:backup_load_from_server' }
@@ -21,4 +22,4 @@ requires:
     php:
         version: '>=8.1'
         extensions: [ctype]
-    redaxo: ^5.15.0
+    redaxo: ^5.16.0

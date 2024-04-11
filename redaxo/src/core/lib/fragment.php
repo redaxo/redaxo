@@ -24,21 +24,21 @@ class rex_fragment
      *
      * @var array<string, mixed>
      */
-    private $vars;
+    private array $vars;
 
     /**
      * another fragment which can optionaly be used to decorate the current fragment.
      *
-     * @var rex_fragment
+     * @var self|null
      */
     private $decorator;
 
     /**
      * array which contains all folders in which fragments will be searched for at runtime.
      *
-     * @var string[]
+     * @var list<string>
      */
-    private static $fragmentDirs = [];
+    private static array $fragmentDirs = [];
 
     /**
      * Creates a fragment with the given variables.
@@ -53,8 +53,8 @@ class rex_fragment
     /**
      * Returns the value of the given variable $name.
      *
-     * @param string $name    Variable name
-     * @param mixed  $default Default value
+     * @param string $name Variable name
+     * @param mixed $default Default value
      *
      * @return mixed
      */
@@ -66,9 +66,9 @@ class rex_fragment
     /**
      * Set the variable $name to the given value.
      *
-     * @param string $name   The name of the variable
-     * @param mixed  $value  The value for the variable
-     * @param bool   $escape Flag which indicates if the value should be escaped or not
+     * @param string $name The name of the variable
+     * @param mixed $value The value for the variable
+     * @param bool $escape Flag which indicates if the value should be escaped or not
      *
      * @throws InvalidArgumentException
      *
@@ -196,7 +196,7 @@ class rex_fragment
     /**
      * Translate the given key $key.
      *
-     * @param string     $key             The key to translate
+     * @param string $key The key to translate
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key

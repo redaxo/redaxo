@@ -8,7 +8,7 @@
  *
  * There can only be one rex_api_function called per request, but not every request must have an api function.
  *
- * The classname of a possible implementation must start with "rex_api".
+ * The classname of a possible implementation must start with "rex_api" or must be registered explicitly via `rex_api_function::register()`.
  *
  * A api function may also be called by an ajax-request.
  * In fact there might be ajax-requests which do nothing more than triggering an api function.
@@ -41,6 +41,13 @@ abstract class rex_api_function
      * @var rex_api_result|null
      */
     protected $result;
+
+    /**
+     * Explicitly registered api functions.
+     *
+     * @var array<string, class-string<self>>
+     */
+    private static $functions = [];
 
     /**
      * The api function which is bound to the current request.
@@ -82,20 +89,33 @@ abstract class rex_api_function
         $api = rex_request(self::REQ_CALL_PARAM, 'string');
 
         if ($api) {
-            /** @psalm-taint-escape callable */ // It is intended that the class name suffix is coming from request param
-            $apiClass = 'rex_api_' . $api;
+            if (isset(self::$functions[$api])) {
+                $apiClass = self::$functions[$api];
+            } else {
+                /** @psalm-taint-escape callable */ // It is intended that the class name suffix is coming from request param
+                $apiClass = 'rex_api_' . $api;
+            }
+
             if (class_exists($apiClass)) {
                 $apiImpl = new $apiClass();
                 if ($apiImpl instanceof self) {
                     self::$instance = $apiImpl;
                     return $apiImpl;
                 }
-                throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "' . $apiClass . '" given!');
+                throw new rex_http_exception(new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "' . $apiClass . '" given!'), rex_response::HTTP_NOT_FOUND);
             }
-            throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
+            throw new rex_http_exception(new rex_exception('$apiClass "' . $apiClass . '" not found!'), rex_response::HTTP_NOT_FOUND);
         }
 
         return null;
+    }
+
+    /**
+     * @param class-string<self> $class
+     */
+    public static function register(string $name, string $class): void
+    {
+        self::$functions[$name] = $class;
     }
 
     /**
@@ -103,7 +123,7 @@ abstract class rex_api_function
      *
      * The method must be called on sub classes.
      *
-     * @return array
+     * @return array<string, string>
      */
     public static function getUrlParams()
     {
@@ -113,10 +133,7 @@ abstract class rex_api_function
             throw new BadMethodCallException(__FUNCTION__ . ' must be called on subclasses of "' . self::class . '".');
         }
 
-        // remove the `rex_api_` prefix
-        $name = substr($class, 8);
-
-        return [self::REQ_CALL_PARAM => $name, rex_csrf_token::PARAM => rex_csrf_token::factory($class)->getValue()];
+        return [self::REQ_CALL_PARAM => self::getName($class), rex_csrf_token::PARAM => rex_csrf_token::factory($class)->getValue()];
     }
 
     /**
@@ -134,10 +151,7 @@ abstract class rex_api_function
             throw new BadMethodCallException(__FUNCTION__ . ' must be called on subclasses of "' . self::class . '".');
         }
 
-        // remove the `rex_api_` prefix
-        $name = rex_type::string(substr($class, 8));
-
-        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name))
+        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape(self::getName($class)))
             . rex_csrf_token::factory($class)->getHiddenField();
     }
 
@@ -258,6 +272,20 @@ abstract class rex_api_function
     {
         return false;
     }
+
+    private static function getName(string $class): string
+    {
+        $name = array_search($class, self::$functions, true);
+        if (false !== $name) {
+            return $name;
+        }
+
+        if (str_starts_with($class, 'rex_api_')) {
+            return substr($class, 8);
+        }
+
+        throw new rex_exception('The api function "' . $class . '" is not registered.');
+    }
 }
 
 /**
@@ -272,20 +300,6 @@ abstract class rex_api_function
 class rex_api_result
 {
     /**
-     * Flag indicating if the api function was executed successfully.
-     *
-     * @var bool
-     */
-    private $succeeded = false;
-
-    /**
-     * Optional message which will be visible to the end-user.
-     *
-     * @var string|null
-     */
-    private $message;
-
-    /**
      * Flag indicating whether the result of this api call needs to be rendered in a new sub-request.
      * This is required in rare situations, when some low-level data was changed by the api-function.
      *
@@ -294,14 +308,13 @@ class rex_api_result
     private $requiresReboot;
 
     /**
-     * @param bool $succeeded
-     * @param string|null $message
+     * @param bool $succeeded flag indicating if the api function was executed successfully
+     * @param string|null $message optional message which will be visible to the end-user
      */
-    public function __construct($succeeded, $message = null)
-    {
-        $this->succeeded = $succeeded;
-        $this->message = $message;
-    }
+    public function __construct(
+        private $succeeded,
+        private $message = null,
+    ) {}
 
     /**
      * @param bool $requiresReboot
@@ -321,7 +334,7 @@ class rex_api_result
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getFormattedMessage()
     {
@@ -360,11 +373,10 @@ class rex_api_result
      */
     public function toJSON()
     {
-        $json = new stdClass();
-        foreach ($this as $key => $value) {
-            $json->$key = $value;
-        }
-        return json_encode($json);
+        return json_encode([
+            'succeeded' => $this->succeeded,
+            'message' => $this->message,
+        ]);
     }
 
     /**
@@ -373,17 +385,16 @@ class rex_api_result
      */
     public static function fromJSON($json)
     {
-        $result = new self(true);
         $json = json_decode($json, true);
 
         if (!is_array($json)) {
             throw new rex_exception('Unable to decode json into an array.');
         }
 
-        foreach ($json as $key => $value) {
-            $result->$key = $value;
-        }
-        return $result;
+        return new self(
+            rex_type::bool($json['succeeded'] ?? null),
+            rex_type::nullOrString($json['message'] ?? null),
+        );
     }
 }
 
@@ -397,6 +408,4 @@ class rex_api_result
  *
  * @package redaxo\core
  */
-class rex_api_exception extends rex_exception
-{
-}
+class rex_api_exception extends rex_exception {}

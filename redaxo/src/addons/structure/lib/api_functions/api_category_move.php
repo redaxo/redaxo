@@ -17,9 +17,10 @@ class rex_api_category_move extends rex_api_function
         $user = rex::requireUser();
 
         // Check permissions
-        if ($user->hasPerm('moveCategory[]') &&
-            $user->getComplexPerm('structure')->hasCategoryPerm($categoryId) &&
-            $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)
+        if (
+            $user->hasPerm('moveCategory[]')
+            && $user->getComplexPerm('structure')->hasCategoryPerm($categoryId)
+            && $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)
         ) {
             if ($categoryId != $categoryIdNew && rex_category_service::moveCategory($categoryId, $categoryIdNew)) {
                 return new rex_api_result(true, rex_i18n::msg('category_moved'));

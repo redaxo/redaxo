@@ -18,18 +18,14 @@
  */
 class rex_stream
 {
-    /** @var bool|null */
-    private static $useRealFiles;
+    private static ?bool $useRealFiles = null;
+    private static bool $registered = false;
 
-    /** @var bool */
-    private static $registered = false;
     /** @var array<string, string> */
-    private static $nextContent = [];
+    private static array $nextContent = [];
 
-    /** @var int */
-    private $position = 0;
-    /** @var string */
-    private $content = '';
+    private int $position = 0;
+    private string $content = '';
 
     /**
      * @var resource|null
@@ -40,7 +36,7 @@ class rex_stream
     /**
      * Prepares a new stream.
      *
-     * @param string $path    Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
+     * @param string $path Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
      * @param string $content Content which will be included
      *
      * @throws InvalidArgumentException

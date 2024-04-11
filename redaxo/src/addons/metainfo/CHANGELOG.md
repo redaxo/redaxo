@@ -1,6 +1,23 @@
 Changelog
 =========
 
+Version 2.11.0 – 12.03.2024
+---------------------------
+
+### Bugfixes
+
+* Metainfo-Sidebar: Beim Status-Wechsel-Link wurde die aktuelle Sprache nicht mitgegeben (@gharlan)
+* Nach DB-Import wurde die Cleanup-Routine nicht korrekt ausgeführt (@gharlan)
+
+
+Version 2.10.1 – 09.02.2024
+---------------------------
+
+### Bugfixes
+
+* Löschen von Medien: Verwendungsprüfung und Verlinkung korrigiert (@TobiasKrais)
+
+
 Version 2.9.1 – 20.02.2023
 --------------------------
 
@@ -209,4 +226,3 @@ Version 2.0.1 – 09.02.2016
 ### Bugfixes
 
 * Bei Datumsfeldern war es nicht möglich, den Monat zu ändern (Gort)
-
