@@ -1550,71 +1550,6 @@
       <code><![CDATA[array<int, string>]]></code>
     </MixedReturnTypeCoercion>
   </file>
-  <file src="redaxo/src/core/lib/structure/content/var_template.php">
-    <PossiblyFalseArgument>
-      <code><![CDATA[$tmpl]]></code>
-      <code><![CDATA[$tmpl]]></code>
-    </PossiblyFalseArgument>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$id]]></code>
-    </PossiblyInvalidArgument>
-    <PossiblyNullArgument>
-      <code><![CDATA[$tmpl]]></code>
-      <code><![CDATA[$tmpl]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/var_value.php">
-    <MixedArgument>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getValue]]></code>
-    </MixedMethodCall>
-  </file>
-  <file src="redaxo/src/core/lib/structure/linkmap/var_link.php">
-    <MixedArgument>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getValue]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$name]]></code>
-    </MixedOperand>
-    <PossiblyNullReference>
-      <code><![CDATA[getId]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/core/lib/structure/linkmap/var_linklist.php">
-    <MixedArgument>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getValue]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
-    <PossiblyNullReference>
-      <code><![CDATA[getId]]></code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/lib/structure/navigation.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[(string) $va]]></code>
@@ -1657,26 +1592,6 @@
   <file src="redaxo/src/core/lib/structure/system_setting_article_id.php">
     <MixedArgument>
       <code><![CDATA[Core::getConfig($this->key, 1)]]></code>
-    </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/lib/structure/var_article.php">
-    <MixedArgument>
-      <code><![CDATA[$clang]]></code>
-      <code><![CDATA[$clang]]></code>
-      <code><![CDATA[$ctype]]></code>
-      <code><![CDATA[$field]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-    </MixedArgument>
-    <PossiblyNullReference>
-      <code><![CDATA[getValue]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/core/lib/structure/var_category.php">
-    <MixedArgument>
-      <code><![CDATA[$clang]]></code>
-      <code><![CDATA[$field]]></code>
-      <code><![CDATA[$id]]></code>
     </MixedArgument>
   </file>
   <file src="redaxo/src/core/lib/system_report.php">
@@ -3223,6 +3138,91 @@
       <code><![CDATA[$mapping]]></code>
       <code><![CDATA[$mapping = File::getCache($file)]]></code>
     </MixedReturnTypeCoercion>
+  </file>
+  <file src="src/Content/RexVar/Article.php">
+    <MixedArgument>
+      <code><![CDATA[$clang]]></code>
+      <code><![CDATA[$clang]]></code>
+      <code><![CDATA[$ctype]]></code>
+      <code><![CDATA[$field]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </MixedArgument>
+    <PossiblyNullReference>
+      <code><![CDATA[getValue]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Content/RexVar/Category.php">
+    <MixedArgument>
+      <code><![CDATA[$clang]]></code>
+      <code><![CDATA[$field]]></code>
+      <code><![CDATA[$id]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/Content/RexVar/Link.php">
+    <MixedArgument>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[getValue]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$name]]></code>
+    </MixedOperand>
+    <PossiblyNullReference>
+      <code><![CDATA[getId]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Content/RexVar/LinkList.php">
+    <MixedArgument>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[getValue]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
+    <PossiblyNullReference>
+      <code><![CDATA[getId]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Content/RexVar/Template.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[$tmpl]]></code>
+      <code><![CDATA[$tmpl]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$tmpl]]></code>
+      <code><![CDATA[$tmpl]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Content/RexVar/Value.php">
+    <MixedArgument>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[getValue]]></code>
+    </MixedMethodCall>
   </file>
   <file src="src/Content/StructureContext.php">
     <MixedArgument>
