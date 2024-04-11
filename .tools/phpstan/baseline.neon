@@ -151,21 +151,6 @@ parameters:
 			path: ../../redaxo/src/core/functions/function_structure_rex_url.php
 
 		-
-			message: "#^Method rex_be_controller\\:\\:pageAddProperties\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/be/controller.php
-
-		-
-			message: "#^Method rex_be_controller\\:\\:pageCreate\\(\\) has parameter \\$page with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/be/controller.php
-
-		-
-			message: "#^Method rex_be_page\\:\\:setHref\\(\\) has parameter \\$href with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/be/page.php
-
-		-
 			message: "#^Method rex_clang_perm\\:\\:getClangs\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/clang/perm.php
@@ -1119,6 +1104,21 @@ parameters:
 			message: "#^Call to static method Redaxo\\\\Core\\\\Util\\\\Type\\:\\:string\\(\\) on a separate line has no effect\\.$#"
 			count: 1
 			path: ../../src/Addon/Addon.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Backend\\\\Controller\\:\\:pageAddProperties\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Backend/Controller.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Backend\\\\Controller\\:\\:pageCreate\\(\\) has parameter \\$page with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Backend/Controller.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Backend\\\\Page\\:\\:setHref\\(\\) has parameter \\$href with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Backend/Page.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Cronjob\\\\CronjobExecutor\\:\\:tryExecute\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
