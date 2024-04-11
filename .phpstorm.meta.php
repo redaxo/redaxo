@@ -115,8 +115,8 @@ override(
     map([
         'clang' => \Redaxo\Core\Language\LanguagePermission::class,
         'media' => \Redaxo\Core\MediaPool\MediaPoolPermission::class,
-        'modules' => \rex_module_perm::class,
-        'structure' => \rex_structure_perm::class,
+        'modules' => \Redaxo\Core\Content\ModulePermission::class,
+        'structure' => \Redaxo\Core\Content\StructurePermission::class,
     ])
 );
 

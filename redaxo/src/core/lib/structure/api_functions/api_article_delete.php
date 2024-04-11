@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 
 /**
@@ -20,7 +21,7 @@ class rex_api_article_delete extends rex_api_function
         if (!Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             throw new rex_api_exception('user has no permission for this category!');
         }
-        return new rex_api_result(true, rex_article_service::deleteArticle($articleId));
+        return new rex_api_result(true, ArticleHandler::deleteArticle($articleId));
     }
 
     protected function requiresCsrfProtection()

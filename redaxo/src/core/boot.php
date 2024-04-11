@@ -1,6 +1,9 @@
 <?php
 
 use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ModulePermission;
+use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\CronjobExecutor;
 use Redaxo\Core\Cronjob\CronjobManager;
@@ -132,8 +135,8 @@ rex_var_dumper::register();
 rex_user::setRoleClass(rex_user_role::class);
 
 rex_complex_perm::register('clang', LanguagePermission::class);
-rex_complex_perm::register('structure', rex_structure_perm::class);
-rex_complex_perm::register('modules', rex_module_perm::class);
+rex_complex_perm::register('structure', StructurePermission::class);
+rex_complex_perm::register('modules', ModulePermission::class);
 rex_complex_perm::register('media', MediaPoolPermission::class);
 
 rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
@@ -182,10 +185,10 @@ if (!Core::isSetup()) {
     Core::setProperty('rows_per_page', 50);
 
     if (0 == rex_request('article_id', 'int')) {
-        Core::setProperty('article_id', rex_article::getSiteStartArticleId());
+        Core::setProperty('article_id', Article::getSiteStartArticleId());
     } else {
         $articleId = rex_request('article_id', 'int');
-        $articleId = rex_article::get($articleId) ? $articleId : rex_article::getNotfoundArticleId();
+        $articleId = Article::get($articleId) ? $articleId : Article::getNotfoundArticleId();
         Core::setProperty('article_id', $articleId);
     }
 

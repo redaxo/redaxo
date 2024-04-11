@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Content\ArticleContentBase;
+use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
@@ -15,7 +17,7 @@ class rex_var_template extends rex_var
         $templateKey = $this->getArg('key', null, true);
 
         if (0 === $templateId && $templateKey) {
-            $template = rex_template::forKey($templateKey);
+            $template = Template::forKey($templateKey);
 
             if ($template) {
                 $templateId = $template->getId();
@@ -37,11 +39,11 @@ class rex_var_template extends rex_var
      *
      * @return string
      */
-    public static function getTemplateStream($id, ?rex_article_content_base $article = null)
+    public static function getTemplateStream($id, ?ArticleContentBase $article = null)
     {
         ob_start(); // will be closed in getTemplateOutput()
 
-        $tmpl = new rex_template($id);
+        $tmpl = new Template($id);
         $tmpl = $tmpl->getTemplate();
         if ($article) {
             $tmpl = $article->replaceCommonVars($tmpl, $id);
@@ -61,7 +63,7 @@ class rex_var_template extends rex_var
     {
         if ($timer && Core::isDebugMode()) {
             $timer->stop();
-            $tmpl = new rex_template($id);
+            $tmpl = new Template($id);
             Timer::measured('Template: ' . ($tmpl->getKey() ?? $tmpl->getId()), $timer);
         }
 

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 
 /**
@@ -25,7 +26,7 @@ class rex_api_article_add extends rex_api_function
         $data['priority'] = rex_post('article-position', 'int');
         $data['template_id'] = rex_post('template_id', 'int');
         $data['category_id'] = $categoryId;
-        return new rex_api_result(true, rex_article_service::addArticle($data));
+        return new rex_api_result(true, ArticleHandler::addArticle($data));
     }
 
     protected function requiresCsrfProtection()

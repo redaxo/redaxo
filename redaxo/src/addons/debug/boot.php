@@ -3,6 +3,7 @@
 use Clockwork\Clockwork;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
@@ -99,7 +100,7 @@ $shutdownFn = static function () {
     if (Core::isBackend()) {
         $req->controller = 'page: ' . Controller::getCurrentPage();
     } else {
-        $req->controller = 'article: ' . rex_article::getCurrentId() . '; clang: ' . Language::getCurrent()->getCode();
+        $req->controller = 'article: ' . Article::getCurrentId() . '; clang: ' . Language::getCurrent()->getCode();
     }
 
     foreach ($req->databaseQueries as $query) {

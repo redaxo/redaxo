@@ -1,9 +1,12 @@
 <?php
 
 use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleHandler;
+use Redaxo\Core\Content\StructureContext;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\MetaInfo\Handler\ArticleHandler;
+use Redaxo\Core\MetaInfo\Handler\ArticleHandler as MetaInfoArticleHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
@@ -16,8 +19,8 @@ $clang = (int) $params['clang'];
 
 $content = [];
 
-$article = rex_article::get($articleId, $clang);
-$articleStatusTypes = rex_article_service::statusTypes();
+$article = Article::get($articleId, $clang);
+$articleStatusTypes = ArticleHandler::statusTypes();
 $status = (int) $article->getValue('status');
 
 // ------------------
@@ -31,7 +34,7 @@ $panels[] = '<dt>' . I18n::msg('updated_on') . '</dt><dd>' . Formatter::intlDate
 $articleClass = $articleStatusTypes[$status][1];
 $articleStatus = $articleStatusTypes[$status][0];
 $articleIcon = $articleStatusTypes[$status][2];
-$structureContext = new rex_structure_context([
+$structureContext = new StructureContext([
     'article_id' => rex_request('article_id', 'int'),
     'clang_id' => rex_request('clang', 'int'),
 ]);
@@ -98,7 +101,7 @@ if (1 == $article->getRows()) {
         'ctype' => $ctype,
     ]);
 
-    $metainfoHandler = new ArticleHandler();
+    $metainfoHandler = new MetaInfoArticleHandler();
     $form = $metainfoHandler->getForm([
         'id' => $articleId,
         'clang' => $clang,
@@ -108,7 +111,7 @@ if (1 == $article->getRows()) {
     $formElements = [];
     $formElements[] = [
         'label' => '<label for="rex-id-meta-article-name">' . I18n::msg('header_article_name') . '</label>',
-        'field' => '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="' . htmlspecialchars(rex_article::get($articleId, $clang)->getName()) . '" />',
+        'field' => '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="' . htmlspecialchars(Article::get($articleId, $clang)->getName()) . '" />',
     ];
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);

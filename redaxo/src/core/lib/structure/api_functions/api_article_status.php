@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
@@ -18,7 +19,7 @@ class rex_api_article_status extends rex_api_function
 
         // check permissions
         if ($user->getComplexPerm('structure')->hasCategoryPerm($categoryId) && $user->hasPerm('publishArticle[]')) {
-            rex_article_service::articleStatus($articleId, $clang, $status);
+            ArticleHandler::articleStatus($articleId, $clang, $status);
 
             return new rex_api_result(true, I18n::msg('article_status_updated'));
         }

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleContent;
 use Redaxo\Core\Language\Language;
 
 /**
@@ -57,7 +59,7 @@ class rex_var_article extends rex_var
         if (null === $clang) {
             $clang = Language::getCurrentId();
         }
-        $article = rex_article::get($id, $clang);
+        $article = Article::get($id, $clang);
         return rex_escape($article->getValue($field));
     }
 
@@ -69,7 +71,7 @@ class rex_var_article extends rex_var
         if (null === $clang) {
             $clang = Language::getCurrentId();
         }
-        $article = new rex_article_content($id, $clang);
+        $article = new ArticleContent($id, $clang);
         return $article->getArticle($ctype);
     }
 }

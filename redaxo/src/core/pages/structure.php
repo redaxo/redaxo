@@ -1,5 +1,10 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleHandler;
+use Redaxo\Core\Content\Category;
+use Redaxo\Core\Content\CategoryHandler;
+use Redaxo\Core\Content\StructureContext;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Language\Language;
@@ -7,7 +12,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 
-$structureContext = new rex_structure_context([
+$structureContext = new StructureContext([
     'category_id' => rex_request('category_id', 'int'),
     'article_id' => rex_request('article_id', 'int'),
     'clang_id' => rex_request('clang', 'int'),
@@ -48,15 +53,15 @@ $clang = $structureContext->getClangId();
 require __DIR__ . '/../functions/function_structure_rex_category.php';
 
 // -------------- STATUS_TYPE Map
-$catStatusTypes = rex_category_service::statusTypes();
-$artStatusTypes = rex_article_service::statusTypes();
+$catStatusTypes = CategoryHandler::statusTypes();
+$artStatusTypes = ArticleHandler::statusTypes();
 
 // --------------------------------------------- API MESSAGES
 echo rex_api_function::getMessage();
 
 // --------------------------------------------- KATEGORIE LISTE
 $catName = I18n::msg('root_level');
-$category = rex_category::get($structureContext->getCategoryId(), $structureContext->getClangId());
+$category = Category::get($structureContext->getCategoryId(), $structureContext->getClangId());
 if ($category) {
     $catName = $category->getName();
 }
@@ -173,8 +178,8 @@ if ($KAT->getRows() > 0) {
 
         $katLink = $structureContext->getContext()->getUrl(['category_id' => $iCategoryId]);
 
-        /** @var rex_category $katObject */
-        $katObject = rex_category::get($iCategoryId);
+        /** @var Category $katObject */
+        $katObject = Category::get($iCategoryId);
         $katHasChildElements = (count($katObject->getChildren()) > 0 || count($katObject->getArticles()) > 1); // contains child categories or articles other than the start article
         $katIconClass = $katHasChildElements ? 'rex-icon-category' : 'rex-icon-category-without-elements';
         $katIconTitle = $katHasChildElements ? I18n::msg('category_has_child_elements') : I18n::msg('category_without_child_elements');
@@ -439,7 +444,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     // --------------------- ARTIKEL LIST
     for ($i = 0; $i < $sql->getRows(); ++$i) {
-        if ($sql->getValue('id') == rex_article::getSiteStartArticleId()) {
+        if ($sql->getValue('id') == Article::getSiteStartArticleId()) {
             $class = ' rex-icon-sitestartarticle';
         } elseif (1 == $sql->getValue('startarticle')) {
             $class = ' rex-icon-startarticle';

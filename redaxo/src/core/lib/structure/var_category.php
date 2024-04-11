@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Content\Category;
 use Redaxo\Core\Language\Language;
 
 /**
@@ -38,7 +39,7 @@ class rex_var_category extends rex_var
         if (null === $clang) {
             $clang = Language::getCurrentId();
         }
-        $cat = rex_category::get($id, $clang);
+        $cat = Category::get($id, $clang);
         if ($cat) {
             return rex_escape($cat->getValue($field));
         }

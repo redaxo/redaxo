@@ -3,6 +3,12 @@
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Backend\Page;
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleAction;
+use Redaxo\Core\Content\ArticleCache;
+use Redaxo\Core\Content\ArticleSlice;
+use Redaxo\Core\Content\ContentHandler;
+use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
@@ -14,7 +20,7 @@ $articleId = rex_request('article_id', 'int');
 $clang = rex_request('clang', 'int');
 $sliceId = rex_request('slice_id', 'int', '');
 
-$articleId = rex_article::get($articleId) ? $articleId : 0;
+$articleId = Article::get($articleId) ? $articleId : 0;
 $clang = Language::exists($clang) ? $clang : Language::getStartId();
 
 $articleRevision = 0;
@@ -55,7 +61,7 @@ if (!array_key_exists($ctype, $ctypes)) {
 }
 
 // ----- Artikel wurde gefunden - Kategorie holen
-$OOArt = rex_article::get($articleId, $clang);
+$OOArt = Article::get($articleId, $clang);
 $categoryId = $OOArt->getCategoryId();
 
 // ----- Request Parameter
@@ -130,7 +136,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             // ------------- MODUL IST VORHANDEN
 
             // ----- RECHTE AM MODUL ?
-            if ('delete' != $function && !rex_template::hasModule($templateAttributes, $ctype, $moduleId)) {
+            if ('delete' != $function && !Template::hasModule($templateAttributes, $ctype, $moduleId)) {
                 $globalWarning = I18n::msg('no_rights_to_this_function');
                 $sliceId = 0;
                 $function = '';
@@ -148,9 +154,9 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                 // $newsql->setDebug();
 
                 // ----- PRE SAVE ACTION [ADD/EDIT/DELETE]
-                $action = new rex_article_action($moduleId, $function, $newsql);
+                $action = new ArticleAction($moduleId, $function, $newsql);
                 $action->setRequestValues();
-                $action->exec(rex_article_action::PRESAVE);
+                $action->exec(ArticleAction::PRESAVE);
                 $actionMessage = implode('<br />', $action->getMessages());
                 // ----- / PRE SAVE ACTION
 
@@ -169,7 +175,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                         $actionMessage .= '<br />';
                     }
 
-                    // clone sql object to preserve values in sql object given to rex_article_action
+                    // clone sql object to preserve values in sql object given to ArticleAction
                     // otherwise the POSTSAVE action did not have access to values
                     $newsql = clone $newsql;
 
@@ -270,7 +276,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                     } else {
                         // make delete
 
-                        if (rex_content_service::deleteSlice($sliceId)) {
+                        if (ContentHandler::deleteSlice($sliceId)) {
                             $globalInfo = I18n::msg('block_deleted');
                             $epParams = [
                                 'article_id' => $articleId,
@@ -300,7 +306,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                     $EA->setWhere(['id' => $articleId, 'clang_id' => $clang]);
                     $EA->addGlobalUpdateFields();
                     $EA->update();
-                    rex_article_cache::delete($articleId, $clang);
+                    ArticleCache::delete($articleId, $clang);
 
                     rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_ARTICLE_UPDATED', '', [
                         'id' => $articleId,
@@ -308,7 +314,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                     ]));
 
                     // ----- POST SAVE ACTION [ADD/EDIT/DELETE]
-                    $action->exec(rex_article_action::POSTSAVE);
+                    $action->exec(ArticleAction::POSTSAVE);
                     if ($messages = $action->getMessages()) {
                         $info .= '<br />' . implode('<br />', $messages);
                     }
@@ -332,7 +338,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         $key = (int) $key;
         $hasSlice = true;
         if ($ctype != $key) {
-            $hasSlice = null !== rex_article_slice::getFirstSliceForCtype($key, $articleId, $clang);
+            $hasSlice = null !== ArticleSlice::getFirstSliceForCtype($key, $articleId, $clang);
         }
         $editPage->addSubpage((new Page('ctype' . $key, I18n::translate($val)))
             ->setHref(['page' => 'content/edit', 'article_id' => $articleId, 'clang' => $clang, 'ctype' => $key])

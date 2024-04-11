@@ -1,10 +1,11 @@
 <?php
 
+use Redaxo\Core\Content\ArticleSliceHistory;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
 if ('clearall' == rex_request('func', 'string')) {
-    rex_article_slice_history::clearAllHistory();
+    ArticleSliceHistory::clearAllHistory();
     echo rex_view::success(I18n::msg('structure_history_deleted'));
 }
 

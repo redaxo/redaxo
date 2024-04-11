@@ -1,6 +1,9 @@
 <?php
 
 use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Content\Category;
+use Redaxo\Core\Content\Linkmap\ArticleList;
+use Redaxo\Core\Content\Linkmap\CategoryTree;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
@@ -9,7 +12,7 @@ use Redaxo\Core\Translation\I18n;
 $openerInputField = rex_request('opener_input_field', 'string');
 $openerInputFieldName = rex_request('opener_input_field_name', 'string');
 $categoryId = rex_request('category_id', 'int');
-$categoryId = rex_category::get($categoryId) ? $categoryId : 0;
+$categoryId = Category::get($categoryId) ? $categoryId : 0;
 $clang = rex_request('clang', 'int');
 $clang = Language::exists($clang) ? $clang : Language::getStartId();
 
@@ -83,7 +86,7 @@ if (!rex_request::isXmlHttpRequest()) {
 <?php
 
 $isRoot = 0 === $categoryId;
-$category = rex_category::get($categoryId);
+$category = Category::get($categoryId);
 
 $navigation = [];
 if ($category) {
@@ -106,7 +109,7 @@ echo $fragment->parse('core/navigations/breadcrumb.php');
 
 $content = [];
 
-$categoryTree = new rex_linkmap_category_tree($context);
+$categoryTree = new CategoryTree($context);
 $panel = $categoryTree->getTree($categoryId);
 
 $fragment = new rex_fragment();
@@ -114,7 +117,7 @@ $fragment->setVar('title', I18n::msg('linkmap_categories'), false);
 $fragment->setVar('content', $panel, false);
 $content[] = $fragment->parse('core/page/section.php');
 
-$articleList = new rex_linkmap_article_list($context);
+$articleList = new ArticleList($context);
 $panel = $articleList->getList($categoryId);
 
 $fragment = new rex_fragment();

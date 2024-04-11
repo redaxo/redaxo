@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
@@ -13,8 +15,8 @@ class rex_api_content_slice_status extends rex_api_function
         $articleId = rex_request('article_id', 'int');
         $clang = rex_request('clang', 'int');
 
-        $article = rex_article::get($articleId, $clang);
-        if (!$article instanceof rex_article) {
+        $article = Article::get($articleId, $clang);
+        if (!$article instanceof Article) {
             throw new rex_api_exception('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
         }
 
@@ -28,7 +30,7 @@ class rex_api_content_slice_status extends rex_api_function
         $sliceId = rex_request('slice_id', 'int');
         $status = rex_request('status', 'int');
 
-        rex_content_service::sliceStatus($sliceId, $status);
+        ContentHandler::sliceStatus($sliceId, $status);
 
         return new rex_api_result(true);
     }

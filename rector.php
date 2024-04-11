@@ -42,6 +42,7 @@ use Redaxo\Core\Addon;
 use Redaxo\Core\Backend;
 use Redaxo\Core\Base;
 use Redaxo\Core\Console;
+use Redaxo\Core\Content;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
@@ -272,6 +273,33 @@ return RectorConfig::configure()
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
         'rex_version' => Util\Version::class,
+        'rex_article' => Content\Article::class,
+        'rex_article_action' => Content\ArticleAction::class,
+        'rex_article_cache' => Content\ArticleCache::class,
+        'rex_article_content' => Content\ArticleContent::class,
+        'rex_article_content_base' => Content\ArticleContentBase::class,
+        'rex_article_content_editor' => Content\ArticleContentEditor::class,
+        'rex_article_revision' => Content\ArticleRevision::class,
+        'rex_article_service' => Content\ArticleHandler::class,
+        'rex_article_slice' => Content\ArticleSlice::class,
+        'rex_article_slice_history' => Content\ArticleSliceHistory::class,
+        'rex_category' => Content\Category::class,
+        'rex_category_service' => Content\CategoryHandler::class,
+        'rex_content_service' => Content\ContentHandler::class,
+        'rex_ctype' => Content\ContentSection::class,
+        'rex_history_login' => Content\HistoryLogin::class,
+        'rex_linkmap_article_list' => Content\Linkmap\ArticleList::class,
+        'rex_linkmap_article_list_renderer' => Content\Linkmap\ArticleListRenderer::class,
+        'rex_linkmap_category_tree' => Content\Linkmap\CategoryTree::class,
+        'rex_linkmap_tree_renderer' => Content\Linkmap\CategoryTreeRenderer::class,
+        'rex_module' => Content\Module::class,
+        'rex_module_cache' => Content\ModuleCache::class,
+        'rex_module_perm' => Content\ModulePermission::class,
+        'rex_structure_context' => Content\StructureContext::class,
+        'rex_structure_element' => Content\StructureElement::class,
+        'rex_structure_perm' => Content\StructurePermission::class,
+        'rex_template' => Content\Template::class,
+        'rex_template_cache' => Content\TemplateCache::class,
     ])
     ->withConfiguredRule(ArgumentAdderRector::class, [
         new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 1, 'value', null),
@@ -290,9 +318,9 @@ return RectorConfig::configure()
 
         new MethodCallRename(rex_password_policy::class, 'getRule', 'getDescription'),
 
-        new MethodCallRename(rex_article_content_base::class, 'getClang', 'getClangId'),
-        new MethodCallRename(rex_article_slice::class, 'getClang', 'getClangId'),
-        new MethodCallRename(rex_structure_element::class, 'getClang', 'getClangId'),
+        new MethodCallRename(Content\ArticleContentBase::class, 'getClang', 'getClangId'),
+        new MethodCallRename(Content\ArticleSlice::class, 'getClang', 'getClangId'),
+        new MethodCallRename(Content\StructureElement::class, 'getClang', 'getClangId'),
 
         new MethodCallRename(MediaManager\ManagedMedia::class, 'getImageWidth', 'getWidth'),
         new MethodCallRename(MediaManager\ManagedMedia::class, 'getImageHeight', 'getHeight'),

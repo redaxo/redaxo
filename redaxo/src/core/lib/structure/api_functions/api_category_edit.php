@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
 
 /**
@@ -27,7 +28,7 @@ class rex_api_category_edit extends rex_api_function
         $data = [];
         $data['catpriority'] = rex_post('category-position', 'int');
         $data['catname'] = rex_post('category-name', 'string');
-        return new rex_api_result(true, rex_category_service::editCategory($catId, $clangId, $data));
+        return new rex_api_result(true, CategoryHandler::editCategory($catId, $clangId, $data));
     }
 
     protected function requiresCsrfProtection()
