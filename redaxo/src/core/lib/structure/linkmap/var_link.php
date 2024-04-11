@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -65,7 +66,7 @@ class rex_var_link extends rex_var
             $category = (int) $args['category'];
         }
 
-        $openParams = '&clang=' . rex_clang::getCurrentId() . '&category_id=' . $category;
+        $openParams = '&clang=' . Language::getCurrentId() . '&category_id=' . $category;
 
         $class = ' rex-disabled';
         $openFunc = '';

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Language\Language;
+
 /**
  * REX_CATEGORY[xzy]
  * REX_CATEGORY[field=xzy]
@@ -34,7 +36,7 @@ class rex_var_category extends rex_var
     public static function getCategoryValue($id, $field, $clang = null)
     {
         if (null === $clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
         $cat = rex_category::get($id, $clang);
         if ($cat) {

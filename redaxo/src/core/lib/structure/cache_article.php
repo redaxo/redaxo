@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 class rex_article_cache
@@ -24,7 +25,7 @@ class rex_article_cache
             return false;
         }
 
-        foreach (rex_clang::getAllIds() as $otherClangId) {
+        foreach (Language::getAllIds() as $otherClangId) {
             if (null !== $clangId && $clangId != $otherClangId) {
                 continue;
             }
@@ -55,7 +56,7 @@ class rex_article_cache
 
         $cachePath = Path::coreCache('structure/');
 
-        foreach (rex_clang::getAllIds() as $otherClangId) {
+        foreach (Language::getAllIds() as $otherClangId) {
             if (null !== $clangId && $clangId != $otherClangId) {
                 continue;
             }
@@ -86,7 +87,7 @@ class rex_article_cache
 
         $cachePath = Path::coreCache('structure/');
 
-        foreach (rex_clang::getAllIds() as $otherClangId) {
+        foreach (Language::getAllIds() as $otherClangId) {
             if (null !== $clangId && $clangId != $otherClangId) {
                 continue;
             }
@@ -184,7 +185,7 @@ class rex_article_cache
 
         $GC = Sql::factory();
         // $GC->setDebug();
-        $GC->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=:clang AND ((parent_id=:id and startarticle=0) OR (id=:id and startarticle=1)) order by priority,name', ['id' => $parentId, 'clang' => rex_clang::getStartId()]);
+        $GC->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=:clang AND ((parent_id=:id and startarticle=0) OR (id=:id and startarticle=1)) order by priority,name', ['id' => $parentId, 'clang' => Language::getStartId()]);
 
         $cacheArray = [];
         foreach ($GC as $row) {
@@ -199,7 +200,7 @@ class rex_article_cache
         // --------------------------------------- CAT LIST
 
         $GC = Sql::factory();
-        $GC->setQuery('select * from ' . Core::getTablePrefix() . 'article where parent_id=:id and clang_id=:clang and startarticle=1 order by catpriority,name', ['id' => $parentId, 'clang' => rex_clang::getStartId()]);
+        $GC->setQuery('select * from ' . Core::getTablePrefix() . 'article where parent_id=:id and clang_id=:clang and startarticle=1 order by catpriority,name', ['id' => $parentId, 'clang' => Language::getStartId()]);
 
         $cacheArray = [];
         foreach ($GC as $row) {

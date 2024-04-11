@@ -3,6 +3,8 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Language\Language;
+use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -30,12 +32,12 @@ $success = '';
 $csrfToken = rex_csrf_token::factory('clang');
 
 // ----- delete clang
-if ('deleteclang' == $func && '' != $clangId && rex_clang::exists($clangId)) {
+if ('deleteclang' == $func && '' != $clangId && Language::exists($clangId)) {
     try {
         if (!$csrfToken->isValid()) {
             throw new rex_functional_exception(I18n::msg('csrf_token_invalid'));
         }
-        rex_clang_service::deleteCLang($clangId);
+        LanguageHandler::deleteCLang($clangId);
         $success = I18n::msg('clang_deleted');
         $func = '';
         $clangId = 0;
@@ -44,13 +46,13 @@ if ('deleteclang' == $func && '' != $clangId && rex_clang::exists($clangId)) {
     }
 }
 
-if ('editstatus' === $func && rex_clang::exists($clangId)) {
+if ('editstatus' === $func && Language::exists($clangId)) {
     try {
         if (!$csrfToken->isValid()) {
             throw new rex_functional_exception(I18n::msg('csrf_token_invalid'));
         }
-        $clang = rex_clang::get($clangId);
-        rex_clang_service::editCLang($clangId, $clang->getCode(), $clang->getName(), $clang->getPriority(), $clangStatus);
+        $clang = Language::get($clangId);
+        LanguageHandler::editCLang($clangId, $clang->getCode(), $clang->getName(), $clang->getPriority(), $clangStatus);
         $success = I18n::msg('clang_edited');
         $func = '';
         $clangId = 0;
@@ -72,12 +74,12 @@ if ($addClangSave || $editClangSave) {
         $func = $addClangSave ? 'addclang' : 'editclang';
     } elseif ($addClangSave) {
         $success = I18n::msg('clang_created');
-        rex_clang_service::addCLang($clangCode, $clangName, $clangPrio);
+        LanguageHandler::addCLang($clangCode, $clangName, $clangPrio);
         $clangId = 0;
         $func = '';
     } else {
-        if (rex_clang::exists($clangId)) {
-            rex_clang_service::editCLang($clangId, $clangCode, $clangName, $clangPrio);
+        if (Language::exists($clangId)) {
+            LanguageHandler::editCLang($clangId, $clangCode, $clangName, $clangPrio);
             $success = I18n::msg('clang_edited');
             $func = '';
             $clangId = 0;
@@ -120,7 +122,7 @@ if ('addclang' == $func) {
                     <td class="rex-table-id" data-title="' . I18n::msg('id') . '">–</td>
                     <td data-title="' . I18n::msg('clang_code') . '"><input class="form-control" type="text" id="rex-form-clang-code" name="clang_code" value="' . rex_escape($clangCode) . '" required maxlength="255" autocapitalize="off" autocorrect="off" autofocus /></td>
                     <td data-title="' . I18n::msg('clang_name') . '"><input class="form-control" type="text" id="rex-form-clang-name" name="clang_name" value="' . rex_escape($clangName) . '" required maxlength="255" /></td>
-                    <td class="rex-table-priority" data-title="' . I18n::msg('clang_priority') . '"><input class="form-control" type="number" id="rex-form-clang-prio" name="clang_prio" value="' . ($clangPrio ?: rex_clang::count() + 1) . '" required min="1" inputmode="numeric" /></td>
+                    <td class="rex-table-priority" data-title="' . I18n::msg('clang_priority') . '"><input class="form-control" type="number" id="rex-form-clang-prio" name="clang_prio" value="' . ($clangPrio ?: Language::count() + 1) . '" required min="1" inputmode="numeric" /></td>
                     <td class="rex-table-action">' . $metaButtons . '</td>
                     <td class="rex-table-action" colspan="2"><button class="btn btn-save" type="submit" name="add_clang_save"' . Core::getAccesskey(I18n::msg('clang_add'), 'save') . ' value="1">' . I18n::msg('clang_add') . '</button></td>
                 </tr>
@@ -136,7 +138,7 @@ foreach ($sql as $row) {
     $addTd = '<td class="rex-table-id" data-title="' . I18n::msg('id') . '">' . $langId . '</td>';
 
     $delLink = I18n::msg('delete');
-    if ($langId == rex_clang::getStartId()) {
+    if ($langId == Language::getStartId()) {
         $delLink = '<span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</span>';
     } else {
         $delLink = '<a class="rex-link-expanded" href="' . Url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $langId] + $csrfToken->getUrlParams()) . '" data-confirm="' . I18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</a>';

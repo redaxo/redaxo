@@ -1,13 +1,19 @@
 <?php
 
+namespace Redaxo\Core\Language;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use rex_exception;
+use rex_extension;
+use rex_extension_point;
+use rex_functional_exception;
 
-class rex_clang_service
+class LanguageHandler
 {
     /**
      * Erstellt eine Clang.
@@ -33,7 +39,7 @@ class rex_clang_service
         Util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority, id != ' . $id);
 
         $firstLang = Sql::factory();
-        $firstLang->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=?', [rex_clang::getStartId()]);
+        $firstLang->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=?', [Language::getStartId()]);
         $fields = $firstLang->getFieldnames();
 
         $newLang = Sql::factory();
@@ -61,7 +67,7 @@ class rex_clang_service
         rex_delete_cache();
 
         // ----- EXTENSION POINT
-        $clang = rex_clang::get($id);
+        $clang = Language::get($id);
         rex_extension::registerPoint(new rex_extension_point('CLANG_ADDED', '', [
             'id' => $clang->getId(),
             'name' => $clang->getName(),
@@ -84,11 +90,11 @@ class rex_clang_service
      */
     public static function editCLang($id, $code, $name, $priority, $status = null)
     {
-        if (!rex_clang::exists($id)) {
-            throw new rex_exception('clang with id "' . $id . '" does not exist');
+        if (!Language::exists($id)) {
+            throw new rex_exception('Language with id "' . $id . '" does not exist');
         }
 
-        $oldPriority = rex_clang::get($id)->getPriority();
+        $oldPriority = Language::get($id)->getPriority();
 
         $editLang = Sql::factory();
         $editLang->setTable(Core::getTablePrefix() . 'clang');
@@ -107,7 +113,7 @@ class rex_clang_service
         rex_delete_cache();
 
         // ----- EXTENSION POINT
-        $clang = rex_clang::get($id);
+        $clang = Language::get($id);
         rex_extension::registerPoint(new rex_extension_point('CLANG_UPDATED', '', [
             'id' => $clang->getId(),
             'name' => $clang->getName(),
@@ -127,16 +133,16 @@ class rex_clang_service
      */
     public static function deleteCLang($id)
     {
-        $startClang = rex_clang::getStartId();
+        $startClang = Language::getStartId();
         if ($id == $startClang) {
             throw new rex_functional_exception(I18n::msg('clang_error_startidcanotbedeleted', $startClang));
         }
 
-        if (!rex_clang::exists($id)) {
+        if (!Language::exists($id)) {
             throw new rex_functional_exception(I18n::msg('clang_error_idcanotbedeleted', $id));
         }
 
-        $clang = rex_clang::get($id);
+        $clang = Language::get($id);
 
         $del = Sql::factory();
         $del->setQuery('delete from ' . Core::getTablePrefix() . 'clang where id=?', [$id]);
@@ -177,7 +183,7 @@ class rex_clang_service
 
         $file = Path::coreCache('clang.cache');
         if (!File::putCache($file, $clangs)) {
-            throw new rex_exception('Clang cache file could not be generated');
+            throw new rex_exception('Language cache file could not be generated');
         }
     }
 }

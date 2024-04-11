@@ -6,8 +6,8 @@ use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Field\PriorityField;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
-use rex_clang;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
@@ -359,7 +359,7 @@ class Form extends AbstractForm
                 $sql->update();
             } else {
                 if (count($this->languageSupport)) {
-                    foreach (rex_clang::getAllIds() as $clangId) {
+                    foreach (Language::getAllIds() as $clangId) {
                         $sql->setTable($this->tableName);
                         $this->setGlobalSqlFields($sql);
                         if (!isset($id)) {

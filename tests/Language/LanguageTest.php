@@ -1,28 +1,32 @@
 <?php
 
+namespace Redaxo\Core\Tests\Language;
+
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Language\Language;
+use ReflectionClass;
 
 /** @internal */
-final class rex_clang_test extends TestCase
+final class LanguageTest extends TestCase
 {
     public function testGetCurrentId(): void
     {
-        self::assertIsInt(rex_clang::getCurrentId());
+        self::assertIsInt(Language::getCurrentId());
     }
 
     public function testGetId(): void
     {
-        self::assertIsInt(rex_clang::getCurrent()->getId());
+        self::assertIsInt(Language::getCurrent()->getId());
     }
 
     public function testGetPriority(): void
     {
-        self::assertSame(1, rex_clang::getCurrent()->getPriority());
+        self::assertSame(1, Language::getCurrent()->getPriority());
     }
 
     public function testIsOnline(): void
     {
-        self::assertIsBool(rex_clang::getCurrent()->isOnline());
+        self::assertIsBool(Language::getCurrent()->isOnline());
     }
 
     public function testHasValue(): void
@@ -41,7 +45,7 @@ final class rex_clang_test extends TestCase
 
     public function testGetValue(): void
     {
-        self::assertIsInt(rex_clang::getCurrent()->getValue('id'));
+        self::assertIsInt(Language::getCurrent()->getValue('id'));
 
         $clang = $this->createClangWithoutConstructor();
 
@@ -55,8 +59,8 @@ final class rex_clang_test extends TestCase
         self::assertNull($clang->getValue('clang_bar'));
     }
 
-    private function createClangWithoutConstructor(): rex_clang
+    private function createClangWithoutConstructor(): Language
     {
-        return (new ReflectionClass(rex_clang::class))->newInstanceWithoutConstructor();
+        return (new ReflectionClass(Language::class))->newInstanceWithoutConstructor();
     }
 }

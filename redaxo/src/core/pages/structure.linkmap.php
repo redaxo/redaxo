@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 // ------- Default Values
@@ -9,7 +10,7 @@ $openerInputFieldName = rex_request('opener_input_field_name', 'string');
 $categoryId = rex_request('category_id', 'int');
 $categoryId = rex_category::get($categoryId) ? $categoryId : 0;
 $clang = rex_request('clang', 'int');
-$clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
+$clang = Language::exists($clang) ? $clang : Language::getStartId();
 
 $pattern = '/[^a-z0-9_-]/i';
 if (preg_match($pattern, $openerInputField, $match)) {

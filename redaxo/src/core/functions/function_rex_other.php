@@ -3,6 +3,7 @@
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Translation\I18n;
 
@@ -23,7 +24,7 @@ function rex_delete_cache()
         ->ignoreSystemStuff(false);
     Dir::deleteIterator($finder);
 
-    rex_clang::reset();
+    Language::reset();
 
     rex_structure_element::clearInstancePool();
     rex_structure_element::clearInstanceListPool();

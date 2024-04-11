@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Translation\I18n;
 
 $step = rex_request('step', 'int', 1);
@@ -243,7 +244,7 @@ if ($step > 4 && $createdb > -1) {
     }
 
     if (0 == count($errors)) {
-        rex_clang_service::generateCache();
+        LanguageHandler::generateCache();
         Core::setConfig('version', Core::getVersion());
     } else {
         $step = 4;

@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 $articleId = rex_request('article_id', 'int');
@@ -11,7 +12,7 @@ $clang = rex_request('clang', 'int');
 $sliceId = rex_request('slice_id', 'int', '');
 
 $articleId = rex_article::get($articleId) ? $articleId : 0;
-$clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
+$clang = Language::exists($clang) ? $clang : Language::getStartId();
 
 $articleRevision = 0;
 $sliceRevision = 0;

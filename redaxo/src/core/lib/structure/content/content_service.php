@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 class rex_content_service
@@ -337,7 +338,7 @@ class rex_content_service
      */
     public static function generateArticleContent($articleId, $clang = null)
     {
-        foreach (rex_clang::getAllIds() as $clangId) {
+        foreach (Language::getAllIds() as $clangId) {
             if (null !== $clang && $clangId != $clang) {
                 continue;
             }
