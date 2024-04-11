@@ -8,8 +8,8 @@ use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
-
 use SensitiveParameter;
+
 use function count;
 
 class BackendPasswordPolicy extends PasswordPolicy
