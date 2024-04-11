@@ -2,11 +2,16 @@
 
 namespace Redaxo\Core\Security;
 
+use DateTimeImmutable;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 
+use rex_exception;
+use rex_extension_point;
+use rex_response;
+use SensitiveParameter;
 use function assert;
 
 use const PHP_SESSION_ACTIVE;

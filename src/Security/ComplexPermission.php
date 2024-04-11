@@ -2,6 +2,10 @@
 
 namespace Redaxo\Core\Security;
 
+use InvalidArgumentException;
+use rex_extension;
+use rex_extension_point;
+
 /**
  * Abstract class for complex permissions.
  *
@@ -66,7 +70,7 @@ abstract class ComplexPermission
      * Registers a new complex perm class.
      *
      * @param string $key Key for the complex perm
-     * @param class-string<\Redaxo\Core\Security\ComplexPermission> $class Class name
+     * @param class-string<self> $class Class name
      * @throws InvalidArgumentException
      * @return void
      */
