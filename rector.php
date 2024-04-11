@@ -47,6 +47,7 @@ use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
 use Redaxo\Core\HttpClient;
+use Redaxo\Core\Language;
 use Redaxo\Core\Log;
 use Redaxo\Core\Mailer;
 use Redaxo\Core\MediaManager;
@@ -124,6 +125,9 @@ return RectorConfig::configure()
         'rex_addon_interface' => Addon\AddonInterface::class,
         'rex_addon_manager' => Addon\AddonManager::class,
         'rex_null_addon' => Addon\NullAddon::class,
+        'rex_clang' => Language\Language::class,
+        'rex_clang_perm' => Language\LanguagePermission::class,
+        'rex_clang_service' => Language\LanguageHandler::class,
         'rex_console_application' => Console\Application::class,
         'rex_console_command' => Console\Command\AbstractCommand::class,
         'rex_console_command_loader' => Console\CommandLoader::class,
