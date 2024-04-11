@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 class rex_template_select extends rex_select
@@ -22,7 +23,7 @@ class rex_template_select extends rex_select
     public function __construct($categoryId = null, $clangId = null)
     {
         $this->categoryId = $categoryId;
-        $this->clangId = null === $clangId ? rex_clang::getCurrentId() : (int) $clangId;
+        $this->clangId = null === $clangId ? Language::getCurrentId() : (int) $clangId;
 
         parent::__construct();
     }

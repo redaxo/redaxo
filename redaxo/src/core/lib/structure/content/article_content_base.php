@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
@@ -63,7 +64,7 @@ class rex_article_content_base
         if (null !== $clang) {
             $this->setCLang($clang);
         } else {
-            $this->setClang(rex_clang::getCurrentId());
+            $this->setClang(Language::getCurrentId());
         }
 
         // ----- EXTENSION POINT
@@ -118,8 +119,8 @@ class rex_article_content_base
      */
     public function setClang($value)
     {
-        if (!rex_clang::exists($value)) {
-            $value = rex_clang::getCurrentId();
+        if (!Language::exists($value)) {
+            $value = Language::getCurrentId();
         }
         $this->clang = $value;
     }

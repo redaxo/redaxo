@@ -8,6 +8,8 @@ use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Language\Language;
+use Redaxo\Core\Language\LanguagePermission;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\MediaPoolPermission;
 use Redaxo\Core\Translation\I18n;
@@ -129,7 +131,7 @@ rex_var_dumper::register();
 
 rex_user::setRoleClass(rex_user_role::class);
 
-rex_complex_perm::register('clang', rex_clang_perm::class);
+rex_complex_perm::register('clang', LanguagePermission::class);
 rex_complex_perm::register('structure', rex_structure_perm::class);
 rex_complex_perm::register('modules', rex_module_perm::class);
 rex_complex_perm::register('media', MediaPoolPermission::class);
@@ -139,9 +141,9 @@ rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'rem
 
 // ----- SET CLANG
 if (!Core::isSetup()) {
-    $clangId = rex_request('clang', 'int', rex_clang::getStartId());
-    if (Core::isBackend() || rex_clang::exists($clangId)) {
-        rex_clang::setCurrentId($clangId);
+    $clangId = rex_request('clang', 'int', Language::getStartId());
+    if (Core::isBackend() || Language::exists($clangId)) {
+        Language::setCurrentId($clangId);
     }
 }
 

@@ -6,6 +6,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Language\Language;
 
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten.
@@ -180,7 +181,7 @@ abstract class rex_structure_element
         }
 
         if (!$clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
 
         return static::getInstance([$id, $clang], static function () use ($id, $clang) {
@@ -219,7 +220,7 @@ abstract class rex_structure_element
             return [];
         }
         if (!$clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
 
         $class = static::class;

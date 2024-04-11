@@ -1,10 +1,18 @@
 <?php
 
+namespace Redaxo\Core\Language;
+
+use AllowDynamicProperties;
+use LogicException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use rex_exception;
+
+use function count;
+use function in_array;
 
 #[AllowDynamicProperties]
-class rex_clang
+class Language
 {
     private static bool $cacheLoaded = false;
     /** @var array<int, self> */
@@ -63,7 +71,7 @@ class rex_clang
         foreach (self::getAll() as $id => $clang) {
             return $id;
         }
-        throw new LogicException('No clang found.');
+        throw new LogicException('No language found.');
     }
 
     /**
@@ -76,7 +84,7 @@ class rex_clang
         $clang = self::get(self::getCurrentId());
 
         if (!$clang) {
-            throw new LogicException('Clang with id "' . self::getCurrentId() . '" not found.');
+            throw new LogicException('Language with id "' . self::getCurrentId() . '" not found.');
         }
 
         return $clang;
@@ -103,7 +111,7 @@ class rex_clang
     public static function setCurrentId($id)
     {
         if (!self::exists($id)) {
-            throw new rex_exception('Clang id "' . $id . '" doesn\'t exist');
+            throw new rex_exception('Language id "' . $id . '" doesn\'t exist');
         }
         self::$currentId = (int) $id;
     }
@@ -159,7 +167,7 @@ class rex_clang
     }
 
     /**
-     * Checks whether the clang has the given value.
+     * Checks whether the language has the given value.
      *
      * @param string $key
      *
@@ -240,7 +248,7 @@ class rex_clang
 
         $file = Path::coreCache('clang.cache');
         if (!is_file($file)) {
-            rex_clang_service::generateCache();
+            LanguageHandler::generateCache();
         }
         foreach (File::getCache($file) as $id => $data) {
             $clang = new self();

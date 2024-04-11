@@ -4,7 +4,6 @@ namespace Redaxo\Core\MetaInfo\Handler;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use rex_clang_service;
 use rex_extension;
 use rex_extension_point;
 
@@ -52,7 +51,7 @@ class LanguageHandler extends AbstractHandler
             $sql->update();
         }
 
-        rex_clang_service::generateCache();
+        \Redaxo\Core\Language\LanguageHandler::generateCache();
 
         return $params;
     }

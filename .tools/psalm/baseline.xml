@@ -997,28 +997,6 @@
       <code><![CDATA[$path]]></code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/lib/clang/clang.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$data['priority']]]></code>
-      <code><![CDATA[$data['status']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$data]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[self::$clangs]]></code>
-    </MixedPropertyTypeCoercion>
-  </file>
-  <file src="redaxo/src/core/lib/clang/service.php">
-    <PossiblyNullReference>
-      <code><![CDATA[getId]]></code>
-      <code><![CDATA[getId]]></code>
-      <code><![CDATA[getId]]></code>
-      <code><![CDATA[getPriority]]></code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/lib/config.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$cfg->getValue('value')]]></code>
@@ -3866,6 +3844,28 @@
       <code><![CDATA[$this->languageSupport['id']]]></code>
       <code><![CDATA[$this->languageSupport['id']]]></code>
     </MixedArgument>
+  </file>
+  <file src="src/Language/Language.php">
+    <MixedArrayAccess>
+      <code><![CDATA[$data['priority']]]></code>
+      <code><![CDATA[$data['status']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$data]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[self::$clangs]]></code>
+    </MixedPropertyTypeCoercion>
+  </file>
+  <file src="src/Language/LanguageHandler.php">
+    <PossiblyNullReference>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getPriority]]></code>
+    </PossiblyNullReference>
   </file>
   <file src="src/Log/Logger.php">
     <MixedArgument>

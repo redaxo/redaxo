@@ -3,6 +3,7 @@
 use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Language\LanguagePermission;
 use Redaxo\Core\MediaPool\MediaPoolPermission;
 
 class rex_user
@@ -224,7 +225,7 @@ class rex_user
      *
      * @return rex_complex_perm|null Complex perm
      * @psalm-return rex_complex_perm|null
-     * @phpstan-return MediaPoolPermission|rex_structure_perm|rex_module_perm|rex_clang_perm|null
+     * @phpstan-return MediaPoolPermission|rex_structure_perm|rex_module_perm|LanguagePermission|null
      */
     public function getComplexPerm($key)
     {

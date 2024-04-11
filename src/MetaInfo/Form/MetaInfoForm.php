@@ -6,6 +6,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\MetaInfo\Database\Table;
 use Redaxo\Core\MetaInfo\Form\Field\RestrictionField;
 use Redaxo\Core\MetaInfo\Handler\ArticleHandler;
@@ -16,7 +17,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
 use rex_category_select;
-use rex_clang;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
@@ -165,7 +165,7 @@ class MetaInfoForm extends Form
             $field = $this->addRestrictionsField('templates');
             $field->setLabel(I18n::msg('minfo_field_label_templates'));
             $field->setAllCheckboxLabel(I18n::msg('minfo_field_label_all_templates'));
-            $field->setSelect(new rex_template_select(null, rex_clang::getCurrentId()));
+            $field->setSelect(new rex_template_select(null, Language::getCurrentId()));
         }
 
         parent::init();

@@ -5,6 +5,7 @@ use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Backend\Page;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 class rex_view
@@ -342,16 +343,16 @@ class rex_view
      */
     public static function clangSwitch(rex_context $context, $asDropDown = true)
     {
-        if (1 == rex_clang::count()) {
+        if (1 == Language::count()) {
             return '';
         }
 
-        if ($asDropDown && rex_clang::count() >= 4) {
+        if ($asDropDown && Language::count() >= 4) {
             return self::clangSwitchAsDropdown($context);
         }
 
         $items = [];
-        foreach (rex_clang::getAll() as $id => $clang) {
+        foreach (Language::getAll() as $id => $clang) {
             if (Core::requireUser()->getComplexPerm('clang')->hasPerm($id)) {
                 $icon = ($id == $context->getParam('clang')) ? '<i class="rex-icon rex-icon-language-active"></i> ' : '<i class="rex-icon rex-icon-language"></i> ';
                 $item = [];
@@ -378,16 +379,16 @@ class rex_view
      */
     public static function clangSwitchAsButtons(rex_context $context, $asDropDown = true)
     {
-        if (1 == rex_clang::count()) {
+        if (1 == Language::count()) {
             return '';
         }
 
-        if ($asDropDown && rex_clang::count() >= 4) {
+        if ($asDropDown && Language::count() >= 4) {
             return self::clangSwitchAsDropdown($context);
         }
 
         $items = [];
-        foreach (rex_clang::getAll() as $id => $clang) {
+        foreach (Language::getAll() as $id => $clang) {
             if (Core::requireUser()->getComplexPerm('clang')->hasPerm($id)) {
                 $icon = $clang->isOnline() ? '<i class="rex-icon rex-icon-online"></i> ' : '<i class="rex-icon rex-icon-offline"></i> ';
                 $item = [];
@@ -414,7 +415,7 @@ class rex_view
      */
     public static function clangSwitchAsDropdown(rex_context $context)
     {
-        if (1 == rex_clang::count()) {
+        if (1 == Language::count()) {
             return '';
         }
 
@@ -422,7 +423,7 @@ class rex_view
 
         $buttonLabel = '';
         $items = [];
-        foreach (rex_clang::getAll() as $id => $clang) {
+        foreach (Language::getAll() as $id => $clang) {
             if ($user->getComplexPerm('clang')->hasPerm($id)) {
                 $item = [];
                 $item['title'] = I18n::translate($clang->getName());
