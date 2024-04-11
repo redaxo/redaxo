@@ -2,6 +2,8 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MediaPool\MediaCategory;
+use Redaxo\Core\MediaPool\MediaCategoryHandler;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
@@ -31,10 +33,10 @@ if ($PERMALL) {
             if ('edit_file_cat' == $mediaMethod) {
                 $catName = rex_request('cat_name', 'string');
                 $data = ['name' => $catName];
-                $success = rex_media_category_service::editCategory($editId, $data);
+                $success = MediaCategoryHandler::editCategory($editId, $data);
             } elseif ('delete_file_cat' == $mediaMethod) {
                 try {
-                    $success = rex_media_category_service::deleteCategory($editId);
+                    $success = MediaCategoryHandler::deleteCategory($editId);
                 } catch (rex_functional_exception $e) {
                     $error = $e->getMessage();
                 }
@@ -42,9 +44,9 @@ if ($PERMALL) {
                 $parent = null;
                 $parentId = rex_request('cat_id', 'int');
                 if ($parentId) {
-                    $parent = rex_media_category::get($parentId);
+                    $parent = MediaCategory::get($parentId);
                 }
-                $success = rex_media_category_service::addCategory(
+                $success = MediaCategoryHandler::addCategory(
                     rex_request('catname', 'string'),
                     $parent,
                 );
@@ -62,8 +64,8 @@ if ($PERMALL) {
     $breadcrumb[] = $n;
 
     $catId = rex_request('cat_id', 'int');
-    if (0 == $catId || !($OOCat = rex_media_category::get($catId))) {
-        $OOCats = rex_media_category::getRootCategories();
+    if (0 == $catId || !($OOCat = MediaCategory::get($catId))) {
+        $OOCats = MediaCategory::getRootCategories();
         $catId = 0;
         $catpath = '|';
     } else {
@@ -73,7 +75,7 @@ if ($PERMALL) {
         for ($i = 1; $i < count($paths); ++$i) {
             $iid = current($paths);
             if ('' != $iid) {
-                $icat = rex_media_category::get((int) $iid);
+                $icat = MediaCategory::get((int) $iid);
 
                 $n = [];
                 $n['title'] = rex_escape($icat->getName());

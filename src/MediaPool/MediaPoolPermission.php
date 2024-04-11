@@ -1,8 +1,15 @@
 <?php
 
-use Redaxo\Core\Translation\I18n;
+namespace Redaxo\Core\MediaPool;
 
-class rex_media_perm extends rex_complex_perm
+use Redaxo\Core\Translation\I18n;
+use rex_complex_perm;
+use rex_media_category_select;
+
+use function count;
+use function in_array;
+
+class MediaPoolPermission extends rex_complex_perm
 {
     /**
      * @param int $categoryId

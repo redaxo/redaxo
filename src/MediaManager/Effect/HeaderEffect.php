@@ -4,8 +4,8 @@ namespace Redaxo\Core\MediaManager\Effect;
 
 use LogicException;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\Translation\I18n;
-use rex_media;
 
 class HeaderEffect extends AbstractEffect
 {
@@ -38,7 +38,7 @@ class HeaderEffect extends AbstractEffect
         $disposition .= '; filename="' . Path::basename($this->media->getMediaFilename()) . '"';
 
         if ('originalname' == $this->params['filename']) {
-            $disposition .= "; filename*=utf-8''" . rawurldecode(rex_media::get($this->media->getMediaFilename())->getOriginalFileName());
+            $disposition .= "; filename*=utf-8''" . rawurldecode(Media::get($this->media->getMediaFilename())->getOriginalFileName());
         }
 
         if ('noindex' === ($this->params['index'] ?? null)) {

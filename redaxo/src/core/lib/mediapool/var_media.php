@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -40,7 +41,7 @@ class rex_var_media extends rex_var
             $value = self::getWidget($id, 'REX_INPUT_MEDIA[' . $id . ']', $value, $args);
         } else {
             if ($this->hasArg('output') && 'mimetype' == $this->getArg('output')) {
-                $media = rex_media::get($value);
+                $media = Media::get($value);
                 if ($media) {
                     $value = $media->getType();
                 }

@@ -1,5 +1,8 @@
 <?php
 
+namespace Redaxo\Core\MediaPool;
+
+use LogicException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
@@ -7,8 +10,23 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
+use rex_api_exception;
+use rex_extension;
+use rex_extension_point;
+use rex_sql_exception;
 
-final class rex_media_service
+use function assert;
+use function count;
+use function in_array;
+use function is_array;
+use function is_int;
+use function is_string;
+use function strlen;
+
+use const PATHINFO_EXTENSION;
+use const UPLOAD_ERR_INI_SIZE;
+
+final class MediaHandler
 {
     private const ORDER_BY = [
         'filename',
@@ -41,17 +59,17 @@ final class rex_media_service
             throw new rex_api_exception(I18n::msg('pool_file_not_found'));
         }
 
-        if (!rex_mediapool::isAllowedExtension($data['file']['name'], $allowedExtensions)) {
+        if (!MediaPool::isAllowedExtension($data['file']['name'], $allowedExtensions)) {
             $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . File::extension($data['file']['name']) . '</code>';
-            $allowedExtensions = rex_mediapool::getAllowedExtensions($allowedExtensions);
+            $allowedExtensions = MediaPool::getAllowedExtensions($allowedExtensions);
             $warning .= count($allowedExtensions) > 0
                     ? '<br />' . I18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $allowedExtensions), ', ') . '</code>'
-                    : '<br />' . I18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool::getBlockedExtensions()), ', ') . '</code>';
+                    : '<br />' . I18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', MediaPool::getBlockedExtensions()), ', ') . '</code>';
 
             throw new rex_api_exception($warning);
         }
 
-        if (!rex_mediapool::isAllowedMimeType($data['file']['path'], $data['file']['name'])) {
+        if (!MediaPool::isAllowedMimeType($data['file']['path'], $data['file']['name'])) {
             $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . File::extension($data['file']['name']) . '</code> (<code>' . File::mimeType($data['file']['path']) . '</code>)';
             throw new rex_api_exception($warning);
         }
@@ -59,7 +77,7 @@ final class rex_media_service
         $categoryId = (int) $data['category_id'];
         $title = (string) $data['title'];
 
-        $data['file']['name_new'] = rex_mediapool::filename($data['file']['name'], $doSubindexing);
+        $data['file']['name_new'] = MediaPool::filename($data['file']['name'], $doSubindexing);
 
         // ----- alter/neuer filename
         $srcFile = $data['file']['path'];
@@ -129,7 +147,7 @@ final class rex_media_service
 
         $data['message'] = implode('<br />', $message);
 
-        rex_media_cache::deleteList($categoryId);
+        MediaPoolCache::deleteList($categoryId);
 
         /**
          * @deprecated $return
@@ -161,7 +179,7 @@ final class rex_media_service
             throw new rex_api_exception('Expecting Filename.');
         }
 
-        $media = rex_media::get($filename);
+        $media = Media::get($filename);
         if (!$media) {
             throw new rex_api_exception(I18n::msg('pool_file_not_found'));
         }
@@ -225,7 +243,7 @@ final class rex_media_service
         $saveObject->addGlobalUpdateFields();
         $saveObject->update();
 
-        rex_media_cache::delete($filename);
+        MediaPoolCache::delete($filename);
 
         /**
          * @deprecated $return
@@ -248,12 +266,12 @@ final class rex_media_service
 
     public static function deleteMedia(string $filename): void
     {
-        $media = rex_media::get($filename);
+        $media = Media::get($filename);
         if (!$media) {
             throw new rex_api_exception(I18n::msg('pool_file_not_found', $filename));
         }
 
-        if ($uses = rex_mediapool::mediaIsInUse($filename)) {
+        if ($uses = MediaPool::mediaIsInUse($filename)) {
             throw new rex_api_exception(I18n::msg('pool_file_delete_error', $filename) . ' ' . I18n::msg('pool_object_in_use_by') . $uses);
         }
 
@@ -261,7 +279,7 @@ final class rex_media_service
         $sql->setQuery('DELETE FROM ' . Core::getTable('media') . ' WHERE filename = ? LIMIT 1', [$filename]);
 
         File::delete(Path::media($filename));
-        rex_media_cache::delete($filename);
+        MediaPoolCache::delete($filename);
 
         rex_extension::registerPoint(new rex_extension_point('MEDIA_DELETED', '', [
             'filename' => $filename,
@@ -272,7 +290,7 @@ final class rex_media_service
      * @param array{category_id?: int, category_id_path?: int, types?: list<string>, term?: string} $filter
      * @param list<array{string, 'ASC'|'DESC'}> $orderBy
      * @throws rex_sql_exception
-     * @return list<rex_media>
+     * @return list<Media>
      */
     public static function getList(array $filter = [], array $orderBy = [], ?Pager $pager = null): array
     {
@@ -366,7 +384,7 @@ final class rex_media_service
 
         /** @var array{filename: string} $media */
         foreach ($sql->getArray($query, $queryParams) as $media) {
-            $mediaObject = rex_media::get($media['filename']);
+            $mediaObject = Media::get($media['filename']);
             if (!$mediaObject) {
                 throw new LogicException('Media "' . $media['filename'] . '" does not exist');
             }

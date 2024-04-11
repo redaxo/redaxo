@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\MediaPool\MediaCategory;
 
 class rex_media_category_select extends rex_select
 {
@@ -39,17 +40,17 @@ class rex_media_category_select extends rex_select
         if (null !== $this->rootId) {
             if (is_array($this->rootId)) {
                 foreach ($this->rootId as $rootId) {
-                    if ($rootCat = rex_media_category::get($rootId)) {
+                    if ($rootCat = MediaCategory::get($rootId)) {
                         $this->addCatOption($rootCat);
                     }
                 }
             } else {
-                if ($rootCat = rex_media_category::get($this->rootId)) {
+                if ($rootCat = MediaCategory::get($this->rootId)) {
                     $this->addCatOption($rootCat);
                 }
             }
         } else {
-            if ($rootCats = rex_media_category::getRootCategories()) {
+            if ($rootCats = MediaCategory::getRootCategories()) {
                 foreach ($rootCats as $rootCat) {
                     $this->addCatOption($rootCat);
                 }
@@ -60,7 +61,7 @@ class rex_media_category_select extends rex_select
     /**
      * @return void
      */
-    protected function addCatOption(rex_media_category $mediacat, int $parentId = 0)
+    protected function addCatOption(MediaCategory $mediacat, int $parentId = 0)
     {
         if (!$this->checkPerms || Core::requireUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())
         ) {

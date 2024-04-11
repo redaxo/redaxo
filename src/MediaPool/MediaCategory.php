@@ -1,14 +1,19 @@
 <?php
 
+namespace Redaxo\Core\MediaPool;
+
+use LogicException;
 use Redaxo\Core\Base\InstanceListPoolTrait;
 use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
+use function in_array;
+
 /**
  * Object Oriented Framework: Bildet eine Kategorie im Medienpool ab.
  */
-class rex_media_category
+class MediaCategory
 {
     use InstanceListPoolTrait;
     use InstancePoolTrait;
@@ -44,7 +49,7 @@ class rex_media_category
             $cache = File::getCache($catPath);
 
             if (!$cache) {
-                rex_media_cache::generateCategory($id);
+                MediaPoolCache::generateCategory($id);
                 $cache = File::getCache($catPath);
             }
 
@@ -93,7 +98,7 @@ class rex_media_category
 
             $list = File::getCache($catlistPath, null);
             if (null === $list) {
-                rex_media_cache::generateCategoryList($parentId);
+                MediaPoolCache::generateCategoryList($parentId);
                 $list = File::getCache($catlistPath);
             }
 
@@ -188,7 +193,7 @@ class rex_media_category
 
     /**
      * Get an array of all parentCategories.
-     * Returns an array of rex_media_category objects sorted by $priority.
+     * Returns an array of MediaCategory objects sorted by $priority.
      *
      * @return list<self>
      */
@@ -236,18 +241,18 @@ class rex_media_category
     }
 
     /**
-     * @return list<rex_media>
+     * @return list<Media>
      */
     public function getMedia(): array
     {
         $id = $this->getId();
 
-        return self::getInstanceList([$id, 'media'], rex_media::get(...), static function () use ($id) {
+        return self::getInstanceList([$id, 'media'], Media::get(...), static function () use ($id) {
             $listPath = Path::coreCache('mediapool/' . $id . '.mlist');
 
             $list = File::getCache($listPath, null);
             if (null === $list) {
-                rex_media_cache::generateList($id);
+                MediaPoolCache::generateList($id);
                 $list = File::getCache($listPath);
             }
 

@@ -1,16 +1,19 @@
 <?php
 
+namespace Redaxo\Core\Tests\MediaPool;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
+use Redaxo\Core\MediaPool\MediaPool;
 
 /** @internal */
-final class rex_mediapool_test extends TestCase
+final class MediaPoolTest extends TestCase
 {
     #[DataProvider('provideIsAllowedExtension')]
     public function testIsAllowedExtension(bool $expected, string $filename, array $args = []): void
     {
-        self::assertSame($expected, rex_mediapool::isAllowedExtension($filename, $args));
+        self::assertSame($expected, MediaPool::isAllowedExtension($filename, $args));
     }
 
     /** @return list<array{0: bool, 1: string, 2?: array{types: string}}> */
@@ -40,7 +43,7 @@ final class rex_mediapool_test extends TestCase
             'md' => ['text/plain'],
         ]);
 
-        self::assertSame($expected, rex_mediapool::isAllowedMimeType($path, $filename));
+        self::assertSame($expected, MediaPool::isAllowedMimeType($path, $filename));
 
         Core::setProperty('allowed_mime_types', $allowedMimeTypes);
     }
@@ -51,8 +54,8 @@ final class rex_mediapool_test extends TestCase
         return [
             [false, __FILE__],
             [false, __FILE__, 'foo.md'],
-            [true, __DIR__ . '/../../CHANGELOG.md'],
-            [false, __DIR__ . '/../../CHANGELOG.md', 'foo.txt'],
+            [true, __DIR__ . '/../../redaxo/src/core/CHANGELOG.md'],
+            [false, __DIR__ . '/../../redaxo/src/core/CHANGELOG.md', 'foo.txt'],
         ];
     }
 }
