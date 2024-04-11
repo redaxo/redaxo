@@ -2,10 +2,12 @@
 
 use Clockwork\Clockwork;
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Timer;
@@ -96,9 +98,9 @@ $shutdownFn = static function () {
     $req = $clockwork->getRequest();
 
     if (Core::isBackend()) {
-        $req->controller = 'page: ' . rex_be_controller::getCurrentPage();
+        $req->controller = 'page: ' . Controller::getCurrentPage();
     } else {
-        $req->controller = 'article: ' . Article::getCurrentId() . '; clang: ' . rex_clang::getCurrent()->getCode();
+        $req->controller = 'article: ' . Article::getCurrentId() . '; clang: ' . Language::getCurrent()->getCode();
     }
 
     foreach ($req->databaseQueries as $query) {

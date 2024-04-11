@@ -10,12 +10,12 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 use rex_backend_login;
 use rex_backend_password_policy;
 use rex_backup;
-use rex_clang_service;
 use rex_setup;
 use rex_setup_importer;
 use Symfony\Component\Console\Command\Command;
@@ -346,7 +346,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
             return Command::FAILURE;
         }
 
-        rex_clang_service::generateCache();
+        LanguageHandler::generateCache();
         Core::setConfig('version', Core::getVersion());
 
         // ---------------------------------- Step 5 . Create User

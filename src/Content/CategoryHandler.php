@@ -5,9 +5,9 @@ namespace Redaxo\Core\Content;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use rex_api_exception;
-use rex_clang;
 use rex_complex_perm;
 use rex_extension;
 use rex_extension_point;
@@ -76,7 +76,7 @@ class CategoryHandler
 
         // Kategorie in allen Sprachen anlegen
         $AART = Sql::factory();
-        foreach (rex_clang::getAllIds() as $key) {
+        foreach (Language::getAllIds() as $key) {
             $templateId = Template::getDefaultId();
             if (isset($startpageTemplates[$key]) && '' != $startpageTemplates[$key]) {
                 $templateId = $startpageTemplates[$key];
@@ -216,7 +216,7 @@ class CategoryHandler
                     ->addGlobalUpdateFields($user)
                     ->update();
 
-                foreach (rex_clang::getAllIds() as $clangId) {
+                foreach (Language::getAllIds() as $clangId) {
                     self::newCatPrio($parentId, $clangId, $data['catpriority'], $oldPrio);
                 }
             }
@@ -259,7 +259,7 @@ class CategoryHandler
      */
     public static function deleteCategory($categoryId)
     {
-        $clang = rex_clang::getStartId();
+        $clang = Language::getStartId();
 
         $thisCat = Sql::factory();
         $thisCat->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'article WHERE id=? and clang_id=?', [$categoryId, $clang]);
@@ -472,10 +472,10 @@ class CategoryHandler
         // kategorien vorhanden ?
         // ist die zielkategorie im pfad der quellkategeorie ?
         $fcat = Sql::factory();
-        $fcat->setQuery('select * from ' . Core::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$fromCat, rex_clang::getStartId()]);
+        $fcat->setQuery('select * from ' . Core::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$fromCat, Language::getStartId()]);
 
         $tcat = Sql::factory();
-        $tcat->setQuery('select * from ' . Core::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$toCat, rex_clang::getStartId()]);
+        $tcat->setQuery('select * from ' . Core::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$toCat, Language::getStartId()]);
 
         if (1 != $fcat->getRows() || (1 != $tcat->getRows() && 0 != $toCat)) {
             // eine der kategorien existiert nicht
@@ -505,7 +505,7 @@ class CategoryHandler
 
         $gcats = Sql::factory();
         // $gcats->setDebug();
-        $gcats->setQuery('select * from ' . Core::getTablePrefix() . 'article where path like ? and clang_id=?', [$fromPath . '%', rex_clang::getStartId()]);
+        $gcats->setQuery('select * from ' . Core::getTablePrefix() . 'article where path like ? and clang_id=?', [$fromPath . '%', Language::getStartId()]);
 
         $up = Sql::factory();
         // $up->setDebug();
@@ -530,7 +530,7 @@ class CategoryHandler
         $gmax = Sql::factory();
         $up = Sql::factory();
         // $up->setDebug();
-        foreach (rex_clang::getAllIds() as $clang) {
+        foreach (Language::getAllIds() as $clang) {
             $gmax->setQuery('select max(catpriority) from ' . Core::getTablePrefix() . 'article where parent_id=? and clang_id=?', [$toCat, $clang]);
             $catpriority = (int) $gmax->getValue('max(catpriority)');
             $up->setTable(Core::getTablePrefix() . 'article');
@@ -546,7 +546,7 @@ class CategoryHandler
             ArticleCache::delete($id);
         }
 
-        foreach (rex_clang::getAllIds() as $clang) {
+        foreach (Language::getAllIds() as $clang) {
             self::newCatPrio((int) $fcat->getValue('parent_id'), $clang, 0, 1);
 
             rex_extension::registerPoint(new rex_extension_point('CAT_MOVED', null, [

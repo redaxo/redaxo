@@ -1,8 +1,14 @@
 <?php
 
-use Redaxo\Core\Translation\I18n;
+namespace Redaxo\Core\Language;
 
-class rex_clang_perm extends rex_complex_perm
+use Redaxo\Core\Translation\I18n;
+use rex_complex_perm;
+
+use function count;
+use function in_array;
+
+class LanguagePermission extends rex_complex_perm
 {
     /**
      * @param int $clangId
@@ -19,7 +25,7 @@ class rex_clang_perm extends rex_complex_perm
      */
     public function count()
     {
-        return $this->hasAll() ? rex_clang::count() : count($this->perms);
+        return $this->hasAll() ? Language::count() : count($this->perms);
     }
 
     /**
@@ -27,14 +33,14 @@ class rex_clang_perm extends rex_complex_perm
      */
     public function getClangs()
     {
-        return $this->hasAll() ? rex_clang::getAllIds() : $this->perms;
+        return $this->hasAll() ? Language::getAllIds() : $this->perms;
     }
 
     public static function getFieldParams()
     {
-        $options = array_map(static function (rex_clang $clang) {
+        $options = array_map(static function (Language $clang) {
             return $clang->getName();
-        }, rex_clang::getAll());
+        }, Language::getAll());
 
         return [
             'label' => I18n::msg('clangs'),

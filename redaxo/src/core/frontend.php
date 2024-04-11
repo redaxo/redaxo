@@ -10,6 +10,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Mailer\Mailer;
 
 if (Core::isSetup()) {
@@ -147,12 +148,12 @@ if (Core::getConfig('article_work_version', false)) {
 }
 
 $clangId = rex_get('clang', 'int');
-if ($clangId && !rex_clang::exists($clangId)) {
-    rex_redirect(Article::getNotfoundArticleId(), rex_clang::getStartId());
+if ($clangId && !Language::exists($clangId)) {
+    rex_redirect(Article::getNotfoundArticleId(), Language::getStartId());
 }
 
 $article = new ArticleContent();
-$article->setClang(rex_clang::getCurrentId());
+$article->setClang(Language::getCurrentId());
 
 if (!$article->setArticleId(Article::getCurrentId())) {
     if (!Core::isDebugMode() && !rex_backend_login::hasSession()) {
@@ -171,7 +172,7 @@ try {
     $content .= $article->getArticleTemplate();
 } catch (rex_article_not_found_exception) {
     $article = new ArticleContent();
-    $article->setClang(rex_clang::getCurrentId());
+    $article->setClang(Language::getCurrentId());
     $article->setArticleId(Article::getNotfoundArticleId());
 
     $content .= $article->getArticleTemplate();

@@ -1,9 +1,10 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Timer;
 
-$curPage = rex_be_controller::requireCurrentPageObject();
+$curPage = Controller::requireCurrentPageObject();
 
 if (!$curPage->hasLayout()) {
     if (rex_request::isPJAXRequest()) {
@@ -23,7 +24,7 @@ if (rex_request::isPJAXContainer('#rex-js-page-container')) {
 
 echo '</div>';
 
-if ('login' !== rex_be_controller::getCurrentPage()) {
+if ('login' !== Controller::getCurrentPage()) {
     $footerfragment = new rex_fragment();
     $footerfragment->setVar('time', Core::getProperty('timer')->getFormattedDelta(Timer::SEC));
     echo $footerfragment->parse('core/footer.php');

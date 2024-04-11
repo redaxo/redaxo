@@ -6,7 +6,7 @@ use LogicException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
-use rex_clang;
+use Redaxo\Core\Language\Language;
 
 use function is_array;
 use function is_int;
@@ -107,7 +107,7 @@ class ArticleSlice
     public static function getArticleSliceById($anId, $clang = false, $revision = 0)
     {
         if (false === $clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
 
         return self::getSliceWhere(
@@ -132,7 +132,7 @@ class ArticleSlice
     public static function getFirstSliceForArticle($anArticleId, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
 
         foreach (range(1, 20) as $ctype) {
@@ -159,7 +159,7 @@ class ArticleSlice
     public static function getFirstSliceForCtype($ctype, $anArticleId, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
 
         return self::getSliceWhere(
@@ -182,7 +182,7 @@ class ArticleSlice
     public static function getSlicesForArticle($anArticleId, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
 
         return self::getSlicesWhere(
@@ -206,7 +206,7 @@ class ArticleSlice
     public static function getSlicesForArticleOfType($anArticleId, $aModuletypeId, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
 
         return self::getSlicesWhere(

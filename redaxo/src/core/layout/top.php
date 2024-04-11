@@ -1,5 +1,8 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Backend\MainPage;
+use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
@@ -9,12 +12,12 @@ use Redaxo\Core\Util\Str;
  * Layout Kopf des Backends.
  */
 
-$curPage = rex_be_controller::requireCurrentPageObject();
+$curPage = Controller::requireCurrentPageObject();
 $user = Core::getUser();
 
 if (rex_request::isPJAXRequest()) {
     // add title to the page, so pjax can update it. see gh#136
-    echo '<title>' . rex_escape(rex_be_controller::getPageTitle()) . '</title>';
+    echo '<title>' . rex_escape(Controller::getPageTitle()) . '</title>';
 }
 
 if (!$curPage->hasLayout()) {
@@ -28,7 +31,7 @@ if (!$curPage->hasLayout()) {
 $bodyAttr = [];
 
 // Str::normalize requires intl extension, which may not exist before extensions check in setup
-$bodyId = Core::isSetup() ? 'setup' : Str::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
+$bodyId = Core::isSetup() ? 'setup' : Str::normalize(Controller::getCurrentPage(), '-', ' ');
 
 $bodyAttr['id'] = ['rex-page-' . $bodyId];
 
@@ -119,10 +122,10 @@ if ($user && $hasNavigation) {
 // wird in bottom.php an Fragment uebergeben
 $navigation = '';
 if ($user && $hasNavigation) {
-    $n = rex_be_navigation::factory();
-    foreach (rex_be_controller::getPages() as $p => $pageObj) {
+    $n = Navigation::factory();
+    foreach (Controller::getPages() as $p => $pageObj) {
         $p = strtolower($p);
-        if ($pageObj instanceof rex_be_page_main) {
+        if ($pageObj instanceof MainPage) {
             $pageObj->setItemAttr('id', 'rex-navi-page-' . strtolower(preg_replace('/[^a-zA-Z0-9\-]*/', '', str_replace('_', '-', $p))));
 
             if (!$pageObj->getBlock()) {
@@ -157,7 +160,7 @@ if ($user && $hasNavigation) {
 }
 
 /* Setup Navigation ********************************************************** */
-if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
+if ('setup' == Controller::getCurrentPagePart(1)) {
     $step = rex_request('step', 'float');
     $lang = rex_request('lang', 'string', '');
 
@@ -204,7 +207,7 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
 /* PJAX Footer Header ********************************************************** */
 if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     $fragment = new rex_fragment();
-    $fragment->setVar('pageTitle', rex_be_controller::getPageTitle());
+    $fragment->setVar('pageTitle', Controller::getPageTitle());
     $fragment->setVar('cssFiles', rex_view::getCssFiles());
     $fragment->setVar('jsFiles', rex_view::getJsFilesWithOptions());
     $fragment->setVar('jsProperties', json_encode(rex_view::getJsProperties()), false);

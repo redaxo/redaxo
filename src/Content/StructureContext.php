@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Core;
-use rex_clang;
+use Redaxo\Core\Language\Language;
 use rex_context;
 
 use function count;
@@ -33,16 +33,16 @@ class StructureContext
         if (!isset($params['clang_id'])) {
             $params['clang_id'] = 0;
         }
-        if (rex_clang::count() > 1 && !Core::requireUser()->getComplexPerm('clang')->hasPerm($params['clang_id'])) {
+        if (Language::count() > 1 && !Core::requireUser()->getComplexPerm('clang')->hasPerm($params['clang_id'])) {
             $params['clang_id'] = 0;
-            foreach (rex_clang::getAllIds() as $key) {
+            foreach (Language::getAllIds() as $key) {
                 if (Core::requireUser()->getComplexPerm('clang')->hasPerm($key)) {
                     $params['clang_id'] = $key;
                     break;
                 }
             }
         } elseif (!$params['clang_id']) {
-            $params['clang_id'] = rex_clang::getStartId();
+            $params['clang_id'] = Language::getStartId();
         }
 
         $this->params = $params;

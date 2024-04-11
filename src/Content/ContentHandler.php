@@ -2,15 +2,15 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use rex_api_exception;
-use rex_be_controller;
-use rex_clang;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
@@ -74,7 +74,7 @@ class ContentHandler
             'clang' => $clangId,
             'function' => '',
             'slice_id' => $sliceId,
-            'page' => rex_be_controller::getCurrentPage(),
+            'page' => Controller::getCurrentPage(),
             'ctype' => $ctypeId,
             'category_id' => $article->getCategoryId(),
             'module_id' => $moduleId,
@@ -348,7 +348,7 @@ class ContentHandler
      */
     public static function generateArticleContent($articleId, $clang = null)
     {
-        foreach (rex_clang::getAllIds() as $clangId) {
+        foreach (Language::getAllIds() as $clangId) {
             if (null !== $clang && $clangId != $clang) {
                 continue;
             }

@@ -19,6 +19,6 @@ class rex_var_clang extends rex_var
         $id = $this->getParsedArg('id');
         $getMethod = $id ? 'get(' . $id . ')' : 'getCurrent()';
 
-        return 'htmlspecialchars(rex_clang::' . $getMethod . '->getValue(' . $field . '))';
+        return 'htmlspecialchars(\\Redaxo\\Core\\Language\\Language::' . $getMethod . '->getValue(' . $field . '))';
     }
 }

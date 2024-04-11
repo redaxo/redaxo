@@ -2,13 +2,13 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use rex_api_content_move_slice;
 use rex_api_content_slice_status;
-use rex_be_controller;
 use rex_context;
 use rex_extension;
 use rex_extension_point;
@@ -148,7 +148,7 @@ class ArticleContentEditor extends ArticleContent
         $moduleName = I18n::translate((string) $artDataSql->getValue(Core::getTablePrefix() . 'module.name'));
 
         $context = new rex_context([
-            'page' => rex_be_controller::getCurrentPage(),
+            'page' => Controller::getCurrentPage(),
             'article_id' => $this->article_id,
             'slice_id' => $sliceId,
             'clang' => $this->clang,
@@ -303,7 +303,7 @@ class ArticleContentEditor extends ArticleContent
     {
         // ----- BLOCKAUSWAHL - SELECT
         $context = new rex_context([
-            'page' => rex_be_controller::getCurrentPage(),
+            'page' => Controller::getCurrentPage(),
             'article_id' => $this->article_id,
             'clang' => $this->clang,
             'ctype' => $this->ctype,
@@ -340,7 +340,7 @@ class ArticleContentEditor extends ArticleContent
             'STRUCTURE_CONTENT_MODULE_SELECT',
             $select,
             [
-                'page' => rex_be_controller::getCurrentPage(),
+                'page' => Controller::getCurrentPage(),
                 'article_id' => $this->article_id,
                 'clang' => $this->clang,
                 'ctype' => $this->ctype,

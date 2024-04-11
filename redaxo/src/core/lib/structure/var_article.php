@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleContent;
+use Redaxo\Core\Language\Language;
 
 /**
  * REX_ARTICLE[1]
@@ -56,7 +57,7 @@ class rex_var_article extends rex_var
     public static function getArticleValue($id, $field, $clang = null)
     {
         if (null === $clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
         $article = Article::get($id, $clang);
         return rex_escape($article->getValue($field));
@@ -68,7 +69,7 @@ class rex_var_article extends rex_var
     public static function getArticle($id, $ctype = -1, $clang = null)
     {
         if (null === $clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
         $article = new ArticleContent($id, $clang);
         return $article->getArticle($ctype);

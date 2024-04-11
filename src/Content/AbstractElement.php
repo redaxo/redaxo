@@ -10,7 +10,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-use rex_clang;
+use Redaxo\Core\Language\Language;
 
 use function in_array;
 use function is_string;
@@ -188,7 +188,7 @@ abstract class AbstractElement
         }
 
         if (!$clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
 
         return static::getInstance([$id, $clang], static function () use ($id, $clang) {
@@ -227,7 +227,7 @@ abstract class AbstractElement
             return [];
         }
         if (!$clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
 
         $class = static::class;

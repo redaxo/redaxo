@@ -1,5 +1,8 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Backend\Navigation;
+use Redaxo\Core\Backend\Page;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleAction;
 use Redaxo\Core\Content\ArticleCache;
@@ -10,6 +13,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 $articleId = rex_request('article_id', 'int');
@@ -17,7 +21,7 @@ $clang = rex_request('clang', 'int');
 $sliceId = rex_request('slice_id', 'int', '');
 
 $articleId = Article::get($articleId) ? $articleId : 0;
-$clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
+$clang = Language::exists($clang) ? $clang : Language::getStartId();
 
 $articleRevision = 0;
 $sliceRevision = 0;
@@ -61,13 +65,13 @@ $OOArt = Article::get($articleId, $clang);
 $categoryId = $OOArt->getCategoryId();
 
 // ----- Request Parameter
-$subpage = rex_be_controller::getCurrentPagePart(2);
+$subpage = Controller::getCurrentPagePart(2);
 $function = rex_request('function', 'string');
 $warning = rex_escape(rex_request('warning', 'string'));
 $info = rex_escape(rex_request('info', 'string'));
 
 $context = new rex_context([
-    'page' => rex_be_controller::getCurrentPage(),
+    'page' => Controller::getCurrentPage(),
     'article_id' => $articleId,
     'category_id' => $categoryId,
     'clang' => $clang,
@@ -89,7 +93,7 @@ echo rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_HEA
     'clang' => $clang,
     'function' => $function,
     'slice_id' => $sliceId,
-    'page' => rex_be_controller::getCurrentPage(),
+    'page' => Controller::getCurrentPage(),
     'ctype' => $ctype,
     'category_id' => $categoryId,
     'article_revision' => &$articleRevision,
@@ -219,7 +223,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                                 'clang' => $clang,
                                 'function' => $function,
                                 'slice_id' => $sliceId,
-                                'page' => rex_be_controller::getCurrentPage(),
+                                'page' => Controller::getCurrentPage(),
                                 'ctype' => $ctype,
                                 'category_id' => $categoryId,
                                 'module_id' => $moduleId,
@@ -257,7 +261,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                                 'clang' => $clang,
                                 'function' => $function,
                                 'slice_id' => $sliceId,
-                                'page' => rex_be_controller::getCurrentPage(),
+                                'page' => Controller::getCurrentPage(),
                                 'ctype' => $ctype,
                                 'category_id' => $categoryId,
                                 'module_id' => $moduleId,
@@ -279,7 +283,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                                 'clang' => $clang,
                                 'function' => $function,
                                 'slice_id' => $sliceId,
-                                'page' => rex_be_controller::getCurrentPage(),
+                                'page' => Controller::getCurrentPage(),
                                 'ctype' => $ctype,
                                 'category_id' => $categoryId,
                                 'module_id' => $moduleId,
@@ -328,7 +332,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
     // ------------------------------------------ START: CONTENT HEAD MENUE
 
-    $editPage = rex_be_controller::getPageObject('content/edit');
+    $editPage = Controller::getPageObject('content/edit');
 
     foreach ($ctypes as $key => $val) {
         $key = (int) $key;
@@ -336,17 +340,17 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         if ($ctype != $key) {
             $hasSlice = null !== ArticleSlice::getFirstSliceForCtype($key, $articleId, $clang);
         }
-        $editPage->addSubpage((new rex_be_page('ctype' . $key, I18n::translate($val)))
+        $editPage->addSubpage((new Page('ctype' . $key, I18n::translate($val)))
             ->setHref(['page' => 'content/edit', 'article_id' => $articleId, 'clang' => $clang, 'ctype' => $key])
             ->setIsActive($ctype == $key)
             ->setItemAttr('class', $hasSlice ? '' : 'rex-empty'),
         );
     }
 
-    $leftNav = rex_be_navigation::factory();
-    $rightNav = rex_be_navigation::factory();
+    $leftNav = Navigation::factory();
+    $rightNav = Navigation::factory();
 
-    foreach (rex_be_controller::getPageObject('content')->getSubpages() as $subpage) {
+    foreach (Controller::getPageObject('content')->getSubpages() as $subpage) {
         if (!$subpage->hasHref()) {
             $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()]));
         }
@@ -412,7 +416,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         'clang' => $clang,
         'function' => $function,
         'slice_id' => $sliceId,
-        'page' => rex_be_controller::getCurrentPage(),
+        'page' => Controller::getCurrentPage(),
         'ctype' => $ctype,
         'category_id' => $categoryId,
         'article_revision' => &$articleRevision,
@@ -420,7 +424,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     ]));
 
     // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
-    $contentMain .= rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'templateAttributes', 'article', 'articleId', 'categoryId', 'clang', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'));
+    $contentMain .= Controller::includeCurrentPageSubPath(compact('info', 'warning', 'templateAttributes', 'article', 'articleId', 'categoryId', 'clang', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'));
     // ------------------------------------------ END: AUSGABE
 
     // ----- EXTENSION POINT
@@ -429,7 +433,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         'clang' => $clang,
         'function' => $function,
         'slice_id' => $sliceId,
-        'page' => rex_be_controller::getCurrentPage(),
+        'page' => Controller::getCurrentPage(),
         'ctype' => $ctype,
         'category_id' => $categoryId,
         'article_revision' => &$articleRevision,
@@ -444,7 +448,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         'clang' => $clang,
         'function' => $function,
         'slice_id' => $sliceId,
-        'page' => rex_be_controller::getCurrentPage(),
+        'page' => Controller::getCurrentPage(),
         'ctype' => $ctype,
         'category_id' => $categoryId,
         'article_revision' => &$articleRevision,

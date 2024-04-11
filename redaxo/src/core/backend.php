@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleRevision;
 use Redaxo\Core\Content\ArticleSliceHistory;
@@ -9,6 +10,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 
@@ -82,8 +84,8 @@ if (Core::isSetup()) {
 
     I18n::setLocale(Core::getProperty('lang'));
 
-    $pages['setup'] = rex_be_controller::getSetupPage();
-    rex_be_controller::setCurrentPage('setup');
+    $pages['setup'] = Controller::getSetupPage();
+    Controller::setCurrentPage('setup');
 } else {
     // ----------------- CREATE LANG OBJ
     I18n::setLocale(Core::getProperty('lang'));
@@ -148,8 +150,8 @@ if (Core::isSetup()) {
             $rexUserLoginmessage = $loginCheck;
         }
 
-        $pages['login'] = rex_be_controller::getLoginPage();
-        rex_be_controller::setCurrentPage('login');
+        $pages['login'] = Controller::getLoginPage();
+        Controller::setCurrentPage('login');
 
         if ('login' !== rex_request('page', 'string', 'login')) {
             // clear in-browser data of a previous session with the same browser for security reasons.
@@ -195,14 +197,14 @@ if (Core::isSetup()) {
     }
 }
 
-rex_be_controller::setPages($pages);
+Controller::setPages($pages);
 
 // ----- Prepare Core Pages
 if (Core::getUser()) {
-    rex_be_controller::setCurrentPage(trim(rex_request('page', 'string')));
-    rex_be_controller::appendLoggedInPages();
+    Controller::setCurrentPage(trim(rex_request('page', 'string')));
+    Controller::appendLoggedInPages();
 
-    if ('profile' !== rex_be_controller::getCurrentPage() && Core::getProperty('login')->requiresPasswordChange()) {
+    if ('profile' !== Controller::getCurrentPage() && Core::getProperty('login')->requiresPasswordChange()) {
         rex_response::sendRedirect(Url::backendPage('profile'));
     }
 }
@@ -257,7 +259,7 @@ if (Core::getUser()) {
 
     rex_view::addJsFile(Url::coreAssets('js/linkmap.js'), [rex_view::JS_IMMUTABLE => true]);
 
-    if ('content' == rex_be_controller::getCurrentPagePart(1)) {
+    if ('content' == Controller::getCurrentPagePart(1)) {
         rex_view::addJsFile(Url::coreAssets('js/content.js'), [rex_view::JS_IMMUTABLE => true]);
     }
 }
@@ -335,14 +337,14 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
 
     rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
         if ('content/edit' == $ep->getParam('page')) {
-            $articleLink = rex_getUrl(Article::getCurrentId(), rex_clang::getCurrentId());
+            $articleLink = rex_getUrl(Article::getCurrentId(), Language::getCurrentId());
             if (str_starts_with($articleLink, 'http')) {
                 $user = Core::requireUser();
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
                 $userHistorySession = HistoryLogin::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
-                $articleLink = rex_getUrl(Article::getCurrentId(), rex_clang::getCurrentId(), [
+                $articleLink = rex_getUrl(Article::getCurrentId(), Language::getCurrentId(), [
                     'rex_history_login' => $userLogin,
                     'rex_history_session' => $userHistorySession,
                     'rex_history_validtime' => $historyValidTime,
@@ -351,7 +353,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
 
             echo '<script nonce="' . rex_response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
-                    var history_clang_id = ' . rex_clang::getCurrentId() . ';
+                    var history_clang_id = ' . Language::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
                     var history_article_link = "' . rex_escape($articleLink, 'js') . '";
                 </script>';
@@ -525,7 +527,7 @@ if ('' === $theme && $user) {
 }
 rex_view::setJsProperty('theme', $theme ?: 'auto');
 
-if ('system' == rex_be_controller::getCurrentPagePart(1)) {
+if ('system' == Controller::getCurrentPagePart(1)) {
     rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
     rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
     rex_system_setting::register(new rex_system_setting_default_template_id());
@@ -533,7 +535,7 @@ if ('system' == rex_be_controller::getCurrentPagePart(1)) {
     rex_system_setting::register(new rex_system_setting_structure_package_status('article_work_version'));
     rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
 }
-if ('content' == rex_be_controller::getCurrentPagePart(1)) {
+if ('content' == Controller::getCurrentPagePart(1)) {
     rex_view::addCssFile(Url::coreAssets('css/metainfo.css'));
     rex_view::addJsFile(Url::coreAssets('js/metainfo.js'));
 }
@@ -589,31 +591,31 @@ if (Core::getUser() && Core::getConfig('be_style_compile')) {
 
 // ----- Prepare AddOn Pages
 if (Core::getUser()) {
-    rex_be_controller::appendPackagePages();
+    Controller::appendPackagePages();
 }
 
-$pages = rex_extension::registerPoint(new rex_extension_point('PAGES_PREPARED', rex_be_controller::getPages()));
-rex_be_controller::setPages($pages);
+$pages = rex_extension::registerPoint(new rex_extension_point('PAGES_PREPARED', Controller::getPages()));
+Controller::setPages($pages);
 
 // Set Startpage
 if ($user = Core::getUser()) {
     if (Core::getProperty('login')->requiresPasswordChange()) {
         // profile is available for everyone, no additional checks required
-        rex_be_controller::setCurrentPage('profile');
-    } elseif (!rex_be_controller::getCurrentPage()) {
+        Controller::setCurrentPage('profile');
+    } elseif (!Controller::getCurrentPage()) {
         // trigger api functions before page permission check/redirection, if page param is not set.
         // the api function is responsible for checking permissions.
         rex_api_function::handleCall();
     }
 
     // --- page pruefen und benoetigte rechte checken
-    rex_be_controller::checkPagePermissions($user);
+    Controller::checkPagePermissions($user);
 }
-$page = rex_be_controller::getCurrentPage();
+$page = Controller::getCurrentPage();
 rex_view::setJsProperty('page', $page);
 
-if ('content' == rex_be_controller::getCurrentPagePart(1)) {
-    rex_be_controller::getPageObject('structure')->setIsActive(true);
+if ('content' == Controller::getCurrentPagePart(1)) {
+    Controller::getPageObject('structure')->setIsActive(true);
 }
 
 // ----- EXTENSION POINT
@@ -631,7 +633,7 @@ if ($page) {
 }
 
 // include the requested backend page
-rex_be_controller::includeCurrentPage();
+Controller::includeCurrentPage();
 
 // ----- caching end für output filter
 $CONTENT = ob_get_clean();

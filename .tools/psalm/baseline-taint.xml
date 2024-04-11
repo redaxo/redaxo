@@ -4,7 +4,7 @@
     <TaintedHtml>
       <code><![CDATA['<script nonce="' . rex_response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
-                    var history_clang_id = ' . rex_clang::getCurrentId() . ';
+                    var history_clang_id = ' . Language::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
                     var history_article_link = "' . rex_escape($articleLink, 'js') . '";
                 </script>']]></code>
@@ -12,7 +12,7 @@
     <TaintedTextWithQuotes>
       <code><![CDATA['<script nonce="' . rex_response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
-                    var history_clang_id = ' . rex_clang::getCurrentId() . ';
+                    var history_clang_id = ' . Language::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
                     var history_article_link = "' . rex_escape($articleLink, 'js') . '";
                 </script>']]></code>

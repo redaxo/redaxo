@@ -6,6 +6,7 @@ use Redaxo\Core\Content\ModuleCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 $OUT = true;
@@ -83,8 +84,8 @@ if ('delete' == $function && !$csrfToken->isValid()) {
             $OOArt = Article::get($aid, $clangId);
 
             $label = $OOArt->getName() . ' [' . $aid . ']';
-            if (rex_clang::count() > 1) {
-                $label .= ' [' . rex_clang::get($clangId)->getCode() . ']';
+            if (Language::count() > 1) {
+                $label .= ' [' . Language::get($clangId)->getCode() . ']';
             }
 
             $moduleInUseMessage .= '<li><a href="' . Url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId, 'ctype' => $ctype]) . '">' . rex_escape($label) . '</a></li>';

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ModulePermission;
 use Redaxo\Core\Content\StructurePermission;
@@ -10,6 +11,8 @@ use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Language\Language;
+use Redaxo\Core\Language\LanguagePermission;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\MediaPoolPermission;
 use Redaxo\Core\Translation\I18n;
@@ -131,7 +134,7 @@ rex_var_dumper::register();
 
 rex_user::setRoleClass(rex_user_role::class);
 
-rex_complex_perm::register('clang', rex_clang_perm::class);
+rex_complex_perm::register('clang', LanguagePermission::class);
 rex_complex_perm::register('structure', StructurePermission::class);
 rex_complex_perm::register('modules', ModulePermission::class);
 rex_complex_perm::register('media', MediaPoolPermission::class);
@@ -141,9 +144,9 @@ rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'rem
 
 // ----- SET CLANG
 if (!Core::isSetup()) {
-    $clangId = rex_request('clang', 'int', rex_clang::getStartId());
-    if (Core::isBackend() || rex_clang::exists($clangId)) {
-        rex_clang::setCurrentId($clangId);
+    $clangId = rex_request('clang', 'int', Language::getStartId());
+    if (Core::isBackend() || Language::exists($clangId)) {
+        Language::setCurrentId($clangId);
     }
 }
 
@@ -165,7 +168,7 @@ if (0 !== $nexttime && time() >= $nexttime) {
     $env = CronjobExecutor::getCurrentEnvironment();
     $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
     rex_extension::register($EP, static function () use ($env) {
-        if ('backend' !== $env || !in_array(rex_be_controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'], true)) {
+        if ('backend' !== $env || !in_array(Controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'], true)) {
             CronjobManager::factory()->check();
         }
     });

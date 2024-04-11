@@ -1,8 +1,10 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\Linkmap\ArticleList;
 use Redaxo\Core\Content\Linkmap\CategoryTree;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 // ------- Default Values
@@ -12,7 +14,7 @@ $openerInputFieldName = rex_request('opener_input_field_name', 'string');
 $categoryId = rex_request('category_id', 'int');
 $categoryId = Category::get($categoryId) ? $categoryId : 0;
 $clang = rex_request('clang', 'int');
-$clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
+$clang = Language::exists($clang) ? $clang : Language::getStartId();
 
 $pattern = '/[^a-z0-9_-]/i';
 if (preg_match($pattern, $openerInputField, $match)) {
@@ -23,7 +25,7 @@ if (preg_match($pattern, $openerInputFieldName, $match)) {
 }
 
 $context = new rex_context([
-    'page' => rex_be_controller::getCurrentPage(),
+    'page' => Controller::getCurrentPage(),
     'opener_input_field' => $openerInputField,
     'opener_input_field_name' => $openerInputFieldName,
     'category_id' => $categoryId,

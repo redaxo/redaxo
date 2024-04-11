@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
@@ -18,7 +19,7 @@ class rex_api_article_copy extends rex_api_function
         $user = Core::requireUser();
 
         $context = new rex_context([
-            'page' => rex_be_controller::getCurrentPage(),
+            'page' => Controller::getCurrentPage(),
             'clang' => $clang,
         ]);
 

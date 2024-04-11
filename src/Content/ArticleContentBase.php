@@ -5,10 +5,10 @@ namespace Redaxo\Core\Content;
 use LogicException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
-use rex_clang;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
@@ -78,7 +78,7 @@ class ArticleContentBase
         if (null !== $clang) {
             $this->setCLang($clang);
         } else {
-            $this->setClang(rex_clang::getCurrentId());
+            $this->setClang(Language::getCurrentId());
         }
 
         // ----- EXTENSION POINT
@@ -133,8 +133,8 @@ class ArticleContentBase
      */
     public function setClang($value)
     {
-        if (!rex_clang::exists($value)) {
-            $value = rex_clang::getCurrentId();
+        if (!Language::exists($value)) {
+            $value = Language::getCurrentId();
         }
         $this->clang = $value;
     }

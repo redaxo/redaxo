@@ -5,9 +5,9 @@ namespace Redaxo\Core\Content;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use rex_api_exception;
-use rex_clang;
 use rex_complex_perm;
 use rex_extension;
 use rex_extension_point;
@@ -60,7 +60,7 @@ class ArticleHandler
 
         $AART = Sql::factory();
         $user = self::getUser();
-        foreach (rex_clang::getAllIds() as $key) {
+        foreach (Language::getAllIds() as $key) {
             // ------- Kategorienamen holen
             $category = Category::get($data['category_id'], $key);
 
@@ -180,7 +180,7 @@ class ArticleHandler
                 ->addGlobalUpdateFields(self::getUser())
                 ->update();
 
-            foreach (rex_clang::getAllIds() as $clangId) {
+            foreach (Language::getAllIds() as $clangId) {
                 self::newArtPrio($data['category_id'], $clangId, $data['priority'], $oldPrio);
             }
         }
@@ -223,7 +223,7 @@ class ArticleHandler
             $message = self::_deleteArticle($articleId);
             $parentId = (int) $Art->getValue('parent_id');
 
-            foreach (rex_clang::getAllIds() as $clang) {
+            foreach (Language::getAllIds() as $clang) {
                 // ----- PRIOR
                 self::newArtPrio($parentId, $clang, 0, 1);
 
@@ -280,7 +280,7 @@ class ArticleHandler
         }
 
         $ART = Sql::factory();
-        $ART->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and clang_id=?', [$id, rex_clang::getStartId()]);
+        $ART->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and clang_id=?', [$id, Language::getStartId()]);
 
         $message = '';
         if ($ART->getRows() > 0) {
@@ -298,7 +298,7 @@ class ArticleHandler
             if (1 == $ART->getValue('startarticle')) {
                 $message = I18n::msg('category_deleted');
                 $SART = Sql::factory();
-                $SART->setQuery('select * from ' . Core::getTablePrefix() . 'article where parent_id=? and clang_id=?', [$id, rex_clang::getStartId()]);
+                $SART->setQuery('select * from ' . Core::getTablePrefix() . 'article where parent_id=? and clang_id=?', [$id, Language::getStartId()]);
                 for ($i = 0; $i < $SART->getRows(); ++$i) {
                     self::_deleteArticle($id);
                     $SART->next();
@@ -462,7 +462,7 @@ class ArticleHandler
         $parentId = 0;
 
         // LANG SCHLEIFE
-        foreach (rex_clang::getAllIds() as $clang) {
+        foreach (Language::getAllIds() as $clang) {
             // artikel
             $sql->setQuery('select parent_id, name from ' . Core::getTablePrefix() . 'article where id=? and startarticle=0 and clang_id=?', [$artId, $clang]);
 
@@ -485,7 +485,7 @@ class ArticleHandler
         ArticleCache::deleteLists($parentId);
         ArticleCache::delete($artId);
 
-        foreach (rex_clang::getAllIds() as $clang) {
+        foreach (Language::getAllIds() as $clang) {
             rex_extension::registerPoint(new rex_extension_point('ART_TO_CAT', '', [
                 'id' => $artId,
                 'clang' => $clang,
@@ -514,7 +514,7 @@ class ArticleHandler
         }
 
         // LANG SCHLEIFE
-        foreach (rex_clang::getAllIds() as $clang) {
+        foreach (Language::getAllIds() as $clang) {
             // artikel
             $sql->setQuery('
                 select parent_id, (select catname FROM ' . Core::getTable('article') . ' parent WHERE parent.id = category.parent_id AND parent.clang_id = category.clang_id) as catname
@@ -543,7 +543,7 @@ class ArticleHandler
         ArticleCache::deleteLists($parentId);
         ArticleCache::delete($artId);
 
-        foreach (rex_clang::getAllIds() as $clang) {
+        foreach (Language::getAllIds() as $clang) {
             rex_extension::registerPoint(new rex_extension_point('CAT_TO_ART', '', [
                 'id' => $artId,
                 'clang' => $clang,
@@ -566,7 +566,7 @@ class ArticleHandler
 
         // neuen startartikel holen und schauen ob da
         $neu = Sql::factory();
-        $neu->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and startarticle=0 and clang_id=?', [$neuId, rex_clang::getStartId()]);
+        $neu->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and startarticle=0 and clang_id=?', [$neuId, Language::getStartId()]);
         if (1 != $neu->getRows()) {
             return false;
         }
@@ -579,7 +579,7 @@ class ArticleHandler
 
         // alten startartikel
         $alt = Sql::factory();
-        $alt->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and startarticle=1 and clang_id=?', [$neuCatId, rex_clang::getStartId()]);
+        $alt->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and startarticle=1 and clang_id=?', [$neuCatId, Language::getStartId()]);
         if (1 != $alt->getRows()) {
             return false;
         }
@@ -596,7 +596,7 @@ class ArticleHandler
         }
 
         // LANG SCHLEIFE
-        foreach (rex_clang::getAllIds() as $clang) {
+        foreach (Language::getAllIds() as $clang) {
             // alter startartikel
             $alt->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and startarticle=1 and clang_id=?', [$neuCatId, $clang]);
 
@@ -655,7 +655,7 @@ class ArticleHandler
 
         rex_complex_perm::replaceItem('structure', $altId, $neuId);
 
-        foreach (rex_clang::getAllIds() as $clang) {
+        foreach (Language::getAllIds() as $clang) {
             rex_extension::registerPoint(new rex_extension_point('ART_TO_STARTARTICLE', '', [
                 'id' => $neuId,
                 'id_old' => $altId,
@@ -730,7 +730,7 @@ class ArticleHandler
         $user = self::getUser();
 
         // Artikel in jeder Sprache kopieren
-        foreach (rex_clang::getAllIds() as $clang) {
+        foreach (Language::getAllIds() as $clang) {
             // validierung der id & from_cat_id
             $fromSql = Sql::factory();
             $fromSql->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=? and id=?', [$clang, $id]);
@@ -831,7 +831,7 @@ class ArticleHandler
         }
 
         // Artikel in jeder Sprache verschieben
-        foreach (rex_clang::getAllIds() as $clang) {
+        foreach (Language::getAllIds() as $clang) {
             // validierung der id & from_cat_id
             $fromSql = Sql::factory();
             $fromSql->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=? and startarticle<>1 and id=? and parent_id=?', [$clang, $id, $fromCatId]);

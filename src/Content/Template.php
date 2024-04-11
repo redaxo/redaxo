@@ -6,8 +6,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
-use rex_clang;
 
 use function assert;
 use function in_array;
@@ -219,8 +219,8 @@ class Template
                 continue;
             }
             $label = $article->getName() . ' [' . $aid . ']';
-            if (rex_clang::count() > 1) {
-                $clang = rex_clang::get($clangId);
+            if (Language::count() > 1) {
+                $clang = Language::get($clangId);
                 if (null == $clang) {
                     continue;
                 }

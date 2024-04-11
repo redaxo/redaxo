@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
@@ -80,7 +81,7 @@ if ('' == $func) {
     if (in_array($prefix, ['art_', 'med_'])) {
         $defaultFields = sprintf(
             '<div class="btn-group btn-group-xs"><a href="%s" class="btn btn-default">%s</a></div>',
-            Url::currentBackendPage(['type' => rex_be_controller::getCurrentPagePart(2)] + rex_api_metainfo_default_fields_create::getUrlParams()),
+            Url::currentBackendPage(['type' => Controller::getCurrentPagePart(2)] + rex_api_metainfo_default_fields_create::getUrlParams()),
             I18n::msg('minfo_default_fields_create'),
         );
         $fragment->setVar('options', $defaultFields, false);
