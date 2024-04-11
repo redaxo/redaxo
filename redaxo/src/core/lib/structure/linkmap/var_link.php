@@ -1,7 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
-use Redaxo\Core\RexVar\AbstractRexVar;
+use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -10,7 +10,7 @@ use Redaxo\Core\Translation\I18n;
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen der Linkmapw gesprungen werden soll
  */
-class rex_var_link extends AbstractRexVar
+class rex_var_link extends RexVar
 {
     protected function getOutput()
     {

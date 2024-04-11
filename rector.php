@@ -263,7 +263,7 @@ return RectorConfig::configure()
         'rex_url' => Filesystem\Url::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
-        'rex_var' => RexVar\AbstractRexVar::class,
+        'rex_var' => RexVar\RexVar::class,
         'rex_var_media' => MediaPool\RexVar\Media::class,
         'rex_var_medialist' => MediaPool\RexVar\MediaList::class,
         'rex_var_property' => RexVar\Property::class,

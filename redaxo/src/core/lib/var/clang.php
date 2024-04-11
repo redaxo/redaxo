@@ -1,6 +1,6 @@
 <?php
 
-use Redaxo\Core\RexVar\AbstractRexVar;
+use Redaxo\Core\RexVar\RexVar;
 
 /**
  * REX_CLANG[id=x field=xzy].
@@ -9,7 +9,7 @@ use Redaxo\Core\RexVar\AbstractRexVar;
  *   - id
  *   - field
  */
-class rex_var_clang extends AbstractRexVar
+class rex_var_clang extends RexVar
 {
     protected function getOutput()
     {

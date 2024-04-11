@@ -4,7 +4,7 @@ namespace Redaxo\Core\MediaPool\RexVar;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\MediaPool\Media as MediaPoolMedia;
-use Redaxo\Core\RexVar\AbstractRexVar;
+use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
 use rex_fragment;
 
@@ -19,7 +19,7 @@ use function in_array;
  *   - preview   => Bei Bildertypen ein Vorschaubild einblenden
  *   - output    => "mimetype": Mimetype des Bildes ausgeben
  */
-class Media extends AbstractRexVar
+class Media extends RexVar
 {
     protected function getOutput()
     {

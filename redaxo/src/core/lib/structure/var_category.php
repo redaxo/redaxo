@@ -1,6 +1,6 @@
 <?php
 
-use Redaxo\Core\RexVar\AbstractRexVar;
+use Redaxo\Core\RexVar\RexVar;
 
 /**
  * REX_CATEGORY[xzy]
@@ -12,7 +12,7 @@ use Redaxo\Core\RexVar\AbstractRexVar;
  *   - field    => Feld der Kategorie, das ausgegeben werden soll
  *   - clang    => ClangId der Kategorie
  */
-class rex_var_category extends AbstractRexVar
+class rex_var_category extends RexVar
 {
     /**
      * Werte für die Ausgabe.

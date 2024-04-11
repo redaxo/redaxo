@@ -27,7 +27,7 @@ use const T_WHITESPACE;
 /**
  * Abstract baseclass for REX_VARS.
  */
-abstract class AbstractRexVar
+abstract class RexVar
 {
     public const ENV_FRONTEND = 1;
     public const ENV_BACKEND = 2;
@@ -38,7 +38,7 @@ abstract class AbstractRexVar
     private const PLACEHOLDER_BRACKET_CLOSE = '@@@CLOSE_BRACKET@@@';
     private const PLACEHOLDER_INLINE_HTML = '@@@INLINE_HTML_REPLACEMENT_END@@@';
 
-    /** @var array<string, class-string<\Redaxo\Core\RexVar\AbstractRexVar>> */
+    /** @var array<string, class-string<self>> */
     private static array $vars = [];
 
     private static ?int $env = null;
@@ -234,7 +234,7 @@ abstract class AbstractRexVar
         }
 
         if ($useVariables && !empty($variables)) {
-            $content = '\Redaxo\Core\RexVar\AbstractRexVar::nothing(' . implode(', ', $variables) . ') . ' . $content;
+            $content = '\Redaxo\Core\RexVar\RexVar::nothing(' . implode(', ', $variables) . ') . ' . $content;
         }
 
         return $content;

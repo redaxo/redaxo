@@ -3,7 +3,7 @@
 namespace Redaxo\Core\MediaPool\RexVar;
 
 use Redaxo\Core\Core;
-use Redaxo\Core\RexVar\AbstractRexVar;
+use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
 use rex_fragment;
 
@@ -17,7 +17,7 @@ use function in_array;
  *   - types     => Filter für Dateiendungen die im Medienpool zur Auswahl stehen sollen
  *   - preview   => Bei Bildertypen ein Vorschaubild einblenden
  */
-class MediaList extends AbstractRexVar
+class MediaList extends RexVar
 {
     protected function getOutput()
     {

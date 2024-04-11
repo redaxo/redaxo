@@ -3,10 +3,10 @@
 namespace Redaxo\Core\Tests\RexVar;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use Redaxo\Core\RexVar\AbstractRexVar;
+use Redaxo\Core\RexVar\RexVar;
 
 /** @internal */
-final class RexVarTestVarA extends AbstractRexVar
+final class RexVarTestVarA extends RexVar
 {
     public function getOutput(): string
     {
@@ -21,7 +21,7 @@ final class RexVarTestVarA extends AbstractRexVar
 }
 
 /** @internal */
-final class RexVarTestVarB extends AbstractRexVar
+final class RexVarTestVarB extends RexVar
 {
     public function getOutput(): string
     {
@@ -29,6 +29,9 @@ final class RexVarTestVarB extends AbstractRexVar
     }
 }
 
+/**
+ * @internal
+ */
 final class RexVarTest extends RexVarTestBase
 {
     /** @return list<array{string, string}> */
@@ -193,6 +196,6 @@ c', "a\nb\nc"],
             'abc \'de\' "fg" \\ ' . "\n" . 'h' . "\r\n" . 'i'
             EOD;
 
-        $this->assertEquals($expected, RexVarTestVarA::quote($string));
+        self::assertEquals($expected, RexVarTestVarA::quote($string));
     }
 }

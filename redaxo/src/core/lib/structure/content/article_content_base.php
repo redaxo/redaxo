@@ -2,7 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\RexVar\AbstractRexVar;
+use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
@@ -518,15 +518,15 @@ class rex_article_content_base
         $sliceId = $sql->getValue(Core::getTablePrefix() . 'article_slice.id');
 
         if ('edit' == $this->mode) {
-            $env = AbstractRexVar::ENV_BACKEND;
+            $env = RexVar::ENV_BACKEND;
             if (('add' == $this->function && null == $sliceId) || ('edit' == $this->function && $sliceId == $this->slice_id)) {
-                $env |= AbstractRexVar::ENV_INPUT;
+                $env |= RexVar::ENV_INPUT;
             }
         } else {
-            $env = AbstractRexVar::ENV_FRONTEND;
+            $env = RexVar::ENV_FRONTEND;
         }
 
-        return AbstractRexVar::parse($content, $env, 'module', $sql);
+        return RexVar::parse($content, $env, 'module', $sql);
     }
 
     // ---- Artikelweite globale variablen werden ersetzt
