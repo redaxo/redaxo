@@ -351,36 +351,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/mediapool/media_category_select.php
 
 		-
-			message: "#^Method rex_var_media\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/var_media.php
-
-		-
-			message: "#^Method rex_var_media\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/var_media.php
-
-		-
-			message: "#^Method rex_var_media\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/var_media.php
-
-		-
-			message: "#^Method rex_var_medialist\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/var_medialist.php
-
-		-
-			message: "#^Method rex_var_medialist\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/var_medialist.php
-
-		-
-			message: "#^Method rex_var_medialist\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/var_medialist.php
-
-		-
 			message: "#^Method rex_request\\:\\:arrayKeyCast\\(\\) has parameter \\$haystack with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/request.php
@@ -941,11 +911,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/structure/var_category.php
 
 		-
-			message: "#^Method rex_var\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/var/var.php
-
-		-
 			message: "#^Method rex_view\\:\\:getJsFilesWithOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/view.php
@@ -994,11 +959,6 @@ parameters:
 			message: "#^Method rex_category_test\\:\\:createCategory\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/structure/category_test.php
-
-		-
-			message: "#^Method rex_var_test\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/var/var_test.php
 
 		-
 			message: "#^Call to static method Redaxo\\\\Core\\\\Util\\\\Type\\:\\:string\\(\\) on a separate line has no effect\\.$#"
@@ -1436,6 +1396,36 @@ parameters:
 			path: ../../src/MediaPool/MediaPoolPermission.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\Media\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/RexVar/Media.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\Media\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaPool/RexVar/Media.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\Media\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaPool/RexVar/Media.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaList\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/MediaPool/RexVar/MediaList.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaList\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaPool/RexVar/MediaList.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaList\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../../src/MediaPool/RexVar/MediaList.php
+
+		-
 			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Form\\\\Input\\\\AbstractInput\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
 			count: 1
 			path: ../../src/MetaInfo/Form/Input/AbstractInput.php
@@ -1586,6 +1576,11 @@ parameters:
 			path: ../../src/MetaInfo/Handler/MediaHandler.php
 
 		-
+			message: "#^Method Redaxo\\\\Core\\\\RexVar\\\\RexVar\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/RexVar/RexVar.php
+
+		-
 			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<list\\<string\\>\\|string\\|null\\>, rex_extension_point\\<list\\<string\\>\\|string\\|null\\> given\\.$#"
 			count: 1
 			path: ../../src/Util/Editor.php
@@ -1699,6 +1694,11 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\MediaPool\\\\MediaPoolTest\\:\\:testIsAllowedExtension\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../tests/MediaPool/MediaPoolTest.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\RexVar\\\\RexVarTest\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../tests/RexVar/RexVarTest.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Util\\\\StrTest\\:\\:buildQueryProvider\\(\\) return type has no value type specified in iterable type array\\.$#"

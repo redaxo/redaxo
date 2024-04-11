@@ -1433,46 +1433,6 @@
       <code><![CDATA[$this->checkPerms]]></code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/lib/mediapool/var_media.php">
-    <MixedArgument>
-      <code><![CDATA[$avalue]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$aname]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$avalue]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getValue]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/mediapool/var_medialist.php">
-    <MixedArgument>
-      <code><![CDATA[$avalue]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$avalue]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getValue]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/lib/metainfo/handler/api_default_fields.php">
     <MixedAssignment>
       <code><![CDATA[$return]]></code>
@@ -2196,24 +2156,6 @@
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$_SERVER['SERVER_PROTOCOL']]]></code>
     </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/core/lib/var/var.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[self::$contextData]]></code>
-    </MixedAssignment>
-    <PossiblyNullOperand>
-      <code><![CDATA[$then]]></code>
-      <code><![CDATA[$then]]></code>
-      <code><![CDATA[$this->getParsedArg($key)]]></code>
-      <code><![CDATA[$this->getParsedArg('callback')]]></code>
-      <code><![CDATA[$this->getParsedArg('ifempty')]]></code>
-      <code><![CDATA[$this->getParsedArg('prefix')]]></code>
-      <code><![CDATA[$this->getParsedArg('suffix')]]></code>
-    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/var_dumper.php">
     <ArgumentTypeCoercion>
@@ -3123,15 +3065,6 @@
     <MixedAssignment>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/tests/var/var_test.php">
-    <MixedArgument>
-      <code><![CDATA[$params['class']]]></code>
-      <code><![CDATA[$params['content']]]></code>
-      <code><![CDATA[$params['subject']]]></code>
-      <code><![CDATA[$params['suffix']]]></code>
-      <code><![CDATA[$params['var']]]></code>
-    </MixedArgument>
   </file>
   <file src="src/Addon/Addon.php">
     <MixedArgument>
@@ -4233,6 +4166,46 @@
       <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
     </NullableReturnStatement>
   </file>
+  <file src="src/MediaPool/RexVar/Media.php">
+    <MixedArgument>
+      <code><![CDATA[$avalue]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$aname]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$avalue]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[getValue]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/MediaPool/RexVar/MediaList.php">
+    <MixedArgument>
+      <code><![CDATA[$avalue]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$avalue]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[getValue]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
+  </file>
   <file src="src/MetaInfo/Form/Field/RestrictionField.php">
     <PossiblyNullOperand>
       <code><![CDATA[$id]]></code>
@@ -4521,6 +4494,24 @@
       <code><![CDATA[getPathAsArray]]></code>
     </PossiblyNullReference>
   </file>
+  <file src="src/RexVar/RexVar.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$key]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[self::$contextData]]></code>
+    </MixedAssignment>
+    <PossiblyNullOperand>
+      <code><![CDATA[$then]]></code>
+      <code><![CDATA[$then]]></code>
+      <code><![CDATA[$this->getParsedArg($key)]]></code>
+      <code><![CDATA[$this->getParsedArg('callback')]]></code>
+      <code><![CDATA[$this->getParsedArg('ifempty')]]></code>
+      <code><![CDATA[$this->getParsedArg('prefix')]]></code>
+      <code><![CDATA[$this->getParsedArg('suffix')]]></code>
+    </PossiblyNullOperand>
+  </file>
   <file src="src/Translation/I18n.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$args]]></code>
@@ -4733,6 +4724,15 @@
     <MixedAssignment>
       <code><![CDATA[$allowedMimeTypes]]></code>
     </MixedAssignment>
+  </file>
+  <file src="tests/RexVar/RexVarTest.php">
+    <MixedArgument>
+      <code><![CDATA[$params['class']]]></code>
+      <code><![CDATA[$params['content']]]></code>
+      <code><![CDATA[$params['subject']]]></code>
+      <code><![CDATA[$params['suffix']]]></code>
+      <code><![CDATA[$params['var']]]></code>
+    </MixedArgument>
   </file>
   <file src="tests/Util/FormatterTest.php">
     <MixedArrayAccess>
