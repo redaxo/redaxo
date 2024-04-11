@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Form\AbstractForm;
-use rex_var_media;
-use rex_var_medialist;
+use Redaxo\Core\MediaPool\RexVar\Media;
+use Redaxo\Core\MediaPool\RexVar\MediaList;
 
 class MediaField extends BaseField
 {
@@ -67,9 +67,9 @@ class MediaField extends BaseField
         static $widgetCounter = 1;
 
         if ($this->multiple) {
-            $html = rex_var_medialist::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
+            $html = MediaList::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
         } else {
-            $html = rex_var_media::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
+            $html = Media::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
         }
 
         ++$widgetCounter;

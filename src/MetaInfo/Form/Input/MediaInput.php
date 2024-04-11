@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
-use rex_var_media;
-use rex_var_medialist;
+use Redaxo\Core\MediaPool\RexVar\Media;
+use Redaxo\Core\MediaPool\RexVar\MediaList;
 
 /**
  * @internal
@@ -73,8 +73,8 @@ class MediaInput extends AbstractInput
 
         if ($this->multiple) {
             $name .= '[]';
-            return rex_var_medialist::getWidget($buttonId, $name, $value, $args);
+            return MediaList::getWidget($buttonId, $name, $value, $args);
         }
-        return rex_var_media::getWidget($buttonId, $name, $value, $args);
+        return Media::getWidget($buttonId, $name, $value, $args);
     }
 }

@@ -1,19 +1,23 @@
 <?php
 
+namespace Redaxo\Core\MediaPool\RexVar;
+
 use Redaxo\Core\Core;
-use Redaxo\Core\MediaPool\Media;
+use Redaxo\Core\RexVar\AbstractRexVar;
 use Redaxo\Core\Translation\I18n;
+use rex_fragment;
+
+use function in_array;
 
 /**
- * REX_MEDIA[1].
+ * REX_MEDIALIST[1].
  *
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen des Medienpools gesprungen werden soll
  *   - types     => Filter für Dateiendungen die im Medienpool zur Auswahl stehen sollen
  *   - preview   => Bei Bildertypen ein Vorschaubild einblenden
- *   - output    => "mimetype": Mimetype des Bildes ausgeben
  */
-class rex_var_media extends rex_var
+class MediaList extends AbstractRexVar
 {
     protected function getOutput()
     {
@@ -22,7 +26,7 @@ class rex_var_media extends rex_var
             return false;
         }
 
-        $value = $this->getContextData()->getValue('media' . $id);
+        $value = $this->getContextData()->getValue('medialist' . $id);
 
         if ($this->hasArg('isset') && $this->getArg('isset')) {
             return $value ? 'true' : 'false';
@@ -38,16 +42,7 @@ class rex_var_media extends rex_var
                     $args[$key] = $this->getArg($key);
                 }
             }
-            $value = self::getWidget($id, 'REX_INPUT_MEDIA[' . $id . ']', $value, $args);
-        } else {
-            if ($this->hasArg('output') && 'mimetype' == $this->getArg('output')) {
-                $media = Media::get($value);
-                if ($media) {
-                    $value = $media->getType();
-                }
-            } elseif ($this->hasArg('field') && $field = $this->getParsedArg('field')) {
-                return 'htmlspecialchars(rex_media::get(' . self::quote($value) . ')->getValue(' . $field . '))';
-            }
+            $value = self::getWidget($id, 'REX_INPUT_MEDIALIST[' . $id . ']', $value, $args);
         }
 
         return self::quote($value);
@@ -65,12 +60,20 @@ class rex_var_media extends rex_var
         }
 
         foreach ($args as $aname => $avalue) {
-            $openParams .= '&amp;args[' . urlencode($aname) . ']=' . urlencode($avalue);
+            $openParams .= '&amp;args[' . $aname . ']=' . urlencode($avalue);
         }
 
-        $wdgtClass = ' rex-js-widget-media';
+        $wdgtClass = ' rex-js-widget-medialist';
         if (isset($args['preview']) && $args['preview']) {
             $wdgtClass .= ' rex-js-widget-preview rex-js-widget-preview-media-manager';
+        }
+
+        $options = '';
+        $medialistarray = null === $value ? [] : explode(',', $value);
+        foreach ($medialistarray as $file) {
+            if ('' != $file) {
+                $options .= '<option value="' . $file . '">' . $file . '</option>';
+            }
         }
 
         $disabled = ' disabled';
@@ -78,18 +81,23 @@ class rex_var_media extends rex_var
         $addFunc = '';
         $deleteFunc = '';
         $viewFunc = '';
+        $quotedId = "'" . rex_escape($id, 'js') . "'";
         if (Core::requireUser()->getComplexPerm('media')->hasMediaPerm()) {
             $disabled = '';
-            $quotedId = "'" . rex_escape($id, 'js') . "'";
-            $openFunc = 'openREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
-            $addFunc = 'addREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
-            $deleteFunc = 'deleteREXMedia(' . $quotedId . ');';
-            $viewFunc = 'viewREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
+            $openFunc = 'openREXMedialist(' . $quotedId . ', \'' . $openParams . '\');';
+            $addFunc = 'addREXMedialist(' . $quotedId . ', \'' . $openParams . '\');';
+            $deleteFunc = 'deleteREXMedialist(' . $quotedId . ');';
+            $viewFunc = 'viewREXMedialist(' . $quotedId . ', \'' . $openParams . '\');';
         }
 
         $e = [];
         $e['before'] = '<div class="rex-js-widget' . $wdgtClass . '">';
-        $e['field'] = '<input class="form-control" type="text" name="' . $name . '" value="' . $value . '" id="REX_MEDIA_' . $id . '" readonly />';
+        $e['field'] = '<select class="form-control" name="REX_MEDIALIST_SELECT[' . $id . ']" id="REX_MEDIALIST_SELECT_' . $id . '" size="10">' . $options . '</select><input type="hidden" name="' . $name . '" id="REX_MEDIALIST_' . $id . '" value="' . $value . '" />';
+        $e['moveButtons'] = '
+                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $quotedId . ',\'top\');return false;" title="' . I18n::msg('var_medialist_move_top') . '"><i class="rex-icon rex-icon-top"></i></a>
+                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $quotedId . ',\'up\');return false;" title="' . I18n::msg('var_medialist_move_up') . '"><i class="rex-icon rex-icon-up"></i></a>
+                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $quotedId . ',\'down\');return false;" title="' . I18n::msg('var_medialist_move_down') . '"><i class="rex-icon rex-icon-down"></i></a>
+                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $quotedId . ',\'bottom\');return false;" title="' . I18n::msg('var_medialist_move_bottom') . '"><i class="rex-icon rex-icon-bottom"></i></a>';
         $e['functionButtons'] = '
                 <a href="#" class="btn btn-popup" onclick="' . $openFunc . 'return false;" title="' . I18n::msg('var_media_open') . '"' . $disabled . '><i class="rex-icon rex-icon-open-mediapool"></i></a>
                 <a href="#" class="btn btn-popup" onclick="' . $addFunc . 'return false;" title="' . I18n::msg('var_media_new') . '"' . $disabled . '><i class="rex-icon rex-icon-add-media"></i></a>
@@ -100,6 +108,6 @@ class rex_var_media extends rex_var
         $fragment = new rex_fragment();
         $fragment->setVar('elements', [$e], false);
 
-        return $fragment->parse('core/form/widget.php');
+        return $fragment->parse('core/form/widget_list.php');
     }
 }
