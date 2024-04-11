@@ -1,11 +1,16 @@
 <?php
 
+namespace Redaxo\Core\Content\RexVar;
+
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
+use rex_fragment;
+
+use function in_array;
 
 /**
  * REX_LINKLIST[1].
@@ -13,7 +18,7 @@ use Redaxo\Core\Translation\I18n;
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen der Linkmap gesprungen werden soll
  */
-class rex_var_linklist extends RexVar
+class LinkList extends RexVar
 {
     protected function getOutput()
     {

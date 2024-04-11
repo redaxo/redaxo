@@ -1,9 +1,13 @@
 <?php
 
-use Redaxo\Core\Content\Article;
+namespace Redaxo\Core\Content\RexVar;
+
+use Redaxo\Core\Content\Article as BaseArticle;
 use Redaxo\Core\Content\ArticleContent;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\RexVar\RexVar;
+
+use function in_array;
 
 /**
  * REX_ARTICLE[1]
@@ -20,7 +24,7 @@ use Redaxo\Core\RexVar\RexVar;
  *   - ctype     => Spalte des Artikels festlegen
  *   - field     => Nur dieses Feld des Artikels ausgeben
  */
-class rex_var_article extends RexVar
+class Article extends RexVar
 {
     /**
      * Werte für die Ausgabe.
@@ -60,7 +64,7 @@ class rex_var_article extends RexVar
         if (null === $clang) {
             $clang = Language::getCurrentId();
         }
-        $article = Article::get($id, $clang);
+        $article = BaseArticle::get($id, $clang);
         return rex_escape($article->getValue($field));
     }
 

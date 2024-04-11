@@ -1,11 +1,15 @@
 <?php
 
+namespace Redaxo\Core\Content\RexVar;
+
 use Redaxo\Core\RexVar\RexVar;
+
+use function in_array;
 
 /**
  * REX_VALUE[1],.
  */
-class rex_var_value extends RexVar
+class Value extends RexVar
 {
     protected function getOutput()
     {

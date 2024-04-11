@@ -1,6 +1,8 @@
 <?php
 
-use Redaxo\Core\Content\Category;
+namespace Redaxo\Core\Content\RexVar;
+
+use Redaxo\Core\Content\Category as BaseCategory;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\RexVar\RexVar;
 
@@ -14,7 +16,7 @@ use Redaxo\Core\RexVar\RexVar;
  *   - field    => Feld der Kategorie, das ausgegeben werden soll
  *   - clang    => ClangId der Kategorie
  */
-class rex_var_category extends RexVar
+class Category extends RexVar
 {
     /**
      * Werte für die Ausgabe.
@@ -40,7 +42,7 @@ class rex_var_category extends RexVar
         if (null === $clang) {
             $clang = Language::getCurrentId();
         }
-        $cat = Category::get($id, $clang);
+        $cat = BaseCategory::get($id, $clang);
         if ($cat) {
             return rex_escape($cat->getValue($field));
         }
