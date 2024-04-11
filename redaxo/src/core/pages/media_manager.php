@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 
@@ -11,4 +12,4 @@ if ('clear_cache' == $func) {
     echo rex_view::info(I18n::msg('media_manager_cache_files_removed', $c));
 }
 
-rex_be_controller::includeCurrentPageSubPath();
+Controller::includeCurrentPageSubPath();

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Field\SelectField;
@@ -24,9 +25,9 @@ class rex_system_setting_default_template_id extends rex_system_setting
         $field->setLabel(I18n::msg('system_setting_default_template_id'));
         $select = $field->getSelect();
         $select->setSize(1);
-        $select->setSelected(rex_template::getDefaultId());
+        $select->setSelected(Template::getDefaultId());
 
-        $templates = rex_template::getTemplatesForCategory(0);
+        $templates = Template::getTemplatesForCategory(0);
         if (empty($templates)) {
             $select->addOption(I18n::msg('option_no_template'), 0);
         } else {

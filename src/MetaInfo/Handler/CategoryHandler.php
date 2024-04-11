@@ -2,10 +2,10 @@
 
 namespace Redaxo\Core\MetaInfo\Handler;
 
+use Redaxo\Core\Content\ArticleCache;
+use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use rex_article_cache;
-use rex_category;
 use rex_extension;
 use rex_extension_point;
 
@@ -56,7 +56,7 @@ class CategoryHandler extends AbstractHandler
         }
 
         // Artikel nochmal mit den zusätzlichen Werten neu generieren
-        rex_article_cache::generateMeta($params['id'], $params['clang']);
+        ArticleCache::generateMeta($params['id'], $params['clang']);
 
         return $params;
     }
@@ -69,7 +69,7 @@ class CategoryHandler extends AbstractHandler
         $s = '';
 
         if (!empty($params['id'])) {
-            $OOCat = rex_category::get($params['id'], $params['clang']);
+            $OOCat = Category::get($params['id'], $params['clang']);
 
             // Alle Metafelder des Pfades sind erlaubt
             foreach ($OOCat->getPathAsArray() as $pathElement) {

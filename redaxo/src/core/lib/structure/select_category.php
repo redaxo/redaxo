@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
 
 class rex_category_select extends rex_select
@@ -52,12 +53,12 @@ class rex_category_select extends rex_select
         if (null !== $this->rootId) {
             if (is_array($this->rootId)) {
                 foreach ($this->rootId as $rootId) {
-                    if ($rootCat = rex_category::get($rootId, $this->clang)) {
+                    if ($rootCat = Category::get($rootId, $this->clang)) {
                         $this->addCatOption($rootCat, 0);
                     }
                 }
             } else {
-                if ($rootCat = rex_category::get($this->rootId, $this->clang)) {
+                if ($rootCat = Category::get($this->rootId, $this->clang)) {
                     $this->addCatOption($rootCat, 0);
                 }
             }
@@ -65,7 +66,7 @@ class rex_category_select extends rex_select
             $perm = Core::requireUser()->getComplexPerm('structure');
 
             if (!$this->checkPerms || $perm->hasCategoryPerm(0)) {
-                if ($rootCats = rex_category::getRootCategories($this->ignoreOfflines, $this->clang)) {
+                if ($rootCats = Category::getRootCategories($this->ignoreOfflines, $this->clang)) {
                     foreach ($rootCats as $rootCat) {
                         $this->addCatOption($rootCat);
                     }
@@ -84,7 +85,7 @@ class rex_category_select extends rex_select
     /**
      * @return void
      */
-    protected function addCatOption(rex_category $cat, $group = null)
+    protected function addCatOption(Category $cat, $group = null)
     {
         if (!$this->checkPerms || Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getId())
         ) {

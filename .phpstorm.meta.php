@@ -113,10 +113,10 @@ expectedArguments(\rex_request::env(), 1, argumentsSet('cast_type'));
 override(
     \rex_user::getComplexPerm(0),
     map([
-        'clang' => \rex_clang_perm::class,
+        'clang' => \Redaxo\Core\Language\LanguagePermission::class,
         'media' => \Redaxo\Core\MediaPool\MediaPoolPermission::class,
-        'modules' => \rex_module_perm::class,
-        'structure' => \rex_structure_perm::class,
+        'modules' => \Redaxo\Core\Content\ModulePermission::class,
+        'structure' => \Redaxo\Core\Content\StructurePermission::class,
     ])
 );
 

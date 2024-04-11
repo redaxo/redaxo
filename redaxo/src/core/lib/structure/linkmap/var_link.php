@@ -1,6 +1,9 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
 
@@ -52,11 +55,11 @@ class rex_var_link extends RexVar
     public static function getWidget($id, $name, $value, array $args = [])
     {
         $artName = '';
-        $art = rex_article::get($value);
-        $category = rex_category::getCurrent() ? rex_category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
+        $art = Article::get($value);
+        $category = Category::getCurrent() ? Category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
 
         // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim Öffnen der Linkmap dessen Kategorie anzeigen
-        if ($art instanceof rex_article) {
+        if ($art instanceof Article) {
             $artName = trim(sprintf('%s [%s]', $art->getName(), $art->getId()));
             $category = $art->getCategoryId();
         }
@@ -66,7 +69,7 @@ class rex_var_link extends RexVar
             $category = (int) $args['category'];
         }
 
-        $openParams = '&clang=' . rex_clang::getCurrentId() . '&category_id=' . $category;
+        $openParams = '&clang=' . Language::getCurrentId() . '&category_id=' . $category;
 
         $class = ' rex-disabled';
         $openFunc = '';

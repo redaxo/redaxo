@@ -1,9 +1,16 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleContent;
+use Redaxo\Core\Content\ArticleContentBase;
+use Redaxo\Core\Content\ArticleRevision;
+use Redaxo\Core\Content\ArticleSliceHistory;
+use Redaxo\Core\Content\HistoryLogin;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Mailer\Mailer;
 
 if (Core::isSetup()) {
@@ -49,7 +56,7 @@ if (Core::getConfig('article_history', false)) {
             $validtill = DateTime::createFromFormat('YmdHis', $historyValidtime);
             $now = new DateTime();
             if ($now < $validtill) {
-                $login = new rex_history_login();
+                $login = new HistoryLogin();
 
                 if ($login->checkTempSession($historyLogin, $historySession, $historyValidtime)) {
                     $user = $login->getUser();
@@ -73,7 +80,7 @@ if (Core::getConfig('article_history', false)) {
 
         rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
             $article = $ep->getParam('article');
-            if ($article instanceof rex_article_content) {
+            if ($article instanceof ArticleContent) {
                 $article->getContentAsQuery();
             }
             $article->setEval(true);
@@ -83,13 +90,13 @@ if (Core::getConfig('article_history', false)) {
             $historyDate = rex_request('rex_history_date', 'string');
             $article = $ep->getParam('article');
 
-            if ($article instanceof rex_article_content && $article->getArticleId() == rex_article::getCurrentId()) {
+            if ($article instanceof ArticleContent && $article->getArticleId() == Article::getCurrentId()) {
                 $articleLimit = '';
                 if (0 != $article->getArticleId()) {
                     $articleLimit = ' AND ' . Core::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
                 }
 
-                rex_article_slice_history::checkTables();
+                ArticleSliceHistory::checkTables();
 
                 $escapeSql = Sql::factory();
 
@@ -97,7 +104,7 @@ if (Core::getConfig('article_history', false)) {
 
                 return 'SELECT ' . Core::getTablePrefix() . 'module.id, ' . Core::getTablePrefix() . 'module.key,' . Core::getTablePrefix() . 'module.name, ' . Core::getTablePrefix() . 'module.output, ' . Core::getTablePrefix() . 'module.input, ' . Core::getTablePrefix() . 'article_slice.*, ' . Core::getTablePrefix() . 'article.parent_id
                     FROM
-                        ' . rex_article_slice_history::getTable() . ' as ' . Core::getTablePrefix() . 'article_slice
+                        ' . ArticleSliceHistory::getTable() . ' as ' . Core::getTablePrefix() . 'article_slice
                     LEFT JOIN ' . Core::getTablePrefix() . 'module ON ' . Core::getTablePrefix() . 'article_slice.module_id=' . Core::getTablePrefix() . 'module.id
                     LEFT JOIN ' . Core::getTablePrefix() . 'article ON ' . Core::getTablePrefix() . 'article_slice.article_id=' . Core::getTablePrefix() . 'article.id
                     WHERE
@@ -117,7 +124,7 @@ if (Core::getConfig('article_history', false)) {
 if (Core::getConfig('article_work_version', false)) {
     rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
         $version = rex_request('rex_version', 'int');
-        if (rex_article_revision::WORK != $version) {
+        if (ArticleRevision::WORK != $version) {
             return;
         }
 
@@ -130,10 +137,10 @@ if (Core::getConfig('article_work_version', false)) {
             exit;
         }
 
-        /** @var rex_article_content_base $article */
+        /** @var ArticleContentBase $article */
         $article = $ep->getParam('article');
         $article->setSliceRevision($version);
-        if ($article instanceof rex_article_content) {
+        if ($article instanceof ArticleContent) {
             $article->getContentAsQuery();
         }
         $article->setEval(true);
@@ -141,20 +148,20 @@ if (Core::getConfig('article_work_version', false)) {
 }
 
 $clangId = rex_get('clang', 'int');
-if ($clangId && !rex_clang::exists($clangId)) {
-    rex_redirect(rex_article::getNotfoundArticleId(), rex_clang::getStartId());
+if ($clangId && !Language::exists($clangId)) {
+    rex_redirect(Article::getNotfoundArticleId(), Language::getStartId());
 }
 
-$article = new rex_article_content();
-$article->setClang(rex_clang::getCurrentId());
+$article = new ArticleContent();
+$article->setClang(Language::getCurrentId());
 
-if (!$article->setArticleId(rex_article::getCurrentId())) {
+if (!$article->setArticleId(Article::getCurrentId())) {
     if (!Core::isDebugMode() && !rex_backend_login::hasSession()) {
-        throw new rex_exception('Article with id ' . rex_article::getCurrentId() . ' does not exist');
+        throw new rex_exception('Article with id ' . Article::getCurrentId() . ' does not exist');
     }
 
     $fragment = new rex_fragment([
-        'content' => '<p><b>Article with ID ' . rex_article::getCurrentId() . ' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . Url::backendController() . '">REDAXO</a>.</p>',
+        'content' => '<p><b>Article with ID ' . Article::getCurrentId() . ' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . Url::backendController() . '">REDAXO</a>.</p>',
     ]);
     $content .= $fragment->parse('core/fe_ooops.php');
     rex_response::sendPage($content);
@@ -164,15 +171,15 @@ if (!$article->setArticleId(rex_article::getCurrentId())) {
 try {
     $content .= $article->getArticleTemplate();
 } catch (rex_article_not_found_exception) {
-    $article = new rex_article_content();
-    $article->setClang(rex_clang::getCurrentId());
-    $article->setArticleId(rex_article::getNotfoundArticleId());
+    $article = new ArticleContent();
+    $article->setClang(Language::getCurrentId());
+    $article->setArticleId(Article::getNotfoundArticleId());
 
     $content .= $article->getArticleTemplate();
 }
 
 $artId = $article->getArticleId();
-if ($artId == rex_article::getNotfoundArticleId() && $artId != rex_article::getSiteStartArticleId()) {
+if ($artId == Article::getNotfoundArticleId() && $artId != Article::getSiteStartArticleId()) {
     rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
 }
 

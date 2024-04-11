@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($context) && $context instanceof rex_context);
@@ -177,7 +178,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $langA->setSize('1');
     $langA->setAttribute('class', 'form-control selectpicker');
     foreach ($clangPerm as $key) {
-        $val = I18n::translate(rex_clang::get($key)->getName());
+        $val = I18n::translate(Language::get($key)->getName());
         $langA->addOption($val, $key);
     }
 
@@ -187,7 +188,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $langB->setSize('1');
     $langB->setAttribute('class', 'form-control selectpicker');
     foreach ($clangPerm as $key) {
-        $val = I18n::translate(rex_clang::get($key)->getName());
+        $val = I18n::translate(Language::get($key)->getName());
         $langB->addOption($val, $key);
     }
 

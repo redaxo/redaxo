@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
@@ -78,7 +79,7 @@ $selStartpage->setAttribute('data-live-search', 'true');
 $selStartpage->addOption('default', '');
 
 $startpages = [];
-foreach (rex_be_controller::getPages() as $page => $pageObj) {
+foreach (Controller::getPages() as $page => $pageObj) {
     if ($pageObj->hasNavigation() && !$pageObj->isHidden()) {
         $startpages[$page] = $pageObj->getTitle();
     }

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
@@ -23,7 +24,7 @@ $navigation = [];
 
 /** @psalm-suppress RedundantCondition */
 $objectId = $articleId > 0 ? $articleId : $categoryId;
-$object = rex_article::get($objectId, $clang);
+$object = Article::get($objectId, $clang);
 if ($object) {
     $tree = $object->getParentTree();
     if (!$object->isStartarticle()) {

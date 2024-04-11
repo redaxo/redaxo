@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Cronjob\Type;
 
 use DateTimeImmutable;
+use Redaxo\Core\Content\ArticleSliceHistory;
 use Redaxo\Core\Translation\I18n;
-use rex_article_slice_history;
 
 class ClearArticleHistoryType extends AbstractType
 {
@@ -19,7 +19,7 @@ class ClearArticleHistoryType extends AbstractType
 
         $deleteDate = new DateTimeImmutable('- ' . $period);
 
-        rex_article_slice_history::clearHistoryByDate($deleteDate);
+        ArticleSliceHistory::clearHistoryByDate($deleteDate);
         $this->setMessage('Article-History Cleanup done with `' . $period . '` as period');
 
         return true;

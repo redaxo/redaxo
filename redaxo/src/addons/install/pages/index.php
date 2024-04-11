@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Util\Markdown;
 
 $addon = Addon::get('install');
@@ -18,4 +19,4 @@ $markdown = static function (string $content): string {
     return $fragment->parse('core/page/readme.php');
 };
 
-rex_be_controller::includeCurrentPageSubPath(['markdown' => $markdown]);
+Controller::includeCurrentPageSubPath(['markdown' => $markdown]);

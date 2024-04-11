@@ -1,7 +1,9 @@
 <?php
 
+use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
 class rex_template_select extends rex_select
@@ -22,7 +24,7 @@ class rex_template_select extends rex_select
     public function __construct($categoryId = null, $clangId = null)
     {
         $this->categoryId = $categoryId;
-        $this->clangId = null === $clangId ? rex_clang::getCurrentId() : (int) $clangId;
+        $this->clangId = null === $clangId ? Language::getCurrentId() : (int) $clangId;
 
         parent::__construct();
     }
@@ -71,7 +73,7 @@ class rex_template_select extends rex_select
 
         $templates = $this->getTemplates();
         if (!$selected || !isset($templates[$selected])) {
-            $selected = rex_template::getDefaultId();
+            $selected = Template::getDefaultId();
         }
 
         if ($selected && isset($templates[$selected])) {
@@ -88,7 +90,7 @@ class rex_template_select extends rex_select
             $this->templates = [];
 
             if (null !== $this->categoryId) {
-                $templates = rex_template::getTemplatesForCategory($this->categoryId);
+                $templates = Template::getTemplatesForCategory($this->categoryId);
             } else {
                 $templates = Sql::factory()->getArray('SELECT id, name FROM ' . Core::getTable('template') . ' WHERE active = 1 ORDER BY name');
                 $templates = array_column($templates, 'name', 'id');

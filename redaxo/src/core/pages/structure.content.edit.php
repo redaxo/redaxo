@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Content\ArticleContentEditor;
+
 assert(isset($articleId) && is_int($articleId));
 assert(isset($clang) && is_int($clang));
 assert(isset($ctype) && is_int($ctype));
@@ -19,7 +21,7 @@ if ($apiFunc && $result = $apiFunc->getResult()) {
     }
 }
 
-$CONT = new rex_article_content_editor();
+$CONT = new ArticleContentEditor();
 $CONT->getContentAsQuery();
 $CONT->info = $info;
 $CONT->warning = $warning;

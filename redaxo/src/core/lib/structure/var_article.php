@@ -1,5 +1,8 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleContent;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\RexVar\RexVar;
 
 /**
@@ -55,9 +58,9 @@ class rex_var_article extends RexVar
     public static function getArticleValue($id, $field, $clang = null)
     {
         if (null === $clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
-        $article = rex_article::get($id, $clang);
+        $article = Article::get($id, $clang);
         return rex_escape($article->getValue($field));
     }
 
@@ -67,9 +70,9 @@ class rex_var_article extends RexVar
     public static function getArticle($id, $ctype = -1, $clang = null)
     {
         if (null === $clang) {
-            $clang = rex_clang::getCurrentId();
+            $clang = Language::getCurrentId();
         }
-        $article = new rex_article_content($id, $clang);
+        $article = new ArticleContent($id, $clang);
         return $article->getArticle($ctype);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
@@ -16,8 +18,8 @@ class rex_api_content_move_slice extends rex_api_function
         $sliceId = rex_request('slice_id', 'int');
         $direction = rex_request('direction', 'string');
 
-        $ooArt = rex_article::get($articleId, $clang);
-        if (!$ooArt instanceof rex_article) {
+        $ooArt = Article::get($articleId, $clang);
+        if (!$ooArt instanceof Article) {
             throw new rex_api_exception('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
         }
         $categoryId = $ooArt->getCategoryId();
@@ -43,7 +45,7 @@ class rex_api_content_move_slice extends rex_api_function
 
         // ----- RECHTE AM MODUL ?
         if ($user->getComplexPerm('modules')->hasPerm($moduleId)) {
-            $message = rex_content_service::moveSlice($sliceId, $clang, $direction);
+            $message = ContentHandler::moveSlice($sliceId, $clang, $direction);
         } else {
             throw new rex_api_exception(I18n::msg('no_rights_to_this_function'));
         }

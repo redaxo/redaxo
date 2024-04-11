@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
@@ -8,7 +9,7 @@ assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($argFields) && is_string($argFields));
 assert(isset($fileId) && is_int($fileId));
 
-$subpage = rex_be_controller::getCurrentPagePart(2);
+$subpage = Controller::getCurrentPagePart(2);
 
 $mediaName = rex_request('media_name', 'string');
 $csrf = rex_csrf_token::factory('mediapool');
@@ -63,7 +64,7 @@ $toolbar = '
 </div>';
 
 $context = new rex_context([
-    'page' => rex_be_controller::getCurrentPage(),
+    'page' => Controller::getCurrentPage(),
 ]);
 
 // ----- EXTENSION POINT
