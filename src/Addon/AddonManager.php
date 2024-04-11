@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Addon;
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
@@ -13,7 +14,6 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Version;
-use rex_be_controller;
 use rex_config;
 use rex_functional_exception;
 use rex_sql_exception;
@@ -456,7 +456,7 @@ class AddonManager
             }
 
             $jumpPackageUrl = '#package-' . Str::normalize($addonId, '-', '_');
-            if ('packages' !== rex_be_controller::getCurrentPage()) {
+            if ('packages' !== Controller::getCurrentPage()) {
                 // error while update/install within install-addon. x-link to packages core page
                 $jumpPackageUrl = Url::backendPage('packages') . $jumpPackageUrl;
             }

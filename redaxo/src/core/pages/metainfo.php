@@ -1,8 +1,9 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Translation\I18n;
 
-$subpage = rex_be_controller::getCurrentPagePart(2);
+$subpage = Controller::getCurrentPagePart(2);
 
 echo rex_view::title(I18n::msg('minfo_title'));
 
@@ -15,7 +16,7 @@ $prefix = match ($subpage) {
 };
 
 if ('' === $prefix) {
-    rex_be_controller::includeCurrentPageSubPath();
+    Controller::includeCurrentPageSubPath();
 } else {
     $metaTable = rex_metainfo_meta_table($prefix);
     require __DIR__ . '/metainfo.field.php';

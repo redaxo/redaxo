@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
@@ -21,7 +22,7 @@ if (preg_match($pattern, $openerInputFieldName, $match)) {
 }
 
 $context = new rex_context([
-    'page' => rex_be_controller::getCurrentPage(),
+    'page' => Controller::getCurrentPage(),
     'opener_input_field' => $openerInputField,
     'opener_input_field_name' => $openerInputFieldName,
     'category_id' => $categoryId,

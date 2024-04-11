@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -324,7 +325,7 @@ class rex_list implements rex_url_provider_interface
      */
     protected function loadBackendConfig()
     {
-        $this->addParam('page', rex_be_controller::getCurrentPage());
+        $this->addParam('page', Controller::getCurrentPage());
     }
 
     /**

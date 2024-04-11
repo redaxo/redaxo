@@ -1,6 +1,8 @@
 <?php
 
-class rex_be_page_main extends rex_be_page
+namespace Redaxo\Core\Backend;
+
+class MainPage extends Page
 {
     /** @var string */
     private $block;

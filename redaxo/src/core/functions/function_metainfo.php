@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
@@ -232,7 +233,7 @@ function rex_metainfo_meta_table(string $prefix)
 function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
     $page = $ep->getSubject();
-    $mainpage = rex_be_controller::getCurrentPagePart(1);
+    $mainpage = Controller::getCurrentPagePart(1);
 
     // additional javascripts
     if (in_array($mainpage, ['metainfo', 'mediapool'], true) || in_array($page, ['content/metainfo', 'structure', 'system/lang'], true)) {
