@@ -1,15 +1,17 @@
 <?php
 
+namespace Redaxo\Core\Language\RexVar;
+
 use Redaxo\Core\RexVar\RexVar;
 
 /**
- * REX_CLANG[id=x field=xzy].
+ * REX_LANGUAGE[id=x field=xzy].
  *
  * Arguments:
  *   - id
  *   - field
  */
-class rex_var_clang extends RexVar
+class Language extends RexVar
 {
     protected function getOutput()
     {

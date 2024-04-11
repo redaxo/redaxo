@@ -276,6 +276,7 @@ return RectorConfig::configure()
         'rex_var' => RexVar\RexVar::class,
         'rex_var_article' => Content\RexVar\Article::class,
         'rex_var_category' => Content\RexVar\Category::class,
+        'rex_var_clang' => Language\RexVar\Language::class,
         'rex_var_link' => Content\RexVar\Link::class,
         'rex_var_linklist' => Content\RexVar\LinkList::class,
         'rex_var_media' => MediaPool\RexVar\Media::class,
