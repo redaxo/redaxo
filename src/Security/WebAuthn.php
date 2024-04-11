@@ -1,16 +1,19 @@
 <?php
 
+namespace Redaxo\Core\Security;
+
 use lbuchs\WebAuthn\Binary\ByteBuffer;
-use lbuchs\WebAuthn\WebAuthn;
+use lbuchs\WebAuthn\WebAuthn as BaseWebAuthn;
 use lbuchs\WebAuthn\WebAuthnException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Util\Type;
+use stdClass;
 
 /**
  * @internal
  */
-class rex_webauthn
+class WebAuthn
 {
     private const SESSION_CHALLENGE_CREATE = 'webauthn_challenge_create';
     private const SESSION_CHALLENGE_GET = 'webauthn_challenge_get';
@@ -56,14 +59,14 @@ class rex_webauthn
         return json_encode($args);
     }
 
-    /** @return array{string, rex_user}|null */
+    /** @return array{string, User}|null */
     public function processGet(string $data): ?array
     {
         $data = Type::instanceOf(json_decode($data), stdClass::class);
 
         $id = (int) base64_decode(Type::string($data->userHandle));
 
-        $user = rex_user::get($id);
+        $user = User::get($id);
 
         if (!$user) {
             return null;
@@ -92,8 +95,8 @@ class rex_webauthn
         return [Type::string($data->id), $user];
     }
 
-    private function createWebauthnBase(): WebAuthn
+    private function createWebauthnBase(): BaseWebAuthn
     {
-        return new WebAuthn(Core::getServerName(), Core::getRequest()->getHost());
+        return new BaseWebAuthn(Core::getServerName(), Core::getRequest()->getHost());
     }
 }

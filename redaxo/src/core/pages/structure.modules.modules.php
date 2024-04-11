@@ -7,6 +7,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 
 $OUT = true;
@@ -31,7 +32,7 @@ $error = '';
 $content = '';
 $message = '';
 
-$csrfToken = rex_csrf_token::factory('structure_content_module');
+$csrfToken = CsrfToken::factory('structure_content_module');
 
 // ---------------------------- ACTIONSFUNKTIONEN FUER MODULE
 if (('' != $addAction || 'delete' == $functionAction) && !$csrfToken->isValid()) {

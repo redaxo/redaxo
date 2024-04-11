@@ -6,9 +6,9 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
 use rex_api_exception;
-use rex_complex_perm;
 use rex_extension;
 use rex_extension_point;
 
@@ -297,7 +297,7 @@ class CategoryHandler
                         ]));
                     }
 
-                    rex_complex_perm::removeItem('structure', $categoryId);
+                    ComplexPermission::removeItem('structure', $categoryId);
                 } else {
                     throw new rex_api_exception(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_articles'));
                 }

@@ -6,6 +6,8 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\LanguageHandler;
+use Redaxo\Core\Security\BackendPasswordPolicy;
+use Redaxo\Core\Security\Login;
 use Redaxo\Core\Translation\I18n;
 
 $step = rex_request('step', 'int', 1);
@@ -281,7 +283,7 @@ if (6 === $step) {
             $errors[] = rex_view::error(I18n::msg('setup_502'));
         }
 
-        $passwordPolicy = rex_backend_password_policy::factory();
+        $passwordPolicy = BackendPasswordPolicy::factory();
         if (true !== $msg = $passwordPolicy->check($redaxoUserPass)) {
             $errors[] = rex_view::error($msg);
         }
@@ -295,7 +297,7 @@ if (6 === $step) {
             } else {
                 // the server side encryption of pw is only required
                 // when not already encrypted by client using javascript
-                $redaxoUserPass = rex_login::passwordHash($redaxoUserPass);
+                $redaxoUserPass = Login::passwordHash($redaxoUserPass);
 
                 $user = Sql::factory();
                 // $user->setDebug();

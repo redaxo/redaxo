@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\Security;
+
 use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Content\ModulePermission;
 use Redaxo\Core\Content\StructurePermission;
@@ -7,8 +9,13 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Language\LanguagePermission;
 use Redaxo\Core\MediaPool\MediaPoolPermission;
+use RuntimeException;
+use SensitiveParameter;
 
-class rex_user
+use function in_array;
+use function is_object;
+
+class User
 {
     use InstancePoolTrait {
         clearInstance as baseClearInstance;
@@ -27,14 +34,14 @@ class rex_user
     /**
      * User role instance.
      *
-     * @var rex_user_role_interface|null
+     * @var UserRoleInterface|null
      */
     protected $role;
 
     /**
      * Class name for user roles.
      *
-     * @var class-string<rex_user_role_interface>
+     * @var class-string<UserRoleInterface>
      */
     protected static $roleClass;
 
@@ -225,8 +232,8 @@ class rex_user
      *
      * @param string $key Complex perm key
      *
-     * @return rex_complex_perm|null Complex perm
-     * @psalm-return rex_complex_perm|null
+     * @return ComplexPermission|null Complex perm
+     * @psalm-return ComplexPermission|null
      * @phpstan-return MediaPoolPermission|StructurePermission|ModulePermission|LanguagePermission|null
      */
     public function getComplexPerm($key)
@@ -234,13 +241,13 @@ class rex_user
         if ($this->hasRole()) {
             return $this->role->getComplexPerm($this, $key);
         }
-        return rex_complex_perm::get($this, $key);
+        return ComplexPermission::get($this, $key);
     }
 
     /**
      * Sets the role class.
      *
-     * @param class-string<rex_user_role_interface> $class Class name
+     * @param class-string<UserRoleInterface> $class Class name
      * @return void
      */
     public static function setRoleClass($class)

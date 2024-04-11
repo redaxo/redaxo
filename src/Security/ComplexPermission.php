@@ -1,18 +1,20 @@
 <?php
 
+namespace Redaxo\Core\Security;
+
 /**
  * Abstract class for complex permissions.
  *
  * All permission check methods ("hasPerm()" etc.) in child classes should return "true" for admins
  */
-abstract class rex_complex_perm
+abstract class ComplexPermission
 {
     public const ALL = 'all';
 
     /**
      * User instance.
      *
-     * @var rex_user
+     * @var User
      */
     protected $user;
 
@@ -26,15 +28,15 @@ abstract class rex_complex_perm
     /**
      * Array of class names.
      *
-     * @var array<string, class-string<self>>
+     * @var array<string, class-string<\Redaxo\Core\Security\ComplexPermission>>
      */
     private static $classes = [];
 
     /**
-     * @param rex_user $user User instance
+     * @param User $user User instance
      * @param mixed $perms Permissions
      */
-    protected function __construct(rex_user $user, $perms)
+    protected function __construct(User $user, $perms)
     {
         $this->user = $user;
         $this->perms = $perms;
@@ -64,7 +66,7 @@ abstract class rex_complex_perm
      * Registers a new complex perm class.
      *
      * @param string $key Key for the complex perm
-     * @param class-string<self> $class Class name
+     * @param class-string<\Redaxo\Core\Security\ComplexPermission> $class Class name
      * @throws InvalidArgumentException
      * @return void
      */
@@ -79,7 +81,7 @@ abstract class rex_complex_perm
     /**
      * Returns all complex perm classes.
      *
-     * @return array<string, class-string<self>> Class names
+     * @return array<string, class-string<\Redaxo\Core\Security\ComplexPermission>> Class names
      */
     public static function getAll()
     {
@@ -89,13 +91,13 @@ abstract class rex_complex_perm
     /**
      * Returns the complex perm.
      *
-     * @param rex_user $user User instance
+     * @param User $user User instance
      * @param string $key Complex perm key
      * @param mixed $perms Permissions
      *
-     * @return self|null
+     * @return ComplexPermission|null
      */
-    public static function get(rex_user $user, $key, $perms = [])
+    public static function get(User $user, $key, $perms = [])
     {
         if (!isset(self::$classes[$key])) {
             return null;

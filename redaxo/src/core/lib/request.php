@@ -84,7 +84,7 @@ class rex_request
     public static function session($varname, $vartype = '', $default = '')
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call rex_login::startSession() before!');
+            throw new rex_exception('Session not started, call Login::startSession() before!');
         }
 
         if (isset($_SESSION[self::getSessionNamespace()][$varname])) {
@@ -109,7 +109,7 @@ class rex_request
     public static function setSession($varname, $value)
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call rex_login::startSession() before!');
+            throw new rex_exception('Session not started, call Login::startSession() before!');
         }
 
         $_SESSION[self::getSessionNamespace()][$varname] = $value;
@@ -126,7 +126,7 @@ class rex_request
     public static function unsetSession($varname)
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call rex_login::startSession() before!');
+            throw new rex_exception('Session not started, call Login::startSession() before!');
         }
 
         unset($_SESSION[self::getSessionNamespace()][$varname]);
@@ -141,7 +141,7 @@ class rex_request
     public static function clearSession()
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call rex_login::startSession() before!');
+            throw new rex_exception('Session not started, call Login::startSession() before!');
         }
 
         unset($_SESSION[self::getSessionNamespace()]);

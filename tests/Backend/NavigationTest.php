@@ -7,7 +7,7 @@ use Redaxo\Core\Backend\MainPage;
 use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use rex_user;
+use Redaxo\Core\Security\User;
 
 /** @internal */
 final class NavigationTest extends TestCase
@@ -28,7 +28,7 @@ final class NavigationTest extends TestCase
         $user = Core::getUser();
 
         try {
-            Core::setProperty('user', new rex_user(Sql::factory()));
+            Core::setProperty('user', new User(Sql::factory()));
             $navi = $navi->getNavigation();
         } finally {
             Core::setProperty('user', $user);

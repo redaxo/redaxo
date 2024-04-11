@@ -1,12 +1,23 @@
 <?php
 
+namespace Redaxo\Core\Security;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
+use rex_exception;
+use rex_extension;
+use rex_extension_point;
+use rex_request;
+use RuntimeException;
+use SensitiveParameter;
 
-class rex_login
+use const PASSWORD_DEFAULT;
+use const PHP_SESSION_ACTIVE;
+
+class Login
 {
     /**
      * Session ID is saved in session under this key for session fixation prevention.
@@ -72,10 +83,10 @@ class rex_login
     /** @var string */
     protected $message = '';
 
-    /** @var Sql|rex_user */
+    /** @var Sql|User */
     protected $user;
 
-    /** @var Sql|rex_user|null */
+    /** @var Sql|User|null */
     protected $impersonator;
 
     public function __construct()
@@ -307,7 +318,7 @@ class rex_login
                     $ok = false;
                     $this->message = I18n::msg('login_session_expired');
 
-                    rex_csrf_token::removeAll();
+                    CsrfToken::removeAll();
                 }
 
                 // check session last activity
@@ -316,7 +327,7 @@ class rex_login
                     $ok = false;
                     $this->message = I18n::msg('login_session_expired');
 
-                    rex_csrf_token::removeAll();
+                    CsrfToken::removeAll();
                 }
 
                 if ($ok && $impersonator = $this->getSessionVar(self::SESSION_IMPERSONATOR)) {
@@ -356,7 +367,7 @@ class rex_login
         } else {
             $this->message = I18n::msg('login_logged_out');
 
-            rex_csrf_token::removeAll();
+            CsrfToken::removeAll();
         }
 
         if ($ok) {
@@ -430,7 +441,7 @@ class rex_login
     }
 
     /**
-     * @return Sql|rex_user|null
+     * @return Sql|User|null
      */
     public function getUser()
     {
@@ -438,7 +449,7 @@ class rex_login
     }
 
     /**
-     * @return Sql|rex_user|null
+     * @return Sql|User|null
      */
     public function getImpersonator()
     {
@@ -526,7 +537,7 @@ class rex_login
 
             session_regenerate_id(true);
 
-            rex_csrf_token::removeAll();
+            CsrfToken::removeAll();
 
             $extensionPoint = new rex_extension_point('SESSION_REGENERATED', null, [
                 'previous_id' => $previous,

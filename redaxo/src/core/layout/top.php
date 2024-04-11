@@ -5,6 +5,7 @@ use Redaxo\Core\Backend\MainPage;
 use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 
@@ -108,7 +109,7 @@ if ($user && $hasNavigation) {
         $item['attributes'] .= ' data-pjax="false"';
     } else {
         $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . I18n::msg('logout');
-        $item['href'] = Url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams());
+        $item['href'] = Url::backendController(['rex_logout' => 1] + CsrfToken::factory('backend_logout')->getUrlParams());
     }
     $metaItems[] = $item;
     unset($item);

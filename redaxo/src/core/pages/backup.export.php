@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 
@@ -38,7 +39,7 @@ if ($EXPTABLES) {
     }
 }
 
-$csrfToken = rex_csrf_token::factory('backup');
+$csrfToken = CsrfToken::factory('backup');
 $export = rex_post('export', 'bool');
 
 if ($export && !$csrfToken->isValid()) {

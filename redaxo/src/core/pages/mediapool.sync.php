@@ -6,12 +6,13 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\MediaPool\MediaPoolCache;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 
-$csrf = rex_csrf_token::factory('mediapool');
+$csrf = CsrfToken::factory('mediapool');
 
 // ----- SYNC DB WITH FILES DIR
 

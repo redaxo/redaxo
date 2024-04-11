@@ -16,9 +16,9 @@ use Redaxo\Core\Form\Field\MediaField;
 use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Form\Field\RawField;
 use Redaxo\Core\Form\Field\SelectField;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
-use rex_csrf_token;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
@@ -73,7 +73,7 @@ abstract class AbstractForm
     /** @var array<string, string> */
     private $formAttributes;
 
-    /** @var rex_csrf_token */
+    /** @var CsrfToken */
     private $csrfToken;
 
     /**
@@ -97,7 +97,7 @@ abstract class AbstractForm
 
         $this->debug = $debug;
 
-        $this->csrfToken = rex_csrf_token::factory('rex_form_' . $this->getName());
+        $this->csrfToken = CsrfToken::factory('rex_form_' . $this->getName());
     }
 
     /**

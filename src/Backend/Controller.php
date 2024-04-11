@@ -7,6 +7,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Security\User;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\Util\Timer;
@@ -16,7 +17,6 @@ use rex_extension;
 use rex_fragment;
 use rex_request;
 use rex_response;
-use rex_user;
 
 use function call_user_func;
 use function count;
@@ -552,7 +552,7 @@ class Controller
     /**
      * @return void
      */
-    public static function checkPagePermissions(rex_user $user)
+    public static function checkPagePermissions(User $user)
     {
         $check = static function (Page $page) use (&$check, $user) {
             if (!$page->checkPermission($user)) {

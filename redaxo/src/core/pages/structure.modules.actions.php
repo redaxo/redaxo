@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 
 $ASTATUS = ['ADD', 'EDIT', 'DELETE'];
@@ -20,7 +21,7 @@ $error = '';
 $content = '';
 $message = '';
 
-$csrfToken = rex_csrf_token::factory('structure_content_module_action');
+$csrfToken = CsrfToken::factory('structure_content_module_action');
 
 if ('delete' == $function && !$csrfToken->isValid()) {
     $error = I18n::msg('csrf_token_invalid');

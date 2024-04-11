@@ -11,10 +11,10 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\LanguageHandler;
+use Redaxo\Core\Security\BackendLogin;
+use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
-use rex_backend_login;
-use rex_backend_password_policy;
 use rex_backup;
 use rex_setup;
 use rex_setup_importer;
@@ -392,7 +392,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
                 },
             );
 
-            $passwordPolicy = rex_backend_password_policy::factory();
+            $passwordPolicy = BackendPasswordPolicy::factory();
             $pwValidator = static function ($password) use ($passwordPolicy) {
                 if (true !== $msg = $passwordPolicy->check($password)) {
                     throw new InvalidArgumentException($msg);
@@ -415,7 +415,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
                 $pwValidator,
             );
 
-            $passwordHash = rex_backend_login::passwordHash($password);
+            $passwordHash = BackendLogin::passwordHash($password);
 
             $user = Sql::factory();
             $user->setTable(Core::getTablePrefix() . 'user');

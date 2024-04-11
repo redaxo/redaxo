@@ -65,7 +65,7 @@ Auch der Einsatz von Extension-Points ist in der boot.php sinnvoll:
 ```php
 if (!Core::isBackend()) {
     // eine Session im Frontend wird gestartet
-    rex_login::startSession();    
+    Login::startSession();    
     rex_extension::register('PACKAGES_INCLUDED', function() {
         // der Code hier wird erst ausgeführt, wenn alle AddOns geladen sind
         // ....

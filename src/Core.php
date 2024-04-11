@@ -5,16 +5,16 @@ namespace Redaxo\Core;
 use InvalidArgumentException;
 use Redaxo\Core\Console\Application;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Security\BackendLogin;
+use Redaxo\Core\Security\User;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Validator\Validator;
-use rex_backend_login;
 use rex_config;
 use rex_config_db;
 use rex_exception;
 use rex_setup;
-use rex_user;
 use Symfony\Component\HttpFoundation\Request;
 
 use function constant;
@@ -156,38 +156,7 @@ final class Core
      * @param mixed $default Default value, will be returned if the property isn't set
      *
      * @return mixed The value for $key or $default if $key cannot be found
-     * @psalm-return (
-     *      $key is 'login' ? rex_backend_login|null :
-     *      ($key is 'live_mode' ? bool :
-     *      ($key is 'safe_mode' ? bool :
-     *      ($key is 'debug' ? array{enabled: bool, throw_always_exception: bool|int} :
-     *      ($key is 'lang_fallback' ? string[] :
-     *      ($key is 'use_accesskeys' ? bool :
-     *      ($key is 'accesskeys' ? array<string, string> :
-     *      ($key is 'editor' ? string|null :
-     *      ($key is 'editor_basepath' ? string|null :
-     *      ($key is 'timer' ? Timer :
-     *      ($key is 'timezone' ? string :
-     *      ($key is 'table_prefix' ? non-empty-string :
-     *      ($key is 'temp_prefix' ? non-empty-string :
-     *      ($key is 'version' ? string :
-     *      ($key is 'server' ? string :
-     *      ($key is 'servername' ? string :
-     *      ($key is 'error_email' ? string :
-     *      ($key is 'lang' ? non-empty-string :
-     *      ($key is 'instname' ? non-empty-string :
-     *      ($key is 'theme' ? string :
-     *      ($key is 'start_page' ? non-empty-string :
-     *      ($key is 'http_client_proxy' ? non-empty-string|null :
-     *      ($key is 'password_policy' ? array<string, scalar> :
-     *      ($key is 'backend_login_policy' ? array<string, bool|int> :
-     *      ($key is 'db' ? array<int, string[]> :
-     *      ($key is 'setup' ? bool|array<string, int> :
-     *      ($key is 'system_addons' ? non-empty-string[] :
-     *      ($key is 'setup_addons' ? non-empty-string[] :
-     *      mixed|null
-     *      )))))))))))))))))))))))))))
-     *  )
+     * @psalm-return ($key is login ? (BackendLogin | null) : ($key is live_mode ? bool : ($key is safe_mode ? bool : ($key is debug ? array{enabled: bool, throw_always_exception: (bool | int)} : ($key is lang_fallback ? string[] : ($key is use_accesskeys ? bool : ($key is accesskeys ? array<string, string> : ($key is editor ? (string | null) : ($key is editor_basepath ? (string | null) : ($key is timer ? Timer : ($key is timezone ? string : ($key is table_prefix ? non-empty-string : ($key is temp_prefix ? non-empty-string : ($key is version ? string : ($key is server ? string : ($key is servername ? string : ($key is error_email ? string : ($key is lang ? non-empty-string : ($key is instname ? non-empty-string : ($key is theme ? string : ($key is start_page ? non-empty-string : ($key is http_client_proxy ? (non-empty-string | null) : ($key is password_policy ? array<string, scalar> : ($key is backend_login_policy ? array<string, (bool | int)> : ($key is db ? array<int, string[]> : ($key is setup ? (bool | array<string, int>) : ($key is system_addons ? non-empty-string[] : ($key is setup_addons ? non-empty-string[] : (mixed | null)))))))))))))))))))))))))))))
      */
     public static function getProperty(string $key, mixed $default = null): mixed
     {
@@ -355,7 +324,7 @@ final class Core
     /**
      * Returns the current user.
      */
-    public static function getUser(): ?rex_user
+    public static function getUser(): ?User
     {
         return self::getProperty('user');
     }
@@ -365,11 +334,11 @@ final class Core
      *
      * In contrast to `getUser`, this method throw a `rex_exception` if the user does not exist.
      */
-    public static function requireUser(): rex_user
+    public static function requireUser(): User
     {
         $user = self::getProperty('user');
 
-        if (!$user instanceof rex_user) {
+        if (!$user instanceof User) {
             throw new rex_exception('User object does not exist');
         }
 
@@ -379,7 +348,7 @@ final class Core
     /**
      * Returns the current impersonator user.
      */
-    public static function getImpersonator(): ?rex_user
+    public static function getImpersonator(): ?User
     {
         $login = self::$properties['login'] ?? null;
 

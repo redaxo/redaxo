@@ -5,8 +5,8 @@ namespace Redaxo\Core\Console\Command;
 use Override;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use rex_backend_login;
-use rex_backend_password_policy;
+use Redaxo\Core\Security\BackendLogin;
+use Redaxo\Core\Security\BackendPasswordPolicy;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -49,7 +49,7 @@ class UserCreateCommand extends AbstractCommand
             throw new InvalidArgumentException(sprintf('User "%s" already exists.', $login));
         }
 
-        $passwordPolicy = rex_backend_password_policy::factory();
+        $passwordPolicy = BackendPasswordPolicy::factory();
 
         $password = $input->getArgument('password');
         if ($password && true !== $msg = $passwordPolicy->check($password)) {
@@ -78,7 +78,7 @@ class UserCreateCommand extends AbstractCommand
             $name = $login;
         }
 
-        $passwordHash = rex_backend_login::passwordHash($password);
+        $passwordHash = BackendLogin::passwordHash($password);
 
         $user = Sql::factory();
         // $user->setDebug();

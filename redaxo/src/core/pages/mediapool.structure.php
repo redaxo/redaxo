@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaCategoryHandler;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
@@ -21,7 +22,7 @@ if (!isset($error)) {
 // *************************************** SUBPAGE: KATEGORIEN
 
 $mediaMethod = rex_request('media_method', 'string');
-$csrf = rex_csrf_token::factory('mediapool_structure');
+$csrf = CsrfToken::factory('mediapool_structure');
 
 if ($PERMALL) {
     $editId = rex_request('edit_id', 'int');
