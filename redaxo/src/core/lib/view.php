@@ -292,7 +292,7 @@ class rex_view
     public static function title($head, $subtitle = null)
     {
         if (null !== $subtitle && !is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof Page)) {
-            throw new InvalidArgumentException('Expecting $subtitle to be a string or an array of rex_be_page!');
+            throw new InvalidArgumentException('Expecting $subtitle to be a string or an array of Page!');
         }
 
         if (null === $subtitle) {
