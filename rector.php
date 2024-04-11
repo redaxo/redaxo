@@ -287,7 +287,7 @@ return RectorConfig::configure()
         'rex_module_cache' => Content\ModuleCache::class,
         'rex_module_perm' => Content\ModulePermission::class,
         'rex_structure_context' => Content\StructureContext::class,
-        'rex_structure_element' => Content\AbstractElement::class,
+        'rex_structure_element' => Content\StructureElement::class,
         'rex_structure_perm' => Content\StructurePermission::class,
         'rex_template' => Content\Template::class,
         'rex_template_cache' => Content\TemplateCache::class,
@@ -311,7 +311,7 @@ return RectorConfig::configure()
 
         new MethodCallRename(Content\ArticleContentBase::class, 'getClang', 'getClangId'),
         new MethodCallRename(Content\ArticleSlice::class, 'getClang', 'getClangId'),
-        new MethodCallRename(Content\AbstractElement::class, 'getClang', 'getClangId'),
+        new MethodCallRename(Content\StructureElement::class, 'getClang', 'getClangId'),
 
         new MethodCallRename(MediaManager\ManagedMedia::class, 'getImageWidth', 'getWidth'),
         new MethodCallRename(MediaManager\ManagedMedia::class, 'getImageHeight', 'getHeight'),

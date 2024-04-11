@@ -1,6 +1,6 @@
 <?php
 
-use Redaxo\Core\Content\AbstractElement;
+use Redaxo\Core\Content\StructureElement;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
@@ -26,9 +26,9 @@ function rex_delete_cache()
 
     rex_clang::reset();
 
-    AbstractElement::clearInstancePool();
-    AbstractElement::clearInstanceListPool();
-    AbstractElement::resetClassVars();
+    StructureElement::clearInstancePool();
+    StructureElement::clearInstanceListPool();
+    StructureElement::resetClassVars();
 
     if (function_exists('opcache_reset')) {
         opcache_reset();

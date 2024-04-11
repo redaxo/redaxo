@@ -9,7 +9,7 @@ use rex_extension_point;
 /**
  * Object Oriented Framework: Bildet einen Artikel der Struktur ab.
  */
-class Article extends AbstractElement
+class Article extends StructureElement
 {
     /**
      * Return the current article id.

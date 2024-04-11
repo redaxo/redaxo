@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Content\Linkmap;
 
-use Redaxo\Core\Content\AbstractElement;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\Category;
+use Redaxo\Core\Content\StructureElement;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 use rex_context;
@@ -91,7 +91,7 @@ abstract class AbstractCategoryTreeRenderer
     /**
      * @return string
      */
-    public static function formatLabel(AbstractElement $OOobject)
+    public static function formatLabel(StructureElement $OOobject)
     {
         $label = $OOobject->getName();
 
@@ -109,7 +109,7 @@ abstract class AbstractCategoryTreeRenderer
     /**
      * @return string
      */
-    public static function formatLi(AbstractElement $OOobject, $currentCategoryId, rex_context $context, $liAttr = '', $linkAttr = '')
+    public static function formatLi(StructureElement $OOobject, $currentCategoryId, rex_context $context, $liAttr = '', $linkAttr = '')
     {
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offline') . '"';
 

@@ -588,7 +588,7 @@ class ArticleHandler
 
         // cat felder sammeln. +
         $params = ['path', 'priority', 'catname', 'startarticle', 'catpriority', 'status'];
-        $dbFields = AbstractElement::getClassVars();
+        $dbFields = StructureElement::getClassVars();
         foreach ($dbFields as $field) {
             if (str_starts_with($field, 'cat_')) {
                 $params[] = $field;
