@@ -119,7 +119,7 @@ class ArticleCache
 
         foreach (['alist', 'clist'] as $list) {
             File::delete($cachePath . $id . '.' . $list);
-            AbstractElement::clearInstanceList([$id, $list]);
+            StructureElement::clearInstanceList([$id, $list]);
         }
 
         return true;

@@ -2953,23 +2953,6 @@
       <code><![CDATA[is_array($commands)]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="src/Content/AbstractElement.php">
-    <MixedAssignment>
-      <code><![CDATA[$prefix]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string|int|null]]></code>
-    </MixedInferredReturnType>
-    <MixedOperand>
-      <code><![CDATA[$prefix]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->$val]]></code>
-    </MixedReturnStatement>
-  </file>
   <file src="src/Content/Article.php">
     <MixedInferredReturnType>
       <code><![CDATA[int]]></code>
@@ -3262,7 +3245,7 @@
       <code><![CDATA[$validtime]]></code>
     </MixedOperand>
   </file>
-  <file src="src/Content/Linkmap/AbstractArticleListRenderer.php">
+  <file src="src/Content/Linkmap/ArticleListRenderer.php">
     <MixedArgument>
       <code><![CDATA[$article]]></code>
       <code><![CDATA[$categoryId]]></code>
@@ -3275,15 +3258,6 @@
       <code><![CDATA[getArticles]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Content/Linkmap/AbstractCategoryTreeRenderer.php">
-    <MixedArgument>
-      <code><![CDATA[$categoryId]]></code>
-    </MixedArgument>
-    <MixedOperand>
-      <code><![CDATA[$liAttr]]></code>
-      <code><![CDATA[$linkAttr]]></code>
-    </MixedOperand>
-  </file>
   <file src="src/Content/Linkmap/CategoryTree.php">
     <MixedArgument>
       <code><![CDATA[$liClasses]]></code>
@@ -3294,6 +3268,15 @@
       <code><![CDATA[$liIcon]]></code>
       <code><![CDATA[$linkClasses]]></code>
       <code><![CDATA[$subHtml]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/Content/Linkmap/CategoryTreeRenderer.php">
+    <MixedArgument>
+      <code><![CDATA[$categoryId]]></code>
+    </MixedArgument>
+    <MixedOperand>
+      <code><![CDATA[$liAttr]]></code>
+      <code><![CDATA[$linkAttr]]></code>
     </MixedOperand>
   </file>
   <file src="src/Content/Module.php">
@@ -3317,6 +3300,23 @@
     <MixedAssignment>
       <code><![CDATA[$params['category_id']]]></code>
     </MixedAssignment>
+  </file>
+  <file src="src/Content/StructureElement.php">
+    <MixedAssignment>
+      <code><![CDATA[$prefix]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[string|int|null]]></code>
+    </MixedInferredReturnType>
+    <MixedOperand>
+      <code><![CDATA[$prefix]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->$val]]></code>
+    </MixedReturnStatement>
   </file>
   <file src="src/Content/StructurePermission.php">
     <MixedArgument>

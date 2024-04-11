@@ -10,7 +10,7 @@ use function count;
 /**
  * @internal
  */
-class CategoryTree extends AbstractCategoryTreeRenderer
+class CategoryTree extends CategoryTreeRenderer
 {
     public function __construct(
         private rex_context $context,

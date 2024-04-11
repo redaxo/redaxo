@@ -10,7 +10,7 @@ use function assert;
 /**
  * Object Oriented Framework: Bildet eine Kategorie der Struktur ab.
  */
-class Category extends AbstractElement
+class Category extends StructureElement
 {
     /**
      * Return the current category.

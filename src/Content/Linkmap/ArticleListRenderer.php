@@ -11,7 +11,7 @@ use function count;
 /**
  * @internal
  */
-abstract class AbstractArticleListRenderer
+abstract class ArticleListRenderer
 {
     /**
      * @return string

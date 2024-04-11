@@ -19,7 +19,7 @@ use function is_string;
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten.
  */
 #[AllowDynamicProperties]
-abstract class AbstractElement
+abstract class StructureElement
 {
     use InstanceListPoolTrait;
     use InstancePoolTrait;
@@ -457,7 +457,7 @@ abstract class AbstractElement
 
     /**
      * Get an array of all parentCategories.
-     * Returns an array of AbstractElement objects.
+     * Returns an array of StructureElement objects.
      *
      * @return list<Category>
      */
