@@ -3,10 +3,9 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
+use Redaxo\Core\Tests\RexVar\RexVarTestBase;
 
-require_once __DIR__ . '/var_test_base.php';
-
-final class rex_var_property_test extends rex_var_test_base
+final class rex_var_property_test extends RexVarTestBase
 {
     protected function setUp(): void
     {

@@ -29,9 +29,7 @@ final class RexVarTestVarB extends AbstractRexVar
     }
 }
 
-require_once __DIR__ . '/RexVarTestBase.php';
-
-final class rex_var_test extends RexVarTestBase
+final class RexVarTest extends RexVarTestBase
 {
     /** @return list<array{string, string}> */
     public static function parseTokensProvider(): array
