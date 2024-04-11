@@ -1,13 +1,14 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\RexVar\AbstractRexVar;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
 
 /**
  * REX_TEMPLATE[2].
  */
-class rex_var_template extends rex_var
+class rex_var_template extends AbstractRexVar
 {
     protected function getOutput()
     {

@@ -1,9 +1,11 @@
 <?php
 
+use Redaxo\Core\RexVar\AbstractRexVar;
+
 /**
  * REX_VALUE[1],.
  */
-class rex_var_value extends rex_var
+class rex_var_value extends AbstractRexVar
 {
     protected function getOutput()
     {

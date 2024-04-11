@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\RexVar\AbstractRexVar;
+
 /**
  * REX_ARTICLE[1]
  * REX_ARTICLE[id=1].
@@ -15,7 +17,7 @@
  *   - ctype     => Spalte des Artikels festlegen
  *   - field     => Nur dieses Feld des Artikels ausgeben
  */
-class rex_var_article extends rex_var
+class rex_var_article extends AbstractRexVar
 {
     /**
      * Werte für die Ausgabe.

@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\RexVar\AbstractRexVar;
 
 class rex_template_cache
 {
@@ -28,7 +29,7 @@ class rex_template_cache
         }
 
         $content = $sql->getValue('content');
-        $content = rex_var::parse($content, rex_var::ENV_FRONTEND, 'template');
+        $content = AbstractRexVar::parse($content, AbstractRexVar::ENV_FRONTEND, 'template');
 
         $path = self::getPath($id);
         if (!File::put($path, $content)) {

@@ -1,11 +1,33 @@
 <?php
 
+namespace Redaxo\Core\RexVar;
+
+use AppendIterator;
+use ArrayIterator;
+use Iterator;
 use Redaxo\Core\Util\Str;
+
+use function count;
+use function in_array;
+use function is_array;
+use function is_string;
+
+use const ENT_QUOTES;
+use const PREG_SET_ORDER;
+use const T_CONSTANT_ENCAPSED_STRING;
+use const T_ENCAPSED_AND_WHITESPACE;
+use const T_END_HEREDOC;
+use const T_INLINE_HTML;
+use const T_ISSET;
+use const T_LNUMBER;
+use const T_START_HEREDOC;
+use const T_STRING;
+use const T_WHITESPACE;
 
 /**
  * Abstract baseclass for REX_VARS.
  */
-abstract class rex_var
+abstract class AbstractRexVar
 {
     public const ENV_FRONTEND = 1;
     public const ENV_BACKEND = 2;
@@ -16,7 +38,7 @@ abstract class rex_var
     private const PLACEHOLDER_BRACKET_CLOSE = '@@@CLOSE_BRACKET@@@';
     private const PLACEHOLDER_INLINE_HTML = '@@@INLINE_HTML_REPLACEMENT_END@@@';
 
-    /** @var array<string, class-string<self>> */
+    /** @var array<string, class-string<\Redaxo\Core\RexVar\AbstractRexVar>> */
     private static array $vars = [];
 
     private static ?int $env = null;
@@ -132,7 +154,7 @@ abstract class rex_var
     }
 
     /**
-     * Returns a rex_var object for the given var name.
+     * Returns a RexVar object for the given var name.
      *
      * @param string $var
      */
@@ -212,7 +234,7 @@ abstract class rex_var
         }
 
         if ($useVariables && !empty($variables)) {
-            $content = 'rex_var::nothing(' . implode(', ', $variables) . ') . ' . $content;
+            $content = '\Redaxo\Core\RexVar\AbstractRexVar::nothing(' . implode(', ', $variables) . ') . ' . $content;
         }
 
         return $content;

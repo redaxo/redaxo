@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\RexVar\AbstractRexVar;
 use Redaxo\Core\Util\Stream;
 
 class rex_article_action
@@ -88,7 +89,7 @@ class rex_article_action
         foreach ($ga as $row) {
             $action = (string) $row->getValue('code');
             $action = str_replace($this->vars['search'], $this->vars['replace'], $action);
-            $action = rex_var::parse($action, rex_var::ENV_BACKEND | rex_var::ENV_INPUT, 'action', $this->sql);
+            $action = AbstractRexVar::parse($action, AbstractRexVar::ENV_BACKEND | AbstractRexVar::ENV_INPUT, 'action', $this->sql);
 
             $articleId = (int) $row->getValue('id');
             require Stream::factory('action/' . $articleId . '/' . $type, $action);
