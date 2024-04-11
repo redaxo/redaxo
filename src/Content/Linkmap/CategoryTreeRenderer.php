@@ -15,7 +15,7 @@ use function in_array;
 /**
  * @internal
  */
-abstract class AbstractCategoryTreeRenderer
+abstract class CategoryTreeRenderer
 {
     /**
      * @return string
