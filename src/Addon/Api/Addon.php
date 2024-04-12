@@ -1,6 +1,9 @@
 <?php
 
-use Redaxo\Core\Addon\Addon;
+namespace Redaxo\Core\Addon\Api;
+
+use Override;
+use Redaxo\Core\Addon\Addon as BaseAddon;
 use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
@@ -11,7 +14,7 @@ use Redaxo\Core\Util\Type;
 /**
  * @internal
  */
-final class rex_api_package extends ApiFunction
+final class Addon extends ApiFunction
 {
     #[Override]
     public function execute(): ApiResult
@@ -25,16 +28,16 @@ final class rex_api_package extends ApiFunction
             throw new ApiException('Unknown package function "' . $function . '"!');
         }
         $packageId = rex_request('package', 'string');
-        $package = Addon::get($packageId);
+        $package = BaseAddon::get($packageId);
         if ('uninstall' == $function && !$package->isInstalled()
             || 'activate' == $function && $package->isAvailable()
             || 'deactivate' == $function && !$package->isAvailable()
-            || 'delete' == $function && !Addon::exists($packageId)
+            || 'delete' == $function && !BaseAddon::exists($packageId)
         ) {
             return new ApiResult(true);
         }
 
-        if (!$package instanceof Addon) {
+        if (!$package instanceof BaseAddon) {
             throw new ApiException('Package "' . $packageId . '" doesn\'t exists!');
         }
         $reinstall = 'install' === $function && $package->isInstalled();
