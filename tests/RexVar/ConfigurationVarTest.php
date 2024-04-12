@@ -5,7 +5,10 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Tests\RexVar\RexVarTestBase;
 
-final class rex_var_config_test extends RexVarTestBase
+/**
+ * @internal
+ */
+final class ConfigurationVarTest extends RexVarTestBase
 {
     protected function setUp(): void
     {
