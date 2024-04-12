@@ -6,15 +6,11 @@ use BadMethodCallException;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Type;
 use rex_context;
 use rex_csrf_token;
 use rex_exception;
 use rex_http_exception;
 use rex_response;
-use rex_view;
-
-use function is_array;
 
 /**
  * This is a base class for all functions which a component may provide for public use.
