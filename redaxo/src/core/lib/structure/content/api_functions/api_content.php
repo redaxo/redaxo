@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
@@ -9,7 +10,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class rex_api_content_move_slice extends rex_api_function
+class rex_api_content_move_slice extends ApiFunction
 {
     public function execute()
     {

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
@@ -7,7 +8,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class rex_api_metainfo_default_fields_create extends rex_api_function
+class rex_api_metainfo_default_fields_create extends ApiFunction
 {
     public function execute()
     {

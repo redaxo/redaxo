@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -293,7 +294,7 @@ if (!empty($warnings)) {
     $message .= rex_view::warning(implode('<br/>', $warnings));
 }
 
-echo rex_api_function::getMessage();
+echo ApiFunction::getMessage();
 
 // --------------------------------- FORMS
 

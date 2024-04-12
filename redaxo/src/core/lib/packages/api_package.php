@@ -2,13 +2,14 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Type;
 
 /**
  * @internal
  */
-final class rex_api_package extends rex_api_function
+final class rex_api_package extends ApiFunction
 {
     #[Override]
     public function execute(): rex_api_result

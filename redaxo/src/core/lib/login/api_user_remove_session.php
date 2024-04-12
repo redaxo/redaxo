@@ -1,12 +1,13 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
 /**
  * @internal
  */
-class rex_api_user_remove_session extends rex_api_function
+class rex_api_user_remove_session extends ApiFunction
 {
     public function execute()
     {

@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Content\ArticleContentEditor;
 
 assert(isset($articleId) && is_int($articleId));
@@ -12,7 +13,7 @@ assert(isset($function) && is_string($function));
 assert(isset($info) && is_string($info));
 assert(isset($warning) && is_string($warning));
 
-$apiFunc = rex_api_function::factory();
+$apiFunc = ApiFunction::factory();
 if ($apiFunc && $result = $apiFunc->getResult()) {
     if ($result->isSuccessfull()) {
         $info = $result->getMessage();

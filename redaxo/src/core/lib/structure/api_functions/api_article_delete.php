@@ -1,12 +1,13 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 
 /**
  * @internal
  */
-class rex_api_article_delete extends rex_api_function
+class rex_api_article_delete extends ApiFunction
 {
     public function execute()
     {

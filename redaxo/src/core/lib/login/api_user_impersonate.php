@@ -1,12 +1,13 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 
 /**
  * @internal
  */
-class rex_api_user_impersonate extends rex_api_function
+class rex_api_user_impersonate extends ApiFunction
 {
     /**
      * @return never

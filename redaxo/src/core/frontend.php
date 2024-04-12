@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleContent;
 use Redaxo\Core\Content\ArticleContentBase;
@@ -34,7 +35,7 @@ include_once Path::core('packages.php');
 $content = ob_get_clean();
 
 // trigger api functions. the api function is responsible for checking permissions.
-rex_api_function::handleCall();
+ApiFunction::handleCall();
 
 if (rex_extension::isRegistered('FE_OUTPUT')) {
     // ----- EXTENSION POINT

@@ -1,9 +1,20 @@
 <?php
 
+namespace Redaxo\Core\Api;
+
+use BadMethodCallException;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
+use rex_context;
+use rex_csrf_token;
+use rex_exception;
+use rex_http_exception;
+use rex_response;
+use rex_view;
+
+use function is_array;
 
 /**
  * This is a base class for all functions which a component may provide for public use.
@@ -24,7 +35,7 @@ use Redaxo\Core\Util\Type;
  *
  * @psalm-consistent-constructor
  */
-abstract class rex_api_function
+abstract class ApiFunction
 {
     use FactoryTrait;
 
@@ -48,14 +59,14 @@ abstract class rex_api_function
     /**
      * Explicitly registered api functions.
      *
-     * @var array<string, class-string<self>>
+     * @var array<string, class-string<ApiFunction>>
      */
     private static $functions = [];
 
     /**
      * The api function which is bound to the current request.
      *
-     * @var rex_api_function|null
+     * @var ApiFunction|null
      */
     private static $instance;
 
@@ -100,7 +111,7 @@ abstract class rex_api_function
                     self::$instance = $apiImpl;
                     return $apiImpl;
                 }
-                throw new rex_http_exception(new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "' . $apiClass . '" given!'), rex_response::HTTP_NOT_FOUND);
+                throw new rex_http_exception(new rex_exception('$apiClass is expected to define a subclass of ApiFunction, "' . $apiClass . '" given!'), rex_response::HTTP_NOT_FOUND);
             }
             throw new rex_http_exception(new rex_exception('$apiClass "' . $apiClass . '" not found!'), rex_response::HTTP_NOT_FOUND);
         }
@@ -109,7 +120,7 @@ abstract class rex_api_function
     }
 
     /**
-     * @param class-string<self> $class
+     * @param class-string<ApiFunction> $class
      */
     public static function register(string $name, string $class): void
     {

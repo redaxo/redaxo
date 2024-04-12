@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -10,7 +11,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class rex_api_install_package_upload extends rex_api_function
+class rex_api_install_package_upload extends ApiFunction
 {
     public function execute()
     {

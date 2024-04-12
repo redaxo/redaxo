@@ -2,6 +2,7 @@
 
 use Clockwork\Clockwork;
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
@@ -12,7 +13,7 @@ use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Timer;
 
-if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
+if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(ApiFunction::REQ_CALL_PARAM)) {
     return;
 }
 
@@ -75,7 +76,7 @@ Sql::setFactoryClass(rex_sql_debug::class);
 rex_extension::setFactoryClass(rex_extension_debug::class);
 
 Logger::setFactoryClass(rex_logger_debug::class);
-rex_api_function::setFactoryClass(rex_api_function_debug::class);
+ApiFunction::setFactoryClass(rex_api_function_debug::class);
 
 rex_response::setHeader('X-Clockwork-Id', rex_debug_clockwork::getInstance()->getRequest()->id);
 rex_response::setHeader('X-Clockwork-Version', Clockwork::VERSION);

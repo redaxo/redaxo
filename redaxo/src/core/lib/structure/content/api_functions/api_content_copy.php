@@ -1,10 +1,11 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
-class rex_api_content_copy extends rex_api_function
+class rex_api_content_copy extends ApiFunction
 {
     /**
      * @throws rex_api_exception

@@ -1,12 +1,13 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
 
 /**
  * @internal
  */
-class rex_api_category_edit extends rex_api_function
+class rex_api_category_edit extends ApiFunction
 {
     public function execute()
     {

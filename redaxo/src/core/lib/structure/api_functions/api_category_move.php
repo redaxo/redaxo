@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
@@ -8,7 +9,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class rex_api_category_move extends rex_api_function
+class rex_api_category_move extends ApiFunction
 {
     public function execute()
     {

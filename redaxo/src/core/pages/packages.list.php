@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -78,7 +79,7 @@ $getTableRow = static function (Addon $package) use ($getLink) {
     $class .= $package->isSystemPackage() ? ' rex-system-addon' : '';
 
     // --------------------------------------------- API MESSAGES
-    if (($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage()) || ($package->getPackageId() == rex_get('mark', 'string'))) {
+    if (($package->getPackageId() == rex_get('package', 'string') && ApiFunction::hasMessage()) || ($package->getPackageId() == rex_get('mark', 'string'))) {
         $class = ' mark';
     }
 
@@ -144,7 +145,7 @@ $content .= '
     </script>
 ';
 
-echo rex_api_function::getMessage();
+echo ApiFunction::getMessage();
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', I18n::msg('package_caption'), false);

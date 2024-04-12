@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -37,7 +38,7 @@ if ('delete' == $func) {
 
 // ------------------------------> Eintragsliste
 if ('' == $func) {
-    echo rex_api_function::getMessage();
+    echo ApiFunction::getMessage();
 
     $title = I18n::msg('minfo_field_list_caption');
 

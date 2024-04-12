@@ -1,11 +1,12 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Core;
 
 /**
  * @internal
  */
-class rex_api_has_user_session extends rex_api_function
+class rex_api_has_user_session extends ApiFunction
 {
     /**
      * @return never

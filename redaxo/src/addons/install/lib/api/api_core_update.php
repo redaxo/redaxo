@@ -3,6 +3,7 @@
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonInterface;
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -15,7 +16,7 @@ use Redaxo\Core\Util\Version;
 /**
  * @internal
  */
-class rex_api_install_core_update extends rex_api_function
+class rex_api_install_core_update extends ApiFunction
 {
     /**
      * @return array<int, array{version: string, description: string, path: string, checksum: string}>

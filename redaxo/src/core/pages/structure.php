@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Content\Category;
@@ -57,7 +58,7 @@ $catStatusTypes = CategoryHandler::statusTypes();
 $artStatusTypes = ArticleHandler::statusTypes();
 
 // --------------------------------------------- API MESSAGES
-echo rex_api_function::getMessage();
+echo ApiFunction::getMessage();
 
 // --------------------------------------------- KATEGORIE LISTE
 $catName = I18n::msg('root_level');

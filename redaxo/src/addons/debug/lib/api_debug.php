@@ -1,11 +1,12 @@
 <?php
 
+use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Core;
 
 /**
  * @internal
  */
-class rex_api_debug extends rex_api_function
+class rex_api_debug extends ApiFunction
 {
     public function execute()
     {
