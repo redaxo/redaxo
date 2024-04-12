@@ -746,79 +746,79 @@ parameters:
 			path: ../../src/Content/ModulePermission.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Article\\:\\:getArticle\\(\\) has parameter \\$clang with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\ArticleVar\\:\\:getArticle\\(\\) has parameter \\$clang with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Article.php
+			path: ../../src/Content/RexVar/ArticleVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Article\\:\\:getArticle\\(\\) has parameter \\$ctype with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\ArticleVar\\:\\:getArticle\\(\\) has parameter \\$ctype with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Article.php
+			path: ../../src/Content/RexVar/ArticleVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Article\\:\\:getArticle\\(\\) has parameter \\$id with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\ArticleVar\\:\\:getArticle\\(\\) has parameter \\$id with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Article.php
+			path: ../../src/Content/RexVar/ArticleVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Article\\:\\:getArticleValue\\(\\) has parameter \\$clang with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\ArticleVar\\:\\:getArticleValue\\(\\) has parameter \\$clang with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Article.php
+			path: ../../src/Content/RexVar/ArticleVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Article\\:\\:getArticleValue\\(\\) has parameter \\$field with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\ArticleVar\\:\\:getArticleValue\\(\\) has parameter \\$field with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Article.php
+			path: ../../src/Content/RexVar/ArticleVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Article\\:\\:getArticleValue\\(\\) has parameter \\$id with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\ArticleVar\\:\\:getArticleValue\\(\\) has parameter \\$id with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Article.php
+			path: ../../src/Content/RexVar/ArticleVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Category\\:\\:getCategoryValue\\(\\) has parameter \\$clang with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\CategoryVar\\:\\:getCategoryValue\\(\\) has parameter \\$clang with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Category.php
+			path: ../../src/Content/RexVar/CategoryVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Category\\:\\:getCategoryValue\\(\\) has parameter \\$field with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\CategoryVar\\:\\:getCategoryValue\\(\\) has parameter \\$field with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Category.php
+			path: ../../src/Content/RexVar/CategoryVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Category\\:\\:getCategoryValue\\(\\) has parameter \\$id with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\CategoryVar\\:\\:getCategoryValue\\(\\) has parameter \\$id with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Category.php
+			path: ../../src/Content/RexVar/CategoryVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Link\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\LinkListVar\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Link.php
+			path: ../../src/Content/RexVar/LinkListVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Link\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\LinkListVar\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Link.php
+			path: ../../src/Content/RexVar/LinkListVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\Link\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\LinkListVar\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/Link.php
+			path: ../../src/Content/RexVar/LinkListVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\LinkList\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\LinkVar\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/LinkList.php
+			path: ../../src/Content/RexVar/LinkVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\LinkList\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\LinkVar\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/LinkList.php
+			path: ../../src/Content/RexVar/LinkVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\LinkList\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\RexVar\\\\LinkVar\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
-			path: ../../src/Content/RexVar/LinkList.php
+			path: ../../src/Content/RexVar/LinkVar.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\StructureContext\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
@@ -1346,34 +1346,34 @@ parameters:
 			path: ../../src/MediaPool/MediaPoolPermission.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\Media\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaListVar\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/MediaPool/RexVar/Media.php
+			path: ../../src/MediaPool/RexVar/MediaListVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\Media\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaListVar\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
-			path: ../../src/MediaPool/RexVar/Media.php
+			path: ../../src/MediaPool/RexVar/MediaListVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\Media\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaListVar\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
-			path: ../../src/MediaPool/RexVar/Media.php
+			path: ../../src/MediaPool/RexVar/MediaListVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaList\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaVar\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/MediaPool/RexVar/MediaList.php
+			path: ../../src/MediaPool/RexVar/MediaVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaList\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaVar\\:\\:getWidget\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
-			path: ../../src/MediaPool/RexVar/MediaList.php
+			path: ../../src/MediaPool/RexVar/MediaVar.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaList\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\RexVar\\\\MediaVar\\:\\:getWidget\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
-			path: ../../src/MediaPool/RexVar/MediaList.php
+			path: ../../src/MediaPool/RexVar/MediaVar.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Form\\\\Input\\\\AbstractInput\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
