@@ -5,6 +5,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Log\LogEntry;
 use Redaxo\Core\Log\LogFile;
 use Redaxo\Core\Log\Logger;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Formatter;
@@ -16,7 +17,7 @@ $success = '';
 $func = rex_request('func', 'string');
 $logFile = Logger::getPath();
 
-$csrfToken = rex_csrf_token::factory('system');
+$csrfToken = CsrfToken::factory('system');
 
 if ($func && !$csrfToken->isValid()) {
     $error = I18n::msg('csrf_token_invalid');

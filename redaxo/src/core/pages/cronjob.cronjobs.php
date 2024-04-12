@@ -10,6 +10,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Form\Field\SelectField;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
@@ -17,7 +18,7 @@ use Redaxo\Core\Validator\ValidationRule;
 $func = rex_request('func', 'string');
 $oid = rex_request('oid', 'int');
 
-$csrfToken = rex_csrf_token::factory('cronjob');
+$csrfToken = CsrfToken::factory('cronjob');
 
 if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid()) {
     echo rex_view::error(I18n::msg('csrf_token_invalid'));

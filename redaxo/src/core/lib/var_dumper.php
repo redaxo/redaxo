@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Util\Editor;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
@@ -21,7 +22,7 @@ abstract class rex_var_dumper
     public static function register()
     {
         VarDumper::setHandler(static function ($var, ?string $label = null) {
-            if (Core::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+            if (Core::isDebugMode() || ($user = BackendLogin::createUser()) && $user->isAdmin()) {
                 VarDumper::setHandler(self::dump(...));
                 self::dump($var, $label);
 

@@ -15,6 +15,10 @@ use Redaxo\Core\Language\Language;
 use Redaxo\Core\Language\LanguagePermission;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\MediaPoolPermission;
+use Redaxo\Core\Security\BackendLogin;
+use Redaxo\Core\Security\ComplexPermission;
+use Redaxo\Core\Security\User;
+use Redaxo\Core\Security\UserRole;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Symfony\Component\HttpFoundation\Request;
@@ -132,15 +136,15 @@ rex_var_dumper::register();
 
 // ----------------- REX PERMS
 
-rex_user::setRoleClass(rex_user_role::class);
+User::setRoleClass(UserRole::class);
 
-rex_complex_perm::register('clang', LanguagePermission::class);
-rex_complex_perm::register('structure', StructurePermission::class);
-rex_complex_perm::register('modules', ModulePermission::class);
-rex_complex_perm::register('media', MediaPoolPermission::class);
+ComplexPermission::register('clang', LanguagePermission::class);
+ComplexPermission::register('structure', StructurePermission::class);
+ComplexPermission::register('modules', ModulePermission::class);
+ComplexPermission::register('media', MediaPoolPermission::class);
 
-rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
-rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [rex_user_role::class, 'removeOrReplaceItem']);
+rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [UserRole::class, 'removeOrReplaceItem']);
+rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [UserRole::class, 'removeOrReplaceItem']);
 
 // ----- SET CLANG
 if (!Core::isSetup()) {
@@ -161,7 +165,7 @@ if ('cli' !== PHP_SAPI && !Core::isSetup()) {
     }
 }
 
-rex_extension::register('SESSION_REGENERATED', rex_backend_login::sessionRegenerated(...));
+rex_extension::register('SESSION_REGENERATED', BackendLogin::sessionRegenerated(...));
 
 $nexttime = Core::isSetup() || Core::getConsole() ? 0 : (int) Core::getConfig('cronjob_nexttime', 0);
 if (0 !== $nexttime && time() >= $nexttime) {

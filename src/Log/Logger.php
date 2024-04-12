@@ -9,7 +9,7 @@ use Psr\Log\LogLevel;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
-use rex_backend_login;
+use Redaxo\Core\Security\BackendLogin;
 use rex_error_handler;
 use rex_http_exception;
 use Stringable;
@@ -71,7 +71,7 @@ class Logger extends AbstractLogger
         if ($exception instanceof rex_http_exception) {
             // Client errors should not be logged to system error log (if not debug mode or backend admin).
             // This prevents that external website visitors can fill up the log (and possibly trigger error emails etc.).
-            if (!Core::isDebugMode() && $exception->isClientError() && (!($user = rex_backend_login::createUser()) || !$user->isAdmin())) {
+            if (!Core::isDebugMode() && $exception->isClientError() && (!($user = BackendLogin::createUser()) || !$user->isAdmin())) {
                 return;
             }
 

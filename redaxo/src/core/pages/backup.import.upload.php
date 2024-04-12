@@ -3,6 +3,7 @@
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
@@ -34,7 +35,7 @@ if ('download' == $function && $impname && is_readable(rex_backup::getDir() . '/
     exit;
 }
 
-$csrfToken = rex_csrf_token::factory('backup_import');
+$csrfToken = CsrfToken::factory('backup_import');
 
 if ($function && !$csrfToken->isValid()) {
     $error = I18n::msg('csrf_token_invalid');

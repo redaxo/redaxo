@@ -1,9 +1,15 @@
 <?php
 
+namespace Redaxo\Core\Security;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use rex_extension_point;
 
-class rex_user_role implements rex_user_role_interface
+use function count;
+use function in_array;
+
+class UserRole implements UserRoleInterface
 {
     /**
      * Permissions.
@@ -15,14 +21,14 @@ class rex_user_role implements rex_user_role_interface
     /**
      * Complex perm params.
      *
-     * @var array<string, rex_complex_perm::ALL|array<string>>
+     * @var array<string, ComplexPermission::ALL|array<string>>
      */
     private array $complexPermParams = [];
 
     /**
      * Cache for complex perm instances.
      *
-     * @var array<string, rex_complex_perm|null>
+     * @var array<string, (ComplexPermission|null)>
      */
     private array $complexPerms = [];
 
@@ -32,15 +38,15 @@ class rex_user_role implements rex_user_role_interface
     private function __construct(array $roles)
     {
         foreach ($roles as $role) {
-            foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $key) {
+            foreach ([Permission::GENERAL, Permission::OPTIONS, Permission::EXTRAS] as $key) {
                 $perms = $role[$key] ? explode('|', trim($role[$key], '|')) : [];
                 $this->perms = array_merge($this->perms, $perms);
                 unset($role[$key]);
             }
 
             foreach ($role as $key => $value) {
-                if (rex_complex_perm::ALL === $role[$key]) {
-                    $perms = rex_complex_perm::ALL;
+                if (ComplexPermission::ALL === $role[$key]) {
+                    $perms = ComplexPermission::ALL;
                 } else {
                     $perms = $role[$key] ? explode('|', trim($role[$key], '|')) : [];
                     if (1 == count($perms) && '' == $perms[0]) {
@@ -50,8 +56,8 @@ class rex_user_role implements rex_user_role_interface
 
                 if (!isset($this->complexPermParams[$key])) {
                     $this->complexPermParams[$key] = $perms;
-                } elseif (rex_complex_perm::ALL == $this->complexPermParams[$key]) {
-                } elseif (rex_complex_perm::ALL == $perms) {
+                } elseif (ComplexPermission::ALL == $this->complexPermParams[$key]) {
+                } elseif (ComplexPermission::ALL == $perms) {
                     $this->complexPermParams[$key] = $perms;
                 } else {
                     $this->complexPermParams[$key] = array_merge($perms, $this->complexPermParams[$key]);
@@ -65,7 +71,7 @@ class rex_user_role implements rex_user_role_interface
         return in_array($perm, $this->perms);
     }
 
-    public function getComplexPerm(rex_user $user, $key)
+    public function getComplexPerm(User $user, $key)
     {
         if (isset($this->complexPerms[$key])) {
             return $this->complexPerms[$key];
@@ -73,11 +79,11 @@ class rex_user_role implements rex_user_role_interface
 
         if (!isset($this->complexPermParams[$key])) {
             $this->complexPermParams[$key] = [];
-        } elseif (rex_complex_perm::ALL !== $this->complexPermParams[$key]) {
+        } elseif (ComplexPermission::ALL !== $this->complexPermParams[$key]) {
             $this->complexPermParams[$key] = array_unique($this->complexPermParams[$key]);
         }
 
-        $this->complexPerms[$key] = rex_complex_perm::get($user, $key, $this->complexPermParams[$key]);
+        $this->complexPerms[$key] = ComplexPermission::get($user, $key, $this->complexPermParams[$key]);
         return $this->complexPerms[$key];
     }
 

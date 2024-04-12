@@ -7,6 +7,9 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\PermissionSelectField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\Security\ComplexPermission;
+use Redaxo\Core\Security\CsrfToken;
+use Redaxo\Core\Security\Permission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
 
@@ -17,7 +20,7 @@ $message = '';
 $content = '';
 
 if ('delete' == $func) {
-    if (!rex_csrf_token::factory('user_role_delete')->isValid()) {
+    if (!CsrfToken::factory('user_role_delete')->isValid()) {
         $message = rex_view::error(I18n::msg('csrf_token_invalid'));
     } else {
         $sql = Sql::factory();
@@ -58,7 +61,7 @@ if ('' == $func) {
     $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('user_role_delete'));
     $list->setColumnLabel('funcs', I18n::msg('user_functions'));
     $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams('funcs', ['func' => 'delete', 'id' => '###id###'] + rex_csrf_token::factory('user_role_delete')->getUrlParams());
+    $list->setColumnParams('funcs', ['func' => 'delete', 'id' => '###id###'] + CsrfToken::factory('user_role_delete')->getUrlParams());
     $list->addLinkAttribute('funcs', 'data-confirm', I18n::msg('delete') . ' ?');
 
     $content .= $list->get();
@@ -90,13 +93,13 @@ if ('' == $func) {
     $group = 'all';
     $fieldContainer->setActive($group);
 
-    // Check all page permissions and add them to rex_perm if not already registered
+    // Check all page permissions and add them to Permission if not already registered
     $registerImplicitePagePermissions = static function ($pages) use (&$registerImplicitePagePermissions) {
         foreach ($pages as $page) {
             foreach ($page->getRequiredPermissions() as $perm) {
                 // ignore admin perm and complex perms (with "/")
-                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && !str_contains($perm, '/') && !rex_perm::has($perm)) {
-                    rex_perm::register($perm);
+                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && !str_contains($perm, '/') && !Permission::has($perm)) {
+                    Permission::register($perm);
                 }
             }
             $registerImplicitePagePermissions($page->getSubpages());
@@ -104,13 +107,13 @@ if ('' == $func) {
     };
     $registerImplicitePagePermissions(Controller::getPages());
 
-    foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $permgroup) {
+    foreach ([Permission::GENERAL, Permission::OPTIONS, Permission::EXTRAS] as $permgroup) {
         /** @var SelectField $field */
         $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
         $field->setLabel(I18n::msg('user_' . $permgroup));
         $select = $field->getSelect();
         $select->setMultiple(true);
-        $perms = rex_perm::getAll($permgroup);
+        $perms = Permission::getAll($permgroup);
         asort($perms);
         $select->setSize(min(20, max(3, count($perms))));
         $select->addArrayOptions($perms);
@@ -121,7 +124,7 @@ if ('' == $func) {
     });
 
     $fieldIds = [];
-    foreach (rex_complex_perm::getAll() as $key => $class) {
+    foreach (ComplexPermission::getAll() as $key => $class) {
         $params = $class::getFieldParams();
         if (!empty($params)) {
             /** @var PermissionSelectField $field */
@@ -130,7 +133,7 @@ if ('' == $func) {
             $field->setCheckboxLabel($params['all_label']);
             $fieldIds[] = rex_escape($field->getAttribute('id'), 'js');
             if (rex_request('default_value', 'boolean')) {
-                $field->setValue(rex_complex_perm::ALL);
+                $field->setValue(ComplexPermission::ALL);
             }
             if (isset($params['select'])) {
                 $field->setSelect($params['select']);

@@ -1,6 +1,8 @@
 <?php
 
-interface rex_user_role_interface
+namespace Redaxo\Core\Security;
+
+interface UserRoleInterface
 {
     /**
      * Returns if the role has the given permission.
@@ -13,12 +15,12 @@ interface rex_user_role_interface
     /**
      * Returns the complex perm.
      *
-     * @param rex_user $user User instance
+     * @param User $user User instance
      * @param string $key Complex perm key
      *
-     * @return rex_complex_perm|null Complex perm
+     * @return ComplexPermission|null Complex perm
      */
-    public function getComplexPerm(rex_user $user, $key);
+    public function getComplexPerm(User $user, $key);
 
     /**
      * Returns the role for the given ID.

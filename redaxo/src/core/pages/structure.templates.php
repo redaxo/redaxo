@@ -5,6 +5,7 @@ use Redaxo\Core\Content\TemplateCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
@@ -29,7 +30,7 @@ $template = '';
 $active = '';
 $attributes = [];
 
-$csrfToken = rex_csrf_token::factory('structure_content_template');
+$csrfToken = CsrfToken::factory('structure_content_template');
 
 if ('delete' == $function) {
     if (!$csrfToken->isValid()) {

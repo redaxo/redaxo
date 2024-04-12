@@ -1,15 +1,19 @@
 <?php
 
+namespace Redaxo\Core\Tests\Security;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Security\PasswordPolicy;
+use ReflectionMethod;
 
 /** @internal */
-final class rex_password_policy_test extends TestCase
+final class PasswordPolicyTest extends TestCase
 {
     #[DataProvider('provideCheck')]
     public function testCheck(array $options, bool $expected, string $password): void
     {
-        $policy = new rex_password_policy($options);
+        $policy = new PasswordPolicy($options);
 
         $result = $policy->check($password);
 
@@ -51,21 +55,21 @@ final class rex_password_policy_test extends TestCase
 
     public function testGetDescription(): void
     {
-        $getRule = new ReflectionMethod(rex_password_policy::class, 'getDescription');
+        $getRule = new ReflectionMethod(PasswordPolicy::class, 'getDescription');
 
-        $policy = new rex_password_policy(['length' => ['min' => 5, 'max' => 25]]);
+        $policy = new PasswordPolicy(['length' => ['min' => 5, 'max' => 25]]);
         $rule = $getRule->invoke($policy);
 
         self::assertStringContainsString('5', $rule);
         self::assertStringContainsString('25', $rule);
 
-        $policy = new rex_password_policy(['length' => ['min' => 0, 'max' => 25]]);
+        $policy = new PasswordPolicy(['length' => ['min' => 0, 'max' => 25]]);
         $rule = $getRule->invoke($policy);
 
         self::assertStringNotContainsString('0', $rule);
         self::assertStringContainsString('25', $rule);
 
-        $policy = new rex_password_policy(['length' => ['min' => 0]]);
+        $policy = new PasswordPolicy(['length' => ['min' => 0]]);
         $rule = $getRule->invoke($policy);
 
         self::assertNull($rule);
@@ -78,7 +82,7 @@ final class rex_password_policy_test extends TestCase
     #[DataProvider('provideGetHtmlAttributes')]
     public function testGetHtmlAttributes(array $expected, array $options): void
     {
-        $policy = new rex_password_policy($options);
+        $policy = new PasswordPolicy($options);
 
         self::assertSame($expected, $policy->getHtmlAttributes());
     }

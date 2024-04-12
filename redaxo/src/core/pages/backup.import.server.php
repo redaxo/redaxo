@@ -3,6 +3,7 @@
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 
 $success = '';
@@ -14,7 +15,7 @@ $impname = rex_request('impname', 'string');
 
 @set_time_limit(0);
 
-$csrfToken = rex_csrf_token::factory('backup_import');
+$csrfToken = CsrfToken::factory('backup_import');
 
 if ('' != $impname) {
     $impname = Path::basename($impname);
