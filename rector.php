@@ -131,7 +131,7 @@ return RectorConfig::configure()
         'rex_api_exception' => Api\ApiException::class,
         'rex_api_function' => Api\ApiFunction::class,
         'rex_api_result' => Api\ApiResult::class,
-        'rex_api_metainfo_default_fields_create' => MetaInfo\Api\CreateDefaultFields::class,
+        'rex_api_metainfo_default_fields_create' => MetaInfo\Api\DefaultFieldsCreate::class,
         'rex_be_controller' => Backend\Controller::class,
         'rex_be_navigation' => Backend\Navigation::class,
         'rex_be_page' => Backend\Page::class,

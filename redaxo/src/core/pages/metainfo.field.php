@@ -5,7 +5,7 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\MetaInfo\Api\CreateDefaultFields;
+use Redaxo\Core\MetaInfo\Api\DefaultFieldsCreate;
 use Redaxo\Core\MetaInfo\Form\MetaInfoForm;
 use Redaxo\Core\Translation\I18n;
 
@@ -83,7 +83,7 @@ if ('' == $func) {
     if (in_array($prefix, ['art_', 'med_'])) {
         $defaultFields = sprintf(
             '<div class="btn-group btn-group-xs"><a href="%s" class="btn btn-default">%s</a></div>',
-            Url::currentBackendPage(['type' => Controller::getCurrentPagePart(2)] + CreateDefaultFields::getUrlParams()),
+            Url::currentBackendPage(['type' => Controller::getCurrentPagePart(2)] + DefaultFieldsCreate::getUrlParams()),
             I18n::msg('minfo_default_fields_create'),
         );
         $fragment->setVar('options', $defaultFields, false);

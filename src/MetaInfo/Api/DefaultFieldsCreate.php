@@ -15,7 +15,7 @@ use function is_string;
 /**
  * @internal
  */
-class CreateDefaultFields extends ApiFunction
+class DefaultFieldsCreate extends ApiFunction
 {
     public function execute()
     {

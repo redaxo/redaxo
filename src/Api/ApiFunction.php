@@ -5,6 +5,7 @@ namespace Redaxo\Core\Api;
 use BadMethodCallException;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
+use Redaxo\Core\MetaInfo\Api\DefaultFieldsCreate;
 use Redaxo\Core\Translation\I18n;
 use rex_context;
 use rex_csrf_token;
@@ -57,7 +58,9 @@ abstract class ApiFunction
      *
      * @var array<string, class-string<ApiFunction>>
      */
-    private static $functions = [];
+    private static $functions = [
+        'metainfo_default_fields_create' => DefaultFieldsCreate::class,
+    ];
 
     /**
      * The api function which is bound to the current request.
