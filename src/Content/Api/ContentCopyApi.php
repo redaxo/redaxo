@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\Content\Api;
+
 use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Api\ApiResult;
@@ -7,7 +9,7 @@ use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
-class rex_api_content_copy extends ApiFunction
+class ContentCopyApi extends ApiFunction
 {
     /**
      * @throws ApiException

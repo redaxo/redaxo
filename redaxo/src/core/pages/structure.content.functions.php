@@ -6,6 +6,7 @@ use Redaxo\Core\Content\Api\ArticleToCategoryApi;
 use Redaxo\Core\Content\Api\ArticleToStartArticleApi;
 use Redaxo\Core\Content\Api\CategoryMoveApi;
 use Redaxo\Core\Content\Api\CategoryToArticleApi;
+use Redaxo\Core\Content\Api\ContentCopyApi;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Language\Language;
@@ -231,7 +232,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="content_copy" value="1" data-confirm="' . I18n::msg('content_submitcopycontent') . '?" ' . $onclickApiFields(rex_api_content_copy::getHiddenFields()) . '>' . I18n::msg('content_submitcopycontent') . '</button>';
+    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="content_copy" value="1" data-confirm="' . I18n::msg('content_submitcopycontent') . '?" ' . $onclickApiFields(ContentCopyApi::getHiddenFields()) . '>' . I18n::msg('content_submitcopycontent') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();

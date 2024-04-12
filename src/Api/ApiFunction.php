@@ -10,6 +10,8 @@ use Redaxo\Core\Content\Api\ArticleCopyApi;
 use Redaxo\Core\Content\Api\ArticleDeleteApi;
 use Redaxo\Core\Content\Api\ArticleEditApi;
 use Redaxo\Core\Content\Api\ArticleMoveApi;
+use Redaxo\Core\Content\Api\ArticleSliceMoveApi;
+use Redaxo\Core\Content\Api\ArticleSliceStatusApi;
 use Redaxo\Core\Content\Api\ArticleStatusApi;
 use Redaxo\Core\Content\Api\ArticleToCategoryApi;
 use Redaxo\Core\Content\Api\ArticleToStartArticleApi;
@@ -19,6 +21,7 @@ use Redaxo\Core\Content\Api\CategoryEditApi;
 use Redaxo\Core\Content\Api\CategoryMoveApi;
 use Redaxo\Core\Content\Api\CategoryStatusApi;
 use Redaxo\Core\Content\Api\CategoryToArticleApi;
+use Redaxo\Core\Content\Api\ContentCopyApi;
 use Redaxo\Core\Core;
 use Redaxo\Core\MetaInfo\Api\DefaultFieldsCreate;
 use Redaxo\Core\Security\CsrfToken;
@@ -90,6 +93,9 @@ abstract class ApiFunction
         'category_edit' => CategoryEditApi::class,
         'category_move' => CategoryMoveApi::class,
         'category_status' => CategoryStatusApi::class,
+        'content_copy' => ContentCopyApi::class,
+        'content_move_slice' => ArticleSliceMoveApi::class,
+        'content_slice_status' => ArticleSliceStatusApi::class,
     ];
 
     /**
