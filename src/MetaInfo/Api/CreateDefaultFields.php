@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo\Api;
+
 use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Api\ApiResult;
@@ -7,10 +9,13 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
 
+use function call_user_func_array;
+use function is_string;
+
 /**
  * @internal
  */
-class rex_api_metainfo_default_fields_create extends ApiFunction
+class CreateDefaultFields extends ApiFunction
 {
     public function execute()
     {
