@@ -1026,19 +1026,6 @@
       <code><![CDATA[self::$data]]></code>
     </PropertyTypeCoercion>
   </file>
-  <file src="redaxo/src/core/lib/config_db.php">
-    <MixedAssignment>
-      <code><![CDATA[$this->host]]></code>
-      <code><![CDATA[$this->login]]></code>
-      <code><![CDATA[$this->name]]></code>
-      <code><![CDATA[$this->password]]></code>
-      <code><![CDATA[$this->persistent]]></code>
-      <code><![CDATA[$this->sslCa]]></code>
-      <code><![CDATA[$this->sslCert]]></code>
-      <code><![CDATA[$this->sslKey]]></code>
-      <code><![CDATA[$this->sslVerifyServerCert]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/context.php">
     <InvalidArgument>
       <code><![CDATA[$_GET]]></code>
@@ -3526,6 +3513,19 @@
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$post]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Database/Configuration.php">
+    <MixedAssignment>
+      <code><![CDATA[$this->host]]></code>
+      <code><![CDATA[$this->login]]></code>
+      <code><![CDATA[$this->name]]></code>
+      <code><![CDATA[$this->password]]></code>
+      <code><![CDATA[$this->persistent]]></code>
+      <code><![CDATA[$this->sslCa]]></code>
+      <code><![CDATA[$this->sslCert]]></code>
+      <code><![CDATA[$this->sslKey]]></code>
+      <code><![CDATA[$this->sslVerifyServerCert]]></code>
     </MixedAssignment>
   </file>
   <file src="src/Database/SchemaDumper.php">
