@@ -1,8 +1,10 @@
 <?php
 
+namespace Redaxo\Core\Security;
+
 use Redaxo\Core\Translation\I18n;
 
-abstract class rex_perm
+abstract class Permission
 {
     public const GENERAL = 'general';
     public const OPTIONS = 'options';
@@ -20,7 +22,7 @@ abstract class rex_perm
      *
      * @param string $perm Perm key
      * @param string|null $name Perm name
-     * @param self::* $group Perm group, possible values are rex_perm::GENERAL, rex_perm::OPTIONS and rex_perm::EXTRAS
+     * @param self::* $group Perm group, possible values are Permission::GENERAL, Permission::OPTIONS and Permission::EXTRAS
      * @return void
      */
     public static function register($perm, $name = null, $group = self::GENERAL)

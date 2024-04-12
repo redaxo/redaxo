@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 
@@ -131,7 +132,7 @@ abstract class rex_api_function
             throw new BadMethodCallException(__FUNCTION__ . ' must be called on subclasses of "' . self::class . '".');
         }
 
-        return [self::REQ_CALL_PARAM => self::getName($class), rex_csrf_token::PARAM => rex_csrf_token::factory($class)->getValue()];
+        return [self::REQ_CALL_PARAM => self::getName($class), CsrfToken::PARAM => CsrfToken::factory($class)->getValue()];
     }
 
     /**
@@ -150,7 +151,7 @@ abstract class rex_api_function
         }
 
         return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape(self::getName($class)))
-            . rex_csrf_token::factory($class)->getHiddenField();
+            . CsrfToken::factory($class)->getHiddenField();
     }
 
     /**
@@ -184,7 +185,7 @@ abstract class rex_api_function
                 $result = rex_api_result::fromJSON($urlResult);
                 $apiFunc->result = $result;
             } else {
-                if ($apiFunc->requiresCsrfProtection() && !rex_csrf_token::factory($apiFunc::class)->isValid()) {
+                if ($apiFunc->requiresCsrfProtection() && !CsrfToken::factory($apiFunc::class)->isValid()) {
                     $result = new rex_api_result(false, I18n::msg('csrf_token_invalid'));
                     $apiFunc->result = $result;
 

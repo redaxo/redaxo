@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Backend;
 
 use Redaxo\Core\Filesystem\Url;
-use rex_user;
+use Redaxo\Core\Security\User;
 
 use function is_array;
 use function is_string;
@@ -655,7 +655,7 @@ class Page
      *
      * @return bool
      */
-    public function checkPermission(rex_user $user)
+    public function checkPermission(User $user)
     {
         foreach ($this->requiredPermissions as $perm) {
             if (!$user->hasPerm($perm)) {

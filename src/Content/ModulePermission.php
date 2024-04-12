@@ -3,12 +3,12 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
-use rex_complex_perm;
 
 use function in_array;
 
-class ModulePermission extends rex_complex_perm
+class ModulePermission extends ComplexPermission
 {
     /**
      * @param int $moduleId

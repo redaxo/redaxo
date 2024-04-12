@@ -6,9 +6,9 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
 use rex_api_exception;
-use rex_complex_perm;
 use rex_extension;
 use rex_extension_point;
 
@@ -653,7 +653,7 @@ class ArticleHandler
             ArticleCache::delete($gid);
         }
 
-        rex_complex_perm::replaceItem('structure', $altId, $neuId);
+        ComplexPermission::replaceItem('structure', $altId, $neuId);
 
         foreach (Language::getAllIds() as $clang) {
             rex_extension::registerPoint(new rex_extension_point('ART_TO_STARTARTICLE', '', [

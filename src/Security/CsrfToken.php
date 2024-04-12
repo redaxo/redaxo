@@ -1,14 +1,17 @@
 <?php
 
+namespace Redaxo\Core\Security;
+
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
+use rex_request;
 
 /**
  * Class for generating and validating csrf tokens.
  *
  * @psalm-consistent-constructor
  */
-class rex_csrf_token
+class CsrfToken
 {
     use FactoryTrait;
 
@@ -106,7 +109,7 @@ class rex_csrf_token
      */
     public static function removeAll()
     {
-        rex_login::startSession();
+        Login::startSession();
 
         rex_unset_session(self::getBaseSessionKey());
         rex_unset_session(self::getBaseSessionKey() . '_https');
@@ -117,7 +120,7 @@ class rex_csrf_token
      */
     private static function getTokens()
     {
-        rex_login::startSession();
+        Login::startSession();
 
         return rex_session(self::getSessionKey(), 'array');
     }

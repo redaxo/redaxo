@@ -55,6 +55,7 @@ use Redaxo\Core\Mailer;
 use Redaxo\Core\MediaManager;
 use Redaxo\Core\MediaPool;
 use Redaxo\Core\MetaInfo;
+use Redaxo\Core\Security;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
 use Redaxo\Core\Validator;
@@ -301,6 +302,19 @@ return RectorConfig::configure()
         'rex_structure_perm' => Content\StructurePermission::class,
         'rex_template' => Content\Template::class,
         'rex_template_cache' => Content\TemplateCache::class,
+        'rex_backend_login' => Security\BackendLogin::class,
+        'rex_backend_password_policy' => Security\BackendPasswordPolicy::class,
+        'rex_complex_perm' => Security\ComplexPermission::class,
+        'rex_csrf_token' => Security\CsrfToken::class,
+        'rex_login' => Security\Login::class,
+        'rex_login_policy' => Security\LoginPolicy::class,
+        'rex_password_policy' => Security\PasswordPolicy::class,
+        'rex_perm' => Security\Permission::class,
+        'rex_user' => Security\User::class,
+        'rex_user_role' => Security\UserRole::class,
+        'rex_user_role_interface' => Security\UserRoleInterface::class,
+        'rex_user_session' => Security\UserSession::class,
+        'rex_webauthn' => Security\WebAuthn::class,
     ])
     ->withConfiguredRule(ArgumentAdderRector::class, [
         new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 1, 'value', null),
@@ -317,7 +331,7 @@ return RectorConfig::configure()
         new MethodCallRename(Console\Command\AbstractCommand::class, 'getPackage', 'getAddon'),
         new MethodCallRename(Console\Command\AbstractCommand::class, 'setPackage', 'setAddon'),
 
-        new MethodCallRename(rex_password_policy::class, 'getRule', 'getDescription'),
+        new MethodCallRename(Security\PasswordPolicy::class, 'getRule', 'getDescription'),
 
         new MethodCallRename(Content\ArticleContentBase::class, 'getClang', 'getClangId'),
         new MethodCallRename(Content\ArticleSlice::class, 'getClang', 'getClangId'),
@@ -341,7 +355,7 @@ return RectorConfig::configure()
         new RenameStaticMethod(Util\Str::class, 'versionCompare', Util\Version::class, 'compare'),
     ])
     ->withConfiguredRule(NewToStaticCallRector::class, [
-        new NewToStaticCall(rex_backend_password_policy::class, rex_backend_password_policy::class, 'factory'),
+        new NewToStaticCall(Security\BackendPasswordPolicy::class, Security\BackendPasswordPolicy::class, 'factory'),
         new NewToStaticCall(Log\LogFile::class, Log\LogFile::class, 'factory'),
     ])
     ->withConfiguredRule(FuncCallToStaticCallRector::class, [

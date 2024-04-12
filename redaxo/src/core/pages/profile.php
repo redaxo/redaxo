@@ -4,6 +4,11 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Security\BackendPasswordPolicy;
+use Redaxo\Core\Security\CsrfToken;
+use Redaxo\Core\Security\Login;
+use Redaxo\Core\Security\User;
+use Redaxo\Core\Security\WebAuthn;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\Validator;
@@ -27,9 +32,9 @@ $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
 $useremail = rex_request('useremail', 'string', $user->getValue('email'));
 $usertheme = rex_request('usertheme', 'string', $user->getValue('theme')) ?: null;
 $userlogin = $user->getLogin();
-$csrfToken = rex_csrf_token::factory('profile');
-$passwordPolicy = rex_backend_password_policy::factory();
-$webauthn = new rex_webauthn();
+$csrfToken = CsrfToken::factory('profile');
+$passwordPolicy = BackendPasswordPolicy::factory();
+$webauthn = new WebAuthn();
 
 // --------------------------------- Title
 echo rex_view::title(I18n::msg('profile_title'), '');
@@ -97,11 +102,11 @@ if ($update && !$error) {
     $updateuser->addGlobalUpdateFields();
 
     $updateuser->update();
-    rex_user::clearInstance($userId);
+    User::clearInstance($userId);
 
     rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
         'user_id' => $userId,
-        'user' => rex_user::require($userId),
+        'user' => User::require($userId),
     ], true));
 
     // trigger a fullpage-reload which immediately reflects a possible changed language
@@ -110,7 +115,7 @@ if ($update && !$error) {
 
 $verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool|string {
     if (!$login->getPasskey()) {
-        if (!$userpsw || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
+        if (!$userpsw || !Login::passwordVerify($userpsw, $user->getValue('password'))) {
             return I18n::msg('user_psw_verify_error');
         }
 
@@ -141,7 +146,7 @@ if (rex_post('upd_psw_button', 'bool')) {
     } elseif ($passwordChangeRequired && $userpsw === $userpswNew1) {
         $error = I18n::msg('password_not_changed');
     } else {
-        $userpswNew1 = rex_login::passwordHash($userpswNew1);
+        $userpswNew1 = Login::passwordHash($userpswNew1);
 
         $updateuser = Sql::factory();
         $updateuser->setTable(Core::getTablePrefix() . 'user');
@@ -153,7 +158,7 @@ if (rex_post('upd_psw_button', 'bool')) {
         $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $userpswNew1));
 
         $updateuser->update();
-        rex_user::clearInstance($userId);
+        User::clearInstance($userId);
 
         $success = I18n::msg('user_psw_updated');
 
@@ -164,7 +169,7 @@ if (rex_post('upd_psw_button', 'bool')) {
 
         rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
             'user_id' => $userId,
-            'user' => rex_user::require($userId),
+            'user' => User::require($userId),
             'password' => $userpswNew2,
         ], true));
     }

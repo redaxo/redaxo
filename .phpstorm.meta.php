@@ -8,9 +8,9 @@ override(
     \Redaxo\Core\Core::getProperty(0),
     map([
         'console' => \Redaxo\Core\Console\Application::class,
-        'login' => \rex_backend_login::class,
+        'login' => \Redaxo\Core\Security\BackendLogin::class,
         'timer' => \Redaxo\Core\Util\Timer::class,
-        'user' => \rex_user::class,
+        'user' => \Redaxo\Core\Security\User::class,
     ])
 );
 
@@ -46,8 +46,8 @@ expectedArguments(\Redaxo\Core\Translation\I18n::rawMsgInLocale(), 1, argumentsS
 
 expectedArguments(\rex_list::setColumnSortable(), 1, 'asc', 'desc');
 
-expectedArguments(\rex_perm::register(), 2, \rex_perm::GENERAL, \rex_perm::OPTIONS, \rex_perm::EXTRAS);
-expectedArguments(\rex_perm::getAll(), 0, \rex_perm::GENERAL, \rex_perm::OPTIONS, \rex_perm::EXTRAS);
+expectedArguments(\Redaxo\Core\Security\Permission::register(), 2, \Redaxo\Core\Security\Permission::GENERAL, \Redaxo\Core\Security\Permission::OPTIONS, \Redaxo\Core\Security\Permission::EXTRAS);
+expectedArguments(\Redaxo\Core\Security\Permission::getAll(), 0, \Redaxo\Core\Security\Permission::GENERAL, \Redaxo\Core\Security\Permission::OPTIONS, \Redaxo\Core\Security\Permission::EXTRAS);
 
 registerArgumentsSet('status_code', \rex_response::HTTP_OK, \rex_response::HTTP_PARTIAL_CONTENT, \rex_response::HTTP_MOVED_PERMANENTLY, \rex_response::HTTP_NOT_MODIFIED, \rex_response::HTTP_MOVED_TEMPORARILY, \rex_response::HTTP_NOT_FOUND, \rex_response::HTTP_FORBIDDEN, \rex_response::HTTP_UNAUTHORIZED, \rex_response::HTTP_RANGE_NOT_SATISFIABLE, \rex_response::HTTP_INTERNAL_ERROR, \rex_response::HTTP_SERVICE_UNAVAILABLE);
 expectedArguments(\rex_response::setStatus(), 0, argumentsSet('status_code'));
@@ -111,7 +111,7 @@ expectedArguments(\rex_request::files(), 1, argumentsSet('cast_type'));
 expectedArguments(\rex_request::env(), 1, argumentsSet('cast_type'));
 
 override(
-    \rex_user::getComplexPerm(0),
+    \Redaxo\Core\Security\User::getComplexPerm(0),
     map([
         'clang' => \Redaxo\Core\Language\LanguagePermission::class,
         'media' => \Redaxo\Core\MediaPool\MediaPoolPermission::class,

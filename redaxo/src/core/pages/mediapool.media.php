@@ -3,6 +3,7 @@
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
@@ -12,7 +13,7 @@ assert(isset($fileId) && is_int($fileId));
 $subpage = Controller::getCurrentPagePart(2);
 
 $mediaName = rex_request('media_name', 'string');
-$csrf = rex_csrf_token::factory('mediapool');
+$csrf = CsrfToken::factory('mediapool');
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
