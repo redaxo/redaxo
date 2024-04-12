@@ -39,6 +39,7 @@ use Rector\Transform\ValueObject\NewToStaticCall;
 use Rector\TypeDeclaration\Rector as TypeDeclaration;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Addon;
+use Redaxo\Core\Api;
 use Redaxo\Core\Backend;
 use Redaxo\Core\Base;
 use Redaxo\Core\Console;
@@ -127,6 +128,10 @@ return RectorConfig::configure()
         'rex_addon_interface' => Addon\AddonInterface::class,
         'rex_addon_manager' => Addon\AddonManager::class,
         'rex_null_addon' => Addon\NullAddon::class,
+        'rex_api_exception' => Api\ApiException::class,
+        'rex_api_function' => Api\ApiFunction::class,
+        'rex_api_result' => Api\ApiResult::class,
+        'rex_api_metainfo_default_fields_create' => MetaInfo\Api\CreateDefaultFields::class,
         'rex_be_controller' => Backend\Controller::class,
         'rex_be_navigation' => Backend\Navigation::class,
         'rex_be_page' => Backend\Page::class,
