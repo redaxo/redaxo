@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\Content\Api;
+
 use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Api\ApiResult;
@@ -7,11 +9,13 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use rex_context;
+use rex_response;
 
 /**
  * @internal
  */
-class rex_api_article_copy extends ApiFunction
+class ArticleCopyApi extends ApiFunction
 {
     public function execute()
     {

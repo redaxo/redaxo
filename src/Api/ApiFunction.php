@@ -3,7 +3,22 @@
 namespace Redaxo\Core\Api;
 
 use BadMethodCallException;
+use Redaxo\Core\Addon\Api\AddonApi;
 use Redaxo\Core\Base\FactoryTrait;
+use Redaxo\Core\Content\Api\ArticleAddApi;
+use Redaxo\Core\Content\Api\ArticleCopyApi;
+use Redaxo\Core\Content\Api\ArticleDeleteApi;
+use Redaxo\Core\Content\Api\ArticleEditApi;
+use Redaxo\Core\Content\Api\ArticleMoveApi;
+use Redaxo\Core\Content\Api\ArticleStatusApi;
+use Redaxo\Core\Content\Api\ArticleToCategoryApi;
+use Redaxo\Core\Content\Api\ArticleToStartArticleApi;
+use Redaxo\Core\Content\Api\CategoryAddApi;
+use Redaxo\Core\Content\Api\CategoryDeleteApi;
+use Redaxo\Core\Content\Api\CategoryEditApi;
+use Redaxo\Core\Content\Api\CategoryMoveApi;
+use Redaxo\Core\Content\Api\CategoryStatusApi;
+use Redaxo\Core\Content\Api\CategoryToArticleApi;
 use Redaxo\Core\Core;
 use Redaxo\Core\MetaInfo\Api\DefaultFieldsCreate;
 use Redaxo\Core\Security\CsrfToken;
@@ -60,6 +75,21 @@ abstract class ApiFunction
      */
     private static $functions = [
         'metainfo_default_fields_create' => DefaultFieldsCreate::class,
+        'package' => AddonApi::class,
+        'article2category' => ArticleToCategoryApi::class,
+        'article2startarticle' => ArticleToStartArticleApi::class,
+        'article_add' => ArticleAddApi::class,
+        'article_copy' => ArticleCopyApi::class,
+        'article_delete' => ArticleDeleteApi::class,
+        'article_edit' => ArticleEditApi::class,
+        'article_move' => ArticleMoveApi::class,
+        'article_status' => ArticleStatusApi::class,
+        'category2article' => CategoryToArticleApi::class,
+        'category_add' => CategoryAddApi::class,
+        'category_delete' => CategoryDeleteApi::class,
+        'category_edit' => CategoryEditApi::class,
+        'category_move' => CategoryMoveApi::class,
+        'category_status' => CategoryStatusApi::class,
     ];
 
     /**

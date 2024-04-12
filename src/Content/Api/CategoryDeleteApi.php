@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\Content\Api;
+
 use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Api\ApiResult;
@@ -9,7 +11,7 @@ use Redaxo\Core\Core;
 /**
  * @internal
  */
-class rex_api_category_delete extends ApiFunction
+class CategoryDeleteApi extends ApiFunction
 {
     public function execute()
     {

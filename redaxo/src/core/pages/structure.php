@@ -1,6 +1,14 @@
 <?php
 
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Content\Api\ArticleAddApi;
+use Redaxo\Core\Content\Api\ArticleDeleteApi;
+use Redaxo\Core\Content\Api\ArticleEditApi;
+use Redaxo\Core\Content\Api\ArticleStatusApi;
+use Redaxo\Core\Content\Api\CategoryAddApi;
+use Redaxo\Core\Content\Api\CategoryDeleteApi;
+use Redaxo\Core\Content\Api\CategoryEditApi;
+use Redaxo\Core\Content\Api\CategoryStatusApi;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Content\Category;
@@ -149,7 +157,7 @@ if ('add_cat' == $structureContext->getFunction() && $user->hasPerm('addCategory
         'id' => $structureContext->getCategoryId(),
         'clang' => $structureContext->getClangId(),
     ]));
-    $addButtons = rex_api_category_add::getHiddenFields() . '
+    $addButtons = CategoryAddApi::getHiddenFields() . '
         <input type="hidden" name="parent-category-id" value="' . $structureContext->getCategoryId() . '" />
         <button class="btn btn-save" type="submit" name="category-add-button"' . Core::getAccesskey(I18n::msg('add_category'), 'save') . '>' . I18n::msg('add_category') . '</button>';
 
@@ -200,11 +208,11 @@ if ($KAT->getRows() > 0) {
                     $tdLayoutClass = 'rex-table-action-dropdown';
                     $katStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle ' . $statusClass . '" type="button" data-toggle="dropdown"><i class="rex-icon ' . $statusIcon . '"></i>&nbsp;' . $katStatus . '&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
                     foreach ($catStatusTypes as $catStatusKey => $catStatusType) {
-                        $katStatus .= '<li><a class="' . $catStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->getCatStart(), 'cat_status' => $catStatusKey] + rex_api_category_status::getUrlParams()) . '">' . $catStatusType[0] . '</a></li>';
+                        $katStatus .= '<li><a class="' . $catStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->getCatStart(), 'cat_status' => $catStatusKey] + CategoryStatusApi::getUrlParams()) . '">' . $catStatusType[0] . '</a></li>';
                     }
                     $katStatus .= '</ul></div>';
                 } else {
-                    $katStatus = '<a class="rex-link-expanded ' . $statusClass . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->getCatStart()] + rex_api_category_status::getUrlParams()) . '"><i class="rex-icon ' . $statusIcon . '"></i>&nbsp;' . $katStatus . '</a>';
+                    $katStatus = '<a class="rex-link-expanded ' . $statusClass . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->getCatStart()] + CategoryStatusApi::getUrlParams()) . '"><i class="rex-icon ' . $statusIcon . '"></i>&nbsp;' . $katStatus . '</a>';
                 }
             } else {
                 $katStatus = '<span class="' . $statusClass . ' text-muted"><i class="rex-icon ' . $statusIcon . '"></i> ' . $katStatus . '</span>';
@@ -219,7 +227,7 @@ if ($KAT->getRows() > 0) {
                     'clang' => $structureContext->getClangId(),
                 ]));
 
-                $addButtons = rex_api_category_edit::getHiddenFields() . '
+                $addButtons = CategoryEditApi::getHiddenFields() . '
                 <input type="hidden" name="category-id" value="' . $structureContext->getEditId() . '" />
                 <button class="btn btn-save" type="submit" name="category-edit-button"' . Core::getAccesskey(I18n::msg('save_category'), 'save') . '>' . I18n::msg('save_category') . '</button>';
 
@@ -261,7 +269,7 @@ if ($KAT->getRows() > 0) {
                 }
                 if ($canDelete) {
                     $echo .= '
-                        <td class="rex-table-action"><a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->getCatStart()] + rex_api_category_delete::getUrlParams()) . '" data-confirm="' . I18n::msg('structure_delete_all_clangs') . '"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete') . '</a></td>';
+                        <td class="rex-table-action"><a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->getCatStart()] + CategoryDeleteApi::getUrlParams()) . '" data-confirm="' . I18n::msg('structure_delete_all_clangs') . '"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete') . '</a></td>';
                 }
                 $echo .= '
                         <td class="rex-table-action ' . $tdLayoutClass . '">' . $katStatus . '</td>
@@ -428,7 +436,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                     ' . $tmplTd . '
                     <td class="rex-table-date" data-title="' . I18n::msg('header_date') . '">' . Formatter::intlDate(time()) . '</td>
                     <td class="rex-table-priority" data-title="' . I18n::msg('header_priority') . '"><input class="form-control" type="number" name="article-position" value="' . ($artPager->getRowCount() + 1) . '" required min="1" inputmode="numeric" /></td>
-                    <td class="rex-table-action" colspan="' . $colspan . '">' . rex_api_article_add::getHiddenFields() . '<button class="btn btn-save" type="submit" name="artadd_function"' . Core::getAccesskey(I18n::msg('article_add'), 'save') . '>' . I18n::msg('article_add') . '</button></td>
+                    <td class="rex-table-action" colspan="' . $colspan . '">' . ArticleAddApi::getHiddenFields() . '<button class="btn btn-save" type="submit" name="artadd_function"' . Core::getAccesskey(I18n::msg('article_add'), 'save') . '>' . I18n::msg('article_add') . '</button></td>
                 </tr>
                             ';
     } elseif (0 === $sql->getRows()) {
@@ -473,7 +481,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                             ' . $tmplTd . '
                             <td class="rex-table-date" data-title="' . I18n::msg('header_date') . '">' . Formatter::intlDate($sql->getDateTimeValue('createdate')) . '</td>
                             <td class="rex-table-priority" data-title="' . I18n::msg('header_priority') . '"><input class="form-control" type="number" name="article-position" value="' . rex_escape($sql->getValue('priority')) . '" required min="1" inputmode="numeric" /></td>
-                            <td class="rex-table-action" colspan="' . $colspan . '">' . rex_api_article_edit::getHiddenFields() . '<button class="btn btn-save" type="submit" name="artedit_function"' . Core::getAccesskey(I18n::msg('article_save'), 'save') . '>' . I18n::msg('article_save') . '</button></td>
+                            <td class="rex-table-action" colspan="' . $colspan . '">' . ArticleEditApi::getHiddenFields() . '<button class="btn btn-save" type="submit" name="artedit_function"' . Core::getAccesskey(I18n::msg('article_save'), 'save') . '>' . I18n::msg('article_save') . '</button></td>
                         </tr>';
         } elseif ($structureContext->hasCategoryPermission()) {
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
@@ -497,7 +505,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 $addExtra .= '<td class="rex-table-action"><span class="' . $articleClass . ' text-muted"><i class="rex-icon ' . $articleIcon . '"></i> ' . $articleStatus . '</span></td>';
             } else {
                 if ($canDelete) {
-                    $addExtra .= '<td class="rex-table-action"><a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + rex_api_article_delete::getUrlParams()) . '" data-confirm="' . I18n::msg('structure_delete_all_clangs') . '"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete') . '</a></td>';
+                    $addExtra .= '<td class="rex-table-action"><a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + ArticleDeleteApi::getUrlParams()) . '" data-confirm="' . I18n::msg('structure_delete_all_clangs') . '"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete') . '</a></td>';
                 }
 
                 $tdLayoutClass = '';
@@ -508,11 +516,11 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                         $tdLayoutClass = 'rex-table-action-dropdown';
                         $articleStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle ' . $articleClass . '" type="button" data-toggle="dropdown"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
                         foreach ($artStatusTypes as $artStatusKey => $artStatusType) {
-                            $articleStatus .= '<li><a  class="' . $artStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart(), 'art_status' => $artStatusKey] + rex_api_article_status::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
+                            $articleStatus .= '<li><a  class="' . $artStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart(), 'art_status' => $artStatusKey] + ArticleStatusApi::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
                         }
                         $articleStatus .= '</ul></div>';
                     } else {
-                        $articleStatus = '<a class="' . $articleClass . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + rex_api_article_status::getUrlParams()) . '"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '</a>';
+                        $articleStatus = '<a class="' . $articleClass . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + ArticleStatusApi::getUrlParams()) . '"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '</a>';
                     }
                 } else {
                     $articleStatus = '<span class="' . $articleClass . ' text-muted"><i class="rex-icon ' . $articleIcon . '"></i> ' . $articleStatus . '</span>';

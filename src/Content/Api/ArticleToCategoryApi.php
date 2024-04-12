@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\Content\Api;
+
 use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Api\ApiResult;
@@ -11,7 +13,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class rex_api_category2Article extends ApiFunction
+class ArticleToCategoryApi extends ApiFunction
 {
     public function execute()
     {
@@ -19,13 +21,13 @@ class rex_api_category2Article extends ApiFunction
         $categoryId = Article::get($articleId)->getCategoryId();
         $user = Core::requireUser();
 
-        // Check permissions: article2category and category2article share the same permission: article2category
+        // Check permissions
         if ($user->hasPerm('article2category[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
-            if (ArticleHandler::category2article($articleId)) {
-                return new ApiResult(true, I18n::msg('content_toarticle_ok'));
+            if (ArticleHandler::article2category($articleId)) {
+                return new ApiResult(true, I18n::msg('content_tocategory_ok'));
             }
 
-            return new ApiResult(false, I18n::msg('content_toarticle_failed'));
+            return new ApiResult(false, I18n::msg('content_tocategory_failed'));
         }
         throw new ApiException('User has no permission for this article!');
     }
