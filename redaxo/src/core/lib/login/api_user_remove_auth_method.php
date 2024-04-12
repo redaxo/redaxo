@@ -5,6 +5,7 @@ use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Security\User;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -17,7 +18,7 @@ class rex_api_user_remove_auth_method extends ApiFunction
         $userId = rex_request::get('user_id', 'int');
         $user = Core::requireUser();
 
-        if ($userId !== $user->getId() && !$user->isAdmin() && (!$user->hasPerm('users[]') || rex_user::require($userId)->isAdmin())) {
+        if ($userId !== $user->getId() && !$user->isAdmin() && (!$user->hasPerm('users[]') || User::require($userId)->isAdmin())) {
             throw new ApiException('Permission denied');
         }
 
@@ -48,7 +49,7 @@ class rex_api_user_remove_auth_method extends ApiFunction
             return new ApiResult(false, I18n::msg('password_remove_error'));
         }
 
-        rex_user::clearInstance($userId);
+        User::clearInstance($userId);
         Core::getProperty('login')->changedPassword(null);
 
         return new ApiResult(true, I18n::msg('password_removed'));

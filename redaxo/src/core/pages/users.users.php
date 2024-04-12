@@ -6,6 +6,11 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Security\BackendPasswordPolicy;
+use Redaxo\Core\Security\CsrfToken;
+use Redaxo\Core\Security\Login;
+use Redaxo\Core\Security\User;
+use Redaxo\Core\Security\UserSession;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\Validator;
@@ -22,7 +27,7 @@ $warnings = [];
 $user = null;
 
 if (0 !== $userId) {
-    $user = rex_user::get($userId);
+    $user = User::get($userId);
     if (!$user) {
         $userId = 0;
     }
@@ -106,10 +111,10 @@ $fUNCADD = rex_request('FUNC_ADD', 'string');
 $save = rex_request('save', 'int');
 $adminchecked = '';
 
-$passwordPolicy = rex_backend_password_policy::factory();
+$passwordPolicy = BackendPasswordPolicy::factory();
 
 if ($save && ($fUNCADD || $fUNCUPDATE || $fUNCAPPLY)) {
-    if (!rex_csrf_token::factory('user_edit')->isValid()) {
+    if (!CsrfToken::factory('user_edit')->isValid()) {
         $warnings[] = I18n::msg('csrf_token_invalid');
     }
 
@@ -157,7 +162,7 @@ if ($warnings) {
 
     $passwordHash = null;
     if ('' != $userpsw) {
-        $passwordHash = rex_login::passwordHash($userpsw);
+        $passwordHash = Login::passwordHash($userpsw);
         $updateuser->setValue('password', $passwordHash);
         $updateuser->setDateTimeValue('password_changed', time());
         $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash));
@@ -169,8 +174,8 @@ if ($warnings) {
 
     $info[] = I18n::msg('user_data_updated');
 
-    rex_user::clearInstance($userId);
-    $user = rex_user::require($userId);
+    User::clearInstance($userId);
+    $user = User::require($userId);
 
     if (null !== $passwordHash && $userId == $currentUser->getId()) {
         Core::getProperty('login')->changedPassword($passwordHash);
@@ -183,7 +188,7 @@ if ($warnings) {
     ], true));
 
     if (null !== $passwordHash) {
-        rex_user_session::getInstance()->removeSessionsExceptCurrent($userId);
+        UserSession::getInstance()->removeSessionsExceptCurrent($userId);
     }
 
     if ('' != $fUNCUPDATE) {
@@ -194,14 +199,14 @@ if ($warnings) {
     // man kann sich selbst nicht loeschen..
     if ($currentUser->getId() == $userId) {
         $warnings[] = I18n::msg('user_notdeleteself');
-    } elseif (!rex_csrf_token::factory('user_delete')->isValid()) {
+    } elseif (!CsrfToken::factory('user_delete')->isValid()) {
         $warnings[] = I18n::msg('csrf_token_invalid');
     } else {
         $deleteuser = Sql::factory();
         $deleteuser->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'user WHERE id = ? LIMIT 1', [$userId]);
         $info[] = I18n::msg('user_deleted');
 
-        rex_user::clearInstance($userId);
+        User::clearInstance($userId);
 
         rex_extension::registerPoint(new rex_extension_point('USER_DELETED', '', [
             'id' => $userId,
@@ -215,7 +220,7 @@ if ($warnings) {
     $adduser->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'user WHERE login = ?', [$userlogin]);
 
     if (0 == $adduser->getRows() && '' != $userlogin && '' != $userpsw) {
-        $userpswHash = rex_login::passwordHash($userpsw);
+        $userpswHash = Login::passwordHash($userpsw);
 
         $adduser = Sql::factory();
         $adduser->setTable(Core::getTablePrefix() . 'user');
@@ -246,7 +251,7 @@ if ($warnings) {
 
         rex_extension::registerPoint(new rex_extension_point('USER_ADDED', '', [
             'id' => $adduser->getLastId(),
-            'user' => rex_user::require($adduser->getLastId()),
+            'user' => User::require($adduser->getLastId()),
             'password' => $userpsw,
         ], true));
     } else {
@@ -534,7 +539,7 @@ if ('' != $fUNCADD || $userId > 0) {
 
     $content = '
         <form id="rex-form-user" action="' . Url::currentBackendPage() . '" method="post">
-            ' . rex_csrf_token::factory('user_edit')->getHiddenField() . '
+            ' . CsrfToken::factory('user_edit')->getHiddenField() . '
             ' . $content . '
         </form>
 
@@ -646,7 +651,7 @@ if ($SHOW) {
 
     $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete'));
     $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###id###'] + rex_csrf_token::factory('user_delete')->getUrlParams());
+    $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###id###'] + CsrfToken::factory('user_delete')->getUrlParams());
     $list->setColumnFormat('funcs', 'custom', static function () use ($currentUser, $list) {
         if (
             $list->getValue('id') == $currentUser->getId()

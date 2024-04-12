@@ -1,29 +1,33 @@
 <?php
 
+namespace Redaxo\Core\Security;
+
 use Redaxo\Core\Base\SingletonTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use rex_exception;
+use rex_request;
 
 /**
  * @internal
  */
-final class rex_user_session
+final class UserSession
 {
     use SingletonTrait;
 
     public const STAY_LOGGED_IN_DURATION = 3; // months
     private const SESSION_VAR_LAST_DB_UPDATE = 'last_db_update';
 
-    public function storeCurrentSession(rex_backend_login $login, ?string $cookieKey = null, ?string $passkey = null): void
+    public function storeCurrentSession(BackendLogin $login, ?string $cookieKey = null, ?string $passkey = null): void
     {
         $sessionId = session_id();
         if (false === $sessionId || '' === $sessionId) {
             return;
         }
 
-        $userId = $login->getSessionVar(rex_login::SESSION_IMPERSONATOR, null);
+        $userId = $login->getSessionVar(Login::SESSION_IMPERSONATOR, null);
         if (null === $userId) {
-            $userId = $login->getSessionVar(rex_login::SESSION_USER_ID);
+            $userId = $login->getSessionVar(Login::SESSION_USER_ID);
         }
         $userId = (int) $userId;
 
@@ -48,7 +52,7 @@ final class rex_user_session
             ->setValue('user_id', $userId)
             ->setValue('ip', rex_request::server('REMOTE_ADDR', 'string'))
             ->setValue('useragent', rex_request::server('HTTP_USER_AGENT', 'string'))
-            ->setValue('last_activity', Sql::datetime($login->getSessionVar(rex_login::SESSION_LAST_ACTIVITY)))
+            ->setValue('last_activity', Sql::datetime($login->getSessionVar(Login::SESSION_LAST_ACTIVITY)))
         ;
 
         if ($updateByCookieKey) {
@@ -64,7 +68,7 @@ final class rex_user_session
             }
 
             $sql
-                ->setValue('starttime', Sql::datetime($login->getSessionVar(rex_login::SESSION_START_TIME, time())))
+                ->setValue('starttime', Sql::datetime($login->getSessionVar(Login::SESSION_START_TIME, time())))
                 ->insertOrUpdate();
         }
 
@@ -84,7 +88,7 @@ final class rex_user_session
             ->delete();
     }
 
-    public function updateLastActivity(rex_backend_login $login): void
+    public function updateLastActivity(BackendLogin $login): void
     {
         $sessionId = session_id();
         if (false === $sessionId || '' === $sessionId) {

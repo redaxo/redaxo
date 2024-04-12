@@ -1,6 +1,12 @@
 <?php
 
-final class rex_login_policy
+namespace Redaxo\Core\Security;
+
+use InvalidArgumentException;
+
+use function array_key_exists;
+
+final class LoginPolicy
 {
     /**
      * @param array<string, int|bool> $options

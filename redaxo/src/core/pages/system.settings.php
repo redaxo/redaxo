@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\BaseField;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Version;
@@ -16,7 +17,7 @@ $success = '';
 
 $func = rex_request('func', 'string');
 
-$csrfToken = rex_csrf_token::factory('system');
+$csrfToken = CsrfToken::factory('system');
 
 if (rex_request('rex_debug_updated', 'bool', false)) {
     $success = (Core::isDebugMode()) ? I18n::msg('debug_mode_info_on') : I18n::msg('debug_mode_info_off');

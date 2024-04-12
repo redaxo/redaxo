@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Form\Field;
 
-use rex_complex_perm;
+use Redaxo\Core\Security\ComplexPermission;
 
 /**
  * @internal
@@ -15,8 +15,8 @@ class PermissionSelectField extends SelectField
     {
         $value = $this->getValue();
 
-        if ($value && str_contains($value, '|' . rex_complex_perm::ALL . '|')) {
-            return rex_complex_perm::ALL;
+        if ($value && str_contains($value, '|' . ComplexPermission::ALL . '|')) {
+            return ComplexPermission::ALL;
         }
 
         return $value;
@@ -39,10 +39,10 @@ class PermissionSelectField extends SelectField
         $field = new CheckboxField('', $this->table);
         $field->setAttribute('name', $this->getAttribute('name', ''));
         $field->setAttribute('id', $this->getAttribute('id', ''));
-        if (rex_complex_perm::ALL == trim((string) $this->getValue(), '|')) {
-            $field->setValue('|' . rex_complex_perm::ALL . '|');
+        if (ComplexPermission::ALL == trim((string) $this->getValue(), '|')) {
+            $field->setValue('|' . ComplexPermission::ALL . '|');
         }
-        $field->addOption($this->checkboxLabel, rex_complex_perm::ALL);
+        $field->addOption($this->checkboxLabel, ComplexPermission::ALL);
         $this->setAttribute('class', 'form-control');
         return $field->get() . parent::get();
     }

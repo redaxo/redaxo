@@ -10,6 +10,7 @@ use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaHandler;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
@@ -18,7 +19,7 @@ assert(isset($openerInputField) && is_string($openerInputField));
 assert(isset($argFields) && is_string($argFields));
 assert(isset($toolbar) && is_string($toolbar));
 /** @psalm-suppress RedundantCondition */
-assert(isset($csrf) && $csrf instanceof rex_csrf_token);
+assert(isset($csrf) && $csrf instanceof CsrfToken);
 
 // defaults for globals passed in from index.php
 if (!isset($success)) {

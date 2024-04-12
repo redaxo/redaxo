@@ -2,14 +2,14 @@
 
 namespace Redaxo\Core\MediaPool;
 
+use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
-use rex_complex_perm;
 use rex_media_category_select;
 
 use function count;
 use function in_array;
 
-class MediaPoolPermission extends rex_complex_perm
+class MediaPoolPermission extends ComplexPermission
 {
     /**
      * @param int $categoryId

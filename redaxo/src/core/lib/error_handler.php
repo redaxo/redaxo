@@ -4,6 +4,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Log\Logger;
+use Redaxo\Core\Security\BackendLogin;
+use Redaxo\Core\Security\Login;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Type;
 use Whoops\Handler\PrettyPageHandler;
@@ -80,7 +82,7 @@ abstract class rex_error_handler
             }
             rex_response::setStatus($status);
 
-            if (Core::isSetup() || Core::isDebugMode() || !Core::isLiveMode() && rex_backend_login::createUser()?->isAdmin()) {
+            if (Core::isSetup() || Core::isDebugMode() || !Core::isLiveMode() && BackendLogin::createUser()?->isAdmin()) {
                 [$errPage, $contentType] = self::renderWhoops($exception);
                 rex_response::sendContent($errPage, $contentType);
                 exit(1);
@@ -120,9 +122,9 @@ abstract class rex_error_handler
 
         $handler->setEditor([Editor::factory(), 'getUrl']);
 
-        $handler->hideSuperglobalKey('_SESSION', rex_login::SESSION_ID);
+        $handler->hideSuperglobalKey('_SESSION', Login::SESSION_ID);
         $handler->hideSuperglobalKey('_COOKIE', session_name());
-        $handler->hideSuperglobalKey('_COOKIE', rex_backend_login::getStayLoggedInCookieName());
+        $handler->hideSuperglobalKey('_COOKIE', BackendLogin::getStayLoggedInCookieName());
 
         $whoops->pushHandler($handler);
 
@@ -311,7 +313,7 @@ abstract class rex_error_handler
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
 
-        if (ini_get('display_errors') && (Core::isSetup() || Core::isDebugMode() || !Core::isLiveMode() && rex_backend_login::createUser()?->isAdmin())) {
+        if (ini_get('display_errors') && (Core::isSetup() || Core::isDebugMode() || !Core::isLiveMode() && BackendLogin::createUser()?->isAdmin())) {
             $file = Path::relative($errfile);
             if ('cli' === PHP_SAPI) {
                 echo self::getErrorType($errno) . ": $errstr in $file on line $errline";

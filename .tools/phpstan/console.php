@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Console\Application;
 use Redaxo\Core\Console\CommandLoader;
+use Redaxo\Core\Security\BackendLogin;
 
 if (!defined('REX_MIN_PHP_VERSION')) {
     unset($REX);
@@ -14,7 +15,7 @@ if (!defined('REX_MIN_PHP_VERSION')) {
 
     // initialize autoloader before phpstan autoload wrapper is active
     // https://github.com/redaxo/redaxo/pull/4369#issuecomment-770195916
-    class_exists(rex_backend_login::class);
+    class_exists(BackendLogin::class);
 }
 
 $application = new Application();

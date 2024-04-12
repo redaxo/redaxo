@@ -13,6 +13,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Mailer\Mailer;
+use Redaxo\Core\Security\BackendLogin;
 
 if (Core::isSetup()) {
     rex_response::sendRedirect(Url::backendController());
@@ -68,7 +69,7 @@ if (Core::getConfig('article_history', false)) {
                 }
             }
         } else {
-            $user = rex_backend_login::createUser();
+            $user = BackendLogin::createUser();
         }
 
         if (!$user) {
@@ -129,7 +130,7 @@ if (Core::getConfig('article_work_version', false)) {
             return;
         }
 
-        if (!rex_backend_login::hasSession()) {
+        if (!BackendLogin::hasSession()) {
             $fragment = new rex_fragment([
                 'content' => '<p>No permission for the working version. You need to be logged into the REDAXO backend at the same time.</p>',
             ]);
@@ -157,7 +158,7 @@ $article = new ArticleContent();
 $article->setClang(Language::getCurrentId());
 
 if (!$article->setArticleId(Article::getCurrentId())) {
-    if (!Core::isDebugMode() && !rex_backend_login::hasSession()) {
+    if (!Core::isDebugMode() && !BackendLogin::hasSession()) {
         throw new rex_exception('Article with id ' . Article::getCurrentId() . ' does not exist');
     }
 

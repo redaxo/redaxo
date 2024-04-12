@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Language\LanguageHandler;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -29,7 +30,7 @@ $editClangSave = rex_post('edit_clang_save', 'boolean');
 $error = '';
 $success = '';
 
-$csrfToken = rex_csrf_token::factory('clang');
+$csrfToken = CsrfToken::factory('clang');
 
 // ----- delete clang
 if ('deleteclang' == $func && '' != $clangId && Language::exists($clangId)) {

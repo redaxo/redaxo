@@ -2,13 +2,13 @@
 
 namespace Redaxo\Core\Language;
 
+use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
-use rex_complex_perm;
 
 use function count;
 use function in_array;
 
-class LanguagePermission extends rex_complex_perm
+class LanguagePermission extends ComplexPermission
 {
     /**
      * @param int $clangId
