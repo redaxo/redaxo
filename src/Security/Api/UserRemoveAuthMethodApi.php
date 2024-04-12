@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\Security\Api;
+
 use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Api\ApiResult;
@@ -7,11 +9,12 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Security\User;
 use Redaxo\Core\Translation\I18n;
+use rex_request;
 
 /**
  * @internal
  */
-class rex_api_user_remove_auth_method extends ApiFunction
+class UserRemoveAuthMethodApi extends ApiFunction
 {
     public function execute()
     {

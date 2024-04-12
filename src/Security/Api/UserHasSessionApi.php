@@ -1,13 +1,16 @@
 <?php
 
+namespace Redaxo\Core\Security\Api;
+
 use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Core;
+use rex_response;
 
 /**
  * @internal
  */
-class rex_api_has_user_session extends ApiFunction
+class UserHasSessionApi extends ApiFunction
 {
     /**
      * @return never

@@ -24,6 +24,10 @@ use Redaxo\Core\Content\Api\CategoryToArticleApi;
 use Redaxo\Core\Content\Api\ContentCopyApi;
 use Redaxo\Core\Core;
 use Redaxo\Core\MetaInfo\Api\DefaultFieldsCreate;
+use Redaxo\Core\Security\Api\UserHasSessionApi;
+use Redaxo\Core\Security\Api\UserImpersonateApi;
+use Redaxo\Core\Security\Api\UserRemoveAuthMethodApi;
+use Redaxo\Core\Security\Api\UserRemoveSessionApi;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use rex_context;
@@ -96,6 +100,10 @@ abstract class ApiFunction
         'content_copy' => ContentCopyApi::class,
         'content_move_slice' => ArticleSliceMoveApi::class,
         'content_slice_status' => ArticleSliceStatusApi::class,
+        'user_has_session' => UserHasSessionApi::class,
+        'user_impersonate' => UserImpersonateApi::class,
+        'user_remove_auth_method' => UserRemoveAuthMethodApi::class,
+        'user_remove_session' => UserRemoveSessionApi::class,
     ];
 
     /**
