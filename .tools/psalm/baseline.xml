@@ -1142,19 +1142,6 @@
       <code><![CDATA[$this->columnLayouts]]></code>
     </PropertyTypeCoercion>
   </file>
-  <file src="redaxo/src/core/lib/login/api_has_user_session.php">
-    <MixedArgument>
-      <code><![CDATA[$perm]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$perm]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/login/api_user_impersonate.php">
-    <MixedAssignment>
-      <code><![CDATA[$impersonate]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/mediapool/media_category_select.php">
     <MixedAssignment>
       <code><![CDATA[$this->checkPerms]]></code>
@@ -2348,7 +2335,7 @@
       <code><![CDATA[$userrole]]></code>
       <code><![CDATA[$userrole]]></code>
       <code><![CDATA[$userrole]]></code>
-      <code><![CDATA[['_impersonate' => $list->getValue('id')] + rex_api_user_impersonate::getUrlParams()]]></code>
+      <code><![CDATA[['_impersonate' => $list->getValue('id')] + UserImpersonateApi::getUrlParams()]]></code>
     </ArgumentTypeCoercion>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$userrole]]></code>
@@ -4316,6 +4303,19 @@
     <PossiblyNullReference>
       <code><![CDATA[getPathAsArray]]></code>
     </PossiblyNullReference>
+  </file>
+  <file src="src/Security/Api/UserHasSessionApi.php">
+    <MixedArgument>
+      <code><![CDATA[$perm]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$perm]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Security/Api/UserImpersonateApi.php">
+    <MixedAssignment>
+      <code><![CDATA[$impersonate]]></code>
+    </MixedAssignment>
   </file>
   <file src="src/Security/BackendLogin.php">
     <ArgumentTypeCoercion>
