@@ -1,6 +1,8 @@
 <?php
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 
@@ -12,7 +14,7 @@ class rex_api_article_edit extends ApiFunction
     public function execute()
     {
         if (!Core::requireUser()->hasPerm('editArticle[]')) {
-            throw new rex_api_exception('User has no permission to edit articles!');
+            throw new ApiException('User has no permission to edit articles!');
         }
 
         $categoryId = rex_request('category_id', 'int');
@@ -21,7 +23,7 @@ class rex_api_article_edit extends ApiFunction
 
         // check permissions
         if (!Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
-            throw new rex_api_exception('user has no permission for this category!');
+            throw new ApiException('user has no permission for this category!');
         }
 
         // --------------------- ARTIKEL EDIT
@@ -29,7 +31,7 @@ class rex_api_article_edit extends ApiFunction
         $data['priority'] = rex_post('article-position', 'int');
         $data['name'] = rex_post('article-name', 'string');
         $data['template_id'] = rex_post('template_id', 'int');
-        return new rex_api_result(true, ArticleHandler::editArticle($articleId, $clang, $data));
+        return new ApiResult(true, ArticleHandler::editArticle($articleId, $clang, $data));
     }
 
     protected function requiresCsrfProtection()

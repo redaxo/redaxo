@@ -3,7 +3,9 @@
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonInterface;
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -29,21 +31,21 @@ class rex_api_install_core_update extends ApiFunction
     public function execute()
     {
         if (Core::isLiveMode()) {
-            throw new rex_api_exception('Core update is not available in live mode!');
+            throw new ApiException('Core update is not available in live mode!');
         }
         if (!Core::getUser()?->isAdmin()) {
-            throw new rex_api_exception('You do not have the permission!');
+            throw new ApiException('You do not have the permission!');
         }
         $installAddon = Addon::get('install');
         $versions = self::getVersions();
         $versionId = rex_request('version_id', 'int');
 
         if (!isset($versions[$versionId])) {
-            throw new rex_api_exception('The requested core version can not be loaded, maybe it is already installed.');
+            throw new ApiException('The requested core version can not be loaded, maybe it is already installed.');
         }
         $version = $versions[$versionId];
         if (!Version::compare($version['version'], Core::getVersion(), '>')) {
-            throw new rex_api_exception(sprintf('Existing version of Core (%s) is newer than %s', Core::getVersion(), $version['version']));
+            throw new ApiException(sprintf('Existing version of Core (%s) is newer than %s', Core::getVersion(), $version['version']));
         }
         if (!is_writable(Path::core())) {
             throw new rex_functional_exception($installAddon->i18n('warning_directory_not_writable', Path::core()));
@@ -51,7 +53,7 @@ class rex_api_install_core_update extends ApiFunction
         try {
             $archivefile = rex_install_webservice::getArchive($version['path']);
         } catch (rex_functional_exception $e) {
-            throw new rex_api_exception($e->getMessage());
+            throw new ApiException($e->getMessage());
         }
 
         // load logger class before core update to avoid getting logger class from new core while logging success message
@@ -228,7 +230,7 @@ class rex_api_install_core_update extends ApiFunction
             }
         }
 
-        $result = new rex_api_result($success, $message);
+        $result = new ApiResult($success, $message);
         if ($success) {
             $result->setRequiresReboot(true);
         }

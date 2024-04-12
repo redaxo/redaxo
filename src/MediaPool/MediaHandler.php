@@ -3,6 +3,7 @@
 namespace Redaxo\Core\MediaPool;
 
 use LogicException;
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
@@ -10,7 +11,6 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
-use rex_api_exception;
 use rex_extension;
 use rex_extension_point;
 use rex_sql_exception;
@@ -47,16 +47,16 @@ final class MediaHandler
         $error = $data['file']['error'] ?? null;
 
         if (UPLOAD_ERR_INI_SIZE === $error) {
-            throw new rex_api_exception(I18n::msg('pool_file_upload_error_size', Formatter::bytes(rex_ini_get('upload_max_filesize'))));
+            throw new ApiException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(rex_ini_get('upload_max_filesize'))));
         }
         if ($error) {
-            throw new rex_api_exception(I18n::msg('pool_file_upload_error'));
+            throw new ApiException(I18n::msg('pool_file_upload_error'));
         }
 
         $data['file']['path'] ??= $data['file']['tmp_name'] ?? null;
 
         if (empty($data['file']) || empty($data['file']['name']) || empty($data['file']['path'])) {
-            throw new rex_api_exception(I18n::msg('pool_file_not_found'));
+            throw new ApiException(I18n::msg('pool_file_not_found'));
         }
 
         if (!MediaPool::isAllowedExtension($data['file']['name'], $allowedExtensions)) {
@@ -66,12 +66,12 @@ final class MediaHandler
                     ? '<br />' . I18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $allowedExtensions), ', ') . '</code>'
                     : '<br />' . I18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', MediaPool::getBlockedExtensions()), ', ') . '</code>';
 
-            throw new rex_api_exception($warning);
+            throw new ApiException($warning);
         }
 
         if (!MediaPool::isAllowedMimeType($data['file']['path'], $data['file']['name'])) {
             $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . File::extension($data['file']['name']) . '</code> (<code>' . File::mimeType($data['file']['path']) . '</code>)';
-            throw new rex_api_exception($warning);
+            throw new ApiException($warning);
         }
 
         $categoryId = (int) $data['category_id'];
@@ -103,11 +103,11 @@ final class MediaHandler
         ]));
         if ($errorMessage) {
             // ein Addon hat die Fehlermeldung gesetzt, dem Upload also faktisch widersprochen
-            throw new rex_api_exception($errorMessage);
+            throw new ApiException($errorMessage);
         }
 
         if (!File::move($srcFile, $dstFile)) {
-            throw new rex_api_exception(I18n::msg('pool_file_movefailed'));
+            throw new ApiException(I18n::msg('pool_file_movefailed'));
         }
 
         @chmod($dstFile, Core::getFilePerm());
@@ -176,12 +176,12 @@ final class MediaHandler
     public static function updateMedia(string $filename, array $data): array
     {
         if ('' === $filename) {
-            throw new rex_api_exception('Expecting Filename.');
+            throw new ApiException('Expecting Filename.');
         }
 
         $media = Media::get($filename);
         if (!$media) {
-            throw new rex_api_exception(I18n::msg('pool_file_not_found'));
+            throw new ApiException(I18n::msg('pool_file_not_found'));
         }
 
         $saveObject = Sql::factory();
@@ -197,15 +197,15 @@ final class MediaHandler
             $error = $file['error'] ?? null;
 
             if (UPLOAD_ERR_INI_SIZE === $error) {
-                throw new rex_api_exception(I18n::msg('pool_file_upload_error_size', Formatter::bytes(rex_ini_get('upload_max_filesize'))));
+                throw new ApiException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(rex_ini_get('upload_max_filesize'))));
             }
             if ($error) {
-                throw new rex_api_exception(I18n::msg('pool_file_upload_error'));
+                throw new ApiException(I18n::msg('pool_file_upload_error'));
             }
 
             $file['path'] = $file['tmp_name'] ?? null;
             if (empty($file['path'])) {
-                throw new rex_api_exception(I18n::msg('pool_file_not_found'));
+                throw new ApiException(I18n::msg('pool_file_not_found'));
             }
 
             $filetype = File::mimeType($file['path']);
@@ -221,7 +221,7 @@ final class MediaHandler
                 || in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
             ) {
                 if (!File::move($srcFile, $dstFile)) {
-                    throw new rex_api_exception(I18n::msg('pool_file_movefailed'));
+                    throw new ApiException(I18n::msg('pool_file_movefailed'));
                 }
 
                 @chmod($dstFile, Core::getFilePerm());
@@ -236,7 +236,7 @@ final class MediaHandler
                 }
                 @chmod($dstFile, Core::getFilePerm());
             } else {
-                throw new rex_api_exception(I18n::msg('pool_file_upload_errortype'));
+                throw new ApiException(I18n::msg('pool_file_upload_errortype'));
             }
         }
 
@@ -268,11 +268,11 @@ final class MediaHandler
     {
         $media = Media::get($filename);
         if (!$media) {
-            throw new rex_api_exception(I18n::msg('pool_file_not_found', $filename));
+            throw new ApiException(I18n::msg('pool_file_not_found', $filename));
         }
 
         if ($uses = MediaPool::mediaIsInUse($filename)) {
-            throw new rex_api_exception(I18n::msg('pool_file_delete_error', $filename) . ' ' . I18n::msg('pool_object_in_use_by') . $uses);
+            throw new ApiException(I18n::msg('pool_file_delete_error', $filename) . ' ' . I18n::msg('pool_object_in_use_by') . $uses);
         }
 
         $sql = Sql::factory();

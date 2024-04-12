@@ -1,6 +1,8 @@
 <?php
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
@@ -12,9 +14,9 @@ use Redaxo\Core\Translation\I18n;
 class rex_api_article_move extends ApiFunction
 {
     /**
-     * @throws rex_api_exception
+     * @throws ApiException
      *
-     * @return rex_api_result
+     * @return ApiResult
      */
     public function execute()
     {
@@ -29,13 +31,13 @@ class rex_api_article_move extends ApiFunction
         // Check permissions
         if ($user->hasPerm('moveArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)) {
             if (ArticleHandler::moveArticle($articleId, $categoryId, $categoryIdNew)) {
-                return new rex_api_result(true, I18n::msg('content_articlemoved'));
+                return new ApiResult(true, I18n::msg('content_articlemoved'));
             }
 
-            return new rex_api_result(false, I18n::msg('content_errormovearticle'));
+            return new ApiResult(false, I18n::msg('content_errormovearticle'));
         }
 
-        throw new rex_api_exception(I18n::msg('no_rights_to_this_function'));
+        throw new ApiException(I18n::msg('no_rights_to_this_function'));
     }
 
     protected function requiresCsrfProtection()

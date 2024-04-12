@@ -1,6 +1,8 @@
 <?php
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
@@ -22,10 +24,10 @@ class rex_api_article_status extends ApiFunction
         if ($user->getComplexPerm('structure')->hasCategoryPerm($categoryId) && $user->hasPerm('publishArticle[]')) {
             ArticleHandler::articleStatus($articleId, $clang, $status);
 
-            return new rex_api_result(true, I18n::msg('article_status_updated'));
+            return new ApiResult(true, I18n::msg('article_status_updated'));
         }
 
-        throw new rex_api_exception('user has no permission for this article!');
+        throw new ApiException('user has no permission for this article!');
     }
 
     protected function requiresCsrfProtection()

@@ -2,12 +2,12 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
-use rex_api_exception;
 use rex_complex_perm;
 use rex_extension;
 use rex_extension_point;
@@ -131,7 +131,7 @@ class ArticleHandler
         $thisArt->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and clang_id=?', [$articleId, $clang]);
 
         if (1 != $thisArt->getRows()) {
-            throw new rex_api_exception('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
+            throw new ApiException('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
         }
 
         $ooArt = Article::get($articleId, $clang);
@@ -242,7 +242,7 @@ class ArticleHandler
                 $Art->next();
             }
         } else {
-            throw new rex_api_exception(I18n::msg('article_doesnt_exist'));
+            throw new ApiException(I18n::msg('article_doesnt_exist'));
         }
 
         return $message;
@@ -273,10 +273,10 @@ class ArticleHandler
         // --> rekursiv aufrufen
 
         if ($id == Article::getSiteStartArticleId()) {
-            throw new rex_api_exception(I18n::msg('cant_delete_sitestartarticle'));
+            throw new ApiException(I18n::msg('cant_delete_sitestartarticle'));
         }
         if ($id == Article::getNotfoundArticleId()) {
-            throw new rex_api_exception(I18n::msg('cant_delete_notfoundarticle'));
+            throw new ApiException(I18n::msg('cant_delete_notfoundarticle'));
         }
 
         $ART = Sql::factory();
@@ -316,7 +316,7 @@ class ArticleHandler
 
             return $message;
         }
-        throw new rex_api_exception(I18n::msg('category_doesnt_exist'));
+        throw new ApiException(I18n::msg('category_doesnt_exist'));
     }
 
     /**
@@ -360,7 +360,7 @@ class ArticleHandler
                 'status' => $newstatus,
             ]));
         } else {
-            throw new rex_api_exception(I18n::msg('no_such_category'));
+            throw new ApiException(I18n::msg('no_such_category'));
         }
 
         return $newstatus;
@@ -908,7 +908,7 @@ class ArticleHandler
     protected static function reqKey($array, $keyName)
     {
         if (!isset($array[$keyName])) {
-            throw new rex_api_exception('Missing required parameter "' . $keyName . '"!');
+            throw new ApiException('Missing required parameter "' . $keyName . '"!');
         }
     }
 

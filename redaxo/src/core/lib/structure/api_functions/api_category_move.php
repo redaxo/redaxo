@@ -1,6 +1,8 @@
 <?php
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
@@ -28,13 +30,13 @@ class rex_api_category_move extends ApiFunction
             && $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)
         ) {
             if ($categoryId != $categoryIdNew && CategoryHandler::moveCategory($categoryId, $categoryIdNew)) {
-                return new rex_api_result(true, I18n::msg('category_moved'));
+                return new ApiResult(true, I18n::msg('category_moved'));
             }
 
-            return new rex_api_result(false, I18n::msg('content_error_movecategory'));
+            return new ApiResult(false, I18n::msg('content_error_movecategory'));
         }
 
-        throw new rex_api_exception('user has no permission for this category!');
+        throw new ApiException('user has no permission for this category!');
     }
 
     protected function requiresCsrfProtection()

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Core;
 
 /**
@@ -11,7 +12,7 @@ class rex_api_debug extends ApiFunction
     public function execute()
     {
         if (!Core::isDebugMode() || !Core::getUser()?->isAdmin()) {
-            return new rex_api_result(false);
+            return new ApiResult(false);
         }
 
         $debug = rex_debug_clockwork::getHelper();

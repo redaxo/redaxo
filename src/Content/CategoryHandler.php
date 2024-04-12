@@ -2,12 +2,12 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
-use rex_api_exception;
 use rex_complex_perm;
 use rex_extension;
 use rex_extension_point;
@@ -299,13 +299,13 @@ class CategoryHandler
 
                     rex_complex_perm::removeItem('structure', $categoryId);
                 } else {
-                    throw new rex_api_exception(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_articles'));
+                    throw new ApiException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_articles'));
                 }
             } else {
-                throw new rex_api_exception(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_subcategories'));
+                throw new ApiException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_subcategories'));
             }
         } else {
-            throw new rex_api_exception(I18n::msg('category_could_not_be_deleted'));
+            throw new ApiException(I18n::msg('category_could_not_be_deleted'));
         }
 
         return $message;
@@ -352,7 +352,7 @@ class CategoryHandler
                 'status' => $newstatus,
             ]));
         } else {
-            throw new rex_api_exception(I18n::msg('no_such_category'));
+            throw new ApiException(I18n::msg('no_such_category'));
         }
 
         return $newstatus;
@@ -572,7 +572,7 @@ class CategoryHandler
     protected static function reqKey(array $array, $keyName)
     {
         if (!isset($array[$keyName])) {
-            throw new rex_api_exception('Missing required parameter "' . $keyName . '"!');
+            throw new ApiException('Missing required parameter "' . $keyName . '"!');
         }
     }
 

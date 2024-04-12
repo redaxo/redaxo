@@ -1,6 +1,8 @@
 <?php
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
@@ -20,10 +22,10 @@ class rex_api_category_status extends ApiFunction
         // Check permissions
         if ($user->getComplexPerm('structure')->hasCategoryPerm($categoryId) && $user->hasPerm('publishCategory[]')) {
             CategoryHandler::categoryStatus($categoryId, $clang, $status);
-            return new rex_api_result(true, I18n::msg('category_status_updated'));
+            return new ApiResult(true, I18n::msg('category_status_updated'));
         }
 
-        throw new rex_api_exception('User has no permission for this category!');
+        throw new ApiException('User has no permission for this category!');
     }
 
     protected function requiresCsrfProtection()

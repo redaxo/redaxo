@@ -1,6 +1,8 @@
 <?php
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
@@ -20,12 +22,12 @@ class rex_api_article2category extends ApiFunction
         // Check permissions
         if ($user->hasPerm('article2category[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             if (ArticleHandler::article2category($articleId)) {
-                return new rex_api_result(true, I18n::msg('content_tocategory_ok'));
+                return new ApiResult(true, I18n::msg('content_tocategory_ok'));
             }
 
-            return new rex_api_result(false, I18n::msg('content_tocategory_failed'));
+            return new ApiResult(false, I18n::msg('content_tocategory_failed'));
         }
-        throw new rex_api_exception('User has no permission for this article!');
+        throw new ApiException('User has no permission for this article!');
     }
 
     protected function requiresCsrfProtection()

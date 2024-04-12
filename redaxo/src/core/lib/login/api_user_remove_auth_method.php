@@ -1,6 +1,8 @@
 <?php
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
@@ -16,7 +18,7 @@ class rex_api_user_remove_auth_method extends ApiFunction
         $user = Core::requireUser();
 
         if ($userId !== $user->getId() && !$user->isAdmin() && (!$user->hasPerm('users[]') || rex_user::require($userId)->isAdmin())) {
-            throw new rex_api_exception('Permission denied');
+            throw new ApiException('Permission denied');
         }
 
         if (rex_get('password', 'bool')) {
@@ -31,7 +33,7 @@ class rex_api_user_remove_auth_method extends ApiFunction
         return true;
     }
 
-    private function removePassword(int $userId): rex_api_result
+    private function removePassword(int $userId): ApiResult
     {
         $sql = Sql::factory()
             ->setTable(Core::getTable('user'))
@@ -43,16 +45,16 @@ class rex_api_user_remove_auth_method extends ApiFunction
             ->update();
 
         if (!$sql->getRows()) {
-            return new rex_api_result(false, I18n::msg('password_remove_error'));
+            return new ApiResult(false, I18n::msg('password_remove_error'));
         }
 
         rex_user::clearInstance($userId);
         Core::getProperty('login')->changedPassword(null);
 
-        return new rex_api_result(true, I18n::msg('password_removed'));
+        return new ApiResult(true, I18n::msg('password_removed'));
     }
 
-    private function removePasskey(int $userId): rex_api_result
+    private function removePasskey(int $userId): ApiResult
     {
         $passkeyId = rex_request::get('passkey_id', 'string');
 
@@ -62,9 +64,9 @@ class rex_api_user_remove_auth_method extends ApiFunction
             ->delete();
 
         if (!$sql->getRows()) {
-            return new rex_api_result(false, I18n::msg('passkey_remove_error'));
+            return new ApiResult(false, I18n::msg('passkey_remove_error'));
         }
 
-        return new rex_api_result(true, I18n::msg('passkey_removed'));
+        return new ApiResult(true, I18n::msg('passkey_removed'));
     }
 }

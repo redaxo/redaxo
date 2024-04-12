@@ -1,7 +1,9 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -16,10 +18,10 @@ class rex_api_install_package_upload extends ApiFunction
     public function execute()
     {
         if (Core::isLiveMode()) {
-            throw new rex_api_exception('Package management is not available in live mode!');
+            throw new ApiException('Package management is not available in live mode!');
         }
         if (!Core::getUser()?->isAdmin()) {
-            throw new rex_api_exception('You do not have the permission!');
+            throw new ApiException('You do not have the permission!');
         }
         $addonkey = rex_request('addonkey', 'string');
         $upload = rex_request('upload', [
@@ -67,7 +69,7 @@ class rex_api_install_package_upload extends ApiFunction
             }
             rex_install_webservice::post(rex_install_packages::getPath('?package=' . urlencode($addonkey) . '&file_id=' . rex_request('file', 'int', 0)), ['file' => $file], $archive);
         } catch (rex_functional_exception $e) {
-            throw new rex_api_exception($e->getMessage());
+            throw new ApiException($e->getMessage());
         } finally {
             if ($archive) {
                 File::delete($archive);
@@ -76,7 +78,7 @@ class rex_api_install_package_upload extends ApiFunction
 
         unset($_REQUEST['file']);
         rex_install_packages::deleteCache();
-        return new rex_api_result(true, I18n::msg('install_info_addon_uploaded', $addonkey));
+        return new ApiResult(true, I18n::msg('install_info_addon_uploaded', $addonkey));
     }
 
     protected function requiresCsrfProtection()

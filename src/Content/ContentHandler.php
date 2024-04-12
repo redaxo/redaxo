@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -10,7 +11,6 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
-use rex_api_exception;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
@@ -152,7 +152,7 @@ class ContentHandler
                 $CM->setQuery('select * from ' . Core::getTablePrefix() . 'article_slice where id=? and clang_id=?', [$sliceId, $clang]);
                 $newPriority = $CM->getValue('priority');
                 if ($oldPriority == $newPriority) {
-                    throw new rex_api_exception(I18n::msg('slice_moved_error'));
+                    throw new ApiException(I18n::msg('slice_moved_error'));
                 }
 
                 ArticleCache::deleteContent($articleId, $clang);
@@ -164,7 +164,7 @@ class ContentHandler
                 throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!');
             }
         } else {
-            throw new rex_api_exception(I18n::msg('slice_moved_error'));
+            throw new ApiException(I18n::msg('slice_moved_error'));
         }
 
         return $info;

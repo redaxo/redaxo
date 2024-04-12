@@ -2,7 +2,9 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Type;
 
@@ -12,15 +14,15 @@ use Redaxo\Core\Util\Type;
 final class rex_api_package extends ApiFunction
 {
     #[Override]
-    public function execute(): rex_api_result
+    public function execute(): ApiResult
     {
         if (Core::isLiveMode()) {
-            throw new rex_api_exception('Package management is not available in live mode!');
+            throw new ApiException('Package management is not available in live mode!');
         }
 
         $function = rex_request('function', 'string');
         if (!in_array($function, ['install', 'uninstall', 'activate', 'deactivate', 'delete'])) {
-            throw new rex_api_exception('Unknown package function "' . $function . '"!');
+            throw new ApiException('Unknown package function "' . $function . '"!');
         }
         $packageId = rex_request('package', 'string');
         $package = Addon::get($packageId);
@@ -29,17 +31,17 @@ final class rex_api_package extends ApiFunction
             || 'deactivate' == $function && !$package->isAvailable()
             || 'delete' == $function && !Addon::exists($packageId)
         ) {
-            return new rex_api_result(true);
+            return new ApiResult(true);
         }
 
         if (!$package instanceof Addon) {
-            throw new rex_api_exception('Package "' . $packageId . '" doesn\'t exists!');
+            throw new ApiException('Package "' . $packageId . '" doesn\'t exists!');
         }
         $reinstall = 'install' === $function && $package->isInstalled();
         $manager = AddonManager::factory($package);
         $success = Type::bool($manager->$function());
         $message = $manager->getMessage();
-        $result = new rex_api_result($success, $message);
+        $result = new ApiResult($success, $message);
         if ($success && !$reinstall) {
             $result->setRequiresReboot(true);
         }

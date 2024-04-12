@@ -1,6 +1,8 @@
 <?php
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\Api\ApiResult;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
@@ -21,7 +23,7 @@ class rex_api_content_move_slice extends ApiFunction
 
         $ooArt = Article::get($articleId, $clang);
         if (!$ooArt instanceof Article) {
-            throw new rex_api_exception('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
+            throw new ApiException('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
         }
         $categoryId = $ooArt->getCategoryId();
 
@@ -29,18 +31,18 @@ class rex_api_content_move_slice extends ApiFunction
 
         // check permissions
         if (!$user->hasPerm('moveSlice[]')) {
-            throw new rex_api_exception(I18n::msg('no_rights_to_this_function'));
+            throw new ApiException(I18n::msg('no_rights_to_this_function'));
         }
 
         if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
-            throw new rex_api_exception(I18n::msg('no_rights_to_this_function'));
+            throw new ApiException(I18n::msg('no_rights_to_this_function'));
         }
 
         // modul und rechte vorhanden ?
         $CM = Sql::factory();
         $CM->setQuery('select * from ' . Core::getTablePrefix() . 'article_slice left join ' . Core::getTablePrefix() . 'module on ' . Core::getTablePrefix() . 'article_slice.module_id=' . Core::getTablePrefix() . 'module.id where ' . Core::getTablePrefix() . 'article_slice.id=? and clang_id=?', [$sliceId, $clang]);
         if (1 != $CM->getRows()) {
-            throw new rex_api_exception(I18n::msg('module_not_found'));
+            throw new ApiException(I18n::msg('module_not_found'));
         }
         $moduleId = (int) $CM->getValue(Core::getTablePrefix() . 'article_slice.module_id');
 
@@ -48,9 +50,9 @@ class rex_api_content_move_slice extends ApiFunction
         if ($user->getComplexPerm('modules')->hasPerm($moduleId)) {
             $message = ContentHandler::moveSlice($sliceId, $clang, $direction);
         } else {
-            throw new rex_api_exception(I18n::msg('no_rights_to_this_function'));
+            throw new ApiException(I18n::msg('no_rights_to_this_function'));
         }
-        return new rex_api_result(true, $message);
+        return new ApiResult(true, $message);
     }
 
     protected function requiresCsrfProtection()

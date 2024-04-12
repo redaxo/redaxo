@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
@@ -26,7 +27,7 @@ class rex_api_user_impersonate extends ApiFunction
 
         $user = Core::requireUser();
         if (!$user->isAdmin()) {
-            throw new rex_api_exception(sprintf('Current user ("%s") must be admin to impersonate another user.', $user->getLogin()));
+            throw new ApiException(sprintf('Current user ("%s") must be admin to impersonate another user.', $user->getLogin()));
         }
 
         Core::getProperty('login')->impersonate((int) $impersonate);
