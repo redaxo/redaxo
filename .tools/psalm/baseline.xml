@@ -1026,19 +1026,6 @@
       <code><![CDATA[self::$data]]></code>
     </PropertyTypeCoercion>
   </file>
-  <file src="redaxo/src/core/lib/config_db.php">
-    <MixedAssignment>
-      <code><![CDATA[$this->host]]></code>
-      <code><![CDATA[$this->login]]></code>
-      <code><![CDATA[$this->name]]></code>
-      <code><![CDATA[$this->password]]></code>
-      <code><![CDATA[$this->persistent]]></code>
-      <code><![CDATA[$this->sslCa]]></code>
-      <code><![CDATA[$this->sslCert]]></code>
-      <code><![CDATA[$this->sslKey]]></code>
-      <code><![CDATA[$this->sslVerifyServerCert]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/context.php">
     <InvalidArgument>
       <code><![CDATA[$_GET]]></code>
@@ -1057,12 +1044,6 @@
       <code><![CDATA[rex_escape($valVal)]]></code>
       <code><![CDATA[rex_escape($value)]]></code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/csrf_token.php">
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[array<string, string>]]></code>
-      <code><![CDATA[rex_session(self::getSessionKey(), 'array')]]></code>
-    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/error_handler.php">
     <InvalidScalarArgument>
@@ -1187,182 +1168,6 @@
     <MixedAssignment>
       <code><![CDATA[$impersonate]]></code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/login/backend_login.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$password]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[Core::getProperty('session_duration')]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[[
-            'expires' => strtotime(rex_user_session::STAY_LOGGED_IN_DURATION . ' months'),
-            'secure' => $sessionConfig['secure'] ?? false,
-            'samesite' => $sessionConfig['samesite'] ?? 'lax',
-        ]]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]]]></code>
-      <code><![CDATA[$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]]]></code>
-      <code><![CDATA[$sessionConfig['samesite']]]></code>
-      <code><![CDATA[$sessionConfig['secure']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$sessionConfig]]></code>
-    </MixedAssignment>
-    <PossiblyInvalidArrayOffset>
-      <code><![CDATA[$_SESSION[static::getSessionNamespace()]]]></code>
-    </PossiblyInvalidArrayOffset>
-    <PossiblyNullArgument>
-      <code><![CDATA[$this->userPassword]]></code>
-      <code><![CDATA[Core::getProperty('session_duration')]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/login/backend_password_policy.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$previousPasswords]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[$previousPasswords]]></code>
-    </MixedArgument>
-    <MixedArrayAssignment>
-      <code><![CDATA[$previousPasswords[]]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$previousPasswords]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/login/complex_perm.php">
-    <MixedAssignment>
-      <code><![CDATA[$this->perms]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/login/login.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId]]]></code>
-      <code><![CDATA[$sessionConfig[$key]]]></code>
-      <code><![CDATA[$sessionConfig[$key]['cookie']]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId]]]></code>
-      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId]]]></code>
-      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId][$varname]]]></code>
-    </MixedArrayAssignment>
-    <MixedArrayOffset>
-      <code><![CDATA[$cookieParams[$name]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code><![CDATA[$cookieParams[$name]]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$rexSessId]]></code>
-      <code><![CDATA[$sessionConfig]]></code>
-      <code><![CDATA[$this->sessionMaxOverallDuration]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedReturnStatement>
-      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId][$varname] ?? $default]]></code>
-    </MixedReturnStatement>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[$cookieParams]]></code>
-      <code><![CDATA[array{lifetime: ?int, path: ?string, domain: ?string, secure: ?bool, httponly: ?bool, samesite: ?string}]]></code>
-    </MixedReturnTypeCoercion>
-    <PossiblyInvalidArrayOffset>
-      <code><![CDATA[$_SESSION[static::getSessionNamespace()]]]></code>
-    </PossiblyInvalidArrayOffset>
-    <PossiblyNullArgument>
-      <code><![CDATA[$this->userPassword]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/login/password_policy.php">
-    <PossiblyNullArgument>
-      <code><![CDATA[$this->getDescription()]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/login/user.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$role]]></code>
-    </ArgumentTypeCoercion>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->sql->getValue($key)]]></code>
-      <code><![CDATA[$this->sql->getValue('email')]]></code>
-      <code><![CDATA[$this->sql->getValue('language')]]></code>
-      <code><![CDATA[$this->sql->getValue('login')]]></code>
-      <code><![CDATA[$this->sql->getValue('name')]]></code>
-      <code><![CDATA[$this->sql->getValue('startpage')]]></code>
-    </LessSpecificReturnStatement>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$complexPerm ? $complexPerm->$method() : false]]></code>
-      <code><![CDATA[$complexPerm ? $complexPerm->$method() : false]]></code>
-    </MixedReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string|null]]></code>
-      <code><![CDATA[string|null]]></code>
-    </MoreSpecificReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->sql->getValue($key)]]></code>
-      <code><![CDATA[$this->sql->getValue('email')]]></code>
-      <code><![CDATA[$this->sql->getValue('login')]]></code>
-      <code><![CDATA[$this->sql->getValue('name')]]></code>
-    </NullableReturnStatement>
-    <PossiblyNullReference>
-      <code><![CDATA[getComplexPerm]]></code>
-      <code><![CDATA[hasPerm]]></code>
-    </PossiblyNullReference>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$method]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/core/lib/login/user_role.php">
-    <MixedArgument>
-      <code><![CDATA[$perms[$key]]]></code>
-      <code><![CDATA[$role[$key]]]></code>
-      <code><![CDATA[$role[$key]]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$roles]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayOffset>
-      <code><![CDATA[$perms[$key]]]></code>
-      <code><![CDATA[$perms[$key]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$roles[]]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$params['item']]]></code>
-      <code><![CDATA[$params['new']]]></code>
-    </MixedOperand>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$this->complexPermParams]]></code>
-      <code><![CDATA[$this->complexPermParams]]></code>
-      <code><![CDATA[$this->complexPermParams]]></code>
-    </MixedPropertyTypeCoercion>
-    <ParamNameMismatch>
-      <code><![CDATA[$ids]]></code>
-    </ParamNameMismatch>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$role[$key]]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="redaxo/src/core/lib/login/user_session.php">
-    <InvalidArgument>
-      <code><![CDATA[['cookie_key' => $cookieKey]]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="redaxo/src/core/lib/login/webauthn.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[[$data->id, $id]]]></code>
-    </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/mediapool/media_category_select.php">
     <MixedAssignment>
@@ -2486,19 +2291,6 @@
       <code><![CDATA[$ep->getSubject()]]></code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/tests/login/password_policy_test.php">
-    <MixedArgument>
-      <code><![CDATA[$rule]]></code>
-      <code><![CDATA[$rule]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$options]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$rule]]></code>
-      <code><![CDATA[$rule]]></code>
-    </MixedAssignment>
-  </file>
   <file src="src/Addon/Addon.php">
     <MixedArgument>
       <code><![CDATA[$value]]></code>
@@ -3309,7 +3101,7 @@
       <code><![CDATA[self::$properties[$key]]]></code>
     </MixedAssignment>
     <MixedInferredReturnType>
-      <code><![CDATA[?rex_user]]></code>
+      <code><![CDATA[?User]]></code>
       <code><![CDATA[Request]]></code>
       <code><![CDATA[int]]></code>
     </MixedInferredReturnType>
@@ -3459,6 +3251,19 @@
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$post]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Database/Configuration.php">
+    <MixedAssignment>
+      <code><![CDATA[$this->host]]></code>
+      <code><![CDATA[$this->login]]></code>
+      <code><![CDATA[$this->name]]></code>
+      <code><![CDATA[$this->password]]></code>
+      <code><![CDATA[$this->persistent]]></code>
+      <code><![CDATA[$this->sslCa]]></code>
+      <code><![CDATA[$this->sslCert]]></code>
+      <code><![CDATA[$this->sslKey]]></code>
+      <code><![CDATA[$this->sslVerifyServerCert]]></code>
     </MixedAssignment>
   </file>
   <file src="src/Database/SchemaDumper.php">
@@ -4501,6 +4306,188 @@
       <code><![CDATA[$this->getParsedArg('suffix')]]></code>
     </PossiblyNullOperand>
   </file>
+  <file src="src/Security/BackendLogin.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$password]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[Core::getProperty('session_duration')]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[
+            'expires' => strtotime(UserSession::STAY_LOGGED_IN_DURATION . ' months'),
+            'secure' => $sessionConfig['secure'] ?? false,
+            'samesite' => $sessionConfig['samesite'] ?? 'lax',
+        ]]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess>
+      <code><![CDATA[$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]]]></code>
+      <code><![CDATA[$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]]]></code>
+      <code><![CDATA[$sessionConfig['samesite']]]></code>
+      <code><![CDATA[$sessionConfig['secure']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$sessionConfig]]></code>
+    </MixedAssignment>
+    <PossiblyInvalidArrayOffset>
+      <code><![CDATA[$_SESSION[static::getSessionNamespace()]]]></code>
+    </PossiblyInvalidArrayOffset>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->userPassword]]></code>
+      <code><![CDATA[Core::getProperty('session_duration')]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Security/BackendPasswordPolicy.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$previousPasswords]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$previousPasswords]]></code>
+    </MixedArgument>
+    <MixedArrayAssignment>
+      <code><![CDATA[$previousPasswords[]]]></code>
+    </MixedArrayAssignment>
+    <MixedAssignment>
+      <code><![CDATA[$previousPasswords]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Security/ComplexPermission.php">
+    <MixedAssignment>
+      <code><![CDATA[$this->perms]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Security/CsrfToken.php">
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[array<string, string>]]></code>
+      <code><![CDATA[rex_session(self::getSessionKey(), 'array')]]></code>
+    </MixedReturnTypeCoercion>
+  </file>
+  <file src="src/Security/Login.php">
+    <MixedArrayAccess>
+      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId]]]></code>
+      <code><![CDATA[$sessionConfig[$key]]]></code>
+      <code><![CDATA[$sessionConfig[$key]['cookie']]]></code>
+    </MixedArrayAccess>
+    <MixedArrayAssignment>
+      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId]]]></code>
+      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId]]]></code>
+      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId][$varname]]]></code>
+    </MixedArrayAssignment>
+    <MixedArrayOffset>
+      <code><![CDATA[$cookieParams[$name]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code><![CDATA[$cookieParams[$name]]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$rexSessId]]></code>
+      <code><![CDATA[$sessionConfig]]></code>
+      <code><![CDATA[$this->sessionMaxOverallDuration]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedReturnStatement>
+      <code><![CDATA[$_SESSION[static::getSessionNamespace()][$this->systemId][$varname] ?? $default]]></code>
+    </MixedReturnStatement>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$cookieParams]]></code>
+      <code><![CDATA[array{lifetime: ?int, path: ?string, domain: ?string, secure: ?bool, httponly: ?bool, samesite: ?string}]]></code>
+    </MixedReturnTypeCoercion>
+    <PossiblyInvalidArrayOffset>
+      <code><![CDATA[$_SESSION[static::getSessionNamespace()]]]></code>
+    </PossiblyInvalidArrayOffset>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->userPassword]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Security/PasswordPolicy.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->getDescription()]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Security/User.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$role]]></code>
+    </ArgumentTypeCoercion>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->sql->getValue($key)]]></code>
+      <code><![CDATA[$this->sql->getValue('email')]]></code>
+      <code><![CDATA[$this->sql->getValue('language')]]></code>
+      <code><![CDATA[$this->sql->getValue('login')]]></code>
+      <code><![CDATA[$this->sql->getValue('name')]]></code>
+      <code><![CDATA[$this->sql->getValue('startpage')]]></code>
+    </LessSpecificReturnStatement>
+    <MixedInferredReturnType>
+      <code><![CDATA[bool]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$complexPerm ? $complexPerm->$method() : false]]></code>
+      <code><![CDATA[$complexPerm ? $complexPerm->$method() : false]]></code>
+    </MixedReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[string]]></code>
+      <code><![CDATA[string]]></code>
+      <code><![CDATA[string]]></code>
+      <code><![CDATA[string]]></code>
+      <code><![CDATA[string|null]]></code>
+      <code><![CDATA[string|null]]></code>
+    </MoreSpecificReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->sql->getValue($key)]]></code>
+      <code><![CDATA[$this->sql->getValue('email')]]></code>
+      <code><![CDATA[$this->sql->getValue('login')]]></code>
+      <code><![CDATA[$this->sql->getValue('name')]]></code>
+    </NullableReturnStatement>
+    <PossiblyNullReference>
+      <code><![CDATA[getComplexPerm]]></code>
+      <code><![CDATA[hasPerm]]></code>
+    </PossiblyNullReference>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$method]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Security/UserRole.php">
+    <MixedArgument>
+      <code><![CDATA[$perms[$key]]]></code>
+      <code><![CDATA[$role[$key]]]></code>
+      <code><![CDATA[$role[$key]]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$roles]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayOffset>
+      <code><![CDATA[$perms[$key]]]></code>
+      <code><![CDATA[$perms[$key]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$roles[]]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$params['item']]]></code>
+      <code><![CDATA[$params['new']]]></code>
+    </MixedOperand>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$this->complexPermParams]]></code>
+      <code><![CDATA[$this->complexPermParams]]></code>
+      <code><![CDATA[$this->complexPermParams]]></code>
+    </MixedPropertyTypeCoercion>
+    <ParamNameMismatch>
+      <code><![CDATA[$ids]]></code>
+    </ParamNameMismatch>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$role[$key]]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Security/UserSession.php">
+    <InvalidArgument>
+      <code><![CDATA[['cookie_key' => $cookieKey]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Security/WebAuthn.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[$data->id, $id]]]></code>
+    </MixedArgumentTypeCoercion>
+  </file>
   <file src="src/Translation/I18n.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$args]]></code>
@@ -4740,6 +4727,19 @@
       <code><![CDATA[$params['suffix']]]></code>
       <code><![CDATA[$params['var']]]></code>
     </MixedArgument>
+  </file>
+  <file src="tests/Security/PasswordPolicyTest.php">
+    <MixedArgument>
+      <code><![CDATA[$rule]]></code>
+      <code><![CDATA[$rule]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$options]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$rule]]></code>
+      <code><![CDATA[$rule]]></code>
+    </MixedAssignment>
   </file>
   <file src="tests/Util/FormatterTest.php">
     <MixedArrayAccess>

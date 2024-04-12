@@ -1,11 +1,18 @@
 <?php
 
+namespace Redaxo\Core\Security;
+
+use DateInterval;
+use DateTimeImmutable;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
+use SensitiveParameter;
 
-class rex_backend_password_policy extends rex_password_policy
+use function count;
+
+class BackendPasswordPolicy extends PasswordPolicy
 {
     use FactoryTrait;
 
@@ -80,7 +87,7 @@ class rex_backend_password_policy extends rex_password_policy
             return true;
         }
 
-        $user = rex_user::require($id);
+        $user = User::require($id);
         $previousPasswords = $user->getValue('previous_passwords');
 
         if (!$previousPasswords) {
@@ -92,7 +99,7 @@ class rex_backend_password_policy extends rex_password_policy
         $previousPasswords = $this->cleanUpPreviousPasswords($previousPasswords);
 
         foreach ($previousPasswords as $previousPassword) {
-            if (rex_backend_login::passwordVerify($password, $previousPassword[0], true)) {
+            if (BackendLogin::passwordVerify($password, $previousPassword[0], true)) {
                 return I18n::msg('password_already_used');
             }
         }
@@ -115,7 +122,7 @@ class rex_backend_password_policy extends rex_password_policy
      *
      * @return list<array{string, int}>
      */
-    public function updatePreviousPasswords(?rex_user $user, #[SensitiveParameter] string $password): array
+    public function updatePreviousPasswords(?User $user, #[SensitiveParameter] string $password): array
     {
         if (!isset($this->noReuseOfLast) && !isset($this->noReuseWithin)) {
             return [];

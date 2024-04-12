@@ -1,8 +1,12 @@
 <?php
 
-use Redaxo\Core\Translation\I18n;
+namespace Redaxo\Core\Security;
 
-class rex_password_policy
+use Redaxo\Core\Translation\I18n;
+use rex_exception;
+use SensitiveParameter;
+
+class PasswordPolicy
 {
     /**
      * @param array<string, array{min?: int, max?: int}> $options

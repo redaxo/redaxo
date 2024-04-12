@@ -11,6 +11,10 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\Security\BackendLogin;
+use Redaxo\Core\Security\CsrfToken;
+use Redaxo\Core\Security\Login;
+use Redaxo\Core\Security\Permission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 
@@ -91,7 +95,7 @@ if (Core::isSetup()) {
     I18n::setLocale(Core::getProperty('lang'));
 
     // ---- prepare login
-    $login = new rex_backend_login();
+    $login = new BackendLogin();
     Core::setProperty('login', $login);
 
     $passkey = rex_post('rex_user_passkey', 'string', null);
@@ -99,10 +103,10 @@ if (Core::isSetup()) {
     $rexUserPsw = rex_post('rex_user_psw', 'string');
     $rexUserStayLoggedIn = rex_post('rex_user_stay_logged_in', 'boolean', false);
 
-    if (rex_get('rex_logout', 'boolean') && rex_csrf_token::factory('backend_logout')->isValid()) {
+    if (rex_get('rex_logout', 'boolean') && CsrfToken::factory('backend_logout')->isValid()) {
         $login->setLogout(true);
         $login->checkLogin();
-        rex_csrf_token::removeAll();
+        CsrfToken::removeAll();
 
         $userAgent = rex_server('HTTP_USER_AGENT');
         $advertisedChrome = preg_match('/(Chrome|CriOS)\//i', $userAgent);
@@ -126,7 +130,7 @@ if (Core::isSetup()) {
 
     $rexUserLoginmessage = '';
 
-    if (($rexUserLogin || $passkey) && !rex_csrf_token::factory('backend_login')->isValid()) {
+    if (($rexUserLogin || $passkey) && !CsrfToken::factory('backend_login')->isValid()) {
         $loginCheck = I18n::msg('csrf_token_invalid');
     } else {
         // the server side encryption of pw is only required
@@ -220,7 +224,7 @@ rex_view::addJsFile(Url::coreAssets('js/mediapool.js'), [rex_view::JS_IMMUTABLE]
 rex_view::setJsProperty('backend', true);
 rex_view::setJsProperty('accesskeys', Core::getProperty('use_accesskeys'));
 rex_view::setJsProperty('session_keep_alive', Core::getProperty('session_keep_alive', 0));
-rex_view::setJsProperty('cookie_params', rex_login::getCookieParams());
+rex_view::setJsProperty('cookie_params', Login::getCookieParams());
 rex_view::setJsProperty('imageExtensions', Core::getProperty('image_extensions'));
 
 rex_view::addCssFile(Url::coreAssets('css/styles.css'));
@@ -540,30 +544,30 @@ if ('content' == Controller::getCurrentPagePart(1)) {
     rex_view::addJsFile(Url::coreAssets('js/metainfo.js'));
 }
 
-rex_perm::register('users[]');
+Permission::register('users[]');
 
-rex_perm::register('addArticle[]', null, rex_perm::OPTIONS);
-rex_perm::register('addCategory[]', null, rex_perm::OPTIONS);
-rex_perm::register('editArticle[]', null, rex_perm::OPTIONS);
-rex_perm::register('editCategory[]', null, rex_perm::OPTIONS);
-rex_perm::register('deleteArticle[]', null, rex_perm::OPTIONS);
-rex_perm::register('deleteCategory[]', null, rex_perm::OPTIONS);
-rex_perm::register('moveArticle[]', null, rex_perm::OPTIONS);
-rex_perm::register('moveCategory[]', null, rex_perm::OPTIONS);
-rex_perm::register('copyArticle[]', null, rex_perm::OPTIONS);
-rex_perm::register('copyContent[]', null, rex_perm::OPTIONS);
-rex_perm::register('publishArticle[]', null, rex_perm::OPTIONS);
-rex_perm::register('publishCategory[]', null, rex_perm::OPTIONS);
-rex_perm::register('article2startarticle[]', null, rex_perm::OPTIONS);
-rex_perm::register('article2category[]', null, rex_perm::OPTIONS);
-rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
-rex_perm::register('publishSlice[]', null, rex_perm::OPTIONS);
+Permission::register('addArticle[]', null, Permission::OPTIONS);
+Permission::register('addCategory[]', null, Permission::OPTIONS);
+Permission::register('editArticle[]', null, Permission::OPTIONS);
+Permission::register('editCategory[]', null, Permission::OPTIONS);
+Permission::register('deleteArticle[]', null, Permission::OPTIONS);
+Permission::register('deleteCategory[]', null, Permission::OPTIONS);
+Permission::register('moveArticle[]', null, Permission::OPTIONS);
+Permission::register('moveCategory[]', null, Permission::OPTIONS);
+Permission::register('copyArticle[]', null, Permission::OPTIONS);
+Permission::register('copyContent[]', null, Permission::OPTIONS);
+Permission::register('publishArticle[]', null, Permission::OPTIONS);
+Permission::register('publishCategory[]', null, Permission::OPTIONS);
+Permission::register('article2startarticle[]', null, Permission::OPTIONS);
+Permission::register('article2category[]', null, Permission::OPTIONS);
+Permission::register('moveSlice[]', null, Permission::OPTIONS);
+Permission::register('publishSlice[]', null, Permission::OPTIONS);
 
 if (Core::getConfig('article_history', false)) {
-    rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
+    Permission::register('history[article_rollback]', null, Permission::OPTIONS);
 }
 if (Core::getConfig('article_work_version', false)) {
-    rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
+    Permission::register('version[live_version]', null, Permission::OPTIONS);
 }
 
 // Metainfo

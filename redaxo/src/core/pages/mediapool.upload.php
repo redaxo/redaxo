@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MediaPool\MediaHandler;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
@@ -17,7 +18,7 @@ if (!$PERMALL && !Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(
 }
 
 $mediaMethod = rex_request('media_method', 'string');
-$csrf = rex_csrf_token::factory('mediapool');
+$csrf = CsrfToken::factory('mediapool');
 
 if ('add_file' == $mediaMethod) {
     if (!$csrf->isValid()) {

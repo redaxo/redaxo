@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Database\Sql;
-use rex_backend_login;
-use rex_login;
+use Redaxo\Core\Security\BackendLogin;
+use Redaxo\Core\Security\Login;
 use SensitiveParameter;
 
 use const PASSWORD_DEFAULT;
@@ -12,7 +12,7 @@ use const PASSWORD_DEFAULT;
 /**
  * @internal
  */
-class HistoryLogin extends rex_backend_login
+class HistoryLogin extends BackendLogin
 {
     /**
      * @return bool
@@ -25,9 +25,9 @@ class HistoryLogin extends rex_backend_login
         if (1 == $userSql->getRows()) {
             if (self::verifySessionKey($historyLogin . $userSql->getValue('session_id') . $historyValidtime, $historySession)) {
                 $this->user = $userSql;
-                $this->setSessionVar(rex_login::SESSION_LAST_ACTIVITY, time());
-                $this->setSessionVar(rex_login::SESSION_USER_ID, $this->user->getValue($this->idColumn));
-                $this->setSessionVar(rex_login::SESSION_PASSWORD, $this->user->getValue($this->passwordColumn));
+                $this->setSessionVar(Login::SESSION_LAST_ACTIVITY, time());
+                $this->setSessionVar(Login::SESSION_USER_ID, $this->user->getValue($this->idColumn));
+                $this->setSessionVar(Login::SESSION_PASSWORD, $this->user->getValue($this->passwordColumn));
                 return parent::checkLogin();
             }
         }

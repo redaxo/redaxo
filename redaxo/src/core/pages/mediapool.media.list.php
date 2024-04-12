@@ -9,6 +9,7 @@ use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\MediaPool\MediaPoolCache;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
@@ -19,7 +20,7 @@ assert(isset($argFields) && is_string($argFields));
 assert(isset($toolbar) && is_string($toolbar));
 assert(isset($rexFileCategoryName) && is_string($rexFileCategoryName));
 /** @psalm-suppress RedundantCondition */
-assert(isset($csrf) && $csrf instanceof rex_csrf_token);
+assert(isset($csrf) && $csrf instanceof CsrfToken);
 
 // defaults for globals passed in from index.php
 if (!isset($success)) {

@@ -5,11 +5,11 @@ namespace Redaxo\Core\Console\Command;
 use Override;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use rex_backend_login;
-use rex_backend_password_policy;
+use Redaxo\Core\Security\BackendLogin;
+use Redaxo\Core\Security\BackendPasswordPolicy;
+use Redaxo\Core\Security\User;
 use rex_extension;
 use rex_extension_point;
-use rex_user;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -52,10 +52,10 @@ class UserSetPasswordCommand extends AbstractCommand
             throw new InvalidArgumentException(sprintf('User "%s" does not exist.', $username));
         }
 
-        $user = rex_user::fromSql($user);
+        $user = User::fromSql($user);
         $id = $user->getId();
 
-        $passwordPolicy = rex_backend_password_policy::factory();
+        $passwordPolicy = BackendPasswordPolicy::factory();
 
         $password = $input->getArgument('password');
 
@@ -80,7 +80,7 @@ class UserSetPasswordCommand extends AbstractCommand
             throw new InvalidArgumentException('Missing password.');
         }
 
-        $passwordHash = rex_backend_login::passwordHash($password);
+        $passwordHash = BackendLogin::passwordHash($password);
 
         Sql::factory()
             ->setTable(Core::getTable('user'))

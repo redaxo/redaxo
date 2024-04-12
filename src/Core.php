@@ -4,17 +4,17 @@ namespace Redaxo\Core;
 
 use InvalidArgumentException;
 use Redaxo\Core\Console\Application;
+use Redaxo\Core\Database\Configuration;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Security\BackendLogin;
+use Redaxo\Core\Security\User;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Validator\Validator;
-use rex_backend_login;
 use rex_config;
-use rex_config_db;
 use rex_exception;
 use rex_setup;
-use rex_user;
 use Symfony\Component\HttpFoundation\Request;
 
 use function constant;
@@ -157,7 +157,7 @@ final class Core
      *
      * @return mixed The value for $key or $default if $key cannot be found
      * @psalm-return (
-     *      $key is 'login' ? rex_backend_login|null :
+     *      $key is 'login' ? BackendLogin|null :
      *      ($key is 'live_mode' ? bool :
      *      ($key is 'safe_mode' ? bool :
      *      ($key is 'debug' ? array{enabled: bool, throw_always_exception: bool|int} :
@@ -187,7 +187,7 @@ final class Core
      *      ($key is 'setup_addons' ? non-empty-string[] :
      *      mixed|null
      *      )))))))))))))))))))))))))))
-     *  )
+     * )
      */
     public static function getProperty(string $key, mixed $default = null): mixed
     {
@@ -355,7 +355,7 @@ final class Core
     /**
      * Returns the current user.
      */
-    public static function getUser(): ?rex_user
+    public static function getUser(): ?User
     {
         return self::getProperty('user');
     }
@@ -365,11 +365,11 @@ final class Core
      *
      * In contrast to `getUser`, this method throw a `rex_exception` if the user does not exist.
      */
-    public static function requireUser(): rex_user
+    public static function requireUser(): User
     {
         $user = self::getProperty('user');
 
-        if (!$user instanceof rex_user) {
+        if (!$user instanceof User) {
             throw new rex_exception('User object does not exist');
         }
 
@@ -379,7 +379,7 @@ final class Core
     /**
      * Returns the current impersonator user.
      */
-    public static function getImpersonator(): ?rex_user
+    public static function getImpersonator(): ?User
     {
         $login = self::$properties['login'] ?? null;
 
@@ -410,7 +410,7 @@ final class Core
      *
      * @throws rex_exception
      */
-    public static function getDbConfig(int $db = 1): rex_config_db
+    public static function getDbConfig(int $db = 1): Configuration
     {
         $config = self::getProperty('db', null);
 
@@ -420,7 +420,7 @@ final class Core
             throw new rex_exception('Unable to read db config from config.yml "' . $configFile . '"');
         }
 
-        return new rex_config_db($config[$db]);
+        return new Configuration($config[$db]);
     }
 
     /**

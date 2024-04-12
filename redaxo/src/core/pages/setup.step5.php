@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 
@@ -54,7 +55,7 @@ $n['label'] = '<label for="rex-form-redaxo-user-login" class="required">' . I18n
 $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($redaxoUserLogin) . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" maxlength="255" inputmode="email" autocorrect="off" autocapitalize="off" autofocus />';
 $formElements[] = $n;
 
-$passwordPolicy = rex_backend_password_policy::factory();
+$passwordPolicy = BackendPasswordPolicy::factory();
 $n = [];
 $n['label'] = '<label for="rex-form-redaxo-user-pass" class="required">' . I18n::msg('setup_508') . '</label>';
 $n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" autocomplete="new-password" autocorrect="off" autocapitalize="off" ' . Str::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
