@@ -151,11 +151,6 @@ parameters:
 			path: ../../redaxo/src/core/functions/function_structure_rex_url.php
 
 		-
-			message: "#^Method rex_config_db\\:\\:__construct\\(\\) has parameter \\$dbConfig with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/config_db.php
-
-		-
 			message: "#^Method rex_context\\:\\:array2inputStr\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/context.php
@@ -1019,6 +1014,11 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\Cronjob\\\\Form\\\\IntervalField\\:\\:\\$intervalElements type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Cronjob/Form/IntervalField.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Configuration\\:\\:__construct\\(\\) has parameter \\$dbConfig with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Configuration.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:createConnection\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
