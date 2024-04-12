@@ -11,7 +11,7 @@ use Redaxo\Core\RexVar\RexVar;
  *   - id
  *   - field
  */
-class Language extends RexVar
+class LanguageVar extends RexVar
 {
     protected function getOutput()
     {

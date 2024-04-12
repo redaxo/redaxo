@@ -12,7 +12,7 @@ use Redaxo\Core\Core;
  *   - key
  *   - namespace
  */
-class Property extends RexVar
+class PropertyVar extends RexVar
 {
     protected function getOutput()
     {

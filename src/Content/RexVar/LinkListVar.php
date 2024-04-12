@@ -18,7 +18,7 @@ use function in_array;
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen der Linkmap gesprungen werden soll
  */
-class LinkList extends RexVar
+class LinkListVar extends RexVar
 {
     protected function getOutput()
     {

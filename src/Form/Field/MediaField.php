@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Form\AbstractForm;
-use Redaxo\Core\MediaPool\RexVar\Media;
-use Redaxo\Core\MediaPool\RexVar\MediaList;
+use Redaxo\Core\MediaPool\RexVar\MediaVar;
+use Redaxo\Core\MediaPool\RexVar\MediaListVar;
 
 class MediaField extends BaseField
 {

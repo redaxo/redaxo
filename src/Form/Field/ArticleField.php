@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Form\Field;
 
-use Redaxo\Core\Content\RexVar\Link;
-use Redaxo\Core\Content\RexVar\LinkList;
+use Redaxo\Core\Content\RexVar\LinkVar;
+use Redaxo\Core\Content\RexVar\LinkListVar;
 use Redaxo\Core\Form\AbstractForm;
 
 class ArticleField extends BaseField
@@ -48,9 +48,9 @@ class ArticleField extends BaseField
         static $widgetCounter = 1;
 
         if ($this->multiple) {
-            $html = LinkList::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), ['category' => $this->categoryId]);
+            $html = LinkListVar::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), ['category' => $this->categoryId]);
         } else {
-            $html = Link::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), ['category' => $this->categoryId]);
+            $html = LinkVar::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), ['category' => $this->categoryId]);
         }
 
         ++$widgetCounter;

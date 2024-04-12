@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Content\RexVar;
 
 use Redaxo\Core\Content\ArticleContentBase;
-use Redaxo\Core\Content\Template as BaseTemplate;
+use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Util\Stream;
@@ -12,7 +12,7 @@ use Redaxo\Core\Util\Timer;
 /**
  * REX_TEMPLATE[2].
  */
-class Template extends RexVar
+class TemplateVar extends RexVar
 {
     protected function getOutput()
     {
@@ -20,7 +20,7 @@ class Template extends RexVar
         $templateKey = $this->getArg('key', null, true);
 
         if (0 === $templateId && $templateKey) {
-            $template = BaseTemplate::forKey($templateKey);
+            $template = Template::forKey($templateKey);
 
             if ($template) {
                 $templateId = $template->getId();
@@ -46,7 +46,7 @@ class Template extends RexVar
     {
         ob_start(); // will be closed in getTemplateOutput()
 
-        $tmpl = new BaseTemplate($id);
+        $tmpl = new Template($id);
         $tmpl = $tmpl->getTemplate();
         if ($article) {
             $tmpl = $article->replaceCommonVars($tmpl, $id);
@@ -66,7 +66,7 @@ class Template extends RexVar
     {
         if ($timer && Core::isDebugMode()) {
             $timer->stop();
-            $tmpl = new BaseTemplate($id);
+            $tmpl = new Template($id);
             Timer::measured('Template: ' . ($tmpl->getKey() ?? $tmpl->getId()), $timer);
         }
 

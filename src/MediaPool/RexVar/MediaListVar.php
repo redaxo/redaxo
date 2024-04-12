@@ -17,7 +17,7 @@ use function in_array;
  *   - types     => Filter für Dateiendungen die im Medienpool zur Auswahl stehen sollen
  *   - preview   => Bei Bildertypen ein Vorschaubild einblenden
  */
-class MediaList extends RexVar
+class MediaListVar extends RexVar
 {
     protected function getOutput()
     {

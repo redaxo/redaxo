@@ -9,7 +9,7 @@ use Redaxo\Core\Core;
 /**
  * @internal
  */
-final class PropertyTest extends RexVarTestBase
+final class PropertyVarTest extends RexVarTestBase
 {
     protected function setUp(): void
     {

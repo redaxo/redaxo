@@ -9,7 +9,7 @@ use function in_array;
 /**
  * REX_VALUE[1],.
  */
-class Value extends RexVar
+class ValueVar extends RexVar
 {
     protected function getOutput()
     {
