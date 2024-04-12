@@ -5,6 +5,7 @@ namespace Redaxo\Core\Security\Api;
 use Redaxo\Core\Api\ApiException;
 use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Core;
+use rex_request;
 use rex_response;
 
 /**
