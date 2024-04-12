@@ -4,6 +4,7 @@ namespace Redaxo\Core;
 
 use InvalidArgumentException;
 use Redaxo\Core\Console\Application;
+use Redaxo\Core\Database\Configuration;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
@@ -11,7 +12,6 @@ use Redaxo\Core\Util\Type;
 use Redaxo\Core\Validator\Validator;
 use rex_backend_login;
 use rex_config;
-use rex_config_db;
 use rex_exception;
 use rex_setup;
 use rex_user;
@@ -410,7 +410,7 @@ final class Core
      *
      * @throws rex_exception
      */
-    public static function getDbConfig(int $db = 1): rex_config_db
+    public static function getDbConfig(int $db = 1): Configuration
     {
         $config = self::getProperty('db', null);
 
@@ -420,7 +420,7 @@ final class Core
             throw new rex_exception('Unable to read db config from config.yml "' . $configFile . '"');
         }
 
-        return new rex_config_db($config[$db]);
+        return new Configuration($config[$db]);
     }
 
     /**

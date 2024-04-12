@@ -1,9 +1,11 @@
 <?php
 
+namespace Redaxo\Core\Database;
+
 /**
  * @psalm-readonly
  */
-final class rex_config_db
+final class Configuration
 {
     /** @var string */
     public $host;
