@@ -67,9 +67,9 @@ class MediaField extends BaseField
         static $widgetCounter = 1;
 
         if ($this->multiple) {
-            $html = MediaList::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
+            $html = MediaListVar::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
         } else {
-            $html = Media::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
+            $html = MediaVar::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
         }
 
         ++$widgetCounter;
