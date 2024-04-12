@@ -156,7 +156,38 @@ final class Core
      * @param mixed $default Default value, will be returned if the property isn't set
      *
      * @return mixed The value for $key or $default if $key cannot be found
-     * @psalm-return ($key is login ? (BackendLogin | null) : ($key is live_mode ? bool : ($key is safe_mode ? bool : ($key is debug ? array{enabled: bool, throw_always_exception: (bool | int)} : ($key is lang_fallback ? string[] : ($key is use_accesskeys ? bool : ($key is accesskeys ? array<string, string> : ($key is editor ? (string | null) : ($key is editor_basepath ? (string | null) : ($key is timer ? Timer : ($key is timezone ? string : ($key is table_prefix ? non-empty-string : ($key is temp_prefix ? non-empty-string : ($key is version ? string : ($key is server ? string : ($key is servername ? string : ($key is error_email ? string : ($key is lang ? non-empty-string : ($key is instname ? non-empty-string : ($key is theme ? string : ($key is start_page ? non-empty-string : ($key is http_client_proxy ? (non-empty-string | null) : ($key is password_policy ? array<string, scalar> : ($key is backend_login_policy ? array<string, (bool | int)> : ($key is db ? array<int, string[]> : ($key is setup ? (bool | array<string, int>) : ($key is system_addons ? non-empty-string[] : ($key is setup_addons ? non-empty-string[] : (mixed | null)))))))))))))))))))))))))))))
+     * @psalm-return (
+     *      $key is 'login' ? BackendLogin|null :
+     *      ($key is 'live_mode' ? bool :
+     *      ($key is 'safe_mode' ? bool :
+     *      ($key is 'debug' ? array{enabled: bool, throw_always_exception: bool|int} :
+     *      ($key is 'lang_fallback' ? string[] :
+     *      ($key is 'use_accesskeys' ? bool :
+     *      ($key is 'accesskeys' ? array<string, string> :
+     *      ($key is 'editor' ? string|null :
+     *      ($key is 'editor_basepath' ? string|null :
+     *      ($key is 'timer' ? Timer :
+     *      ($key is 'timezone' ? string :
+     *      ($key is 'table_prefix' ? non-empty-string :
+     *      ($key is 'temp_prefix' ? non-empty-string :
+     *      ($key is 'version' ? string :
+     *      ($key is 'server' ? string :
+     *      ($key is 'servername' ? string :
+     *      ($key is 'error_email' ? string :
+     *      ($key is 'lang' ? non-empty-string :
+     *      ($key is 'instname' ? non-empty-string :
+     *      ($key is 'theme' ? string :
+     *      ($key is 'start_page' ? non-empty-string :
+     *      ($key is 'http_client_proxy' ? non-empty-string|null :
+     *      ($key is 'password_policy' ? array<string, scalar> :
+     *      ($key is 'backend_login_policy' ? array<string, bool|int> :
+     *      ($key is 'db' ? array<int, string[]> :
+     *      ($key is 'setup' ? bool|array<string, int> :
+     *      ($key is 'system_addons' ? non-empty-string[] :
+     *      ($key is 'setup_addons' ? non-empty-string[] :
+     *      mixed|null
+     *      )))))))))))))))))))))))))))
+     * )
      */
     public static function getProperty(string $key, mixed $default = null): mixed
     {
