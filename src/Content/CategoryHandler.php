@@ -26,7 +26,7 @@ class CategoryHandler
      * @param int $categoryId KategorieId in der die neue Kategorie erstellt werden soll
      * @param array $data Array mit den Daten der Kategorie
      *
-     * @throws rex_api_exception
+     * @throws ApiException
      *
      * @return string Eine Statusmeldung
      */
@@ -152,7 +152,7 @@ class CategoryHandler
      * @param int $clang Id der Sprache
      * @param array $data Array mit den Daten der Kategorie
      *
-     * @throws rex_api_exception
+     * @throws ApiException
      *
      * @return string Eine Statusmeldung
      */
@@ -253,7 +253,7 @@ class CategoryHandler
      *
      * @param int $categoryId Id der Kategorie die gelöscht werden soll
      *
-     * @throws rex_api_exception
+     * @throws ApiException
      *
      * @return string Eine Statusmeldung
      */
@@ -318,7 +318,7 @@ class CategoryHandler
      * @param int $clang Id der Sprache
      * @param int|null $status Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
-     * @throws rex_api_exception
+     * @throws ApiException
      *
      * @return int Der neue Status der Kategorie
      */
@@ -566,7 +566,7 @@ class CategoryHandler
      * @param array $array The array
      * @param string $keyName The key
      *
-     * @throws rex_api_exception
+     * @throws ApiException
      * @return void
      */
     protected static function reqKey(array $array, $keyName)

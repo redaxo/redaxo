@@ -21,7 +21,7 @@ use function function_exists;
 class ContentHandler
 {
     /**
-     * @throws rex_api_exception
+     * @throws ApiException
      */
     public static function addSlice(int $articleId, int $clangId, int $ctypeId, int $moduleId, array $data = []): string
     {
@@ -93,7 +93,7 @@ class ContentHandler
      * @param string $direction Richtung in die verschoben werden soll
      *
      * @throws rex_exception
-     * @throws rex_api_exception
+     * @throws ApiException
      *
      * @return string Eine Statusmeldung
      */

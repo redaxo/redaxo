@@ -22,7 +22,7 @@ class ArticleHandler
      *
      * @param array $data Array mit den Daten des Artikels
      *
-     * @throws rex_api_exception
+     * @throws ApiException
      *
      * @return string Eine Statusmeldung
      */
@@ -118,7 +118,7 @@ class ArticleHandler
      * @param int $clang Id der Sprache
      * @param array $data Array mit den Daten des Artikels
      *
-     * @throws rex_api_exception
+     * @throws ApiException
      *
      * @return string Eine Statusmeldung
      */
@@ -210,7 +210,7 @@ class ArticleHandler
      *
      * @param int $articleId Id des Artikels die gelöscht werden soll
      *
-     * @throws rex_api_exception
+     * @throws ApiException
      *
      * @return string Eine Statusmeldung
      */
@@ -253,7 +253,7 @@ class ArticleHandler
      *
      * @param int $id ArtikelId des Artikels, der gelöscht werden soll
      *
-     * @throws rex_api_exception
+     * @throws ApiException
      *
      * @return string Eine Statusmeldung
      */
@@ -326,7 +326,7 @@ class ArticleHandler
      * @param int $clang Id der Sprache
      * @param int|null $status Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
-     * @throws rex_api_exception
+     * @throws ApiException
      *
      * @return int Der neue Status des Artikels
      */
@@ -902,7 +902,7 @@ class ArticleHandler
      * @param array $array The array
      * @param string $keyName The key
      *
-     * @throws rex_api_exception
+     * @throws ApiException
      * @return void
      */
     protected static function reqKey($array, $keyName)
