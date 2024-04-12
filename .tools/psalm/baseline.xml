@@ -978,20 +978,6 @@
       <code><![CDATA[$params]]></code>
     </MixedArgumentTypeCoercion>
   </file>
-  <file src="redaxo/src/core/lib/api_function.php">
-    <MixedAssignment>
-      <code><![CDATA[$json]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[new $apiClass()]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[rex_get(self::REQ_CALL_PARAM)]]></code>
-    </MixedOperand>
-    <PossiblyNullOperand>
-      <code><![CDATA[$message]]></code>
-    </PossiblyNullOperand>
-  </file>
   <file src="redaxo/src/core/lib/be_style/scss_compiler.php">
     <MixedOperand>
       <code><![CDATA[$path]]></code>
@@ -1408,11 +1394,6 @@
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/metainfo/handler/api_default_fields.php">
-    <MixedAssignment>
-      <code><![CDATA[$return]]></code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/phpmailer/system_setting_phpmailer_errormail.php">
     <MixedArgument>
@@ -2738,6 +2719,22 @@
     <MixedReturnStatement>
       <code><![CDATA[$default]]></code>
     </MixedReturnStatement>
+  </file>
+  <file src="src/Api/ApiFunction.php">
+    <MixedMethodCall>
+      <code><![CDATA[new $apiClass()]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[rex_get(self::REQ_CALL_PARAM)]]></code>
+    </MixedOperand>
+    <PossiblyNullOperand>
+      <code><![CDATA[$message]]></code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="src/Api/ApiResult.php">
+    <MixedAssignment>
+      <code><![CDATA[$json]]></code>
+    </MixedAssignment>
   </file>
   <file src="src/Backend/Controller.php">
     <ArgumentTypeCoercion>
@@ -4221,6 +4218,11 @@
     <NullableReturnStatement>
       <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
     </NullableReturnStatement>
+  </file>
+  <file src="src/MetaInfo/Api/CreateDefaultFields.php">
+    <MixedAssignment>
+      <code><![CDATA[$return]]></code>
+    </MixedAssignment>
   </file>
   <file src="src/MetaInfo/Form/Field/RestrictionField.php">
     <PossiblyNullOperand>
