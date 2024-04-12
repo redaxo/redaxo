@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Language\RexVar;
 
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\RexVar\RexVar;
 
 /**
@@ -23,6 +24,6 @@ class LanguageVar extends RexVar
         $id = $this->getParsedArg('id');
         $getMethod = $id ? 'get(' . $id . ')' : 'getCurrent()';
 
-        return 'htmlspecialchars(\\Redaxo\\Core\\Language\\Language::' . $getMethod . '->getValue(' . $field . '))';
+        return 'htmlspecialchars(\\' . Language::class . '::' . $getMethod . '->getValue(' . $field . '))';
     }
 }
