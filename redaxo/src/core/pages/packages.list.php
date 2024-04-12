@@ -2,7 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
-use Redaxo\Core\Addon\Api\Addon as ApiAddon;
+use Redaxo\Core\Addon\Api\AddonApi;
 use Redaxo\Core\Api\ApiFunction;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
@@ -44,7 +44,7 @@ $getLink = static function (Addon $package, $function, $icon = '', $confirm = fa
     $url = Url::currentBackendPage([
         'package' => $package->getPackageId(),
         'function' => $function,
-    ] + ApiAddon::getUrlParams());
+    ] + AddonApi::getUrlParams());
 
     $icon = ('' != $icon) ? '<i class="rex-icon ' . $icon . '"></i>' : '';
     return '<a class="rex-link-expanded" href="' . $url . '"' . $onclick . ' data-pjax="false">' . $icon . ' ' . $text . '</a>';
