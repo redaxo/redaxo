@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\MediaPool;
 
+use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
-use rex_media_category_select;
 
 use function count;
 use function in_array;
@@ -33,7 +33,7 @@ class MediaPoolPermission extends ComplexPermission
         return [
             'label' => I18n::msg('mediafolder'),
             'all_label' => I18n::msg('all_mediafolder'),
-            'select' => new rex_media_category_select(false),
+            'select' => new MediaCategorySelect(false),
         ];
     }
 }

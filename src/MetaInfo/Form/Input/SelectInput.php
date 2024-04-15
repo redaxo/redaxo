@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
-use rex_select;
+use Redaxo\Core\Form\Select\Select;
 
 /**
  * @internal
@@ -11,13 +11,13 @@ use rex_select;
  */
 class SelectInput extends AbstractInput
 {
-    private rex_select $select;
+    private Select $select;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->select = new rex_select();
+        $this->select = new Select();
         $this->setAttribute('class', 'form-control selectpicker');
     }
 
@@ -41,7 +41,7 @@ class SelectInput extends AbstractInput
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getSelect()
     {

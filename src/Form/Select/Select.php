@@ -1,9 +1,17 @@
 <?php
 
+namespace Redaxo\Core\Form\Select;
+
+use PDO;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use rex_exception;
 
-class rex_select
+use function count;
+use function in_array;
+use function is_array;
+
+class Select
 {
     /** @var array<string, int|string> */
     private array $attributes = [];
@@ -385,7 +393,7 @@ class rex_select
     {
         if ($level > 100) {
             // nur mal so zu sicherheit .. man weiss nie ;)
-            throw new rex_exception('rex_select->outGroup overflow');
+            throw new rex_exception('Select->outGroup overflow');
         }
 
         $ausgabe = '';

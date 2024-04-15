@@ -1,12 +1,17 @@
 <?php
 
+namespace Redaxo\Core\Form\Select;
+
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
+use rex_sql_exception;
 
-class rex_template_select extends rex_select
+use function count;
+
+class TemplateSelect extends Select
 {
     /** @var bool */
     private $loaded = false;

@@ -3,8 +3,8 @@
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
 use InvalidArgumentException;
+use Redaxo\Core\Form\Select\Select;
 use rex_exception;
-use rex_select;
 
 use function is_array;
 
@@ -18,15 +18,15 @@ class DateInput extends AbstractInput
     private ?int $startYear = null;
     private ?int $endYear = null;
 
-    private rex_select $yearSelect;
-    private rex_select $monthSelect;
-    private rex_select $daySelect;
+    private Select $yearSelect;
+    private Select $monthSelect;
+    private Select $daySelect;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->yearSelect = new rex_select();
+        $this->yearSelect = new Select();
         $this->yearSelect->setAttribute('class', 'rex-form-select-year selectpicker');
         $this->yearSelect->setAttribute('data-width', 'fit');
         $this->yearSelect->setSize(1);
@@ -37,13 +37,13 @@ class DateInput extends AbstractInput
             }, range($start, $end));
         };
 
-        $this->monthSelect = new rex_select();
+        $this->monthSelect = new Select();
         $this->monthSelect->addOptions($range(1, 12), true);
         $this->monthSelect->setAttribute('class', 'rex-form-select-date selectpicker');
         $this->monthSelect->setAttribute('data-width', 'fit');
         $this->monthSelect->setSize(1);
 
-        $this->daySelect = new rex_select();
+        $this->daySelect = new Select();
         $this->daySelect->addOptions($range(1, 31), true);
         $this->daySelect->setAttribute('class', 'rex-form-select-date selectpicker');
         $this->daySelect->setAttribute('data-width', 'fit');
@@ -107,7 +107,7 @@ class DateInput extends AbstractInput
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getDaySelect()
     {
@@ -115,7 +115,7 @@ class DateInput extends AbstractInput
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getMonthSelect()
     {
@@ -123,7 +123,7 @@ class DateInput extends AbstractInput
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getYearSelect()
     {

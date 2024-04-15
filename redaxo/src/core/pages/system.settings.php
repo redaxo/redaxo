@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\BaseField;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
@@ -138,7 +139,7 @@ if ($func && !$csrfToken->isValid()) {
     }
 }
 
-$selLang = new rex_select();
+$selLang = new Select();
 $selLang->setStyle('class="form-control"');
 $selLang->setName('settings[lang]');
 $selLang->setId('rex-id-lang');
@@ -345,7 +346,7 @@ if ($viaCookie) {
 
 $formElements = [];
 
-$selEditor = new rex_select();
+$selEditor = new Select();
 $selEditor->setStyle('class="form-control"');
 $selEditor->setName('editor[name]');
 $selEditor->setId('rex-id-editor');

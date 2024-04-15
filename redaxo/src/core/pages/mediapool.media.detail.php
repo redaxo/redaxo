@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaCategory;
@@ -210,7 +211,7 @@ $sidebar = rex_extension::registerPoint(new rex_extension_point('MEDIA_DETAIL_SI
 if ($TPERM) {
     $panel = '';
 
-    $catsSel = new rex_media_category_select();
+    $catsSel = new MediaCategorySelect();
     $catsSel->setStyle('class="form-control"');
     $catsSel->setSize(1);
     $catsSel->setName('rex_file_category');
