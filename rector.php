@@ -267,6 +267,7 @@ return RectorConfig::configure()
         'rex_string' => Util\Str::class,
         'rex_timer' => Util\Timer::class,
         'rex_type' => Util\Type::class,
+        'rex_var_dumper' => Util\VarDumper::class,
         'rex_factory_trait' => Base\FactoryTrait::class,
         'rex_instance_list_pool_trait' => Base\InstanceListPoolTrait::class,
         'rex_instance_pool_trait' => Base\InstancePoolTrait::class,
