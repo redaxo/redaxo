@@ -1169,11 +1169,6 @@
       <code><![CDATA[$impersonate]]></code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/lib/mediapool/media_category_select.php">
-    <MixedAssignment>
-      <code><![CDATA[$this->checkPerms]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/mediapool/var_media.php">
     <MixedArgument>
       <code><![CDATA[$avalue]]></code>
@@ -1289,25 +1284,6 @@
       <code><![CDATA[$path]]></code>
     </RedundantCondition>
   </file>
-  <file src="redaxo/src/core/lib/select.php">
-    <MixedArgument>
-      <code><![CDATA[$option[0]]]></code>
-      <code><![CDATA[$option[0]]]></code>
-      <code><![CDATA[$option[0]]]></code>
-      <code><![CDATA[$option[0]]]></code>
-      <code><![CDATA[$option[1]]]></code>
-      <code><![CDATA[$option[1]]]></code>
-      <code><![CDATA[$option[1]]]></code>
-      <code><![CDATA[$option[2]]]></code>
-      <code><![CDATA[$option[3]]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$attributes]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$option]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
     <MixedArgument>
       <code><![CDATA[$config['db'][1]['host']]]></code>
@@ -1361,39 +1337,6 @@
     <PossiblyNullReference>
       <code><![CDATA[getCategoryId]]></code>
     </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/event_select.php">
-    <MixedArgument>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$options]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/select_template.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$selected]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidArrayOffset>
-      <code><![CDATA[$templates[$selected]]]></code>
-      <code><![CDATA[$templates[$selected]]]></code>
-    </InvalidArrayOffset>
-    <MixedArgument>
-      <code><![CDATA[$templateName]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$templateName]]></code>
-    </MixedAssignment>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$this->templates]]></code>
-    </MixedPropertyTypeCoercion>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[$this->templates]]></code>
-      <code><![CDATA[array<int, string>]]></code>
-    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/structure/content/var_template.php">
     <PossiblyFalseArgument>
@@ -1484,20 +1427,6 @@
     <PropertyTypeCoercion>
       <code><![CDATA[$this->callbacks]]></code>
     </PropertyTypeCoercion>
-  </file>
-  <file src="redaxo/src/core/lib/structure/select_category.php">
-    <MixedArgument>
-      <code><![CDATA[$group]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$this->addHomepage]]></code>
-      <code><![CDATA[$this->checkPerms]]></code>
-      <code><![CDATA[$this->clang]]></code>
-      <code><![CDATA[$this->ignoreOfflines]]></code>
-    </MixedAssignment>
-    <RedundantCondition>
-      <code><![CDATA[$this->checkPerms]]></code>
-    </RedundantCondition>
   </file>
   <file src="redaxo/src/core/lib/structure/system_setting_article_id.php">
     <MixedArgument>
@@ -3638,6 +3567,77 @@
       <code><![CDATA[$this->languageSupport['id']]]></code>
       <code><![CDATA[$this->languageSupport['id']]]></code>
     </MixedArgument>
+  </file>
+  <file src="src/Form/Select/ActionEventSelect.php">
+    <MixedArgument>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$options]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Form/Select/CategorySelect.php">
+    <MixedArgument>
+      <code><![CDATA[$group]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$this->addHomepage]]></code>
+      <code><![CDATA[$this->checkPerms]]></code>
+      <code><![CDATA[$this->clang]]></code>
+      <code><![CDATA[$this->ignoreOfflines]]></code>
+    </MixedAssignment>
+    <RedundantCondition>
+      <code><![CDATA[$this->checkPerms]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="src/Form/Select/MediaCategorySelect.php">
+    <MixedAssignment>
+      <code><![CDATA[$this->checkPerms]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Form/Select/Select.php">
+    <MixedArgument>
+      <code><![CDATA[$option[0]]]></code>
+      <code><![CDATA[$option[0]]]></code>
+      <code><![CDATA[$option[0]]]></code>
+      <code><![CDATA[$option[0]]]></code>
+      <code><![CDATA[$option[1]]]></code>
+      <code><![CDATA[$option[1]]]></code>
+      <code><![CDATA[$option[1]]]></code>
+      <code><![CDATA[$option[2]]]></code>
+      <code><![CDATA[$option[3]]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$attributes]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$option]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Form/Select/TemplateSelect.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$selected]]></code>
+    </ArgumentTypeCoercion>
+    <InvalidArrayOffset>
+      <code><![CDATA[$templates[$selected]]]></code>
+      <code><![CDATA[$templates[$selected]]]></code>
+    </InvalidArrayOffset>
+    <MixedArgument>
+      <code><![CDATA[$templateName]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$templateName]]></code>
+    </MixedAssignment>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$this->templates]]></code>
+    </MixedPropertyTypeCoercion>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$this->templates]]></code>
+      <code><![CDATA[array<int, string>]]></code>
+    </MixedReturnTypeCoercion>
   </file>
   <file src="src/Language/Language.php">
     <MixedArrayAccess>

@@ -286,11 +286,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/api_user_impersonate.php
 
 		-
-			message: "#^Method rex_media_category_select\\:\\:__construct\\(\\) has parameter \\$checkPerms with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/mediapool/media_category_select.php
-
-		-
 			message: "#^Method rex_var_media\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/mediapool/var_media.php
@@ -341,19 +336,9 @@ parameters:
 			path: ../../redaxo/src/core/lib/response.php
 
 		-
-			message: "#^Method rex_select\\:\\:addOptions\\(\\) has parameter \\$options with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_setup\\:\\:checkDb\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/setup/setup.php
-
-		-
-			message: "#^Method rex_event_select\\:\\:__construct\\(\\) has parameter \\$options with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/event_select.php
 
 		-
 			message: "#^Method rex_extension_point_slice_menu\\:\\:addAdditionalActions\\(\\) has parameter \\$additionalActions with no value type specified in iterable type array\\.$#"
@@ -414,36 +399,6 @@ parameters:
 			message: "#^Property rex_navigation\\:\\:\\$callbacks type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/navigation.php
-
-		-
-			message: "#^Method rex_category_select\\:\\:__construct\\(\\) has parameter \\$addHomepage with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/select_category.php
-
-		-
-			message: "#^Method rex_category_select\\:\\:__construct\\(\\) has parameter \\$checkPerms with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/select_category.php
-
-		-
-			message: "#^Method rex_category_select\\:\\:__construct\\(\\) has parameter \\$clang with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/select_category.php
-
-		-
-			message: "#^Method rex_category_select\\:\\:__construct\\(\\) has parameter \\$ignoreOfflines with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/select_category.php
-
-		-
-			message: "#^Method rex_category_select\\:\\:addCatOption\\(\\) has parameter \\$group with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/select_category.php
-
-		-
-			message: "#^Right side of && is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/select_category.php
 
 		-
 			message: "#^Method rex_var_article\\:\\:getArticle\\(\\) has parameter \\$clang with no type specified\\.$#"
@@ -1144,6 +1099,51 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\Form\\\\Form\\:\\:\\$languageSupport type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Form/Form.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Select\\\\ActionEventSelect\\:\\:__construct\\(\\) has parameter \\$options with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Select/ActionEventSelect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Select\\\\CategorySelect\\:\\:__construct\\(\\) has parameter \\$addHomepage with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Select/CategorySelect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Select\\\\CategorySelect\\:\\:__construct\\(\\) has parameter \\$checkPerms with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Select/CategorySelect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Select\\\\CategorySelect\\:\\:__construct\\(\\) has parameter \\$clang with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Select/CategorySelect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Select\\\\CategorySelect\\:\\:__construct\\(\\) has parameter \\$ignoreOfflines with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Select/CategorySelect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Select\\\\CategorySelect\\:\\:addCatOption\\(\\) has parameter \\$group with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Select/CategorySelect.php
+
+		-
+			message: "#^Right side of && is always false\\.$#"
+			count: 1
+			path: ../../src/Form/Select/CategorySelect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Select\\\\MediaCategorySelect\\:\\:__construct\\(\\) has parameter \\$checkPerms with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Select/MediaCategorySelect.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Select\\\\Select\\:\\:addOptions\\(\\) has parameter \\$options with no type specified\\.$#"
+			count: 1
+			path: ../../src/Form/Select/Select.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Language\\\\LanguagePermission\\:\\:getClangs\\(\\) return type has no value type specified in iterable type array\\.$#"
