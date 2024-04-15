@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Url;
@@ -46,7 +47,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
         echo rex_view::warning($warning);
     }
 
-    rex_config::set('core', $settings);
+    Config::set('core', $settings);
 
     if ('' != rex_post('btn_check', 'string')) {
         if (false == Validator::factory()->email($settings['phpmailer_from']) || false == Validator::factory()->email($settings['phpmailer_test_address'])) {

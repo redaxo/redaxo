@@ -4,7 +4,7 @@ namespace Redaxo\Core;
 
 use InvalidArgumentException;
 use Redaxo\Core\Console\Application;
-use Redaxo\Core\Database\Configuration;
+use Redaxo\Core\Database\Configuration as DatabaseConfiguration;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\User;
@@ -12,7 +12,6 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Validator\Validator;
-use rex_config;
 use rex_exception;
 use rex_setup;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +40,7 @@ final class Core
     private function __construct() {}
 
     /**
-     * @see rex_config::set()
+     * @see Config::set()
      *
      * @param string|array<string, mixed> $key The associated key or an associative array of key/value pairs
      * @param mixed $value The value to save
@@ -49,11 +48,11 @@ final class Core
      */
     public static function setConfig(string|array $key, mixed $value = null): bool
     {
-        return rex_config::set(self::CONFIG_NAMESPACE, $key, $value);
+        return Config::set(self::CONFIG_NAMESPACE, $key, $value);
     }
 
     /**
-     * @see rex_config::get()
+     * @see Config::get()
      *
      * @template T as ?string
      * @param T $key The associated key
@@ -63,29 +62,29 @@ final class Core
      */
     public static function getConfig(?string $key = null, mixed $default = null): mixed
     {
-        return rex_config::get(self::CONFIG_NAMESPACE, $key, $default);
+        return Config::get(self::CONFIG_NAMESPACE, $key, $default);
     }
 
     /**
-     * @see rex_config::has()
+     * @see Config::has()
      *
      * @param string $key The associated key
      * @return bool TRUE if the key is set, otherwise FALSE
      */
     public static function hasConfig(string $key): bool
     {
-        return rex_config::has(self::CONFIG_NAMESPACE, $key);
+        return Config::has(self::CONFIG_NAMESPACE, $key);
     }
 
     /**
-     * @see rex_config::remove()
+     * @see Config::remove()
      *
      * @param string $key The associated key
      * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function removeConfig(string $key): bool
     {
-        return rex_config::remove(self::CONFIG_NAMESPACE, $key);
+        return Config::remove(self::CONFIG_NAMESPACE, $key);
     }
 
     /**
@@ -410,7 +409,7 @@ final class Core
      *
      * @throws rex_exception
      */
-    public static function getDbConfig(int $db = 1): Configuration
+    public static function getDbConfig(int $db = 1): DatabaseConfiguration
     {
         $config = self::getProperty('db', null);
 
@@ -420,7 +419,7 @@ final class Core
             throw new rex_exception('Unable to read db config from config.yml "' . $configFile . '"');
         }
 
-        return new Configuration($config[$db]);
+        return new DatabaseConfiguration($config[$db]);
     }
 
     /**

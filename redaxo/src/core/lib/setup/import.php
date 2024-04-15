@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
@@ -186,7 +187,7 @@ class rex_setup_importer
         }
 
         // Reload config from imported data
-        rex_config::refresh();
+        Config::refresh();
 
         return $errMsg;
     }
@@ -241,7 +242,7 @@ class rex_setup_importer
 
         // force to save config at this point
         // otherwise it would be saved in shutdown function and maybe would replace config changes made by db import in between
-        rex_config::save();
+        Config::save();
 
         return $addonErr;
     }
@@ -276,7 +277,7 @@ class rex_setup_importer
 
         // force to save config at this point
         // otherwise it would be saved in shutdown function and maybe would replace config changes made by db import in between
-        rex_config::save();
+        Config::save();
 
         return $error;
     }
