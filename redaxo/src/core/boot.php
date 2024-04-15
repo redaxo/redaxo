@@ -21,6 +21,7 @@ use Redaxo\Core\Security\User;
 use Redaxo\Core\Security\UserRole;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
+use Redaxo\Core\Util\VarDumper;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -132,7 +133,7 @@ if ('cli' !== PHP_SAPI) {
 }
 
 rex_error_handler::register();
-rex_var_dumper::register();
+VarDumper::register();
 
 // ----------------- REX PERMS
 
