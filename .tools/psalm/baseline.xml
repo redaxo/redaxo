@@ -997,35 +997,6 @@
       <code><![CDATA[$path]]></code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/lib/config.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$cfg->getValue('value')]]></code>
-    </ArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$v]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[self::$changedData[$namespace][$key]]]></code>
-      <code><![CDATA[self::$data[$cfg->getValue('namespace')][$cfg->getValue('key')]]]></code>
-      <code><![CDATA[self::$data[$namespace][$key]]]></code>
-    </MixedAssignment>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[File::getCache(self::$cacheFile)]]></code>
-    </MixedPropertyTypeCoercion>
-    <MixedReturnStatement>
-      <code><![CDATA[self::$data[$namespace][$key] ?? $default]]></code>
-    </MixedReturnStatement>
-    <PossiblyNullArgument>
-      <code><![CDATA[$cfg->getValue('value')]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullArrayOffset>
-      <code><![CDATA[self::$data]]></code>
-      <code><![CDATA[self::$data[$cfg->getValue('namespace')]]]></code>
-    </PossiblyNullArrayOffset>
-    <PropertyTypeCoercion>
-      <code><![CDATA[self::$data]]></code>
-    </PropertyTypeCoercion>
-  </file>
   <file src="redaxo/src/core/lib/context.php">
     <InvalidArgument>
       <code><![CDATA[$_GET]]></code>
@@ -1216,10 +1187,10 @@
   </file>
   <file src="redaxo/src/core/lib/phpmailer/system_setting_phpmailer_errormail.php">
     <MixedArgument>
-      <code><![CDATA[rex_config::get('phpmailer', 'errormail', 1)]]></code>
+      <code><![CDATA[Config::get('phpmailer', 'errormail', 1)]]></code>
     </MixedArgument>
     <PossiblyNullArgument>
-      <code><![CDATA[rex_config::get('phpmailer', 'errormail', 1)]]></code>
+      <code><![CDATA[Config::get('phpmailer', 'errormail', 1)]]></code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/request.php">
@@ -2496,6 +2467,35 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$href]]></code>
     </MixedArgumentTypeCoercion>
+  </file>
+  <file src="src/Config.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$cfg->getValue('value')]]></code>
+    </ArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[self::$changedData[$namespace][$key]]]></code>
+      <code><![CDATA[self::$data[$cfg->getValue('namespace')][$cfg->getValue('key')]]]></code>
+      <code><![CDATA[self::$data[$namespace][$key]]]></code>
+    </MixedAssignment>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[File::getCache(self::$cacheFile)]]></code>
+    </MixedPropertyTypeCoercion>
+    <MixedReturnStatement>
+      <code><![CDATA[self::$data[$namespace][$key] ?? $default]]></code>
+    </MixedReturnStatement>
+    <PossiblyNullArgument>
+      <code><![CDATA[$cfg->getValue('value')]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayOffset>
+      <code><![CDATA[self::$data]]></code>
+      <code><![CDATA[self::$data[$cfg->getValue('namespace')]]]></code>
+    </PossiblyNullArrayOffset>
+    <PropertyTypeCoercion>
+      <code><![CDATA[self::$data]]></code>
+    </PropertyTypeCoercion>
   </file>
   <file src="src/Console/Application.php">
     <PossiblyNullReference>

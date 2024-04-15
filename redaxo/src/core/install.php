@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Column;
 use Redaxo\Core\Database\ForeignKey;
@@ -483,7 +484,7 @@ $defaultConfig = [
     'phpmailer_detour_mode' => false,
 ];
 
-rex_config::refresh();
+Config::refresh();
 foreach ($defaultConfig as $key => $value) {
     if (!Core::hasConfig($key)) {
         Core::setConfig($key, $value);

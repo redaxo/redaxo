@@ -4,6 +4,7 @@ namespace Redaxo\Core\Addon;
 
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Base\FactoryTrait;
+use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Dir;
@@ -14,7 +15,6 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Version;
-use rex_config;
 use rex_functional_exception;
 use rex_sql_exception;
 use rex_yaml_parse_exception;
@@ -220,7 +220,7 @@ class AddonManager
             // clear cache of addon
             $this->addon->clearCache();
 
-            rex_config::removeNamespace($this->addon->getPackageId());
+            Config::removeNamespace($this->addon->getPackageId());
 
             static::saveConfig();
             $this->message = $this->i18n('uninstalled', $this->addon->getName());

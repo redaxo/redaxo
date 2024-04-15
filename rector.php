@@ -41,6 +41,7 @@ use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Addon;
 use Redaxo\Core\Backend;
 use Redaxo\Core\Base;
+use Redaxo\Core\Config;
 use Redaxo\Core\Console;
 use Redaxo\Core\Content;
 use Redaxo\Core\Core;
@@ -163,6 +164,7 @@ return RectorConfig::configure()
         'rex_command_only_setup_packages' => Console\Command\OnlySetupAddonsInterface::class,
         'rex_command_standalone' => Console\Command\StandaloneInterface::class,
         'rex_cronjob_form' => Cronjob\Form\CronjobForm::class,
+        'rex_config' => Config::class,
         'rex_config_db' => Database\Configuration::class,
         'rex_cronjob_form_interval_element' => Cronjob\Form\IntervalField::class,
         'rex_cronjob' => Cronjob\Type\AbstractType::class,

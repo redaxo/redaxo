@@ -54,7 +54,7 @@ interface AddonInterface
     public function getCachePath(string $file = ''): string;
 
     /**
-     * @see rex_config::set()
+     * @see Config::set()
      * @param string|array<string, mixed> $key The associated key or an associative array of key/value pairs
      * @param mixed $value The value to save
      * @return bool TRUE when an existing value was overridden, otherwise FALSE
@@ -62,7 +62,7 @@ interface AddonInterface
     public function setConfig(string|array $key, mixed $value = null): bool;
 
     /**
-     * @see rex_config::get()
+     * @see Config::get()
      *
      * @template T as ?string
      * @param T $key The associated key
@@ -73,13 +73,13 @@ interface AddonInterface
     public function getConfig(?string $key = null, mixed $default = null): mixed;
 
     /**
-     * @see rex_config::has()
+     * @see Config::has()
      * @param string|null $key The associated key
      */
     public function hasConfig(?string $key = null): bool;
 
     /**
-     * @see rex_config::remove()
+     * @see Config::remove()
      * @param string $key The associated key
      */
     public function removeConfig(string $key): bool;

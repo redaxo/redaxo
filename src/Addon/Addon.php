@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Addon;
 
 use Override;
+use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -11,7 +12,6 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
-use rex_config;
 use rex_exception;
 use rex_extension;
 use rex_extension_point_package_cache_deleted;
@@ -164,25 +164,25 @@ final class Addon implements AddonInterface
     #[Override]
     public function setConfig(string|array $key, mixed $value = null): bool
     {
-        return rex_config::set($this->name, $key, $value);
+        return Config::set($this->name, $key, $value);
     }
 
     #[Override]
     public function getConfig(?string $key = null, mixed $default = null): mixed
     {
-        return rex_config::get($this->name, $key, $default);
+        return Config::get($this->name, $key, $default);
     }
 
     #[Override]
     public function hasConfig(?string $key = null): bool
     {
-        return rex_config::has($this->name, $key);
+        return Config::has($this->name, $key);
     }
 
     #[Override]
     public function removeConfig(string $key): bool
     {
-        return rex_config::remove($this->name, $key);
+        return Config::remove($this->name, $key);
     }
 
     #[Override]

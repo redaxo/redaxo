@@ -3,14 +3,14 @@
 namespace Redaxo\Core\Form;
 
 use Redaxo\Core\Base\FactoryTrait;
+use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
-use rex_config;
 
 use function is_string;
 
 /**
- * Create forms for rex_config data.
+ * Create forms for Config data.
  */
 class ConfigForm extends AbstractForm
 {
@@ -20,7 +20,7 @@ class ConfigForm extends AbstractForm
     private $namespace;
 
     /**
-     * @param string $namespace `rex_config` namespace, usually the package key
+     * @param string $namespace `Config` namespace, usually the package key
      */
     protected function __construct(string $namespace, ?string $fieldset = null, bool $debug = false)
     {
@@ -35,7 +35,7 @@ class ConfigForm extends AbstractForm
     }
 
     /**
-     * @param string $namespace `rex_config` namespace, usually the package key
+     * @param string $namespace `Config` namespace, usually the package key
      */
     public static function factory(string $namespace, ?string $fieldset = null, bool $debug = false): static
     {
@@ -56,7 +56,7 @@ class ConfigForm extends AbstractForm
 
     protected function getValue($name)
     {
-        return rex_config::get($this->namespace, $name);
+        return Config::get($this->namespace, $name);
     }
 
     protected function save()
@@ -75,7 +75,7 @@ class ConfigForm extends AbstractForm
                     $fieldValue = trim($fieldValue);
                 }
 
-                rex_config::set($this->namespace, $fieldName, $fieldValue);
+                Config::set($this->namespace, $fieldName, $fieldValue);
             }
         }
 
