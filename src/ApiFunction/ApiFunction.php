@@ -1,33 +1,33 @@
 <?php
 
-namespace Redaxo\Core\Api;
+namespace Redaxo\Core\ApiFunction;
 
 use BadMethodCallException;
-use Redaxo\Core\Addon\Api\AddonApi;
+use Redaxo\Core\Addon\ApiFunction\Addon;
 use Redaxo\Core\Base\FactoryTrait;
-use Redaxo\Core\Content\Api\ArticleAddApi;
-use Redaxo\Core\Content\Api\ArticleCopyApi;
-use Redaxo\Core\Content\Api\ArticleDeleteApi;
-use Redaxo\Core\Content\Api\ArticleEditApi;
-use Redaxo\Core\Content\Api\ArticleMoveApi;
-use Redaxo\Core\Content\Api\ArticleSliceMoveApi;
-use Redaxo\Core\Content\Api\ArticleSliceStatusApi;
-use Redaxo\Core\Content\Api\ArticleStatusApi;
-use Redaxo\Core\Content\Api\ArticleToCategoryApi;
-use Redaxo\Core\Content\Api\ArticleToStartArticleApi;
-use Redaxo\Core\Content\Api\CategoryAddApi;
-use Redaxo\Core\Content\Api\CategoryDeleteApi;
-use Redaxo\Core\Content\Api\CategoryEditApi;
-use Redaxo\Core\Content\Api\CategoryMoveApi;
-use Redaxo\Core\Content\Api\CategoryStatusApi;
-use Redaxo\Core\Content\Api\CategoryToArticleApi;
-use Redaxo\Core\Content\Api\ContentCopyApi;
+use Redaxo\Core\Content\ApiFunction\ArticleAdd;
+use Redaxo\Core\Content\ApiFunction\ArticleCopy;
+use Redaxo\Core\Content\ApiFunction\ArticleDelete;
+use Redaxo\Core\Content\ApiFunction\ArticleEdit;
+use Redaxo\Core\Content\ApiFunction\ArticleMove;
+use Redaxo\Core\Content\ApiFunction\ArticleSliceMove;
+use Redaxo\Core\Content\ApiFunction\ArticleSliceStatus;
+use Redaxo\Core\Content\ApiFunction\ArticleStatus;
+use Redaxo\Core\Content\ApiFunction\ArticleToCategory;
+use Redaxo\Core\Content\ApiFunction\ArticleToStartArticle;
+use Redaxo\Core\Content\ApiFunction\CategoryAdd;
+use Redaxo\Core\Content\ApiFunction\CategoryDelete;
+use Redaxo\Core\Content\ApiFunction\CategoryEdit;
+use Redaxo\Core\Content\ApiFunction\CategoryMove;
+use Redaxo\Core\Content\ApiFunction\CategoryStatus;
+use Redaxo\Core\Content\ApiFunction\CategoryToArticle;
+use Redaxo\Core\Content\ApiFunction\ContentCopy;
 use Redaxo\Core\Core;
-use Redaxo\Core\MetaInfo\Api\DefaultFieldsCreate;
-use Redaxo\Core\Security\Api\UserHasSessionApi;
-use Redaxo\Core\Security\Api\UserImpersonateApi;
-use Redaxo\Core\Security\Api\UserRemoveAuthMethodApi;
-use Redaxo\Core\Security\Api\UserRemoveSessionApi;
+use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
+use Redaxo\Core\Security\ApiFunction\UserHasSession;
+use Redaxo\Core\Security\ApiFunction\UserImpersonate;
+use Redaxo\Core\Security\ApiFunction\UserRemoveAuthMethod;
+use Redaxo\Core\Security\ApiFunction\UserRemoveSession;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use rex_context;
@@ -71,7 +71,7 @@ abstract class ApiFunction
     /**
      * The result of the function call.
      *
-     * @var ApiResult|null
+     * @var ApiFunctionResult|null
      */
     protected $result;
 
@@ -82,28 +82,28 @@ abstract class ApiFunction
      */
     private static $functions = [
         'metainfo_default_fields_create' => DefaultFieldsCreate::class,
-        'package' => AddonApi::class,
-        'article2category' => ArticleToCategoryApi::class,
-        'article2startarticle' => ArticleToStartArticleApi::class,
-        'article_add' => ArticleAddApi::class,
-        'article_copy' => ArticleCopyApi::class,
-        'article_delete' => ArticleDeleteApi::class,
-        'article_edit' => ArticleEditApi::class,
-        'article_move' => ArticleMoveApi::class,
-        'article_status' => ArticleStatusApi::class,
-        'category2article' => CategoryToArticleApi::class,
-        'category_add' => CategoryAddApi::class,
-        'category_delete' => CategoryDeleteApi::class,
-        'category_edit' => CategoryEditApi::class,
-        'category_move' => CategoryMoveApi::class,
-        'category_status' => CategoryStatusApi::class,
-        'content_copy' => ContentCopyApi::class,
-        'content_move_slice' => ArticleSliceMoveApi::class,
-        'content_slice_status' => ArticleSliceStatusApi::class,
-        'user_has_session' => UserHasSessionApi::class,
-        'user_impersonate' => UserImpersonateApi::class,
-        'user_remove_auth_method' => UserRemoveAuthMethodApi::class,
-        'user_remove_session' => UserRemoveSessionApi::class,
+        'package' => Addon::class,
+        'article2category' => ArticleToCategory::class,
+        'article2startarticle' => ArticleToStartArticle::class,
+        'article_add' => ArticleAdd::class,
+        'article_copy' => ArticleCopy::class,
+        'article_delete' => ArticleDelete::class,
+        'article_edit' => ArticleEdit::class,
+        'article_move' => ArticleMove::class,
+        'article_status' => ArticleStatus::class,
+        'category2article' => CategoryToArticle::class,
+        'category_add' => CategoryAdd::class,
+        'category_delete' => CategoryDelete::class,
+        'category_edit' => CategoryEdit::class,
+        'category_move' => CategoryMove::class,
+        'category_status' => CategoryStatus::class,
+        'content_copy' => ContentCopy::class,
+        'content_move_slice' => ArticleSliceMove::class,
+        'content_slice_status' => ArticleSliceStatus::class,
+        'user_has_session' => UserHasSession::class,
+        'user_impersonate' => UserImpersonate::class,
+        'user_remove_auth_method' => UserRemoveAuthMethod::class,
+        'user_remove_session' => UserRemoveSession::class,
     ];
 
     /**
@@ -123,7 +123,7 @@ abstract class ApiFunction
      *
      * This function may also throw exceptions e.g. in case when permissions are missing or the provided parameters are invalid.
      *
-     * @return ApiResult The result of the api-function
+     * @return ApiFunctionResult The result of the api-function
      */
     abstract public function execute();
 
@@ -224,22 +224,22 @@ abstract class ApiFunction
         if (null != $apiFunc) {
             if (!$apiFunc->published) {
                 if (!Core::isBackend()) {
-                    throw new rex_http_exception(new ApiException('the api function ' . $apiFunc::class . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
+                    throw new rex_http_exception(new ApiFunctionException('the api function ' . $apiFunc::class . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
                 }
 
                 if (!Core::getUser()) {
-                    throw new rex_http_exception(new ApiException('missing backend session to call api function ' . $apiFunc::class . '!'), rex_response::HTTP_UNAUTHORIZED);
+                    throw new rex_http_exception(new ApiFunctionException('missing backend session to call api function ' . $apiFunc::class . '!'), rex_response::HTTP_UNAUTHORIZED);
                 }
             }
 
             $urlResult = rex_get(self::REQ_RESULT_PARAM, 'string');
             if ($urlResult) {
                 // take over result from url and do not execute the apiFunc
-                $result = ApiResult::fromJSON($urlResult);
+                $result = ApiFunctionResult::fromJSON($urlResult);
                 $apiFunc->result = $result;
             } else {
                 if ($apiFunc->requiresCsrfProtection() && !CsrfToken::factory($apiFunc::class)->isValid()) {
-                    $result = new ApiResult(false, I18n::msg('csrf_token_invalid'));
+                    $result = new ApiFunctionResult(false, I18n::msg('csrf_token_invalid'));
                     $apiFunc->result = $result;
 
                     return;
@@ -248,8 +248,8 @@ abstract class ApiFunction
                 try {
                     $result = $apiFunc->execute();
 
-                    if (!($result instanceof ApiResult)) {
-                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) . '. Expected a instance of ApiResult but got "' . get_debug_type($result) . '".');
+                    if (!($result instanceof ApiFunctionResult)) {
+                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) . '. Expected a instance of ApiFunctionResult but got "' . get_debug_type($result) . '".');
                     }
 
                     $apiFunc->result = $result;
@@ -260,9 +260,9 @@ abstract class ApiFunction
                         // and redirect to SELF for reboot
                         rex_response::sendRedirect($context->getUrl());
                     }
-                } catch (ApiException $e) {
+                } catch (ApiFunctionException $e) {
                     $message = $e->getMessage();
-                    $result = new ApiResult(false, $message);
+                    $result = new ApiFunctionResult(false, $message);
                     $apiFunc->result = $result;
                 }
             }
@@ -307,7 +307,7 @@ abstract class ApiFunction
     }
 
     /**
-     * @return ApiResult|null
+     * @return ApiFunctionResult|null
      */
     public function getResult()
     {

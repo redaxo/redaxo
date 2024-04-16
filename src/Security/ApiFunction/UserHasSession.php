@@ -1,9 +1,9 @@
 <?php
 
-namespace Redaxo\Core\Security\Api;
+namespace Redaxo\Core\Security\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
 use Redaxo\Core\Core;
 use rex_request;
 use rex_response;
@@ -11,7 +11,7 @@ use rex_response;
 /**
  * @internal
  */
-class UserHasSessionApi extends ApiFunction
+class UserHasSession extends ApiFunction
 {
     /**
      * @return never
@@ -19,7 +19,7 @@ class UserHasSessionApi extends ApiFunction
     public function execute()
     {
         if (!rex_request::isHttps()) {
-            throw new ApiException('https is required');
+            throw new ApiFunctionException('https is required');
         }
 
         $user = Core::getUser();

@@ -1,10 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Content\Api;
+namespace Redaxo\Core\Content\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
-use Redaxo\Core\Api\ApiResult;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
+use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
@@ -14,7 +14,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class ArticleSliceMoveApi extends ApiFunction
+class ArticleSliceMove extends ApiFunction
 {
     public function execute()
     {
@@ -25,7 +25,7 @@ class ArticleSliceMoveApi extends ApiFunction
 
         $ooArt = Article::get($articleId, $clang);
         if (!$ooArt instanceof Article) {
-            throw new ApiException('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
+            throw new ApiFunctionException('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
         }
         $categoryId = $ooArt->getCategoryId();
 
@@ -33,18 +33,18 @@ class ArticleSliceMoveApi extends ApiFunction
 
         // check permissions
         if (!$user->hasPerm('moveSlice[]')) {
-            throw new ApiException(I18n::msg('no_rights_to_this_function'));
+            throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
         if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
-            throw new ApiException(I18n::msg('no_rights_to_this_function'));
+            throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
         // modul und rechte vorhanden ?
         $CM = Sql::factory();
         $CM->setQuery('select * from ' . Core::getTablePrefix() . 'article_slice left join ' . Core::getTablePrefix() . 'module on ' . Core::getTablePrefix() . 'article_slice.module_id=' . Core::getTablePrefix() . 'module.id where ' . Core::getTablePrefix() . 'article_slice.id=? and clang_id=?', [$sliceId, $clang]);
         if (1 != $CM->getRows()) {
-            throw new ApiException(I18n::msg('module_not_found'));
+            throw new ApiFunctionException(I18n::msg('module_not_found'));
         }
         $moduleId = (int) $CM->getValue(Core::getTablePrefix() . 'article_slice.module_id');
 
@@ -52,9 +52,9 @@ class ArticleSliceMoveApi extends ApiFunction
         if ($user->getComplexPerm('modules')->hasPerm($moduleId)) {
             $message = ContentHandler::moveSlice($sliceId, $clang, $direction);
         } else {
-            throw new ApiException(I18n::msg('no_rights_to_this_function'));
+            throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
-        return new ApiResult(true, $message);
+        return new ApiFunctionResult(true, $message);
     }
 
     protected function requiresCsrfProtection()

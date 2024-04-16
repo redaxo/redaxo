@@ -1,10 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Security\Api;
+namespace Redaxo\Core\Security\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
-use Redaxo\Core\Api\ApiResult;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
+use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Security\User;
@@ -14,7 +14,7 @@ use rex_request;
 /**
  * @internal
  */
-class UserRemoveAuthMethodApi extends ApiFunction
+class UserRemoveAuthMethod extends ApiFunction
 {
     public function execute()
     {
@@ -22,7 +22,7 @@ class UserRemoveAuthMethodApi extends ApiFunction
         $user = Core::requireUser();
 
         if ($userId !== $user->getId() && !$user->isAdmin() && (!$user->hasPerm('users[]') || User::require($userId)->isAdmin())) {
-            throw new ApiException('Permission denied');
+            throw new ApiFunctionException('Permission denied');
         }
 
         if (rex_get('password', 'bool')) {
@@ -37,7 +37,7 @@ class UserRemoveAuthMethodApi extends ApiFunction
         return true;
     }
 
-    private function removePassword(int $userId): ApiResult
+    private function removePassword(int $userId): ApiFunctionResult
     {
         $sql = Sql::factory()
             ->setTable(Core::getTable('user'))
@@ -49,16 +49,16 @@ class UserRemoveAuthMethodApi extends ApiFunction
             ->update();
 
         if (!$sql->getRows()) {
-            return new ApiResult(false, I18n::msg('password_remove_error'));
+            return new ApiFunctionResult(false, I18n::msg('password_remove_error'));
         }
 
         User::clearInstance($userId);
         Core::getProperty('login')->changedPassword(null);
 
-        return new ApiResult(true, I18n::msg('password_removed'));
+        return new ApiFunctionResult(true, I18n::msg('password_removed'));
     }
 
-    private function removePasskey(int $userId): ApiResult
+    private function removePasskey(int $userId): ApiFunctionResult
     {
         $passkeyId = rex_request::get('passkey_id', 'string');
 
@@ -68,9 +68,9 @@ class UserRemoveAuthMethodApi extends ApiFunction
             ->delete();
 
         if (!$sql->getRows()) {
-            return new ApiResult(false, I18n::msg('passkey_remove_error'));
+            return new ApiFunctionResult(false, I18n::msg('passkey_remove_error'));
         }
 
-        return new ApiResult(true, I18n::msg('passkey_removed'));
+        return new ApiFunctionResult(true, I18n::msg('passkey_removed'));
     }
 }

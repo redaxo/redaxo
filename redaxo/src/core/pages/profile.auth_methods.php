@@ -1,7 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
-use Redaxo\Core\Security\Api\UserRemoveAuthMethodApi;
+use Redaxo\Core\Security\ApiFunction\UserRemoveAuthMethod;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
@@ -18,7 +18,7 @@ $list = rex_list::factory('
 $list->addTableAttribute('class', 'table-hover');
 
 $list->addColumn('remove_auth', '<i class="rex-icon rex-icon-delete"></i>', 0, ['<th class="rex-table-icon"></th>', '<td class="rex-table-icon">###VALUE###</td>']);
-$list->setColumnParams('remove_auth', ['user_id' => $userId] + UserRemoveAuthMethodApi::getUrlParams());
+$list->setColumnParams('remove_auth', ['user_id' => $userId] + UserRemoveAuthMethod::getUrlParams());
 $currentAuth = $userId == Core::requireUser()->getId() ? Core::getProperty('login')->getPasskey() : false;
 $list->setColumnFormat('remove_auth', 'custom', static function () use ($list, $currentAuth) {
     $id = $list->getValue('id');

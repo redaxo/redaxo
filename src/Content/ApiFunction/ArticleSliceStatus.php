@@ -1,10 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Content\Api;
+namespace Redaxo\Core\Content\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
-use Redaxo\Core\Api\ApiResult;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
+use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
@@ -13,7 +13,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class ArticleSliceStatusApi extends ApiFunction
+class ArticleSliceStatus extends ApiFunction
 {
     public function execute()
     {
@@ -22,14 +22,14 @@ class ArticleSliceStatusApi extends ApiFunction
 
         $article = Article::get($articleId, $clang);
         if (!$article instanceof Article) {
-            throw new ApiException('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
+            throw new ApiFunctionException('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
         }
 
         $user = Core::requireUser();
         $categoryId = $article->getCategoryId();
 
         if (!$user->hasPerm('publishSlice[]') || !$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
-            throw new ApiException(I18n::msg('no_rights_to_this_function'));
+            throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
         $sliceId = rex_request('slice_id', 'int');
@@ -37,7 +37,7 @@ class ArticleSliceStatusApi extends ApiFunction
 
         ContentHandler::sliceStatus($sliceId, $status);
 
-        return new ApiResult(true);
+        return new ApiFunctionResult(true);
     }
 
     protected function requiresCsrfProtection()

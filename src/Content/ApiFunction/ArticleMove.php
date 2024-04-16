@@ -1,10 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Content\Api;
+namespace Redaxo\Core\Content\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
-use Redaxo\Core\Api\ApiResult;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
+use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
@@ -13,12 +13,12 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class ArticleMoveApi extends ApiFunction
+class ArticleMove extends ApiFunction
 {
     /**
-     * @throws ApiException
+     * @throws ApiFunctionException
      *
-     * @return ApiResult
+     * @return ApiFunctionResult
      */
     public function execute()
     {
@@ -33,13 +33,13 @@ class ArticleMoveApi extends ApiFunction
         // Check permissions
         if ($user->hasPerm('moveArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)) {
             if (ArticleHandler::moveArticle($articleId, $categoryId, $categoryIdNew)) {
-                return new ApiResult(true, I18n::msg('content_articlemoved'));
+                return new ApiFunctionResult(true, I18n::msg('content_articlemoved'));
             }
 
-            return new ApiResult(false, I18n::msg('content_errormovearticle'));
+            return new ApiFunctionResult(false, I18n::msg('content_errormovearticle'));
         }
 
-        throw new ApiException(I18n::msg('no_rights_to_this_function'));
+        throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
     }
 
     protected function requiresCsrfProtection()

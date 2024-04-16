@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Content;
 
-use Redaxo\Core\Api\ApiException;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -21,7 +21,7 @@ use function function_exists;
 class ContentHandler
 {
     /**
-     * @throws ApiException
+     * @throws ApiFunctionException
      */
     public static function addSlice(int $articleId, int $clangId, int $ctypeId, int $moduleId, array $data = []): string
     {
@@ -93,7 +93,7 @@ class ContentHandler
      * @param string $direction Richtung in die verschoben werden soll
      *
      * @throws rex_exception
-     * @throws ApiException
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -152,7 +152,7 @@ class ContentHandler
                 $CM->setQuery('select * from ' . Core::getTablePrefix() . 'article_slice where id=? and clang_id=?', [$sliceId, $clang]);
                 $newPriority = $CM->getValue('priority');
                 if ($oldPriority == $newPriority) {
-                    throw new ApiException(I18n::msg('slice_moved_error'));
+                    throw new ApiFunctionException(I18n::msg('slice_moved_error'));
                 }
 
                 ArticleCache::deleteContent($articleId, $clang);
@@ -164,7 +164,7 @@ class ContentHandler
                 throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!');
             }
         } else {
-            throw new ApiException(I18n::msg('slice_moved_error'));
+            throw new ApiFunctionException(I18n::msg('slice_moved_error'));
         }
 
         return $info;

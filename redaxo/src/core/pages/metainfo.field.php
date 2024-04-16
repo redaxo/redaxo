@@ -1,11 +1,11 @@
 <?php
 
-use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\MetaInfo\Api\DefaultFieldsCreate;
+use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\MetaInfo\Form\MetaInfoForm;
 use Redaxo\Core\Translation\I18n;
 

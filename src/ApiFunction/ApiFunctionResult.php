@@ -1,6 +1,6 @@
 <?php
 
-namespace Redaxo\Core\Api;
+namespace Redaxo\Core\ApiFunction;
 
 use Redaxo\Core\Util\Type;
 use rex_exception;
@@ -13,7 +13,7 @@ use function is_array;
  *
  * @see ApiFunction
  */
-class ApiResult
+class ApiFunctionResult
 {
     /**
      * Flag indicating whether the result of this api call needs to be rendered in a new sub-request.

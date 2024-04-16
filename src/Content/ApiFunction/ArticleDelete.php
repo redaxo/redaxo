@@ -1,22 +1,22 @@
 <?php
 
-namespace Redaxo\Core\Content\Api;
+namespace Redaxo\Core\Content\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
-use Redaxo\Core\Api\ApiResult;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
+use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 
 /**
  * @internal
  */
-class ArticleDeleteApi extends ApiFunction
+class ArticleDelete extends ApiFunction
 {
     public function execute()
     {
         if (!Core::requireUser()->hasPerm('deleteArticle[]')) {
-            throw new ApiException('User has no permission to delete articles!');
+            throw new ApiFunctionException('User has no permission to delete articles!');
         }
 
         $categoryId = rex_request('category_id', 'int');
@@ -24,9 +24,9 @@ class ArticleDeleteApi extends ApiFunction
 
         // Check permissions
         if (!Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
-            throw new ApiException('user has no permission for this category!');
+            throw new ApiFunctionException('user has no permission for this category!');
         }
-        return new ApiResult(true, ArticleHandler::deleteArticle($articleId));
+        return new ApiFunctionResult(true, ArticleHandler::deleteArticle($articleId));
     }
 
     protected function requiresCsrfProtection()

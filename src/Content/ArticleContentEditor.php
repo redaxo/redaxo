@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Backend\Controller;
-use Redaxo\Core\Content\Api\ArticleSliceMoveApi;
-use Redaxo\Core\Content\Api\ArticleSliceStatusApi;
+use Redaxo\Core\Content\ApiFunction\ArticleSliceMove;
+use Redaxo\Core\Content\ApiFunction\ArticleSliceStatus;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
@@ -189,7 +189,7 @@ class ArticleContentEditor extends ArticleContent
                 $item = [];
                 $statusName = $sliceStatus ? 'online' : 'offline';
                 $item['label'] = I18n::msg('status_' . $statusName);
-                $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + ArticleSliceStatusApi::getUrlParams());
+                $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + ArticleSliceStatus::getUrlParams());
                 $item['attributes']['class'][] = 'btn-default';
                 $item['attributes']['class'][] = 'rex-' . $statusName;
                 $menuStatusAction = $item;
@@ -200,7 +200,7 @@ class ArticleContentEditor extends ArticleContent
                 $item = [];
                 $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_up');
                 $item['url'] = $context->getUrl(
-                    ['upd' => time(), 'direction' => 'moveup'] + ArticleSliceMoveApi::getUrlParams(),
+                    ['upd' => time(), 'direction' => 'moveup'] + ArticleSliceMove::getUrlParams(),
                 ) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
                 $item['attributes']['title'] = I18n::msg('move_slice_up');
@@ -211,7 +211,7 @@ class ArticleContentEditor extends ArticleContent
                 $item = [];
                 $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_down');
                 $item['url'] = $context->getUrl(
-                    ['upd' => time(), 'direction' => 'movedown'] + ArticleSliceMoveApi::getUrlParams(),
+                    ['upd' => time(), 'direction' => 'movedown'] + ArticleSliceMove::getUrlParams(),
                 ) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
                 $item['attributes']['title'] = I18n::msg('move_slice_down');

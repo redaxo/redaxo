@@ -2,7 +2,7 @@
 
 use Clockwork\Clockwork;
 use Redaxo\Core\Addon\Addon;
-use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;

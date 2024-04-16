@@ -1,6 +1,6 @@
 <?php
 
-use Redaxo\Core\Api\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Content\ArticleContentEditor;
 
 assert(isset($articleId) && is_int($articleId));

@@ -1,10 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Content\Api;
+namespace Redaxo\Core\Content\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
-use Redaxo\Core\Api\ApiResult;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
+use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
@@ -13,7 +13,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class ArticleToStartArticleApi extends ApiFunction
+class ArticleToStartArticle extends ApiFunction
 {
     public function execute()
     {
@@ -24,13 +24,13 @@ class ArticleToStartArticleApi extends ApiFunction
         // Check permissions
         if ($user->hasPerm('article2startarticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             if (ArticleHandler::article2startarticle($articleId)) {
-                return new ApiResult(true, I18n::msg('content_tostartarticle_ok'));
+                return new ApiFunctionResult(true, I18n::msg('content_tostartarticle_ok'));
             }
 
-            return new ApiResult(false, I18n::msg('content_tostartarticle_failed'));
+            return new ApiFunctionResult(false, I18n::msg('content_tostartarticle_failed'));
         }
 
-        throw new ApiException('user has no permission for this article!');
+        throw new ApiFunctionException('user has no permission for this article!');
     }
 
     protected function requiresCsrfProtection()

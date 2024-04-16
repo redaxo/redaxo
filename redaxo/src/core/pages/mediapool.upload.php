@@ -1,6 +1,6 @@
 <?php
 
-use Redaxo\Core\Api\ApiException;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MediaPool\MediaHandler;
@@ -58,7 +58,7 @@ if ('add_file' == $mediaMethod) {
                 }
 
                 rex_response::sendRedirect(Url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $openerInputField]));
-            } catch (ApiException $e) {
+            } catch (ApiFunctionException $e) {
                 $warning = $e->getMessage();
             }
         }

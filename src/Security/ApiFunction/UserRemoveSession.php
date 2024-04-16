@@ -1,10 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Security\Api;
+namespace Redaxo\Core\Security\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
-use Redaxo\Core\Api\ApiResult;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
+use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\Core;
 use Redaxo\Core\Security\User;
 use Redaxo\Core\Security\UserSession;
@@ -14,7 +14,7 @@ use rex_request;
 /**
  * @internal
  */
-class UserRemoveSessionApi extends ApiFunction
+class UserRemoveSession extends ApiFunction
 {
     public function execute()
     {
@@ -22,16 +22,16 @@ class UserRemoveSessionApi extends ApiFunction
         $user = Core::requireUser();
 
         if ($userId !== $user->getId() && !$user->isAdmin() && (!$user->hasPerm('users[]') || User::require($userId)->isAdmin())) {
-            throw new ApiException('Permission denied');
+            throw new ApiFunctionException('Permission denied');
         }
 
         $sessionId = rex_request::get('session_id', 'string');
 
         if (UserSession::getInstance()->removeSession($sessionId, $userId)) {
-            return new ApiResult(true, I18n::msg('session_removed'));
+            return new ApiFunctionResult(true, I18n::msg('session_removed'));
         }
 
-        return new ApiResult(false, I18n::msg('session_remove_error'));
+        return new ApiFunctionResult(false, I18n::msg('session_remove_error'));
     }
 
     protected function requiresCsrfProtection()

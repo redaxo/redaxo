@@ -1,10 +1,10 @@
 <?php
 
-namespace Redaxo\Core\MetaInfo\Api;
+namespace Redaxo\Core\MetaInfo\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
-use Redaxo\Core\Api\ApiResult;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
+use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
@@ -20,7 +20,7 @@ class DefaultFieldsCreate extends ApiFunction
     public function execute()
     {
         if (!Core::getUser()?->isAdmin()) {
-            throw new ApiException('user has no permission for this operation!');
+            throw new ApiFunctionException('user has no permission for this operation!');
         }
 
         $type = rex_get('type', 'string');
@@ -42,7 +42,7 @@ class DefaultFieldsCreate extends ApiFunction
                 ];
                 break;
             default:
-                throw new ApiException(sprintf('metainfo type "%s" does not have default field.', $type));
+                throw new ApiFunctionException(sprintf('metainfo type "%s" does not have default field.', $type));
         }
 
         $existing = Sql::factory()->getArray('SELECT name FROM ' . Core::getTable('metainfo_field') . ' WHERE name LIKE ?', [$prefix]);
@@ -52,12 +52,12 @@ class DefaultFieldsCreate extends ApiFunction
             if (!isset($existing[$field[1]])) {
                 $return = call_user_func_array('rex_metainfo_add_field', $field);
                 if (is_string($return)) {
-                    throw new ApiException($return);
+                    throw new ApiFunctionException($return);
                 }
             }
         }
 
-        return new ApiResult(true, I18n::msg('minfo_default_fields_created'));
+        return new ApiFunctionResult(true, I18n::msg('minfo_default_fields_created'));
     }
 
     protected function requiresCsrfProtection()

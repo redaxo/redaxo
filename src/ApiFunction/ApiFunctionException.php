@@ -1,6 +1,6 @@
 <?php
 
-namespace Redaxo\Core\Api;
+namespace Redaxo\Core\ApiFunction;
 
 use rex_exception;
 
@@ -10,4 +10,4 @@ use rex_exception;
  *
  * @see ApiFunction
  */
-class ApiException extends rex_exception {}
+class ApiFunctionException extends rex_exception {}

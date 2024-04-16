@@ -1,7 +1,7 @@
 <?php
 
 use Redaxo\Core\Backend\Controller;
-use Redaxo\Core\Content\Api\ArticleStatusApi;
+use Redaxo\Core\Content\ApiFunction\ArticleStatus;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Content\StructureContext;
@@ -50,7 +50,7 @@ if (0 == $article->getValue('startarticle')) {
                     'page' => 'content/edit',
                     'mode' => 'edit',
                     'art_status' => $artStatusKey,
-                ] + ArticleStatusApi::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
+                ] + ArticleStatus::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
             }
             $articleStatus .= '</ul></div>';
         } else {
@@ -58,7 +58,7 @@ if (0 == $article->getValue('startarticle')) {
                 'article_id' => $articleId,
                 'page' => 'content/edit',
                 'mode' => 'edit',
-            ] + ArticleStatusApi::getUrlParams()) . '"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '</a>';
+            ] + ArticleStatus::getUrlParams()) . '"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '</a>';
         }
     } else {
         $articleStatus = '<span class="' . $articleClass . ' text-muted"><i class="rex-icon ' . $articleIcon . '"></i> ' . $articleStatus . '</span>';

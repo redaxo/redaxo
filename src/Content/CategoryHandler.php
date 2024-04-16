@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Content;
 
-use Redaxo\Core\Api\ApiException;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
@@ -26,7 +26,7 @@ class CategoryHandler
      * @param int $categoryId KategorieId in der die neue Kategorie erstellt werden soll
      * @param array $data Array mit den Daten der Kategorie
      *
-     * @throws ApiException
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -152,7 +152,7 @@ class CategoryHandler
      * @param int $clang Id der Sprache
      * @param array $data Array mit den Daten der Kategorie
      *
-     * @throws ApiException
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -253,7 +253,7 @@ class CategoryHandler
      *
      * @param int $categoryId Id der Kategorie die gelöscht werden soll
      *
-     * @throws ApiException
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -299,13 +299,13 @@ class CategoryHandler
 
                     ComplexPermission::removeItem('structure', $categoryId);
                 } else {
-                    throw new ApiException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_articles'));
+                    throw new ApiFunctionException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_articles'));
                 }
             } else {
-                throw new ApiException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_subcategories'));
+                throw new ApiFunctionException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_subcategories'));
             }
         } else {
-            throw new ApiException(I18n::msg('category_could_not_be_deleted'));
+            throw new ApiFunctionException(I18n::msg('category_could_not_be_deleted'));
         }
 
         return $message;
@@ -318,7 +318,7 @@ class CategoryHandler
      * @param int $clang Id der Sprache
      * @param int|null $status Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
-     * @throws ApiException
+     * @throws ApiFunctionException
      *
      * @return int Der neue Status der Kategorie
      */
@@ -352,7 +352,7 @@ class CategoryHandler
                 'status' => $newstatus,
             ]));
         } else {
-            throw new ApiException(I18n::msg('no_such_category'));
+            throw new ApiFunctionException(I18n::msg('no_such_category'));
         }
 
         return $newstatus;
@@ -566,13 +566,13 @@ class CategoryHandler
      * @param array $array The array
      * @param string $keyName The key
      *
-     * @throws ApiException
+     * @throws ApiFunctionException
      * @return void
      */
     protected static function reqKey(array $array, $keyName)
     {
         if (!isset($array[$keyName])) {
-            throw new ApiException('Missing required parameter "' . $keyName . '"!');
+            throw new ApiFunctionException('Missing required parameter "' . $keyName . '"!');
         }
     }
 

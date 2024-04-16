@@ -1,10 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Content\Api;
+namespace Redaxo\Core\Content\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
-use Redaxo\Core\Api\ApiResult;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
+use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
@@ -13,7 +13,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class ArticleToCategoryApi extends ApiFunction
+class ArticleToCategory extends ApiFunction
 {
     public function execute()
     {
@@ -24,12 +24,12 @@ class ArticleToCategoryApi extends ApiFunction
         // Check permissions
         if ($user->hasPerm('article2category[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             if (ArticleHandler::article2category($articleId)) {
-                return new ApiResult(true, I18n::msg('content_tocategory_ok'));
+                return new ApiFunctionResult(true, I18n::msg('content_tocategory_ok'));
             }
 
-            return new ApiResult(false, I18n::msg('content_tocategory_failed'));
+            return new ApiFunctionResult(false, I18n::msg('content_tocategory_failed'));
         }
-        throw new ApiException('User has no permission for this article!');
+        throw new ApiFunctionException('User has no permission for this article!');
     }
 
     protected function requiresCsrfProtection()

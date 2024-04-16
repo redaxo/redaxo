@@ -1,7 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
-use Redaxo\Core\Security\Api\UserRemoveSessionApi;
+use Redaxo\Core\Security\ApiFunction\UserRemoveSession;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
@@ -13,7 +13,7 @@ $list = rex_list::factory('Select session_id, cookie_key, ip, useragent, startti
 $list->addTableAttribute('class', 'table-hover');
 
 $list->addColumn('remove_session', '<i class="rex-icon rex-icon-delete"></i>', 0, ['<th class="rex-table-icon"></th>', '<td class="rex-table-icon">###VALUE###</td>']);
-$list->setColumnParams('remove_session', ['session_id' => '###session_id###', 'user_id' => $userId] + UserRemoveSessionApi::getUrlParams());
+$list->setColumnParams('remove_session', ['session_id' => '###session_id###', 'user_id' => $userId] + UserRemoveSession::getUrlParams());
 $list->setColumnFormat('remove_session', 'custom', static function () use ($list) {
     // prevent removing the current session
     if ($list->getValue('session_id') === session_id()) {

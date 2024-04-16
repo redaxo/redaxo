@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Content;
 
-use Redaxo\Core\Api\ApiException;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
@@ -22,7 +22,7 @@ class ArticleHandler
      *
      * @param array $data Array mit den Daten des Artikels
      *
-     * @throws ApiException
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -118,7 +118,7 @@ class ArticleHandler
      * @param int $clang Id der Sprache
      * @param array $data Array mit den Daten des Artikels
      *
-     * @throws ApiException
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -131,7 +131,7 @@ class ArticleHandler
         $thisArt->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and clang_id=?', [$articleId, $clang]);
 
         if (1 != $thisArt->getRows()) {
-            throw new ApiException('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
+            throw new ApiFunctionException('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
         }
 
         $ooArt = Article::get($articleId, $clang);
@@ -210,7 +210,7 @@ class ArticleHandler
      *
      * @param int $articleId Id des Artikels die gelöscht werden soll
      *
-     * @throws ApiException
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -242,7 +242,7 @@ class ArticleHandler
                 $Art->next();
             }
         } else {
-            throw new ApiException(I18n::msg('article_doesnt_exist'));
+            throw new ApiFunctionException(I18n::msg('article_doesnt_exist'));
         }
 
         return $message;
@@ -253,7 +253,7 @@ class ArticleHandler
      *
      * @param int $id ArtikelId des Artikels, der gelöscht werden soll
      *
-     * @throws ApiException
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -273,7 +273,7 @@ class ArticleHandler
         // --> rekursiv aufrufen
 
         if ($id == Article::getSiteStartArticleId()) {
-            throw new ApiException(I18n::msg('cant_delete_sitestartarticle'));
+            throw new ApiFunctionException(I18n::msg('cant_delete_sitestartarticle'));
         }
         if ($id == Article::getNotfoundArticleId()) {
             throw new ApiException(I18n::msg('cant_delete_notfoundarticle'));

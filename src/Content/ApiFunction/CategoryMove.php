@@ -1,10 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Content\Api;
+namespace Redaxo\Core\Content\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
-use Redaxo\Core\Api\ApiResult;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
+use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
@@ -13,7 +13,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class CategoryMoveApi extends ApiFunction
+class CategoryMove extends ApiFunction
 {
     public function execute()
     {
@@ -32,13 +32,13 @@ class CategoryMoveApi extends ApiFunction
             && $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)
         ) {
             if ($categoryId != $categoryIdNew && CategoryHandler::moveCategory($categoryId, $categoryIdNew)) {
-                return new ApiResult(true, I18n::msg('category_moved'));
+                return new ApiFunctionResult(true, I18n::msg('category_moved'));
             }
 
-            return new ApiResult(false, I18n::msg('content_error_movecategory'));
+            return new ApiFunctionResult(false, I18n::msg('content_error_movecategory'));
         }
 
-        throw new ApiException('user has no permission for this category!');
+        throw new ApiFunctionException('user has no permission for this category!');
     }
 
     protected function requiresCsrfProtection()

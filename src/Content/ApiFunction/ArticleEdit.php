@@ -1,22 +1,22 @@
 <?php
 
-namespace Redaxo\Core\Content\Api;
+namespace Redaxo\Core\Content\ApiFunction;
 
-use Redaxo\Core\Api\ApiException;
-use Redaxo\Core\Api\ApiFunction;
-use Redaxo\Core\Api\ApiResult;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\ApiFunctionException;
+use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 
 /**
  * @internal
  */
-class ArticleEditApi extends ApiFunction
+class ArticleEdit extends ApiFunction
 {
     public function execute()
     {
         if (!Core::requireUser()->hasPerm('editArticle[]')) {
-            throw new ApiException('User has no permission to edit articles!');
+            throw new ApiFunctionException('User has no permission to edit articles!');
         }
 
         $categoryId = rex_request('category_id', 'int');
@@ -25,7 +25,7 @@ class ArticleEditApi extends ApiFunction
 
         // check permissions
         if (!Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
-            throw new ApiException('user has no permission for this category!');
+            throw new ApiFunctionException('user has no permission for this category!');
         }
 
         // --------------------- ARTIKEL EDIT
@@ -33,7 +33,7 @@ class ArticleEditApi extends ApiFunction
         $data['priority'] = rex_post('article-position', 'int');
         $data['name'] = rex_post('article-name', 'string');
         $data['template_id'] = rex_post('template_id', 'int');
-        return new ApiResult(true, ArticleHandler::editArticle($articleId, $clang, $data));
+        return new ApiFunctionResult(true, ArticleHandler::editArticle($articleId, $clang, $data));
     }
 
     protected function requiresCsrfProtection()

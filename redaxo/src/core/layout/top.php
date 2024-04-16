@@ -5,7 +5,7 @@ use Redaxo\Core\Backend\MainPage;
 use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Security\Api\UserImpersonateApi;
+use Redaxo\Core\Security\ApiFunction\UserImpersonate;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -106,7 +106,7 @@ if ($user && $hasNavigation) {
     $item['attributes'] = 'class="rex-logout"';
     if ($impersonator) {
         $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . I18n::msg('login_depersonate');
-        $item['href'] = Url::currentBackendPage(['_impersonate' => '_depersonate'] + UserImpersonateApi::getUrlParams());
+        $item['href'] = Url::currentBackendPage(['_impersonate' => '_depersonate'] + UserImpersonate::getUrlParams());
         $item['attributes'] .= ' data-pjax="false"';
     } else {
         $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . I18n::msg('logout');
