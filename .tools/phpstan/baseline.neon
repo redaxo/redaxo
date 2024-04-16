@@ -1533,7 +1533,7 @@ parameters:
 		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 2
-			path: ../../src/Security/Api/UserImpersonateApi.php
+			path: ../../src/Security/ApiFunction/UserImpersonate.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Security\\\\ComplexPermission\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"

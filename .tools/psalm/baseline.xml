@@ -1845,7 +1845,7 @@
       <code><![CDATA[[
         'package' => $package->getPackageId(),
         'function' => $function,
-    ] + AddonApi::getUrlParams()]]></code>
+    ] + ApiFunctionAddon::getUrlParams()]]></code>
     </MixedArgumentTypeCoercion>
     <MixedOperand>
       <code><![CDATA[$function]]></code>
@@ -2335,7 +2335,7 @@
       <code><![CDATA[$userrole]]></code>
       <code><![CDATA[$userrole]]></code>
       <code><![CDATA[$userrole]]></code>
-      <code><![CDATA[['_impersonate' => $list->getValue('id')] + UserImpersonateApi::getUrlParams()]]></code>
+      <code><![CDATA[['_impersonate' => $list->getValue('id')] + UserImpersonate::getUrlParams()]]></code>
     </ArgumentTypeCoercion>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$userrole]]></code>
@@ -2474,7 +2474,7 @@
       <code><![CDATA[$default]]></code>
     </MixedReturnStatement>
   </file>
-  <file src="src/Api/ApiFunction.php">
+  <file src="src/ApiFunction/ApiFunction.php">
     <MixedMethodCall>
       <code><![CDATA[new $apiClass()]]></code>
     </MixedMethodCall>
@@ -2485,7 +2485,7 @@
       <code><![CDATA[$message]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="src/Api/ApiResult.php">
+  <file src="src/ApiFunction/ApiFunctionResult.php">
     <MixedAssignment>
       <code><![CDATA[$json]]></code>
     </MixedAssignment>
@@ -2704,27 +2704,27 @@
       <code><![CDATA[is_array($commands)]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="src/Content/Api/ArticleMoveApi.php">
+  <file src="src/Content/ApiFunction/ArticleMove.php">
     <PossiblyNullReference>
       <code><![CDATA[getCategoryId]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Content/Api/ArticleToCategoryApi.php">
+  <file src="src/Content/ApiFunction/ArticleToCategory.php">
     <PossiblyNullReference>
       <code><![CDATA[getCategoryId]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Content/Api/ArticleToStartArticleApi.php">
+  <file src="src/Content/ApiFunction/ArticleToStartArticle.php">
     <PossiblyNullReference>
       <code><![CDATA[getCategoryId]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Content/Api/CategoryMoveApi.php">
+  <file src="src/Content/ApiFunction/CategoryMove.php">
     <PossiblyNullReference>
       <code><![CDATA[getCategoryId]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Content/Api/CategoryToArticleApi.php">
+  <file src="src/Content/ApiFunction/CategoryToArticle.php">
     <PossiblyNullReference>
       <code><![CDATA[getCategoryId]]></code>
     </PossiblyNullReference>
@@ -4011,7 +4011,7 @@
       <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="src/MetaInfo/Api/DefaultFieldsCreate.php">
+  <file src="src/MetaInfo/ApiFunction/DefaultFieldsCreate.php">
     <MixedAssignment>
       <code><![CDATA[$return]]></code>
     </MixedAssignment>
@@ -4304,7 +4304,7 @@
       <code><![CDATA[getPathAsArray]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Security/Api/UserHasSessionApi.php">
+  <file src="src/Security/ApiFunction/UserHasSession.php">
     <MixedArgument>
       <code><![CDATA[$perm]]></code>
     </MixedArgument>
@@ -4312,7 +4312,7 @@
       <code><![CDATA[$perm]]></code>
     </MixedAssignment>
   </file>
-  <file src="src/Security/Api/UserImpersonateApi.php">
+  <file src="src/Security/ApiFunction/UserImpersonate.php">
     <MixedAssignment>
       <code><![CDATA[$impersonate]]></code>
     </MixedAssignment>
