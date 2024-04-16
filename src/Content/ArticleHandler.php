@@ -276,7 +276,7 @@ class ArticleHandler
             throw new ApiFunctionException(I18n::msg('cant_delete_sitestartarticle'));
         }
         if ($id == Article::getNotfoundArticleId()) {
-            throw new ApiException(I18n::msg('cant_delete_notfoundarticle'));
+            throw new ApiFunctionException(I18n::msg('cant_delete_notfoundarticle'));
         }
 
         $ART = Sql::factory();
@@ -316,7 +316,7 @@ class ArticleHandler
 
             return $message;
         }
-        throw new ApiException(I18n::msg('category_doesnt_exist'));
+        throw new ApiFunctionException(I18n::msg('category_doesnt_exist'));
     }
 
     /**
@@ -326,7 +326,7 @@ class ArticleHandler
      * @param int $clang Id der Sprache
      * @param int|null $status Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
-     * @throws ApiException
+     * @throws ApiFunctionException
      *
      * @return int Der neue Status des Artikels
      */
@@ -360,7 +360,7 @@ class ArticleHandler
                 'status' => $newstatus,
             ]));
         } else {
-            throw new ApiException(I18n::msg('no_such_category'));
+            throw new ApiFunctionException(I18n::msg('no_such_category'));
         }
 
         return $newstatus;
@@ -902,13 +902,13 @@ class ArticleHandler
      * @param array $array The array
      * @param string $keyName The key
      *
-     * @throws ApiException
+     * @throws ApiFunctionException
      * @return void
      */
     protected static function reqKey($array, $keyName)
     {
         if (!isset($array[$keyName])) {
-            throw new ApiException('Missing required parameter "' . $keyName . '"!');
+            throw new ApiFunctionException('Missing required parameter "' . $keyName . '"!');
         }
     }
 
