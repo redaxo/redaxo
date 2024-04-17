@@ -1485,11 +1485,6 @@
       <code><![CDATA[$this->getParsedArg('suffix')]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/core/lib/var_dumper.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$line]]></code>
-    </ArgumentTypeCoercion>
-  </file>
   <file src="redaxo/src/core/lib/view.php">
     <MixedArgument>
       <code><![CDATA[$pageObj]]></code>
@@ -4670,6 +4665,11 @@
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$cast[2]]]></code>
     </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Util/VarDumper.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$line]]></code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="src/Util/Version.php">
     <FalsableReturnStatement>
