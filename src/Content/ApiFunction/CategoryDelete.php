@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
 
@@ -26,7 +26,7 @@ class CategoryDelete extends ApiFunction
             throw new ApiFunctionException('user has no permission for this category!');
         }
 
-        return new ApiFunctionResult(true, CategoryHandler::deleteCategory($catId));
+        return new Result(true, CategoryHandler::deleteCategory($catId));
     }
 
     protected function requiresCsrfProtection()

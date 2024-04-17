@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
@@ -14,7 +14,7 @@ class ContentCopy extends ApiFunction
     /**
      * @throws ApiFunctionException
      *
-     * @return ApiFunctionResult
+     * @return Result
      */
     public function execute()
     {
@@ -31,10 +31,10 @@ class ContentCopy extends ApiFunction
             && $user->getComplexPerm('clang')->hasPerm($clangB)
         ) {
             if (ContentHandler::copyContent($articleId, $articleId, $clangA, $clangB)) {
-                return new ApiFunctionResult(true, I18n::msg('content_contentcopy'));
+                return new Result(true, I18n::msg('content_contentcopy'));
             }
 
-            return new ApiFunctionResult(true, I18n::msg('content_errorcopy'));
+            return new Result(true, I18n::msg('content_errorcopy'));
         }
 
         throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));

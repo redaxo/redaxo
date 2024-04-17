@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
@@ -37,7 +37,7 @@ class ArticleSliceStatus extends ApiFunction
 
         ContentHandler::sliceStatus($sliceId, $status);
 
-        return new ApiFunctionResult(true);
+        return new Result(true);
     }
 
     protected function requiresCsrfProtection()

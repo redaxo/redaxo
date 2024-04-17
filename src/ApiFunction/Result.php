@@ -13,7 +13,7 @@ use function is_array;
  *
  * @see ApiFunction
  */
-class ApiFunctionResult
+class Result
 {
     /**
      * Flag indicating whether the result of this api call needs to be rendered in a new sub-request.

@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
@@ -54,7 +54,7 @@ class ArticleSliceMove extends ApiFunction
         } else {
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
-        return new ApiFunctionResult(true, $message);
+        return new Result(true, $message);
     }
 
     protected function requiresCsrfProtection()

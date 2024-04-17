@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 
@@ -31,7 +31,7 @@ class ArticleAdd extends ApiFunction
         $data['priority'] = rex_post('article-position', 'int');
         $data['template_id'] = rex_post('template_id', 'int');
         $data['category_id'] = $categoryId;
-        return new ApiFunctionResult(true, ArticleHandler::addArticle($data));
+        return new Result(true, ArticleHandler::addArticle($data));
     }
 
     protected function requiresCsrfProtection()

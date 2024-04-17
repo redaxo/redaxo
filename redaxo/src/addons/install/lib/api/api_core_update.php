@@ -4,8 +4,8 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonInterface;
 use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -230,7 +230,7 @@ class rex_api_install_core_update extends ApiFunction
             }
         }
 
-        $result = new ApiFunctionResult($success, $message);
+        $result = new Result($success, $message);
         if ($success) {
             $result->setRequiresReboot(true);
         }

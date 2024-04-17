@@ -1,8 +1,8 @@
 <?php
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
@@ -28,7 +28,7 @@ class rex_api_install_package_delete extends ApiFunction
 
         unset($_REQUEST['file']);
         rex_install_packages::deleteCache();
-        return new ApiFunctionResult(true, I18n::msg('install_info_addon_deleted', $addonkey));
+        return new Result(true, I18n::msg('install_info_addon_deleted', $addonkey));
     }
 
     protected function requiresCsrfProtection()

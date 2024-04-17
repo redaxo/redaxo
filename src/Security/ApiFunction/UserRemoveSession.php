@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Security\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Security\User;
 use Redaxo\Core\Security\UserSession;
@@ -28,10 +28,10 @@ class UserRemoveSession extends ApiFunction
         $sessionId = rex_request::get('session_id', 'string');
 
         if (UserSession::getInstance()->removeSession($sessionId, $userId)) {
-            return new ApiFunctionResult(true, I18n::msg('session_removed'));
+            return new Result(true, I18n::msg('session_removed'));
         }
 
-        return new ApiFunctionResult(false, I18n::msg('session_remove_error'));
+        return new Result(false, I18n::msg('session_remove_error'));
     }
 
     protected function requiresCsrfProtection()

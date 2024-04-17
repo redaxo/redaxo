@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
 
@@ -30,7 +30,7 @@ class CategoryAdd extends ApiFunction
         $data = [];
         $data['catpriority'] = rex_post('category-position', 'int');
         $data['catname'] = rex_post('category-name', 'string');
-        return new ApiFunctionResult(true, CategoryHandler::addCategory($parentId, $data));
+        return new Result(true, CategoryHandler::addCategory($parentId, $data));
     }
 
     protected function requiresCsrfProtection()

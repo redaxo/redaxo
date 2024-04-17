@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
@@ -18,7 +18,7 @@ class ArticleMove extends ApiFunction
     /**
      * @throws ApiFunctionException
      *
-     * @return ApiFunctionResult
+     * @return Result
      */
     public function execute()
     {
@@ -33,10 +33,10 @@ class ArticleMove extends ApiFunction
         // Check permissions
         if ($user->hasPerm('moveArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)) {
             if (ArticleHandler::moveArticle($articleId, $categoryId, $categoryIdNew)) {
-                return new ApiFunctionResult(true, I18n::msg('content_articlemoved'));
+                return new Result(true, I18n::msg('content_articlemoved'));
             }
 
-            return new ApiFunctionResult(false, I18n::msg('content_errormovearticle'));
+            return new Result(false, I18n::msg('content_errormovearticle'));
         }
 
         throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));

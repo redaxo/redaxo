@@ -2,8 +2,8 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -78,7 +78,7 @@ class rex_api_install_package_upload extends ApiFunction
 
         unset($_REQUEST['file']);
         rex_install_packages::deleteCache();
-        return new ApiFunctionResult(true, I18n::msg('install_info_addon_uploaded', $addonkey));
+        return new Result(true, I18n::msg('install_info_addon_uploaded', $addonkey));
     }
 
     protected function requiresCsrfProtection()

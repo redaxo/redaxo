@@ -6,8 +6,8 @@ use Override;
 use Redaxo\Core\Addon\Addon as BaseAddon;
 use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Type;
 
@@ -19,7 +19,7 @@ use function in_array;
 final class Addon extends ApiFunction
 {
     #[Override]
-    public function execute(): ApiFunctionResult
+    public function execute(): Result
     {
         if (Core::isLiveMode()) {
             throw new ApiFunctionException('Package management is not available in live mode!');
@@ -36,7 +36,7 @@ final class Addon extends ApiFunction
             || 'deactivate' == $function && !$package->isAvailable()
             || 'delete' == $function && !BaseAddon::exists($packageId)
         ) {
-            return new ApiFunctionResult(true);
+            return new Result(true);
         }
 
         if (!$package instanceof BaseAddon) {
@@ -46,7 +46,7 @@ final class Addon extends ApiFunction
         $manager = AddonManager::factory($package);
         $success = Type::bool($manager->$function());
         $message = $manager->getMessage();
-        $result = new ApiFunctionResult($success, $message);
+        $result = new Result($success, $message);
         if ($success && !$reinstall) {
             $result->setRequiresReboot(true);
         }

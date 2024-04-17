@@ -72,7 +72,7 @@ abstract class ApiFunction
     /**
      * The result of the function call.
      *
-     * @var ApiFunctionResult|null
+     * @var Result|null
      */
     protected $result;
 
@@ -124,7 +124,7 @@ abstract class ApiFunction
      *
      * This function may also throw exceptions e.g. in case when permissions are missing or the provided parameters are invalid.
      *
-     * @return ApiFunctionResult The result of the api-function
+     * @return Result The result of the api-function
      */
     abstract public function execute();
 
@@ -236,11 +236,11 @@ abstract class ApiFunction
             $urlResult = rex_get(self::REQ_RESULT_PARAM, 'string');
             if ($urlResult) {
                 // take over result from url and do not execute the apiFunc
-                $result = ApiFunctionResult::fromJSON($urlResult);
+                $result = Result::fromJSON($urlResult);
                 $apiFunc->result = $result;
             } else {
                 if ($apiFunc->requiresCsrfProtection() && !CsrfToken::factory($apiFunc::class)->isValid()) {
-                    $result = new ApiFunctionResult(false, I18n::msg('csrf_token_invalid'));
+                    $result = new Result(false, I18n::msg('csrf_token_invalid'));
                     $apiFunc->result = $result;
 
                     return;
@@ -249,7 +249,7 @@ abstract class ApiFunction
                 try {
                     $result = $apiFunc->execute();
 
-                    if (!($result instanceof ApiFunctionResult)) {
+                    if (!($result instanceof Result)) {
                         throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) . '. Expected a instance of ApiFunctionResult but got "' . get_debug_type($result) . '".');
                     }
 
@@ -263,7 +263,7 @@ abstract class ApiFunction
                     }
                 } catch (ApiFunctionException $e) {
                     $message = $e->getMessage();
-                    $result = new ApiFunctionResult(false, $message);
+                    $result = new Result(false, $message);
                     $apiFunc->result = $result;
                 }
             }
@@ -308,7 +308,7 @@ abstract class ApiFunction
     }
 
     /**
-     * @return ApiFunctionResult|null
+     * @return Result|null
      */
     public function getResult()
     {

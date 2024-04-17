@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 
@@ -33,7 +33,7 @@ class ArticleEdit extends ApiFunction
         $data['priority'] = rex_post('article-position', 'int');
         $data['name'] = rex_post('article-name', 'string');
         $data['template_id'] = rex_post('template_id', 'int');
-        return new ApiFunctionResult(true, ArticleHandler::editArticle($articleId, $clang, $data));
+        return new Result(true, ArticleHandler::editArticle($articleId, $clang, $data));
     }
 
     protected function requiresCsrfProtection()

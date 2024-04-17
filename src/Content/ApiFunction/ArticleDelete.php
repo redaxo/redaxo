@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 
@@ -26,7 +26,7 @@ class ArticleDelete extends ApiFunction
         if (!Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             throw new ApiFunctionException('user has no permission for this category!');
         }
-        return new ApiFunctionResult(true, ArticleHandler::deleteArticle($articleId));
+        return new Result(true, ArticleHandler::deleteArticle($articleId));
     }
 
     protected function requiresCsrfProtection()

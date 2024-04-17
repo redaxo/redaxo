@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
@@ -32,10 +32,10 @@ class CategoryMove extends ApiFunction
             && $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)
         ) {
             if ($categoryId != $categoryIdNew && CategoryHandler::moveCategory($categoryId, $categoryIdNew)) {
-                return new ApiFunctionResult(true, I18n::msg('category_moved'));
+                return new Result(true, I18n::msg('category_moved'));
             }
 
-            return new ApiFunctionResult(false, I18n::msg('content_error_movecategory'));
+            return new Result(false, I18n::msg('content_error_movecategory'));
         }
 
         throw new ApiFunctionException('user has no permission for this category!');

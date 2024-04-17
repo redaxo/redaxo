@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
@@ -24,10 +24,10 @@ class CategoryToArticle extends ApiFunction
         // Check permissions: ArticleToCategory and CategoryToArticle share the same permission: ArticleToCategory
         if ($user->hasPerm('article2category[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             if (ArticleHandler::category2article($articleId)) {
-                return new ApiFunctionResult(true, I18n::msg('content_toarticle_ok'));
+                return new Result(true, I18n::msg('content_toarticle_ok'));
             }
 
-            return new ApiFunctionResult(false, I18n::msg('content_toarticle_failed'));
+            return new Result(false, I18n::msg('content_toarticle_failed'));
         }
         throw new ApiFunctionException('User has no permission for this article!');
     }

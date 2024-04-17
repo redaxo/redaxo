@@ -3,8 +3,8 @@
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\ApiFunction\Addon as ApiFunctionAddon;
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
@@ -50,7 +50,7 @@ class rex_api_install_package_add extends ApiFunction
             $success = true;
             unset($_REQUEST['addonkey']);
         }
-        return new ApiFunctionResult($success, $message);
+        return new Result($success, $message);
     }
 
     protected function requiresCsrfProtection()

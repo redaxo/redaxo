@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content\ApiFunction;
 
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionResult;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
@@ -32,13 +32,13 @@ class ArticleCopy extends ApiFunction
 
         if ($user->hasPerm('copyArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryCopyIdNew)) {
             if (false !== ($newId = ArticleHandler::copyArticle($articleId, $categoryCopyIdNew))) {
-                $result = new ApiFunctionResult(true, I18n::msg('content_articlecopied'));
+                $result = new Result(true, I18n::msg('content_articlecopied'));
                 rex_response::sendRedirect($context->getUrl([
                     'article_id' => $newId,
                     'info' => $result->getMessage(),
                 ]));
             } else {
-                $result = new ApiFunctionResult(false, I18n::msg('content_errorcopyarticle'));
+                $result = new Result(false, I18n::msg('content_errorcopyarticle'));
             }
 
             return $result;
