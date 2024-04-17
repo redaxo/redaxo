@@ -1,7 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
-use Redaxo\Core\Addon\ApiFunction\Addon as ApiFunctionAddon;
+use Redaxo\Core\Addon\ApiFunction\AddonOperation;
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
@@ -41,7 +41,7 @@ class rex_api_install_package_add extends ApiFunction
             $packageInstallUrl = Url::currentBackendPage([
                 'package' => $package->getPackageId(),
                 'function' => 'install',
-            ] + ApiFunctionAddon::getUrlParams());
+            ] + AddonOperation::getUrlParams());
 
             $message = I18n::msg('install_info_addon_downloaded', $addonkey)
                 . ' <a href="' . Url::backendPage('packages', ['mark' => $addonkey]) . '">' . I18n::msg('install_to_addon_page') . '</a>'

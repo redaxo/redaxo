@@ -16,7 +16,7 @@ use function in_array;
 /**
  * @internal
  */
-final class Addon extends ApiFunction
+final class AddonOperation extends ApiFunction
 {
     #[Override]
     public function execute(): Result

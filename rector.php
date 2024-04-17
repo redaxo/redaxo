@@ -133,7 +133,7 @@ return RectorConfig::configure()
         'rex_api_function' => ApiFunction\ApiFunction::class,
         'rex_api_result' => ApiFunction\Result::class,
         'rex_api_metainfo_default_fields_create' => MetaInfo\ApiFunction\DefaultFieldsCreate::class,
-        'rex_api_package' => Addon\ApiFunction\Addon::class,
+        'rex_api_package' => Addon\ApiFunction\AddonOperation::class,
         'rex_api_article2category' => Content\ApiFunction\ArticleToCategory::class,
         'rex_api_article2startarticle' => Content\ApiFunction\ArticleToStartArticle::class,
         'rex_api_article_add' => Content\ApiFunction\ArticleAdd::class,
