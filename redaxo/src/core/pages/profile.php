@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\Login;
@@ -43,7 +44,7 @@ echo rex_view::title(I18n::msg('profile_title'), '');
 
 // backend sprache
 $userpermBeSprache = rex_request('userperm_be_sprache', 'string', $user->getLanguage());
-$selBeSprache = new rex_select();
+$selBeSprache = new Select();
 $selBeSprache->setSize(1);
 $selBeSprache->setStyle('class="form-control"');
 $selBeSprache->setName('userperm_be_sprache');
@@ -59,7 +60,7 @@ foreach ($locales as $locale) {
 
 // --------------------------------- Theme
 
-$selBeTheme = new rex_select();
+$selBeTheme = new Select();
 $selBeTheme->setSize(1);
 $selBeTheme->setStyle('class="form-control"');
 $selBeTheme->setName('usertheme');

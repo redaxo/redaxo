@@ -1,9 +1,13 @@
 <?php
 
+namespace Redaxo\Core\Form\Select;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\MediaPool\MediaCategory;
 
-class rex_media_category_select extends rex_select
+use function is_array;
+
+class MediaCategorySelect extends Select
 {
     /** @var bool */
     private $checkPerms;

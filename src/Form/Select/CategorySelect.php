@@ -1,9 +1,14 @@
 <?php
 
+namespace Redaxo\Core\Form\Select;
+
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
+use rex_exception;
 
-class rex_category_select extends rex_select
+use function is_array;
+
+class CategorySelect extends Select
 {
     /** @var bool */
     private $ignoreOfflines;

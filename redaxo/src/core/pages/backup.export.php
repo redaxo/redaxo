@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -155,7 +156,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$tableSelect = new rex_select();
+$tableSelect = new Select();
 $tableSelect->setMultiple();
 $tableSelect->setId('rex-form-exporttables');
 $tableSelect->setSize(20);
@@ -188,7 +189,7 @@ $n['footer'] = '</div>';
 $formElements[] = $n;
 
 // Vorhandene Exporte auslesen
-$selDirs = new rex_select();
+$selDirs = new Select();
 $selDirs->setId('rex-form-exportdir');
 $selDirs->setName('EXPDIR[]');
 $selDirs->setMultiple();

@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\Validator;
@@ -59,7 +60,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
     $message = I18n::msg('phpmailer_config_saved_successful');
 }
 
-$selMailer = new rex_select();
+$selMailer = new Select();
 $selMailer->setId('phpmailer-mailer');
 $selMailer->setName('settings[phpmailer_mailer]');
 $selMailer->setSize(1);
@@ -75,7 +76,7 @@ foreach ($mta as $type) {
     $selMailer->addOption($type, $type);
 }
 
-$selSecurityMode = new rex_select();
+$selSecurityMode = new Select();
 $selSecurityMode->setId('security_mode');
 $selSecurityMode->setName('settings[phpmailer_security_mode]');
 $selSecurityMode->setSize(1);
@@ -85,7 +86,7 @@ foreach ([0 => I18n::msg('phpmailer_security_mode_manual'), 1 => I18n::msg('phpm
     $selSecurityMode->addOption($type, $i);
 }
 
-$selSmtpauth = new rex_select();
+$selSmtpauth = new Select();
 $selSmtpauth->setId('phpmailer-smtpauth');
 $selSmtpauth->setName('settings[phpmailer_smtpauth]');
 $selSmtpauth->setSize(1);
@@ -95,7 +96,7 @@ foreach ([0 => I18n::msg('phpmailer_disabled'), 1 => I18n::msg('phpmailer_enable
     $selSmtpauth->addOption($type, $i);
 }
 
-$selSmtpsecure = new rex_select();
+$selSmtpsecure = new Select();
 $selSmtpsecure->setId('phpmailer-smtpsecure');
 $selSmtpsecure->setName('settings[phpmailer_smtpsecure]');
 $selSmtpsecure->setSize(1);
@@ -105,7 +106,7 @@ foreach (['' => I18n::msg('phpmailer_no'), 'ssl' => 'ssl', 'tls' => 'tls'] as $t
     $selSmtpsecure->addOption($name, $type);
 }
 
-$selEncoding = new rex_select();
+$selEncoding = new Select();
 $selEncoding->setId('phpmailer-encoding');
 $selEncoding->setName('settings[phpmailer_encoding]');
 $selEncoding->setSize(1);
@@ -115,7 +116,7 @@ foreach (['7bit', '8bit', 'binary', 'base64', 'quoted-printable'] as $enc) {
     $selEncoding->addOption($enc, $enc);
 }
 
-$selPriority = new rex_select();
+$selPriority = new Select();
 $selPriority->setId('phpmailer-priority');
 $selPriority->setName('settings[phpmailer_priority]');
 $selPriority->setSize(1);
@@ -125,7 +126,7 @@ foreach ([0 => I18n::msg('phpmailer_disabled'), 1 => I18n::msg('phpmailer_high')
     $selPriority->addOption($name, $no);
 }
 
-$selLog = new rex_select();
+$selLog = new Select();
 $selLog->setId('phpmailer-log');
 $selLog->setName('settings[phpmailer_logging]');
 $selLog->setSize(1);
@@ -135,7 +136,7 @@ $selLog->addOption(I18n::msg('phpmailer_log_no'), 0);
 $selLog->addOption(I18n::msg('phpmailer_log_errors'), Mailer::LOG_ERRORS);
 $selLog->addOption(I18n::msg('phpmailer_log_all'), Mailer::LOG_ALL);
 
-$selArchive = new rex_select();
+$selArchive = new Select();
 $selArchive->setId('phpmailer-archive');
 $selArchive->setName('settings[phpmailer_archive]');
 $selArchive->setSize(1);
@@ -144,7 +145,7 @@ $selArchive->setSelected((int) Core::getConfig('phpmailer_archive'));
 $selArchive->addOption(I18n::msg('phpmailer_log_no'), 0);
 $selArchive->addOption(I18n::msg('phpmailer_log_yes'), 1);
 
-$selDebug = new rex_select();
+$selDebug = new Select();
 $selDebug->setId('phpmailer-smtp_debug');
 $selDebug->setName('settings[phpmailer_smtp_debug]');
 $selDebug->setSize(1);
@@ -179,7 +180,7 @@ $n['label'] = '<label for="phpmailer-testaddress">' . I18n::msg('phpmailer_check
 $n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="email" name="settings[phpmailer_test_address]" placeholder="test@example.tld" value="' . rex_escape(Core::getConfig('phpmailer_test_address')) . '" />';
 $formElements[] = $n;
 
-$selDetourMode = new rex_select();
+$selDetourMode = new Select();
 $selDetourMode->setId('phpmailer-detour-mode');
 $selDetourMode->setName('settings[phpmailer_detour_mode]');
 $selDetourMode->setSize(1);

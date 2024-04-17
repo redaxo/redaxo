@@ -3,11 +3,11 @@
 namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Form\AbstractForm;
-use rex_select;
+use Redaxo\Core\Form\Select\Select;
 
 class SelectField extends BaseField
 {
-    /** @var rex_select */
+    /** @var Select */
     protected $select;
     /** @var non-empty-string */
     private $separator = '|';
@@ -22,7 +22,7 @@ class SelectField extends BaseField
     {
         parent::__construct('', $form, $attributes);
 
-        $this->select = new rex_select();
+        $this->select = new Select();
     }
 
     public function formatElement()
@@ -64,7 +64,7 @@ class SelectField extends BaseField
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getSelect()
     {
@@ -74,7 +74,7 @@ class SelectField extends BaseField
     /**
      * @return void
      */
-    public function setSelect(rex_select $select)
+    public function setSelect(Select $select)
     {
         $this->select = $select;
         if ($select->hasAttribute('multiple')) {
