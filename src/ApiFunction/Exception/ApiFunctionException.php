@@ -1,6 +1,6 @@
 <?php
 
-namespace Redaxo\Core\ApiFunction;
+namespace Redaxo\Core\ApiFunction\Exception;
 
 use rex_exception;
 

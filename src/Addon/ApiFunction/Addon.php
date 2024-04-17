@@ -6,8 +6,8 @@ use Override;
 use Redaxo\Core\Addon\Addon as BaseAddon;
 use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionException;
 use Redaxo\Core\ApiFunction\ApiFunctionResult;
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Type;
 

@@ -4,6 +4,7 @@ namespace Redaxo\Core\ApiFunction;
 
 use BadMethodCallException;
 use Redaxo\Core\Addon\ApiFunction\Addon;
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Content\ApiFunction\ArticleAdd;
 use Redaxo\Core\Content\ApiFunction\ArticleCopy;

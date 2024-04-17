@@ -3,8 +3,8 @@
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\ApiFunction\Addon as ApiFunctionAddon;
 use Redaxo\Core\ApiFunction\ApiFunction;
-use Redaxo\Core\ApiFunction\ApiFunctionException;
 use Redaxo\Core\ApiFunction\ApiFunctionResult;
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
