@@ -978,20 +978,6 @@
       <code><![CDATA[$params]]></code>
     </MixedArgumentTypeCoercion>
   </file>
-  <file src="redaxo/src/core/lib/api_function.php">
-    <MixedAssignment>
-      <code><![CDATA[$json]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[new $apiClass()]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[rex_get(self::REQ_CALL_PARAM)]]></code>
-    </MixedOperand>
-    <PossiblyNullOperand>
-      <code><![CDATA[$message]]></code>
-    </PossiblyNullOperand>
-  </file>
   <file src="redaxo/src/core/lib/be_style/scss_compiler.php">
     <MixedOperand>
       <code><![CDATA[$path]]></code>
@@ -1127,19 +1113,6 @@
       <code><![CDATA[$this->columnLayouts]]></code>
     </PropertyTypeCoercion>
   </file>
-  <file src="redaxo/src/core/lib/login/api_has_user_session.php">
-    <MixedArgument>
-      <code><![CDATA[$perm]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$perm]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/login/api_user_impersonate.php">
-    <MixedAssignment>
-      <code><![CDATA[$impersonate]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/mediapool/var_media.php">
     <MixedArgument>
       <code><![CDATA[$avalue]]></code>
@@ -1179,11 +1152,6 @@
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/metainfo/handler/api_default_fields.php">
-    <MixedAssignment>
-      <code><![CDATA[$return]]></code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/phpmailer/system_setting_phpmailer_errormail.php">
     <MixedArgument>
@@ -1283,31 +1251,6 @@
     <MixedOperand>
       <code><![CDATA[$source]]></code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/structure/api_functions/api_article2category.php">
-    <PossiblyNullReference>
-      <code><![CDATA[getCategoryId]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/core/lib/structure/api_functions/api_article2startarticle.php">
-    <PossiblyNullReference>
-      <code><![CDATA[getCategoryId]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/core/lib/structure/api_functions/api_article_move.php">
-    <PossiblyNullReference>
-      <code><![CDATA[getCategoryId]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/core/lib/structure/api_functions/api_category2article.php">
-    <PossiblyNullReference>
-      <code><![CDATA[getCategoryId]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/core/lib/structure/api_functions/api_category_move.php">
-    <PossiblyNullReference>
-      <code><![CDATA[getCategoryId]]></code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/structure/content/var_template.php">
     <PossiblyFalseArgument>
@@ -1797,7 +1740,7 @@
       <code><![CDATA[[
         'package' => $package->getPackageId(),
         'function' => $function,
-    ] + rex_api_package::getUrlParams()]]></code>
+    ] + AddonOperation::getUrlParams()]]></code>
     </MixedArgumentTypeCoercion>
     <MixedOperand>
       <code><![CDATA[$function]]></code>
@@ -2287,7 +2230,7 @@
       <code><![CDATA[$userrole]]></code>
       <code><![CDATA[$userrole]]></code>
       <code><![CDATA[$userrole]]></code>
-      <code><![CDATA[['_impersonate' => $list->getValue('id')] + rex_api_user_impersonate::getUrlParams()]]></code>
+      <code><![CDATA[['_impersonate' => $list->getValue('id')] + UserImpersonate::getUrlParams()]]></code>
     </ArgumentTypeCoercion>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$userrole]]></code>
@@ -2425,6 +2368,22 @@
     <MixedReturnStatement>
       <code><![CDATA[$default]]></code>
     </MixedReturnStatement>
+  </file>
+  <file src="src/ApiFunction/ApiFunction.php">
+    <MixedMethodCall>
+      <code><![CDATA[new $apiClass()]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[rex_get(self::REQ_CALL_PARAM)]]></code>
+    </MixedOperand>
+    <PossiblyNullOperand>
+      <code><![CDATA[$message]]></code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="src/ApiFunction/Result.php">
+    <MixedAssignment>
+      <code><![CDATA[$json]]></code>
+    </MixedAssignment>
   </file>
   <file src="src/Backend/Controller.php">
     <ArgumentTypeCoercion>
@@ -2668,6 +2627,31 @@
     <TypeDoesNotContainType>
       <code><![CDATA[is_array($commands)]]></code>
     </TypeDoesNotContainType>
+  </file>
+  <file src="src/Content/ApiFunction/ArticleMove.php">
+    <PossiblyNullReference>
+      <code><![CDATA[getCategoryId]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Content/ApiFunction/ArticleToCategory.php">
+    <PossiblyNullReference>
+      <code><![CDATA[getCategoryId]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Content/ApiFunction/ArticleToStartArticle.php">
+    <PossiblyNullReference>
+      <code><![CDATA[getCategoryId]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Content/ApiFunction/CategoryMove.php">
+    <PossiblyNullReference>
+      <code><![CDATA[getCategoryId]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Content/ApiFunction/CategoryToArticle.php">
+    <PossiblyNullReference>
+      <code><![CDATA[getCategoryId]]></code>
+    </PossiblyNullReference>
   </file>
   <file src="src/Content/Article.php">
     <MixedInferredReturnType>
@@ -4022,6 +4006,11 @@
       <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
     </NullableReturnStatement>
   </file>
+  <file src="src/MetaInfo/ApiFunction/DefaultFieldsCreate.php">
+    <MixedAssignment>
+      <code><![CDATA[$return]]></code>
+    </MixedAssignment>
+  </file>
   <file src="src/MetaInfo/Form/Field/RestrictionField.php">
     <PossiblyNullOperand>
       <code><![CDATA[$id]]></code>
@@ -4309,6 +4298,19 @@
     <PossiblyNullReference>
       <code><![CDATA[getPathAsArray]]></code>
     </PossiblyNullReference>
+  </file>
+  <file src="src/Security/ApiFunction/UserHasSession.php">
+    <MixedArgument>
+      <code><![CDATA[$perm]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$perm]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Security/ApiFunction/UserImpersonate.php">
+    <MixedAssignment>
+      <code><![CDATA[$impersonate]]></code>
+    </MixedAssignment>
   </file>
   <file src="src/Security/BackendLogin.php">
     <ArgumentTypeCoercion>

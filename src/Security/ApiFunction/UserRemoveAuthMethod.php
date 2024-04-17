@@ -1,14 +1,20 @@
 <?php
 
+namespace Redaxo\Core\Security\ApiFunction;
+
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Security\User;
 use Redaxo\Core\Translation\I18n;
+use rex_request;
 
 /**
  * @internal
  */
-class rex_api_user_remove_auth_method extends rex_api_function
+class UserRemoveAuthMethod extends ApiFunction
 {
     public function execute()
     {
@@ -16,7 +22,7 @@ class rex_api_user_remove_auth_method extends rex_api_function
         $user = Core::requireUser();
 
         if ($userId !== $user->getId() && !$user->isAdmin() && (!$user->hasPerm('users[]') || User::require($userId)->isAdmin())) {
-            throw new rex_api_exception('Permission denied');
+            throw new ApiFunctionException('Permission denied');
         }
 
         if (rex_get('password', 'bool')) {
@@ -31,7 +37,7 @@ class rex_api_user_remove_auth_method extends rex_api_function
         return true;
     }
 
-    private function removePassword(int $userId): rex_api_result
+    private function removePassword(int $userId): Result
     {
         $sql = Sql::factory()
             ->setTable(Core::getTable('user'))
@@ -43,16 +49,16 @@ class rex_api_user_remove_auth_method extends rex_api_function
             ->update();
 
         if (!$sql->getRows()) {
-            return new rex_api_result(false, I18n::msg('password_remove_error'));
+            return new Result(false, I18n::msg('password_remove_error'));
         }
 
         User::clearInstance($userId);
         Core::getProperty('login')->changedPassword(null);
 
-        return new rex_api_result(true, I18n::msg('password_removed'));
+        return new Result(true, I18n::msg('password_removed'));
     }
 
-    private function removePasskey(int $userId): rex_api_result
+    private function removePasskey(int $userId): Result
     {
         $passkeyId = rex_request::get('passkey_id', 'string');
 
@@ -62,9 +68,9 @@ class rex_api_user_remove_auth_method extends rex_api_function
             ->delete();
 
         if (!$sql->getRows()) {
-            return new rex_api_result(false, I18n::msg('passkey_remove_error'));
+            return new Result(false, I18n::msg('passkey_remove_error'));
         }
 
-        return new rex_api_result(true, I18n::msg('passkey_removed'));
+        return new Result(true, I18n::msg('passkey_removed'));
     }
 }

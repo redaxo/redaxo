@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -19,7 +20,7 @@ $addonkey = rex_request('addonkey', 'string');
 $coreVersions = [];
 $addons = [];
 
-$message = rex_api_function::getMessage();
+$message = ApiFunction::getMessage();
 
 try {
     $coreVersions = rex_api_install_core_update::getVersions();

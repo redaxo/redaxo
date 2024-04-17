@@ -1,6 +1,10 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Addon\ApiFunction\AddonOperation;
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
@@ -8,15 +12,15 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class rex_api_install_package_add extends rex_api_function
+class rex_api_install_package_add extends ApiFunction
 {
     public function execute()
     {
         if (Core::isLiveMode()) {
-            throw new rex_api_exception('Package management is not available in live mode!');
+            throw new ApiFunctionException('Package management is not available in live mode!');
         }
         if (!Core::getUser()?->isAdmin()) {
-            throw new rex_api_exception('You do not have the permission!');
+            throw new ApiFunctionException('You do not have the permission!');
         }
         $addonkey = rex_request('addonkey', 'string');
         $fileId = rex_request('file', 'int');
@@ -26,7 +30,7 @@ class rex_api_install_package_add extends rex_api_function
         try {
             $message = $installer->run($addonkey, $fileId);
         } catch (rex_functional_exception $exception) {
-            throw new rex_api_exception($exception->getMessage());
+            throw new ApiFunctionException($exception->getMessage());
         }
 
         if ($message) {
@@ -37,7 +41,7 @@ class rex_api_install_package_add extends rex_api_function
             $packageInstallUrl = Url::currentBackendPage([
                 'package' => $package->getPackageId(),
                 'function' => 'install',
-            ] + rex_api_package::getUrlParams());
+            ] + AddonOperation::getUrlParams());
 
             $message = I18n::msg('install_info_addon_downloaded', $addonkey)
                 . ' <a href="' . Url::backendPage('packages', ['mark' => $addonkey]) . '">' . I18n::msg('install_to_addon_page') . '</a>'
@@ -46,7 +50,7 @@ class rex_api_install_package_add extends rex_api_function
             $success = true;
             unset($_REQUEST['addonkey']);
         }
-        return new rex_api_result($success, $message);
+        return new Result($success, $message);
     }
 
     protected function requiresCsrfProtection()

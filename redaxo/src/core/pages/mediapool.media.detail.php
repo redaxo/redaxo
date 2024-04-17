@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
@@ -56,7 +57,7 @@ if (rex_post('btn_delete', 'string')) {
                     $fileId = 0;
 
                     return;
-                } catch (rex_api_exception $e) {
+                } catch (ApiFunctionException $e) {
                     $error = $e->getMessage();
                 }
             } else {
@@ -104,7 +105,7 @@ if (rex_post('btn_update', 'string')) {
                     ]));
                 }
                 $success = I18n::msg('pool_file_infos_updated');
-            } catch (rex_api_exception $e) {
+            } catch (ApiFunctionException $e) {
                 $error = $e->getMessage();
             }
         }

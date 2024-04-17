@@ -1,11 +1,13 @@
 <?php
 
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Security\ApiFunction\UserImpersonate;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\Login;
@@ -299,7 +301,7 @@ if (!empty($warnings)) {
     $message .= rex_view::warning(implode('<br/>', $warnings));
 }
 
-echo rex_api_function::getMessage();
+echo ApiFunction::getMessage();
 
 // --------------------------------- FORMS
 
@@ -672,7 +674,7 @@ if ($SHOW) {
                 return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-sign-in"></i> ' . I18n::msg('login_impersonate') . '</span>';
             }
 
-            $url = Url::currentBackendPage(['_impersonate' => $list->getValue('id')] + rex_api_user_impersonate::getUrlParams());
+            $url = Url::currentBackendPage(['_impersonate' => $list->getValue('id')] + UserImpersonate::getUrlParams());
             return sprintf('<a class="rex-link-expanded" href="%s" data-pjax="false"><i class="rex-icon rex-icon-sign-in"></i> %s</a>', $url, I18n::msg('login_impersonate'));
         });
     }

@@ -1,14 +1,21 @@
 <?php
 
+namespace Redaxo\Core\Content\ApiFunction;
+
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use rex_context;
+use rex_response;
 
 /**
  * @internal
  */
-class rex_api_article_copy extends rex_api_function
+class ArticleCopy extends ApiFunction
 {
     public function execute()
     {
@@ -25,19 +32,19 @@ class rex_api_article_copy extends rex_api_function
 
         if ($user->hasPerm('copyArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryCopyIdNew)) {
             if (false !== ($newId = ArticleHandler::copyArticle($articleId, $categoryCopyIdNew))) {
-                $result = new rex_api_result(true, I18n::msg('content_articlecopied'));
+                $result = new Result(true, I18n::msg('content_articlecopied'));
                 rex_response::sendRedirect($context->getUrl([
                     'article_id' => $newId,
                     'info' => $result->getMessage(),
                 ]));
             } else {
-                $result = new rex_api_result(false, I18n::msg('content_errorcopyarticle'));
+                $result = new Result(false, I18n::msg('content_errorcopyarticle'));
             }
 
             return $result;
         }
 
-        throw new rex_api_exception(I18n::msg('no_rights_to_this_function'));
+        throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
     }
 
     protected function requiresCsrfProtection()

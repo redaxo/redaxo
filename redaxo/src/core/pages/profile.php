@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
@@ -210,7 +211,7 @@ if ('' != $error) {
     echo rex_view::error($error);
 }
 
-echo rex_api_function::getMessage();
+echo ApiFunction::getMessage();
 
 // --------------------------------- FORMS
 

@@ -39,6 +39,7 @@ use Rector\Transform\ValueObject\NewToStaticCall;
 use Rector\TypeDeclaration\Rector as TypeDeclaration;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Addon;
+use Redaxo\Core\ApiFunction;
 use Redaxo\Core\Backend;
 use Redaxo\Core\Base;
 use Redaxo\Core\Config;
@@ -129,6 +130,32 @@ return RectorConfig::configure()
         'rex_addon_interface' => Addon\AddonInterface::class,
         'rex_addon_manager' => Addon\AddonManager::class,
         'rex_null_addon' => Addon\NullAddon::class,
+        'rex_api_exception' => ApiFunction\Exception\ApiFunctionException::class,
+        'rex_api_function' => ApiFunction\ApiFunction::class,
+        'rex_api_result' => ApiFunction\Result::class,
+        'rex_api_metainfo_default_fields_create' => MetaInfo\ApiFunction\DefaultFieldsCreate::class,
+        'rex_api_package' => Addon\ApiFunction\AddonOperation::class,
+        'rex_api_article2category' => Content\ApiFunction\ArticleToCategory::class,
+        'rex_api_article2startarticle' => Content\ApiFunction\ArticleToStartArticle::class,
+        'rex_api_article_add' => Content\ApiFunction\ArticleAdd::class,
+        'rex_api_article_copy' => Content\ApiFunction\ArticleCopy::class,
+        'rex_api_article_delete' => Content\ApiFunction\ArticleDelete::class,
+        'rex_api_article_edit' => Content\ApiFunction\ArticleEdit::class,
+        'rex_api_article_move' => Content\ApiFunction\ArticleMove::class,
+        'rex_api_article_status' => Content\ApiFunction\ArticleStatusChange::class,
+        'rex_api_category2article' => Content\ApiFunction\CategoryToArticle::class,
+        'rex_api_category_add' => Content\ApiFunction\CategoryAdd::class,
+        'rex_api_category_delete' => Content\ApiFunction\CategoryDelete::class,
+        'rex_api_category_edit' => Content\ApiFunction\CategoryEdit::class,
+        'rex_api_category_move' => Content\ApiFunction\CategoryMove::class,
+        'rex_api_category_status' => Content\ApiFunction\CategoryStatusChange::class,
+        'rex_api_content_copy' => Content\ApiFunction\ContentCopy::class,
+        'rex_api_content_move_slice' => Content\ApiFunction\ArticleSliceMove::class,
+        'rex_api_content_slice_status' => Content\ApiFunction\ArticleSliceStatusChange::class,
+        'rex_api_has_user_session' => Security\ApiFunction\UserHasSession::class,
+        'rex_api_user_impersonate' => Security\ApiFunction\UserImpersonate::class,
+        'rex_api_user_remove_auth_method' => Security\ApiFunction\UserRemoveAuthMethod::class,
+        'rex_api_user_remove_session' => Security\ApiFunction\UserRemoveSession::class,
         'rex_be_controller' => Backend\Controller::class,
         'rex_be_navigation' => Backend\Navigation::class,
         'rex_be_page' => Backend\Page::class,

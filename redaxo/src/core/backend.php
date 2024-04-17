@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleRevision;
@@ -609,7 +610,7 @@ if ($user = Core::getUser()) {
     } elseif (!Controller::getCurrentPage()) {
         // trigger api functions before page permission check/redirection, if page param is not set.
         // the api function is responsible for checking permissions.
-        rex_api_function::handleCall();
+        ApiFunction::handleCall();
     }
 
     // --- page pruefen und benoetigte rechte checken
@@ -633,7 +634,7 @@ if (in_array($page, ['profile', 'login'], true)) {
 if ($page) {
     // trigger api functions after PAGE_CHECKED, if page param is set
     // the api function is responsible for checking permissions.
-    rex_api_function::handleCall();
+    ApiFunction::handleCall();
 }
 
 // include the requested backend page

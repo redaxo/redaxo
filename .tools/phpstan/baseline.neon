@@ -281,11 +281,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/login/api_user_impersonate.php
-
-		-
 			message: "#^Method rex_var_media\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/mediapool/var_media.php
@@ -1534,6 +1529,11 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\MediaHandler\\:\\:isMediaInUse\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/MetaInfo/Handler/MediaHandler.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 2
+			path: ../../src/Security/ApiFunction/UserImpersonate.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Security\\\\ComplexPermission\\:\\:getFieldParams\\(\\) return type has no value type specified in iterable type array\\.$#"

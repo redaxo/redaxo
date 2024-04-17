@@ -1,17 +1,22 @@
 <?php
 
+namespace Redaxo\Core\Content\ApiFunction;
+
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
 
 /**
  * @internal
  */
-class rex_api_category_edit extends rex_api_function
+class CategoryEdit extends ApiFunction
 {
     public function execute()
     {
         if (!Core::requireUser()->hasPerm('editCategory[]')) {
-            throw new rex_api_exception('User has no permission to edit categories!');
+            throw new ApiFunctionException('User has no permission to edit categories!');
         }
 
         $catId = rex_request('category-id', 'int');
@@ -21,14 +26,14 @@ class rex_api_category_edit extends rex_api_function
 
         // check permissions
         if (!$user->getComplexPerm('structure')->hasCategoryPerm($catId)) {
-            throw new rex_api_exception('user has no permission for this category!');
+            throw new ApiFunctionException('user has no permission for this category!');
         }
 
         // prepare and validate parameters
         $data = [];
         $data['catpriority'] = rex_post('category-position', 'int');
         $data['catname'] = rex_post('category-name', 'string');
-        return new rex_api_result(true, CategoryHandler::editCategory($catId, $clangId, $data));
+        return new Result(true, CategoryHandler::editCategory($catId, $clangId, $data));
     }
 
     protected function requiresCsrfProtection()

@@ -2,13 +2,13 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
-use rex_api_exception;
 use rex_extension;
 use rex_extension_point;
 
@@ -22,7 +22,7 @@ class ArticleHandler
      *
      * @param array $data Array mit den Daten des Artikels
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -118,7 +118,7 @@ class ArticleHandler
      * @param int $clang Id der Sprache
      * @param array $data Array mit den Daten des Artikels
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -131,7 +131,7 @@ class ArticleHandler
         $thisArt->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and clang_id=?', [$articleId, $clang]);
 
         if (1 != $thisArt->getRows()) {
-            throw new rex_api_exception('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
+            throw new ApiFunctionException('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
         }
 
         $ooArt = Article::get($articleId, $clang);
@@ -210,7 +210,7 @@ class ArticleHandler
      *
      * @param int $articleId Id des Artikels die gelöscht werden soll
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -242,7 +242,7 @@ class ArticleHandler
                 $Art->next();
             }
         } else {
-            throw new rex_api_exception(I18n::msg('article_doesnt_exist'));
+            throw new ApiFunctionException(I18n::msg('article_doesnt_exist'));
         }
 
         return $message;
@@ -253,7 +253,7 @@ class ArticleHandler
      *
      * @param int $id ArtikelId des Artikels, der gelöscht werden soll
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -273,10 +273,10 @@ class ArticleHandler
         // --> rekursiv aufrufen
 
         if ($id == Article::getSiteStartArticleId()) {
-            throw new rex_api_exception(I18n::msg('cant_delete_sitestartarticle'));
+            throw new ApiFunctionException(I18n::msg('cant_delete_sitestartarticle'));
         }
         if ($id == Article::getNotfoundArticleId()) {
-            throw new rex_api_exception(I18n::msg('cant_delete_notfoundarticle'));
+            throw new ApiFunctionException(I18n::msg('cant_delete_notfoundarticle'));
         }
 
         $ART = Sql::factory();
@@ -316,7 +316,7 @@ class ArticleHandler
 
             return $message;
         }
-        throw new rex_api_exception(I18n::msg('category_doesnt_exist'));
+        throw new ApiFunctionException(I18n::msg('category_doesnt_exist'));
     }
 
     /**
@@ -326,7 +326,7 @@ class ArticleHandler
      * @param int $clang Id der Sprache
      * @param int|null $status Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      *
      * @return int Der neue Status des Artikels
      */
@@ -360,7 +360,7 @@ class ArticleHandler
                 'status' => $newstatus,
             ]));
         } else {
-            throw new rex_api_exception(I18n::msg('no_such_category'));
+            throw new ApiFunctionException(I18n::msg('no_such_category'));
         }
 
         return $newstatus;
@@ -902,13 +902,13 @@ class ArticleHandler
      * @param array $array The array
      * @param string $keyName The key
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      * @return void
      */
     protected static function reqKey($array, $keyName)
     {
         if (!isset($array[$keyName])) {
-            throw new rex_api_exception('Missing required parameter "' . $keyName . '"!');
+            throw new ApiFunctionException('Missing required parameter "' . $keyName . '"!');
         }
     }
 

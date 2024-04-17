@@ -1,5 +1,10 @@
 <?php
 
+namespace Redaxo\Core\Content\ApiFunction;
+
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
@@ -8,7 +13,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class rex_api_category_move extends rex_api_function
+class CategoryMove extends ApiFunction
 {
     public function execute()
     {
@@ -27,13 +32,13 @@ class rex_api_category_move extends rex_api_function
             && $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)
         ) {
             if ($categoryId != $categoryIdNew && CategoryHandler::moveCategory($categoryId, $categoryIdNew)) {
-                return new rex_api_result(true, I18n::msg('category_moved'));
+                return new Result(true, I18n::msg('category_moved'));
             }
 
-            return new rex_api_result(false, I18n::msg('content_error_movecategory'));
+            return new Result(false, I18n::msg('content_error_movecategory'));
         }
 
-        throw new rex_api_exception('user has no permission for this category!');
+        throw new ApiFunctionException('user has no permission for this category!');
     }
 
     protected function requiresCsrfProtection()

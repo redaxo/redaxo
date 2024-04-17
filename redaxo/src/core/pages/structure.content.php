@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Backend\Page;
@@ -401,7 +402,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     }
 
     // --------------------------------------------- API MESSAGES
-    $contentMain .= rex_api_function::getMessage();
+    $contentMain .= ApiFunction::getMessage();
 
     if ('' != $warning) {
         $contentMain .= rex_view::warning($warning);

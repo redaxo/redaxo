@@ -1,9 +1,11 @@
 <?php
 
+use Redaxo\Core\ApiFunction\ApiFunction;
+
 /**
  * @internal
  */
-abstract class rex_api_function_debug extends rex_api_function
+abstract class rex_api_function_debug extends ApiFunction
 {
     public static function handleCall()
     {

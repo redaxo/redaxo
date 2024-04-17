@@ -2,6 +2,8 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Addon\ApiFunction\AddonOperation;
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -42,7 +44,7 @@ $getLink = static function (Addon $package, $function, $icon = '', $confirm = fa
     $url = Url::currentBackendPage([
         'package' => $package->getPackageId(),
         'function' => $function,
-    ] + rex_api_package::getUrlParams());
+    ] + AddonOperation::getUrlParams());
 
     $icon = ('' != $icon) ? '<i class="rex-icon ' . $icon . '"></i>' : '';
     return '<a class="rex-link-expanded" href="' . $url . '"' . $onclick . ' data-pjax="false">' . $icon . ' ' . $text . '</a>';
@@ -78,7 +80,7 @@ $getTableRow = static function (Addon $package) use ($getLink) {
     $class .= $package->isSystemPackage() ? ' rex-system-addon' : '';
 
     // --------------------------------------------- API MESSAGES
-    if (($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage()) || ($package->getPackageId() == rex_get('mark', 'string'))) {
+    if (($package->getPackageId() == rex_get('package', 'string') && ApiFunction::hasMessage()) || ($package->getPackageId() == rex_get('mark', 'string'))) {
         $class = ' mark';
     }
 
@@ -144,7 +146,7 @@ $content .= '
     </script>
 ';
 
-echo rex_api_function::getMessage();
+echo ApiFunction::getMessage();
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', I18n::msg('package_caption'), false);

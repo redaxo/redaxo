@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
@@ -89,7 +90,7 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
                         try {
                             MediaHandler::deleteMedia($filename);
                             ++$countDeleted;
-                        } catch (rex_api_exception $e) {
+                        } catch (ApiFunctionException $e) {
                             $error[] = $e->getMessage();
                         }
                     } else {

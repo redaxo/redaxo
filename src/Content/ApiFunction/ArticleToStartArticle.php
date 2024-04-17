@@ -1,5 +1,10 @@
 <?php
 
+namespace Redaxo\Core\Content\ApiFunction;
+
+use Redaxo\Core\ApiFunction\ApiFunction;
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
@@ -8,7 +13,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class rex_api_article2startarticle extends rex_api_function
+class ArticleToStartArticle extends ApiFunction
 {
     public function execute()
     {
@@ -19,13 +24,13 @@ class rex_api_article2startarticle extends rex_api_function
         // Check permissions
         if ($user->hasPerm('article2startarticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             if (ArticleHandler::article2startarticle($articleId)) {
-                return new rex_api_result(true, I18n::msg('content_tostartarticle_ok'));
+                return new Result(true, I18n::msg('content_tostartarticle_ok'));
             }
 
-            return new rex_api_result(false, I18n::msg('content_tostartarticle_failed'));
+            return new Result(false, I18n::msg('content_tostartarticle_failed'));
         }
 
-        throw new rex_api_exception('user has no permission for this article!');
+        throw new ApiFunctionException('user has no permission for this article!');
     }
 
     protected function requiresCsrfProtection()
