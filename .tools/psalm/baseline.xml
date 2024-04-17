@@ -1845,7 +1845,7 @@
       <code><![CDATA[[
         'package' => $package->getPackageId(),
         'function' => $function,
-    ] + ApiFunctionAddon::getUrlParams()]]></code>
+    ] + AddonOperation::getUrlParams()]]></code>
     </MixedArgumentTypeCoercion>
     <MixedOperand>
       <code><![CDATA[$function]]></code>
@@ -2485,7 +2485,7 @@
       <code><![CDATA[$message]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="src/ApiFunction/ApiFunctionResult.php">
+  <file src="src/ApiFunction/Result.php">
     <MixedAssignment>
       <code><![CDATA[$json]]></code>
     </MixedAssignment>
