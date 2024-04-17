@@ -131,7 +131,7 @@ return RectorConfig::configure()
         'rex_null_addon' => Addon\NullAddon::class,
         'rex_api_exception' => ApiFunction\Exception\ApiFunctionException::class,
         'rex_api_function' => ApiFunction\ApiFunction::class,
-        'rex_api_result' => ApiFunction\ApiFunctionResult::class,
+        'rex_api_result' => ApiFunction\Result::class,
         'rex_api_metainfo_default_fields_create' => MetaInfo\ApiFunction\DefaultFieldsCreate::class,
         'rex_api_package' => Addon\ApiFunction\Addon::class,
         'rex_api_article2category' => Content\ApiFunction\ArticleToCategory::class,
