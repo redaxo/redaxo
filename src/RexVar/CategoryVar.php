@@ -1,10 +1,9 @@
 <?php
 
-namespace Redaxo\Core\Content\RexVar;
+namespace Redaxo\Core\RexVar;
 
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Language\Language;
-use Redaxo\Core\RexVar\RexVar;
 
 /**
  * REX_CATEGORY[xzy]

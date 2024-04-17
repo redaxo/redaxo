@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Form\Field;
 
-use Redaxo\Core\Content\RexVar\LinkListVar;
-use Redaxo\Core\Content\RexVar\LinkVar;
 use Redaxo\Core\Form\AbstractForm;
+use Redaxo\Core\RexVar\LinkListVar;
+use Redaxo\Core\RexVar\LinkVar;
 
 class ArticleField extends BaseField
 {

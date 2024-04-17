@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
-use Redaxo\Core\Content\RexVar\LinkListVar;
-use Redaxo\Core\Content\RexVar\LinkVar;
+use Redaxo\Core\RexVar\LinkListVar;
+use Redaxo\Core\RexVar\LinkVar;
 
 /**
  * @internal

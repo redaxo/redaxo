@@ -1,11 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Content\RexVar;
+namespace Redaxo\Core\RexVar;
 
 use Redaxo\Core\Content\ArticleContentBase;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
-use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
 

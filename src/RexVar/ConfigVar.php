@@ -11,7 +11,7 @@ use Redaxo\Core\Core;
  *   - key
  *   - namespace
  */
-class ConfigurationVar extends RexVar
+class ConfigVar extends RexVar
 {
     protected function getOutput()
     {

@@ -8,7 +8,7 @@ use Redaxo\Core\Tests\RexVar\RexVarTestBase;
 /**
  * @internal
  */
-final class ConfigurationVarTest extends RexVarTestBase
+final class ConfigVarTest extends RexVarTestBase
 {
     protected function setUp(): void
     {

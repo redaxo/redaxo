@@ -1,12 +1,11 @@
 <?php
 
-namespace Redaxo\Core\Content\RexVar;
+namespace Redaxo\Core\RexVar;
 
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
 use Redaxo\Core\Language\Language;
-use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
 use rex_fragment;
 

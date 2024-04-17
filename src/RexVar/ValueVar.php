@@ -1,8 +1,6 @@
 <?php
 
-namespace Redaxo\Core\Content\RexVar;
-
-use Redaxo\Core\RexVar\RexVar;
+namespace Redaxo\Core\RexVar;
 
 use function in_array;
 

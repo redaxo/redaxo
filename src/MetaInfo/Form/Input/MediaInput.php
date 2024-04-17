@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
-use Redaxo\Core\MediaPool\RexVar\MediaListVar;
-use Redaxo\Core\MediaPool\RexVar\MediaVar;
+use Redaxo\Core\RexVar\MediaListVar;
+use Redaxo\Core\RexVar\MediaVar;
 
 /**
  * @internal

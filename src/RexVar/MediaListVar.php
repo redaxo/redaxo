@@ -1,9 +1,8 @@
 <?php
 
-namespace Redaxo\Core\MediaPool\RexVar;
+namespace Redaxo\Core\RexVar;
 
 use Redaxo\Core\Core;
-use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
 use rex_fragment;
 

@@ -1,11 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Content\RexVar;
+namespace Redaxo\Core\RexVar;
 
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleContent;
 use Redaxo\Core\Language\Language;
-use Redaxo\Core\RexVar\RexVar;
 
 use function in_array;
 

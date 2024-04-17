@@ -1,9 +1,8 @@
 <?php
 
-namespace Redaxo\Core\Language\RexVar;
+namespace Redaxo\Core\RexVar;
 
 use Redaxo\Core\Language\Language;
-use Redaxo\Core\RexVar\RexVar;
 
 /**
  * REX_LANGUAGE[id=x field=xzy].
