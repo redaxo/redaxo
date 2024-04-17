@@ -4,11 +4,11 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Content\ApiFunction\ArticleAdd;
 use Redaxo\Core\Content\ApiFunction\ArticleDelete;
 use Redaxo\Core\Content\ApiFunction\ArticleEdit;
-use Redaxo\Core\Content\ApiFunction\ArticleStatus;
+use Redaxo\Core\Content\ApiFunction\ArticleStatusChange;
 use Redaxo\Core\Content\ApiFunction\CategoryAdd;
 use Redaxo\Core\Content\ApiFunction\CategoryDelete;
 use Redaxo\Core\Content\ApiFunction\CategoryEdit;
-use Redaxo\Core\Content\ApiFunction\CategoryStatus;
+use Redaxo\Core\Content\ApiFunction\CategoryStatusChange;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Content\Category;
@@ -208,11 +208,11 @@ if ($KAT->getRows() > 0) {
                     $tdLayoutClass = 'rex-table-action-dropdown';
                     $katStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle ' . $statusClass . '" type="button" data-toggle="dropdown"><i class="rex-icon ' . $statusIcon . '"></i>&nbsp;' . $katStatus . '&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
                     foreach ($catStatusTypes as $catStatusKey => $catStatusType) {
-                        $katStatus .= '<li><a class="' . $catStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->getCatStart(), 'cat_status' => $catStatusKey] + CategoryStatus::getUrlParams()) . '">' . $catStatusType[0] . '</a></li>';
+                        $katStatus .= '<li><a class="' . $catStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->getCatStart(), 'cat_status' => $catStatusKey] + CategoryStatusChange::getUrlParams()) . '">' . $catStatusType[0] . '</a></li>';
                     }
                     $katStatus .= '</ul></div>';
                 } else {
-                    $katStatus = '<a class="rex-link-expanded ' . $statusClass . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->getCatStart()] + CategoryStatus::getUrlParams()) . '"><i class="rex-icon ' . $statusIcon . '"></i>&nbsp;' . $katStatus . '</a>';
+                    $katStatus = '<a class="rex-link-expanded ' . $statusClass . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->getCatStart()] + CategoryStatusChange::getUrlParams()) . '"><i class="rex-icon ' . $statusIcon . '"></i>&nbsp;' . $katStatus . '</a>';
                 }
             } else {
                 $katStatus = '<span class="' . $statusClass . ' text-muted"><i class="rex-icon ' . $statusIcon . '"></i> ' . $katStatus . '</span>';
@@ -516,11 +516,11 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                         $tdLayoutClass = 'rex-table-action-dropdown';
                         $articleStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle ' . $articleClass . '" type="button" data-toggle="dropdown"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
                         foreach ($artStatusTypes as $artStatusKey => $artStatusType) {
-                            $articleStatus .= '<li><a  class="' . $artStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart(), 'art_status' => $artStatusKey] + ArticleStatus::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
+                            $articleStatus .= '<li><a  class="' . $artStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart(), 'art_status' => $artStatusKey] + ArticleStatusChange::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
                         }
                         $articleStatus .= '</ul></div>';
                     } else {
-                        $articleStatus = '<a class="' . $articleClass . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + ArticleStatus::getUrlParams()) . '"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '</a>';
+                        $articleStatus = '<a class="' . $articleClass . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + ArticleStatusChange::getUrlParams()) . '"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '</a>';
                     }
                 } else {
                     $articleStatus = '<span class="' . $articleClass . ' text-muted"><i class="rex-icon ' . $articleIcon . '"></i> ' . $articleStatus . '</span>';

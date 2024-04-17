@@ -4,7 +4,7 @@ namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ApiFunction\ArticleSliceMove;
-use Redaxo\Core\Content\ApiFunction\ArticleSliceStatus;
+use Redaxo\Core\Content\ApiFunction\ArticleSliceStatusChange;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
@@ -189,7 +189,7 @@ class ArticleContentEditor extends ArticleContent
                 $item = [];
                 $statusName = $sliceStatus ? 'online' : 'offline';
                 $item['label'] = I18n::msg('status_' . $statusName);
-                $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + ArticleSliceStatus::getUrlParams());
+                $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + ArticleSliceStatusChange::getUrlParams());
                 $item['attributes']['class'][] = 'btn-default';
                 $item['attributes']['class'][] = 'rex-' . $statusName;
                 $menuStatusAction = $item;

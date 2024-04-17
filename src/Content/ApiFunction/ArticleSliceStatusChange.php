@@ -13,7 +13,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class ArticleSliceStatus extends ApiFunction
+class ArticleSliceStatusChange extends ApiFunction
 {
     public function execute()
     {

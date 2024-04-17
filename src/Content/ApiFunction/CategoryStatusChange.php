@@ -12,7 +12,7 @@ use Redaxo\Core\Translation\I18n;
 /**
  * @internal
  */
-class CategoryStatus extends ApiFunction
+class CategoryStatusChange extends ApiFunction
 {
     public function execute()
     {
