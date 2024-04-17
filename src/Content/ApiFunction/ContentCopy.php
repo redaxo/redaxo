@@ -9,6 +9,9 @@ use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
 
+/**
+ * @internal
+ */
 class ContentCopy extends ApiFunction
 {
     /**
