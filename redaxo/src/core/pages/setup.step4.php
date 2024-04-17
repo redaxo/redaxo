@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($context) && $context instanceof rex_context);
@@ -45,7 +46,7 @@ switch ($createdb) {
 }
 
 // Vorhandene Exporte auslesen
-$selExport = new rex_select();
+$selExport = new Select();
 $selExport->setName('import_name');
 $selExport->setId('rex-form-import-name');
 $selExport->setSize(1);

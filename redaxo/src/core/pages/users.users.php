@@ -6,6 +6,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Security\ApiFunction\UserImpersonate;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Security\CsrfToken;
@@ -45,7 +46,7 @@ $useradmin = rex_request('useradmin', 'int');
 $userstatus = rex_request('userstatus', 'int');
 
 // role
-$selRole = new rex_select();
+$selRole = new Select();
 $selRole->setSize(1);
 $selRole->setName('userrole[]');
 $selRole->setId('rex-js-user-role');
@@ -62,7 +63,7 @@ foreach ($sqlRole as $role) {
 $userrole = rex_request('userrole', 'array');
 
 // backend sprache
-$selBeSprache = new rex_select();
+$selBeSprache = new Select();
 $selBeSprache->setSize(1);
 $selBeSprache->setName('userperm_be_sprache');
 $selBeSprache->setId('rex-user-perm-mylang');
@@ -77,7 +78,7 @@ I18n::setLocale($saveLocale, false);
 $userpermBeSprache = rex_request('userperm_be_sprache', 'string');
 
 // ----- welche startseite
-$selStartpage = new rex_select();
+$selStartpage = new Select();
 $selStartpage->setSize(1);
 $selStartpage->setName('userperm_startpage');
 $selStartpage->setId('rex-user-perm-startpage');

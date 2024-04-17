@@ -6,6 +6,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaHandler;
@@ -108,7 +109,7 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
     }
 }
 
-$catsSel = new rex_media_category_select();
+$catsSel = new MediaCategorySelect();
 $catsSel->setSize(1);
 $catsSel->setStyle('class="form-control selectpicker"');
 $catsSel->setAttribute('data-live-search', 'true');

@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\Form\Select\CategorySelect;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
-use rex_category_select;
 
 use function count;
 use function in_array;
@@ -97,7 +97,7 @@ class StructurePermission extends ComplexPermission
         return [
             'label' => I18n::msg('categories'),
             'all_label' => I18n::msg('all_categories'),
-            'select' => new rex_category_select(false, false, false, false),
+            'select' => new CategorySelect(false, false, false, false),
         ];
     }
 }

@@ -1,9 +1,13 @@
 <?php
 
+namespace Redaxo\Core\Form\Select;
+
+use function count;
+
 /**
  * @internal
  */
-class rex_event_select extends rex_select
+class ActionEventSelect extends Select
 {
     public function __construct($options)
     {

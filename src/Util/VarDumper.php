@@ -1,17 +1,20 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Security\BackendLogin;
-use Redaxo\Core\Util\Editor;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider;
 use Symfony\Component\VarDumper\Dumper\ContextualizedDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
-use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\VarDumper\VarDumper as BaseVarDumper;
 
-abstract class rex_var_dumper
+use const PHP_SAPI;
+
+abstract class VarDumper
 {
     private static ?VarCloner $cloner = null;
     private static ?ContextualizedDumper $dumper = null;
@@ -21,16 +24,16 @@ abstract class rex_var_dumper
      */
     public static function register()
     {
-        VarDumper::setHandler(static function ($var, ?string $label = null) {
+        BaseVarDumper::setHandler(static function ($var, ?string $label = null) {
             if (Core::isDebugMode() || ($user = BackendLogin::createUser()) && $user->isAdmin()) {
-                VarDumper::setHandler(self::dump(...));
+                BaseVarDumper::setHandler(self::dump(...));
                 self::dump($var, $label);
 
                 return;
             }
 
             // register noop handler for non-admins (if not in debug mode)
-            VarDumper::setHandler(static function () {
+            BaseVarDumper::setHandler(static function () {
                 // noop
             });
         });

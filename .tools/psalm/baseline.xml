@@ -983,35 +983,6 @@
       <code><![CDATA[$path]]></code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/lib/config.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$cfg->getValue('value')]]></code>
-    </ArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$v]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[self::$changedData[$namespace][$key]]]></code>
-      <code><![CDATA[self::$data[$cfg->getValue('namespace')][$cfg->getValue('key')]]]></code>
-      <code><![CDATA[self::$data[$namespace][$key]]]></code>
-    </MixedAssignment>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[File::getCache(self::$cacheFile)]]></code>
-    </MixedPropertyTypeCoercion>
-    <MixedReturnStatement>
-      <code><![CDATA[self::$data[$namespace][$key] ?? $default]]></code>
-    </MixedReturnStatement>
-    <PossiblyNullArgument>
-      <code><![CDATA[$cfg->getValue('value')]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullArrayOffset>
-      <code><![CDATA[self::$data]]></code>
-      <code><![CDATA[self::$data[$cfg->getValue('namespace')]]]></code>
-    </PossiblyNullArrayOffset>
-    <PropertyTypeCoercion>
-      <code><![CDATA[self::$data]]></code>
-    </PropertyTypeCoercion>
-  </file>
   <file src="redaxo/src/core/lib/context.php">
     <InvalidArgument>
       <code><![CDATA[$_GET]]></code>
@@ -1142,11 +1113,6 @@
       <code><![CDATA[$this->columnLayouts]]></code>
     </PropertyTypeCoercion>
   </file>
-  <file src="redaxo/src/core/lib/mediapool/media_category_select.php">
-    <MixedAssignment>
-      <code><![CDATA[$this->checkPerms]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/mediapool/var_media.php">
     <MixedArgument>
       <code><![CDATA[$avalue]]></code>
@@ -1189,10 +1155,10 @@
   </file>
   <file src="redaxo/src/core/lib/phpmailer/system_setting_phpmailer_errormail.php">
     <MixedArgument>
-      <code><![CDATA[rex_config::get('phpmailer', 'errormail', 1)]]></code>
+      <code><![CDATA[Config::get('phpmailer', 'errormail', 1)]]></code>
     </MixedArgument>
     <PossiblyNullArgument>
-      <code><![CDATA[rex_config::get('phpmailer', 'errormail', 1)]]></code>
+      <code><![CDATA[Config::get('phpmailer', 'errormail', 1)]]></code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/request.php">
@@ -1257,25 +1223,6 @@
       <code><![CDATA[$path]]></code>
     </RedundantCondition>
   </file>
-  <file src="redaxo/src/core/lib/select.php">
-    <MixedArgument>
-      <code><![CDATA[$option[0]]]></code>
-      <code><![CDATA[$option[0]]]></code>
-      <code><![CDATA[$option[0]]]></code>
-      <code><![CDATA[$option[0]]]></code>
-      <code><![CDATA[$option[1]]]></code>
-      <code><![CDATA[$option[1]]]></code>
-      <code><![CDATA[$option[1]]]></code>
-      <code><![CDATA[$option[2]]]></code>
-      <code><![CDATA[$option[3]]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$attributes]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$option]]></code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
     <MixedArgument>
       <code><![CDATA[$config['db'][1]['host']]]></code>
@@ -1304,39 +1251,6 @@
     <MixedOperand>
       <code><![CDATA[$source]]></code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/event_select.php">
-    <MixedArgument>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$options]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/structure/content/select_template.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$selected]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidArrayOffset>
-      <code><![CDATA[$templates[$selected]]]></code>
-      <code><![CDATA[$templates[$selected]]]></code>
-    </InvalidArrayOffset>
-    <MixedArgument>
-      <code><![CDATA[$templateName]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$templateName]]></code>
-    </MixedAssignment>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$this->templates]]></code>
-    </MixedPropertyTypeCoercion>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[$this->templates]]></code>
-      <code><![CDATA[array<int, string>]]></code>
-    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/structure/content/var_template.php">
     <PossiblyFalseArgument>
@@ -1428,20 +1342,6 @@
       <code><![CDATA[$this->callbacks]]></code>
     </PropertyTypeCoercion>
   </file>
-  <file src="redaxo/src/core/lib/structure/select_category.php">
-    <MixedArgument>
-      <code><![CDATA[$group]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$this->addHomepage]]></code>
-      <code><![CDATA[$this->checkPerms]]></code>
-      <code><![CDATA[$this->clang]]></code>
-      <code><![CDATA[$this->ignoreOfflines]]></code>
-    </MixedAssignment>
-    <RedundantCondition>
-      <code><![CDATA[$this->checkPerms]]></code>
-    </RedundantCondition>
-  </file>
   <file src="redaxo/src/core/lib/structure/system_setting_article_id.php">
     <MixedArgument>
       <code><![CDATA[Core::getConfig($this->key, 1)]]></code>
@@ -1498,11 +1398,6 @@
       <code><![CDATA[$this->getParsedArg('prefix')]]></code>
       <code><![CDATA[$this->getParsedArg('suffix')]]></code>
     </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/var_dumper.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$line]]></code>
-    </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/view.php">
     <MixedArgument>
@@ -2531,6 +2426,35 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$href]]></code>
     </MixedArgumentTypeCoercion>
+  </file>
+  <file src="src/Config.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$cfg->getValue('value')]]></code>
+    </ArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[self::$changedData[$namespace][$key]]]></code>
+      <code><![CDATA[self::$data[$cfg->getValue('namespace')][$cfg->getValue('key')]]]></code>
+      <code><![CDATA[self::$data[$namespace][$key]]]></code>
+    </MixedAssignment>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[File::getCache(self::$cacheFile)]]></code>
+    </MixedPropertyTypeCoercion>
+    <MixedReturnStatement>
+      <code><![CDATA[self::$data[$namespace][$key] ?? $default]]></code>
+    </MixedReturnStatement>
+    <PossiblyNullArgument>
+      <code><![CDATA[$cfg->getValue('value')]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayOffset>
+      <code><![CDATA[self::$data]]></code>
+      <code><![CDATA[self::$data[$cfg->getValue('namespace')]]]></code>
+    </PossiblyNullArrayOffset>
+    <PropertyTypeCoercion>
+      <code><![CDATA[self::$data]]></code>
+    </PropertyTypeCoercion>
   </file>
   <file src="src/Console/Application.php">
     <PossiblyNullReference>
@@ -3623,6 +3547,77 @@
       <code><![CDATA[$this->languageSupport['id']]]></code>
     </MixedArgument>
   </file>
+  <file src="src/Form/Select/ActionEventSelect.php">
+    <MixedArgument>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$options]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Form/Select/CategorySelect.php">
+    <MixedArgument>
+      <code><![CDATA[$group]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$this->addHomepage]]></code>
+      <code><![CDATA[$this->checkPerms]]></code>
+      <code><![CDATA[$this->clang]]></code>
+      <code><![CDATA[$this->ignoreOfflines]]></code>
+    </MixedAssignment>
+    <RedundantCondition>
+      <code><![CDATA[$this->checkPerms]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="src/Form/Select/MediaCategorySelect.php">
+    <MixedAssignment>
+      <code><![CDATA[$this->checkPerms]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Form/Select/Select.php">
+    <MixedArgument>
+      <code><![CDATA[$option[0]]]></code>
+      <code><![CDATA[$option[0]]]></code>
+      <code><![CDATA[$option[0]]]></code>
+      <code><![CDATA[$option[0]]]></code>
+      <code><![CDATA[$option[1]]]></code>
+      <code><![CDATA[$option[1]]]></code>
+      <code><![CDATA[$option[1]]]></code>
+      <code><![CDATA[$option[2]]]></code>
+      <code><![CDATA[$option[3]]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$attributes]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$option]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Form/Select/TemplateSelect.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$selected]]></code>
+    </ArgumentTypeCoercion>
+    <InvalidArrayOffset>
+      <code><![CDATA[$templates[$selected]]]></code>
+      <code><![CDATA[$templates[$selected]]]></code>
+    </InvalidArrayOffset>
+    <MixedArgument>
+      <code><![CDATA[$templateName]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$templateName]]></code>
+    </MixedAssignment>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$this->templates]]></code>
+    </MixedPropertyTypeCoercion>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$this->templates]]></code>
+      <code><![CDATA[array<int, string>]]></code>
+    </MixedReturnTypeCoercion>
+  </file>
   <file src="src/Language/Language.php">
     <MixedArrayAccess>
       <code><![CDATA[$data['priority']]]></code>
@@ -4672,6 +4667,11 @@
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$cast[2]]]></code>
     </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Util/VarDumper.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$line]]></code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="src/Util/Version.php">
     <FalsableReturnStatement>

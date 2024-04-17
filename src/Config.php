@@ -1,16 +1,22 @@
 <?php
 
-use Redaxo\Core\Core;
+namespace Redaxo\Core;
+
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use rex_exception;
+
+use function count;
+use function dirname;
+use function is_array;
 
 /**
  * Class for handling configurations.
  * The configuration is persisted between requests.
  */
-class rex_config
+class Config
 {
     /**
      * Flag to indicate if the config was initialized.
@@ -194,7 +200,7 @@ class rex_config
     }
 
     /**
-     * Refreshes rex_config by reloading config from db.
+     * Refreshes Configuration by reloading config from db.
      */
     public static function refresh(): void
     {
@@ -214,7 +220,7 @@ class rex_config
     }
 
     /**
-     * initilizes the rex_config class.
+     * initilizes the Configuration class.
      * @return void
      */
     protected static function init()
@@ -230,7 +236,7 @@ class rex_config
         $dir = dirname(self::$cacheFile);
         Dir::create($dir);
         if (!is_writable($dir)) {
-            throw new rex_exception('rex-config: cache dir "' . dirname(self::$cacheFile) . '" is not writable!');
+            throw new rex_exception('Configuration: cache dir "' . dirname(self::$cacheFile) . '" is not writable!');
         }
 
         // save cache on shutdown
@@ -290,7 +296,7 @@ class rex_config
     private static function generateCache(): void
     {
         if (File::putCache(self::$cacheFile, self::$data) <= 0) {
-            throw new rex_exception('rex-config: unable to write cache file ' . self::$cacheFile);
+            throw new rex_exception('Configuration: unable to write cache file ' . self::$cacheFile);
         }
     }
 

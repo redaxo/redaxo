@@ -42,6 +42,7 @@ use Redaxo\Core\Addon;
 use Redaxo\Core\ApiFunction;
 use Redaxo\Core\Backend;
 use Redaxo\Core\Base;
+use Redaxo\Core\Config;
 use Redaxo\Core\Console;
 use Redaxo\Core\Content;
 use Redaxo\Core\Core;
@@ -190,6 +191,7 @@ return RectorConfig::configure()
         'rex_command_only_setup_packages' => Console\Command\OnlySetupAddonsInterface::class,
         'rex_command_standalone' => Console\Command\StandaloneInterface::class,
         'rex_cronjob_form' => Cronjob\Form\CronjobForm::class,
+        'rex_config' => Config::class,
         'rex_config_db' => Database\Configuration::class,
         'rex_cronjob_form_interval_element' => Cronjob\Form\IntervalField::class,
         'rex_cronjob' => Cronjob\Type\AbstractType::class,
@@ -221,6 +223,11 @@ return RectorConfig::configure()
         'rex_form_raw_element' => Form\Field\RawField::class,
         'rex_form_widget_linkmap_element' => Form\Field\ArticleField::class,
         'rex_form_widget_media_element' => Form\Field\MediaField::class,
+        'rex_select' => Form\Select\Select::class,
+        'rex_event_select' => Form\Select\ActionEventSelect::class,
+        'rex_category_select' => Form\Select\CategorySelect::class,
+        'rex_media_category_select' => Form\Select\MediaCategorySelect::class,
+        'rex_template_select' => Form\Select\TemplateSelect::class,
         'rex_formatter' => Util\Formatter::class,
         'rex_i18n' => Translation\I18n::class,
         'rex_input' => MetaInfo\Form\Input\AbstractInput::class,
@@ -294,6 +301,7 @@ return RectorConfig::configure()
         'rex_string' => Util\Str::class,
         'rex_timer' => Util\Timer::class,
         'rex_type' => Util\Type::class,
+        'rex_var_dumper' => Util\VarDumper::class,
         'rex_factory_trait' => Base\FactoryTrait::class,
         'rex_instance_list_pool_trait' => Base\InstanceListPoolTrait::class,
         'rex_instance_pool_trait' => Base\InstancePoolTrait::class,

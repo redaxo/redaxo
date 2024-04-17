@@ -6,6 +6,7 @@ use Exception;
 use PDO;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\MetaInfo\Database\Table;
 use Redaxo\Core\MetaInfo\Form\Input\ArticleInput;
 use Redaxo\Core\MetaInfo\Form\Input\DateInput;
@@ -19,7 +20,6 @@ use Redaxo\Core\Util\Str;
 use rex_extension;
 use rex_extension_point;
 use rex_fragment;
-use rex_select;
 
 use function count;
 use function in_array;
@@ -239,7 +239,7 @@ abstract class AbstractHandler
                 case 'select':
                     $tagAttr = ' class="form-control"';
 
-                    $select = new rex_select();
+                    $select = new Select();
                     $select->setStyle('class="form-control selectpicker"');
                     $select->setName($name);
                     $select->setId($id);
@@ -261,7 +261,7 @@ abstract class AbstractHandler
                         $dbvalues = explode('|', $defaultValue);
                     }
 
-                    // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
+                    // hier mit den "raw"-values arbeiten, da die Select klasse selbst escaped
                     $select->setSelected($dbvalues);
 
                     if ('SELECT' == Sql::getQueryType($params)) {

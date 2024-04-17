@@ -16,6 +16,7 @@ use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Content\StructureContext;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Select\TemplateSelect;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -335,7 +336,7 @@ $echo = '';
 
 // --------------------- READ TEMPLATES
 
-$templateSelect = new rex_template_select($categoryId, $clang);
+$templateSelect = new TemplateSelect($categoryId, $clang);
 if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCategoryId() && !$user->getComplexPerm('structure')->hasMountpoints())) {
     $templateSelect->setName('template_id');
     $templateSelect->setSize(1);

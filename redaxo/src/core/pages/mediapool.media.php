@@ -3,6 +3,7 @@
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 
@@ -17,7 +18,7 @@ $csrf = CsrfToken::factory('mediapool');
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
-$selMedia = new rex_media_category_select($checkPerm = false);
+$selMedia = new MediaCategorySelect($checkPerm = false);
 $selMedia->setId('rex_file_category');
 $selMedia->setName('rex_file_category');
 $selMedia->setSize(1);

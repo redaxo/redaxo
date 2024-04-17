@@ -5,6 +5,8 @@ use Redaxo\Core\Content\TemplateCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\CategorySelect;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -222,7 +224,7 @@ if ('add' == $function || 'edit' == $function) {
         // modules[ctype_id]['all'];
 
         // Module ...
-        $modulSelect = new rex_select();
+        $modulSelect = new Select();
         $modulSelect->setMultiple(true);
         $modulSelect->setSize(10);
         $modulSelect->setAttribute('class', 'form-control');
@@ -232,7 +234,7 @@ if ('add' == $function || 'edit' == $function) {
         }
 
         // Kategorien
-        $catSelect = new rex_category_select(false, false, false, false);
+        $catSelect = new CategorySelect(false, false, false, false);
         $catSelect->setMultiple(true);
         $catSelect->setSize(10);
         $catSelect->setName('categories[]');

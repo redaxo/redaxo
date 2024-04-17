@@ -6,6 +6,7 @@ use Redaxo\Core\Content\ModuleCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -344,7 +345,7 @@ if ('add' == $function || 'edit' == $function) {
                     $content .= $fragment->parse('core/page/section.php');
                 }
 
-                $gaaSel = new rex_select();
+                $gaaSel = new Select();
                 $gaaSel->setName('action_id');
                 $gaaSel->setId('action_id');
                 $gaaSel->setSize(1);

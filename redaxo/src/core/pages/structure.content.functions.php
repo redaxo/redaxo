@@ -9,6 +9,8 @@ use Redaxo\Core\Content\ApiFunction\CategoryToArticle;
 use Redaxo\Core\Content\ApiFunction\ContentCopy;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Select\CategorySelect;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
@@ -179,7 +181,7 @@ if ($isStartpage && $user->hasPerm('article2category[]') && $user->getComplexPer
 if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() > 1) {
     $clangPerm = $user->getComplexPerm('clang')->getClangs();
 
-    $langA = new rex_select();
+    $langA = new Select();
     $langA->setId('clang_a');
     $langA->setName('clang_a');
     $langA->setSize('1');
@@ -189,7 +191,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
         $langA->addOption($val, $key);
     }
 
-    $langB = new rex_select();
+    $langB = new Select();
     $langB->setId('clang_b');
     $langB->setName('clang_b');
     $langB->setSize('1');
@@ -250,7 +252,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
 // --------------------------------------------------- ARTIKEL VERSCHIEBEN START
 if (!$isStartpage && $user->hasPerm('moveArticle[]')) {
     // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
-    $moveA = new rex_category_select(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
+    $moveA = new CategorySelect(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
     $moveA->setId('category_id_new');
     $moveA->setName('category_id_new');
     $moveA->setSize('1');
@@ -291,7 +293,7 @@ if (!$isStartpage && $user->hasPerm('moveArticle[]')) {
 
 // -------------------------------------------------- ARTIKEL KOPIEREN START
 if ($user->hasPerm('copyArticle[]')) {
-    $moveA = new rex_category_select(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
+    $moveA = new CategorySelect(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
     $moveA->setName('category_copy_id_new');
     $moveA->setId('category_copy_id_new');
     $moveA->setSize('1');
@@ -332,7 +334,7 @@ if ($user->hasPerm('copyArticle[]')) {
 
 // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START
 if ($isStartpage && $user->hasPerm('moveCategory[]') && $user->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
-    $moveA = new rex_category_select(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
+    $moveA = new CategorySelect(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
     $moveA->setId('category_id_new');
     $moveA->setName('category_id_new');
     $moveA->setSize('1');
