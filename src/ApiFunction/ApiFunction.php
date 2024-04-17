@@ -3,32 +3,13 @@
 namespace Redaxo\Core\ApiFunction;
 
 use BadMethodCallException;
-use Redaxo\Core\Addon\ApiFunction\Addon;
+use Redaxo\Core\Addon\ApiFunction\AddonOperation;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Base\FactoryTrait;
-use Redaxo\Core\Content\ApiFunction\ArticleAdd;
-use Redaxo\Core\Content\ApiFunction\ArticleCopy;
-use Redaxo\Core\Content\ApiFunction\ArticleDelete;
-use Redaxo\Core\Content\ApiFunction\ArticleEdit;
-use Redaxo\Core\Content\ApiFunction\ArticleMove;
-use Redaxo\Core\Content\ApiFunction\ArticleSliceMove;
-use Redaxo\Core\Content\ApiFunction\ArticleSliceStatus;
-use Redaxo\Core\Content\ApiFunction\ArticleStatus;
-use Redaxo\Core\Content\ApiFunction\ArticleToCategory;
-use Redaxo\Core\Content\ApiFunction\ArticleToStartArticle;
-use Redaxo\Core\Content\ApiFunction\CategoryAdd;
-use Redaxo\Core\Content\ApiFunction\CategoryDelete;
-use Redaxo\Core\Content\ApiFunction\CategoryEdit;
-use Redaxo\Core\Content\ApiFunction\CategoryMove;
-use Redaxo\Core\Content\ApiFunction\CategoryStatus;
-use Redaxo\Core\Content\ApiFunction\CategoryToArticle;
-use Redaxo\Core\Content\ApiFunction\ContentCopy;
+use Redaxo\Core\Content\ApiFunction as ContentApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
-use Redaxo\Core\Security\ApiFunction\UserHasSession;
-use Redaxo\Core\Security\ApiFunction\UserImpersonate;
-use Redaxo\Core\Security\ApiFunction\UserRemoveAuthMethod;
-use Redaxo\Core\Security\ApiFunction\UserRemoveSession;
+use Redaxo\Core\Security\ApiFunction as SecurityApiFunction;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use rex_context;
@@ -82,29 +63,29 @@ abstract class ApiFunction
      * @var array<string, class-string<ApiFunction>>
      */
     private static $functions = [
+        'package' => AddonOperation::class,
+        'article_add' => ContentApiFunction\ArticleAdd::class,
+        'article_copy' => ContentApiFunction\ArticleCopy::class,
+        'article_delete' => ContentApiFunction\ArticleDelete::class,
+        'article_edit' => ContentApiFunction\ArticleEdit::class,
+        'article_move' => ContentApiFunction\ArticleMove::class,
+        'article_status' => ContentApiFunction\ArticleStatusChange::class,
+        'article_to_category' => ContentApiFunction\ArticleToCategory::class,
+        'article_to_startarticle' => ContentApiFunction\ArticleToStartArticle::class,
+        'category_add' => ContentApiFunction\CategoryAdd::class,
+        'category_delete' => ContentApiFunction\CategoryDelete::class,
+        'category_edit' => ContentApiFunction\CategoryEdit::class,
+        'category_move' => ContentApiFunction\CategoryMove::class,
+        'category_status' => ContentApiFunction\CategoryStatusChange::class,
+        'category_to_article' => ContentApiFunction\CategoryToArticle::class,
+        'content_copy' => ContentApiFunction\ContentCopy::class,
+        'content_move_slice' => ContentApiFunction\ArticleSliceMove::class,
+        'content_slice_status' => ContentApiFunction\ArticleSliceStatusChange::class,
         'metainfo_default_fields_create' => DefaultFieldsCreate::class,
-        'package' => Addon::class,
-        'article2category' => ArticleToCategory::class,
-        'article2startarticle' => ArticleToStartArticle::class,
-        'article_add' => ArticleAdd::class,
-        'article_copy' => ArticleCopy::class,
-        'article_delete' => ArticleDelete::class,
-        'article_edit' => ArticleEdit::class,
-        'article_move' => ArticleMove::class,
-        'article_status' => ArticleStatus::class,
-        'category2article' => CategoryToArticle::class,
-        'category_add' => CategoryAdd::class,
-        'category_delete' => CategoryDelete::class,
-        'category_edit' => CategoryEdit::class,
-        'category_move' => CategoryMove::class,
-        'category_status' => CategoryStatus::class,
-        'content_copy' => ContentCopy::class,
-        'content_move_slice' => ArticleSliceMove::class,
-        'content_slice_status' => ArticleSliceStatus::class,
-        'user_has_session' => UserHasSession::class,
-        'user_impersonate' => UserImpersonate::class,
-        'user_remove_auth_method' => UserRemoveAuthMethod::class,
-        'user_remove_session' => UserRemoveSession::class,
+        'user_has_session' => SecurityApiFunction\UserHasSession::class,
+        'user_impersonate' => SecurityApiFunction\UserImpersonate::class,
+        'user_remove_auth_method' => SecurityApiFunction\UserRemoveAuthMethod::class,
+        'user_remove_session' => SecurityApiFunction\UserRemoveSession::class,
     ];
 
     /**
