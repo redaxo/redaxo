@@ -1,11 +1,13 @@
 <?php
 
+namespace Redaxo\Core\Tests\ExtensionPoint;
+
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 /** @internal */
-final class rex_extension_test extends TestCase
+final class ExtensionTest extends TestCase
 {
     protected function setUp(): void
     {
