@@ -234,7 +234,7 @@ abstract class RexVar
         }
 
         if ($useVariables && !empty($variables)) {
-            $content = '\Redaxo\Core\RexVar\RexVar::nothing(' . implode(', ', $variables) . ') . ' . $content;
+            $content = '\\' . self::class . '::nothing(' . implode(', ', $variables) . ') . ' . $content;
         }
 
         return $content;
