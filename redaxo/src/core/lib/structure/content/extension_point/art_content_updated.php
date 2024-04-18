@@ -4,7 +4,7 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 /**
- * @extends rex_extension_point<string>
+ * @extends ExtensionPoint<string>
  */
 class rex_extension_point_art_content_updated extends ExtensionPoint
 {

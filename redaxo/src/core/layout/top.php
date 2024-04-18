@@ -225,7 +225,7 @@ if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     $metaNavigation = $fragment->parse('core/navigations/meta.php');
 
     $fragment = new rex_fragment();
-    // $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
+    // $fragment->setVar('pageHeader', Extension::registerPoint(new ExtensionPoint('PAGE_HEADER', '')), false);
     $fragment->setVar('meta_navigation', $metaNavigation, false);
     echo $fragment->parse('core/header.php');
 }

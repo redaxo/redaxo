@@ -4,7 +4,7 @@ use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 /**
- * @extends rex_extension_point<null>
+ * @extends ExtensionPoint<null>
  */
 class rex_extension_point_slice_menu extends ExtensionPoint
 {
