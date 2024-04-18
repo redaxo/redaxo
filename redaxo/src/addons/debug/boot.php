@@ -4,6 +4,7 @@ use Clockwork\Clockwork;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Console\ExtensionPoint\ConsoleShutdown;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -130,7 +131,7 @@ $shutdownFn = static function () {
 };
 
 if ('cli' === PHP_SAPI) {
-    Extension::register(rex_extension_point_console_shutdown::NAME, static function (rex_extension_point_console_shutdown $extensionPoint) use ($shutdownFn) {
+    Extension::register(ConsoleShutdown::NAME, static function (ConsoleShutdown $extensionPoint) use ($shutdownFn) {
         $shutdownFn();
 
         $command = $extensionPoint->getCommand();

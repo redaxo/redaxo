@@ -48,6 +48,7 @@ use Redaxo\Core\Content;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
+use Redaxo\Core\ExtensionPoint;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
 use Redaxo\Core\HttpClient;
@@ -205,6 +206,9 @@ return RectorConfig::configure()
         'rex_cronjob_manager_sql' => Cronjob\CronjobManager::class,
         'rex_dir' => Filesystem\Dir::class,
         'rex_editor' => Util\Editor::class,
+        'rex_extension' => ExtensionPoint\Extension::class,
+        'rex_extension_point' => ExtensionPoint\ExtensionPoint::class,
+        'rex_extension_point_console_shutdown' => Console\ExtensionPoint\ConsoleShutdown::class,
         'rex_file' => Filesystem\File::class,
         'rex_finder' => Filesystem\Finder::class,
         'rex_form_base' => Form\AbstractForm::class,
