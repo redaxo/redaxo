@@ -1,9 +1,10 @@
 <?php
 
+namespace Redaxo\Core\Tests\RexVar;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
-use Redaxo\Core\Tests\RexVar\RexVarTestBase;
 
 /**
  * @internal
