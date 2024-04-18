@@ -7,13 +7,13 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
-use rex_extension;
-use rex_extension_point;
 use rex_extension_point_art_content_updated;
 
 use function function_exists;
@@ -69,7 +69,7 @@ class ContentHandler
         $article = Article::get($articleId, $clangId);
 
         // ----- EXTENSION POINT
-        $message = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $message, [
+        $message = Extension::registerPoint(new ExtensionPoint('SLICE_ADDED', $message, [
             'article_id' => $articleId,
             'clang' => $clangId,
             'function' => '',
@@ -82,7 +82,7 @@ class ContentHandler
             'slice_revision' => $data['revision'],
         ]));
 
-        return rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message));
+        return Extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message));
     }
 
     /**
@@ -122,7 +122,7 @@ class ContentHandler
             $ctype = $CM->getValue('ctype_id');
             $sliceRevision = $CM->getValue('revision');
 
-            rex_extension::registerPoint(new rex_extension_point('SLICE_MOVE', '', [
+            Extension::registerPoint(new ExtensionPoint('SLICE_MOVE', '', [
                 'direction' => $direction,
                 'slice_id' => $sliceId,
                 'article_id' => $articleId,
@@ -159,7 +159,7 @@ class ContentHandler
 
                 $info = I18n::msg('slice_moved');
                 $article = Article::get($articleId, $clang);
-                $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_moved', $info));
+                $info = Extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_moved', $info));
             } else {
                 throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!');
             }
@@ -186,7 +186,7 @@ class ContentHandler
             return false;
         }
 
-        rex_extension::registerPoint(new rex_extension_point('SLICE_DELETE', '', [
+        Extension::registerPoint(new ExtensionPoint('SLICE_DELETE', '', [
             'slice_id' => $sliceId,
             'article_id' => $curr->getValue('article_id'),
             'clang_id' => $curr->getValue('clang_id'),
@@ -230,7 +230,7 @@ class ContentHandler
 
         ArticleCache::deleteContent($article->getId(), $article->getClangId());
 
-        rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_status'));
+        Extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_status'));
     }
 
     /**
@@ -261,7 +261,7 @@ class ContentHandler
             return true;
         }
 
-        rex_extension::registerPoint(new rex_extension_point('ART_SLICES_COPY', '', [
+        Extension::registerPoint(new ExtensionPoint('ART_SLICES_COPY', '', [
             'article_id' => $toId,
             'clang_id' => $toClang,
             'slice_revision' => $revision,
@@ -331,7 +331,7 @@ class ContentHandler
         ArticleCache::deleteContent($toId, $toClang);
 
         $article = Article::get($toId, $toClang);
-        rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'content_copied'));
+        Extension::registerPoint(new rex_extension_point_art_content_updated($article, 'content_copied'));
 
         return true;
     }
@@ -365,7 +365,7 @@ class ContentHandler
             $articleContent = $CONT->getArticle();
 
             // ----- EXTENSION POINT
-            $articleContent = rex_extension::registerPoint(new rex_extension_point('GENERATE_FILTER', $articleContent, [
+            $articleContent = Extension::registerPoint(new ExtensionPoint('GENERATE_FILTER', $articleContent, [
                 'id' => $articleId,
                 'clang' => $clangId,
                 'article' => $CONT,

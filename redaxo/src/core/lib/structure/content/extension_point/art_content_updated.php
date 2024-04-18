@@ -1,11 +1,12 @@
 <?php
 
 use Redaxo\Core\Content\Article;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 /**
  * @extends rex_extension_point<string>
  */
-class rex_extension_point_art_content_updated extends rex_extension_point
+class rex_extension_point_art_content_updated extends ExtensionPoint
 {
     public const NAME = 'ART_CONTENT_UPDATED';
 

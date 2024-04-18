@@ -4,6 +4,8 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
@@ -183,7 +185,7 @@ if ($warnings) {
         Core::getProperty('login')->changedPassword($passwordHash);
     }
 
-    rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
+    Extension::registerPoint(new ExtensionPoint('USER_UPDATED', '', [
         'id' => $userId,
         'user' => $user,
         'password' => $userpsw,
@@ -210,7 +212,7 @@ if ($warnings) {
 
         User::clearInstance($userId);
 
-        rex_extension::registerPoint(new rex_extension_point('USER_DELETED', '', [
+        Extension::registerPoint(new ExtensionPoint('USER_DELETED', '', [
             'id' => $userId,
             'user' => $user,
         ], true));
@@ -251,7 +253,7 @@ if ($warnings) {
         $fUNCADD = '';
         $info[] = I18n::msg('user_added');
 
-        rex_extension::registerPoint(new rex_extension_point('USER_ADDED', '', [
+        Extension::registerPoint(new ExtensionPoint('USER_ADDED', '', [
             'id' => $adduser->getLastId(),
             'user' => User::require($adduser->getLastId()),
             'password' => $userpsw,

@@ -4,6 +4,8 @@ use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
@@ -144,7 +146,7 @@ class rex_backup
         // ----- EXTENSION POINT
         $filesize = filesize($filename);
         $msg = '';
-        $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_DB_IMPORT', $msg, [
+        $msg = Extension::registerPoint(new ExtensionPoint('BACKUP_BEFORE_DB_IMPORT', $msg, [
             'content' => $conts,
             'filename' => $filename,
             'filesize' => $filesize,
@@ -181,7 +183,7 @@ class rex_backup
         Config::refresh();
 
         // ----- EXTENSION POINT
-        $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_IMPORT', $msg, [
+        $msg = Extension::registerPoint(new ExtensionPoint('BACKUP_AFTER_DB_IMPORT', $msg, [
             'content' => $conts,
             'filename' => $filename,
             'filesize' => $filesize,
@@ -222,7 +224,7 @@ class rex_backup
          * @var rex_backup_tar $tar
          * @psalm-ignore-var
          */
-        $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_FILE_IMPORT', $tar));
+        $tar = Extension::registerPoint(new ExtensionPoint('BACKUP_BEFORE_FILE_IMPORT', $tar));
 
         // require import skript to do some userside-magic
         self::importScript(str_replace('.tar.gz', '.php', $filename), self::IMPORT_ARCHIVE, self::IMPORT_EVENT_PRE);
@@ -232,7 +234,7 @@ class rex_backup
         $msg = I18n::msg('backup_file_imported') . '<br />';
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_IMPORT', $tar));
+        Extension::registerPoint(new ExtensionPoint('BACKUP_AFTER_FILE_IMPORT', $tar));
 
         // require import skript to do some userside-magic
         self::importScript(str_replace('.tar.gz', '.php', $filename), self::IMPORT_ARCHIVE, self::IMPORT_EVENT_POST);
@@ -271,7 +273,7 @@ class rex_backup
         $insertSize = 4000;
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_DB_EXPORT'));
+        Extension::registerPoint(new ExtensionPoint('BACKUP_BEFORE_DB_EXPORT'));
 
         // Versionsstempel hinzufügen
         fwrite($fp, '## Redaxo Database Dump Version ' . Core::getVersion('%s') . $nl);
@@ -327,11 +329,11 @@ class rex_backup
         $hasContent = true;
 
         // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
-        if (rex_extension::isRegistered('BACKUP_AFTER_DB_EXPORT')) {
+        if (Extension::isRegistered('BACKUP_AFTER_DB_EXPORT')) {
             $content = File::require($filename);
             $hashBefore = md5($content);
             // ----- EXTENSION POINT
-            $content = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_EXPORT', $content));
+            $content = Extension::registerPoint(new ExtensionPoint('BACKUP_AFTER_DB_EXPORT', $content));
             $hashAfter = md5($content);
 
             if ($hashAfter != $hashBefore) {
@@ -399,14 +401,14 @@ class rex_backup
         $tar->create($archivePath);
 
         // ----- EXTENSION POINT
-        $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_FILE_EXPORT', $tar));
+        $tar = Extension::registerPoint(new ExtensionPoint('BACKUP_BEFORE_FILE_EXPORT', $tar));
 
         foreach ($folders as $item) {
             self::addFolderToTar($tar, Url::frontend(), $item);
         }
 
         // ----- EXTENSION POINT
-        $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_EXPORT', $tar));
+        $tar = Extension::registerPoint(new ExtensionPoint('BACKUP_AFTER_FILE_EXPORT', $tar));
 
         $tar->close();
     }

@@ -5,6 +5,7 @@ namespace Redaxo\Core\Addon;
 use Override;
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -13,7 +14,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
 use rex_exception;
-use rex_extension;
 use rex_extension_point_package_cache_deleted;
 use rex_fragment;
 use rex_functional_exception;
@@ -398,7 +398,7 @@ final class Addon implements AddonInterface
             File::putCache($path, $cache);
         }
 
-        rex_extension::registerPoint(new rex_extension_point_package_cache_deleted($this));
+        Extension::registerPoint(new rex_extension_point_package_cache_deleted($this));
     }
 
     public function enlist(): void

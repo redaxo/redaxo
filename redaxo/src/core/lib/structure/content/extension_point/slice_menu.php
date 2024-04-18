@@ -1,9 +1,12 @@
 <?php
 
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+
 /**
  * @extends rex_extension_point<null>
  */
-class rex_extension_point_slice_menu extends rex_extension_point
+class rex_extension_point_slice_menu extends ExtensionPoint
 {
     public const NAME = 'SLICE_MENU';
 
@@ -119,7 +122,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
         // ----- EXTENSION POINT / for BC reasons we wrap the old and pre-existing EP here
         $menuItemsEp = [];
 
-        $menuItemsEp = rex_extension::registerPoint(new rex_extension_point(
+        $menuItemsEp = Extension::registerPoint(new ExtensionPoint(
             'STRUCTURE_CONTENT_SLICE_MENU',
             $menuItemsEp,
             [

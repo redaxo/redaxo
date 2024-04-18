@@ -5,13 +5,13 @@ namespace Redaxo\Core\MediaPool;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
-use rex_extension;
-use rex_extension_point;
 
 use function count;
 use function in_array;
@@ -106,7 +106,7 @@ final class MediaPool
         }
 
         // ----- EXTENSION POINT
-        $warning = rex_extension::registerPoint(new rex_extension_point('MEDIA_IS_IN_USE', $warning, [
+        $warning = Extension::registerPoint(new ExtensionPoint('MEDIA_IS_IN_USE', $warning, [
             'filename' => $filename,
         ]));
 

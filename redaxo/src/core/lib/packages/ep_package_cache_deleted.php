@@ -1,11 +1,12 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 /**
  * @extends rex_extension_point<Addon>
  */
-final class rex_extension_point_package_cache_deleted extends rex_extension_point
+final class rex_extension_point_package_cache_deleted extends ExtensionPoint
 {
     public const string NAME = 'PACKAGE_CACHE_DELETED';
 

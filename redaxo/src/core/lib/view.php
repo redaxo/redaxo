@@ -4,6 +4,8 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Backend\Page;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
@@ -324,14 +326,14 @@ class rex_view
             $subtitle = '';
         }
 
-        $title = rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE', $head));
+        $title = Extension::registerPoint(new ExtensionPoint('PAGE_TITLE', $head));
 
         $fragment = new rex_fragment();
         $fragment->setVar('heading', $title, false);
         $fragment->setVar('subtitle', $subtitle, false);
         $return = $fragment->parse('core/page/header.php');
 
-        return $return . rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', ''));
+        return $return . Extension::registerPoint(new ExtensionPoint('PAGE_TITLE_SHOWN', ''));
     }
 
     /**

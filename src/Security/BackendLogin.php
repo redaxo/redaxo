@@ -5,10 +5,10 @@ namespace Redaxo\Core\Security;
 use DateTimeImmutable;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 use rex_exception;
-use rex_extension_point;
 use rex_response;
 use SensitiveParameter;
 
@@ -358,9 +358,9 @@ class BackendLogin extends Login
 
     /**
      * @internal
-     * @param rex_extension_point<null> $ep
+     * @param ExtensionPoint<null> $ep
      */
-    public static function sessionRegenerated(rex_extension_point $ep): void
+    public static function sessionRegenerated(ExtensionPoint $ep): void
     {
         if (self::class === $ep->getParam('class')) {
             return;

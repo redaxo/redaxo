@@ -4,12 +4,12 @@ namespace Redaxo\Core\Security;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use rex_exception;
-use rex_extension;
-use rex_extension_point;
 use rex_request;
 use RuntimeException;
 use SensitiveParameter;
@@ -539,7 +539,7 @@ class Login
 
             CsrfToken::removeAll();
 
-            $extensionPoint = new rex_extension_point('SESSION_REGENERATED', null, [
+            $extensionPoint = new ExtensionPoint('SESSION_REGENERATED', null, [
                 'previous_id' => $previous,
                 'new_id' => session_id(),
                 'class' => static::class,
@@ -547,10 +547,10 @@ class Login
 
             // We don't know here if packages have already been loaded
             // Therefore we call the extension point twice, directly and after PACKAGES_INCLUDED
-            rex_extension::registerPoint($extensionPoint);
-            rex_extension::register('PACKAGES_INCLUDED', static function () use ($extensionPoint) {
-                rex_extension::registerPoint($extensionPoint);
-            }, rex_extension::EARLY);
+            Extension::registerPoint($extensionPoint);
+            Extension::register('PACKAGES_INCLUDED', static function () use ($extensionPoint) {
+                Extension::registerPoint($extensionPoint);
+            }, Extension::EARLY);
         }
 
         // session-id is shared between frontend/backend or even redaxo instances per server because it's the same http session

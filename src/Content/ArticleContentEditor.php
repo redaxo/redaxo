@@ -7,11 +7,11 @@ use Redaxo\Core\Content\ApiFunction\ArticleSliceMove;
 use Redaxo\Core\Content\ApiFunction\ArticleSliceStatusChange;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use rex_context;
-use rex_extension;
-use rex_extension_point;
 use rex_extension_point_slice_menu;
 use rex_fragment;
 use rex_response;
@@ -100,7 +100,7 @@ class ArticleContentEditor extends ArticleContent
             $content = $this->getWrappedModuleOutput($moduleId, $moduleOutput);
 
             // EP for changing the module preview
-            $panel .= rex_extension::registerPoint(new rex_extension_point('SLICE_BE_PREVIEW', $content, [
+            $panel .= Extension::registerPoint(new ExtensionPoint('SLICE_BE_PREVIEW', $content, [
                 'article_id' => $this->article_id,
                 'clang' => $this->clang,
                 'ctype' => $this->ctype,
@@ -223,7 +223,7 @@ class ArticleContentEditor extends ArticleContent
         }
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint($ep = new rex_extension_point_slice_menu(
+        Extension::registerPoint($ep = new rex_extension_point_slice_menu(
             $menuEditAction,
             $menuDeleteAction,
             $menuStatusAction,
@@ -336,7 +336,7 @@ class ArticleContentEditor extends ArticleContent
         $fragment->setVar('button_label', I18n::msg('add_block'));
         $fragment->setVar('items', $items, false);
         $select = $fragment->parse('core/structure/content/module_select.php');
-        $select = rex_extension::registerPoint(new rex_extension_point(
+        $select = Extension::registerPoint(new ExtensionPoint(
             'STRUCTURE_CONTENT_MODULE_SELECT',
             $select,
             [

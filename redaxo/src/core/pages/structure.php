@@ -16,6 +16,8 @@ use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Content\StructureContext;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Select\TemplateSelect;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
@@ -46,7 +48,7 @@ if (0 == $structureContext->getClangId()) {
 }
 
 // --------------------- Extension Point
-echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER_PRE', '', [
+echo Extension::registerPoint(new ExtensionPoint('PAGE_STRUCTURE_HEADER_PRE', '', [
     'context' => $structureContext->getContext(),
 ]));
 
@@ -84,7 +86,7 @@ if ($user->hasPerm('addCategory[]') && $structureContext->hasCategoryPermission(
 $dataColspan = 5;
 
 // --------------------- Extension Point
-echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER', '', [
+echo Extension::registerPoint(new ExtensionPoint('PAGE_STRUCTURE_HEADER', '', [
     'category_id' => $structureContext->getCategoryId(),
     'clang' => $structureContext->getClangId(),
 ]));
@@ -154,7 +156,7 @@ $echo .= '
 // --------------------- KATEGORIE ADD FORM
 
 if ('add_cat' == $structureContext->getFunction() && $user->hasPerm('addCategory[]') && $structureContext->hasCategoryPermission()) {
-    $metaButtons = rex_extension::registerPoint(new rex_extension_point('CAT_FORM_BUTTONS', '', [
+    $metaButtons = Extension::registerPoint(new ExtensionPoint('CAT_FORM_BUTTONS', '', [
         'id' => $structureContext->getCategoryId(),
         'clang' => $structureContext->getClangId(),
     ]));
@@ -174,7 +176,7 @@ if ('add_cat' == $structureContext->getFunction() && $user->hasPerm('addCategory
                 </tr>';
 
     // ----- EXTENSION POINT
-    $echo .= rex_extension::registerPoint(new rex_extension_point('CAT_FORM_ADD', '', [
+    $echo .= Extension::registerPoint(new ExtensionPoint('CAT_FORM_ADD', '', [
         'id' => $structureContext->getCategoryId(),
         'clang' => $structureContext->getClangId(),
         'data_colspan' => ($dataColspan + 1),
@@ -223,7 +225,7 @@ if ($KAT->getRows() > 0) {
                 // --------------------- KATEGORIE EDIT FORM
 
                 // ----- EXTENSION POINT
-                $metaButtons = rex_extension::registerPoint(new rex_extension_point('CAT_FORM_BUTTONS', '', [
+                $metaButtons = Extension::registerPoint(new ExtensionPoint('CAT_FORM_BUTTONS', '', [
                     'id' => $structureContext->getEditId(),
                     'clang' => $structureContext->getClangId(),
                 ]));
@@ -247,7 +249,7 @@ if ($KAT->getRows() > 0) {
                     </tr>';
 
                 // ----- EXTENSION POINT
-                $echo .= rex_extension::registerPoint(new rex_extension_point('CAT_FORM_EDIT', '', [
+                $echo .= Extension::registerPoint(new ExtensionPoint('CAT_FORM_EDIT', '', [
                     'id' => $structureContext->getEditId(),
                     'clang' => $structureContext->getClangId(),
                     'category' => $KAT,
@@ -351,7 +353,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         $artAddLink = '<a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['function' => 'add_art', 'artstart' => $structureContext->getArtStart()]) . '"' . Core::getAccesskey(I18n::msg('article_add'), 'add_2') . '><i class="rex-icon rex-icon-add-article"></i></a>';
     }
 
-    $articleOrderBy = rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_ARTICLE_ORDER_BY', 'priority, name', [
+    $articleOrderBy = Extension::registerPoint(new ExtensionPoint('PAGE_STRUCTURE_ARTICLE_ORDER_BY', 'priority, name', [
         'category_id' => $structureContext->getCategoryId(),
         'article_id' => $structureContext->getArticleId(),
         'clang' => $structureContext->getClangId(),

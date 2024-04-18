@@ -1,6 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 /** @internal */
 final class rex_extension_test extends TestCase
@@ -19,11 +21,11 @@ final class rex_extension_test extends TestCase
     {
         $EP = 'TEST_IS_REGISTERED';
 
-        self::assertFalse(rex_extension::isRegistered($EP), 'isRegistered() returns false for non-registered extension points');
+        self::assertFalse(Extension::isRegistered($EP), 'isRegistered() returns false for non-registered extension points');
 
-        rex_extension::register($EP, static function () {});
+        Extension::register($EP, static function () {});
 
-        self::assertTrue(rex_extension::isRegistered($EP), 'isRegistered() returns true for registered extension points');
+        self::assertTrue(Extension::isRegistered($EP), 'isRegistered() returns true for registered extension points');
     }
 
     public function testRegisterPoint(): void
@@ -31,18 +33,18 @@ final class rex_extension_test extends TestCase
         $EP = 'TEST_EP';
 
         $EPParam = null;
-        rex_extension::register($EP, static function (rex_extension_point $ep) use (&$EPParam) {
+        Extension::register($EP, static function (ExtensionPoint $ep) use (&$EPParam) {
             $EPParam = $ep->getName();
             return $ep->getSubject() . ' test2';
         });
 
-        rex_extension::register($EP, static function () {});
+        Extension::register($EP, static function () {});
 
-        rex_extension::register($EP, static function (rex_extension_point $ep) {
+        Extension::register($EP, static function (ExtensionPoint $ep) {
             return $ep->getSubject() . ' test3';
         });
 
-        $result = rex_extension::registerPoint(new rex_extension_point($EP, 'test'));
+        $result = Extension::registerPoint(new ExtensionPoint($EP, 'test'));
 
         self::assertEquals($EP, $EPParam, '$params["extension_point"] contains the extension point name');
         self::assertEquals('test test2 test3', $result, 'registerPoint() returns the returned value of last extension');
@@ -52,17 +54,17 @@ final class rex_extension_test extends TestCase
     {
         $EP = 'TEST_EP_READ_ONLY';
 
-        rex_extension::register($EP, static function () {
+        Extension::register($EP, static function () {
             return 'test2';
         });
 
         $subjectActual = null;
-        rex_extension::register($EP, static function (rex_extension_point $ep) use (&$subjectActual) {
+        Extension::register($EP, static function (ExtensionPoint $ep) use (&$subjectActual) {
             $subjectActual = $ep->getSubject();
         });
 
         $subject = 'test';
-        rex_extension::registerPoint(new rex_extension_point($EP, $subject, [], true));
+        Extension::registerPoint(new ExtensionPoint($EP, $subject, [], true));
 
         self::assertEquals($subject, $subjectActual, "read-only extention points don't change subject param");
     }
@@ -72,12 +74,12 @@ final class rex_extension_test extends TestCase
         $EP = 'TEST_EP_WITH_PARAMS';
 
         $myparamActual = null;
-        rex_extension::register($EP, static function (rex_extension_point $ep) use (&$myparamActual) {
+        Extension::register($EP, static function (ExtensionPoint $ep) use (&$myparamActual) {
             $myparamActual = $ep->getParam('myparam');
         });
 
         $myparam = 'myparam';
-        rex_extension::registerPoint(new rex_extension_point($EP, null, ['myparam' => $myparam]));
+        Extension::registerPoint(new ExtensionPoint($EP, null, ['myparam' => $myparam]));
 
         self::assertEquals($myparam, $myparamActual, 'additional params will be available in extentions');
     }
@@ -87,20 +89,20 @@ final class rex_extension_test extends TestCase
         $EP = 'TEST_EP_LEVELS';
 
         $callback = static function ($str) {
-            return static function (rex_extension_point $ep) use ($str) {
+            return static function (ExtensionPoint $ep) use ($str) {
                 return $ep->getSubject() . $str . ' ';
             };
         };
 
-        rex_extension::register($EP, $callback('late1'), rex_extension::LATE);
-        rex_extension::register($EP, $callback('normal1'));
-        rex_extension::register($EP, $callback('early1'), rex_extension::EARLY);
-        rex_extension::register($EP, $callback('late2'), rex_extension::LATE);
-        rex_extension::register($EP, $callback('normal2'), rex_extension::NORMAL);
-        rex_extension::register($EP, $callback('early2'), rex_extension::EARLY);
+        Extension::register($EP, $callback('late1'), Extension::LATE);
+        Extension::register($EP, $callback('normal1'));
+        Extension::register($EP, $callback('early1'), Extension::EARLY);
+        Extension::register($EP, $callback('late2'), Extension::LATE);
+        Extension::register($EP, $callback('normal2'), Extension::NORMAL);
+        Extension::register($EP, $callback('early2'), Extension::EARLY);
 
         $expected = 'early1 early2 normal1 normal2 late1 late2 ';
-        $actual = rex_extension::registerPoint(new rex_extension_point($EP, ''));
+        $actual = Extension::registerPoint(new ExtensionPoint($EP, ''));
 
         self::assertEquals($expected, $actual);
     }
@@ -110,14 +112,14 @@ final class rex_extension_test extends TestCase
         $EP1 = 'TEST_EP_MULTIPLE_1';
         $EP2 = 'TEST_EP_MULTIPLE_2';
 
-        rex_extension::register([$EP1, $EP2], static function () {
+        Extension::register([$EP1, $EP2], static function () {
             return 'foo';
         });
 
         /** @var string|null $subject */
         $subject = null;
 
-        self::assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP1, $subject)));
-        self::assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP2, $subject)));
+        self::assertSame('foo', Extension::registerPoint(new ExtensionPoint($EP1, $subject)));
+        self::assertSame('foo', Extension::registerPoint(new ExtensionPoint($EP2, $subject)));
     }
 }

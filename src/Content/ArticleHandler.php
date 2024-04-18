@@ -6,11 +6,11 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
-use rex_extension;
-use rex_extension_point;
 
 use function count;
 use function is_array;
@@ -95,7 +95,7 @@ class ArticleHandler
             ArticleCache::delete($id, $key);
 
             // ----- EXTENSION POINT
-            $message = rex_extension::registerPoint(new rex_extension_point('ART_ADDED', $message, [
+            $message = Extension::registerPoint(new ExtensionPoint('ART_ADDED', $message, [
                 'id' => $id,
                 'clang' => $key,
                 'status' => 0,
@@ -188,7 +188,7 @@ class ArticleHandler
         ArticleCache::delete($articleId);
 
         // ----- EXTENSION POINT
-        $message = rex_extension::registerPoint(new rex_extension_point('ART_UPDATED', $message, [
+        $message = Extension::registerPoint(new ExtensionPoint('ART_UPDATED', $message, [
             'id' => $articleId,
             'article' => clone $EA,
             'article_old' => clone $thisArt,
@@ -228,7 +228,7 @@ class ArticleHandler
                 self::newArtPrio($parentId, $clang, 0, 1);
 
                 // ----- EXTENSION POINT
-                $message = rex_extension::registerPoint(new rex_extension_point('ART_DELETED', $message, [
+                $message = Extension::registerPoint(new ExtensionPoint('ART_DELETED', $message, [
                     'id' => $articleId,
                     'clang' => $clang,
                     'parent_id' => $parentId,
@@ -285,7 +285,7 @@ class ArticleHandler
         $message = '';
         if ($ART->getRows() > 0) {
             $parentId = (int) $ART->getValue('parent_id');
-            $message = rex_extension::registerPoint(new rex_extension_point('ART_PRE_DELETED', $message, [
+            $message = Extension::registerPoint(new ExtensionPoint('ART_PRE_DELETED', $message, [
                 'id' => $id,
                 'parent_id' => $parentId,
                 'name' => $ART->getValue('name'),
@@ -354,7 +354,7 @@ class ArticleHandler
             ArticleCache::delete($articleId, $clang);
 
             // ----- EXTENSION POINT
-            rex_extension::registerPoint(new rex_extension_point('ART_STATUS', null, [
+            Extension::registerPoint(new ExtensionPoint('ART_STATUS', null, [
                 'id' => $articleId,
                 'clang' => $clang,
                 'status' => $newstatus,
@@ -384,7 +384,7 @@ class ArticleHandler
             ];
 
             // ----- EXTENSION POINT
-            $artStatusTypes = rex_extension::registerPoint(new rex_extension_point('ART_STATUS_TYPES', $artStatusTypes));
+            $artStatusTypes = Extension::registerPoint(new ExtensionPoint('ART_STATUS_TYPES', $artStatusTypes));
         }
 
         return $artStatusTypes;
@@ -486,7 +486,7 @@ class ArticleHandler
         ArticleCache::delete($artId);
 
         foreach (Language::getAllIds() as $clang) {
-            rex_extension::registerPoint(new rex_extension_point('ART_TO_CAT', '', [
+            Extension::registerPoint(new ExtensionPoint('ART_TO_CAT', '', [
                 'id' => $artId,
                 'clang' => $clang,
             ]));
@@ -544,7 +544,7 @@ class ArticleHandler
         ArticleCache::delete($artId);
 
         foreach (Language::getAllIds() as $clang) {
-            rex_extension::registerPoint(new rex_extension_point('CAT_TO_ART', '', [
+            Extension::registerPoint(new ExtensionPoint('CAT_TO_ART', '', [
                 'id' => $artId,
                 'clang' => $clang,
             ]));
@@ -656,7 +656,7 @@ class ArticleHandler
         ComplexPermission::replaceItem('structure', $altId, $neuId);
 
         foreach (Language::getAllIds() as $clang) {
-            rex_extension::registerPoint(new rex_extension_point('ART_TO_STARTARTICLE', '', [
+            Extension::registerPoint(new ExtensionPoint('ART_TO_STARTARTICLE', '', [
                 'id' => $neuId,
                 'id_old' => $altId,
                 'clang' => $clang,
@@ -788,7 +788,7 @@ class ArticleHandler
                     // Prios neu berechnen
                     self::newArtPrio($toCatId, $clang, 1, 0);
 
-                    rex_extension::registerPoint(new rex_extension_point('ART_COPIED', null, [
+                    Extension::registerPoint(new ExtensionPoint('ART_COPIED', null, [
                         'id_source' => $id,
                         'id' => $newId,
                         'clang' => $clang,
@@ -873,7 +873,7 @@ class ArticleHandler
                     self::newArtPrio($toCatId, $clang, 1, 0);
                     self::newArtPrio($fromCatId, $clang, 1, 0);
 
-                    rex_extension::registerPoint(new rex_extension_point('ART_MOVED', null, [
+                    Extension::registerPoint(new ExtensionPoint('ART_MOVED', null, [
                         'id' => $id,
                         'clang' => $clang,
                         'category_id' => $parentId,

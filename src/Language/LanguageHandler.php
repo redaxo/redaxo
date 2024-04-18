@@ -5,12 +5,12 @@ namespace Redaxo\Core\Language;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
-use rex_extension;
-use rex_extension_point;
 use rex_functional_exception;
 
 class LanguageHandler
@@ -68,7 +68,7 @@ class LanguageHandler
 
         // ----- EXTENSION POINT
         $clang = Language::get($id);
-        rex_extension::registerPoint(new rex_extension_point('CLANG_ADDED', '', [
+        Extension::registerPoint(new ExtensionPoint('CLANG_ADDED', '', [
             'id' => $clang->getId(),
             'name' => $clang->getName(),
             'clang' => $clang,
@@ -114,7 +114,7 @@ class LanguageHandler
 
         // ----- EXTENSION POINT
         $clang = Language::get($id);
-        rex_extension::registerPoint(new rex_extension_point('CLANG_UPDATED', '', [
+        Extension::registerPoint(new ExtensionPoint('CLANG_UPDATED', '', [
             'id' => $clang->getId(),
             'name' => $clang->getName(),
             'clang' => $clang,
@@ -155,7 +155,7 @@ class LanguageHandler
         rex_delete_cache();
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint(new rex_extension_point('CLANG_DELETED', '', [
+        Extension::registerPoint(new ExtensionPoint('CLANG_DELETED', '', [
             'id' => $clang->getId(),
             'name' => $clang->getName(),
             'clang' => $clang,

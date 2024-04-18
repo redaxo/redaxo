@@ -4,13 +4,13 @@ namespace Redaxo\Core\MetaInfo\Handler;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MetaInfo\Form\DefaultType;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
-use rex_extension;
-use rex_extension_point;
 
 use function in_array;
 
@@ -28,7 +28,7 @@ class MediaHandler extends AbstractHandler
      *
      * @return list<string>
      */
-    public static function isMediaInUse(rex_extension_point $ep)
+    public static function isMediaInUse(ExtensionPoint $ep)
     {
         $params = $ep->getParams();
         $warning = $ep->getSubject();
@@ -190,7 +190,7 @@ class MediaHandler extends AbstractHandler
         return $field;
     }
 
-    public function extendForm(rex_extension_point $ep)
+    public function extendForm(ExtensionPoint $ep)
     {
         $params = $ep->getParams();
         $params['save'] = in_array($ep->getName(), ['MEDIA_ADDED', 'MEDIA_UPDATED'], true);
@@ -217,10 +217,10 @@ class MediaHandler extends AbstractHandler
 
 $mediaHandler = new MediaHandler();
 
-rex_extension::register('MEDIA_FORM_EDIT', $mediaHandler->extendForm(...));
-rex_extension::register('MEDIA_FORM_ADD', $mediaHandler->extendForm(...));
+Extension::register('MEDIA_FORM_EDIT', $mediaHandler->extendForm(...));
+Extension::register('MEDIA_FORM_ADD', $mediaHandler->extendForm(...));
 
-rex_extension::register('MEDIA_ADDED', $mediaHandler->extendForm(...), rex_extension::EARLY);
-rex_extension::register('MEDIA_UPDATED', $mediaHandler->extendForm(...), rex_extension::EARLY);
+Extension::register('MEDIA_ADDED', $mediaHandler->extendForm(...), Extension::EARLY);
+Extension::register('MEDIA_UPDATED', $mediaHandler->extendForm(...), Extension::EARLY);
 
-rex_extension::register('MEDIA_IS_IN_USE', MediaHandler::isMediaInUse(...));
+Extension::register('MEDIA_IS_IN_USE', MediaHandler::isMediaInUse(...));

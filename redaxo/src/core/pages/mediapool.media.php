@@ -2,6 +2,8 @@
 
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\Security\CsrfToken;
@@ -32,7 +34,7 @@ if (Core::requireUser()->getComplexPerm('media')->hasAll()) {
 }
 
 // ----- EXTENSION POINT
-echo rex_extension::registerPoint(new rex_extension_point('PAGE_MEDIAPOOL_HEADER', '', [
+echo Extension::registerPoint(new ExtensionPoint('PAGE_MEDIAPOOL_HEADER', '', [
     'subpage' => $subpage,
     'category_id' => $rexFileCategory,
 ]));
@@ -70,7 +72,7 @@ $context = new rex_context([
 ]);
 
 // ----- EXTENSION POINT
-$toolbar = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOLBAR', $toolbar, [
+$toolbar = Extension::registerPoint(new ExtensionPoint('MEDIA_LIST_TOOLBAR', $toolbar, [
     'subpage' => $subpage,
     'category_id' => $rexFileCategory,
 ]));

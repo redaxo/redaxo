@@ -4,10 +4,10 @@ namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Translation\I18n;
-use rex_extension;
-use rex_extension_point;
 
 use function call_user_func;
 
@@ -41,10 +41,10 @@ class PriorityField extends SelectField
         $this->table = $form;
         $this->select->setSize(1);
 
-        rex_extension::register('REX_FORM_SAVED', function (rex_extension_point $ep) {
+        Extension::register('REX_FORM_SAVED', function (ExtensionPoint $ep) {
             $this->organizePriorities($ep);
         });
-        rex_extension::register('REX_FORM_DELETED', function (rex_extension_point $ep) {
+        Extension::register('REX_FORM_DELETED', function (ExtensionPoint $ep) {
             $this->organizePriorities($ep);
         });
     }
@@ -119,7 +119,7 @@ class PriorityField extends SelectField
     /**
      * @return void
      */
-    public function organizePriorities(rex_extension_point $ep)
+    public function organizePriorities(ExtensionPoint $ep)
     {
         if ($this->table->equals($ep->getParam('form'))) {
             $name = $this->getFieldName();

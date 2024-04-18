@@ -1,11 +1,15 @@
 <?php
 
+namespace Redaxo\Core\ExtensionPoint;
+
+use rex_exception;
+
 /**
  * @template T
  *
  * @psalm-taint-specialize
  */
-class rex_extension_point
+class ExtensionPoint
 {
     /** @var array<string, mixed> */
     private array $extensionParams = [];
