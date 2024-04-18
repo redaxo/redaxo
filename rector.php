@@ -420,7 +420,7 @@ return RectorConfig::configure()
         new ArgumentRemover(Form\AbstractForm::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
         new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
-        new ArgumentRemover(rex_structure_element::class, 'getUrl', 1, null),
+        new ArgumentRemover(Content\StructureElement::class, 'getUrl', 1, null),
         new ArgumentRemover(MediaManager\MediaManager::class, 'getUrl', 3, null),
 
         new ArgumentRemover(Util\Markdown::class, 'parse', 1, [true]),
