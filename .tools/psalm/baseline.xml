@@ -1024,11 +1024,6 @@
       <code><![CDATA[$previous->errorInfo[1] ?? null]]></code>
     </MixedReturnStatement>
   </file>
-  <file src="redaxo/src/core/lib/extension.php">
-    <InvalidCast>
-      <code><![CDATA[$level]]></code>
-    </InvalidCast>
-  </file>
   <file src="redaxo/src/core/lib/fragment.php">
     <MixedArgument>
       <code><![CDATA[$this->decorator->filename]]></code>
@@ -2261,17 +2256,6 @@
       <code><![CDATA[isAdmin]]></code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/core/tests/extension_test.php">
-    <MixedAssignment>
-      <code><![CDATA[$myparamActual]]></code>
-      <code><![CDATA[$subjectActual]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$ep->getSubject()]]></code>
-      <code><![CDATA[$ep->getSubject()]]></code>
-      <code><![CDATA[$ep->getSubject()]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/tests/var/var_test.php">
     <MixedArgument>
       <code><![CDATA[$params['class']]]></code>
@@ -3328,6 +3312,11 @@
     <PossiblyNullArgument>
       <code><![CDATA[$oldName]]></code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/ExtensionPoint/Extension.php">
+    <InvalidCast>
+      <code><![CDATA[$level]]></code>
+    </InvalidCast>
   </file>
   <file src="src/Filesystem/DefaultPathProvider.php">
     <LessSpecificReturnStatement>
@@ -4724,6 +4713,17 @@
       <code><![CDATA[setExtra]]></code>
       <code><![CDATA[setType]]></code>
     </PossiblyNullReference>
+  </file>
+  <file src="tests/ExtensionPoint/ExtensionTest.php">
+    <MixedAssignment>
+      <code><![CDATA[$myparamActual]]></code>
+      <code><![CDATA[$subjectActual]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$ep->getSubject()]]></code>
+      <code><![CDATA[$ep->getSubject()]]></code>
+      <code><![CDATA[$ep->getSubject()]]></code>
+    </MixedOperand>
   </file>
   <file src="tests/MediaPool/MediaPoolTest.php">
     <MixedAssignment>
