@@ -5,6 +5,7 @@ use Redaxo\Core\Backend\MainPage;
 use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Security\ApiFunction\UserImpersonate;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -17,13 +18,13 @@ use Redaxo\Core\Util\Str;
 $curPage = Controller::requireCurrentPageObject();
 $user = Core::getUser();
 
-if (rex_request::isPJAXRequest()) {
+if (Request::isPJAXRequest()) {
     // add title to the page, so pjax can update it. see gh#136
     echo '<title>' . rex_escape(Controller::getPageTitle()) . '</title>';
 }
 
 if (!$curPage->hasLayout()) {
-    if (rex_request::isPJAXRequest()) {
+    if (Request::isPJAXRequest()) {
         echo '<section class="rex-page-main-inner" id="rex-js-page-main" data-pjax-container="#rex-js-page-main">';
     }
 
@@ -207,7 +208,7 @@ if ('setup' == Controller::getCurrentPagePart(1)) {
 }
 
 /* PJAX Footer Header ********************************************************** */
-if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
+if (!Request::isPJAXContainer('#rex-js-page-container')) {
     $fragment = new rex_fragment();
     $fragment->setVar('pageTitle', Controller::getPageTitle());
     $fragment->setVar('cssFiles', rex_view::getCssFiles());

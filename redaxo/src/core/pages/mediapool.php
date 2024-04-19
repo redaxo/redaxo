@@ -3,6 +3,7 @@
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 
@@ -97,7 +98,7 @@ if ('' != $error) {
     $error = '';
 }
 
-if (!rex_request::isXmlHttpRequest()) {
+if (!Request::isXmlHttpRequest()) {
     ?>
     <script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
         rex_retain_popup_event_handlers("rex:selectMedia");

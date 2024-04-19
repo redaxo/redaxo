@@ -11,6 +11,7 @@ use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Language\LanguagePermission;
 use Redaxo\Core\MediaManager\MediaManager;
@@ -22,7 +23,7 @@ use Redaxo\Core\Security\UserRole;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\VarDumper;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
 /**
  * REDAXO main boot file.
@@ -129,7 +130,7 @@ foreach ($config as $key => $value) {
 date_default_timezone_set(Core::getProperty('timezone', 'Europe/Berlin'));
 
 if ('cli' !== PHP_SAPI) {
-    Core::setProperty('request', Request::createFromGlobals());
+    Core::setProperty('request', BaseRequest::createFromGlobals());
 }
 
 rex_error_handler::register();
@@ -157,11 +158,11 @@ if (!Core::isSetup()) {
 
 // ----------------- HTTPS REDIRECT
 if ('cli' !== PHP_SAPI && !Core::isSetup()) {
-    if ((true === Core::getProperty('use_https') || Core::getEnvironment() === Core::getProperty('use_https')) && !rex_request::isHttps()) {
+    if ((true === Core::getProperty('use_https') || Core::getEnvironment() === Core::getProperty('use_https')) && !Request::isHttps()) {
         rex_response::enforceHttps();
     }
 
-    if (true === Core::getProperty('use_hsts') && rex_request::isHttps()) {
+    if (true === Core::getProperty('use_hsts') && Request::isHttps()) {
         rex_response::setHeader('Strict-Transport-Security', 'max-age=' . (int) Core::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }

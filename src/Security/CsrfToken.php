@@ -4,7 +4,7 @@ namespace Redaxo\Core\Security;
 
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
-use rex_request;
+use Redaxo\Core\Http\Request;
 
 /**
  * Class for generating and validating csrf tokens.
@@ -132,7 +132,7 @@ class CsrfToken
     {
         // use separate tokens for http/https
         // https://symfony.com/blog/cve-2017-16653-csrf-protection-does-not-use-different-tokens-for-http-and-https
-        $suffix = rex_request::isHttps() ? '_https' : '';
+        $suffix = Request::isHttps() ? '_https' : '';
 
         return self::getBaseSessionKey() . $suffix;
     }

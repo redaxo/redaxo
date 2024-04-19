@@ -1,12 +1,22 @@
 <?php
 
+namespace Redaxo\Core\Http;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Type;
+use rex_exception;
+
+use function array_key_exists;
+use function is_array;
+use function is_scalar;
+
+use const PHP_SAPI;
+use const PHP_SESSION_ACTIVE;
 
 /**
  * Class for getting the superglobals.
  */
-class rex_request
+class Request
 {
     /**
      * Returns the variable $varname of $_GET and casts the value.

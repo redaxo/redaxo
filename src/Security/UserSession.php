@@ -5,8 +5,8 @@ namespace Redaxo\Core\Security;
 use Redaxo\Core\Base\SingletonTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Http\Request;
 use rex_exception;
-use rex_request;
 
 /**
  * @internal
@@ -50,8 +50,8 @@ final class UserSession
             ->setTable(Core::getTable('user_session'))
             ->setValue('session_id', session_id())
             ->setValue('user_id', $userId)
-            ->setValue('ip', rex_request::server('REMOTE_ADDR', 'string'))
-            ->setValue('useragent', rex_request::server('HTTP_USER_AGENT', 'string'))
+            ->setValue('ip', Request::server('REMOTE_ADDR', 'string'))
+            ->setValue('useragent', Request::server('HTTP_USER_AGENT', 'string'))
             ->setValue('last_activity', Sql::datetime($login->getSessionVar(Login::SESSION_LAST_ACTIVITY)))
         ;
 

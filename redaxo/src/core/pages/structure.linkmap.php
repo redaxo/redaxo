@@ -5,6 +5,7 @@ use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\Linkmap\ArticleList;
 use Redaxo\Core\Content\Linkmap\CategoryTree;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
@@ -71,7 +72,7 @@ if (str_starts_with($openerInputField, 'REX_LINKLIST_')) {
 // ------------------------ Print JS Functions
 
 $retainEventHandlers = '';
-if (!rex_request::isXmlHttpRequest()) {
+if (!Request::isXmlHttpRequest()) {
     $retainEventHandlers = 'rex_retain_popup_event_handlers("rex:selectLink");';
 }
 

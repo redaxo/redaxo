@@ -4,6 +4,7 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Util\Version;
 
 class rex_system_report
@@ -94,7 +95,7 @@ class rex_system_report
             $data['Request'] = [
                 'Browser' => $this->getBrowser(),
                 'Protocol' => $_SERVER['SERVER_PROTOCOL'],
-                'HTTPS' => rex_request::isHttps(),
+                'HTTPS' => Request::isHttps(),
             ];
         }
 

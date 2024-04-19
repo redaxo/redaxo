@@ -196,6 +196,7 @@ return RectorConfig::configure()
         'rex_config_db' => Database\Configuration::class,
         'rex_context' => Http\Context::class,
         'rex_context_provider_interface' => Http\ContextProviderInterface::class,
+        'rex_request' => Http\Request::class,
         'rex_cronjob_form_interval_element' => Cronjob\Form\IntervalField::class,
         'rex_cronjob' => Cronjob\Type\AbstractType::class,
         'rex_cronjob_urlrequest' => Cronjob\Type\UrlRequestType::class,

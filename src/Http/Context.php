@@ -5,6 +5,8 @@ namespace Redaxo\Core\Http;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 
+use function is_array;
+
 /**
  * A generic implementation of ContextProvider.
  */

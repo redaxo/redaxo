@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
@@ -179,7 +180,7 @@ class rex_setup
     {
         $security = [];
 
-        if (PHP_SAPI !== 'cli' && !rex_request::isHttps()) {
+        if (PHP_SAPI !== 'cli' && !Request::isHttps()) {
             $security[] = I18n::msg('setup_security_no_https');
         }
 

@@ -8,6 +8,7 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Editor;
@@ -17,7 +18,7 @@ if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(ApiFunction
     return;
 }
 
-if (Core::isBackend() && 'debug' === rex_request::get('page') && Core::getUser()?->isAdmin()) {
+if (Core::isBackend() && 'debug' === Request::get('page') && Core::getUser()?->isAdmin()) {
     $index = file_get_contents(Addon::require('debug')->getAssetsPath('clockwork/index.html'));
 
     $editor = Editor::factory();

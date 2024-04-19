@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\Login;
@@ -236,7 +237,7 @@ abstract class rex_error_handler
         if (rex_server('REQUEST_URI')) {
             $bugBody =
                 '**Request-Uri:** ' . rex_server('REQUEST_URI') . "\n" .
-                '**Request-Method:** ' . strtoupper(rex_request::requestMethod()) . "\n" .
+                '**Request-Method:** ' . strtoupper(Request::requestMethod()) . "\n" .
                 "\n" . $bugBody;
         }
 

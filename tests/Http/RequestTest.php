@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Http\Request;
 
 /** @internal */
 final class rex_request_test extends TestCase
@@ -9,7 +10,7 @@ final class rex_request_test extends TestCase
     #[DataProvider('dataArrayKeyCast')]
     public function testArrayKeyCast(mixed $expected, mixed $value, mixed $vartype, mixed $default = ''): void
     {
-        $method = new ReflectionMethod(rex_request::class, 'arrayKeyCast');
+        $method = new ReflectionMethod(Request::class, 'arrayKeyCast');
 
         $haystack = null === $value ? [] : ['varname' => $value];
 

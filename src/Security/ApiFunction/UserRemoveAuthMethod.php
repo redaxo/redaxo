@@ -7,9 +7,9 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Security\User;
 use Redaxo\Core\Translation\I18n;
-use rex_request;
 
 /**
  * @internal
@@ -18,7 +18,7 @@ class UserRemoveAuthMethod extends ApiFunction
 {
     public function execute()
     {
-        $userId = rex_request::get('user_id', 'int');
+        $userId = Request::get('user_id', 'int');
         $user = Core::requireUser();
 
         if ($userId !== $user->getId() && !$user->isAdmin() && (!$user->hasPerm('users[]') || User::require($userId)->isAdmin())) {
@@ -60,7 +60,7 @@ class UserRemoveAuthMethod extends ApiFunction
 
     private function removePasskey(int $userId): Result
     {
-        $passkeyId = rex_request::get('passkey_id', 'string');
+        $passkeyId = Request::get('passkey_id', 'string');
 
         $sql = Sql::factory()
             ->setTable(Core::getTable('user_passkey'))

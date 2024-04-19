@@ -5,7 +5,7 @@ namespace Redaxo\Core\Security\ApiFunction;
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
-use rex_request;
+use Redaxo\Core\Http\Request;
 use rex_response;
 
 /**
@@ -18,7 +18,7 @@ class UserHasSession extends ApiFunction
      */
     public function execute()
     {
-        if (!rex_request::isHttps()) {
+        if (!Request::isHttps()) {
             throw new ApiFunctionException('https is required');
         }
 

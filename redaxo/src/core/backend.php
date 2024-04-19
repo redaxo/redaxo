@@ -12,6 +12,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\CsrfToken;
@@ -123,7 +124,7 @@ if (Core::isSetup()) {
 
         // Currently browsers like Safari do not support the header Clear-Site-Data.
         // we dont kill/regenerate the session so e.g. the frontend will not get logged out
-        rex_request::clearSession();
+        Request::clearSession();
 
         // is necessary for login after logout
         // and without the redirect, the csrf token would be invalid
@@ -144,7 +145,7 @@ if (Core::isSetup()) {
     }
 
     if (true !== $loginCheck) {
-        if (rex_request::isXmlHttpRequest()) {
+        if (Request::isXmlHttpRequest()) {
             rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
         }
 
@@ -167,7 +168,7 @@ if (Core::isSetup()) {
 
             // Currently browsers like Safari do not support the header Clear-Site-Data.
             // we dont kill/regenerate the session so e.g. the frontend will not get logged out
-            rex_request::clearSession();
+            Request::clearSession();
         }
     } else {
         // Userspezifische Sprache einstellen
