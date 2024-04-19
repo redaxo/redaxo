@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Addon;
 
-use Redaxo\Core\Addon\ExtensionPoint\AddonCacheDeleted;
 use Override;
+use Redaxo\Core\Addon\ExtensionPoint\AddonCacheDeleted;
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\ExtensionPoint\Extension;
