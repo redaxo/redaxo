@@ -6,6 +6,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\Login;
@@ -112,7 +113,7 @@ if ($update && !$error) {
     ], true));
 
     // trigger a fullpage-reload which immediately reflects a possible changed language
-    rex_response::sendRedirect(Url::currentBackendPage(['rex_user_updated' => true]));
+    Response::sendRedirect(Url::currentBackendPage(['rex_user_updated' => true]));
 }
 
 $verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool|string {

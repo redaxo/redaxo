@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\PermissionSelectField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\Permission;
@@ -155,7 +156,7 @@ if ('' == $func) {
 
     if ($fieldIds) {
         $content .= '
-            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+            <script type="text/javascript" nonce="' . Response::getNonce() . '">
             <!--
 
             jQuery(function($) {

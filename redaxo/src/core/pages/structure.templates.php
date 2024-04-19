@@ -7,6 +7,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\CategorySelect;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -316,7 +317,7 @@ if ('add' == $function || 'edit' == $function) {
         }
 
         $ctypesOut .= '
-            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+            <script type="text/javascript" nonce="' . Response::getNonce() . '">
             <!--
             jQuery(function($) {
         ';
@@ -496,7 +497,7 @@ if ('add' == $function || 'edit' == $function) {
                 ' . $content . '
             </form>
 
-            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+            <script type="text/javascript" nonce="' . Response::getNonce() . '">
             <!--
             jQuery(function($) {
                 // store the currently selected tab in the hidden input#rex-js-form-template-tab

@@ -10,6 +10,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Form\Field\SelectField;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -217,7 +218,7 @@ if ('' == $func) {
         } else {
             $warning = I18n::rawMsg('cronjob_type_not_found', $field->getValue(), $activeType);
         }
-        rex_response::sendRedirect(Url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning]));
+        Response::sendRedirect(Url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning]));
     }
 
     $form->addFieldset(I18n::msg('cronjob_type_parameters'));
@@ -357,7 +358,7 @@ if ('' == $func) {
     echo $content;
 ?>
 
-    <script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
+    <script type="text/javascript" nonce="<?= Response::getNonce() ?>">
     // <![CDATA[
         jQuery(function($){
             var currentShown = null;
@@ -386,7 +387,7 @@ if ('' == $func) {
     // ]]>
     </script>
 
-    <style nonce="<?= rex_response::getNonce() ?>">
+    <style nonce="<?= Response::getNonce() ?>">
         .rex-cronjob-interval-all .checkbox label {
             font-weight: 700;
         }

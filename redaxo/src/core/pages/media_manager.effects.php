@@ -6,6 +6,7 @@ use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaManager\Effect;
 use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\MediaManager\MediaManager;
@@ -169,7 +170,7 @@ if ('' == $func) {
     $select->setSize(1);
 
     $script = '
-    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+    <script type="text/javascript" nonce="' . Response::getNonce() . '">
     <!--
 
     (function($) {

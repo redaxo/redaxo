@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Security\Login;
@@ -21,7 +22,7 @@ $context = rex_setup::getContext();
 $cancelSetupBtn = '';
 if (!rex_setup::isInitialSetup()) {
     $cancelSetupBtn = '
-    <style nonce="' . rex_response::getNonce() . '">
+    <style nonce="' . Response::getNonce() . '">
         .rex-cancel-setup {
             position: absolute;
             top: 7px;
@@ -44,7 +45,7 @@ if (!rex_setup::isInitialSetup()) {
     if ('abort' === $func) {
         rex_setup::markSetupCompleted();
 
-        rex_response::sendRedirect(Url::backendController());
+        Response::sendRedirect(Url::backendController());
     }
 }
 

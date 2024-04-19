@@ -5,6 +5,7 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Version;
@@ -229,7 +230,7 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
     $content .= '</tbody></table>';
 
     $content .= '
-        <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+        <script type="text/javascript" nonce="' . Response::getNonce() . '">
         <!--
         jQuery(function($) {
             var table = $("#rex-js-table-install-packages-addons");

@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 
@@ -157,7 +158,7 @@ $content = '
         </fieldset>
     </form>
 
-    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+    <script type="text/javascript" nonce="' . Response::getNonce() . '">
     <!--
 
     (function($) {

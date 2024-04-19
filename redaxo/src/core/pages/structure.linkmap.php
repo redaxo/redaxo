@@ -6,6 +6,7 @@ use Redaxo\Core\Content\Linkmap\ArticleList;
 use Redaxo\Core\Content\Linkmap\CategoryTree;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
@@ -77,7 +78,7 @@ if (!Request::isXmlHttpRequest()) {
 }
 
 ?>
-<script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
+<script type="text/javascript" nonce="<?= Response::getNonce() ?>">
     <?= $retainEventHandlers ?>
 
     function insertLink(link,name){

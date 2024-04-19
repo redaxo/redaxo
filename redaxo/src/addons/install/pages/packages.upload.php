@@ -4,6 +4,7 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($markdown) && is_callable($markdown));
@@ -131,7 +132,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         if (!$new) {
             echo '
-    <script type="text/javascript" nonce="' . rex_response::getNonce() . '"><!--
+    <script type="text/javascript" nonce="' . Response::getNonce() . '"><!--
 
         jQuery(function($) {
             $("#rex-js-install-packages-upload-upload-file").change(function(){

@@ -7,6 +7,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\ApiFunction\UserImpersonate;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Security\CsrfToken;
@@ -545,7 +546,7 @@ if ('' != $fUNCADD || $userId > 0) {
             ' . $content . '
         </form>
 
-        <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+        <script type="text/javascript" nonce="' . Response::getNonce() . '">
         <!--
         jQuery(function($) {
             $("#rex-js-user-admin").change(function() {

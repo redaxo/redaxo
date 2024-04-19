@@ -12,6 +12,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Language\LanguagePermission;
 use Redaxo\Core\MediaManager\MediaManager;
@@ -159,11 +160,11 @@ if (!Core::isSetup()) {
 // ----------------- HTTPS REDIRECT
 if ('cli' !== PHP_SAPI && !Core::isSetup()) {
     if ((true === Core::getProperty('use_https') || Core::getEnvironment() === Core::getProperty('use_https')) && !Request::isHttps()) {
-        rex_response::enforceHttps();
+        Response::enforceHttps();
     }
 
     if (true === Core::getProperty('use_hsts') && Request::isHttps()) {
-        rex_response::setHeader('Strict-Transport-Security', 'max-age=' . (int) Core::getProperty('hsts_max_age', 31536000)); // default 1 year
+        Response::setHeader('Strict-Transport-Security', 'max-age=' . (int) Core::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }
 

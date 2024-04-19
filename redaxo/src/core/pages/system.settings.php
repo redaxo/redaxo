@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
@@ -60,7 +61,7 @@ if ($func && !$csrfToken->isValid()) {
     Core::setProperty('debug', $config['debug']);
     if (File::putConfig($configFile, $config) > 0) {
         // reload the page so that debug mode is immediately visible
-        rex_response::sendRedirect(Url::currentBackendPage(['rex_debug_updated' => true]));
+        Response::sendRedirect(Url::currentBackendPage(['rex_debug_updated' => true]));
     }
 } elseif ('updateinfos' == $func) {
     $configFile = Path::coreData('config.yml');
@@ -112,15 +113,15 @@ if ($func && !$csrfToken->isValid()) {
     $cookieOptions = ['samesite' => 'strict'];
 
     if ($editor['delete_cookie']) {
-        rex_response::clearCookie('editor', $cookieOptions);
-        rex_response::clearCookie('editor_basepath', $cookieOptions);
+        Response::clearCookie('editor', $cookieOptions);
+        Response::clearCookie('editor_basepath', $cookieOptions);
         unset($_COOKIE['editor']);
         unset($_COOKIE['editor_basepath']);
 
         $success = I18n::msg('system_editor_success_cookie_deleted');
     } elseif ($editor['update_cookie']) {
-        rex_response::sendCookie('editor', $editor['name'], $cookieOptions);
-        rex_response::sendCookie('editor_basepath', $editor['basepath'], $cookieOptions);
+        Response::sendCookie('editor', $editor['name'], $cookieOptions);
+        Response::sendCookie('editor_basepath', $editor['basepath'], $cookieOptions);
         $_COOKIE['editor'] = $editor['name'];
         $_COOKIE['editor_basepath'] = $editor['basepath'];
 

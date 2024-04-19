@@ -13,6 +13,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\CsrfToken;
@@ -40,27 +41,27 @@ if (rex_get('asset') && rex_get('buster')) {
     $assetDir = Path::assets();
 
     if (!$fullPath) {
-        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), rex_response::HTTP_NOT_FOUND);
+        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), Response::HTTP_NOT_FOUND);
     }
     if (!str_starts_with($fullPath, $assetDir)) {
-        throw new rex_http_exception(new Exception('Assets can only be streamed from within the assets folder. "' . $fullPath . '" is not within "' . $assetDir . '"'), rex_response::HTTP_NOT_FOUND);
+        throw new rex_http_exception(new Exception('Assets can only be streamed from within the assets folder. "' . $fullPath . '" is not within "' . $assetDir . '"'), Response::HTTP_NOT_FOUND);
     }
 
     $ext = File::extension($assetFile);
     if (!in_array($ext, ['js', 'css'], true)) {
-        throw new rex_http_exception(new Exception('Only JS and CSS files can be streamed from the assets folder'), rex_response::HTTP_NOT_FOUND);
+        throw new rex_http_exception(new Exception('Only JS and CSS files can be streamed from the assets folder'), Response::HTTP_NOT_FOUND);
     }
 
     $content = File::get($assetFile);
     if (null === $content) {
-        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), rex_response::HTTP_NOT_FOUND);
+        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), Response::HTTP_NOT_FOUND);
     }
 
     if ('js' === $ext) {
         $js = preg_replace('@^//# sourceMappingURL=.*$@m', '', $content);
 
-        rex_response::sendCacheControl('max-age=31536000, immutable');
-        rex_response::sendContent($js, 'application/javascript');
+        Response::sendCacheControl('max-age=31536000, immutable');
+        Response::sendContent($js, 'application/javascript');
     } else {
         // If we are in a directory off the root, add a relative path here back to the root, like "../"
         // get the public path to this file, plus the baseurl
@@ -70,8 +71,8 @@ if (rex_get('asset') && rex_get('buster')) {
         $prefix = $pubroot . dirname($assetFile) . '/';
         $styles = preg_replace('/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', '$1' . $prefix . '$2$3', $content);
 
-        rex_response::sendCacheControl('max-age=31536000, immutable');
-        rex_response::sendContent($styles, 'text/css');
+        Response::sendCacheControl('max-age=31536000, immutable');
+        Response::sendContent($styles, 'text/css');
     }
     exit;
 }
@@ -117,9 +118,9 @@ if (Core::isSetup()) {
         if ($advertisedChrome && !$nonChrome) {
             // Browser is likely Google Chrome which currently seems to be super slow when clearing 'cache' from site data
             // https://bugs.chromium.org/p/chromium/issues/detail?id=762417
-            rex_response::setHeader('Clear-Site-Data', '"storage", "executionContexts"');
+            Response::setHeader('Clear-Site-Data', '"storage", "executionContexts"');
         } else {
-            rex_response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
+            Response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
         }
 
         // Currently browsers like Safari do not support the header Clear-Site-Data.
@@ -128,7 +129,7 @@ if (Core::isSetup()) {
 
         // is necessary for login after logout
         // and without the redirect, the csrf token would be invalid
-        rex_response::sendRedirect(Url::backendController(['rex_logged_out' => 1]));
+        Response::sendRedirect(Url::backendController(['rex_logged_out' => 1]));
     }
 
     $rexUserLoginmessage = '';
@@ -146,7 +147,7 @@ if (Core::isSetup()) {
 
     if (true !== $loginCheck) {
         if (Request::isXmlHttpRequest()) {
-            rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
+            Response::setStatus(Response::HTTP_UNAUTHORIZED);
         }
 
         // login failed
@@ -164,7 +165,7 @@ if (Core::isSetup()) {
             // clear in-browser data of a previous session with the same browser for security reasons.
             // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
             // clearing "executionContext" or "cookies" would result in a endless loop.
-            rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
+            Response::setHeader('Clear-Site-Data', '"cache", "storage"');
 
             // Currently browsers like Safari do not support the header Clear-Site-Data.
             // we dont kill/regenerate the session so e.g. the frontend will not get logged out
@@ -212,7 +213,7 @@ if (Core::getUser()) {
     Controller::appendLoggedInPages();
 
     if ('profile' !== Controller::getCurrentPage() && Core::getProperty('login')->requiresPasswordChange()) {
-        rex_response::sendRedirect(Url::backendPage('profile'));
+        Response::sendRedirect(Url::backendPage('profile'));
     }
 }
 
@@ -358,7 +359,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
                 ]);
             }
 
-            echo '<script nonce="' . rex_response::getNonce() . '">
+            echo '<script nonce="' . Response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_clang_id = ' . Language::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
@@ -646,4 +647,4 @@ Controller::includeCurrentPage();
 $CONTENT = ob_get_clean();
 
 // ----- inhalt ausgeben
-rex_response::sendPage($CONTENT);
+Response::sendPage($CONTENT);

@@ -3,6 +3,7 @@
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -49,7 +50,7 @@ if ('add_file' == $mediaMethod) {
                         }
                     }
 
-                    echo '<script type="text/javascript" nonce="' . rex_response::getNonce() . '">';
+                    echo '<script type="text/javascript" nonce="' . Response::getNonce() . '">';
                     if (isset($js)) {
                         echo $js;
                     }
@@ -57,7 +58,7 @@ if ('add_file' == $mediaMethod) {
                     exit;
                 }
 
-                rex_response::sendRedirect(Url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $openerInputField]));
+                Response::sendRedirect(Url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $openerInputField]));
             } catch (ApiFunctionException $e) {
                 $warning = $e->getMessage();
             }

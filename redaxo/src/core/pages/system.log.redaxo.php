@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Log\LogEntry;
 use Redaxo\Core\Log\LogFile;
 use Redaxo\Core\Log\Logger;
@@ -32,7 +33,7 @@ if ($func && !$csrfToken->isValid()) {
         $error = I18n::msg('syslog_delete_error');
     }
 } elseif ('download' == $func && is_file($logFile)) {
-    rex_response::sendFile($logFile, 'application/octet-stream', 'attachment');
+    Response::sendFile($logFile, 'application/octet-stream', 'attachment');
     exit;
 }
 

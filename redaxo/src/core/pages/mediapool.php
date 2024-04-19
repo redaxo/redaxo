@@ -4,6 +4,7 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 
@@ -100,7 +101,7 @@ if ('' != $error) {
 
 if (!Request::isXmlHttpRequest()) {
     ?>
-    <script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
+    <script type="text/javascript" nonce="<?= Response::getNonce() ?>">
         rex_retain_popup_event_handlers("rex:selectMedia");
         <?= $openerInputField ? 'rex.mediapoolOpenerInputField = "' . rex_escape($openerInputField, 'js') . '";' : '' ?>
     </script>
