@@ -2,12 +2,16 @@
 
 namespace Redaxo\Core\Http;
 
+use DateTimeInterface;
+use InvalidArgumentException;
 use Ramsey\Http\Range\Exception\HttpRangeException;
 use Ramsey\Http\Range\UnitFactory;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Str;
 
+use rex_extension;
+use rex_extension_point;
 use function function_exists;
 use function in_array;
 use function ini_get;
