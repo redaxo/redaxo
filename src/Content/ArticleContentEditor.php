@@ -5,6 +5,7 @@ namespace Redaxo\Core\Content;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ApiFunction\ArticleSliceMove;
 use Redaxo\Core\Content\ApiFunction\ArticleSliceStatusChange;
+use Redaxo\Core\Content\ExtensionPoint\SliceMenu;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
@@ -12,7 +13,6 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use rex_context;
-use rex_extension_point_slice_menu;
 use rex_fragment;
 use rex_response;
 use rex_view;
@@ -223,7 +223,7 @@ class ArticleContentEditor extends ArticleContent
         }
 
         // ----- EXTENSION POINT
-        Extension::registerPoint($ep = new rex_extension_point_slice_menu(
+        Extension::registerPoint($ep = new SliceMenu(
             $menuEditAction,
             $menuDeleteAction,
             $menuStatusAction,

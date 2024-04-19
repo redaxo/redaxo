@@ -1,12 +1,15 @@
 <?php
 
+namespace Redaxo\Core\Content\ExtensionPoint;
+
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use rex_context;
 
 /**
  * @extends ExtensionPoint<null>
  */
-class rex_extension_point_slice_menu extends ExtensionPoint
+class SliceMenu extends ExtensionPoint
 {
     public const NAME = 'SLICE_MENU';
 

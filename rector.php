@@ -211,6 +211,7 @@ return RectorConfig::configure()
         'rex_extension_point_art_content_updated' => Content\ExtensionPoint\ArticleContentUpdated::class,
         'rex_extension_point_console_shutdown' => Console\ExtensionPoint\ConsoleShutdown::class,
         'rex_extension_point_package_cache_deleted' => Addon\ExtensionPoint\AddonCacheDeleted::class,
+        'rex_extension_point_slice_menu' => Content\ExtensionPoint\SliceMenu::class,
         'rex_file' => Filesystem\File::class,
         'rex_finder' => Filesystem\Finder::class,
         'rex_form_base' => Form\AbstractForm::class,
