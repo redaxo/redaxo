@@ -983,25 +983,6 @@
       <code><![CDATA[$path]]></code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/lib/context.php">
-    <InvalidArgument>
-      <code><![CDATA[$_GET]]></code>
-      <code><![CDATA[$_GET + $_POST]]></code>
-      <code><![CDATA[$_POST]]></code>
-    </InvalidArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$params]]></code>
-      <code><![CDATA[$params]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$valVal]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[rex_escape($valVal)]]></code>
-      <code><![CDATA[rex_escape($value)]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/lib/error_handler.php">
     <InvalidScalarArgument>
       <code><![CDATA[$line]]></code>
@@ -1160,68 +1141,6 @@
     <PossiblyNullArgument>
       <code><![CDATA[Config::get('phpmailer', 'errormail', 1)]]></code>
     </PossiblyNullArgument>
-  </file>
-  <file src="redaxo/src/core/lib/request.php">
-    <MixedArgument>
-      <code><![CDATA[$vartype]]></code>
-      <code><![CDATA[$vartype]]></code>
-      <code><![CDATA[$vartype]]></code>
-      <code><![CDATA[$vartype]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$_SESSION[self::getSessionNamespace()][$varname]]]></code>
-      <code><![CDATA[$_SESSION[self::getSessionNamespace()][$varname]]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$_SESSION[self::getSessionNamespace()][$varname]]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$_SESSION[self::getSessionNamespace()][$varname]]]></code>
-    </MixedAssignment>
-    <PossiblyInvalidArrayOffset>
-      <code><![CDATA[$_SESSION[self::getSessionNamespace()]]]></code>
-    </PossiblyInvalidArrayOffset>
-  </file>
-  <file src="redaxo/src/core/lib/response.php">
-    <MixedArgument>
-      <code><![CDATA[$chunkSize]]></code>
-      <code><![CDATA[$range->getStart()]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$preloadFile['file']]]></code>
-      <code><![CDATA[$preloadFile['mimeType']]]></code>
-      <code><![CDATA[$preloadFile['type']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$chunkSize]]></code>
-      <code><![CDATA[$preloadFile]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$preloadFile['file']]]></code>
-      <code><![CDATA[$preloadFile['mimeType']]]></code>
-      <code><![CDATA[$preloadFile['type']]]></code>
-      <code><![CDATA[$range->getEnd()]]></code>
-      <code><![CDATA[$range->getLength()]]></code>
-      <code><![CDATA[$range->getStart()]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
-    <PossiblyNullArgument>
-      <code><![CDATA[$value]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
-      <code><![CDATA[$_SERVER['REQUEST_URI']]]></code>
-      <code><![CDATA[$filename]]></code>
-      <code><![CDATA[$raw ? $value : rawurlencode($value)]]></code>
-    </PossiblyNullOperand>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
-      <code><![CDATA[$_SERVER['REQUEST_URI']]]></code>
-    </PossiblyUndefinedArrayOffset>
-    <RedundantCondition>
-      <code><![CDATA[$path]]></code>
-    </RedundantCondition>
   </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
     <MixedArgument>
@@ -3618,6 +3537,89 @@
       <code><![CDATA[array<int, string>]]></code>
     </MixedReturnTypeCoercion>
   </file>
+  <file src="src/Http/Context.php">
+    <InvalidArgument>
+      <code><![CDATA[$_GET]]></code>
+      <code><![CDATA[$_GET + $_POST]]></code>
+      <code><![CDATA[$_POST]]></code>
+    </InvalidArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$params]]></code>
+      <code><![CDATA[$params]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$valVal]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[rex_escape($valVal)]]></code>
+      <code><![CDATA[rex_escape($value)]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/Http/Request.php">
+    <MixedArgument>
+      <code><![CDATA[$vartype]]></code>
+      <code><![CDATA[$vartype]]></code>
+      <code><![CDATA[$vartype]]></code>
+      <code><![CDATA[$vartype]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$_SESSION[self::getSessionNamespace()][$varname]]]></code>
+      <code><![CDATA[$_SESSION[self::getSessionNamespace()][$varname]]]></code>
+    </MixedArrayAccess>
+    <MixedArrayAssignment>
+      <code><![CDATA[$_SESSION[self::getSessionNamespace()][$varname]]]></code>
+    </MixedArrayAssignment>
+    <MixedAssignment>
+      <code><![CDATA[$_SESSION[self::getSessionNamespace()][$varname]]]></code>
+    </MixedAssignment>
+    <PossiblyInvalidArrayOffset>
+      <code><![CDATA[$_SESSION[self::getSessionNamespace()]]]></code>
+    </PossiblyInvalidArrayOffset>
+  </file>
+  <file src="src/Http/Response.php">
+    <MixedArgument>
+      <code><![CDATA[$chunkSize]]></code>
+      <code><![CDATA[$range->getStart()]]></code>
+      <code><![CDATA[$rangeHeader]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$preloadFile['file']]]></code>
+      <code><![CDATA[$preloadFile['mimeType']]]></code>
+      <code><![CDATA[$preloadFile['type']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$chunkSize]]></code>
+      <code><![CDATA[$preloadFile]]></code>
+      <code><![CDATA[$rangeHeader]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$preloadFile['file']]]></code>
+      <code><![CDATA[$preloadFile['mimeType']]]></code>
+      <code><![CDATA[$preloadFile['type']]]></code>
+      <code><![CDATA[$range->getEnd()]]></code>
+      <code><![CDATA[$range->getLength()]]></code>
+      <code><![CDATA[$range->getStart()]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
+    <PossiblyNullArgument>
+      <code><![CDATA[$value]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand>
+      <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
+      <code><![CDATA[$_SERVER['REQUEST_URI']]]></code>
+      <code><![CDATA[$filename]]></code>
+      <code><![CDATA[$raw ? $value : rawurlencode($value)]]></code>
+    </PossiblyNullOperand>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
+      <code><![CDATA[$_SERVER['REQUEST_URI']]]></code>
+    </PossiblyUndefinedArrayOffset>
+    <RedundantCondition>
+      <code><![CDATA[$path]]></code>
+    </RedundantCondition>
+  </file>
   <file src="src/Language/Language.php">
     <MixedArrayAccess>
       <code><![CDATA[$data['priority']]]></code>
@@ -4312,6 +4314,31 @@
       <code><![CDATA[$impersonate]]></code>
     </MixedAssignment>
   </file>
+  <file src="src/Security/ApiFunction/UserRemoveAuthMethod.php">
+    <MixedArgument>
+      <code><![CDATA[$userId]]></code>
+      <code><![CDATA[$userId]]></code>
+      <code><![CDATA[$userId]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[['id' => $passkeyId, 'user_id' => $userId]]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$passkeyId]]></code>
+      <code><![CDATA[$userId]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Security/ApiFunction/UserRemoveSession.php">
+    <MixedArgument>
+      <code><![CDATA[$sessionId]]></code>
+      <code><![CDATA[$userId]]></code>
+      <code><![CDATA[$userId]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$sessionId]]></code>
+      <code><![CDATA[$userId]]></code>
+    </MixedAssignment>
+  </file>
   <file src="src/Security/BackendLogin.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$password]]></code>
@@ -4488,6 +4515,10 @@
     <InvalidArgument>
       <code><![CDATA[['cookie_key' => $cookieKey]]]></code>
     </InvalidArgument>
+    <MixedArgument>
+      <code><![CDATA[Request::server('HTTP_USER_AGENT', 'string')]]></code>
+      <code><![CDATA[Request::server('REMOTE_ADDR', 'string')]]></code>
+    </MixedArgument>
   </file>
   <file src="src/Security/WebAuthn.php">
     <MixedArgumentTypeCoercion>

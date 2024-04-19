@@ -2,7 +2,7 @@
 <files psalm-version="5.23.1@8471a896ccea3526b26d082f4461eeea467f10a4">
   <file src="redaxo/src/core/backend.php">
     <TaintedHtml>
-      <code><![CDATA['<script nonce="' . rex_response::getNonce() . '">
+      <code><![CDATA['<script nonce="' . Response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_clang_id = ' . Language::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
@@ -10,7 +10,7 @@
                 </script>']]></code>
     </TaintedHtml>
     <TaintedTextWithQuotes>
-      <code><![CDATA['<script nonce="' . rex_response::getNonce() . '">
+      <code><![CDATA['<script nonce="' . Response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_clang_id = ' . Language::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
@@ -76,17 +76,17 @@
       <code><![CDATA[$this->getVar('content2select')]]></code>
     </TaintedTextWithQuotes>
   </file>
-  <file src="redaxo/src/core/lib/response.php">
-    <TaintedHeader>
-      <code><![CDATA[$str]]></code>
-      <code><![CDATA['Location: ' . $url]]></code>
-    </TaintedHeader>
-  </file>
   <file src="src/Database/Sql.php">
     <TaintedSql>
       <code><![CDATA[$query]]></code>
       <code><![CDATA[$query]]></code>
     </TaintedSql>
+  </file>
+  <file src="src/Http/Response.php">
+    <TaintedHeader>
+      <code><![CDATA[$str]]></code>
+      <code><![CDATA['Location: ' . $url]]></code>
+    </TaintedHeader>
   </file>
   <file src="src/HttpClient/Request.php">
     <TaintedCallable>
