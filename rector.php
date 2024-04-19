@@ -50,6 +50,7 @@ use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
+use Redaxo\Core\Http;
 use Redaxo\Core\HttpClient;
 use Redaxo\Core\Language;
 use Redaxo\Core\Log;
@@ -193,6 +194,8 @@ return RectorConfig::configure()
         'rex_cronjob_form' => Cronjob\Form\CronjobForm::class,
         'rex_config' => Config::class,
         'rex_config_db' => Database\Configuration::class,
+        'rex_context' => Http\Context::class,
+        'rex_context_provider_interface' => Http\ContextProviderInterface::class,
         'rex_cronjob_form_interval_element' => Cronjob\Form\IntervalField::class,
         'rex_cronjob' => Cronjob\Type\AbstractType::class,
         'rex_cronjob_urlrequest' => Cronjob\Type\UrlRequestType::class,
@@ -307,6 +310,7 @@ return RectorConfig::configure()
         'rex_instance_pool_trait' => Base\InstancePoolTrait::class,
         'rex_singleton_trait' => Base\SingletonTrait::class,
         'rex_url' => Filesystem\Url::class,
+        'rex_url_provider_interface' => Base\UrlProviderInterface::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
         'rex_version' => Util\Version::class,
@@ -412,7 +416,7 @@ return RectorConfig::configure()
     ])
     ->withConfiguredRule(ArgumentRemoverRector::class, [
         new ArgumentRemover(Util\Str::class, 'buildQuery', 1, null),
-        new ArgumentRemover(rex_url_provider_interface::class, 'getUrl', 1, null),
+        new ArgumentRemover(Base\UrlProviderInterface::class, 'getUrl', 1, null),
         new ArgumentRemover(Filesystem\Url::class, 'frontendController', 1, null),
         new ArgumentRemover(Filesystem\Url::class, 'backendController', 1, null),
         new ArgumentRemover(Filesystem\Url::class, 'backendPage', 2, null),
