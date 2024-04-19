@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -81,7 +82,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 $content .= '
 
-    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+    <script type="text/javascript" nonce="' . Response::getNonce() . '">
          <!--
         jQuery(function($) {
             $(".rex-js-createadminform .rex-js-noadmin").on("change",function (){

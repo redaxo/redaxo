@@ -9,6 +9,7 @@ use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\Select\CategorySelect;
 use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\Form\Select\TemplateSelect;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\MetaInfo\Database\Table;
 use Redaxo\Core\MetaInfo\Form\Field\RestrictionField;
@@ -22,7 +23,6 @@ use Redaxo\Core\Validator\ValidationRule;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
-use rex_response;
 
 use function assert;
 use function strlen;
@@ -127,7 +127,7 @@ class MetaInfoForm extends Form
             }
         }
         $notices .= '
-        <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+        <script type="text/javascript" nonce="' . Response::getNonce() . '">
             var needle = new getObj("' . $field->getAttribute('id') . '");
             meta_checkConditionalFields(needle.obj, new Array(' . implode(',', $typeFields) . '), new Array(' . implode(',', $textFields) . '));
         </script>';

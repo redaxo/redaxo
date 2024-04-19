@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 
 $report = rex_system_report::factory()->asMarkdown();
@@ -13,7 +14,7 @@ echo '<pre><code>' . rex_escape($report) . '</code></pre>';
 echo '</div>';
 
 echo '
-    <script nonce="' . rex_response::getNonce() . '">
+    <script nonce="' . Response::getNonce() . '">
         $("#rex-system-report-markdown")
             .on("cut paste", function (event) {
                 event.preventDefault();

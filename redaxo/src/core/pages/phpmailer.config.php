@@ -5,6 +5,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\Validator;
@@ -54,7 +55,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
             $warning = I18n::msg('phpmailer_check_settings_not_tested');
             echo rex_view::warning($warning);
         } else {
-            rex_response::sendRedirect(Url::backendPage('phpmailer/checkmail'));
+            Response::sendRedirect(Url::backendPage('phpmailer/checkmail'));
         }
     }
 
@@ -369,7 +370,7 @@ echo '
         ' . $content . '
     </form>';
 ?>
-<script nonce="<?= rex_response::getNonce() ?>">
+<script nonce="<?= Response::getNonce() ?>">
     $('#smtpsettings').toggle(
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );

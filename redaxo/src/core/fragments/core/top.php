@@ -2,6 +2,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -29,7 +30,7 @@ use Redaxo\Core\Translation\I18n;
         $colorScheme = rex_escape($user->getValue('theme'));
     }
     echo "\n" . '    <meta name="color-scheme" content="' . $colorScheme . '">';
-    echo "\n" . '    <style nonce="' . rex_response::getNonce() . '">:root { color-scheme: ' . $colorScheme . ' }</style>';
+    echo "\n" . '    <style nonce="' . Response::getNonce() . '">:root { color-scheme: ' . $colorScheme . ' }</style>';
 
     $assetDir = Path::assets();
 
@@ -46,7 +47,7 @@ use Redaxo\Core\Translation\I18n;
         }
     }
     echo "\n";
-    echo "\n" . '    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">';
+    echo "\n" . '    <script type="text/javascript" nonce="' . Response::getNonce() . '">';
     echo "\n" . '    <!--';
     echo "\n" . '    var rex = ' . $this->jsProperties . ';';
     echo "\n" . '    //-->';
@@ -77,7 +78,7 @@ use Redaxo\Core\Translation\I18n;
             $attributes[] = 'defer="defer"';
         }
 
-        echo "\n" . '    <script type="text/javascript" src="' . $file . '" ' . implode(' ', $attributes) . ' nonce="' . rex_response::getNonce() . '"></script>';
+        echo "\n" . '    <script type="text/javascript" src="' . $file . '" ' . implode(' ', $attributes) . ' nonce="' . Response::getNonce() . '"></script>';
     }
 ?>
 

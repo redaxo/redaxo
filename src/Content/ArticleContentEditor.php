@@ -9,12 +9,12 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use rex_extension;
 use rex_extension_point;
 use rex_extension_point_slice_menu;
 use rex_fragment;
-use rex_response;
 use rex_view;
 
 use function count;
@@ -479,7 +479,7 @@ class ArticleContentEditor extends ArticleContent
                     <form action="' . Url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $this->sliceAddPosition . '" method="post" id="REX_FORM" enctype="multipart/form-data">
                         ' . $sliceContent . '
                     </form>
-                    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+                    <script type="text/javascript" nonce="' . Response::getNonce() . '">
                          <!--
                         jQuery(function($) {
                             $(":input:visible:enabled:not([readonly]):first", $("#REX_FORM")).focus();
@@ -556,7 +556,7 @@ class ArticleContentEditor extends ArticleContent
                 <form enctype="multipart/form-data" action="' . Url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang, 'function' => 'edit']) . '#slice' . $sliceId . '" method="post" id="REX_FORM">
                     ' . $sliceContent . '
                 </form>
-                <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+                <script type="text/javascript" nonce="' . Response::getNonce() . '">
                      <!--
                     jQuery(function($) {
                         $(":input:visible:enabled:not([readonly]):first", $("#REX_FORM")).focus();

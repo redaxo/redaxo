@@ -1,4 +1,6 @@
 <?php
+use Redaxo\Core\Http\Response;
+
 /**
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
@@ -12,7 +14,7 @@
 
     <title>Ooops, something went wrong!</title>
 
-    <style type="text/css" nonce="<?= rex_response::getNonce() ?>">
+    <style type="text/css" nonce="<?= Response::getNonce() ?>">
         body, html {
             margin: 0;
             padding: 0;

@@ -9,6 +9,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\User;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
@@ -16,7 +17,6 @@ use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use rex_extension;
 use rex_fragment;
-use rex_response;
 
 use function call_user_func;
 use function count;
@@ -591,13 +591,13 @@ class Controller
                     $page = Type::notNull(self::getPageObject('profile'));
                 }
             }
-            rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
-            rex_response::sendRedirect($page->getHref());
+            Response::setStatus(Response::HTTP_NOT_FOUND);
+            Response::sendRedirect($page->getHref());
         }
         if ($page !== $leaf = $page->getFirstSubpagesLeaf()) {
-            rex_response::setStatus(rex_response::HTTP_MOVED_PERMANENTLY);
+            Response::setStatus(Response::HTTP_MOVED_PERMANENTLY);
             $url = $leaf->hasHref() ? $leaf->getHref() : Context::fromGet()->getUrl(['page' => $leaf->getFullKey()]);
-            rex_response::sendRedirect($url);
+            Response::sendRedirect($url);
         }
     }
 

@@ -9,13 +9,13 @@ use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Content\ApiFunction as ContentApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\Security\ApiFunction as SecurityApiFunction;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
 use rex_http_exception;
-use rex_response;
 
 /**
  * This is a base class for all functions which a component may provide for public use.
@@ -136,9 +136,9 @@ abstract class ApiFunction
                     self::$instance = $apiImpl;
                     return $apiImpl;
                 }
-                throw new rex_http_exception(new rex_exception('$apiClass is expected to define a subclass of ApiFunction, "' . $apiClass . '" given!'), rex_response::HTTP_NOT_FOUND);
+                throw new rex_http_exception(new rex_exception('$apiClass is expected to define a subclass of ApiFunction, "' . $apiClass . '" given!'), Response::HTTP_NOT_FOUND);
             }
-            throw new rex_http_exception(new rex_exception('$apiClass "' . $apiClass . '" not found!'), rex_response::HTTP_NOT_FOUND);
+            throw new rex_http_exception(new rex_exception('$apiClass "' . $apiClass . '" not found!'), Response::HTTP_NOT_FOUND);
         }
 
         return null;
@@ -206,11 +206,11 @@ abstract class ApiFunction
         if (null != $apiFunc) {
             if (!$apiFunc->published) {
                 if (!Core::isBackend()) {
-                    throw new rex_http_exception(new ApiFunctionException('the api function ' . $apiFunc::class . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
+                    throw new rex_http_exception(new ApiFunctionException('the api function ' . $apiFunc::class . ' is not published, therefore can only be called from the backend!'), Response::HTTP_FORBIDDEN);
                 }
 
                 if (!Core::getUser()) {
-                    throw new rex_http_exception(new ApiFunctionException('missing backend session to call api function ' . $apiFunc::class . '!'), rex_response::HTTP_UNAUTHORIZED);
+                    throw new rex_http_exception(new ApiFunctionException('missing backend session to call api function ' . $apiFunc::class . '!'), Response::HTTP_UNAUTHORIZED);
                 }
             }
 
@@ -240,7 +240,7 @@ abstract class ApiFunction
                         // add api call result to url
                         $context->setParam(self::REQ_RESULT_PARAM, $result->toJSON());
                         // and redirect to SELF for reboot
-                        rex_response::sendRedirect($context->getUrl());
+                        Response::sendRedirect($context->getUrl());
                     }
                 } catch (ApiFunctionException $e) {
                     $message = $e->getMessage();

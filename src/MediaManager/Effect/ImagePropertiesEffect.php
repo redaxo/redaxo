@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\MediaManager\Effect;
 
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaManager\ManagedMedia;
 use Redaxo\Core\Translation\I18n;
-use rex_response;
 
 use function in_array;
 
@@ -92,7 +92,7 @@ class ImagePropertiesEffect extends AbstractEffect
                 'options' => [self::NO_INTERLACING, 'jpg', 'png', 'gif'],
                 'attributes' => ['multiple' => true, 'class' => 'selectpicker form-control'],
                 'suffix' => '
-<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+<script type="text/javascript" nonce="' . Response::getNonce() . '">
     $(function() {
         var $field = $("#media-manager-rex-effect-image-properties-interlace-select");
 

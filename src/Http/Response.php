@@ -8,6 +8,13 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Str;
 
+use function function_exists;
+use function in_array;
+use function ini_get;
+use function is_resource;
+
+use const FORCE_GZIP;
+
 class Response
 {
     public const HTTP_OK = '200 OK';

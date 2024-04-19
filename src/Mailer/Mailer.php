@@ -8,6 +8,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Log\LogEntry;
 use Redaxo\Core\Log\LogFile;
 use Redaxo\Core\Translation\I18n;
@@ -15,7 +16,6 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
 use rex_extension;
 use rex_extension_point;
-use rex_response;
 
 use function count;
 
@@ -254,7 +254,7 @@ class Mailer extends PHPMailer
 
         // Start - generate mailbody
         $mailBody = '<h2>Error protocol for: ' . Core::getServerName() . '</h2>';
-        $mailBody .= '<style nonce="' . rex_response::getNonce() . '"> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
+        $mailBody .= '<style nonce="' . Response::getNonce() . '"> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
         $mailBody .= '<table>';
         $mailBody .= '    <thead>';
         $mailBody .= '        <tr>';

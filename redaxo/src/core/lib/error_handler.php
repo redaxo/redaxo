@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\Login;
@@ -77,15 +78,15 @@ abstract class rex_error_handler
                 ob_end_clean();
             }
 
-            $status = rex_response::HTTP_INTERNAL_ERROR;
+            $status = Response::HTTP_INTERNAL_ERROR;
             if ($exception instanceof rex_http_exception && $exception->getHttpCode()) {
                 $status = $exception->getHttpCode();
             }
-            rex_response::setStatus($status);
+            Response::setStatus($status);
 
             if (Core::isSetup() || Core::isDebugMode() || !Core::isLiveMode() && BackendLogin::createUser()?->isAdmin()) {
                 [$errPage, $contentType] = self::renderWhoops($exception);
-                rex_response::sendContent($errPage, $contentType);
+                Response::sendContent($errPage, $contentType);
                 exit(1);
             }
         } catch (Throwable) {
@@ -104,7 +105,7 @@ abstract class rex_error_handler
             $errorPage = 'Oooops, an internal error occured!';
         }
 
-        rex_response::sendContent($errorPage);
+        Response::sendContent($errorPage);
         exit(1);
     }
 
@@ -141,7 +142,7 @@ abstract class rex_error_handler
                     <text fill="#FFFFFF" x="193" y="29" font-size="10">' . Core::getVersion() . '</text>
                 </svg>';
         $styles = '
-                <style nonce="' . rex_response::getNonce() . '">
+                <style nonce="' . Response::getNonce() . '">
                     .Whoops {
                         padding-top: 70px;
                     }

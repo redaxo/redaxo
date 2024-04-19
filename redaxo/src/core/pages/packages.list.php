@@ -5,6 +5,7 @@ use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Addon\ApiFunction\AddonOperation;
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Version;
@@ -122,7 +123,7 @@ $content .= '</tbody>
         </table>';
 
 $content .= '
-    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+    <script type="text/javascript" nonce="' . Response::getNonce() . '">
     <!--
     jQuery(function($) {
         var table = $("#rex-js-table-available-packages-addons");

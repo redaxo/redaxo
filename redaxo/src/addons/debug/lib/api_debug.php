@@ -3,6 +3,7 @@
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Response;
 
 /**
  * @internal
@@ -17,7 +18,7 @@ class rex_api_debug extends ApiFunction
 
         $debug = rex_debug_clockwork::getHelper();
 
-        rex_response::sendJson($debug->getMetadata());
+        Response::sendJson($debug->getMetadata());
         exit;
     }
 

@@ -9,8 +9,8 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
-use rex_response;
 
 /**
  * @internal
@@ -33,7 +33,7 @@ class ArticleCopy extends ApiFunction
         if ($user->hasPerm('copyArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryCopyIdNew)) {
             if (false !== ($newId = ArticleHandler::copyArticle($articleId, $categoryCopyIdNew))) {
                 $result = new Result(true, I18n::msg('content_articlecopied'));
-                rex_response::sendRedirect($context->getUrl([
+                Response::sendRedirect($context->getUrl([
                     'article_id' => $newId,
                     'info' => $result->getMessage(),
                 ]));

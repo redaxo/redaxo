@@ -5,11 +5,11 @@ namespace Redaxo\Core\Security;
 use DateTimeImmutable;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 use rex_exception;
 use rex_extension_point;
-use rex_response;
 use SensitiveParameter;
 
 use function assert;
@@ -267,7 +267,7 @@ class BackendLogin extends Login
     {
         $sessionConfig = Core::getProperty('session', [])['backend']['cookie'] ?? [];
 
-        rex_response::sendCookie(self::getStayLoggedInCookieName(), $cookiekey, [
+        Response::sendCookie(self::getStayLoggedInCookieName(), $cookiekey, [
             'expires' => strtotime(UserSession::STAY_LOGGED_IN_DURATION . ' months'),
             'secure' => $sessionConfig['secure'] ?? false,
             'samesite' => $sessionConfig['samesite'] ?? 'lax',
@@ -276,7 +276,7 @@ class BackendLogin extends Login
 
     private static function deleteStayLoggedInCookie(): void
     {
-        rex_response::sendCookie(self::getStayLoggedInCookieName(), '');
+        Response::sendCookie(self::getStayLoggedInCookieName(), '');
     }
 
     /**

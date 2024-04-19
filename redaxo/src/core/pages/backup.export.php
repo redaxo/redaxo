@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -94,7 +95,7 @@ if ($export && !$csrfToken->isValid()) {
         if ($hasContent) {
             if ($exportdl) {
                 $filename .= $ext;
-                rex_response::sendFile($exportPath . $filename, $header, 'attachment');
+                Response::sendFile($exportPath . $filename, $header, 'attachment');
                 File::delete($exportPath . $filename);
                 exit;
             }
@@ -293,7 +294,7 @@ $content = '
     ' . $content . '
 </form>
 
-<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+<script type="text/javascript" nonce="' . Response::getNonce() . '">
     <!--
 
     (function($) {

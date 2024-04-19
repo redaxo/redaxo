@@ -9,6 +9,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Editor;
@@ -41,7 +42,7 @@ if (Core::isBackend() && 'debug' === Request::get('page') && Core::getUser()?->i
         $appearance = 'auto';
     }
 
-    $nonce = rex_response::getNonce();
+    $nonce = Response::getNonce();
 
     $injectedScript = <<<EOF
         <script nonce="$nonce">
@@ -69,7 +70,7 @@ if (Core::isBackend() && 'debug' === Request::get('page') && Core::getUser()?->i
         EOF;
 
     $index = str_replace('<body>', '<body>' . $injectedScript, $index);
-    rex_response::sendPage($index);
+    Response::sendPage($index);
     exit;
 }
 
@@ -79,10 +80,10 @@ rex_extension::setFactoryClass(rex_extension_debug::class);
 Logger::setFactoryClass(rex_logger_debug::class);
 ApiFunction::setFactoryClass(rex_api_function_debug::class);
 
-rex_response::setHeader('X-Clockwork-Id', rex_debug_clockwork::getInstance()->getRequest()->id);
-rex_response::setHeader('X-Clockwork-Version', Clockwork::VERSION);
+Response::setHeader('X-Clockwork-Id', rex_debug_clockwork::getInstance()->getRequest()->id);
+Response::setHeader('X-Clockwork-Version', Clockwork::VERSION);
 
-rex_response::setHeader('X-Clockwork-Path', rex_debug_clockwork::getClockworkApiUrl());
+Response::setHeader('X-Clockwork-Path', rex_debug_clockwork::getClockworkApiUrl());
 
 $shutdownFn = static function () {
     $clockwork = rex_debug_clockwork::getInstance();

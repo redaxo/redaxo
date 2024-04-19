@@ -5,6 +5,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\MediaPool\MediaPoolCache;
 use Redaxo\Core\Security\CsrfToken;
@@ -160,7 +161,7 @@ if ($diffCount > 0) {
                 </fieldset>
             </form>
 
-            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+            <script type="text/javascript" nonce="' . Response::getNonce() . '">
                 jQuery(document).ready(function($){
                     $("input[name=\'sync_files[]\']").change(function() {
                         $(this).closest(\'form\').find("[type=\'submit\']").attr("disabled", $("input[name=\'sync_files[]\']:checked").length == 0);
