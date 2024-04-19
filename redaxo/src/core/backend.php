@@ -11,6 +11,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\CsrfToken;
@@ -464,7 +465,7 @@ if (Core::getConfig('article_work_version', false)) {
         }
         $revisions[ArticleRevision::WORK] = I18n::msg('version_workingversion');
 
-        $context = new rex_context([
+        $context = new Context([
             'page' => $params['page'],
             'article_id' => $articleId,
             'clang' => $clangId,

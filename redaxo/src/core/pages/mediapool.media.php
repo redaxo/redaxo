@@ -4,6 +4,7 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\MediaCategorySelect;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 
@@ -65,7 +66,7 @@ $toolbar = '
 </form>
 </div>';
 
-$context = new rex_context([
+$context = new Context([
     'page' => Controller::getCurrentPage(),
 ]);
 

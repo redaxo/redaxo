@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Base\FactoryTrait;
+use Redaxo\Core\Base\UrlProviderInterface;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
@@ -58,7 +59,7 @@ $list->setColumnFormat('id',                                     // field name
  *
  * @psalm-consistent-constructor
  */
-class rex_list implements rex_url_provider_interface
+class rex_list implements UrlProviderInterface
 {
     use FactoryTrait;
 

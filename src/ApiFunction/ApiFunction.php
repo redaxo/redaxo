@@ -8,11 +8,11 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Content\ApiFunction as ContentApiFunction;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\Security\ApiFunction as SecurityApiFunction;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
-use rex_context;
 use rex_exception;
 use rex_http_exception;
 use rex_response;
@@ -236,7 +236,7 @@ abstract class ApiFunction
 
                     $apiFunc->result = $result;
                     if ($result->requiresReboot()) {
-                        $context = rex_context::fromGet();
+                        $context = Context::fromGet();
                         // add api call result to url
                         $context->setParam(self::REQ_RESULT_PARAM, $result->toJSON());
                         // and redirect to SELF for reboot

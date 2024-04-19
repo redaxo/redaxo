@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Language\Language;
-use rex_context;
 
 use function count;
 
@@ -103,9 +103,9 @@ class StructureContext
         return (int) $this->getValue('rows_per_page', 30);
     }
 
-    public function getContext(): rex_context
+    public function getContext(): Context
     {
-        return new rex_context([
+        return new Context([
             'page' => 'structure',
             'category_id' => $this->getCategoryId(),
             'article_id' => $this->getArticleId(),

@@ -7,6 +7,7 @@ use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Content\StructureContext;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\MetaInfo\Handler\ArticleHandler as MetaInfoArticleHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -95,7 +96,7 @@ if (1 == $article->getRows()) {
         $ctype = 1;
     } // default = 1
 
-    $context = new rex_context([
+    $context = new Context([
         'page' => Controller::getCurrentPage(),
         'article_id' => $articleId,
         'clang' => $clang,

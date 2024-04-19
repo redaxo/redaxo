@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
@@ -358,9 +359,9 @@ class rex_setup
         return isset($setup[$currentToken]);
     }
 
-    public static function getContext(): rex_context
+    public static function getContext(): Context
     {
-        $context = new rex_context([
+        $context = new Context([
             'page' => 'setup',
             'lang' => rex_request('lang', 'string', ''),
             'step' => rex_request('step', 'int', 1),

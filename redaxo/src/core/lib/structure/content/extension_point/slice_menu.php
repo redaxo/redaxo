@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\Http\Context;
+
 /**
  * @extends rex_extension_point<null>
  */
@@ -22,7 +24,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
         private array $menuStatusAction,
         private array $menuMoveupAction,
         private array $menuMovedownAction,
-        private rex_context $context,
+        private Context $context,
         private string $fragment,
         private int $articleId,
         private int $clang,
@@ -145,7 +147,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
         $this->additionalActions = array_merge($this->additionalActions, $additionalActions);
     }
 
-    public function getContext(): rex_context
+    public function getContext(): Context
     {
         return $this->context;
     }

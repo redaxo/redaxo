@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Base\UrlProviderInterface;
 use Redaxo\Core\Util\Pager;
 
 /**
@@ -10,7 +11,7 @@ use Redaxo\Core\Util\Pager;
 <?php
     /** @var Pager $pager */
     $pager = $this->pager;
-    /** @var rex_url_provider_interface $urlProvider */
+    /** @var UrlProviderInterface $urlProvider */
     $urlProvider = $this->urlprovider;
 
     $firstPage = $pager->getFirstPage();

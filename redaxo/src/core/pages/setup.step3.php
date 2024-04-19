@@ -2,9 +2,10 @@
 
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Translation\I18n;
 
-assert(isset($context) && $context instanceof rex_context);
+assert(isset($context) && $context instanceof Context);
 assert(isset($errorArray) && is_array($errorArray));
 assert(isset($config) && is_array($config));
 assert(isset($cancelSetupBtn));

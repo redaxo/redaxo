@@ -5,6 +5,7 @@ use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Backend\Page;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
@@ -341,7 +342,7 @@ class rex_view
      *
      * @return string
      */
-    public static function clangSwitch(rex_context $context, $asDropDown = true)
+    public static function clangSwitch(Context $context, $asDropDown = true)
     {
         if (1 == Language::count()) {
             return '';
@@ -377,7 +378,7 @@ class rex_view
      *
      * @return string
      */
-    public static function clangSwitchAsButtons(rex_context $context, $asDropDown = true)
+    public static function clangSwitchAsButtons(Context $context, $asDropDown = true)
     {
         if (1 == Language::count()) {
             return '';
@@ -413,7 +414,7 @@ class rex_view
      *
      * @return string
      */
-    public static function clangSwitchAsDropdown(rex_context $context)
+    public static function clangSwitchAsDropdown(Context $context)
     {
         if (1 == Language::count()) {
             return '';

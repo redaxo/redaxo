@@ -14,6 +14,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
@@ -71,7 +72,7 @@ $function = rex_request('function', 'string');
 $warning = rex_escape(rex_request('warning', 'string'));
 $info = rex_escape(rex_request('info', 'string'));
 
-$context = new rex_context([
+$context = new Context([
     'page' => Controller::getCurrentPage(),
     'article_id' => $articleId,
     'category_id' => $categoryId,

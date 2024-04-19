@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Content\Linkmap;
 
 use Redaxo\Core\Content\Article;
-use rex_context;
+use Redaxo\Core\Http\Context;
 
 /**
  * @internal
@@ -11,7 +11,7 @@ use rex_context;
 class ArticleList extends ArticleListRenderer
 {
     public function __construct(
-        private rex_context $context,
+        private Context $context,
     ) {}
 
     /**

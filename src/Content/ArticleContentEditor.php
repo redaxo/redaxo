@@ -8,8 +8,8 @@ use Redaxo\Core\Content\ApiFunction\ArticleSliceStatusChange;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Translation\I18n;
-use rex_context;
 use rex_extension;
 use rex_extension_point;
 use rex_extension_point_slice_menu;
@@ -147,7 +147,7 @@ class ArticleContentEditor extends ArticleContent
         $moduleId = (int) $artDataSql->getValue(Core::getTablePrefix() . 'module.id');
         $moduleName = I18n::translate((string) $artDataSql->getValue(Core::getTablePrefix() . 'module.name'));
 
-        $context = new rex_context([
+        $context = new Context([
             'page' => Controller::getCurrentPage(),
             'article_id' => $this->article_id,
             'slice_id' => $sliceId,
@@ -302,7 +302,7 @@ class ArticleContentEditor extends ArticleContent
     private function getModuleSelect($sliceId)
     {
         // ----- BLOCKAUSWAHL - SELECT
-        $context = new rex_context([
+        $context = new Context([
             'page' => Controller::getCurrentPage(),
             'article_id' => $this->article_id,
             'clang' => $this->clang,

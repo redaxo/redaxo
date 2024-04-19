@@ -11,10 +11,11 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Select\CategorySelect;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
-assert(isset($context) && $context instanceof rex_context);
+assert(isset($context) && $context instanceof Context);
 assert(isset($ctype) && is_int($ctype));
 assert(isset($article) && $article instanceof Sql);
 assert(isset($categoryId) && is_int($categoryId));

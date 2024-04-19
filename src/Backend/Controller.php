@@ -7,12 +7,12 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Security\User;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
-use rex_context;
 use rex_extension;
 use rex_fragment;
 use rex_request;
@@ -596,7 +596,7 @@ class Controller
         }
         if ($page !== $leaf = $page->getFirstSubpagesLeaf()) {
             rex_response::setStatus(rex_response::HTTP_MOVED_PERMANENTLY);
-            $url = $leaf->hasHref() ? $leaf->getHref() : rex_context::fromGet()->getUrl(['page' => $leaf->getFullKey()]);
+            $url = $leaf->hasHref() ? $leaf->getHref() : Context::fromGet()->getUrl(['page' => $leaf->getFullKey()]);
             rex_response::sendRedirect($url);
         }
     }

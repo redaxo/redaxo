@@ -1,9 +1,10 @@
 <?php
 
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Translation\I18n;
 
-assert(isset($context) && $context instanceof rex_context);
+assert(isset($context) && $context instanceof Context);
 assert(isset($successArray) && is_array($successArray));
 assert(isset($errorArray) && is_array($errorArray));
 assert(isset($cancelSetupBtn));

@@ -1,14 +1,17 @@
 <?php
 
+namespace Redaxo\Core\Tests\Http;
+
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Http\Context;
 
 /** @internal */
-final class rex_context_test extends TestCase
+final class ContextTest extends TestCase
 {
     public function testGetUrl(): void
     {
         $globalParams = ['int' => '25', 'str' => '<a b$c&?>'];
-        $context = new rex_context($globalParams);
+        $context = new Context($globalParams);
 
         self::assertEquals('index.php?int=25&str=%3Ca+b%24c%26%3F%3E', $context->getUrl(), 'parameters get properly encoded');
         self::assertEquals('index.php?int=25&str=xyz', $context->getUrl(['str' => 'xyz']), 'local params override global params');
@@ -20,7 +23,7 @@ final class rex_context_test extends TestCase
     public function testGetHiddenInputFields(): void
     {
         $globalParams = ['int' => '25', 'str' => '<a b$c&?>'];
-        $context = new rex_context($globalParams);
+        $context = new Context($globalParams);
 
         self::assertEquals(
             '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" />',
@@ -64,7 +67,7 @@ final class rex_context_test extends TestCase
         $key = 'context_test_get';
         $_GET[$key] = 1;
 
-        $context = rex_context::fromGet();
+        $context = Context::fromGet();
 
         self::assertEquals($_GET[$key], $context->getParam($key));
     }
@@ -74,7 +77,7 @@ final class rex_context_test extends TestCase
         $key = 'context_test_post';
         $_POST[$key] = 'foo';
 
-        $context = rex_context::fromPost();
+        $context = Context::fromPost();
 
         self::assertEquals($_POST[$key], $context->getParam($key));
     }
@@ -86,7 +89,7 @@ final class rex_context_test extends TestCase
         $_GET[$keyGet] = 'foo';
         $_POST[$keyPost] = 'bar';
 
-        $context = rex_context::restore();
+        $context = Context::restore();
 
         self::assertEquals($_GET[$keyGet], $context->getParam($keyGet));
         self::assertEquals($_POST[$keyPost], $context->getParam($keyPost));

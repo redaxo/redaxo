@@ -4,6 +4,7 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\Linkmap\ArticleList;
 use Redaxo\Core\Content\Linkmap\CategoryTree;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
@@ -24,7 +25,7 @@ if (preg_match($pattern, $openerInputFieldName, $match)) {
     throw new InvalidArgumentException(sprintf('Invalid character "%s" in opener_input_field_name.', $match[0]));
 }
 
-$context = new rex_context([
+$context = new Context([
     'page' => Controller::getCurrentPage(),
     'opener_input_field' => $openerInputField,
     'opener_input_field_name' => $openerInputFieldName,

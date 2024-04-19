@@ -8,8 +8,8 @@ use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Translation\I18n;
-use rex_context;
 use rex_response;
 
 /**
@@ -25,7 +25,7 @@ class ArticleCopy extends ApiFunction
         $categoryCopyIdNew = rex_request('category_copy_id_new', 'int');
         $user = Core::requireUser();
 
-        $context = new rex_context([
+        $context = new Context([
             'page' => Controller::getCurrentPage(),
             'clang' => $clang,
         ]);

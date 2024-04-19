@@ -1,45 +1,17 @@
 <?php
 
+namespace Redaxo\Core\Http;
+
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 
 /**
- * Generic interface for classes which provide urls.
+ * A generic implementation of ContextProvider.
  */
-interface rex_url_provider_interface
+class Context implements ContextProviderInterface
 {
     /**
-     * Returns a Url which contains the given parameters.
-     *
-     * @param array $params A scalar array containing key value pairs for the parameter and its value
-     * @return string The generated Url
-     */
-    public function getUrl(array $params = []);
-}
-
-/**
- * Generic interface for classes which provide a complete rex-context.
- * A rex-context consists of a set of parameters which may get passed using urls (via parameter) or forms (via hidden input fields).
- */
-interface rex_context_provider_interface extends rex_url_provider_interface
-{
-    /**
-     * Returns a html string containg hidden input fields for the given parameters.
-     *
-     * @param array $params A array containing key value pairs for the parameter and its value
-     *
-     * @return string The generated html source containing the hidden input fields
-     */
-    public function getHiddenInputFields(array $params = []);
-}
-
-/**
- * A generic implementiation of rex_context_provider.
- */
-class rex_context implements rex_context_provider_interface
-{
-    /**
-     * Constructs a rex_context with the given global parameters.
+     * Constructs a Context with the given global parameters.
      *
      * @param array<string, mixed> $globalParams A array containing only scalar values for key/value
      */
@@ -108,7 +80,7 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
-     * @see rex_context_provider::getHiddenInputFields()
+     * @see ContextProviderInterface::getHiddenInputFields()
      */
     public function getHiddenInputFields(array $params = [])
     {
@@ -119,9 +91,9 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
-     * Returns a rex_context instance containing all GET and POST parameters.
+     * Returns a Context instance containing all GET and POST parameters.
      *
-     * @return self
+     * @return Context
      */
     public static function restore()
     {
@@ -130,9 +102,9 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
-     * Returns a rex_context instance containing all GET parameters.
+     * Returns a Context instance containing all GET parameters.
      *
-     * @return self
+     * @return Context
      */
     public static function fromGet()
     {
@@ -140,9 +112,9 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
-     * Returns a rex_context instance containing all POST parameters.
+     * Returns a Context instance containing all POST parameters.
      *
-     * @return self
+     * @return Context
      */
     public static function fromPost()
     {
@@ -152,7 +124,7 @@ class rex_context implements rex_context_provider_interface
     /**
      * Helper method to generate a html string with hidden input fields from an array key-value pairs.
      *
-     * @param array $array The array which contains the key-value pairs for convertion
+     * @param array $array The array which contains the key-value pairs for conversion
      *
      * @return string
      */
