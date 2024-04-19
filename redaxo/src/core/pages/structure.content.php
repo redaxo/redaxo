@@ -9,6 +9,7 @@ use Redaxo\Core\Content\ArticleAction;
 use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Content\ArticleSlice;
 use Redaxo\Core\Content\ContentHandler;
+use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -236,7 +237,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
                             // ----- EXTENSION POINT
                             $info = Extension::registerPoint(new ExtensionPoint('SLICE_UPDATED', $info, $epParams));
-                            $info = Extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_updated', $info));
+                            $info = Extension::registerPoint(new ArticleContentUpdated($OOArt, 'slice_updated', $info));
                         } else {
                             $newsql->addGlobalUpdateFields();
                             $newsql->addGlobalCreateFields();
@@ -274,7 +275,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
                             // ----- EXTENSION POINT
                             $info = Extension::registerPoint(new ExtensionPoint('SLICE_ADDED', $info, $epParams));
-                            $info = Extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_added', $info));
+                            $info = Extension::registerPoint(new ArticleContentUpdated($OOArt, 'slice_added', $info));
                         }
                     } else {
                         // make delete
@@ -296,7 +297,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
                             // ----- EXTENSION POINT
                             $globalInfo = Extension::registerPoint(new ExtensionPoint('SLICE_DELETED', $globalInfo, $epParams));
-                            $globalInfo = Extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_deleted', $globalInfo));
+                            $globalInfo = Extension::registerPoint(new ArticleContentUpdated($OOArt, 'slice_deleted', $globalInfo));
                         } else {
                             $globalWarning = I18n::msg('block_not_deleted');
                         }

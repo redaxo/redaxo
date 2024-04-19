@@ -208,6 +208,7 @@ return RectorConfig::configure()
         'rex_editor' => Util\Editor::class,
         'rex_extension' => ExtensionPoint\Extension::class,
         'rex_extension_point' => ExtensionPoint\ExtensionPoint::class,
+        'rex_extension_point_art_content_updated' => Content\ExtensionPoint\ArticleContentUpdated::class,
         'rex_extension_point_console_shutdown' => Console\ExtensionPoint\ConsoleShutdown::class,
         'rex_extension_point_package_cache_deleted' => Addon\ExtensionPoint\AddonCacheDeleted::class,
         'rex_file' => Filesystem\File::class,
@@ -432,10 +433,10 @@ return RectorConfig::configure()
         new ArgumentRemover(Util\Markdown::class, 'parseWithToc', 3, [true]),
     ])
     ->withConfiguredRule(ReplaceArgumentDefaultValueRector::class, [
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'PACKAGE_CACHE_DELETED', 'ADDON_CACHE_DELETED'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_ADDED', 'SLICE_ADDED'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_UPDATED', 'SLICE_UPDATED'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'STRUCTURE_CONTENT_SLICE_DELETED', 'SLICE_DELETED'),
-        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'PACKAGE_CACHE_DELETED', 'ADDON_CACHE_DELETED'),
 
         new ReplaceArgumentDefaultValue(Util\Markdown::class, 'parse', 1, false, $options = [
             new Expr\ArrayItem(new Expr\ConstFetch(new Name('false')), new Expr\ClassConstFetch(new Name(Util\Markdown::class), 'SOFT_LINE_BREAKS')),

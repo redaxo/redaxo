@@ -4,6 +4,7 @@ namespace Redaxo\Core\Content;
 
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
@@ -14,7 +15,6 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
-use rex_extension_point_art_content_updated;
 
 use function function_exists;
 
@@ -82,7 +82,7 @@ class ContentHandler
             'slice_revision' => $data['revision'],
         ]));
 
-        return Extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message));
+        return Extension::registerPoint(new ArticleContentUpdated($article, 'slice_added', $message));
     }
 
     /**
@@ -159,7 +159,7 @@ class ContentHandler
 
                 $info = I18n::msg('slice_moved');
                 $article = Article::get($articleId, $clang);
-                $info = Extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_moved', $info));
+                $info = Extension::registerPoint(new ArticleContentUpdated($article, 'slice_moved', $info));
             } else {
                 throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!');
             }
@@ -230,7 +230,7 @@ class ContentHandler
 
         ArticleCache::deleteContent($article->getId(), $article->getClangId());
 
-        Extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_status'));
+        Extension::registerPoint(new ArticleContentUpdated($article, 'slice_status'));
     }
 
     /**
@@ -331,7 +331,7 @@ class ContentHandler
         ArticleCache::deleteContent($toId, $toClang);
 
         $article = Article::get($toId, $toClang);
-        Extension::registerPoint(new rex_extension_point_art_content_updated($article, 'content_copied'));
+        Extension::registerPoint(new ArticleContentUpdated($article, 'content_copied'));
 
         return true;
     }

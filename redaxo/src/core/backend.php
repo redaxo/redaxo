@@ -5,6 +5,7 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleRevision;
 use Redaxo\Core\Content\ArticleSliceHistory;
+use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
 use Redaxo\Core\Content\HistoryLogin;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -438,7 +439,7 @@ if (Core::getConfig('article_work_version', false)) {
                     $article = Type::instanceOf(Article::get($articleId, $clangId), Article::class);
                     ArticleRevision::setSessionArticleRevision($articleId, ArticleRevision::LIVE);
                     $return = Extension::registerPoint(
-                        new rex_extension_point_art_content_updated($article, 'work_to_live', $return),
+                        new ArticleContentUpdated($article, 'work_to_live', $return),
                     );
                 }
                 break;
