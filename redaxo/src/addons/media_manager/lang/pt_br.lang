@@ -132,3 +132,7 @@ media_manager_effect_brightness_notice = [-255 to 255]. Deixe em branco para o v
 
 media_manager_effect_contrast = Contraste
 media_manager_effect_contrast_notice = [-100 to 100]. Deixe em branco para o valor padrão (0).
+
+media_manager_effect_insert_image_percent = Image: place image/watermark (transparent)
+media_manager_effect_brand_width_percent_x = Width in percent
+media_manager_effect_brand_opacity_percent = Opacity in percent
