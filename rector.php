@@ -352,6 +352,7 @@ return RectorConfig::configure()
         'rex_user_role_interface' => Security\UserRoleInterface::class,
         'rex_user_session' => Security\UserSession::class,
         'rex_webauthn' => Security\WebAuthn::class,
+        'rex_list' => View\Listing::class,
         'rex_view' => View\View::class,
     ])
     ->withConfiguredRule(ArgumentAdderRector::class, [
