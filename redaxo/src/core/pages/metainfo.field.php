@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\MetaInfo\Form\MetaInfoForm;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 
 $content = '';
@@ -47,7 +48,7 @@ if ('' == $func) {
     $sql = Sql::factory();
     $likePrefix = $sql->escapeLikeWildcards($prefix);
 
-    $list = rex_list::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
+    $list = Listing::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-metainfo"></i>';

@@ -16,6 +16,7 @@ use Redaxo\Core\Security\UserSession;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\Validator;
+use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 
 $currentUser = Core::requireUser();
@@ -575,7 +576,7 @@ if ($SHOW) {
     // use string starting with "_" to have users without role at bottom when sorting by role ASC
     $noRole = '_no_role';
     $separator = "\0,\0";
-    $list = rex_list::factory('
+    $list = Listing::factory('
         SELECT
             id,
             IF(name <> "", name, login) as name,

@@ -12,6 +12,7 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\Permission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 
 $func = rex_request('func', 'string');
@@ -35,7 +36,7 @@ if ('delete' == $func) {
 if ('' == $func) {
     $title = I18n::msg('user_role_caption');
 
-    $list = rex_list::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'user_role ORDER BY name', 100);
+    $list = Listing::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'user_role ORDER BY name', 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-userrole"></i>';

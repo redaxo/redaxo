@@ -4,12 +4,13 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Security\ApiFunction\UserRemoveSession;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Listing;
 
 if (!isset($userId) || 1 > $userId) {
     $userId = Core::requireUser()->getId();
 }
 
-$list = rex_list::factory('Select session_id, cookie_key, ip, useragent, starttime, last_activity from ' . Core::getTablePrefix() . 'user_session where user_id = ' . (int) $userId . ' ORDER BY last_activity DESC');
+$list = Listing::factory('Select session_id, cookie_key, ip, useragent, starttime, last_activity from ' . Core::getTablePrefix() . 'user_session where user_id = ' . (int) $userId . ' ORDER BY last_activity DESC');
 $list->addTableAttribute('class', 'table-hover');
 
 $list->addColumn('remove_session', '<i class="rex-icon rex-icon-delete"></i>', 0, ['<th class="rex-table-icon"></th>', '<td class="rex-table-icon">###VALUE###</td>']);

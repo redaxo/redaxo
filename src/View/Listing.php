@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\View;
+
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
@@ -9,7 +11,14 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Str;
-use Redaxo\Core\View\Message;
+use rex_url_provider_interface;
+
+use function count;
+use function define;
+use function in_array;
+use function is_array;
+use function is_callable;
+use function is_string;
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
@@ -18,7 +27,7 @@ define('REX_LIST_OPT_SORT_DIRECTION', 1);
 /*
 EXAMPLE:
 
-$list = rex_list::factory('SELECT id,name FROM rex_article');
+$list = List::factory('SELECT id,name FROM rex_article');
 $list->setColumnFormat('id', 'date');
 $list->setColumnLabel('name', 'Artikel-Name');
 $list->setColumnSortable('name');
@@ -40,18 +49,20 @@ function callback_func($params)
 }
 
 // USING setColumnFormat() BY CALLING A FUNCTION
-$list->setColumnFormat('id',                                     // field name
-                                             'custom',                                 // format type
-                                             'callback_func',                          // callback function name
-                                                array('foo' => 'bar', '123' => '456')    // optional params for callback function
+$list->setColumnFormat(
+    'id',                                    // field name
+    'custom',                                // format type
+    'callback_func',                         // callback function name
+    array('foo' => 'bar', '123' => '456')    // optional params for callback function
 );
 
 // USING setColumnFormat() BY CALLING CLASS & METHOD
-$list->setColumnFormat('id',                                     // field name
-                                             'custom',                                 // format type
-                                                array('CLASS','METHOD'),                 // callback class/method name
-                                                array('foo' => 'bar', '123' => '456')    // optional params for callback function
-                                             );
+$list->setColumnFormat(
+    'id',                                    // field name
+    'custom',                                // format type
+    array('CLASS','METHOD'),                 // callback class/method name
+    array('foo' => 'bar', '123' => '456')    // optional params for callback function
+);
 */
 
 /**
@@ -59,7 +70,7 @@ $list->setColumnFormat('id',                                     // field name
  *
  * @psalm-consistent-constructor
  */
-class rex_list implements rex_url_provider_interface
+class Listing implements rex_url_provider_interface
 {
     use FactoryTrait;
 
@@ -86,7 +97,7 @@ class rex_list implements rex_url_provider_interface
     private array $formAttributes;
 
     //  --------- Row Attributes
-    /** @var array<string, string|int>|callable(self):string */
+    /** @var array<string, (string|int)>|callable(self):string */
     private $rowAttributes;
 
     // --------- Column Attributes
@@ -385,11 +396,10 @@ class rex_list implements rex_url_provider_interface
     }
 
     // row attribute setter/getter
-
     /**
      * Methode, um der Zeile (<tr>) Attribute hinzuzufügen.
      *
-     * @param array<string, string|int>|callable(self):string $attr Entweder ein array: [attributname => attribut, ...]
+     * @param array<string, (string|int)>|callable(self):string $attr Entweder ein array: [attributname => attribut, ...]
      *                                                              oder eine Callback-Funktion
      */
     public function setRowAttributes(array|callable $attr): void
@@ -400,7 +410,7 @@ class rex_list implements rex_url_provider_interface
     /**
      * Methode, um die Zeilen-Attribute (<tr>) abzufragen.
      *
-     * @return array<string, string|int>|callable(self):string Entweder ein array: [attributname => attribut, ...]
+     * @return array<string, (string|int)>|callable(self):string Entweder ein array: [attributname => attribut, ...]
      *                                                         oder eine Callback-Funktion
      */
     public function getRowAttributes()

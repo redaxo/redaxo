@@ -10,6 +10,7 @@ use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
@@ -546,7 +547,7 @@ if ($OUT) {
         $message .= Message::error($error);
     }
 
-    $list = rex_list::factory('SELECT id, `key`, name, active FROM ' . Core::getTablePrefix() . 'template ORDER BY name', 100);
+    $list = Listing::factory('SELECT id, `key`, name, active FROM ' . Core::getTablePrefix() . 'template ORDER BY name', 100);
     $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
