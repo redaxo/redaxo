@@ -1,10 +1,13 @@
 <?php
 
+namespace Redaxo\Core\Tests\View;
+
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\View\Listing;
+use ReflectionMethod;
 
 /** @internal */
-final class rex_list_test extends TestCase
+final class ListingTest extends TestCase
 {
     public function testPrepareCountQuery(): void
     {
