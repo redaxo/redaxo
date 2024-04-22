@@ -6,6 +6,7 @@ use Redaxo\Core\Content\Linkmap\ArticleList;
 use Redaxo\Core\Content\Linkmap\CategoryTree;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\View;
 
 // ------- Default Values
 
@@ -98,7 +99,7 @@ if ($category) {
     }
 }
 
-echo rex_view::title('<i class="rex-icon rex-icon-linkmap"></i> Linkmap');
+echo View::title('<i class="rex-icon rex-icon-linkmap"></i> Linkmap');
 
 $title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . I18n::msg('root_level') . '</a>';
 

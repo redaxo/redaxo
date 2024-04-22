@@ -5,6 +5,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
 
 $func = rex_request('func', 'string');
 
@@ -26,7 +27,7 @@ if ('update' == $func) {
 
     Core::setConfig($config);
     MediaManager::deleteCache();
-    echo rex_view::info(I18n::msg('media_manager_config_saved'));
+    echo Message::info(I18n::msg('media_manager_config_saved'));
 }
 
 $formElements = [];

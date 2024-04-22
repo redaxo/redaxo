@@ -5,6 +5,7 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
 
 assert(isset($markdown) && is_callable($markdown));
 
@@ -18,7 +19,7 @@ echo ApiFunction::getMessage();
 try {
     $addons = rex_install_packages::getMyPackages();
 } catch (rex_functional_exception $e) {
-    echo rex_view::error($e->getMessage());
+    echo Message::error($e->getMessage());
     $addonkey = '';
 }
 

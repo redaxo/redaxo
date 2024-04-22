@@ -10,6 +10,7 @@ use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
 
 $OUT = true;
 
@@ -219,11 +220,11 @@ if ('add' == $function || 'edit' == $function) {
         }
 
         if ('' != $success) {
-            $message .= rex_view::success($success);
+            $message .= Message::success($success);
         }
 
         if ('' != $error) {
-            $message .= rex_view::error($error);
+            $message .= Message::error($error);
         }
 
         $content = '';
@@ -406,11 +407,11 @@ if ('add' == $function || 'edit' == $function) {
 
 if ($OUT) {
     if ('' != $success) {
-        $message .= rex_view::success($success);
+        $message .= Message::success($success);
     }
 
     if ('' != $error) {
-        $message .= rex_view::error($error);
+        $message .= Message::error($error);
     }
 
     $list = rex_list::factory('SELECT id, `key`, name FROM ' . Core::getTablePrefix() . 'module ORDER BY name', 100);

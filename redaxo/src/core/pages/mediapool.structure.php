@@ -6,6 +6,7 @@ use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaCategoryHandler;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($argFields) && is_string($argFields));
@@ -98,11 +99,11 @@ if ($PERMALL) {
     echo $fragment->parse('core/navigations/breadcrumb.php');
 
     if ('' != $error) {
-        echo rex_view::error($error);
+        echo Message::error($error);
         $error = '';
     }
     if ('' != $success) {
-        echo rex_view::info($success);
+        echo Message::info($success);
         $success = '';
     }
 

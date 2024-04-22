@@ -6,6 +6,7 @@ use Redaxo\Core\Form\Form;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\View\Message;
 
 $content = '';
 
@@ -73,11 +74,11 @@ if ('copy' == $func && $typeId > 0) {
 
 // -------------- output messages
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
 }
 
 if ('' == $func) {

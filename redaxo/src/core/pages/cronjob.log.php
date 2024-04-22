@@ -7,6 +7,7 @@ use Redaxo\Core\Log\LogFile;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Message;
 
 $func = rex_request('func', 'string');
 $error = '';
@@ -22,10 +23,10 @@ if ('cronjob_delLog' == $func) {
     }
 }
 if ('' != $success) {
-    $message .= rex_view::success($success);
+    $message .= Message::success($success);
 }
 if ('' != $error) {
-    $message .= rex_view::error($error);
+    $message .= Message::error($error);
 }
 $content = '';
 

@@ -14,6 +14,8 @@ use Redaxo\Core\Security\WebAuthn;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\Validator;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 $error = '';
 $success = '';
@@ -39,7 +41,7 @@ $passwordPolicy = BackendPasswordPolicy::factory();
 $webauthn = new WebAuthn();
 
 // --------------------------------- Title
-echo rex_view::title(I18n::msg('profile_title'), '');
+echo View::title(I18n::msg('profile_title'), '');
 
 // --------------------------------- BE LANG
 
@@ -200,15 +202,15 @@ if ('add_passkey' === rex_request('function', 'string')) {
 // ---------------------------------- ERR MSG
 
 if ($passwordChangeRequired) {
-    echo rex_view::warning(I18n::msg('password_change_required'));
+    echo Message::warning(I18n::msg('password_change_required'));
 }
 
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
 }
 
 echo ApiFunction::getMessage();

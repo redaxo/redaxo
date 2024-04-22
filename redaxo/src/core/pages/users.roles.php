@@ -12,6 +12,7 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\Permission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\View\Message;
 
 $func = rex_request('func', 'string');
 $id = rex_request('id', 'int');
@@ -21,11 +22,11 @@ $content = '';
 
 if ('delete' == $func) {
     if (!CsrfToken::factory('user_role_delete')->isValid()) {
-        $message = rex_view::error(I18n::msg('csrf_token_invalid'));
+        $message = Message::error(I18n::msg('csrf_token_invalid'));
     } else {
         $sql = Sql::factory();
         $sql->setQuery('DELETE FROM ' . Core::getTable('user_role') . ' WHERE id = ? LIMIT 1', [$id]);
-        $message = rex_view::info(I18n::msg('user_role_deleted'));
+        $message = Message::info(I18n::msg('user_role_deleted'));
     }
 
     $func = '';

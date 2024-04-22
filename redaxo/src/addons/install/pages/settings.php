@@ -4,6 +4,7 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
 
 $addon = Addon::get('install');
 
@@ -25,10 +26,10 @@ $newConfig = rex_post('settings', [
 if (is_array($newConfig)) {
     $config = $newConfig;
     if (File::putCache($configFile, $config)) {
-        echo rex_view::success($addon->i18n('settings_saved'));
+        echo Message::success($addon->i18n('settings_saved'));
         rex_install_webservice::deleteCache();
     } else {
-        echo rex_view::error($addon->i18n('settings_error', $configFile));
+        echo Message::error($addon->i18n('settings_error', $configFile));
     }
 }
 

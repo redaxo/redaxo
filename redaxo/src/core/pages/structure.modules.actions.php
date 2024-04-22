@@ -6,6 +6,8 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\ActionEventSelect;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 $ASTATUS = ['ADD', 'EDIT', 'DELETE'];
 
@@ -195,11 +197,11 @@ if ('add' == $function || 'edit' == $function) {
         }
 
         if ('' != $success) {
-            $message .= rex_view::success($success);
+            $message .= Message::success($success);
         }
 
         if ('' != $error) {
-            $message .= rex_view::error($error);
+            $message .= Message::error($error);
         }
 
         $panel = '';
@@ -411,11 +413,11 @@ if ('add' == $function || 'edit' == $function) {
 
 if ($OUT) {
     if ('' != $success) {
-        $message .= rex_view::success($success);
+        $message .= Message::success($success);
     }
 
     if ('' != $error) {
-        $message .= rex_view::error($error);
+        $message .= Message::error($error);
     }
 
     // ausgabe actionsliste !
@@ -487,7 +489,7 @@ if ($OUT) {
         </table>';
 
     if ($rows < 1) {
-        $content .= rex_view::info(I18n::msg('actions_not_found'));
+        $content .= Message::info(I18n::msg('actions_not_found'));
     }
 
     echo $message;

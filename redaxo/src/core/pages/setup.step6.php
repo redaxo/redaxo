@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\View;
 
 $successfullyCompleted = rex_setup::markSetupCompleted();
 
@@ -12,7 +13,7 @@ if ($successfullyCompleted) {
     $errmsg = I18n::msg('setup_601');
 }
 
-$headline = rex_view::title(I18n::msg('setup_600'));
+$headline = View::title(I18n::msg('setup_600'));
 
 $content = '<h3>' . I18n::msg('setup_603') . '</h3>';
 $content .= I18n::rawMsg('setup_604', '<a href="' . Url::backendController() . '">', '</a>');

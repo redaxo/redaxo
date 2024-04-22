@@ -9,6 +9,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Message;
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
@@ -1253,9 +1254,9 @@ class rex_list implements rex_url_provider_interface
         $footer = $this->getFooter();
 
         if ('' != $warning) {
-            $s .= rex_view::warning($warning) . "\n";
+            $s .= Message::warning($warning) . "\n";
         } elseif ('' != $message) {
-            $s .= rex_view::info($message) . "\n";
+            $s .= Message::info($message) . "\n";
         }
 
         if ('' != $header) {

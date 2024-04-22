@@ -16,6 +16,8 @@ use Redaxo\Core\Database\Util;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 $articleId = rex_request('article_id', 'int');
 $clang = rex_request('clang', 'int');
@@ -46,8 +48,8 @@ $article->setQuery('
             AND clang_id=?', [$articleId, $clang]);
 
 if (1 !== $article->getRows()) {
-    echo rex_view::title(I18n::msg('content'), '');
-    echo rex_view::error(I18n::msg('article_doesnt_exist'));
+    echo View::title(I18n::msg('content'), '');
+    echo Message::error(I18n::msg('article_doesnt_exist'));
     return;
 }
 
@@ -80,10 +82,10 @@ $context = new rex_context([
 ]);
 
 // ----- Titel anzeigen
-echo rex_view::title(I18n::msg('content') . ': ' . $OOArt->getName(), '');
+echo View::title(I18n::msg('content') . ': ' . $OOArt->getName(), '');
 
 // ----- Languages
-echo rex_view::clangSwitchAsButtons($context);
+echo View::clangSwitchAsButtons($context);
 
 // ----- category pfad und rechte
 require Path::core('functions/function_structure_rex_category.php');
@@ -106,7 +108,7 @@ $user = Core::requireUser();
 // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
 if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     // ----- hat keine rechte an diesem artikel
-    echo rex_view::warning(I18n::msg('no_rights_to_edit'));
+    echo Message::warning(I18n::msg('no_rights_to_edit'));
 } else {
     // ----- hat rechte an diesem artikel
 
@@ -395,20 +397,20 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
     // ------------------------------------------ WARNING
     if ('' != $globalWarning) {
-        $contentMain .= rex_view::warning($globalWarning);
+        $contentMain .= Message::warning($globalWarning);
     }
     if ('' != $globalInfo) {
-        $contentMain .= rex_view::success($globalInfo);
+        $contentMain .= Message::success($globalInfo);
     }
 
     // --------------------------------------------- API MESSAGES
     $contentMain .= ApiFunction::getMessage();
 
     if ('' != $warning) {
-        $contentMain .= rex_view::warning($warning);
+        $contentMain .= Message::warning($warning);
     }
     if ('' != $info) {
-        $contentMain .= rex_view::success($info);
+        $contentMain .= Message::success($info);
     }
 
     // ----- EXTENSION POINT

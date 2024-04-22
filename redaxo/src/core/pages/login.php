@@ -5,12 +5,14 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\WebAuthn;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 global $rexUserLoginmessage;
 
 $rexUserLogin = rex_post('rex_user_login', 'string');
 
-echo rex_view::title(I18n::msg('login'));
+echo View::title(I18n::msg('login'));
 
 $content = '';
 
@@ -19,7 +21,7 @@ $content .= $fragment->parse('core/login_branding.php');
 
 $js = '';
 if ('' != $rexUserLoginmessage) {
-    $content .= '<div class="rex-js-login-message">' . rex_view::error($rexUserLoginmessage) . '</div>';
+    $content .= '<div class="rex-js-login-message">' . Message::error($rexUserLoginmessage) . '</div>';
     $js = '
         var time_el = $(".rex-js-login-message strong[data-time]");
         if(time_el.length == 1) {

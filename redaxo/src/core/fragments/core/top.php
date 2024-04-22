@@ -3,6 +3,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Asset;
 
 /**
  * @var rex_fragment $this
@@ -61,7 +62,7 @@ use Redaxo\Core\Translation\I18n;
 
         $file = (string) $file;
         $path = Path::frontend(Path::absolute($file));
-        if (array_key_exists(rex_view::JS_IMMUTABLE, $options) && $options[rex_view::JS_IMMUTABLE]) {
+        if (array_key_exists(Asset::JS_IMMUTABLE, $options) && $options[Asset::JS_IMMUTABLE]) {
             if (!Core::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
                 $file = Url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
             }
@@ -70,10 +71,10 @@ use Redaxo\Core\Translation\I18n;
         }
 
         $attributes = [];
-        if (array_key_exists(rex_view::JS_ASYNC, $options) && $options[rex_view::JS_ASYNC]) {
+        if (array_key_exists(Asset::JS_ASYNC, $options) && $options[Asset::JS_ASYNC]) {
             $attributes[] = 'async="async"';
         }
-        if (array_key_exists(rex_view::JS_DEFERED, $options) && $options[rex_view::JS_DEFERED]) {
+        if (array_key_exists(Asset::JS_DEFERED, $options) && $options[Asset::JS_DEFERED]) {
             $attributes[] = 'defer="defer"';
         }
 

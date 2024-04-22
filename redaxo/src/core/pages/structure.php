@@ -21,6 +21,8 @@ use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 $structureContext = new StructureContext([
     'category_id' => rex_request('category_id', 'int'),
@@ -38,10 +40,10 @@ $user = Core::requireUser();
 
 if (0 == $structureContext->getClangId()) {
     if (Language::exists(0)) {
-        echo rex_view::error('Oooops. Your clang ids start with <code>0</code>. Looks like a broken REDAXO 4.x to 5.x upgrade. Please update all your database tables, php code (if there are any hard coded clang ids) aswell as additional configurations in add-ons, e.g. YRewrite. You may start with updating those tables: <code>rex_article</code>, <code>rex_article_slice</code>, <code>rex_clang</code>, by increasing every clang id <code>+ 1</code>.');
+        echo Message::error('Oooops. Your clang ids start with <code>0</code>. Looks like a broken REDAXO 4.x to 5.x upgrade. Please update all your database tables, php code (if there are any hard coded clang ids) aswell as additional configurations in add-ons, e.g. YRewrite. You may start with updating those tables: <code>rex_article</code>, <code>rex_article_slice</code>, <code>rex_clang</code>, by increasing every clang id <code>+ 1</code>.');
         exit;
     }
-    echo rex_view::error('You have no permission to access this area');
+    echo Message::error('You have no permission to access this area');
     exit;
 }
 
@@ -51,10 +53,10 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER
 ]));
 
 // --------------------------------------------- TITLE
-echo rex_view::title(I18n::msg('title_structure'));
+echo View::title(I18n::msg('title_structure'));
 
 // --------------------------------------------- Languages
-echo rex_view::clangSwitchAsButtons($structureContext->getContext());
+echo View::clangSwitchAsButtons($structureContext->getContext());
 
 // --------------------------------------------- Path
 $articleId = $structureContext->getArticleId();

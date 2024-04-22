@@ -10,8 +10,10 @@ use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
-echo rex_view::title(I18n::msg('title_templates'));
+echo View::title(I18n::msg('title_templates'));
 
 $OUT = true;
 
@@ -78,7 +80,7 @@ if ('delete' == $function) {
 
 if ('add' == $function || 'edit' == $function) {
     if ('ja' == $save && !$csrfToken->isValid()) {
-        echo rex_view::error(I18n::msg('csrf_token_invalid'));
+        echo Message::error(I18n::msg('csrf_token_invalid'));
         $save = 'nein';
     }
 
@@ -341,11 +343,11 @@ if ('add' == $function || 'edit' == $function) {
         $tmplActiveChecked = 1 == $active ? ' checked="checked"' : '';
 
         if ('' != $success) {
-            $message .= rex_view::success($success);
+            $message .= Message::success($success);
         }
 
         if ('' != $error) {
-            $message .= rex_view::error($error);
+            $message .= Message::error($error);
         }
 
         $panel = '';
@@ -537,11 +539,11 @@ if ('add' == $function || 'edit' == $function) {
 
 if ($OUT) {
     if ('' != $success) {
-        $message .= rex_view::success($success);
+        $message .= Message::success($success);
     }
 
     if ('' != $error) {
-        $message .= rex_view::error($error);
+        $message .= Message::error($error);
     }
 
     $list = rex_list::factory('SELECT id, `key`, name, active FROM ' . Core::getTablePrefix() . 'template ORDER BY name', 100);

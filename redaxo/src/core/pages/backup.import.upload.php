@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Message;
 
 $success = '';
 $error = '';
@@ -106,10 +107,10 @@ if ($function && !$csrfToken->isValid()) {
     }
 }
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
 }
 
 $body = '<p>' . I18n::msg('backup_intro_import') . '</p>';

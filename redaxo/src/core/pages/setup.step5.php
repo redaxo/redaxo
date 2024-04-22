@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\View;
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($errors) && is_array($errors));
@@ -13,7 +14,7 @@ assert(isset($cancelSetupBtn));
 $userSql = Sql::factory();
 $userSql->setQuery('select * from ' . Core::getTablePrefix() . 'user LIMIT 1');
 
-$headline = rex_view::title(I18n::msg('setup_500') . $cancelSetupBtn);
+$headline = View::title(I18n::msg('setup_500') . $cancelSetupBtn);
 
 $submitMessage = I18n::msg('setup_510');
 if (count($errors) > 0) {

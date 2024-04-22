@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Version;
+use Redaxo\Core\View\Message;
 
 assert(isset($markdown) && is_callable($markdown));
 
@@ -23,10 +24,10 @@ try {
 
     $config = File::getCache(Path::addonData('install', 'config.json'), []);
     if (isset($config['api_login']) && $config['api_login'] && isset($config['api_key'])) {
-        echo rex_view::info($package->i18n('info_myredaxo'));
+        echo Message::info($package->i18n('info_myredaxo'));
     }
 } catch (rex_functional_exception $e) {
-    echo rex_view::warning($e->getMessage());
+    echo Message::warning($e->getMessage());
     $addonkey = '';
 }
 

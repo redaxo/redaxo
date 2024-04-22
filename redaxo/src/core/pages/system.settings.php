@@ -12,6 +12,7 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Version;
+use Redaxo\Core\View\Message;
 
 $error = [];
 $success = '';
@@ -153,11 +154,11 @@ foreach ($locales as $locale) {
 }
 
 if (!empty($error)) {
-    echo rex_view::error(implode('<br />', $error));
+    echo Message::error(implode('<br />', $error));
 }
 
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 
 $dbconfig = Core::getDbConfig(1);
@@ -341,7 +342,7 @@ $content = '<p>' . I18n::msg('system_editor_note') . '</p>';
 
 $viaCookie = array_key_exists('editor', $_COOKIE);
 if ($viaCookie) {
-    $content .= rex_view::info(I18n::msg('system_editor_note_cookie'));
+    $content .= Message::info(I18n::msg('system_editor_note_cookie'));
 }
 
 $formElements = [];

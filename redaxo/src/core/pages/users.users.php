@@ -16,6 +16,7 @@ use Redaxo\Core\Security\UserSession;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\Validator;
+use Redaxo\Core\View\Message;
 
 $currentUser = Core::requireUser();
 
@@ -294,11 +295,11 @@ if ($warnings) {
 // ---------------------------------- ERR MSG
 
 if (!empty($info)) {
-    $message .= rex_view::info(implode('<br/>', $info));
+    $message .= Message::info(implode('<br/>', $info));
 }
 
 if (!empty($warnings)) {
-    $message .= rex_view::warning(implode('<br/>', $warnings));
+    $message .= Message::warning(implode('<br/>', $warnings));
 }
 
 echo ApiFunction::getMessage();

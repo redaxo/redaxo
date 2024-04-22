@@ -8,12 +8,13 @@ use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\Validator;
+use Redaxo\Core\View\Message;
 
 $message = '';
 
 if ('' != rex_post('btn_delete_archive', 'string')) {
     if (Dir::delete(Mailer::logFolder(), true)) {
-        echo rex_view::success(I18n::msg('phpmailer_archive_deleted'));
+        echo Message::success(I18n::msg('phpmailer_archive_deleted'));
     }
 }
 if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string')) {
@@ -44,7 +45,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
     if (true == $settings['phpmailer_detour_mode'] && false == Validator::factory()->email($settings['phpmailer_test_address'])) {
         $settings['phpmailer_detour_mode'] = false;
         $warning = I18n::msg('phpmailer_detour_warning');
-        echo rex_view::warning($warning);
+        echo Message::warning($warning);
     }
 
     Config::set('core', $settings);
@@ -52,7 +53,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
     if ('' != rex_post('btn_check', 'string')) {
         if (false == Validator::factory()->email($settings['phpmailer_from']) || false == Validator::factory()->email($settings['phpmailer_test_address'])) {
             $warning = I18n::msg('phpmailer_check_settings_not_tested');
-            echo rex_view::warning($warning);
+            echo Message::warning($warning);
         } else {
             rex_response::sendRedirect(Url::backendPage('phpmailer/checkmail'));
         }
@@ -157,7 +158,7 @@ foreach ([0 => I18n::msg('phpmailer_smtp_debug_0'), 1 => I18n::msg('phpmailer_sm
 }
 
 if ('' != $message) {
-    echo rex_view::success($message);
+    echo Message::success($message);
 }
 
 $content = '';

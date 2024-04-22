@@ -6,6 +6,7 @@ use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Message;
 
 /**
  * Ausgabe des Medienpool Formulars.
@@ -35,10 +36,10 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     if (isset($warning)) {
         if (is_array($warning)) {
             if (count($warning) > 0) {
-                $s .= rex_view::error(implode('<br />', $warning));
+                $s .= Message::error(implode('<br />', $warning));
             }
         } elseif ('' != $warning) {
-            $s .= rex_view::error($warning);
+            $s .= Message::error($warning);
         }
         $warning = '';
     }
@@ -46,10 +47,10 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     if (isset($info)) {
         if (is_array($info)) {
             if (count($info) > 0) {
-                $s .= rex_view::success(implode('<br />', $info));
+                $s .= Message::success(implode('<br />', $info));
             }
         } elseif ('' != $info) {
-            $s .= rex_view::success($info);
+            $s .= Message::success($info);
         }
         $info = '';
     }

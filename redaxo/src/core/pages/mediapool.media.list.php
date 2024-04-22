@@ -15,6 +15,7 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
+use Redaxo\Core\View\Message;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -126,7 +127,7 @@ if ($error) {
         $error = implode('<br />', $error);
     }
 
-    echo rex_view::error($error);
+    echo Message::error($error);
     $error = '';
 }
 
@@ -135,12 +136,12 @@ if ($success) {
         $success = implode('<br />', $success);
     }
 
-    echo rex_view::success($success);
+    echo Message::success($success);
     $success = '';
 }
 
 if (!empty($argUrl['args']['types'])) {
-    echo rex_view::info(I18n::msg('pool_file_filter') . ' <code>' . $argUrl['args']['types'] . '</code>');
+    echo Message::info(I18n::msg('pool_file_filter') . ' <code>' . $argUrl['args']['types'] . '</code>');
 }
 
 // deletefilelist und cat change

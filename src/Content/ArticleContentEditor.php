@@ -9,13 +9,14 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 use rex_context;
 use rex_extension;
 use rex_extension_point;
 use rex_extension_point_slice_menu;
 use rex_fragment;
 use rex_response;
-use rex_view;
 
 use function count;
 
@@ -69,10 +70,10 @@ class ArticleContentEditor extends ArticleContent
             if ('add' != $this->function && $this->slice_id == $sliceId) {
                 $msg = '';
                 if ('' != $this->warning) {
-                    $msg .= rex_view::error($this->warning);
+                    $msg .= Message::error($this->warning);
                 }
                 if ('' != $this->info) {
-                    $msg .= rex_view::success($this->info);
+                    $msg .= Message::success($this->info);
                 }
                 $panel .= $msg;
             }
@@ -414,7 +415,7 @@ class ArticleContentEditor extends ArticleContent
         $MOD->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module WHERE id="' . $moduleId . '"');
 
         if (1 != $MOD->getRows()) {
-            return rex_view::error(I18n::msg('module_doesnt_exist'));
+            return Message::error(I18n::msg('module_doesnt_exist'));
         }
 
         $initDataSql = Sql::factory();
@@ -433,10 +434,10 @@ class ArticleContentEditor extends ArticleContent
 
         $msg = '';
         if ('' != $this->warning) {
-            $msg .= rex_view::warning($this->warning);
+            $msg .= Message::warning($this->warning);
         }
         if ('' != $this->info) {
-            $msg .= rex_view::success($this->info);
+            $msg .= Message::success($this->info);
         }
 
         $formElements = [];
@@ -504,10 +505,10 @@ class ArticleContentEditor extends ArticleContent
         $msg = '';
         if ($this->slice_id == $sliceId) {
             if ('' != $this->warning) {
-                $msg .= rex_view::warning($this->warning);
+                $msg .= Message::warning($this->warning);
             }
             if ('' != $this->info) {
-                $msg .= rex_view::success($this->info);
+                $msg .= Message::success($this->info);
             }
         }
 

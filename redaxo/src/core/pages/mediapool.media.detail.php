@@ -14,6 +14,7 @@ use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Message;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -182,11 +183,11 @@ if ($isImage) {
 }
 
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
     $error = '';
 }
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
     $success = '';
 }
 

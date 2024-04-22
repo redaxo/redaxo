@@ -10,6 +10,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\MetaInfo\Handler\ArticleHandler as MetaInfoArticleHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Message;
 
 assert(isset($ep) && $ep instanceof rex_extension_point);
 
@@ -121,7 +122,7 @@ if (1 == $article->getRows()) {
     $content[] = '
               <div id="rex-page-sidebar-metainfo" data-pjax-container="#rex-page-sidebar-metainfo">
                 <form class="metainfo-sidebar" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data">
-                    ' . (rex_post('savemeta', 'boolean') ? rex_view::success(I18n::msg('minfo_metadata_saved')) : '') . '
+                    ' . (rex_post('savemeta', 'boolean') ? Message::success(I18n::msg('minfo_metadata_saved')) : '') . '
                     <fieldset>
                         <input type="hidden" name="save" value="1" />
                         <input type="hidden" name="ctype" value="' . $ctype . '" />

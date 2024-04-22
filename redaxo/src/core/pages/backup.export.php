@@ -10,6 +10,7 @@ use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Message;
 
 // Für größere Exports den Speicher für PHP erhöhen.
 if (rex_ini_get('memory_limit') < 67_108_864) {
@@ -106,10 +107,10 @@ if ($export && !$csrfToken->isValid()) {
 }
 
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
 }
 
 $content = '';

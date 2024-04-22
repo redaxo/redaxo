@@ -19,10 +19,10 @@ use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Message;
 use rex_exception;
 use rex_extension;
 use rex_extension_point;
-use rex_view;
 
 use function array_key_exists;
 use function assert;
@@ -1205,9 +1205,9 @@ abstract class AbstractForm
         $warning = $this->getWarning();
         $message = $this->getMessage();
         if ('' != $warning) {
-            $s .= '  ' . rex_view::error($warning) . "\n";
+            $s .= '  ' . Message::error($warning) . "\n";
         } elseif ('' != $message) {
-            $s .= '  ' . rex_view::success($message) . "\n";
+            $s .= '  ' . Message::success($message) . "\n";
         }
 
         $i = 0;

@@ -11,6 +11,7 @@ use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Message;
 
 $effectId = rex_request('effect_id', 'int');
 $typeId = rex_request('type_id', 'int');
@@ -63,11 +64,11 @@ if ('delete' == $func && $effectId > 0) {
 }
 
 if ('' != $info) {
-    echo rex_view::info($info);
+    echo Message::info($info);
 }
 
 if ('' != $warning) {
-    echo rex_view::warning($warning);
+    echo Message::warning($warning);
 }
 
 $effects = [];
@@ -77,7 +78,7 @@ foreach (MediaManager::getSupportedEffects() as $class => $shortName) {
 }
 
 if ('' == $func) {
-    echo rex_view::info(I18n::msg('media_manager_effect_list_header', $typeName));
+    echo Message::info(I18n::msg('media_manager_effect_list_header', $typeName));
 
     $query = 'SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $typeId . ' ORDER BY priority';
 

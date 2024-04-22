@@ -8,12 +8,13 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\Util\Version;
+use Redaxo\Core\View\View;
 
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
  */
 
-echo rex_view::title(I18n::msg('credits'), '');
+echo View::title(I18n::msg('credits'), '');
 
 if (rex_get('license')) {
     $license = Markdown::factory()->parse(File::require(Path::base('LICENSE.md')));

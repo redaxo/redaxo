@@ -5,6 +5,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
+use Redaxo\Core\View\Message;
 
 $content = '';
 
@@ -39,7 +40,7 @@ if (is_readable($package->getPath('help.php'))) {
     $fragment->setVar('toc', $readmeToc, false);
     $content .= $fragment->parse('core/page/docs.php');
 } else {
-    $content .= rex_view::info(I18n::msg('package_no_help_file'));
+    $content .= Message::info(I18n::msg('package_no_help_file'));
 }
 
 $fragment = new rex_fragment();

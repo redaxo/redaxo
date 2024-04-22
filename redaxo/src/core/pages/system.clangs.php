@@ -7,6 +7,7 @@ use Redaxo\Core\Language\Language;
 use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
 
 /**
  * Verwaltung der Content Sprachen.
@@ -43,7 +44,7 @@ if ('deleteclang' == $func && '' != $clangId && Language::exists($clangId)) {
         $func = '';
         $clangId = 0;
     } catch (rex_functional_exception $e) {
-        echo rex_view::error($e->getMessage());
+        echo Message::error($e->getMessage());
     }
 }
 
@@ -58,7 +59,7 @@ if ('editstatus' === $func && Language::exists($clangId)) {
         $func = '';
         $clangId = 0;
     } catch (rex_functional_exception $e) {
-        echo rex_view::error($e->getMessage());
+        echo Message::error($e->getMessage());
     }
 }
 
@@ -89,11 +90,11 @@ if ($addClangSave || $editClangSave) {
 }
 
 if ('' != $success) {
-    $message .= rex_view::success($success);
+    $message .= Message::success($success);
 }
 
 if ('' != $error) {
-    $message .= rex_view::error($error);
+    $message .= Message::error($error);
 }
 
 $content .= '

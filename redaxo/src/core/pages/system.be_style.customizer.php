@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
 
 $success = '';
 
@@ -18,7 +19,7 @@ if ('' != rex_post('btn_save', 'string')) {
 }
 
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 
 // form

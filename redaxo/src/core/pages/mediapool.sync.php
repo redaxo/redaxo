@@ -10,6 +10,7 @@ use Redaxo\Core\MediaPool\MediaPoolCache;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Message;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 
@@ -111,11 +112,11 @@ if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
 }
 
 if (count($error) > 0) {
-    echo rex_view::error(implode('<br />', $error));
+    echo Message::error(implode('<br />', $error));
     $error = [];
 }
 if (count($success) > 0) {
-    echo rex_view::info(implode('<br />', $success));
+    echo Message::info(implode('<br />', $success));
     $success = [];
 }
 
