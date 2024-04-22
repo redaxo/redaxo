@@ -446,21 +446,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/var/var.php
 
 		-
-			message: "#^Method rex_view\\:\\:getJsFilesWithOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/view.php
-
-		-
-			message: "#^Method rex_view\\:\\:title\\(\\) has parameter \\$subtitle with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/view.php
-
-		-
-			message: "#^Property rex_view\\:\\:\\$jsFiles type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/view.php
-
-		-
 			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<string\\|null\\>, rex_extension_point\\<string\\|null\\> given\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/tests/extension_test.php
@@ -1654,6 +1639,21 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Validator\\\\Validator\\:\\:values\\(\\) has parameter \\$validValues with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Validator/Validator.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\Asset\\:\\:getJsFilesWithOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/View/Asset.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\View\\\\Asset\\:\\:\\$jsFiles type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/View/Asset.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\View\\:\\:title\\(\\) has parameter \\$subtitle with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/View/View.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Content\\\\CategoryTest\\:\\:createCategories\\(\\) has parameter \\$lev1Params with no value type specified in iterable type array\\.$#"

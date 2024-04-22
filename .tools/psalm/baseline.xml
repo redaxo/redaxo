@@ -1399,21 +1399,6 @@
       <code><![CDATA[$this->getParsedArg('suffix')]]></code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/core/lib/view.php">
-    <MixedArgument>
-      <code><![CDATA[$pageObj]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$pageObj]]></code>
-      <code><![CDATA[self::$jsProperties[$key]]]></code>
-    </MixedAssignment>
-    <PossiblyNullArgument>
-      <code><![CDATA[Controller::getCurrentPagePart(1)]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference>
-      <code><![CDATA[getSubpages]]></code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/pages/backup.export.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$EXPDIR]]></code>
@@ -4694,6 +4679,25 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$regex]]></code>
     </ArgumentTypeCoercion>
+  </file>
+  <file src="src/View/Asset.php">
+    <MixedAssignment>
+      <code><![CDATA[self::$jsProperties[$key]]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/View/View.php">
+    <MixedArgument>
+      <code><![CDATA[$pageObj]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$pageObj]]></code>
+    </MixedAssignment>
+    <PossiblyNullArgument>
+      <code><![CDATA[Controller::getCurrentPagePart(1)]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference>
+      <code><![CDATA[getSubpages]]></code>
+    </PossiblyNullReference>
   </file>
   <file src="tests/Content/ArticleSliceTest.php">
     <PossiblyNullReference>
