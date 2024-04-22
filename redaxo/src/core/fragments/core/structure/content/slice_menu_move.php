@@ -4,7 +4,7 @@ use Redaxo\Core\View\Fragment;
 
 /**
  * @var Fragment $this
- * @psalm-scope-this rex_fragment
+ * @psalm-scope-this Fragment
  */
 $fragment = new Fragment();
 $fragment->setVar('buttons', $this->items, false);

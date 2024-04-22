@@ -1054,7 +1054,7 @@ class Listing implements rex_url_provider_interface
             return '';
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('urlprovider', $this);
         $fragment->setVar('pager', $this->pager);
         return $fragment->parse('core/navigations/pagination.php');

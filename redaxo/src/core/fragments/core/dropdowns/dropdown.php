@@ -1,9 +1,10 @@
 <?php
+
 use Redaxo\Core\View\Fragment;
 
 /**
  * @var Fragment $this
- * @psalm-scope-this rex_fragment
+ * @psalm-scope-this Fragment
  */
 $toolbar = isset($this->toolbar) && $this->toolbar;
 $group = isset($this->group) && $this->group;

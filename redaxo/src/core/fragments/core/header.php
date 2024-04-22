@@ -9,7 +9,7 @@ use Redaxo\Core\View\Fragment;
 
 /**
  * @var Fragment $this
- * @psalm-scope-this rex_fragment
+ * @psalm-scope-this Fragment
  */
 $isPopup = Controller::requireCurrentPageObject()->isPopup();
 $isLogin = ('login' === Controller::getCurrentPage());

@@ -1,10 +1,11 @@
 <?php
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\View\Fragment;
 
 /**
- * @var rex_fragment $this
- * @psalm-scope-this rex_fragment
+ * @var Fragment $this
+ * @psalm-scope-this Fragment
  */
 ?>
 <div class="rex-branding">

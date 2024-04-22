@@ -100,7 +100,7 @@ class Message
         }
 
         /*
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('class', $cssClass);
         $fragment->setVar('message', $content, false);
         $return = $fragment->parse('message.php');

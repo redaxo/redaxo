@@ -4,7 +4,7 @@ use Redaxo\Core\View\Fragment;
 
 /**
  * @var Fragment $this
- * @psalm-scope-this rex_fragment
+ * @psalm-scope-this Fragment
  */
 $sectionAttributes = [];
 if (isset($this->sectionAttributes)) {

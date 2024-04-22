@@ -216,7 +216,7 @@ class Fragment
             return $this->vars[$name];
         }
 
-        trigger_error(sprintf('Undefined variable "%s" in rex_fragment "%s"', $name, $this->filename), E_USER_WARNING);
+        trigger_error(sprintf('Undefined variable "%s" in Fragment "%s"', $name, $this->filename), E_USER_WARNING);
 
         return null;
     }

@@ -5,7 +5,7 @@ use Redaxo\Core\View\Fragment;
 
 /**
  * @var Fragment $this
- * @psalm-scope-this rex_fragment
+ * @psalm-scope-this Fragment
  */
 if (!isset($this->buttons)) {
     $this->buttons['button'] = $this->button;
