@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\View;
 
+use InvalidArgumentException;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
@@ -11,6 +12,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Str;
+use rex_extension;
+use rex_extension_point;
 use rex_url_provider_interface;
 
 use function count;
