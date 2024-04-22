@@ -10,6 +10,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\MetaInfo\Handler\ArticleHandler as MetaInfoArticleHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
 assert(isset($ep) && $ep instanceof rex_extension_point);
@@ -115,7 +116,7 @@ if (1 == $article->getRows()) {
         'label' => '<label for="rex-id-meta-article-name">' . I18n::msg('header_article_name') . '</label>',
         'field' => '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="' . htmlspecialchars(Article::get($articleId, $clang)->getName()) . '" />',
     ];
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $form = $fragment->parse('core/form/form.php') . $form;
 
@@ -136,7 +137,7 @@ if (1 == $article->getRows()) {
 
 // ------------------
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> ' . I18n::msg('metadata'), false);
 $fragment->setVar('body', implode('', $content), false);
 $fragment->setVar('article_id', $params['article_id'], false);

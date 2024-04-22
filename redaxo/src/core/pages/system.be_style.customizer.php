@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
 $success = '';
@@ -46,7 +47,7 @@ $n['label'] = '<label for="customizer-showlink">' . I18n::msg('customizer_showli
 $n['field'] = '<input type="checkbox" id="customizer-showlink" name="settings[be_style_showlink]" value="1" ' . (Core::getConfig('be_style_showlink') ? 'checked="checked" ' : '') . ' />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -60,13 +61,13 @@ $n = [];
 $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="btn_save" value="' . I18n::msg('customizer_update') . '">' . I18n::msg('customizer_update') . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
 // section
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', I18n::msg('customizer'), false);
 $fragment->setVar('body', $content, false);

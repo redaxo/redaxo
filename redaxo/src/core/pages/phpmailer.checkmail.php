@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
 $content = $mailerDebug = '';
@@ -53,7 +54,7 @@ if ('' == Core::getConfig('phpmailer_from') || '' == Core::getConfig('phpmailer_
     }
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('phpmailer_checkmail_headline'));
 $fragment->setVar('body', $content . $mailerDebug, false);
 $out = $fragment->parse('core/page/section.php');

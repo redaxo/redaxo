@@ -1,15 +1,16 @@
 <?php
+
+use Redaxo\Core\View\Fragment;
+
 /**
- * @var rex_fragment $this
+ * @var Fragment $this
  * @psalm-scope-this rex_fragment
  */
-
 /*
     Vars
 
     "title" of items list will not be escaped, the caller is responsible todo so.
 */
-
 // --------------------- List Items
 $listItems = [];
 

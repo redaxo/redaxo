@@ -3,6 +3,7 @@
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Util\Markdown;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
 $addon = Addon::get('install');
@@ -14,7 +15,7 @@ if ('reload' === rex_request('func', 'string')) {
 }
 
 $markdown = static function (string $content): string {
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('content', Markdown::factory()->parse($content), false);
 
     return $fragment->parse('core/page/readme.php');

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
@@ -73,7 +74,7 @@ foreach (rex_setup::checkPhpSecurity() as $warning) {
 
 echo View::title(I18n::msg('setup_200') . $cancelSetupBtn);
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', $class, false);
 $fragment->setVar('title', I18n::msg('setup_207'), false);
 $fragment->setVar('body', $content, false);

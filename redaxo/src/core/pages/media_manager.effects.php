@@ -11,6 +11,7 @@ use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 
@@ -126,7 +127,7 @@ if ('' == $func) {
 
     $footer = '<a class="btn btn-back" href="' . Url::currentBackendPage() . '">' . I18n::msg('media_manager_back') . '</a>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::rawMsg('media_manager_effect_caption', $typeName), false);
     $fragment->setVar('content', $content, false);
     $fragment->setVar('footer', $footer, false);
@@ -296,7 +297,7 @@ if ('' == $func) {
 
     $content = $form->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $formLabel, false);
     $fragment->setVar('body', $content, false);

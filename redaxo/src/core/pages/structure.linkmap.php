@@ -6,6 +6,7 @@ use Redaxo\Core\Content\Linkmap\ArticleList;
 use Redaxo\Core\Content\Linkmap\CategoryTree;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
 // ------- Default Values
@@ -103,7 +104,7 @@ echo View::title('<i class="rex-icon rex-icon-linkmap"></i> Linkmap');
 
 $title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . I18n::msg('root_level') . '</a>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', $title, false);
 $fragment->setVar('items', $navigation, false);
 echo $fragment->parse('core/navigations/breadcrumb.php');
@@ -113,7 +114,7 @@ $content = [];
 $categoryTree = new CategoryTree($context);
 $panel = $categoryTree->getTree($categoryId);
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('linkmap_categories'), false);
 $fragment->setVar('content', $panel, false);
 $content[] = $fragment->parse('core/page/section.php');
@@ -121,12 +122,12 @@ $content[] = $fragment->parse('core/page/section.php');
 $articleList = new ArticleList($context);
 $panel = $articleList->getList($categoryId);
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('linkmap_articles'), false);
 $fragment->setVar('content', $panel, false);
 $content[] = $fragment->parse('core/page/section.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('content', $content, false);
 $fragment->setVar('classes', ['col-sm-6', 'col-sm-6'], false);
 echo $fragment->parse('core/page/grid.php');

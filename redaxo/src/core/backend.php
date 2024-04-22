@@ -19,6 +19,7 @@ use Redaxo\Core\Security\Permission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Asset;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
@@ -332,7 +333,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
             $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';
 
             // fragment holen und ausgeben
-            $fragment = new rex_fragment();
+            $fragment = new Fragment();
             $fragment->setVar('title', I18n::msg('structure_history_overview_versions'));
             $fragment->setVar('content1select', $content1select, false);
             $fragment->setVar('content1iframe', $content1iframe, false);
@@ -489,7 +490,7 @@ if (Core::getConfig('article_work_version', false)) {
 
         $toolbar = '';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('button_prefix', '<b>' . $currentRevision . '</b>', false);
         $fragment->setVar('items', $items, false);
         $fragment->setVar('toolbar', true);

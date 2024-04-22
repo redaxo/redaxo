@@ -9,6 +9,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Version;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
 assert(isset($markdown) && is_callable($markdown));
@@ -77,7 +78,7 @@ if ($core && !empty($coreVersions)) {
 
     $panel .= '</tbody></table>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', 'REDAXO Core', false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');
@@ -125,7 +126,7 @@ if ($core && !empty($coreVersions)) {
             </tbody>
         </table>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', '<b>' . rex_escape($addonkey) . '</b> ' . $package->i18n('information'), false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');
@@ -170,7 +171,7 @@ if ($core && !empty($coreVersions)) {
 
     $panel .= '</tbody></table>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', $package->i18n('files'), false);
     $fragment->setVar('content', $panel, false);
     $content .= $fragment->parse('core/page/section.php');
@@ -245,7 +246,7 @@ if ($core && !empty($coreVersions)) {
 
     $panel .= '</tbody></table>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', $package->i18n('available_updates', ($coreVersions ? 1 : 0) + count($addons)), false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');

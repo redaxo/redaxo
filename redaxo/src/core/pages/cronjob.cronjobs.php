@@ -14,6 +14,7 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 
@@ -140,7 +141,7 @@ if ('' == $func) {
 
     $content = $list->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('cronjob_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
@@ -350,7 +351,7 @@ if ('' == $func) {
 
     $content = $form->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $fieldset);
     $fragment->setVar('body', $content, false);

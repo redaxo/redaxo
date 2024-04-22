@@ -5,7 +5,7 @@ namespace Redaxo\Core\Backend;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
-use rex_fragment;
+use Redaxo\Core\View\Fragment;
 
 use function count;
 use function is_array;
@@ -97,7 +97,7 @@ class Navigation
 
             $n = $this->_getNavigation($blockPages);
             if (count($n) > 0) {
-                $fragment = new rex_fragment();
+                $fragment = new Fragment();
                 $fragment->setVar('navigation', $n, false);
 
                 $return[] = [

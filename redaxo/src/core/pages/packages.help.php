@@ -5,6 +5,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
 $content = '';
@@ -26,7 +27,7 @@ if (is_readable($package->getPath('help.php'))) {
         Markdown::SOFT_LINE_BREAKS => false,
         Markdown::HIGHLIGHT_PHP => true,
     ]);
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('content', $readmeContent, false);
     $fragment->setVar('toc', $readmeToc, false);
     $content .= $fragment->parse('core/page/docs.php');
@@ -35,7 +36,7 @@ if (is_readable($package->getPath('help.php'))) {
         Markdown::SOFT_LINE_BREAKS => false,
         Markdown::HIGHLIGHT_PHP => true,
     ]);
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('content', $readmeContent, false);
     $fragment->setVar('toc', $readmeToc, false);
     $content .= $fragment->parse('core/page/docs.php');
@@ -43,7 +44,7 @@ if (is_readable($package->getPath('help.php'))) {
     $content .= Message::info(I18n::msg('package_no_help_file'));
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('package_hhelp'), false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
@@ -64,7 +65,7 @@ if ($supportPage) {
 
 $credits .= '</dl>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('credits'), false);
 $fragment->setVar('body', $credits, false);
 echo $fragment->parse('core/page/section.php');

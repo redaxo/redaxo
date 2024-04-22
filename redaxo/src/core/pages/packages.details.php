@@ -3,6 +3,7 @@
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
 $package = Addon::require(rex_request('package', 'string'));
@@ -27,7 +28,7 @@ if (!$hasChangelog) {
     unset($navigation['changelog']);
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('left', $navigation, false);
 $subtitle = $fragment->parse('core/navigations/content.php');
 

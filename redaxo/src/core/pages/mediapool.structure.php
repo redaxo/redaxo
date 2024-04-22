@@ -6,6 +6,7 @@ use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaCategoryHandler;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
@@ -93,7 +94,7 @@ if ($PERMALL) {
         $catpath = $OOCat->getPath() . "$catId|";
     }
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('pool_kat_path'), false);
     $fragment->setVar('items', $breadcrumb, false);
     echo $fragment->parse('core/navigations/breadcrumb.php');
@@ -163,7 +164,7 @@ if ($PERMALL) {
             </tbody>
         </table>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('pool_kat_caption'), false);
     $fragment->setVar('content', $table, false);
     $content = $fragment->parse('core/page/section.php');

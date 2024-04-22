@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
 assert(isset($context) && $context instanceof rex_context);
@@ -21,7 +22,7 @@ ksort($langs);
 echo View::title(I18n::msg('setup_100') . $cancelSetupBtn);
 $content = '<div class="list-group">' . implode('', $langs) . '</div>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('heading', I18n::msg('setup_101'), false);
 $fragment->setVar('content', $content, false);
 

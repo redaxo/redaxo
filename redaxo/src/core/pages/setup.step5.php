@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
 assert(isset($context) && $context instanceof rex_context);
@@ -44,7 +45,7 @@ if ($userSql->getRows() > 0) {
     $n['field'] = '<input class="rex-js-noadmin" type="checkbox" name="noadmin" value="1" ' . $checked . ' />';
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $content .= $fragment->parse('core/form/checkbox.php');
 }
@@ -63,7 +64,7 @@ $n['field'] = '<input class="form-control" type="password" value="' . rex_escape
 $n['note'] = $passwordPolicy->getDescription();
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= '<div class="rex-js-login-data">' . $fragment->parse('core/form/form.php') . '</div>';
 
@@ -75,7 +76,7 @@ $n = [];
 $n['field'] = '<button class="btn btn-setup" type="submit" value="' . $submitMessage . '">' . $submitMessage . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
@@ -104,7 +105,7 @@ $content .= '
 
 echo $headline;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('setup_506'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);

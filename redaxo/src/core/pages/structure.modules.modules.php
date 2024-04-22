@@ -10,6 +10,7 @@ use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 
@@ -262,7 +263,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = I18n::msg('module_actions_notice');
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
@@ -285,11 +286,11 @@ if ('add' == $function || 'edit' == $function) {
             $formElements[] = $n;
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('class', 'edit', false);
         $fragment->setVar('title', $legend, false);
         $fragment->setVar('body', $panel, false);
@@ -341,7 +342,7 @@ if ('add' == $function || 'edit' == $function) {
                         </table>
                     ';
 
-                    $fragment = new rex_fragment();
+                    $fragment = new Fragment();
                     $fragment->setVar('title', I18n::msg('actions_added_caption'), false);
                     $fragment->setVar('content', $panel, false);
                     $content .= $fragment->parse('core/page/section.php');
@@ -368,7 +369,7 @@ if ('add' == $function || 'edit' == $function) {
                 $n['field'] = $gaaSel->get();
                 $formElements[] = $n;
 
-                $fragment = new rex_fragment();
+                $fragment = new Fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $panel .= $fragment->parse('core/form/form.php');
 
@@ -380,11 +381,11 @@ if ('add' == $function || 'edit' == $function) {
                 $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="add_action">' . I18n::msg('action_add') . '</button>';
                 $formElements[] = $n;
 
-                $fragment = new rex_fragment();
+                $fragment = new Fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $buttons = $fragment->parse('core/form/submit.php');
 
-                $fragment = new rex_fragment();
+                $fragment = new Fragment();
                 $fragment->setVar('title', I18n::msg('action_add'), false);
                 $fragment->setVar('body', $panel, false);
                 $fragment->setVar('buttons', $buttons, false);
@@ -463,7 +464,7 @@ if ($OUT) {
 
     echo $message;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('module_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');

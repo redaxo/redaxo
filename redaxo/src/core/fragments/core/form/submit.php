@@ -1,9 +1,11 @@
 <?php
+
+use Redaxo\Core\View\Fragment;
+
 /**
- * @var rex_fragment $this
+ * @var Fragment $this
  * @psalm-scope-this rex_fragment
  */
-
 $out = '';
 
 foreach ($this->elements as $element) {

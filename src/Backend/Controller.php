@@ -12,9 +12,9 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\View\Fragment;
 use rex_context;
 use rex_extension;
-use rex_fragment;
 use rex_request;
 use rex_response;
 
@@ -649,12 +649,12 @@ class Controller
             Markdown::SOFT_LINE_BREAKS => false,
             Markdown::HIGHLIGHT_PHP => true,
         ]);
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('content', $content, false);
         $fragment->setVar('toc', $toc, false);
         $content = $fragment->parse('core/page/docs.php');
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('title', self::requireCurrentPageObject()->getTitle(), false);
         $fragment->setVar('body', $content, false);
         echo $fragment->parse('core/page/section.php');

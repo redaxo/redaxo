@@ -1,23 +1,19 @@
 <?php
 
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Fragment;
 
 /**
- * @var rex_fragment $this
+ * @var Fragment $this
  * @psalm-scope-this rex_fragment
  */
-
 /*
     Tabnavi  -> rex-navi-tab
-
     ->right = "text right from navi"
     ->left = "text left from navi"
-
     ->navigaion_left = left navi objekts
     ->navigaion_right = left navi objekts
-
 */
-
 $navigationArrays = [];
 
 if (isset($this->left)) {

@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\ActionEventSelect;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
@@ -218,7 +219,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = I18n::msg('translatable');
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
@@ -236,7 +237,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = I18n::msg('action_hint', '<var>ArticleAction $this</var>');
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
@@ -248,7 +249,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['field'] = '<input id="rex-js-preview-allevents" type="checkbox" name="preview_allevents" ' . $allPreviewChecked . ' />';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/checkbox.php');
 
@@ -260,7 +261,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = I18n::msg('ctrl');
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
@@ -278,7 +279,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = I18n::msg('action_hint', '<var>ArticleAction $this</var>');
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
@@ -289,7 +290,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['field'] = '<input id="rex-js-presave-allevents" type="checkbox" name="presave_allevents" ' . $allPresaveChecked . ' />';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/checkbox.php');
 
@@ -301,7 +302,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = I18n::msg('ctrl');
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
@@ -320,7 +321,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = I18n::msg('action_hint', '<var>ArticleAction $this</var>');
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
@@ -331,7 +332,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['field'] = '<input id="rex-js-postsave-allevents" type="checkbox" name="postsave_allevents" ' . $allPostsaveChecked . ' />';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/checkbox.php');
 
@@ -343,7 +344,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = I18n::msg('ctrl');
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
@@ -352,7 +353,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $formElements = [];
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
 
         $n = [];
         $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
@@ -371,7 +372,7 @@ if ('add' == $function || 'edit' == $function) {
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('class', 'edit', false);
         $fragment->setVar('title', $legend, false);
         $fragment->setVar('body', $panel, false);
@@ -494,7 +495,7 @@ if ($OUT) {
 
     echo $message;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('action_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');

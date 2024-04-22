@@ -7,6 +7,7 @@ use Redaxo\Core\Language\Language;
 use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
 /**
@@ -189,7 +190,7 @@ $content .= '
 
 echo $message;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('clang_caption'), false);
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/section.php');

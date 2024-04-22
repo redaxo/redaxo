@@ -21,6 +21,7 @@ use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
@@ -106,7 +107,7 @@ if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->ge
 
 $catPager = new Pager($structureContext->getRowsPerPage(), 'catstart');
 $catPager->setRowCount((int) $KAT->getValue('rowCount'));
-$catFragment = new rex_fragment();
+$catFragment = new Fragment();
 $catFragment->setVar('urlprovider', $structureContext->getContext());
 $catFragment->setVar('pager', $catPager);
 echo $catFragment->parse('core/navigations/pagination.php');
@@ -327,7 +328,7 @@ $heading = I18n::msg('structure_categories_caption', $catName);
 if (0 == $structureContext->getCategoryId()) {
     $heading = I18n::msg('structure_root_level_categories_caption');
 }
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('heading', $heading, false);
 $fragment->setVar('content', $echo, false);
 echo $fragment->parse('core/page/section.php');
@@ -377,7 +378,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     $artPager = new Pager($structureContext->getRowsPerPage(), 'artstart');
     $artPager->setRowCount((int) $sql->getValue('artCount'));
-    $artFragment = new rex_fragment();
+    $artFragment = new Fragment();
     $artFragment->setVar('urlprovider', $structureContext->getContext());
     $artFragment->setVar('pager', $artPager);
     echo $artFragment->parse('core/navigations/pagination.php');
@@ -597,7 +598,7 @@ $heading = I18n::msg('structure_articles_caption', $catName);
 if (0 == $structureContext->getCategoryId()) {
     $heading = I18n::msg('structure_root_level_articles_caption');
 }
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('heading', $heading, false);
 $fragment->setVar('content', $echo, false);
 echo $fragment->parse('core/page/section.php');

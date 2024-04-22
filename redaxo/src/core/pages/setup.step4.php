@@ -3,6 +3,7 @@
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
@@ -107,7 +108,7 @@ $n['field'] = '<input type="radio" id="rex-form-createdb-4" name="createdb" valu
 $n['note'] = I18n::msg('setup_414_note');
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $mode = $fragment->parse('core/form/radio.php');
 
@@ -118,7 +119,7 @@ if ($exportsFound) {
     $n['field'] = '<input type="radio" id="rex-form-createdb-3" name="createdb" value="' . rex_setup::DB_MODE_SETUP_IMPORT_BACKUP . '"' . $dbchecked[3] . ' />';
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $mode .= $fragment->parse('core/form/radio.php');
 
@@ -128,7 +129,7 @@ if ($exportsFound) {
     $n['note'] = I18n::msg('backup_version_warning');
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $mode .= $fragment->parse('core/form/form.php');
 }
@@ -147,7 +148,7 @@ $n['label'] = '<label class="required">' . I18n::msg('mode') . '</label>';
 $n['field'] = $mode;
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -159,7 +160,7 @@ $n = [];
 $n['field'] = '<button class="btn btn-setup" type="submit" value="' . $submitMessage . '">' . $submitMessage . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
@@ -181,7 +182,7 @@ $content .= '
 
 echo $headline;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('setup_401'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);

@@ -14,6 +14,7 @@ use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
@@ -153,7 +154,7 @@ if ($isImage) {
     $e['label'] = '<label>' . I18n::msg('pool_img_width') . ' / ' . I18n::msg('pool_img_height') . '</label>';
     $e['field'] = '<p class="form-control-static">' . $fwidth . 'px / ' . $fheight . 'px</p>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', [$e], false);
     $addExtInfo = $fragment->parse('core/form/form.php');
 
@@ -238,7 +239,7 @@ if ($TPERM) {
     $e['field'] = $catsSel->get();
     $formElements[] = $e;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
@@ -268,7 +269,7 @@ if ($TPERM) {
     $e['field'] = '<input type="file" name="file_new" />';
     $formElements[] = $e;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
@@ -281,12 +282,12 @@ if ($TPERM) {
     $e['field'] = '<button class="btn btn-delete" type="submit" value="' . I18n::msg('pool_file_delete') . '" name="btn_delete" data-confirm="' . I18n::msg('delete') . ' ?">' . I18n::msg('delete') . '</button>';
     $formElements[] = $e;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $buttons = $fragment->parse('core/form/submit.php');
 
     if ('' != $sidebar) {
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('content', [$panel, $sidebar], false);
         $fragment->setVar('classes', ['col-sm-8', 'col-sm-4'], false);
         $panel = $fragment->parse('core/page/grid.php');
@@ -301,7 +302,7 @@ if ($TPERM) {
             ' . $buttons . '
         </form>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', I18n::msg('pool_file_edit') . $openerLink, false);
     $fragment->setVar('options', $toolbar, false);
@@ -348,18 +349,18 @@ if ($TPERM) {
     $e['field'] = '<p class="form-control-static">' . Formatter::intlDateTime($gf->getDateTimeValue('createdate')) . ' <span class="rex-author">' . rex_escape((string) $gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
     if ('' != $sidebar) {
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('content', [$panel, $sidebar], false);
         $fragment->setVar('classes', ['col-sm-8', 'col-sm-4'], false);
         $panel = $fragment->parse('core/page/grid.php');
     }
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('pool_file_details') . $openerLink, false);
     $fragment->setVar('options', $toolbar, false);
     $fragment->setVar('body', $panel, false);

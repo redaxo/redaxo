@@ -4,6 +4,7 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
 $addon = Addon::get('install');
@@ -46,7 +47,7 @@ $n['field'] = '<input type="checkbox"  name="settings[backups]" value="1" ' . ($
 $n['note'] = $addon->i18n('settings_backups_note');
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $panel .= $fragment->parse('core/form/checkbox.php');
 
@@ -69,7 +70,7 @@ $n['label'] = '<label for="install-settings-api-key">' . $addon->i18n('settings_
 $n['field'] = '<input class="form-control" id="install-settings-api-key" type="text" name="settings[api_key]" value="' . rex_escape($config['api_key']) . '" />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $panel .= $fragment->parse('core/form/form.php');
 
@@ -82,11 +83,11 @@ $n = [];
 $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="settings[save]" value="1">' . I18n::msg('form_save') . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', $addon->i18n('subpage_settings'), false);
 $fragment->setVar('body', $panel, false);

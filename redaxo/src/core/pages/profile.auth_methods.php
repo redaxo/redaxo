@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Security\ApiFunction\UserRemoveAuthMethod;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Listing;
 
 $currentAuth = false;
@@ -57,7 +58,7 @@ $list->setColumnFormat('createdate', 'custom', static function () use ($list) {
 
 $content = $list->get();
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('auth_methods_caption'));
 $fragment->setVar('content', $content, false);
 echo $fragment->parse('core/page/section.php');

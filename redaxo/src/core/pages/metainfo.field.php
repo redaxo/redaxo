@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\MetaInfo\Form\MetaInfoForm;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 
@@ -79,7 +80,7 @@ if ('' == $func) {
 
     $content .= $list->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', $title);
 
     if (in_array($prefix, ['art_', 'med_'])) {
@@ -105,7 +106,7 @@ elseif ('edit' == $func || 'add' == $func) {
 
     $content .= $form->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $title);
     $fragment->setVar('body', $content, false);

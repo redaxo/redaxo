@@ -5,6 +5,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
+use Redaxo\Core\View\Fragment;
 
 $content = '';
 
@@ -15,13 +16,13 @@ if (is_readable($package->getPath('CHANGELOG.md'))) {
         Markdown::SOFT_LINE_BREAKS => false,
         Markdown::HIGHLIGHT_PHP => true,
     ]);
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('content', $readmeContent, false);
     $fragment->setVar('toc', $readmeToc, false);
     $content .= $fragment->parse('core/page/docs.php');
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('credits_changelog'), false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');

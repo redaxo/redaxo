@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
 $successfullyCompleted = rex_setup::markSetupCompleted();
@@ -23,7 +24,7 @@ $buttons = '<a class="btn btn-setup" href="' . Url::backendController() . '">' .
 
 echo $headline;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('heading', I18n::msg('setup_602'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);

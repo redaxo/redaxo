@@ -10,6 +10,7 @@ use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
@@ -277,7 +278,7 @@ if ('add' == $function || 'edit' == $function) {
                 $n['field'] = '<input class="form-control" id="rex-id-ctype' . $i . '" type="text" name="ctype[' . $i . ']" value="' . rex_escape($name) . '" />';
                 $formElements[] = $n;
 
-                $fragment = new rex_fragment();
+                $fragment = new Fragment();
                 $fragment->setVar('flush', true);
                 $fragment->setVar('elements', $formElements, false);
                 $ctypesOut .= $fragment->parse('core/form/form.php');
@@ -295,7 +296,7 @@ if ('add' == $function || 'edit' == $function) {
                 $n['field'] = $field;
                 $formElements[] = $n;
 
-                $fragment = new rex_fragment();
+                $fragment = new Fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $ctypesOut .= $fragment->parse('core/form/checkbox.php');
 
@@ -307,7 +308,7 @@ if ('add' == $function || 'edit' == $function) {
                 $n['note'] = I18n::msg('ctrl');
                 $formElements[] = $n;
 
-                $fragment = new rex_fragment();
+                $fragment = new Fragment();
                 $fragment->setVar('flush', true);
                 $fragment->setVar('elements', $formElements, false);
                 $ctypesOut .= $fragment->parse('core/form/form.php');
@@ -375,7 +376,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = I18n::msg('template_key_notice');
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
@@ -387,7 +388,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = I18n::msg('checkbox_template_active_info');
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/checkbox.php');
 
@@ -397,7 +398,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="rex-id-content" name="content" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($template) . '</textarea>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
@@ -427,7 +428,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['field'] = $field;
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/checkbox.php');
 
@@ -439,7 +440,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = I18n::msg('ctrl');
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
@@ -463,7 +464,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['field'] = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . Core::getAccesskey(I18n::msg('save_and_goon_tooltip'), 'apply') . '>' . I18n::msg('save_template_and_continue') . '</button>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
 
@@ -485,7 +486,7 @@ if ('add' == $function || 'edit' == $function) {
             $legend = I18n::msg('create_template');
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('class', 'edit', false);
         $fragment->setVar('title', $legend, false);
         $fragment->setVar('options', $options, false);
@@ -587,7 +588,7 @@ if ($OUT) {
 
     echo $message;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('header_template_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');

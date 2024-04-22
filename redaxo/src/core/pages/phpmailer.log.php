@@ -5,6 +5,7 @@ use Redaxo\Core\Log\LogFile;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
 $func = rex_request('func', 'string');
@@ -65,11 +66,11 @@ $n = [];
 $n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . I18n::msg('phpmailer_delete_log_msg') . '">' . I18n::msg('syslog_delete') . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('phpmailer_log_title', $logFile), false);
 $fragment->setVar('content', $content, false);
 $fragment->setVar('buttons', $buttons, false);

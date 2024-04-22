@@ -5,12 +5,12 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 
 /**
- * @var rex_fragment $this
+ * @var Fragment $this
  * @psalm-scope-this rex_fragment
  */
-
 $isPopup = Controller::requireCurrentPageObject()->isPopup();
 $isLogin = ('login' === Controller::getCurrentPage());
 $isSetup = ('setup' === Controller::getCurrentPage());

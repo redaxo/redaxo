@@ -1,8 +1,17 @@
 <?php
 
+namespace Redaxo\Core\View;
+
+use InvalidArgumentException;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
+use Stringable;
+
+use function array_key_exists;
+
+use const DIRECTORY_SEPARATOR;
+use const E_USER_WARNING;
 
 /**
  * Methods declared here are available to be called from within a fragment-file, even if not public:.
@@ -12,7 +21,7 @@ use Redaxo\Core\Util\Type;
  * @phpstan-method string i18n(string $key, ...$replacements)
  * @phpstan-method mixed  escape($value, $strategy = 'html')
  */
-class rex_fragment
+class Fragment
 {
     /**
      * filename of the actual fragmentfile.
@@ -31,7 +40,7 @@ class rex_fragment
     /**
      * another fragment which can optionaly be used to decorate the current fragment.
      *
-     * @var self|null
+     * @var Fragment|null
      */
     private $decorator;
 

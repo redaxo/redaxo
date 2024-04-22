@@ -1,12 +1,12 @@
 <?php
 
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 
 /**
- * @var rex_fragment $this
+ * @var Fragment $this
  * @psalm-scope-this rex_fragment
  */
-
 $id = '';
 $class = $this->getVar('class', 'input-group input-group-xs has-feedback form-clear-button');
 $clear = I18n::msg('search_clear');

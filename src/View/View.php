@@ -13,7 +13,6 @@ use Redaxo\Core\Translation\I18n;
 use rex_context;
 use rex_extension;
 use rex_extension_point;
-use rex_fragment;
 
 use function count;
 use function is_array;
@@ -33,7 +32,7 @@ class View
      */
     public static function toolbar($content, $brand = null, $cssClass = null, $inverse = false)
     {
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('inverse', $inverse);
         $fragment->setVar('cssClass', $cssClass);
         $fragment->setVar('brand', $brand);
@@ -52,7 +51,7 @@ class View
      */
     public static function content($content, $title = '')
     {
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('title', $title, false);
         $fragment->setVar('body', $content, false);
         return $fragment->parse('core/page/section.php');
@@ -92,7 +91,7 @@ class View
             }
 
             if (!empty($navigation)) {
-                $fragment = new rex_fragment();
+                $fragment = new Fragment();
                 $fragment->setVar('left', $navigation, false);
                 $subtitle = $fragment->parse('core/navigations/content.php');
             } else {
@@ -104,7 +103,7 @@ class View
 
         $title = rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE', $head));
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('heading', $title, false);
         $fragment->setVar('subtitle', $subtitle, false);
         $return = $fragment->parse('core/page/header.php');
@@ -142,7 +141,7 @@ class View
                 $items[] = $item;
             }
         }
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('left', $items, false);
 
         return $fragment->parse('core/navigations/content.php');
@@ -181,7 +180,7 @@ class View
             }
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('buttons', $items, false);
         return '<div class="rex-nav-btn rex-nav-language"><div class="btn-toolbar">' . $fragment->parse('core/buttons/button_group.php') . '</div></div>';
     }
@@ -214,7 +213,7 @@ class View
             }
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('class', 'rex-language');
         $fragment->setVar('button_prefix', I18n::msg('language'));
         $fragment->setVar('button_label', $buttonLabel);
