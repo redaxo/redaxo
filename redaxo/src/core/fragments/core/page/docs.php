@@ -1,11 +1,11 @@
 <?php
+
+use Redaxo\Core\View\Fragment;
+
 /**
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
-
-use Redaxo\Core\View\Fragment;
-
 ?>
 <div class="rex-docs">
     <?php if ($this->getVar('sidebar') || $this->getVar('toc')): ?>

@@ -1,11 +1,11 @@
 <?php
+
+use Redaxo\Core\View\Fragment;
+
 /**
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
-
-use Redaxo\Core\View\Fragment;
-
 ?>
 <section class="rex-main-frame">
     <?php if (isset($this->content) && '' != $this->content && isset($this->sidebar) && '' != $this->sidebar): ?>

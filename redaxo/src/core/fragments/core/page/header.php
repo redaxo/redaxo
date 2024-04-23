@@ -1,11 +1,11 @@
 <?php
+
+use Redaxo\Core\View\Fragment;
+
 /**
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
-
-use Redaxo\Core\View\Fragment;
-
 ?>
 <header class="rex-page-header">
     <div class="page-header">

@@ -420,9 +420,6 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/fe_ooops.php">
-    <InvalidScope>
-      <code><![CDATA[$this]]></code>
-    </InvalidScope>
     <MixedArgument>
       <code><![CDATA[$this->getVar('content', '')]]></code>
     </MixedArgument>
@@ -782,9 +779,11 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/page/docs.php">
-    <InvalidScope>
-      <code><![CDATA[$this]]></code>
-    </InvalidScope>
+    <MixedArgument>
+      <code><![CDATA[$this->getVar('content')]]></code>
+      <code><![CDATA[$this->getVar('sidebar')]]></code>
+      <code><![CDATA[$this->getVar('toc')]]></code>
+    </MixedArgument>
   </file>
   <file src="redaxo/src/core/fragments/core/page/grid.php">
     <InvalidScope>
@@ -794,11 +793,6 @@
     </InvalidScope>
   </file>
   <file src="redaxo/src/core/fragments/core/page/header.php">
-    <InvalidScope>
-      <code><![CDATA[$this]]></code>
-      <code><![CDATA[$this]]></code>
-      <code><![CDATA[$this]]></code>
-    </InvalidScope>
     <MixedArgument>
       <code><![CDATA[$this->heading]]></code>
       <code><![CDATA[$this->subheading]]></code>
@@ -806,10 +800,6 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/core/fragments/core/page/main_content.php">
-    <InvalidScope>
-      <code><![CDATA[$this]]></code>
-      <code><![CDATA[$this]]></code>
-    </InvalidScope>
     <MixedArgument>
       <code><![CDATA[$this->content]]></code>
       <code><![CDATA[$this->content]]></code>
@@ -817,9 +807,6 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/core/fragments/core/page/readme.php">
-    <InvalidScope>
-      <code><![CDATA[$this]]></code>
-    </InvalidScope>
     <MixedArgument>
       <code><![CDATA[$this->getVar('content')]]></code>
     </MixedArgument>
