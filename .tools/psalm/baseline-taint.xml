@@ -36,6 +36,14 @@
       <code><![CDATA[(isset($item['href']) && '' != $item['href']) ? '<a href="' . rex_escape($item['href']) . '">' . $item['title'] . '</a>' : $item['title']]]></code>
     </TaintedTextWithQuotes>
   </file>
+  <file src="redaxo/src/core/fragments/core/fe_ooops.php">
+    <TaintedHtml>
+      <code><![CDATA[$this->getVar('content', '')]]></code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes>
+      <code><![CDATA[$this->getVar('content', '')]]></code>
+    </TaintedTextWithQuotes>
+  </file>
   <file src="redaxo/src/core/fragments/core/form/checkbox.php">
     <TaintedHtml>
       <code><![CDATA[$out]]></code>
@@ -138,6 +146,34 @@
     </TaintedHtml>
     <TaintedTextWithQuotes>
       <code><![CDATA[$icon . $item['title']]]></code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/fragments/core/page/docs.php">
+    <TaintedHtml>
+      <code><![CDATA[$this->getVar('content')]]></code>
+      <code><![CDATA[$this->getVar('sidebar')]]></code>
+      <code><![CDATA[$this->getVar('toc')]]></code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes>
+      <code><![CDATA[$this->getVar('content')]]></code>
+      <code><![CDATA[$this->getVar('sidebar')]]></code>
+      <code><![CDATA[$this->getVar('toc')]]></code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/fragments/core/page/header.php">
+    <TaintedHtml>
+      <code><![CDATA[$this->heading]]></code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes>
+      <code><![CDATA[$this->heading]]></code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/fragments/core/page/readme.php">
+    <TaintedHtml>
+      <code><![CDATA[$this->getVar('content')]]></code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes>
+      <code><![CDATA[$this->getVar('content')]]></code>
     </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/page/section.php">
