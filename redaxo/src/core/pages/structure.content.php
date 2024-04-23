@@ -9,10 +9,13 @@ use Redaxo\Core\Content\ArticleAction;
 use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Content\ArticleSlice;
 use Redaxo\Core\Content\ContentHandler;
+use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
@@ -89,7 +92,7 @@ echo rex_view::clangSwitchAsButtons($context);
 require Path::core('functions/function_structure_rex_category.php');
 
 // ----- EXTENSION POINT
-echo rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_HEADER', '', [
+echo Extension::registerPoint(new ExtensionPoint('STRUCTURE_CONTENT_HEADER', '', [
     'article_id' => $articleId,
     'clang' => $clang,
     'function' => $function,
@@ -210,7 +213,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                         if ('edit' == $function) {
                             $newsql->addGlobalUpdateFields();
 
-                            rex_extension::registerPoint(new rex_extension_point('SLICE_UPDATE', '', [
+                            Extension::registerPoint(new ExtensionPoint('SLICE_UPDATE', '', [
                                 'slice_id' => $sliceId,
                                 'article_id' => $articleId,
                                 'clang_id' => $clang,
@@ -233,13 +236,13 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                             ];
 
                             // ----- EXTENSION POINT
-                            $info = rex_extension::registerPoint(new rex_extension_point('SLICE_UPDATED', $info, $epParams));
-                            $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_updated', $info));
+                            $info = Extension::registerPoint(new ExtensionPoint('SLICE_UPDATED', $info, $epParams));
+                            $info = Extension::registerPoint(new ArticleContentUpdated($OOArt, 'slice_updated', $info));
                         } else {
                             $newsql->addGlobalUpdateFields();
                             $newsql->addGlobalCreateFields();
 
-                            rex_extension::registerPoint(new rex_extension_point('SLICE_ADD', '', [
+                            Extension::registerPoint(new ExtensionPoint('SLICE_ADD', '', [
                                 'article_id' => $articleId,
                                 'clang_id' => $clang,
                                 'slice_revision' => $sliceRevision,
@@ -271,8 +274,8 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                             ];
 
                             // ----- EXTENSION POINT
-                            $info = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $info, $epParams));
-                            $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_added', $info));
+                            $info = Extension::registerPoint(new ExtensionPoint('SLICE_ADDED', $info, $epParams));
+                            $info = Extension::registerPoint(new ArticleContentUpdated($OOArt, 'slice_added', $info));
                         }
                     } else {
                         // make delete
@@ -293,8 +296,8 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                             ];
 
                             // ----- EXTENSION POINT
-                            $globalInfo = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $globalInfo, $epParams));
-                            $globalInfo = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_deleted', $globalInfo));
+                            $globalInfo = Extension::registerPoint(new ExtensionPoint('SLICE_DELETED', $globalInfo, $epParams));
+                            $globalInfo = Extension::registerPoint(new ArticleContentUpdated($OOArt, 'slice_deleted', $globalInfo));
                         } else {
                             $globalWarning = I18n::msg('block_not_deleted');
                         }
@@ -309,7 +312,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                     $EA->update();
                     ArticleCache::delete($articleId, $clang);
 
-                    rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_ARTICLE_UPDATED', '', [
+                    Extension::registerPoint(new ExtensionPoint('STRUCTURE_CONTENT_ARTICLE_UPDATED', '', [
                         'id' => $articleId,
                         'clang' => $clang,
                     ]));
@@ -412,7 +415,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     }
 
     // ----- EXTENSION POINT
-    $contentMain .= rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_BEFORE_SLICES', '', [
+    $contentMain .= Extension::registerPoint(new ExtensionPoint('STRUCTURE_CONTENT_BEFORE_SLICES', '', [
         'article_id' => $articleId,
         'clang' => $clang,
         'function' => $function,
@@ -429,7 +432,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     // ------------------------------------------ END: AUSGABE
 
     // ----- EXTENSION POINT
-    $contentMain .= rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_AFTER_SLICES', '', [
+    $contentMain .= Extension::registerPoint(new ExtensionPoint('STRUCTURE_CONTENT_AFTER_SLICES', '', [
         'article_id' => $articleId,
         'clang' => $clang,
         'function' => $function,
@@ -444,7 +447,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     $contentMain = '<section id="rex-js-page-main-content" data-pjax-container="#rex-js-page-main-content">' . $contentMain . '</section>';
 
     // ----- EXTENSION POINT
-    $contentSidebar = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SIDEBAR', '', [
+    $contentSidebar = Extension::registerPoint(new ExtensionPoint('STRUCTURE_CONTENT_SIDEBAR', '', [
         'article_id' => $articleId,
         'clang' => $clang,
         'function' => $function,

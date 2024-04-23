@@ -6,13 +6,13 @@ use LogicException;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
-use rex_extension;
-use rex_extension_point;
 use rex_sql_exception;
 
 use function assert;
@@ -92,7 +92,7 @@ final class MediaHandler
         // Entscheidung respektieren
         /** @var string|null $errorMessage */
         $errorMessage = null;
-        $errorMessage = rex_extension::registerPoint(new rex_extension_point('MEDIA_ADD', $errorMessage, [
+        $errorMessage = Extension::registerPoint(new ExtensionPoint('MEDIA_ADD', $errorMessage, [
             'file' => $data['file'],
             'title' => $title,
             'filename' => $data['file']['name_new'],
@@ -161,7 +161,7 @@ final class MediaHandler
         $return['old_filename'] = $data['file']['name'];
         $return['ok'] = 1;
 
-        rex_extension::registerPoint(new rex_extension_point('MEDIA_ADDED', '', $return));
+        Extension::registerPoint(new ExtensionPoint('MEDIA_ADDED', '', $return));
 
         return $return;
     }
@@ -259,7 +259,7 @@ final class MediaHandler
         $return['type'] = $filetype;
         $return['filetype'] = $filetype;
 
-        rex_extension::registerPoint(new rex_extension_point('MEDIA_UPDATED', '', $return));
+        Extension::registerPoint(new ExtensionPoint('MEDIA_UPDATED', '', $return));
 
         return $return;
     }
@@ -281,7 +281,7 @@ final class MediaHandler
         File::delete(Path::media($filename));
         MediaPoolCache::delete($filename);
 
-        rex_extension::registerPoint(new rex_extension_point('MEDIA_DELETED', '', [
+        Extension::registerPoint(new ExtensionPoint('MEDIA_DELETED', '', [
             'filename' => $filename,
         ]));
     }
@@ -374,7 +374,7 @@ final class MediaHandler
         }
 
         // EP to modify the media list query
-        $query = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_QUERY', $query, [
+        $query = Extension::registerPoint(new ExtensionPoint('MEDIA_LIST_QUERY', $query, [
             'queryParams' => &$queryParams,
         ]));
 

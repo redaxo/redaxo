@@ -7,12 +7,12 @@ use Redaxo\Core\Base\InstanceListPoolTrait;
 use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Util\Formatter;
-use rex_extension;
-use rex_extension_point;
 use rex_sql_exception;
 
 use function in_array;
@@ -193,7 +193,7 @@ class Media
      */
     public function getUrl()
     {
-        $url = rex_extension::registerPoint(new rex_extension_point('MEDIA_URL_REWRITE', '', ['media' => $this]));
+        $url = Extension::registerPoint(new ExtensionPoint('MEDIA_URL_REWRITE', '', ['media' => $this]));
         return $url ?: Url::media($this->getFileName());
     }
 
@@ -293,7 +293,7 @@ class Media
             }
         }
 
-        rex_extension::registerPoint(new rex_extension_point('MEDIA_TOIMAGE', '', ['filename' => &$filename, 'params' => &$params]));
+        Extension::registerPoint(new ExtensionPoint('MEDIA_TOIMAGE', '', ['filename' => &$filename, 'params' => &$params]));
 
         $additional = '';
         foreach ($params as $name => $value) {
@@ -405,6 +405,6 @@ class Media
      */
     public function isPermitted()
     {
-        return (bool) rex_extension::registerPoint(new rex_extension_point('MEDIA_IS_PERMITTED', true, ['element' => $this]));
+        return (bool) Extension::registerPoint(new ExtensionPoint('MEDIA_IS_PERMITTED', true, ['element' => $this]));
     }
 }

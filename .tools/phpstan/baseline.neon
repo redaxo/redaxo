@@ -91,12 +91,12 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/webservice.php
 
 		-
-			message: "#^Function rex_metainfo_extensions_handler\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Function rex_metainfo_extensions_handler\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../redaxo/src/core/functions/function_metainfo.php
 
 		-
-			message: "#^Function rex_metainfo_cleanup\\(\\) has parameter \\$epOrParams with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Function rex_metainfo_cleanup\\(\\) has parameter \\$epOrParams with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../redaxo/src/core/functions/function_metainfo_extension_cleanup.php
 
@@ -336,26 +336,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/setup/setup.php
 
 		-
-			message: "#^Method rex_extension_point_slice_menu\\:\\:addAdditionalActions\\(\\) has parameter \\$additionalActions with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/extension_point/slice_menu.php
-
-		-
-			message: "#^Method rex_extension_point_slice_menu\\:\\:getAdditionalActions\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/extension_point/slice_menu.php
-
-		-
-			message: "#^Method rex_extension_point_slice_menu\\:\\:setAdditionalActions\\(\\) has parameter \\$additionalActions with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/extension_point/slice_menu.php
-
-		-
-			message: "#^Property rex_extension_point_slice_menu\\:\\:\\$additionalActions type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/content/extension_point/slice_menu.php
-
-		-
 			message: "#^Method rex_var_link\\:\\:getWidget\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/structure/linkmap/var_link.php
@@ -459,11 +439,6 @@ parameters:
 			message: "#^Property rex_view\\:\\:\\$jsFiles type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/view.php
-
-		-
-			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<string\\|null\\>, rex_extension_point\\<string\\|null\\> given\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/tests/extension_test.php
 
 		-
 			message: "#^Method rex_var_test\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
@@ -679,6 +654,26 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ContentHandler\\:\\:addSlice\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Content/ContentHandler.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ExtensionPoint\\\\SliceMenu\\:\\:addAdditionalActions\\(\\) has parameter \\$additionalActions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ExtensionPoint/SliceMenu.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ExtensionPoint\\\\SliceMenu\\:\\:getAdditionalActions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ExtensionPoint/SliceMenu.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ExtensionPoint\\\\SliceMenu\\:\\:setAdditionalActions\\(\\) has parameter \\$additionalActions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ExtensionPoint/SliceMenu.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Content\\\\ExtensionPoint\\\\SliceMenu\\:\\:\\$additionalActions type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Content/ExtensionPoint/SliceMenu.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\HistoryLogin\\:\\:checkTempSession\\(\\) has parameter \\$historyLogin with no type specified\\.$#"
@@ -1071,7 +1066,7 @@ parameters:
 			path: ../../src/Form/Field/ControlField.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\PriorityField\\:\\:organizePriorities\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Field\\\\PriorityField\\:\\:organizePriorities\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/Form/Field/PriorityField.php
 
@@ -1286,12 +1281,12 @@ parameters:
 			path: ../../src/MediaManager/Effect/WorkspaceEffect.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\MediaManager\\:\\:mediaIsInUse\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\MediaManager\\:\\:mediaIsInUse\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/MediaManager/MediaManager.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\MediaManager\\:\\:mediaUpdated\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MediaManager\\\\MediaManager\\:\\:mediaUpdated\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/MediaManager/MediaManager.php
 
@@ -1346,7 +1341,7 @@ parameters:
 			path: ../../src/MediaPool/MediaHandler.php
 
 		-
-			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<string\\|null\\>, rex_extension_point\\<string\\|null\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$extensionPoint of static method Redaxo\\\\Core\\\\ExtensionPoint\\\\Extension\\:\\:registerPoint\\(\\) expects Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<string\\|null\\>, Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<string\\|null\\> given\\.$#"
 			count: 1
 			path: ../../src/MediaPool/MediaHandler.php
 
@@ -1396,7 +1391,7 @@ parameters:
 			path: ../../src/MetaInfo/Handler/AbstractHandler.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\AbstractHandler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\AbstractHandler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/MetaInfo/Handler/AbstractHandler.php
 
@@ -1431,7 +1426,7 @@ parameters:
 			path: ../../src/MetaInfo/Handler/ArticleHandler.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\ArticleHandler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\ArticleHandler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/MetaInfo/Handler/ArticleHandler.php
 
@@ -1456,7 +1451,7 @@ parameters:
 			path: ../../src/MetaInfo/Handler/CategoryHandler.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\CategoryHandler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\CategoryHandler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/MetaInfo/Handler/CategoryHandler.php
 
@@ -1471,7 +1466,7 @@ parameters:
 			path: ../../src/MetaInfo/Handler/CategoryHandler.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\CategoryHandler\\:\\:renderToggleButton\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\CategoryHandler\\:\\:renderToggleButton\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/MetaInfo/Handler/CategoryHandler.php
 
@@ -1481,7 +1476,7 @@ parameters:
 			path: ../../src/MetaInfo/Handler/LanguageHandler.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\LanguageHandler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\LanguageHandler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/MetaInfo/Handler/LanguageHandler.php
 
@@ -1496,7 +1491,7 @@ parameters:
 			path: ../../src/MetaInfo/Handler/LanguageHandler.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\LanguageHandler\\:\\:renderToggleButton\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\LanguageHandler\\:\\:renderToggleButton\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/MetaInfo/Handler/LanguageHandler.php
 
@@ -1511,7 +1506,7 @@ parameters:
 			path: ../../src/MetaInfo/Handler/MediaHandler.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\MediaHandler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\MediaHandler\\:\\:extendForm\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/MetaInfo/Handler/MediaHandler.php
 
@@ -1526,7 +1521,7 @@ parameters:
 			path: ../../src/MetaInfo/Handler/MediaHandler.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\MediaHandler\\:\\:isMediaInUse\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\MetaInfo\\\\Handler\\\\MediaHandler\\:\\:isMediaInUse\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/MetaInfo/Handler/MediaHandler.php
 
@@ -1561,12 +1556,12 @@ parameters:
 			path: ../../src/Security/UserRole.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Security\\\\UserRole\\:\\:removeOrReplaceItem\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
+			message: "#^Method Redaxo\\\\Core\\\\Security\\\\UserRole\\:\\:removeOrReplaceItem\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/Security/UserRole.php
 
 		-
-			message: "#^Parameter \\#1 \\$extensionPoint of static method rex_extension\\:\\:registerPoint\\(\\) expects rex_extension_point\\<list\\<string\\>\\|string\\|null\\>, rex_extension_point\\<list\\<string\\>\\|string\\|null\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$extensionPoint of static method Redaxo\\\\Core\\\\ExtensionPoint\\\\Extension\\:\\:registerPoint\\(\\) expects Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<list\\<string\\>\\|string\\|null\\>, Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<list\\<string\\>\\|string\\|null\\> given\\.$#"
 			count: 1
 			path: ../../src/Util/Editor.php
 
@@ -1699,6 +1694,11 @@ parameters:
 			message: "#^Parameter \\#1 \\$expected of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) contains unresolvable type\\.$#"
 			count: 1
 			path: ../../tests/Database/TableTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$extensionPoint of static method Redaxo\\\\Core\\\\ExtensionPoint\\\\Extension\\:\\:registerPoint\\(\\) expects Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<string\\|null\\>, Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<string\\|null\\> given\\.$#"
+			count: 2
+			path: ../../tests/ExtensionPoint/ExtensionTest.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\MediaPool\\\\MediaPoolTest\\:\\:testIsAllowedExtension\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"

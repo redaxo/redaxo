@@ -1,19 +1,21 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
 
 /**
  * @internal
  */
-class rex_extension_debug extends rex_extension
+class rex_extension_debug extends Extension
 {
     private static array $extensionPoints = [];
     private static array $extensions = [];
     private static array $listeners = [];
 
-    public static function registerPoint(rex_extension_point $extensionPoint)
+    public static function registerPoint(ExtensionPoint $extensionPoint)
     {
         $coreTimer = Core::getProperty('timer');
         $absDur = $coreTimer->getDelta();
@@ -38,7 +40,7 @@ class rex_extension_debug extends rex_extension
             'result' => $res,
         ];
 
-        $data = rex_debug::getTrace([rex_extension::class]);
+        $data = rex_debug::getTrace([Extension::class]);
         $data['listeners'] = self::$listeners[$extensionPoint->getName()] ?? [];
 
         rex_debug_clockwork::getInstance()
@@ -58,7 +60,7 @@ class rex_extension_debug extends rex_extension
     {
         parent::register($extensionPoint, $extension, $level, $params);
 
-        $trace = rex_debug::getTrace([rex_extension::class]);
+        $trace = rex_debug::getTrace([Extension::class]);
         if (!is_array($extensionPoint)) {
             $extensionPoint = [$extensionPoint];
         }

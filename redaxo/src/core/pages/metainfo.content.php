@@ -7,11 +7,12 @@ use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Content\StructureContext;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\MetaInfo\Handler\ArticleHandler as MetaInfoArticleHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
-assert(isset($ep) && $ep instanceof rex_extension_point);
+assert(isset($ep) && $ep instanceof ExtensionPoint);
 
 $params = $ep->getParams();
 

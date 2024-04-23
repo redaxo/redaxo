@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Security;
 
 use InvalidArgumentException;
-use rex_extension;
-use rex_extension_point;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 /**
  * Abstract class for complex permissions.
@@ -119,7 +119,7 @@ abstract class ComplexPermission
      */
     public static function removeItem($key, $item)
     {
-        rex_extension::registerPoint(new rex_extension_point('COMPLEX_PERM_REMOVE_ITEM', '', ['key' => $key, 'item' => $item], true));
+        Extension::registerPoint(new ExtensionPoint('COMPLEX_PERM_REMOVE_ITEM', '', ['key' => $key, 'item' => $item], true));
     }
 
     /**
@@ -132,6 +132,6 @@ abstract class ComplexPermission
      */
     public static function replaceItem($key, $item, $new)
     {
-        rex_extension::registerPoint(new rex_extension_point('COMPLEX_PERM_REPLACE_ITEM', '', ['key' => $key, 'item' => $item, 'new' => $new], true));
+        Extension::registerPoint(new ExtensionPoint('COMPLEX_PERM_REPLACE_ITEM', '', ['key' => $key, 'item' => $item, 'new' => $new], true));
     }
 }

@@ -4,6 +4,7 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MetaInfo\Database\Table;
 use Redaxo\Core\Translation\I18n;
@@ -230,7 +231,7 @@ function rex_metainfo_meta_table(string $prefix)
  * Bindet ggf extensions ein.
  * @return void
  */
-function rex_metainfo_extensions_handler(rex_extension_point $ep)
+function rex_metainfo_extensions_handler(ExtensionPoint $ep)
 {
     $page = $ep->getSubject();
     $mainpage = Controller::getCurrentPagePart(1);

@@ -6,6 +6,8 @@ use Exception;
 use PDO;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\MetaInfo\Database\Table;
 use Redaxo\Core\MetaInfo\Form\Input\ArticleInput;
@@ -17,8 +19,6 @@ use Redaxo\Core\MetaInfo\Form\Input\TextInput;
 use Redaxo\Core\MetaInfo\Form\Input\TimeInput;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
-use rex_extension;
-use rex_extension_point;
 use rex_fragment;
 
 use function count;
@@ -467,7 +467,7 @@ abstract class AbstractHandler
                 default:
                     // ----- EXTENSION POINT
                     [$field, $tag, $tagAttr, $id, $label, $labelIt] =
-                        rex_extension::registerPoint(new rex_extension_point(
+                        Extension::registerPoint(new ExtensionPoint(
                             'METAINFO_CUSTOM_FIELD',
                             [
                                 $field,
@@ -668,7 +668,7 @@ abstract class AbstractHandler
      *
      * @return string
      */
-    abstract public function extendForm(rex_extension_point $ep);
+    abstract public function extendForm(ExtensionPoint $ep);
 
     /**
      * Retrieves the POST values from the metaform, fill it into a Sql object and save it to a database table.

@@ -4,9 +4,9 @@ namespace Redaxo\Core\Util;
 
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
-use rex_extension;
-use rex_extension_point;
 
 use function array_key_exists;
 use function ini_get;
@@ -86,7 +86,7 @@ class Editor
             $editorUrl = str_replace('%f', $filePath, $editorUrl);
         }
 
-        return rex_extension::registerPoint(new rex_extension_point('EDITOR_URL', $editorUrl, [
+        return Extension::registerPoint(new ExtensionPoint('EDITOR_URL', $editorUrl, [
             'file' => $filePath,
             'line' => $line,
         ]));

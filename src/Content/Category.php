@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Content;
 
-use rex_extension;
-use rex_extension_point;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 use function assert;
 
@@ -150,6 +150,6 @@ class Category extends StructureElement
 
     public function isPermitted()
     {
-        return (bool) rex_extension::registerPoint(new rex_extension_point('CAT_IS_PERMITTED', true, ['element' => $this]));
+        return (bool) Extension::registerPoint(new ExtensionPoint('CAT_IS_PERMITTED', true, ['element' => $this]));
     }
 }

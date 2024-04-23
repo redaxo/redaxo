@@ -6,6 +6,8 @@ use IntlDateFormatter;
 use LimitIterator;
 use PHPMailer\PHPMailer\PHPMailer;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Log\LogEntry;
@@ -13,8 +15,6 @@ use Redaxo\Core\Log\LogFile;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
-use rex_extension;
-use rex_extension_point;
 use rex_response;
 
 use function count;
@@ -63,7 +63,7 @@ class Mailer extends PHPMailer
         $this->archive = Core::getConfig('phpmailer_archive');
         parent::__construct($exceptions);
 
-        rex_extension::registerPoint(new rex_extension_point('PHPMAILER_CONFIG', $this));
+        Extension::registerPoint(new ExtensionPoint('PHPMAILER_CONFIG', $this));
     }
 
     protected function addOrEnqueueAnAddress($kind, $address, $name)
@@ -111,7 +111,7 @@ class Mailer extends PHPMailer
             $logging = (int) Core::getConfig('phpmailer_logging');
             $detourModeActive = Core::getConfig('phpmailer_detour_mode') && '' !== Core::getConfig('phpmailer_test_address');
 
-            rex_extension::registerPoint(new rex_extension_point('PHPMAILER_PRE_SEND', $this));
+            Extension::registerPoint(new ExtensionPoint('PHPMAILER_PRE_SEND', $this));
 
             if ($detourModeActive && isset($this->xHeader['to'])) {
                 $this->prepareDetourMode();
@@ -135,7 +135,7 @@ class Mailer extends PHPMailer
                 $this->log('OK');
             }
 
-            rex_extension::registerPoint(new rex_extension_point('PHPMAILER_POST_SEND', $this));
+            Extension::registerPoint(new ExtensionPoint('PHPMAILER_POST_SEND', $this));
 
             return true;
         });

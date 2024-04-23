@@ -3,6 +3,8 @@
 use Ramsey\Http\Range\Exception\HttpRangeException;
 use Ramsey\Http\Range\UnitFactory;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Str;
 
@@ -269,9 +271,9 @@ class rex_response
     public static function sendPage($content, $lastModified = null)
     {
         // ----- EXTENSION POINT
-        $content = rex_extension::registerPoint(new rex_extension_point('OUTPUT_FILTER', $content));
+        $content = Extension::registerPoint(new ExtensionPoint('OUTPUT_FILTER', $content));
 
-        $hasShutdownExtension = rex_extension::isRegistered('RESPONSE_SHUTDOWN');
+        $hasShutdownExtension = Extension::isRegistered('RESPONSE_SHUTDOWN');
         if ($hasShutdownExtension) {
             header('Connection: close');
         }
@@ -283,7 +285,7 @@ class rex_response
             // unlock session
             session_write_close();
 
-            rex_extension::registerPoint(new rex_extension_point('RESPONSE_SHUTDOWN', $content, [], true));
+            Extension::registerPoint(new ExtensionPoint('RESPONSE_SHUTDOWN', $content, [], true));
         }
     }
 
