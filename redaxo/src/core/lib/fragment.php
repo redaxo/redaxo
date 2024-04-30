@@ -253,4 +253,10 @@ class rex_fragment
         $dir = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         array_unshift(self::$fragmentDirs, $dir);
     }
+
+    /** @return array<string> */
+    public static function getDirectories(): array
+    {
+        return self::$fragmentDirs;
+    }
 }
