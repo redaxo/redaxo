@@ -4,7 +4,7 @@ namespace Redaxo\Core\Security;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use rex_extension_point;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 use function count;
 use function in_array;
@@ -106,7 +106,7 @@ class UserRole implements UserRoleInterface
     /**
      * @return void
      */
-    public static function removeOrReplaceItem(rex_extension_point $ep)
+    public static function removeOrReplaceItem(ExtensionPoint $ep)
     {
         $params = $ep->getParams();
         $key = $params['key'];

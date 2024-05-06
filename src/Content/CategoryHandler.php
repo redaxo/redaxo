@@ -6,11 +6,11 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
-use rex_extension;
-use rex_extension_point;
 
 use function count;
 use function in_array;
@@ -128,7 +128,7 @@ class CategoryHandler
 
             // ----- EXTENSION POINT
             // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
-            $message = rex_extension::registerPoint(new rex_extension_point('CAT_ADDED', $message, [
+            $message = Extension::registerPoint(new ExtensionPoint('CAT_ADDED', $message, [
                 'category' => clone $AART,
                 'id' => $id,
                 'parent_id' => $categoryId,
@@ -228,7 +228,7 @@ class CategoryHandler
 
         // ----- EXTENSION POINT
         // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
-        $message = rex_extension::registerPoint(new rex_extension_point('CAT_UPDATED', $message, [
+        $message = Extension::registerPoint(new ExtensionPoint('CAT_UPDATED', $message, [
             'id' => $categoryId,
 
             'category' => clone $EKAT,
@@ -286,7 +286,7 @@ class CategoryHandler
                         self::newCatPrio($parentId, $clang, 0, 1);
 
                         // ----- EXTENSION POINT
-                        $message = rex_extension::registerPoint(new rex_extension_point('CAT_DELETED', $message, [
+                        $message = Extension::registerPoint(new ExtensionPoint('CAT_DELETED', $message, [
                             'id' => $categoryId,
                             'parent_id' => $parentId,
                             'clang' => $clang,
@@ -346,7 +346,7 @@ class CategoryHandler
             ArticleCache::delete($categoryId, $clang);
 
             // ----- EXTENSION POINT
-            rex_extension::registerPoint(new rex_extension_point('CAT_STATUS', null, [
+            Extension::registerPoint(new ExtensionPoint('CAT_STATUS', null, [
                 'id' => $categoryId,
                 'clang' => $clang,
                 'status' => $newstatus,
@@ -376,7 +376,7 @@ class CategoryHandler
             ];
 
             // ----- EXTENSION POINT
-            $catStatusTypes = rex_extension::registerPoint(new rex_extension_point('CAT_STATUS_TYPES', $catStatusTypes));
+            $catStatusTypes = Extension::registerPoint(new ExtensionPoint('CAT_STATUS_TYPES', $catStatusTypes));
         }
 
         return $catStatusTypes;
@@ -549,7 +549,7 @@ class CategoryHandler
         foreach (Language::getAllIds() as $clang) {
             self::newCatPrio((int) $fcat->getValue('parent_id'), $clang, 0, 1);
 
-            rex_extension::registerPoint(new rex_extension_point('CAT_MOVED', null, [
+            Extension::registerPoint(new ExtensionPoint('CAT_MOVED', null, [
                 'id' => $fromCat,
                 'clang_id' => $clang, // deprecated, use "clang" instead
                 'clang' => $clang,

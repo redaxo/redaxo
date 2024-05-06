@@ -2,6 +2,8 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Language\LanguageHandler;
@@ -116,7 +118,7 @@ $content .= '
 // Add form
 if ('addclang' == $func) {
     // ----- EXTENSION POINT
-    $metaButtons = rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_BUTTONS', ''));
+    $metaButtons = Extension::registerPoint(new ExtensionPoint('CLANG_FORM_BUTTONS', ''));
 
     // ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
     $content .= '
@@ -132,7 +134,7 @@ if ('addclang' == $func) {
             ';
 
     // ----- EXTENSION POINT
-    $content .= rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_ADD', ''));
+    $content .= Extension::registerPoint(new ExtensionPoint('CLANG_FORM_ADD', ''));
 }
 
 $sql = Sql::factory()->setQuery('SELECT * FROM ' . Core::getTable('clang') . ' ORDER BY priority');
@@ -150,7 +152,7 @@ foreach ($sql as $row) {
     // Edit form
     if ('editclang' == $func && $clangId == $langId) {
         // ----- EXTENSION POINT
-        $metaButtons = rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_BUTTONS', '', ['id' => $clangId, 'sql' => $sql]));
+        $metaButtons = Extension::registerPoint(new ExtensionPoint('CLANG_FORM_BUTTONS', '', ['id' => $clangId, 'sql' => $sql]));
 
         $content .= '
                     <tr class="mark">
@@ -164,7 +166,7 @@ foreach ($sql as $row) {
                     </tr>';
 
         // ----- EXTENSION POINT
-        $content .= rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_EDIT', '', ['id' => $clangId, 'sql' => $sql]));
+        $content .= Extension::registerPoint(new ExtensionPoint('CLANG_FORM_EDIT', '', ['id' => $clangId, 'sql' => $sql]));
     } else {
         $editLink = Url::currentBackendPage(['func' => 'editclang', 'clang_id' => $langId]) . '#clang';
 

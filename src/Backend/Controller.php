@@ -5,6 +5,7 @@ namespace Redaxo\Core\Backend;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Security\User;
@@ -14,7 +15,6 @@ use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
 use rex_context;
-use rex_extension;
 use rex_request;
 use rex_response;
 
@@ -206,8 +206,8 @@ class Controller
             ->addSubpage((new Page('icons', I18n::msg('be_style_icons')))->setSubPath(Path::core('pages/system.be_style.icons.php')))
             ->addSubpage((new Page('help', I18n::msg('be_style_help')))->setSubPath(Path::core('pages/system.be_style.README.md')));
 
-        rex_extension::register('PACKAGES_INCLUDED', static function () use ($beStylePage) {
-            if (rex_extension::isRegistered('BE_STYLE_PAGE_CONTENT')) {
+        Extension::register('PACKAGES_INCLUDED', static function () use ($beStylePage) {
+            if (Extension::isRegistered('BE_STYLE_PAGE_CONTENT')) {
                 $beStylePage->addSubpage((new Page('themes', I18n::msg('be_style_themes')))->setSubPath(Path::core('pages/system.be_style.themes.php')));
             }
         });

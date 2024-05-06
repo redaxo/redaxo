@@ -2,6 +2,8 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
@@ -169,7 +171,7 @@ if ('' == $func) {
         $formLabel = I18n::msg('media_manager_type_create');
     }
 
-    rex_extension::register('REX_FORM_CONTROL_FIELDS', static function (rex_extension_point $ep) {
+    Extension::register('REX_FORM_CONTROL_FIELDS', static function (ExtensionPoint $ep) {
         $controlFields = $ep->getSubject();
         $form = $ep->getParam('form');
         $sql = $form->getSql();
@@ -191,7 +193,7 @@ if ('' == $func) {
     if ('edit' == $func) {
         $form->setEditMode('edit' == $func);
 
-        rex_extension::register('REX_FORM_SAVED', static function (rex_extension_point $ep) use ($form, $typeId) {
+        Extension::register('REX_FORM_SAVED', static function (ExtensionPoint $ep) use ($form, $typeId) {
             if ($form !== $ep->getParam('form')) {
                 return;
             }

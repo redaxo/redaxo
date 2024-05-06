@@ -10,11 +10,11 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Console\Command\AbstractCommand;
 use Redaxo\Core\Console\Command\OnlySetupAddonsInterface;
 use Redaxo\Core\Console\Command\StandaloneInterface;
+use Redaxo\Core\Console\ExtensionPoint\ConsoleShutdown;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
-use rex_extension;
-use rex_extension_point;
-use rex_extension_point_console_shutdown;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -72,7 +72,7 @@ class Application extends SymfonyApplication
 
         $exitCode = parent::doRunCommand($command, $input, $output);
 
-        rex_extension::registerPoint(new rex_extension_point_console_shutdown($command, $input, $output, $exitCode));
+        Extension::registerPoint(new ConsoleShutdown($command, $input, $output, $exitCode));
 
         return $exitCode;
     }
@@ -116,7 +116,7 @@ class Application extends SymfonyApplication
             }
         }
 
-        rex_extension::registerPoint(new rex_extension_point('PACKAGES_INCLUDED'));
+        Extension::registerPoint(new ExtensionPoint('PACKAGES_INCLUDED'));
     }
 
     private function checkConsoleUser(InputInterface $input, OutputInterface $output): void

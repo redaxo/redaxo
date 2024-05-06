@@ -7,6 +7,8 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -1236,7 +1238,7 @@ class DataList implements rex_url_provider_interface
      */
     public function get()
     {
-        rex_extension::registerPoint(new rex_extension_point('REX_LIST_GET', $this, [], true));
+        Extension::registerPoint(new ExtensionPoint('REX_LIST_GET', $this, [], true));
 
         $s = "\n";
 

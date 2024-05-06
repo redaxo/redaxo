@@ -5,9 +5,12 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleRevision;
 use Redaxo\Core\Content\ArticleSliceHistory;
+use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
 use Redaxo\Core\Content\HistoryLogin;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
@@ -274,9 +277,9 @@ if (Core::getUser()) {
 }
 
 if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('history[article_rollback]')) {
-    rex_extension::register(
+    Extension::register(
         ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
-        static function (rex_extension_point $ep) {
+        static function (ExtensionPoint $ep) {
             $type = match ($ep->getName()) {
                 'ART_SLICES_COPY' => 'slices_copy',
                 'SLICE_MOVE' => 'slice_' . $ep->getParam('direction'),
@@ -344,7 +347,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
             exit;
     }
 
-    rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
+    Extension::register('STRUCTURE_CONTENT_HEADER', static function (ExtensionPoint $ep) {
         if ('content/edit' == $ep->getParam('page')) {
             $articleLink = rex_getUrl(Article::getCurrentId(), Language::getCurrentId());
             if (str_starts_with($articleLink, 'http')) {
@@ -371,7 +374,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
 }
 
 if (Core::getConfig('article_work_version', false)) {
-    rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
+    Extension::register('STRUCTURE_CONTENT_HEADER', static function (ExtensionPoint $ep) {
         if ('content/edit' !== $ep->getParam('page')) {
             return null;
         }
@@ -397,7 +400,7 @@ if (Core::getConfig('article_work_version', false)) {
         $params['slice_revision'] = $version;
     });
 
-    rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_extension_point $ep) {
+    Extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (ExtensionPoint $ep) {
         if ('content/edit' !== $ep->getParam('page')) {
             return null;
         }
@@ -439,8 +442,8 @@ if (Core::getConfig('article_work_version', false)) {
 
                     $article = Type::instanceOf(Article::get($articleId, $clangId), Article::class);
                     ArticleRevision::setSessionArticleRevision($articleId, ArticleRevision::LIVE);
-                    $return = rex_extension::registerPoint(
-                        new rex_extension_point_art_content_updated($article, 'work_to_live', $return),
+                    $return = Extension::registerPoint(
+                        new ArticleContentUpdated($article, 'work_to_live', $return),
                     );
                 }
                 break;
@@ -584,8 +587,8 @@ Core::setProperty('metainfo_metaTables', [
     'clang_' => Core::getTablePrefix() . 'clang',
 ]);
 
-rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
-rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function ($ep) {
+Extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
+Extension::register('STRUCTURE_CONTENT_SIDEBAR', function ($ep) {
     $subject = $ep->getSubject();
     $metaSidebar = include Path::core('pages/metainfo.content.php');
     return $metaSidebar . $subject;
@@ -603,7 +606,7 @@ if (Core::getUser()) {
     Controller::appendPackagePages();
 }
 
-$pages = rex_extension::registerPoint(new rex_extension_point('PAGES_PREPARED', Controller::getPages()));
+$pages = Extension::registerPoint(new ExtensionPoint('PAGES_PREPARED', Controller::getPages()));
 Controller::setPages($pages);
 
 // Set Startpage
@@ -629,7 +632,7 @@ if ('content' == Controller::getCurrentPagePart(1)) {
 
 // ----- EXTENSION POINT
 // page variable validated
-rex_extension::registerPoint(new rex_extension_point('PAGE_CHECKED', $page, ['pages' => $pages], true));
+Extension::registerPoint(new ExtensionPoint('PAGE_CHECKED', $page, ['pages' => $pages], true));
 
 if (in_array($page, ['profile', 'login'], true)) {
     Asset::addJsFile(Url::coreAssets('webauthn.js'), [Asset::JS_IMMUTABLE => true]);

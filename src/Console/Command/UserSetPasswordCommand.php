@@ -5,11 +5,11 @@ namespace Redaxo\Core\Console\Command;
 use Override;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Security\User;
-use rex_extension;
-use rex_extension_point;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -93,7 +93,7 @@ class UserSetPasswordCommand extends AbstractCommand
             ->setValue('password_change_required', (int) $input->getOption('password-change-required'))
             ->update();
 
-        rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
+        Extension::registerPoint(new ExtensionPoint('PASSWORD_UPDATED', '', [
             'user_id' => $id,
             'user' => $user,
             'password' => $password,

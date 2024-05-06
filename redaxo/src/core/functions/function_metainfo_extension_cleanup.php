@@ -3,21 +3,23 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\MetaInfo\Database\Table as MetaInfoTable;
 use Redaxo\Core\Util\Type;
 
-rex_extension::register('BACKUP_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
+Extension::register('BACKUP_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
 
 /**
  * Alle Metafelder löschen, nicht das nach einem Import in der Parameter Tabelle
  * noch Datensätze zu Feldern stehen, welche nicht als Spalten in der
  * rex_article angelegt wurden!
- * @param rex_extension_point|array $epOrParams
+ * @param ExtensionPoint|array $epOrParams
  * @return void
  */
 function rex_metainfo_cleanup($epOrParams)
 {
-    $params = $epOrParams instanceof rex_extension_point ? $epOrParams->getParams() : $epOrParams;
+    $params = $epOrParams instanceof ExtensionPoint ? $epOrParams->getParams() : $epOrParams;
     // Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
     if (
         isset($params['force']) && true != $params['force']

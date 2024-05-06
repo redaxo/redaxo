@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\View\Fragment;
 
 /**
@@ -33,7 +35,7 @@ if (count($items) > 0) {
         $listItems[] = '<li>' . $listItem . '</li>';
     }
 
-    $listItems = rex_extension::registerPoint(new rex_extension_point('META_NAVI', $listItems));
+    $listItems = Extension::registerPoint(new ExtensionPoint('META_NAVI', $listItems));
 
     if (count($listItems) > 0) {
         echo '  <div class="rex-nav-meta">
