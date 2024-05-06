@@ -14,8 +14,8 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
-use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 
 $func = rex_request('func', 'string');
@@ -65,7 +65,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
 if ('' == $func) {
     $query = 'SELECT id, name, type, environment, execution_moment, nexttime, status FROM ' . Core::getTable('cronjob') . ' ORDER BY name';
 
-    $list = Listing::factory($query, 30, 'cronjobs');
+    $list = DataList::factory($query, 30, 'cronjobs');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $list->setNoRowsMessage(I18n::msg('cronjob_no_cronjobs'));

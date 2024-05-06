@@ -4616,7 +4616,7 @@
       <code><![CDATA[self::$jsProperties[$key]]]></code>
     </MixedAssignment>
   </file>
-  <file src="src/View/Listing.php">
+  <file src="src/View/DataList.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$this->getValue($column)]]></code>
       <code><![CDATA[$this->getValue($columnName)]]></code>

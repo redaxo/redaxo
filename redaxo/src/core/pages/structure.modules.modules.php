@@ -10,8 +10,8 @@ use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
-use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 
 $OUT = true;
@@ -416,7 +416,7 @@ if ($OUT) {
         $message .= Message::error($error);
     }
 
-    $list = Listing::factory('SELECT id, `key`, name FROM ' . Core::getTablePrefix() . 'module ORDER BY name', 100);
+    $list = DataList::factory('SELECT id, `key`, name FROM ' . Core::getTablePrefix() . 'module ORDER BY name', 100);
     $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 

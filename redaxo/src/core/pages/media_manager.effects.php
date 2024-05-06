@@ -11,8 +11,8 @@ use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
-use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 
 $effectId = rex_request('effect_id', 'int');
@@ -84,7 +84,7 @@ if ('' == $func) {
 
     $query = 'SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $typeId . ' ORDER BY priority';
 
-    $list = Listing::factory($query, 100);
+    $list = DataList::factory($query, 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
     $list->addParam('effects', 1);
 

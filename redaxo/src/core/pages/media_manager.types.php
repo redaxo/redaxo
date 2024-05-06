@@ -6,8 +6,8 @@ use Redaxo\Core\Form\Form;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
-use Redaxo\Core\View\Listing;
 use Redaxo\Core\View\Message;
 
 $content = '';
@@ -88,7 +88,7 @@ if ('' == $func) {
     // (werden am seltesten bearbeitet)
     $query = 'SELECT id, status, name, description FROM ' . Core::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
-    $list = Listing::factory($query, 100);
+    $list = DataList::factory($query, 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
     $list->setNoRowsMessage(I18n::msg('media_manager_type_no_types'));
 

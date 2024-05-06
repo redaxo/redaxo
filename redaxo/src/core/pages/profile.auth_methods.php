@@ -4,15 +4,15 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Security\ApiFunction\UserRemoveAuthMethod;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
-use Redaxo\Core\View\Listing;
 
 $currentAuth = false;
 if (!isset($userId) || 1 > $userId) {
     $userId = Core::requireUser()->getId();
 }
 
-$list = Listing::factory('
+$list = DataList::factory('
     select null as id, password_changed as createdate from ' . Core::getTable('user') . ' where id = ' . (int) $userId . ' AND password IS NOT NULL
     union
     select id, createdate from ' . Core::getTable('user_passkey') . ' where user_id = ' . (int) $userId . '

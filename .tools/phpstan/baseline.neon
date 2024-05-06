@@ -1546,109 +1546,109 @@ parameters:
 			path: ../../src/View/Asset.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:_getAttributeString\\(\\) has parameter \\$array with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:_getAttributeString\\(\\) has parameter \\$array with no type specified\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:addColumn\\(\\) has parameter \\$columnLayout with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:addColumn\\(\\) has parameter \\$columnLayout with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:addTableColumn\\(\\) has parameter \\$class with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:addTableColumn\\(\\) has parameter \\$class with no type specified\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:addTableColumnGroup\\(\\) has parameter \\$columns with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:addTableColumnGroup\\(\\) has parameter \\$columns with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:formatValue\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:formatValue\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:getArrayValue\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getArrayValue\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:getColumnLink\\(\\) has parameter \\$columnName with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getColumnLink\\(\\) has parameter \\$columnName with no type specified\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:getColumnLink\\(\\) has parameter \\$columnValue with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getColumnLink\\(\\) has parameter \\$columnValue with no type specified\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:getColumnLink\\(\\) has parameter \\$params with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getColumnLink\\(\\) has parameter \\$params with no type specified\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:getColumnParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getColumnParams\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:getLinkAttributes\\(\\) has parameter \\$column with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getLinkAttributes\\(\\) has parameter \\$column with no type specified\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:getLinkAttributes\\(\\) has parameter \\$default with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getLinkAttributes\\(\\) has parameter \\$default with no type specified\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:getParsedUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getParsedUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:getTableColumnGroups\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getTableColumnGroups\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:isCustomFormat\\(\\) has parameter \\$format with no type specified\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:isCustomFormat\\(\\) has parameter \\$format with no type specified\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:setColumnFormat\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:setColumnFormat\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:setColumnLayout\\(\\) has parameter \\$columnLayout with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:setColumnLayout\\(\\) has parameter \\$columnLayout with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\Listing\\:\\:setColumnParams\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:setColumnParams\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Property Redaxo\\\\Core\\\\View\\\\Listing\\:\\:\\$columnParams type has no value type specified in iterable type array\\.$#"
+			message: "#^Property Redaxo\\\\Core\\\\View\\\\DataList\\:\\:\\$columnParams type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
-			message: "#^Property Redaxo\\\\Core\\\\View\\\\Listing\\:\\:\\$tableColumnGroups type has no value type specified in iterable type array\\.$#"
+			message: "#^Property Redaxo\\\\Core\\\\View\\\\DataList\\:\\:\\$tableColumnGroups type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../src/View/Listing.php
+			path: ../../src/View/DataList.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\View\\\\View\\:\\:title\\(\\) has parameter \\$subtitle with no value type specified in iterable type array\\.$#"

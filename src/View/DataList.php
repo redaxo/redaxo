@@ -73,7 +73,7 @@ $list->setColumnFormat(
  *
  * @psalm-consistent-constructor
  */
-class Listing implements rex_url_provider_interface
+class DataList implements rex_url_provider_interface
 {
     use FactoryTrait;
 

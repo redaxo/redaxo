@@ -30,7 +30,7 @@ expectedArguments(\Redaxo\Core\Form\Field\ContainerField::addGroupedField(), 1, 
 
 registerArgumentsSet('formatter_type', 'date', 'strftime', 'intlDateTime', 'intlDate', 'intlTime', 'number', 'bytes', 'sprintf', 'nl2br', 'truncate', 'widont', 'version', 'url', 'email', 'custom');
 expectedArguments(\Redaxo\Core\Util\Formatter::format(), 1, argumentsSet('formatter_type'));
-expectedArguments(\Redaxo\Core\View\Listing::setColumnFormat(), 1, argumentsSet('formatter_type'));
+expectedArguments(\Redaxo\Core\View\DataList::setColumnFormat(), 1, argumentsSet('formatter_type'));
 
 registerArgumentsSet('intl_format', \IntlDateFormatter::FULL, \IntlDateFormatter::LONG, \IntlDateFormatter::MEDIUM, \IntlDateFormatter::SHORT);
 expectedArguments(\Redaxo\Core\Util\Formatter::intlDateTime(), 1, argumentsSet('intl_format'));
@@ -44,7 +44,7 @@ expectedReturnValues(\Redaxo\Core\Translation\I18n::getLanguage(), 'de', 'en', '
 expectedArguments(\Redaxo\Core\Translation\I18n::msgInLocale(), 1, argumentsSet('locale'));
 expectedArguments(\Redaxo\Core\Translation\I18n::rawMsgInLocale(), 1, argumentsSet('locale'));
 
-expectedArguments(\Redaxo\Core\View\Listing::setColumnSortable(), 1, 'asc', 'desc');
+expectedArguments(\Redaxo\Core\View\DataList::setColumnSortable(), 1, 'asc', 'desc');
 
 expectedArguments(\Redaxo\Core\Security\Permission::register(), 2, \Redaxo\Core\Security\Permission::GENERAL, \Redaxo\Core\Security\Permission::OPTIONS, \Redaxo\Core\Security\Permission::EXTRAS);
 expectedArguments(\Redaxo\Core\Security\Permission::getAll(), 0, \Redaxo\Core\Security\Permission::GENERAL, \Redaxo\Core\Security\Permission::OPTIONS, \Redaxo\Core\Security\Permission::EXTRAS);
