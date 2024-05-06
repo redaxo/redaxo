@@ -14,8 +14,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Str;
-use rex_extension;
-use rex_extension_point;
 use rex_url_provider_interface;
 
 use function count;

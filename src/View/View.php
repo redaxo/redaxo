@@ -13,8 +13,6 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use rex_context;
-use rex_extension;
-use rex_extension_point;
 
 use function count;
 use function is_array;
