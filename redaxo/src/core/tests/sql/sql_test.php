@@ -119,11 +119,11 @@ final class rex_sql_test extends TestCase
     private function getVersionMock(string $version): rex_sql
     {
         return new class(version: $version) extends rex_sql {
-            public function __construct($DBID = 999, ?string $version = null)
+            public function __construct($db = 999, ?string $version = null)
             {
-                parent::__construct($DBID);
+                parent::__construct($db);
 
-                self::$pdo[$DBID] = new class(rex_type::notNull($version)) extends PDO {
+                self::$pdo[$db] = new class(rex_type::notNull($version)) extends PDO {
                     public function __construct(
                         private readonly string $version,
                     ) {}

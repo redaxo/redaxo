@@ -2061,11 +2061,6 @@ parameters:
 			path: ../../redaxo/src/core/tests/login/password_policy_test.php
 
 		-
-			message: "#^Method class@anonymous/core/tests/sql/sql_test\\.php\\:121\\:\\:__construct\\(\\) has parameter \\$DBID with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/sql/sql_test.php
-
-		-
 			message: "#^Method rex_string_test\\:\\:buildQueryProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/util/string_test.php
