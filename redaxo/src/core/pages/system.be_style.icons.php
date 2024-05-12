@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\View\Fragment;
 
 $content = File::getOutput(Path::coreAssets('css/styles.css'));
 
@@ -33,10 +34,10 @@ if (count($matches) > 0) {
     $iconsComplete = '<ul class="rex-list-inline">' . implode('', $list) . '</ul>';
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('content', '<h3>REDAXO Icons</h3>' . $iconsUsed, false);
 echo $fragment->parse('core/page/section.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('content', '<h3>Font-Awesome Icons</h3>' . $iconsComplete, false);
 echo $fragment->parse('core/page/section.php');

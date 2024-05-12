@@ -9,12 +9,14 @@ use Redaxo\Core\Http\Response;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\Validator;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 $message = '';
 
 if ('' != rex_post('btn_delete_archive', 'string')) {
     if (Dir::delete(Mailer::logFolder(), true)) {
-        echo rex_view::success(I18n::msg('phpmailer_archive_deleted'));
+        echo Message::success(I18n::msg('phpmailer_archive_deleted'));
     }
 }
 if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string')) {
@@ -45,7 +47,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
     if (true == $settings['phpmailer_detour_mode'] && false == Validator::factory()->email($settings['phpmailer_test_address'])) {
         $settings['phpmailer_detour_mode'] = false;
         $warning = I18n::msg('phpmailer_detour_warning');
-        echo rex_view::warning($warning);
+        echo Message::warning($warning);
     }
 
     Config::set('core', $settings);
@@ -53,7 +55,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
     if ('' != rex_post('btn_check', 'string')) {
         if (false == Validator::factory()->email($settings['phpmailer_from']) || false == Validator::factory()->email($settings['phpmailer_test_address'])) {
             $warning = I18n::msg('phpmailer_check_settings_not_tested');
-            echo rex_view::warning($warning);
+            echo Message::warning($warning);
         } else {
             Response::sendRedirect(Url::backendPage('phpmailer/checkmail'));
         }
@@ -158,7 +160,7 @@ foreach ([0 => I18n::msg('phpmailer_smtp_debug_0'), 1 => I18n::msg('phpmailer_sm
 }
 
 if ('' != $message) {
-    echo rex_view::success($message);
+    echo Message::success($message);
 }
 
 $content = '';
@@ -215,7 +217,7 @@ $n['label'] = '<label for="phpmailer-mailer">' . I18n::msg('phpmailer_mailertype
 $n['field'] = $selMailer->get();
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -238,7 +240,7 @@ $n['label'] = '<label data-toggle="tooltip" title="' . I18n::msg('phpmailer_secu
 $n['field'] = $selSecurityMode->get();
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -250,7 +252,7 @@ $n['label'] = '<label for="phpmailer-smtpsecure">' . I18n::msg('phpmailer_smtp_s
 $n['field'] = $selSmtpsecure->get();
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 $formElements = [];
@@ -261,7 +263,7 @@ $n['label'] = '<label for="phpmailer-smtpauth">' . I18n::msg('phpmailer_smtp_aut
 $n['field'] = $selSmtpauth->get();
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 $formElements = [];
@@ -277,13 +279,13 @@ $n['label'] = '<label for="phpmailer-password">' . I18n::msg('phpmailer_smtp_pas
 $n['field'] = '<input class="form-control" id="phpmailer-password" type="password" name="settings[phpmailer_password]" value="' . rex_escape(Core::getConfig('phpmailer_password')) . '" autocomplete="new-password" />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 $formElements = [];
 $content .= '</div>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -334,7 +336,7 @@ if (is_dir(Mailer::logFolder())) {
     $formElements[] = $n;
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -354,12 +356,12 @@ $n = [];
 $n['field'] = '<button class="btn btn-save pull-right" type="submit" name="btn_save" value="' . I18n::msg('phpmailer_save') . '">' . I18n::msg('phpmailer_save') . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', I18n::msg('phpmailer_config_settings'), false);
 $fragment->setVar('body', $content, false);

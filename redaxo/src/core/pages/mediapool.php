@@ -7,6 +7,8 @@ use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 global $ftitle, $error, $success;
 
@@ -87,15 +89,15 @@ foreach ($subline as $sp) {
     $sp->setHref($sp->getHref() . $argUrlString);
 }
 
-echo rex_view::title(I18n::msg('pool_media'), $subline);
+echo View::title(I18n::msg('pool_media'), $subline);
 
 // -------------- Messages
 if ('' != $success) {
-    echo rex_view::info($success);
+    echo Message::info($success);
     $success = '';
 }
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
     $error = '';
 }
 

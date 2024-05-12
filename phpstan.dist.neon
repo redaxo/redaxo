@@ -17,7 +17,7 @@ parameters:
         - redaxo/src/addons/project
     # https://phpstan.org/config-reference#universal-object-crates
     universalObjectCratesClasses:
-        - rex_fragment
+        - Redaxo\Core\View\Fragment
     symfony:
         console_application_loader: .tools/phpstan/console.php
     ignoreErrors:

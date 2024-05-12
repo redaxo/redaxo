@@ -1,8 +1,12 @@
 <?php
+
+use Redaxo\Core\View\Fragment;
+
 /**
- * @var rex_fragment $this
- * @psalm-scope-this rex_fragment
+ * @var Fragment $this
+ * @psalm-scope-this Fragment
  */
+
 ?>
         <?php if ('' != $this->navigation): ?>
         <div id="rex-js-nav-main" class="rex-nav-main navbar-default">

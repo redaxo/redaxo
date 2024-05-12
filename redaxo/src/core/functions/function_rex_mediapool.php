@@ -8,6 +8,8 @@ use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 /**
  * Ausgabe des Medienpool Formulars.
@@ -37,10 +39,10 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     if (isset($warning)) {
         if (is_array($warning)) {
             if (count($warning) > 0) {
-                $s .= rex_view::error(implode('<br />', $warning));
+                $s .= Message::error(implode('<br />', $warning));
             }
         } elseif ('' != $warning) {
-            $s .= rex_view::error($warning);
+            $s .= Message::error($warning);
         }
         $warning = '';
     }
@@ -48,10 +50,10 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     if (isset($info)) {
         if (is_array($info)) {
             if (count($info) > 0) {
-                $s .= rex_view::success(implode('<br />', $info));
+                $s .= Message::success(implode('<br />', $info));
             }
         } elseif ('' != $info) {
-            $s .= rex_view::success($info);
+            $s .= Message::success($info);
         }
         $info = '';
     }
@@ -89,7 +91,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle) . '" maxlength="255" />';
     $formElements[] = $e;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
@@ -106,7 +108,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
                             <dt>' . I18n::msg('pool_max_uploadtime') . ':</dt><dd>' . rex_ini_get('max_input_time') . 's</dd>
                         </dl>';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', [$e], false);
         $panel .= $fragment->parse('core/form/form.php');
     }
@@ -122,11 +124,11 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     $e['field'] = $addSubmit;
     $formElements[] = $e;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $buttons = $fragment->parse('core/form/submit.php');
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $formTitle, false);
     $fragment->setVar('body', $panel, false);

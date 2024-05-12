@@ -9,14 +9,16 @@ use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Version;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\View;
 
-echo rex_view::title(I18n::msg('addons'), '');
+echo View::title(I18n::msg('addons'), '');
 
 // the package manager don't know new packages in the addon folder
 // so we need to make them available
 AddonManager::synchronizeWithFileSystem();
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('id', 'rex-js-available-addon-search');
 $fragment->setVar('autofocus', !rex_request('function', 'bool'));
 $toolbar = $fragment->parse('core/form/search.php');
@@ -149,7 +151,7 @@ $content .= '
 
 echo ApiFunction::getMessage();
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('package_caption'), false);
 $fragment->setVar('options', $toolbar, false);
 $fragment->setVar('content', $content, false);

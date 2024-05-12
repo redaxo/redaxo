@@ -6,6 +6,8 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 $success = '';
 $error = '';
@@ -106,17 +108,17 @@ if ($function && !$csrfToken->isValid()) {
     }
 }
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
 }
 
 $body = '<p>' . I18n::msg('backup_intro_import') . '</p>';
 $body .= '<p>' . I18n::msg('backup_intro_import_files') . '</p>';
 $body .= '<p>' . I18n::msg('backup_version_warning') . '</p>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'info');
 $fragment->setVar('title', I18n::msg('backup_note'), false);
 $fragment->setVar('body', $body, false);
@@ -158,7 +160,7 @@ $content .= '
                     </tbody>
                 </table>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('backup_export_db_caption'), false);
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/section.php');
@@ -201,7 +203,7 @@ $content .= '
             </table>
         ';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('backup_export_file_caption'), false);
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/section.php');

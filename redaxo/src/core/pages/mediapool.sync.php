@@ -11,6 +11,8 @@ use Redaxo\Core\MediaPool\MediaPoolCache;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 
@@ -112,11 +114,11 @@ if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
 }
 
 if (count($error) > 0) {
-    echo rex_view::error(implode('<br />', $error));
+    echo Message::error(implode('<br />', $error));
     $error = [];
 }
 if (count($success) > 0) {
-    echo rex_view::info(implode('<br />', $success));
+    echo Message::info(implode('<br />', $success));
     $success = [];
 }
 
@@ -141,7 +143,7 @@ if ($diffCount > 0) {
     $e['field'] = '<input type="checkbox" name="checkie" id="rex-js-checkie" value="0" onchange="setAllCheckBoxes(\'sync_files[]\',this)" />';
     $writable[] = $e;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $writable, false);
     $panel = $fragment->parse('core/form/checkbox.php');
 
@@ -152,7 +154,7 @@ if ($diffCount > 0) {
 
         $title = I18n::msg('pool_sync_affected_files') . ' (' . $count . ')';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('title', $title, false);
         $fragment->setVar('body', $panel, false);
         $content .= $fragment->parse('core/page/section.php');
@@ -177,7 +179,7 @@ if ($diffCount > 0) {
     if ($count) {
         $title = $count > 1 ? I18n::msg('pool_files_not_writable') : I18n::msg('pool_file_not_writable');
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('title', $title, false);
         $fragment->setVar('body', '<ul><li>' . implode('</li><li>', $notWritable) . '</li></ul>', false);
         $fragment->setVar('class', 'warning', false);
@@ -186,7 +188,7 @@ if ($diffCount > 0) {
 } else {
     $panel = '<p>' . I18n::msg('pool_sync_no_diffs') . '</p>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('pool_sync_title'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('class', 'info', false);

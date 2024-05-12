@@ -15,6 +15,9 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\View\DataList;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 $func = rex_request('func', 'string');
 $oid = rex_request('oid', 'int');
@@ -22,7 +25,7 @@ $oid = rex_request('oid', 'int');
 $csrfToken = CsrfToken::factory('cronjob');
 
 if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid()) {
-    echo rex_view::error(I18n::msg('csrf_token_invalid'));
+    echo Message::error(I18n::msg('csrf_token_invalid'));
     $func = '';
 } elseif ('setstatus' == $func) {
     $manager = CronjobManager::factory();
@@ -30,18 +33,18 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
     $status = (rex_request('oldstatus', 'int') + 1) % 2;
     $msg = 1 == $status ? 'status_activate' : 'status_deactivate';
     if ($manager->setStatus($oid, $status)) {
-        echo rex_view::success(I18n::msg('cronjob_' . $msg . '_success', $name));
+        echo Message::success(I18n::msg('cronjob_' . $msg . '_success', $name));
     } else {
-        echo rex_view::error(I18n::msg('cronjob_' . $msg . '_error', $name));
+        echo Message::error(I18n::msg('cronjob_' . $msg . '_error', $name));
     }
     $func = '';
 } elseif ('delete' == $func) {
     $manager = CronjobManager::factory();
     $name = $manager->getName($oid);
     if ($manager->delete($oid)) {
-        echo rex_view::success(I18n::msg('cronjob_delete_success', $name));
+        echo Message::success(I18n::msg('cronjob_delete_success', $name));
     } else {
-        echo rex_view::error(I18n::msg('cronjob_delete_error', $name));
+        echo Message::error(I18n::msg('cronjob_delete_error', $name));
     }
     $func = '';
 } elseif ('execute' == $func) {
@@ -53,9 +56,9 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
         $msg = '<br /><br />' . I18n::msg('cronjob_log_message') . ': <br />' . nl2br(rex_escape($manager->getMessage()));
     }
     if ($success) {
-        echo rex_view::success(I18n::msg('cronjob_execute_success', $name) . $msg);
+        echo Message::success(I18n::msg('cronjob_execute_success', $name) . $msg);
     } else {
-        echo rex_view::error(I18n::msg('cronjob_execute_error', $name) . $msg);
+        echo Message::error(I18n::msg('cronjob_execute_error', $name) . $msg);
     }
     $func = '';
 }
@@ -63,7 +66,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
 if ('' == $func) {
     $query = 'SELECT id, name, type, environment, execution_moment, nexttime, status FROM ' . Core::getTable('cronjob') . ' ORDER BY name';
 
-    $list = rex_list::factory($query, 30, 'cronjobs');
+    $list = DataList::factory($query, 30, 'cronjobs');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $list->setNoRowsMessage(I18n::msg('cronjob_no_cronjobs'));
@@ -139,7 +142,7 @@ if ('' == $func) {
 
     $content = $list->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('cronjob_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
@@ -349,7 +352,7 @@ if ('' == $func) {
 
     $content = $form->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $fieldset);
     $fragment->setVar('body', $content, false);

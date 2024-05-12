@@ -24,6 +24,10 @@ use Redaxo\Core\Security\Login;
 use Redaxo\Core\Security\Permission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\View\Asset;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
@@ -220,24 +224,24 @@ if (Core::getUser()) {
     }
 }
 
-rex_view::addJsFile(Url::coreAssets('jquery.min.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(Url::coreAssets('jquery-ui.custom.min.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(Url::coreAssets('jquery-pjax.min.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(Url::coreAssets('standard.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(Url::coreAssets('sha1.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(Url::coreAssets('clipboard-copy-element.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(Url::coreAssets('js/mediapool.js'), [rex_view::JS_IMMUTABLE]);
+Asset::addJsFile(Url::coreAssets('jquery.min.js'), [Asset::JS_IMMUTABLE => true]);
+Asset::addJsFile(Url::coreAssets('jquery-ui.custom.min.js'), [Asset::JS_IMMUTABLE => true]);
+Asset::addJsFile(Url::coreAssets('jquery-pjax.min.js'), [Asset::JS_IMMUTABLE => true]);
+Asset::addJsFile(Url::coreAssets('standard.js'), [Asset::JS_IMMUTABLE => true]);
+Asset::addJsFile(Url::coreAssets('sha1.js'), [Asset::JS_IMMUTABLE => true]);
+Asset::addJsFile(Url::coreAssets('clipboard-copy-element.js'), [Asset::JS_IMMUTABLE => true]);
+Asset::addJsFile(Url::coreAssets('js/mediapool.js'), [Asset::JS_IMMUTABLE]);
 
-rex_view::setJsProperty('backend', true);
-rex_view::setJsProperty('accesskeys', Core::getProperty('use_accesskeys'));
-rex_view::setJsProperty('session_keep_alive', Core::getProperty('session_keep_alive', 0));
-rex_view::setJsProperty('cookie_params', Login::getCookieParams());
-rex_view::setJsProperty('imageExtensions', Core::getProperty('image_extensions'));
+Asset::setJsProperty('backend', true);
+Asset::setJsProperty('accesskeys', Core::getProperty('use_accesskeys'));
+Asset::setJsProperty('session_keep_alive', Core::getProperty('session_keep_alive', 0));
+Asset::setJsProperty('cookie_params', Login::getCookieParams());
+Asset::setJsProperty('imageExtensions', Core::getProperty('image_extensions'));
 
-rex_view::addCssFile(Url::coreAssets('css/styles.css'));
-rex_view::addCssFile(Url::coreAssets('css/bootstrap-select.min.css'));
-rex_view::addJsFile(Url::coreAssets('js/bootstrap.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(Url::coreAssets('js/bootstrap-select.min.js'), [rex_view::JS_IMMUTABLE => true]);
+Asset::addCssFile(Url::coreAssets('css/styles.css'));
+Asset::addCssFile(Url::coreAssets('css/bootstrap-select.min.css'));
+Asset::addJsFile(Url::coreAssets('js/bootstrap.js'), [Asset::JS_IMMUTABLE => true]);
+Asset::addJsFile(Url::coreAssets('js/bootstrap-select.min.js'), [Asset::JS_IMMUTABLE => true]);
 $bootstrapSelectLang = [
     'de_de' => 'de_DE',
     'en_gb' => 'en_US',
@@ -247,31 +251,31 @@ $bootstrapSelectLang = [
     'pt_br' => 'pt_BR',
     'sv_se' => 'sv_SE',
 ][I18n::getLocale()] ?? 'en_US';
-rex_view::addJsFile(Url::coreAssets('js/bootstrap-select-defaults-' . $bootstrapSelectLang . '.min.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(Url::coreAssets('js/main.js'), [rex_view::JS_IMMUTABLE => true]);
+Asset::addJsFile(Url::coreAssets('js/bootstrap-select-defaults-' . $bootstrapSelectLang . '.min.js'), [Asset::JS_IMMUTABLE => true]);
+Asset::addJsFile(Url::coreAssets('js/main.js'), [Asset::JS_IMMUTABLE => true]);
 
-rex_view::addCssFile(Url::coreAssets('css/redaxo.css'));
-rex_view::addJsFile(Url::coreAssets('js/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
+Asset::addCssFile(Url::coreAssets('css/redaxo.css'));
+Asset::addJsFile(Url::coreAssets('js/redaxo.js'), [Asset::JS_IMMUTABLE => true]);
 
 if (Core::getUser()) {
     /* Customizer Ergänzungen */
-    rex_view::addCssFile(Url::coreAssets('css/customizer.css'));
-    rex_view::addJsFile(Url::coreAssets('js/customizer.js'), [rex_view::JS_IMMUTABLE => true]);
+    Asset::addCssFile(Url::coreAssets('css/customizer.css'));
+    Asset::addJsFile(Url::coreAssets('js/customizer.js'), [Asset::JS_IMMUTABLE => true]);
 
     if ('' != Core::getConfig('be_style_labelcolor')) {
-        rex_view::setJsProperty('customizer_labelcolor', Core::getConfig('be_style_labelcolor'));
+        Asset::setJsProperty('customizer_labelcolor', Core::getConfig('be_style_labelcolor'));
     }
     if (Core::getConfig('be_style_showlink')) {
-        rex_view::setJsProperty(
+        Asset::setJsProperty(
             'customizer_showlink',
             '<h1 class="be-style-customizer-title"><a href="' . Url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(Core::getServerName()) . '</span><i class="rex-icon rex-icon-external-link"></i></a></h1>',
         );
     }
 
-    rex_view::addJsFile(Url::coreAssets('js/linkmap.js'), [rex_view::JS_IMMUTABLE => true]);
+    Asset::addJsFile(Url::coreAssets('js/linkmap.js'), [Asset::JS_IMMUTABLE => true]);
 
     if ('content' == Controller::getCurrentPagePart(1)) {
-        rex_view::addJsFile(Url::coreAssets('js/content.js'), [rex_view::JS_IMMUTABLE => true]);
+        Asset::addJsFile(Url::coreAssets('js/content.js'), [Asset::JS_IMMUTABLE => true]);
     }
 }
 
@@ -295,10 +299,10 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
         },
     );
 
-    rex_view::addCssFile(Url::coreAssets('noUiSlider/nouislider.css'));
-    rex_view::addJsFile(Url::coreAssets('noUiSlider/nouislider.js'), [rex_view::JS_IMMUTABLE => true]);
-    rex_view::addCssFile(Url::coreAssets('css/history.css'));
-    rex_view::addJsFile(Url::coreAssets('js/history.js'), [rex_view::JS_IMMUTABLE => true]);
+    Asset::addCssFile(Url::coreAssets('noUiSlider/nouislider.css'));
+    Asset::addJsFile(Url::coreAssets('noUiSlider/nouislider.js'), [Asset::JS_IMMUTABLE => true]);
+    Asset::addCssFile(Url::coreAssets('css/history.css'));
+    Asset::addJsFile(Url::coreAssets('js/history.js'), [Asset::JS_IMMUTABLE => true]);
 
     switch (rex_request('rex_history_function', 'string')) {
         case 'snap':
@@ -335,7 +339,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
             $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';
 
             // fragment holen und ausgeben
-            $fragment = new rex_fragment();
+            $fragment = new Fragment();
             $fragment->setVar('title', I18n::msg('structure_history_overview_versions'));
             $fragment->setVar('content1select', $content1select, false);
             $fragment->setVar('content1iframe', $content1iframe, false);
@@ -425,7 +429,7 @@ if (Core::getConfig('article_work_version', false)) {
         switch ($func) {
             case 'copy_work_to_live':
                 if ($workingVersionEmpty) {
-                    $return .= rex_view::error(I18n::msg('version_warning_working_version_to_live'));
+                    $return .= Message::error(I18n::msg('version_warning_working_version_to_live'));
                 } elseif ($user->hasPerm('version[live_version]')) {
                     if (true === Core::getConfig('article_history', false)) {
                         ArticleSliceHistory::makeSnapshot($articleId, $clangId, 'work_to_live');
@@ -437,7 +441,7 @@ if (Core::getConfig('article_work_version', false)) {
                         ArticleRevision::WORK,
                         ArticleRevision::LIVE,
                     );
-                    $return .= rex_view::success(I18n::msg('version_info_working_version_to_live'));
+                    $return .= Message::success(I18n::msg('version_info_working_version_to_live'));
 
                     $article = Type::instanceOf(Article::get($articleId, $clangId), Article::class);
                     ArticleRevision::setSessionArticleRevision($articleId, ArticleRevision::LIVE);
@@ -453,12 +457,12 @@ if (Core::getConfig('article_work_version', false)) {
                     ArticleRevision::LIVE,
                     ArticleRevision::WORK,
                 );
-                $return .= rex_view::success(I18n::msg('version_info_live_version_to_working'));
+                $return .= Message::success(I18n::msg('version_info_live_version_to_working'));
                 ArticleRevision::setSessionArticleRevision($articleId, ArticleRevision::WORK);
                 break;
             case 'clear_work':
                 ArticleRevision::clearContent($articleId, $clangId, ArticleRevision::WORK);
-                $return .= rex_view::success(I18n::msg('version_info_clear_workingversion'));
+                $return .= Message::success(I18n::msg('version_info_clear_workingversion'));
                 break;
         }
 
@@ -492,7 +496,7 @@ if (Core::getConfig('article_work_version', false)) {
 
         $toolbar = '';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('button_prefix', '<b>' . $currentRevision . '</b>', false);
         $fragment->setVar('items', $items, false);
         $fragment->setVar('toolbar', true);
@@ -523,7 +527,7 @@ if (Core::getConfig('article_work_version', false)) {
         $inverse = ArticleRevision::WORK == $revision;
         $cssClass = ArticleRevision::WORK == $revision ? 'rex-state-inprogress' : 'rex-state-live';
 
-        $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', null, $cssClass, $inverse);
+        $return .= View::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', null, $cssClass, $inverse);
 
         return $return;
     });
@@ -536,7 +540,7 @@ $theme = (string) Core::getProperty('theme');
 if ('' === $theme && $user) {
     $theme = (string) $user->getValue('theme');
 }
-rex_view::setJsProperty('theme', $theme ?: 'auto');
+Asset::setJsProperty('theme', $theme ?: 'auto');
 
 if ('system' == Controller::getCurrentPagePart(1)) {
     rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
@@ -547,8 +551,8 @@ if ('system' == Controller::getCurrentPagePart(1)) {
     rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
 }
 if ('content' == Controller::getCurrentPagePart(1)) {
-    rex_view::addCssFile(Url::coreAssets('css/metainfo.css'));
-    rex_view::addJsFile(Url::coreAssets('js/metainfo.js'));
+    Asset::addCssFile(Url::coreAssets('css/metainfo.css'));
+    Asset::addJsFile(Url::coreAssets('js/metainfo.js'));
 }
 
 Permission::register('users[]');
@@ -623,7 +627,7 @@ if ($user = Core::getUser()) {
     Controller::checkPagePermissions($user);
 }
 $page = Controller::getCurrentPage();
-rex_view::setJsProperty('page', $page);
+Asset::setJsProperty('page', $page);
 
 if ('content' == Controller::getCurrentPagePart(1)) {
     Controller::getPageObject('structure')->setIsActive(true);
@@ -634,7 +638,7 @@ if ('content' == Controller::getCurrentPagePart(1)) {
 Extension::registerPoint(new ExtensionPoint('PAGE_CHECKED', $page, ['pages' => $pages], true));
 
 if (in_array($page, ['profile', 'login'], true)) {
-    rex_view::addJsFile(Url::coreAssets('webauthn.js'), [rex_view::JS_IMMUTABLE => true]);
+    Asset::addJsFile(Url::coreAssets('webauthn.js'), [Asset::JS_IMMUTABLE => true]);
 }
 
 if ($page) {

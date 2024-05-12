@@ -15,6 +15,9 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\Permission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\View\DataList;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 $func = rex_request('func', 'string');
 $id = rex_request('id', 'int');
@@ -24,11 +27,11 @@ $content = '';
 
 if ('delete' == $func) {
     if (!CsrfToken::factory('user_role_delete')->isValid()) {
-        $message = rex_view::error(I18n::msg('csrf_token_invalid'));
+        $message = Message::error(I18n::msg('csrf_token_invalid'));
     } else {
         $sql = Sql::factory();
         $sql->setQuery('DELETE FROM ' . Core::getTable('user_role') . ' WHERE id = ? LIMIT 1', [$id]);
-        $message = rex_view::info(I18n::msg('user_role_deleted'));
+        $message = Message::info(I18n::msg('user_role_deleted'));
     }
 
     $func = '';
@@ -37,7 +40,7 @@ if ('delete' == $func) {
 if ('' == $func) {
     $title = I18n::msg('user_role_caption');
 
-    $list = rex_list::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'user_role ORDER BY name', 100);
+    $list = DataList::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'user_role ORDER BY name', 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-userrole"></i>';
@@ -69,7 +72,7 @@ if ('' == $func) {
 
     $content .= $list->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', $title);
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
@@ -184,7 +187,7 @@ if ('' == $func) {
         ';
     }
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $title);
     $fragment->setVar('body', $content, false);

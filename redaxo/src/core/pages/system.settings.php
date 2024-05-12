@@ -13,6 +13,8 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Version;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 $error = [];
 $success = '';
@@ -154,11 +156,11 @@ foreach ($locales as $locale) {
 }
 
 if (!empty($error)) {
-    echo rex_view::error(implode('<br />', $error));
+    echo Message::error(implode('<br />', $error));
 }
 
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 
 $dbconfig = Core::getDbConfig(1);
@@ -210,7 +212,7 @@ if (!Core::isLiveMode()) {
         <p>' . I18n::msg('setup_text') . '</p>
         <p><a class="btn btn-setup" href="' . Url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . I18n::msg('setup_restart') . '?" data-pjax="false">' . I18n::msg('setup') . '</a></p>';
 }
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('system_features'));
 $fragment->setVar('body', $content, false);
 $sideContent[] = $fragment->parse('core/page/section.php');
@@ -233,7 +235,7 @@ $content = '
         </tr>
     </table>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('installation'));
 $fragment->setVar('content', $content, false);
 $sideContent[] = $fragment->parse('core/page/section.php');
@@ -256,7 +258,7 @@ $content = '
         </tr>
     </table>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('database'));
 $fragment->setVar('content', $content, false);
 $sideContent[] = $fragment->parse('core/page/section.php');
@@ -285,7 +287,7 @@ $n['label'] = '<label for="rex-id-error-email" class="required">' . I18n::msg('e
 $n['field'] = '<input class="form-control" type="email" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(Core::getErrorEmail()) . '" required />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -310,7 +312,7 @@ if ($url = $editor->getUrl($configYml, 0)) {
     $formElements[] = $n;
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -320,11 +322,11 @@ $n = [];
 $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="sendit"' . Core::getAccesskey(I18n::msg('system_update'), 'save') . '>' . I18n::msg('system_update') . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', I18n::msg('system_settings'));
 $fragment->setVar('body', $content, false);
@@ -342,7 +344,7 @@ $content = '<p>' . I18n::msg('system_editor_note') . '</p>';
 
 $viaCookie = array_key_exists('editor', $_COOKIE);
 if ($viaCookie) {
-    $content .= rex_view::info(I18n::msg('system_editor_note_cookie'));
+    $content .= Message::info(I18n::msg('system_editor_note_cookie'));
 }
 
 $formElements = [];
@@ -367,7 +369,7 @@ $n['field'] = '<input class="form-control" type="text" id="rex-id-editor-basepat
 $n['note'] = I18n::msg('system_editor_basepath_note');
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -391,11 +393,11 @@ if ($viaCookie) {
     $formElements[] = $n;
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', I18n::msg('system_editor'));
 $fragment->setVar('body', $content, false);
@@ -409,7 +411,7 @@ $mainContent[] = '
     ' . $content . '
 </form>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('content', [implode('', $mainContent), implode('', $sideContent)], false);
 $fragment->setVar('classes', ['col-lg-8', 'col-lg-4'], false);
 echo $fragment->parse('core/page/grid.php');

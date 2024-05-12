@@ -11,6 +11,8 @@ use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 // Für größere Exports den Speicher für PHP erhöhen.
 if (rex_ini_get('memory_limit') < 67_108_864) {
@@ -107,15 +109,15 @@ if ($export && !$csrfToken->isValid()) {
 }
 
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
 }
 
 $content = '';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'info', false);
 $fragment->setVar('title', I18n::msg('backup_information'), false);
 $fragment->setVar('body', '<p>' . I18n::msg('backup_intro_export') . '</p>', false);
@@ -143,7 +145,7 @@ $n['label'] = '<label for="rex-js-exporttype-files">' . I18n::msg('backup_file_e
 $n['field'] = '<input type="radio" id="rex-js-exporttype-files" name="exporttype" value="files"' . $checkedfiles . ' />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $radios = $fragment->parse('core/form/radio.php');
 
@@ -153,7 +155,7 @@ $n['label'] = I18n::msg('backup_export_select');
 $n['field'] = $radios;
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -220,7 +222,7 @@ $n['field'] = $selDirs->get();
 $n['footer'] = '</div>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -245,7 +247,7 @@ $n['label'] = '<label for="rex-form-exportdl-download">' . I18n::msg('backup_dow
 $n['field'] = '<input type="radio" id="rex-form-exportdl-download" name="exportdl" value="1"' . $checked1 . ' />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $radios = $fragment->parse('core/form/radio.php');
 
@@ -255,7 +257,7 @@ $n['label'] = I18n::msg('backup_export_select_location');
 $n['field'] = $radios;
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -266,7 +268,7 @@ $n['label'] = '<label for="rex-form-exportfilename">' . I18n::msg('backup_filena
 $n['field'] = '<input class="form-control" type="text" id="rex-form-exportfilename" name="exportfilename" value="' . rex_escape($exportfilename) . '" />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -277,11 +279,11 @@ $n = [];
 $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="export" value="' . I18n::msg('backup_db_export') . '">' . I18n::msg('backup_to_export') . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', I18n::msg('backup_export'), false);
 $fragment->setVar('body', $content, false);

@@ -17,6 +17,7 @@ use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Security\BackendLogin;
+use Redaxo\Core\View\Fragment;
 
 if (Core::isSetup()) {
     Response::sendRedirect(Url::backendController());
@@ -134,7 +135,7 @@ if (Core::getConfig('article_work_version', false)) {
         }
 
         if (!BackendLogin::hasSession()) {
-            $fragment = new rex_fragment([
+            $fragment = new Fragment([
                 'content' => '<p>No permission for the working version. You need to be logged into the REDAXO backend at the same time.</p>',
             ]);
             Response::setStatus(Response::HTTP_UNAUTHORIZED);
@@ -165,7 +166,7 @@ if (!$article->setArticleId(Article::getCurrentId())) {
         throw new rex_exception('Article with id ' . Article::getCurrentId() . ' does not exist');
     }
 
-    $fragment = new rex_fragment([
+    $fragment = new Fragment([
         'content' => '<p><b>Article with ID ' . Article::getCurrentId() . ' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . Url::backendController() . '">REDAXO</a>.</p>',
     ]);
     $content .= $fragment->parse('core/fe_ooops.php');

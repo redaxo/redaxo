@@ -23,6 +23,9 @@ use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 $structureContext = new StructureContext([
     'category_id' => rex_request('category_id', 'int'),
@@ -40,10 +43,10 @@ $user = Core::requireUser();
 
 if (0 == $structureContext->getClangId()) {
     if (Language::exists(0)) {
-        echo rex_view::error('Oooops. Your clang ids start with <code>0</code>. Looks like a broken REDAXO 4.x to 5.x upgrade. Please update all your database tables, php code (if there are any hard coded clang ids) aswell as additional configurations in add-ons, e.g. YRewrite. You may start with updating those tables: <code>rex_article</code>, <code>rex_article_slice</code>, <code>rex_clang</code>, by increasing every clang id <code>+ 1</code>.');
+        echo Message::error('Oooops. Your clang ids start with <code>0</code>. Looks like a broken REDAXO 4.x to 5.x upgrade. Please update all your database tables, php code (if there are any hard coded clang ids) aswell as additional configurations in add-ons, e.g. YRewrite. You may start with updating those tables: <code>rex_article</code>, <code>rex_article_slice</code>, <code>rex_clang</code>, by increasing every clang id <code>+ 1</code>.');
         exit;
     }
-    echo rex_view::error('You have no permission to access this area');
+    echo Message::error('You have no permission to access this area');
     exit;
 }
 
@@ -53,10 +56,10 @@ echo Extension::registerPoint(new ExtensionPoint('PAGE_STRUCTURE_HEADER_PRE', ''
 ]));
 
 // --------------------------------------------- TITLE
-echo rex_view::title(I18n::msg('title_structure'));
+echo View::title(I18n::msg('title_structure'));
 
 // --------------------------------------------- Languages
-echo rex_view::clangSwitchAsButtons($structureContext->getContext());
+echo View::clangSwitchAsButtons($structureContext->getContext());
 
 // --------------------------------------------- Path
 $articleId = $structureContext->getArticleId();
@@ -106,7 +109,7 @@ if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->ge
 
 $catPager = new Pager($structureContext->getRowsPerPage(), 'catstart');
 $catPager->setRowCount((int) $KAT->getValue('rowCount'));
-$catFragment = new rex_fragment();
+$catFragment = new Fragment();
 $catFragment->setVar('urlprovider', $structureContext->getContext());
 $catFragment->setVar('pager', $catPager);
 echo $catFragment->parse('core/navigations/pagination.php');
@@ -327,7 +330,7 @@ $heading = I18n::msg('structure_categories_caption', $catName);
 if (0 == $structureContext->getCategoryId()) {
     $heading = I18n::msg('structure_root_level_categories_caption');
 }
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('heading', $heading, false);
 $fragment->setVar('content', $echo, false);
 echo $fragment->parse('core/page/section.php');
@@ -377,7 +380,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     $artPager = new Pager($structureContext->getRowsPerPage(), 'artstart');
     $artPager->setRowCount((int) $sql->getValue('artCount'));
-    $artFragment = new rex_fragment();
+    $artFragment = new Fragment();
     $artFragment->setVar('urlprovider', $structureContext->getContext());
     $artFragment->setVar('pager', $artPager);
     echo $artFragment->parse('core/navigations/pagination.php');
@@ -597,7 +600,7 @@ $heading = I18n::msg('structure_articles_caption', $catName);
 if (0 == $structureContext->getCategoryId()) {
     $heading = I18n::msg('structure_root_level_articles_caption');
 }
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('heading', $heading, false);
 $fragment->setVar('content', $echo, false);
 echo $fragment->parse('core/page/section.php');

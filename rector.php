@@ -28,6 +28,7 @@ use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Renaming\Rector\StaticCall\RenameStaticMethodRector;
 use Rector\Renaming\ValueObject\MethodCallRename;
+use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
 use Rector\Renaming\ValueObject\RenameClassConstFetch;
 use Rector\Renaming\ValueObject\RenameStaticMethod;
 use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
@@ -63,6 +64,7 @@ use Redaxo\Core\Security;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
 use Redaxo\Core\Validator;
+use Redaxo\Core\View;
 use Redaxo\Rector\Rule as RedaxoRule;
 
 return RectorConfig::configure()
@@ -363,6 +365,9 @@ return RectorConfig::configure()
         'rex_user_role_interface' => Security\UserRoleInterface::class,
         'rex_user_session' => Security\UserSession::class,
         'rex_webauthn' => Security\WebAuthn::class,
+        'rex_list' => View\DataList::class,
+        'rex_fragment' => View\Fragment::class,
+        'rex_view' => View\View::class,
     ])
     ->withConfiguredRule(ArgumentAdderRector::class, [
         new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 1, 'value', null),
@@ -401,6 +406,20 @@ return RectorConfig::configure()
         new RenameStaticMethod(Core::class, 'getVersionHash', Util\Version::class, 'gitHash'),
         new RenameStaticMethod(Util\Str::class, 'versionSplit', Util\Version::class, 'split'),
         new RenameStaticMethod(Util\Str::class, 'versionCompare', Util\Version::class, 'compare'),
+        new RenameStaticMethod(View\View::class, 'addCssFile', View\Asset::class, 'addCssFile'),
+        new RenameStaticMethod(View\View::class, 'getCssFiles', View\Asset::class, 'getCssFiles'),
+        new RenameStaticMethod(View\View::class, 'addJsFile', View\Asset::class, 'addJsFile'),
+        new RenameStaticMethod(View\View::class, 'getJsFiles', View\Asset::class, 'getJsFiles'),
+        new RenameStaticMethod(View\View::class, 'getJsFilesWithOptions', View\Asset::class, 'getJsFilesWithOptions'),
+        new RenameStaticMethod(View\View::class, 'setJsProperty', View\Asset::class, 'setJsProperty'),
+        new RenameStaticMethod(View\View::class, 'getJsProperties', View\Asset::class, 'getJsProperties'),
+        new RenameStaticMethod(View\View::class, 'setFavicon', View\Asset::class, 'setFavicon'),
+        new RenameStaticMethod(View\View::class, 'getFavicon', View\Asset::class, 'getFavicon'),
+        new RenameStaticMethod(View\View::class, 'error', View\Message::class, 'error'),
+        new RenameStaticMethod(View\View::class, 'info', View\Message::class, 'info'),
+        new RenameStaticMethod(View\View::class, 'message', View\Message::class, 'message'),
+        new RenameStaticMethod(View\View::class, 'success', View\Message::class, 'success'),
+        new RenameStaticMethod(View\View::class, 'warning', View\Message::class, 'warning'),
     ])
     ->withConfiguredRule(NewToStaticCallRector::class, [
         new NewToStaticCall(Security\BackendPasswordPolicy::class, Security\BackendPasswordPolicy::class, 'factory'),
@@ -473,5 +492,8 @@ return RectorConfig::configure()
         new RenameClassConstFetch(MetaInfo\Database\Table::class, 'FIELD_REX_LINKLIST_WIDGET', 'FIELD_REX_LINK_WIDGET'),
         new RenameClassConstFetch(MetaInfo\Form\DefaultType::class, 'REX_MEDIALIST_WIDGET', 'REX_MEDIA_WIDGET'),
         new RenameClassConstFetch(MetaInfo\Form\DefaultType::class, 'REX_LINKLIST_WIDGET', 'REX_LINK_WIDGET'),
+        new RenameClassAndConstFetch(View\View::class, 'JS_ASYNC', View\Asset::class, 'JS_ASYNC'),
+        new RenameClassAndConstFetch(View\View::class, 'JS_DEFERED', View\Asset::class, 'JS_DEFERED'),
+        new RenameClassAndConstFetch(View\View::class, 'JS_IMMUTABLE', View\Asset::class, 'JS_IMMUTABLE'),
     ])
 ;

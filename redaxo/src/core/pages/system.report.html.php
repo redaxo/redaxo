@@ -3,6 +3,7 @@
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Version;
+use Redaxo\Core\View\Fragment;
 
 $report = rex_system_report::factory()->get();
 
@@ -39,7 +40,7 @@ foreach ($report as $title => $group) {
 
     $content = '<table class="table table-hover table-bordered"><tbody>' . $content . '</tbody></table>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', $title);
 
     if (rex_system_report::TITLE_PHP === $title) {

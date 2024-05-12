@@ -2,10 +2,11 @@
 
 use Redaxo\Core\Base\UrlProviderInterface;
 use Redaxo\Core\Util\Pager;
+use Redaxo\Core\View\Fragment;
 
 /**
- * @var rex_fragment $this
- * @psalm-scope-this rex_fragment
+ * @var Fragment $this
+ * @psalm-scope-this Fragment
  */
 ?>
 <?php

@@ -10,6 +10,7 @@ use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\Login;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\View\Fragment;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -94,7 +95,7 @@ abstract class rex_error_handler
         }
 
         try {
-            $fragment = new rex_fragment();
+            $fragment = new Fragment();
             if (Core::isBackend()) {
                 $errorPage = $fragment->parse('core/be_ooops.php');
             } else {

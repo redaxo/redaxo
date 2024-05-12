@@ -5,6 +5,7 @@ use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 
 /**
  * REX_LINK.
@@ -86,7 +87,7 @@ class rex_var_link extends rex_var
                         <a href="#" class="btn btn-popup' . $class . '" onclick="' . $openFunc . 'return false;" title="' . I18n::msg('var_link_open') . '"><i class="rex-icon rex-icon-open-linkmap"></i></a>
                         <a href="#" class="btn btn-popup' . $class . '" onclick="' . $deleteFunc . 'return false;" title="' . I18n::msg('var_link_delete') . '"><i class="rex-icon rex-icon-delete-link"></i></a>';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', [$e], false);
 
         return $fragment->parse('core/form/widget.php');

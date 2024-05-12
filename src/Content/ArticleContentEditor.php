@@ -14,8 +14,9 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
-use rex_fragment;
-use rex_view;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 use function count;
 
@@ -69,10 +70,10 @@ class ArticleContentEditor extends ArticleContent
             if ('add' != $this->function && $this->slice_id == $sliceId) {
                 $msg = '';
                 if ('' != $this->warning) {
-                    $msg .= rex_view::error($this->warning);
+                    $msg .= Message::error($this->warning);
                 }
                 if ('' != $this->info) {
-                    $msg .= rex_view::success($this->info);
+                    $msg .= Message::success($this->info);
                 }
                 $panel .= $msg;
             }
@@ -108,7 +109,7 @@ class ArticleContentEditor extends ArticleContent
                 'slice_id' => $sliceId,
             ]));
 
-            $fragment = new rex_fragment();
+            $fragment = new Fragment();
             $fragment->setVar('title', $this->getSliceHeading($artDataSql), false);
             $fragment->setVar('options', $this->getSliceMenu($artDataSql), false);
             $fragment->setVar('body', $panel, false);
@@ -247,19 +248,19 @@ class ArticleContentEditor extends ArticleContent
             $actionItems[] = $ep->getMenuDeleteAction();
         }
         if (count($actionItems) > 0) {
-            $fragment = new rex_fragment();
+            $fragment = new Fragment();
             $fragment->setVar('items', $actionItems, false);
             $headerRight .= $fragment->parse('core/structure/content/slice_menu_action.php');
         }
 
         if ($ep->getMenuStatusAction()) {
-            $fragment = new rex_fragment();
+            $fragment = new Fragment();
             $fragment->setVar('items', [$ep->getMenuStatusAction()], false);
             $headerRight .= $fragment->parse('core/structure/content/slice_menu_action.php');
         }
 
         if (count($ep->getAdditionalActions()) > 0) {
-            $fragment = new rex_fragment();
+            $fragment = new Fragment();
             $fragment->setVar('items', $ep->getAdditionalActions(), false);
             $headerRight .= $fragment->parse('core/structure/content/slice_menu_ep.php');
         }
@@ -272,7 +273,7 @@ class ArticleContentEditor extends ArticleContent
             $moveItems[] = $ep->getMenuMovedownAction();
         }
         if (count($moveItems) > 0) {
-            $fragment = new rex_fragment();
+            $fragment = new Fragment();
             $fragment->setVar('items', $moveItems, false);
             $headerRight .= $fragment->parse('core/structure/content/slice_menu_move.php');
         }
@@ -331,7 +332,7 @@ class ArticleContentEditor extends ArticleContent
             }
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('block', true);
         $fragment->setVar('button_label', I18n::msg('add_block'));
         $fragment->setVar('items', $items, false);
@@ -414,7 +415,7 @@ class ArticleContentEditor extends ArticleContent
         $MOD->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module WHERE id="' . $moduleId . '"');
 
         if (1 != $MOD->getRows()) {
-            return rex_view::error(I18n::msg('module_doesnt_exist'));
+            return Message::error(I18n::msg('module_doesnt_exist'));
         }
 
         $initDataSql = Sql::factory();
@@ -433,10 +434,10 @@ class ArticleContentEditor extends ArticleContent
 
         $msg = '';
         if ('' != $this->warning) {
-            $msg .= rex_view::warning($this->warning);
+            $msg .= Message::warning($this->warning);
         }
         if ('' != $this->info) {
-            $msg .= rex_view::success($this->info);
+            $msg .= Message::success($this->info);
         }
 
         $formElements = [];
@@ -449,7 +450,7 @@ class ArticleContentEditor extends ArticleContent
         $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . Core::getAccesskey(I18n::msg('add_block'), 'save') . '>' . I18n::msg('add_block') . '</button>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $sliceFooter = $fragment->parse('core/form/submit.php');
 
@@ -466,7 +467,7 @@ class ArticleContentEditor extends ArticleContent
                 </fieldset>
                         ';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('before', $msg, false);
         $fragment->setVar('class', 'add', false);
         $fragment->setVar('title', I18n::msg('module') . ': ' . I18n::translate((string) $MOD->getValue('name')), false);
@@ -504,10 +505,10 @@ class ArticleContentEditor extends ArticleContent
         $msg = '';
         if ($this->slice_id == $sliceId) {
             if ('' != $this->warning) {
-                $msg .= rex_view::warning($this->warning);
+                $msg .= Message::warning($this->warning);
             }
             if ('' != $this->info) {
-                $msg .= rex_view::success($this->info);
+                $msg .= Message::success($this->info);
             }
         }
 
@@ -525,7 +526,7 @@ class ArticleContentEditor extends ArticleContent
         $n['field'] = '<button class="btn btn-apply" type="submit" name="btn_update" value="1"' . Core::getAccesskey(I18n::msg('save_and_goon_tooltip'), 'apply') . '>' . I18n::msg('update_block') . '</button>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $sliceFooter = $fragment->parse('core/form/submit.php');
 
@@ -543,7 +544,7 @@ class ArticleContentEditor extends ArticleContent
 
             </form>';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('class', 'edit', false);
         $fragment->setVar('title', $this->getSliceHeading($artDataSql), false);
         $fragment->setVar('options', $this->getSliceMenu($artDataSql), false);

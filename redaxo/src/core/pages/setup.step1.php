@@ -2,6 +2,8 @@
 
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\View;
 
 assert(isset($context) && $context instanceof Context);
 assert(isset($cancelSetupBtn));
@@ -18,10 +20,10 @@ foreach (I18n::getLocales() as $locale) {
     $langs[$label] = '<a class="list-group-item' . $active . '" href="' . $context->getUrl(['lang' => $locale, 'step' => 2]) . '">' . $label . '</a>';
 }
 ksort($langs);
-echo rex_view::title(I18n::msg('setup_100') . $cancelSetupBtn);
+echo View::title(I18n::msg('setup_100') . $cancelSetupBtn);
 $content = '<div class="list-group">' . implode('', $langs) . '</div>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('heading', I18n::msg('setup_101'), false);
 $fragment->setVar('content', $content, false);
 

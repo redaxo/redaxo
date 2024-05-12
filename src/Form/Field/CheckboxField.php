@@ -4,7 +4,7 @@ namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Form\AbstractForm;
 use Redaxo\Core\Util\Str;
-use rex_fragment;
+use Redaxo\Core\View\Fragment;
 
 use function in_array;
 
@@ -69,7 +69,7 @@ class CheckboxField extends AbstractOptionField
             $formElements[] = $n;
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $fragment->setVar('grouped', true);
 

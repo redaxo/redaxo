@@ -17,6 +17,9 @@ use Redaxo\Core\Security\WebAuthn;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\Validator;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 $error = '';
 $success = '';
@@ -42,7 +45,7 @@ $passwordPolicy = BackendPasswordPolicy::factory();
 $webauthn = new WebAuthn();
 
 // --------------------------------- Title
-echo rex_view::title(I18n::msg('profile_title'), '');
+echo View::title(I18n::msg('profile_title'), '');
 
 // --------------------------------- BE LANG
 
@@ -203,15 +206,15 @@ if ('add_passkey' === rex_request('function', 'string')) {
 // ---------------------------------- ERR MSG
 
 if ($passwordChangeRequired) {
-    echo rex_view::warning(I18n::msg('password_change_required'));
+    echo Message::warning(I18n::msg('password_change_required'));
 }
 
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
 }
 
 echo ApiFunction::getMessage();
@@ -253,7 +256,7 @@ $n['label'] = '<label for="rex-id-usertheme">' . I18n::msg('theme') . '</label>'
 $n['field'] = $selBeTheme->get();
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('group', true);
 $fragment->setVar('elements', $formElements, false);
@@ -267,11 +270,11 @@ $n = [];
 $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_profile_button" ' . Core::getAccesskey(I18n::msg('profile_save'), 'save') . '>' . I18n::msg('profile_save') . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', I18n::msg('profile_myprofile'), false);
 $fragment->setVar('body', $content, false);
@@ -306,7 +309,7 @@ $confirmField = static function (string $id) use ($login, $webauthn): string {
 
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('flush', true);
     $fragment->setVar('group', true);
     $fragment->setVar('elements', $formElements, false);
@@ -329,7 +332,7 @@ $n['label'] = '<label for="rex-id-userpsw-new-2">' . I18n::msg('new_password_rep
 $n['field'] = '<input class="form-control rex-js-userpsw-new-2" type="password" id="rex-id-userpsw-new-2" name="userpsw_new_2" autocomplete="new-password" autocorrect="off" autocapitalize="off" required />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('group', true);
 $fragment->setVar('elements', $formElements, false);
@@ -343,11 +346,11 @@ $n = [];
 $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_psw_button" ' . Core::getAccesskey(I18n::msg('profile_save_psw'), 'save') . '>' . I18n::msg('profile_save_psw') . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', I18n::msg($user->getValue('password') ? 'profile_changepsw' : 'add_password'), false);
 $fragment->setVar('body', $content, false);
@@ -364,11 +367,11 @@ $n = [];
 $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="add_passkey" ' . Core::getAccesskey(I18n::msg('passkey_add'), 'save') . '>' . I18n::msg('passkey_add') . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', I18n::msg('passkey_add'), false);
 $fragment->setVar('body', $content, false);

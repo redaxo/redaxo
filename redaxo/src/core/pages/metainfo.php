@@ -2,10 +2,11 @@
 
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\View;
 
 $subpage = Controller::getCurrentPagePart(2);
 
-echo rex_view::title(I18n::msg('minfo_title'));
+echo View::title(I18n::msg('minfo_title'));
 
 $prefix = match ($subpage) {
     'articles' => 'art_',

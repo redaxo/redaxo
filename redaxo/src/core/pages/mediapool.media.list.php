@@ -17,6 +17,8 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -128,7 +130,7 @@ if ($error) {
         $error = implode('<br />', $error);
     }
 
-    echo rex_view::error($error);
+    echo Message::error($error);
     $error = '';
 }
 
@@ -137,12 +139,12 @@ if ($success) {
         $success = implode('<br />', $success);
     }
 
-    echo rex_view::success($success);
+    echo Message::success($success);
     $success = '';
 }
 
 if (!empty($argUrl['args']['types'])) {
-    echo rex_view::info(I18n::msg('pool_file_filter') . ' <code>' . $argUrl['args']['types'] . '</code>');
+    echo Message::info(I18n::msg('pool_file_filter') . ' <code>' . $argUrl['args']['types'] . '</code>');
 }
 
 // deletefilelist und cat change
@@ -174,7 +176,7 @@ if ($hasCategoryPerm) {
     $e['label'] = '<label>' . I18n::msg('pool_select_all') . '</label>';
     $e['field'] = '<input type="checkbox" name="checkie" value="0" onclick="setAllCheckBoxes(\'selectedmedia[]\',this)" />';
     $e['class'] = 'rex-form-group-no-margin';
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', [$e], false);
     $checkbox = $fragment->parse('core/form/checkbox.php');
 
@@ -185,7 +187,7 @@ if ($hasCategoryPerm) {
         $e['left'] = I18n::msg('pool_changecat_selectedmedia_prefix');
         $e['right'] = '<button class="btn btn-update" type="submit" onclick="var needle=new getObj(\'media_method\');needle.obj.value=\'updatecat_selectedmedia\';">' . I18n::msg('pool_changecat_selectedmedia_suffix') . '</button>';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', [$e], false);
         $field .= '<div class="rex-truncate-dropdown">' . $fragment->parse('core/form/input_group.php') . '</div>';
     }
@@ -211,7 +213,7 @@ if ($hasCategoryPerm) {
 
     $actionButtons = '';
     foreach ($buttons as $button) {
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('buttons', [$button], false);
         $actionButtons .= $fragment->parse('core/buttons/button.php');
         $actionButtons .= ' ';
@@ -223,7 +225,7 @@ if ($hasCategoryPerm) {
     $e['label'] = '<label>' . I18n::msg('pool_selectedmedia') . '</label>';
     $e['field'] = $field;
     $e['class'] = 'rex-form-group-no-margin';
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', [$e], false);
     $field = $fragment->parse('core/form/form.php');
 
@@ -357,7 +359,7 @@ $panel .= '
     </fieldset>
 </form>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('pool_file_caption', $rexFileCategoryName), false);
 $fragment->setVar('options', $toolbar, false);
 $fragment->setVar('content', $panel, false);

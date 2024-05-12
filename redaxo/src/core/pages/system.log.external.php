@@ -3,6 +3,7 @@
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
+use Redaxo\Core\View\Fragment;
 
 if (!isset($logFile)) {
     $logFile = ini_get('error_log');
@@ -47,7 +48,7 @@ if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
         $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . I18n::msg('system_editor_open_file', Path::basename($logFile)) . '</a>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
     }
@@ -57,7 +58,7 @@ $content .= '
                 </tbody>
             </table>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('syslog_title', $logFile), false);
 $fragment->setVar('content', $content, false);
 $fragment->setVar('buttons', $buttons, false);

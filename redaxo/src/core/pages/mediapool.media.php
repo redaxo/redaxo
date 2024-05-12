@@ -9,6 +9,7 @@ use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($argFields) && is_string($argFields));
@@ -45,7 +46,7 @@ $n = [];
 $n['field'] = '<input class="form-control" style="border-left: 0;" type="text" name="media_name" id="be_search-media-name" value="' . rex_escape($mediaName) . '" />';
 $n['right'] = '<button class="btn btn-search" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
 $formElements[] = $n;
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 
 $formElements = [];
@@ -54,7 +55,7 @@ $n['before'] = $selMedia->get();
 $n['after'] = '<search role="search">' . $fragment->parse('core/form/input_group.php') . '</search>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $toolbar = '<div class="rex-truncate-dropdown">' . $fragment->parse('core/form/input_group.php') . '</div>';
 

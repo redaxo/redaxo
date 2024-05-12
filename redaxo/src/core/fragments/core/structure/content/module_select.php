@@ -1,10 +1,14 @@
 <?php
+
+use Redaxo\Core\View\Fragment;
+
 /**
- * @var rex_fragment $this
- * @psalm-scope-this rex_fragment
+ * @var Fragment $this
+ * @psalm-scope-this Fragment
  */
 ?>
 <?php
+
 /**
  * Discussion Issue #1174
  * Manipulate this fragment to influence the selection of modules on the slice.

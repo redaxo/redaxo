@@ -1005,90 +1005,6 @@
       <code><![CDATA[$previous->errorInfo[1] ?? null]]></code>
     </MixedReturnStatement>
   </file>
-  <file src="redaxo/src/core/lib/fragment.php">
-    <MixedArgument>
-      <code><![CDATA[$this->decorator->filename]]></code>
-    </MixedArgument>
-    <MixedPropertyAssignment>
-      <code><![CDATA[$this->decorator]]></code>
-    </MixedPropertyAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/list.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$this->getValue($column)]]></code>
-      <code><![CDATA[$this->getValue($columnName)]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[$column]]></code>
-      <code><![CDATA[$columnName]]></code>
-      <code><![CDATA[$column['span'] ?? null]]></code>
-      <code><![CDATA[$column['width'] ?? null]]></code>
-      <code><![CDATA[$format[0]]]></code>
-      <code><![CDATA[$params]]></code>
-      <code><![CDATA[$v]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$flatParams]]></code>
-      <code><![CDATA[$flatParams]]></code>
-      <code><![CDATA[$flatParams]]></code>
-      <code><![CDATA[$flatParams]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAssignment>
-      <code><![CDATA[$groupColumns[]]]></code>
-    </MixedArrayAssignment>
-    <MixedArrayOffset>
-      <code><![CDATA[$this->linkAttributes[$column]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code><![CDATA[$column]]></code>
-      <code><![CDATA[$columnSortType]]></code>
-      <code><![CDATA[$flatParams[$name]]]></code>
-      <code><![CDATA[$flatParams[$name]]]></code>
-      <code><![CDATA[$format[2]]]></code>
-      <code><![CDATA[$groupColumns]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$params[$this->pager->getCursorName()]]]></code>
-      <code><![CDATA[$params[$this->pager->getCursorName()]]]></code>
-      <code><![CDATA[$tableColumn]]></code>
-      <code><![CDATA[$tableColumn['class']]]></code>
-      <code><![CDATA[$tableColumns]]></code>
-      <code><![CDATA[$v]]></code>
-      <code><![CDATA[$v]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[array]]></code>
-      <code><![CDATA[array<string, string|int>|null]]></code>
-      <code><![CDATA[string|null]]></code>
-    </MixedInferredReturnType>
-    <MixedOperand>
-      <code><![CDATA[$columnValue]]></code>
-      <code><![CDATA[rex_escape($name, 'html_attr')]]></code>
-      <code><![CDATA[rex_escape($value)]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
-      <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
-      <code><![CDATA[$this->linkAttributes[$column] ?? $default]]></code>
-      <code><![CDATA[$this->linkAttributes[$column] ?? $default]]></code>
-      <code><![CDATA[json_decode($this->getValue($column), true)]]></code>
-    </MixedReturnStatement>
-    <PossiblyNullArgument>
-      <code><![CDATA[$columnLayout]]></code>
-      <code><![CDATA[$column['width'] ?? null]]></code>
-      <code><![CDATA[$sortColumn]]></code>
-      <code><![CDATA[$this->getValue($column)]]></code>
-      <code><![CDATA[$this->getValue($columnName)]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$sortType]]></code>
-    </PossiblyNullOperand>
-    <PropertyTypeCoercion>
-      <code><![CDATA[$this->columnLayouts]]></code>
-    </PropertyTypeCoercion>
-  </file>
   <file src="redaxo/src/core/lib/mediapool/var_media.php">
     <MixedArgument>
       <code><![CDATA[$avalue]]></code>
@@ -1312,21 +1228,6 @@
       <code><![CDATA[$this->getParsedArg('prefix')]]></code>
       <code><![CDATA[$this->getParsedArg('suffix')]]></code>
     </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/core/lib/view.php">
-    <MixedArgument>
-      <code><![CDATA[$pageObj]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$pageObj]]></code>
-      <code><![CDATA[self::$jsProperties[$key]]]></code>
-    </MixedAssignment>
-    <PossiblyNullArgument>
-      <code><![CDATA[Controller::getCurrentPagePart(1)]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference>
-      <code><![CDATA[getSubpages]]></code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/pages/backup.export.php">
     <ArgumentTypeCoercion>
@@ -4714,6 +4615,109 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$regex]]></code>
     </ArgumentTypeCoercion>
+  </file>
+  <file src="src/View/Asset.php">
+    <MixedAssignment>
+      <code><![CDATA[self::$jsProperties[$key]]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/View/DataList.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$this->getValue($column)]]></code>
+      <code><![CDATA[$this->getValue($columnName)]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$column]]></code>
+      <code><![CDATA[$columnName]]></code>
+      <code><![CDATA[$column['span'] ?? null]]></code>
+      <code><![CDATA[$column['width'] ?? null]]></code>
+      <code><![CDATA[$format[0]]]></code>
+      <code><![CDATA[$params]]></code>
+      <code><![CDATA[$v]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$flatParams]]></code>
+      <code><![CDATA[$flatParams]]></code>
+      <code><![CDATA[$flatParams]]></code>
+      <code><![CDATA[$flatParams]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAssignment>
+      <code><![CDATA[$groupColumns[]]]></code>
+    </MixedArrayAssignment>
+    <MixedArrayOffset>
+      <code><![CDATA[$this->linkAttributes[$column]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code><![CDATA[$column]]></code>
+      <code><![CDATA[$columnSortType]]></code>
+      <code><![CDATA[$flatParams[$name]]]></code>
+      <code><![CDATA[$flatParams[$name]]]></code>
+      <code><![CDATA[$format[2]]]></code>
+      <code><![CDATA[$groupColumns]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$params[$this->pager->getCursorName()]]]></code>
+      <code><![CDATA[$params[$this->pager->getCursorName()]]]></code>
+      <code><![CDATA[$tableColumn]]></code>
+      <code><![CDATA[$tableColumn['class']]]></code>
+      <code><![CDATA[$tableColumns]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array<string, string|int>|null]]></code>
+      <code><![CDATA[string|null]]></code>
+    </MixedInferredReturnType>
+    <MixedOperand>
+      <code><![CDATA[$columnValue]]></code>
+      <code><![CDATA[rex_escape($name, 'html_attr')]]></code>
+      <code><![CDATA[rex_escape($value)]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
+      <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
+      <code><![CDATA[$this->linkAttributes[$column] ?? $default]]></code>
+      <code><![CDATA[$this->linkAttributes[$column] ?? $default]]></code>
+      <code><![CDATA[json_decode($this->getValue($column), true)]]></code>
+    </MixedReturnStatement>
+    <PossiblyNullArgument>
+      <code><![CDATA[$columnLayout]]></code>
+      <code><![CDATA[$column['width'] ?? null]]></code>
+      <code><![CDATA[$sortColumn]]></code>
+      <code><![CDATA[$this->getValue($column)]]></code>
+      <code><![CDATA[$this->getValue($columnName)]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand>
+      <code><![CDATA[$sortType]]></code>
+    </PossiblyNullOperand>
+    <PropertyTypeCoercion>
+      <code><![CDATA[$this->columnLayouts]]></code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/View/Fragment.php">
+    <MixedArgument>
+      <code><![CDATA[$this->decorator->filename]]></code>
+    </MixedArgument>
+    <MixedPropertyAssignment>
+      <code><![CDATA[$this->decorator]]></code>
+    </MixedPropertyAssignment>
+  </file>
+  <file src="src/View/View.php">
+    <MixedArgument>
+      <code><![CDATA[$pageObj]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$pageObj]]></code>
+    </MixedAssignment>
+    <PossiblyNullArgument>
+      <code><![CDATA[Controller::getCurrentPagePart(1)]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference>
+      <code><![CDATA[getSubpages]]></code>
+    </PossiblyNullReference>
   </file>
   <file src="tests/Content/ArticleSliceTest.php">
     <PossiblyNullReference>

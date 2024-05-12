@@ -2,10 +2,11 @@
 
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\View\Fragment;
 
 /**
- * @var rex_fragment $this
- * @psalm-scope-this rex_fragment
+ * @var Fragment $this
+ * @psalm-scope-this Fragment
  */
 
 $items = $this->items;

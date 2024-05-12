@@ -4,6 +4,7 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
+use Redaxo\Core\View\Fragment;
 
 $package = Addon::require(rex_request('package', 'string'));
 
@@ -15,7 +16,7 @@ if (is_readable($package->getPath('LICENSE.md'))) {
 }
 
 if ($license) {
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('credits_license'));
     $fragment->setVar('body', $license, false);
     echo '<div id="license"></div>'; // scroll anchor

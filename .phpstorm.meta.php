@@ -30,7 +30,7 @@ expectedArguments(\Redaxo\Core\Form\Field\ContainerField::addGroupedField(), 1, 
 
 registerArgumentsSet('formatter_type', 'date', 'strftime', 'intlDateTime', 'intlDate', 'intlTime', 'number', 'bytes', 'sprintf', 'nl2br', 'truncate', 'widont', 'version', 'url', 'email', 'custom');
 expectedArguments(\Redaxo\Core\Util\Formatter::format(), 1, argumentsSet('formatter_type'));
-expectedArguments(\rex_list::setColumnFormat(), 1, argumentsSet('formatter_type'));
+expectedArguments(\Redaxo\Core\View\DataList::setColumnFormat(), 1, argumentsSet('formatter_type'));
 
 registerArgumentsSet('intl_format', \IntlDateFormatter::FULL, \IntlDateFormatter::LONG, \IntlDateFormatter::MEDIUM, \IntlDateFormatter::SHORT);
 expectedArguments(\Redaxo\Core\Util\Formatter::intlDateTime(), 1, argumentsSet('intl_format'));
@@ -44,7 +44,7 @@ expectedReturnValues(\Redaxo\Core\Translation\I18n::getLanguage(), 'de', 'en', '
 expectedArguments(\Redaxo\Core\Translation\I18n::msgInLocale(), 1, argumentsSet('locale'));
 expectedArguments(\Redaxo\Core\Translation\I18n::rawMsgInLocale(), 1, argumentsSet('locale'));
 
-expectedArguments(\rex_list::setColumnSortable(), 1, 'asc', 'desc');
+expectedArguments(\Redaxo\Core\View\DataList::setColumnSortable(), 1, 'asc', 'desc');
 
 expectedArguments(\Redaxo\Core\Security\Permission::register(), 2, \Redaxo\Core\Security\Permission::GENERAL, \Redaxo\Core\Security\Permission::OPTIONS, \Redaxo\Core\Security\Permission::EXTRAS);
 expectedArguments(\Redaxo\Core\Security\Permission::getAll(), 0, \Redaxo\Core\Security\Permission::GENERAL, \Redaxo\Core\Security\Permission::OPTIONS, \Redaxo\Core\Security\Permission::EXTRAS);
@@ -125,7 +125,7 @@ expectedArguments(\Redaxo\Core\Validator\Validator::add(), 0, 'notEmpty', 'type'
 expectedArguments(\rex_var::parse(), 1, \rex_var::ENV_BACKEND | \rex_var::ENV_FRONTEND | \rex_var::ENV_INPUT | \rex_var::ENV_OUTPUT);
 expectedArguments(\rex_var::environmentIs(), 0, \rex_var::ENV_BACKEND | \rex_var::ENV_FRONTEND | \rex_var::ENV_INPUT | \rex_var::ENV_OUTPUT);
 
-expectedArguments(\rex_view::addCssFile(), 1, 'all', 'print', 'screen', 'speech');
+expectedArguments(\Redaxo\Core\View\Asset::addCssFile(), 1, 'all', 'print', 'screen', 'speech');
 
 expectedArguments(\Symfony\Component\Console\Command\Command::addArgument(), 1, \Symfony\Component\Console\Input\InputArgument::REQUIRED, \Symfony\Component\Console\Input\InputArgument::OPTIONAL, \Symfony\Component\Console\Input\InputArgument::IS_ARRAY);
 

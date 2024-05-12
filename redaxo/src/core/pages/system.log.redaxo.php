@@ -11,6 +11,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 $error = '';
 $success = '';
@@ -38,11 +40,11 @@ if ($func && !$csrfToken->isValid()) {
 }
 
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
 }
 
 $content = '
@@ -131,11 +133,11 @@ if (is_file($logFile)) {
     $formElements[] = $n;
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('syslog_title', $logFile), false);
 $fragment->setVar('content', $content, false);
 $fragment->setVar('buttons', $buttons, false);
