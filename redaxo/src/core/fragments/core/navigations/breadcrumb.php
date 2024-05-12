@@ -6,11 +6,13 @@ use Redaxo\Core\View\Fragment;
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
+
 /*
     Vars
 
     "title" of items list will not be escaped, the caller is responsible todo so.
 */
+
 // --------------------- List Items
 $listItems = [];
 

@@ -11,6 +11,7 @@ use Redaxo\Core\View\Fragment;
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
+
 $isPopup = Controller::requireCurrentPageObject()->isPopup();
 $isLogin = ('login' === Controller::getCurrentPage());
 $isSetup = ('setup' === Controller::getCurrentPage());

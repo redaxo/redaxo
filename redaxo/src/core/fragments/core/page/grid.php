@@ -6,6 +6,8 @@ use Redaxo\Core\View\Fragment;
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
+?>
+<?php
 
 /** @var array<int, string> $contents */
 $contents = is_string($this->content) ? [$this->content] : $this->content;

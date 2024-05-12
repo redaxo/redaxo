@@ -6,6 +6,7 @@ use Redaxo\Core\View\Fragment;
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
+
 $sectionAttributes = [];
 if (isset($this->sectionAttributes)) {
     $sectionAttributes = $this->sectionAttributes;

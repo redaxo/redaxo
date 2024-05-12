@@ -7,6 +7,7 @@ use Redaxo\Core\View\Fragment;
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
+
 $id = '';
 $class = $this->getVar('class', 'input-group input-group-xs has-feedback form-clear-button');
 $clear = I18n::msg('search_clear');

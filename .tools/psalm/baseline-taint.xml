@@ -18,70 +18,12 @@
                 </script>']]></code>
     </TaintedTextWithQuotes>
   </file>
-  <file src="redaxo/src/core/fragments/core/buttons/button.php">
-    <TaintedHtml>
-      <code><![CDATA['<' . $tag . $href . Str::buildAttributes($button['attributes']) . '>' . $icon . $button['label'] . '</' . $tag . '>']]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA['<' . $tag . $href . Str::buildAttributes($button['attributes']) . '>' . $icon . $button['label'] . '</' . $tag . '>']]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/dropdowns/dropdown.php">
-    <TaintedHtml>
-      <code><![CDATA['<li' . ((isset($item['active']) && $item['active']) ? ' class="active"' : '') . (isset($item['attributes']) ? ' ' . trim($item['attributes']) : '') . '>']]></code>
-      <code><![CDATA[(isset($item['href']) && '' != $item['href']) ? '<a href="' . rex_escape($item['href']) . '">' . $item['title'] . '</a>' : $item['title']]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA['<li' . ((isset($item['active']) && $item['active']) ? ' class="active"' : '') . (isset($item['attributes']) ? ' ' . trim($item['attributes']) : '') . '>']]></code>
-      <code><![CDATA[(isset($item['href']) && '' != $item['href']) ? '<a href="' . rex_escape($item['href']) . '">' . $item['title'] . '</a>' : $item['title']]]></code>
-    </TaintedTextWithQuotes>
-  </file>
   <file src="redaxo/src/core/fragments/core/fe_ooops.php">
     <TaintedHtml>
       <code><![CDATA[$this->getVar('content', '')]]></code>
     </TaintedHtml>
     <TaintedTextWithQuotes>
       <code><![CDATA[$this->getVar('content', '')]]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/form/checkbox.php">
-    <TaintedHtml>
-      <code><![CDATA[$out]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$out]]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/form/container.php">
-    <TaintedHtml>
-      <code><![CDATA[$out]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$out]]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/form/form.php">
-    <TaintedHtml>
-      <code><![CDATA[$out]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$out]]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/form/input_group.php">
-    <TaintedHtml>
-      <code><![CDATA[$out]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$out]]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/form/radio.php">
-    <TaintedHtml>
-      <code><![CDATA[$out]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$out]]></code>
     </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/form/search.php">
@@ -100,54 +42,6 @@
 </search>']]></code>
     </TaintedTextWithQuotes>
   </file>
-  <file src="redaxo/src/core/fragments/core/form/submit.php">
-    <TaintedHtml>
-      <code><![CDATA[$out]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$out]]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/form/widget.php">
-    <TaintedHtml>
-      <code><![CDATA[$out]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$out]]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/form/widget_list.php">
-    <TaintedHtml>
-      <code><![CDATA[$out]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$out]]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/header.php">
-    <TaintedHtml>
-      <code><![CDATA[$this->meta_navigation]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$this->meta_navigation]]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/navigations/breadcrumb.php">
-    <TaintedHtml>
-      <code><![CDATA['<div' . ((isset($this->id) && '' != $this->id) ? ' id="' . $this->id . '"' : '') . ' class="rex-breadcrumb"><ol class="breadcrumb">' . implode('', $listItems) . '</ol></div>']]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA['<div' . ((isset($this->id) && '' != $this->id) ? ' id="' . $this->id . '"' : '') . ' class="rex-breadcrumb"><ol class="breadcrumb">' . implode('', $listItems) . '</ol></div>']]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/navigations/main.php">
-    <TaintedHtml>
-      <code><![CDATA[$icon . $item['title']]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$icon . $item['title']]]></code>
-    </TaintedTextWithQuotes>
-  </file>
   <file src="redaxo/src/core/fragments/core/page/docs.php">
     <TaintedHtml>
       <code><![CDATA[$this->getVar('content')]]></code>
@@ -160,28 +54,12 @@
       <code><![CDATA[$this->getVar('toc')]]></code>
     </TaintedTextWithQuotes>
   </file>
-  <file src="redaxo/src/core/fragments/core/page/header.php">
-    <TaintedHtml>
-      <code><![CDATA[$this->heading]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$this->heading]]></code>
-    </TaintedTextWithQuotes>
-  </file>
   <file src="redaxo/src/core/fragments/core/page/readme.php">
     <TaintedHtml>
       <code><![CDATA[$this->getVar('content')]]></code>
     </TaintedHtml>
     <TaintedTextWithQuotes>
       <code><![CDATA[$this->getVar('content')]]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/page/section.php">
-    <TaintedHtml>
-      <code><![CDATA[$this->buttons]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$this->buttons]]></code>
     </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/structure/history/layer.php">
@@ -196,24 +74,6 @@
       <code><![CDATA[$this->getVar('content1select')]]></code>
       <code><![CDATA[$this->getVar('content2iframe')]]></code>
       <code><![CDATA[$this->getVar('content2select')]]></code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/top.php">
-    <TaintedHtml>
-      <code><![CDATA["\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file . '" />']]></code>
-      <code><![CDATA["\n" . '    <script type="text/javascript" src="' . $file . '" ' . implode(' ', $attributes) . ' nonce="' . rex_response::getNonce() . '"></script>']]></code>
-      <code><![CDATA["\n" . '    var rex = ' . $this->jsProperties . ';']]></code>
-      <code><![CDATA[$this->bodyAttr]]></code>
-      <code><![CDATA[$this->pageHeader]]></code>
-      <code><![CDATA[$this->pageTitle]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA["\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file . '" />']]></code>
-      <code><![CDATA["\n" . '    <script type="text/javascript" src="' . $file . '" ' . implode(' ', $attributes) . ' nonce="' . rex_response::getNonce() . '"></script>']]></code>
-      <code><![CDATA["\n" . '    var rex = ' . $this->jsProperties . ';']]></code>
-      <code><![CDATA[$this->bodyAttr]]></code>
-      <code><![CDATA[$this->pageHeader]]></code>
-      <code><![CDATA[$this->pageTitle]]></code>
     </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/lib/response.php">

@@ -7,6 +7,7 @@ use Redaxo\Core\View\Fragment;
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
+
 if (!isset($this->buttons)) {
     $this->buttons['button'] = $this->button;
 }

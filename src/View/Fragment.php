@@ -40,7 +40,7 @@ class Fragment
     /**
      * another fragment which can optionaly be used to decorate the current fragment.
      *
-     * @var Fragment|null
+     * @var self|null
      */
     private $decorator;
 

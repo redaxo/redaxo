@@ -6,6 +6,7 @@ use Redaxo\Core\View\Fragment;
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
+
 $out = '';
 // Gruppierte Checkboxen werden nochmals via form/form.php geparsed
 // Bsp. Checkboxen in der Form

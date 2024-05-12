@@ -7,6 +7,7 @@ use Redaxo\Core\View\Fragment;
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
+
 /*
     Tabnavi  -> rex-navi-tab
     ->right = "text right from navi"
@@ -14,6 +15,7 @@ use Redaxo\Core\View\Fragment;
     ->navigaion_left = left navi objekts
     ->navigaion_right = left navi objekts
 */
+
 $navigationArrays = [];
 
 if (isset($this->left)) {

@@ -8,6 +8,7 @@ use Redaxo\Core\View\Fragment;
  * @var Fragment $this
  * @psalm-scope-this Fragment
  */
+
 $items = $this->items;
 
 // --------------------- List Items
