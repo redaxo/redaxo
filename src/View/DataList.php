@@ -100,7 +100,7 @@ class DataList implements rex_url_provider_interface
     private array $formAttributes;
 
     //  --------- Row Attributes
-    /** @var array<string, (string|int)>|callable(self):string */
+    /** @var array<string, string|int>|callable(self):string */
     private $rowAttributes;
 
     // --------- Column Attributes
@@ -402,7 +402,7 @@ class DataList implements rex_url_provider_interface
     /**
      * Methode, um der Zeile (<tr>) Attribute hinzuzufügen.
      *
-     * @param array<string, (string|int)>|callable(self):string $attr Entweder ein array: [attributname => attribut, ...]
+     * @param array<string, string|int>|callable(self):string $attr Entweder ein array: [attributname => attribut, ...]
      *                                                              oder eine Callback-Funktion
      */
     public function setRowAttributes(array|callable $attr): void
@@ -413,7 +413,7 @@ class DataList implements rex_url_provider_interface
     /**
      * Methode, um die Zeilen-Attribute (<tr>) abzufragen.
      *
-     * @return array<string, (string|int)>|callable(self):string Entweder ein array: [attributname => attribut, ...]
+     * @return array<string, string|int>|callable(self):string Entweder ein array: [attributname => attribut, ...]
      *                                                         oder eine Callback-Funktion
      */
     public function getRowAttributes()
