@@ -167,7 +167,7 @@ c', "a\nb\nc"],
 
     public function testRegister(): void
     {
-        rex_var::register('REX_3RD_TEST_VAR', rex_var_2nd_test_var::class);
+        RexVar::register('REX_TEST_VAR_C', RexVarTestVarB::class);
 
         $this->assertParseOutputEquals('2', 'REX_3RD_TEST_VAR[]');
     }

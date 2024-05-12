@@ -4729,9 +4729,6 @@
       <code><![CDATA[$params['suffix']]]></code>
       <code><![CDATA[$params['var']]]></code>
     </MixedArgument>
-    <UndefinedClass>
-      <code><![CDATA[rex_var]]></code>
-    </UndefinedClass>
   </file>
   <file src="tests/Security/PasswordPolicyTest.php">
     <MixedArgument>

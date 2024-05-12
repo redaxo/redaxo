@@ -1701,16 +1701,6 @@ parameters:
 			path: ../../tests/MediaPool/MediaPoolTest.php
 
 		-
-			message: "#^Call to static method register\\(\\) on an unknown class Redaxo\\\\Core\\\\Tests\\\\RexVar\\\\rex_var\\.$#"
-			count: 1
-			path: ../../tests/RexVar/RexVarTest.php
-
-		-
-			message: "#^Class Redaxo\\\\Core\\\\Tests\\\\RexVar\\\\rex_var_2nd_test_var not found\\.$#"
-			count: 1
-			path: ../../tests/RexVar/RexVarTest.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\RexVar\\\\RexVarTest\\:\\:varCallback\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../tests/RexVar/RexVarTest.php
