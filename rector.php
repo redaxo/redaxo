@@ -59,6 +59,7 @@ use Redaxo\Core\Mailer;
 use Redaxo\Core\MediaManager;
 use Redaxo\Core\MediaPool;
 use Redaxo\Core\MetaInfo;
+use Redaxo\Core\RexVar;
 use Redaxo\Core\Security;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
@@ -318,6 +319,18 @@ return RectorConfig::configure()
         'rex_url' => Filesystem\Url::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
+        'rex_var' => RexVar\RexVar::class,
+        'rex_var_article' => RexVar\ArticleVar::class,
+        'rex_var_category' => RexVar\CategoryVar::class,
+        'rex_var_clang' => RexVar\LanguageVar::class,
+        'rex_var_config' => RexVar\ConfigVar::class,
+        'rex_var_link' => RexVar\LinkVar::class,
+        'rex_var_linklist' => RexVar\LinkListVar::class,
+        'rex_var_media' => RexVar\MediaVar::class,
+        'rex_var_medialist' => RexVar\MediaListVar::class,
+        'rex_var_property' => RexVar\PropertyVar::class,
+        'rex_var_template' => RexVar\TemplateVar::class,
+        'rex_var_value' => RexVar\ValueVar::class,
         'rex_version' => Util\Version::class,
         'rex_article' => Content\Article::class,
         'rex_article_action' => Content\ArticleAction::class,

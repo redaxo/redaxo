@@ -1,13 +1,17 @@
 <?php
 
+namespace Redaxo\Core\RexVar;
+
+use Redaxo\Core\Language\Language;
+
 /**
- * REX_CLANG[id=x field=xzy].
+ * REX_LANGUAGE[id=x field=xzy].
  *
  * Arguments:
  *   - id
  *   - field
  */
-class rex_var_clang extends rex_var
+class LanguageVar extends RexVar
 {
     protected function getOutput()
     {
@@ -19,6 +23,6 @@ class rex_var_clang extends rex_var
         $id = $this->getParsedArg('id');
         $getMethod = $id ? 'get(' . $id . ')' : 'getCurrent()';
 
-        return 'htmlspecialchars(\\Redaxo\\Core\\Language\\Language::' . $getMethod . '->getValue(' . $field . '))';
+        return 'htmlspecialchars(\\' . Language::class . '::' . $getMethod . '->getValue(' . $field . '))';
     }
 }

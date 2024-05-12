@@ -122,8 +122,8 @@ override(
 
 expectedArguments(\Redaxo\Core\Validator\Validator::add(), 0, 'notEmpty', 'type', 'minLength', 'maxLength', 'min', 'max', 'url', 'email', 'match', 'notMatch', 'values', 'custom');
 
-expectedArguments(\rex_var::parse(), 1, \rex_var::ENV_BACKEND | \rex_var::ENV_FRONTEND | \rex_var::ENV_INPUT | \rex_var::ENV_OUTPUT);
-expectedArguments(\rex_var::environmentIs(), 0, \rex_var::ENV_BACKEND | \rex_var::ENV_FRONTEND | \rex_var::ENV_INPUT | \rex_var::ENV_OUTPUT);
+expectedArguments(\Redaxo\Core\RexVar\RexVar::parse(), 1, \Redaxo\Core\RexVar\RexVar::ENV_BACKEND | \Redaxo\Core\RexVar\RexVar::ENV_FRONTEND | \Redaxo\Core\RexVar\RexVar::ENV_INPUT | \Redaxo\Core\RexVar\RexVar::ENV_OUTPUT);
+expectedArguments(\Redaxo\Core\RexVar\RexVar::environmentIs(), 0, \Redaxo\Core\RexVar\RexVar::ENV_BACKEND | \Redaxo\Core\RexVar\RexVar::ENV_FRONTEND | \Redaxo\Core\RexVar\RexVar::ENV_INPUT | \Redaxo\Core\RexVar\RexVar::ENV_OUTPUT);
 
 expectedArguments(\Redaxo\Core\View\Asset::addCssFile(), 1, 'all', 'print', 'screen', 'speech');
 

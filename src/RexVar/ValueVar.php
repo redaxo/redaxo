@@ -1,9 +1,13 @@
 <?php
 
+namespace Redaxo\Core\RexVar;
+
+use function in_array;
+
 /**
  * REX_VALUE[1],.
  */
-class rex_var_value extends rex_var
+class ValueVar extends RexVar
 {
     protected function getOutput()
     {
