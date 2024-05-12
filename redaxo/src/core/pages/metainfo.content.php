@@ -11,6 +11,8 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\MetaInfo\Handler\ArticleHandler as MetaInfoArticleHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 assert(isset($ep) && $ep instanceof ExtensionPoint);
 
@@ -115,14 +117,14 @@ if (1 == $article->getRows()) {
         'label' => '<label for="rex-id-meta-article-name">' . I18n::msg('header_article_name') . '</label>',
         'field' => '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="' . htmlspecialchars(Article::get($articleId, $clang)->getName()) . '" />',
     ];
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $form = $fragment->parse('core/form/form.php') . $form;
 
     $content[] = '
               <div id="rex-page-sidebar-metainfo" data-pjax-container="#rex-page-sidebar-metainfo">
                 <form class="metainfo-sidebar" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data">
-                    ' . (rex_post('savemeta', 'boolean') ? rex_view::success(I18n::msg('minfo_metadata_saved')) : '') . '
+                    ' . (rex_post('savemeta', 'boolean') ? Message::success(I18n::msg('minfo_metadata_saved')) : '') . '
                     <fieldset>
                         <input type="hidden" name="save" value="1" />
                         <input type="hidden" name="ctype" value="' . $ctype . '" />
@@ -136,7 +138,7 @@ if (1 == $article->getRows()) {
 
 // ------------------
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> ' . I18n::msg('metadata'), false);
 $fragment->setVar('body', implode('', $content), false);
 $fragment->setVar('article_id', $params['article_id'], false);

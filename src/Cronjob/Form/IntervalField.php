@@ -6,7 +6,7 @@ use Generator;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
-use rex_fragment;
+use Redaxo\Core\View\Fragment;
 use rex_response;
 
 use function in_array;
@@ -119,7 +119,7 @@ class IntervalField extends BaseField
         $n['field'] = $this->formatField('months', I18n::msg('cronjob_interval_months_all'), $months());
         $elements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $elements, false);
         $element = $fragment->parse('core/form/form.php');
 
@@ -170,7 +170,7 @@ class IntervalField extends BaseField
             'field' => '<input type="checkbox" id="' . rex_escape($id) . '" name="' . rex_escape($name) . '" value="all"' . $checked . ' />',
         ];
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $elements, false);
         $fragment->setVar('grouped', true);
         $field .= $fragment->parse('core/form/checkbox.php');
@@ -189,7 +189,7 @@ class IntervalField extends BaseField
             ];
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $elements, false);
         $fragment->setVar('grouped', true);
         $fragment->setVar('inline', true);

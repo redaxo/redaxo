@@ -14,8 +14,8 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\View\Fragment;
 use rex_exception;
-use rex_fragment;
 use rex_functional_exception;
 use rex_yaml_parse_exception;
 use RuntimeException;
@@ -411,7 +411,7 @@ final class Addon implements AddonInterface
         }
         // add addon path for fragment loading
         if (is_readable($folder . 'fragments')) {
-            rex_fragment::addDirectory($folder . 'fragments' . DIRECTORY_SEPARATOR);
+            Fragment::addDirectory($folder . 'fragments' . DIRECTORY_SEPARATOR);
         }
     }
 

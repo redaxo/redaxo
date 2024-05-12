@@ -8,6 +8,9 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\MetaInfo\Form\MetaInfoForm;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\DataList;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 $content = '';
 
@@ -29,9 +32,9 @@ if ('delete' == $func) {
     $fieldId = rex_request('field_id', 'int', 0);
     if (0 != $fieldId) {
         if (rex_metainfo_delete_field($fieldId)) {
-            echo rex_view::success(I18n::msg('minfo_field_successfull_deleted'));
+            echo Message::success(I18n::msg('minfo_field_successfull_deleted'));
         } else {
-            echo rex_view::error(I18n::msg('minfo_field_error_deleted'));
+            echo Message::error(I18n::msg('minfo_field_error_deleted'));
         }
     }
     $func = '';
@@ -46,7 +49,7 @@ if ('' == $func) {
     $sql = Sql::factory();
     $likePrefix = $sql->escapeLikeWildcards($prefix);
 
-    $list = rex_list::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
+    $list = DataList::factory('SELECT id, name FROM ' . Core::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-metainfo"></i>';
@@ -77,7 +80,7 @@ if ('' == $func) {
 
     $content .= $list->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', $title);
 
     if (in_array($prefix, ['art_', 'med_'])) {
@@ -103,7 +106,7 @@ elseif ('edit' == $func || 'add' == $func) {
 
     $content .= $form->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $title);
     $fragment->setVar('body', $content, false);

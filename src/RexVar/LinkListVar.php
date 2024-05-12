@@ -7,7 +7,7 @@ use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
-use rex_fragment;
+use Redaxo\Core\View\Fragment;
 
 use function in_array;
 
@@ -99,7 +99,7 @@ class LinkListVar extends RexVar
                     <a href="#" class="btn btn-popup" onclick="' . $openFunc . 'return false;" title="' . I18n::msg('var_link_open') . '"' . $disabled . '><i class="rex-icon rex-icon-open-linkmap"></i></a>
                     <a href="#" class="btn btn-popup" onclick="' . $deleteFunc . 'return false;" title="' . I18n::msg('var_link_delete') . '"' . $disabled . '><i class="rex-icon rex-icon-delete-link"></i></a>';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', [$e], false);
 
         return $fragment->parse('core/form/widget_list.php');

@@ -6,6 +6,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Message;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -23,7 +24,7 @@ $csrf = CsrfToken::factory('mediapool');
 
 if ('add_file' == $mediaMethod) {
     if (!$csrf->isValid()) {
-        echo rex_view::error(I18n::msg('csrf_token_invalid'));
+        echo Message::error(I18n::msg('csrf_token_invalid'));
     } else {
         global $warning;
         if (rex_post('save', 'boolean') || rex_post('saveandexit', 'boolean')) {

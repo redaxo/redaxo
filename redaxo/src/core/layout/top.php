@@ -11,6 +11,8 @@ use Redaxo\Core\Security\ApiFunction\UserImpersonate;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Asset;
+use Redaxo\Core\View\Fragment;
 
 /**
  * Layout Kopf des Backends.
@@ -156,7 +158,7 @@ if ($user && $hasNavigation) {
 
     $navigation = '';
     foreach ($blocks as $block) {
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('headline', $block['headline'], false);
         $fragment->setVar('items', $block['navigation'], false);
         $navigation .= $fragment->parse('core/navigations/main.php');
@@ -202,7 +204,7 @@ if ('setup' == Controller::getCurrentPagePart(1)) {
         $navi[] = $n;
     }
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('headline', ['title' => 'Setup'], false);
     $fragment->setVar('items', $navi, false);
     $navigation = $fragment->parse('core/navigations/main.php');
@@ -210,21 +212,21 @@ if ('setup' == Controller::getCurrentPagePart(1)) {
 
 /* PJAX Footer Header ********************************************************** */
 if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('pageTitle', Controller::getPageTitle());
-    $fragment->setVar('cssFiles', rex_view::getCssFiles());
-    $fragment->setVar('jsFiles', rex_view::getJsFilesWithOptions());
-    $fragment->setVar('jsProperties', json_encode(rex_view::getJsProperties()), false);
-    $fragment->setVar('favicon', rex_view::getFavicon());
+    $fragment->setVar('cssFiles', Asset::getCssFiles());
+    $fragment->setVar('jsFiles', Asset::getJsFilesWithOptions());
+    $fragment->setVar('jsProperties', json_encode(Asset::getJsProperties()), false);
+    $fragment->setVar('favicon', Asset::getFavicon());
     $fragment->setVar('pageHeader', Extension::registerPoint(new ExtensionPoint('PAGE_HEADER', '')), false);
     $fragment->setVar('bodyAttr', $body, false);
     echo $fragment->parse('core/top.php');
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('items', $metaItems, false);
     $metaNavigation = $fragment->parse('core/navigations/meta.php');
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     // $fragment->setVar('pageHeader', Extension::registerPoint(new ExtensionPoint('PAGE_HEADER', '')), false);
     $fragment->setVar('meta_navigation', $metaNavigation, false);
     echo $fragment->parse('core/header.php');
@@ -232,7 +234,7 @@ if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
 
 echo '<div id="rex-js-page-container" class="rex-page-container">';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('navigation', $navigation, false);
 echo $fragment->parse('core/navigation.php');
 

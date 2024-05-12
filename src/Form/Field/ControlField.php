@@ -4,7 +4,7 @@ namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Form\AbstractForm;
 use Redaxo\Core\Translation\I18n;
-use rex_fragment;
+use Redaxo\Core\View\Fragment;
 
 use function count;
 use function is_object;
@@ -89,7 +89,7 @@ class ControlField extends BaseField
         }
 
         if (count($elements) > 0) {
-            $fragment = new rex_fragment();
+            $fragment = new Fragment();
             $fragment->setVar('elements', $elements, false);
             $s = $fragment->parse('core/form/submit.php');
         }

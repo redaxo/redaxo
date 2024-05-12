@@ -1,10 +1,11 @@
 <?php
 
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\View\Fragment;
 
 /**
- * @var rex_fragment $this
- * @psalm-scope-this rex_fragment
+ * @var Fragment $this
+ * @psalm-scope-this Fragment
  */
 
 if (!isset($this->buttons)) {

@@ -5,7 +5,7 @@ namespace Redaxo\Core\RexVar;
 use Redaxo\Core\Core;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\Translation\I18n;
-use rex_fragment;
+use Redaxo\Core\View\Fragment;
 
 use function in_array;
 
@@ -102,7 +102,7 @@ class MediaVar extends RexVar
                 <a href="#" class="btn btn-popup" onclick="' . $viewFunc . 'return false;" title="' . I18n::msg('var_media_view') . '"' . $disabled . '><i class="rex-icon rex-icon-view-media"></i></a>';
         $e['after'] = '<div class="rex-js-media-preview"></div></div>';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', [$e], false);
 
         return $fragment->parse('core/form/widget.php');

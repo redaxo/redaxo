@@ -8,6 +8,8 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Version;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 assert(isset($markdown) && is_callable($markdown));
 
@@ -23,10 +25,10 @@ try {
 
     $config = File::getCache(Path::addonData('install', 'config.json'), []);
     if (isset($config['api_login']) && $config['api_login'] && isset($config['api_key'])) {
-        echo rex_view::info($package->i18n('info_myredaxo'));
+        echo Message::info($package->i18n('info_myredaxo'));
     }
 } catch (rex_functional_exception $e) {
-    echo rex_view::warning($e->getMessage());
+    echo Message::warning($e->getMessage());
     $addonkey = '';
 }
 
@@ -65,7 +67,7 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
             </tbody>
         </table>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', '<b>' . rex_escape($addonkey) . '</b> ' . $package->i18n('information'), false);
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
@@ -115,14 +117,14 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
 
     $content .= '</tbody></table>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', $package->i18n('files'), false);
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
 } else {
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('id', 'rex-js-install-addon-search');
     $fragment->setVar('autofocus', true);
     $toolbar = $fragment->parse('core/form/search.php');
@@ -355,7 +357,7 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
         </script>
     ';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', $package->i18n('addons_found', count($addons)), false);
     $fragment->setVar('options', $toolbar, false);
     $fragment->setVar('content', $content, false);

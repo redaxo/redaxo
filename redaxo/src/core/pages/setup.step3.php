@@ -3,6 +3,8 @@
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\View;
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($errorArray) && is_array($errorArray));
@@ -10,7 +12,7 @@ assert(isset($config) && is_array($config));
 assert(isset($cancelSetupBtn));
 
 $configFile = Path::coreData('config.yml');
-$headline = rex_view::title(I18n::msg('setup_300', Path::relative($configFile)) . $cancelSetupBtn);
+$headline = View::title(I18n::msg('setup_300', Path::relative($configFile)) . $cancelSetupBtn);
 
 $content = '';
 
@@ -70,7 +72,7 @@ $n['label'] = '<label for="rex-form-timezone" class="required">' . I18n::msg('se
 $n['field'] = $timezoneSel->get();
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -102,7 +104,7 @@ $n['label'] = '<label for="rex-form-dbname" class="required">' . I18n::msg('setu
 $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" required />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -112,7 +114,7 @@ $n['label'] = '<label>' . I18n::msg('setup_311') . '</label>';
 $n['field'] = '<input type="checkbox" name="redaxo_db_create" value="1"' . $dbCreateChecked . ' />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/checkbox.php');
 
@@ -135,7 +137,7 @@ $n = [];
 $n['field'] = '<p>' . I18n::msg('hsts_more_information') . '</p>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -147,14 +149,14 @@ $n = [];
 $n['field'] = '<button class="btn btn-setup" type="submit" value="' . I18n::msg('system_update') . '">' . $submitMessage . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
 echo $headline;
 echo implode('', $errorArray);
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('setup_316'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);

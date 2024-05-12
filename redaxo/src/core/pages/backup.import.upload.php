@@ -6,6 +6,8 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 $success = '';
 $error = '';
@@ -106,10 +108,10 @@ if ($function && !$csrfToken->isValid()) {
     }
 }
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
 }
 
 $body = '<p>' . I18n::msg('backup_intro_import') . '</p>';
@@ -125,7 +127,7 @@ $body .= ' <hr><p>
                         </dl>
             </p>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', 'info');
 $fragment->setVar('title', I18n::msg('backup_note'), false);
 $fragment->setVar('body', $body, false);
@@ -141,7 +143,7 @@ $n['label'] = '<label for="rex-form-importdbfile">' . I18n::msg('backup_file') .
 $n['field'] = '<input type="file" id="rex-form-importdbfile" name="FORM[importfile]" size="18" />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -150,13 +152,13 @@ $n = [];
 $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" value="' . I18n::msg('backup_to_import') . '"><i class="rex-icon rex-icon-import"></i> ' . I18n::msg('backup_to_import') . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
 $content .= '</fieldset>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('backup_export_db_caption'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
@@ -181,7 +183,7 @@ $n['label'] = '<label for="rex-form-importtarfile">' . I18n::msg('backup_file') 
 $n['field'] = '<input type="file" id="rex-form-importtarfile" name="FORM[importfile]" size="18" />';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
@@ -191,14 +193,14 @@ $n = [];
 $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" value="' . I18n::msg('backup_to_import') . '"><i class="rex-icon rex-icon-import"></i> ' . I18n::msg('backup_to_import') . '</button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
 $content .= '</fieldset>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('backup_export_file_caption'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);

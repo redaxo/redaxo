@@ -2,7 +2,8 @@
 
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\View;
 
-echo rex_view::title(I18n::msg('modules'));
+echo View::title(I18n::msg('modules'));
 
 Controller::includeCurrentPageSubPath();

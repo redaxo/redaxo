@@ -1,7 +1,9 @@
 <?php
+use Redaxo\Core\View\Fragment;
+
 /**
- * @var rex_fragment $this
- * @psalm-scope-this rex_fragment
+ * @var Fragment $this
+ * @psalm-scope-this Fragment
  */
 
 $target = 'rex-js-collapse-' . random_int(100, 999) . random_int(100, 999);

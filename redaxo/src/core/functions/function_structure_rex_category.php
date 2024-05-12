@@ -4,6 +4,7 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 
 /**
  * Regelt die Rechte an den einzelnen Kategorien und gibt den Pfad aus
@@ -45,7 +46,7 @@ if ($object) {
 
 $title = '<a class="rex-link-expanded" href="' . Url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . I18n::msg('root_level') . '</a>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('id', 'rex-js-structure-breadcrumb', false);
 $fragment->setVar('title', $title, false);
 $fragment->setVar('items', $navigation, false);

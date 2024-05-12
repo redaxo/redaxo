@@ -13,6 +13,7 @@ use Redaxo\Core\Form\Select\CategorySelect;
 use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($ctype) && is_int($ctype));
@@ -47,7 +48,7 @@ if ($user->hasPerm('article2startarticle[]')) {
         $n['field'] = '<p class="form-control-static">' . I18n::msg('content_nottostartarticle') . '</p>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
     } elseif ($isStartpage) {
@@ -58,7 +59,7 @@ if ($user->hasPerm('article2startarticle[]')) {
         $n['field'] = '<p class="form-control-static">' . I18n::msg('content_isstartarticle') . '</p>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
     } else {
@@ -67,7 +68,7 @@ if ($user->hasPerm('article2startarticle[]')) {
         $n['field'] = '<p class="form-control-static">' . I18n::msg('content_tostartarticle') . '</p>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
 
@@ -76,14 +77,14 @@ if ($user->hasPerm('article2startarticle[]')) {
         $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article2startarticle" value="1" data-confirm="' . I18n::msg('content_tostartarticle') . '?" ' . $onclickApiFields(ArticleToStartArticle::getHiddenFields()) . '>' . I18n::msg('content_tostartarticle') . '</button>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
     }
 
     $panel .= '</fieldset>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', $panelClass);
     $fragment->setVar('title', I18n::msg('content_startarticle'), false);
     $fragment->setVar('body', $panel, false);
@@ -102,7 +103,7 @@ if (!$isStartpage && $user->hasPerm('article2category[]')) {
     $n['field'] = '<p class="form-control-static">' . I18n::msg('content_tocategory') . '</p>';
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
@@ -113,11 +114,11 @@ if (!$isStartpage && $user->hasPerm('article2category[]')) {
     $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article2category" value="1" data-confirm="' . I18n::msg('content_tocategory') . '?" ' . $onclickApiFields(ArticleToCategory::getHiddenFields()) . '>' . I18n::msg('content_tocategory') . '</button>';
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $buttons = $fragment->parse('core/form/submit.php');
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('content_category'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
@@ -143,7 +144,7 @@ if ($isStartpage && $user->hasPerm('article2category[]') && $user->getComplexPer
         $n['field'] = '<p class="form-control-static">' . I18n::msg('content_nottoarticle') . '</p>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
     } else {
@@ -152,7 +153,7 @@ if ($isStartpage && $user->hasPerm('article2category[]') && $user->getComplexPer
         $n['field'] = '<p class="form-control-static">' . I18n::msg('content_toarticle') . '</p>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
 
@@ -161,14 +162,14 @@ if ($isStartpage && $user->hasPerm('article2category[]') && $user->getComplexPer
         $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="category2article" value="1" data-confirm="' . I18n::msg('content_toarticle') . '?" ' . $onclickApiFields(CategoryToArticle::getHiddenFields()) . '>' . I18n::msg('content_toarticle') . '</button>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
     }
 
     $panel .= '</fieldset>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', $panelClass);
     $fragment->setVar('title', I18n::msg('content_article'), false);
     $fragment->setVar('body', $panel, false);
@@ -214,7 +215,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $n['field'] = $langA->get();
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('group', true);
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
@@ -225,7 +226,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $n['field'] = $langB->get();
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('group', true);
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
@@ -237,11 +238,11 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="content_copy" value="1" data-confirm="' . I18n::msg('content_submitcopycontent') . '?" ' . $onclickApiFields(ContentCopy::getHiddenFields()) . '>' . I18n::msg('content_submitcopycontent') . '</button>';
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $buttons = $fragment->parse('core/form/submit.php');
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('content_submitcopycontent'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
@@ -268,7 +269,7 @@ if (!$isStartpage && $user->hasPerm('moveArticle[]')) {
     $n['field'] = $moveA->get();
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
@@ -279,11 +280,11 @@ if (!$isStartpage && $user->hasPerm('moveArticle[]')) {
     $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article_move" value="1" data-confirm="' . I18n::msg('content_submitmovearticle') . '?" ' . $onclickApiFields(ArticleMove::getHiddenFields()) . '>' . I18n::msg('content_submitmovearticle') . '</button>';
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $buttons = $fragment->parse('core/form/submit.php');
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('content_submitmovearticle'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
@@ -309,7 +310,7 @@ if ($user->hasPerm('copyArticle[]')) {
     $n['field'] = $moveA->get();
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $panel = $fragment->parse('core/form/form.php');
 
@@ -320,11 +321,11 @@ if ($user->hasPerm('copyArticle[]')) {
     $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article_copy" value="1" data-confirm="' . I18n::msg('content_submitcopyarticle') . '?" ' . $onclickApiFields(ArticleCopy::getHiddenFields()) . '>' . I18n::msg('content_submitcopyarticle') . '</button>';
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $buttons = $fragment->parse('core/form/submit.php');
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('content_submitcopyarticle'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
@@ -350,7 +351,7 @@ if ($isStartpage && $user->hasPerm('moveCategory[]') && $user->getComplexPerm('s
     $n['field'] = $moveA->get();
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
@@ -361,11 +362,11 @@ if ($isStartpage && $user->hasPerm('moveCategory[]') && $user->getComplexPerm('s
     $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="category_move" value="1" data-confirm="' . I18n::msg('content_submitmovecategory') . '?" ' . $onclickApiFields(CategoryMove::getHiddenFields()) . '>' . I18n::msg('content_submitmovecategory') . '</button>';
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $buttons = $fragment->parse('core/form/submit.php');
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('content_submitmovecategory'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);

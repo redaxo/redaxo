@@ -1,5 +1,8 @@
 <?php
 
+namespace Redaxo\Core\View;
+
+use InvalidArgumentException;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
@@ -11,6 +14,14 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Str;
+use rex_url_provider_interface;
+
+use function count;
+use function define;
+use function in_array;
+use function is_array;
+use function is_callable;
+use function is_string;
 
 // Nötige Konstanten
 define('REX_LIST_OPT_SORT', 0);
@@ -19,7 +30,7 @@ define('REX_LIST_OPT_SORT_DIRECTION', 1);
 /*
 EXAMPLE:
 
-$list = rex_list::factory('SELECT id,name FROM rex_article');
+$list = List::factory('SELECT id,name FROM rex_article');
 $list->setColumnFormat('id', 'date');
 $list->setColumnLabel('name', 'Artikel-Name');
 $list->setColumnSortable('name');
@@ -41,18 +52,20 @@ function callback_func($params)
 }
 
 // USING setColumnFormat() BY CALLING A FUNCTION
-$list->setColumnFormat('id',                                     // field name
-                                             'custom',                                 // format type
-                                             'callback_func',                          // callback function name
-                                                array('foo' => 'bar', '123' => '456')    // optional params for callback function
+$list->setColumnFormat(
+    'id',                                    // field name
+    'custom',                                // format type
+    'callback_func',                         // callback function name
+    array('foo' => 'bar', '123' => '456')    // optional params for callback function
 );
 
 // USING setColumnFormat() BY CALLING CLASS & METHOD
-$list->setColumnFormat('id',                                     // field name
-                                             'custom',                                 // format type
-                                                array('CLASS','METHOD'),                 // callback class/method name
-                                                array('foo' => 'bar', '123' => '456')    // optional params for callback function
-                                             );
+$list->setColumnFormat(
+    'id',                                    // field name
+    'custom',                                // format type
+    array('CLASS','METHOD'),                 // callback class/method name
+    array('foo' => 'bar', '123' => '456')    // optional params for callback function
+);
 */
 
 /**
@@ -60,7 +73,7 @@ $list->setColumnFormat('id',                                     // field name
  *
  * @psalm-consistent-constructor
  */
-class rex_list implements rex_url_provider_interface
+class DataList implements rex_url_provider_interface
 {
     use FactoryTrait;
 
@@ -386,7 +399,6 @@ class rex_list implements rex_url_provider_interface
     }
 
     // row attribute setter/getter
-
     /**
      * Methode, um der Zeile (<tr>) Attribute hinzuzufügen.
      *
@@ -1042,7 +1054,7 @@ class rex_list implements rex_url_provider_interface
             return '';
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('urlprovider', $this);
         $fragment->setVar('pager', $this->pager);
         return $fragment->parse('core/navigations/pagination.php');
@@ -1255,9 +1267,9 @@ class rex_list implements rex_url_provider_interface
         $footer = $this->getFooter();
 
         if ('' != $warning) {
-            $s .= rex_view::warning($warning) . "\n";
+            $s .= Message::warning($warning) . "\n";
         } elseif ('' != $message) {
-            $s .= rex_view::info($message) . "\n";
+            $s .= Message::info($message) . "\n";
         }
 
         if ('' != $header) {
