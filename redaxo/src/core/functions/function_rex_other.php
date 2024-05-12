@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Content\StructureElement;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
@@ -36,7 +38,7 @@ function rex_delete_cache()
     }
 
     // ----- EXTENSION POINT
-    return rex_extension::registerPoint(new rex_extension_point('CACHE_DELETED', I18n::msg('delete_cache_message')));
+    return Extension::registerPoint(new ExtensionPoint('CACHE_DELETED', I18n::msg('delete_cache_message')));
 }
 
 /**

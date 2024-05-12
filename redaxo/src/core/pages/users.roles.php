@@ -3,6 +3,8 @@
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\PermissionSelectField;
 use Redaxo\Core\Form\Field\SelectField;
@@ -120,7 +122,7 @@ if ('' == $func) {
         $select->addArrayOptions($perms);
     }
 
-    rex_extension::register('REX_FORM_INPUT_CLASS', static function (rex_extension_point $ep) {
+    Extension::register('REX_FORM_INPUT_CLASS', static function (ExtensionPoint $ep) {
         return 'perm_select' == $ep->getParam('inputType') ? PermissionSelectField::class : null;
     });
 

@@ -6,6 +6,8 @@ use BadMethodCallException;
 use InvalidArgumentException;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\ArticleField;
 use Redaxo\Core\Form\Field\BaseField;
@@ -20,8 +22,6 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use rex_exception;
-use rex_extension;
-use rex_extension_point;
 use rex_view;
 
 use function array_key_exists;
@@ -620,7 +620,7 @@ abstract class AbstractForm
     public static function getInputClassName($inputType)
     {
         // ----- EXTENSION POINT
-        $className = rex_extension::registerPoint(new rex_extension_point('REX_FORM_INPUT_CLASS', '', ['inputType' => $inputType]));
+        $className = Extension::registerPoint(new ExtensionPoint('REX_FORM_INPUT_CLASS', '', ['inputType' => $inputType]));
 
         if ($className) {
             return $className;
@@ -648,7 +648,7 @@ abstract class AbstractForm
     public static function getInputTagName($inputType)
     {
         // ----- EXTENSION POINT
-        $inputTag = rex_extension::registerPoint(new rex_extension_point('REX_FORM_INPUT_TAG', '', ['inputType' => $inputType]));
+        $inputTag = Extension::registerPoint(new ExtensionPoint('REX_FORM_INPUT_TAG', '', ['inputType' => $inputType]));
 
         if ($inputTag) {
             return $inputTag;
@@ -681,7 +681,7 @@ abstract class AbstractForm
         // ----- EXTENSION POINT
         /** @var array<string, scalar> $inputAttr */
         $inputAttr = [];
-        $inputAttr = rex_extension::registerPoint(new rex_extension_point('REX_FORM_INPUT_ATTRIBUTES', $inputAttr, ['inputType' => $inputType]));
+        $inputAttr = Extension::registerPoint(new ExtensionPoint('REX_FORM_INPUT_ATTRIBUTES', $inputAttr, ['inputType' => $inputType]));
 
         if ($inputAttr) {
             return $inputAttr;
@@ -1134,7 +1134,7 @@ abstract class AbstractForm
     {
         $this->init();
 
-        rex_extension::registerPoint(new rex_extension_point('REX_FORM_GET', $this, [], true));
+        Extension::registerPoint(new ExtensionPoint('REX_FORM_GET', $this, [], true));
 
         if (!$this->applyUrl) {
             $this->setApplyUrl($this->getUrl(['func' => '']));

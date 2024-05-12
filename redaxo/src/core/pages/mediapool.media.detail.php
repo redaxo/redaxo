@@ -3,6 +3,8 @@
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
@@ -99,7 +101,7 @@ if (rex_post('btn_update', 'string')) {
                 MediaHandler::updateMedia($filename, $data);
 
                 if ($gf->getValue('category_id') != $rexFileCategory) {
-                    rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
+                    Extension::registerPoint(new ExtensionPoint('MEDIA_MOVED', null, [
                         'filename' => $filename,
                         'category_id' => $rexFileCategory,
                     ]));
@@ -202,7 +204,7 @@ if ('' != $openerLink) {
 }
 
 // ----- EXTENSION POINT
-$sidebar = rex_extension::registerPoint(new rex_extension_point('MEDIA_DETAIL_SIDEBAR', $sidebar, [
+$sidebar = Extension::registerPoint(new ExtensionPoint('MEDIA_DETAIL_SIDEBAR', $sidebar, [
     'id' => $fileId,
     'filename' => $fname,
     'media' => $gf,
@@ -241,7 +243,7 @@ if ($TPERM) {
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
-    $panel .= rex_extension::registerPoint(new rex_extension_point('MEDIA_FORM_EDIT', '', ['id' => $fileId, 'media' => $gf]));
+    $panel .= Extension::registerPoint(new ExtensionPoint('MEDIA_FORM_EDIT', '', ['id' => $fileId, 'media' => $gf]));
 
     $panel .= $addExtInfo;
 

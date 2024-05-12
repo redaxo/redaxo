@@ -2,6 +2,8 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Util\Timer;
 
 /**
@@ -32,4 +34,4 @@ Timer::measure('packages_boot', static function () use ($packageOrder) {
 });
 
 // ----- all addons configs included
-rex_extension::registerPoint(new rex_extension_point('PACKAGES_INCLUDED'));
+Extension::registerPoint(new ExtensionPoint('PACKAGES_INCLUDED'));

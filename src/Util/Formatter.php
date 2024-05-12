@@ -478,7 +478,7 @@ abstract class Formatter
         }
 
         if (str_starts_with($value, '0000-00-00')) {
-            trigger_error(sprintf('%s: "%s" is not a valid dateime string.', __METHOD__, $value), E_USER_WARNING);
+            trigger_error(sprintf('%s: "%s" is not a valid datetime string.', __METHOD__, $value), E_USER_WARNING);
 
             return null;
         }

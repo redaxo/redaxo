@@ -6,8 +6,8 @@ use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use rex_extension;
-use rex_extension_point;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 /**
  * @internal
@@ -20,7 +20,7 @@ class CategoryHandler extends AbstractHandler
     /**
      * @return string
      */
-    public function renderToggleButton(rex_extension_point $ep)
+    public function renderToggleButton(ExtensionPoint $ep)
     {
         $restrictionsCondition = $this->buildFilterCondition($ep->getParams());
 
@@ -94,7 +94,7 @@ class CategoryHandler extends AbstractHandler
         return $field;
     }
 
-    public function extendForm(rex_extension_point $ep)
+    public function extendForm(ExtensionPoint $ep)
     {
         $params = $ep->getParams();
         if (isset($params['category'])) {
@@ -124,10 +124,10 @@ class CategoryHandler extends AbstractHandler
 
 $categoryHandler = new CategoryHandler();
 
-rex_extension::register('CAT_FORM_ADD', $categoryHandler->extendForm(...));
-rex_extension::register('CAT_FORM_EDIT', $categoryHandler->extendForm(...));
+Extension::register('CAT_FORM_ADD', $categoryHandler->extendForm(...));
+Extension::register('CAT_FORM_EDIT', $categoryHandler->extendForm(...));
 
-rex_extension::register('CAT_ADDED', $categoryHandler->extendForm(...), rex_extension::EARLY);
-rex_extension::register('CAT_UPDATED', $categoryHandler->extendForm(...), rex_extension::EARLY);
+Extension::register('CAT_ADDED', $categoryHandler->extendForm(...), Extension::EARLY);
+Extension::register('CAT_UPDATED', $categoryHandler->extendForm(...), Extension::EARLY);
 
-rex_extension::register('CAT_FORM_BUTTONS', $categoryHandler->renderToggleButton(...));
+Extension::register('CAT_FORM_BUTTONS', $categoryHandler->renderToggleButton(...));

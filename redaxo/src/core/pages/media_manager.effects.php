@@ -3,6 +3,8 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
@@ -279,7 +281,7 @@ if ('' == $func) {
         $form->addParam('effect_id', $effectId);
     }
 
-    rex_extension::register('REX_FORM_SAVED', static function (rex_extension_point $ep) use ($form, $typeId) {
+    Extension::register('REX_FORM_SAVED', static function (ExtensionPoint $ep) use ($form, $typeId) {
         if ($form !== $ep->getParam('form')) {
             return;
         }

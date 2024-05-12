@@ -3,6 +3,8 @@
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
@@ -107,7 +109,7 @@ if ($update && !$error) {
     $updateuser->update();
     User::clearInstance($userId);
 
-    rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
+    Extension::registerPoint(new ExtensionPoint('PROFILE_UPDATED', '', [
         'user_id' => $userId,
         'user' => User::require($userId),
     ], true));
@@ -170,7 +172,7 @@ if (rex_post('upd_psw_button', 'bool')) {
         }
         $login->changedPassword($userpswNew1);
 
-        rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
+        Extension::registerPoint(new ExtensionPoint('PASSWORD_UPDATED', '', [
             'user_id' => $userId,
             'user' => User::require($userId),
             'password' => $userpswNew2,

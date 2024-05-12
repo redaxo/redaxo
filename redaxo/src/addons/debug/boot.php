@@ -4,9 +4,11 @@ use Clockwork\Clockwork;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Console\ExtensionPoint\ConsoleShutdown;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
@@ -75,7 +77,7 @@ if (Core::isBackend() && 'debug' === Request::get('page') && Core::getUser()?->i
 }
 
 Sql::setFactoryClass(rex_sql_debug::class);
-rex_extension::setFactoryClass(rex_extension_debug::class);
+Extension::setFactoryClass(rex_extension_debug::class);
 
 Logger::setFactoryClass(rex_logger_debug::class);
 ApiFunction::setFactoryClass(rex_api_function_debug::class);
@@ -131,7 +133,7 @@ $shutdownFn = static function () {
 };
 
 if ('cli' === PHP_SAPI) {
-    rex_extension::register(rex_extension_point_console_shutdown::NAME, static function (rex_extension_point_console_shutdown $extensionPoint) use ($shutdownFn) {
+    Extension::register(ConsoleShutdown::NAME, static function (ConsoleShutdown $extensionPoint) use ($shutdownFn) {
         $shutdownFn();
 
         $command = $extensionPoint->getCommand();

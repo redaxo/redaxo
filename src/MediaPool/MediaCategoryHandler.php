@@ -4,9 +4,9 @@ namespace Redaxo\Core\MediaPool;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Translation\I18n;
-use rex_extension;
-use rex_extension_point;
 use rex_functional_exception;
 
 class MediaCategoryHandler
@@ -40,7 +40,7 @@ class MediaCategoryHandler
 
         MediaPoolCache::deleteCategoryList($parentId);
 
-        rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_ADDED', [
+        Extension::registerPoint(new ExtensionPoint('MEDIA_CATEGORY_ADDED', [
             'id' => $db->getLastId(),
             'parent_id' => $parentId,
             'name' => $name,
@@ -76,7 +76,7 @@ class MediaCategoryHandler
             throw new rex_functional_exception(I18n::msg('pool_kat_not_deleted'));
         }
 
-        rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_DELETED', ['id' => $categoryId]));
+        Extension::registerPoint(new ExtensionPoint('MEDIA_CATEGORY_DELETED', ['id' => $categoryId]));
 
         return I18n::msg('pool_kat_deleted');
     }
@@ -89,7 +89,7 @@ class MediaCategoryHandler
     public static function categoryIsInUse($categoryId)
     {
         // ----- EXTENSION POINT
-        $warning = rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_IS_IN_USE', [], [
+        $warning = Extension::registerPoint(new ExtensionPoint('MEDIA_CATEGORY_IS_IN_USE', [], [
             'id' => $categoryId,
         ]));
 
@@ -120,7 +120,7 @@ class MediaCategoryHandler
 
         MediaPoolCache::deleteCategory($categoryId);
 
-        rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_UPDATED', [
+        Extension::registerPoint(new ExtensionPoint('MEDIA_CATEGORY_UPDATED', [
             'id' => $categoryId,
             'name' => $catName,
         ]));

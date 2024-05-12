@@ -4,6 +4,8 @@ use Redaxo\Core\Content\Template;
 use Redaxo\Core\Content\TemplateCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\CategorySelect;
 use Redaxo\Core\Form\Select\Select;
@@ -56,7 +58,7 @@ if ('delete' == $function) {
             $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'template WHERE id = "' . $templateId . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
             TemplateCache::delete($templateId);
             $success = I18n::msg('template_deleted');
-            $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
+            $success = Extension::registerPoint(new ExtensionPoint('TEMPLATE_DELETED', $success, [
                 'id' => $templateId,
             ]));
         }
@@ -141,7 +143,7 @@ if ('add' == $function || 'edit' == $function) {
                 $templateId = $TPL->getLastId();
                 TemplateCache::delete($templateId);
                 $success = I18n::msg('template_added');
-                $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_ADDED', $success, [
+                $success = Extension::registerPoint(new ExtensionPoint('TEMPLATE_ADDED', $success, [
                     'id' => $templateId,
                     'key' => $templatekey,
                     'name' => $templatename,
@@ -178,7 +180,7 @@ if ('add' == $function || 'edit' == $function) {
                     $TPL->update();
                     TemplateCache::delete($templateId);
                     $success = I18n::msg('template_updated');
-                    $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
+                    $success = Extension::registerPoint(new ExtensionPoint('TEMPLATE_UPDATED', $success, [
                         'id' => $templateId,
                         'key' => $templatekey,
                         'name' => $templatename,

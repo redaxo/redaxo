@@ -9,6 +9,8 @@ use Redaxo\Core\Content\ArticleSliceHistory;
 use Redaxo\Core\Content\HistoryLogin;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Response;
@@ -25,7 +27,7 @@ if (Core::isDebugMode()) {
 }
 
 if (0 != Core::getConfig('phpmailer_errormail')) {
-    rex_extension::register('RESPONSE_SHUTDOWN', static function () {
+    Extension::register('RESPONSE_SHUTDOWN', static function () {
         Mailer::errorMail();
     });
 }
@@ -39,9 +41,9 @@ $content = ob_get_clean();
 // trigger api functions. the api function is responsible for checking permissions.
 ApiFunction::handleCall();
 
-if (rex_extension::isRegistered('FE_OUTPUT')) {
+if (Extension::isRegistered('FE_OUTPUT')) {
     // ----- EXTENSION POINT
-    rex_extension::registerPoint(new rex_extension_point('FE_OUTPUT', $content));
+    Extension::registerPoint(new ExtensionPoint('FE_OUTPUT', $content));
 
     return;
 }
@@ -64,7 +66,7 @@ if (Core::getConfig('article_history', false)) {
                 if ($login->checkTempSession($historyLogin, $historySession, $historyValidtime)) {
                     $user = $login->getUser();
                     Core::setProperty('user', $user);
-                    rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) use ($login) {
+                    Extension::register('OUTPUT_FILTER', static function (ExtensionPoint $ep) use ($login) {
                         $login->deleteSession();
                     });
                 }
@@ -81,7 +83,7 @@ if (Core::getConfig('article_history', false)) {
             throw new rex_http_exception(new rex_exception('no permission for the slice version'), Response::HTTP_FORBIDDEN);
         }
 
-        rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
+        Extension::register('ART_INIT', static function (ExtensionPoint $ep) {
             $article = $ep->getParam('article');
             if ($article instanceof ArticleContent) {
                 $article->getContentAsQuery();
@@ -89,7 +91,7 @@ if (Core::getConfig('article_history', false)) {
             $article->setEval(true);
         });
 
-        rex_extension::register('ART_SLICES_QUERY', static function (rex_extension_point $ep) {
+        Extension::register('ART_SLICES_QUERY', static function (ExtensionPoint $ep) {
             $historyDate = rex_request('rex_history_date', 'string');
             $article = $ep->getParam('article');
 
@@ -125,7 +127,7 @@ if (Core::getConfig('article_history', false)) {
 }
 
 if (Core::getConfig('article_work_version', false)) {
-    rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
+    Extension::register('ART_INIT', static function (ExtensionPoint $ep) {
         $version = rex_request('rex_version', 'int');
         if (ArticleRevision::WORK != $version) {
             return;

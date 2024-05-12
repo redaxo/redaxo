@@ -2,10 +2,10 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use rex_exception;
-use rex_extension;
-use rex_extension_point;
 
 use function assert;
 use function is_string;
@@ -137,7 +137,7 @@ class ArticleContent extends ArticleContentBase
             $CONTENT = parent::getArticle($curctype);
         }
 
-        return rex_extension::registerPoint(new rex_extension_point('ART_CONTENT', $CONTENT, [
+        return Extension::registerPoint(new ExtensionPoint('ART_CONTENT', $CONTENT, [
             'ctype' => $curctype,
             'article' => $this,
         ]));

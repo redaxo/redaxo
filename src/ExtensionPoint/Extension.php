@@ -1,12 +1,23 @@
 <?php
 
+namespace Redaxo\Core\ExtensionPoint;
+
+use InvalidArgumentException;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Util\Timer;
+
+use function call_user_func;
+use function in_array;
+use function is_array;
+use function is_int;
+use function is_string;
+
+use const E_USER_WARNING;
 
 /**
  * Klasse die Einsprungpunkte zur Erweiterung der Kernfunktionalitaet bietet.
  */
-abstract class rex_extension
+abstract class Extension
 {
     use FactoryTrait;
 
@@ -25,12 +36,12 @@ abstract class rex_extension
      * Registers an extension point.
      *
      * @template T
-     * @param rex_extension_point<T> $extensionPoint Extension point
+     * @param ExtensionPoint<T> $extensionPoint Extension point
      * @return T Subject, maybe adjusted by the extensions
      *
      * @psalm-taint-specialize
      */
-    public static function registerPoint(rex_extension_point $extensionPoint)
+    public static function registerPoint(ExtensionPoint $extensionPoint)
     {
         if ($factoryClass = static::getExplicitFactoryClass()) {
             return $factoryClass::registerPoint($extensionPoint);
@@ -67,10 +78,10 @@ abstract class rex_extension
     /**
      * Registers an extension for an extension point.
      *
-     * @template T as rex_extension_point
+     * @template T as ExtensionPoint
      * @param string|list<string> $extensionPoint Name(s) of extension point(s)
      * @param callable(T):mixed $extension Callback extension
-     * @param self::* $level Runlevel (`rex_extension::EARLY`, `rex_extension::NORMAL` or `rex_extension::LATE`)
+     * @param self::* $level Runlevel (`Extension::EARLY`, `Extension::NORMAL` or `Extension::LATE`)
      * @param array<string, mixed> $params Additional params
      * @return void
      */

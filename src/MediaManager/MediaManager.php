@@ -4,6 +4,8 @@ namespace Redaxo\Core\MediaManager;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
@@ -12,8 +14,6 @@ use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
-use rex_extension;
-use rex_extension_point;
 use rex_media;
 use rex_media_manager_not_found_exception;
 
@@ -114,7 +114,7 @@ class MediaManager
 
         if (!$this->isCached()) {
             $set = $this->effectsFromType($type);
-            $set = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
+            $set = Extension::registerPoint(new ExtensionPoint('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
 
             if (0 == count($set)) {
                 $this->useCache = false;
@@ -364,7 +364,7 @@ class MediaManager
      */
     public function sendMedia()
     {
-        rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_BEFORE_SEND', $this, []));
+        Extension::registerPoint(new ExtensionPoint('MEDIA_MANAGER_BEFORE_SEND', $this, []));
 
         Response::cleanOutputBuffers();
 
@@ -407,7 +407,7 @@ class MediaManager
             $this->media->sendMedia($CacheFilename, $headerCacheFilename, $this->useCache);
         }
 
-        rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_AFTER_SEND', $this, []));
+        Extension::registerPoint(new ExtensionPoint('MEDIA_MANAGER_AFTER_SEND', $this, []));
 
         exit;
     }
@@ -479,7 +479,7 @@ class MediaManager
      * Checks if media is used by this addon.
      * @return list<string> Warning message as array
      */
-    public static function mediaIsInUse(rex_extension_point $ep)
+    public static function mediaIsInUse(ExtensionPoint $ep)
     {
         /** @var list<string> $warning */
         $warning = $ep->getSubject();
@@ -508,7 +508,7 @@ class MediaManager
     /**
      * @return void
      */
-    public static function mediaUpdated(rex_extension_point $ep)
+    public static function mediaUpdated(ExtensionPoint $ep)
     {
         self::deleteCache((string) $ep->getParam('filename'));
     }
@@ -585,7 +585,7 @@ class MediaManager
 
         $url = Url::frontendController($params);
 
-        return rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_URL', $url, [
+        return Extension::registerPoint(new ExtensionPoint('MEDIA_MANAGER_URL', $url, [
             'type' => $type,
             'file' => $file,
             'buster' => $params['buster'] ?? null,

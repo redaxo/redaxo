@@ -5,6 +5,8 @@ namespace Redaxo\Core\MetaInfo\Form;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\Select\CategorySelect;
 use Redaxo\Core\Form\Select\MediaCategorySelect;
@@ -21,8 +23,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
 use rex_exception;
-use rex_extension;
-use rex_extension_point;
 
 use function assert;
 use function strlen;
@@ -52,7 +52,7 @@ class MetaInfoForm extends Form
 
         // ----- EXTENSION POINT
         // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
-        $typeFields = rex_extension::registerPoint(new rex_extension_point('METAINFO_TYPE_FIELDS', [Table::FIELD_SELECT, Table::FIELD_RADIO, Table::FIELD_CHECKBOX, Table::FIELD_REX_MEDIA_WIDGET, Table::FIELD_REX_LINK_WIDGET, Table::FIELD_DATE, Table::FIELD_DATETIME]));
+        $typeFields = Extension::registerPoint(new ExtensionPoint('METAINFO_TYPE_FIELDS', [Table::FIELD_SELECT, Table::FIELD_RADIO, Table::FIELD_CHECKBOX, Table::FIELD_REX_MEDIA_WIDGET, Table::FIELD_REX_LINK_WIDGET, Table::FIELD_DATE, Table::FIELD_DATETIME]));
 
         $field = $this->addReadOnlyField('prefix', $this->metaPrefix);
         $field->setLabel(I18n::msg('minfo_field_label_prefix'));
