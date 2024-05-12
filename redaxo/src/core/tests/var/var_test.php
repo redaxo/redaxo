@@ -161,6 +161,13 @@ c', "a\nb\nc"],
         $this->assertParseOutputEquals($expectedOutput, $content);
     }
 
+    public function testRegister(): void
+    {
+        rex_var::register('REX_3RD_TEST_VAR', rex_var_2nd_test_var::class);
+
+        $this->assertParseOutputEquals('2', 'REX_3RD_TEST_VAR[]');
+    }
+
     public function testToArray(): void
     {
         $content = '<?php echo rex_var::toArray("REX_TEST_VAR[content=\'test\']") === null ? "null" : "";';
