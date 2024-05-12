@@ -131,11 +131,11 @@ final class SqlTest extends TestCase
     private function getVersionMock(string $version): Sql
     {
         return new class(version: $version) extends Sql {
-            public function __construct(int $DBID = 999, ?string $version = null)
+            public function __construct(int $db = 999, ?string $version = null)
             {
-                parent::__construct($DBID);
+                parent::__construct($db);
 
-                self::$pdo[$DBID] = new class(Type::notNull($version)) extends PDO {
+                self::$pdo[$db] = new class(Type::notNull($version)) extends PDO {
                     public function __construct(
                         private readonly string $version,
                     ) {}

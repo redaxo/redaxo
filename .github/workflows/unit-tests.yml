@@ -23,7 +23,7 @@ jobs:
                         db-image: 'mysql:8.0'
                         composer-flags: '--prefer-lowest'
                     -   php-version: '8.4'
-                        db-image: 'mysql:latest'
+                        db-image: 'mysql:8.3'
                         composer-flags: '--ignore-platform-req=php'
                     -   php-version: '8.3'
                         db-image: 'mariadb:10.4'
