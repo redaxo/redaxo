@@ -4,7 +4,10 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Backend\MainPage;
 use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Security\ApiFunction\UserImpersonate;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -63,7 +66,7 @@ if (Core::getProperty('theme')) {
 }
 
 // ----- EXTENSION POINT
-$bodyAttr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $bodyAttr));
+$bodyAttr = Extension::registerPoint(new ExtensionPoint('PAGE_BODY_ATTR', $bodyAttr));
 
 $body = '';
 foreach ($bodyAttr as $k => $v) {
@@ -105,7 +108,7 @@ if ($user && $hasNavigation) {
     $item['attributes'] = 'class="rex-logout"';
     if ($impersonator) {
         $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . I18n::msg('login_depersonate');
-        $item['href'] = Url::currentBackendPage(['_impersonate' => '_depersonate'] + rex_api_user_impersonate::getUrlParams());
+        $item['href'] = Url::currentBackendPage(['_impersonate' => '_depersonate'] + UserImpersonate::getUrlParams());
         $item['attributes'] .= ' data-pjax="false"';
     } else {
         $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . I18n::msg('logout');
@@ -147,7 +150,7 @@ if ($user && $hasNavigation) {
         }
     }
 
-    $n = rex_extension::registerPoint(new rex_extension_point('PAGE_NAVIGATION', $n));
+    $n = Extension::registerPoint(new ExtensionPoint('PAGE_NAVIGATION', $n));
 
     $blocks = $n->getNavigation();
 
@@ -213,7 +216,7 @@ if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     $fragment->setVar('jsFiles', rex_view::getJsFilesWithOptions());
     $fragment->setVar('jsProperties', json_encode(rex_view::getJsProperties()), false);
     $fragment->setVar('favicon', rex_view::getFavicon());
-    $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
+    $fragment->setVar('pageHeader', Extension::registerPoint(new ExtensionPoint('PAGE_HEADER', '')), false);
     $fragment->setVar('bodyAttr', $body, false);
     echo $fragment->parse('core/top.php');
 
@@ -222,7 +225,7 @@ if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     $metaNavigation = $fragment->parse('core/navigations/meta.php');
 
     $fragment = new rex_fragment();
-    // $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
+    // $fragment->setVar('pageHeader', Extension::registerPoint(new ExtensionPoint('PAGE_HEADER', '')), false);
     $fragment->setVar('meta_navigation', $metaNavigation, false);
     echo $fragment->parse('core/header.php');
 }

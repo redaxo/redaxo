@@ -1,5 +1,7 @@
 <?php
 
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
@@ -11,7 +13,7 @@ class rex_be_style
      */
     public static function compile()
     {
-        $scssFiles = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', []));
+        $scssFiles = Extension::registerPoint(new ExtensionPoint('BE_STYLE_SCSS_FILES', []));
 
         /** @var list<array{root_dir?: string, scss_files: string|list<string>, css_file: string, copy_dest?: string}> */
         $scssFiles = [
@@ -29,7 +31,7 @@ class rex_be_style
             ],
         ];
 
-        $scssFiles = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_COMPILE', $scssFiles));
+        $scssFiles = Extension::registerPoint(new ExtensionPoint('BE_STYLE_SCSS_COMPILE', $scssFiles));
 
         foreach ($scssFiles as $file) {
             $compiler = new rex_scss_compiler();

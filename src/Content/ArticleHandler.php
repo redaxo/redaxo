@@ -2,15 +2,15 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
-use rex_api_exception;
-use rex_extension;
-use rex_extension_point;
 
 use function count;
 use function is_array;
@@ -22,7 +22,7 @@ class ArticleHandler
      *
      * @param array $data Array mit den Daten des Artikels
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -95,7 +95,7 @@ class ArticleHandler
             ArticleCache::delete($id, $key);
 
             // ----- EXTENSION POINT
-            $message = rex_extension::registerPoint(new rex_extension_point('ART_ADDED', $message, [
+            $message = Extension::registerPoint(new ExtensionPoint('ART_ADDED', $message, [
                 'id' => $id,
                 'clang' => $key,
                 'status' => 0,
@@ -118,7 +118,7 @@ class ArticleHandler
      * @param int $clang Id der Sprache
      * @param array $data Array mit den Daten des Artikels
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -131,7 +131,7 @@ class ArticleHandler
         $thisArt->setQuery('select * from ' . Core::getTablePrefix() . 'article where id=? and clang_id=?', [$articleId, $clang]);
 
         if (1 != $thisArt->getRows()) {
-            throw new rex_api_exception('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
+            throw new ApiFunctionException('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
         }
 
         $ooArt = Article::get($articleId, $clang);
@@ -188,7 +188,7 @@ class ArticleHandler
         ArticleCache::delete($articleId);
 
         // ----- EXTENSION POINT
-        $message = rex_extension::registerPoint(new rex_extension_point('ART_UPDATED', $message, [
+        $message = Extension::registerPoint(new ExtensionPoint('ART_UPDATED', $message, [
             'id' => $articleId,
             'article' => clone $EA,
             'article_old' => clone $thisArt,
@@ -210,7 +210,7 @@ class ArticleHandler
      *
      * @param int $articleId Id des Artikels die gelöscht werden soll
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -228,7 +228,7 @@ class ArticleHandler
                 self::newArtPrio($parentId, $clang, 0, 1);
 
                 // ----- EXTENSION POINT
-                $message = rex_extension::registerPoint(new rex_extension_point('ART_DELETED', $message, [
+                $message = Extension::registerPoint(new ExtensionPoint('ART_DELETED', $message, [
                     'id' => $articleId,
                     'clang' => $clang,
                     'parent_id' => $parentId,
@@ -242,7 +242,7 @@ class ArticleHandler
                 $Art->next();
             }
         } else {
-            throw new rex_api_exception(I18n::msg('article_doesnt_exist'));
+            throw new ApiFunctionException(I18n::msg('article_doesnt_exist'));
         }
 
         return $message;
@@ -253,7 +253,7 @@ class ArticleHandler
      *
      * @param int $id ArtikelId des Artikels, der gelöscht werden soll
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
      */
@@ -273,10 +273,10 @@ class ArticleHandler
         // --> rekursiv aufrufen
 
         if ($id == Article::getSiteStartArticleId()) {
-            throw new rex_api_exception(I18n::msg('cant_delete_sitestartarticle'));
+            throw new ApiFunctionException(I18n::msg('cant_delete_sitestartarticle'));
         }
         if ($id == Article::getNotfoundArticleId()) {
-            throw new rex_api_exception(I18n::msg('cant_delete_notfoundarticle'));
+            throw new ApiFunctionException(I18n::msg('cant_delete_notfoundarticle'));
         }
 
         $ART = Sql::factory();
@@ -285,7 +285,7 @@ class ArticleHandler
         $message = '';
         if ($ART->getRows() > 0) {
             $parentId = (int) $ART->getValue('parent_id');
-            $message = rex_extension::registerPoint(new rex_extension_point('ART_PRE_DELETED', $message, [
+            $message = Extension::registerPoint(new ExtensionPoint('ART_PRE_DELETED', $message, [
                 'id' => $id,
                 'parent_id' => $parentId,
                 'name' => $ART->getValue('name'),
@@ -316,7 +316,7 @@ class ArticleHandler
 
             return $message;
         }
-        throw new rex_api_exception(I18n::msg('category_doesnt_exist'));
+        throw new ApiFunctionException(I18n::msg('category_doesnt_exist'));
     }
 
     /**
@@ -326,7 +326,7 @@ class ArticleHandler
      * @param int $clang Id der Sprache
      * @param int|null $status Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      *
      * @return int Der neue Status des Artikels
      */
@@ -354,13 +354,13 @@ class ArticleHandler
             ArticleCache::delete($articleId, $clang);
 
             // ----- EXTENSION POINT
-            rex_extension::registerPoint(new rex_extension_point('ART_STATUS', null, [
+            Extension::registerPoint(new ExtensionPoint('ART_STATUS', null, [
                 'id' => $articleId,
                 'clang' => $clang,
                 'status' => $newstatus,
             ]));
         } else {
-            throw new rex_api_exception(I18n::msg('no_such_category'));
+            throw new ApiFunctionException(I18n::msg('no_such_category'));
         }
 
         return $newstatus;
@@ -384,7 +384,7 @@ class ArticleHandler
             ];
 
             // ----- EXTENSION POINT
-            $artStatusTypes = rex_extension::registerPoint(new rex_extension_point('ART_STATUS_TYPES', $artStatusTypes));
+            $artStatusTypes = Extension::registerPoint(new ExtensionPoint('ART_STATUS_TYPES', $artStatusTypes));
         }
 
         return $artStatusTypes;
@@ -486,7 +486,7 @@ class ArticleHandler
         ArticleCache::delete($artId);
 
         foreach (Language::getAllIds() as $clang) {
-            rex_extension::registerPoint(new rex_extension_point('ART_TO_CAT', '', [
+            Extension::registerPoint(new ExtensionPoint('ART_TO_CAT', '', [
                 'id' => $artId,
                 'clang' => $clang,
             ]));
@@ -544,7 +544,7 @@ class ArticleHandler
         ArticleCache::delete($artId);
 
         foreach (Language::getAllIds() as $clang) {
-            rex_extension::registerPoint(new rex_extension_point('CAT_TO_ART', '', [
+            Extension::registerPoint(new ExtensionPoint('CAT_TO_ART', '', [
                 'id' => $artId,
                 'clang' => $clang,
             ]));
@@ -656,7 +656,7 @@ class ArticleHandler
         ComplexPermission::replaceItem('structure', $altId, $neuId);
 
         foreach (Language::getAllIds() as $clang) {
-            rex_extension::registerPoint(new rex_extension_point('ART_TO_STARTARTICLE', '', [
+            Extension::registerPoint(new ExtensionPoint('ART_TO_STARTARTICLE', '', [
                 'id' => $neuId,
                 'id_old' => $altId,
                 'clang' => $clang,
@@ -788,7 +788,7 @@ class ArticleHandler
                     // Prios neu berechnen
                     self::newArtPrio($toCatId, $clang, 1, 0);
 
-                    rex_extension::registerPoint(new rex_extension_point('ART_COPIED', null, [
+                    Extension::registerPoint(new ExtensionPoint('ART_COPIED', null, [
                         'id_source' => $id,
                         'id' => $newId,
                         'clang' => $clang,
@@ -873,7 +873,7 @@ class ArticleHandler
                     self::newArtPrio($toCatId, $clang, 1, 0);
                     self::newArtPrio($fromCatId, $clang, 1, 0);
 
-                    rex_extension::registerPoint(new rex_extension_point('ART_MOVED', null, [
+                    Extension::registerPoint(new ExtensionPoint('ART_MOVED', null, [
                         'id' => $id,
                         'clang' => $clang,
                         'category_id' => $parentId,
@@ -902,13 +902,13 @@ class ArticleHandler
      * @param array $array The array
      * @param string $keyName The key
      *
-     * @throws rex_api_exception
+     * @throws ApiFunctionException
      * @return void
      */
     protected static function reqKey($array, $keyName)
     {
         if (!isset($array[$keyName])) {
-            throw new rex_api_exception('Missing required parameter "' . $keyName . '"!');
+            throw new ApiFunctionException('Missing required parameter "' . $keyName . '"!');
         }
     }
 

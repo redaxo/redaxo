@@ -7,6 +7,8 @@ use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\CronjobExecutor;
 use Redaxo\Core\Cronjob\CronjobManager;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -21,6 +23,7 @@ use Redaxo\Core\Security\User;
 use Redaxo\Core\Security\UserRole;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
+use Redaxo\Core\Util\VarDumper;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -132,7 +135,7 @@ if ('cli' !== PHP_SAPI) {
 }
 
 rex_error_handler::register();
-rex_var_dumper::register();
+VarDumper::register();
 
 // ----------------- REX PERMS
 
@@ -143,8 +146,8 @@ ComplexPermission::register('structure', StructurePermission::class);
 ComplexPermission::register('modules', ModulePermission::class);
 ComplexPermission::register('media', MediaPoolPermission::class);
 
-rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', [UserRole::class, 'removeOrReplaceItem']);
-rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', [UserRole::class, 'removeOrReplaceItem']);
+Extension::register('COMPLEX_PERM_REMOVE_ITEM', [UserRole::class, 'removeOrReplaceItem']);
+Extension::register('COMPLEX_PERM_REPLACE_ITEM', [UserRole::class, 'removeOrReplaceItem']);
 
 // ----- SET CLANG
 if (!Core::isSetup()) {
@@ -165,23 +168,23 @@ if ('cli' !== PHP_SAPI && !Core::isSetup()) {
     }
 }
 
-rex_extension::register('SESSION_REGENERATED', BackendLogin::sessionRegenerated(...));
+Extension::register('SESSION_REGENERATED', BackendLogin::sessionRegenerated(...));
 
 $nexttime = Core::isSetup() || Core::getConsole() ? 0 : (int) Core::getConfig('cronjob_nexttime', 0);
 if (0 !== $nexttime && time() >= $nexttime) {
     $env = CronjobExecutor::getCurrentEnvironment();
     $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
-    rex_extension::register($EP, static function () use ($env) {
+    Extension::register($EP, static function () use ($env) {
         if ('backend' !== $env || !in_array(Controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'], true)) {
             CronjobManager::factory()->check();
         }
     });
 }
 
-rex_extension::register('PACKAGES_INCLUDED', [MediaManager::class, 'init'], rex_extension::EARLY);
-rex_extension::register('MEDIA_UPDATED', [MediaManager::class, 'mediaUpdated']);
-rex_extension::register('MEDIA_DELETED', [MediaManager::class, 'mediaUpdated']);
-rex_extension::register('MEDIA_IS_IN_USE', [MediaManager::class, 'mediaIsInUse']);
+Extension::register('PACKAGES_INCLUDED', [MediaManager::class, 'init'], Extension::EARLY);
+Extension::register('MEDIA_UPDATED', [MediaManager::class, 'mediaUpdated']);
+Extension::register('MEDIA_DELETED', [MediaManager::class, 'mediaUpdated']);
+Extension::register('MEDIA_IS_IN_USE', [MediaManager::class, 'mediaIsInUse']);
 
 if (!Core::isSetup()) {
     Core::setProperty('start_article_id', Core::getConfig('start_article_id', 1));
@@ -196,7 +199,7 @@ if (!Core::isSetup()) {
         Core::setProperty('article_id', $articleId);
     }
 
-    rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) {
+    Extension::register('EDITOR_URL', static function (ExtensionPoint $ep) {
         $urls = [
             'template' => ['templates', 'template_id'],
             'module' => ['modules/modules', 'module_id'],

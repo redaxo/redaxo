@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Finder;
@@ -97,7 +98,7 @@ if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
                         $success[] = I18n::msg('pool_sync_files_synced');
                         $first = false;
                     }
-                } catch (rex_api_exception $e) {
+                } catch (ApiFunctionException $e) {
                     $error[] = $e->getMessage();
                 }
             }

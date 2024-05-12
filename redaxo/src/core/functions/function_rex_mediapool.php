@@ -1,7 +1,10 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -17,7 +20,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
 
     $s = '';
 
-    $catsSel = new rex_media_category_select();
+    $catsSel = new MediaCategorySelect();
     $catsSel->setStyle('class="form-control"');
     $catsSel->setSize(1);
     $catsSel->setName('rex_file_category');
@@ -90,7 +93,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
-    $panel .= rex_extension::registerPoint(new rex_extension_point('MEDIA_FORM_ADD', ''));
+    $panel .= Extension::registerPoint(new ExtensionPoint('MEDIA_FORM_ADD', ''));
 
     if ($fileChooser) {
         $e = [];

@@ -3,8 +3,8 @@
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
 use InvalidArgumentException;
+use Redaxo\Core\Form\Select\Select;
 use rex_exception;
-use rex_select;
 
 use function is_array;
 
@@ -15,8 +15,8 @@ use function is_array;
  */
 class TimeInput extends AbstractInput
 {
-    private rex_select $hourSelect;
-    private rex_select $minuteSelect;
+    private Select $hourSelect;
+    private Select $minuteSelect;
 
     public function __construct()
     {
@@ -28,13 +28,13 @@ class TimeInput extends AbstractInput
             }, range($start, $end));
         };
 
-        $this->hourSelect = new rex_select();
+        $this->hourSelect = new Select();
         $this->hourSelect->addOptions($range(0, 23), true);
         $this->hourSelect->setSize(1);
         $this->hourSelect->setAttribute('class', 'rex-form-select-date selectpicker');
         $this->hourSelect->setAttribute('data-width', 'fit');
 
-        $this->minuteSelect = new rex_select();
+        $this->minuteSelect = new Select();
         $this->minuteSelect->addOptions($range(0, 59), true);
         $this->minuteSelect->setSize(1);
         $this->minuteSelect->setAttribute('class', 'rex-form-select-date selectpicker');
@@ -75,7 +75,7 @@ class TimeInput extends AbstractInput
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getHourSelect()
     {
@@ -83,7 +83,7 @@ class TimeInput extends AbstractInput
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getMinuteSelect()
     {

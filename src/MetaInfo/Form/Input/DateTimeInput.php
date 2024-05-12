@@ -3,7 +3,7 @@
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
 use InvalidArgumentException;
-use rex_select;
+use Redaxo\Core\Form\Select\Select;
 
 use function is_array;
 
@@ -69,7 +69,7 @@ class DateTimeInput extends AbstractInput
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getDaySelect()
     {
@@ -77,7 +77,7 @@ class DateTimeInput extends AbstractInput
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getMonthSelect()
     {
@@ -85,7 +85,7 @@ class DateTimeInput extends AbstractInput
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getYearSelect()
     {
@@ -93,7 +93,7 @@ class DateTimeInput extends AbstractInput
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getHourSelect()
     {
@@ -101,7 +101,7 @@ class DateTimeInput extends AbstractInput
     }
 
     /**
-     * @return rex_select
+     * @return Select
      */
     public function getMinuteSelect()
     {

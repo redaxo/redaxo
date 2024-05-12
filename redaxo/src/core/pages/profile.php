@@ -1,9 +1,13 @@
 <?php
 
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\Login;
@@ -43,7 +47,7 @@ echo rex_view::title(I18n::msg('profile_title'), '');
 
 // backend sprache
 $userpermBeSprache = rex_request('userperm_be_sprache', 'string', $user->getLanguage());
-$selBeSprache = new rex_select();
+$selBeSprache = new Select();
 $selBeSprache->setSize(1);
 $selBeSprache->setStyle('class="form-control"');
 $selBeSprache->setName('userperm_be_sprache');
@@ -59,7 +63,7 @@ foreach ($locales as $locale) {
 
 // --------------------------------- Theme
 
-$selBeTheme = new rex_select();
+$selBeTheme = new Select();
 $selBeTheme->setSize(1);
 $selBeTheme->setStyle('class="form-control"');
 $selBeTheme->setName('usertheme');
@@ -104,7 +108,7 @@ if ($update && !$error) {
     $updateuser->update();
     User::clearInstance($userId);
 
-    rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
+    Extension::registerPoint(new ExtensionPoint('PROFILE_UPDATED', '', [
         'user_id' => $userId,
         'user' => User::require($userId),
     ], true));
@@ -167,7 +171,7 @@ if (rex_post('upd_psw_button', 'bool')) {
         }
         $login->changedPassword($userpswNew1);
 
-        rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
+        Extension::registerPoint(new ExtensionPoint('PASSWORD_UPDATED', '', [
             'user_id' => $userId,
             'user' => User::require($userId),
             'password' => $userpswNew2,
@@ -209,7 +213,7 @@ if ('' != $error) {
     echo rex_view::error($error);
 }
 
-echo rex_api_function::getMessage();
+echo ApiFunction::getMessage();
 
 // --------------------------------- FORMS
 

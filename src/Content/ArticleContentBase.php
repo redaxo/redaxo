@@ -5,14 +5,14 @@ namespace Redaxo\Core\Content;
 use LogicException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
 use rex_exception;
-use rex_extension;
-use rex_extension_point;
 use rex_sql_exception;
 use rex_var;
 
@@ -83,7 +83,7 @@ class ArticleContentBase
         }
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint(new rex_extension_point('ART_INIT', '', [
+        Extension::registerPoint(new ExtensionPoint('ART_INIT', '', [
             'article' => $this,
             'article_id' => $articleId,
             'clang' => $this->clang,
@@ -320,7 +320,7 @@ class ArticleContentBase
      */
     protected function outputSlice(Sql $artDataSql, $moduleIdToAdd)
     {
-        $output = rex_extension::registerPoint(new rex_extension_point(
+        $output = Extension::registerPoint(new ExtensionPoint(
             'SLICE_OUTPUT',
             (string) $artDataSql->getValue(Core::getTablePrefix() . 'module.output'),
             [
@@ -643,7 +643,7 @@ class ArticleContentBase
             ORDER BY {$prefix}article_slice.priority
             SQL;
 
-        $query = rex_extension::registerPoint(new rex_extension_point('ART_SLICES_QUERY', $query, ['article' => $this]));
+        $query = Extension::registerPoint(new ExtensionPoint('ART_SLICES_QUERY', $query, ['article' => $this]));
 
         $artDataSql = Sql::factory();
         $artDataSql->setDebug($this->debug);
@@ -687,8 +687,8 @@ class ArticleContentBase
                 // --------------- ENDE EINZELNER SLICE
 
                 // --------------- EP: SLICE_SHOW
-                $sliceContent = rex_extension::registerPoint(
-                    new rex_extension_point(
+                $sliceContent = Extension::registerPoint(
+                    new ExtensionPoint(
                         'SLICE_SHOW',
                         $sliceContent,
                         [

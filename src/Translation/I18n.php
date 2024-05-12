@@ -5,11 +5,11 @@ namespace Redaxo\Core\Translation;
 use InvalidArgumentException;
 use Locale;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use rex_exception;
-use rex_extension;
-use rex_extension_point;
 
 use function call_user_func;
 use function count;
@@ -209,7 +209,7 @@ class I18n
     {
         $fallback = "[translate:$key]";
 
-        $msg = rex_extension::registerPoint(new rex_extension_point('I18N_MISSING_TRANSLATION', $fallback, [
+        $msg = Extension::registerPoint(new ExtensionPoint('I18N_MISSING_TRANSLATION', $fallback, [
             'key' => $key,
             'args' => $replacements,
         ]));

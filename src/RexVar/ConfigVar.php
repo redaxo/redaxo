@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\RexVar;
 
+use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 
 /**
@@ -20,6 +21,6 @@ class ConfigVar extends RexVar
             return false;
         }
         $namespace = $this->getParsedArg('namespace', "'" . Core::CONFIG_NAMESPACE . "'");
-        return 'htmlspecialchars(rex_config::get(' . $namespace . ', ' . $key . '))';
+        return 'htmlspecialchars(' . Config::class . '::get(' . $namespace . ', ' . $key . '))';
     }
 }

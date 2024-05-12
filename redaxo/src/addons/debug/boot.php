@@ -2,17 +2,20 @@
 
 use Clockwork\Clockwork;
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Console\ExtensionPoint\ConsoleShutdown;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Timer;
 
-if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
+if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(ApiFunction::REQ_CALL_PARAM)) {
     return;
 }
 
@@ -72,10 +75,10 @@ if (Core::isBackend() && 'debug' === rex_request::get('page') && Core::getUser()
 }
 
 Sql::setFactoryClass(rex_sql_debug::class);
-rex_extension::setFactoryClass(rex_extension_debug::class);
+Extension::setFactoryClass(rex_extension_debug::class);
 
 Logger::setFactoryClass(rex_logger_debug::class);
-rex_api_function::setFactoryClass(rex_api_function_debug::class);
+ApiFunction::setFactoryClass(rex_api_function_debug::class);
 
 rex_response::setHeader('X-Clockwork-Id', rex_debug_clockwork::getInstance()->getRequest()->id);
 rex_response::setHeader('X-Clockwork-Version', Clockwork::VERSION);
@@ -128,7 +131,7 @@ $shutdownFn = static function () {
 };
 
 if ('cli' === PHP_SAPI) {
-    rex_extension::register(rex_extension_point_console_shutdown::NAME, static function (rex_extension_point_console_shutdown $extensionPoint) use ($shutdownFn) {
+    Extension::register(ConsoleShutdown::NAME, static function (ConsoleShutdown $extensionPoint) use ($shutdownFn) {
         $shutdownFn();
 
         $command = $extensionPoint->getCommand();

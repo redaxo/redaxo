@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Core;
-use rex_extension;
-use rex_extension_point;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 /**
  * Object Oriented Framework: Bildet einen Artikel der Struktur ab.
@@ -156,6 +156,6 @@ class Article extends StructureElement
 
     public function isPermitted()
     {
-        return (bool) rex_extension::registerPoint(new rex_extension_point('ART_IS_PERMITTED', true, ['element' => $this]));
+        return (bool) Extension::registerPoint(new ExtensionPoint('ART_IS_PERMITTED', true, ['element' => $this]));
     }
 }

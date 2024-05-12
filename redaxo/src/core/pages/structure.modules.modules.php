@@ -5,7 +5,10 @@ use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Content\ModuleCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -104,7 +107,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
             $del->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'module_action WHERE module_id=?', [$moduleId]);
             ModuleCache::delete($moduleId);
             $success = I18n::msg('module_deleted');
-            $success = rex_extension::registerPoint(new rex_extension_point('MODULE_DELETED', $success, [
+            $success = Extension::registerPoint(new ExtensionPoint('MODULE_DELETED', $success, [
                 'id' => $moduleId,
             ]));
         } else {
@@ -135,7 +138,7 @@ if ('add' == $function || 'edit' == $function) {
                 $moduleId = $IMOD->getLastId();
                 ModuleCache::delete($moduleId);
                 $success = I18n::msg('module_added');
-                $success = rex_extension::registerPoint(new rex_extension_point('MODULE_ADDED', $success, [
+                $success = Extension::registerPoint(new ExtensionPoint('MODULE_ADDED', $success, [
                     'id' => $moduleId,
                     'name' => $mname,
                     'key' => $mkey,
@@ -159,7 +162,7 @@ if ('add' == $function || 'edit' == $function) {
                     $UMOD->update();
                     ModuleCache::delete($moduleId);
                     $success = I18n::msg('module_updated') . ' | ' . I18n::msg('articel_updated');
-                    $success = rex_extension::registerPoint(new rex_extension_point('MODULE_UPDATED', $success, [
+                    $success = Extension::registerPoint(new ExtensionPoint('MODULE_UPDATED', $success, [
                         'id' => $moduleId,
                         'name' => $mname,
                         'key' => $mkey,
@@ -344,7 +347,7 @@ if ('add' == $function || 'edit' == $function) {
                     $content .= $fragment->parse('core/page/section.php');
                 }
 
-                $gaaSel = new rex_select();
+                $gaaSel = new Select();
                 $gaaSel->setName('action_id');
                 $gaaSel->setId('action_id');
                 $gaaSel->setSize(1);

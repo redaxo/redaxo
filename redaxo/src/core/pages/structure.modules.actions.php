@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\ActionEventSelect;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 
@@ -146,7 +147,7 @@ if ('add' == $function || 'edit' == $function) {
             2 => $ASTATUS[1] . ' - ' . I18n::msg('action_event_edit'),
         ];
 
-        $selPreviewStatus = new rex_event_select($options);
+        $selPreviewStatus = new ActionEventSelect($options);
         $selPreviewStatus->setName('previewstatus[]');
         $selPreviewStatus->setId('previewstatus');
         $selPreviewStatus->setStyle('class="form-control"');
@@ -157,12 +158,12 @@ if ('add' == $function || 'edit' == $function) {
             4 => $ASTATUS[2] . ' - ' . I18n::msg('action_event_delete'),
         ];
 
-        $selPresaveStatus = new rex_event_select($options);
+        $selPresaveStatus = new ActionEventSelect($options);
         $selPresaveStatus->setName('presavestatus[]');
         $selPresaveStatus->setId('presavestatus');
         $selPresaveStatus->setStyle('class="form-control"');
 
-        $selPostsaveStatus = new rex_event_select($options);
+        $selPostsaveStatus = new ActionEventSelect($options);
         $selPostsaveStatus->setName('postsavestatus[]');
         $selPostsaveStatus->setId('postsavestatus');
         $selPostsaveStatus->setStyle('class="form-control"');

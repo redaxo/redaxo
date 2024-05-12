@@ -1,10 +1,14 @@
 <?php
 
+use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaHandler;
@@ -57,7 +61,7 @@ if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
                     $success = I18n::msg('pool_selectedmedia_moved');
                     MediaPoolCache::delete($fileName);
 
-                    rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
+                    Extension::registerPoint(new ExtensionPoint('MEDIA_MOVED', null, [
                         'filename' => $fileName,
                         'category_id' => $rexFileCategory,
                     ]));
@@ -88,7 +92,7 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
                         try {
                             MediaHandler::deleteMedia($filename);
                             ++$countDeleted;
-                        } catch (rex_api_exception $e) {
+                        } catch (ApiFunctionException $e) {
                             $error[] = $e->getMessage();
                         }
                     } else {
@@ -107,7 +111,7 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
     }
 }
 
-$catsSel = new rex_media_category_select();
+$catsSel = new MediaCategorySelect();
 $catsSel->setSize(1);
 $catsSel->setStyle('class="form-control selectpicker"');
 $catsSel->setAttribute('data-live-search', 'true');
@@ -285,7 +289,7 @@ foreach ($items as $media) {
 
     // Register new EP MEDIA_LIST_THUMBNAIL - fuer Vorschau-Manipulation z.B. fuer Plyr/Lottie
     // ----- EXTENSION POINT
-    $thumbnail = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_THUMBNAIL', $thumbnail, [
+    $thumbnail = Extension::registerPoint(new ExtensionPoint('MEDIA_LIST_THUMBNAIL', $thumbnail, [
         'id' => $media->getId(),
         'filename' => $media->getFileName(),
         'media' => $media,
@@ -322,7 +326,7 @@ foreach ($items as $media) {
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $ilink . '">' . I18n::msg('edit') . '</a></td>
                     <td class="rex-table-action">';
 
-    $panel .= rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_FUNCTIONS', $openerLink, [
+    $panel .= Extension::registerPoint(new ExtensionPoint('MEDIA_LIST_FUNCTIONS', $openerLink, [
         'media' => $media, // new
         'file_id' => $media->getId(), // @deprecated
         'file_name' => $media->getFileName(), // @deprecated

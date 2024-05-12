@@ -6,8 +6,8 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use rex_extension;
-use rex_extension_point;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 /**
  * @internal
@@ -43,7 +43,7 @@ class ArticleHandler extends AbstractHandler
 
         ArticleCache::deleteMeta($params['id'], $params['clang']);
 
-        rex_extension::registerPoint(new rex_extension_point('ART_META_UPDATED', '', $params));
+        Extension::registerPoint(new ExtensionPoint('ART_META_UPDATED', '', $params));
 
         return $params;
     }
@@ -93,7 +93,7 @@ class ArticleHandler extends AbstractHandler
         return parent::renderFormAndSave(self::PREFIX, $params);
     }
 
-    public function extendForm(rex_extension_point $ep)
+    public function extendForm(ExtensionPoint $ep)
     {
         // noop
         return '';

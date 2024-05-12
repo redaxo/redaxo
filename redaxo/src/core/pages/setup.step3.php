@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Translation\I18n;
 
 assert(isset($context) && $context instanceof rex_context);
@@ -21,7 +22,7 @@ if (count($errorArray) > 0) {
 $content .= '
             <fieldset>';
 
-$timezoneSel = new rex_select();
+$timezoneSel = new Select();
 $timezoneSel->setId('rex-form-timezone');
 $timezoneSel->setStyle('class="form-control selectpicker"');
 $timezoneSel->setAttribute('data-live-search', 'true');
@@ -32,7 +33,7 @@ $timezoneSel->setSelected($config['timezone']);
 
 $dbCreateChecked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
 
-$httpsRedirectSel = new rex_select();
+$httpsRedirectSel = new Select();
 $httpsRedirectSel->setId('rex-form-https');
 $httpsRedirectSel->setStyle('class="form-control selectpicker"');
 $httpsRedirectSel->setName('use_https');

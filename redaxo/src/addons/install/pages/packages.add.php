@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
@@ -15,7 +16,7 @@ $package = Addon::get('install');
 $addonkey = rex_request('addonkey', 'string');
 $addons = [];
 
-echo rex_api_function::getMessage();
+echo ApiFunction::getMessage();
 
 try {
     $addons = rex_install_packages::getAddPackages();

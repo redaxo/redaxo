@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 
@@ -111,7 +112,7 @@ $n['label'] = '<label for="rex-js-rating-text-avif-quality">' . I18n::msg('media
 $n['field'] = $inputGroup;
 $formElements[] = $n;
 
-$select = new rex_select();
+$select = new Select();
 $select->setName('settings[media_manager_interlace][]');
 $select->setId('rex-media-manager-interlace');
 $select->setAttribute('class', 'form-control selectpicker');

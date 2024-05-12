@@ -5,12 +5,12 @@ namespace Redaxo\Core\Form;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Field\PriorityField;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
-use rex_extension;
-use rex_extension_point;
 use rex_sql_exception;
 
 use function assert;
@@ -120,7 +120,7 @@ class Form extends AbstractForm
         $controlFields['abort'] = I18n::msg('form_abort');
 
         // ----- EXTENSION POINT
-        $controlFields = rex_extension::registerPoint(new rex_extension_point('REX_FORM_CONTROL_FIELDS', $controlFields, ['form' => $this]));
+        $controlFields = Extension::registerPoint(new ExtensionPoint('REX_FORM_CONTROL_FIELDS', $controlFields, ['form' => $this]));
 
         $controlElements = [];
         foreach ($controlFields as $name => $label) {
@@ -383,7 +383,7 @@ class Form extends AbstractForm
 
         // ----- EXTENSION POINT
         if ($saved) {
-            return rex_extension::registerPoint(new rex_extension_point('REX_FORM_SAVED', $saved, ['form' => $this, 'sql' => $sql]));
+            return Extension::registerPoint(new ExtensionPoint('REX_FORM_SAVED', $saved, ['form' => $this, 'sql' => $sql]));
         }
 
         return $sql->getMysqlErrno();
@@ -408,7 +408,7 @@ class Form extends AbstractForm
 
         // ----- EXTENSION POINT
         if ($deleted) {
-            return rex_extension::registerPoint(new rex_extension_point('REX_FORM_DELETED', $deleted, ['form' => $this, 'sql' => $deleteSql]));
+            return Extension::registerPoint(new ExtensionPoint('REX_FORM_DELETED', $deleted, ['form' => $this, 'sql' => $deleteSql]));
         }
 
         return $deleteSql->getMysqlErrno();

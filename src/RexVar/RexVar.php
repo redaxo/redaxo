@@ -55,6 +55,15 @@ abstract class RexVar
     private static int $variableIndex = 0;
 
     /**
+     * @param string $name Name must start with "REX_"
+     * @param class-string<self> $class
+     */
+    public static function register(string $name, string $class): void
+    {
+        self::$vars[$name] = $class;
+    }
+
+    /**
      * Parses all REX_VARs in the given content.
      *
      * @param string $content Content

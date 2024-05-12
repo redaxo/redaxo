@@ -6,8 +6,8 @@ use DateTime;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\Type\AbstractType;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
 use rex_exception;
-use rex_extension;
 use rex_sql_exception;
 
 use function in_array;
@@ -233,7 +233,7 @@ class CronjobManager
             return;
         }
 
-        rex_extension::register('RESPONSE_SHUTDOWN', function () use (&$jobs, $callback) {
+        Extension::register('RESPONSE_SHUTDOWN', function () use (&$jobs, $callback) {
             $jobs[0]['started'] = true;
             $success = $this->tryExecuteJob($jobs[0], true, true);
 

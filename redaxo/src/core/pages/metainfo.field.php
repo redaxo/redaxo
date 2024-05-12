@@ -1,9 +1,11 @@
 <?php
 
+use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\MetaInfo\Form\MetaInfoForm;
 use Redaxo\Core\Translation\I18n;
 
@@ -37,7 +39,7 @@ if ('delete' == $func) {
 
 // ------------------------------> Eintragsliste
 if ('' == $func) {
-    echo rex_api_function::getMessage();
+    echo ApiFunction::getMessage();
 
     $title = I18n::msg('minfo_field_list_caption');
 
@@ -81,7 +83,7 @@ if ('' == $func) {
     if (in_array($prefix, ['art_', 'med_'])) {
         $defaultFields = sprintf(
             '<div class="btn-group btn-group-xs"><a href="%s" class="btn btn-default">%s</a></div>',
-            Url::currentBackendPage(['type' => Controller::getCurrentPagePart(2)] + rex_api_metainfo_default_fields_create::getUrlParams()),
+            Url::currentBackendPage(['type' => Controller::getCurrentPagePart(2)] + DefaultFieldsCreate::getUrlParams()),
             I18n::msg('minfo_default_fields_create'),
         );
         $fragment->setVar('options', $defaultFields, false);

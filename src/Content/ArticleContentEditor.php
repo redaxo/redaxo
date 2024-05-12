@@ -3,16 +3,16 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Content\ApiFunction\ArticleSliceMove;
+use Redaxo\Core\Content\ApiFunction\ArticleSliceStatusChange;
+use Redaxo\Core\Content\ExtensionPoint\SliceMenu;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
-use rex_api_content_move_slice;
-use rex_api_content_slice_status;
 use rex_context;
-use rex_extension;
-use rex_extension_point;
-use rex_extension_point_slice_menu;
 use rex_fragment;
 use rex_response;
 use rex_view;
@@ -100,7 +100,7 @@ class ArticleContentEditor extends ArticleContent
             $content = $this->getWrappedModuleOutput($moduleId, $moduleOutput);
 
             // EP for changing the module preview
-            $panel .= rex_extension::registerPoint(new rex_extension_point('SLICE_BE_PREVIEW', $content, [
+            $panel .= Extension::registerPoint(new ExtensionPoint('SLICE_BE_PREVIEW', $content, [
                 'article_id' => $this->article_id,
                 'clang' => $this->clang,
                 'ctype' => $this->ctype,
@@ -189,7 +189,7 @@ class ArticleContentEditor extends ArticleContent
                 $item = [];
                 $statusName = $sliceStatus ? 'online' : 'offline';
                 $item['label'] = I18n::msg('status_' . $statusName);
-                $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + rex_api_content_slice_status::getUrlParams());
+                $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + ArticleSliceStatusChange::getUrlParams());
                 $item['attributes']['class'][] = 'btn-default';
                 $item['attributes']['class'][] = 'rex-' . $statusName;
                 $menuStatusAction = $item;
@@ -200,7 +200,7 @@ class ArticleContentEditor extends ArticleContent
                 $item = [];
                 $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_up');
                 $item['url'] = $context->getUrl(
-                    ['upd' => time(), 'direction' => 'moveup'] + rex_api_content_move_slice::getUrlParams(),
+                    ['upd' => time(), 'direction' => 'moveup'] + ArticleSliceMove::getUrlParams(),
                 ) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
                 $item['attributes']['title'] = I18n::msg('move_slice_up');
@@ -211,7 +211,7 @@ class ArticleContentEditor extends ArticleContent
                 $item = [];
                 $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_down');
                 $item['url'] = $context->getUrl(
-                    ['upd' => time(), 'direction' => 'movedown'] + rex_api_content_move_slice::getUrlParams(),
+                    ['upd' => time(), 'direction' => 'movedown'] + ArticleSliceMove::getUrlParams(),
                 ) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
                 $item['attributes']['title'] = I18n::msg('move_slice_down');
@@ -223,7 +223,7 @@ class ArticleContentEditor extends ArticleContent
         }
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint($ep = new rex_extension_point_slice_menu(
+        Extension::registerPoint($ep = new SliceMenu(
             $menuEditAction,
             $menuDeleteAction,
             $menuStatusAction,
@@ -336,7 +336,7 @@ class ArticleContentEditor extends ArticleContent
         $fragment->setVar('button_label', I18n::msg('add_block'));
         $fragment->setVar('items', $items, false);
         $select = $fragment->parse('core/structure/content/module_select.php');
-        $select = rex_extension::registerPoint(new rex_extension_point(
+        $select = Extension::registerPoint(new ExtensionPoint(
             'STRUCTURE_CONTENT_MODULE_SELECT',
             $select,
             [

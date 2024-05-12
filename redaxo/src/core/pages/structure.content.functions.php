@@ -1,7 +1,16 @@
 <?php
 
+use Redaxo\Core\Content\ApiFunction\ArticleCopy;
+use Redaxo\Core\Content\ApiFunction\ArticleMove;
+use Redaxo\Core\Content\ApiFunction\ArticleToCategory;
+use Redaxo\Core\Content\ApiFunction\ArticleToStartArticle;
+use Redaxo\Core\Content\ApiFunction\CategoryMove;
+use Redaxo\Core\Content\ApiFunction\CategoryToArticle;
+use Redaxo\Core\Content\ApiFunction\ContentCopy;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Form\Select\CategorySelect;
+use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 
@@ -64,7 +73,7 @@ if ($user->hasPerm('article2startarticle[]')) {
 
         $formElements = [];
         $n = [];
-        $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article2startarticle" value="1" data-confirm="' . I18n::msg('content_tostartarticle') . '?" ' . $onclickApiFields(rex_api_article2startarticle::getHiddenFields()) . '>' . I18n::msg('content_tostartarticle') . '</button>';
+        $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article2startarticle" value="1" data-confirm="' . I18n::msg('content_tostartarticle') . '?" ' . $onclickApiFields(ArticleToStartArticle::getHiddenFields()) . '>' . I18n::msg('content_tostartarticle') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -101,7 +110,7 @@ if (!$isStartpage && $user->hasPerm('article2category[]')) {
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article2category" value="1" data-confirm="' . I18n::msg('content_tocategory') . '?" ' . $onclickApiFields(rex_api_article2category::getHiddenFields()) . '>' . I18n::msg('content_tocategory') . '</button>';
+    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article2category" value="1" data-confirm="' . I18n::msg('content_tocategory') . '?" ' . $onclickApiFields(ArticleToCategory::getHiddenFields()) . '>' . I18n::msg('content_tocategory') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -149,7 +158,7 @@ if ($isStartpage && $user->hasPerm('article2category[]') && $user->getComplexPer
 
         $formElements = [];
         $n = [];
-        $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="category2article" value="1" data-confirm="' . I18n::msg('content_toarticle') . '?" ' . $onclickApiFields(rex_api_category2Article::getHiddenFields()) . '>' . I18n::msg('content_toarticle') . '</button>';
+        $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="category2article" value="1" data-confirm="' . I18n::msg('content_toarticle') . '?" ' . $onclickApiFields(CategoryToArticle::getHiddenFields()) . '>' . I18n::msg('content_toarticle') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -172,7 +181,7 @@ if ($isStartpage && $user->hasPerm('article2category[]') && $user->getComplexPer
 if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() > 1) {
     $clangPerm = $user->getComplexPerm('clang')->getClangs();
 
-    $langA = new rex_select();
+    $langA = new Select();
     $langA->setId('clang_a');
     $langA->setName('clang_a');
     $langA->setSize('1');
@@ -182,7 +191,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
         $langA->addOption($val, $key);
     }
 
-    $langB = new rex_select();
+    $langB = new Select();
     $langB->setId('clang_b');
     $langB->setName('clang_b');
     $langB->setSize('1');
@@ -225,7 +234,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="content_copy" value="1" data-confirm="' . I18n::msg('content_submitcopycontent') . '?" ' . $onclickApiFields(rex_api_content_copy::getHiddenFields()) . '>' . I18n::msg('content_submitcopycontent') . '</button>';
+    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="content_copy" value="1" data-confirm="' . I18n::msg('content_submitcopycontent') . '?" ' . $onclickApiFields(ContentCopy::getHiddenFields()) . '>' . I18n::msg('content_submitcopycontent') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -243,7 +252,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
 // --------------------------------------------------- ARTIKEL VERSCHIEBEN START
 if (!$isStartpage && $user->hasPerm('moveArticle[]')) {
     // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
-    $moveA = new rex_category_select(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
+    $moveA = new CategorySelect(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
     $moveA->setId('category_id_new');
     $moveA->setName('category_id_new');
     $moveA->setSize('1');
@@ -267,7 +276,7 @@ if (!$isStartpage && $user->hasPerm('moveArticle[]')) {
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article_move" value="1" data-confirm="' . I18n::msg('content_submitmovearticle') . '?" ' . $onclickApiFields(rex_api_article_move::getHiddenFields()) . '>' . I18n::msg('content_submitmovearticle') . '</button>';
+    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article_move" value="1" data-confirm="' . I18n::msg('content_submitmovearticle') . '?" ' . $onclickApiFields(ArticleMove::getHiddenFields()) . '>' . I18n::msg('content_submitmovearticle') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -284,7 +293,7 @@ if (!$isStartpage && $user->hasPerm('moveArticle[]')) {
 
 // -------------------------------------------------- ARTIKEL KOPIEREN START
 if ($user->hasPerm('copyArticle[]')) {
-    $moveA = new rex_category_select(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
+    $moveA = new CategorySelect(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
     $moveA->setName('category_copy_id_new');
     $moveA->setId('category_copy_id_new');
     $moveA->setSize('1');
@@ -308,7 +317,7 @@ if ($user->hasPerm('copyArticle[]')) {
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article_copy" value="1" data-confirm="' . I18n::msg('content_submitcopyarticle') . '?" ' . $onclickApiFields(rex_api_article_copy::getHiddenFields()) . '>' . I18n::msg('content_submitcopyarticle') . '</button>';
+    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article_copy" value="1" data-confirm="' . I18n::msg('content_submitcopyarticle') . '?" ' . $onclickApiFields(ArticleCopy::getHiddenFields()) . '>' . I18n::msg('content_submitcopyarticle') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -325,7 +334,7 @@ if ($user->hasPerm('copyArticle[]')) {
 
 // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START
 if ($isStartpage && $user->hasPerm('moveCategory[]') && $user->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
-    $moveA = new rex_category_select(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
+    $moveA = new CategorySelect(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
     $moveA->setId('category_id_new');
     $moveA->setName('category_id_new');
     $moveA->setSize('1');
@@ -349,7 +358,7 @@ if ($isStartpage && $user->hasPerm('moveCategory[]') && $user->getComplexPerm('s
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="category_move" value="1" data-confirm="' . I18n::msg('content_submitmovecategory') . '?" ' . $onclickApiFields(rex_api_category_move::getHiddenFields()) . '>' . I18n::msg('content_submitmovecategory') . '</button>';
+    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="category_move" value="1" data-confirm="' . I18n::msg('content_submitmovecategory') . '?" ' . $onclickApiFields(CategoryMove::getHiddenFields()) . '>' . I18n::msg('content_submitmovecategory') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
