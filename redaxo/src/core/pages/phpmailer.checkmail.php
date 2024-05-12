@@ -3,11 +3,13 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 $content = $mailerDebug = '';
 $date = new DateTime();
 if ('' == Core::getConfig('phpmailer_from') || '' == Core::getConfig('phpmailer_test_address')) {
-    $content .= rex_view::error(I18n::msg('phpmailer_checkmail_noadress'));
+    $content .= Message::error(I18n::msg('phpmailer_checkmail_noadress'));
 } else {
     $mail = new Mailer();
     $mail->addAddress(Core::getConfig('phpmailer_test_address'));
@@ -44,15 +46,15 @@ if ('' == Core::getConfig('phpmailer_from') || '' == Core::getConfig('phpmailer_
     if (!$mail->send()) {
         $alert = '<h2>' . I18n::msg('phpmailer_checkmail_error_headline') . '</h2><hr>';
         $alert .= I18n::msg('phpmailer_checkmail_error') . ': ' . $mail->ErrorInfo;
-        $content .= rex_view::error($alert);
+        $content .= Message::error($alert);
     } else {
         $success = '<h2>' . I18n::msg('phpmailer_checkmail_send') . '</h2> ' . rex_escape(Core::getConfig('phpmailer_test_address')) . '<br>' . I18n::msg('phpmailer_checkmail_info');
         $success .= '<br><br><strong>' . I18n::msg('phpmailer_checkmail_info_subject') . '</strong>';
-        $content .= rex_view::success($success);
+        $content .= Message::success($success);
     }
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('phpmailer_checkmail_headline'));
 $fragment->setVar('body', $content . $mailerDebug, false);
 $out = $fragment->parse('core/page/section.php');

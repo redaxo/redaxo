@@ -5,21 +5,24 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\WebAuthn;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 global $rexUserLoginmessage;
 
 $rexUserLogin = rex_post('rex_user_login', 'string');
 
-echo rex_view::title(I18n::msg('login'));
+echo View::title(I18n::msg('login'));
 
 $content = '';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $content .= $fragment->parse('core/login_branding.php');
 
 $js = '';
 if ('' != $rexUserLoginmessage) {
-    $content .= '<div class="rex-js-login-message">' . rex_view::error($rexUserLoginmessage) . '</div>';
+    $content .= '<div class="rex-js-login-message">' . Message::error($rexUserLoginmessage) . '</div>';
     $js = '
         var time_el = $(".rex-js-login-message strong[data-time]");
         if(time_el.length == 1) {
@@ -56,7 +59,7 @@ $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($re
 $n['left'] = '<i class="rex-icon rex-icon-user"></i>';
 $inputGroups[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $inputGroups, false);
 $inputGroup = $fragment->parse('core/form/input_group.php');
 
@@ -72,7 +75,7 @@ $n['field'] = '<input class="form-control" type="password" name="rex_user_psw" i
 $n['left'] = '<i class="rex-icon rex-icon-password"></i>';
 $inputGroups[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $inputGroups, false);
 $inputGroup = $fragment->parse('core/form/input_group.php');
 
@@ -82,7 +85,7 @@ $n['field'] = $inputGroup;
 $n['class'] = 'rex-form-group-vertical';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
@@ -94,7 +97,7 @@ if (Core::getProperty('login')->getLoginPolicy()->isStayLoggedInEnabled()) {
     $formElements[] = $n;
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/checkbox.php');
 
@@ -105,11 +108,11 @@ $n = [];
 $n['field'] = '<button class="btn btn-primary btn-block" type="submit"><i class="rex-icon rex-icon-sign-in"></i> ' . I18n::msg('login') . ' </button>';
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
@@ -139,7 +142,7 @@ $content = '
      //-->
 </script>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $content .= $fragment->parse('core/login_background.php');
 
 echo $content;

@@ -2,6 +2,9 @@
 
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($successArray) && is_array($successArray));
@@ -26,8 +29,8 @@ if (count($errorArray) > 0) {
     $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['step' => 3]) . '">' . I18n::msg('setup_210') . '</a>';
 }
 
-$security = '<div class="rex-js-setup-security-message" style="display:none">' . rex_view::error(I18n::msg('setup_security_msg') . '<br />' . I18n::msg('setup_no_js_security_msg')) . '</div>';
-$security .= '<noscript>' . rex_view::error(I18n::msg('setup_no_js_security_msg')) . '</noscript>';
+$security = '<div class="rex-js-setup-security-message" style="display:none">' . Message::error(I18n::msg('setup_security_msg') . '<br />' . I18n::msg('setup_no_js_security_msg')) . '</div>';
+$security .= '<noscript>' . Message::error(I18n::msg('setup_no_js_security_msg')) . '</noscript>';
 
 $security .= '<script nonce="' . rex_response::getNonce() . '">
 
@@ -66,12 +69,12 @@ $security .= '<script nonce="' . rex_response::getNonce() . '">
 </script>';
 
 foreach (rex_setup::checkPhpSecurity() as $warning) {
-    $security .= rex_view::warning($warning);
+    $security .= Message::warning($warning);
 }
 
-echo rex_view::title(I18n::msg('setup_200') . $cancelSetupBtn);
+echo View::title(I18n::msg('setup_200') . $cancelSetupBtn);
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('class', $class, false);
 $fragment->setVar('title', I18n::msg('setup_207'), false);
 $fragment->setVar('body', $content, false);

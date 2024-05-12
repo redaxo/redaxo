@@ -5,6 +5,8 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 assert(isset($markdown) && is_callable($markdown));
 
@@ -18,7 +20,7 @@ echo ApiFunction::getMessage();
 try {
     $addons = rex_install_packages::getMyPackages();
 } catch (rex_functional_exception $e) {
-    echo rex_view::error($e->getMessage());
+    echo Message::error($e->getMessage());
     $addonkey = '';
 }
 
@@ -54,7 +56,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $n['field'] = '<textarea class="form-control" id="rex-install-packages-upload-description" name="upload[description]" rows="15">' . rex_escape($file['description']) . '</textarea>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
 
@@ -88,7 +90,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             $formElements[] = $n;
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/checkbox.php');
 
@@ -110,13 +112,13 @@ if ($addonkey && isset($addons[$addonkey])) {
             $formElements[] = $n;
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
 
         $panel .= '</fieldset>';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('class', 'edit', false);
         $fragment->setVar('title', rex_escape($addonkey) . ' <small>' . $package->i18n($new ? 'file_add' : 'file_edit') . '</small>', false);
         $fragment->setVar('body', $panel, false);
@@ -189,7 +191,7 @@ if ($addonkey && isset($addons[$addonkey])) {
                 </tbody>
             </table>';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('title', rex_escape($addonkey) . ' <small>' . $package->i18n('information') . '</small>', false);
         $fragment->setVar('content', $panel, false);
         $content = $fragment->parse('core/page/section.php');
@@ -225,7 +227,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $panel .= '</tbody></table>';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('title', $package->i18n('files'), false);
         $fragment->setVar('content', $panel, false);
         $content = $fragment->parse('core/page/section.php');
@@ -262,7 +264,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
     $panel .= '</tbody></table>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', $package->i18n('my_packages'), false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');

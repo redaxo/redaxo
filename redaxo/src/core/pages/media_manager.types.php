@@ -8,6 +8,9 @@ use Redaxo\Core\Form\Form;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\View\DataList;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 $content = '';
 
@@ -75,11 +78,11 @@ if ('copy' == $func && $typeId > 0) {
 
 // -------------- output messages
 if ('' != $success) {
-    echo rex_view::success($success);
+    echo Message::success($success);
 }
 
 if ('' != $error) {
-    echo rex_view::error($error);
+    echo Message::error($error);
 }
 
 if ('' == $func) {
@@ -87,7 +90,7 @@ if ('' == $func) {
     // (werden am seltesten bearbeitet)
     $query = 'SELECT id, status, name, description FROM ' . Core::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
-    $list = rex_list::factory($query, 100);
+    $list = DataList::factory($query, 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
     $list->setNoRowsMessage(I18n::msg('media_manager_type_no_types'));
 
@@ -155,7 +158,7 @@ if ('' == $func) {
 
     $content .= $list->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('media_manager_type_caption'), false);
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
@@ -223,7 +226,7 @@ if ('' == $func) {
 
     $content .= $form->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $formLabel, false);
     $fragment->setVar('body', $content, false);

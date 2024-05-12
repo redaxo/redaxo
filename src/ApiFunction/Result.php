@@ -3,8 +3,8 @@
 namespace Redaxo\Core\ApiFunction;
 
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\View\Message;
 use rex_exception;
-use rex_view;
 
 use function is_array;
 
@@ -59,9 +59,9 @@ class Result
         }
 
         if ($this->isSuccessfull()) {
-            return rex_view::success($this->message);
+            return Message::success($this->message);
         }
-        return rex_view::error($this->message);
+        return Message::error($this->message);
     }
 
     /**

@@ -8,17 +8,19 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\Util\Version;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\View;
 
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
  */
 
-echo rex_view::title(I18n::msg('credits'), '');
+echo View::title(I18n::msg('credits'), '');
 
 if (rex_get('license')) {
     $license = Markdown::factory()->parse(File::require(Path::base('LICENSE.md')));
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', 'REDAXO ' . I18n::msg('credits_license'));
     $fragment->setVar('body', $license, false);
     echo '<div id="license"></div>'; // scroll anchor
@@ -57,7 +59,7 @@ $content[] = '
     <h3>Thomas Blum <small>thomas.blum@redaxo.org</small></h3>
     <p>Yakamara Media GmbH &amp; Co. KG, <a href="https://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a></p>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
 
@@ -66,7 +68,7 @@ if (Version::isUnstable($coreVersion)) {
     $coreVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $coreVersion;
 }
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', 'REDAXO <small>' . $coreVersion . ' &ndash; <a href="' . Url::backendPage('credits', ['license' => 'core']) . '">' . I18n::msg('credits_license') . '</a></small>', false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
@@ -132,7 +134,7 @@ $content .= '
         </tbody>
     </table>';
 
-$fragment = new rex_fragment();
+$fragment = new Fragment();
 $fragment->setVar('title', I18n::msg('credits_caption'), false);
 $fragment->setVar('content', $content, false);
 echo $fragment->parse('core/page/section.php');

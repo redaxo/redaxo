@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\View\Fragment;
 
 /**
  * REX_MEDIALIST[1].
@@ -99,7 +100,7 @@ class rex_var_medialist extends rex_var
                 <a href="#" class="btn btn-popup" onclick="' . $viewFunc . 'return false;" title="' . I18n::msg('var_media_view') . '"' . $disabled . '><i class="rex-icon rex-icon-view-media"></i></a>';
         $e['after'] = '<div class="rex-js-media-preview"></div></div>';
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', [$e], false);
 
         return $fragment->parse('core/form/widget_list.php');

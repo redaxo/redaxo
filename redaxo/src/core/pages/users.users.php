@@ -18,6 +18,9 @@ use Redaxo\Core\Security\UserSession;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\Validator;
+use Redaxo\Core\View\DataList;
+use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Message;
 
 $currentUser = Core::requireUser();
 
@@ -296,11 +299,11 @@ if ($warnings) {
 // ---------------------------------- ERR MSG
 
 if (!empty($info)) {
-    $message .= rex_view::info(implode('<br/>', $info));
+    $message .= Message::info(implode('<br/>', $info));
 }
 
 if (!empty($warnings)) {
-    $message .= rex_view::warning(implode('<br/>', $warnings));
+    $message .= Message::warning(implode('<br/>', $warnings));
 }
 
 echo ApiFunction::getMessage();
@@ -341,7 +344,7 @@ if ('' != $fUNCADD || $userId > 0) {
         $n['field'] = '<button class="btn btn-apply" type="submit" name="FUNC_APPLY" value="1" ' . Core::getAccesskey(I18n::msg('save_and_goon_tooltip'), 'apply') . '>' . I18n::msg('user_apply') . '</button>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
         unset($formElements);
@@ -415,7 +418,7 @@ if ('' != $fUNCADD || $userId > 0) {
         $n['field'] = '<button class="btn btn-save" type="submit" name="function" value="1" ' . Core::getAccesskey(I18n::msg('add_user'), 'save') . '>' . I18n::msg('add_user') . '</button>';
         $formElements[] = $n;
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
         unset($formElements);
@@ -441,7 +444,7 @@ if ('' != $fUNCADD || $userId > 0) {
 
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('flush', true);
     $fragment->setVar('group', true);
     $fragment->setVar('elements', $formElements, false);
@@ -456,7 +459,7 @@ if ('' != $fUNCADD || $userId > 0) {
     $n['field'] = '<input type="checkbox" id="rex-user-password-change-required" name="password_change_required" value="1" ' . $checked . $disabled . ' />';
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $content .= $fragment->parse('core/form/checkbox.php');
 
@@ -477,7 +480,7 @@ if ('' != $fUNCADD || $userId > 0) {
     $n['field'] = '<input class="form-control" type="email" placeholder="user@example.org" id="rex-user-email" name="useremail" value="' . rex_escape($useremail) . '"  autocomplete="email" maxlength="255" />';
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('flush', true);
     $fragment->setVar('group', true);
     $fragment->setVar('elements', $formElements, false);
@@ -505,7 +508,7 @@ if ('' != $fUNCADD || $userId > 0) {
         $formElements[] = $n;
     }
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('elements', $formElements, false);
     $content .= $fragment->parse('core/form/checkbox.php');
 
@@ -526,7 +529,7 @@ if ('' != $fUNCADD || $userId > 0) {
     $n['field'] = $selBeSprache->get();
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('group', true);
     $fragment->setVar('flush', true);
     $fragment->setVar('elements', $formElements, false);
@@ -534,7 +537,7 @@ if ('' != $fUNCADD || $userId > 0) {
 
     $content .= '</fieldset>';
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $formLabel);
     $fragment->setVar('body', $content, false);
@@ -576,7 +579,7 @@ if ($SHOW) {
     // use string starting with "_" to have users without role at bottom when sorting by role ASC
     $noRole = '_no_role';
     $separator = "\0,\0";
-    $list = rex_list::factory('
+    $list = DataList::factory('
         SELECT
             id,
             IF(name <> "", name, login) as name,
@@ -683,7 +686,7 @@ if ($SHOW) {
 
     $content .= $list->get();
 
-    $fragment = new rex_fragment();
+    $fragment = new Fragment();
     $fragment->setVar('title', I18n::msg('user_caption'));
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');

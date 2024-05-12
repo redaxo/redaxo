@@ -24,6 +24,7 @@ use Redaxo\Core\Security\UserRole;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\VarDumper;
+use Redaxo\Core\View\Fragment;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -99,7 +100,7 @@ Core::setProperty('redaxo', $REX['REDAXO']);
 // add core lang directory to I18n
 I18n::addDirectory(Path::core('lang'));
 // add core base-fragmentpath to fragmentloader
-rex_fragment::addDirectory(Path::core('fragments/'));
+Fragment::addDirectory(Path::core('fragments/'));
 
 // ----------------- VERSION
 Core::setProperty('version', '6.0.0-dev');

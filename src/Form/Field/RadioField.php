@@ -4,7 +4,7 @@ namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Form\AbstractForm;
 use Redaxo\Core\Util\Str;
-use rex_fragment;
+use Redaxo\Core\View\Fragment;
 
 class RadioField extends AbstractOptionField
 {
@@ -59,7 +59,7 @@ class RadioField extends AbstractOptionField
             $formElements[] = $n;
         }
 
-        $fragment = new rex_fragment();
+        $fragment = new Fragment();
         $fragment->setVar('elements', $formElements, false);
 
         return $fragment->parse('core/form/radio.php');

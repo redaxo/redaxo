@@ -19,7 +19,7 @@ use Redaxo\Core\MetaInfo\Form\Input\TextInput;
 use Redaxo\Core\MetaInfo\Form\Input\TimeInput;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
-use rex_fragment;
+use Redaxo\Core\View\Fragment;
 
 use function count;
 use function in_array;
@@ -135,7 +135,7 @@ abstract class AbstractHandler
                     $e['label'] = $label;
                     $e['field'] = $field;
                     $e['note'] = $note;
-                    $fragment = new rex_fragment();
+                    $fragment = new Fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
 
@@ -212,7 +212,7 @@ abstract class AbstractHandler
                         $formElements[] = $e;
                     }
 
-                    $fragment = new rex_fragment();
+                    $fragment = new Fragment();
                     $fragment->setVar('elements', $formElements, false);
                     $fragment->setVar('inline', $inline);
 
@@ -230,7 +230,7 @@ abstract class AbstractHandler
                         $e['label'] = $label;
                         $e['field'] = $field;
                         $e['note'] = $note;
-                        $fragment = new rex_fragment();
+                        $fragment = new Fragment();
                         $fragment->setVar('elements', [$e], false);
                         $field = $fragment->parse('core/form/form.php');
                     }
@@ -291,7 +291,7 @@ abstract class AbstractHandler
                     $e['label'] = $label;
                     $e['field'] = $field;
                     $e['note'] = $note;
-                    $fragment = new rex_fragment();
+                    $fragment = new Fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
 
@@ -348,7 +348,7 @@ abstract class AbstractHandler
                     $e['label'] = $label;
                     $e['field'] = $field;
                     $e['note'] = $note;
-                    $fragment = new rex_fragment();
+                    $fragment = new Fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
 
@@ -371,7 +371,7 @@ abstract class AbstractHandler
                     $e['label'] = $label;
                     $e['field'] = $field;
                     $e['note'] = $note;
-                    $fragment = new rex_fragment();
+                    $fragment = new Fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
 
@@ -422,7 +422,7 @@ abstract class AbstractHandler
                     $e['label'] = $label;
                     $e['field'] = $field;
                     $e['note'] = $note;
-                    $fragment = new rex_fragment();
+                    $fragment = new Fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
 
@@ -458,7 +458,7 @@ abstract class AbstractHandler
                     $e['label'] = $label;
                     $e['field'] = $field;
                     $e['note'] = $note;
-                    $fragment = new rex_fragment();
+                    $fragment = new Fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
 

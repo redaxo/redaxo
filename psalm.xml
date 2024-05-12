@@ -27,7 +27,7 @@
         <file name=".phpstorm.meta.php" />
     </stubs>
     <universalObjectCrates>
-        <class name="rex_fragment" />
+        <class name="Redaxo\Core\View\Fragment" />
     </universalObjectCrates>
     <forbiddenFunctions>
         <function name="basename"/>
