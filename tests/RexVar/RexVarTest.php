@@ -34,6 +34,12 @@ final class RexVarTestVarB extends RexVar
  */
 final class RexVarTest extends RexVarTestBase
 {
+    public static function setUpBeforeClass(): void
+    {
+        RexVar::register('REX_TEST_VAR_A', RexVarTestVarA::class);
+        RexVar::register('REX_TEST_VAR_B', RexVarTestVarB::class);
+    }
+
     /** @return list<array{string, string}> */
     public static function parseTokensProvider(): array
     {
@@ -149,8 +155,8 @@ c', "a\nb\nc"],
             ['REX_TEST_VAR_A[content="" prefix=ab suffix=ef]', ''],
             ['REX_TEST_VAR_A[content=cd prefix=ab suffix=ef instead=gh ifempty=ij]', 'abghef'],
             ['REX_TEST_VAR_A[content="" prefix=ab suffix=ef instead=gh ifempty=ij]', 'abijef'],
-            ['REX_TEST_VAR_A[content=ab callback="rex_var_test::varCallback" suffix=cd]', 'var:REX_TEST_VAR_A class:RexTestVarA subject:ab content:ab suffix:cd'],
-            ['REX_TEST_VAR_A[content="REX_TEST_VAR_A[ab]" callback="rex_var_test::varCallback" suffix=cd]', 'var:REX_TEST_VAR_A class:RexTestVarA subject:ab content:ab suffix:cd'],
+            ['REX_TEST_VAR_A[content=ab callback="' . self::class . '::varCallback" suffix=cd]', 'var:REX_TEST_VAR_A class:' . RexVarTestVarA::class . ' subject:ab content:ab suffix:cd'],
+            ['REX_TEST_VAR_A[content="REX_TEST_VAR_A[ab]" callback="' . self::class . '::varCallback" suffix=cd]', 'var:REX_TEST_VAR_A class:' . RexVarTestVarA::class . ' subject:ab content:ab suffix:cd'],
         ];
     }
 
@@ -165,34 +171,27 @@ c', "a\nb\nc"],
         $this->assertParseOutputEquals($expectedOutput, $content);
     }
 
-    public function testRegister(): void
-    {
-        RexVar::register('REX_TEST_VAR_C', RexVarTestVarB::class);
-
-        $this->assertParseOutputEquals('2', 'REX_3RD_TEST_VAR[]');
-    }
-
     public function testToArray(): void
     {
-        $content = '<?php echo rex_var::toArray("REX_TEST_VAR_A[content=\'test\']") === null ? "null" : "";';
+        $content = '<?php echo ' . RexVar::class . '::toArray("REX_TEST_VAR_A[content=\'test\']") === null ? "null" : "";';
         $this->assertParseOutputEquals('null', $content, 'toArray() returns null for non-arrays');
 
         $array = ['1', '3', 'test'];
 
-        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR_A[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
+        $content = '<?php print_r(' . RexVar::class . '::toArray("REX_TEST_VAR_A[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
         $this->assertParseOutputEquals(print_r($array, true), $content, "toArray() works with non-htmlspecialchar'ed data");
 
-        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR_A[content=\'' . addcslashes(htmlspecialchars(json_encode($array)), '[]"') . '\']"));';
+        $content = '<?php print_r(' . RexVar::class . '::toArray("REX_TEST_VAR_A[content=\'' . addcslashes(htmlspecialchars(json_encode($array)), '[]"') . '\']"));';
         $this->assertParseOutputEquals(print_r($array, true), $content, "toArray() works with htmlspecialchar'ed data");
 
         $array = ['&#039;', '\&quot;']; // [code for ', code for "]
         $unescapedArray = ["'", '"'];
-        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR_A[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
+        $content = '<?php print_r(' . RexVar::class . '::toArray("REX_TEST_VAR_A[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
         $this->assertParseOutputEquals(print_r($unescapedArray, true), $content, 'toArray() rebuilds quotes');
 
         $array = ['&lt;strong&gt;inject me&lt;/strong&gt;', 'foo&amp;bar'];
         $unescapedArray = ['<strong>inject me</strong>', 'foo&bar'];
-        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR_A[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
+        $content = '<?php print_r(' . RexVar::class . '::toArray("REX_TEST_VAR_A[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
         $this->assertParseOutputEquals(print_r($unescapedArray, true), $content, 'toArray() rebuilds HTML');
     }
 

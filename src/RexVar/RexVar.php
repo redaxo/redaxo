@@ -6,6 +6,7 @@ use AppendIterator;
 use ArrayIterator;
 use Iterator;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Type;
 
 use function count;
 use function in_array;
@@ -170,8 +171,9 @@ abstract class RexVar
     private static function getVar($var): ?self
     {
         if (!isset(self::$vars[$var])) {
+            $class = str_replace('_', '', ucwords(strtolower(substr($var, 4)), '_'));
             /** @var class-string $class */
-            $class = 'rex_var_' . strtolower(substr($var, 4));
+            $class = __NAMESPACE__ . '\\' . $class . 'Var';
             if (!class_exists($class) || !is_subclass_of($class, self::class)) {
                 return null;
             }
@@ -398,8 +400,9 @@ abstract class RexVar
         }
 
         if ($this->hasArg('callback')) {
+            $var = Type::string(array_search(static::class, self::$vars, true));
             $args = [
-                "'var' => 'REX" . strtoupper(substr(static::class, 7)) . "'",
+                "'var' => '" . $var . "'",
                 "'class' => '" . static::class . "'",
                 "'subject' => " . $content,
             ];
