@@ -9,6 +9,7 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\MediaPool\Media;
@@ -376,7 +377,7 @@ class MediaManager
 
         // check for a cache-buster. this needs to be done, before the session gets closed/aborted.
         // the header is sent directly, to make sure it gets not cached with the other media related headers.
-        if (rex_get('buster')) {
+        if (Request::get('buster')) {
             if (PHP_SESSION_ACTIVE == session_status()) {
                 // short lived cache, for resources which might be affected by e.g. permissions
                 Response::sendCacheControl('private, max-age=7200');
@@ -539,7 +540,7 @@ class MediaManager
      */
     public static function getMediaFile()
     {
-        return Path::basename(rex_get('rex_media_file', 'string'));
+        return Path::basename(Request::get('rex_media_file', 'string'));
     }
 
     /**
@@ -547,7 +548,7 @@ class MediaManager
      */
     public static function getMediaType()
     {
-        $type = rex_get('rex_media_type', 'string');
+        $type = Request::get('rex_media_type', 'string');
 
         return Path::basename($type);
     }

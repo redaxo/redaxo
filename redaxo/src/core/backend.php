@@ -35,9 +35,9 @@ header("Content-Security-Policy: frame-ancestors 'self'");
 
 // assets which are passed with a cachebuster will be cached very long,
 // as we assume their url will change when the underlying content changes
-if (rex_get('asset') && rex_get('buster')) {
+if (Request::get('asset') && Request::get('buster')) {
     /** @psalm-taint-escape file */ // it is not escaped here, but it is validated below via the realpath
-    $assetFile = rex_get('asset', 'string');
+    $assetFile = Request::get('asset', 'string');
 
     // relative to the assets-root
     if (str_starts_with($assetFile, '/assets/')) {
@@ -114,7 +114,7 @@ if (Core::isSetup()) {
     $rexUserPsw = rex_post('rex_user_psw', 'string');
     $rexUserStayLoggedIn = rex_post('rex_user_stay_logged_in', 'boolean', false);
 
-    if (rex_get('rex_logout', 'boolean') && CsrfToken::factory('backend_logout')->isValid()) {
+    if (Request::get('rex_logout', 'boolean') && CsrfToken::factory('backend_logout')->isValid()) {
         $login->setLogout(true);
         $login->checkLogin();
         CsrfToken::removeAll();
@@ -189,7 +189,7 @@ if (Core::isSetup()) {
         Core::setProperty('user', $user);
 
         // Safe Mode
-        if (!Core::isLiveMode() && $user->isAdmin() && null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
+        if (!Core::isLiveMode() && $user->isAdmin() && null !== ($safeMode = Request::get('safemode', 'boolean', null))) {
             if ($safeMode) {
                 rex_set_session('safemode', true);
             } else {
@@ -207,7 +207,7 @@ if (Core::isSetup()) {
         }
     }
 
-    if ('' === $rexUserLoginmessage && rex_get('rex_logged_out', 'boolean')) {
+    if ('' === $rexUserLoginmessage && Request::get('rex_logged_out', 'boolean')) {
         $rexUserLoginmessage = I18n::msg('login_logged_out');
     }
 }

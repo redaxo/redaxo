@@ -5,6 +5,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\Util\Version;
@@ -17,7 +18,7 @@ use Redaxo\Core\View\View;
 
 echo View::title(I18n::msg('credits'), '');
 
-if (rex_get('license')) {
+if (Request::get('license')) {
     $license = Markdown::factory()->parse(File::require(Path::base('LICENSE.md')));
 
     $fragment = new Fragment();

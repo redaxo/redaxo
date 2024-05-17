@@ -409,6 +409,6 @@ class rex_setup
 
     private static function getToken(): ?string
     {
-        return rex_get('setup_token', 'string', null);
+        return Request::get('setup_token', 'string', null);
     }
 }

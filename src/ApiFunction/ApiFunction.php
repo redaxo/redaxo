@@ -215,7 +215,7 @@ abstract class ApiFunction
                 }
             }
 
-            $urlResult = rex_get(self::REQ_RESULT_PARAM, 'string');
+            $urlResult = Request::get(self::REQ_RESULT_PARAM, 'string');
             if ($urlResult) {
                 // take over result from url and do not execute the apiFunc
                 $result = Result::fromJSON($urlResult);
@@ -232,7 +232,7 @@ abstract class ApiFunction
                     $result = $apiFunc->execute();
 
                     if (!($result instanceof Result)) {
-                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) . '. Expected a instance of ApiFunctionResult but got "' . get_debug_type($result) . '".');
+                        throw new rex_exception('Illegal result returned from api-function ' . Request::get(self::REQ_CALL_PARAM) . '. Expected a instance of ApiFunctionResult but got "' . get_debug_type($result) . '".');
                     }
 
                     $apiFunc->result = $result;

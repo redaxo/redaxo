@@ -25,7 +25,7 @@ class UserRemoveAuthMethod extends ApiFunction
             throw new ApiFunctionException('Permission denied');
         }
 
-        if (rex_get('password', 'bool')) {
+        if (Request::get('password', 'bool')) {
             return $this->removePassword($userId);
         }
 

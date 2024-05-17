@@ -28,7 +28,7 @@ class UserHasSession extends ApiFunction
             exit;
         }
 
-        $perm = rex_get('perm');
+        $perm = Request::get('perm');
         if ($perm) {
             Response::sendJson($user->hasPerm($perm));
             exit;

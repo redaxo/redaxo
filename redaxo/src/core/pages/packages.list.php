@@ -84,7 +84,7 @@ $getTableRow = static function (Addon $package) use ($getLink) {
     $class .= $package->isSystemPackage() ? ' rex-system-addon' : '';
 
     // --------------------------------------------- API MESSAGES
-    if (($package->getPackageId() == rex_get('package', 'string') && ApiFunction::hasMessage()) || ($package->getPackageId() == rex_get('mark', 'string'))) {
+    if (($package->getPackageId() == Request::get('package', 'string') && ApiFunction::hasMessage()) || ($package->getPackageId() == Request::get('mark', 'string'))) {
         $class = ' mark';
     }
 

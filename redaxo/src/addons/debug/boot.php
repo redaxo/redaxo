@@ -17,7 +17,7 @@ use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Timer;
 
-if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(ApiFunction::REQ_CALL_PARAM)) {
+if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === Request::get(ApiFunction::REQ_CALL_PARAM)) {
     return;
 }
 

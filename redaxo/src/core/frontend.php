@@ -154,7 +154,7 @@ if (Core::getConfig('article_work_version', false)) {
     });
 }
 
-$clangId = rex_get('clang', 'int');
+$clangId = Request::get('clang', 'int');
 if ($clangId && !Language::exists($clangId)) {
     rex_redirect(Article::getNotfoundArticleId(), Language::getStartId());
 }
