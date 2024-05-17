@@ -5,7 +5,7 @@
       <code><![CDATA['<script nonce="' . Response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_clang_id = ' . Language::getCurrentId() . ';
-                    var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
+                    var history_ctype_id = ' . Request::request('ctype', 'int', 0) . ';
                     var history_article_link = "' . rex_escape($articleLink, 'js') . '";
                 </script>']]></code>
     </TaintedHtml>
@@ -13,7 +13,7 @@
       <code><![CDATA['<script nonce="' . Response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_clang_id = ' . Language::getCurrentId() . ';
-                    var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
+                    var history_ctype_id = ' . Request::request('ctype', 'int', 0) . ';
                     var history_article_link = "' . rex_escape($articleLink, 'js') . '";
                 </script>']]></code>
     </TaintedTextWithQuotes>
@@ -76,15 +76,42 @@
       <code><![CDATA[$this->getVar('content2select')]]></code>
     </TaintedTextWithQuotes>
   </file>
+  <file src="redaxo/src/core/lib/backup/backup.php">
+    <TaintedInclude>
+      <code><![CDATA[$filename]]></code>
+    </TaintedInclude>
+  </file>
+  <file src="redaxo/src/core/pages/backup.import.server.php">
+    <TaintedFile>
+      <code><![CDATA[$fileTemp]]></code>
+      <code><![CDATA[$fileTemp]]></code>
+    </TaintedFile>
+  </file>
+  <file src="redaxo/src/core/pages/backup.import.upload.php">
+    <TaintedFile>
+      <code><![CDATA[$fileTemp]]></code>
+      <code><![CDATA[$fileTemp]]></code>
+    </TaintedFile>
+  </file>
   <file src="src/Database/Sql.php">
     <TaintedSql>
       <code><![CDATA[$query]]></code>
       <code><![CDATA[$query]]></code>
     </TaintedSql>
   </file>
+  <file src="src/Filesystem/File.php">
+    <TaintedFile>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+    </TaintedFile>
+  </file>
   <file src="src/Http/Response.php">
+    <TaintedFile>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+    </TaintedFile>
     <TaintedHeader>
-      <code><![CDATA[$str]]></code>
       <code><![CDATA['Location: ' . $url]]></code>
     </TaintedHeader>
   </file>
