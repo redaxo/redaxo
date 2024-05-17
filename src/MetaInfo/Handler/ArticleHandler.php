@@ -8,6 +8,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Http\Request;
 
 /**
  * @internal
@@ -23,7 +24,7 @@ class ArticleHandler extends AbstractHandler
     {
         // Nur speichern wenn auch das MetaForm ausgefüllt wurde
         // z.b. nicht speichern wenn über be_search select navigiert wurde
-        if (!rex_post('savemeta', 'boolean')) {
+        if (!Request::post('savemeta', 'boolean')) {
             return $params;
         }
 
@@ -31,7 +32,7 @@ class ArticleHandler extends AbstractHandler
         // $article->setDebug();
         $article->setTable(Core::getTablePrefix() . 'article');
         $article->setWhere('id=:id AND clang_id=:clang', ['id' => $params['id'], 'clang' => $params['clang']]);
-        $article->setValue('name', rex_post('meta_article_name', 'string'));
+        $article->setValue('name', Request::post('meta_article_name', 'string'));
 
         parent::fetchRequestValues($params, $article, $sqlFields);
 

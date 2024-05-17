@@ -7,6 +7,7 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -23,11 +24,11 @@ $success = '';
 $error = '';
 
 // ------------------------------ Requestvars
-$exportfilename = rex_post('exportfilename', 'string');
-$exporttype = rex_post('exporttype', 'string');
-$exportdl = rex_post('exportdl', 'boolean');
-$EXPTABLES = rex_post('EXPTABLES', 'array');
-$EXPDIR = rex_post('EXPDIR', 'array');
+$exportfilename = Request::post('exportfilename', 'string');
+$exporttype = Request::post('exporttype', 'string');
+$exportdl = Request::post('exportdl', 'boolean');
+$EXPTABLES = Request::post('EXPTABLES', 'array');
+$EXPDIR = Request::post('EXPDIR', 'array');
 
 if ('' == $exportfilename) {
     $exportfilename = Str::normalize(Core::getServerName()) . '_' . date('Ymd_Hi') . '_rex' . Core::getVersion();
@@ -44,7 +45,7 @@ if ($EXPTABLES) {
 }
 
 $csrfToken = CsrfToken::factory('backup');
-$export = rex_post('export', 'bool');
+$export = Request::post('export', 'bool');
 
 if ($export && !$csrfToken->isValid()) {
     $error = I18n::msg('csrf_token_invalid');

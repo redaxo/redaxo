@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\WebAuthn;
@@ -12,7 +13,7 @@ use Redaxo\Core\View\View;
 
 global $rexUserLoginmessage;
 
-$rexUserLogin = rex_post('rex_user_login', 'string');
+$rexUserLogin = Request::post('rex_user_login', 'string');
 
 echo View::title(I18n::msg('login'));
 

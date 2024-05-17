@@ -43,7 +43,7 @@ if (!isset($fileId)) {
 
 $perm = Core::requireUser()->getComplexPerm('media');
 
-if (rex_post('btn_delete', 'string')) {
+if (Request::post('btn_delete', 'string')) {
     if (!$csrf->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
     } else {
@@ -75,7 +75,7 @@ if (rex_post('btn_delete', 'string')) {
     }
 }
 
-if (rex_post('btn_update', 'string')) {
+if (Request::post('btn_update', 'string')) {
     if (!$csrf->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
     } else {

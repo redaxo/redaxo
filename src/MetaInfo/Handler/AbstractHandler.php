@@ -9,6 +9,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\MetaInfo\Database\Table;
 use Redaxo\Core\MetaInfo\Form\Input\ArticleInput;
 use Redaxo\Core\MetaInfo\Form\Input\DateInput;
@@ -544,7 +545,7 @@ abstract class AbstractHandler
             return null;
         }
 
-        $postValue = rex_post($fieldName, 'array');
+        $postValue = Request::post($fieldName, 'array');
 
         // handle date types with timestamps
         if (isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute'])) {

@@ -50,7 +50,7 @@ if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
     if (!$csrf->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
     } else {
-        $selectedmedia = rex_post('selectedmedia', 'array');
+        $selectedmedia = Request::post('selectedmedia', 'array');
         if (isset($selectedmedia[0]) && '' != $selectedmedia[0]) {
             foreach ($selectedmedia as $fileName) {
                 $db = Sql::factory();
@@ -82,7 +82,7 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
     if (!$csrf->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
     } else {
-        $selectedmedia = rex_post('selectedmedia', 'array');
+        $selectedmedia = Request::post('selectedmedia', 'array');
         if (0 != count($selectedmedia)) {
             $error = [];
             $success = [];

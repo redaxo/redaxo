@@ -13,7 +13,7 @@ use Redaxo\Core\View\Message;
 $func = Request::request('func', 'string');
 
 if ('update' == $func) {
-    $config = rex_post('settings', [
+    $config = Request::post('settings', [
         ['media_manager_jpg_quality', 'int'],
         ['media_manager_png_compression', 'int'],
         ['media_manager_webp_quality', 'int'],

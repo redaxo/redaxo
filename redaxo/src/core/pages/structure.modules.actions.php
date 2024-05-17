@@ -64,10 +64,10 @@ if ('delete' == $function && !$csrfToken->isValid()) {
 }
 
 if ('add' == $function || 'edit' == $function) {
-    $name = rex_post('name', 'string');
-    $previewaction = rex_post('previewaction', 'string');
-    $presaveaction = rex_post('presaveaction', 'string');
-    $postsaveaction = rex_post('postsaveaction', 'string');
+    $name = Request::post('name', 'string');
+    $previewaction = Request::post('previewaction', 'string');
+    $presaveaction = Request::post('presaveaction', 'string');
+    $postsaveaction = Request::post('postsaveaction', 'string');
 
     $previewstatus = 255;
     $presavestatus = 255;
@@ -79,9 +79,9 @@ if ('add' == $function || 'edit' == $function) {
     } elseif ($save) {
         $faction = Sql::factory();
 
-        $previewstatus = rex_post('preview_allevents', 'bool') ? [1, 2] : rex_post('previewstatus', 'array');
-        $presavestatus = rex_post('presave_allevents', 'bool') ? [1, 2, 4] : rex_post('presavestatus', 'array');
-        $postsavestatus = rex_post('postsave_allevents', 'bool') ? [1, 2, 4] : rex_post('postsavestatus', 'array');
+        $previewstatus = Request::post('preview_allevents', 'bool') ? [1, 2] : Request::post('previewstatus', 'array');
+        $presavestatus = Request::post('presave_allevents', 'bool') ? [1, 2, 4] : Request::post('presavestatus', 'array');
+        $postsavestatus = Request::post('postsave_allevents', 'bool') ? [1, 2, 4] : Request::post('postsavestatus', 'array');
 
         $previewmode = 0;
         foreach ($previewstatus as $status) {

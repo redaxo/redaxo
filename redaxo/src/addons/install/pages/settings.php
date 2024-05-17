@@ -3,6 +3,7 @@
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
@@ -18,7 +19,7 @@ $config = array_merge([
     'api_key' => null,
 ], File::getCache($configFile));
 
-$newConfig = rex_post('settings', [
+$newConfig = Request::post('settings', [
     ['backups', 'bool', false],
     ['api_login', 'string'],
     ['api_key', 'string'],

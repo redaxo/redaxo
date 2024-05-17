@@ -29,8 +29,8 @@ class CategoryAdd extends ApiFunction
 
         // prepare and validate parameters
         $data = [];
-        $data['catpriority'] = rex_post('category-position', 'int');
-        $data['catname'] = rex_post('category-name', 'string');
+        $data['catpriority'] = Request::post('category-position', 'int');
+        $data['catname'] = Request::post('category-name', 'string');
         return new Result(true, CategoryHandler::addCategory($parentId, $data));
     }
 

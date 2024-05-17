@@ -82,7 +82,7 @@ $selBeTheme->addOption(I18n::msg('theme_dark'), 'dark');
 
 // --------------------------------- FUNCTIONS
 
-$update = rex_post('upd_profile_button', 'bool');
+$update = Request::post('upd_profile_button', 'bool');
 
 if ($update) {
     if (!$csrfToken->isValid()) {
@@ -131,7 +131,7 @@ $verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool
         return true;
     }
 
-    $result = $webauthn->processGet(rex_post('passkey_verify', 'string'));
+    $result = $webauthn->processGet(Request::post('passkey_verify', 'string'));
     if ($result) {
         [$id, $passkeyUser] = $result;
 
@@ -143,7 +143,7 @@ $verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool
     return I18n::msg('passkey_verify_error');
 };
 
-if (rex_post('upd_psw_button', 'bool')) {
+if (Request::post('upd_psw_button', 'bool')) {
     if (!$csrfToken->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
     } elseif (true !== $msg = $verifyLogin()) {

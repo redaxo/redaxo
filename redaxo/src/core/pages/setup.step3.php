@@ -35,7 +35,7 @@ $timezoneSel->setSize(1);
 $timezoneSel->addOptions(DateTimeZone::listIdentifiers(), true);
 $timezoneSel->setSelected($config['timezone']);
 
-$dbCreateChecked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
+$dbCreateChecked = Request::post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
 
 $httpsRedirectSel = new Select();
 $httpsRedirectSel->setId('rex-form-https');

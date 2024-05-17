@@ -73,7 +73,7 @@ if ($func && !$csrfToken->isValid()) {
         File::getConfig($configFile),
     );
 
-    $settings = rex_post('settings', 'array', []);
+    $settings = Request::post('settings', 'array', []);
 
     foreach (['server', 'servername', 'error_email', 'lang'] as $key) {
         if (!isset($settings[$key]) || !$settings[$key]) {
@@ -103,7 +103,7 @@ if ($func && !$csrfToken->isValid()) {
         }
     }
 } elseif ('update_editor' === $func) {
-    $editor = rex_post('editor', [
+    $editor = Request::post('editor', [
         ['name', 'string', null],
         ['basepath', 'string', null],
         ['update_cookie', 'bool', false],

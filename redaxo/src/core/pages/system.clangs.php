@@ -29,8 +29,8 @@ $clangStatus = Request::request('clang_status', 'bool');
 $func = Request::request('func', 'string');
 
 // -------------- Form Submits
-$addClangSave = rex_post('add_clang_save', 'boolean');
-$editClangSave = rex_post('edit_clang_save', 'boolean');
+$addClangSave = Request::post('add_clang_save', 'boolean');
+$editClangSave = Request::post('edit_clang_save', 'boolean');
 
 $error = '';
 $success = '';

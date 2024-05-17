@@ -3,6 +3,7 @@
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
@@ -15,7 +16,7 @@ assert(isset($cancelSetupBtn));
 
 $tablesComplete = '' == rex_setup_importer::verifyDbSchema();
 
-$createdb = rex_post('createdb', 'int', '');
+$createdb = Request::post('createdb', 'int', '');
 
 $headline = View::title(I18n::msg('setup_400') . $cancelSetupBtn);
 

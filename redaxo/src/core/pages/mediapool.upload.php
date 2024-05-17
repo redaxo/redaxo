@@ -29,7 +29,7 @@ if ('add_file' == $mediaMethod) {
         echo Message::error(I18n::msg('csrf_token_invalid'));
     } else {
         global $warning;
-        if (rex_post('save', 'boolean') || rex_post('saveandexit', 'boolean')) {
+        if (Request::post('save', 'boolean') || Request::post('saveandexit', 'boolean')) {
             $data = [];
             $data['title'] = Request::request('ftitle', 'string');
             $data['category_id'] = (int) $rexFileCategory;
@@ -40,9 +40,9 @@ if ('add_file' == $mediaMethod) {
             ]);
 
             try {
-                $data = MediaHandler::addMedia($data, true, rex_post('args', 'array'));
+                $data = MediaHandler::addMedia($data, true, Request::post('args', 'array'));
                 $info = I18n::msg('pool_file_added');
-                if (rex_post('saveandexit', 'boolean')) {
+                if (Request::post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {
                         if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
                             $js = "selectMedialist('" . $data['filename'] . "');";

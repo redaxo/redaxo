@@ -31,9 +31,9 @@ class ArticleEdit extends ApiFunction
 
         // --------------------- ARTIKEL EDIT
         $data = [];
-        $data['priority'] = rex_post('article-position', 'int');
-        $data['name'] = rex_post('article-name', 'string');
-        $data['template_id'] = rex_post('template_id', 'int');
+        $data['priority'] = Request::post('article-position', 'int');
+        $data['name'] = Request::post('article-name', 'string');
+        $data['template_id'] = Request::post('template_id', 'int');
         return new Result(true, ArticleHandler::editArticle($articleId, $clang, $data));
     }
 

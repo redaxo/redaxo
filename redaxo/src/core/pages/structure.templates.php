@@ -92,14 +92,14 @@ if ('add' == $function || 'edit' == $function) {
 
     if ('ja' == $save) {
         $previousActive = $active;
-        $active = rex_post('active', 'int');
-        $templatename = rex_post('templatename', 'string');
-        $template = rex_post('content', 'string');
+        $active = Request::post('active', 'int');
+        $templatename = Request::post('templatename', 'string');
+        $template = Request::post('content', 'string');
 
-        $templatekey = trim(rex_post('templatekey', 'string'));
+        $templatekey = trim(Request::post('templatekey', 'string'));
         $templatekey = '' === $templatekey ? null : $templatekey;
 
-        $ctypes = rex_post('ctype', 'array');
+        $ctypes = Request::post('ctype', 'array');
 
         $numCtypes = count($ctypes);
         if ('' == $ctypes[$numCtypes]) {
@@ -109,13 +109,13 @@ if ('add' == $function || 'edit' == $function) {
             }
         }
 
-        $categories = rex_post('categories', 'array');
+        $categories = Request::post('categories', 'array');
         // leerer eintrag = 0
         if (0 == count($categories) || !isset($categories['all']) || 1 != $categories['all']) {
             $categories['all'] = 0;
         }
 
-        $modules = rex_post('modules', 'array');
+        $modules = Request::post('modules', 'array');
         // leerer eintrag = 0
         if (0 == count($modules)) {
             $modules[1]['all'] = 0;

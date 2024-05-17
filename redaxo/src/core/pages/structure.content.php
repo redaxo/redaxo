@@ -132,7 +132,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             }
         } else {
             // add
-            $moduleId = rex_post('module_id', 'int');
+            $moduleId = Request::post('module_id', 'int');
             $CM->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
         }
 
@@ -330,7 +330,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                     // ----- / POST SAVE ACTION
 
                     // Update Button wurde gedrückt?
-                    if (rex_post('btn_save', 'string')) {
+                    if (Request::post('btn_save', 'string')) {
                         $function = '';
                     }
                 }

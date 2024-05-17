@@ -43,9 +43,9 @@ if (0 !== $userId) {
 }
 
 // Allgemeine Infos
-$userpsw = rex_post('userpsw', 'string');
-$passwordChangeRequired = rex_post('password_change_required', 'bool');
-$userlogin = rex_post('userlogin', 'string');
+$userpsw = Request::post('userpsw', 'string');
+$passwordChangeRequired = Request::post('password_change_required', 'bool');
+$userlogin = Request::post('userlogin', 'string');
 $username = Request::request('username', 'string');
 $userdesc = Request::request('userdesc', 'string');
 $useremail = Request::request('useremail', 'string');

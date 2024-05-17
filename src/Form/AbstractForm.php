@@ -1007,7 +1007,7 @@ abstract class AbstractForm
      */
     public function fieldsetPostValues($fieldsetName)
     {
-        return rex_post(Str::normalize($fieldsetName), 'array');
+        return Request::post(Str::normalize($fieldsetName), 'array');
     }
 
     /**

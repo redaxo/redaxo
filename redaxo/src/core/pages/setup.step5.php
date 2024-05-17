@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Translation\I18n;
@@ -31,8 +32,8 @@ $content .= '
         <fieldset>
             ';
 
-$redaxoUserLogin = rex_post('redaxo_user_login', 'string');
-$redaxoUserPass = rex_post('redaxo_user_pass', 'string');
+$redaxoUserLogin = Request::post('redaxo_user_login', 'string');
+$redaxoUserPass = Request::post('redaxo_user_pass', 'string');
 
 if ($userSql->getRows() > 0) {
     $formElements = [];

@@ -109,10 +109,10 @@ if (Core::isSetup()) {
     $login = new BackendLogin();
     Core::setProperty('login', $login);
 
-    $passkey = rex_post('rex_user_passkey', 'string', null);
-    $rexUserLogin = rex_post('rex_user_login', 'string');
-    $rexUserPsw = rex_post('rex_user_psw', 'string');
-    $rexUserStayLoggedIn = rex_post('rex_user_stay_logged_in', 'boolean', false);
+    $passkey = Request::post('rex_user_passkey', 'string', null);
+    $rexUserLogin = Request::post('rex_user_login', 'string');
+    $rexUserPsw = Request::post('rex_user_psw', 'string');
+    $rexUserStayLoggedIn = Request::post('rex_user_stay_logged_in', 'boolean', false);
 
     if (Request::get('rex_logout', 'boolean') && CsrfToken::factory('backend_logout')->isValid()) {
         $login->setLogout(true);
@@ -146,7 +146,7 @@ if (Core::isSetup()) {
     } else {
         // the server side encryption of pw is only required
         // when not already encrypted by client using javascript
-        $login->setLogin($rexUserLogin, $rexUserPsw, rex_post('javascript', 'boolean'));
+        $login->setLogin($rexUserLogin, $rexUserPsw, Request::post('javascript', 'boolean'));
         $login->setPasskey('' === $passkey ? null : $passkey);
         $login->setStayLoggedIn($rexUserStayLoggedIn);
         $loginCheck = $login->checkLogin();
