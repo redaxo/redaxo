@@ -1,11 +1,13 @@
 <?php
+namespace Redaxo\Core\Tests\Http;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Http\Request;
+use ReflectionMethod;
 
 /** @internal */
-final class rex_request_test extends TestCase
+final class RequestTest extends TestCase
 {
     #[DataProvider('dataArrayKeyCast')]
     public function testArrayKeyCast(mixed $expected, mixed $value, mixed $vartype, mixed $default = ''): void
