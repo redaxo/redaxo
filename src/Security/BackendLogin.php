@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
@@ -92,7 +93,7 @@ class BackendLogin extends Login
         $cookiename = self::getStayLoggedInCookieName();
         $loggedInViaCookie = false;
 
-        if ($cookiekey = rex_cookie($cookiename, 'string', null)) {
+        if ($cookiekey = Request::cookie($cookiename, 'string', null)) {
             if (!$userId) {
                 $sql->setQuery('
                     SELECT id, password
