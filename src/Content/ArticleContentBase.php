@@ -9,6 +9,7 @@ use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
@@ -533,15 +534,15 @@ class ArticleContentBase
         $sliceId = $sql->getValue(Core::getTablePrefix() . 'article_slice.id');
 
         if ('edit' == $this->mode) {
-            $env = rex_var::ENV_BACKEND;
+            $env = RexVar::ENV_BACKEND;
             if (('add' == $this->function && null == $sliceId) || ('edit' == $this->function && $sliceId == $this->slice_id)) {
-                $env |= rex_var::ENV_INPUT;
+                $env |= RexVar::ENV_INPUT;
             }
         } else {
-            $env = rex_var::ENV_FRONTEND;
+            $env = RexVar::ENV_FRONTEND;
         }
 
-        return rex_var::parse($content, $env, 'module', $sql);
+        return RexVar::parse($content, $env, 'module', $sql);
     }
 
     // ---- Artikelweite globale variablen werden ersetzt

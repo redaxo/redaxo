@@ -1,11 +1,34 @@
 <?php
 
+namespace Redaxo\Core\RexVar;
+
+use AppendIterator;
+use ArrayIterator;
+use Iterator;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\Type;
+
+use function count;
+use function in_array;
+use function is_array;
+use function is_string;
+
+use const ENT_QUOTES;
+use const PREG_SET_ORDER;
+use const T_CONSTANT_ENCAPSED_STRING;
+use const T_ENCAPSED_AND_WHITESPACE;
+use const T_END_HEREDOC;
+use const T_INLINE_HTML;
+use const T_ISSET;
+use const T_LNUMBER;
+use const T_START_HEREDOC;
+use const T_STRING;
+use const T_WHITESPACE;
 
 /**
  * Abstract baseclass for REX_VARS.
  */
-abstract class rex_var
+abstract class RexVar
 {
     public const ENV_FRONTEND = 1;
     public const ENV_BACKEND = 2;
@@ -141,15 +164,16 @@ abstract class rex_var
     }
 
     /**
-     * Returns a rex_var object for the given var name.
+     * Returns a RexVar object for the given var name.
      *
      * @param string $var
      */
     private static function getVar($var): ?self
     {
         if (!isset(self::$vars[$var])) {
+            $class = str_replace('_', '', ucwords(strtolower(substr($var, 4)), '_'));
             /** @var class-string $class */
-            $class = 'rex_var_' . strtolower(substr($var, 4));
+            $class = __NAMESPACE__ . '\\' . $class . 'Var';
             if (!class_exists($class) || !is_subclass_of($class, self::class)) {
                 return null;
             }
@@ -221,7 +245,7 @@ abstract class rex_var
         }
 
         if ($useVariables && !empty($variables)) {
-            $content = 'rex_var::nothing(' . implode(', ', $variables) . ') . ' . $content;
+            $content = '\\' . self::class . '::nothing(' . implode(', ', $variables) . ') . ' . $content;
         }
 
         return $content;
@@ -376,8 +400,9 @@ abstract class rex_var
         }
 
         if ($this->hasArg('callback')) {
+            $var = Type::string(array_search(static::class, self::$vars, true));
             $args = [
-                "'var' => 'REX" . strtoupper(substr(static::class, 7)) . "'",
+                "'var' => '" . $var . "'",
                 "'class' => '" . static::class . "'",
                 "'subject' => " . $content,
             ];

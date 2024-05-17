@@ -6,8 +6,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\RexVar\RexVar;
 use rex_exception;
-use rex_var;
 
 use function function_exists;
 
@@ -34,7 +34,7 @@ class TemplateCache
         }
 
         $content = $sql->getValue('content');
-        $content = rex_var::parse($content, rex_var::ENV_FRONTEND, 'template');
+        $content = RexVar::parse($content, RexVar::ENV_FRONTEND, 'template');
 
         $path = self::getPath($id);
         if (!File::put($path, $content)) {

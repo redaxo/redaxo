@@ -1,8 +1,12 @@
 <?php
 
+namespace Redaxo\Core\RexVar;
+
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleContent;
 use Redaxo\Core\Language\Language;
+
+use function in_array;
 
 /**
  * REX_ARTICLE[1]
@@ -19,7 +23,7 @@ use Redaxo\Core\Language\Language;
  *   - ctype     => Spalte des Artikels festlegen
  *   - field     => Nur dieses Feld des Artikels ausgeben
  */
-class rex_var_article extends rex_var
+class ArticleVar extends RexVar
 {
     /**
      * Werte für die Ausgabe.

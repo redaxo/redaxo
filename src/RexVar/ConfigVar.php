@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\RexVar;
+
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 
@@ -10,7 +12,7 @@ use Redaxo\Core\Core;
  *   - key
  *   - namespace
  */
-class rex_var_config extends rex_var
+class ConfigVar extends RexVar
 {
     protected function getOutput()
     {

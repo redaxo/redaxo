@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
-use rex_var_link;
-use rex_var_linklist;
+use Redaxo\Core\RexVar\LinkListVar;
+use Redaxo\Core\RexVar\LinkVar;
 
 /**
  * @internal
@@ -55,8 +55,8 @@ class ArticleInput extends AbstractInput
 
         if ($this->multiple) {
             $name .= '[]';
-            return rex_var_linklist::getWidget($buttonId, $name, $value, ['category' => $categoryId]);
+            return LinkListVar::getWidget($buttonId, $name, $value, ['category' => $categoryId]);
         }
-        return rex_var_link::getWidget($buttonId, $name, $value, ['category' => $categoryId]);
+        return LinkVar::getWidget($buttonId, $name, $value, ['category' => $categoryId]);
     }
 }

@@ -1,12 +1,15 @@
 <?php
 
+namespace Redaxo\Core\Tests\RexVar;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 
-require_once __DIR__ . '/var_test_base.php';
-
-final class rex_var_config_test extends rex_var_test_base
+/**
+ * @internal
+ */
+final class ConfigVarTest extends RexVarTestBase
 {
     protected function setUp(): void
     {

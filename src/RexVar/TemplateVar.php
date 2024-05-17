@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\RexVar;
+
 use Redaxo\Core\Content\ArticleContentBase;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
@@ -9,7 +11,7 @@ use Redaxo\Core\Util\Timer;
 /**
  * REX_TEMPLATE[2].
  */
-class rex_var_template extends rex_var
+class TemplateVar extends RexVar
 {
     protected function getOutput()
     {
