@@ -236,9 +236,9 @@ abstract class rex_error_handler
         $bugTitle = 'Exception: ' . $exception->getMessage();
         $bugLabel = 'Bug';
         $bugBody = self::getMarkdownReport($exception);
-        if (rex_server('REQUEST_URI')) {
+        if (Request::server('REQUEST_URI')) {
             $bugBody =
-                '**Request-Uri:** ' . rex_server('REQUEST_URI') . "\n" .
+                '**Request-Uri:** ' . Request::server('REQUEST_URI') . "\n" .
                 '**Request-Method:** ' . strtoupper(Request::requestMethod()) . "\n" .
                 "\n" . $bugBody;
         }

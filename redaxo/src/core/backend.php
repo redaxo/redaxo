@@ -119,7 +119,7 @@ if (Core::isSetup()) {
         $login->checkLogin();
         CsrfToken::removeAll();
 
-        $userAgent = rex_server('HTTP_USER_AGENT');
+        $userAgent = Request::server('HTTP_USER_AGENT');
         $advertisedChrome = preg_match('/(Chrome|CriOS)\//i', $userAgent);
         $nonChrome = preg_match('/(Aviator|ChromePlus|coc_|Dragon|Edge|Flock|Iron|Kinza|Maxthon|MxNitro|Nichrome|OPR|Perk|Rockmelt|Seznam|Sleipnir|Spark|UBrowser|Vivaldi|WebExplorer|YaBrowser)/i', $userAgent);
         if ($advertisedChrome && !$nonChrome) {
