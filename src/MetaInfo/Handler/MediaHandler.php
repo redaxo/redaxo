@@ -167,7 +167,7 @@ class MediaHandler extends AbstractHandler
      */
     protected function handleSave(array $params, Sql $sqlFields)
     {
-        if ('post' != rex_request_method() || !isset($params['id'])) {
+        if ('post' != Request::requestMethod() || !isset($params['id'])) {
             return $params;
         }
 

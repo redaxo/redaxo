@@ -445,6 +445,7 @@ return RectorConfig::configure()
         new FuncCallToStaticCall('rex_get', Http\Request::class, 'get'),
         new FuncCallToStaticCall('rex_post', Http\Request::class, 'post'),
         new FuncCallToStaticCall('rex_request', Http\Request::class, 'request'),
+        new FuncCallToStaticCall('rex_request_method', Http\Request::class, 'requestMethod'),
         new FuncCallToStaticCall('rex_server', Http\Request::class, 'server'),
         new FuncCallToStaticCall('rex_session', Http\Request::class, 'session'),
         new FuncCallToStaticCall('rex_set_session', Http\Request::class, 'setSession'),

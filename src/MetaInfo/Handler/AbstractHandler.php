@@ -501,7 +501,7 @@ abstract class AbstractHandler
      */
     public static function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
     {
-        if ('post' != rex_request_method()) {
+        if ('post' != Request::requestMethod()) {
             return;
         }
 
@@ -541,7 +541,7 @@ abstract class AbstractHandler
      */
     public static function getSaveValue($fieldName, $fieldType, $fieldAttributes)
     {
-        if ('post' != rex_request_method()) {
+        if ('post' != Request::requestMethod()) {
             return null;
         }
 

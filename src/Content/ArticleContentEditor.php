@@ -87,7 +87,7 @@ class ArticleContentEditor extends ArticleContent
 
                     // ----- PRE VIEW ACTION [EDIT]
                     $action = new ArticleAction($moduleId, 'edit', $artDataSql);
-                    if ('post' == rex_request_method() && 'edit' == Request::request('function', 'string')) {
+                    if ('post' == Request::requestMethod() && 'edit' == Request::request('function', 'string')) {
                         $action->setRequestValues();
                     }
                     $action->exec(ArticleAction::PREVIEW);
