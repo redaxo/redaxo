@@ -14,10 +14,10 @@ global $ftitle, $error, $success;
 
 // -------------- Defaults
 $subpage = Controller::getCurrentPagePart(2);
-$func = rex_request('func', 'string');
-$success = rex_escape(rex_request('info', 'string'));
-$error = rex_escape(rex_request('warning', 'string'));
-$args = rex_request('args', 'array');
+$func = Request::request('func', 'string');
+$success = rex_escape(Request::request('info', 'string'));
+$error = rex_escape(Request::request('warning', 'string'));
+$args = Request::request('args', 'array');
 
 $regex = '@&lt;(/?(?:b|i|code)|br ?/?)&gt;@i';
 $success = preg_replace($regex, '<$1>', $success);
@@ -31,8 +31,8 @@ foreach ($args as $argName => $argValue) {
 }
 
 // ----- opener_input_field setzen
-$openerLink = rex_request('opener_link', 'string');
-$openerInputField = rex_request('opener_input_field', 'string', '');
+$openerLink = Request::request('opener_link', 'string');
+$openerInputField = Request::request('opener_input_field', 'string', '');
 
 if ('' != $openerInputField) {
     if (!preg_match('{^[A-Za-z]+[\w\-\:\.]*$}', $openerInputField)) {
@@ -49,9 +49,9 @@ if ('' != $openerInputField) {
 }
 
 // -------------- CatId in Session speichern
-$fileId = rex_request('file_id', 'int');
-$fileName = rex_request('file_name', 'string');
-$rexFileCategory = rex_request('rex_file_category', 'int', -1);
+$fileId = Request::request('file_id', 'int');
+$fileName = Request::request('file_name', 'string');
+$rexFileCategory = Request::request('rex_file_category', 'int', -1);
 
 if ('' != $fileName) {
     $sql = Sql::factory();

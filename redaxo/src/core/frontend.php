@@ -13,6 +13,7 @@ use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Mailer\Mailer;
@@ -50,12 +51,12 @@ if (Extension::isRegistered('FE_OUTPUT')) {
 }
 
 if (Core::getConfig('article_history', false)) {
-    $historyDate = rex_request('rex_history_date', 'string');
+    $historyDate = Request::request('rex_history_date', 'string');
 
     if ('' != $historyDate) {
-        $historySession = rex_request('rex_history_session', 'string');
-        $historyLogin = rex_request('rex_history_login', 'string');
-        $historyValidtime = rex_request('rex_history_validtime', 'string');
+        $historySession = Request::request('rex_history_session', 'string');
+        $historyLogin = Request::request('rex_history_login', 'string');
+        $historyValidtime = Request::request('rex_history_validtime', 'string');
 
         $user = null;
         if ('' != $historySession && '' != $historyLogin && '' != $historyValidtime) {
@@ -93,7 +94,7 @@ if (Core::getConfig('article_history', false)) {
         });
 
         Extension::register('ART_SLICES_QUERY', static function (ExtensionPoint $ep) {
-            $historyDate = rex_request('rex_history_date', 'string');
+            $historyDate = Request::request('rex_history_date', 'string');
             $article = $ep->getParam('article');
 
             if ($article instanceof ArticleContent && $article->getArticleId() == Article::getCurrentId()) {
@@ -129,7 +130,7 @@ if (Core::getConfig('article_history', false)) {
 
 if (Core::getConfig('article_work_version', false)) {
     Extension::register('ART_INIT', static function (ExtensionPoint $ep) {
-        $version = rex_request('rex_version', 'int');
+        $version = Request::request('rex_version', 'int');
         if (ArticleRevision::WORK != $version) {
             return;
         }

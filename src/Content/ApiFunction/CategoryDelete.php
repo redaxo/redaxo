@@ -7,6 +7,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 
 /**
  * @internal
@@ -19,7 +20,7 @@ class CategoryDelete extends ApiFunction
             throw new ApiFunctionException('User has no permission to delete categories!');
         }
 
-        $catId = rex_request('category-id', 'int');
+        $catId = Request::request('category-id', 'int');
 
         // check permissions
         if (!Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($catId)) {

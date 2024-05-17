@@ -14,11 +14,11 @@ use Redaxo\Core\View\View;
 
 // ------- Default Values
 
-$openerInputField = rex_request('opener_input_field', 'string');
-$openerInputFieldName = rex_request('opener_input_field_name', 'string');
-$categoryId = rex_request('category_id', 'int');
+$openerInputField = Request::request('opener_input_field', 'string');
+$openerInputFieldName = Request::request('opener_input_field_name', 'string');
+$categoryId = Request::request('category_id', 'int');
 $categoryId = Category::get($categoryId) ? $categoryId : 0;
-$clang = rex_request('clang', 'int');
+$clang = Request::request('clang', 'int');
 $clang = Language::exists($clang) ? $clang : Language::getStartId();
 
 $pattern = '/[^a-z0-9_-]/i';

@@ -9,6 +9,7 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\CategorySelect;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -22,10 +23,10 @@ echo View::title(I18n::msg('title_templates'));
 
 $OUT = true;
 
-$function = rex_request('function', 'string');
-$templateId = rex_request('template_id', 'int');
-$save = rex_request('save', 'string');
-$goon = rex_request('goon', 'string');
+$function = Request::request('function', 'string');
+$templateId = Request::request('template_id', 'int');
+$save = Request::request('save', 'string');
+$goon = Request::request('goon', 'string');
 
 $success = '';
 $error = '';
@@ -471,7 +472,7 @@ if ('add' == $function || 'edit' == $function) {
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
 
-        $activeTab = rex_request('template_tab', 'string', 'rex-form-template-default');
+        $activeTab = Request::request('template_tab', 'string', 'rex-form-template-default');
         $optionTabs = [
             'rex-form-template-default' => I18n::msg('header_template'),
             'rex-form-template-ctype' => I18n::msg('content_types'),
@@ -498,7 +499,7 @@ if ('add' == $function || 'edit' == $function) {
         $content = $fragment->parse('core/page/section.php');
 
         $content = '
-            <form id="rex-form-template" action="' . Url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
+            <form id="rex-form-template" action="' . Url::currentBackendPage(['start' => Request::request('start', 'int')]) . '" method="post">
                 ' . $csrfToken->getHiddenField() . '
                 ' . $content . '
             </form>
@@ -552,7 +553,7 @@ if ($OUT) {
     }
 
     $list = DataList::factory('SELECT id, `key`, name, active FROM ' . Core::getTablePrefix() . 'template ORDER BY name', 100);
-    $list->addParam('start', rex_request('start', 'int'));
+    $list->addParam('start', Request::request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-template"></i>';

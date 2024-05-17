@@ -7,6 +7,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -22,8 +23,8 @@ class rex_api_install_package_add extends ApiFunction
         if (!Core::getUser()?->isAdmin()) {
             throw new ApiFunctionException('You do not have the permission!');
         }
-        $addonkey = rex_request('addonkey', 'string');
-        $fileId = rex_request('file', 'int');
+        $addonkey = Request::request('addonkey', 'string');
+        $fileId = Request::request('file', 'int');
 
         $installer = new rex_install_package_add();
 

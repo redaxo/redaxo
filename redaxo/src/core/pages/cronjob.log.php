@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Log\LogEntry;
 use Redaxo\Core\Log\LogFile;
 use Redaxo\Core\Translation\I18n;
@@ -10,7 +11,7 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
-$func = rex_request('func', 'string');
+$func = Request::request('func', 'string');
 $error = '';
 $success = '';
 $message = '';

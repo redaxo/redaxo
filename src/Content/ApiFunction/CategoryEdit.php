@@ -7,6 +7,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 
 /**
  * @internal
@@ -19,8 +20,8 @@ class CategoryEdit extends ApiFunction
             throw new ApiFunctionException('User has no permission to edit categories!');
         }
 
-        $catId = rex_request('category-id', 'int');
-        $clangId = rex_request('clang', 'int');
+        $catId = Request::request('category-id', 'int');
+        $clangId = Request::request('clang', 'int');
 
         $user = Core::requireUser();
 

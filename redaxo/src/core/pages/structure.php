@@ -19,6 +19,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Select\TemplateSelect;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -28,14 +29,14 @@ use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
 $structureContext = new StructureContext([
-    'category_id' => rex_request('category_id', 'int'),
-    'article_id' => rex_request('article_id', 'int'),
-    'clang_id' => rex_request('clang', 'int'),
-    'ctype_id' => rex_request('ctype', 'int'),
-    'artstart' => rex_request('artstart', 'int'),
-    'catstart' => rex_request('catstart', 'int'),
-    'edit_id' => rex_request('edit_id', 'int'),
-    'function' => rex_request('function', 'string'),
+    'category_id' => Request::request('category_id', 'int'),
+    'article_id' => Request::request('article_id', 'int'),
+    'clang_id' => Request::request('clang', 'int'),
+    'ctype_id' => Request::request('ctype', 'int'),
+    'artstart' => Request::request('artstart', 'int'),
+    'catstart' => Request::request('catstart', 'int'),
+    'edit_id' => Request::request('edit_id', 'int'),
+    'function' => Request::request('function', 'string'),
     'rows_per_page' => Core::getProperty('rows_per_page', 50),
 ]);
 

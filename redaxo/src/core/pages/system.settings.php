@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\BaseField;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -19,11 +20,11 @@ use Redaxo\Core\View\Message;
 $error = [];
 $success = '';
 
-$func = rex_request('func', 'string');
+$func = Request::request('func', 'string');
 
 $csrfToken = CsrfToken::factory('system');
 
-if (rex_request('rex_debug_updated', 'bool', false)) {
+if (Request::request('rex_debug_updated', 'bool', false)) {
     $success = (Core::isDebugMode()) ? I18n::msg('debug_mode_info_on') : I18n::msg('debug_mode_info_off');
 }
 

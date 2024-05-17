@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Security\CsrfToken;
@@ -20,12 +21,12 @@ $content = '';
 $message = '';
 
 // -------------- Defaults
-$clangId = rex_request('clang_id', 'int');
-$clangCode = rex_request('clang_code', 'string');
-$clangName = rex_request('clang_name', 'string');
-$clangPrio = rex_request('clang_prio', 'int');
-$clangStatus = rex_request('clang_status', 'bool');
-$func = rex_request('func', 'string');
+$clangId = Request::request('clang_id', 'int');
+$clangCode = Request::request('clang_code', 'string');
+$clangName = Request::request('clang_name', 'string');
+$clangPrio = Request::request('clang_prio', 'int');
+$clangStatus = Request::request('clang_status', 'bool');
+$func = Request::request('func', 'string');
 
 // -------------- Form Submits
 $addClangSave = rex_post('add_clang_save', 'boolean');

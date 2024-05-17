@@ -3,6 +3,7 @@
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -14,8 +15,8 @@ $success = '';
 $error = '';
 
 // ------------------------------ Requestvars
-$function = rex_request('function', 'string');
-$impname = rex_request('impname', 'string');
+$function = Request::request('function', 'string');
+$impname = Request::request('impname', 'string');
 
 @set_time_limit(0);
 

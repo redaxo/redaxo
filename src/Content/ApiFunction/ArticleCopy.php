@@ -9,6 +9,7 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 
@@ -19,10 +20,10 @@ class ArticleCopy extends ApiFunction
 {
     public function execute()
     {
-        $articleId = rex_request('article_id', 'int');
-        $clang = rex_request('clang', 'int', 1);
+        $articleId = Request::request('article_id', 'int');
+        $clang = Request::request('clang', 'int', 1);
         // The destination category in which the given article will be copied
-        $categoryCopyIdNew = rex_request('category_copy_id_new', 'int');
+        $categoryCopyIdNew = Request::request('category_copy_id_new', 'int');
         $user = Core::requireUser();
 
         $context = new Context([

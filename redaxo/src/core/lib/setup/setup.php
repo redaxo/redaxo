@@ -364,8 +364,8 @@ class rex_setup
     {
         $context = new Context([
             'page' => 'setup',
-            'lang' => rex_request('lang', 'string', ''),
-            'step' => rex_request('step', 'int', 1),
+            'lang' => Request::request('lang', 'string', ''),
+            'step' => Request::request('step', 'int', 1),
         ]);
 
         if ($token = self::getToken()) {

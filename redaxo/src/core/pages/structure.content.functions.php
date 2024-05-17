@@ -12,6 +12,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Select\CategorySelect;
 use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
@@ -203,8 +204,8 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
         $langB->addOption($val, $key);
     }
 
-    $langA->setSelected(rex_request('clang_a', 'int', null));
-    $langB->setSelected(rex_request('clang_b', 'int', null));
+    $langA->setSelected(Request::request('clang_a', 'int', null));
+    $langB->setSelected(Request::request('clang_b', 'int', null));
 
     $panel = '<fieldset>';
 

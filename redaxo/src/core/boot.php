@@ -154,7 +154,7 @@ Extension::register('COMPLEX_PERM_REPLACE_ITEM', [UserRole::class, 'removeOrRepl
 
 // ----- SET CLANG
 if (!Core::isSetup()) {
-    $clangId = rex_request('clang', 'int', Language::getStartId());
+    $clangId = Request::request('clang', 'int', Language::getStartId());
     if (Core::isBackend() || Language::exists($clangId)) {
         Language::setCurrentId($clangId);
     }
@@ -194,10 +194,10 @@ if (!Core::isSetup()) {
     Core::setProperty('notfound_article_id', Core::getConfig('notfound_article_id', 1));
     Core::setProperty('rows_per_page', 50);
 
-    if (0 == rex_request('article_id', 'int')) {
+    if (0 == Request::request('article_id', 'int')) {
         Core::setProperty('article_id', Article::getSiteStartArticleId());
     } else {
-        $articleId = rex_request('article_id', 'int');
+        $articleId = Request::request('article_id', 'int');
         $articleId = Article::get($articleId) ? $articleId : Article::getNotfoundArticleId();
         Core::setProperty('article_id', $articleId);
     }

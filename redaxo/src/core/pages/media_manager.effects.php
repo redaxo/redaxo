@@ -8,6 +8,7 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaManager\Effect;
 use Redaxo\Core\MediaManager\Effect\AbstractEffect;
@@ -18,9 +19,9 @@ use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
-$effectId = rex_request('effect_id', 'int');
-$typeId = rex_request('type_id', 'int');
-$func = rex_request('func', 'string');
+$effectId = Request::request('effect_id', 'int');
+$typeId = Request::request('type_id', 'int');
+$func = Request::request('func', 'string');
 
 // ---- validate type_id
 $sql = Sql::factory();

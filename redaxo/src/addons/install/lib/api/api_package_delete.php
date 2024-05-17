@@ -4,6 +4,7 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -19,9 +20,9 @@ class rex_api_install_package_delete extends ApiFunction
         if (!Core::getUser()?->isAdmin()) {
             throw new ApiFunctionException('You do not have the permission!');
         }
-        $addonkey = rex_request('addonkey', 'string');
+        $addonkey = Request::request('addonkey', 'string');
         try {
-            rex_install_webservice::delete(rex_install_packages::getPath('?package=' . urlencode($addonkey) . '&file_id=' . rex_request('file', 'int', 0)));
+            rex_install_webservice::delete(rex_install_packages::getPath('?package=' . urlencode($addonkey) . '&file_id=' . Request::request('file', 'int', 0)));
         } catch (rex_functional_exception $e) {
             throw new ApiFunctionException($e->getMessage());
         }

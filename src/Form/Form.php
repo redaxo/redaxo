@@ -8,6 +8,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Field\PriorityField;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
@@ -107,10 +108,10 @@ class Form extends AbstractForm
     {
         parent::loadBackendConfig();
 
-        $func = rex_request('func', 'string');
+        $func = Request::request('func', 'string');
 
         $this->addParam('func', $func);
-        $this->addParam('list', rex_request('list', 'string'));
+        $this->addParam('list', Request::request('list', 'string'));
 
         $controlFields = [];
         $controlFields['save'] = I18n::msg('form_save');

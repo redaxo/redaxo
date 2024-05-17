@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Security\BackendPasswordPolicy;
@@ -12,9 +13,9 @@ use Redaxo\Core\Security\Login;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Message;
 
-$step = rex_request('step', 'int', 1);
-$lang = rex_request('lang', 'string');
-$func = rex_request('func', 'string');
+$step = Request::request('step', 'int', 1);
+$lang = Request::request('lang', 'string');
+$func = Request::request('func', 'string');
 
 $context = rex_setup::getContext();
 

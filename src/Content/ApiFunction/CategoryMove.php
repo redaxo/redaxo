@@ -8,6 +8,7 @@ use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -18,10 +19,10 @@ class CategoryMove extends ApiFunction
     public function execute()
     {
         // The category to move
-        $articleId = rex_request('article_id', 'int');
+        $articleId = Request::request('article_id', 'int');
         $categoryId = Article::get($articleId)->getCategoryId();
         // The destination category in which the given category will be moved
-        $categoryIdNew = rex_request('category_id_new', 'int');
+        $categoryIdNew = Request::request('category_id_new', 'int');
 
         $user = Core::requireUser();
 

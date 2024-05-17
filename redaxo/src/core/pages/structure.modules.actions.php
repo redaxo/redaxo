@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\ActionEventSelect;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -15,10 +16,10 @@ $ASTATUS = ['ADD', 'EDIT', 'DELETE'];
 
 $OUT = true;
 
-$actionId = rex_request('action_id', 'int');
-$function = rex_request('function', 'string');
-$save = rex_request('save', 'bool');
-$goon = rex_request('goon', 'string');
+$actionId = Request::request('action_id', 'int');
+$function = Request::request('function', 'string');
+$save = Request::request('save', 'bool');
+$goon = Request::request('goon', 'string');
 
 $success = '';
 $error = '';

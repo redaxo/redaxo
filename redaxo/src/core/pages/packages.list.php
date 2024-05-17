@@ -5,6 +5,7 @@ use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Addon\ApiFunction\AddonOperation;
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -20,7 +21,7 @@ AddonManager::synchronizeWithFileSystem();
 
 $fragment = new Fragment();
 $fragment->setVar('id', 'rex-js-available-addon-search');
-$fragment->setVar('autofocus', !rex_request('function', 'bool'));
+$fragment->setVar('autofocus', !Request::request('function', 'bool'));
 $toolbar = $fragment->parse('core/form/search.php');
 
 $content = '

@@ -2,6 +2,8 @@
 
 namespace Redaxo\Core\Util;
 
+use Redaxo\Core\Http\Request;
+
 /**
  * The Pager-class implements all the logic
  * which is necessary to implement some sort of pagination.
@@ -98,7 +100,7 @@ class Pager
         }
 
         if (null === $this->cursor) {
-            $this->cursor = rex_request($this->cursorName, 'int', 0);
+            $this->cursor = Request::request($this->cursorName, 'int', 0);
 
             if (null !== $this->rowCount) {
                 $this->cursor = $this->validateCursor($this->cursor);
@@ -168,7 +170,7 @@ class Pager
      */
     public function getCurrentPage()
     {
-        $cursor = $this->cursor ?? rex_request($this->cursorName, 'int', null);
+        $cursor = $this->cursor ?? Request::request($this->cursorName, 'int', null);
 
         if (null === $cursor) {
             return $this->getFirstPage();

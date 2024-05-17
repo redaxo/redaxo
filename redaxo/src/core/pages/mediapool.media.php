@@ -7,6 +7,7 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\MediaCategorySelect;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
@@ -17,7 +18,7 @@ assert(isset($fileId) && is_int($fileId));
 
 $subpage = Controller::getCurrentPagePart(2);
 
-$mediaName = rex_request('media_name', 'string');
+$mediaName = Request::request('media_name', 'string');
 $csrf = CsrfToken::factory('mediapool');
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL

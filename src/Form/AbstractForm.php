@@ -18,6 +18,7 @@ use Redaxo\Core\Form\Field\MediaField;
 use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Form\Field\RawField;
 use Redaxo\Core\Form\Field\SelectField;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
@@ -926,7 +927,7 @@ abstract class AbstractForm
      */
     public function getWarning()
     {
-        $warning = rex_request($this->getName() . '_warning', 'string');
+        $warning = Request::request($this->getName() . '_warning', 'string');
         $warning = rex_escape($warning, 'html_simplified');
 
         if ('' != $this->warning) {
@@ -949,7 +950,7 @@ abstract class AbstractForm
      */
     public function getMessage()
     {
-        $message = rex_request($this->getName() . '_msg', 'string');
+        $message = Request::request($this->getName() . '_msg', 'string');
         $message = rex_escape($message, 'html_simplified');
 
         if ('' != $this->message) {
@@ -1107,12 +1108,12 @@ abstract class AbstractForm
     protected function redirect($listMessage = '', $listWarning = '', array $params = [])
     {
         if ('' != $listMessage) {
-            $listName = rex_request('list', 'string');
+            $listName = Request::request('list', 'string');
             $params[$listName . '_msg'] = $listMessage;
         }
 
         if ('' != $listWarning) {
-            $listName = rex_request('list', 'string');
+            $listName = Request::request('list', 'string');
             $params[$listName . '_warning'] = $listWarning;
         }
 

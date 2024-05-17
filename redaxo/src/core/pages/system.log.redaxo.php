@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Log\LogEntry;
 use Redaxo\Core\Log\LogFile;
@@ -17,7 +18,7 @@ use Redaxo\Core\View\Message;
 $error = '';
 $success = '';
 
-$func = rex_request('func', 'string');
+$func = Request::request('func', 'string');
 $logFile = Logger::getPath();
 
 $csrfToken = CsrfToken::factory('system');

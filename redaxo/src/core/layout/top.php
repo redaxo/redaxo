@@ -168,8 +168,8 @@ if ($user && $hasNavigation) {
 
 /* Setup Navigation ********************************************************** */
 if ('setup' == Controller::getCurrentPagePart(1)) {
-    $step = rex_request('step', 'float');
-    $lang = rex_request('lang', 'string', '');
+    $step = Request::request('step', 'float');
+    $lang = Request::request('lang', 'string', '');
 
     $context = rex_setup::getContext();
 

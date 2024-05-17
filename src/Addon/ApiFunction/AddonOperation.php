@@ -9,6 +9,7 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Util\Type;
 
 use function in_array;
@@ -25,11 +26,11 @@ final class AddonOperation extends ApiFunction
             throw new ApiFunctionException('Package management is not available in live mode!');
         }
 
-        $function = rex_request('function', 'string');
+        $function = Request::request('function', 'string');
         if (!in_array($function, ['install', 'uninstall', 'activate', 'deactivate', 'delete'])) {
             throw new ApiFunctionException('Unknown package function "' . $function . '"!');
         }
-        $packageId = rex_request('package', 'string');
+        $packageId = Request::request('package', 'string');
         $package = BaseAddon::get($packageId);
         if ('uninstall' == $function && !$package->isInstalled()
             || 'activate' == $function && $package->isAvailable()

@@ -5,6 +5,7 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -16,7 +17,7 @@ assert(isset($markdown) && is_callable($markdown));
 
 $package = Addon::get('install');
 
-$addonkey = rex_request('addonkey', 'string');
+$addonkey = Request::request('addonkey', 'string');
 $addons = [];
 
 echo ApiFunction::getMessage();
@@ -130,8 +131,8 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
     $fragment->setVar('autofocus', true);
     $toolbar = $fragment->parse('core/form/search.php');
 
-    $sort = rex_request('sort', 'string', '');
-    $sortType = rex_request('sort_type', 'string', '');
+    $sort = Request::request('sort', 'string', '');
+    $sortType = Request::request('sort_type', 'string', '');
     $sortByPublishedDateClass = '';
     $sortByDownloadsClass = '';
     $sortNextPublishedDate = '';

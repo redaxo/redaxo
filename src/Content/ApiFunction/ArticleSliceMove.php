@@ -9,6 +9,7 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -18,10 +19,10 @@ class ArticleSliceMove extends ApiFunction
 {
     public function execute()
     {
-        $articleId = rex_request('article_id', 'int');
-        $clang = rex_request('clang', 'int');
-        $sliceId = rex_request('slice_id', 'int');
-        $direction = rex_request('direction', 'string');
+        $articleId = Request::request('article_id', 'int');
+        $clang = Request::request('clang', 'int');
+        $sliceId = Request::request('slice_id', 'int');
+        $direction = Request::request('direction', 'string');
 
         $ooArt = Article::get($articleId, $clang);
         if (!$ooArt instanceof Article) {

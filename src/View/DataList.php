@@ -11,6 +11,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
@@ -197,7 +198,7 @@ class DataList implements UrlProviderInterface
         // --------- Pagination Attributes
         if (self::DISABLE_PAGINATION !== $rowsPerPage) {
             $cursorName = $listName . '_start';
-            if (null === rex_request($cursorName, 'int', null) && rex_request('start', 'int')) {
+            if (null === Request::request($cursorName, 'int', null) && Request::request('start', 'int')) {
                 // BC: Fallback to "start"
                 $cursorName = 'start';
             }
@@ -265,7 +266,7 @@ class DataList implements UrlProviderInterface
      */
     public function getMessage()
     {
-        return rex_escape(rex_request($this->getName() . '_msg', 'string'));
+        return rex_escape(Request::request($this->getName() . '_msg', 'string'));
     }
 
     /**
@@ -275,7 +276,7 @@ class DataList implements UrlProviderInterface
      */
     public function getWarning()
     {
-        return rex_escape(rex_request($this->getName() . '_warning', 'string'));
+        return rex_escape(Request::request($this->getName() . '_warning', 'string'));
     }
 
     /**
@@ -1005,8 +1006,8 @@ class DataList implements UrlProviderInterface
      */
     public function getSortColumn($default = null)
     {
-        if (rex_request('list', 'string') == $this->getName()) {
-            return rex_request('sort', 'string', $default);
+        if (Request::request('list', 'string') == $this->getName()) {
+            return Request::request('sort', 'string', $default);
         }
         return $default;
     }
@@ -1023,8 +1024,8 @@ class DataList implements UrlProviderInterface
      */
     public function getSortType($default = null)
     {
-        if (rex_request('list', 'string') == $this->getName()) {
-            $sortType = strtolower(rex_request('sorttype', 'string'));
+        if (Request::request('list', 'string') == $this->getName()) {
+            $sortType = strtolower(Request::request('sorttype', 'string'));
 
             if (in_array($sortType, ['asc', 'desc'], true)) {
                 return $sortType;

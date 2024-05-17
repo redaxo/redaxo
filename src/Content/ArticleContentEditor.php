@@ -12,6 +12,7 @@ use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
@@ -86,7 +87,7 @@ class ArticleContentEditor extends ArticleContent
 
                     // ----- PRE VIEW ACTION [EDIT]
                     $action = new ArticleAction($moduleId, 'edit', $artDataSql);
-                    if ('post' == rex_request_method() && 'edit' == rex_request('function', 'string')) {
+                    if ('post' == rex_request_method() && 'edit' == Request::request('function', 'string')) {
                         $action->setRequestValues();
                     }
                     $action->exec(ArticleAction::PREVIEW);

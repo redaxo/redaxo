@@ -3,6 +3,7 @@
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\Security\CsrfToken;
@@ -20,7 +21,7 @@ if (!$PERMALL && !Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(
     $rexFileCategory = 0;
 }
 
-$mediaMethod = rex_request('media_method', 'string');
+$mediaMethod = Request::request('media_method', 'string');
 $csrf = CsrfToken::factory('mediapool');
 
 if ('add_file' == $mediaMethod) {
@@ -30,7 +31,7 @@ if ('add_file' == $mediaMethod) {
         global $warning;
         if (rex_post('save', 'boolean') || rex_post('saveandexit', 'boolean')) {
             $data = [];
-            $data['title'] = rex_request('ftitle', 'string');
+            $data['title'] = Request::request('ftitle', 'string');
             $data['category_id'] = (int) $rexFileCategory;
             $data['file'] = rex_files('file_new', [
                 ['name', 'string'],

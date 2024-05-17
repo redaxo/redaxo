@@ -9,6 +9,7 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\ApiFunction\UserImpersonate;
 use Redaxo\Core\Security\BackendPasswordPolicy;
@@ -28,7 +29,7 @@ $currentUser = Core::requireUser();
 $message = '';
 $content = '';
 
-$userId = rex_request('user_id', 'int');
+$userId = Request::request('user_id', 'int');
 $info = [];
 $warnings = [];
 
@@ -45,11 +46,11 @@ if (0 !== $userId) {
 $userpsw = rex_post('userpsw', 'string');
 $passwordChangeRequired = rex_post('password_change_required', 'bool');
 $userlogin = rex_post('userlogin', 'string');
-$username = rex_request('username', 'string');
-$userdesc = rex_request('userdesc', 'string');
-$useremail = rex_request('useremail', 'string');
-$useradmin = rex_request('useradmin', 'int');
-$userstatus = rex_request('userstatus', 'int');
+$username = Request::request('username', 'string');
+$userdesc = Request::request('userdesc', 'string');
+$useremail = Request::request('useremail', 'string');
+$useradmin = Request::request('useradmin', 'int');
+$userstatus = Request::request('userstatus', 'int');
 
 // role
 $selRole = new Select();
@@ -66,7 +67,7 @@ foreach ($sqlRole as $role) {
     $roles[$role->getValue('id')] = $role->getValue('name');
     $selRole->addOption($role->getValue('name'), $role->getValue('id'));
 }
-$userrole = rex_request('userrole', 'array');
+$userrole = Request::request('userrole', 'array');
 
 // backend sprache
 $selBeSprache = new Select();
@@ -81,7 +82,7 @@ foreach (I18n::getLocales() as $locale) {
     $selBeSprache->addOption(I18n::msg('lang'), $locale);
 }
 I18n::setLocale($saveLocale, false);
-$userpermBeSprache = rex_request('userperm_be_sprache', 'string');
+$userpermBeSprache = Request::request('userperm_be_sprache', 'string');
 
 // ----- welche startseite
 $selStartpage = new Select();
@@ -100,7 +101,7 @@ foreach (Controller::getPages() as $page => $pageObj) {
 }
 asort($startpages);
 $selStartpage->addOptions($startpages);
-$userpermStartpage = rex_request('userperm_startpage', 'string');
+$userpermStartpage = Request::request('userperm_startpage', 'string');
 
 // --------------------------------- Title
 
@@ -109,14 +110,14 @@ $fUNCUPDATE = '';
 $fUNCAPPLY = '';
 $fUNCDELETE = '';
 if (0 !== $userId && ($currentUser->isAdmin() || !$user->isAdmin())) {
-    $fUNCUPDATE = rex_request('FUNC_UPDATE', 'string');
-    $fUNCAPPLY = rex_request('FUNC_APPLY', 'string');
-    $fUNCDELETE = rex_request('FUNC_DELETE', 'string');
+    $fUNCUPDATE = Request::request('FUNC_UPDATE', 'string');
+    $fUNCAPPLY = Request::request('FUNC_APPLY', 'string');
+    $fUNCDELETE = Request::request('FUNC_DELETE', 'string');
 } else {
     $userId = 0;
 }
-$fUNCADD = rex_request('FUNC_ADD', 'string');
-$save = rex_request('save', 'int');
+$fUNCADD = Request::request('FUNC_ADD', 'string');
+$save = Request::request('save', 'int');
 $adminchecked = '';
 
 $passwordPolicy = BackendPasswordPolicy::factory();
@@ -141,8 +142,8 @@ if ($save && ($fUNCADD || $fUNCUPDATE || $fUNCAPPLY)) {
 if ($warnings) {
     // do not save
 } elseif ('' != $fUNCUPDATE || '' != $fUNCAPPLY) {
-    $loginReset = rex_request('logintriesreset', 'int');
-    $userstatus = rex_request('userstatus', 'int');
+    $loginReset = Request::request('logintriesreset', 'int');
+    $userstatus = Request::request('userstatus', 'int');
 
     if ($currentUser->isAdmin() && $userId === $currentUser->getId()) {
         $useradmin = 1;

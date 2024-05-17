@@ -9,6 +9,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\MetaInfo\Handler\ArticleHandler as MetaInfoArticleHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -40,8 +41,8 @@ $articleClass = $articleStatusTypes[$status][1];
 $articleStatus = $articleStatusTypes[$status][0];
 $articleIcon = $articleStatusTypes[$status][2];
 $structureContext = new StructureContext([
-    'article_id' => rex_request('article_id', 'int'),
-    'clang_id' => rex_request('clang', 'int'),
+    'article_id' => Request::request('article_id', 'int'),
+    'clang_id' => Request::request('clang', 'int'),
 ]);
 
 if (0 == $article->getValue('startarticle')) {
@@ -94,7 +95,7 @@ if (1 == $article->getRows()) {
 
     $ctypes = $templateAttributes['ctype'] ?? []; // ctypes - aus dem template
 
-    $ctype = rex_request('ctype', 'int', 1);
+    $ctype = Request::request('ctype', 'int', 1);
     if (!array_key_exists($ctype, $ctypes)) {
         $ctype = 1;
     } // default = 1

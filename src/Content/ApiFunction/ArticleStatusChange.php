@@ -7,6 +7,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -16,10 +17,10 @@ class ArticleStatusChange extends ApiFunction
 {
     public function execute()
     {
-        $categoryId = rex_request('category_id', 'int');
-        $articleId = rex_request('article_id', 'int');
-        $clang = rex_request('clang', 'int');
-        $status = rex_request('art_status', 'int', null);
+        $categoryId = Request::request('category_id', 'int');
+        $articleId = Request::request('article_id', 'int');
+        $clang = Request::request('clang', 'int');
+        $status = Request::request('art_status', 'int', null);
         $user = Core::requireUser();
 
         // check permissions

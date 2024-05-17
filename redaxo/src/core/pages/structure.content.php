@@ -25,9 +25,9 @@ use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
-$articleId = rex_request('article_id', 'int');
-$clang = rex_request('clang', 'int');
-$sliceId = rex_request('slice_id', 'int', '');
+$articleId = Request::request('article_id', 'int');
+$clang = Request::request('clang', 'int');
+$sliceId = Request::request('slice_id', 'int', '');
 
 $articleId = Article::get($articleId) ? $articleId : 0;
 $clang = Language::exists($clang) ? $clang : Language::getStartId();
@@ -64,7 +64,7 @@ $templateAttributes = $article->getArrayValue('template_attributes');
 
 $ctypes = $templateAttributes['ctype'] ?? []; // ctypes - aus dem template
 
-$ctype = rex_request('ctype', 'int', 1);
+$ctype = Request::request('ctype', 'int', 1);
 if (!array_key_exists($ctype, $ctypes)) {
     $ctype = 1;
 }
@@ -75,9 +75,9 @@ $categoryId = $OOArt->getCategoryId();
 
 // ----- Request Parameter
 $subpage = Controller::getCurrentPagePart(2);
-$function = rex_request('function', 'string');
-$warning = rex_escape(rex_request('warning', 'string'));
-$info = rex_escape(rex_request('info', 'string'));
+$function = Request::request('function', 'string');
+$warning = rex_escape(Request::request('warning', 'string'));
+$info = rex_escape(Request::request('info', 'string'));
 
 $context = new Context([
     'page' => Controller::getCurrentPage(),
@@ -119,7 +119,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     // ----- hat rechte an diesem artikel
 
     // ------------------------------------------ Slice add/edit/delete
-    if (rex_request('save', 'boolean') && in_array($function, ['add', 'edit', 'delete'])) {
+    if (Request::request('save', 'boolean') && in_array($function, ['add', 'edit', 'delete'])) {
         // ----- check module
 
         $CM = Sql::factory();

@@ -83,7 +83,7 @@ class CsrfToken
             return false;
         }
 
-        $token = rex_request(self::PARAM, 'string');
+        $token = Request::request(self::PARAM, 'string');
 
         return hash_equals($tokens[$this->id], $token);
     }

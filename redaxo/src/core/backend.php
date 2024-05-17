@@ -90,7 +90,7 @@ $pages = [];
 // ----------------- SETUP
 if (Core::isSetup()) {
     // ----------------- SET SETUP LANG
-    $requestLang = rex_request('lang', 'string', Core::getProperty('lang'));
+    $requestLang = Request::request('lang', 'string', Core::getProperty('lang'));
     if (in_array($requestLang, I18n::getLocales())) {
         Core::setProperty('lang', $requestLang);
     } else {
@@ -168,7 +168,7 @@ if (Core::isSetup()) {
         $pages['login'] = Controller::getLoginPage();
         Controller::setCurrentPage('login');
 
-        if ('login' !== rex_request('page', 'string', 'login')) {
+        if ('login' !== Request::request('page', 'string', 'login')) {
             // clear in-browser data of a previous session with the same browser for security reasons.
             // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
             // clearing "executionContext" or "cookies" would result in a endless loop.
@@ -216,7 +216,7 @@ Controller::setPages($pages);
 
 // ----- Prepare Core Pages
 if (Core::getUser()) {
-    Controller::setCurrentPage(trim(rex_request('page', 'string')));
+    Controller::setCurrentPage(trim(Request::request('page', 'string')));
     Controller::appendLoggedInPages();
 
     if ('profile' !== Controller::getCurrentPage() && Core::getProperty('login')->requiresPasswordChange()) {
@@ -304,17 +304,17 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
     Asset::addCssFile(Url::coreAssets('css/history.css'));
     Asset::addJsFile(Url::coreAssets('js/history.js'), [Asset::JS_IMMUTABLE => true]);
 
-    switch (rex_request('rex_history_function', 'string')) {
+    switch (Request::request('rex_history_function', 'string')) {
         case 'snap':
-            $articleId = rex_request('history_article_id', 'int');
-            $clangId = rex_request('history_clang_id', 'int');
-            $historyDate = rex_request('history_date', 'string');
+            $articleId = Request::request('history_article_id', 'int');
+            $clangId = Request::request('history_clang_id', 'int');
+            $historyDate = Request::request('history_date', 'string');
             ArticleSliceHistory::restoreSnapshot($historyDate, $articleId, $clangId);
 
             // no break
         case 'layer':
-            $articleId = rex_request('history_article_id', 'int');
-            $clangId = rex_request('history_clang_id', 'int');
+            $articleId = Request::request('history_article_id', 'int');
+            $clangId = Request::request('history_clang_id', 'int');
             $versions = ArticleSliceHistory::getSnapshots($articleId, $clangId);
 
             $select1 = [];
@@ -369,7 +369,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
             echo '<script nonce="' . Response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_clang_id = ' . Language::getCurrentId() . ';
-                    var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
+                    var history_ctype_id = ' . Request::request('ctype', 'int', 0) . ';
                     var history_article_link = "' . rex_escape($articleLink, 'js') . '";
                 </script>';
         }
@@ -386,7 +386,7 @@ if (Core::getConfig('article_work_version', false)) {
         $articleId = Type::int($params['article_id']);
 
         $version = ArticleRevision::getSessionArticleRevision($articleId);
-        $newVersion = rex_request('rex_set_version', 'int', null);
+        $newVersion = Request::request('rex_set_version', 'int', null);
 
         if (ArticleRevision::LIVE === $newVersion) {
             $version = ArticleRevision::LIVE;
@@ -425,7 +425,7 @@ if (Core::getConfig('article_work_version', false)) {
             $workingVersionEmpty = false;
         }
 
-        $func = rex_request('rex_version_func', 'string');
+        $func = Request::request('rex_version_func', 'string');
         switch ($func) {
             case 'copy_work_to_live':
                 if ($workingVersionEmpty) {

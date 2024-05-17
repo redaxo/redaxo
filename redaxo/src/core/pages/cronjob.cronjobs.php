@@ -10,6 +10,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\RadioField;
 use Redaxo\Core\Form\Field\SelectField;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -19,8 +20,8 @@ use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
-$func = rex_request('func', 'string');
-$oid = rex_request('oid', 'int');
+$func = Request::request('func', 'string');
+$oid = Request::request('oid', 'int');
 
 $csrfToken = CsrfToken::factory('cronjob');
 
@@ -30,7 +31,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
 } elseif ('setstatus' == $func) {
     $manager = CronjobManager::factory();
     $name = $manager->getName($oid);
-    $status = (rex_request('oldstatus', 'int') + 1) % 2;
+    $status = (Request::request('oldstatus', 'int') + 1) % 2;
     $msg = 1 == $status ? 'status_activate' : 'status_deactivate';
     if ($manager->setStatus($oid, $status)) {
         echo Message::success(I18n::msg('cronjob_' . $msg . '_success', $name));
@@ -221,7 +222,7 @@ if ('' == $func) {
         } else {
             $warning = I18n::rawMsg('cronjob_type_not_found', $field->getValue(), $activeType);
         }
-        Response::sendRedirect(Url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning]));
+        Response::sendRedirect(Url::currentBackendPage([Request::request('list', 'string') . '_warning' => $warning]));
     }
 
     $form->addFieldset(I18n::msg('cronjob_type_parameters'));

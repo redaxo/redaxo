@@ -9,6 +9,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\PermissionSelectField;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Security\CsrfToken;
@@ -19,8 +20,8 @@ use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
-$func = rex_request('func', 'string');
-$id = rex_request('id', 'int');
+$func = Request::request('func', 'string');
+$id = Request::request('id', 'int');
 
 $message = '';
 $content = '';
@@ -138,7 +139,7 @@ if ('' == $func) {
             $field->setLabel($params['label']);
             $field->setCheckboxLabel($params['all_label']);
             $fieldIds[] = rex_escape($field->getAttribute('id'), 'js');
-            if (rex_request('default_value', 'boolean')) {
+            if (Request::request('default_value', 'boolean')) {
                 $field->setValue(ComplexPermission::ALL);
             }
             if (isset($params['select'])) {

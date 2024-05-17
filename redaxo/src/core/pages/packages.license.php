@@ -2,11 +2,12 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\View\Fragment;
 
-$package = Addon::require(rex_request('package', 'string'));
+$package = Addon::require(Request::request('package', 'string'));
 
 $license = null;
 if (is_readable($package->getPath('LICENSE.md'))) {

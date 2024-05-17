@@ -5,6 +5,7 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\MetaInfo\Form\MetaInfoForm;
 use Redaxo\Core\Translation\I18n;
@@ -24,12 +25,12 @@ if (empty($metaTable) || !is_string($metaTable)) {
     throw new rex_exception('Fehler: metaTable nicht definiert!');
 }
 
-$func = rex_request('func', 'string');
-$fieldId = rex_request('field_id', 'int');
+$func = Request::request('func', 'string');
+$fieldId = Request::request('field_id', 'int');
 
 // ------------------------------> Feld loeschen
 if ('delete' == $func) {
-    $fieldId = rex_request('field_id', 'int', 0);
+    $fieldId = Request::request('field_id', 'int', 0);
     if (0 != $fieldId) {
         if (rex_metainfo_delete_field($fieldId)) {
             echo Message::success(I18n::msg('minfo_field_successfull_deleted'));

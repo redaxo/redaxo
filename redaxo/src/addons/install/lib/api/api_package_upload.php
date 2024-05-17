@@ -8,6 +8,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -23,8 +24,8 @@ class rex_api_install_package_upload extends ApiFunction
         if (!Core::getUser()?->isAdmin()) {
             throw new ApiFunctionException('You do not have the permission!');
         }
-        $addonkey = rex_request('addonkey', 'string');
-        $upload = rex_request('upload', [
+        $addonkey = Request::request('addonkey', 'string');
+        $upload = Request::request('upload', [
             ['upload_file', 'bool'],
             ['oldversion', 'string'],
             ['description', 'string'],
@@ -67,7 +68,7 @@ class rex_api_install_package_upload extends ApiFunction
                 }
                 $file['checksum'] = md5_file($archive);
             }
-            rex_install_webservice::post(rex_install_packages::getPath('?package=' . urlencode($addonkey) . '&file_id=' . rex_request('file', 'int', 0)), ['file' => $file], $archive);
+            rex_install_webservice::post(rex_install_packages::getPath('?package=' . urlencode($addonkey) . '&file_id=' . Request::request('file', 'int', 0)), ['file' => $file], $archive);
         } catch (rex_functional_exception $e) {
             throw new ApiFunctionException($e->getMessage());
         } finally {

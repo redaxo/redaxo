@@ -2,11 +2,12 @@
 
 use Redaxo\Core\Content\ArticleSliceHistory;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
-if ('clearall' == rex_request('func', 'string')) {
+if ('clearall' == Request::request('func', 'string')) {
     ArticleSliceHistory::clearAllHistory();
     echo Message::success(I18n::msg('structure_history_deleted'));
 }

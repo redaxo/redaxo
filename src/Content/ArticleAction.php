@@ -5,6 +5,7 @@ namespace Redaxo\Core\Content;
 use InvalidArgumentException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Util\Stream;
 use rex_var;
 
@@ -46,11 +47,11 @@ class ArticleAction
         $this->sql = $sql;
         $this->vars['search'] = ['REX_ARTICLE_ID', 'REX_CLANG_ID', 'REX_CTYPE_ID', 'REX_MODULE_ID', 'REX_SLICE_ID'];
         $this->vars['replace'] = [
-            rex_request('article_id', 'int'),
-            rex_request('clang', 'int'),
-            rex_request('ctype', 'int'),
-            rex_request('module_id', 'int'),
-            1 == $this->mode ? 0 : rex_request('slice_id', 'int'),
+            Request::request('article_id', 'int'),
+            Request::request('clang', 'int'),
+            Request::request('ctype', 'int'),
+            Request::request('module_id', 'int'),
+            1 == $this->mode ? 0 : Request::request('slice_id', 'int'),
         ];
     }
 
@@ -61,7 +62,7 @@ class ArticleAction
     {
         $request = ['value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10];
         foreach ($request as $key => $max) {
-            $values = rex_request('REX_INPUT_' . strtoupper($key), 'array');
+            $values = Request::request('REX_INPUT_' . strtoupper($key), 'array');
             for ($i = 1; $i <= $max; ++$i) {
                 if (isset($values[$i])) {
                     if (is_array($values[$i])) {

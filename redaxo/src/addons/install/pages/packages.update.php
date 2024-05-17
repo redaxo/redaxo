@@ -6,6 +6,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Version;
@@ -16,8 +17,8 @@ assert(isset($markdown) && is_callable($markdown));
 
 $package = Addon::get('install');
 
-$core = rex_request('core', 'boolean');
-$addonkey = rex_request('addonkey', 'string');
+$core = Request::request('core', 'boolean');
+$addonkey = Request::request('addonkey', 'string');
 
 $coreVersions = [];
 $addons = [];

@@ -9,6 +9,7 @@ use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Content\ApiFunction as ContentApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\Security\ApiFunction as SecurityApiFunction;
@@ -120,7 +121,7 @@ abstract class ApiFunction
             return self::$instance;
         }
 
-        $api = rex_request(self::REQ_CALL_PARAM, 'string');
+        $api = Request::request(self::REQ_CALL_PARAM, 'string');
 
         if ($api) {
             if (isset(self::$functions[$api])) {
