@@ -1,4 +1,5 @@
 <?php
+
 namespace Redaxo\Core\Tests\Http;
 
 use PHPUnit\Framework\Attributes\DataProvider;
