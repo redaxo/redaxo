@@ -191,9 +191,9 @@ if (Core::isSetup()) {
         // Safe Mode
         if (!Core::isLiveMode() && $user->isAdmin() && null !== ($safeMode = Request::get('safemode', 'boolean', null))) {
             if ($safeMode) {
-                rex_set_session('safemode', true);
+                Request::setSession('safemode', true);
             } else {
-                rex_unset_session('safemode');
+                Request::unsetSession('safemode');
                 if (Core::getProperty('safe_mode')) {
                     $configFile = Path::coreData('config.yml');
                     $config = array_merge(

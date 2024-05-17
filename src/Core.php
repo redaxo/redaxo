@@ -302,7 +302,7 @@ final class Core
             return true;
         }
 
-        return PHP_SESSION_ACTIVE == session_status() && rex_session('safemode', 'boolean', false);
+        return PHP_SESSION_ACTIVE == session_status() && Http\Request::session('safemode', 'boolean', false);
     }
 
     /**

@@ -49,7 +49,7 @@ class CsrfToken
 
         $token = self::generateToken();
         $tokens[$this->id] = $token;
-        rex_set_session(self::getSessionKey(), $tokens);
+        Request::setSession(self::getSessionKey(), $tokens);
 
         return $token;
     }
@@ -101,7 +101,7 @@ class CsrfToken
 
         unset($tokens[$this->id]);
 
-        rex_set_session(self::getSessionKey(), $tokens);
+        Request::setSession(self::getSessionKey(), $tokens);
     }
 
     /**
@@ -111,8 +111,8 @@ class CsrfToken
     {
         Login::startSession();
 
-        rex_unset_session(self::getBaseSessionKey());
-        rex_unset_session(self::getBaseSessionKey() . '_https');
+        Request::unsetSession(self::getBaseSessionKey());
+        Request::unsetSession(self::getBaseSessionKey() . '_https');
     }
 
     /**
@@ -122,7 +122,7 @@ class CsrfToken
     {
         Login::startSession();
 
-        return rex_session(self::getSessionKey(), 'array');
+        return Request::session(self::getSessionKey(), 'array');
     }
 
     /**

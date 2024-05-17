@@ -63,7 +63,7 @@ if ('' != $fileName) {
 }
 
 if (-1 == $rexFileCategory) {
-    $rexFileCategory = rex_session('media[rex_file_category]', 'int');
+    $rexFileCategory = Request::session('media[rex_file_category]', 'int');
 }
 
 $gc = Sql::factory();
@@ -75,7 +75,7 @@ if (1 != $gc->getRows()) {
     $rexFileCategoryName = $gc->getValue('name');
 }
 
-rex_set_session('media[rex_file_category]', $rexFileCategory);
+Request::setSession('media[rex_file_category]', $rexFileCategory);
 
 // -------------- PERMS
 $PERMALL = Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(0);

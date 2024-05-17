@@ -443,6 +443,9 @@ return RectorConfig::configure()
         new FuncCallToStaticCall('rex_post', Http\Request::class, 'post'),
         new FuncCallToStaticCall('rex_request', Http\Request::class, 'request'),
         new FuncCallToStaticCall('rex_server', Http\Request::class, 'server'),
+        new FuncCallToStaticCall('rex_session', Http\Request::class, 'session'),
+        new FuncCallToStaticCall('rex_set_session', Http\Request::class, 'setSession'),
+        new FuncCallToStaticCall('rex_unset_session', Http\Request::class, 'unsetSession'),
     ])
     ->withConfiguredRule(RemoveFuncCallArgRector::class, [
         new RemoveFuncCallArg('rex_getUrl', 3),
