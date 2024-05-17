@@ -33,7 +33,7 @@ if ('add_file' == $mediaMethod) {
             $data = [];
             $data['title'] = Request::request('ftitle', 'string');
             $data['category_id'] = (int) $rexFileCategory;
-            $data['file'] = rex_files('file_new', [
+            $data['file'] = Request::files('file_new', [
                 ['name', 'string'],
                 ['tmp_name', 'string'],
                 ['error', 'int'],

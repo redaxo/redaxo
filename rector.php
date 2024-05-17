@@ -440,6 +440,7 @@ return RectorConfig::configure()
         new FuncCallToStaticCall('rex_mediapool_deleteMedia', MediaPool\MediaPool::class, 'deleteMedia'), // different return value
 
         new FuncCallToStaticCall('rex_cookie', Http\Request::class, 'cookie'),
+        new FuncCallToStaticCall('rex_files', Http\Request::class, 'files'),
         new FuncCallToStaticCall('rex_get', Http\Request::class, 'get'),
         new FuncCallToStaticCall('rex_post', Http\Request::class, 'post'),
         new FuncCallToStaticCall('rex_request', Http\Request::class, 'request'),

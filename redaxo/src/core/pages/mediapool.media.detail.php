@@ -93,7 +93,7 @@ if (Request::post('btn_update', 'string')) {
             $data['title'] = Request::request('ftitle', 'string');
 
             if ($_FILES['file_new'] ?? null) {
-                $data['file'] = rex_files('file_new', [
+                $data['file'] = Request::files('file_new', [
                     ['name', 'string'],
                     ['tmp_name', 'string'],
                     ['error', 'int'],
