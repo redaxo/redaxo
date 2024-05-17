@@ -95,7 +95,7 @@ class Context implements ContextProviderInterface
     /**
      * Returns a Context instance containing all GET and POST parameters.
      *
-     * @return Context
+     * @return self
      */
     public static function restore()
     {
@@ -106,7 +106,7 @@ class Context implements ContextProviderInterface
     /**
      * Returns a Context instance containing all GET parameters.
      *
-     * @return Context
+     * @return self
      */
     public static function fromGet()
     {
@@ -116,7 +116,7 @@ class Context implements ContextProviderInterface
     /**
      * Returns a Context instance containing all POST parameters.
      *
-     * @return Context
+     * @return self
      */
     public static function fromPost()
     {
