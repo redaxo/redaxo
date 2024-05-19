@@ -40,7 +40,7 @@
         "psalm/plugin-symfony": "v5.1.0",
         "rector/rector": "1.0.5",
         "redaxo/php-cs-fixer-config": "2.10.0",
-        "redaxo/psalm-plugin": "2.0.0",
+        "redaxo/psalm-plugin": "2.1.0",
         "vimeo/psalm": "5.24.0"
     },
     "replace": {

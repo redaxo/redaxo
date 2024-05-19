@@ -76,41 +76,13 @@
       <code><![CDATA[$this->getVar('content2select')]]></code>
     </TaintedTextWithQuotes>
   </file>
-  <file src="redaxo/src/core/lib/backup/backup.php">
-    <TaintedInclude>
-      <code><![CDATA[$filename]]></code>
-    </TaintedInclude>
-  </file>
-  <file src="redaxo/src/core/pages/backup.import.server.php">
-    <TaintedFile>
-      <code><![CDATA[$fileTemp]]></code>
-      <code><![CDATA[$fileTemp]]></code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/core/pages/backup.import.upload.php">
-    <TaintedFile>
-      <code><![CDATA[$fileTemp]]></code>
-      <code><![CDATA[$fileTemp]]></code>
-    </TaintedFile>
-  </file>
   <file src="src/Database/Sql.php">
     <TaintedSql>
       <code><![CDATA[$query]]></code>
       <code><![CDATA[$query]]></code>
     </TaintedSql>
   </file>
-  <file src="src/Filesystem/File.php">
-    <TaintedFile>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-    </TaintedFile>
-  </file>
   <file src="src/Http/Response.php">
-    <TaintedFile>
-      <code><![CDATA[$file]]></code>
-      <code><![CDATA[$file]]></code>
-    </TaintedFile>
     <TaintedHeader>
       <code><![CDATA['Location: ' . $url]]></code>
     </TaintedHeader>
