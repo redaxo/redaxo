@@ -5,6 +5,7 @@ namespace Redaxo\Core\Util;
 use ArrayIterator;
 use Closure;
 use IteratorAggregate;
+use Override;
 use rex_exception;
 use Traversable;
 
@@ -27,6 +28,7 @@ readonly class SortableIterator implements IteratorAggregate
         private int|Closure $sort = self::VALUES,
     ) {}
 
+    #[Override]
     public function getIterator(): Traversable
     {
         $array = iterator_to_array($this->iterator);

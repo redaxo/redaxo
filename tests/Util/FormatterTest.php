@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use IntlDateFormatter;
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Translation\I18n;
@@ -19,11 +20,13 @@ final class FormatterTest extends TestCase
 {
     private string $previousLocale;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->previousLocale = I18n::setLocale('de_de');
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         I18n::setLocale($this->previousLocale);

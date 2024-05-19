@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Tests\Util;
 
+use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Timer;
@@ -14,6 +15,7 @@ final class TimerTest extends TestCase
     /** @var array{enabled: bool, throw_always_exception: bool|int} */
     private array $orgDebug;
 
+    #[Override]
     protected function setUp(): void
     {
         // Timer internals depend on debug mode..
@@ -21,6 +23,7 @@ final class TimerTest extends TestCase
         Core::setProperty('debug', true);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Core::setProperty('debug', $this->orgDebug);
@@ -54,7 +57,7 @@ final class TimerTest extends TestCase
 
         $exception = null;
         try {
-            Timer::measure('test2', static function () {
+            Timer::measure('test2', static function (): never {
                 throw new RuntimeException();
             });
         } catch (Throwable $exception) {

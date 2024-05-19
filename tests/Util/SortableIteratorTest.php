@@ -3,17 +3,20 @@
 namespace Redaxo\Core\Tests\Util;
 
 use ArrayIterator;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Util\SortableIterator;
 
 /** @internal */
 final class SortableIteratorTest extends TestCase
 {
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         parent::tearDown();

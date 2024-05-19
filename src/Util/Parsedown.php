@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Util;
 
+use Override;
 use ParsedownExtra;
 
 use const E_DEPRECATED;
@@ -25,6 +26,7 @@ final class Parsedown extends ParsedownExtra
     /**
      * @return string
      */
+    #[Override]
     public function text($text)
     {
         // https://github.com/erusev/parsedown-extra/issues/173
@@ -40,6 +42,7 @@ final class Parsedown extends ParsedownExtra
     /**
      * @return array|null
      */
+    #[Override]
     protected function blockHeader($Line)
     {
         $block = parent::blockHeader($Line);
@@ -50,6 +53,7 @@ final class Parsedown extends ParsedownExtra
     /**
      * @return array|null
      */
+    #[Override]
     protected function blockSetextHeader($Line, ?array $Block = null)
     {
         $block = parent::blockSetextHeader($Line, $Block);
@@ -60,6 +64,7 @@ final class Parsedown extends ParsedownExtra
     /**
      * @return array
      */
+    #[Override]
     protected function blockFencedCodeComplete($Block)
     {
         /** @var array $Block */
