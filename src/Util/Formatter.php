@@ -388,11 +388,11 @@ final class Formatter
     /**
      * Formats a string by a custom callable.
      *
-     * @param callable(string):string|array{0: callable(non-empty-array):string, 1: array<mixed>} $format A callable or an array of a callable and additional params
+     * @param callable(string|null):string|array{0: callable(non-empty-array):string, 1: array<mixed>} $format A callable or an array of a callable and additional params
      *
      * @throws rex_exception
      */
-    public static function custom(string $value, callable|array $format): string
+    public static function custom(?string $value, callable|array $format): string
     {
         if (!is_callable($format)) {
             if (!is_callable($format[0])) {

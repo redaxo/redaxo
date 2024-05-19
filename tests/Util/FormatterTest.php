@@ -287,11 +287,10 @@ final class FormatterTest extends TestCase
 
     public function testCustom(): void
     {
-        $format = 'strtoupper';
-        self::assertEquals(
-            'TEST',
-            Formatter::custom('test', $format),
-        );
+        /** @psalm-suppress InvalidArgument */
+        $result = Formatter::custom('test', 'strtoupper');
+
+        self::assertEquals('TEST', $result);
 
         $format = [
             static function (array $params): string {
