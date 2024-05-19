@@ -8,6 +8,7 @@ use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -17,7 +18,7 @@ class CategoryToArticle extends ApiFunction
 {
     public function execute()
     {
-        $articleId = rex_request('article_id', 'int');
+        $articleId = Request::request('article_id', 'int');
         $categoryId = Article::get($articleId)->getCategoryId();
         $user = Core::requireUser();
 

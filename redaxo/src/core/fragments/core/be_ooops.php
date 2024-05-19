@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\View\Fragment;
 
 /**
@@ -16,7 +17,7 @@ use Redaxo\Core\View\Fragment;
 
     <title>Ooops, something went wrong!</title>
 
-    <style type="text/css" nonce="<?= rex_response::getNonce() ?>">
+    <style type="text/css" nonce="<?= Response::getNonce() ?>">
         body, html {
             margin: 0;
             padding: 0;

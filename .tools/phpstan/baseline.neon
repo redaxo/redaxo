@@ -151,51 +151,6 @@ parameters:
 			path: ../../redaxo/src/core/functions/function_structure_rex_url.php
 
 		-
-			message: "#^Method rex_context\\:\\:array2inputStr\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/context.php
-
-		-
-			message: "#^Method rex_context\\:\\:getHiddenInputFields\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/context.php
-
-		-
-			message: "#^Method rex_context\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/context.php
-
-		-
-			message: "#^Method rex_context_provider_interface\\:\\:getHiddenInputFields\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/context.php
-
-		-
-			message: "#^Method rex_url_provider_interface\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/context.php
-
-		-
-			message: "#^Method rex_request\\:\\:arrayKeyCast\\(\\) has parameter \\$haystack with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/request.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Property rex_response\\:\\:\\$additionalHeaders type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Property rex_response\\:\\:\\$preloadFiles type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
 			message: "#^Method rex_setup\\:\\:checkDb\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/setup/setup.php
@@ -229,6 +184,11 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Backend\\\\Page\\:\\:setHref\\(\\) has parameter \\$href with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Backend/Page.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Base\\\\UrlProviderInterface\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Base/UrlProviderInterface.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:__construct\\(\\) has parameter \\$function with no type specified\\.$#"
@@ -899,6 +859,46 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\Select\\\\Select\\:\\:addOptions\\(\\) has parameter \\$options with no type specified\\.$#"
 			count: 1
 			path: ../../src/Form/Select/Select.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Http\\\\Context\\:\\:array2inputStr\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Http/Context.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Http\\\\Context\\:\\:getHiddenInputFields\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Http/Context.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Http\\\\Context\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Http/Context.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Http\\\\ContextProviderInterface\\:\\:getHiddenInputFields\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Http/ContextProviderInterface.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Http\\\\Request\\:\\:arrayKeyCast\\(\\) has parameter \\$haystack with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Http/Request.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../src/Http/Response.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Http\\\\Response\\:\\:\\$additionalHeaders type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Http/Response.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\Http\\\\Response\\:\\:\\$preloadFiles type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Http/Response.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Language\\\\LanguagePermission\\:\\:getClangs\\(\\) return type has no value type specified in iterable type array\\.$#"

@@ -1,12 +1,14 @@
 <?php
 
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
-assert(isset($context) && $context instanceof rex_context);
+assert(isset($context) && $context instanceof Context);
 assert(isset($successArray) && is_array($successArray));
 assert(isset($errorArray) && is_array($errorArray));
 assert(isset($cancelSetupBtn));
@@ -32,7 +34,7 @@ if (count($errorArray) > 0) {
 $security = '<div class="rex-js-setup-security-message" style="display:none">' . Message::error(I18n::msg('setup_security_msg') . '<br />' . I18n::msg('setup_no_js_security_msg')) . '</div>';
 $security .= '<noscript>' . Message::error(I18n::msg('setup_no_js_security_msg')) . '</noscript>';
 
-$security .= '<script nonce="' . rex_response::getNonce() . '">
+$security .= '<script nonce="' . Response::getNonce() . '">
 
     jQuery(function($){
         var allowedUrl = "' . Url::backend('index.php') . '";

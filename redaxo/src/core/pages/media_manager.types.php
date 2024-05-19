@@ -5,6 +5,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\ValidationRule;
@@ -14,10 +15,10 @@ use Redaxo\Core\View\Message;
 
 $content = '';
 
-$typeId = rex_request('type_id', 'int');
-$func = rex_request('func', 'string');
+$typeId = Request::request('type_id', 'int');
+$func = Request::request('func', 'string');
 
-if (rex_request('effects', 'boolean')) {
+if (Request::request('effects', 'boolean')) {
     include __DIR__ . '/media_manager.effects.php';
     return;
 }

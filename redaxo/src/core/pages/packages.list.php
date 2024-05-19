@@ -5,6 +5,8 @@ use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Addon\ApiFunction\AddonOperation;
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Version;
@@ -19,7 +21,7 @@ AddonManager::synchronizeWithFileSystem();
 
 $fragment = new Fragment();
 $fragment->setVar('id', 'rex-js-available-addon-search');
-$fragment->setVar('autofocus', !rex_request('function', 'bool'));
+$fragment->setVar('autofocus', !Request::request('function', 'bool'));
 $toolbar = $fragment->parse('core/form/search.php');
 
 $content = '
@@ -82,7 +84,7 @@ $getTableRow = static function (Addon $package) use ($getLink) {
     $class .= $package->isSystemPackage() ? ' rex-system-addon' : '';
 
     // --------------------------------------------- API MESSAGES
-    if (($package->getPackageId() == rex_get('package', 'string') && ApiFunction::hasMessage()) || ($package->getPackageId() == rex_get('mark', 'string'))) {
+    if (($package->getPackageId() == Request::get('package', 'string') && ApiFunction::hasMessage()) || ($package->getPackageId() == Request::get('mark', 'string'))) {
         $class = ' mark';
     }
 
@@ -124,7 +126,7 @@ $content .= '</tbody>
         </table>';
 
 $content .= '
-    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+    <script type="text/javascript" nonce="' . Response::getNonce() . '">
     <!--
     jQuery(function($) {
         var table = $("#rex-js-table-available-packages-addons");

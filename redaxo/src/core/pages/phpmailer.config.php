@@ -5,6 +5,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Validator\Validator;
@@ -13,13 +15,13 @@ use Redaxo\Core\View\Message;
 
 $message = '';
 
-if ('' != rex_post('btn_delete_archive', 'string')) {
+if ('' != Request::post('btn_delete_archive', 'string')) {
     if (Dir::delete(Mailer::logFolder(), true)) {
         echo Message::success(I18n::msg('phpmailer_archive_deleted'));
     }
 }
-if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string')) {
-    $settings = rex_post('settings', [
+if ('' != Request::post('btn_save', 'string') || '' != Request::post('btn_check', 'string')) {
+    $settings = Request::post('settings', [
         ['phpmailer_fromname', 'string'],
         ['phpmailer_from', 'string'],
         ['phpmailer_detour_mode', 'boolean'],
@@ -51,12 +53,12 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
 
     Config::set('core', $settings);
 
-    if ('' != rex_post('btn_check', 'string')) {
+    if ('' != Request::post('btn_check', 'string')) {
         if (false == Validator::factory()->email($settings['phpmailer_from']) || false == Validator::factory()->email($settings['phpmailer_test_address'])) {
             $warning = I18n::msg('phpmailer_check_settings_not_tested');
             echo Message::warning($warning);
         } else {
-            rex_response::sendRedirect(Url::backendPage('phpmailer/checkmail'));
+            Response::sendRedirect(Url::backendPage('phpmailer/checkmail'));
         }
     }
 
@@ -371,7 +373,7 @@ echo '
         ' . $content . '
     </form>';
 ?>
-<script nonce="<?= rex_response::getNonce() ?>">
+<script nonce="<?= Response::getNonce() ?>">
     $('#smtpsettings').toggle(
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );

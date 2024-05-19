@@ -6,7 +6,8 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
-use rex_response;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 
 /**
  * @internal
@@ -18,12 +19,12 @@ class UserImpersonate extends ApiFunction
      */
     public function execute()
     {
-        $impersonate = rex_get('_impersonate');
+        $impersonate = Request::get('_impersonate');
 
         if ('_depersonate' === $impersonate) {
             Core::getProperty('login')->depersonate();
 
-            rex_response::sendRedirect(Url::backendPage('users/users'));
+            Response::sendRedirect(Url::backendPage('users/users'));
 
             exit;
         }
@@ -35,7 +36,7 @@ class UserImpersonate extends ApiFunction
 
         Core::getProperty('login')->impersonate((int) $impersonate);
 
-        rex_response::sendRedirect(Url::backendController());
+        Response::sendRedirect(Url::backendController());
 
         exit;
     }

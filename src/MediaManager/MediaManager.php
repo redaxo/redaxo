@@ -9,13 +9,14 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use rex_media;
 use rex_media_manager_not_found_exception;
-use rex_response;
 
 use function assert;
 use function count;
@@ -366,22 +367,22 @@ class MediaManager
     {
         Extension::registerPoint(new ExtensionPoint('MEDIA_MANAGER_BEFORE_SEND', $this, []));
 
-        rex_response::cleanOutputBuffers();
+        Response::cleanOutputBuffers();
 
         if ($this->notFound) {
-            header('HTTP/1.1 ' . rex_response::HTTP_NOT_FOUND);
+            header('HTTP/1.1 ' . Response::HTTP_NOT_FOUND);
 
             exit;
         }
 
         // check for a cache-buster. this needs to be done, before the session gets closed/aborted.
         // the header is sent directly, to make sure it gets not cached with the other media related headers.
-        if (rex_get('buster')) {
+        if (Request::get('buster')) {
             if (PHP_SESSION_ACTIVE == session_status()) {
                 // short lived cache, for resources which might be affected by e.g. permissions
-                rex_response::sendCacheControl('private, max-age=7200');
+                Response::sendCacheControl('private, max-age=7200');
             } else {
-                rex_response::sendCacheControl('public, max-age=31536000, immutable');
+                Response::sendCacheControl('public, max-age=31536000, immutable');
             }
         }
 
@@ -396,13 +397,13 @@ class MediaManager
             assert(null !== $cache);
             $header = $cache['headers'];
             if (isset($header['Last-Modified'])) {
-                rex_response::sendLastModified(strtotime($header['Last-Modified']));
+                Response::sendLastModified(strtotime($header['Last-Modified']));
                 unset($header['Last-Modified']);
             }
             foreach ($header as $t => $c) {
-                rex_response::setHeader($t, $c);
+                Response::setHeader($t, $c);
             }
-            rex_response::sendFile($CacheFilename, $header['Content-Type']);
+            Response::sendFile($CacheFilename, $header['Content-Type']);
         } else {
             $this->media->sendMedia($CacheFilename, $headerCacheFilename, $this->useCache);
         }
@@ -539,7 +540,7 @@ class MediaManager
      */
     public static function getMediaFile()
     {
-        return Path::basename(rex_get('rex_media_file', 'string'));
+        return Path::basename(Request::get('rex_media_file', 'string'));
     }
 
     /**
@@ -547,7 +548,7 @@ class MediaManager
      */
     public static function getMediaType()
     {
-        $type = rex_get('rex_media_type', 'string');
+        $type = Request::get('rex_media_type', 'string');
 
         return Path::basename($type);
     }

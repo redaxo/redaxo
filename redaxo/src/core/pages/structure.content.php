@@ -17,15 +17,17 @@ use Redaxo\Core\Database\Util;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
-$articleId = rex_request('article_id', 'int');
-$clang = rex_request('clang', 'int');
-$sliceId = rex_request('slice_id', 'int', '');
+$articleId = Request::request('article_id', 'int');
+$clang = Request::request('clang', 'int');
+$sliceId = Request::request('slice_id', 'int', '');
 
 $articleId = Article::get($articleId) ? $articleId : 0;
 $clang = Language::exists($clang) ? $clang : Language::getStartId();
@@ -62,7 +64,7 @@ $templateAttributes = $article->getArrayValue('template_attributes');
 
 $ctypes = $templateAttributes['ctype'] ?? []; // ctypes - aus dem template
 
-$ctype = rex_request('ctype', 'int', 1);
+$ctype = Request::request('ctype', 'int', 1);
 if (!array_key_exists($ctype, $ctypes)) {
     $ctype = 1;
 }
@@ -73,11 +75,11 @@ $categoryId = $OOArt->getCategoryId();
 
 // ----- Request Parameter
 $subpage = Controller::getCurrentPagePart(2);
-$function = rex_request('function', 'string');
-$warning = rex_escape(rex_request('warning', 'string'));
-$info = rex_escape(rex_request('info', 'string'));
+$function = Request::request('function', 'string');
+$warning = rex_escape(Request::request('warning', 'string'));
+$info = rex_escape(Request::request('info', 'string'));
 
-$context = new rex_context([
+$context = new Context([
     'page' => Controller::getCurrentPage(),
     'article_id' => $articleId,
     'category_id' => $categoryId,
@@ -117,7 +119,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     // ----- hat rechte an diesem artikel
 
     // ------------------------------------------ Slice add/edit/delete
-    if (rex_request('save', 'boolean') && in_array($function, ['add', 'edit', 'delete'])) {
+    if (Request::request('save', 'boolean') && in_array($function, ['add', 'edit', 'delete'])) {
         // ----- check module
 
         $CM = Sql::factory();
@@ -130,7 +132,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             }
         } else {
             // add
-            $moduleId = rex_post('module_id', 'int');
+            $moduleId = Request::post('module_id', 'int');
             $CM->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
         }
 
@@ -328,7 +330,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                     // ----- / POST SAVE ACTION
 
                     // Update Button wurde gedrückt?
-                    if (rex_post('btn_save', 'string')) {
+                    if (Request::post('btn_save', 'string')) {
                         $function = '';
                     }
                 }

@@ -9,6 +9,7 @@ use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -18,19 +19,19 @@ use Redaxo\Core\View\Message;
 
 $OUT = true;
 
-$function = rex_request('function', 'string');
-$functionAction = rex_request('function_action', 'string');
-$save = rex_request('save', 'string');
-$moduleId = rex_request('module_id', 'int');
-$actionId = rex_request('action_id', 'int');
-$iactionId = rex_request('iaction_id', 'int'); // id der module-action relation
-$mname = trim(rex_request('mname', 'string'));
-$mkey = trim(rex_request('mkey', 'string'));
+$function = Request::request('function', 'string');
+$functionAction = Request::request('function_action', 'string');
+$save = Request::request('save', 'string');
+$moduleId = Request::request('module_id', 'int');
+$actionId = Request::request('action_id', 'int');
+$iactionId = Request::request('iaction_id', 'int'); // id der module-action relation
+$mname = trim(Request::request('mname', 'string'));
+$mkey = trim(Request::request('mkey', 'string'));
 $mkey = '' === $mkey ? null : $mkey;
-$eingabe = rex_request('eingabe', 'string');
-$ausgabe = rex_request('ausgabe', 'string');
-$goon = rex_request('goon', 'string');
-$addAction = rex_request('add_action', 'string');
+$eingabe = Request::request('eingabe', 'string');
+$ausgabe = Request::request('ausgabe', 'string');
+$goon = Request::request('goon', 'string');
+$addAction = Request::request('add_action', 'string');
 
 $success = '';
 $error = '';
@@ -396,7 +397,7 @@ if ('add' == $function || 'edit' == $function) {
         }
 
         $content = '
-            <form action="' . Url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
+            <form action="' . Url::currentBackendPage(['start' => Request::request('start', 'int')]) . '" method="post">
             ' . $csrfToken->getHiddenField() . '
             ' . $content . '
             </form>';
@@ -419,7 +420,7 @@ if ($OUT) {
     }
 
     $list = DataList::factory('SELECT id, `key`, name FROM ' . Core::getTablePrefix() . 'module ORDER BY name', 100);
-    $list->addParam('start', rex_request('start', 'int'));
+    $list->addParam('start', Request::request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-module"></i>';

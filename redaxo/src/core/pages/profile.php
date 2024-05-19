@@ -8,6 +8,8 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\Login;
@@ -29,15 +31,15 @@ $login = Core::getProperty('login');
 $passwordChangeRequired = $login->requiresPasswordChange();
 
 // Allgemeine Infos
-$userpsw = rex_request('userpsw', 'string');
-$passkey = rex_request('passkey', 'string');
-$userpswNew1 = rex_request('userpsw_new_1', 'string');
-$userpswNew2 = rex_request('userpsw_new_2', 'string');
+$userpsw = Request::request('userpsw', 'string');
+$passkey = Request::request('passkey', 'string');
+$userpswNew1 = Request::request('userpsw_new_1', 'string');
+$userpswNew2 = Request::request('userpsw_new_2', 'string');
 
-$username = rex_request('username', 'string', $user->getName());
-$userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
-$useremail = rex_request('useremail', 'string', $user->getValue('email'));
-$usertheme = rex_request('usertheme', 'string', $user->getValue('theme')) ?: null;
+$username = Request::request('username', 'string', $user->getName());
+$userdesc = Request::request('userdesc', 'string', $user->getValue('description'));
+$useremail = Request::request('useremail', 'string', $user->getValue('email'));
+$usertheme = Request::request('usertheme', 'string', $user->getValue('theme')) ?: null;
 $userlogin = $user->getLogin();
 $csrfToken = CsrfToken::factory('profile');
 $passwordPolicy = BackendPasswordPolicy::factory();
@@ -49,7 +51,7 @@ echo View::title(I18n::msg('profile_title'), '');
 // --------------------------------- BE LANG
 
 // backend sprache
-$userpermBeSprache = rex_request('userperm_be_sprache', 'string', $user->getLanguage());
+$userpermBeSprache = Request::request('userperm_be_sprache', 'string', $user->getLanguage());
 $selBeSprache = new Select();
 $selBeSprache->setSize(1);
 $selBeSprache->setStyle('class="form-control"');
@@ -80,7 +82,7 @@ $selBeTheme->addOption(I18n::msg('theme_dark'), 'dark');
 
 // --------------------------------- FUNCTIONS
 
-$update = rex_post('upd_profile_button', 'bool');
+$update = Request::post('upd_profile_button', 'bool');
 
 if ($update) {
     if (!$csrfToken->isValid()) {
@@ -92,7 +94,7 @@ if ($update) {
 
 // Restore success message after redirect
 // is necessary to show the whole page in the selected language
-if (rex_request('rex_user_updated', 'bool', false)) {
+if (Request::request('rex_user_updated', 'bool', false)) {
     $success = I18n::msg('user_data_updated');
 }
 
@@ -117,7 +119,7 @@ if ($update && !$error) {
     ], true));
 
     // trigger a fullpage-reload which immediately reflects a possible changed language
-    rex_response::sendRedirect(Url::currentBackendPage(['rex_user_updated' => true]));
+    Response::sendRedirect(Url::currentBackendPage(['rex_user_updated' => true]));
 }
 
 $verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool|string {
@@ -129,7 +131,7 @@ $verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool
         return true;
     }
 
-    $result = $webauthn->processGet(rex_post('passkey_verify', 'string'));
+    $result = $webauthn->processGet(Request::post('passkey_verify', 'string'));
     if ($result) {
         [$id, $passkeyUser] = $result;
 
@@ -141,7 +143,7 @@ $verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool
     return I18n::msg('passkey_verify_error');
 };
 
-if (rex_post('upd_psw_button', 'bool')) {
+if (Request::post('upd_psw_button', 'bool')) {
     if (!$csrfToken->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
     } elseif (true !== $msg = $verifyLogin()) {
@@ -182,7 +184,7 @@ if (rex_post('upd_psw_button', 'bool')) {
     }
 }
 
-if ('add_passkey' === rex_request('function', 'string')) {
+if ('add_passkey' === Request::request('function', 'string')) {
     if (!$csrfToken->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
     } elseif (true !== $msg = $verifyLogin()) {

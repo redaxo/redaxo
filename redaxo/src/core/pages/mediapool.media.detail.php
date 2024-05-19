@@ -9,6 +9,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\MediaCategorySelect;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaCategory;
@@ -42,7 +43,7 @@ if (!isset($fileId)) {
 
 $perm = Core::requireUser()->getComplexPerm('media');
 
-if (rex_post('btn_delete', 'string')) {
+if (Request::post('btn_delete', 'string')) {
     if (!$csrf->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
     } else {
@@ -74,7 +75,7 @@ if (rex_post('btn_delete', 'string')) {
     }
 }
 
-if (rex_post('btn_update', 'string')) {
+if (Request::post('btn_update', 'string')) {
     if (!$csrf->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
     } else {
@@ -89,10 +90,10 @@ if (rex_post('btn_update', 'string')) {
             $filename = (string) $gf->getValue('filename');
             $data = [];
             $data['category_id'] = $rexFileCategory;
-            $data['title'] = rex_request('ftitle', 'string');
+            $data['title'] = Request::request('ftitle', 'string');
 
             if ($_FILES['file_new'] ?? null) {
-                $data['file'] = rex_files('file_new', [
+                $data['file'] = Request::files('file_new', [
                     ['name', 'string'],
                     ['tmp_name', 'string'],
                     ['error', 'int'],

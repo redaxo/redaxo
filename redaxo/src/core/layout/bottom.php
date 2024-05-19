@@ -2,13 +2,14 @@
 
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\View\Fragment;
 
 $curPage = Controller::requireCurrentPageObject();
 
 if (!$curPage->hasLayout()) {
-    if (rex_request::isPJAXRequest()) {
+    if (Request::isPJAXRequest()) {
         echo '</section>';
     }
 
@@ -19,7 +20,7 @@ if (!$curPage->hasLayout()) {
 
 </section></div><?php
 
-if (rex_request::isPJAXContainer('#rex-js-page-container')) {
+if (Request::isPJAXContainer('#rex-js-page-container')) {
     return;
 }
 

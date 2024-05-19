@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\View\Fragment;
 
 /**
@@ -26,7 +27,7 @@ use Redaxo\Core\View\Fragment;
     />
 </picture>
 
-<style nonce="<?= rex_response::getNonce() ?>">
+<style nonce="<?= Response::getNonce() ?>">
     #rex-page-login {
         background-color: #6b6e73;
     }
@@ -53,7 +54,7 @@ use Redaxo\Core\View\Fragment;
     }
 </style>
 
-<script nonce="<?= rex_response::getNonce() ?>">
+<script nonce="<?= Response::getNonce() ?>">
     var picture = document.querySelector('.rex-background');
     picture.classList.add('rex-background--process');
     picture.querySelector('img').onload = function() {

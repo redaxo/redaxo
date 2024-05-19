@@ -7,6 +7,7 @@ use lbuchs\WebAuthn\WebAuthn as BaseWebAuthn;
 use lbuchs\WebAuthn\WebAuthnException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Util\Type;
 use stdClass;
 
@@ -25,7 +26,7 @@ class WebAuthn
         $webauthn = $this->createWebauthnBase();
         $args = $webauthn->getCreateArgs((string) $user->getId(), $user->getLogin(), $user->getName(), requireResidentKey: true, requireUserVerification: true);
 
-        rex_set_session(self::SESSION_CHALLENGE_CREATE, $webauthn->getChallenge());
+        Request::setSession(self::SESSION_CHALLENGE_CREATE, $webauthn->getChallenge());
 
         return json_encode($args);
     }
@@ -39,7 +40,7 @@ class WebAuthn
         $attestationObject = base64_decode(Type::string($data->attestationObject));
 
         /** @var ByteBuffer $challenge */
-        $challenge = rex_session(self::SESSION_CHALLENGE_CREATE);
+        $challenge = Request::session(self::SESSION_CHALLENGE_CREATE);
 
         $data = $this->createWebauthnBase()->processCreate($clientDataJSON, $attestationObject, $challenge, requireUserVerification: true);
 
@@ -54,7 +55,7 @@ class WebAuthn
         $webauthn = $this->createWebauthnBase();
         $args = $webauthn->getGetArgs($id ? [ByteBuffer::fromBase64Url($id)] : [], requireUserVerification: true);
 
-        rex_set_session(self::SESSION_CHALLENGE_GET, $webauthn->getChallenge());
+        Request::setSession(self::SESSION_CHALLENGE_GET, $webauthn->getChallenge());
 
         return json_encode($args);
     }
@@ -84,7 +85,7 @@ class WebAuthn
         $signature = base64_decode(Type::string($data->signature));
 
         /** @var ByteBuffer $challenge */
-        $challenge = rex_session(self::SESSION_CHALLENGE_GET);
+        $challenge = Request::session(self::SESSION_CHALLENGE_GET);
 
         try {
             $this->createWebauthnBase()->processGet($clientDataJSON, $authenticatorData, $signature, Type::string($sql->getValue('public_key')), $challenge, requireUserVerification: true);

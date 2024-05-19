@@ -13,6 +13,8 @@ use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Language\LanguagePermission;
 use Redaxo\Core\MediaManager\MediaManager;
@@ -25,7 +27,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\VarDumper;
 use Redaxo\Core\View\Fragment;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
 /**
  * REDAXO main boot file.
@@ -132,7 +134,7 @@ foreach ($config as $key => $value) {
 date_default_timezone_set(Core::getProperty('timezone', 'Europe/Berlin'));
 
 if ('cli' !== PHP_SAPI) {
-    Core::setProperty('request', Request::createFromGlobals());
+    Core::setProperty('request', BaseRequest::createFromGlobals());
 }
 
 rex_error_handler::register();
@@ -152,7 +154,7 @@ Extension::register('COMPLEX_PERM_REPLACE_ITEM', [UserRole::class, 'removeOrRepl
 
 // ----- SET CLANG
 if (!Core::isSetup()) {
-    $clangId = rex_request('clang', 'int', Language::getStartId());
+    $clangId = Request::request('clang', 'int', Language::getStartId());
     if (Core::isBackend() || Language::exists($clangId)) {
         Language::setCurrentId($clangId);
     }
@@ -160,12 +162,12 @@ if (!Core::isSetup()) {
 
 // ----------------- HTTPS REDIRECT
 if ('cli' !== PHP_SAPI && !Core::isSetup()) {
-    if ((true === Core::getProperty('use_https') || Core::getEnvironment() === Core::getProperty('use_https')) && !rex_request::isHttps()) {
-        rex_response::enforceHttps();
+    if ((true === Core::getProperty('use_https') || Core::getEnvironment() === Core::getProperty('use_https')) && !Request::isHttps()) {
+        Response::enforceHttps();
     }
 
-    if (true === Core::getProperty('use_hsts') && rex_request::isHttps()) {
-        rex_response::setHeader('Strict-Transport-Security', 'max-age=' . (int) Core::getProperty('hsts_max_age', 31536000)); // default 1 year
+    if (true === Core::getProperty('use_hsts') && Request::isHttps()) {
+        Response::setHeader('Strict-Transport-Security', 'max-age=' . (int) Core::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }
 
@@ -192,10 +194,10 @@ if (!Core::isSetup()) {
     Core::setProperty('notfound_article_id', Core::getConfig('notfound_article_id', 1));
     Core::setProperty('rows_per_page', 50);
 
-    if (0 == rex_request('article_id', 'int')) {
+    if (0 == Request::request('article_id', 'int')) {
         Core::setProperty('article_id', Article::getSiteStartArticleId());
     } else {
-        $articleId = rex_request('article_id', 'int');
+        $articleId = Request::request('article_id', 'int');
         $articleId = Article::get($articleId) ? $articleId : Article::getNotfoundArticleId();
         Core::setProperty('article_id', $articleId);
     }

@@ -5,6 +5,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\MediaPool\MediaPoolCache;
 use Redaxo\Core\Security\CsrfToken;
@@ -68,12 +70,12 @@ foreach ($dbFiles as $dbFile) {
 
 $error = [];
 $success = [];
-if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
+if (Request::post('save', 'boolean') && Request::post('sync_files', 'boolean')) {
     if (!$csrf->isValid()) {
         $error[] = I18n::msg('csrf_token_invalid');
     } else {
-        $syncFiles = rex_post('sync_files', 'array[string]');
-        $ftitle = rex_post('ftitle', 'string');
+        $syncFiles = Request::post('sync_files', 'array[string]');
+        $ftitle = Request::post('ftitle', 'string');
 
         if ($diffCount > 0) {
             $success = [];
@@ -108,7 +110,7 @@ if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
             $diffCount = count($diffFiles);
         }
     }
-} elseif (rex_post('save', 'boolean')) {
+} elseif (Request::post('save', 'boolean')) {
     $error[] = I18n::msg('pool_file_not_found');
 }
 
@@ -162,7 +164,7 @@ if ($diffCount > 0) {
                 </fieldset>
             </form>
 
-            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+            <script type="text/javascript" nonce="' . Response::getNonce() . '">
                 jQuery(document).ready(function($){
                     $("input[name=\'sync_files[]\']").change(function() {
                         $(this).closest(\'form\').find("[type=\'submit\']").attr("disabled", $("input[name=\'sync_files[]\']:checked").length == 0);

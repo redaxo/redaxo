@@ -7,6 +7,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 
 /**
  * @internal
@@ -19,9 +20,9 @@ class ArticleEdit extends ApiFunction
             throw new ApiFunctionException('User has no permission to edit articles!');
         }
 
-        $categoryId = rex_request('category_id', 'int');
-        $articleId = rex_request('article_id', 'int');
-        $clang = rex_request('clang', 'int');
+        $categoryId = Request::request('category_id', 'int');
+        $articleId = Request::request('article_id', 'int');
+        $clang = Request::request('clang', 'int');
 
         // check permissions
         if (!Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
@@ -30,9 +31,9 @@ class ArticleEdit extends ApiFunction
 
         // --------------------- ARTIKEL EDIT
         $data = [];
-        $data['priority'] = rex_post('article-position', 'int');
-        $data['name'] = rex_post('article-name', 'string');
-        $data['template_id'] = rex_post('template_id', 'int');
+        $data['priority'] = Request::post('article-position', 'int');
+        $data['name'] = Request::post('article-name', 'string');
+        $data['template_id'] = Request::post('template_id', 'int');
         return new Result(true, ArticleHandler::editArticle($articleId, $clang, $data));
     }
 

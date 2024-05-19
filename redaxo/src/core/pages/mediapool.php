@@ -3,6 +3,8 @@
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Message;
@@ -12,10 +14,10 @@ global $ftitle, $error, $success;
 
 // -------------- Defaults
 $subpage = Controller::getCurrentPagePart(2);
-$func = rex_request('func', 'string');
-$success = rex_escape(rex_request('info', 'string'));
-$error = rex_escape(rex_request('warning', 'string'));
-$args = rex_request('args', 'array');
+$func = Request::request('func', 'string');
+$success = rex_escape(Request::request('info', 'string'));
+$error = rex_escape(Request::request('warning', 'string'));
+$args = Request::request('args', 'array');
 
 $regex = '@&lt;(/?(?:b|i|code)|br ?/?)&gt;@i';
 $success = preg_replace($regex, '<$1>', $success);
@@ -29,8 +31,8 @@ foreach ($args as $argName => $argValue) {
 }
 
 // ----- opener_input_field setzen
-$openerLink = rex_request('opener_link', 'string');
-$openerInputField = rex_request('opener_input_field', 'string', '');
+$openerLink = Request::request('opener_link', 'string');
+$openerInputField = Request::request('opener_input_field', 'string', '');
 
 if ('' != $openerInputField) {
     if (!preg_match('{^[A-Za-z]+[\w\-\:\.]*$}', $openerInputField)) {
@@ -47,9 +49,9 @@ if ('' != $openerInputField) {
 }
 
 // -------------- CatId in Session speichern
-$fileId = rex_request('file_id', 'int');
-$fileName = rex_request('file_name', 'string');
-$rexFileCategory = rex_request('rex_file_category', 'int', -1);
+$fileId = Request::request('file_id', 'int');
+$fileName = Request::request('file_name', 'string');
+$rexFileCategory = Request::request('rex_file_category', 'int', -1);
 
 if ('' != $fileName) {
     $sql = Sql::factory();
@@ -61,7 +63,7 @@ if ('' != $fileName) {
 }
 
 if (-1 == $rexFileCategory) {
-    $rexFileCategory = rex_session('media[rex_file_category]', 'int');
+    $rexFileCategory = Request::session('media[rex_file_category]', 'int');
 }
 
 $gc = Sql::factory();
@@ -73,7 +75,7 @@ if (1 != $gc->getRows()) {
     $rexFileCategoryName = $gc->getValue('name');
 }
 
-rex_set_session('media[rex_file_category]', $rexFileCategory);
+Request::setSession('media[rex_file_category]', $rexFileCategory);
 
 // -------------- PERMS
 $PERMALL = Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(0);
@@ -99,9 +101,9 @@ if ('' != $error) {
     $error = '';
 }
 
-if (!rex_request::isXmlHttpRequest()) {
+if (!Request::isXmlHttpRequest()) {
     ?>
-    <script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
+    <script type="text/javascript" nonce="<?= Response::getNonce() ?>">
         rex_retain_popup_event_handlers("rex:selectMedia");
         <?= $openerInputField ? 'rex.mediapoolOpenerInputField = "' . rex_escape($openerInputField, 'js') . '";' : '' ?>
     </script>

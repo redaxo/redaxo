@@ -7,6 +7,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MetaInfo\Form\DefaultType;
 use Redaxo\Core\Translation\I18n;
@@ -134,7 +135,7 @@ class MediaHandler extends AbstractHandler
     {
         $restrictionsCondition = '';
 
-        $catId = rex_session('media[rex_file_category]', 'int');
+        $catId = Request::session('media[rex_file_category]', 'int');
         if (isset($params['activeItem'])) {
             $catId = $params['activeItem']->getValue('category_id');
         }
@@ -166,7 +167,7 @@ class MediaHandler extends AbstractHandler
      */
     protected function handleSave(array $params, Sql $sqlFields)
     {
-        if ('post' != rex_request_method() || !isset($params['id'])) {
+        if ('post' != Request::requestMethod() || !isset($params['id'])) {
             return $params;
         }
 

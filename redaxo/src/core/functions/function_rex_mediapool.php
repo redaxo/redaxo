@@ -5,6 +5,7 @@ use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\MediaCategorySelect;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -63,11 +64,11 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     }
 
     $argFields = '';
-    foreach (rex_request('args', 'array') as $argName => $argValue) {
+    foreach (Request::request('args', 'array') as $argName => $argValue) {
         $argFields .= '<input type="hidden" name="args[' . rex_escape($argName) . ']" value="' . rex_escape($argValue) . '" />' . "\n";
     }
 
-    $openerInputField = rex_request('opener_input_field', 'string');
+    $openerInputField = Request::request('opener_input_field', 'string');
     if ('' != $openerInputField) {
         $argFields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($openerInputField) . '" />' . "\n";
     }

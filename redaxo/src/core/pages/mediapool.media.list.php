@@ -9,6 +9,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\MediaCategorySelect;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaHandler;
@@ -40,7 +41,7 @@ if (!isset($argUrl)) {
     $argUrl = [];
 }
 
-$mediaMethod = rex_request('media_method', 'string');
+$mediaMethod = Request::request('media_method', 'string');
 
 $perm = Core::requireUser()->getComplexPerm('media');
 $hasCategoryPerm = $perm->hasCategoryPerm($rexFileCategory);
@@ -49,7 +50,7 @@ if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
     if (!$csrf->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
     } else {
-        $selectedmedia = rex_post('selectedmedia', 'array');
+        $selectedmedia = Request::post('selectedmedia', 'array');
         if (isset($selectedmedia[0]) && '' != $selectedmedia[0]) {
             foreach ($selectedmedia as $fileName) {
                 $db = Sql::factory();
@@ -81,7 +82,7 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
     if (!$csrf->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
     } else {
-        $selectedmedia = rex_post('selectedmedia', 'array');
+        $selectedmedia = Request::post('selectedmedia', 'array');
         if (0 != count($selectedmedia)) {
             $error = [];
             $success = [];
@@ -245,7 +246,7 @@ if ($hasCategoryPerm) {
 
 $filter = [];
 
-$mediaName = rex_request('media_name', 'string');
+$mediaName = Request::request('media_name', 'string');
 if ('' != $mediaName) {
     $filter['term'] = $mediaName;
 

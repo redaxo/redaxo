@@ -2,6 +2,8 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\WebAuthn;
 use Redaxo\Core\Translation\I18n;
@@ -11,7 +13,7 @@ use Redaxo\Core\View\View;
 
 global $rexUserLoginmessage;
 
-$rexUserLogin = rex_post('rex_user_login', 'string');
+$rexUserLogin = Request::post('rex_user_login', 'string');
 
 echo View::title(I18n::msg('login'));
 
@@ -125,7 +127,7 @@ $content = '
     ' . CsrfToken::factory('backend_login')->getHiddenField() . '
     <input type="hidden" name="rex_user_passkey" data-auth-passkey="' . rex_escape($webauthn->getGetArgs()) . '"/>
 </form>
-<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+<script type="text/javascript" nonce="' . Response::getNonce() . '">
      <!--
     jQuery(function($) {
         $("#rex-form-login")

@@ -93,22 +93,14 @@ expectedArguments(\Redaxo\Core\Util\Timer::getFormattedDelta(), 0, \Redaxo\Core\
 
 registerArgumentsSet('cast_type', 'bool', 'int', 'float', 'string', 'object', 'array');
 expectedArguments(\Redaxo\Core\Util\Type::cast(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_get(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_post(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_request(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_server(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_session(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_cookie(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_files(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_env(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_request::get(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_request::post(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_request::request(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_request::server(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_request::session(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_request::cookie(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_request::files(), 1, argumentsSet('cast_type'));
-expectedArguments(\rex_request::env(), 1, argumentsSet('cast_type'));
+expectedArguments(\Redaxo\Core\HttpClient\Request::get(), 1, argumentsSet('cast_type'));
+expectedArguments(\Redaxo\Core\HttpClient\Request::post(), 1, argumentsSet('cast_type'));
+expectedArguments(\Redaxo\Core\HttpClient\Request::request(), 1, argumentsSet('cast_type'));
+expectedArguments(\Redaxo\Core\HttpClient\Request::server(), 1, argumentsSet('cast_type'));
+expectedArguments(\Redaxo\Core\HttpClient\Request::session(), 1, argumentsSet('cast_type'));
+expectedArguments(\Redaxo\Core\HttpClient\Request::cookie(), 1, argumentsSet('cast_type'));
+expectedArguments(\Redaxo\Core\HttpClient\Request::files(), 1, argumentsSet('cast_type'));
+expectedArguments(\Redaxo\Core\HttpClient\Request::env(), 1, argumentsSet('cast_type'));
 
 override(
     \Redaxo\Core\Security\User::getComplexPerm(0),

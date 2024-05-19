@@ -6,11 +6,11 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use rex_exception;
-use rex_request;
 use RuntimeException;
 use SensitiveParameter;
 
@@ -658,6 +658,6 @@ class Login
      */
     protected static function getSessionNamespace()
     {
-        return rex_request::getSessionNamespace();
+        return Request::getSessionNamespace();
     }
 }

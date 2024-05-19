@@ -1,6 +1,8 @@
 <?php
 
-$subpage = rex_request('subpage', 'string');
+use Redaxo\Core\Http\Request;
+
+$subpage = Request::request('subpage', 'string');
 
 if ('' == $subpage) {
     require __DIR__ . '/packages.list.php';

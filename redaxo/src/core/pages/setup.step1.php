@@ -1,10 +1,11 @@
 <?php
 
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
-assert(isset($context) && $context instanceof rex_context);
+assert(isset($context) && $context instanceof Context);
 assert(isset($cancelSetupBtn));
 
 rex_setup::init();

@@ -1,5 +1,9 @@
 <?php
 
+namespace Redaxo\Core\Http;
+
+use DateTimeInterface;
+use InvalidArgumentException;
 use Ramsey\Http\Range\Exception\HttpRangeException;
 use Ramsey\Http\Range\UnitFactory;
 use Redaxo\Core\Core;
@@ -8,7 +12,14 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\Str;
 
-class rex_response
+use function function_exists;
+use function in_array;
+use function ini_get;
+use function is_resource;
+
+use const FORCE_GZIP;
+
+class Response
 {
     public const HTTP_OK = '200 OK';
     public const HTTP_PARTIAL_CONTENT = '206 Partial Content';
@@ -194,7 +205,7 @@ class rex_response
         self::sendPreloadHeaders();
 
         header('Accept-Ranges: bytes');
-        $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
+        $rangeHeader = Request::server('HTTP_RANGE', 'string', null);
         if ($rangeHeader) {
             try {
                 $filesize = filesize($file);
@@ -609,7 +620,7 @@ class rex_response
      */
     public static function enforceHttps()
     {
-        if (!rex_request::isHttps()) {
+        if (!Request::isHttps()) {
             self::setStatus(self::HTTP_MOVED_PERMANENTLY);
             self::sendRedirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
         }

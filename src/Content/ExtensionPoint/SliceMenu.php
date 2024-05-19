@@ -4,7 +4,7 @@ namespace Redaxo\Core\Content\ExtensionPoint;
 
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
-use rex_context;
+use Redaxo\Core\Http\Context;
 
 /**
  * @extends ExtensionPoint<null>
@@ -28,7 +28,7 @@ class SliceMenu extends ExtensionPoint
         private array $menuStatusAction,
         private array $menuMoveupAction,
         private array $menuMovedownAction,
-        private rex_context $context,
+        private Context $context,
         private string $fragment,
         private int $articleId,
         private int $clang,
@@ -151,7 +151,7 @@ class SliceMenu extends ExtensionPoint
         $this->additionalActions = array_merge($this->additionalActions, $additionalActions);
     }
 
-    public function getContext(): rex_context
+    public function getContext(): Context
     {
         return $this->context;
     }

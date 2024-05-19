@@ -4,9 +4,9 @@ namespace Redaxo\Core\MetaInfo\Form\Field;
 
 use Redaxo\Core\Form\Field\CheckboxField;
 use Redaxo\Core\Form\Field\SelectField;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\MetaInfo\Form\MetaInfoForm;
 use Redaxo\Core\Translation\I18n;
-use rex_response;
 
 /**
  * @internal
@@ -56,7 +56,7 @@ class RestrictionField extends SelectField
         $html = '';
 
         $html .= '
-        <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+        <script type="text/javascript" nonce="' . Response::getNonce() . '">
         <!--
 
         jQuery(function($) {

@@ -4,8 +4,8 @@ namespace Redaxo\Core\MediaManager\Effect;
 
 use GdImage;
 use LogicException;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
-use rex_response;
 
 use const IMG_FILTER_COLORIZE;
 
@@ -80,7 +80,7 @@ class MirrorEffect extends AbstractEffect
                 'options' => ['colored', 'transparent / png24'],
                 'default' => 'colored',
                 'suffix' => '
-<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+<script type="text/javascript" nonce="' . Response::getNonce() . '">
 <!--
 
 (function($) {

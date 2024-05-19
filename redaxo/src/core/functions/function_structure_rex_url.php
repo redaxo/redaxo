@@ -4,6 +4,7 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Util\Str;
 
@@ -52,5 +53,5 @@ function rex_getUrl(?int $id = null, ?int $clang = null, array $params = []): st
  */
 function rex_redirect(?int $articleId = null, ?int $clang = null, array $params = []): never
 {
-    rex_response::sendRedirect(rex_getUrl($articleId, $clang, $params));
+    Response::sendRedirect(rex_getUrl($articleId, $clang, $params));
 }

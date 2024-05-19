@@ -7,9 +7,9 @@ use GdImage;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Util\Str;
 use rex_media_manager_not_found_exception;
-use rex_response;
 
 use function array_key_exists;
 use function assert;
@@ -261,7 +261,7 @@ class ManagedMedia
             $src = $this->getSource();
             $this->setHeader('Content-Length', (string) Str::size($src));
 
-            rex_response::cleanOutputBuffers();
+            Response::cleanOutputBuffers();
             foreach ($this->header as $t => $c) {
                 header($t . ': ' . $c);
             }
@@ -281,12 +281,12 @@ class ManagedMedia
         } else {
             $this->setHeader('Content-Length', (string) filesize($this->getSourcePath()));
 
-            rex_response::cleanOutputBuffers();
+            Response::cleanOutputBuffers();
             foreach ($this->header as $t => $c) {
-                rex_response::setHeader($t, $c);
+                Response::setHeader($t, $c);
             }
 
-            rex_response::sendFile($this->getSourcePath(), $this->header['Content-Type']);
+            Response::sendFile($this->getSourcePath(), $this->header['Content-Type']);
 
             if ($save) {
                 File::putCache($headerCachePath, [

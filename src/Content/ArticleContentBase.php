@@ -7,6 +7,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
@@ -622,7 +623,7 @@ class ArticleContentBase
      */
     private function renderSlices(string $articleLimit, string $sliceLimit): void
     {
-        $moduleId = rex_request('module_id', 'int');
+        $moduleId = Request::request('module_id', 'int');
 
         // ---------- alle teile/slices eines artikels auswaehlen
         $prefix = Core::getTablePrefix();

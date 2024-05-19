@@ -2,12 +2,13 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
-$package = Addon::require(rex_request('package', 'string'));
-$subPage = rex_request('subpage', 'string');
+$package = Addon::require(Request::request('package', 'string'));
+$subPage = Request::request('subpage', 'string');
 $packageId = $package->getPackageId();
 
 $hasChangelog = is_readable($package->getPath('CHANGELOG.md'));

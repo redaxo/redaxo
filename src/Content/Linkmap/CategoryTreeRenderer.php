@@ -6,8 +6,8 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\StructureElement;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Translation\I18n;
-use rex_context;
 
 use function count;
 use function in_array;
@@ -109,7 +109,7 @@ abstract class CategoryTreeRenderer
     /**
      * @return string
      */
-    public static function formatLi(StructureElement $OOobject, $currentCategoryId, rex_context $context, $liAttr = '', $linkAttr = '')
+    public static function formatLi(StructureElement $OOobject, $currentCategoryId, Context $context, $liAttr = '', $linkAttr = '')
     {
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offline') . '"';
 

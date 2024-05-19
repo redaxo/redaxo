@@ -14,6 +14,9 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\CsrfToken;
@@ -32,9 +35,9 @@ header("Content-Security-Policy: frame-ancestors 'self'");
 
 // assets which are passed with a cachebuster will be cached very long,
 // as we assume their url will change when the underlying content changes
-if (rex_get('asset') && rex_get('buster')) {
+if (Request::get('asset') && Request::get('buster')) {
     /** @psalm-taint-escape file */ // it is not escaped here, but it is validated below via the realpath
-    $assetFile = rex_get('asset', 'string');
+    $assetFile = Request::get('asset', 'string');
 
     // relative to the assets-root
     if (str_starts_with($assetFile, '/assets/')) {
@@ -45,27 +48,27 @@ if (rex_get('asset') && rex_get('buster')) {
     $assetDir = Path::assets();
 
     if (!$fullPath) {
-        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), rex_response::HTTP_NOT_FOUND);
+        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), Response::HTTP_NOT_FOUND);
     }
     if (!str_starts_with($fullPath, $assetDir)) {
-        throw new rex_http_exception(new Exception('Assets can only be streamed from within the assets folder. "' . $fullPath . '" is not within "' . $assetDir . '"'), rex_response::HTTP_NOT_FOUND);
+        throw new rex_http_exception(new Exception('Assets can only be streamed from within the assets folder. "' . $fullPath . '" is not within "' . $assetDir . '"'), Response::HTTP_NOT_FOUND);
     }
 
     $ext = File::extension($assetFile);
     if (!in_array($ext, ['js', 'css'], true)) {
-        throw new rex_http_exception(new Exception('Only JS and CSS files can be streamed from the assets folder'), rex_response::HTTP_NOT_FOUND);
+        throw new rex_http_exception(new Exception('Only JS and CSS files can be streamed from the assets folder'), Response::HTTP_NOT_FOUND);
     }
 
     $content = File::get($assetFile);
     if (null === $content) {
-        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), rex_response::HTTP_NOT_FOUND);
+        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), Response::HTTP_NOT_FOUND);
     }
 
     if ('js' === $ext) {
         $js = preg_replace('@^//# sourceMappingURL=.*$@m', '', $content);
 
-        rex_response::sendCacheControl('max-age=31536000, immutable');
-        rex_response::sendContent($js, 'application/javascript');
+        Response::sendCacheControl('max-age=31536000, immutable');
+        Response::sendContent($js, 'application/javascript');
     } else {
         // If we are in a directory off the root, add a relative path here back to the root, like "../"
         // get the public path to this file, plus the baseurl
@@ -75,8 +78,8 @@ if (rex_get('asset') && rex_get('buster')) {
         $prefix = $pubroot . dirname($assetFile) . '/';
         $styles = preg_replace('/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', '$1' . $prefix . '$2$3', $content);
 
-        rex_response::sendCacheControl('max-age=31536000, immutable');
-        rex_response::sendContent($styles, 'text/css');
+        Response::sendCacheControl('max-age=31536000, immutable');
+        Response::sendContent($styles, 'text/css');
     }
     exit;
 }
@@ -87,7 +90,7 @@ $pages = [];
 // ----------------- SETUP
 if (Core::isSetup()) {
     // ----------------- SET SETUP LANG
-    $requestLang = rex_request('lang', 'string', Core::getProperty('lang'));
+    $requestLang = Request::request('lang', 'string', Core::getProperty('lang'));
     if (in_array($requestLang, I18n::getLocales())) {
         Core::setProperty('lang', $requestLang);
     } else {
@@ -106,34 +109,34 @@ if (Core::isSetup()) {
     $login = new BackendLogin();
     Core::setProperty('login', $login);
 
-    $passkey = rex_post('rex_user_passkey', 'string', null);
-    $rexUserLogin = rex_post('rex_user_login', 'string');
-    $rexUserPsw = rex_post('rex_user_psw', 'string');
-    $rexUserStayLoggedIn = rex_post('rex_user_stay_logged_in', 'boolean', false);
+    $passkey = Request::post('rex_user_passkey', 'string', null);
+    $rexUserLogin = Request::post('rex_user_login', 'string');
+    $rexUserPsw = Request::post('rex_user_psw', 'string');
+    $rexUserStayLoggedIn = Request::post('rex_user_stay_logged_in', 'boolean', false);
 
-    if (rex_get('rex_logout', 'boolean') && CsrfToken::factory('backend_logout')->isValid()) {
+    if (Request::get('rex_logout', 'boolean') && CsrfToken::factory('backend_logout')->isValid()) {
         $login->setLogout(true);
         $login->checkLogin();
         CsrfToken::removeAll();
 
-        $userAgent = rex_server('HTTP_USER_AGENT');
+        $userAgent = Request::server('HTTP_USER_AGENT');
         $advertisedChrome = preg_match('/(Chrome|CriOS)\//i', $userAgent);
         $nonChrome = preg_match('/(Aviator|ChromePlus|coc_|Dragon|Edge|Flock|Iron|Kinza|Maxthon|MxNitro|Nichrome|OPR|Perk|Rockmelt|Seznam|Sleipnir|Spark|UBrowser|Vivaldi|WebExplorer|YaBrowser)/i', $userAgent);
         if ($advertisedChrome && !$nonChrome) {
             // Browser is likely Google Chrome which currently seems to be super slow when clearing 'cache' from site data
             // https://bugs.chromium.org/p/chromium/issues/detail?id=762417
-            rex_response::setHeader('Clear-Site-Data', '"storage", "executionContexts"');
+            Response::setHeader('Clear-Site-Data', '"storage", "executionContexts"');
         } else {
-            rex_response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
+            Response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
         }
 
         // Currently browsers like Safari do not support the header Clear-Site-Data.
         // we dont kill/regenerate the session so e.g. the frontend will not get logged out
-        rex_request::clearSession();
+        Request::clearSession();
 
         // is necessary for login after logout
         // and without the redirect, the csrf token would be invalid
-        rex_response::sendRedirect(Url::backendController(['rex_logged_out' => 1]));
+        Response::sendRedirect(Url::backendController(['rex_logged_out' => 1]));
     }
 
     $rexUserLoginmessage = '';
@@ -143,15 +146,15 @@ if (Core::isSetup()) {
     } else {
         // the server side encryption of pw is only required
         // when not already encrypted by client using javascript
-        $login->setLogin($rexUserLogin, $rexUserPsw, rex_post('javascript', 'boolean'));
+        $login->setLogin($rexUserLogin, $rexUserPsw, Request::post('javascript', 'boolean'));
         $login->setPasskey('' === $passkey ? null : $passkey);
         $login->setStayLoggedIn($rexUserStayLoggedIn);
         $loginCheck = $login->checkLogin();
     }
 
     if (true !== $loginCheck) {
-        if (rex_request::isXmlHttpRequest()) {
-            rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
+        if (Request::isXmlHttpRequest()) {
+            Response::setStatus(Response::HTTP_UNAUTHORIZED);
         }
 
         // login failed
@@ -165,15 +168,15 @@ if (Core::isSetup()) {
         $pages['login'] = Controller::getLoginPage();
         Controller::setCurrentPage('login');
 
-        if ('login' !== rex_request('page', 'string', 'login')) {
+        if ('login' !== Request::request('page', 'string', 'login')) {
             // clear in-browser data of a previous session with the same browser for security reasons.
             // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
             // clearing "executionContext" or "cookies" would result in a endless loop.
-            rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
+            Response::setHeader('Clear-Site-Data', '"cache", "storage"');
 
             // Currently browsers like Safari do not support the header Clear-Site-Data.
             // we dont kill/regenerate the session so e.g. the frontend will not get logged out
-            rex_request::clearSession();
+            Request::clearSession();
         }
     } else {
         // Userspezifische Sprache einstellen
@@ -186,11 +189,11 @@ if (Core::isSetup()) {
         Core::setProperty('user', $user);
 
         // Safe Mode
-        if (!Core::isLiveMode() && $user->isAdmin() && null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
+        if (!Core::isLiveMode() && $user->isAdmin() && null !== ($safeMode = Request::get('safemode', 'boolean', null))) {
             if ($safeMode) {
-                rex_set_session('safemode', true);
+                Request::setSession('safemode', true);
             } else {
-                rex_unset_session('safemode');
+                Request::unsetSession('safemode');
                 if (Core::getProperty('safe_mode')) {
                     $configFile = Path::coreData('config.yml');
                     $config = array_merge(
@@ -204,7 +207,7 @@ if (Core::isSetup()) {
         }
     }
 
-    if ('' === $rexUserLoginmessage && rex_get('rex_logged_out', 'boolean')) {
+    if ('' === $rexUserLoginmessage && Request::get('rex_logged_out', 'boolean')) {
         $rexUserLoginmessage = I18n::msg('login_logged_out');
     }
 }
@@ -213,11 +216,11 @@ Controller::setPages($pages);
 
 // ----- Prepare Core Pages
 if (Core::getUser()) {
-    Controller::setCurrentPage(trim(rex_request('page', 'string')));
+    Controller::setCurrentPage(trim(Request::request('page', 'string')));
     Controller::appendLoggedInPages();
 
     if ('profile' !== Controller::getCurrentPage() && Core::getProperty('login')->requiresPasswordChange()) {
-        rex_response::sendRedirect(Url::backendPage('profile'));
+        Response::sendRedirect(Url::backendPage('profile'));
     }
 }
 
@@ -301,17 +304,17 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
     Asset::addCssFile(Url::coreAssets('css/history.css'));
     Asset::addJsFile(Url::coreAssets('js/history.js'), [Asset::JS_IMMUTABLE => true]);
 
-    switch (rex_request('rex_history_function', 'string')) {
+    switch (Request::request('rex_history_function', 'string')) {
         case 'snap':
-            $articleId = rex_request('history_article_id', 'int');
-            $clangId = rex_request('history_clang_id', 'int');
-            $historyDate = rex_request('history_date', 'string');
+            $articleId = Request::request('history_article_id', 'int');
+            $clangId = Request::request('history_clang_id', 'int');
+            $historyDate = Request::request('history_date', 'string');
             ArticleSliceHistory::restoreSnapshot($historyDate, $articleId, $clangId);
 
             // no break
         case 'layer':
-            $articleId = rex_request('history_article_id', 'int');
-            $clangId = rex_request('history_clang_id', 'int');
+            $articleId = Request::request('history_article_id', 'int');
+            $clangId = Request::request('history_clang_id', 'int');
             $versions = ArticleSliceHistory::getSnapshots($articleId, $clangId);
 
             $select1 = [];
@@ -363,10 +366,10 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
                 ]);
             }
 
-            echo '<script nonce="' . rex_response::getNonce() . '">
+            echo '<script nonce="' . Response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_clang_id = ' . Language::getCurrentId() . ';
-                    var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
+                    var history_ctype_id = ' . Request::request('ctype', 'int', 0) . ';
                     var history_article_link = "' . rex_escape($articleLink, 'js') . '";
                 </script>';
         }
@@ -383,7 +386,7 @@ if (Core::getConfig('article_work_version', false)) {
         $articleId = Type::int($params['article_id']);
 
         $version = ArticleRevision::getSessionArticleRevision($articleId);
-        $newVersion = rex_request('rex_set_version', 'int', null);
+        $newVersion = Request::request('rex_set_version', 'int', null);
 
         if (ArticleRevision::LIVE === $newVersion) {
             $version = ArticleRevision::LIVE;
@@ -422,7 +425,7 @@ if (Core::getConfig('article_work_version', false)) {
             $workingVersionEmpty = false;
         }
 
-        $func = rex_request('rex_version_func', 'string');
+        $func = Request::request('rex_version_func', 'string');
         switch ($func) {
             case 'copy_work_to_live':
                 if ($workingVersionEmpty) {
@@ -471,7 +474,7 @@ if (Core::getConfig('article_work_version', false)) {
         }
         $revisions[ArticleRevision::WORK] = I18n::msg('version_workingversion');
 
-        $context = new rex_context([
+        $context = new Context([
             'page' => $params['page'],
             'article_id' => $articleId,
             'clang' => $clangId,
@@ -651,4 +654,4 @@ Controller::includeCurrentPage();
 $CONTENT = ob_get_clean();
 
 // ----- inhalt ausgeben
-rex_response::sendPage($CONTENT);
+Response::sendPage($CONTENT);

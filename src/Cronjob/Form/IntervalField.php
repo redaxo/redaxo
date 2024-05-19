@@ -4,10 +4,10 @@ namespace Redaxo\Core\Cronjob\Form;
 
 use Generator;
 use Redaxo\Core\Form\Field\BaseField;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\Fragment;
-use rex_response;
 
 use function in_array;
 use function is_array;
@@ -124,7 +124,7 @@ class IntervalField extends BaseField
         $element = $fragment->parse('core/form/form.php');
 
         $element .= '
-            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+            <script type="text/javascript" nonce="' . Response::getNonce() . '">
             // <![CDATA[
                 jQuery(function($){
                     $(".rex-js-cronjob-interval-all").each(function () {

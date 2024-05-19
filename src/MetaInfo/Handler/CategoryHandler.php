@@ -8,6 +8,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Http\Request;
 
 /**
  * @internal
@@ -39,7 +40,7 @@ class CategoryHandler extends AbstractHandler
      */
     public function handleSave(array $params, Sql $sqlFields)
     {
-        if ('post' != rex_request_method()) {
+        if ('post' != Request::requestMethod()) {
             return $params;
         }
 

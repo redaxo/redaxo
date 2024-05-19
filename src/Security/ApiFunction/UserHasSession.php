@@ -5,8 +5,8 @@ namespace Redaxo\Core\Security\ApiFunction;
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
-use rex_request;
-use rex_response;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 
 /**
  * @internal
@@ -18,23 +18,23 @@ class UserHasSession extends ApiFunction
      */
     public function execute()
     {
-        if (!rex_request::isHttps()) {
+        if (!Request::isHttps()) {
             throw new ApiFunctionException('https is required');
         }
 
         $user = Core::getUser();
         if (!$user) {
-            rex_response::sendJson(false);
+            Response::sendJson(false);
             exit;
         }
 
-        $perm = rex_get('perm');
+        $perm = Request::get('perm');
         if ($perm) {
-            rex_response::sendJson($user->hasPerm($perm));
+            Response::sendJson($user->hasPerm($perm));
             exit;
         }
 
-        rex_response::sendJson(true);
+        Response::sendJson(true);
         exit;
     }
 

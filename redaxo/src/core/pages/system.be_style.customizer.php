@@ -2,15 +2,16 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
 $success = '';
 
-if ('' != rex_post('btn_save', 'string')) {
+if ('' != Request::post('btn_save', 'string')) {
     // set config
-    $settings = rex_post('settings', [
+    $settings = Request::post('settings', [
         ['be_style_labelcolor', 'string'],
         ['be_style_showlink', 'boolean'],
     ]);

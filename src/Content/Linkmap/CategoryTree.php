@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Content\Linkmap;
 
 use Redaxo\Core\Content\Category;
-use rex_context;
+use Redaxo\Core\Http\Context;
 
 use function count;
 
@@ -13,7 +13,7 @@ use function count;
 class CategoryTree extends CategoryTreeRenderer
 {
     public function __construct(
-        private rex_context $context,
+        private Context $context,
     ) {}
 
     /**

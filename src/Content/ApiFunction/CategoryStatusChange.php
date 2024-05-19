@@ -7,6 +7,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -16,9 +17,9 @@ class CategoryStatusChange extends ApiFunction
 {
     public function execute()
     {
-        $categoryId = rex_request('category-id', 'int');
-        $clang = rex_request('clang', 'int');
-        $status = rex_request('cat_status', 'int', null);
+        $categoryId = Request::request('category-id', 'int');
+        $clang = Request::request('clang', 'int');
+        $status = Request::request('cat_status', 'int', null);
         $user = Core::requireUser();
 
         // Check permissions

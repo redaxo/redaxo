@@ -4,6 +4,8 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
@@ -12,7 +14,7 @@ assert(isset($markdown) && is_callable($markdown));
 
 $package = Addon::get('install');
 
-$addonkey = rex_request('addonkey', 'string');
+$addonkey = Request::request('addonkey', 'string');
 $addons = [];
 
 echo ApiFunction::getMessage();
@@ -26,7 +28,7 @@ try {
 
 if ($addonkey && isset($addons[$addonkey])) {
     $addon = $addons[$addonkey];
-    $fileId = rex_request('file', 'string');
+    $fileId = Request::request('file', 'string');
 
     if ($fileId) {
         $new = 'new' == $fileId;
@@ -133,7 +135,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         if (!$new) {
             echo '
-    <script type="text/javascript" nonce="' . rex_response::getNonce() . '"><!--
+    <script type="text/javascript" nonce="' . Response::getNonce() . '"><!--
 
         jQuery(function($) {
             $("#rex-js-install-packages-upload-upload-file").change(function(){

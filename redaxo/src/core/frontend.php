@@ -13,13 +13,15 @@ use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\View\Fragment;
 
 if (Core::isSetup()) {
-    rex_response::sendRedirect(Url::backendController());
+    Response::sendRedirect(Url::backendController());
 }
 
 if (Core::isDebugMode()) {
@@ -49,12 +51,12 @@ if (Extension::isRegistered('FE_OUTPUT')) {
 }
 
 if (Core::getConfig('article_history', false)) {
-    $historyDate = rex_request('rex_history_date', 'string');
+    $historyDate = Request::request('rex_history_date', 'string');
 
     if ('' != $historyDate) {
-        $historySession = rex_request('rex_history_session', 'string');
-        $historyLogin = rex_request('rex_history_login', 'string');
-        $historyValidtime = rex_request('rex_history_validtime', 'string');
+        $historySession = Request::request('rex_history_session', 'string');
+        $historyLogin = Request::request('rex_history_login', 'string');
+        $historyValidtime = Request::request('rex_history_validtime', 'string');
 
         $user = null;
         if ('' != $historySession && '' != $historyLogin && '' != $historyValidtime) {
@@ -76,11 +78,11 @@ if (Core::getConfig('article_history', false)) {
         }
 
         if (!$user) {
-            throw new rex_http_exception(new rex_exception('no permission'), rex_response::HTTP_UNAUTHORIZED);
+            throw new rex_http_exception(new rex_exception('no permission'), Response::HTTP_UNAUTHORIZED);
         }
 
         if (!$user->hasPerm('history[article_rollback]')) {
-            throw new rex_http_exception(new rex_exception('no permission for the slice version'), rex_response::HTTP_FORBIDDEN);
+            throw new rex_http_exception(new rex_exception('no permission for the slice version'), Response::HTTP_FORBIDDEN);
         }
 
         Extension::register('ART_INIT', static function (ExtensionPoint $ep) {
@@ -92,7 +94,7 @@ if (Core::getConfig('article_history', false)) {
         });
 
         Extension::register('ART_SLICES_QUERY', static function (ExtensionPoint $ep) {
-            $historyDate = rex_request('rex_history_date', 'string');
+            $historyDate = Request::request('rex_history_date', 'string');
             $article = $ep->getParam('article');
 
             if ($article instanceof ArticleContent && $article->getArticleId() == Article::getCurrentId()) {
@@ -128,7 +130,7 @@ if (Core::getConfig('article_history', false)) {
 
 if (Core::getConfig('article_work_version', false)) {
     Extension::register('ART_INIT', static function (ExtensionPoint $ep) {
-        $version = rex_request('rex_version', 'int');
+        $version = Request::request('rex_version', 'int');
         if (ArticleRevision::WORK != $version) {
             return;
         }
@@ -137,8 +139,8 @@ if (Core::getConfig('article_work_version', false)) {
             $fragment = new Fragment([
                 'content' => '<p>No permission for the working version. You need to be logged into the REDAXO backend at the same time.</p>',
             ]);
-            rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
-            rex_response::sendPage($fragment->parse('core/fe_ooops.php'));
+            Response::setStatus(Response::HTTP_UNAUTHORIZED);
+            Response::sendPage($fragment->parse('core/fe_ooops.php'));
             exit;
         }
 
@@ -152,7 +154,7 @@ if (Core::getConfig('article_work_version', false)) {
     });
 }
 
-$clangId = rex_get('clang', 'int');
+$clangId = Request::get('clang', 'int');
 if ($clangId && !Language::exists($clangId)) {
     rex_redirect(Article::getNotfoundArticleId(), Language::getStartId());
 }
@@ -169,7 +171,7 @@ if (!$article->setArticleId(Article::getCurrentId())) {
         'content' => '<p><b>Article with ID ' . Article::getCurrentId() . ' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . Url::backendController() . '">REDAXO</a>.</p>',
     ]);
     $content .= $fragment->parse('core/fe_ooops.php');
-    rex_response::sendPage($content);
+    Response::sendPage($content);
     exit;
 }
 
@@ -185,8 +187,8 @@ try {
 
 $artId = $article->getArticleId();
 if ($artId == Article::getNotfoundArticleId() && $artId != Article::getSiteStartArticleId()) {
-    rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
+    Response::setStatus(Response::HTTP_NOT_FOUND);
 }
 
 // ----- inhalt ausgeben
-rex_response::sendPage($content, $article->getValue('updatedate'));
+Response::sendPage($content, $article->getValue('updatedate'));

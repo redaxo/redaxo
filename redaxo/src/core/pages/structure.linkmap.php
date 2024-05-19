@@ -4,6 +4,9 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\Linkmap\ArticleList;
 use Redaxo\Core\Content\Linkmap\CategoryTree;
+use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
@@ -11,11 +14,11 @@ use Redaxo\Core\View\View;
 
 // ------- Default Values
 
-$openerInputField = rex_request('opener_input_field', 'string');
-$openerInputFieldName = rex_request('opener_input_field_name', 'string');
-$categoryId = rex_request('category_id', 'int');
+$openerInputField = Request::request('opener_input_field', 'string');
+$openerInputFieldName = Request::request('opener_input_field_name', 'string');
+$categoryId = Request::request('category_id', 'int');
 $categoryId = Category::get($categoryId) ? $categoryId : 0;
-$clang = rex_request('clang', 'int');
+$clang = Request::request('clang', 'int');
 $clang = Language::exists($clang) ? $clang : Language::getStartId();
 
 $pattern = '/[^a-z0-9_-]/i';
@@ -26,7 +29,7 @@ if (preg_match($pattern, $openerInputFieldName, $match)) {
     throw new InvalidArgumentException(sprintf('Invalid character "%s" in opener_input_field_name.', $match[0]));
 }
 
-$context = new rex_context([
+$context = new Context([
     'page' => Controller::getCurrentPage(),
     'opener_input_field' => $openerInputField,
     'opener_input_field_name' => $openerInputFieldName,
@@ -72,12 +75,12 @@ if (str_starts_with($openerInputField, 'REX_LINKLIST_')) {
 // ------------------------ Print JS Functions
 
 $retainEventHandlers = '';
-if (!rex_request::isXmlHttpRequest()) {
+if (!Request::isXmlHttpRequest()) {
     $retainEventHandlers = 'rex_retain_popup_event_handlers("rex:selectLink");';
 }
 
 ?>
-<script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
+<script type="text/javascript" nonce="<?= Response::getNonce() ?>">
     <?= $retainEventHandlers ?>
 
     function insertLink(link,name){

@@ -3,9 +3,9 @@
 namespace Redaxo\Core\MediaManager\Effect;
 
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaManager\ManagedMedia;
 use Redaxo\Core\Translation\I18n;
-use rex_response;
 
 class WorkspaceEffect extends AbstractEffect
 {
@@ -143,7 +143,7 @@ class WorkspaceEffect extends AbstractEffect
                 'options' => ['colored', 'transparent', 'image'],
                 'default' => 'colored',
                 'suffix' => '
-<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+<script type="text/javascript" nonce="' . Response::getNonce() . '">
 <!--
 
 $(function() {

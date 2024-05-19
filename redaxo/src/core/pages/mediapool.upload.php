@@ -3,6 +3,8 @@
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
@@ -19,7 +21,7 @@ if (!$PERMALL && !Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(
     $rexFileCategory = 0;
 }
 
-$mediaMethod = rex_request('media_method', 'string');
+$mediaMethod = Request::request('media_method', 'string');
 $csrf = CsrfToken::factory('mediapool');
 
 if ('add_file' == $mediaMethod) {
@@ -27,20 +29,20 @@ if ('add_file' == $mediaMethod) {
         echo Message::error(I18n::msg('csrf_token_invalid'));
     } else {
         global $warning;
-        if (rex_post('save', 'boolean') || rex_post('saveandexit', 'boolean')) {
+        if (Request::post('save', 'boolean') || Request::post('saveandexit', 'boolean')) {
             $data = [];
-            $data['title'] = rex_request('ftitle', 'string');
+            $data['title'] = Request::request('ftitle', 'string');
             $data['category_id'] = (int) $rexFileCategory;
-            $data['file'] = rex_files('file_new', [
+            $data['file'] = Request::files('file_new', [
                 ['name', 'string'],
                 ['tmp_name', 'string'],
                 ['error', 'int'],
             ]);
 
             try {
-                $data = MediaHandler::addMedia($data, true, rex_post('args', 'array'));
+                $data = MediaHandler::addMedia($data, true, Request::post('args', 'array'));
                 $info = I18n::msg('pool_file_added');
-                if (rex_post('saveandexit', 'boolean')) {
+                if (Request::post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {
                         if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
                             $js = "selectMedialist('" . $data['filename'] . "');";
@@ -50,7 +52,7 @@ if ('add_file' == $mediaMethod) {
                         }
                     }
 
-                    echo '<script type="text/javascript" nonce="' . rex_response::getNonce() . '">';
+                    echo '<script type="text/javascript" nonce="' . Response::getNonce() . '">';
                     if (isset($js)) {
                         echo $js;
                     }
@@ -58,7 +60,7 @@ if ('add_file' == $mediaMethod) {
                     exit;
                 }
 
-                rex_response::sendRedirect(Url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $openerInputField]));
+                Response::sendRedirect(Url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $openerInputField]));
             } catch (ApiFunctionException $e) {
                 $warning = $e->getMessage();
             }

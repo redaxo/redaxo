@@ -11,12 +11,13 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
-use rex_context;
-use rex_response;
 
 use function count;
 
@@ -86,7 +87,7 @@ class ArticleContentEditor extends ArticleContent
 
                     // ----- PRE VIEW ACTION [EDIT]
                     $action = new ArticleAction($moduleId, 'edit', $artDataSql);
-                    if ('post' == rex_request_method() && 'edit' == rex_request('function', 'string')) {
+                    if ('post' == Request::requestMethod() && 'edit' == Request::request('function', 'string')) {
                         $action->setRequestValues();
                     }
                     $action->exec(ArticleAction::PREVIEW);
@@ -148,7 +149,7 @@ class ArticleContentEditor extends ArticleContent
         $moduleId = (int) $artDataSql->getValue(Core::getTablePrefix() . 'module.id');
         $moduleName = I18n::translate((string) $artDataSql->getValue(Core::getTablePrefix() . 'module.name'));
 
-        $context = new rex_context([
+        $context = new Context([
             'page' => Controller::getCurrentPage(),
             'article_id' => $this->article_id,
             'slice_id' => $sliceId,
@@ -303,7 +304,7 @@ class ArticleContentEditor extends ArticleContent
     private function getModuleSelect($sliceId)
     {
         // ----- BLOCKAUSWAHL - SELECT
-        $context = new rex_context([
+        $context = new Context([
             'page' => Controller::getCurrentPage(),
             'article_id' => $this->article_id,
             'clang' => $this->clang,
@@ -480,7 +481,7 @@ class ArticleContentEditor extends ArticleContent
                     <form action="' . Url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $this->sliceAddPosition . '" method="post" id="REX_FORM" enctype="multipart/form-data">
                         ' . $sliceContent . '
                     </form>
-                    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+                    <script type="text/javascript" nonce="' . Response::getNonce() . '">
                          <!--
                         jQuery(function($) {
                             $(":input:visible:enabled:not([readonly]):first", $("#REX_FORM")).focus();
@@ -557,7 +558,7 @@ class ArticleContentEditor extends ArticleContent
                 <form enctype="multipart/form-data" action="' . Url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang, 'function' => 'edit']) . '#slice' . $sliceId . '" method="post" id="REX_FORM">
                     ' . $sliceContent . '
                 </form>
-                <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+                <script type="text/javascript" nonce="' . Response::getNonce() . '">
                      <!--
                     jQuery(function($) {
                         $(":input:visible:enabled:not([readonly]):first", $("#REX_FORM")).focus();

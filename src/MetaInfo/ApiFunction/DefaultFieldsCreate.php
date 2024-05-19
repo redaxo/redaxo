@@ -7,6 +7,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 
 use function call_user_func_array;
@@ -23,7 +24,7 @@ class DefaultFieldsCreate extends ApiFunction
             throw new ApiFunctionException('user has no permission for this operation!');
         }
 
-        $type = rex_get('type', 'string');
+        $type = Request::get('type', 'string');
 
         switch ($type) {
             case 'articles':

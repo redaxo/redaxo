@@ -7,6 +7,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 
 /**
  * @internal
@@ -19,7 +20,7 @@ class CategoryAdd extends ApiFunction
             throw new ApiFunctionException('User has no permission to add categories!');
         }
 
-        $parentId = rex_request('parent-category-id', 'int');
+        $parentId = Request::request('parent-category-id', 'int');
 
         // check permissions
         if (!Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($parentId)) {
@@ -28,8 +29,8 @@ class CategoryAdd extends ApiFunction
 
         // prepare and validate parameters
         $data = [];
-        $data['catpriority'] = rex_post('category-position', 'int');
-        $data['catname'] = rex_post('category-name', 'string');
+        $data['catpriority'] = Request::post('category-position', 'int');
+        $data['catname'] = Request::post('category-name', 'string');
         return new Result(true, CategoryHandler::addCategory($parentId, $data));
     }
 

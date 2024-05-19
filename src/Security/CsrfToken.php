@@ -4,7 +4,7 @@ namespace Redaxo\Core\Security;
 
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
-use rex_request;
+use Redaxo\Core\Http\Request;
 
 /**
  * Class for generating and validating csrf tokens.
@@ -49,7 +49,7 @@ class CsrfToken
 
         $token = self::generateToken();
         $tokens[$this->id] = $token;
-        rex_set_session(self::getSessionKey(), $tokens);
+        Request::setSession(self::getSessionKey(), $tokens);
 
         return $token;
     }
@@ -83,7 +83,7 @@ class CsrfToken
             return false;
         }
 
-        $token = rex_request(self::PARAM, 'string');
+        $token = Request::request(self::PARAM, 'string');
 
         return hash_equals($tokens[$this->id], $token);
     }
@@ -101,7 +101,7 @@ class CsrfToken
 
         unset($tokens[$this->id]);
 
-        rex_set_session(self::getSessionKey(), $tokens);
+        Request::setSession(self::getSessionKey(), $tokens);
     }
 
     /**
@@ -111,8 +111,8 @@ class CsrfToken
     {
         Login::startSession();
 
-        rex_unset_session(self::getBaseSessionKey());
-        rex_unset_session(self::getBaseSessionKey() . '_https');
+        Request::unsetSession(self::getBaseSessionKey());
+        Request::unsetSession(self::getBaseSessionKey() . '_https');
     }
 
     /**
@@ -122,7 +122,7 @@ class CsrfToken
     {
         Login::startSession();
 
-        return rex_session(self::getSessionKey(), 'array');
+        return Request::session(self::getSessionKey(), 'array');
     }
 
     /**
@@ -132,7 +132,7 @@ class CsrfToken
     {
         // use separate tokens for http/https
         // https://symfony.com/blog/cve-2017-16653-csrf-protection-does-not-use-different-tokens-for-http-and-https
-        $suffix = rex_request::isHttps() ? '_https' : '';
+        $suffix = Request::isHttps() ? '_https' : '';
 
         return self::getBaseSessionKey() . $suffix;
     }

@@ -2,13 +2,16 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
-assert(isset($context) && $context instanceof rex_context);
+assert(isset($context) && $context instanceof Context);
 assert(isset($errors) && is_array($errors));
 assert(isset($cancelSetupBtn));
 
@@ -29,8 +32,8 @@ $content .= '
         <fieldset>
             ';
 
-$redaxoUserLogin = rex_post('redaxo_user_login', 'string');
-$redaxoUserPass = rex_post('redaxo_user_pass', 'string');
+$redaxoUserLogin = Request::post('redaxo_user_login', 'string');
+$redaxoUserPass = Request::post('redaxo_user_pass', 'string');
 
 if ($userSql->getRows() > 0) {
     $formElements = [];
@@ -82,7 +85,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 $content .= '
 
-    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+    <script type="text/javascript" nonce="' . Response::getNonce() . '">
          <!--
         jQuery(function($) {
             $(".rex-js-createadminform .rex-js-noadmin").on("change",function (){

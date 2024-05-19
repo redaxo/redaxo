@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Form\Field;
 
 use Redaxo\Core\Form\AbstractForm;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 
@@ -102,7 +103,7 @@ class ControlField extends BaseField
      */
     public function submitted($element)
     {
-        return is_object($element) && '' != rex_post($element->getAttribute('name'), 'string');
+        return is_object($element) && '' != Request::post($element->getAttribute('name'), 'string');
     }
 
     /**

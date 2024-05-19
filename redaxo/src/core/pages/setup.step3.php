@@ -2,11 +2,13 @@
 
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
-assert(isset($context) && $context instanceof rex_context);
+assert(isset($context) && $context instanceof Context);
 assert(isset($errorArray) && is_array($errorArray));
 assert(isset($config) && is_array($config));
 assert(isset($cancelSetupBtn));
@@ -33,7 +35,7 @@ $timezoneSel->setSize(1);
 $timezoneSel->addOptions(DateTimeZone::listIdentifiers(), true);
 $timezoneSel->setSelected($config['timezone']);
 
-$dbCreateChecked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
+$dbCreateChecked = Request::post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
 
 $httpsRedirectSel = new Select();
 $httpsRedirectSel->setId('rex-form-https');
@@ -44,7 +46,7 @@ $httpsRedirectSel->addArrayOptions(['false' => I18n::msg('https_disable'), 'back
 $httpsRedirectSel->setSelected(true === $config['use_https'] ? 'true' : $config['use_https']);
 
 // If the setup is called over http disable https options to prevent user from being locked out
-if (!rex_request::isHttps()) {
+if (!Request::isHttps()) {
     $httpsRedirectSel->setAttribute('disabled', 'disabled');
 }
 
@@ -122,7 +124,7 @@ $content .= '</fieldset><fieldset><legend>' . I18n::msg('setup_security') . '</l
 
 $formElements = [];
 
-if (!rex_request::isHttps()) {
+if (!Request::isHttps()) {
     $n = [];
     $n['field'] = '<label class="form-control-static"><i class="fa fa-warning"></i> ' . I18n::msg('https_only_over_https') . '</label>';
     $formElements[] = $n;

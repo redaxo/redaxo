@@ -11,6 +11,7 @@ use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Version;
@@ -38,7 +39,7 @@ class rex_api_install_core_update extends ApiFunction
         }
         $installAddon = Addon::get('install');
         $versions = self::getVersions();
-        $versionId = rex_request('version_id', 'int');
+        $versionId = Request::request('version_id', 'int');
 
         if (!isset($versions[$versionId])) {
             throw new ApiFunctionException('The requested core version can not be loaded, maybe it is already installed.');

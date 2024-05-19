@@ -7,6 +7,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -21,9 +22,9 @@ class ContentCopy extends ApiFunction
      */
     public function execute()
     {
-        $articleId = rex_request('article_id', 'int');
-        $clangA = rex_request('clang_a', 'int');
-        $clangB = rex_request('clang_b', 'int');
+        $articleId = Request::request('article_id', 'int');
+        $clangA = Request::request('clang_a', 'int');
+        $clangB = Request::request('clang_b', 'int');
 
         $user = Core::requireUser();
 

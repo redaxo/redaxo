@@ -8,15 +8,15 @@ use Redaxo\Core\Database\Util;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\User;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
-use rex_context;
-use rex_request;
-use rex_response;
 
 use function call_user_func;
 use function count;
@@ -591,13 +591,13 @@ class Controller
                     $page = Type::notNull(self::getPageObject('profile'));
                 }
             }
-            rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
-            rex_response::sendRedirect($page->getHref());
+            Response::setStatus(Response::HTTP_NOT_FOUND);
+            Response::sendRedirect($page->getHref());
         }
         if ($page !== $leaf = $page->getFirstSubpagesLeaf()) {
-            rex_response::setStatus(rex_response::HTTP_MOVED_PERMANENTLY);
-            $url = $leaf->hasHref() ? $leaf->getHref() : rex_context::fromGet()->getUrl(['page' => $leaf->getFullKey()]);
-            rex_response::sendRedirect($url);
+            Response::setStatus(Response::HTTP_MOVED_PERMANENTLY);
+            $url = $leaf->hasHref() ? $leaf->getHref() : Context::fromGet()->getUrl(['page' => $leaf->getFullKey()]);
+            Response::sendRedirect($url);
         }
     }
 
@@ -609,7 +609,7 @@ class Controller
     {
         $currentPage = self::requireCurrentPageObject();
 
-        if (rex_request::isPJAXRequest() && !rex_request::isPJAXContainer('#rex-js-page-container')) {
+        if (Request::isPJAXRequest() && !Request::isPJAXContainer('#rex-js-page-container')) {
             // non-core pjax containers should not have a layout.
             // they render their whole response on their own
             $currentPage->setHasLayout(false);

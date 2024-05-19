@@ -4,6 +4,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\ActionEventSelect;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
@@ -14,10 +16,10 @@ $ASTATUS = ['ADD', 'EDIT', 'DELETE'];
 
 $OUT = true;
 
-$actionId = rex_request('action_id', 'int');
-$function = rex_request('function', 'string');
-$save = rex_request('save', 'bool');
-$goon = rex_request('goon', 'string');
+$actionId = Request::request('action_id', 'int');
+$function = Request::request('function', 'string');
+$save = Request::request('save', 'bool');
+$goon = Request::request('goon', 'string');
 
 $success = '';
 $error = '';
@@ -62,10 +64,10 @@ if ('delete' == $function && !$csrfToken->isValid()) {
 }
 
 if ('add' == $function || 'edit' == $function) {
-    $name = rex_post('name', 'string');
-    $previewaction = rex_post('previewaction', 'string');
-    $presaveaction = rex_post('presaveaction', 'string');
-    $postsaveaction = rex_post('postsaveaction', 'string');
+    $name = Request::post('name', 'string');
+    $previewaction = Request::post('previewaction', 'string');
+    $presaveaction = Request::post('presaveaction', 'string');
+    $postsaveaction = Request::post('postsaveaction', 'string');
 
     $previewstatus = 255;
     $presavestatus = 255;
@@ -77,9 +79,9 @@ if ('add' == $function || 'edit' == $function) {
     } elseif ($save) {
         $faction = Sql::factory();
 
-        $previewstatus = rex_post('preview_allevents', 'bool') ? [1, 2] : rex_post('previewstatus', 'array');
-        $presavestatus = rex_post('presave_allevents', 'bool') ? [1, 2, 4] : rex_post('presavestatus', 'array');
-        $postsavestatus = rex_post('postsave_allevents', 'bool') ? [1, 2, 4] : rex_post('postsavestatus', 'array');
+        $previewstatus = Request::post('preview_allevents', 'bool') ? [1, 2] : Request::post('previewstatus', 'array');
+        $presavestatus = Request::post('presave_allevents', 'bool') ? [1, 2, 4] : Request::post('presavestatus', 'array');
+        $postsavestatus = Request::post('postsave_allevents', 'bool') ? [1, 2, 4] : Request::post('postsavestatus', 'array');
 
         $previewmode = 0;
         foreach ($previewstatus as $status) {
@@ -384,7 +386,7 @@ if ('add' == $function || 'edit' == $function) {
             ' . $csrfToken->getHiddenField() . '
             ' . $content . '
         </form>
-        <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+        <script type="text/javascript" nonce="' . Response::getNonce() . '">
         <!--
 
         jQuery(function($) {

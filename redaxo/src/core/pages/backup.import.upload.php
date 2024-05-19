@@ -3,6 +3,8 @@
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -13,8 +15,8 @@ $success = '';
 $error = '';
 
 // ------------------------------ Requestvars
-$function = rex_request('function', 'string');
-$impname = rex_request('impname', 'string');
+$function = Request::request('function', 'string');
+$impname = Request::request('impname', 'string');
 
 @set_time_limit(0);
 
@@ -33,7 +35,7 @@ if ('' != $impname) {
 }
 
 if ('download' == $function && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
-    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, str_ends_with($impname, '.gz') ? 'application/gzip' : 'plain/text', 'attachment');
+    Response::sendFile(rex_backup::getDir() . '/' . $impname, str_ends_with($impname, '.gz') ? 'application/gzip' : 'plain/text', 'attachment');
     exit;
 }
 

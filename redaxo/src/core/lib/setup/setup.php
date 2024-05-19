@@ -7,6 +7,8 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
@@ -178,7 +180,7 @@ class rex_setup
     {
         $security = [];
 
-        if (PHP_SAPI !== 'cli' && !rex_request::isHttps()) {
+        if (PHP_SAPI !== 'cli' && !Request::isHttps()) {
             $security[] = I18n::msg('setup_security_no_https');
         }
 
@@ -358,12 +360,12 @@ class rex_setup
         return isset($setup[$currentToken]);
     }
 
-    public static function getContext(): rex_context
+    public static function getContext(): Context
     {
-        $context = new rex_context([
+        $context = new Context([
             'page' => 'setup',
-            'lang' => rex_request('lang', 'string', ''),
-            'step' => rex_request('step', 'int', 1),
+            'lang' => Request::request('lang', 'string', ''),
+            'step' => Request::request('step', 'int', 1),
         ]);
 
         if ($token = self::getToken()) {
@@ -407,6 +409,6 @@ class rex_setup
 
     private static function getToken(): ?string
     {
-        return rex_get('setup_token', 'string', null);
+        return Request::get('setup_token', 'string', null);
     }
 }

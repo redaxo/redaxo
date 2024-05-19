@@ -6,6 +6,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Http\Request;
 
 /**
  * @internal
@@ -35,7 +36,7 @@ class LanguageHandler extends AbstractHandler
      */
     public function handleSave(array $params, Sql $sqlFields)
     {
-        if ('post' != rex_request_method() || !isset($params['id'])) {
+        if ('post' != Request::requestMethod() || !isset($params['id'])) {
             return $params;
         }
 

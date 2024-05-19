@@ -52,6 +52,7 @@ use Redaxo\Core\Database;
 use Redaxo\Core\ExtensionPoint;
 use Redaxo\Core\Filesystem;
 use Redaxo\Core\Form;
+use Redaxo\Core\Http;
 use Redaxo\Core\HttpClient;
 use Redaxo\Core\Language;
 use Redaxo\Core\Log;
@@ -197,6 +198,10 @@ return RectorConfig::configure()
         'rex_cronjob_form' => Cronjob\Form\CronjobForm::class,
         'rex_config' => Config::class,
         'rex_config_db' => Database\Configuration::class,
+        'rex_context' => Http\Context::class,
+        'rex_context_provider_interface' => Http\ContextProviderInterface::class,
+        'rex_request' => Http\Request::class,
+        'rex_response' => Http\Response::class,
         'rex_cronjob_form_interval_element' => Cronjob\Form\IntervalField::class,
         'rex_cronjob' => Cronjob\Type\AbstractType::class,
         'rex_cronjob_urlrequest' => Cronjob\Type\UrlRequestType::class,
@@ -317,6 +322,7 @@ return RectorConfig::configure()
         'rex_instance_pool_trait' => Base\InstancePoolTrait::class,
         'rex_singleton_trait' => Base\SingletonTrait::class,
         'rex_url' => Filesystem\Url::class,
+        'rex_url_provider_interface' => Base\UrlProviderInterface::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
         'rex_var' => RexVar\RexVar::class,
@@ -445,13 +451,25 @@ return RectorConfig::configure()
         new FuncCallToStaticCall('rex_mediapool_updateMedia', MediaPool\MediaPool::class, 'updateMedia'), // different params
         new FuncCallToStaticCall('rex_mediapool_syncFile', MediaPool\MediaPool::class, 'addMedia'), // different params
         new FuncCallToStaticCall('rex_mediapool_deleteMedia', MediaPool\MediaPool::class, 'deleteMedia'), // different return value
+
+        new FuncCallToStaticCall('rex_cookie', Http\Request::class, 'cookie'),
+        new FuncCallToStaticCall('rex_env', Http\Request::class, 'env'),
+        new FuncCallToStaticCall('rex_files', Http\Request::class, 'files'),
+        new FuncCallToStaticCall('rex_get', Http\Request::class, 'get'),
+        new FuncCallToStaticCall('rex_post', Http\Request::class, 'post'),
+        new FuncCallToStaticCall('rex_request', Http\Request::class, 'request'),
+        new FuncCallToStaticCall('rex_request_method', Http\Request::class, 'requestMethod'),
+        new FuncCallToStaticCall('rex_server', Http\Request::class, 'server'),
+        new FuncCallToStaticCall('rex_session', Http\Request::class, 'session'),
+        new FuncCallToStaticCall('rex_set_session', Http\Request::class, 'setSession'),
+        new FuncCallToStaticCall('rex_unset_session', Http\Request::class, 'unsetSession'),
     ])
     ->withConfiguredRule(RemoveFuncCallArgRector::class, [
         new RemoveFuncCallArg('rex_getUrl', 3),
     ])
     ->withConfiguredRule(ArgumentRemoverRector::class, [
         new ArgumentRemover(Util\Str::class, 'buildQuery', 1, null),
-        new ArgumentRemover(rex_url_provider_interface::class, 'getUrl', 1, null),
+        new ArgumentRemover(Base\UrlProviderInterface::class, 'getUrl', 1, null),
         new ArgumentRemover(Filesystem\Url::class, 'frontendController', 1, null),
         new ArgumentRemover(Filesystem\Url::class, 'backendController', 1, null),
         new ArgumentRemover(Filesystem\Url::class, 'backendPage', 2, null),

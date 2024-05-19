@@ -5,15 +5,17 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Security\Login;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Message;
 
-$step = rex_request('step', 'int', 1);
-$lang = rex_request('lang', 'string');
-$func = rex_request('func', 'string');
+$step = Request::request('step', 'int', 1);
+$lang = Request::request('lang', 'string');
+$func = Request::request('func', 'string');
 
 $context = rex_setup::getContext();
 
@@ -22,7 +24,7 @@ $context = rex_setup::getContext();
 $cancelSetupBtn = '';
 if (!rex_setup::isInitialSetup()) {
     $cancelSetupBtn = '
-    <style nonce="' . rex_response::getNonce() . '">
+    <style nonce="' . Response::getNonce() . '">
         .rex-cancel-setup {
             position: absolute;
             top: 7px;
@@ -45,7 +47,7 @@ if (!rex_setup::isInitialSetup()) {
     if ('abort' === $func) {
         rex_setup::markSetupCompleted();
 
-        rex_response::sendRedirect(Url::backendController());
+        Response::sendRedirect(Url::backendController());
     }
 }
 
@@ -111,21 +113,21 @@ if (isset($_SERVER['HTTP_HOST']) && 'https://www.redaxo.org/' == $config['server
 }
 
 if ($step > 3) {
-    if ('-1' != rex_post('serveraddress', 'string', '-1')) {
-        $config['server'] = rex_post('serveraddress', 'string');
-        $config['servername'] = rex_post('servername', 'string');
+    if ('-1' != Request::post('serveraddress', 'string', '-1')) {
+        $config['server'] = Request::post('serveraddress', 'string');
+        $config['servername'] = Request::post('servername', 'string');
         $config['lang'] = $lang;
-        $config['error_email'] = rex_post('error_email', 'string');
-        $config['timezone'] = rex_post('timezone', 'string');
-        $config['db'][1]['host'] = trim(rex_post('mysql_host', 'string'));
-        $config['db'][1]['login'] = trim(rex_post('redaxo_db_user_login', 'string'));
+        $config['error_email'] = Request::post('error_email', 'string');
+        $config['timezone'] = Request::post('timezone', 'string');
+        $config['db'][1]['host'] = trim(Request::post('mysql_host', 'string'));
+        $config['db'][1]['login'] = trim(Request::post('redaxo_db_user_login', 'string'));
 
-        $passwd = rex_post('redaxo_db_user_pass', 'string', rex_setup::DEFAULT_DUMMY_PASSWORD);
+        $passwd = Request::post('redaxo_db_user_pass', 'string', rex_setup::DEFAULT_DUMMY_PASSWORD);
         if (rex_setup::DEFAULT_DUMMY_PASSWORD != $passwd) {
             $config['db'][1]['password'] = $passwd;
         }
-        $config['db'][1]['name'] = trim(rex_post('dbname', 'string'));
-        $config['use_https'] = rex_post('use_https', 'string');
+        $config['db'][1]['name'] = trim(Request::post('dbname', 'string'));
+        $config['use_https'] = Request::post('use_https', 'string');
 
         if ('true' === $config['use_https']) {
             $config['use_https'] = true;
@@ -134,7 +136,7 @@ if ($step > 3) {
         }
     }
 
-    $redaxoDbCreate = rex_post('redaxo_db_create', 'boolean');
+    $redaxoDbCreate = Request::post('redaxo_db_create', 'boolean');
 
     if (empty($config['instname'])) {
         $config['instname'] = 'rex' . date('YmdHis');
@@ -203,7 +205,7 @@ if (3 === $step) {
 
 $errors = [];
 
-$createdb = rex_post('createdb', 'int', -1);
+$createdb = Request::post('createdb', 'int', -1);
 
 if ($step > 4 && $createdb > -1) {
     $tablesComplete = '' == rex_setup_importer::verifyDbSchema();
@@ -214,7 +216,7 @@ if ($step > 4 && $createdb > -1) {
             $errors[] = Message::error($error);
         }
     } elseif (3 == $createdb) {
-        $importName = rex_post('import_name', 'string');
+        $importName = Request::post('import_name', 'string');
 
         $error = rex_setup_importer::loadExistingImport($importName);
         if ('' != $error) {
@@ -271,9 +273,9 @@ if (4 === $step) {
 $errors = [];
 
 if (6 === $step) {
-    $noadmin = rex_post('noadmin', 'int');
-    $redaxoUserLogin = rex_post('redaxo_user_login', 'string');
-    $redaxoUserPass = rex_post('redaxo_user_pass', 'string');
+    $noadmin = Request::post('noadmin', 'int');
+    $redaxoUserLogin = Request::post('redaxo_user_login', 'string');
+    $redaxoUserPass = Request::post('redaxo_user_pass', 'string');
 
     if (1 != $noadmin) {
         if ('' == $redaxoUserLogin) {

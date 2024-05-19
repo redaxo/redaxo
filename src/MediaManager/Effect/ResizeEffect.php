@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\MediaManager\Effect;
 
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
-use rex_response;
 
 use function in_array;
 
@@ -151,7 +151,7 @@ class ResizeEffect extends AbstractEffect
                 'options' => self::OPTIONS,
                 'default' => 'fit',
                 'suffix' => '
-<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
+<script type="text/javascript" nonce="' . Response::getNonce() . '">
 <!--
 
 $(function() {

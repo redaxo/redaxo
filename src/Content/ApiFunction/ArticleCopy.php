@@ -8,9 +8,10 @@ use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
-use rex_context;
-use rex_response;
 
 /**
  * @internal
@@ -19,13 +20,13 @@ class ArticleCopy extends ApiFunction
 {
     public function execute()
     {
-        $articleId = rex_request('article_id', 'int');
-        $clang = rex_request('clang', 'int', 1);
+        $articleId = Request::request('article_id', 'int');
+        $clang = Request::request('clang', 'int', 1);
         // The destination category in which the given article will be copied
-        $categoryCopyIdNew = rex_request('category_copy_id_new', 'int');
+        $categoryCopyIdNew = Request::request('category_copy_id_new', 'int');
         $user = Core::requireUser();
 
-        $context = new rex_context([
+        $context = new Context([
             'page' => Controller::getCurrentPage(),
             'clang' => $clang,
         ]);
@@ -33,7 +34,7 @@ class ArticleCopy extends ApiFunction
         if ($user->hasPerm('copyArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryCopyIdNew)) {
             if (false !== ($newId = ArticleHandler::copyArticle($articleId, $categoryCopyIdNew))) {
                 $result = new Result(true, I18n::msg('content_articlecopied'));
-                rex_response::sendRedirect($context->getUrl([
+                Response::sendRedirect($context->getUrl([
                     'article_id' => $newId,
                     'info' => $result->getMessage(),
                 ]));

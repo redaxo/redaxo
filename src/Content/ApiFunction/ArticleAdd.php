@@ -7,6 +7,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Http\Request;
 
 /**
  * @internal
@@ -19,7 +20,7 @@ class ArticleAdd extends ApiFunction
             throw new ApiFunctionException('User has no permission to add articles!');
         }
 
-        $categoryId = rex_request('category_id', 'int');
+        $categoryId = Request::request('category_id', 'int');
 
         // check permissions
         if (!Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
@@ -27,9 +28,9 @@ class ArticleAdd extends ApiFunction
         }
 
         $data = [];
-        $data['name'] = rex_post('article-name', 'string');
-        $data['priority'] = rex_post('article-position', 'int');
-        $data['template_id'] = rex_post('template_id', 'int');
+        $data['name'] = Request::post('article-name', 'string');
+        $data['priority'] = Request::post('article-position', 'int');
+        $data['template_id'] = Request::post('template_id', 'int');
         $data['category_id'] = $categoryId;
         return new Result(true, ArticleHandler::addArticle($data));
     }

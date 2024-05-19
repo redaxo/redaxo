@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Request;
 use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaCategoryHandler;
 use Redaxo\Core\Security\CsrfToken;
@@ -23,18 +24,18 @@ if (!isset($error)) {
 
 // *************************************** SUBPAGE: KATEGORIEN
 
-$mediaMethod = rex_request('media_method', 'string');
+$mediaMethod = Request::request('media_method', 'string');
 $csrf = CsrfToken::factory('mediapool_structure');
 
 if ($PERMALL) {
-    $editId = rex_request('edit_id', 'int');
+    $editId = Request::request('edit_id', 'int');
 
     if (in_array($mediaMethod, ['edit_file_cat', 'delete_file_cat', 'add_file_cat'])) {
         if (!$csrf->isValid()) {
             $error = I18n::msg('csrf_token_invalid');
         } else {
             if ('edit_file_cat' == $mediaMethod) {
-                $catName = rex_request('cat_name', 'string');
+                $catName = Request::request('cat_name', 'string');
                 $data = ['name' => $catName];
                 $success = MediaCategoryHandler::editCategory($editId, $data);
             } elseif ('delete_file_cat' == $mediaMethod) {
@@ -45,12 +46,12 @@ if ($PERMALL) {
                 }
             } elseif ('add_file_cat' == $mediaMethod) {
                 $parent = null;
-                $parentId = rex_request('cat_id', 'int');
+                $parentId = Request::request('cat_id', 'int');
                 if ($parentId) {
                     $parent = MediaCategory::get($parentId);
                 }
                 $success = MediaCategoryHandler::addCategory(
-                    rex_request('catname', 'string'),
+                    Request::request('catname', 'string'),
                     $parent,
                 );
             }
@@ -66,7 +67,7 @@ if ($PERMALL) {
     $n['href'] = $link . '0';
     $breadcrumb[] = $n;
 
-    $catId = rex_request('cat_id', 'int');
+    $catId = Request::request('cat_id', 'int');
     if (0 == $catId || !($OOCat = MediaCategory::get($catId))) {
         $OOCats = MediaCategory::getRootCategories();
         $catId = 0;
