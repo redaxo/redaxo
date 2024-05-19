@@ -424,7 +424,7 @@ final class Response
      *
      * HTTP_ACCEPT_ENCODING feature
      */
-    protected static function sendGzip(string $content): string
+    private static function sendGzip(string $content): string
     {
         $enc = '';
         $encodings = [];
