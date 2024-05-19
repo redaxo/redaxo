@@ -2,7 +2,6 @@
 
 namespace Redaxo\Core\Http;
 
-use BackedEnum;
 use Closure;
 use Redaxo\Core\Core;
 use Redaxo\Core\Util\Type;
