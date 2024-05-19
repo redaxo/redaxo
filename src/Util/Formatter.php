@@ -36,11 +36,16 @@ final class Formatter
      *
      * @throws InvalidArgumentException
      */
-    public static function format(string $value, string $formatType, mixed $format): string
+    public static function format(?string $value, string $formatType, mixed $format): string
     {
         if (!method_exists(self::class, $formatType)) {
             throw new InvalidArgumentException('Unknown $formatType: "' . $formatType . '"!');
         }
+
+        if (null === $value) {
+            return '';
+        }
+
         return Type::string(self::$formatType($value, $format));
     }
 
