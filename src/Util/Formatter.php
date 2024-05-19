@@ -42,10 +42,6 @@ final class Formatter
             throw new InvalidArgumentException('Unknown $formatType: "' . $formatType . '"!');
         }
 
-        if (null === $value) {
-            return '';
-        }
-
         return Type::string(self::$formatType($value, $format));
     }
 
