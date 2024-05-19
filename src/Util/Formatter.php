@@ -10,6 +10,7 @@ use Locale;
 use rex_exception;
 
 use function call_user_func;
+use function count;
 use function is_array;
 use function is_callable;
 use function is_int;
@@ -20,7 +21,7 @@ use const E_USER_WARNING;
 /**
  * String formatter class.
  */
-abstract class Formatter
+final class Formatter
 {
     /**
      * It's not allowed to create instances of this class.
@@ -30,20 +31,18 @@ abstract class Formatter
     /**
      * Formats a string by the given format type.
      *
-     * @param string $value Value
      * @param string $formatType Format type (any method name of this class)
      * @param mixed $format For possible values look at the other methods of this class
      *
      * @throws InvalidArgumentException
-     *
-     * @return string
      */
-    public static function format($value, $formatType, $format)
+    public static function format(?string $value, string $formatType, mixed $format): string
     {
-        if (!is_callable([self::class, $formatType])) {
+        if (!method_exists(self::class, $formatType)) {
             throw new InvalidArgumentException('Unknown $formatType: "' . $formatType . '"!');
         }
-        return self::$formatType($value, $format);
+
+        return Type::string(self::$formatType($value, $format));
     }
 
     /**
@@ -51,12 +50,10 @@ abstract class Formatter
      *
      * @see https://www.php.net/manual/en/function.date.php
      *
-     * @param string|int|null $value Unix timestamp or datetime string for `strtotime`
+     * @param int|string|null $value Unix timestamp or datetime string for `strtotime`
      * @param string $format Default format is `d.m.Y`
-     *
-     * @return string
      */
-    public static function date($value, $format = '')
+    public static function date(int|string|null $value, ?string $format = null): string
     {
         if (empty($value)) {
             return '';
@@ -68,9 +65,7 @@ abstract class Formatter
             return '';
         }
 
-        if ('' == $format) {
-            $format = 'd.m.Y';
-        }
+        $format ??= 'd.m.Y';
 
         return date($format, $timestamp);
     }
@@ -81,14 +76,14 @@ abstract class Formatter
      * @see https://www.php.net/manual/en/class.intldateformatter.php
      *
      * @param string|int|DateTimeInterface|null $value Unix timestamp, datetime string for `strtotime` or DateTimeInterface object
-     * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|array{0: IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE, 1: IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE}|string|null $format
+     * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|list{IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE, IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE}|string|null $format
      *              Possible format values:
      *                  - `IntlDateFormatter` constant, like `IntlDateFormatter::MEDIUM`
      *                  - array with two `IntlDateFormatter` constants for date format and time format, like `[IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT]`
      *                  - string pattern, like `dd.MM.y`
      *              Defaults to `[IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT]`
      */
-    public static function intlDateTime($value, $format = null): string
+    public static function intlDateTime(string|int|DateTimeInterface|null $value, int|array|string|null $format = null): string
     {
         if (empty($value)) {
             return '';
@@ -106,9 +101,7 @@ abstract class Formatter
             $timeZone = date_default_timezone_get();
         }
 
-        if (null === $format || '' === $format) {
-            $format = [IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT];
-        }
+        $format ??= [IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT];
 
         if (is_string($format)) {
             $pattern = $format;
@@ -163,11 +156,9 @@ abstract class Formatter
      *                  - string pattern, like `dd.MM.y`
      *              Defaults to `IntlDateFormatter::MEDIUM`
      */
-    public static function intlDate($value, $format = null): string
+    public static function intlDate(string|int|DateTimeInterface|null $value, int|string|null $format = null): string
     {
-        if (null === $format || '' === $format) {
-            $format = IntlDateFormatter::MEDIUM;
-        }
+        $format ??= IntlDateFormatter::MEDIUM;
 
         return self::intlDateTime($value, is_string($format) ? $format : [$format, IntlDateFormatter::NONE]);
     }
@@ -184,11 +175,9 @@ abstract class Formatter
      *                  - string pattern, like `HH:mm`
      *              Defaults to `IntlDateFormatter::SHORT`
      */
-    public static function intlTime($value, $format = IntlDateFormatter::SHORT): string
+    public static function intlTime(string|int|DateTimeInterface|null $value, int|string|null $format = IntlDateFormatter::SHORT): string
     {
-        if (null === $format || '' === $format) {
-            $format = IntlDateFormatter::SHORT;
-        }
+        $format ??= IntlDateFormatter::SHORT;
 
         return self::intlDateTime($value, is_string($format) ? $format : [IntlDateFormatter::NONE, $format]);
     }
@@ -198,47 +187,49 @@ abstract class Formatter
      *
      * @see https://www.php.net/manual/en/function.number-format.php
      *
-     * @param string|float $value Value
-     * @param array{0?: int, 1?: string, 2?: string} $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
-     *
-     * @return string
+     * @param array{0?: int, 1?: string, 2?: string}|null $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
      */
-    public static function number($value, array $format = [])
+    public static function number(string|float $value, ?array $format = []): string
     {
+        $format ??= [];
+
         // Kommastellen
-        if (!isset($format[0])) {
-            $format[0] = 2;
-        }
-        // Dezimal Trennzeichen
-        if (!isset($format[1])) {
-            $format[1] = ',';
-        }
-        // Tausender Trennzeichen
-        if (!isset($format[2])) {
-            $format[2] = ' ';
-        }
+        $format[0] ??= 2;
+
+        // Dezimal-Trennzeichen
+        $format[1] ??= ',';
+
+        // Tausender-Trennzeichen
+        $format[2] ??= ' ';
+
         return number_format((float) $value, $format[0], $format[1], $format[2]);
     }
 
     /**
      * Formats a string as bytes.
      *
-     * @param string|int $value Value
-     * @param array{0?: int, 1?: string, 2?: string} $format Same as {@link rex_formatter::number()}
-     *
-     * @return string
+     * @param array{0?: int, 1?: string, 2?: string}|null $format Same as {@link rex_formatter::number()}
      */
-    public static function bytes($value, array $format = [])
+    public static function bytes(string|int $value, ?array $format = []): string
     {
         $value = (int) $value;
 
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+        $unit = $units[0];
+        $max = count($units) - 1;
         $unitIndex = 0;
         while (($value / 1024) >= 1) {
-            $value /= 1024;
             ++$unitIndex;
+
+            if ($unitIndex > $max) {
+                break;
+            }
+
+            $value /= 1024;
+            $unit = $units[$unitIndex];
         }
 
+        $format ??= [];
         if (isset($format[0])) {
             $precision = (int) $format[0];
             $z = (int) ($value * 10 ** $precision);
@@ -252,37 +243,25 @@ abstract class Formatter
             }
         }
 
-        return self::number($value, $format) . ' ' . $units[$unitIndex];
+        return self::number($value, $format) . ' ' . $unit;
     }
 
     /**
      * Formats a string by `sprintf()`.
      *
      * @see https://www.php.net/manual/en/function.sprintf.php
-     *
-     * @param string $value Value
-     * @param string $format
-     *
-     * @return string
      */
-    public static function sprintf($value, $format = '')
+    public static function sprintf(string $value, ?string $format = null): string
     {
-        if ('' == $format) {
-            $format = '%s';
-        }
-        return sprintf($format, $value);
+        return sprintf($format ?? '%s', $value);
     }
 
     /**
      * Formats a string by `nl2br`.
      *
      * @see https://www.php.net/manual/en/function.nl2br.php
-     *
-     * @param string $value Value
-     *
-     * @return string
      */
-    public static function nl2br($value)
+    public static function nl2br(string $value): string
     {
         return nl2br($value);
     }
@@ -291,30 +270,20 @@ abstract class Formatter
      * Truncates a string.
      *
      * @param string $value Value
-     * @param array{length?: int, etc?: string, break_words?: bool} $format Default format is `['length' => 80, 'etc' => '…', 'break_words' => false]`
-     *
-     * @return string
+     * @param array{length?: int, etc?: string, break_words?: bool}|null $format Default format is `['length' => 80, 'etc' => '…', 'break_words' => false]`
      */
-    public static function truncate($value, $format = [])
+    public static function truncate(string $value, ?array $format = []): string
     {
-        if (!is_array($format)) {
-            $format = [];
-        }
+        $format ??= [];
 
         // Max-String-laenge
-        if (empty($format['length'])) {
-            $format['length'] = 80;
-        }
+        $format['length'] ??= 80;
 
         // ETC
-        if (empty($format['etc'])) {
-            $format['etc'] = '…';
-        }
+        $format['etc'] ??= '…';
 
         // Break-Words?
-        if (empty($format['break_words'])) {
-            $format['break_words'] = false;
-        }
+        $format['break_words'] ??= false;
 
         if (mb_strlen($value) > $format['length']) {
             $format['length'] -= mb_strlen($format['etc']);
@@ -330,12 +299,8 @@ abstract class Formatter
 
     /**
      * Avoid widows in a string.
-     *
-     * @param string $value
-     *
-     * @return string
      */
-    public static function widont($value)
+    public static function widont(string $value): string
     {
         // Sollte ein Wort allein auf einer Zeile vorkommen, wird dies unterbunden
         $value = rtrim($value);
@@ -351,38 +316,32 @@ abstract class Formatter
      *
      * @see https://www.php.net/manual/en/function.sprintf.php
      *
-     * @param string $value Version
-     * @param string $format Version format, e.g. "%s.%s"
-     *
-     * @return string
+     * @param string|null $format Version format, e.g. "%s.%s"
      */
-    public static function version($value, $format)
+    public static function version(string $value, ?string $format): string
     {
-        return vsprintf($format, Version::split($value));
+        return vsprintf($format ?? '%s.%s.%s', Version::split($value));
     }
 
     /**
      * Formats a string as link.
      *
      * @param string $value URL
-     * @param array $format Array with link attributes and params
+     * @param array{attr?: string, params?: string}|null $format Array with link attributes and params
      *
      * @return string Link
      */
-    public static function url($value, $format = [])
+    public static function url(string $value, ?array $format = []): string
     {
         if (empty($value)) {
             return '';
         }
 
-        if (!is_array($format)) {
-            $format = [];
-        }
+        $format ??= [];
 
         // Linkattribute
-        if (empty($format['attr'])) {
-            $format['attr'] = '';
-        }
+        $format['attr'] ??= '';
+
         // Linkparameter (z.b. subject=Hallo Sir)
         if (empty($format['params'])) {
             $format['params'] = '';
@@ -393,7 +352,7 @@ abstract class Formatter
         }
         // Protokoll
         if (!preg_match('@((ht|f)tps?|telnet|redaxo)://@', $value)) {
-            $value = 'http://' . $value;
+            $value = 'https://' . $value;
         }
 
         return '<a href="' . rex_escape($value . $format['params']) . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
@@ -403,20 +362,17 @@ abstract class Formatter
      * Formats a string as email link.
      *
      * @param string $value Email
-     * @param array $format Array with link attributes and params
+     * @param array{attr?: string, params?: string}|null $format Array with link attributes and params
      *
      * @return string Email link
      */
-    public static function email($value, $format = [])
+    public static function email(string $value, ?array $format = []): string
     {
-        if (!is_array($format)) {
-            $format = [];
-        }
+        $format ??= [];
 
         // Linkattribute
-        if (empty($format['attr'])) {
-            $format['attr'] = '';
-        }
+        $format['attr'] ??= '';
+
         // Linkparameter (z.b. subject=Hallo Sir)
         if (empty($format['params'])) {
             $format['params'] = '';
@@ -432,15 +388,11 @@ abstract class Formatter
     /**
      * Formats a string by a custom callable.
      *
-     * @param string $value Value
-     * @param callable|array $format A callable or an array of a callable and additional params
-     * @psalm-param callable(string):string|array{0: callable(non-empty-array):string, 1: mixed} $format
+     * @param callable(string|null):string|array{0: callable(non-empty-array):string, 1: array<mixed>} $format A callable or an array of a callable and additional params
      *
      * @throws rex_exception
-     *
-     * @return string
      */
-    public static function custom($value, $format)
+    public static function custom(?string $value, callable|array $format): string
     {
         if (!is_callable($format)) {
             if (!is_callable($format[0])) {

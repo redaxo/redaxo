@@ -6,7 +6,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Util\Str;
 
-/** @internal */
+/**
+ * @internal
+ * @psalm-import-type TUrlParams from Str
+ */
 final class StrTest extends TestCase
 {
     public function testSize(): void
@@ -65,6 +68,7 @@ final class StrTest extends TestCase
         ];
     }
 
+    /** @param TUrlParams $params */
     #[DataProvider('buildQueryProvider')]
     public function testBuildQuery(string $expected, array $params): void
     {

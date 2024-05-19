@@ -186,11 +186,6 @@ parameters:
 			path: ../../src/Backend/Page.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Base\\\\UrlProviderInterface\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Base/UrlProviderInterface.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:__construct\\(\\) has parameter \\$function with no type specified\\.$#"
 			count: 1
 			path: ../../src/Content/ArticleAction.php
@@ -861,42 +856,7 @@ parameters:
 			path: ../../src/Form/Select/Select.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Http\\\\Context\\:\\:array2inputStr\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Http/Context.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Http\\\\Context\\:\\:getHiddenInputFields\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Http/Context.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Http\\\\Context\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Http/Context.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Http\\\\ContextProviderInterface\\:\\:getHiddenInputFields\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Http/ContextProviderInterface.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Http\\\\Request\\:\\:arrayKeyCast\\(\\) has parameter \\$haystack with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Http/Request.php
-
-		-
 			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../src/Http/Response.php
-
-		-
-			message: "#^Property Redaxo\\\\Core\\\\Http\\\\Response\\:\\:\\$additionalHeaders type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Http/Response.php
-
-		-
-			message: "#^Property Redaxo\\\\Core\\\\Http\\\\Response\\:\\:\\$preloadFiles type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Http/Response.php
 
@@ -1102,11 +1062,6 @@ parameters:
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\MediaPool\\\\MediaHandler\\:\\:updateMedia\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/MediaPool/MediaHandler.php
-
-		-
-			message: "#^Parameter \\#1 \\$extensionPoint of static method Redaxo\\\\Core\\\\ExtensionPoint\\\\Extension\\:\\:registerPoint\\(\\) expects Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<string\\|null\\>, Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<string\\|null\\> given\\.$#"
 			count: 1
 			path: ../../src/MediaPool/MediaHandler.php
 
@@ -1436,22 +1391,7 @@ parameters:
 			path: ../../src/Security/UserRole.php
 
 		-
-			message: "#^Parameter \\#1 \\$extensionPoint of static method Redaxo\\\\Core\\\\ExtensionPoint\\\\Extension\\:\\:registerPoint\\(\\) expects Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<list\\<string\\>\\|string\\|null\\>, Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<list\\<string\\>\\|string\\|null\\> given\\.$#"
-			count: 1
-			path: ../../src/Util/Editor.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:custom\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Util/Formatter.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:email\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Util/Formatter.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:url\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Util/Formatter.php
 
@@ -1509,21 +1449,6 @@ parameters:
 			message: "#^PHPDoc tag @var for variable \\$Block has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Util/Parsedown.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Str\\:\\:yamlEncode\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Util/Str.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Type\\:\\:array\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Util/Type.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Validator\\\\Validator\\:\\:values\\(\\) has parameter \\$validValues with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Validator/Validator.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\View\\\\Asset\\:\\:getJsFilesWithOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -1602,11 +1527,6 @@ parameters:
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getTableColumnGroups\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/View/DataList.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\View\\\\DataList\\:\\:getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/View/DataList.php
 
@@ -1691,11 +1611,6 @@ parameters:
 			path: ../../tests/Database/TableTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$extensionPoint of static method Redaxo\\\\Core\\\\ExtensionPoint\\\\Extension\\:\\:registerPoint\\(\\) expects Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<string\\|null\\>, Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint\\<string\\|null\\> given\\.$#"
-			count: 2
-			path: ../../tests/ExtensionPoint/ExtensionTest.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\MediaPool\\\\MediaPoolTest\\:\\:testIsAllowedExtension\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../tests/MediaPool/MediaPoolTest.php
@@ -1712,11 +1627,6 @@ parameters:
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Util\\\\StrTest\\:\\:buildQueryProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../tests/Util/StrTest.php
-
-		-
-			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Util\\\\StrTest\\:\\:testBuildQuery\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../tests/Util/StrTest.php
 

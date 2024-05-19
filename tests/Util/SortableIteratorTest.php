@@ -3,17 +3,20 @@
 namespace Redaxo\Core\Tests\Util;
 
 use ArrayIterator;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Util\SortableIterator;
 
 /** @internal */
 final class SortableIteratorTest extends TestCase
 {
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -40,7 +43,7 @@ final class SortableIteratorTest extends TestCase
     public function testCallbackMode(): void
     {
         $array = [2, 'a', 1, 'b'];
-        $callback = static function ($a, $b) {
+        $callback = static function (string $a, string $b) {
             return strcmp($b, $a);
         };
         $iterator = new SortableIterator(new ArrayIterator($array), $callback);

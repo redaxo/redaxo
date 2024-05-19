@@ -17,15 +17,15 @@ class Editor
 {
     use FactoryTrait;
 
-    public const EDITOR_ATOM = 'atom';
-    public const EDITOR_EMACS = 'emacs';
-    public const EDITOR_IDEA = 'idea';
-    public const EDITOR_MACVIM = 'macvim';
-    public const EDITOR_PHPSTORM = 'phpstorm';
-    public const EDITOR_SUBLIME = 'sublime';
-    public const EDITOR_TEXTMATE = 'textmate';
-    public const EDITOR_VSCODE = 'vscode';
-    public const EDITOR_XDEBUG = 'xdebug';
+    public const string EDITOR_ATOM = 'atom';
+    public const string EDITOR_EMACS = 'emacs';
+    public const string EDITOR_IDEA = 'idea';
+    public const string EDITOR_MACVIM = 'macvim';
+    public const string EDITOR_PHPSTORM = 'phpstorm';
+    public const string EDITOR_SUBLIME = 'sublime';
+    public const string EDITOR_TEXTMATE = 'textmate';
+    public const string EDITOR_VSCODE = 'vscode';
+    public const string EDITOR_XDEBUG = 'xdebug';
 
     // see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
     // keep this list in sync with the array in getSupportedEditors() excluding xdebug
@@ -45,7 +45,7 @@ class Editor
     final private function __construct() {}
 
     /**
-     * Creates a rex_editor instance.
+     * Creates a Editor instance.
      */
     public static function factory(): static
     {
@@ -54,12 +54,9 @@ class Editor
     }
 
     /**
-     * @param string $filePath
      * @param int|numeric-string $line
-     *
-     * @return string|null
      */
-    public function getUrl($filePath, $line)
+    public function getUrl(string $filePath, int|string $line): ?string
     {
         $editor = $this->getName();
 
@@ -88,14 +85,14 @@ class Editor
 
         return Extension::registerPoint(new ExtensionPoint('EDITOR_URL', $editorUrl, [
             'file' => $filePath,
-            'line' => $line,
+            'line' => (int) $line,
         ]));
     }
 
     /**
      * @return array<self::EDITOR_*, string>
      */
-    public function getSupportedEditors()
+    public function getSupportedEditors(): array
     {
         return [
             self::EDITOR_ATOM => 'Atom',

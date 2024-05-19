@@ -2,30 +2,18 @@
 
 namespace Redaxo\Core\Database;
 
-/**
- * @psalm-readonly
- */
-final class Configuration
+final readonly class Configuration
 {
-    /** @var string */
-    public $host;
-    /** @var string */
-    public $login;
-    /** @var string */
-    public $password;
-    /** @var string */
-    public $name;
-    /** @var bool */
-    public $persistent;
+    public string $host;
+    public string $login;
+    public string $password;
+    public string $name;
+    public bool $persistent;
 
-    /** @var string|null */
-    public $sslKey;
-    /** @var string|null */
-    public $sslCert;
-    /** @var string|null */
-    public $sslCa;
-    /** @var bool */
-    public $sslVerifyServerCert;
+    public ?string $sslKey;
+    public ?string $sslCert;
+    public ?string $sslCa;
+    public bool $sslVerifyServerCert;
 
     public function __construct(array $dbConfig)
     {

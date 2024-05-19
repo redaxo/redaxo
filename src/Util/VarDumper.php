@@ -14,15 +14,15 @@ use Symfony\Component\VarDumper\VarDumper as BaseVarDumper;
 
 use const PHP_SAPI;
 
-abstract class VarDumper
+/** @internal */
+final class VarDumper
 {
     private static ?VarCloner $cloner = null;
     private static ?ContextualizedDumper $dumper = null;
 
-    /**
-     * @return void
-     */
-    public static function register()
+    private function __construct() {}
+
+    public static function register(): void
     {
         BaseVarDumper::setHandler(static function ($var, ?string $label = null) {
             if (Core::isDebugMode() || ($user = BackendLogin::createUser()) && $user->isAdmin()) {
@@ -39,11 +39,7 @@ abstract class VarDumper
         });
     }
 
-    /**
-     * @param mixed $var
-     * @return void
-     */
-    public static function dump($var, ?string $label = null)
+    public static function dump(mixed $var, ?string $label = null): void
     {
         if (!self::$cloner || !self::$dumper) {
             self::$cloner = new VarCloner();

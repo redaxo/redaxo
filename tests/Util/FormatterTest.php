@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use IntlDateFormatter;
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Translation\I18n;
@@ -19,11 +20,13 @@ final class FormatterTest extends TestCase
 {
     private string $previousLocale;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->previousLocale = I18n::setLocale('de_de');
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         I18n::setLocale($this->previousLocale);
@@ -284,14 +287,14 @@ final class FormatterTest extends TestCase
 
     public function testCustom(): void
     {
-        $format = 'strtoupper';
-        self::assertEquals(
-            'TEST',
-            Formatter::custom('test', $format),
-        );
+        /** @psalm-suppress InvalidArgument */
+        $result = Formatter::custom('test', 'strtoupper');
+
+        self::assertEquals('TEST', $result);
 
         $format = [
-            static function ($params) {
+            static function (array $params): string {
+                /** @psalm-suppress MixedOperand */
                 return $params['subject'] . ' ' . $params['some'];
             },
             ['some' => 'more params'],

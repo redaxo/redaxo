@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Tests\Base;
 
+use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Base\FactoryTrait;
 
@@ -38,11 +39,13 @@ class TestFactory
 /** @internal */
 final class AlternativeTestFactory extends TestFactory
 {
+    #[Override]
     public function doSomething(): string
     {
         return 'overridden';
     }
 
+    #[Override]
     public static function staticCall(): string
     {
         return 'static-overridden';

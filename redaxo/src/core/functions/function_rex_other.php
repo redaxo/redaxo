@@ -12,10 +12,8 @@ use Redaxo\Core\Translation\I18n;
 
 /**
  * Deletes the cache.
- *
- * @return string
  */
-function rex_delete_cache()
+function rex_delete_cache(): string
 {
     // close logger, so the logfile can also be deleted
     Logger::close();
@@ -41,12 +39,7 @@ function rex_delete_cache()
     return Extension::registerPoint(new ExtensionPoint('CACHE_DELETED', I18n::msg('delete_cache_message')));
 }
 
-/**
- * @param string $varname
- *
- * @return int
- */
-function rex_ini_get($varname)
+function rex_ini_get(string $varname): int
 {
     $val = trim(ini_get($varname));
     if ('' != $val) {
