@@ -475,8 +475,8 @@ return RectorConfig::configure()
         new ArgumentRemover(Filesystem\Url::class, 'backendPage', 2, null),
         new ArgumentRemover(Filesystem\Url::class, 'currentBackendPage', 1, null),
         new ArgumentRemover(Form\AbstractForm::class, 'getUrl', 1, null),
-        new ArgumentRemover(rex_list::class, 'getUrl', 1, null),
-        new ArgumentRemover(rex_list::class, 'getParsedUrl', 1, null),
+        new ArgumentRemover(View\DataList::class, 'getUrl', 1, null),
+        new ArgumentRemover(View\DataList::class, 'getParsedUrl', 1, null),
         new ArgumentRemover(Content\StructureElement::class, 'getUrl', 1, null),
         new ArgumentRemover(MediaManager\MediaManager::class, 'getUrl', 3, null),
 
