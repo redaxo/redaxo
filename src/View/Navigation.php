@@ -1,9 +1,18 @@
 <?php
 
+namespace Redaxo\Core\View;
+
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Util\Str;
+use rex_exception;
+
+use function count;
+use function in_array;
+use function is_array;
+use function is_object;
+use function is_string;
 
 /**
  * Klasse zum Erstellen von Navigationen.
@@ -17,22 +26,22 @@ use Redaxo\Core\Util\Str;
  *
  * Navigation:
  *
- * $nav = rex_navigation::factory();
+ * $nav = Navigation::factory();
  * $nav->setClasses(array('lev1', 'lev2', 'lev3'));
  * $nav->setLinkClasses(array('alev1', 'alev2', 'alev3'));
  * echo $nav->get(0,2,TRUE,TRUE);
  *
  * Sitemap:
  *
- * $nav = rex_navigation::factory();
+ * $nav = Navigation::factory();
  * $nav->show(0,-1,TRUE,TRUE);
  *
  * Breadcrump:
  *
- * $nav = rex_navigation::factory();
+ * $nav = Navigation::factory();
  * $nav->showBreadcrumb(true);
  */
-class rex_navigation
+class Navigation
 {
     use FactoryTrait;
 
