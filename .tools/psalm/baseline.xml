@@ -1050,31 +1050,6 @@
       <code><![CDATA[$source]]></code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/lib/structure/navigation.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[(string) $va]]></code>
-    </ArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$result]]></code>
-      <code><![CDATA[$result]]></code>
-      <code><![CDATA[$result]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[$class::$method($category, $depth, $li, $a, $aContent)]]></code>
-      <code><![CDATA[$method]]></code>
-    </MixedMethodCall>
-    <PossiblyNullArgument>
-      <code><![CDATA[$cat]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference>
-      <code><![CDATA[getChildren]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-    </PossiblyNullReference>
-    <PropertyTypeCoercion>
-      <code><![CDATA[$this->callbacks]]></code>
-    </PropertyTypeCoercion>
-  </file>
   <file src="redaxo/src/core/lib/structure/system_setting_article_id.php">
     <MixedArgument>
       <code><![CDATA[Core::getConfig($this->key, 1)]]></code>
@@ -4534,6 +4509,31 @@
     <MixedPropertyAssignment>
       <code><![CDATA[$this->decorator]]></code>
     </MixedPropertyAssignment>
+  </file>
+  <file src="src/View/Navigation.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[(string) $va]]></code>
+    </ArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[$result]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[$class::$method($category, $depth, $li, $a, $aContent)]]></code>
+      <code><![CDATA[$method]]></code>
+    </MixedMethodCall>
+    <PossiblyNullArgument>
+      <code><![CDATA[$cat]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference>
+      <code><![CDATA[getChildren]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
+    </PossiblyNullReference>
+    <PropertyTypeCoercion>
+      <code><![CDATA[$this->callbacks]]></code>
+    </PropertyTypeCoercion>
   </file>
   <file src="src/View/View.php">
     <MixedArgument>

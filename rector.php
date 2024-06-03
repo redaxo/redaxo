@@ -380,6 +380,7 @@ return RectorConfig::configure()
         'rex_webauthn' => Security\WebAuthn::class,
         'rex_list' => View\DataList::class,
         'rex_fragment' => View\Fragment::class,
+        'rex_navigation' => View\Navigation::class,
         'rex_view' => View\View::class,
     ])
     ->withConfiguredRule(ArgumentAdderRector::class, [

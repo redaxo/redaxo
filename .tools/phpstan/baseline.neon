@@ -156,16 +156,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/setup/setup.php
 
 		-
-			message: "#^PHPDoc tag @var has invalid value \\(callback\\: callable\\(Category, int, array\\<\\(int \\| string\\), \\(int \\| string \\| list\\<string\\>\\)\\>, array\\<\\(int \\| string\\), \\(int \\| string \\| list\\<string\\>\\)\\>, string\\)\\:bool, depth\\: \\(int \\| \\)\\}\\>\\)\\: Unexpected token \"\\:\", expected '\\}' at offset 181 on line 1$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/navigation.php
-
-		-
-			message: "#^Property rex_navigation\\:\\:\\$callbacks type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/structure/navigation.php
-
-		-
 			message: "#^Call to static method Redaxo\\\\Core\\\\Util\\\\Type\\:\\:string\\(\\) on a separate line has no effect\\.$#"
 			count: 1
 			path: ../../src/Addon/Addon.php
@@ -1559,6 +1549,16 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\View\\\\DataList\\:\\:\\$tableColumnGroups type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/View/DataList.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(callback\\: callable\\(Category, int, array\\<\\(int \\| string\\), \\(int \\| string \\| list\\<string\\>\\)\\>, array\\<\\(int \\| string\\), \\(int \\| string \\| list\\<string\\>\\)\\>, string\\)\\:bool, depth\\: \\(int \\| \\)\\}\\>\\)\\: Unexpected token \"\\:\", expected '\\}' at offset 181 on line 1$#"
+			count: 1
+			path: ../../src/View/Navigation.php
+
+		-
+			message: "#^Property Redaxo\\\\Core\\\\View\\\\Navigation\\:\\:\\$callbacks type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/View/Navigation.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\View\\\\View\\:\\:title\\(\\) has parameter \\$subtitle with no value type specified in iterable type array\\.$#"
