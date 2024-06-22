@@ -29,6 +29,7 @@ default_config:
     fromname: 'Mailer'
     confirmto: ''
     bcc: ''
+    returnto: ''
     mailer: 'smtp'
     host: 'localhost'
     port: 587
