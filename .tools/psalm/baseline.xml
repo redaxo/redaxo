@@ -1638,6 +1638,7 @@
       <code><![CDATA[$this->SMTPAutoTLS]]></code>
       <code><![CDATA[$this->SMTPDebug]]></code>
       <code><![CDATA[$this->SMTPSecure]]></code>
+      <code><![CDATA[$this->Sender]]></code>
       <code><![CDATA[$this->Username]]></code>
       <code><![CDATA[$this->WordWrap]]></code>
       <code><![CDATA[$this->archive]]></code>
@@ -1711,6 +1712,7 @@
       <code><![CDATA[rex_escape($addon->getConfig('host'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('password'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('port'))]]></code>
+      <code><![CDATA[rex_escape($addon->getConfig('returnto'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('test_address'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('username'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('wordwrap'))]]></code>
