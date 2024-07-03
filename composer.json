@@ -118,8 +118,8 @@
             "php-cs-fixer fix -v --using-cache=no --ansi"
         ],
         "phpunit": "phpunit --colors=always",
-        "phpstan": "phpstan analyse --ansi",
-        "phpstan:baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
+        "phpstan": "phpstan analyse --ansi -v",
+        "phpstan:baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon -v",
         "phpstan:no-cache": [
             "phpstan clear-result-cache --ansi",
             "@phpstan"
