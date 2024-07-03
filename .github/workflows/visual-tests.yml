@@ -56,7 +56,9 @@ jobs:
                     cache-dependency-path: .github/workflows/visual-tests.yml
 
             -   name: Install npm packages
-                run: npm install playwright pixelmatch pngjs fs mkdirp
+                run: |
+                    npm install playwright pixelmatch pngjs fs mkdirp
+                    npm pkg set type=module
 
             -   name: Get installed Playwright version (used in cache key)
                 id: playwright-version
