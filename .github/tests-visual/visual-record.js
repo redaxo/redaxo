@@ -9,7 +9,7 @@
  */
 
 const playwright = require('playwright');
-const pixelmatch = require('pixelmatch');
+const pixelmatch = import('pixelmatch');
 const PNG = require('pngjs').PNG;
 const fs = require('fs');
 const {mkdirp} = require('mkdirp');
