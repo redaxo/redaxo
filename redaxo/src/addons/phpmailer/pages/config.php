@@ -22,6 +22,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
         ['detour_mode', 'boolean'],
         ['confirmto', 'string'],
         ['bcc', 'string'],
+        ['returnto', 'string'],
         ['mailer', 'string'],
         ['host', 'string'],
         ['port', 'int'],
@@ -206,6 +207,11 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="phpmailer-bcc">' . $addon->i18n('bcc') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-bcc" type="email" name="settings[bcc]" placeholder="bcc@example.tld" value="' . rex_escape($addon->getConfig('bcc')) . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-returnto">' . $addon->i18n('returnto_email') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-returnto" type="email" name="settings[returnto]" placeholder="returnto@example.tld" value="' . rex_escape($addon->getConfig('returnto')) . '" />';
 $formElements[] = $n;
 
 $n = [];

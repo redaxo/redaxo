@@ -32,6 +32,7 @@ class rex_mailer extends PHPMailer
         $this->From = $addon->getConfig('from');
         $this->FromName = $addon->getConfig('fromname');
         $this->ConfirmReadingTo = $addon->getConfig('confirmto');
+        $this->Sender = $addon->getConfig('returnto');
         $this->Mailer = $addon->getConfig('mailer');
         $this->Host = $addon->getConfig('host');
         $this->Port = $addon->getConfig('port');
