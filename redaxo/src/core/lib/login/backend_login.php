@@ -110,6 +110,7 @@ class rex_backend_login extends rex_login
                 $this->setSessionVar(self::SESSION_PASSWORD, null);
                 $this->setSessionVar(self::SESSION_START_TIME, time());
                 $this->setSessionVar(self::SESSION_LAST_ACTIVITY, time());
+                $this->userLogin = null;
             } else {
                 $this->message = rex_i18n::msg('login_error');
                 $this->passkey = null;
