@@ -8,11 +8,11 @@
  * 5. Start the visual recording with `node .github/tests-visual/visual-record.js`
  */
 
-const playwright = require('playwright');
-const pixelmatch = await import('pixelmatch');
-const PNG = require('pngjs').PNG;
-const fs = require('fs');
-const {mkdirp} = require('mkdirp');
+import playwright from 'playwright';
+import pixelmatch from 'pixelmatch';
+import {PNG} from 'pngjs';
+import fs from 'fs';
+import {mkdirp} from 'mkdirp';
 
 const viewportWidth = 1280;
 const viewportHeight = 800;
