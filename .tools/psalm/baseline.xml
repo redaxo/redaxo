@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.24.0@462c80e31c34e58cc4f750c656be3927e80e550e">
+<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument>
       <code><![CDATA[$column]]></code>
@@ -1638,6 +1638,7 @@
       <code><![CDATA[$this->SMTPAutoTLS]]></code>
       <code><![CDATA[$this->SMTPDebug]]></code>
       <code><![CDATA[$this->SMTPSecure]]></code>
+      <code><![CDATA[$this->Sender]]></code>
       <code><![CDATA[$this->Username]]></code>
       <code><![CDATA[$this->WordWrap]]></code>
       <code><![CDATA[$this->archive]]></code>
@@ -1711,6 +1712,7 @@
       <code><![CDATA[rex_escape($addon->getConfig('host'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('password'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('port'))]]></code>
+      <code><![CDATA[rex_escape($addon->getConfig('returnto'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('test_address'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('username'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('wordwrap'))]]></code>

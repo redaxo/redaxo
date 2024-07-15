@@ -46,6 +46,16 @@ parameters:
 			path: ../../redaxo/src/addons/cronjob/lib/manager_sql.php
 
 		-
+			message: "#^Parameter \\#1 \\$array of function array_diff expects an array of values castable to string, array\\<array\\|bool\\|float\\|int\\|string\\|null\\> given\\.$#"
+			count: 2
+			path: ../../redaxo/src/addons/debug/boot.php
+
+		-
+			message: "#^Parameter \\#2 \\$arrays of function array_diff expects an array of values castable to string, array\\<array\\|bool\\|float\\|int\\|string\\|null\\> given\\.$#"
+			count: 2
+			path: ../../redaxo/src/addons/debug/boot.php
+
+		-
 			message: "#^Method rex_debug\\:\\:getTrace\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/debug/lib/debug.php
@@ -1346,6 +1356,41 @@ parameters:
 			path: ../../redaxo/src/addons/users/lib/role.php
 
 		-
+			message: "#^Impure property assignment in pure function rex_escape\\(\\)\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
+			message: "#^Impure static variable in pure function rex_escape\\(\\)\\.$#"
+			count: 2
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
+			message: "#^Possibly impure call to a callable in pure function rex_escape\\(\\)\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
+			message: "#^Possibly impure call to function preg_match\\(\\) in pure function rex_escape\\(\\)\\.$#"
+			count: 3
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
+			message: "#^Possibly impure call to function preg_replace\\(\\) in pure function rex_escape\\(\\)\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
+			message: "#^Possibly impure call to function preg_replace_callback\\(\\) in pure function rex_escape\\(\\)\\.$#"
+			count: 3
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
+			message: "#^Possibly impure call to method stdClass\\:\\:__toString\\(\\) in pure function rex_escape\\(\\)\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
 			message: "#^Parameter \\#1 \\$callback of function spl_autoload_register expects \\(callable\\(string\\)\\: void\\)\\|null, Closure\\(string\\)\\: bool given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
@@ -1741,11 +1786,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/manager.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between 'rex_package_manager' and class\\-string\\<static\\(rex_package_manager\\<T of rex_package\\>\\)\\> will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/manager.php
-
-		-
 			message: "#^Method rex_null_package\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/null.php
@@ -1797,6 +1837,16 @@ parameters:
 
 		-
 			message: "#^Method rex_sql\\:\\:createConnection\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/sql/sql.php
+
+		-
+			message: "#^Method rex_sql\\:\\:getRows\\(\\) is marked as impure but does not have any side effects\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/sql/sql.php
+
+		-
+			message: "#^Possibly impure call to function str_replace\\(\\) in pure method rex_sql\\:\\:escapeLikeWildcards\\(\\)\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/sql.php
 
