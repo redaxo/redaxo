@@ -58,7 +58,7 @@ if (rex::isBackend()) {
             $content .= $article->getArticleTemplate();
         } catch (rex_article_not_found_exception) {
             $article = new rex_article_content();
-            $article->setCLang(rex_clang::getCurrentId());
+            $article->setClang(rex_clang::getCurrentId());
             $article->setArticleId(rex_article::getNotfoundArticleId());
 
             $content .= $article->getArticleTemplate();

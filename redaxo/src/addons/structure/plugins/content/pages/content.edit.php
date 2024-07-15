@@ -27,7 +27,7 @@ $CONT->template_attributes = $templateAttributes;
 $CONT->setArticleId($articleId);
 $CONT->setSliceId($sliceId);
 $CONT->setMode('edit');
-$CONT->setCLang($clang);
+$CONT->setClang($clang);
 $CONT->setEval(true);
 $CONT->setSliceRevision($sliceRevision);
 /** @var 'add'|'edit' $function */
