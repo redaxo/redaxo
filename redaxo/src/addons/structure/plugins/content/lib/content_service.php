@@ -339,7 +339,7 @@ class rex_content_service
             }
 
             $CONT = new rex_article_content_base();
-            $CONT->setCLang($clangId);
+            $CONT->setClang($clangId);
             $CONT->setEval(false); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
             if (!$CONT->setArticleId($articleId)) {
                 throw new rex_exception(sprintf('Article %d does not exist.', $articleId));

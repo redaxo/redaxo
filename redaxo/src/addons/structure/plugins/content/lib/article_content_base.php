@@ -57,7 +57,7 @@ class rex_article_content_base
     public function __construct($articleId = null, $clang = null)
     {
         if (null !== $clang) {
-            $this->setCLang($clang);
+            $this->setClang($clang);
         } else {
             $this->setClang(rex_clang::getCurrentId());
         }
