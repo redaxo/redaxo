@@ -74,6 +74,16 @@ class rex_backup_tar
     }
 
     /**
+     * Sets compression Level
+     * 
+     * @param int $level
+     */
+    public function setCompressionLevel(int $level)
+    {
+        $this->tar->setCompression($level, Archive::COMPRESS_GZIP);
+    }
+
+    /**
      * Saves tar archive to a different file than the current file.
      *
      * @return bool|string
