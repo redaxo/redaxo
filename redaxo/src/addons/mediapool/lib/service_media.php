@@ -146,10 +146,10 @@ final class rex_media_service
     /**
      * Aktualisiert eine Mediendatei im Medienpool, einschließlich dynamischer Metadaten wie 'med_description'.
      *
-     * @param string $filename Der Name der zu aktualisierenden Datei.
+     * @param string $filename der Name der zu aktualisierenden Datei
      * @param array $data Die zu aktualisierenden Daten (z.B. 'title', 'category_id', 'med_description').
-     * @return array Die aktualisierten Daten, zusammen mit einer Erfolgs- oder Fehlermeldung.
-     * @throws rex_api_exception Wenn die Datei nicht gefunden wird oder ein anderes Problem auftritt.
+     * @throws rex_api_exception wenn die Datei nicht gefunden wird oder ein anderes Problem auftritt
+     * @return array die aktualisierten Daten, zusammen mit einer Erfolgs- oder Fehlermeldung
      */
     public static function updateMedia(string $filename, array $data): array
     {
@@ -207,8 +207,8 @@ final class rex_media_service
             static $jpgExtensions = ['jpg', 'jpeg'];
 
             if (
-                $extensionNew == $extensionOld ||
-                in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
+                $extensionNew == $extensionOld
+                || in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
             ) {
                 if (!rex_file::move($srcFile, $dstFile)) {
                     throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
@@ -238,7 +238,7 @@ final class rex_media_service
                     $message = sprintf(
                         "Field '%s' does not exist in the database table and was skipped during the update for media '%s'.",
                         $key,
-                        $filename
+                        $filename,
                     );
                     rex_logger::logException(new Exception($message));
                 }
@@ -268,8 +268,6 @@ final class rex_media_service
 
         return $return;
     }
-
-
 
     public static function deleteMedia(string $filename): void
     {
