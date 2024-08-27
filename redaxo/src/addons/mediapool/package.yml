@@ -17,7 +17,7 @@ page:
         structure: { title: translate:pool_cat_list,   perm: media/hasAll }
         sync:      { title: translate:pool_sync_files, perm: media[sync] }
 
-blocked_extensions: [php, php3, php4, php5, php6, php7, php8, phar, pht, phtml, hh, pl, asp, aspx, cfm, jsp, jsf, bat, sh, cgi, htaccess, htpasswd]
+blocked_extensions: [asp, aspx, bat, cfm, cgi, hh, html, htaccess, htpasswd, ini, jsp, jsf, js, jsphp, log, mjs, pht, php3, php4, php5, php6, php7, php8, phar, pl, ps1, phtml, py, rb, sh, shmtl, shtml, svg, swf, txt, vbs, xhtml, xht, xml]
 
 # optional mime type allowlist. the list is checked after the blocked_extensions check from above has passed.
 # exmaple:
