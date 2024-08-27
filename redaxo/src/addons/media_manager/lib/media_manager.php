@@ -255,15 +255,15 @@ class rex_media_manager
      */
     public function getCacheFilename()
     {
-    assert(null !== $this->cachePath);
-    assert(null !== $this->type);
-    
-    $cachePath = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_CACHE_FILENAME_PATH', $this->cachePath, [
-        'type' => $this->type,
-        'filename' => $this->originalFilename,
-    ]));
-        
-    return $cachePath . $this->type . '/' . $this->originalFilename;
+        assert(null !== $this->cachePath);
+        assert(null !== $this->type);
+
+        $cachePath = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_CACHE_FILENAME_PATH', $this->cachePath, [
+            'type' => $this->type,
+            'filename' => $this->originalFilename,
+        ]));
+
+        return $cachePath . $this->type . '/' . $this->originalFilename;
     }
 
     /**
