@@ -164,20 +164,17 @@ final class rex_media_service
 
         $saveObject = rex_sql::factory();
         $saveObject->setTable(rex::getTablePrefix() . 'media');
-        $saveObject->setWhere(['filename' => $filename]); // Stellt sicher, dass nur die spezifische Datei aktualisiert wird
+        $saveObject->setWhere(['filename' => $filename]); // Ensures that only the specific file is updated
 
-        // Hole alle existierenden Spalten der Tabelle ab, nachdem die Tabelle gesetzt wurde
-        $columns = $saveObject->getFieldnames();
-
-        // Setze die Standardfelder wie 'title' und 'category_id'
-        if (isset($data['title'])) {
+        // Set the standard fields like 'title' and 'category_id'
+        if (isset($data['title']) && is_scalar($data['title'])) {
             $saveObject->setValue('title', $data['title']);
         }
-        if (isset($data['category_id'])) {
+        if (isset($data['category_id']) && is_scalar($data['category_id'])) {
             $saveObject->setValue('category_id', (int) $data['category_id']);
         }
 
-        // Verarbeite die Datei, falls eine neue hochgeladen wurde
+        // Process the file if a new one was uploaded
         $file = $data['file'] ?? null;
         $filetype = null;
 
@@ -207,8 +204,8 @@ final class rex_media_service
             static $jpgExtensions = ['jpg', 'jpeg'];
 
             if (
-                $extensionNew == $extensionOld
-                || in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
+                $extensionNew == $extensionOld ||
+                in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
             ) {
                 if (!rex_file::move($srcFile, $dstFile)) {
                     throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
@@ -230,15 +227,26 @@ final class rex_media_service
             }
         }
 
-        // Setze dynamische Felder aus $data, wie z.B. 'med_description'
+        // Set dynamic fields from $data, such as 'med_description'
         foreach ($data as $key => $value) {
             if (!in_array($key, ['file', 'category_id', 'title'])) {
-                if (!$saveObject->setValue($key, $value)) {
-                    // Fehlermeldung ins Redaxo-Log schreiben
+                // Check if the value is scalar or null
+                if (is_scalar($value) || is_null($value)) {
+                    if (!$saveObject->setValue($key, $value)) {
+                        // Write error message to Redaxo log
+                        $message = sprintf(
+                            "Field '%s' does not exist in the database table and was skipped during the update for media '%s'.",
+                            $key,
+                            $filename
+                        );
+                        rex_logger::logException(new Exception($message));
+                    }
+                } else {
+                    // Handle non-scalar values (optional)
                     $message = sprintf(
-                        "Field '%s' does not exist in the database table and was skipped during the update for media '%s'.",
+                        "Field '%s' has an unsupported value type during the update for media '%s'.",
                         $key,
-                        $filename,
+                        $filename
                     );
                     rex_logger::logException(new Exception($message));
                 }
