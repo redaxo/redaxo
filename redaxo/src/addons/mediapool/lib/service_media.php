@@ -40,8 +40,8 @@ final class rex_media_service
             $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($data['file']['name']) . '</code>';
             $allowedExtensions = rex_mediapool::getAllowedExtensions($allowedExtensions);
             $warning .= count($allowedExtensions) > 0
-                    ? '<br />' . rex_i18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $allowedExtensions), ', ') . '</code>'
-                    : '<br />' . rex_i18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool::getBlockedExtensions()), ', ') . '</code>';
+                ? '<br />' . rex_i18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $allowedExtensions), ', ') . '</code>'
+                : '<br />' . rex_i18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool::getBlockedExtensions()), ', ') . '</code>';
 
             throw new rex_api_exception($warning);
         }
@@ -144,11 +144,12 @@ final class rex_media_service
     }
 
     /**
-     * Holt ein upgeloadetes File und legt es in den Medienpool
-     * Dabei wird kontrolliert ob das File schon vorhanden ist und es
-     * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
+     * Aktualisiert eine Mediendatei im Medienpool, einschließlich dynamischer Metadaten wie 'med_description'.
      *
-     * @param array{category_id: int, title: string, file?: array{name: string, path?: string, tmp_name?: string, error?: int}} $data
+     * @param string $filename Der Name der zu aktualisierenden Datei.
+     * @param array $data Die zu aktualisierenden Daten (z.B. 'title', 'category_id', 'med_description').
+     * @return array Die aktualisierten Daten, zusammen mit einer Erfolgs- oder Fehlermeldung.
+     * @throws rex_api_exception Wenn die Datei nicht gefunden wird oder ein anderes Problem auftritt.
      */
     public static function updateMedia(string $filename, array $data): array
     {
@@ -163,10 +164,20 @@ final class rex_media_service
 
         $saveObject = rex_sql::factory();
         $saveObject->setTable(rex::getTablePrefix() . 'media');
-        $saveObject->setWhere(['filename' => $filename]);
-        $saveObject->setValue('title', $data['title']);
-        $saveObject->setValue('category_id', (int) $data['category_id']);
+        $saveObject->setWhere(['filename' => $filename]); // Stellt sicher, dass nur die spezifische Datei aktualisiert wird
 
+        // Hole alle existierenden Spalten der Tabelle ab, nachdem die Tabelle gesetzt wurde
+        $columns = $saveObject->getFieldnames();
+
+        // Setze die Standardfelder wie 'title' und 'category_id'
+        if (isset($data['title'])) {
+            $saveObject->setValue('title', $data['title']);
+        }
+        if (isset($data['category_id'])) {
+            $saveObject->setValue('category_id', (int) $data['category_id']);
+        }
+
+        // Verarbeite die Datei, falls eine neue hochgeladen wurde
         $file = $data['file'] ?? null;
         $filetype = null;
 
@@ -193,9 +204,11 @@ final class rex_media_service
             $extensionNew = mb_strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
             $extensionOld = mb_strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
+            static $jpgExtensions = ['jpg', 'jpeg'];
+
             if (
-                $extensionNew == $extensionOld
-                || in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
+                $extensionNew == $extensionOld ||
+                in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
             ) {
                 if (!rex_file::move($srcFile, $dstFile)) {
                     throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
@@ -214,6 +227,21 @@ final class rex_media_service
                 @chmod($dstFile, rex::getFilePerm());
             } else {
                 throw new rex_api_exception(rex_i18n::msg('pool_file_upload_errortype'));
+            }
+        }
+
+        // Setze dynamische Felder aus $data, wie z.B. 'med_description'
+        foreach ($data as $key => $value) {
+            if (!in_array($key, ['file', 'category_id', 'title'])) {
+                if (!$saveObject->setValue($key, $value)) {
+                    // Fehlermeldung ins Redaxo-Log schreiben
+                    $message = sprintf(
+                        "Field '%s' does not exist in the database table and was skipped during the update for media '%s'.",
+                        $key,
+                        $filename
+                    );
+                    rex_logger::logException(new Exception($message));
+                }
             }
         }
 
@@ -240,6 +268,8 @@ final class rex_media_service
 
         return $return;
     }
+
+
 
     public static function deleteMedia(string $filename): void
     {
