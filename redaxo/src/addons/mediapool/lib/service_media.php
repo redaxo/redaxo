@@ -204,8 +204,8 @@ final class rex_media_service
             static $jpgExtensions = ['jpg', 'jpeg'];
 
             if (
-                $extensionNew == $extensionOld ||
-                in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
+                $extensionNew == $extensionOld
+                || in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
             ) {
                 if (!rex_file::move($srcFile, $dstFile)) {
                     throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
@@ -231,13 +231,13 @@ final class rex_media_service
         foreach ($data as $key => $value) {
             if (!in_array($key, ['file', 'category_id', 'title'])) {
                 // Check if the value is scalar or null
-                if (is_scalar($value) || is_null($value)) {
+                if (is_scalar($value) || null === $value) {
                     if (!$saveObject->setValue($key, $value)) {
                         // Write error message to Redaxo log
                         $message = sprintf(
                             "Field '%s' does not exist in the database table and was skipped during the update for media '%s'.",
                             $key,
-                            $filename
+                            $filename,
                         );
                         rex_logger::logException(new Exception($message));
                     }
@@ -246,7 +246,7 @@ final class rex_media_service
                     $message = sprintf(
                         "Field '%s' has an unsupported value type during the update for media '%s'.",
                         $key,
-                        $filename
+                        $filename,
                     );
                     rex_logger::logException(new Exception($message));
                 }
