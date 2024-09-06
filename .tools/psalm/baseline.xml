@@ -3628,6 +3628,7 @@
       <code><![CDATA[$config['db'][1]['login']]]></code>
       <code><![CDATA[$config['db'][1]['name']]]></code>
       <code><![CDATA[$config['error_email']]]></code>
+      <code><![CDATA[$config['lang'] ?? null]]></code>
       <code><![CDATA[$config['server']]]></code>
       <code><![CDATA[$config['servername']]]></code>
       <code><![CDATA[$config['timezone']]]></code>
