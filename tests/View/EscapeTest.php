@@ -1,11 +1,14 @@
 <?php
 
+namespace Redaxo\Core\Tests\View;
+
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 use function Redaxo\Core\View\escape;
 
 /** @internal */
-final class rex_functions_test extends TestCase
+final class EscapeTest extends TestCase
 {
     public function testEscapeObject(): void
     {
