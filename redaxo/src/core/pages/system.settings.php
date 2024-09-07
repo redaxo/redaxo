@@ -122,7 +122,7 @@ if ($func && !$csrfToken->isValid()) {
 
             case 'phpmailer_errormail':
                 $value = (int) $value;
-                Config::set('phpmailer', 'errormail', $value);
+                Core::setConfig('phpmailer_errormail', $value);
                 break;
         }
     }
@@ -381,7 +381,7 @@ $select->addOption(I18n::msg('phpmailer_errormail_disabled'), 0);
 $select->addOption(I18n::msg('phpmailer_errormail_15min'), 900);
 $select->addOption(I18n::msg('phpmailer_errormail_30min'), 1800);
 $select->addOption(I18n::msg('phpmailer_errormail_60min'), 3600);
-$select->setSelected(Config::get('phpmailer', 'errormail', 1));
+$select->setSelected(Core::getConfig('phpmailer_errormail', 1));
 $content .= $field->get();
 
 $formElements = [];
