@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.24.0@462c80e31c34e58cc4f750c656be3927e80e550e">
+<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
       <code><![CDATA[$query['query']]]></code>
@@ -279,7 +279,6 @@
   <file src="redaxo/src/core/backend.php">
     <MixedArgument>
       <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$articleLink]]></code>
       <code><![CDATA[$clangId]]></code>
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$userAgent]]></code>
@@ -303,8 +302,6 @@
     </MixedArrayAccess>
     <MixedAssignment>
       <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$articleLink]]></code>
-      <code><![CDATA[$articleLink]]></code>
       <code><![CDATA[$clangId]]></code>
       <code><![CDATA[$historyInfo]]></code>
       <code><![CDATA[$metaSidebar]]></code>
@@ -318,7 +315,6 @@
       <code><![CDATA[$metaSidebar]]></code>
       <code><![CDATA[$version['history_date']]]></code>
       <code><![CDATA[$version['history_user']]]></code>
-      <code><![CDATA[rex_escape($articleLink, 'js')]]></code>
       <code><![CDATA[rex_escape($historyInfo)]]></code>
       <code><![CDATA[rex_escape($version['history_date'])]]></code>
     </MixedOperand>
@@ -332,16 +328,6 @@
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$_SERVER['PHP_SELF']]]></code>
     </PossiblyUndefinedArrayOffset>
-    <UndefinedFunction>
-      <code><![CDATA[rex_getUrl($articleId, $clangId, ['rex_version' => ArticleRevision::WORK])]]></code>
-      <code><![CDATA[rex_getUrl($articleId, $clangId, ['rex_version' => ArticleRevision::WORK])]]></code>
-      <code><![CDATA[rex_getUrl(Article::getCurrentId(), Language::getCurrentId())]]></code>
-      <code><![CDATA[rex_getUrl(Article::getCurrentId(), Language::getCurrentId(), [
-                    'rex_history_login' => $userLogin,
-                    'rex_history_session' => $userHistorySession,
-                    'rex_history_validtime' => $historyValidTime,
-                ])]]></code>
-    </UndefinedFunction>
   </file>
   <file src="redaxo/src/core/boot.php">
     <ArgumentTypeCoercion>
@@ -907,9 +893,6 @@
     <MixedMethodCall>
       <code><![CDATA[setEval]]></code>
     </MixedMethodCall>
-    <UndefinedFunction>
-      <code><![CDATA[rex_redirect(Article::getNotfoundArticleId(), Language::getStartId())]]></code>
-    </UndefinedFunction>
   </file>
   <file src="redaxo/src/core/functions/function_metainfo.php">
     <InvalidArgument>
@@ -1600,9 +1583,6 @@
       <code><![CDATA[getCategoryId]]></code>
       <code><![CDATA[getSubpages]]></code>
     </PossiblyNullReference>
-    <UndefinedFunction>
-      <code><![CDATA[rex_getUrl($articleId, $clang)]]></code>
-    </UndefinedFunction>
   </file>
   <file src="redaxo/src/core/pages/structure.modules.actions.php">
     <ArgumentTypeCoercion>
@@ -2182,6 +2162,7 @@
       <code><![CDATA[$config['db'][1]['login']]]></code>
       <code><![CDATA[$config['db'][1]['name']]]></code>
       <code><![CDATA[$config['error_email']]]></code>
+      <code><![CDATA[$config['lang'] ?? null]]></code>
       <code><![CDATA[$config['server']]]></code>
       <code><![CDATA[$config['servername']]]></code>
       <code><![CDATA[$config['timezone']]]></code>
@@ -2358,11 +2339,6 @@
     </PossiblyNullOperand>
   </file>
   <file src="src/Content/ArticleContentBase.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[function (array $matches) {
-                return rex_getUrl((int) $matches[1], (int) ($matches[2] ?? $this->clang));
-            }]]></code>
-    </MixedArgumentTypeCoercion>
     <PossiblyFalseArgument>
       <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
     </PossiblyFalseArgument>
@@ -2370,9 +2346,6 @@
       <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
       <code><![CDATA[$template->getKey()]]></code>
     </PossiblyNullArgument>
-    <UndefinedFunction>
-      <code><![CDATA[rex_getUrl((int) $matches[1], (int) ($matches[2] ?? $this->clang))]]></code>
-    </UndefinedFunction>
   </file>
   <file src="src/Content/ArticleContentEditor.php">
     <MixedArgument>
@@ -2463,12 +2436,10 @@
     </MixedArgumentTypeCoercion>
     <MixedInferredReturnType>
       <code><![CDATA[(T is int ? string|null : int|string|null)]]></code>
-      <code><![CDATA[string|null]]></code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->$index ?? null]]></code>
       <code><![CDATA[$this->$index ?? null]]></code>
-      <code><![CDATA[null === $link ? null : rex_getUrl($link)]]></code>
     </MixedReturnStatement>
     <PossiblyNullArgument>
       <code><![CDATA[$data['link']]]></code>
@@ -2484,9 +2455,6 @@
       <code><![CDATA[$data['medialist']]]></code>
       <code><![CDATA[$data['value']]]></code>
     </PossiblyUndefinedArrayOffset>
-    <UndefinedFunction>
-      <code><![CDATA[rex_getUrl($link)]]></code>
-    </UndefinedFunction>
   </file>
   <file src="src/Content/CategoryHandler.php">
     <ArgumentTypeCoercion>
@@ -2659,7 +2627,6 @@
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MixedInferredReturnType>
-      <code><![CDATA[string]]></code>
       <code><![CDATA[string|int|null]]></code>
     </MixedInferredReturnType>
     <MixedOperand>
@@ -2668,11 +2635,7 @@
     </MixedOperand>
     <MixedReturnStatement>
       <code><![CDATA[$this->$val]]></code>
-      <code><![CDATA[rex_getUrl($this->getId(), $this->getClangId(), $params)]]></code>
     </MixedReturnStatement>
-    <UndefinedFunction>
-      <code><![CDATA[rex_getUrl($this->getId(), $this->getClangId(), $params)]]></code>
-    </UndefinedFunction>
   </file>
   <file src="src/Content/StructurePermission.php">
     <MixedArgument>
@@ -4570,9 +4533,6 @@
     <PropertyTypeCoercion>
       <code><![CDATA[$this->callbacks]]></code>
     </PropertyTypeCoercion>
-    <UndefinedFunction>
-      <code><![CDATA[rex_getUrl(Article::getSiteStartArticleId())]]></code>
-    </UndefinedFunction>
   </file>
   <file src="src/View/View.php">
     <MixedArgument>
