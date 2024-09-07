@@ -20,6 +20,8 @@ use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $func = Request::request('func', 'string');
 $oid = Request::request('oid', 'int');
 
@@ -54,7 +56,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
     $success = $manager->tryExecute($oid);
     $msg = '';
     if ($manager->hasMessage()) {
-        $msg = '<br /><br />' . I18n::msg('cronjob_log_message') . ': <br />' . nl2br(rex_escape($manager->getMessage()));
+        $msg = '<br /><br />' . I18n::msg('cronjob_log_message') . ': <br />' . nl2br(escape($manager->getMessage()));
     }
     if ($success) {
         echo Message::success(I18n::msg('cronjob_execute_success', $name) . $msg);
@@ -171,7 +173,7 @@ if ('' == $func) {
     $field->setLabel(I18n::msg('cronjob_environment'));
     $field->setNotice(I18n::msg('cronjob_environment_notice', Path::bin('console') . ' cronjob:run'));
     $field->getValidator()->add('notEmpty', I18n::msg('cronjob_error_no_environment'));
-    $envFieldId = rex_escape($field->getAttribute('id'), 'js');
+    $envFieldId = escape($field->getAttribute('id'), 'js');
     $field->addOption(I18n::msg('cronjob_environment_frontend'), 'frontend');
     $field->addOption(I18n::msg('cronjob_environment_backend'), 'backend');
     $field->addOption(I18n::msg('cronjob_environment_script'), 'script');
@@ -197,7 +199,7 @@ if ('' == $func) {
     $field->setLabel(I18n::msg('cronjob_type'));
     $select = $field->getSelect();
     $select->setSize(1);
-    $typeFieldId = rex_escape($field->getAttribute('id'), 'js');
+    $typeFieldId = escape($field->getAttribute('id'), 'js');
     $types = CronjobExecutor::getTypes();
     $cronjobs = [];
     foreach ($types as $class) {
@@ -255,7 +257,7 @@ if ('' == $func) {
         $disabled = array_diff(['frontend', 'backend', 'script'], (array) $cronjob->getEnvironments());
         if (count($disabled) > 0) {
             $envJs .= '
-                if ($("#' . $typeFieldId . ' option:selected").val() == "' . rex_escape($group, 'js') . '")
+                if ($("#' . $typeFieldId . ' option:selected").val() == "' . escape($group, 'js') . '")
                     $("#' . $envFieldId . '-' . implode(', #' . $envFieldId . '-', $disabled) . '").prop("disabled","disabled").prop("checked",false);
 ';
         }
@@ -333,9 +335,9 @@ if ('' == $func) {
                     foreach ($visible[$name] as $value => $fieldIds) {
                         $visibleJs .= '
                         var first = 1;
-                        $("#' . rex_escape($field->getAttribute('id'), 'js') . '-' . rex_escape($value, 'js') . '").change(function(){
+                        $("#' . escape($field->getAttribute('id'), 'js') . '-' . escape($value, 'js') . '").change(function(){
                             var checkbox = $(this);
-                            $("#' . rex_escape(implode(',#', $fieldIds), 'js') . '").each(function(){
+                            $("#' . escape(implode(',#', $fieldIds), 'js') . '").each(function(){
                                 if ($(checkbox).is(":checked"))
                                     $(this).parent().parent().slideDown();
                                 else if(first == 1)

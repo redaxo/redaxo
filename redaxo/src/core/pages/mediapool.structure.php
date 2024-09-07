@@ -10,6 +10,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($argFields) && is_string($argFields));
 assert(isset($argUrl) && is_array($argUrl));
@@ -82,14 +84,14 @@ if ($PERMALL) {
                 $icat = MediaCategory::get((int) $iid);
 
                 $n = [];
-                $n['title'] = rex_escape($icat->getName());
+                $n['title'] = escape($icat->getName());
                 $n['href'] = $link . $iid;
                 $breadcrumb[] = $n;
             }
             next($paths);
         }
         $n = [];
-        $n['title'] = rex_escape($OOCat->getName());
+        $n['title'] = escape($OOCat->getName());
         $n['href'] = $link . $catId;
         $breadcrumb[] = $n;
         $catpath = $OOCat->getPath() . "$catId|";
@@ -143,7 +145,7 @@ if ($PERMALL) {
                 <tr class="mark">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-media-category"></i></td>
                     <td class="rex-table-id" data-title="' . I18n::msg('id') . '">' . $iid . '</td>
-                    <td data-title="' . I18n::msg('pool_kat_name') . '"><input class="form-control" type="text" name="cat_name" value="' . rex_escape($iname) . '" autofocus /></td>
+                    <td data-title="' . I18n::msg('pool_kat_name') . '"><input class="form-control" type="text" name="cat_name" value="' . escape($iname) . '" autofocus /></td>
                     <td class="rex-table-action" colspan="2">
                         <input type="hidden" name="edit_id" value="' . $editId . '" />
                         <button class="btn btn-save" type="submit" value="' . I18n::msg('pool_kat_update') . '"' . Core::getAccesskey(I18n::msg('pool_kat_update'), 'save') . '>' . I18n::msg('pool_kat_update') . '</button>
@@ -153,9 +155,9 @@ if ($PERMALL) {
         } else {
             $table .= '
                 <tr>
-                    <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $link . $iid . '" title="' . rex_escape($OOCat->getName()) . '"><i class="rex-icon rex-icon-media-category"></i></a></td>
+                    <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $link . $iid . '" title="' . escape($OOCat->getName()) . '"><i class="rex-icon rex-icon-media-category"></i></a></td>
                     <td class="rex-table-id" data-title="' . I18n::msg('id') . '">' . $iid . '</td>
-                    <td data-title="' . I18n::msg('pool_kat_name') . '"><a class="rex-link-expanded" href="' . $link . $iid . '">' . rex_escape($OOCat->getName()) . '</a></td>
+                    <td data-title="' . I18n::msg('pool_kat_name') . '"><a class="rex-link-expanded" href="' . $link . $iid . '">' . escape($OOCat->getName()) . '</a></td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $link . $catId . '&amp;media_method=update_file_cat&amp;edit_id=' . $iid . '"><i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('pool_kat_edit') . '</a></td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $link . $catId . '&amp;media_method=delete_file_cat&amp;edit_id=' . $iid . '&amp;' . http_build_query($csrf->getUrlParams()) . '" data-confirm="' . I18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('pool_kat_delete') . '</a></td>
                 </tr>';

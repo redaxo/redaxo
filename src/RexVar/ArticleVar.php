@@ -7,6 +7,7 @@ use Redaxo\Core\Content\ArticleContent;
 use Redaxo\Core\Language\Language;
 
 use function in_array;
+use function Redaxo\Core\View\escape;
 
 /**
  * REX_ARTICLE[1]
@@ -64,7 +65,7 @@ class ArticleVar extends RexVar
             $clang = Language::getCurrentId();
         }
         $article = Article::get($id, $clang);
-        return rex_escape($article->getValue($field));
+        return escape($article->getValue($field));
     }
 
     /**

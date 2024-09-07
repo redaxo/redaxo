@@ -18,6 +18,8 @@ use Redaxo\Core\Translation\I18n;
 use rex_exception;
 use rex_http_exception;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * This is a base class for all functions which a component may provide for public use.
  * Those function will be called automatically by the core.
@@ -186,7 +188,7 @@ abstract class ApiFunction
             throw new BadMethodCallException(__FUNCTION__ . ' must be called on subclasses of "' . self::class . '".');
         }
 
-        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape(self::getName($class)))
+        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, escape(self::getName($class)))
             . CsrfToken::factory($class)->getHiddenField();
     }
 

@@ -10,6 +10,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 assert(isset($markdown) && is_callable($markdown));
 
 $package = Addon::get('install');
@@ -49,13 +51,13 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $n = [];
         $n['label'] = '<label for="rex-js-install-packages-upload-version">' . $package->i18n('version') . '</label>';
-        $n['field'] = '<p class="form-control-static" id="rex-js-install-packages-upload-version">' . rex_escape($new ? $newVersion : $file['version']) . '</p>
-                           <input type="hidden" name="upload[oldversion]" value="' . rex_escape($file['version']) . '" />';
+        $n['field'] = '<p class="form-control-static" id="rex-js-install-packages-upload-version">' . escape($new ? $newVersion : $file['version']) . '</p>
+                           <input type="hidden" name="upload[oldversion]" value="' . escape($file['version']) . '" />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-install-packages-upload-description">' . $package->i18n('description') . '</label>';
-        $n['field'] = '<textarea class="form-control" id="rex-install-packages-upload-description" name="upload[description]" rows="15">' . rex_escape($file['description']) . '</textarea>';
+        $n['field'] = '<textarea class="form-control" id="rex-install-packages-upload-description" name="upload[description]" rows="15">' . escape($file['description']) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new Fragment();
@@ -122,7 +124,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $fragment = new Fragment();
         $fragment->setVar('class', 'edit', false);
-        $fragment->setVar('title', rex_escape($addonkey) . ' <small>' . $package->i18n($new ? 'file_add' : 'file_edit') . '</small>', false);
+        $fragment->setVar('title', escape($addonkey) . ' <small>' . $package->i18n($new ? 'file_add' : 'file_edit') . '</small>', false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('buttons', $buttons, false);
         $content = $fragment->parse('core/page/section.php');
@@ -141,12 +143,12 @@ if ($addonkey && isset($addons[$addonkey])) {
             $("#rex-js-install-packages-upload-upload-file").change(function(){
                 if($(this).is(":checked"))
                 {
-                    ' . ($newVersion != $file['version'] ? '$("#rex-js-install-packages-upload-version").html(\'<del class="rex-package-old-version">' . $file['version'] . '</del> <ins class="rex-package-new-version">' . rex_escape($newVersion, 'js') . '</ins>\');' : '') . '
+                    ' . ($newVersion != $file['version'] ? '$("#rex-js-install-packages-upload-version").html(\'<del class="rex-package-old-version">' . $file['version'] . '</del> <ins class="rex-package-new-version">' . escape($newVersion, 'js') . '</ins>\');' : '') . '
                     $("#rex-js-install-packages-upload-replace-assets, #rex-js-install-packages-upload-ignore-tests").removeAttr("disabled");
                 }
                 else
                 {
-                    $("#rex-js-install-packages-upload-version").html("' . rex_escape($file['version'], 'js') . '");
+                    $("#rex-js-install-packages-upload-version").html("' . escape($file['version'], 'js') . '");
                     $("#rex-js-install-packages-upload-replace-assets, #rex-js-install-packages-upload-ignore-tests").attr("disabled", "disabled");
                 }
             });
@@ -166,26 +168,26 @@ if ($addonkey && isset($addons[$addonkey])) {
             <tbody>
             <tr>
                 <th class="rex-table-width-5">' . $package->i18n('name') . '</th>
-                <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
+                <td data-title="' . $package->i18n('name') . '">' . escape($addon['name']) . '</td>
             </tr>
             <tr>
                 <th>' . $package->i18n('author') . '</th>
-                <td data-title="' . $package->i18n('author') . '">' . rex_escape($addon['author']) . '</td>
+                <td data-title="' . $package->i18n('author') . '">' . escape($addon['author']) . '</td>
             </tr>
             <tr>
                 <th>' . $package->i18n('shortdescription') . '</th>
-                <td data-title="' . $package->i18n('shortdescription') . '">' . nl2br(rex_escape($addon['shortdescription'])) . '</td>
+                <td data-title="' . $package->i18n('shortdescription') . '">' . nl2br(escape($addon['shortdescription'])) . '</td>
             </tr>
             <tr>
                 <th>' . $package->i18n('description') . '</th>
-                <td data-title="' . $package->i18n('description') . '">' . nl2br(rex_escape($addon['description'])) . '</td>
+                <td data-title="' . $package->i18n('description') . '">' . nl2br(escape($addon['description'])) . '</td>
             </tr>';
 
         if ($addon['website']) {
             $panel .= '
                 <tr>
                     <th>' . $package->i18n('website') . '</th>
-                    <td data-title="' . $package->i18n('website') . '"><a class="rex-link-expanded" href="' . rex_escape($addon['website']) . '">' . rex_escape($addon['website']) . '</a></td>
+                    <td data-title="' . $package->i18n('website') . '"><a class="rex-link-expanded" href="' . escape($addon['website']) . '">' . escape($addon['website']) . '</a></td>
                 </tr>';
         }
 
@@ -194,7 +196,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             </table>';
 
         $fragment = new Fragment();
-        $fragment->setVar('title', rex_escape($addonkey) . ' <small>' . $package->i18n('information') . '</small>', false);
+        $fragment->setVar('title', escape($addonkey) . ' <small>' . $package->i18n('information') . '</small>', false);
         $fragment->setVar('content', $panel, false);
         $content = $fragment->parse('core/page/section.php');
 
@@ -219,8 +221,8 @@ if ($addonkey && isset($addons[$addonkey])) {
             $panel .= '
             <tr data-pjax-scroll-to="0">
                 <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                <td data-title="' . $package->i18n('version') . '">' . rex_escape($file['version']) . '</td>
-                <td data-title="REDAXO">' . rex_escape(implode(', ', $file['redaxo_versions'])) . '</td>
+                <td data-title="' . $package->i18n('version') . '">' . escape($file['version']) . '</td>
+                <td data-title="REDAXO">' . escape(implode(', ', $file['redaxo_versions'])) . '</td>
                 <td data-title="' . $package->i18n('description') . '">' . $markdown($file['description']) . '</td>
                 <td class="rex-table-action"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-edit"></i> ' . $package->i18n('file_edit') . '</a></td>
                 <td class="rex-table-action"><span class="rex-text-' . $status . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . $package->i18n($status) . '</span></td>
@@ -257,8 +259,8 @@ if ($addonkey && isset($addons[$addonkey])) {
         $panel .= '
             <tr data-pjax-scroll-to="0">
                 <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                <td data-title="' . $package->i18n('key') . '">' . rex_escape($key) . '</td>
-                <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
+                <td data-title="' . $package->i18n('key') . '">' . escape($key) . '</td>
+                <td data-title="' . $package->i18n('name') . '">' . escape($addon['name']) . '</td>
                 <td class="rex-table-action"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . I18n::msg('view') . '</a></td>
                 <td class="rex-table-action"><span class="rex-text-' . $status . '">' . $package->i18n($status) . '</span></td>
             </tr>';

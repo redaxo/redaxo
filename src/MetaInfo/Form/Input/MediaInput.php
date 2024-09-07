@@ -5,6 +5,8 @@ namespace Redaxo\Core\MetaInfo\Form\Input;
 use Redaxo\Core\RexVar\MediaListVar;
 use Redaxo\Core\RexVar\MediaVar;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * @internal
  *
@@ -67,7 +69,7 @@ class MediaInput extends AbstractInput
     public function getHtml()
     {
         $buttonId = $this->buttonId;
-        $value = rex_escape($this->value);
+        $value = escape($this->value);
         $name = $this->attributes['name'];
         $args = $this->args;
 

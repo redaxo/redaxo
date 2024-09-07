@@ -116,36 +116,6 @@ parameters:
 			path: ../../redaxo/src/core/functions/function_metainfo_extension_cleanup.php
 
 		-
-			message: "#^Impure property assignment in pure function rex_escape\\(\\)\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_escape.php
-
-		-
-			message: "#^Impure static variable in pure function rex_escape\\(\\)\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/functions/function_rex_escape.php
-
-		-
-			message: "#^Possibly impure call to function preg_match\\(\\) in pure function rex_escape\\(\\)\\.$#"
-			count: 3
-			path: ../../redaxo/src/core/functions/function_rex_escape.php
-
-		-
-			message: "#^Possibly impure call to function preg_replace\\(\\) in pure function rex_escape\\(\\)\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_escape.php
-
-		-
-			message: "#^Possibly impure call to function preg_replace_callback\\(\\) in pure function rex_escape\\(\\)\\.$#"
-			count: 3
-			path: ../../redaxo/src/core/functions/function_rex_escape.php
-
-		-
-			message: "#^Possibly impure call to method stdClass\\:\\:__toString\\(\\) in pure function rex_escape\\(\\)\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_escape.php
-
-		-
 			message: "#^Function rex_mediapool_Mediaform\\(\\) has parameter \\$buttonTitle with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/functions/function_rex_mediapool.php
@@ -186,7 +156,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/setup/setup.php
 
 		-
-			message: "#^Unable to resolve the template type T in call to function rex_escape$#"
+			message: "#^Unable to resolve the template type T in call to function Redaxo\\\\Core\\\\View\\\\escape$#"
 			count: 1
 			path: ../../redaxo/src/core/pages/system.log.external.php
 
@@ -1624,6 +1594,36 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\View\\\\View\\:\\:title\\(\\) has parameter \\$subtitle with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/View/View.php
+
+		-
+			message: "#^Impure property assignment in pure function Redaxo\\\\Core\\\\View\\\\escape\\(\\)\\.$#"
+			count: 1
+			path: ../../src/View/escape.php
+
+		-
+			message: "#^Impure static variable in pure function Redaxo\\\\Core\\\\View\\\\escape\\(\\)\\.$#"
+			count: 2
+			path: ../../src/View/escape.php
+
+		-
+			message: "#^Possibly impure call to function preg_match\\(\\) in pure function Redaxo\\\\Core\\\\View\\\\escape\\(\\)\\.$#"
+			count: 3
+			path: ../../src/View/escape.php
+
+		-
+			message: "#^Possibly impure call to function preg_replace\\(\\) in pure function Redaxo\\\\Core\\\\View\\\\escape\\(\\)\\.$#"
+			count: 1
+			path: ../../src/View/escape.php
+
+		-
+			message: "#^Possibly impure call to function preg_replace_callback\\(\\) in pure function Redaxo\\\\Core\\\\View\\\\escape\\(\\)\\.$#"
+			count: 3
+			path: ../../src/View/escape.php
+
+		-
+			message: "#^Possibly impure call to method stdClass\\:\\:__toString\\(\\) in pure function Redaxo\\\\Core\\\\View\\\\escape\\(\\)\\.$#"
+			count: 1
+			path: ../../src/View/escape.php
 
 		-
 			message: "#^Unable to resolve the template type TInstance in call to method static method Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstanceListPool\\:\\:getInstanceList\\(\\)$#"

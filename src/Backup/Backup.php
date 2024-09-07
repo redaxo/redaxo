@@ -20,6 +20,7 @@ use rex_sql_exception;
 
 use function count;
 use function is_int;
+use function Redaxo\Core\View\escape;
 use function strlen;
 
 class Backup
@@ -174,7 +175,7 @@ class Backup
             try {
                 $sql->setQuery($line['query']);
             } catch (rex_sql_exception $e) {
-                $error[] = nl2br(trim(rex_escape($e->getMessage())));
+                $error[] = nl2br(trim(escape($e->getMessage())));
             }
         }
 

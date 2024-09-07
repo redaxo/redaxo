@@ -20,6 +20,8 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
 assert(isset($argFields) && is_string($argFields));
@@ -181,7 +183,7 @@ if ($isImage) {
     } else {
         $sidebar = '
                 <a href="' . $imgMax . '">
-                    <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . rex_escape($ftitle) . '" title="' . rex_escape($ftitle) . '" />
+                    <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . escape($ftitle) . '" title="' . escape($ftitle) . '" />
                 </a>';
     }
 }
@@ -196,7 +198,7 @@ if ('' != $success) {
 }
 
 if ('' != $openerInputField) {
-    $openerLink = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encodedFname . '\', \'' . rex_escape($gf->getValue('title'), 'js') . '\'); return false;">' . I18n::msg('pool_file_get') . '</a>';
+    $openerLink = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encodedFname . '\', \'' . escape($gf->getValue('title'), 'js') . '\'); return false;">' . I18n::msg('pool_file_get') . '</a>';
     if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
         $openerLink = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $encodedFname . '\'); return false;">' . I18n::msg('pool_file_get') . '</a>';
     }
@@ -234,7 +236,7 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label for="rex-mediapool-title">' . I18n::msg('pool_file_title') . '</label>';
-    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle) . '" />';
+    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . escape($ftitle) . '" />';
     $formElements[] = $e;
 
     $e = [];
@@ -254,17 +256,17 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . I18n::msg('pool_filename') . '</label>';
-    $e['field'] = '<p class="form-control-static rex-word-break"><a href="' . Url::media($encodedFname) . '">' . rex_escape($fname) . '</a> <span class="rex-filesize">' . $ffileSize . '</span></p>';
+    $e['field'] = '<p class="form-control-static rex-word-break"><a href="' . Url::media($encodedFname) . '">' . escape($fname) . '</a> <span class="rex-filesize">' . $ffileSize . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . I18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . Formatter::intlDateTime($gf->getDateTimeValue('updatedate')) . ' <span class="rex-author">' . rex_escape($gf->getValue('updateuser')) . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . Formatter::intlDateTime($gf->getDateTimeValue('updatedate')) . ' <span class="rex-author">' . escape($gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . I18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . Formatter::intlDateTime($gf->getDateTimeValue('createdate')) . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser')) . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . Formatter::intlDateTime($gf->getDateTimeValue('createdate')) . ' <span class="rex-author">' . escape($gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
@@ -329,27 +331,27 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . I18n::msg('pool_file_title') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_escape($ftitle) . '</p>';
+    $e['field'] = '<p class="form-control-static">' . escape($ftitle) . '</p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . I18n::msg('pool_file_category') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_escape($catname) . '</p>';
+    $e['field'] = '<p class="form-control-static">' . escape($catname) . '</p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . I18n::msg('pool_filename') . '</label>';
-    $e['field'] = '<p class="form-control-static"><a href="' . Url::media($encodedFname) . '">' . rex_escape($fname) . '</a>  <span class="rex-filesize">' . $ffileSize . '</span></p>';
+    $e['field'] = '<p class="form-control-static"><a href="' . Url::media($encodedFname) . '">' . escape($fname) . '</a>  <span class="rex-filesize">' . $ffileSize . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . I18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . Formatter::intlDateTime($gf->getDateTimeValue('updatedate')) . ' <span class="rex-author">' . rex_escape((string) $gf->getValue('updateuser')) . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . Formatter::intlDateTime($gf->getDateTimeValue('updatedate')) . ' <span class="rex-author">' . escape((string) $gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . I18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . Formatter::intlDateTime($gf->getDateTimeValue('createdate')) . ' <span class="rex-author">' . rex_escape((string) $gf->getValue('createuser')) . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . Formatter::intlDateTime($gf->getDateTimeValue('createdate')) . ' <span class="rex-author">' . escape((string) $gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
     $fragment = new Fragment();

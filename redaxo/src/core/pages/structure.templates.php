@@ -19,6 +19,8 @@ use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
+use function Redaxo\Core\View\escape;
+
 echo View::title(I18n::msg('title_templates'));
 
 $OUT = true;
@@ -279,7 +281,7 @@ if ('add' == $function || 'edit' == $function) {
                 $formElements = [];
                 $n = [];
                 $n['label'] = '<label for="rex-id-ctype' . $i . '">' . I18n::msg('name') . '</label>';
-                $n['field'] = '<input class="form-control" id="rex-id-ctype' . $i . '" type="text" name="ctype[' . $i . ']" value="' . rex_escape($name) . '" />';
+                $n['field'] = '<input class="form-control" id="rex-id-ctype' . $i . '" type="text" name="ctype[' . $i . ']" value="' . escape($name) . '" />';
                 $formElements[] = $n;
 
                 $fragment = new Fragment();
@@ -370,13 +372,13 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-id-templatename">' . I18n::msg('template_name') . '</label>';
-        $n['field'] = '<input class="form-control" id="rex-id-templatename" type="text" name="templatename" value="' . rex_escape($templatename) . '" maxlength="255" />';
+        $n['field'] = '<input class="form-control" id="rex-id-templatename" type="text" name="templatename" value="' . escape($templatename) . '" maxlength="255" />';
         $n['note'] = I18n::msg('translatable');
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-id-templatekey">' . I18n::msg('template_key') . '</label>';
-        $n['field'] = '<input class="form-control" id="rex-id-templatekey" type="text" name="templatekey" value="' . rex_escape($templatekey) . '" maxlength="191" autocorrect="off" autocapitalize="off" spellcheck="false" />';
+        $n['field'] = '<input class="form-control" id="rex-id-templatekey" type="text" name="templatekey" value="' . escape($templatekey) . '" maxlength="191" autocorrect="off" autocapitalize="off" spellcheck="false" />';
         $n['note'] = I18n::msg('template_key_notice');
         $formElements[] = $n;
 
@@ -399,7 +401,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-id-content">' . I18n::msg('header_template') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="rex-id-content" name="content" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($template) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="rex-id-content" name="content" autocapitalize="off" autocorrect="off" spellcheck="false">' . escape($template) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new Fragment();
@@ -512,7 +514,7 @@ if ('add' == $function || 'edit' == $function) {
                     var id = $(e.target).attr("href").substr(1);
                     $("#rex-js-form-template-tab").val(id);
                 });
-                $("#rex-js-form-template-tabs a[href=\"#' . rex_escape($activeTab, 'js') . '\"]").tab("show");
+                $("#rex-js-form-template-tabs a[href=\"#' . escape($activeTab, 'js') . '\"]").tab("show");
 
                 $("#rex-js-active").click(function() {
                     $("#rex-js-form-template-tabs a[href=\"#rex-form-template-ctype\"]").toggle("slow");

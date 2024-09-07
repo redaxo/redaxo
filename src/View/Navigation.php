@@ -140,7 +140,7 @@ class Navigation
         $lis = [];
 
         if ($startPageLabel) {
-            $link = '<a href="' . Url::article(Article::getSiteStartArticleId()) . '">' . rex_escape($startPageLabel) . '</a>';
+            $link = '<a href="' . Url::article(Article::getSiteStartArticleId()) . '">' . escape($startPageLabel) . '</a>';
             $lis[] = $this->getBreadcrumbListItemTag($link, [
                 'class' => 'rex-lvl' . $i,
             ], $i);
@@ -163,7 +163,7 @@ class Navigation
             }
 
             $cat = Category::get($pathItem);
-            $link = $this->getBreadcrumbLinkTag($cat, rex_escape($cat->getName()), [
+            $link = $this->getBreadcrumbLinkTag($cat, escape($cat->getName()), [
                 'href' => $cat->getUrl(),
             ], $i);
             $lis[] = $this->getBreadcrumbListItemTag($link, [
@@ -175,13 +175,13 @@ class Navigation
         if ($includeCurrent) {
             if ($art = Article::get($this->currentArticleId)) {
                 if (!$art->isStartArticle()) {
-                    $lis[] = $this->getBreadcrumbListItemTag(rex_escape($art->getName()), [
+                    $lis[] = $this->getBreadcrumbListItemTag(escape($art->getName()), [
                         'class' => 'rex-lvl' . $i,
                     ], $i);
                 }
             } else {
                 $cat = Category::get($this->currentArticleId);
-                $lis[] = $this->getBreadcrumbListItemTag(rex_escape($cat->getName()), [
+                $lis[] = $this->getBreadcrumbListItemTag(escape($cat->getName()), [
                     'class' => 'rex-lvl' . $i,
                 ], $i);
             }
@@ -391,7 +391,7 @@ class Navigation
             $li['class'] = [];
             $a['class'] = [];
             $a['href'] = [$nav->getUrl()];
-            $aContent = rex_escape($nav->getName());
+            $aContent = escape($nav->getName());
             if ($this->checkFilter($nav, $depth) && $this->checkCallbacks($nav, $depth, $li, $a, $aContent)) {
                 $li['class'][] = 'rex-article-' . $nav->getId();
                 // classes abhaengig vom pfad

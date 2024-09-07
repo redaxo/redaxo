@@ -10,6 +10,7 @@ use rex_exception;
 use function count;
 use function in_array;
 use function is_array;
+use function Redaxo\Core\View\escape;
 
 class Select
 {
@@ -185,7 +186,7 @@ class Select
                 $this->setSelected($sectvalue);
             }
         } else {
-            $this->optionSelected[] = (string) rex_escape($selected);
+            $this->optionSelected[] = (string) escape($selected);
         }
     }
 
@@ -346,7 +347,7 @@ class Select
 
         $attr = '';
         foreach ($this->attributes as $name => $value) {
-            $attr .= ' ' . rex_escape($name, 'html_attr') . '="' . rex_escape($value) . '"';
+            $attr .= ' ' . escape($name, 'html_attr') . '="' . escape($value) . '"';
         }
 
         $ausgabe = "\n";
@@ -358,7 +359,7 @@ class Select
         foreach ($this->options as $optgroup => $options) {
             $this->currentOptgroup = $optgroup;
             if ($optgroupLabel = $this->optgroups[$optgroup] ?? null) {
-                $ausgabe .= '  <optgroup label="' . rex_escape($optgroupLabel) . '">' . "\n";
+                $ausgabe .= '  <optgroup label="' . escape($optgroupLabel) . '">' . "\n";
             }
             if (is_array($options)) {
                 $ausgabe .= $this->outGroup(0);
@@ -428,10 +429,10 @@ class Select
      */
     protected function outOption($name, $value, $level = 0, array $attributes = [])
     {
-        $name = rex_escape($name);
+        $name = escape($name);
         // for BC reasons, we always expect value to be a string.
         // this also makes sure that the strict in_array() check below works.
-        $value = (string) rex_escape($value);
+        $value = (string) escape($value);
 
         $bsps = '';
         if ($level > 0) {
@@ -444,7 +445,7 @@ class Select
 
         $attr = '';
         foreach ($attributes as $n => $v) {
-            $attr .= ' ' . rex_escape($n, 'html_attr') . '="' . rex_escape($v) . '"';
+            $attr .= ' ' . escape($n, 'html_attr') . '="' . escape($v) . '"';
         }
 
         return '        <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";

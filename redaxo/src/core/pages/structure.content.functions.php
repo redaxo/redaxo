@@ -17,6 +17,8 @@ use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 assert(isset($context) && $context instanceof Context);
 assert(isset($ctype) && is_int($ctype));
 assert(isset($article) && $article instanceof Sql);
@@ -32,7 +34,7 @@ $content = '
             ';
 
 $onclickApiFields = static function ($hiddenFields) {
-    return 'onclick="$(this.form).append(\'' . rex_escape($hiddenFields) . '\')"';
+    return 'onclick="$(this.form).append(\'' . escape($hiddenFields) . '\')"';
 };
 
 $isStartpage = 1 == $article->getValue('startarticle');

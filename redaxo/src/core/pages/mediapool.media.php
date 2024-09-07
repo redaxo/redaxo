@@ -12,6 +12,8 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($argFields) && is_string($argFields));
 assert(isset($fileId) && is_int($fileId));
@@ -44,7 +46,7 @@ echo Extension::registerPoint(new ExtensionPoint('PAGE_MEDIAPOOL_HEADER', '', [
 
 $formElements = [];
 $n = [];
-$n['field'] = '<input class="form-control" style="border-left: 0;" type="text" name="media_name" id="be_search-media-name" value="' . rex_escape($mediaName) . '" />';
+$n['field'] = '<input class="form-control" style="border-left: 0;" type="text" name="media_name" id="be_search-media-name" value="' . escape($mediaName) . '" />';
 $n['right'] = '<button class="btn btn-search" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
 $formElements[] = $n;
 $fragment = new Fragment();

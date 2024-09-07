@@ -21,6 +21,8 @@ use Redaxo\Core\Util\Pager;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
 assert(isset($argFields) && is_string($argFields));
@@ -269,8 +271,8 @@ $items = MediaHandler::getList($filter, [], $pager);
 $panel .= '<tbody>';
 
 foreach ($items as $media) {
-    $alt = rex_escape($media->getTitle());
-    $desc = '<p>' . rex_escape(strip_tags((string) $media->getValue('med_description'))) . '</p>';
+    $alt = escape($media->getTitle());
+    $desc = '<p>' . escape(strip_tags((string) $media->getValue('med_description'))) . '</p>';
 
     if (!is_file(Path::media($media->getFileName()))) {
         $thumbnail = '<i class="rex-mime rex-mime-error" title="' . I18n::msg('pool_file_does_not_exist') . '"></i><span class="sr-only">' . $media->getFileName() . '</span>';
@@ -304,7 +306,7 @@ foreach ($items as $media) {
 
     $openerLink = '';
     if ('' != $openerInputField) {
-        $openerLink = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $media->getFileName() . '\', \'' . rex_escape($media->getTitle(), 'js') . '\'); return false;">' . I18n::msg('pool_file_get') . '</a>';
+        $openerLink = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $media->getFileName() . '\', \'' . escape($media->getTitle(), 'js') . '\'); return false;">' . I18n::msg('pool_file_get') . '</a>';
         if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
             $openerLink = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $media->getFileName() . '\', this);return false;">' . I18n::msg('pool_file_get') . '</a>';
         }
@@ -321,11 +323,11 @@ foreach ($items as $media) {
                     ' . $addTd . '
                     <td class="rex-word-break" data-title="' . I18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '">' . $thumbnail . '</a></td>
                     <td class="rex-word-break" data-title="' . I18n::msg('pool_file_info') . '">
-                        <h3><a class="rex-link-expanded" href="' . $ilink . '">' . rex_escape($media->getTitle()) . '</a></h3>
+                        <h3><a class="rex-link-expanded" href="' . $ilink . '">' . escape($media->getTitle()) . '</a></h3>
                         ' . $desc . '
-                        <p>' . rex_escape($media->getFileName()) . ' <span class="rex-filesize">' . Formatter::bytes($media->getSize()) . '</span></p>
+                        <p>' . escape($media->getFileName()) . ' <span class="rex-filesize">' . Formatter::bytes($media->getSize()) . '</span></p>
                     </td>
-                    <td data-title="' . I18n::msg('pool_last_update') . '"><p class="rex-date">' . Formatter::intlDateTime($media->getUpdateDate()) . '</p><p class="rex-author">' . rex_escape($media->getUpdateUser()) . '</p></td>
+                    <td data-title="' . I18n::msg('pool_last_update') . '"><p class="rex-date">' . Formatter::intlDateTime($media->getUpdateDate()) . '</p><p class="rex-author">' . escape($media->getUpdateUser()) . '</p></td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $ilink . '">' . I18n::msg('edit') . '</a></td>
                     <td class="rex-table-action">';
 

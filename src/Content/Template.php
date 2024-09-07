@@ -12,6 +12,7 @@ use Redaxo\Core\Translation\I18n;
 use function assert;
 use function in_array;
 use function is_array;
+use function Redaxo\Core\View\escape;
 
 class Template
 {
@@ -227,7 +228,7 @@ class Template
                 $label .= ' [' . $clang->getCode() . ']';
             }
 
-            $templateInUseMessage .= '<li><a href="' . Url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . rex_escape($label) . '</a></li>';
+            $templateInUseMessage .= '<li><a href="' . Url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . escape($label) . '</a></li>';
             $check->next();
         }
 

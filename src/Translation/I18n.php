@@ -19,6 +19,7 @@ use function in_array;
 use function is_array;
 use function is_scalar;
 use function is_string;
+use function Redaxo\Core\View\escape;
 use function strlen;
 
 use const DIRECTORY_SEPARATOR;
@@ -289,7 +290,7 @@ class I18n
         }
 
         if ($escape) {
-            $msg = rex_escape($msg, 'html_simplified');
+            $msg = escape($msg, 'html_simplified');
         }
 
         return $msg;
@@ -386,7 +387,7 @@ class I18n
             return call_user_func($i18nFunction, substr($text, $transKeyLen));
         }
         if ($escape) {
-            return rex_escape($text);
+            return escape($text);
         }
         return $text;
     }

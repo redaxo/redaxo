@@ -15,6 +15,7 @@ use Redaxo\Core\Language\Language;
 
 use function in_array;
 use function is_string;
+use function Redaxo\Core\View\escape;
 
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten.
@@ -433,7 +434,7 @@ abstract class StructureElement
     public function toLink(array $params = [], array $attributes = [], $sorroundTag = null, array $sorroundAttributes = [])
     {
         $name = $this->getName();
-        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . rex_escape($name) . '">' . rex_escape($name) . '</a>';
+        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . escape($name) . '">' . escape($name) . '</a>';
 
         if (null !== $sorroundTag && is_string($sorroundTag)) {
             $link = '<' . $sorroundTag . $this->_toAttributeString($sorroundAttributes) . '>' . $link . '</' . $sorroundTag . '>';

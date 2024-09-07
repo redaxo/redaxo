@@ -8,6 +8,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 
 use function in_array;
+use function Redaxo\Core\View\escape;
 
 /**
  * REX_MEDIA[1].
@@ -85,7 +86,7 @@ class MediaVar extends RexVar
         $viewFunc = '';
         if (Core::requireUser()->getComplexPerm('media')->hasMediaPerm()) {
             $disabled = '';
-            $quotedId = "'" . rex_escape($id, 'js') . "'";
+            $quotedId = "'" . escape($id, 'js') . "'";
             $openFunc = 'openREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
             $addFunc = 'addREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
             $deleteFunc = 'deleteREXMedia(' . $quotedId . ');';

@@ -272,8 +272,8 @@
   </file>
   <file src="redaxo/src/addons/install/pages/settings.php">
     <NullOperand>
-      <code><![CDATA[rex_escape($config['api_key'])]]></code>
-      <code><![CDATA[rex_escape($config['api_login'])]]></code>
+      <code><![CDATA[escape($config['api_key'])]]></code>
+      <code><![CDATA[escape($config['api_login'])]]></code>
     </NullOperand>
   </file>
   <file src="redaxo/src/core/backend.php">
@@ -315,8 +315,8 @@
       <code><![CDATA[$metaSidebar]]></code>
       <code><![CDATA[$version['history_date']]]></code>
       <code><![CDATA[$version['history_user']]]></code>
-      <code><![CDATA[rex_escape($historyInfo)]]></code>
-      <code><![CDATA[rex_escape($version['history_date'])]]></code>
+      <code><![CDATA[escape($historyInfo)]]></code>
+      <code><![CDATA[escape($version['history_date'])]]></code>
     </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$_SERVER['PHP_SELF']]]></code>
@@ -391,7 +391,7 @@
       <code><![CDATA[$button['hidden_label']]]></code>
       <code><![CDATA[$button['icon']]]></code>
       <code><![CDATA[$button['label']]]></code>
-      <code><![CDATA[rex_escape($button['url'])]]></code>
+      <code><![CDATA[escape($button['url'])]]></code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/buttons/button_group.php">
@@ -408,7 +408,7 @@
       <code><![CDATA[$this->button_prefix]]></code>
       <code><![CDATA[$this->footer]]></code>
       <code><![CDATA[$this->header]]></code>
-      <code><![CDATA[(isset($item['href']) && '' != $item['href']) ? '<a href="' . rex_escape($item['href']) . '">' . $item['title'] . '</a>' : $item['title']]]></code>
+      <code><![CDATA[(isset($item['href']) && '' != $item['href']) ? '<a href="' . escape($item['href']) . '">' . $item['title'] . '</a>' : $item['title']]]></code>
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$item['attributes']]]></code>
@@ -421,7 +421,7 @@
       <code><![CDATA[$item['title']]]></code>
       <code><![CDATA[$this->button_label]]></code>
       <code><![CDATA[$this->class]]></code>
-      <code><![CDATA[rex_escape($item['href'])]]></code>
+      <code><![CDATA[escape($item['href'])]]></code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/fe_ooops.php">
@@ -685,7 +685,7 @@
       <code><![CDATA[$item['title']]]></code>
       <code><![CDATA[$this->id]]></code>
       <code><![CDATA[$this->title]]></code>
-      <code><![CDATA[rex_escape($item['href'])]]></code>
+      <code><![CDATA[escape($item['href'])]]></code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/navigations/content.php">
@@ -745,7 +745,7 @@
       <code><![CDATA[$item['itemAttr']]]></code>
       <code><![CDATA[$item['linkAttr']]]></code>
       <code><![CDATA[$this->headline['title']]]></code>
-      <code><![CDATA[rex_escape($item['href'])]]></code>
+      <code><![CDATA[escape($item['href'])]]></code>
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$item['href']]]></code>
@@ -780,7 +780,7 @@
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$item['title']]]></code>
-      <code><![CDATA[rex_escape($item['href'])]]></code>
+      <code><![CDATA[escape($item['href'])]]></code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/page/docs.php">
@@ -925,42 +925,6 @@
       <code><![CDATA[$params['content']]]></code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/functions/function_rex_escape.php">
-    <InvalidCast>
-      <code><![CDATA[$value]]></code>
-    </InvalidCast>
-    <InvalidReturnStatement>
-      <code><![CDATA[$string]]></code>
-      <code><![CDATA[$string]]></code>
-      <code><![CDATA[$string]]></code>
-      <code><![CDATA[$value]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[(T is Stringable ? string : T)]]></code>
-    </InvalidReturnType>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$string]]></code>
-      <code><![CDATA[$string]]></code>
-      <code><![CDATA[$string]]></code>
-      <code><![CDATA[$string]]></code>
-      <code><![CDATA[$string]]></code>
-      <code><![CDATA[$string]]></code>
-      <code><![CDATA[$string]]></code>
-      <code><![CDATA[$string]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$v]]></code>
-      <code><![CDATA[$v]]></code>
-      <code><![CDATA[$value[$k]]]></code>
-    </MixedAssignment>
-    <NoValue>
-      <code><![CDATA[$strategy]]></code>
-    </NoValue>
-    <TypeDoesNotContainType>
-      <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
-      <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
-    </TypeDoesNotContainType>
-  </file>
   <file src="redaxo/src/core/functions/function_rex_mediapool.php">
     <MixedArgument>
       <code><![CDATA[$buttonTitle]]></code>
@@ -977,8 +941,8 @@
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$buttonTitle]]></code>
-      <code><![CDATA[rex_escape($argValue)]]></code>
-      <code><![CDATA[rex_escape($ftitle)]]></code>
+      <code><![CDATA[escape($argValue)]]></code>
+      <code><![CDATA[escape($ftitle)]]></code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/be_style/scss_compiler.php">
@@ -1049,7 +1013,7 @@
       <code><![CDATA[$EXPTABLE]]></code>
     </MixedAssignment>
     <NullOperand>
-      <code><![CDATA[rex_escape($exportfilename)]]></code>
+      <code><![CDATA[escape($exportfilename)]]></code>
     </NullOperand>
   </file>
   <file src="redaxo/src/core/pages/backup.import.server.php">
@@ -1138,7 +1102,7 @@
       <code><![CDATA[$envFieldId]]></code>
       <code><![CDATA[$envFieldId]]></code>
       <code><![CDATA[$typeFieldId]]></code>
-      <code><![CDATA[rex_escape($field->getAttribute('id'), 'js')]]></code>
+      <code><![CDATA[escape($field->getAttribute('id'), 'js')]]></code>
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/pages/login.php">
@@ -1169,12 +1133,12 @@
       <code><![CDATA[Core::getConfig('media_manager_interlace')]]></code>
     </MixedArgument>
     <NullOperand>
-      <code><![CDATA[rex_escape(Core::getConfig('media_manager_jpg_quality'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('media_manager_jpg_quality'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('media_manager_png_compression'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('media_manager_png_compression'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('media_manager_webp_quality'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('media_manager_webp_quality'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('media_manager_jpg_quality'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('media_manager_jpg_quality'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('media_manager_png_compression'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('media_manager_png_compression'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('media_manager_webp_quality'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('media_manager_webp_quality'))]]></code>
     </NullOperand>
     <PossiblyNullArgument>
       <code><![CDATA[Core::getConfig('media_manager_interlace')]]></code>
@@ -1195,8 +1159,8 @@
       <code><![CDATA[getValue]]></code>
     </MixedMethodCall>
     <NullOperand>
-      <code><![CDATA[rex_escape($list->getValue('description'))]]></code>
-      <code><![CDATA[rex_escape($list->getValue('name'))]]></code>
+      <code><![CDATA[escape($list->getValue('description'))]]></code>
+      <code><![CDATA[escape($list->getValue('name'))]]></code>
     </NullOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$error]]></code>
@@ -1224,9 +1188,9 @@
       <code><![CDATA[$openerLink]]></code>
     </MixedOperand>
     <NullOperand>
-      <code><![CDATA[rex_escape($gf->getValue('createuser'))]]></code>
-      <code><![CDATA[rex_escape($gf->getValue('title'), 'js')]]></code>
-      <code><![CDATA[rex_escape($gf->getValue('updateuser'))]]></code>
+      <code><![CDATA[escape($gf->getValue('createuser'))]]></code>
+      <code><![CDATA[escape($gf->getValue('title'), 'js')]]></code>
+      <code><![CDATA[escape($gf->getValue('updateuser'))]]></code>
     </NullOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$gf->getValue('category_id')]]></code>
@@ -1274,7 +1238,7 @@
       <code><![CDATA[$argValue]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[rex_escape($argValue)]]></code>
+      <code><![CDATA[escape($argValue)]]></code>
     </MixedOperand>
     <PossiblyNullReference>
       <code><![CDATA[getSubpages]]></code>
@@ -1314,9 +1278,9 @@
       <code><![CDATA[$iid]]></code>
       <code><![CDATA[$iid]]></code>
       <code><![CDATA[$iid]]></code>
-      <code><![CDATA[rex_escape($OOCat->getName())]]></code>
-      <code><![CDATA[rex_escape($OOCat->getName())]]></code>
-      <code><![CDATA[rex_escape($iname)]]></code>
+      <code><![CDATA[escape($OOCat->getName())]]></code>
+      <code><![CDATA[escape($OOCat->getName())]]></code>
+      <code><![CDATA[escape($iname)]]></code>
     </MixedOperand>
     <PossiblyNullReference>
       <code><![CDATA[getName]]></code>
@@ -1345,8 +1309,8 @@
       <code><![CDATA[$ctypes]]></code>
     </MixedAssignment>
     <PossiblyNullOperand>
-      <code><![CDATA[rex_escape($article->getValue('createuser'))]]></code>
-      <code><![CDATA[rex_escape($article->getValue('updateuser'))]]></code>
+      <code><![CDATA[escape($article->getValue('createuser'))]]></code>
+      <code><![CDATA[escape($article->getValue('updateuser'))]]></code>
     </PossiblyNullOperand>
     <PossiblyNullReference>
       <code><![CDATA[getName]]></code>
@@ -1384,9 +1348,9 @@
       <code><![CDATA[Core::getConfig('phpmailer_smtpsecure')]]></code>
     </MixedOperand>
     <NullOperand>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_host'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_port'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_test_address'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_host'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_port'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_test_address'))]]></code>
     </NullOperand>
     <PossiblyNullArgument>
       <code><![CDATA[Core::getConfig('phpmailer_test_address')]]></code>
@@ -1411,18 +1375,18 @@
       <code><![CDATA[Core::getConfig('phpmailer_smtpsecure')]]></code>
     </MixedArgument>
     <NullOperand>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_bcc'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_charset'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_confirmto'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_from'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_fromname'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_host'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_password'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_port'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_returnto'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_test_address'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_username'))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_wordwrap'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_bcc'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_charset'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_confirmto'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_from'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_fromname'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_host'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_password'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_port'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_returnto'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_test_address'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_username'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_wordwrap'))]]></code>
     </NullOperand>
     <PossiblyNullArgument>
       <code><![CDATA[Core::getConfig('phpmailer_encoding')]]></code>
@@ -1494,12 +1458,12 @@
     </MixedArrayAccess>
     <MixedOperand>
       <code><![CDATA[$cancelSetupBtn]]></code>
-      <code><![CDATA[rex_escape($config['db'][1]['host'])]]></code>
-      <code><![CDATA[rex_escape($config['db'][1]['login'])]]></code>
-      <code><![CDATA[rex_escape($config['db'][1]['name'])]]></code>
-      <code><![CDATA[rex_escape($config['error_email'])]]></code>
-      <code><![CDATA[rex_escape($config['server'])]]></code>
-      <code><![CDATA[rex_escape($config['servername'])]]></code>
+      <code><![CDATA[escape($config['db'][1]['host'])]]></code>
+      <code><![CDATA[escape($config['db'][1]['login'])]]></code>
+      <code><![CDATA[escape($config['db'][1]['name'])]]></code>
+      <code><![CDATA[escape($config['error_email'])]]></code>
+      <code><![CDATA[escape($config['server'])]]></code>
+      <code><![CDATA[escape($config['servername'])]]></code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/setup.step4.php">
@@ -1540,7 +1504,7 @@
       <code><![CDATA[$key]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[rex_escape($hiddenFields)]]></code>
+      <code><![CDATA[escape($hiddenFields)]]></code>
     </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$article->getValue('parent_id')]]></code>
@@ -1617,13 +1581,13 @@
       <code><![CDATA[$status]]></code>
     </MixedOperand>
     <NullOperand>
-      <code><![CDATA[rex_escape($del->getValue('m.name'))]]></code>
-      <code><![CDATA[rex_escape($name)]]></code>
-      <code><![CDATA[rex_escape($postsaveaction)]]></code>
-      <code><![CDATA[rex_escape($presaveaction)]]></code>
-      <code><![CDATA[rex_escape($previewaction)]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[escape($del->getValue('m.name'))]]></code>
+      <code><![CDATA[escape($name)]]></code>
+      <code><![CDATA[escape($postsaveaction)]]></code>
+      <code><![CDATA[escape($presaveaction)]]></code>
+      <code><![CDATA[escape($previewaction)]]></code>
+      <code><![CDATA[escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[escape($sql->getValue('name'))]]></code>
     </NullOperand>
     <PossiblyInvalidOperand>
       <code><![CDATA[$postsavestatus]]></code>
@@ -1664,10 +1628,10 @@
       <code><![CDATA[$usedIds[$list->getValue('id')]]]></code>
     </InvalidArrayOffset>
     <NullOperand>
-      <code><![CDATA[rex_escape($ausgabe)]]></code>
-      <code><![CDATA[rex_escape($eingabe)]]></code>
-      <code><![CDATA[rex_escape($mkey)]]></code>
-      <code><![CDATA[rex_escape($mname)]]></code>
+      <code><![CDATA[escape($ausgabe)]]></code>
+      <code><![CDATA[escape($eingabe)]]></code>
+      <code><![CDATA[escape($mkey)]]></code>
+      <code><![CDATA[escape($mname)]]></code>
     </NullOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$aid]]></code>
@@ -1705,21 +1669,21 @@
       <code><![CDATA[$templateNames[$sql->getValue('template_id')]]]></code>
     </InvalidArrayOffset>
     <NullOperand>
-      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catpriority'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catpriority'))]]></code>
-      <code><![CDATA[rex_escape($KAT->getValue('catpriority'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
+      <code><![CDATA[escape($KAT->getValue('catname'))]]></code>
+      <code><![CDATA[escape($KAT->getValue('catname'))]]></code>
+      <code><![CDATA[escape($KAT->getValue('catname'))]]></code>
+      <code><![CDATA[escape($KAT->getValue('catname'))]]></code>
+      <code><![CDATA[escape($KAT->getValue('catpriority'))]]></code>
+      <code><![CDATA[escape($KAT->getValue('catpriority'))]]></code>
+      <code><![CDATA[escape($KAT->getValue('catpriority'))]]></code>
+      <code><![CDATA[escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[escape($sql->getValue('priority'))]]></code>
+      <code><![CDATA[escape($sql->getValue('priority'))]]></code>
+      <code><![CDATA[escape($sql->getValue('priority'))]]></code>
     </NullOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$sql->getValue('template_id')]]></code>
@@ -1754,12 +1718,12 @@
       <code><![CDATA[$name]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[rex_escape($name)]]></code>
+      <code><![CDATA[escape($name)]]></code>
     </MixedOperand>
     <NullOperand>
-      <code><![CDATA[rex_escape($template)]]></code>
-      <code><![CDATA[rex_escape($templatekey)]]></code>
-      <code><![CDATA[rex_escape($templatename)]]></code>
+      <code><![CDATA[escape($template)]]></code>
+      <code><![CDATA[escape($templatekey)]]></code>
+      <code><![CDATA[escape($templatename)]]></code>
     </NullOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$templatename]]></code>
@@ -1767,18 +1731,18 @@
   </file>
   <file src="redaxo/src/core/pages/system.be_style.customizer.php">
     <NullOperand>
-      <code><![CDATA[rex_escape(Core::getConfig('be_style_labelcolor', ''))]]></code>
-      <code><![CDATA[rex_escape(Core::getConfig('be_style_labelcolor', ''))]]></code>
+      <code><![CDATA[escape(Core::getConfig('be_style_labelcolor', ''))]]></code>
+      <code><![CDATA[escape(Core::getConfig('be_style_labelcolor', ''))]]></code>
     </NullOperand>
   </file>
   <file src="redaxo/src/core/pages/system.clangs.php">
     <NullOperand>
-      <code><![CDATA[rex_escape($sql->getValue('code'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('code'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('name'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
-      <code><![CDATA[rex_escape($sql->getValue('priority'))]]></code>
+      <code><![CDATA[escape($sql->getValue('code'))]]></code>
+      <code><![CDATA[escape($sql->getValue('code'))]]></code>
+      <code><![CDATA[escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[escape($sql->getValue('name'))]]></code>
+      <code><![CDATA[escape($sql->getValue('priority'))]]></code>
+      <code><![CDATA[escape($sql->getValue('priority'))]]></code>
     </NullOperand>
     <PossiblyNullReference>
       <code><![CDATA[getCode]]></code>
@@ -1799,7 +1763,7 @@
       <code><![CDATA[$logLine]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[rex_escape($logLine)]]></code>
+      <code><![CDATA[escape($logLine)]]></code>
     </MixedOperand>
     <TypeDoesNotContainNull>
       <code><![CDATA[isset($logFile)]]></code>
@@ -1832,7 +1796,7 @@
       <code><![CDATA[$source]]></code>
     </MixedOperand>
     <NullOperand>
-      <code><![CDATA[rex_escape($editor->getBasepath())]]></code>
+      <code><![CDATA[escape($editor->getBasepath())]]></code>
     </NullOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$editor->getName()]]></code>
@@ -1875,13 +1839,13 @@
       <code><![CDATA[$userrole]]></code>
     </MixedArgumentTypeCoercion>
     <NullArgument>
-      <code><![CDATA[rex_escape($roles)]]></code>
+      <code><![CDATA[escape($roles)]]></code>
     </NullArgument>
     <NullOperand>
       <code><![CDATA[$login]]></code>
-      <code><![CDATA[rex_escape($userdesc)]]></code>
-      <code><![CDATA[rex_escape($useremail)]]></code>
-      <code><![CDATA[rex_escape($username)]]></code>
+      <code><![CDATA[escape($userdesc)]]></code>
+      <code><![CDATA[escape($useremail)]]></code>
+      <code><![CDATA[escape($username)]]></code>
     </NullOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$role->getValue('id')]]></code>
@@ -3046,8 +3010,8 @@
     </NullableReturnStatement>
     <PossiblyNullOperand>
       <code><![CDATA[$this->getAttribute('id')]]></code>
-      <code><![CDATA[rex_escape($value)]]></code>
-      <code><![CDATA[rex_escape($value)]]></code>
+      <code><![CDATA[escape($value)]]></code>
+      <code><![CDATA[escape($value)]]></code>
     </PossiblyNullOperand>
   </file>
   <file src="src/Form/Field/CheckboxField.php">
@@ -3061,14 +3025,14 @@
       <code><![CDATA[$optValue]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[rex_escape($optValue)]]></code>
-      <code><![CDATA[rex_escape($optValue)]]></code>
+      <code><![CDATA[escape($optValue)]]></code>
+      <code><![CDATA[escape($optValue)]]></code>
     </MixedOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$optId]]></code>
-      <code><![CDATA[rex_escape($name)]]></code>
-      <code><![CDATA[rex_escape($optId)]]></code>
-      <code><![CDATA[rex_escape($optId)]]></code>
+      <code><![CDATA[escape($name)]]></code>
+      <code><![CDATA[escape($optId)]]></code>
+      <code><![CDATA[escape($optId)]]></code>
     </PossiblyNullOperand>
   </file>
   <file src="src/Form/Field/ContainerField.php">
@@ -3817,7 +3781,7 @@
       <code><![CDATA[$saveValue]]></code>
     </MixedReturnStatement>
     <NullOperand>
-      <code><![CDATA[rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name))]]></code>
+      <code><![CDATA[escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name))]]></code>
     </NullOperand>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$dbvalues[0]]]></code>
@@ -4332,7 +4296,7 @@
       <code><![CDATA[$msg]]></code>
       <code><![CDATA[$text]]></code>
       <code><![CDATA[call_user_func($i18nFunction, substr($text, $transKeyLen))]]></code>
-      <code><![CDATA[rex_escape($text)]]></code>
+      <code><![CDATA[escape($text)]]></code>
     </LessSpecificReturnStatement>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$i18nFunction]]></code>
@@ -4477,8 +4441,8 @@
     </MixedInferredReturnType>
     <MixedOperand>
       <code><![CDATA[$columnValue]]></code>
-      <code><![CDATA[rex_escape($name, 'html_attr')]]></code>
-      <code><![CDATA[rex_escape($value)]]></code>
+      <code><![CDATA[escape($name, 'html_attr')]]></code>
+      <code><![CDATA[escape($value)]]></code>
     </MixedOperand>
     <MixedReturnStatement>
       <code><![CDATA[$this->columnNames[$columnIndex] ?? $default]]></code>
@@ -4547,6 +4511,42 @@
     <PossiblyNullReference>
       <code><![CDATA[getSubpages]]></code>
     </PossiblyNullReference>
+  </file>
+  <file src="src/View/escape.php">
+    <InvalidCast>
+      <code><![CDATA[$value]]></code>
+    </InvalidCast>
+    <InvalidReturnStatement>
+      <code><![CDATA[$string]]></code>
+      <code><![CDATA[$string]]></code>
+      <code><![CDATA[$string]]></code>
+      <code><![CDATA[$value]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[(T is Stringable ? string : T)]]></code>
+    </InvalidReturnType>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$string]]></code>
+      <code><![CDATA[$string]]></code>
+      <code><![CDATA[$string]]></code>
+      <code><![CDATA[$string]]></code>
+      <code><![CDATA[$string]]></code>
+      <code><![CDATA[$string]]></code>
+      <code><![CDATA[$string]]></code>
+      <code><![CDATA[$string]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$value[$k]]]></code>
+    </MixedAssignment>
+    <NoValue>
+      <code><![CDATA[$strategy]]></code>
+    </NoValue>
+    <TypeDoesNotContainType>
+      <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
+      <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
+    </TypeDoesNotContainType>
   </file>
   <file src="tests/Content/ArticleSliceTest.php">
     <PossiblyNullReference>

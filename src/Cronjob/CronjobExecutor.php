@@ -17,6 +17,7 @@ use Throwable;
 
 use function defined;
 use function is_object;
+use function Redaxo\Core\View\escape;
 
 class CronjobExecutor
 {
@@ -118,7 +119,7 @@ class CronjobExecutor
             $this->log($success, $message);
         }
 
-        $this->setMessage(rex_escape($message));
+        $this->setMessage(escape($message));
         $this->cronjob = null;
         $this->id = null;
 

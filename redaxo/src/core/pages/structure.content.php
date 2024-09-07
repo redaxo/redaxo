@@ -26,6 +26,8 @@ use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
+use function Redaxo\Core\View\escape;
+
 $articleId = Request::request('article_id', 'int');
 $clang = Request::request('clang', 'int');
 $sliceId = Request::request('slice_id', 'int', '');
@@ -77,8 +79,8 @@ $categoryId = $OOArt->getCategoryId();
 // ----- Request Parameter
 $subpage = Controller::getCurrentPagePart(2);
 $function = Request::request('function', 'string');
-$warning = rex_escape(Request::request('warning', 'string'));
-$info = rex_escape(Request::request('info', 'string'));
+$warning = escape(Request::request('warning', 'string'));
+$info = escape(Request::request('info', 'string'));
 
 $context = new Context([
     'page' => Controller::getCurrentPage(),

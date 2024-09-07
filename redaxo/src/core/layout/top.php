@@ -15,6 +15,8 @@ use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Asset;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * Layout Kopf des Backends.
  */
@@ -24,7 +26,7 @@ $user = Core::getUser();
 
 if (Request::isPJAXRequest()) {
     // add title to the page, so pjax can update it. see gh#136
-    echo '<title>' . rex_escape(Controller::getPageTitle()) . '</title>';
+    echo '<title>' . escape(Controller::getPageTitle()) . '</title>';
 }
 
 if (!$curPage->hasLayout()) {
@@ -62,10 +64,10 @@ if (Core::getImpersonator()) {
 $bodyAttr['class'][] = 'rex-has-theme';
 if (Core::getProperty('theme')) {
     // global theme from config.yml
-    $bodyAttr['class'][] = 'rex-theme-' . rex_escape((string) Core::getProperty('theme'));
+    $bodyAttr['class'][] = 'rex-theme-' . escape((string) Core::getProperty('theme'));
 } elseif ($user && $user->getValue('theme')) {
     // user selected theme
-    $bodyAttr['class'][] = 'rex-theme-' . rex_escape($user->getValue('theme'));
+    $bodyAttr['class'][] = 'rex-theme-' . escape($user->getValue('theme'));
 }
 
 // ----- EXTENSION POINT
@@ -100,9 +102,9 @@ if ($user && $hasNavigation) {
     }
 
     $item = [];
-    $item['title'] = '<span class="text-muted">' . I18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . Url::backendPage('profile') . '" title="' . I18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . rex_escape($userName) . '</a>';
+    $item['title'] = '<span class="text-muted">' . I18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . Url::backendPage('profile') . '" title="' . I18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . escape($userName) . '</a>';
     if ($impersonator) {
-        $item['title'] .= ' (<i class="rex-icon rex-icon-user"></i> ' . rex_escape($impersonator) . ')';
+        $item['title'] .= ' (<i class="rex-icon rex-icon-user"></i> ' . escape($impersonator) . ')';
     }
     $metaItems[] = $item;
     unset($item);

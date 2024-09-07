@@ -9,6 +9,8 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $func = Request::request('func', 'string');
 $error = '';
 $success = '';
@@ -49,12 +51,12 @@ foreach (new LimitIterator($file, 0, 30) as $entry) {
     $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-mailer-log-ok';
     $content .= '
                 <tr class="' . $class . '">
-                  <td data-title="' . I18n::msg('phpmailer_log_success') . '"><strong>' . rex_escape($data[0]) . '</strong></td>
+                  <td data-title="' . I18n::msg('phpmailer_log_success') . '"><strong>' . escape($data[0]) . '</strong></td>
                   <td data-title="' . I18n::msg('phpmailer_log_date') . '" class="rex-table-tabular-nums">' . Formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>
-                  <td data-title="' . I18n::msg('phpmailer_log_from') . '">' . rex_escape($data[1]) . '</td>
-                  <td data-title="' . I18n::msg('phpmailer_log_to') . '">' . rex_escape($data[2]) . '</td>
-                  <td data-title="' . I18n::msg('phpmailer_log_subject') . '">' . rex_escape($data[3]) . '</td>
-                  <td data-title="' . I18n::msg('phpmailer_log_msg') . '">' . nl2br(rex_escape($data[4])) . '</td>
+                  <td data-title="' . I18n::msg('phpmailer_log_from') . '">' . escape($data[1]) . '</td>
+                  <td data-title="' . I18n::msg('phpmailer_log_to') . '">' . escape($data[2]) . '</td>
+                  <td data-title="' . I18n::msg('phpmailer_log_subject') . '">' . escape($data[3]) . '</td>
+                  <td data-title="' . I18n::msg('phpmailer_log_msg') . '">' . nl2br(escape($data[4])) . '</td>
                 </tr>';
 }
 

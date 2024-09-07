@@ -19,6 +19,8 @@ use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $effectId = Request::request('effect_id', 'int');
 $typeId = Request::request('type_id', 'int');
 $func = Request::request('func', 'string');
@@ -144,9 +146,9 @@ if ('' == $func) {
     });
 
     if ('edit' == $func) {
-        $formLabel = I18n::rawMsg('media_manager_effect_edit_header', rex_escape($typeName));
+        $formLabel = I18n::rawMsg('media_manager_effect_edit_header', escape($typeName));
     } else {
-        $formLabel = I18n::rawMsg('media_manager_effect_create_header', rex_escape($typeName));
+        $formLabel = I18n::rawMsg('media_manager_effect_create_header', escape($typeName));
     }
 
     $form = Form::factory(Core::getTablePrefix() . 'media_manager_type_effect', '', 'id=' . $effectId);

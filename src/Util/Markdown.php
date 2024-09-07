@@ -5,6 +5,8 @@ namespace Redaxo\Core\Util;
 use Redaxo\Core\Base\FactoryTrait;
 use rex_exception;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * Markdown parser.
  */
@@ -93,7 +95,7 @@ class Markdown
             }
 
             $toc .= "<li>\n";
-            $toc .= '<a href="#' . rex_escape($header['id']) . '">' . rex_escape($header['text']) . "</a>\n";
+            $toc .= '<a href="#' . escape($header['id']) . '">' . escape($header['text']) . "</a>\n";
         }
 
         for (; $previous > $topLevel - 1; --$previous) {

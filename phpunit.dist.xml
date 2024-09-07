@@ -24,7 +24,6 @@
     <testsuites>
         <testsuite name="core">
             <directory>tests</directory>
-            <directory suffix="_test.php">redaxo/src/core/tests</directory>
         </testsuite>
     </testsuites>
     <source restrictDeprecations="true">

@@ -15,6 +15,7 @@ use function is_array;
 use function is_callable;
 use function is_int;
 use function is_string;
+use function Redaxo\Core\View\escape;
 
 use const E_USER_WARNING;
 
@@ -355,7 +356,7 @@ final class Formatter
             $value = 'https://' . $value;
         }
 
-        return '<a href="' . rex_escape($value . $format['params']) . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
+        return '<a href="' . escape($value . $format['params']) . '"' . $format['attr'] . '>' . escape($value) . '</a>';
     }
 
     /**
@@ -382,7 +383,7 @@ final class Formatter
             }
         }
         // Url formatierung
-        return '<a href="mailto:' . rex_escape($value . $format['params']) . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
+        return '<a href="mailto:' . escape($value . $format['params']) . '"' . $format['attr'] . '>' . escape($value) . '</a>';
     }
 
     /**

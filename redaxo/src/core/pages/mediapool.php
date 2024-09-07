@@ -10,13 +10,15 @@ use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
+use function Redaxo\Core\View\escape;
+
 global $ftitle, $error, $success;
 
 // -------------- Defaults
 $subpage = Controller::getCurrentPagePart(2);
 $func = Request::request('func', 'string');
-$success = rex_escape(Request::request('info', 'string'));
-$error = rex_escape(Request::request('warning', 'string'));
+$success = escape(Request::request('info', 'string'));
+$error = escape(Request::request('warning', 'string'));
 $args = Request::request('args', 'array');
 
 $regex = '@&lt;(/?(?:b|i|code)|br ?/?)&gt;@i';
@@ -27,7 +29,7 @@ $error = preg_replace($regex, '<$1>', $error);
 $argUrl = ['args' => $args];
 $argFields = '';
 foreach ($args as $argName => $argValue) {
-    $argFields .= '<input type="hidden" name="args[' . rex_escape($argName) . ']" value="' . rex_escape($argValue) . '" />' . "\n";
+    $argFields .= '<input type="hidden" name="args[' . escape($argName) . ']" value="' . escape($argValue) . '" />' . "\n";
 }
 
 // ----- opener_input_field setzen
@@ -45,7 +47,7 @@ if ('' != $openerInputField) {
     }
 
     $argUrl['opener_input_field'] = $openerInputField;
-    $argFields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($openerInputField) . '"/>' . "\n";
+    $argFields .= '<input type="hidden" name="opener_input_field" value="' . escape($openerInputField) . '"/>' . "\n";
 }
 
 // -------------- CatId in Session speichern
@@ -105,7 +107,7 @@ if (!Request::isXmlHttpRequest()) {
     ?>
     <script type="text/javascript" nonce="<?= Response::getNonce() ?>">
         rex_retain_popup_event_handlers("rex:selectMedia");
-        <?= $openerInputField ? 'rex.mediapoolOpenerInputField = "' . rex_escape($openerInputField, 'js') . '";' : '' ?>
+        <?= $openerInputField ? 'rex.mediapoolOpenerInputField = "' . escape($openerInputField, 'js') . '";' : '' ?>
     </script>
     <?php
 }

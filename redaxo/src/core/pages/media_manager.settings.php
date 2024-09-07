@@ -10,6 +10,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $func = Request::request('func', 'string');
 
 if ('update' == $func) {
@@ -38,8 +40,8 @@ $formElements = [];
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-jpg-quality" type="range" min="0" max="100" step="1" value="' . rex_escape(Core::getConfig('media_manager_jpg_quality')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-jpg-quality" type="text" name="settings[media_manager_jpg_quality]" value="' . rex_escape(Core::getConfig('media_manager_jpg_quality')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-jpg-quality" type="range" min="0" max="100" step="1" value="' . escape(Core::getConfig('media_manager_jpg_quality')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-jpg-quality" type="text" name="settings[media_manager_jpg_quality]" value="' . escape(Core::getConfig('media_manager_jpg_quality')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new Fragment();
@@ -54,8 +56,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-png-compression" type="range" min="0" max="9" step="1" value="' . rex_escape(Core::getConfig('media_manager_png_compression')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-png-compression" type="text" name="settings[media_manager_png_compression]" value="' . rex_escape(Core::getConfig('media_manager_png_compression')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-png-compression" type="range" min="0" max="9" step="1" value="' . escape(Core::getConfig('media_manager_png_compression')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-png-compression" type="text" name="settings[media_manager_png_compression]" value="' . escape(Core::getConfig('media_manager_png_compression')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new Fragment();
@@ -71,8 +73,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-webp-quality" type="range" min="0" max="101" step="1" value="' . rex_escape(Core::getConfig('media_manager_webp_quality')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-webp-quality" type="text" name="settings[media_manager_webp_quality]" value="' . rex_escape(Core::getConfig('media_manager_webp_quality')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-webp-quality" type="range" min="0" max="101" step="1" value="' . escape(Core::getConfig('media_manager_webp_quality')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-webp-quality" type="text" name="settings[media_manager_webp_quality]" value="' . escape(Core::getConfig('media_manager_webp_quality')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new Fragment();
@@ -87,8 +89,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-avif-quality" type="range" min="0" max="100" step="1" value="' . rex_escape((int) Core::getConfig('media_manager_avif_quality')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-quality" type="text" name="settings[media_manager_avif_quality]" value="' . rex_escape((int) Core::getConfig('media_manager_avif_quality')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-avif-quality" type="range" min="0" max="100" step="1" value="' . escape((int) Core::getConfig('media_manager_avif_quality')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-quality" type="text" name="settings[media_manager_avif_quality]" value="' . escape((int) Core::getConfig('media_manager_avif_quality')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new Fragment();
@@ -103,8 +105,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-avif-speed" type="range" min="0" max="10" step="1" value="' . rex_escape((int) Core::getConfig('media_manager_avif_speed')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-speed" type="text" name="settings[media_manager_avif_speed]" value="' . rex_escape((int) Core::getConfig('media_manager_avif_speed')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-avif-speed" type="range" min="0" max="10" step="1" value="' . escape((int) Core::getConfig('media_manager_avif_speed')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-speed" type="text" name="settings[media_manager_avif_speed]" value="' . escape((int) Core::getConfig('media_manager_avif_speed')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new Fragment();

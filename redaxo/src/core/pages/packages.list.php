@@ -13,6 +13,8 @@ use Redaxo\Core\Util\Version;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
+use function Redaxo\Core\View\escape;
+
 echo View::title(I18n::msg('addons'), '');
 
 // the package manager don't know new packages in the addon folder
@@ -79,7 +81,7 @@ $getTableRow = static function (Addon $package) use ($getLink) {
     } else {
         $class .= ' rex-package-not-installed';
     }
-    $name = '<span class="rex-addon-name">' . rex_escape($package->getName()) . '</span>';
+    $name = '<span class="rex-addon-name">' . escape($package->getName()) . '</span>';
 
     $class .= $package->isSystemPackage() ? ' rex-system-addon' : '';
 
@@ -99,16 +101,16 @@ $getTableRow = static function (Addon $package) use ($getLink) {
 
     $license = $package->getLicense();
     if ($license) {
-        $license = '<a class="rex-link-expanded" href="' . Url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) . '" data-pjax-scroll-to="0"><i class="rex-icon rex-icon-license"></i> ' . rex_escape($license) . '</a>';
+        $license = '<a class="rex-link-expanded" href="' . Url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) . '" data-pjax-scroll-to="0"><i class="rex-icon rex-icon-license"></i> ' . escape($license) . '</a>';
     }
 
     return '
-                <tr id="package-' . rex_escape(Str::normalize($packageId, '-', '_')) . '" class="rex-package-is-addon' . $class . '">
+                <tr id="package-' . escape(Str::normalize($packageId, '-', '_')) . '" class="rex-package-is-addon' . $class . '">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package-addon"></i></td>
                     <td data-title="' . I18n::msg('package_hname') . '">' . $name . '</td>
                     <td data-title="' . I18n::msg('package_hversion') . '">' . $version . '</td>
                     <td class="rex-table-slim" data-title="' . I18n::msg('package_hhelp') . '">
-                        <a class="rex-link-expanded" href="' . Url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" data-pjax-scroll-to="0" title="' . I18n::msg('package_help') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . I18n::msg('package_hhelp') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
+                        <a class="rex-link-expanded" href="' . Url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" data-pjax-scroll-to="0" title="' . I18n::msg('package_help') . ' ' . escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . I18n::msg('package_hhelp') . ' <span class="sr-only">' . escape($package->getName()) . '</span></a>
                     </td>
                     <td class="rex-table-width-6" data-title="' . I18n::msg('package_hlicense') . '">' . ($license ?? '') . '</td>
                     <td class="rex-table-action">' . $install . '</td>

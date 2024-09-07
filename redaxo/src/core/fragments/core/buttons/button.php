@@ -3,6 +3,8 @@
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * @var Fragment $this
  * @psalm-scope-this Fragment
@@ -36,7 +38,7 @@ foreach ($this->buttons as $button) {
     $href = '';
     if (isset($button['url'])) {
         $tag = 'a';
-        $href = ' href="' . rex_escape($button['url']) . '"';
+        $href = ' href="' . escape($button['url']) . '"';
     }
     echo '<' . $tag . $href . Str::buildAttributes($button['attributes']) . '>' . $icon . $button['label'] . '</' . $tag . '>';
 }

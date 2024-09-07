@@ -5,6 +5,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 if (!isset($logFile)) {
     $logFile = ini_get('error_log');
 }
@@ -37,7 +39,7 @@ if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
 
         $content .= '
         <tr>
-            <td>' . rex_escape($logLine) . '</td>
+            <td>' . escape($logLine) . '</td>
         </tr>';
     }
 

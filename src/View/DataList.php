@@ -267,7 +267,7 @@ class DataList implements UrlProviderInterface
      */
     public function getMessage()
     {
-        return rex_escape(Request::request($this->getName() . '_msg', 'string'));
+        return escape(Request::request($this->getName() . '_msg', 'string'));
     }
 
     /**
@@ -277,7 +277,7 @@ class DataList implements UrlProviderInterface
      */
     public function getWarning()
     {
-        return rex_escape(Request::request($this->getName() . '_warning', 'string'));
+        return escape(Request::request($this->getName() . '_warning', 'string'));
     }
 
     /**
@@ -1095,7 +1095,7 @@ class DataList implements UrlProviderInterface
      */
     public function replaceVariable($string, $varname)
     {
-        return str_replace('###' . $varname . '###', rex_escape((string) $this->getValue($varname)), $string);
+        return str_replace('###' . $varname . '###', escape((string) $this->getValue($varname)), $string);
     }
 
     /**
@@ -1160,7 +1160,7 @@ class DataList implements UrlProviderInterface
 
         // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
         if ($escape && (!isset($format[0]) || !in_array($format[0], ['custom', 'email', 'url'], true))) {
-            $value = rex_escape($value);
+            $value = escape($value);
         }
 
         return $value;
@@ -1193,7 +1193,7 @@ class DataList implements UrlProviderInterface
         $s = '';
 
         foreach ($array as $name => $value) {
-            $s .= ' ' . rex_escape($name, 'html_attr') . '="' . rex_escape($value) . '"';
+            $s .= ' ' . escape($name, 'html_attr') . '="' . escape($value) . '"';
         }
 
         return $s;
@@ -1280,7 +1280,7 @@ class DataList implements UrlProviderInterface
         $s .= '    <table' . $this->_getAttributeString($this->getTableAttributes()) . '>' . "\n";
 
         if ('' != $caption) {
-            $s .= '        <caption>' . rex_escape($caption) . '</caption>' . "\n";
+            $s .= '        <caption>' . escape($caption) . '</caption>' . "\n";
         }
 
         foreach ($tableColumnGroups as $tableColumnGroup) {

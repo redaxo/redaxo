@@ -24,6 +24,8 @@ use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $currentUser = Core::requireUser();
 
 $message = '';
@@ -330,7 +332,7 @@ if ('' != $fUNCADD || $userId > 0) {
 
         $formLabel = I18n::msg('edit_user');
         $addHidden = '<input type="hidden" name="user_id" value="' . $userId . '" />';
-        $addUserLogin = '<p class="form-control-static">' . rex_escape($user->getLogin()) . '</p>';
+        $addUserLogin = '<p class="form-control-static">' . escape($user->getLogin()) . '</p>';
 
         $formElements = [];
 
@@ -412,7 +414,7 @@ if ('' != $fUNCADD || $userId > 0) {
             $addAdminChkbox = '';
         }
         $addStatusChkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-        $addUserLogin = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" required maxlength="255" autofocus autocomplete="username" inputmode="email" autocorrect="off" autocapitalize="off" />';
+        $addUserLogin = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . escape($userlogin) . '" required maxlength="255" autofocus autocomplete="username" inputmode="email" autocorrect="off" autocapitalize="off" />';
 
         $formElements = [];
 
@@ -469,17 +471,17 @@ if ('' != $fUNCADD || $userId > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-user-name">' . I18n::msg('name') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . rex_escape($username) . '"  autocomplete="name" maxlength="255" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . escape($username) . '"  autocomplete="name" maxlength="255" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-user-description">' . I18n::msg('description') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-description" name="userdesc" value="' . rex_escape($userdesc) . '" autocomplete="off" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-user-description" name="userdesc" value="' . escape($userdesc) . '" autocomplete="off" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-user-email">' . I18n::msg('email') . '</label>';
-    $n['field'] = '<input class="form-control" type="email" placeholder="user@example.org" id="rex-user-email" name="useremail" value="' . rex_escape($useremail) . '"  autocomplete="email" maxlength="255" />';
+    $n['field'] = '<input class="form-control" type="email" placeholder="user@example.org" id="rex-user-email" name="useremail" value="' . escape($useremail) . '"  autocomplete="email" maxlength="255" />';
     $formElements[] = $n;
 
     $fragment = new Fragment();
@@ -616,14 +618,14 @@ if ($SHOW) {
     $list->setColumnLabel('name', I18n::msg('name'));
     $list->setColumnParams('name', ['user_id' => '###id###']);
     $list->setColumnFormat('name', 'custom', static function () use ($currentUser, $list) {
-        $name = rex_escape($list->getValue('name'));
+        $name = escape($list->getValue('name'));
         return !$list->getValue('admin') || $currentUser->isAdmin() ? $list->getColumnLink('name', $name) : $name;
     });
     $list->setColumnSortable('name');
 
     $list->setColumnLabel('login', I18n::msg('login'));
     $list->setColumnFormat('login', 'custom', static function () use ($list) {
-        $login = rex_escape($list->getValue('login'));
+        $login = escape($list->getValue('login'));
         if (!$list->getValue('status')) {
             $login = '<span class="text-muted">' . $login . '</span>';
         }
@@ -641,7 +643,7 @@ if ($SHOW) {
             return '<span class="label label-success">' . I18n::msg('user_admin') . '</span>';
         }
 
-        return '<div class="rex-docs"><ul class="small"><li>' . implode('</li><li>', explode($separator, rex_escape($roles))) . '</li></ul></div>';
+        return '<div class="rex-docs"><ul class="small"><li>' . implode('</li><li>', explode($separator, escape($roles))) . '</li></ul></div>';
     }, ['roles' => $roles]);
     $list->setColumnSortable('role');
 

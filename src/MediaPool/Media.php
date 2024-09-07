@@ -16,6 +16,7 @@ use Redaxo\Core\Util\Formatter;
 use rex_sql_exception;
 
 use function in_array;
+use function Redaxo\Core\View\escape;
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab.
@@ -283,13 +284,13 @@ class Media
 
         if (!isset($params['alt'])) {
             if ('' != $title) {
-                $params['alt'] = rex_escape($title);
+                $params['alt'] = escape($title);
             }
         }
 
         if (!isset($params['title'])) {
             if ('' != $title) {
-                $params['title'] = rex_escape($title);
+                $params['title'] = escape($title);
             }
         }
 

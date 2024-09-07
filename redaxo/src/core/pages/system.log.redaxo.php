@@ -15,6 +15,8 @@ use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $error = '';
 $success = '';
 
@@ -80,7 +82,7 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
 
     $path = '';
     if ($file) {
-        $path = rex_escape($file . (null === $line ? '' : ':' . $line));
+        $path = escape($file . (null === $line ? '' : ':' . $line));
 
         $fullPath = str_starts_with($file, 'rex://') ? $file : Path::base($file);
         if ($url = $editor->getUrl($fullPath, (int) ($line ?? 1))) {
@@ -91,7 +93,7 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
 
     $url = $data[4] ?? null;
     if ($url) {
-        $url = rex_escape($url);
+        $url = escape($url);
         $url = '<small class="rex-word-break"><span class="label label-default">' . I18n::msg('syslog_url') . ':</span> <a href="' . $url . '">' . $url . '</a></small>';
     } else {
         $url = '';
@@ -101,10 +103,10 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
                 <tr>
                     <td data-title="' . I18n::msg('syslog_timestamp') . '" class="rex-table-tabular-nums rex-table-date">
                         <small>' . Formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</small><br>
-                        <span class="label label-' . $class . '">' . rex_escape($type) . '</span>
+                        <span class="label label-' . $class . '">' . escape($type) . '</span>
                     </td>
                     <td data-title="' . I18n::msg('syslog_message') . '">
-                        <div class="rex-word-break"><b style="font-weight: 500">' . nl2br(rex_escape($message)) . '</b></div>
+                        <div class="rex-word-break"><b style="font-weight: 500">' . nl2br(escape($message)) . '</b></div>
                         ' . $path . '
                         ' . $url . '
                     </td>

@@ -13,6 +13,8 @@ use Redaxo\Core\Validator\Validator;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $message = '';
 
 if ('' != Request::post('btn_delete_archive', 'string')) {
@@ -173,17 +175,17 @@ $content .= '<fieldset><legend>' . I18n::msg('phpmailer_email_options') . '</leg
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-fromname">' . I18n::msg('phpmailer_sender_name') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-fromname" type="text" name="settings[phpmailer_fromname]" value="' . rex_escape(Core::getConfig('phpmailer_fromname')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-fromname" type="text" name="settings[phpmailer_fromname]" value="' . escape(Core::getConfig('phpmailer_fromname')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-from">' . I18n::msg('phpmailer_sender_email') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-from" type="email" name="settings[phpmailer_from]" placeholder="name@example.tld" value="' . rex_escape(Core::getConfig('phpmailer_from')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-from" type="email" name="settings[phpmailer_from]" placeholder="name@example.tld" value="' . escape(Core::getConfig('phpmailer_from')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-testaddress">' . I18n::msg('phpmailer_checkmail_test_address') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="email" name="settings[phpmailer_test_address]" placeholder="test@example.tld" value="' . rex_escape(Core::getConfig('phpmailer_test_address')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="email" name="settings[phpmailer_test_address]" placeholder="test@example.tld" value="' . escape(Core::getConfig('phpmailer_test_address')) . '" />';
 $formElements[] = $n;
 
 $selDetourMode = new Select();
@@ -206,17 +208,17 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-confirmto">' . I18n::msg('phpmailer_confirm') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-confirmto" type="email" name="settings[phpmailer_confirmto]" placeholder="confirm@example.tld" value="' . rex_escape(Core::getConfig('phpmailer_confirmto')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-confirmto" type="email" name="settings[phpmailer_confirmto]" placeholder="confirm@example.tld" value="' . escape(Core::getConfig('phpmailer_confirmto')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-bcc">' . I18n::msg('phpmailer_bcc') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-bcc" type="email" name="settings[phpmailer_bcc]" placeholder="bcc@example.tld" value="' . rex_escape(Core::getConfig('phpmailer_bcc')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-bcc" type="email" name="settings[phpmailer_bcc]" placeholder="bcc@example.tld" value="' . escape(Core::getConfig('phpmailer_bcc')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-returnto">' . I18n::msg('phpmailer_returnto_email') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-returnto" type="email" name="settings[phpmailer_returnto]" placeholder="returnto@example.tld" value="' . rex_escape(Core::getConfig('phpmailer_returnto')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-returnto" type="email" name="settings[phpmailer_returnto]" placeholder="returnto@example.tld" value="' . escape(Core::getConfig('phpmailer_returnto')) . '" />';
 $formElements[] = $n;
 
 $n = [];
@@ -234,16 +236,16 @@ $content .= '<fieldset id="smtpsettings"><legend>' . I18n::msg('phpmailer_smtp_o
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-host">' . I18n::msg('phpmailer_host') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-host" placeholder="smtp.example.tld" type="text" name="settings[phpmailer_host]" value="' . rex_escape(Core::getConfig('phpmailer_host')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-host" placeholder="smtp.example.tld" type="text" name="settings[phpmailer_host]" value="' . escape(Core::getConfig('phpmailer_host')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-port">' . I18n::msg('phpmailer_port') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-port" type="number" name="settings[phpmailer_port]" value="' . rex_escape(Core::getConfig('phpmailer_port')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-port" type="number" name="settings[phpmailer_port]" value="' . escape(Core::getConfig('phpmailer_port')) . '" />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label data-toggle="tooltip" title="' . I18n::msg('phpmailer_security_mode_help') . '" for="security_mode">' . rex_escape(I18n::msg('phpmailer_security_mode')) . ' <i class="rex-icon fa-question-circle"></i></label>';
+$n['label'] = '<label data-toggle="tooltip" title="' . I18n::msg('phpmailer_security_mode_help') . '" for="security_mode">' . escape(I18n::msg('phpmailer_security_mode')) . ' <i class="rex-icon fa-question-circle"></i></label>';
 $n['field'] = $selSecurityMode->get();
 $formElements[] = $n;
 
@@ -278,12 +280,12 @@ $content .= '<div id="smtpauthlogin">';
 
 $n = [];
 $n['label'] = '<label for="phpmailer-username">' . I18n::msg('phpmailer_smtp_username') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-username" type="text" name="settings[phpmailer_username]" value="' . rex_escape(Core::getConfig('phpmailer_username')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-username" type="text" name="settings[phpmailer_username]" value="' . escape(Core::getConfig('phpmailer_username')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-password">' . I18n::msg('phpmailer_smtp_password') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-password" type="password" name="settings[phpmailer_password]" value="' . rex_escape(Core::getConfig('phpmailer_password')) . '" autocomplete="new-password" />';
+$n['field'] = '<input class="form-control" id="phpmailer-password" type="password" name="settings[phpmailer_password]" value="' . escape(Core::getConfig('phpmailer_password')) . '" autocomplete="new-password" />';
 $formElements[] = $n;
 
 $fragment = new Fragment();
@@ -303,12 +305,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="phpmailer-charset">' . I18n::msg('phpmailer_charset') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-charset" type="text" name="settings[phpmailer_charset]" value="' . rex_escape(Core::getConfig('phpmailer_charset')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-charset" type="text" name="settings[phpmailer_charset]" value="' . escape(Core::getConfig('phpmailer_charset')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-wordwrap">' . I18n::msg('phpmailer_wordwrap') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-wordwrap" type="number" name="settings[phpmailer_wordwrap]" value="' . rex_escape(Core::getConfig('phpmailer_wordwrap')) . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-wordwrap" type="number" name="settings[phpmailer_wordwrap]" value="' . escape(Core::getConfig('phpmailer_wordwrap')) . '" />';
 $formElements[] = $n;
 
 $n = [];

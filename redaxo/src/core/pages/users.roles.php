@@ -20,6 +20,8 @@ use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $func = Request::request('func', 'string');
 $id = Request::request('id', 'int');
 
@@ -138,7 +140,7 @@ if ('' == $func) {
             $field = $fieldContainer->addGroupedField($group, 'perm_select', $key);
             $field->setLabel($params['label']);
             $field->setCheckboxLabel($params['all_label']);
-            $fieldIds[] = rex_escape($field->getAttribute('id'), 'js');
+            $fieldIds[] = escape($field->getAttribute('id'), 'js');
             if (Request::request('default_value', 'boolean')) {
                 $field->setValue(ComplexPermission::ALL);
             }

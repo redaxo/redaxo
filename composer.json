@@ -69,19 +69,16 @@
         "files": [
             "redaxo/src/core/functions/function_metainfo_extension_cleanup.php",
             "redaxo/src/core/functions/function_metainfo.php",
-            "redaxo/src/core/functions/function_rex_escape.php",
             "redaxo/src/core/functions/function_rex_mediapool.php",
-            "redaxo/src/core/functions/function_rex_other.php"
+            "redaxo/src/core/functions/function_rex_other.php",
+            "src/View/escape.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
             "Redaxo\\Core\\Tests\\": "tests",
             "Redaxo\\Rector\\": ".tools/rector"
-        },
-        "classmap": [
-            "redaxo/src/core/tests/"
-        ]
+        }
     },
     "bin": [
         "redaxo/bin/console"

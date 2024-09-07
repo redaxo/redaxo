@@ -2,6 +2,8 @@
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * @var Fragment $this
  * @psalm-scope-this Fragment
@@ -35,6 +37,6 @@ use Redaxo\Core\View\Fragment;
             $linkAttr = isset($item['linkAttr']) ? Str::buildAttributes($item['linkAttr']) : '';
         ?>
 
-        <li<?= $itemAttr ?>><a href="<?= rex_escape($item['href']) ?>"<?= $linkAttr ?>><?= $icon . $item['title'] ?></a></li>
+        <li<?= $itemAttr ?>><a href="<?= escape($item['href']) ?>"<?= $linkAttr ?>><?= $icon . $item['title'] ?></a></li>
         <?php endforeach ?>
     </ul>

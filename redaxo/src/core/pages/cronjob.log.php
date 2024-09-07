@@ -11,6 +11,8 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $func = Request::request('func', 'string');
 $error = '';
 $success = '';
@@ -62,8 +64,8 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
         <tr class="' . $class . '">
             <td class="rex-table-icon">' . $icon . '</td>
             <td data-title="' . I18n::msg('cronjob_log_date') . '" class="rex-table-tabular-nums">' . Formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>
-            <td data-title="' . I18n::msg('cronjob_name') . '">' . rex_escape($data[2]) . '</td>
-            <td data-title="' . I18n::msg('cronjob_log_message') . '">' . nl2br(rex_escape($data[3])) . '</td>
+            <td data-title="' . I18n::msg('cronjob_name') . '">' . escape($data[2]) . '</td>
+            <td data-title="' . I18n::msg('cronjob_log_message') . '">' . nl2br(escape($data[3])) . '</td>
             <td data-title="' . I18n::msg('cronjob_environment') . '">' . (isset($data[4]) ? I18n::msg('cronjob_environment_' . $data[4]) : '') . '</td>
         </tr>';
 }

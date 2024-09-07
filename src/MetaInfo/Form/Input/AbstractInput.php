@@ -2,6 +2,8 @@
 
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * @internal
  *
@@ -130,7 +132,7 @@ abstract class AbstractInput
     {
         $attr = '';
         foreach ($this->attributes as $attributeName => $attributeValue) {
-            $attr .= ' ' . rex_escape($attributeName) . '="' . rex_escape($attributeValue) . '"';
+            $attr .= ' ' . escape($attributeName) . '="' . escape($attributeValue) . '"';
         }
         return $attr;
     }

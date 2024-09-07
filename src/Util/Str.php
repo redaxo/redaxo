@@ -11,6 +11,7 @@ use voku\helper\AntiXSS;
 
 use function is_array;
 use function is_int;
+use function Redaxo\Core\View\escape;
 
 /**
  * String utility class.
@@ -181,14 +182,14 @@ final class Str
                 if (is_array($value)) {
                     throw new InvalidArgumentException('For integer keys the value can not be an array');
                 }
-                $attr .= ' ' . (string) rex_escape($value);
+                $attr .= ' ' . (string) escape($value);
             } else {
                 if (is_array($value)) {
                     $value = implode(' ', $value);
                 }
                 // for bc reasons avoid double escaping of "&", especially in already escaped urls
                 $value = str_replace('&amp;', '&', (string) $value);
-                $attr .= ' ' . rex_escape($key) . '="' . rex_escape($value) . '"';
+                $attr .= ' ' . escape($key) . '="' . escape($value) . '"';
             }
         }
 

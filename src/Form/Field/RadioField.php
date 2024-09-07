@@ -6,6 +6,8 @@ use Redaxo\Core\Form\AbstractForm;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 class RadioField extends AbstractOptionField
 {
     // 1. Parameter nicht genutzt, muss aber hier stehen,
@@ -43,7 +45,7 @@ class RadioField extends AbstractOptionField
             if ('id' == $attributeName) {
                 continue;
             }
-            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
+            $attr .= ' ' . escape($attributeName, 'html_attr') . '="' . escape($attributeValue) . '"';
         }
 
         $formElements = [];
@@ -54,8 +56,8 @@ class RadioField extends AbstractOptionField
             $optAttr = $attr . ' id="' . $optId . '"';
 
             $n = [];
-            $n['label'] = '<label class="control-label" for="' . $optId . '">' . rex_escape($optName) . '</label>';
-            $n['field'] = '<input type="radio" value="' . rex_escape($optValue) . '"' . $optAttr . $checked . ' />';
+            $n['label'] = '<label class="control-label" for="' . $optId . '">' . escape($optName) . '</label>';
+            $n['field'] = '<input type="radio" value="' . escape($optValue) . '"' . $optAttr . $checked . ' />';
             $formElements[] = $n;
         }
 
