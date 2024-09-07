@@ -981,11 +981,6 @@
       <code><![CDATA[rex_escape($ftitle)]]></code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/functions/function_structure_rex_url.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$params]]></code>
-    </MixedArgumentTypeCoercion>
-  </file>
   <file src="redaxo/src/core/lib/be_style/scss_compiler.php">
     <MixedOperand>
       <code><![CDATA[$path]]></code>
@@ -3004,6 +2999,11 @@
     <MoreSpecificReturnType>
       <code><![CDATA[non-empty-string|null]]></code>
     </MoreSpecificReturnType>
+  </file>
+  <file src="src/Filesystem/Url.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$params]]></code>
+    </MixedArgumentTypeCoercion>
   </file>
   <file src="src/Form/AbstractForm.php">
     <InvalidArrayOffset>
