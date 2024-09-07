@@ -1,12 +1,15 @@
 <?php
 
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Form\Field\BaseField;
+use Redaxo\Core\Form\Field\ArticleField;
+use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
@@ -88,12 +91,38 @@ if ($func && !$csrfToken->isValid()) {
         }
     }
 
-    foreach (rex_system_setting::getAll() as $setting) {
-        $key = $setting->getKey();
-        if (isset($settings[$key])) {
-            if (true !== ($msg = $setting->setValue($settings[$key]))) {
-                $error[] = $msg;
-            }
+    foreach ($settings as $key => $value) {
+        switch ($key) {
+            case 'start_article_id':
+            case 'notfound_article_id':
+                $value = (int) $value;
+                $article = Article::get($value);
+                if (!$article instanceof Article) {
+                    $error[] = I18n::msg('system_setting_' . $key . '_invalid');
+                }
+                Core::setConfig($key, $value);
+                break;
+
+            case 'default_template_id':
+                $value = (int) $value;
+                $sql = Sql::factory();
+                $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'template WHERE id=? AND active=1', [$value]);
+                if (1 != $sql->getRows() && 0 != $value) {
+                    $error[] = I18n::msg('system_setting_default_template_id_invalid');
+                }
+                Core::setConfig('default_template_id', $value);
+                break;
+
+            case 'article_history':
+            case 'article_work_version':
+                $value = (bool) $value;
+                Core::setConfig($key, $value);
+                break;
+
+            case 'phpmailer_errormail':
+                $value = (int) $value;
+                Core::setConfig('phpmailer_errormail', $value);
+                break;
         }
     }
 
@@ -292,14 +321,67 @@ $fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-foreach (rex_system_setting::getAll() as $setting) {
-    $field = $setting->getField();
-    if (!($field instanceof BaseField)) {
-        throw new rex_exception($setting::class . '::getField() must return a BaseField!');
-    }
-    $field->setAttribute('name', 'settings[' . $setting->getKey() . ']');
-    $content .= $field->get();
+$field = new ArticleField();
+$field->setAttribute('class', 'rex-form-widget');
+$field->setAttribute('name', 'settings[start_article_id]');
+$field->setLabel(I18n::msg('system_setting_start_article_id'));
+$field->setValue(Core::getConfig('start_article_id', 1));
+$content .= $field->get();
+
+$field = new ArticleField();
+$field->setAttribute('class', 'rex-form-widget');
+$field->setAttribute('name', 'settings[notfound_article_id]');
+$field->setLabel(I18n::msg('system_setting_notfound_article_id'));
+$field->setValue(Core::getConfig('notfound_article_id', 1));
+$content .= $field->get();
+
+$field = new SelectField();
+$field->setAttribute('class', 'form-control selectpicker');
+$field->setAttribute('name', 'settings[default_template_id]');
+$field->setLabel(I18n::msg('system_setting_default_template_id'));
+$select = $field->getSelect();
+$select->setSize(1);
+$select->setSelected(Template::getDefaultId());
+
+$templates = Template::getTemplatesForCategory(0);
+if (empty($templates)) {
+    $select->addOption(I18n::msg('option_no_template'), 0);
+} else {
+    $select->addArrayOptions(array_map(I18n::translate(...), $templates));
 }
+$content .= $field->get();
+
+$field = new SelectField();
+$field->setAttribute('class', 'form-control selectpicker');
+$field->setAttribute('name', 'settings[article_history]');
+$field->setLabel(I18n::msg('system_setting_article_history'));
+$select = $field->getSelect();
+$select->addOption(I18n::msg('package_active'), 1);
+$select->addOption(I18n::msg('package_disabled'), 0);
+$select->setSelected(Core::getConfig('article_history', false) ? 1 : 0);
+$content .= $field->get();
+
+$field = new SelectField();
+$field->setAttribute('class', 'form-control selectpicker');
+$field->setAttribute('name', 'settings[article_work_version]');
+$field->setLabel(I18n::msg('system_setting_article_work_version'));
+$select = $field->getSelect();
+$select->addOption(I18n::msg('package_active'), 1);
+$select->addOption(I18n::msg('package_disabled'), 0);
+$select->setSelected(Core::getConfig('article_work_version', false) ? 1 : 0);
+$content .= $field->get();
+
+$field = new SelectField();
+$field->setAttribute('class', 'form-control selectpicker');
+$field->setAttribute('name', 'settings[phpmailer_errormail]');
+$field->setLabel(I18n::msg('system_setting_errormail'));
+$select = $field->getSelect();
+$select->addOption(I18n::msg('phpmailer_errormail_disabled'), 0);
+$select->addOption(I18n::msg('phpmailer_errormail_15min'), 900);
+$select->addOption(I18n::msg('phpmailer_errormail_30min'), 1800);
+$select->addOption(I18n::msg('phpmailer_errormail_60min'), 3600);
+$select->setSelected(Core::getConfig('phpmailer_errormail', 1));
+$content .= $field->get();
 
 $formElements = [];
 
