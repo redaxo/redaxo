@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Backup\Backup;
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -56,9 +57,9 @@ class rex_setup_importer
         $errMsg = '';
         $importName = Path::basename($importName);
 
-        $importSql = rex_backup::getDir() . '/' . $importName . '.sql';
+        $importSql = Backup::getDir() . '/' . $importName . '.sql';
         $importSql .= is_file($importSql) ? '' : '.gz';
-        $importArchiv = rex_backup::getDir() . '/' . $importName . '.tar.gz';
+        $importArchiv = Backup::getDir() . '/' . $importName . '.tar.gz';
 
         // Nur hier zuerst die Addons installieren
         // Da sonst Daten aus dem eingespielten Export
@@ -170,14 +171,14 @@ class rex_setup_importer
             I18n::addDirectory(Path::core('backup/lang/'));
 
             // DB Import
-            $stateDb = rex_backup::importDb($importSql);
+            $stateDb = Backup::importDb($importSql);
             if (!$stateDb['state']) {
                 $errMsg .= nl2br($stateDb['message']) . '<br />';
             }
 
             // Archiv optional importieren
             if ($stateDb['state'] && null !== $importArchive && is_file($importArchive)) {
-                $stateArchiv = rex_backup::importFiles($importArchive);
+                $stateArchiv = Backup::importFiles($importArchive);
                 if (!$stateArchiv['state']) {
                     $errMsg .= $stateArchiv['message'] . '<br />';
                 }

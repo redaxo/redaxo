@@ -3,14 +3,14 @@
 namespace Redaxo\Core\Cronjob\Type;
 
 use DateTimeImmutable;
+use Redaxo\Core\Backup\Backup;
+use Redaxo\Core\Backup\FileCompressor;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
-use rex_backup;
-use rex_backup_file_compressor;
 
 use const GLOB_NOSORT;
 use const SORT_NUMERIC;
@@ -31,13 +31,13 @@ class ExportType extends AbstractType
             $filename,
         );
         $file = $filename;
-        $dir = rex_backup::getDir() . '/';
+        $dir = Backup::getDir() . '/';
         $ext = '.cronjob.sql';
         $filename .= $ext;
 
         $excludedTables = $this->getParam('exclude_tables');
         $excludedTables = $excludedTables ? explode('|', $excludedTables) : [];
-        $tables = array_diff(rex_backup::getTables(), $excludedTables);
+        $tables = array_diff(Backup::getTables(), $excludedTables);
 
         if (is_file($dir . $file . $ext)) {
             $i = 1;
@@ -48,11 +48,11 @@ class ExportType extends AbstractType
         }
         $exportFilePath = $dir . $file . $ext;
 
-        if (rex_backup::exportDb($exportFilePath, $tables)) {
+        if (Backup::exportDb($exportFilePath, $tables)) {
             $message = Path::basename($exportFilePath) . ' created';
 
             if ($this->getParam('compress')) {
-                $compressor = new rex_backup_file_compressor();
+                $compressor = new FileCompressor();
                 $gzPath = $compressor->gzCompress($exportFilePath);
                 if ($gzPath) {
                     File::delete($exportFilePath);
@@ -138,7 +138,7 @@ class ExportType extends AbstractType
 
     public function getParamFields()
     {
-        $tables = rex_backup::getTables();
+        $tables = Backup::getTables();
 
         $fields = [
             [

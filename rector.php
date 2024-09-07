@@ -42,6 +42,7 @@ use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Addon;
 use Redaxo\Core\ApiFunction;
 use Redaxo\Core\Backend;
+use Redaxo\Core\Backup;
 use Redaxo\Core\Base;
 use Redaxo\Core\Config;
 use Redaxo\Core\Console;
@@ -162,6 +163,9 @@ return RectorConfig::configure()
         'rex_api_user_impersonate' => Security\ApiFunction\UserImpersonate::class,
         'rex_api_user_remove_auth_method' => Security\ApiFunction\UserRemoveAuthMethod::class,
         'rex_api_user_remove_session' => Security\ApiFunction\UserRemoveSession::class,
+        'rex_backup' => Backup\Backup::class,
+        'rex_backup_file_compressor' => Backup\FileCompressor::class,
+        'rex_backup_tar' => Backup\Tar::class,
         'rex_be_controller' => Backend\Controller::class,
         'rex_be_navigation' => Backend\Navigation::class,
         'rex_be_page' => Backend\Page::class,

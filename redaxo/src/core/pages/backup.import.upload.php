@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backup\Backup;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
@@ -22,8 +23,8 @@ $impname = Request::request('impname', 'string');
 
 if ('' != $impname) {
     $impname = Path::basename($impname);
-    $validDump = rex_backup::isFilenameValid(rex_backup::IMPORT_DB, $impname);
-    $validArchive = rex_backup::isFilenameValid(rex_backup::IMPORT_ARCHIVE, $impname);
+    $validDump = Backup::isFilenameValid(Backup::IMPORT_DB, $impname);
+    $validArchive = Backup::isFilenameValid(Backup::IMPORT_ARCHIVE, $impname);
 
     if ('dbimport' == $function && !$validDump) {
         $impname = '';
@@ -34,8 +35,8 @@ if ('' != $impname) {
     }
 }
 
-if ('download' == $function && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
-    Response::sendFile(rex_backup::getDir() . '/' . $impname, str_ends_with($impname, '.gz') ? 'application/gzip' : 'plain/text', 'attachment');
+if ('download' == $function && $impname && is_readable(Backup::getDir() . '/' . $impname)) {
+    Response::sendFile(Backup::getDir() . '/' . $impname, str_ends_with($impname, '.gz') ? 'application/gzip' : 'plain/text', 'attachment');
     exit;
 }
 
@@ -45,7 +46,7 @@ if ($function && !$csrfToken->isValid()) {
     $error = I18n::msg('csrf_token_invalid');
 } elseif ('delete' == $function && $impname) {
     // ------------------------------ FUNC DELETE
-    if (File::delete(rex_backup::getDir() . '/' . $impname)) {
+    if (File::delete(Backup::getDir() . '/' . $impname)) {
         $success = I18n::msg('backup_file_deleted');
     } else {
         $error = I18n::msg('backup_file_error_while_delete');
@@ -59,13 +60,13 @@ if ($function && !$csrfToken->isValid()) {
         $error = I18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
     } else {
         if ('' != $impname) {
-            $fileTemp = rex_backup::getDir() . '/' . $impname;
+            $fileTemp = Backup::getDir() . '/' . $impname;
         } else {
-            $fileTemp = rex_backup::getDir() . '/temp.sql';
+            $fileTemp = Backup::getDir() . '/temp.sql';
         }
 
         if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $fileTemp)) {
-            $state = rex_backup::importDb($fileTemp);
+            $state = Backup::importDb($fileTemp);
             if ($state['state']) {
                 $success = $state['message'];
             } else {
@@ -87,13 +88,13 @@ if ($function && !$csrfToken->isValid()) {
         $error = I18n::msg('backup_no_import_file_chosen') . '<br/>';
     } else {
         if ('' == $impname) {
-            $fileTemp = rex_backup::getDir() . '/temp.tar.gz';
+            $fileTemp = Backup::getDir() . '/temp.tar.gz';
         } else {
-            $fileTemp = rex_backup::getDir() . '/' . $impname;
+            $fileTemp = Backup::getDir() . '/' . $impname;
         }
 
         if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $fileTemp)) {
-            $return = rex_backup::importFiles($fileTemp);
+            $return = Backup::importFiles($fileTemp);
             if ($return['state']) {
                 $success = $return['message'];
             } else {

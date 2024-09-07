@@ -1,11 +1,14 @@
 <?php
 
+namespace Redaxo\Core\Backup;
+
+use Exception;
 use Redaxo\Core\Filesystem\File;
 
 /**
  * @internal
  */
-class rex_backup_file_compressor
+class FileCompressor
 {
     /**
      * GZIPs a file on disk (appending .gz to the name).
