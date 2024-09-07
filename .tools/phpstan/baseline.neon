@@ -1,6 +1,16 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Parameter \\#1 \\$array of function array_diff expects an array of values castable to string, array\\<array\\|bool\\|float\\|int\\|string\\|null\\> given\\.$#"
+			count: 2
+			path: ../../redaxo/src/addons/debug/boot.php
+
+		-
+			message: "#^Parameter \\#2 \\$arrays of function array_diff expects an array of values castable to string, array\\<array\\|bool\\|float\\|int\\|string\\|null\\> given\\.$#"
+			count: 2
+			path: ../../redaxo/src/addons/debug/boot.php
+
+		-
 			message: "#^Method rex_debug\\:\\:getTrace\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/debug/lib/debug.php
@@ -106,6 +116,36 @@ parameters:
 			path: ../../redaxo/src/core/functions/function_metainfo_extension_cleanup.php
 
 		-
+			message: "#^Impure property assignment in pure function rex_escape\\(\\)\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
+			message: "#^Impure static variable in pure function rex_escape\\(\\)\\.$#"
+			count: 2
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
+			message: "#^Possibly impure call to function preg_match\\(\\) in pure function rex_escape\\(\\)\\.$#"
+			count: 3
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
+			message: "#^Possibly impure call to function preg_replace\\(\\) in pure function rex_escape\\(\\)\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
+			message: "#^Possibly impure call to function preg_replace_callback\\(\\) in pure function rex_escape\\(\\)\\.$#"
+			count: 3
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
+			message: "#^Possibly impure call to method stdClass\\:\\:__toString\\(\\) in pure function rex_escape\\(\\)\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
+
+		-
 			message: "#^Function rex_mediapool_Mediaform\\(\\) has parameter \\$buttonTitle with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/functions/function_rex_mediapool.php
@@ -154,6 +194,11 @@ parameters:
 			message: "#^Method rex_setup\\:\\:checkDb\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/setup/setup.php
+
+		-
+			message: "#^Unable to resolve the template type T in call to function rex_escape$#"
+			count: 1
+			path: ../../redaxo/src/core/pages/system.log.external.php
 
 		-
 			message: "#^Call to static method Redaxo\\\\Core\\\\Util\\\\Type\\:\\:string\\(\\) on a separate line has no effect\\.$#"
@@ -642,6 +687,16 @@ parameters:
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:createConnection\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:getRows\\(\\) is marked as impure but does not have any side effects\\.$#"
+			count: 1
+			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Possibly impure call to function str_replace\\(\\) in pure method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:escapeLikeWildcards\\(\\)\\.$#"
 			count: 1
 			path: ../../src/Database/Sql.php
 
@@ -1551,6 +1606,16 @@ parameters:
 			path: ../../src/View/DataList.php
 
 		-
+			message: "#^Class Redaxo\\\\Core\\\\View\\\\Fragment has PHPDoc tag @method for method getSubfragment\\(\\) parameter \\#2 \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/View/Fragment.php
+
+		-
+			message: "#^Class Redaxo\\\\Core\\\\View\\\\Fragment has PHPDoc tag @method for method subfragment\\(\\) parameter \\#2 \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/View/Fragment.php
+
+		-
 			message: "#^PHPDoc tag @var has invalid value \\(callback\\: callable\\(Category, int, array\\<\\(int \\| string\\), \\(int \\| string \\| list\\<string\\>\\)\\>, array\\<\\(int \\| string\\), \\(int \\| string \\| list\\<string\\>\\)\\>, string\\)\\:bool, depth\\: \\(int \\| \\)\\}\\>\\)\\: Unexpected token \"\\:\", expected '\\}' at offset 181 on line 1$#"
 			count: 1
 			path: ../../src/View/Navigation.php
@@ -1564,6 +1629,11 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\View\\\\View\\:\\:title\\(\\) has parameter \\$subtitle with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/View/View.php
+
+		-
+			message: "#^Unable to resolve the template type TInstance in call to method static method Redaxo\\\\Core\\\\Tests\\\\Base\\\\TestInstanceListPool\\:\\:getInstanceList\\(\\)$#"
+			count: 1
+			path: ../../tests/Base/InstanceListPoolTraitTest.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Tests\\\\Content\\\\CategoryTest\\:\\:createCategories\\(\\) has parameter \\$lev1Params with no value type specified in iterable type array\\.$#"

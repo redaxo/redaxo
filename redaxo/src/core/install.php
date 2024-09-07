@@ -465,6 +465,7 @@ $defaultConfig = [
     'phpmailer_fromname' => 'Mailer',
     'phpmailer_confirmto' => '',
     'phpmailer_bcc' => '',
+    'phpmailer_returnto' => '',
     'phpmailer_mailer' => 'smtp',
     'phpmailer_host' => 'localhost',
     'phpmailer_port' => 587,
