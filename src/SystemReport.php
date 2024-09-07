@@ -6,8 +6,8 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Util\Version;
-use rex_setup;
 use rex_sql_exception;
 
 use function extension_loaded;
@@ -58,7 +58,7 @@ class SystemReport
             'Xdebug' => extension_loaded('xdebug'),
         ];
 
-        $security = rex_setup::checkPhpSecurity();
+        $security = Setup::checkPhpSecurity();
         if ($security) {
             $data['PHP']['Warning'] = implode('<br/>', $security);
         }
@@ -76,7 +76,7 @@ class SystemReport
                 $dbData['Version'] = $sql->getDbType() . ' ' . $sql->getDbVersion();
 
                 if (1 === $dbId) {
-                    $security = rex_setup::checkDbSecurity();
+                    $security = Setup::checkDbSecurity();
                     if ($security) {
                         $dbData['Warning'] = implode('<br/>', $security);
                     }

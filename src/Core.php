@@ -8,12 +8,12 @@ use Redaxo\Core\Database\Configuration as DatabaseConfiguration;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\User;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Validator\Validator;
 use rex_exception;
-use rex_setup;
 use Symfony\Component\HttpFoundation\Request;
 
 use function constant;
@@ -224,7 +224,7 @@ final class Core
      */
     public static function isSetup(): bool
     {
-        return rex_setup::isEnabled();
+        return Setup::isEnabled();
     }
 
     /**

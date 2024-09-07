@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
@@ -8,9 +9,9 @@ use Redaxo\Core\View\View;
 assert(isset($context) && $context instanceof Context);
 assert(isset($cancelSetupBtn));
 
-rex_setup::init();
+Setup::init();
 
-$initial = rex_setup::isInitialSetup();
+$initial = Setup::isInitialSetup();
 $current = I18n::getLocale();
 
 $langs = [];

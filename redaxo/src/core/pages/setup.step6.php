@@ -1,11 +1,12 @@
 <?php
 
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
-$successfullyCompleted = rex_setup::markSetupCompleted();
+$successfullyCompleted = Setup::markSetupCompleted();
 
 if ($successfullyCompleted) {
     $errmsg = '';

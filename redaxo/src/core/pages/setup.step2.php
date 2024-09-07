@@ -3,6 +3,7 @@
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Response;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
@@ -70,7 +71,7 @@ $security .= '<script nonce="' . Response::getNonce() . '">
 
 </script>';
 
-foreach (rex_setup::checkPhpSecurity() as $warning) {
+foreach (Setup::checkPhpSecurity() as $warning) {
     $security .= Message::warning($warning);
 }
 

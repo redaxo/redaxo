@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
+<files psalm-version="5.24.0@462c80e31c34e58cc4f750c656be3927e80e550e">
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
       <code><![CDATA[$query['query']]]></code>
@@ -971,35 +971,6 @@
       <code><![CDATA[$previous->errorInfo[1] ?? null]]></code>
       <code><![CDATA[$previous->errorInfo[1] ?? null]]></code>
     </MixedReturnStatement>
-  </file>
-  <file src="redaxo/src/core/lib/setup/setup.php">
-    <MixedArgument>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
-      <code><![CDATA[$destination]]></code>
-      <code><![CDATA[$func($path)]]></code>
-      <code><![CDATA[$path]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$destination]]></code>
-      <code><![CDATA[$files]]></code>
-      <code><![CDATA[$source]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$source]]></code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/backup.export.php">
     <ArgumentTypeCoercion>
@@ -2126,7 +2097,6 @@
       <code><![CDATA[$config['db'][1]['login']]]></code>
       <code><![CDATA[$config['db'][1]['name']]]></code>
       <code><![CDATA[$config['error_email']]]></code>
-      <code><![CDATA[$config['lang'] ?? null]]></code>
       <code><![CDATA[$config['server']]]></code>
       <code><![CDATA[$config['servername']]]></code>
       <code><![CDATA[$config['timezone']]]></code>
@@ -4271,6 +4241,35 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[[$data->id, $id]]]></code>
     </MixedArgumentTypeCoercion>
+  </file>
+  <file src="src/Setup/Setup.php">
+    <MixedArgument>
+      <code><![CDATA[$config['db'][1]['host']]]></code>
+      <code><![CDATA[$config['db'][1]['login']]]></code>
+      <code><![CDATA[$config['db'][1]['name']]]></code>
+      <code><![CDATA[$config['db'][1]['password']]]></code>
+      <code><![CDATA[$destination]]></code>
+      <code><![CDATA[$func($path)]]></code>
+      <code><![CDATA[$path]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]['host']]]></code>
+      <code><![CDATA[$config['db'][1]['login']]]></code>
+      <code><![CDATA[$config['db'][1]['name']]]></code>
+      <code><![CDATA[$config['db'][1]['password']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$destination]]></code>
+      <code><![CDATA[$files]]></code>
+      <code><![CDATA[$source]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$source]]></code>
+    </MixedOperand>
   </file>
   <file src="src/SystemReport.php">
     <ArgumentTypeCoercion>

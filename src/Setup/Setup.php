@@ -1,5 +1,8 @@
 <?php
 
+namespace Redaxo\Core\Setup;
+
+use DateTimeImmutable;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
@@ -13,11 +16,14 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Util\Version;
+use rex_exception;
+use rex_sql_could_not_connect_exception;
+use rex_sql_exception;
 
 /**
  * @internal
  */
-class rex_setup
+class Setup
 {
     // These values must be synchronized with the values in redaxo/src/core/update.php
     public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;

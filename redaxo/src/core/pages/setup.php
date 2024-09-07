@@ -10,6 +10,8 @@ use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Security\Login;
+use Redaxo\Core\Setup\Importer;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Message;
 
@@ -17,12 +19,12 @@ $step = Request::request('step', 'int', 1);
 $lang = Request::request('lang', 'string');
 $func = Request::request('func', 'string');
 
-$context = rex_setup::getContext();
+$context = Setup::getContext();
 
 // ---------------------------------- Global Step features
 
 $cancelSetupBtn = '';
-if (!rex_setup::isInitialSetup()) {
+if (!Setup::isInitialSetup()) {
     $cancelSetupBtn = '
     <style nonce="' . Response::getNonce() . '">
         .rex-cancel-setup {
@@ -45,7 +47,7 @@ if (!rex_setup::isInitialSetup()) {
     <a href="' . $context->getUrl(['func' => 'abort']) . '" data-confirm="' . I18n::msg('setup_cancel') . '?" class="btn btn-delete rex-cancel-setup">' . I18n::msg('setup_cancel') . '</a>';
 
     if ('abort' === $func) {
-        rex_setup::markSetupCompleted();
+        Setup::markSetupCompleted();
 
         Response::sendRedirect(Url::backendController());
     }
@@ -63,7 +65,7 @@ if (1 >= $step) {
 $errorArray = [];
 $successArray = [];
 
-$errors = rex_setup::checkEnvironment();
+$errors = Setup::checkEnvironment();
 if (count($errors) > 0) {
     foreach ($errors as $error) {
         $errorArray[] = Message::error($error);
@@ -72,7 +74,7 @@ if (count($errors) > 0) {
     $successArray[] = I18n::msg('setup_208', PHP_VERSION);
 }
 
-$res = rex_setup::checkFilesystem();
+$res = Setup::checkFilesystem();
 if (count($res) > 0) {
     foreach ($res as $key => $messages) {
         if (count($messages) > 0) {
@@ -122,8 +124,8 @@ if ($step > 3) {
         $config['db'][1]['host'] = trim(Request::post('mysql_host', 'string'));
         $config['db'][1]['login'] = trim(Request::post('redaxo_db_user_login', 'string'));
 
-        $passwd = Request::post('redaxo_db_user_pass', 'string', rex_setup::DEFAULT_DUMMY_PASSWORD);
-        if (rex_setup::DEFAULT_DUMMY_PASSWORD != $passwd) {
+        $passwd = Request::post('redaxo_db_user_pass', 'string', Setup::DEFAULT_DUMMY_PASSWORD);
+        if (Setup::DEFAULT_DUMMY_PASSWORD != $passwd) {
             $config['db'][1]['password'] = $passwd;
         }
         $config['db'][1]['name'] = trim(Request::post('dbname', 'string'));
@@ -179,7 +181,7 @@ if ($step > 3) {
     if (0 == count($errorArray)) {
         try {
             Sql::closeConnection();
-            $err = rex_setup::checkDb($config, $redaxoDbCreate);
+            $err = Setup::checkDb($config, $redaxoDbCreate);
         } catch (PDOException $e) {
             $err = I18n::msg('setup_315', $e->getMessage());
         }
@@ -208,32 +210,32 @@ $errors = [];
 $createdb = Request::post('createdb', 'int', -1);
 
 if ($step > 4 && $createdb > -1) {
-    $tablesComplete = '' == rex_setup_importer::verifyDbSchema();
+    $tablesComplete = '' == Importer::verifyDbSchema();
 
     if (4 == $createdb) {
-        $error = rex_setup_importer::updateFromPrevious();
+        $error = Importer::updateFromPrevious();
         if ('' != $error) {
             $errors[] = Message::error($error);
         }
     } elseif (3 == $createdb) {
         $importName = Request::post('import_name', 'string');
 
-        $error = rex_setup_importer::loadExistingImport($importName);
+        $error = Importer::loadExistingImport($importName);
         if ('' != $error) {
             $errors[] = Message::error($error);
         }
     } elseif (2 == $createdb && $tablesComplete) {
-        $error = rex_setup_importer::databaseAlreadyExists();
+        $error = Importer::databaseAlreadyExists();
         if ('' != $error) {
             $errors[] = Message::error($error);
         }
     } elseif (1 == $createdb) {
-        $error = rex_setup_importer::overrideExisting();
+        $error = Importer::overrideExisting();
         if ('' != $error) {
             $errors[] = Message::error($error);
         }
     } elseif (0 == $createdb) {
-        $error = rex_setup_importer::prepareEmptyDb();
+        $error = Importer::prepareEmptyDb();
         if ('' != $error) {
             $errors[] = Message::error($error);
         }
@@ -242,7 +244,7 @@ if ($step > 4 && $createdb > -1) {
     }
 
     if (0 == count($errors)) {
-        $error = rex_setup_importer::verifyDbSchema();
+        $error = Importer::verifyDbSchema();
         if ('' != $error) {
             $errors[] = $error;
         }
@@ -257,7 +259,7 @@ if ($step > 4 && $createdb > -1) {
     }
 }
 
-if ($step > 4 && '' == !rex_setup_importer::verifyDbSchema()) {
+if ($step > 4 && '' == !Importer::verifyDbSchema()) {
     $step = 4;
     $context->setParam('step', $step);
 }

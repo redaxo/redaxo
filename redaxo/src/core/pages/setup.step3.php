@@ -4,6 +4,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
@@ -96,7 +97,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-db-user-pass" class="required">' . I18n::msg('setup_309') . '</label>';
-$n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . rex_setup::DEFAULT_DUMMY_PASSWORD . '" />';
+$n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . Setup::DEFAULT_DUMMY_PASSWORD . '" />';
 $formElements[] = $n;
 
 $n = [];

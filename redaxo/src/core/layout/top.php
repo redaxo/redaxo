@@ -10,6 +10,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Security\ApiFunction\UserImpersonate;
 use Redaxo\Core\Security\CsrfToken;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Asset;
@@ -173,7 +174,7 @@ if ('setup' == Controller::getCurrentPagePart(1)) {
     $step = Request::request('step', 'float');
     $lang = Request::request('lang', 'string', '');
 
-    $context = rex_setup::getContext();
+    $context = Setup::getContext();
 
     $navi = [];
     $end = $lang ? 6 : 1;
