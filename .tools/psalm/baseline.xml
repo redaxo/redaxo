@@ -972,14 +972,6 @@
       <code><![CDATA[$previous->errorInfo[1] ?? null]]></code>
     </MixedReturnStatement>
   </file>
-  <file src="redaxo/src/core/lib/phpmailer/system_setting_phpmailer_errormail.php">
-    <MixedArgument>
-      <code><![CDATA[Config::get('phpmailer', 'errormail', 1)]]></code>
-    </MixedArgument>
-    <PossiblyNullArgument>
-      <code><![CDATA[Config::get('phpmailer', 'errormail', 1)]]></code>
-    </PossiblyNullArgument>
-  </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
     <MixedArgument>
       <code><![CDATA[$config['db'][1]['host']]]></code>
@@ -1008,11 +1000,6 @@
     <MixedOperand>
       <code><![CDATA[$source]]></code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/lib/structure/system_setting_article_id.php">
-    <MixedArgument>
-      <code><![CDATA[Core::getConfig($this->key, 1)]]></code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/core/pages/backup.export.php">
     <ArgumentTypeCoercion>
@@ -1790,12 +1777,20 @@
   <file src="redaxo/src/core/pages/system.settings.php">
     <MixedArgument>
       <code><![CDATA[$destination]]></code>
+      <code><![CDATA[Core::getConfig('notfound_article_id', 1)]]></code>
+      <code><![CDATA[Core::getConfig('phpmailer_errormail', 1)]]></code>
+      <code><![CDATA[Core::getConfig('start_article_id', 1)]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$config[$key]]]></code>
       <code><![CDATA[$destination]]></code>
       <code><![CDATA[$files]]></code>
       <code><![CDATA[$source]]></code>
+      <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$source]]></code>
@@ -1805,6 +1800,7 @@
     </NullOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$editor->getName()]]></code>
+      <code><![CDATA[Core::getConfig('phpmailer_errormail', 1)]]></code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/pages/users.roles.php">

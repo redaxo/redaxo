@@ -5,6 +5,7 @@ namespace Redaxo\Core\RexVar;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
@@ -46,7 +47,7 @@ class LinkVar extends RexVar
             $value = self::getWidget($id, 'REX_INPUT_LINK[' . $id . ']', $value, $args);
         } else {
             if ($value && $this->hasArg('output') && 'id' != $this->getArg('output')) {
-                return 'rex_getUrl(' . self::quote($value) . ')';
+                return '\\' . Url::class . '::article(' . self::quote($value) . ')';
             }
         }
 

@@ -544,14 +544,6 @@ if ('' === $theme && $user) {
 }
 Asset::setJsProperty('theme', $theme ?: 'auto');
 
-if ('system' == Controller::getCurrentPagePart(1)) {
-    rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
-    rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
-    rex_system_setting::register(new rex_system_setting_default_template_id());
-    rex_system_setting::register(new rex_system_setting_structure_package_status('article_history'));
-    rex_system_setting::register(new rex_system_setting_structure_package_status('article_work_version'));
-    rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
-}
 if ('content' == Controller::getCurrentPagePart(1)) {
     Asset::addCssFile(Url::coreAssets('css/metainfo.css'));
     Asset::addJsFile(Url::coreAssets('js/metainfo.js'));
