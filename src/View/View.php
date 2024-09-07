@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Backend\Page;
+use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -229,6 +230,42 @@ class View
         }
 
         return $fragment->parse('core/dropdowns/dropdown.php');
+    }
+
+    /**
+     * @internal
+     */
+    public static function structureBreadcrumb(int $categoryId, int $articleId, int $clang): string
+    {
+        $navigation = [];
+
+        $objectId = $articleId > 0 ? $articleId : $categoryId;
+        $object = Article::get($objectId, $clang);
+        if ($object) {
+            $tree = $object->getParentTree();
+            if (!$object->isStartArticle()) {
+                $tree[] = $object;
+            }
+            foreach ($tree as $parent) {
+                $id = $parent->getId();
+                if (Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($id)) {
+                    $n = [];
+                    $n['title'] = str_replace(' ', '&nbsp;', escape($parent->getName()));
+                    if ($parent->isStartArticle()) {
+                        $n['href'] = Url::backendPage('structure', ['category_id' => $id, 'clang' => $clang]);
+                    }
+                    $navigation[] = $n;
+                }
+            }
+        }
+
+        $title = '<a class="rex-link-expanded" href="' . Url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . I18n::msg('root_level') . '</a>';
+
+        $fragment = new Fragment();
+        $fragment->setVar('id', 'rex-js-structure-breadcrumb', false);
+        $fragment->setVar('title', $title, false);
+        $fragment->setVar('items', $navigation, false);
+        return $fragment->parse('core/navigations/breadcrumb.php');
     }
 
     /**
