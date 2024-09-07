@@ -125,6 +125,7 @@ class BackendLogin extends Login
                 $this->setSessionVar(self::SESSION_PASSWORD, null);
                 $this->setSessionVar(self::SESSION_START_TIME, time());
                 $this->setSessionVar(self::SESSION_LAST_ACTIVITY, time());
+                $this->userLogin = null;
             } else {
                 $this->message = I18n::msg('login_error');
                 $this->passkey = null;

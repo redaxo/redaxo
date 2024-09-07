@@ -1,7 +1,11 @@
 <?php
 
+namespace Redaxo\Core\Backup;
+
 use splitbrain\PHPArchive\Archive;
-use splitbrain\PHPArchive\Tar;
+use splitbrain\PHPArchive\Tar as BaseTar;
+
+use const E_DEPRECATED;
 
 /**
  * REDAXO Tar Klasse.
@@ -11,14 +15,14 @@ use splitbrain\PHPArchive\Tar;
  *
  * @internal
  */
-class rex_backup_tar
+class Tar
 {
-    private Tar $tar;
+    private BaseTar $tar;
 
     // constructor to omit warnings
     public function __construct()
     {
-        $this->tar = new Tar();
+        $this->tar = new BaseTar();
     }
 
     /**

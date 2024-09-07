@@ -79,7 +79,7 @@ class ArticleContentBase
     public function __construct($articleId = null, $clang = null)
     {
         if (null !== $clang) {
-            $this->setCLang($clang);
+            $this->setClang($clang);
         } else {
             $this->setClang(Language::getCurrentId());
         }

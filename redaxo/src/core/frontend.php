@@ -181,6 +181,7 @@ try {
     $article = new ArticleContent();
     $article->setClang(Language::getCurrentId());
     $article->setArticleId(Article::getNotfoundArticleId());
+    Core::setProperty('article_id', Article::getNotfoundArticleId());
 
     $content .= $article->getArticleTemplate();
 }

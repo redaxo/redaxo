@@ -684,6 +684,7 @@ phpmailer_detour_warning = Field <b>address for testing purposes</b> is required
 phpmailer_detour_subject = [DETOUR] {0} [originally for: {1}]
 phpmailer_confirm = Confirmation address
 phpmailer_bcc = Blind carbon copy(BCC) address
+phpmailer_returnto_email = Bounces (Return-Path) to
 phpmailer_mailertype = Mailer type
 phpmailer_host = Host
 phpmailer_port = Port
