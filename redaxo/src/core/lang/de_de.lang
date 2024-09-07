@@ -717,6 +717,7 @@ phpmailer_detour_warning = Feld <b>Adresse für Testzwecke</b> wird für <b>E-Ma
 phpmailer_detour_subject = [UMLEITUNG] {0} [Original für: {1}]
 phpmailer_confirm = Lesebestätigung an
 phpmailer_bcc = Blindkopie(BCC) an
+phpmailer_returnto_email = Bounces (Return-Path) an
 phpmailer_mailertype = Mailer-Typ
 phpmailer_host = Host
 phpmailer_port = Port

@@ -1,9 +1,10 @@
 <?php
 
 use Redaxo\Core\Http\Response;
+use Redaxo\Core\SystemReport;
 use Redaxo\Core\Translation\I18n;
 
-$report = rex_system_report::factory()->asMarkdown();
+$report = SystemReport::factory()->asMarkdown();
 
 echo '<p><clipboard-copy for="rex-system-report-markdown" class="btn btn-copy btn-primary">' . I18n::msg('copy_to_clipboard') . '</clipboard-copy></p>';
 
