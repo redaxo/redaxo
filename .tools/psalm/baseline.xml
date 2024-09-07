@@ -1055,20 +1055,6 @@
       <code><![CDATA[Core::getConfig($this->key, 1)]]></code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/lib/system_report.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$dbId]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidReturnStatement>
-      <code><![CDATA[$data]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[array<string, array<string, string|bool>>]]></code>
-    </InvalidReturnType>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$_SERVER['SERVER_PROTOCOL']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
   <file src="redaxo/src/core/pages/backup.export.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$EXPDIR]]></code>
@@ -4325,6 +4311,20 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[[$data->id, $id]]]></code>
     </MixedArgumentTypeCoercion>
+  </file>
+  <file src="src/SystemReport.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$dbId]]></code>
+    </ArgumentTypeCoercion>
+    <InvalidReturnStatement>
+      <code><![CDATA[$data]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array<string, array<string, string|bool>>]]></code>
+    </InvalidReturnType>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$_SERVER['SERVER_PROTOCOL']]]></code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="src/Translation/I18n.php">
     <ArgumentTypeCoercion>

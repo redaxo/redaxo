@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Console\Command;
 
 use Override;
-use rex_system_report;
+use Redaxo\Core\SystemReport;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Helper\Table;
@@ -42,7 +42,7 @@ class SystemReportCommand extends AbstractCommand
             throw new InvalidOptionException(sprintf('Invalid value "%s" for --format option, allowed values: %s', $format, implode(', ', $formats)));
         }
 
-        $report = rex_system_report::factory();
+        $report = SystemReport::factory();
 
         if ('markdown' === $format) {
             $output->writeln($report->asMarkdown());

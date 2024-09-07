@@ -62,6 +62,7 @@ use Redaxo\Core\MediaPool;
 use Redaxo\Core\MetaInfo;
 use Redaxo\Core\RexVar;
 use Redaxo\Core\Security;
+use Redaxo\Core\SystemReport;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
 use Redaxo\Core\Validator;
@@ -381,6 +382,7 @@ return RectorConfig::configure()
         'rex_list' => View\DataList::class,
         'rex_fragment' => View\Fragment::class,
         'rex_navigation' => View\Navigation::class,
+        'rex_system_report' => SystemReport::class,
         'rex_view' => View\View::class,
     ])
     ->withConfiguredRule(ArgumentAdderRector::class, [
