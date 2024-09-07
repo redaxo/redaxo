@@ -32,6 +32,7 @@ use function in_array;
 use function is_array;
 use function is_int;
 use function is_string;
+use function Redaxo\Core\View\escape;
 
 abstract class AbstractForm
 {
@@ -928,7 +929,7 @@ abstract class AbstractForm
     public function getWarning()
     {
         $warning = Request::request($this->getName() . '_warning', 'string');
-        $warning = rex_escape($warning, 'html_simplified');
+        $warning = escape($warning, 'html_simplified');
 
         if ('' != $this->warning) {
             $warning .= "\n" . $this->warning;
@@ -951,7 +952,7 @@ abstract class AbstractForm
     public function getMessage()
     {
         $message = Request::request($this->getName() . '_msg', 'string');
-        $message = rex_escape($message, 'html_simplified');
+        $message = escape($message, 'html_simplified');
 
         if ('' != $this->message) {
             $message .= "\n" . $this->message;
@@ -1120,7 +1121,7 @@ abstract class AbstractForm
         $paramString = '&' . Str::buildQuery($params);
 
         if ($this->debug) {
-            echo 'redirect to: ' . rex_escape($this->applyUrl . $paramString);
+            echo 'redirect to: ' . escape($this->applyUrl . $paramString);
             exit;
         }
 
@@ -1218,7 +1219,7 @@ abstract class AbstractForm
 
         $id = '';
         if ($this->formId) {
-            $id = ' id="' . rex_escape($this->formId) . '"';
+            $id = ' id="' . escape($this->formId) . '"';
         }
 
         $s .= sprintf('<form %s %s action="%s" method="%s">' . "\n",
@@ -1232,7 +1233,7 @@ abstract class AbstractForm
             $s .= '<fieldset ' . Str::buildAttributes($attributes) . '>' . "\n";
 
             if ('' != $fieldsetName && $fieldsetName != $this->name) {
-                $s .= '<legend>' . rex_escape($fieldsetName) . '</legend>' . "\n";
+                $s .= '<legend>' . escape($fieldsetName) . '</legend>' . "\n";
             }
 
             // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen

@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Util\Str;
 
 use function is_array;
+use function Redaxo\Core\View\escape;
 
 /**
  * A generic implementation of ContextProvider.
@@ -131,10 +132,10 @@ class Context implements ContextProviderInterface
         foreach ($array as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $valName => $valVal) {
-                    $inputString .= '<input type="hidden" name="' . rex_escape($name) . '[' . rex_escape($valName) . ']" value="' . rex_escape($valVal ?? '') . '" />';
+                    $inputString .= '<input type="hidden" name="' . escape($name) . '[' . escape($valName) . ']" value="' . escape($valVal ?? '') . '" />';
                 }
             } else {
-                $inputString .= '<input type="hidden" name="' . rex_escape($name) . '" value="' . rex_escape($value ?? '') . '" />';
+                $inputString .= '<input type="hidden" name="' . escape($name) . '" value="' . escape($value ?? '') . '" />';
             }
         }
 

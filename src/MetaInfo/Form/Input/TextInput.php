@@ -2,6 +2,8 @@
 
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * @internal
  *
@@ -18,7 +20,7 @@ class TextInput extends AbstractInput
 
     public function getHtml()
     {
-        $value = rex_escape($this->value);
+        $value = escape($this->value);
         return '<input' . $this->getAttributeString() . ' value="' . $value . '" />';
     }
 }

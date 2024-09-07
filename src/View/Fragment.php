@@ -159,7 +159,7 @@ class Fragment
      */
     protected function escape($value, $strategy = 'html')
     {
-        return rex_escape($value, $strategy);
+        return escape($value, $strategy);
     }
 
     /**

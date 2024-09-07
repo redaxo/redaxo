@@ -5,6 +5,8 @@ namespace Redaxo\Core\MetaInfo\Form\Input;
 use Redaxo\Core\RexVar\LinkListVar;
 use Redaxo\Core\RexVar\LinkVar;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * @internal
  *
@@ -50,7 +52,7 @@ class ArticleInput extends AbstractInput
     {
         $buttonId = $this->buttonId;
         $categoryId = $this->categoryId;
-        $value = rex_escape($this->value);
+        $value = escape($this->value);
         $name = $this->attributes['name'];
 
         if ($this->multiple) {

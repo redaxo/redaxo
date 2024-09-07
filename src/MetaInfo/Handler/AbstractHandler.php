@@ -25,6 +25,7 @@ use Redaxo\Core\View\Fragment;
 use function count;
 use function in_array;
 use function is_int;
+use function Redaxo\Core\View\escape;
 
 /**
  * @internal
@@ -104,10 +105,10 @@ abstract class AbstractHandler
             if ('' != $title) {
                 $label = I18n::translate($title);
             } else {
-                $label = rex_escape($name);
+                $label = escape($name);
             }
 
-            $id = 'rex-metainfo-' . rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name));
+            $id = 'rex-metainfo-' . escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name));
             $labelIt = true;
 
             $label = '<label for="' . $id . '">' . $label . '</label>';
@@ -205,10 +206,10 @@ abstract class AbstractHandler
                         if ($oneValue) {
                             $e['label'] = $label;
                         } else {
-                            $currentId .= '-' . rex_escape((string) preg_replace('/[^a-zA-Z0-9_-]/', '_', (string) $key));
-                            $e['label'] = '<label for="' . $currentId . '">' . rex_escape($value) . '</label>';
+                            $currentId .= '-' . escape((string) preg_replace('/[^a-zA-Z0-9_-]/', '_', (string) $key));
+                            $e['label'] = '<label for="' . $currentId . '">' . escape($value) . '</label>';
                         }
-                        $e['field'] = '<input type="' . rex_escape($typeLabel) . '" name="' . rex_escape($name) . '" value="' . rex_escape($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
+                        $e['field'] = '<input type="' . escape($typeLabel) . '" name="' . escape($name) . '" value="' . escape($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
                         $e['note'] = $oneValue ? $note : null;
                         $formElements[] = $e;
                     }
@@ -343,7 +344,7 @@ abstract class AbstractHandler
                     $field = $rexInput->getHtml();
 
                     $checked = $active ? ' checked="checked"' : '';
-                    $field .= '<input class="rex-metainfo-checkbox" type="checkbox" name="' . rex_escape($name) . '[active]" value="1"' . $checked . ' />';
+                    $field .= '<input class="rex-metainfo-checkbox" type="checkbox" name="' . escape($name) . '[active]" value="1"' . $checked . ' />';
 
                     $e = [];
                     $e['label'] = $label;

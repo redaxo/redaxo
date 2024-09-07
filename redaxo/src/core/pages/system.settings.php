@@ -17,6 +17,8 @@ use Redaxo\Core\Util\Version;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $error = [];
 $success = '';
 
@@ -175,7 +177,7 @@ if (str_contains($rexVersion, '-dev')) {
 }
 
 if (Version::isUnstable($rexVersion)) {
-    $rexVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . rex_escape($rexVersion);
+    $rexVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . escape($rexVersion);
 }
 
 $mainContent = [];
@@ -270,12 +272,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-server" class="required">' . I18n::msg('server') . '</label>';
-$n['field'] = '<input class="form-control" type="url" id="rex-id-server" name="settings[server]" value="' . rex_escape(Core::getServer()) . '" required />';
+$n['field'] = '<input class="form-control" type="url" id="rex-id-server" name="settings[server]" value="' . escape(Core::getServer()) . '" required />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-servername" class="required">' . I18n::msg('servername') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . rex_escape(Core::getServerName()) . '" required />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . escape(Core::getServerName()) . '" required />';
 $formElements[] = $n;
 
 $n = [];
@@ -285,7 +287,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-error-email" class="required">' . I18n::msg('error_email') . '</label>';
-$n['field'] = '<input class="form-control" type="email" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(Core::getErrorEmail()) . '" required />';
+$n['field'] = '<input class="form-control" type="email" id="rex-id-error-email" name="settings[error_email]" value="' . escape(Core::getErrorEmail()) . '" required />';
 $formElements[] = $n;
 
 $fragment = new Fragment();
@@ -366,7 +368,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-editor-basepath">' . I18n::msg('system_editor_basepath') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-editor-basepath" name="editor[basepath]" value="' . rex_escape($editor->getBasepath()) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-editor-basepath" name="editor[basepath]" value="' . escape($editor->getBasepath()) . '" />';
 $n['note'] = I18n::msg('system_editor_basepath_note');
 $formElements[] = $n;
 

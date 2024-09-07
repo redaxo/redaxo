@@ -7,6 +7,7 @@ use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Fragment;
 
 use function in_array;
+use function Redaxo\Core\View\escape;
 
 class CheckboxField extends AbstractOptionField
 {
@@ -50,7 +51,7 @@ class CheckboxField extends AbstractOptionField
             if ('name' == $attributeName || 'id' == $attributeName) {
                 continue;
             }
-            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
+            $attr .= ' ' . escape($attributeName, 'html_attr') . '="' . escape($attributeValue) . '"';
         }
 
         $formElements = [];
@@ -60,12 +61,12 @@ class CheckboxField extends AbstractOptionField
             if ('' != $optValue) {
                 $optId .= '-' . Str::normalize($optValue, '-');
             }
-            $optAttr = $attr . ' id="' . rex_escape($optId) . '"';
+            $optAttr = $attr . ' id="' . escape($optId) . '"';
             $checked = in_array($optValue, $values) ? ' checked="checked"' : '';
 
             $n = [];
-            $n['label'] = '<label class="control-label" for="' . rex_escape($optId) . '">' . rex_escape($optName) . '</label>';
-            $n['field'] = '<input type="checkbox" name="' . rex_escape($name) . '[' . rex_escape($optValue) . ']" value="' . rex_escape($optValue) . '"' . $optAttr . $checked . ' />';
+            $n['label'] = '<label class="control-label" for="' . escape($optId) . '">' . escape($optName) . '</label>';
+            $n['field'] = '<input type="checkbox" name="' . escape($name) . '[' . escape($optValue) . ']" value="' . escape($optValue) . '"' . $optAttr . $checked . ' />';
             $formElements[] = $n;
         }
 

@@ -13,6 +13,8 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 
+use function Redaxo\Core\View\escape;
+
 class rex_backup
 {
     public const IMPORT_ARCHIVE = 1;
@@ -165,7 +167,7 @@ class rex_backup
             try {
                 $sql->setQuery($line['query']);
             } catch (rex_sql_exception $e) {
-                $error[] = nl2br(trim(rex_escape($e->getMessage())));
+                $error[] = nl2br(trim(escape($e->getMessage())));
             }
         }
 

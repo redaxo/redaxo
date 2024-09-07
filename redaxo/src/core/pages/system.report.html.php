@@ -5,6 +5,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Version;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 $report = rex_system_report::factory()->get();
 
 echo '<div class="row"><div class="col-sm-6">';
@@ -22,18 +24,18 @@ foreach ($report as $title => $group) {
                 throw new rex_exception('Package ' . $label . ' does not define a proper version in its package.yml');
             }
             if (Version::isUnstable($value)) {
-                $value = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . rex_escape($value);
+                $value = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . escape($value);
             }
         } elseif (is_bool($value)) {
             $value = $value ? 'yes' : 'no';
         } else {
-            $value = rex_escape($value);
+            $value = escape($value);
         }
 
         $content .= '
             <tr>
-                <th width="120">' . rex_escape($label) . '</th>
-                <td data-title="' . rex_escape($label) . '">' . $value . '</td>
+                <th width="120">' . escape($label) . '</th>
+                <td data-title="' . escape($label) . '">' . $value . '</td>
             </tr>
         ';
     }

@@ -6,6 +6,8 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * Regelt die Rechte an den einzelnen Kategorien und gibt den Pfad aus
  * Kategorien = Startartikel und Bezüge.
@@ -35,7 +37,7 @@ if ($object) {
         $id = $parent->getId();
         if (Core::requireUser()->getComplexPerm('structure')->hasCategoryPerm($id)) {
             $n = [];
-            $n['title'] = str_replace(' ', '&nbsp;', rex_escape($parent->getName()));
+            $n['title'] = str_replace(' ', '&nbsp;', escape($parent->getName()));
             if ($parent->isStartarticle()) {
                 $n['href'] = Url::backendPage('structure', ['category_id' => $id, 'clang' => $clang]);
             }

@@ -6,6 +6,7 @@ use Redaxo\Core\Content\Category;
 use Redaxo\Core\Http\Context;
 
 use function count;
+use function Redaxo\Core\View\escape;
 
 /**
  * @internal
@@ -35,7 +36,7 @@ class CategoryTree extends CategoryTreeRenderer
         $badgeCat = ($countChildren > 0) ? '<span class="badge">' . $countChildren . '</span>' : '';
         $li = '';
         $li .= '<li' . $liClasses . '>';
-        $li .= '<a' . $linkClasses . ' href="' . $this->context->getUrl(['category_id' => $cat->getId()]) . '">' . $liIcon . rex_escape($label) . '<span class="list-item-suffix">' . $cat->getId() . '</span></a>';
+        $li .= '<a' . $linkClasses . ' href="' . $this->context->getUrl(['category_id' => $cat->getId()]) . '">' . $liIcon . escape($label) . '<span class="list-item-suffix">' . $cat->getId() . '</span></a>';
         $li .= $badgeCat;
         $li .= $subHtml;
         $li .= '</li>' . "\n";

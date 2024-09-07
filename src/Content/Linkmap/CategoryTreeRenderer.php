@@ -11,6 +11,7 @@ use Redaxo\Core\Translation\I18n;
 
 use function count;
 use function in_array;
+use function Redaxo\Core\View\escape;
 
 /**
  * @internal
@@ -121,6 +122,6 @@ abstract class CategoryTreeRenderer
 
         $icon = '<i class="rex-icon rex-icon-' . ($OOobject->isSiteStartArticle() ? 'sitestartarticle' : ($OOobject->isStartArticle() ? 'startarticle' : 'article')) . '"></i>';
 
-        return '<li' . $liAttr . '><a' . $linkAttr . '>' . $icon . ' ' . rex_escape($label) . '<span class="list-item-suffix">' . $OOobject->getId() . '</span></a>';
+        return '<li' . $liAttr . '><a' . $linkAttr . '>' . $icon . ' ' . escape($label) . '<span class="list-item-suffix">' . $OOobject->getId() . '</span></a>';
     }
 }

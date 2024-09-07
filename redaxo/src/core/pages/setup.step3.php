@@ -8,6 +8,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
+use function Redaxo\Core\View\escape;
+
 assert(isset($context) && $context instanceof Context);
 assert(isset($errorArray) && is_array($errorArray));
 assert(isset($config) && is_array($config));
@@ -56,17 +58,17 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-form-serveraddress" class="required">' . I18n::msg('server') . '</label>';
-$n['field'] = '<input class="form-control" type="url" id="rex-form-serveraddress" name="serveraddress" value="' . rex_escape($config['server']) . '" required autofocus />';
+$n['field'] = '<input class="form-control" type="url" id="rex-form-serveraddress" name="serveraddress" value="' . escape($config['server']) . '" required autofocus />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-servername" class="required">' . I18n::msg('servername') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-servername" name="servername" value="' . rex_escape($config['servername']) . '" required />';
+$n['field'] = '<input class="form-control" type="text" id="rex-form-servername" name="servername" value="' . escape($config['servername']) . '" required />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-error-email" class="required">' . I18n::msg('error_email') . '</label>';
-$n['field'] = '<input class="form-control" type="email" id="rex-form-error-email" name="error_email" value="' . rex_escape($config['error_email']) . '" required />';
+$n['field'] = '<input class="form-control" type="email" id="rex-form-error-email" name="error_email" value="' . escape($config['error_email']) . '" required />';
 $formElements[] = $n;
 
 $n = [];
@@ -84,12 +86,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for=rex-form-mysql-host" class="required">MySQL Host</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . rex_escape($config['db'][1]['host']) . '" required />';
+$n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . escape($config['db'][1]['host']) . '" required />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-db-user-login" class="required">Login</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . rex_escape($config['db'][1]['login']) . '" required />';
+$n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . escape($config['db'][1]['login']) . '" required />';
 $formElements[] = $n;
 
 $n = [];
@@ -103,7 +105,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-dbname" class="required">' . I18n::msg('setup_308') . '</label>';
-$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" required />';
+$n['field'] = '<input class="form-control" type="text" value="' . escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" required />';
 $formElements[] = $n;
 
 $fragment = new Fragment();

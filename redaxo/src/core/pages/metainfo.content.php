@@ -16,6 +16,8 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 assert(isset($ep) && $ep instanceof ExtensionPoint);
 
 $params = $ep->getParams();
@@ -32,9 +34,9 @@ $status = (int) $article->getValue('status');
 // ------------------
 
 $panels = [];
-$panels[] = '<dt>' . I18n::msg('created_by') . '</dt><dd>' . rex_escape($article->getValue('createuser')) . '</dd>';
+$panels[] = '<dt>' . I18n::msg('created_by') . '</dt><dd>' . escape($article->getValue('createuser')) . '</dd>';
 $panels[] = '<dt>' . I18n::msg('created_on') . '</dt><dd>' . Formatter::intlDate($article->getValue('createdate')) . '</dd>';
-$panels[] = '<dt>' . I18n::msg('updated_by') . '</dt><dd>' . rex_escape($article->getValue('updateuser')) . '</dd>';
+$panels[] = '<dt>' . I18n::msg('updated_by') . '</dt><dd>' . escape($article->getValue('updateuser')) . '</dd>';
 $panels[] = '<dt>' . I18n::msg('updated_on') . '</dt><dd>' . Formatter::intlDate($article->getValue('updatedate')) . '</dd>';
 
 $articleClass = $articleStatusTypes[$status][1];

@@ -15,6 +15,8 @@ use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 // Für größere Exports den Speicher für PHP erhöhen.
 if (rex_ini_get('memory_limit') < 67_108_864) {
     @ini_set('memory_limit', '64M');
@@ -266,7 +268,7 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-form-exportfilename">' . I18n::msg('backup_filename') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-exportfilename" name="exportfilename" value="' . rex_escape($exportfilename) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-form-exportfilename" name="exportfilename" value="' . escape($exportfilename) . '" />';
 $formElements[] = $n;
 
 $fragment = new Fragment();

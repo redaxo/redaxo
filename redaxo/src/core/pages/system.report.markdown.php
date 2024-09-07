@@ -3,6 +3,8 @@
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 
+use function Redaxo\Core\View\escape;
+
 $report = rex_system_report::factory()->asMarkdown();
 
 echo '<p><clipboard-copy for="rex-system-report-markdown" class="btn btn-copy btn-primary">' . I18n::msg('copy_to_clipboard') . '</clipboard-copy></p>';
@@ -10,7 +12,7 @@ echo '<p><clipboard-copy for="rex-system-report-markdown" class="btn btn-copy bt
 // there must be no whitespace between div and pre and within pre
 // otherwise the copied markdown via clipboard-copy can be invalid
 echo '<div id="rex-system-report-markdown" contenteditable="true" spellcheck="false">';
-echo '<pre><code>' . rex_escape($report) . '</code></pre>';
+echo '<pre><code>' . escape($report) . '</code></pre>';
 echo '</div>';
 
 echo '

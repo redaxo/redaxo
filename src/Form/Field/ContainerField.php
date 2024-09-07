@@ -7,6 +7,7 @@ use Redaxo\Core\Util\Type;
 
 use function in_array;
 use function is_string;
+use function Redaxo\Core\View\escape;
 
 class ContainerField extends BaseField
 {
@@ -138,12 +139,12 @@ class ContainerField extends BaseField
                 continue;
             }
 
-            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
+            $attr .= ' ' . escape($attributeName, 'html_attr') . '="' . escape($attributeValue) . '"';
         }
 
         $format = '';
         foreach ($this->fields as $group => $groupFields) {
-            $format .= '<div id="rex-' . rex_escape($group) . '"' . $attr . '>';
+            $format .= '<div id="rex-' . escape($group) . '"' . $attr . '>';
             foreach ($groupFields as $field) {
                 $format .= $field->get();
             }

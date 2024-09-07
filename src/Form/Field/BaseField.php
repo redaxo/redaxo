@@ -9,6 +9,7 @@ use Redaxo\Core\Validator\Validator;
 use Redaxo\Core\View\Fragment;
 
 use function is_array;
+use function Redaxo\Core\View\escape;
 
 class BaseField
 {
@@ -366,21 +367,21 @@ class BaseField
     {
         $attr = '';
         $value = $this->getValue();
-        $tag = rex_escape($this->getTag(), 'html_attr');
+        $tag = escape($this->getTag(), 'html_attr');
 
         $this->setValidationAttributes();
 
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
+            $attr .= ' ' . escape($attributeName, 'html_attr') . '="' . escape($attributeValue) . '"';
         }
 
         if ($this->hasSeparateEnding()) {
             if ('button' == $tag) {
                 $attr .= ' value="1"';
             }
-            return '<' . $tag . $attr . '>' . rex_escape($value) . '</' . $tag . '>';
+            return '<' . $tag . $attr . '>' . escape($value) . '</' . $tag . '>';
         }
-        $attr .= ' value="' . rex_escape($value) . '"';
+        $attr .= ' value="' . escape($value) . '"';
         return '<' . $tag . $attr . ' />';
     }
 

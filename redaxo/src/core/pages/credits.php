@@ -12,6 +12,8 @@ use Redaxo\Core\Util\Version;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
  */
@@ -64,7 +66,7 @@ $fragment = new Fragment();
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
 
-$coreVersion = rex_escape(Core::getVersion());
+$coreVersion = escape(Core::getVersion());
 if (Version::isUnstable($coreVersion)) {
     $coreVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $coreVersion;
 }
@@ -104,10 +106,10 @@ foreach (Addon::getAvailableAddons() as $package) {
             $firstLine = 'MIT License';
         }
 
-        $license = '<a href="' . Url::backendPage('packages', ['subpage' => 'license', 'package' => $package->getPackageId()]) . '"><i class="rex-icon rex-icon-license"></i> ' . rex_escape($firstLine) . '</a>';
+        $license = '<a href="' . Url::backendPage('packages', ['subpage' => 'license', 'package' => $package->getPackageId()]) . '"><i class="rex-icon rex-icon-license"></i> ' . escape($firstLine) . '</a>';
     }
 
-    $packageVersion = rex_escape($package->getVersion());
+    $packageVersion = escape($package->getVersion());
     if (Version::isUnstable($packageVersion)) {
         $packageVersion = '<i class="rex-icon rex-icon-unstable-version" title="' . I18n::msg('unstable_version') . '"></i> ' . $packageVersion;
     }
@@ -118,7 +120,7 @@ foreach (Addon::getAvailableAddons() as $package) {
                 <td data-title="' . I18n::msg('credits_name') . '">' . $package->getName() . ' </td>
                 <td data-title="' . I18n::msg('credits_version') . '">' . $packageVersion . '</td>
                 <td class="rex-table-slimmer" data-title="' . I18n::msg('credits_help') . '">
-                    <a href="' . $helpUrl . '" title="' . I18n::msg('credits_open_help_file') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . I18n::msg('credits_help') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
+                    <a href="' . $helpUrl . '" title="' . I18n::msg('credits_open_help_file') . ' ' . escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . I18n::msg('credits_help') . ' <span class="sr-only">' . escape($package->getName()) . '</span></a>
                 </td>
                 <td class="rex-table-slim" data-title="' . I18n::msg('credits_supportpage') . '">';
     if ($supportpage = $package->getSupportPage()) {
@@ -127,7 +129,7 @@ foreach (Addon::getAvailableAddons() as $package) {
     $content .= '
                 </td>
                 <td class="rex-table-width-6" data-title="' . I18n::msg('credits_license') . '">' . $license . '</td>
-                <td data-title="' . I18n::msg('credits_author') . '">' . rex_escape((string) $package->getAuthor()) . '</td>
+                <td data-title="' . I18n::msg('credits_author') . '">' . escape((string) $package->getAuthor()) . '</td>
             </tr>';
 }
 

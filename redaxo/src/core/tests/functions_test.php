@@ -2,6 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
+use function Redaxo\Core\View\escape;
+
 /** @internal */
 final class rex_functions_test extends TestCase
 {
@@ -12,7 +14,7 @@ final class rex_functions_test extends TestCase
         $str = '<b>foo</b>';
         $obj->str = $str;
 
-        $escapped = rex_escape($obj);
+        $escapped = escape($obj);
 
         /** @psalm-suppress RedundantCondition */
         self::assertSame($str, $obj->str);

@@ -6,6 +6,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $content = $mailerDebug = '';
 $date = new DateTime();
 if ('' == Core::getConfig('phpmailer_from') || '' == Core::getConfig('phpmailer_test_address')) {
@@ -13,7 +15,7 @@ if ('' == Core::getConfig('phpmailer_from') || '' == Core::getConfig('phpmailer_
 } else {
     $mail = new Mailer();
     $mail->addAddress(Core::getConfig('phpmailer_test_address'));
-    $mail->Subject = 'PHPMailer-Test | ' . rex_escape(Core::getServerName()) . ' | ' . date_format($date, 'Y-m-d H:i:s');
+    $mail->Subject = 'PHPMailer-Test | ' . escape(Core::getServerName()) . ' | ' . date_format($date, 'Y-m-d H:i:s');
 
     $devider = "\n--------------------------------------------------";
     $securityMode = '';
@@ -21,8 +23,8 @@ if ('' == Core::getConfig('phpmailer_from') || '' == Core::getConfig('phpmailer_
     if ('smtp' == Core::getConfig('phpmailer_mailer')) {
         $securityMode = Core::getConfig('phpmailer_security_mode');
 
-        $host = "\nHost: " . rex_escape(Core::getConfig('phpmailer_host'));
-        $smtpinfo = $host . "\nPort: " . rex_escape(Core::getConfig('phpmailer_port'));
+        $host = "\nHost: " . escape(Core::getConfig('phpmailer_host'));
+        $smtpinfo = $host . "\nPort: " . escape(Core::getConfig('phpmailer_port'));
         $smtpinfo .= $devider;
 
         if (false == $securityMode) {
@@ -48,7 +50,7 @@ if ('' == Core::getConfig('phpmailer_from') || '' == Core::getConfig('phpmailer_
         $alert .= I18n::msg('phpmailer_checkmail_error') . ': ' . $mail->ErrorInfo;
         $content .= Message::error($alert);
     } else {
-        $success = '<h2>' . I18n::msg('phpmailer_checkmail_send') . '</h2> ' . rex_escape(Core::getConfig('phpmailer_test_address')) . '<br>' . I18n::msg('phpmailer_checkmail_info');
+        $success = '<h2>' . I18n::msg('phpmailer_checkmail_send') . '</h2> ' . escape(Core::getConfig('phpmailer_test_address')) . '<br>' . I18n::msg('phpmailer_checkmail_info');
         $success .= '<br><br><strong>' . I18n::msg('phpmailer_checkmail_info_subject') . '</strong>';
         $content .= Message::success($success);
     }

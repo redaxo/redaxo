@@ -11,6 +11,8 @@ use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
+use function Redaxo\Core\View\escape;
+
 global $rexUserLoginmessage;
 
 $rexUserLogin = Request::post('rex_user_login', 'string');
@@ -57,7 +59,7 @@ $formElements = [];
 
 $inputGroups = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($rexUserLogin) . '" id="rex-id-login-user" name="rex_user_login" autocomplete="username webauthn" inputmode="email" autocorrect="off" autocapitalize="off" autofocus />';
+$n['field'] = '<input class="form-control" type="text" value="' . escape($rexUserLogin) . '" id="rex-id-login-user" name="rex_user_login" autocomplete="username webauthn" inputmode="email" autocorrect="off" autocapitalize="off" autofocus />';
 $n['left'] = '<i class="rex-icon rex-icon-user"></i>';
 $inputGroups[] = $n;
 
@@ -125,7 +127,7 @@ $content = '
 <form id="rex-form-login" action="' . Url::backendController() . '" method="post" data-auth-login>
     ' . $content . '
     ' . CsrfToken::factory('backend_login')->getHiddenField() . '
-    <input type="hidden" name="rex_user_passkey" data-auth-passkey="' . rex_escape($webauthn->getGetArgs()) . '"/>
+    <input type="hidden" name="rex_user_passkey" data-auth-passkey="' . escape($webauthn->getGetArgs()) . '"/>
 </form>
 <script type="text/javascript" nonce="' . Response::getNonce() . '">
      <!--

@@ -17,6 +17,8 @@ use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $OUT = true;
 
 $function = Request::request('function', 'string');
@@ -96,7 +98,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
                 $label .= ' [' . Language::get($clangId)->getCode() . ']';
             }
 
-            $moduleInUseMessage .= '<li><a href="' . Url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId, 'ctype' => $ctype]) . '">' . rex_escape($label) . '</a></li>';
+            $moduleInUseMessage .= '<li><a href="' . Url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId, 'ctype' => $ctype]) . '">' . escape($label) . '</a></li>';
             $del->next();
         }
 
@@ -245,24 +247,24 @@ if ('add' == $function || 'edit' == $function) {
 
         $n = [];
         $n['label'] = '<label for="mname">' . I18n::msg('module_name') . '</label>';
-        $n['field'] = '<input class="form-control" id="mname" type="text" name="mname" value="' . rex_escape($mname) . '" maxlength="255" />';
+        $n['field'] = '<input class="form-control" id="mname" type="text" name="mname" value="' . escape($mname) . '" maxlength="255" />';
         $n['note'] = I18n::msg('translatable');
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="mkey">' . I18n::msg('module_key') . '</label>';
-        $n['field'] = '<input class="form-control" id="mkey" type="text" name="mkey" value="' . rex_escape($mkey) . '" maxlength="191" autocorrect="off" autocapitalize="off" spellcheck="false" />';
+        $n['field'] = '<input class="form-control" id="mkey" type="text" name="mkey" value="' . escape($mkey) . '" maxlength="191" autocorrect="off" autocapitalize="off" spellcheck="false" />';
         $n['note'] = I18n::msg('module_key_notice');
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="minput">' . I18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="minput" name="eingabe" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($eingabe) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="minput" name="eingabe" autocapitalize="off" autocorrect="off" spellcheck="false">' . escape($eingabe) . '</textarea>';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="moutput">' . I18n::msg('output') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="moutput" name="ausgabe" autocapitalize="off" autocorrect="off" spellcheck="false">' . rex_escape($ausgabe) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="moutput" name="ausgabe" autocapitalize="off" autocorrect="off" spellcheck="false">' . escape($ausgabe) . '</textarea>';
         $n['note'] = I18n::msg('module_actions_notice');
         $formElements[] = $n;
 
@@ -318,7 +320,7 @@ if ('add' == $function || 'edit' == $function) {
                     $actionName = I18n::translate($gma->getValue('name'));
 
                     $actions .= '<tr>
-                        <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $actionEditUrl . '" title="' . rex_escape($actionName) . '"><i class="rex-icon rex-icon-action"></i></a></td>
+                        <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $actionEditUrl . '" title="' . escape($actionName) . '"><i class="rex-icon rex-icon-action"></i></a></td>
                         <td class="rex-table-id" data-title="' . I18n::msg('id') . '">' . (int) $gma->getValue('id') . '</td>
                         <td data-title="' . I18n::msg('action_name') . '"><a class="rex-link-expanded" href="' . $actionEditUrl . '">' . $actionName . '</a></td>
                         <td class="rex-table-action"><a class="rex-link-expanded" href="' . $actionEditUrl . '"><i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('edit') . '</a></td>

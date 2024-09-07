@@ -10,6 +10,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 
 use function in_array;
+use function Redaxo\Core\View\escape;
 
 /**
  * REX_LINKLIST[1].
@@ -70,14 +71,14 @@ class LinkListVar extends RexVar
                 continue;
             }
             if ($article = Article::get((int) $link)) {
-                $options .= '<option value="' . $link . '">' . rex_escape(trim(sprintf('%s [%s]', $article->getName(), $article->getId()))) . '</option>';
+                $options .= '<option value="' . $link . '">' . escape(trim(sprintf('%s [%s]', $article->getName(), $article->getId()))) . '</option>';
             }
         }
 
         $disabled = ' disabled';
         $openFunc = '';
         $deleteFunc = '';
-        $quotedId = "'" . rex_escape($id, 'js') . "'";
+        $quotedId = "'" . escape($id, 'js') . "'";
         if (Core::requireUser()->getComplexPerm('structure')->hasStructurePerm()) {
             $disabled = '';
             $openFunc = 'openREXLinklist(' . $quotedId . ', \'' . $openParams . '\');';

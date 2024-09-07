@@ -8,6 +8,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $addon = Addon::get('install');
 
 $panel = '';
@@ -63,12 +65,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="install-settings-api-login">' . $addon->i18n('settings_api_login') . '</label>';
-$n['field'] = '<input class="form-control" id="install-settings-api-login" type="text" name="settings[api_login]" value="' . rex_escape($config['api_login']) . '" />';
+$n['field'] = '<input class="form-control" id="install-settings-api-login" type="text" name="settings[api_login]" value="' . escape($config['api_login']) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="install-settings-api-key">' . $addon->i18n('settings_api_key') . '</label>';
-$n['field'] = '<input class="form-control" id="install-settings-api-key" type="text" name="settings[api_key]" value="' . rex_escape($config['api_key']) . '" />';
+$n['field'] = '<input class="form-control" id="install-settings-api-key" type="text" name="settings[api_key]" value="' . escape($config['api_key']) . '" />';
 $formElements[] = $n;
 
 $fragment = new Fragment();

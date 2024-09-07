@@ -7,6 +7,8 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 $currentAuth = false;
 if (!isset($userId) || 1 > $userId) {
     $userId = Core::requireUser()->getId();
@@ -50,7 +52,7 @@ $list->setColumnFormat('id', 'custom', static function () use ($list) {
         return '<span class="label label-default">' . I18n::msg('password') . '</span>';
     }
 
-    return '<span class="label label-default">' . I18n::msg('passkey') . '</span> ' . rex_escape($id);
+    return '<span class="label label-default">' . I18n::msg('passkey') . '</span> ' . escape($id);
 });
 $list->setColumnFormat('createdate', 'custom', static function () use ($list) {
     return Formatter::intlDateTime((string) $list->getValue('createdate'), IntlDateFormatter::SHORT);

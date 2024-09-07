@@ -22,6 +22,8 @@ use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
+use function Redaxo\Core\View\escape;
+
 $error = '';
 $success = '';
 $user = Core::requireUser();
@@ -229,7 +231,7 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userlogin">' . I18n::msg('login_name') . '</label>';
-$n['field'] = '<span class="form-control-static" id="rex-id-userlogin">' . rex_escape($userlogin) . '</span>';
+$n['field'] = '<span class="form-control-static" id="rex-id-userlogin">' . escape($userlogin) . '</span>';
 $formElements[] = $n;
 
 $n = [];
@@ -239,17 +241,17 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-username">' . I18n::msg('name') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . rex_escape($username) . '" autocomplete="name" maxlength="255" autofocus />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . escape($username) . '" autocomplete="name" maxlength="255" autofocus />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-userdesc">' . I18n::msg('description') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . rex_escape($userdesc) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . escape($userdesc) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-useremail">' . I18n::msg('email') . '</label>';
-$n['field'] = '<input class="form-control" type="email" id="rex-id-useremail" name="useremail" value="' . rex_escape($useremail) . '" maxlength="255" />';
+$n['field'] = '<input class="form-control" type="email" id="rex-id-useremail" name="useremail" value="' . escape($useremail) . '" maxlength="255" />';
 $formElements[] = $n;
 
 $n = [];
@@ -298,7 +300,7 @@ $confirmField = static function (string $id) use ($login, $webauthn): string {
 
     if ($login->getPasskey()) {
         $n['label'] = '<label for="' . $id . '">' . I18n::msg('passkey_current') . '</label>';
-        $n['field'] = '<div data-auth-passkey-verify="' . rex_escape($webauthn->getGetArgs($login->getPasskey())) . '">
+        $n['field'] = '<div data-auth-passkey-verify="' . escape($webauthn->getGetArgs($login->getPasskey())) . '">
         <button type="button" class="btn btn-primary" id="' . $id . '">' . I18n::msg('passkey_current_verify') . '</button>
         <i class="fa fa-check-circle-o text-success hidden"></i>
         <input type="hidden" name="passkey_verify"/>
@@ -359,7 +361,7 @@ $fragment->setVar('buttons', $buttons, false);
 $changePassword = $fragment->parse('core/page/section.php');
 
 $content = '<fieldset>' . $confirmField('rex-id-user-passkey');
-$content .= '<input type="hidden" name="passkey" data-auth-passkey="' . rex_escape($webauthn->getCreateArgs()) . '"/>';
+$content .= '<input type="hidden" name="passkey" data-auth-passkey="' . escape($webauthn->getCreateArgs()) . '"/>';
 $content .= '</fieldset>';
 
 $formElements = [];

@@ -29,6 +29,8 @@ use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
+use function Redaxo\Core\View\escape;
+
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
 header("Content-Security-Policy: frame-ancestors 'self'");
@@ -268,7 +270,7 @@ if (Core::getUser()) {
     if (Core::getConfig('be_style_showlink')) {
         Asset::setJsProperty(
             'customizer_showlink',
-            '<h1 class="be-style-customizer-title"><a href="' . Url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(Core::getServerName()) . '</span><i class="rex-icon rex-icon-external-link"></i></a></h1>',
+            '<h1 class="be-style-customizer-title"><a href="' . Url::frontend() . '" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . escape(Core::getServerName()) . '</span><i class="rex-icon rex-icon-external-link"></i></a></h1>',
         );
     }
 
@@ -330,7 +332,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
                 if ('' != $version['history_user']) {
                     $historyInfo = $version['history_date'] . ' [' . $version['history_user'] . ']';
                 }
-                $select2[] = '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . rex_escape($version['history_date']) . '">' . rex_escape($historyInfo) . '</option>';
+                $select2[] = '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . escape($version['history_date']) . '">' . escape($historyInfo) . '</option>';
             }
 
             $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . implode('', $select1) . '</select>';
@@ -370,7 +372,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_clang_id = ' . Language::getCurrentId() . ';
                     var history_ctype_id = ' . Request::request('ctype', 'int', 0) . ';
-                    var history_article_link = "' . rex_escape($articleLink, 'js') . '";
+                    var history_article_link = "' . escape($articleLink, 'js') . '";
                 </script>';
         }
     });

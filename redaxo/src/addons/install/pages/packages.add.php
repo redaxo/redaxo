@@ -13,6 +13,8 @@ use Redaxo\Core\Util\Version;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 assert(isset($markdown) && is_callable($markdown));
 
 $package = Addon::get('install');
@@ -42,26 +44,26 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
             <tbody>
             <tr>
                 <th class="rex-table-width-5">' . $package->i18n('name') . '</th>
-                <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
+                <td data-title="' . $package->i18n('name') . '">' . escape($addon['name']) . '</td>
             </tr>
             <tr>
                 <th>' . $package->i18n('author') . '</th>
-                <td data-title="' . $package->i18n('author') . '">' . rex_escape($addon['author']) . '</td>
+                <td data-title="' . $package->i18n('author') . '">' . escape($addon['author']) . '</td>
             </tr>
             <tr>
                 <th>' . $package->i18n('shortdescription') . '</th>
-                <td data-title="' . $package->i18n('shortdescription') . '">' . nl2br(rex_escape($addon['shortdescription'])) . '</td>
+                <td data-title="' . $package->i18n('shortdescription') . '">' . nl2br(escape($addon['shortdescription'])) . '</td>
             </tr>
             <tr>
                 <th>' . $package->i18n('description') . '</th>
-                <td data-title="' . $package->i18n('description') . '">' . nl2br(rex_escape($addon['description'])) . '</td>
+                <td data-title="' . $package->i18n('description') . '">' . nl2br(escape($addon['description'])) . '</td>
             </tr>';
 
     if ($addon['website']) {
         $content .= '
             <tr>
                 <th>' . $package->i18n('website') . '</th>
-                <td data-title="' . $package->i18n('website') . '"><a class="rex-link-expanded" href="' . rex_escape($addon['website']) . '">' . rex_escape($addon['website']) . '</a></td>
+                <td data-title="' . $package->i18n('website') . '"><a class="rex-link-expanded" href="' . escape($addon['website']) . '">' . escape($addon['website']) . '</a></td>
             </tr>';
     }
 
@@ -70,7 +72,7 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
         </table>';
 
     $fragment = new Fragment();
-    $fragment->setVar('title', '<b>' . rex_escape($addonkey) . '</b> ' . $package->i18n('information'), false);
+    $fragment->setVar('title', '<b>' . escape($addonkey) . '</b> ' . $package->i18n('information'), false);
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
 
@@ -94,7 +96,7 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
     foreach ($addon['files'] as $fileId => $file) {
         $confirm = $releaseLabel = '';
         $packageIcon = '<i class="rex-icon rex-icon-package"></i>';
-        $version = rex_escape($file['version']);
+        $version = escape($file['version']);
         $description = $markdown($file['description']);
 
         if (Version::isUnstable($version)) {
@@ -110,7 +112,7 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
             <tr>
                 <td class="rex-table-icon">' . $packageIcon . '</td>
                 <td data-title="' . $package->i18n('version') . '">' . $version . $releaseLabel . '</td>
-                <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(Formatter::intlDate($file['created'])) . '</td>
+                <td data-title="' . $package->i18n('published_on') . '">' . escape(Formatter::intlDate($file['created'])) . '</td>
                 <td data-title="' . $package->i18n('downloads') . '">' . $file['counter'] . '</td>
                 <td class="rex-word-break" data-title="' . $package->i18n('description') . '">' . $description . '</td>
                 <td class="rex-table-action"><a class="rex-link-expanded"' . $confirm . ' href="' . Url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_add::getUrlParams()) . '" data-pjax="false"><i class="rex-icon rex-icon-download"></i> ' . $package->i18n('download') . '</a></td>
@@ -208,11 +210,11 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
             $content .= '
                 <tr>
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
-                    <td class="rex-word-break" data-title="' . $package->i18n('key') . '">' . rex_escape($key) . '</td>
-                    <td class="rex-word-break" data-title="' . $package->i18n('name') . '"><b>' . rex_escape($addon['name']) . '</b><br /><span class="text-muted">' . rex_escape($addon['author']) . '</span></td>
-                    <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(Formatter::intlDate(reset($addon['files'])['created'])) . '</td>
+                    <td class="rex-word-break" data-title="' . $package->i18n('key') . '">' . escape($key) . '</td>
+                    <td class="rex-word-break" data-title="' . $package->i18n('name') . '"><b>' . escape($addon['name']) . '</b><br /><span class="text-muted">' . escape($addon['author']) . '</span></td>
+                    <td data-title="' . $package->i18n('published_on') . '">' . escape(Formatter::intlDate(reset($addon['files'])['created'])) . '</td>
                     <td data-title="' . $package->i18n('downloads') . '">' . $downloads . '</td>
-                    <td class="rex-word-break" data-title="' . $package->i18n('shortdescription') . '">' . nl2br(rex_escape($addon['shortdescription'])) . '</td>
+                    <td class="rex-word-break" data-title="' . $package->i18n('shortdescription') . '">' . nl2br(escape($addon['shortdescription'])) . '</td>
                     <td class="rex-table-action"><span class="text-nowrap"><i class="rex-icon rex-icon-package-exists"></i> ' . $package->i18n('addon_already_exists') . '</span></td>
                 </tr>';
         } else {
@@ -220,11 +222,11 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
             $content .= '
                 <tr data-pjax-scroll-to="0">
                     <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                    <td class="rex-word-break" data-title="' . $package->i18n('key') . '"><a class="rex-link-expanded" href="' . $url . '">' . rex_escape($key) . '</a></td>
-                    <td class="rex-word-break" data-title="' . $package->i18n('name') . '"><b>' . rex_escape($addon['name']) . '</b><br /><span class="text-muted">' . rex_escape($addon['author']) . '</span></td>
-                    <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(Formatter::intlDate(reset($addon['files'])['created'])) . '</td>
+                    <td class="rex-word-break" data-title="' . $package->i18n('key') . '"><a class="rex-link-expanded" href="' . $url . '">' . escape($key) . '</a></td>
+                    <td class="rex-word-break" data-title="' . $package->i18n('name') . '"><b>' . escape($addon['name']) . '</b><br /><span class="text-muted">' . escape($addon['author']) . '</span></td>
+                    <td data-title="' . $package->i18n('published_on') . '">' . escape(Formatter::intlDate(reset($addon['files'])['created'])) . '</td>
                     <td data-title="' . $package->i18n('downloads') . '">' . $downloads . '</td>
-                    <td class="rex-word-break" data-title="' . $package->i18n('shortdescription') . '">' . nl2br(rex_escape($addon['shortdescription'])) . '</td>
+                    <td class="rex-word-break" data-title="' . $package->i18n('shortdescription') . '">' . nl2br(escape($addon['shortdescription'])) . '</td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . I18n::msg('view') . '</a></td>
                 </tr>';
         }

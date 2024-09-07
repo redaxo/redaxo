@@ -6,7 +6,7 @@
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_clang_id = ' . Language::getCurrentId() . ';
                     var history_ctype_id = ' . Request::request('ctype', 'int', 0) . ';
-                    var history_article_link = "' . rex_escape($articleLink, 'js') . '";
+                    var history_article_link = "' . escape($articleLink, 'js') . '";
                 </script>']]></code>
     </TaintedHtml>
     <TaintedTextWithQuotes>
@@ -14,7 +14,7 @@
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_clang_id = ' . Language::getCurrentId() . ';
                     var history_ctype_id = ' . Request::request('ctype', 'int', 0) . ';
-                    var history_article_link = "' . rex_escape($articleLink, 'js') . '";
+                    var history_article_link = "' . escape($articleLink, 'js') . '";
                 </script>']]></code>
     </TaintedTextWithQuotes>
   </file>

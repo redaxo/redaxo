@@ -3,6 +3,7 @@
 namespace Redaxo\Core\RexVar;
 
 use function in_array;
+use function Redaxo\Core\View\escape;
 
 /**
  * REX_VALUE[1],.
@@ -30,7 +31,7 @@ class ValueVar extends RexVar
         if ('html' == $output) {
             $value = str_replace(['<?', '?>'], ['&lt;?', '?&gt;'], $value);
         } else {
-            $value = rex_escape($value);
+            $value = escape($value);
             if (!$this->environmentIs(self::ENV_INPUT)) {
                 $value = nl2br($value);
             }

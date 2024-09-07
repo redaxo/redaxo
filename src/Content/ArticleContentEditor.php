@@ -20,6 +20,7 @@ use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
 use function count;
+use function Redaxo\Core\View\escape;
 
 /**
  * Erweiterung eines Artikels um slicemanagement.
@@ -321,7 +322,7 @@ class ArticleContentEditor extends ArticleContent
                 $item = [];
                 $item['id'] = (int) $module['id'];
                 $item['key'] = $module['key'];
-                $item['title'] = rex_escape($module['name']);
+                $item['title'] = escape($module['name']);
                 $item['href'] = $context->getUrl(['module_id' => $module['id']]) . '#slice-add-pos-' . $position;
                 /**
                  * It is intended to pass raw values to fragment here.

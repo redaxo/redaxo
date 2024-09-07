@@ -13,6 +13,8 @@ use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $content = '';
 
 $typeId = Request::request('type_id', 'int');
@@ -101,8 +103,8 @@ if ('' == $func) {
 
     $list->setColumnLabel('name', I18n::msg('media_manager_type_name'));
     $list->setColumnFormat('name', 'custom', static function () use ($list) {
-        $name = '<b>' . rex_escape($list->getValue('name')) . '</b>';
-        $name .= ('' != $list->getValue('description')) ? '<br /><span class="rex-note">' . rex_escape($list->getValue('description')) . '</span>' : '';
+        $name = '<b>' . escape($list->getValue('name')) . '</b>';
+        $name .= ('' != $list->getValue('description')) ? '<br /><span class="rex-note">' . escape($list->getValue('description')) . '</span>' : '';
         return $name;
     });
 

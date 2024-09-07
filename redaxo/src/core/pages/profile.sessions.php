@@ -7,6 +7,8 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 if (!isset($userId) || 1 > $userId) {
     $userId = Core::requireUser()->getId();
 }
@@ -33,7 +35,7 @@ $list->setColumnLabel('starttime', I18n::msg('starttime'));
 $list->setColumnLabel('last_activity', I18n::msg('last_activity'));
 
 $list->setColumnFormat('session_id', 'custom', static function () use ($list) {
-    return rex_escape((string) $list->getValue('session_id'))
+    return escape((string) $list->getValue('session_id'))
         . ($list->getValue('cookie_key') ? ' <span class="label label-warning">' . I18n::msg('stay_logged_in') . '</span>' : '');
 });
 $list->setColumnFormat('last_activity', 'custom', static function () use ($list) {

@@ -7,6 +7,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Asset;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * @var Fragment $this
  * @psalm-scope-this Fragment
@@ -26,10 +28,10 @@ use Redaxo\Core\View\Fragment;
     $colorScheme = 'light dark'; // default: support both
     if (Core::getProperty('theme')) {
         // global theme from config.yml
-        $colorScheme = rex_escape((string) Core::getProperty('theme'));
+        $colorScheme = escape((string) Core::getProperty('theme'));
     } elseif ($user && $user->getValue('theme')) {
         // user selected theme
-        $colorScheme = rex_escape($user->getValue('theme'));
+        $colorScheme = escape($user->getValue('theme'));
     }
     echo "\n" . '    <meta name="color-scheme" content="' . $colorScheme . '">';
     echo "\n" . '    <style nonce="' . Response::getNonce() . '">:root { color-scheme: ' . $colorScheme . ' }</style>';
@@ -90,7 +92,7 @@ use Redaxo\Core\View\Fragment;
     <link rel="icon" type="image/png" sizes="32x32" href="<?= Url::coreAssets('icons/favicon-32x32.png') ?>">
     <link rel="icon" type="image/png" sizes="16x16" href="<?= Url::coreAssets('icons/favicon-16x16.png') ?>">
     <link rel="manifest" href="<?= Url::coreAssets('icons/site.webmanifest') ?>">
-    <link rel="mask-icon" href="<?= Url::coreAssets('icons/safari-pinned-tab.svg') ?>" color="<?= rex_escape((string) Core::getConfig('be_style_labelcolor', '#4d99d3')) ?>">
+    <link rel="mask-icon" href="<?= Url::coreAssets('icons/safari-pinned-tab.svg') ?>" color="<?= escape((string) Core::getConfig('be_style_labelcolor', '#4d99d3')) ?>">
     <meta name="msapplication-TileColor" content="#2d89ef">
 
     <?= $this->pageHeader ?>

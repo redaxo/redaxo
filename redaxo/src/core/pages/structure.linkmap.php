@@ -12,6 +12,8 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
+use function Redaxo\Core\View\escape;
+
 // ------- Default Values
 
 $openerInputField = Request::request('opener_input_field', 'string');
@@ -45,7 +47,7 @@ if ('' != $openerInputField && '' == $openerInputFieldName) {
     $openerInputFieldName = $openerInputField . '_NAME';
 }
 if (str_starts_with($openerInputField, 'REX_LINKLIST_')) {
-    $id = rex_escape((string) substr($openerInputField, 13, strlen($openerInputField)), 'js');
+    $id = escape((string) substr($openerInputField, 13, strlen($openerInputField)), 'js');
     $funcBody .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                              var linkid = link.replace("redaxo://","");
                  var source = opener.document.getElementById(linklist);
@@ -58,8 +60,8 @@ if (str_starts_with($openerInputField, 'REX_LINKLIST_')) {
                  source.options.add(option, sourcelength);
                  opener.writeREXLinklist(\'' . $id . '\');';
 } else {
-    $escapedOpenerInputField = rex_escape($openerInputField, 'js');
-    $escapedOpenerInputFieldName = rex_escape($openerInputFieldName, 'js');
+    $escapedOpenerInputField = escape($openerInputField, 'js');
+    $escapedOpenerInputFieldName = escape($openerInputFieldName, 'js');
     $funcBody .= <<<JS
         var event = opener.jQuery.Event("rex:selectLink");
         opener.jQuery(window).trigger(event, [link, name]);
@@ -97,7 +99,7 @@ $navigation = [];
 if ($category) {
     foreach ($category->getParentTree() as $parent) {
         $n = [];
-        $n['title'] = str_replace(' ', '&nbsp;', rex_escape($parent->getName()));
+        $n['title'] = str_replace(' ', '&nbsp;', escape($parent->getName()));
         $n['href'] = $context->getUrl(['category_id' => $parent->getId()]);
         $navigation[] = $n;
     }

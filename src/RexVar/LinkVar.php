@@ -10,6 +10,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 
 use function in_array;
+use function Redaxo\Core\View\escape;
 
 /**
  * REX_LINK.
@@ -80,13 +81,13 @@ class LinkVar extends RexVar
         $deleteFunc = '';
         if (Core::requireUser()->getComplexPerm('structure')->hasStructurePerm()) {
             $class = '';
-            $escapedId = rex_escape($id, 'js');
+            $escapedId = escape($id, 'js');
             $openFunc = 'openLinkMap(\'REX_LINK_' . $escapedId . '\', \'' . $openParams . '\');';
             $deleteFunc = 'deleteREXLink(\'' . $escapedId . '\');';
         }
 
         $e = [];
-        $e['field'] = '<input class="form-control" type="text" name="REX_LINK_NAME[' . $id . ']" value="' . rex_escape($artName) . '" id="REX_LINK_' . $id . '_NAME" readonly="readonly" /><input type="hidden" name="' . $name . '" id="REX_LINK_' . $id . '" value="' . $value . '" />';
+        $e['field'] = '<input class="form-control" type="text" name="REX_LINK_NAME[' . $id . ']" value="' . escape($artName) . '" id="REX_LINK_' . $id . '_NAME" readonly="readonly" /><input type="hidden" name="' . $name . '" id="REX_LINK_' . $id . '" value="' . $value . '" />';
         $e['functionButtons'] = '
                         <a href="#" class="btn btn-popup' . $class . '" onclick="' . $openFunc . 'return false;" title="' . I18n::msg('var_link_open') . '"><i class="rex-icon rex-icon-open-linkmap"></i></a>
                         <a href="#" class="btn btn-popup' . $class . '" onclick="' . $deleteFunc . 'return false;" title="' . I18n::msg('var_link_delete') . '"><i class="rex-icon rex-icon-delete-link"></i></a>';

@@ -5,6 +5,8 @@ namespace Redaxo\Core\RexVar;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Language\Language;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * REX_CATEGORY[xzy]
  * REX_CATEGORY[field=xzy]
@@ -43,7 +45,7 @@ class CategoryVar extends RexVar
         }
         $cat = Category::get($id, $clang);
         if ($cat) {
-            return rex_escape($cat->getValue($field));
+            return escape($cat->getValue($field));
         }
 
         return null;

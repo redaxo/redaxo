@@ -12,6 +12,7 @@ use Redaxo\Core\View\Fragment;
 use function in_array;
 use function is_array;
 use function is_string;
+use function Redaxo\Core\View\escape;
 
 use const STR_PAD_LEFT;
 
@@ -166,8 +167,8 @@ class IntervalField extends BaseField
         $checked = 'all' === $value ? ' checked="checked"' : '';
 
         $elements[] = [
-            'label' => '<label class="control-label" for="' . rex_escape($id) . '">' . $optionAll . '</label>',
-            'field' => '<input type="checkbox" id="' . rex_escape($id) . '" name="' . rex_escape($name) . '" value="all"' . $checked . ' />',
+            'label' => '<label class="control-label" for="' . escape($id) . '">' . $optionAll . '</label>',
+            'field' => '<input type="checkbox" id="' . escape($id) . '" name="' . escape($name) . '" value="all"' . $checked . ' />',
         ];
 
         $fragment = new Fragment();
@@ -184,8 +185,8 @@ class IntervalField extends BaseField
             $checked = is_array($value) && in_array($key, $value) ? ' checked="checked"' : '';
 
             $elements[] = [
-                'label' => '<label class="control-label" for="' . rex_escape($id) . '">' . $label . '</label>',
-                'field' => '<input type="checkbox" id="' . rex_escape($id) . '" name="' . rex_escape($name) . '" value="' . $key . '"' . $checked . ' />',
+                'label' => '<label class="control-label" for="' . escape($id) . '">' . $label . '</label>',
+                'field' => '<input type="checkbox" id="' . escape($id) . '" name="' . escape($name) . '" value="' . $key . '"' . $checked . ' />',
             ];
         }
 

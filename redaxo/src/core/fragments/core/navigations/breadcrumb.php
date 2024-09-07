@@ -2,6 +2,8 @@
 
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * @var Fragment $this
  * @psalm-scope-this Fragment
@@ -31,7 +33,7 @@ if (count($items) > 0) {
         }
 
         if (isset($item['href']) && '' != $item['href']) {
-            $listItem = '<a class="rex-link-expanded" href="' . rex_escape($item['href']) . '">' . $listItem . '</a>';
+            $listItem = '<a class="rex-link-expanded" href="' . escape($item['href']) . '">' . $listItem . '</a>';
         }
 
         $listItems[] = '<li>' . $listItem . '</li>';

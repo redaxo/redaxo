@@ -1,4 +1,20 @@
 <?php
+
+namespace Redaxo\Core\View;
+
+use InvalidArgumentException;
+use stdClass;
+use Stringable;
+
+use function is_array;
+use function is_object;
+use function is_string;
+use function ord;
+use function strlen;
+
+use const ENT_QUOTES;
+use const ENT_SUBSTITUTE;
+
 /**
  * Escapes a variable to be used while rendering html.
  *
@@ -26,12 +42,12 @@
  * @psalm-taint-escape html
  * @psalm-pure
  */
-function rex_escape($value, $strategy = 'html')
+function escape($value, $strategy = 'html')
 {
     if (!is_string($value)) {
         if (is_array($value)) {
             foreach ($value as $k => $v) {
-                $value[$k] = rex_escape($v, $strategy);
+                $value[$k] = escape($v, $strategy);
             }
 
             return $value;
@@ -40,7 +56,7 @@ function rex_escape($value, $strategy = 'html')
         if ($value instanceof stdClass) {
             $clone = clone $value;
             foreach (get_object_vars($value) as $k => $v) {
-                $clone->$k = rex_escape($v, $strategy);
+                $clone->$k = escape($v, $strategy);
             }
 
             return $clone;
@@ -65,7 +81,7 @@ function rex_escape($value, $strategy = 'html')
             return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
         case 'html_simplified':
-            $string = rex_escape($string, 'html');
+            $string = escape($string, 'html');
             return preg_replace('@&lt;(/?(?:b|i|code|kbd|var)|br ?/?)&gt;@i', '<$1>', $string);
 
         case 'js':

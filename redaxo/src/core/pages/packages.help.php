@@ -9,6 +9,8 @@ use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 $content = '';
 
 $package = Addon::require(Request::request('package', 'string'));
@@ -52,13 +54,13 @@ echo $fragment->parse('core/page/section.php');
 
 $credits = '';
 $credits .= '<dl class="dl-horizontal">';
-$credits .= '<dt>' . I18n::msg('credits_name') . '</dt><dd>' . rex_escape($name) . '</dd>';
+$credits .= '<dt>' . I18n::msg('credits_name') . '</dt><dd>' . escape($name) . '</dd>';
 
 if ($version) {
     $credits .= '<dt>' . I18n::msg('credits_version') . '</dt><dd>' . $version . '</dd>';
 }
 if ($author) {
-    $credits .= '<dt>' . I18n::msg('credits_author') . '</dt><dd>' . rex_escape($author) . '</dd>';
+    $credits .= '<dt>' . I18n::msg('credits_author') . '</dt><dd>' . escape($author) . '</dd>';
 }
 if ($supportPage) {
     $credits .= '<dt>' . I18n::msg('credits_supportpage') . '</dt><dd><a href="' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . ' <i class="fa fa-external-link"></i></a></a></dd>';

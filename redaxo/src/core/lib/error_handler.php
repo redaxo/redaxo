@@ -14,6 +14,8 @@ use Redaxo\Core\View\Fragment;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
+use function Redaxo\Core\View\escape;
+
 abstract class rex_error_handler
 {
     private static bool $registered = false;
@@ -244,7 +246,7 @@ abstract class rex_error_handler
         }
 
         $bugBodyCompressed = Type::string(preg_replace('/ {2,}/u', ' ', $bugBody)); // replace multiple spaces with one space
-        $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels=' . rex_escape($bugLabel, 'url') . '&title=' . rex_escape($bugTitle, 'url') . '&body=' . rex_escape($bugBodyCompressed, 'url') . '" rel="noopener noreferrer" target="_blank">Report a REDAXO bug</a>';
+        $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels=' . escape($bugLabel, 'url') . '&title=' . escape($bugTitle, 'url') . '&body=' . escape($bugBodyCompressed, 'url') . '" rel="noopener noreferrer" target="_blank">Report a REDAXO bug</a>';
 
         $url = Core::isFrontend() ? Url::frontendController() : Url::backendController();
 
@@ -272,7 +274,7 @@ abstract class rex_error_handler
 
         $errPageMarkdownBtn = preg_replace(
             '@<button id="copy-button" .*?</button>@s',
-            '$0<button class="rightButton clipboard" data-clipboard-text="' . rex_escape(self::getMarkdownReport($exception)) . '" title="Copy exception details and system report as markdown to clipboard">COPY MARKDOWN</button>',
+            '$0<button class="rightButton clipboard" data-clipboard-text="' . escape(self::getMarkdownReport($exception)) . '" title="Copy exception details and system report as markdown to clipboard">COPY MARKDOWN</button>',
             $errPage,
         );
         if (null !== $errPageMarkdownBtn) {
@@ -321,11 +323,11 @@ abstract class rex_error_handler
             if ('cli' === PHP_SAPI) {
                 echo self::getErrorType($errno) . ": $errstr in $file on line $errline";
             } else {
-                $file = rex_escape($file);
+                $file = escape($file);
                 if ($url = Editor::factory()->getUrl($errfile, $errline)) {
-                    $file = '<a href="' . rex_escape($url) . '">' . $file . '</a>';
+                    $file = '<a href="' . escape($url) . '">' . $file . '</a>';
                 }
-                echo '<div><b>' . self::getErrorType($errno) . '</b>: ' . rex_escape($errstr) . " in <b>$file</b> on line <b>$errline</b></div>";
+                echo '<div><b>' . self::getErrorType($errno) . '</b>: ' . escape($errstr) . " in <b>$file</b> on line <b>$errline</b></div>";
             }
         }
 

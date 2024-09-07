@@ -17,6 +17,8 @@ use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Timer;
 
+use function Redaxo\Core\View\escape;
+
 if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === Request::get(ApiFunction::REQ_CALL_PARAM)) {
     return;
 }
@@ -33,8 +35,8 @@ if (Core::isBackend() && 'debug' === Request::get('page') && Core::getUser()?->i
     $realPath = null;
 
     if ($editorBasepath) {
-        $localPath = rex_escape($editorBasepath, 'js');
-        $realPath = rex_escape(Path::base(), 'js');
+        $localPath = escape($editorBasepath, 'js');
+        $realPath = escape(Path::base(), 'js');
     }
 
     // prepend backend folder

@@ -11,6 +11,8 @@ use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\View;
 
+use function Redaxo\Core\View\escape;
+
 assert(isset($context) && $context instanceof Context);
 assert(isset($errors) && is_array($errors));
 assert(isset($cancelSetupBtn));
@@ -57,13 +59,13 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-form-redaxo-user-login" class="required">' . I18n::msg('setup_507') . '</label>';
-$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($redaxoUserLogin) . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" maxlength="255" inputmode="email" autocorrect="off" autocapitalize="off" autofocus />';
+$n['field'] = '<input class="form-control" type="text" value="' . escape($redaxoUserLogin) . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" maxlength="255" inputmode="email" autocorrect="off" autocapitalize="off" autofocus />';
 $formElements[] = $n;
 
 $passwordPolicy = BackendPasswordPolicy::factory();
 $n = [];
 $n['label'] = '<label for="rex-form-redaxo-user-pass" class="required">' . I18n::msg('setup_508') . '</label>';
-$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" autocomplete="new-password" autocorrect="off" autocapitalize="off" ' . Str::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
+$n['field'] = '<input class="form-control" type="password" value="' . escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" autocomplete="new-password" autocorrect="off" autocapitalize="off" ' . Str::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
 $n['note'] = $passwordPolicy->getDescription();
 $formElements[] = $n;
 

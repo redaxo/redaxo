@@ -12,6 +12,8 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * Ausgabe des Medienpool Formulars.
  *
@@ -65,12 +67,12 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
 
     $argFields = '';
     foreach (Request::request('args', 'array') as $argName => $argValue) {
-        $argFields .= '<input type="hidden" name="args[' . rex_escape($argName) . ']" value="' . rex_escape($argValue) . '" />' . "\n";
+        $argFields .= '<input type="hidden" name="args[' . escape($argName) . ']" value="' . escape($argValue) . '" />' . "\n";
     }
 
     $openerInputField = Request::request('opener_input_field', 'string');
     if ('' != $openerInputField) {
-        $argFields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($openerInputField) . '" />' . "\n";
+        $argFields .= '<input type="hidden" name="opener_input_field" value="' . escape($openerInputField) . '" />' . "\n";
     }
 
     $addSubmit = '';
@@ -89,7 +91,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
 
     $e = [];
     $e['label'] = '<label for="rex-mediapool-title">' . I18n::msg('pool_file_title') . '</label>';
-    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle) . '" maxlength="255" />';
+    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . escape($ftitle) . '" maxlength="255" />';
     $formElements[] = $e;
 
     $fragment = new Fragment();

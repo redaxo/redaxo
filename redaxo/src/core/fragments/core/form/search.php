@@ -3,6 +3,8 @@
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * @var Fragment $this
  * @psalm-scope-this Fragment
@@ -18,7 +20,7 @@ if (isset($this->autofocus) && $this->autofocus) {
 }
 $value = (string) $this->getVar('value', '');
 if ('' !== $value) {
-    $value = ' value="' . rex_escape($value) . '"';
+    $value = ' value="' . escape($value) . '"';
 }
 
 if ($this->id) {

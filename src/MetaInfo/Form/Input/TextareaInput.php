@@ -2,6 +2,8 @@
 
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * @internal
  *
@@ -19,7 +21,7 @@ class TextareaInput extends AbstractInput
 
     public function getHtml()
     {
-        $value = rex_escape($this->value);
+        $value = escape($this->value);
         return '<textarea' . $this->getAttributeString() . '>' . $value . '</textarea>';
     }
 }

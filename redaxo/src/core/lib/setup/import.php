@@ -8,6 +8,8 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 
+use function Redaxo\Core\View\escape;
+
 /**
  * @internal
  */
@@ -219,14 +221,14 @@ class rex_setup_importer
             }
 
             if (!$state) {
-                $addonErr .= '<li>' . rex_escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+                $addonErr .= '<li>' . escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
             }
 
             if ($state && !$package->isAvailable()) {
                 $state = $manager->activate();
 
                 if (!$state) {
-                    $addonErr .= '<li>' . rex_escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+                    $addonErr .= '<li>' . escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
                 }
             }
         }
@@ -262,7 +264,7 @@ class rex_setup_importer
             $manager = AddonManager::factory($package);
 
             if (!$manager->install()) {
-                $error .= '<li>' . rex_escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+                $error .= '<li>' . escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
             }
         }
 
