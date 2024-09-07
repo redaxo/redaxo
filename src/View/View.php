@@ -228,6 +228,9 @@ class View
         return $fragment->parse('core/dropdowns/dropdown.php');
     }
 
+    /**
+     * @internal
+     */
     public static function structureBreadcrumb(int $categoryId, int $articleId, int $clang): string
     {
         $navigation = [];
