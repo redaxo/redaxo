@@ -141,16 +141,6 @@ parameters:
 			path: ../../redaxo/src/core/functions/function_rex_mediapool.php
 
 		-
-			message: "#^Function rex_getUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_structure_rex_url.php
-
-		-
-			message: "#^Function rex_redirect\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_structure_rex_url.php
-
-		-
 			message: "#^Method rex_setup\\:\\:checkDb\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/setup/setup.php
@@ -644,6 +634,11 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Database\\\\Sql\\:\\:createConnection\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Database/Sql.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Filesystem\\\\Url\\:\\:article\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Filesystem/Url.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Form\\\\AbstractForm\\:\\:addArticleField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"

@@ -71,8 +71,7 @@
             "redaxo/src/core/functions/function_metainfo.php",
             "redaxo/src/core/functions/function_rex_escape.php",
             "redaxo/src/core/functions/function_rex_mediapool.php",
-            "redaxo/src/core/functions/function_rex_other.php",
-            "redaxo/src/core/functions/function_structure_rex_url.php"
+            "redaxo/src/core/functions/function_rex_other.php"
         ]
     },
     "autoload-dev": {

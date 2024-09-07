@@ -10,6 +10,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
 
 use function in_array;
@@ -274,7 +275,7 @@ abstract class StructureElement
      */
     public function getUrl(array $params = [])
     {
-        return rex_getUrl($this->getId(), $this->getClangId(), $params);
+        return Url::article($this->getId(), $this->getClangId(), $params);
     }
 
     /**
