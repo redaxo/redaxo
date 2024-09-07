@@ -1366,11 +1366,6 @@ parameters:
 			path: ../../redaxo/src/core/functions/function_rex_escape.php
 
 		-
-			message: "#^Possibly impure call to a callable in pure function rex_escape\\(\\)\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_escape.php
-
-		-
 			message: "#^Possibly impure call to function preg_match\\(\\) in pure function rex_escape\\(\\)\\.$#"
 			count: 3
 			path: ../../redaxo/src/core/functions/function_rex_escape.php
@@ -1624,6 +1619,16 @@ parameters:
 			message: "#^Method rex_form_base\\:\\:setApplyUrl\\(\\) has parameter \\$url with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/form_base.php
+
+		-
+			message: "#^Class rex_fragment has PHPDoc tag @method for method getSubfragment\\(\\) parameter \\#2 \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/fragment.php
+
+		-
+			message: "#^Class rex_fragment has PHPDoc tag @method for method subfragment\\(\\) parameter \\#2 \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/fragment.php
 
 		-
 			message: "#^Method rex_list\\:\\:_getAttributeString\\(\\) has parameter \\$array with no type specified\\.$#"
@@ -2054,6 +2059,11 @@ parameters:
 			message: "#^Property rex_view\\:\\:\\$jsFiles type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/view.php
+
+		-
+			message: "#^Unable to resolve the template type T in call to function rex_escape$#"
+			count: 1
+			path: ../../redaxo/src/core/pages/system.log.external.php
 
 		-
 			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(object\\|null\\), Closure\\(mixed, mixed\\)\\: void given\\.$#"
