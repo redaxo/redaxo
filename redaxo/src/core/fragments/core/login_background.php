@@ -70,7 +70,7 @@ $url_3500_webp = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictur
         <ul class="list-inline">
             <li><a href="https://www.yakamara.de" target="_blank" rel="noreferrer noopener">yakamara.de</a></li>
             <li><a href="https://www.redaxo.org" target="_blank" rel="noreferrer noopener">redaxo.org</a></li>
-            <li class="rex-background-credits">Foto von <a href="https://unsplash.com/de/@neom?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank" rel="noreferrer noopener">NEOM</a> auf <a href="https://unsplash.com/de/fotos/die-sonne-geht-uber-den-bergen-in-der-wuste-unter-El92hmAt91o?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"  target="_blank" rel="noreferrer noopener">Unsplash</a></li>
+            <li class="rex-background-credits">Photo by <a href="https://unsplash.com/de/@neom?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank" rel="noreferrer noopener">NEOM</a> on <a href="https://unsplash.com/de/fotos/die-sonne-geht-uber-den-bergen-in-der-wuste-unter-El92hmAt91o?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"  target="_blank" rel="noreferrer noopener">Unsplash</a></li>
         </ul>
     </nav>
 </footer>
