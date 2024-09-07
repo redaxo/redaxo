@@ -16,7 +16,6 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
-use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
@@ -97,7 +96,7 @@ echo View::title(I18n::msg('content') . ': ' . $OOArt->getName(), '');
 echo View::clangSwitchAsButtons($context);
 
 // ----- category pfad und rechte
-require Path::core('functions/function_structure_rex_category.php');
+echo View::structureBreadcrumb($categoryId, $articleId, $clang);
 
 // ----- EXTENSION POINT
 echo Extension::registerPoint(new ExtensionPoint('STRUCTURE_CONTENT_HEADER', '', [

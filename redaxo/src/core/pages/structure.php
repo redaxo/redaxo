@@ -65,10 +65,9 @@ echo View::title(I18n::msg('title_structure'));
 echo View::clangSwitchAsButtons($structureContext->getContext());
 
 // --------------------------------------------- Path
-$articleId = $structureContext->getArticleId();
 $categoryId = $structureContext->getCategoryId();
 $clang = $structureContext->getClangId();
-require __DIR__ . '/../functions/function_structure_rex_category.php';
+echo View::structureBreadcrumb($categoryId, $structureContext->getArticleId(), $clang);
 
 // -------------- STATUS_TYPE Map
 $catStatusTypes = CategoryHandler::statusTypes();
