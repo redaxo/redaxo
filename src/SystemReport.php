@@ -7,9 +7,9 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Util\Version;
-
 use rex_setup;
 use rex_sql_exception;
+
 use function extension_loaded;
 use function ini_get;
 use function is_bool;
