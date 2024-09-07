@@ -3,21 +3,29 @@
  * @var rex_fragment $this
  * @psalm-scope-this rex_fragment
  */
+
+$picture_name = 'neom-El92hmAt91o-unsplash';
+
+$url_2400_avif = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $picture_name . '-2400.avif');
+$url_3500_avif = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $picture_name . '-3500.avif');
+$url_2400_webp = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $picture_name . '-2400.webp');
+$url_3500_webp = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $picture_name . '-3500.webp');
+
 ?>
 <picture class="rex-background">
     <source
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/davide-cantelli-ajisKc2uuFk-unsplash-2400.avif') ?> 2400w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/davide-cantelli-ajisKc2uuFk-unsplash-3500.avif') ?> 3500w"
+            <?= $url_2400_avif ?> 2400w,
+            <?= $url_3500_avif ?> 3500w"
         sizes="100vw"
         type="image/avif"
     />
     <img
         alt=""
-        src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/davide-cantelli-ajisKc2uuFk-unsplash-2400.webp') ?>"
+        src="<?= $url_2400_webp ?>"
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/davide-cantelli-ajisKc2uuFk-unsplash-2400.webp') ?> 2400w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/davide-cantelli-ajisKc2uuFk-unsplash-3500.webp') ?> 3500w"
+            <?= $url_2400_webp ?> 2400w,
+            <?= $url_3500_webp ?> 3500w"
         sizes="100vw"
     />
 </picture>
@@ -62,7 +70,7 @@
         <ul class="list-inline">
             <li><a href="https://www.yakamara.de" target="_blank" rel="noreferrer noopener">yakamara.de</a></li>
             <li><a href="https://www.redaxo.org" target="_blank" rel="noreferrer noopener">redaxo.org</a></li>
-            <li class="rex-background-credits"><a href="https://unsplash.com/@cant89" target="_blank" rel="noreferrer noopener">Photo by Davide Cantelli on Unsplash</a></li>
+            <li class="rex-background-credits">Foto von <a href="https://unsplash.com/de/@neom?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank" rel="noreferrer noopener">NEOM</a> auf <a href="https://unsplash.com/de/fotos/die-sonne-geht-uber-den-bergen-in-der-wuste-unter-El92hmAt91o?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"  target="_blank" rel="noreferrer noopener">Unsplash</a></li>
         </ul>
     </nav>
 </footer>
