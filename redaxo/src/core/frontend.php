@@ -156,7 +156,7 @@ if (Core::getConfig('article_work_version', false)) {
 
 $clangId = Request::get('clang', 'int');
 if ($clangId && !Language::exists($clangId)) {
-    rex_redirect(Article::getNotfoundArticleId(), Language::getStartId());
+    Response::sendRedirect(Url::article(Article::getNotfoundArticleId(), Language::getStartId()));
 }
 
 $article = new ArticleContent();
