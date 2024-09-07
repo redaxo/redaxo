@@ -925,26 +925,6 @@
       <code><![CDATA[$params['content']]]></code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/functions/function_rex_mediapool.php">
-    <MixedArgument>
-      <code><![CDATA[$buttonTitle]]></code>
-      <code><![CDATA[$info]]></code>
-      <code><![CDATA[$rexFileCategory]]></code>
-      <code><![CDATA[$warning]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$info]]></code>
-      <code><![CDATA[$warning]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$argValue]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$buttonTitle]]></code>
-      <code><![CDATA[escape($argValue)]]></code>
-      <code><![CDATA[escape($ftitle)]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/lib/be_style/scss_compiler.php">
     <MixedOperand>
       <code><![CDATA[$path]]></code>
@@ -4500,11 +4480,18 @@
   </file>
   <file src="src/View/View.php">
     <MixedArgument>
+      <code><![CDATA[$buttonTitle]]></code>
       <code><![CDATA[$pageObj]]></code>
+      <code><![CDATA[$rexFileCategory]]></code>
     </MixedArgument>
     <MixedAssignment>
+      <code><![CDATA[$argValue]]></code>
       <code><![CDATA[$pageObj]]></code>
     </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$buttonTitle]]></code>
+      <code><![CDATA[escape($argValue)]]></code>
+    </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[Controller::getCurrentPagePart(1)]]></code>
     </PossiblyNullArgument>

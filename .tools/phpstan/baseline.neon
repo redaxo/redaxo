@@ -116,41 +116,6 @@ parameters:
 			path: ../../redaxo/src/core/functions/function_metainfo_extension_cleanup.php
 
 		-
-			message: "#^Function rex_mediapool_Mediaform\\(\\) has parameter \\$buttonTitle with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_mediapool.php
-
-		-
-			message: "#^Function rex_mediapool_Mediaform\\(\\) has parameter \\$closeForm with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_mediapool.php
-
-		-
-			message: "#^Function rex_mediapool_Mediaform\\(\\) has parameter \\$fileChooser with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_mediapool.php
-
-		-
-			message: "#^Function rex_mediapool_Mediaform\\(\\) has parameter \\$formTitle with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_mediapool.php
-
-		-
-			message: "#^Function rex_mediapool_Mediaform\\(\\) has parameter \\$rexFileCategory with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_mediapool.php
-
-		-
-			message: "#^Function rex_mediapool_Syncform\\(\\) has parameter \\$rexFileCategory with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_mediapool.php
-
-		-
-			message: "#^Function rex_mediapool_Uploadform\\(\\) has parameter \\$rexFileCategory with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_mediapool.php
-
-		-
 			message: "#^Unable to resolve the template type T in call to function Redaxo\\\\Core\\\\View\\\\escape$#"
 			count: 1
 			path: ../../redaxo/src/core/pages/system.log.external.php
@@ -1589,6 +1554,31 @@ parameters:
 			message: "#^Property Redaxo\\\\Core\\\\View\\\\Navigation\\:\\:\\$callbacks type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/View/Navigation.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\View\\:\\:mediaPoolMediaForm\\(\\) has parameter \\$buttonTitle with no type specified\\.$#"
+			count: 1
+			path: ../../src/View/View.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\View\\:\\:mediaPoolMediaForm\\(\\) has parameter \\$closeForm with no type specified\\.$#"
+			count: 1
+			path: ../../src/View/View.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\View\\:\\:mediaPoolMediaForm\\(\\) has parameter \\$fileChooser with no type specified\\.$#"
+			count: 1
+			path: ../../src/View/View.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\View\\:\\:mediaPoolMediaForm\\(\\) has parameter \\$formTitle with no type specified\\.$#"
+			count: 1
+			path: ../../src/View/View.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\View\\\\View\\:\\:mediaPoolMediaForm\\(\\) has parameter \\$rexFileCategory with no type specified\\.$#"
+			count: 1
+			path: ../../src/View/View.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\View\\\\View\\:\\:title\\(\\) has parameter \\$subtitle with no value type specified in iterable type array\\.$#"

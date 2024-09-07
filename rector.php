@@ -456,6 +456,9 @@ return RectorConfig::configure()
         new FuncCallToStaticCall('rex_mediapool_isAllowedMimeType', MediaPool\MediaPool::class, 'isAllowedMimeType'),
         new FuncCallToStaticCall('rex_mediapool_getMediaTypeWhitelist', MediaPool\MediaPool::class, 'getAllowedExtensions'),
         new FuncCallToStaticCall('rex_mediapool_getMediaTypeBlacklist', MediaPool\MediaPool::class, 'getBlockedExtensions'),
+        new FuncCallToStaticCall('rex_mediapool_Mediaform', View\View::class, 'mediaPoolMediaForm'),
+        new FuncCallToStaticCall('rex_mediapool_Uploadform', View\View::class, 'mediaPoolMediaForm'),
+        new FuncCallToStaticCall('rex_mediapool_Syncform', View\View::class, 'mediaPoolMediaForm'),
 
         // additional adjustments necessary afterward, see https://github.com/redaxo/redaxo/pull/5918/files
         new FuncCallToStaticCall('rex_mediapool_saveMedia', MediaPool\MediaPool::class, 'addMedia'), // different params
