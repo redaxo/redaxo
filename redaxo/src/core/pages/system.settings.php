@@ -1,6 +1,5 @@
 <?php
 
-use Redaxo\Core\Config;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
