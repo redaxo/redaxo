@@ -4,12 +4,12 @@
  * @psalm-scope-this rex_fragment
  */
 
-$picture_name = 'neom-El92hmAt91o-unsplash';
+$pictureName = 'neom-El92hmAt91o-unsplash';
 
-$url_2400_avif = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $picture_name . '-2400.avif');
-$url_3500_avif = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $picture_name . '-3500.avif');
-$url_2400_webp = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $picture_name . '-2400.webp');
-$url_3500_webp = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $picture_name . '-3500.webp');
+$url_2400_avif = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-2400.avif');
+$url_3500_avif = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-3500.avif');
+$url_2400_webp = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-2400.webp');
+$url_3500_webp = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-3500.webp');
 
 ?>
 <picture class="rex-background">
