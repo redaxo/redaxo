@@ -6,26 +6,26 @@
 
 $pictureName = 'neom-El92hmAt91o-unsplash';
 
-$url_2400_avif = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-2400.avif');
-$url_3500_avif = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-3500.avif');
-$url_2400_webp = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-2400.webp');
-$url_3500_webp = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-3500.webp');
+$url2400Avif = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-2400.avif');
+$url3500Avif = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-3500.avif');
+$url2400Webp = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-2400.webp');
+$url3500Webp = rex_url::pluginAssets('be_style', 'redaxo', 'images/' . $pictureName . '-3500.webp');
 
 ?>
 <picture class="rex-background">
     <source
         srcset="
-            <?= $url_2400_avif ?> 2400w,
-            <?= $url_3500_avif ?> 3500w"
+            <?= $url2400Avif ?> 2400w,
+            <?= $url3500Avif ?> 3500w"
         sizes="100vw"
         type="image/avif"
     />
     <img
         alt=""
-        src="<?= $url_2400_webp ?>"
+        src="<?= $url2400Webp ?>"
         srcset="
-            <?= $url_2400_webp ?> 2400w,
-            <?= $url_3500_webp ?> 3500w"
+            <?= $url2400Webp ?> 2400w,
+            <?= $url3500Webp ?> 3500w"
         sizes="100vw"
     />
 </picture>
