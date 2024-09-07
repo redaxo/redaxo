@@ -10,9 +10,9 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
-
 use rex_functional_exception;
 use rex_sql_exception;
+
 use function Redaxo\Core\View\escape;
 
 /**

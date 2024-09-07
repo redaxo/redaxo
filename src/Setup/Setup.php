@@ -20,6 +20,17 @@ use rex_exception;
 use rex_sql_could_not_connect_exception;
 use rex_sql_exception;
 
+use function array_key_exists;
+use function extension_loaded;
+use function function_exists;
+use function in_array;
+use function ini_get;
+use function is_array;
+
+use const PHP_OS;
+use const PHP_SAPI;
+use const PHP_VERSION;
+
 /**
  * @internal
  */
