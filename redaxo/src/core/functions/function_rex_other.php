@@ -38,27 +38,3 @@ function rex_delete_cache(): string
     // ----- EXTENSION POINT
     return Extension::registerPoint(new ExtensionPoint('CACHE_DELETED', I18n::msg('delete_cache_message')));
 }
-
-function rex_ini_get(string $varname): int
-{
-    $val = trim(ini_get($varname));
-    if ('' != $val) {
-        $last = strtolower($val[strlen($val) - 1]);
-    } else {
-        $last = '';
-    }
-    $val = (int) $val;
-    switch ($last) {
-        // The 'G' modifier is available since PHP 5.1.0
-        case 'g':
-            $val *= 1024;
-            // no break
-        case 'm':
-            $val *= 1024;
-            // no break
-        case 'k':
-            $val *= 1024;
-    }
-
-    return $val;
-}

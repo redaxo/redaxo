@@ -170,6 +170,11 @@ final class FormatterTest extends TestCase
             Formatter::bytes($value * 1000 * 1000),
         );
 
+        self::assertEquals(
+            '128,00 MiB',
+            Formatter::bytes('128M'),
+        );
+
         // in 32 bit php the following tests use too big numbers
         if (PHP_INT_SIZE > 4) {
             self::assertEquals(

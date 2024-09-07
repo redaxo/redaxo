@@ -16,6 +16,7 @@ use function is_callable;
 use function is_int;
 use function is_string;
 use function Redaxo\Core\View\escape;
+use function strlen;
 
 use const E_USER_WARNING;
 
@@ -213,7 +214,21 @@ final class Formatter
      */
     public static function bytes(string|int $value, ?array $format = []): string
     {
-        $value = (int) $value;
+        if (is_string($value)) {
+            $value = trim($value);
+            $last = strtolower($value[strlen($value) - 1] ?? '');
+            $value = (int) $value;
+            switch ($last) {
+                case 'g':
+                    $value *= 1024;
+                    // no break
+                case 'm':
+                    $value *= 1024;
+                    // no break
+                case 'k':
+                    $value *= 1024;
+            }
+        }
 
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
         $unit = $units[0];
