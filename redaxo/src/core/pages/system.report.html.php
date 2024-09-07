@@ -1,23 +1,24 @@
 <?php
 
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\SystemReport;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Version;
 use Redaxo\Core\View\Fragment;
 
-$report = rex_system_report::factory()->get();
+$report = SystemReport::factory()->get();
 
 echo '<div class="row"><div class="col-sm-6">';
 
 foreach ($report as $title => $group) {
-    if (rex_system_report::TITLE_PACKAGES === $title) {
+    if (SystemReport::TITLE_PACKAGES === $title) {
         echo '</div><div class="col-sm-6">';
     }
 
     $content = '';
 
     foreach ($group as $label => $value) {
-        if (rex_system_report::TITLE_PACKAGES === $title || rex_system_report::TITLE_REDAXO === $title) {
+        if (SystemReport::TITLE_PACKAGES === $title || SystemReport::TITLE_REDAXO === $title) {
             if (null === $value) {
                 throw new rex_exception('Package ' . $label . ' does not define a proper version in its package.yml');
             }
@@ -43,7 +44,7 @@ foreach ($report as $title => $group) {
     $fragment = new Fragment();
     $fragment->setVar('title', $title);
 
-    if (rex_system_report::TITLE_PHP === $title) {
+    if (SystemReport::TITLE_PHP === $title) {
         $phpinfo = '<a href="' . Url::backendPage('system/phpinfo') . '" class="btn btn-primary btn-xs" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;">phpinfo</a>';
         $fragment->setVar('options', $phpinfo, false);
     }

@@ -1,13 +1,25 @@
 <?php
 
+namespace Redaxo\Core;
+
 use Redaxo\Core\Addon\Addon;
-use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Util\Version;
+use rex_setup;
+use rex_sql_exception;
 
-class rex_system_report
+use function extension_loaded;
+use function ini_get;
+use function is_bool;
+
+use const PHP_OS;
+use const PHP_SAPI;
+use const PHP_VERSION;
+use const STR_PAD_LEFT;
+
+class SystemReport
 {
     public const TITLE_REDAXO = 'REDAXO';
     public const TITLE_PACKAGES = 'Packages';
