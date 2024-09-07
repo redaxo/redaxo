@@ -339,7 +339,7 @@ class Controller
             ->setIcon('rex-icon rex-icon-envelope' . (Core::getConfig('phpmailer_detour_mode') ? ' text-danger' : ''))
             ->addSubpage((new Page('config', I18n::msg('phpmailer_configuration')))->setSubPath(Path::core('pages/phpmailer.config.php')))
             ->addSubpage((new Page('log', I18n::msg('phpmailer_logging')))->setSubPath(Path::core('pages/phpmailer.log.php')))
-            ->addSubpage((new Page('help', I18n::msg('phpmailer_help')))->setSubPath(Path::core('pages/phpmailer.README.md')))
+            ->addSubpage((new Page('help', I18n::msg('phpmailer_help')))->setSubPath(Path::core('pages/phpmailer.README.md'))->setItemAttr('class', 'pull-right'))
             ->addSubpage((new Page('checkmail', I18n::msg('phpmailer_checkmail')))->setSubPath(Path::core('pages/phpmailer.checkmail.php'))->setHidden(true))
         ;
 

@@ -1,5 +1,8 @@
 <?php
 
+namespace Redaxo\Core\Backup;
+
+use PDO;
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -12,10 +15,15 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use rex_exception;
+use rex_sql_exception;
 
+use function count;
+use function is_int;
+use function strlen;
 use function Redaxo\Core\View\escape;
 
-class rex_backup
+class Backup
 {
     public const IMPORT_ARCHIVE = 1;
     public const IMPORT_DB = 2;
@@ -104,7 +112,7 @@ class rex_backup
         }
 
         if ('gz' === File::extension($filename)) {
-            $compressor = new rex_backup_file_compressor();
+            $compressor = new FileCompressor();
             $conts = $compressor->gzReadDeCompressed($filename);
 
             // should not happen
@@ -219,11 +227,11 @@ class rex_backup
             return $return;
         }
 
-        $tar = new rex_backup_tar();
+        $tar = new Tar();
 
         // ----- EXTENSION POINT
         /**
-         * @var rex_backup_tar $tar
+         * @var Tar $tar
          * @psalm-ignore-var
          */
         $tar = Extension::registerPoint(new ExtensionPoint('BACKUP_BEFORE_FILE_IMPORT', $tar));
@@ -399,7 +407,7 @@ class rex_backup
      */
     private static function streamExport($folders, $archivePath)
     {
-        $tar = new rex_backup_tar();
+        $tar = new Tar();
         $tar->create($archivePath);
 
         // ----- EXTENSION POINT
@@ -422,7 +430,7 @@ class rex_backup
      * @param string $dir
      * @return void
      */
-    private static function addFolderToTar(rex_backup_tar $tar, $path, $dir)
+    private static function addFolderToTar(Tar $tar, $path, $dir)
     {
         $handle = opendir($path . $dir);
 

@@ -103,7 +103,7 @@ accesskeys:
 editor: null
 editor_basepath: null
 theme: null
-blocked_extensions: [php, php3, php4, php5, php6, php7, php8, phar, pht, phtml, hh, pl, asp, aspx, cfm, jsp, jsf, bat, sh, cgi, htaccess, htpasswd]
+blocked_extensions: [asp, aspx, bat, cfm, cgi, flv, hh, html, htaccess, htpasswd, ini, jsp, jsf, js, jsphp, log, mjs, pht, php, php3, php4, php5, php6, php7, php8, phar, pl, ps1, phtml, py, rb, rm, sh, shmtl, shtml, swf, wasm, wmv, wma, xhtml, xht, xml]
 # example:
 #   allowed_mime_types:
 #       gif: [image/gif]

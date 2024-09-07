@@ -29,6 +29,7 @@ if ('' != Request::post('btn_save', 'string') || '' != Request::post('btn_check'
         ['phpmailer_detour_mode', 'boolean'],
         ['phpmailer_confirmto', 'string'],
         ['phpmailer_bcc', 'string'],
+        ['phpmailer_returnto', 'string'],
         ['phpmailer_mailer', 'string'],
         ['phpmailer_host', 'string'],
         ['phpmailer_port', 'int'],
@@ -213,6 +214,11 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="phpmailer-bcc">' . I18n::msg('phpmailer_bcc') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-bcc" type="email" name="settings[phpmailer_bcc]" placeholder="bcc@example.tld" value="' . escape(Core::getConfig('phpmailer_bcc')) . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-returnto">' . I18n::msg('phpmailer_returnto_email') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-returnto" type="email" name="settings[phpmailer_returnto]" placeholder="returnto@example.tld" value="' . escape(Core::getConfig('phpmailer_returnto')) . '" />';
 $formElements[] = $n;
 
 $n = [];

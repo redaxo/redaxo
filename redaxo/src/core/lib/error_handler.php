@@ -8,6 +8,7 @@ use Redaxo\Core\Http\Response;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\Login;
+use Redaxo\Core\SystemReport;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
@@ -444,7 +445,7 @@ abstract class rex_error_handler
             </details>
 
             OUTPUT;
-        $markdown .= rex_system_report::factory()->asMarkdown();
+        $markdown .= SystemReport::factory()->asMarkdown();
 
         return $markdown;
     }

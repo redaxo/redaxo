@@ -7,6 +7,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\RexVar\RexVar;
@@ -78,7 +79,7 @@ class ArticleContentBase
     public function __construct($articleId = null, $clang = null)
     {
         if (null !== $clang) {
-            $this->setCLang($clang);
+            $this->setClang($clang);
         } else {
             $this->setClang(Language::getCurrentId());
         }
@@ -606,7 +607,7 @@ class ArticleContentBase
         $result = preg_replace_callback(
             '@redaxo://(\d+)(?:-(\d+))?/?@i',
             function (array $matches) {
-                return rex_getUrl((int) $matches[1], (int) ($matches[2] ?? $this->clang));
+                return Url::article((int) $matches[1], (int) ($matches[2] ?? $this->clang));
             },
             $content,
         );

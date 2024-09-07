@@ -6,6 +6,7 @@ use DateTimeZone;
 use InvalidArgumentException;
 use Override;
 use PDOException;
+use Redaxo\Core\Backup\Backup;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
@@ -15,7 +16,6 @@ use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\BackendPasswordPolicy;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
-use rex_backup;
 use rex_setup;
 use rex_setup_importer;
 use Symfony\Component\Console\Command\Command;
@@ -268,7 +268,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
         // Search for exports
         $backups = [];
 
-        foreach (rex_backup::getBackupFiles('') as $file) {
+        foreach (Backup::getBackupFiles('') as $file) {
             $file = preg_replace('/\.sql(?:\.gz)?$/', '', $file, -1, $count);
             if ($count) {
                 $backups[] = $file;

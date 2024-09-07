@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backup\Backup;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\File;
@@ -70,7 +71,7 @@ if ($export && !$csrfToken->isValid()) {
         $hasContent = false;
         $header = '';
         $ext = 'sql' == $exporttype ? '.sql' : '.tar.gz';
-        $exportPath = rex_backup::getDir() . '/';
+        $exportPath = Backup::getDir() . '/';
 
         if (is_file($exportPath . $filename . $ext)) {
             $i = 1;
@@ -84,7 +85,7 @@ if ($export && !$csrfToken->isValid()) {
             // ------------------------------ FUNC EXPORT SQL
             $header = 'plain/text';
 
-            $hasContent = rex_backup::exportDb($exportPath . $filename . $ext, $EXPTABLES);
+            $hasContent = Backup::exportDb($exportPath . $filename . $ext, $EXPTABLES);
         } elseif ('files' == $exporttype) {
             // ------------------------------ FUNC EXPORT FILES
             $header = 'tar/gzip';
@@ -92,7 +93,7 @@ if ($export && !$csrfToken->isValid()) {
             if (empty($EXPDIR)) {
                 $error = I18n::msg('backup_please_choose_folder');
             } else {
-                rex_backup::exportFiles($EXPDIR, $exportPath . $filename . $ext);
+                Backup::exportFiles($EXPDIR, $exportPath . $filename . $ext);
                 $hasContent = true;
             }
         }

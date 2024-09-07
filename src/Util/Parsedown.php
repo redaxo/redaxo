@@ -96,6 +96,7 @@ final class Parsedown extends ParsedownExtra
         }
 
         // php 8.3 fix
+        $text = preg_replace('@<code style="color:[^"]+">@', '<code>', $text, 1);
         $text = preg_replace('@<span style="color:[^"]+">\n(<span style="color:[^"]+">)@', '$1', $text, 1);
         $text = preg_replace('@<\/span>\n(<\/span>\n<\/code>)$@', '$1', $text, 1);
 

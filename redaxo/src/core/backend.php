@@ -354,14 +354,14 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
 
     Extension::register('STRUCTURE_CONTENT_HEADER', static function (ExtensionPoint $ep) {
         if ('content/edit' == $ep->getParam('page')) {
-            $articleLink = rex_getUrl(Article::getCurrentId(), Language::getCurrentId());
+            $articleLink = Url::article(Article::getCurrentId(), Language::getCurrentId());
             if (str_starts_with($articleLink, 'http')) {
                 $user = Core::requireUser();
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
                 $userHistorySession = HistoryLogin::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
-                $articleLink = rex_getUrl(Article::getCurrentId(), Language::getCurrentId(), [
+                $articleLink = Url::article(Article::getCurrentId(), Language::getCurrentId(), [
                     'rex_history_login' => $userLogin,
                     'rex_history_session' => $userHistorySession,
                     'rex_history_validtime' => $historyValidTime,
@@ -512,7 +512,7 @@ if (Core::getConfig('article_work_version', false)) {
         if (!$user->hasPerm('version[live_version]')) {
             if ($revision > 0) {
                 $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '">' . I18n::msg('version_copy_from_liveversion') . '</a></li>';
-                $toolbar .= '<li><a href="' . rex_getUrl($articleId, $clangId, ['rex_version' => ArticleRevision::WORK]) . '" rel="noopener noreferrer" target="_blank">' . I18n::msg('version_preview') . '</a></li>';
+                $toolbar .= '<li><a href="' . Url::article($articleId, $clangId, ['rex_version' => ArticleRevision::WORK]) . '" rel="noopener noreferrer" target="_blank">' . I18n::msg('version_preview') . '</a></li>';
             }
         } else {
             if ($revision > 0) {
@@ -520,7 +520,7 @@ if (Core::getConfig('article_work_version', false)) {
                     $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'clear_work']) . '" data-confirm="' . I18n::msg('version_confirm_clear_workingversion') . '">' . I18n::msg('version_clear_workingversion') . '</a></li>';
                     $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_work_to_live']) . '">' . I18n::msg('version_working_to_live') . '</a></li>';
                 }
-                $toolbar .= '<li><a href="' . rex_getUrl($articleId, $clangId, ['rex_version' => ArticleRevision::WORK]) . '" rel="noopener noreferrer" target="_blank">' . I18n::msg('version_preview') . '</a></li>';
+                $toolbar .= '<li><a href="' . Url::article($articleId, $clangId, ['rex_version' => ArticleRevision::WORK]) . '" rel="noopener noreferrer" target="_blank">' . I18n::msg('version_preview') . '</a></li>';
             } else {
                 $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '" data-confirm="' . I18n::msg('version_confirm_copy_live_to_workingversion') . '">' . I18n::msg('version_copy_live_to_workingversion') . '</a></li>';
             }

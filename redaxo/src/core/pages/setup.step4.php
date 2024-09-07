@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Backup\Backup;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Http\Context;
@@ -58,7 +59,7 @@ $selExport->setId('rex-form-import-name');
 $selExport->setSize(1);
 $selExport->setStyle('class="form-control selectpicker rex-js-import-name"');
 $selExport->setAttribute('onclick', 'checkInput(\'createdb_3\')');
-$exportDir = rex_backup::getDir();
+$exportDir = Backup::getDir();
 $exportsFound = false;
 
 if (is_dir($exportDir)) {

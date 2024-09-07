@@ -5,6 +5,7 @@ namespace Redaxo\Core\View;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\Category;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Util\Str;
 use rex_exception;
 
@@ -139,7 +140,7 @@ class Navigation
         $lis = [];
 
         if ($startPageLabel) {
-            $link = '<a href="' . rex_getUrl(Article::getSiteStartArticleId()) . '">' . escape($startPageLabel) . '</a>';
+            $link = '<a href="' . Url::article(Article::getSiteStartArticleId()) . '">' . escape($startPageLabel) . '</a>';
             $lis[] = $this->getBreadcrumbListItemTag($link, [
                 'class' => 'rex-lvl' . $i,
             ], $i);

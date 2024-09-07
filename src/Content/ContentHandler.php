@@ -354,7 +354,7 @@ class ContentHandler
             }
 
             $CONT = new ArticleContentBase();
-            $CONT->setCLang($clangId);
+            $CONT->setClang($clangId);
             $CONT->setEval(false); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
             if (!$CONT->setArticleId($articleId)) {
                 throw new rex_exception(sprintf('Article %d does not exist.', $articleId));

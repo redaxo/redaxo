@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.24.0@462c80e31c34e58cc4f750c656be3927e80e550e">
+<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
       <code><![CDATA[$query['query']]]></code>
@@ -945,11 +945,6 @@
       <code><![CDATA[escape($ftitle)]]></code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/functions/function_structure_rex_url.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$params]]></code>
-    </MixedArgumentTypeCoercion>
-  </file>
   <file src="redaxo/src/core/lib/be_style/scss_compiler.php">
     <MixedOperand>
       <code><![CDATA[$path]]></code>
@@ -1018,20 +1013,6 @@
     <MixedArgument>
       <code><![CDATA[Core::getConfig($this->key, 1)]]></code>
     </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/lib/system_report.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$dbId]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidReturnStatement>
-      <code><![CDATA[$data]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[array<string, array<string, string|bool>>]]></code>
-    </InvalidReturnType>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$_SERVER['SERVER_PROTOCOL']]]></code>
-    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/core/pages/backup.export.php">
     <ArgumentTypeCoercion>
@@ -1415,6 +1396,7 @@
       <code><![CDATA[escape(Core::getConfig('phpmailer_host'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_password'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_port'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_returnto'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_test_address'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_username'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_wordwrap'))]]></code>
@@ -2148,6 +2130,7 @@
       <code><![CDATA[$config['db'][1]['login']]]></code>
       <code><![CDATA[$config['db'][1]['name']]]></code>
       <code><![CDATA[$config['error_email']]]></code>
+      <code><![CDATA[$config['lang'] ?? null]]></code>
       <code><![CDATA[$config['server']]]></code>
       <code><![CDATA[$config['servername']]]></code>
       <code><![CDATA[$config['timezone']]]></code>
@@ -2969,6 +2952,11 @@
       <code><![CDATA[non-empty-string|null]]></code>
     </MoreSpecificReturnType>
   </file>
+  <file src="src/Filesystem/Url.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$params]]></code>
+    </MixedArgumentTypeCoercion>
+  </file>
   <file src="src/Form/AbstractForm.php">
     <InvalidArrayOffset>
       <code><![CDATA[$this->errorMessages[$result]]]></code>
@@ -3339,6 +3327,7 @@
       <code><![CDATA[$this->SMTPAutoTLS]]></code>
       <code><![CDATA[$this->SMTPDebug]]></code>
       <code><![CDATA[$this->SMTPSecure]]></code>
+      <code><![CDATA[$this->Sender]]></code>
       <code><![CDATA[$this->Username]]></code>
       <code><![CDATA[$this->WordWrap]]></code>
       <code><![CDATA[$this->archive]]></code>
@@ -4286,6 +4275,20 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[[$data->id, $id]]]></code>
     </MixedArgumentTypeCoercion>
+  </file>
+  <file src="src/SystemReport.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$dbId]]></code>
+    </ArgumentTypeCoercion>
+    <InvalidReturnStatement>
+      <code><![CDATA[$data]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array<string, array<string, string|bool>>]]></code>
+    </InvalidReturnType>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$_SERVER['SERVER_PROTOCOL']]]></code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="src/Translation/I18n.php">
     <ArgumentTypeCoercion>

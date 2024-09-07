@@ -43,6 +43,7 @@ use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Addon;
 use Redaxo\Core\ApiFunction;
 use Redaxo\Core\Backend;
+use Redaxo\Core\Backup;
 use Redaxo\Core\Base;
 use Redaxo\Core\Config;
 use Redaxo\Core\Console;
@@ -63,6 +64,7 @@ use Redaxo\Core\MediaPool;
 use Redaxo\Core\MetaInfo;
 use Redaxo\Core\RexVar;
 use Redaxo\Core\Security;
+use Redaxo\Core\SystemReport;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
 use Redaxo\Core\Validator;
@@ -162,6 +164,9 @@ return RectorConfig::configure()
         'rex_api_user_impersonate' => Security\ApiFunction\UserImpersonate::class,
         'rex_api_user_remove_auth_method' => Security\ApiFunction\UserRemoveAuthMethod::class,
         'rex_api_user_remove_session' => Security\ApiFunction\UserRemoveSession::class,
+        'rex_backup' => Backup\Backup::class,
+        'rex_backup_file_compressor' => Backup\FileCompressor::class,
+        'rex_backup_tar' => Backup\Tar::class,
         'rex_be_controller' => Backend\Controller::class,
         'rex_be_navigation' => Backend\Navigation::class,
         'rex_be_page' => Backend\Page::class,
@@ -382,6 +387,7 @@ return RectorConfig::configure()
         'rex_list' => View\DataList::class,
         'rex_fragment' => View\Fragment::class,
         'rex_navigation' => View\Navigation::class,
+        'rex_system_report' => SystemReport::class,
         'rex_view' => View\View::class,
     ])
     ->withConfiguredRule(ArgumentAdderRector::class, [
@@ -465,6 +471,8 @@ return RectorConfig::configure()
         new FuncCallToStaticCall('rex_session', Http\Request::class, 'session'),
         new FuncCallToStaticCall('rex_set_session', Http\Request::class, 'setSession'),
         new FuncCallToStaticCall('rex_unset_session', Http\Request::class, 'unsetSession'),
+
+        new FuncCallToStaticCall('rex_getUrl', Filesystem\Url::class, 'article'),
     ])
     ->withConfiguredRule(RemoveFuncCallArgRector::class, [
         new RemoveFuncCallArg('rex_getUrl', 3),

@@ -17,6 +17,7 @@ use Redaxo\Core\Database\Util;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
@@ -392,7 +393,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     $navigation = current($blocks);
     $contentNaviRight = $navigation['navigation'];
 
-    $contentNaviRight[] = ['title' => '<a href="' . rex_getUrl($articleId, $clang) . '" onclick="window.open(this.href); return false;">' . I18n::msg('article_show') . ' <i class="rex-icon rex-icon-external-link"></i></a>'];
+    $contentNaviRight[] = ['title' => '<a href="' . Url::article($articleId, $clang) . '" onclick="window.open(this.href); return false;">' . I18n::msg('article_show') . ' <i class="rex-icon rex-icon-external-link"></i></a>'];
 
     $fragment = new Fragment();
     $fragment->setVar('id', 'rex-js-structure-content-nav', false);

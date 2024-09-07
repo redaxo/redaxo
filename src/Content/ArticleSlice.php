@@ -402,7 +402,7 @@ class ArticleSlice
     {
         $link = $this->getLink($index);
 
-        return null === $link ? null : rex_getUrl($link);
+        return null === $link ? null : Url::article($link);
     }
 
     /**
