@@ -39,6 +39,7 @@ class Mailer extends PHPMailer
         $this->From = Core::getConfig('phpmailer_from');
         $this->FromName = Core::getConfig('phpmailer_fromname');
         $this->ConfirmReadingTo = Core::getConfig('phpmailer_confirmto');
+        $this->Sender = Core::getConfig('phpmailer_returnto');
         $this->Mailer = Core::getConfig('phpmailer_mailer');
         $this->Host = Core::getConfig('phpmailer_host');
         $this->Port = Core::getConfig('phpmailer_port');

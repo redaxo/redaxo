@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.24.0@462c80e31c34e58cc4f750c656be3927e80e550e">
+<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
       <code><![CDATA[$query['query']]]></code>
@@ -1437,6 +1437,7 @@
       <code><![CDATA[rex_escape(Core::getConfig('phpmailer_host'))]]></code>
       <code><![CDATA[rex_escape(Core::getConfig('phpmailer_password'))]]></code>
       <code><![CDATA[rex_escape(Core::getConfig('phpmailer_port'))]]></code>
+      <code><![CDATA[rex_escape(Core::getConfig('phpmailer_returnto'))]]></code>
       <code><![CDATA[rex_escape(Core::getConfig('phpmailer_test_address'))]]></code>
       <code><![CDATA[rex_escape(Core::getConfig('phpmailer_username'))]]></code>
       <code><![CDATA[rex_escape(Core::getConfig('phpmailer_wordwrap'))]]></code>
@@ -2170,6 +2171,7 @@
       <code><![CDATA[$config['db'][1]['login']]]></code>
       <code><![CDATA[$config['db'][1]['name']]]></code>
       <code><![CDATA[$config['error_email']]]></code>
+      <code><![CDATA[$config['lang'] ?? null]]></code>
       <code><![CDATA[$config['server']]]></code>
       <code><![CDATA[$config['servername']]]></code>
       <code><![CDATA[$config['timezone']]]></code>
@@ -3361,6 +3363,7 @@
       <code><![CDATA[$this->SMTPAutoTLS]]></code>
       <code><![CDATA[$this->SMTPDebug]]></code>
       <code><![CDATA[$this->SMTPSecure]]></code>
+      <code><![CDATA[$this->Sender]]></code>
       <code><![CDATA[$this->Username]]></code>
       <code><![CDATA[$this->WordWrap]]></code>
       <code><![CDATA[$this->archive]]></code>
