@@ -14,6 +14,7 @@ use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Version;
@@ -37,7 +38,7 @@ if ($func && !$csrfToken->isValid()) {
     $error[] = I18n::msg('csrf_token_invalid');
 } elseif ('setup' == $func && !Core::isLiveMode()) {
     // REACTIVATE SETUP
-    if (false !== $url = rex_setup::startWithToken()) {
+    if (false !== $url = Setup::startWithToken()) {
         header('Location:' . $url);
         exit;
     }

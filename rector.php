@@ -64,6 +64,7 @@ use Redaxo\Core\MediaPool;
 use Redaxo\Core\MetaInfo;
 use Redaxo\Core\RexVar;
 use Redaxo\Core\Security;
+use Redaxo\Core\Setup;
 use Redaxo\Core\SystemReport;
 use Redaxo\Core\Translation;
 use Redaxo\Core\Util;
@@ -384,6 +385,8 @@ return RectorConfig::configure()
         'rex_user_role_interface' => Security\UserRoleInterface::class,
         'rex_user_session' => Security\UserSession::class,
         'rex_webauthn' => Security\WebAuthn::class,
+        'rex_setup' => Setup\Setup::class,
+        'rex_setup_importer' => Setup\Importer::class,
         'rex_list' => View\DataList::class,
         'rex_fragment' => View\Fragment::class,
         'rex_navigation' => View\Navigation::class,

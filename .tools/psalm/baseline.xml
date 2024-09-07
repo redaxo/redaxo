@@ -972,35 +972,6 @@
       <code><![CDATA[$previous->errorInfo[1] ?? null]]></code>
     </MixedReturnStatement>
   </file>
-  <file src="redaxo/src/core/lib/setup/setup.php">
-    <MixedArgument>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
-      <code><![CDATA[$destination]]></code>
-      <code><![CDATA[$func($path)]]></code>
-      <code><![CDATA[$path]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$destination]]></code>
-      <code><![CDATA[$files]]></code>
-      <code><![CDATA[$source]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$source]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/pages/backup.export.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$EXPDIR]]></code>
@@ -4271,6 +4242,35 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[[$data->id, $id]]]></code>
     </MixedArgumentTypeCoercion>
+  </file>
+  <file src="src/Setup/Setup.php">
+    <MixedArgument>
+      <code><![CDATA[$config['db'][1]['host']]]></code>
+      <code><![CDATA[$config['db'][1]['login']]]></code>
+      <code><![CDATA[$config['db'][1]['name']]]></code>
+      <code><![CDATA[$config['db'][1]['password']]]></code>
+      <code><![CDATA[$destination]]></code>
+      <code><![CDATA[$func($path)]]></code>
+      <code><![CDATA[$path]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
+      <code><![CDATA[$config['db'][1]['host']]]></code>
+      <code><![CDATA[$config['db'][1]['login']]]></code>
+      <code><![CDATA[$config['db'][1]['name']]]></code>
+      <code><![CDATA[$config['db'][1]['password']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$destination]]></code>
+      <code><![CDATA[$files]]></code>
+      <code><![CDATA[$source]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$source]]></code>
+    </MixedOperand>
   </file>
   <file src="src/SystemReport.php">
     <ArgumentTypeCoercion>

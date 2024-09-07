@@ -6,6 +6,8 @@ use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
+use Redaxo\Core\Setup\Importer;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
@@ -15,7 +17,7 @@ assert(isset($context) && $context instanceof Context);
 assert(isset($errors) && is_array($errors));
 assert(isset($cancelSetupBtn));
 
-$tablesComplete = '' == rex_setup_importer::verifyDbSchema();
+$tablesComplete = '' == Importer::verifyDbSchema();
 
 $createdb = Request::post('createdb', 'int', '');
 
@@ -32,23 +34,23 @@ if (count($errors) > 0) {
     $submitMessage = I18n::msg('setup_412');
 }
 
-foreach (rex_setup::checkDbSecurity() as $message) {
+foreach (Setup::checkDbSecurity() as $message) {
     $headline .= Message::warning($message);
 }
 
 $dbchecked = array_fill(0, 6, '');
 switch ($createdb) {
-    case rex_setup::DB_MODE_SETUP_AND_OVERRIDE:
-    case rex_setup::DB_MODE_SETUP_SKIP:
-    case rex_setup::DB_MODE_SETUP_IMPORT_BACKUP:
-    case rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS:
+    case Setup::DB_MODE_SETUP_AND_OVERRIDE:
+    case Setup::DB_MODE_SETUP_SKIP:
+    case Setup::DB_MODE_SETUP_IMPORT_BACKUP:
+    case Setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS:
         $dbchecked[$createdb] = ' checked="checked"';
         break;
     default:
         if ($tablesComplete) {
-            $dbchecked[rex_setup::DB_MODE_SETUP_SKIP] = ' checked="checked"';
+            $dbchecked[Setup::DB_MODE_SETUP_SKIP] = ' checked="checked"';
         } else {
-            $dbchecked[rex_setup::DB_MODE_SETUP_NO_OVERRIDE] = ' checked="checked"';
+            $dbchecked[Setup::DB_MODE_SETUP_NO_OVERRIDE] = ' checked="checked"';
         }
 }
 
@@ -89,26 +91,26 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-form-createdb-0">' . I18n::msg('setup_404') . '</label>';
-$n['field'] = '<input type="radio" id="rex-form-createdb-0" name="createdb" value="' . rex_setup::DB_MODE_SETUP_NO_OVERRIDE . '"' . $dbchecked[0] . ' />';
+$n['field'] = '<input type="radio" id="rex-form-createdb-0" name="createdb" value="' . Setup::DB_MODE_SETUP_NO_OVERRIDE . '"' . $dbchecked[0] . ' />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-createdb-1">' . I18n::msg('setup_405') . '</label>';
-$n['field'] = '<input type="radio" id="rex-form-createdb-1" name="createdb" value="' . rex_setup::DB_MODE_SETUP_AND_OVERRIDE . '"' . $dbchecked[1] . ' />';
+$n['field'] = '<input type="radio" id="rex-form-createdb-1" name="createdb" value="' . Setup::DB_MODE_SETUP_AND_OVERRIDE . '"' . $dbchecked[1] . ' />';
 $n['note'] = I18n::msg('setup_405_note');
 $formElements[] = $n;
 
 if ($tablesComplete) {
     $n = [];
     $n['label'] = '<label for="rex-form-createdb-2">' . I18n::msg('setup_406') . '</label>';
-    $n['field'] = '<input type="radio" id="rex-form-createdb-2" name="createdb" value="' . rex_setup::DB_MODE_SETUP_SKIP . '"' . $dbchecked[2] . ' />';
+    $n['field'] = '<input type="radio" id="rex-form-createdb-2" name="createdb" value="' . Setup::DB_MODE_SETUP_SKIP . '"' . $dbchecked[2] . ' />';
     $n['note'] = I18n::msg('setup_406_note');
     $formElements[] = $n;
 }
 
 $n = [];
 $n['label'] = '<label for="rex-form-createdb-4">' . I18n::msg('setup_414') . '</label>';
-$n['field'] = '<input type="radio" id="rex-form-createdb-4" name="createdb" value="' . rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS . '"' . $dbchecked[4] . ' />';
+$n['field'] = '<input type="radio" id="rex-form-createdb-4" name="createdb" value="' . Setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS . '"' . $dbchecked[4] . ' />';
 $n['note'] = I18n::msg('setup_414_note');
 $formElements[] = $n;
 
@@ -120,7 +122,7 @@ if ($exportsFound) {
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="rex-form-createdb-3">' . I18n::msg('setup_407') . '</label>';
-    $n['field'] = '<input type="radio" id="rex-form-createdb-3" name="createdb" value="' . rex_setup::DB_MODE_SETUP_IMPORT_BACKUP . '"' . $dbchecked[3] . ' />';
+    $n['field'] = '<input type="radio" id="rex-form-createdb-3" name="createdb" value="' . Setup::DB_MODE_SETUP_IMPORT_BACKUP . '"' . $dbchecked[3] . ' />';
     $formElements[] = $n;
 
     $fragment = new Fragment();
@@ -178,7 +180,7 @@ $content .= '
 
                     // when opening backup dropdown -> mark corresponding radio button as checked
                     $container.find(".rex-js-import-name").click(function () {
-                        $container.find("[name=createdb][value=' . rex_setup::DB_MODE_SETUP_IMPORT_BACKUP . ']").prop("checked", true);
+                        $container.find("[name=createdb][value=' . Setup::DB_MODE_SETUP_IMPORT_BACKUP . ']").prop("checked", true);
                     });
                 });
                  //-->

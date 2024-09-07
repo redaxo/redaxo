@@ -14,10 +14,10 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\BackendPasswordPolicy;
+use Redaxo\Core\Setup\Importer;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
-use rex_setup;
-use rex_setup_importer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -88,7 +88,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
             return $value;
         };
 
-        rex_setup::init();
+        Setup::init();
 
         // ---------------------------------- Step 1 . Language
         $io->title('Step 1 of 5 / Language');
@@ -235,7 +235,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
 
             Core::setProperty('db', $config['db']);
             try {
-                $err = rex_setup::checkDb($config, $dbCreate);
+                $err = Setup::checkDb($config, $dbCreate);
             } catch (PDOException $e) {
                 $err = 'The following error occured: ' . $e->getMessage();
             }
@@ -256,7 +256,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
         $io->title('Step 4 of 5 / Database');
 
         $sql = Sql::factory();
-        $dbEol = rex_setup::checkDbSecurity();
+        $dbEol = Setup::checkDbSecurity();
         if (!empty($dbEol)) {
             foreach ($dbEol as $warning) {
                 $io->warning($warning);
@@ -275,7 +275,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
             }
         }
 
-        $tablesComplete = '' == rex_setup_importer::verifyDbSchema();
+        $tablesComplete = '' == Importer::verifyDbSchema();
 
         // spaces before/after to make sf-console render the array-key instead of
         // our overlong description text
@@ -312,7 +312,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
         $io->success('Using "' . $createdb . '" database setup');
 
         if ('update' == $createdb) {
-            $error = rex_setup_importer::updateFromPrevious();
+            $error = Importer::updateFromPrevious();
             $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
             $importName = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
@@ -320,16 +320,16 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
             if (!in_array($importName, $backups, true)) {
                 throw new InvalidArgumentException('Unknown import file "' . $importName . '" specified');
             }
-            $error = rex_setup_importer::loadExistingImport($importName);
+            $error = Importer::loadExistingImport($importName);
             $io->success('Database successfully imported using file "' . $importName . '"');
         } elseif ('existing' == $createdb && $tablesComplete) {
-            $error = rex_setup_importer::databaseAlreadyExists();
+            $error = Importer::databaseAlreadyExists();
             $io->success('Skipping database setup');
         } elseif ('override' == $createdb) {
-            $error = rex_setup_importer::overrideExisting();
+            $error = Importer::overrideExisting();
             $io->success('Database successfully overwritten');
         } elseif ('normal' == $createdb) {
-            $error = rex_setup_importer::prepareEmptyDb();
+            $error = Importer::prepareEmptyDb();
             $io->success('Database successfully created');
         } else {
             $error = 'An undefinied error occurred';
@@ -340,7 +340,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
             return Command::FAILURE;
         }
 
-        $error = rex_setup_importer::verifyDbSchema();
+        $error = Importer::verifyDbSchema();
         if ('' != $error) {
             $io->error($this->decodeMessage($error));
             return Command::FAILURE;
@@ -494,9 +494,9 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
     private function performSystemcheck(): int
     {
         /** Cloned from comannd setup:check*/
-        $errors = rex_setup::checkEnvironment();
+        $errors = Setup::checkEnvironment();
         if (0 == count($errors)) {
-            $phpEol = rex_setup::checkPhpSecurity();
+            $phpEol = Setup::checkPhpSecurity();
             if (!empty($phpEol)) {
                 foreach ($phpEol as $warning) {
                     $this->io->warning($warning);
@@ -510,7 +510,7 @@ class SetupRunCommand extends AbstractCommand implements OnlySetupAddonsInterfac
             return Command::FAILURE;
         }
 
-        $res = rex_setup::checkFilesystem();
+        $res = Setup::checkFilesystem();
         if (count($res) > 0) {
             $errors = [];
             foreach ($res as $key => $messages) {

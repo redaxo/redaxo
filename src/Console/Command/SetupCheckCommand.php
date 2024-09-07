@@ -6,8 +6,8 @@ use Override;
 use PDOException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
-use rex_setup;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -34,7 +34,7 @@ class SetupCheckCommand extends AbstractCommand
         $exitCode = 0;
         $io = $this->getStyle($input, $output);
 
-        $errors = rex_setup::checkEnvironment();
+        $errors = Setup::checkEnvironment();
         if (0 == count($errors)) {
             $io->success($this->decodeMessage(I18n::msg('setup_208', PHP_VERSION)));
         } else {
@@ -43,7 +43,7 @@ class SetupCheckCommand extends AbstractCommand
             $io->error("PHP version errors:\n" . implode("\n", $errors));
         }
 
-        $res = rex_setup::checkFilesystem();
+        $res = Setup::checkFilesystem();
         if (count($res) > 0) {
             $errors = [];
             foreach ($res as $key => $messages) {
@@ -70,7 +70,7 @@ class SetupCheckCommand extends AbstractCommand
         }
         try {
             if ($config) {
-                $err = rex_setup::checkDb($config, false);
+                $err = Setup::checkDb($config, false);
             } else {
                 $err = 'config.yml not found';
             }

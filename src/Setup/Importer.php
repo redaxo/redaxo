@@ -1,5 +1,7 @@
 <?php
 
+namespace Redaxo\Core\Setup;
+
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Backup\Backup;
@@ -8,13 +10,15 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use rex_functional_exception;
+use rex_sql_exception;
 
 use function Redaxo\Core\View\escape;
 
 /**
  * @internal
  */
-class rex_setup_importer
+class Importer
 {
     /**
      * @return string

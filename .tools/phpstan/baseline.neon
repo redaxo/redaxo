@@ -151,11 +151,6 @@ parameters:
 			path: ../../redaxo/src/core/functions/function_rex_mediapool.php
 
 		-
-			message: "#^Method rex_setup\\:\\:checkDb\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/setup/setup.php
-
-		-
 			message: "#^Unable to resolve the template type T in call to function Redaxo\\\\Core\\\\View\\\\escape$#"
 			count: 1
 			path: ../../redaxo/src/core/pages/system.log.external.php
@@ -1399,6 +1394,11 @@ parameters:
 			message: "#^Method Redaxo\\\\Core\\\\Security\\\\UserRole\\:\\:removeOrReplaceItem\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/Security/UserRole.php
+
+		-
+			message: "#^Method Redaxo\\\\Core\\\\Setup\\\\Setup\\:\\:checkDb\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Setup/Setup.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\Util\\\\Formatter\\:\\:custom\\(\\) has parameter \\$format with no value type specified in iterable type array\\.$#"
