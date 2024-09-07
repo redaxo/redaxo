@@ -20,8 +20,8 @@ use rex_sql_exception;
 
 use function count;
 use function is_int;
-use function strlen;
 use function Redaxo\Core\View\escape;
+use function strlen;
 
 class Backup
 {
