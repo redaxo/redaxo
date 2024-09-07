@@ -4511,9 +4511,6 @@
     <PossiblyNullReference>
       <code><![CDATA[getSubpages]]></code>
     </PossiblyNullReference>
-    <UnusedPsalmSuppress>
-      <code><![CDATA[RedundantCondition]]></code>
-    </UnusedPsalmSuppress>
   </file>
   <file src="src/View/escape.php">
     <InvalidCast>

@@ -235,7 +235,6 @@ class View
     {
         $navigation = [];
 
-        /** @psalm-suppress RedundantCondition */
         $objectId = $articleId > 0 ? $articleId : $categoryId;
         $object = Article::get($objectId, $clang);
         if ($object) {
