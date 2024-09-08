@@ -18,6 +18,7 @@ use rex_sql_exception;
 use function assert;
 use function count;
 use function in_array;
+use function ini_get;
 use function is_array;
 use function is_int;
 use function is_string;
@@ -47,7 +48,7 @@ final class MediaHandler
         $error = $data['file']['error'] ?? null;
 
         if (UPLOAD_ERR_INI_SIZE === $error) {
-            throw new ApiFunctionException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(rex_ini_get('upload_max_filesize'))));
+            throw new ApiFunctionException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(ini_get('upload_max_filesize'))));
         }
         if ($error) {
             throw new ApiFunctionException(I18n::msg('pool_file_upload_error'));
@@ -197,7 +198,7 @@ final class MediaHandler
             $error = $file['error'] ?? null;
 
             if (UPLOAD_ERR_INI_SIZE === $error) {
-                throw new ApiFunctionException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(rex_ini_get('upload_max_filesize'))));
+                throw new ApiFunctionException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(ini_get('upload_max_filesize'))));
             }
             if ($error) {
                 throw new ApiFunctionException(I18n::msg('pool_file_upload_error'));
