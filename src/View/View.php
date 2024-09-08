@@ -20,6 +20,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 
 use function count;
+use function ini_get;
 use function is_array;
 use function is_string;
 
