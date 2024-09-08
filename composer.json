@@ -69,7 +69,6 @@
         "files": [
             "redaxo/src/core/functions/function_metainfo_extension_cleanup.php",
             "redaxo/src/core/functions/function_metainfo.php",
-            "redaxo/src/core/functions/function_rex_mediapool.php",
             "redaxo/src/core/functions/function_rex_other.php",
             "src/View/escape.php"
         ]
