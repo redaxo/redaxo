@@ -14,6 +14,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 
@@ -150,7 +151,7 @@ if ($diffCount > 0) {
 
     $count = count($writable) - 1;
     if ($count) {
-        $content .= rex_mediapool_Mediaform(I18n::msg('pool_sync_title'), I18n::msg('pool_sync_button'), $rexFileCategory, false, false);
+        $content .= View::mediaPoolMediaForm(I18n::msg('pool_sync_title'), I18n::msg('pool_sync_button'), $rexFileCategory, false, false);
         $content .= '<fieldset>';
 
         $title = I18n::msg('pool_sync_affected_files') . ' (' . $count . ')';

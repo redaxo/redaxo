@@ -9,6 +9,7 @@ use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Message;
+use Redaxo\Core\View\View;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -24,11 +25,12 @@ if (!$PERMALL && !Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(
 $mediaMethod = Request::request('media_method', 'string');
 $csrf = CsrfToken::factory('mediapool');
 
+$info = '';
+$warning = '';
 if ('add_file' == $mediaMethod) {
     if (!$csrf->isValid()) {
         echo Message::error(I18n::msg('csrf_token_invalid'));
     } else {
-        global $warning;
         if (Request::post('save', 'boolean') || Request::post('saveandexit', 'boolean')) {
             $data = [];
             $data['title'] = Request::request('ftitle', 'string');
@@ -68,4 +70,12 @@ if ('add_file' == $mediaMethod) {
     }
 }
 
-echo rex_mediapool_Uploadform($rexFileCategory);
+if ('' !== $warning) {
+    echo Message::error($warning);
+}
+
+if ('' !== $info) {
+    echo Message::success($info);
+}
+
+echo View::mediaPoolMediaForm(I18n::msg('pool_file_insert'), I18n::msg('pool_file_upload'), $rexFileCategory, true, true);
