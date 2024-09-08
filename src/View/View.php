@@ -276,8 +276,6 @@ class View
      */
     public static function mediaPoolMediaForm($formTitle, $buttonTitle, $rexFileCategory, $fileChooser, $closeForm)
     {
-        global $ftitle, $warning, $info;
-
         $s = '';
 
         $catsSel = new MediaCategorySelect();
