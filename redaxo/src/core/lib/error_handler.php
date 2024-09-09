@@ -370,7 +370,6 @@ abstract class rex_error_handler
             E_USER_WARNING, E_WARNING, E_COMPILE_WARNING => 'Warning',
             E_USER_NOTICE, E_NOTICE => 'Notice',
             E_USER_DEPRECATED, E_DEPRECATED => 'Deprecated',
-            E_STRICT => 'Strict',
             default => 'Unknown',
         };
     }
