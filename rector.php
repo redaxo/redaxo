@@ -20,9 +20,7 @@ use Rector\Php81\Rector as Php81;
 use Rector\Php82\Rector as Php82;
 use Rector\Privatization\Rector as Privatization;
 use Rector\Removing\Rector\ClassMethod\ArgumentRemoverRector;
-use Rector\Removing\Rector\FuncCall\RemoveFuncCallArgRector;
 use Rector\Removing\ValueObject\ArgumentRemover;
-use Rector\Removing\ValueObject\RemoveFuncCallArg;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Renaming\Rector\FuncCall\RenameFunctionRector;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
@@ -393,6 +391,9 @@ return RectorConfig::configure()
         'rex_system_report' => SystemReport::class,
         'rex_view' => View\View::class,
     ])
+    ->withConfiguredRule(RenameFunctionRector::class, [
+        'rex_escape' => 'Redaxo\\Core\\View\\escape',
+    ])
     ->withConfiguredRule(ArgumentAdderRector::class, [
         new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 1, 'value', null),
         new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 2, 'arguments', ['multiple' => true]),
@@ -480,9 +481,6 @@ return RectorConfig::configure()
 
         new FuncCallToStaticCall('rex_getUrl', Filesystem\Url::class, 'article'),
     ])
-    ->withConfiguredRule(RemoveFuncCallArgRector::class, [
-        new RemoveFuncCallArg('rex_getUrl', 3),
-    ])
     ->withConfiguredRule(ArgumentRemoverRector::class, [
         new ArgumentRemover(Util\Str::class, 'buildQuery', 1, null),
         new ArgumentRemover(Base\UrlProviderInterface::class, 'getUrl', 1, null),
@@ -490,6 +488,7 @@ return RectorConfig::configure()
         new ArgumentRemover(Filesystem\Url::class, 'backendController', 1, null),
         new ArgumentRemover(Filesystem\Url::class, 'backendPage', 2, null),
         new ArgumentRemover(Filesystem\Url::class, 'currentBackendPage', 1, null),
+        new ArgumentRemover(Filesystem\Url::class, 'article', 3, null),
         new ArgumentRemover(Form\AbstractForm::class, 'getUrl', 1, null),
         new ArgumentRemover(View\DataList::class, 'getUrl', 1, null),
         new ArgumentRemover(View\DataList::class, 'getParsedUrl', 1, null),
@@ -536,8 +535,5 @@ return RectorConfig::configure()
         new RenameClassAndConstFetch(View\View::class, 'JS_ASYNC', View\Asset::class, 'JS_ASYNC'),
         new RenameClassAndConstFetch(View\View::class, 'JS_DEFERED', View\Asset::class, 'JS_DEFERED'),
         new RenameClassAndConstFetch(View\View::class, 'JS_IMMUTABLE', View\Asset::class, 'JS_IMMUTABLE'),
-    ])
-    ->withConfiguredRule(RenameFunctionRector::class, [
-        'rex_escape' => 'Redaxo\\Core\\View\\escape',
     ])
 ;
