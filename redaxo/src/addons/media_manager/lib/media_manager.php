@@ -257,13 +257,7 @@ class rex_media_manager
     {
         assert(null !== $this->cachePath);
         assert(null !== $this->type);
-
-        $cachePath = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_CACHE_FILENAME_PATH', $this->cachePath, [
-            'type' => $this->type,
-            'filename' => $this->originalFilename,
-            'effects' => $this->effectsFromType($this->getMediaType()),
-        ]));
-
+        $cachePath = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_CACHE_FILENAME_PATH', $this->cachePath, $this));
         return $cachePath . $this->type . '/' . $this->originalFilename;
     }
 
