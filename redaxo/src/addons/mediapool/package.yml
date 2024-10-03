@@ -17,7 +17,7 @@ page:
         structure: { title: translate:pool_cat_list,   perm: media/hasAll }
         sync:      { title: translate:pool_sync_files, perm: media[sync] }
 
-blocked_extensions: [asp, aspx, bat, cfm, cgi, flv, hh, html, htaccess, htpasswd, ini, jsp, jsf, js, jsphp, log, mjs, pht, php, php3, php4, php5, php6, php7, php8, phar, pl, ps1, phtml, py, rb, rm, sh, shmtl, shtml, swf, wasm, wmv, wma, xhtml, xht, xml]
+blocked_extensions: [asp, aspx, bat, cfm, cgi, flv, hh, html, htaccess, htpasswd, ini, jsp, jsf, js, jsphp, log, mjs, pht, php, php3, php4, php5, php6, php7, php8, phar, pl, ps1, phtml, py, rb, rm, sh, shmtl, shtml, swf, svg, wasm, wmv, wma, xhtml, xht, xml]
 
 # optional mime type allowlist. the list is checked after the blocked_extensions check from above has passed.
 # exmaple:
@@ -26,7 +26,7 @@ blocked_extensions: [asp, aspx, bat, cfm, cgi, flv, hh, html, htaccess, htpasswd
 #       jpg: [image/jpeg, image/pjpeg]
 allowed_mime_types: ~
 
-allowed_doctypes: [avif, bmp, css, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, svg, swf, tar, tif, tiff, txt, webp, wma, xls, xlsx, zip]
+allowed_doctypes: [avif, bmp, css, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, swf, tar, tif, tiff, txt, webp, wma, xls, xlsx, zip]
 image_extensions: [avif, bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]
 
 requires:
