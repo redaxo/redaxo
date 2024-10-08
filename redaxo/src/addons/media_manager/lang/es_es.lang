@@ -166,3 +166,7 @@ media_manager_effect_contrast_notice = [-100 a 100]. Dejar en blanco para el val
 media_manager_effect_sepia = Imagen: Sepia
 
 media_manager_effect_greyscale = Imagen: Escala de grises
+
+media_manager_effect_insert_image_percent = Imagen: colocar imagen / marca de agua (transparente)
+media_manager_effect_brand_width_percent_x = ancho en porcentaje
+media_manager_effect_brand_opacity_percent = Opacidad en porcentaje
