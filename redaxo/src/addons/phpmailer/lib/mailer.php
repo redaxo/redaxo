@@ -289,11 +289,11 @@ class rex_mailer extends PHPMailer
             $line = $data[3] ?? '';
 
             $style = '';
-            if (stripos($type, 'error') !== false || stripos($type, 'exception') !== false || $type === 'logevent') {
-                $style = ' class="' . (($type === 'logevent') ? 'eventbg' : 'errorbg') . '"';
+            if (false !== stripos($type, 'error') || false !== stripos($type, 'exception') || 'logevent' === $type) {
+                $style = ' class="' . (('logevent' === $type) ? 'eventbg' : 'errorbg') . '"';
                 $logevent = true;
                 $currentErrors .= $entry->getTimestamp() . $type . $message;
-                $errorCount++;
+                ++$errorCount;
             }
 
             $mailBody .= '        <tr' . $style . '>';
