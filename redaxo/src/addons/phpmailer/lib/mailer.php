@@ -272,6 +272,7 @@ class rex_mailer extends PHPMailer
         $mailBody .= '            <th>' . rex_i18n::msg('syslog_message') . '</th>';
         $mailBody .= '            <th>' . rex_i18n::msg('syslog_file') . '</th>';
         $mailBody .= '            <th>' . rex_i18n::msg('syslog_line') . '</th>';
+        $mailBody .= '            <th>' . rex_i18n::msg('syslog_url') . '</th>';
         $mailBody .= '        </tr>';
         $mailBody .= '    </thead>';
         $mailBody .= '    <tbody>';
@@ -287,13 +288,14 @@ class rex_mailer extends PHPMailer
             $message = $data[1];
             $file = $data[2] ?? '';
             $line = $data[3] ?? '';
+            $url = $data[4] ?? '';
 
             $style = '';
-            if (false !== stripos($type, 'error') || false !== stripos($type, 'exception') || 'logevent' === $type) {
-                $style = ' class="' . (('logevent' === $type) ? 'eventbg' : 'errorbg') . '"';
+            if (stripos($type, 'error') !== false || stripos($type, 'exception') !== false || $type === 'logevent') {
+                $style = ' class="' . (($type === 'logevent') ? 'eventbg' : 'errorbg') . '"';
                 $logevent = true;
                 $currentErrors .= $entry->getTimestamp() . $type . $message;
-                ++$errorCount;
+                $errorCount++;
             }
 
             $mailBody .= '        <tr' . $style . '>';
@@ -302,6 +304,7 @@ class rex_mailer extends PHPMailer
             $mailBody .= '            <td>' . substr($message, 0, 128) . '</td>';
             $mailBody .= '            <td>' . $file . '</td>';
             $mailBody .= '            <td>' . $line . '</td>';
+            $mailBody .= '            <td>' . $url . '</td>';
             $mailBody .= '        </tr>';
 
             if ($errorCount >= $maxErrors) {
@@ -338,6 +341,9 @@ class rex_mailer extends PHPMailer
 
         // Set X-Mailer header
         $mail->XMailer = 'REDAXO/' . rex::getVersion() . ' ErrorMailer';
+
+        // Set SMTPDebug
+        $mail->SMTPDebug = $addon->getConfig('smtp_debug');
 
         if ($mail->Send()) {
             // Update configuration only if email was sent successfully
