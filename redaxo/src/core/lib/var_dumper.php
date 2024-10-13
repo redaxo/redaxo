@@ -86,7 +86,7 @@ abstract class rex_var_dumper
             }
 
             $dumper->setDisplayOptions([
-                'fileLinkFormat' => new class() {
+                'fileLinkFormat' => new class {
                     public function format(string $file, string $line): string|false
                     {
                         /** @var rex_editor|null $editor */

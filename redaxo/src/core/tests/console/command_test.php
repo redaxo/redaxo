@@ -11,7 +11,7 @@ final class rex_console_command_test extends TestCase
     {
         $method = new ReflectionMethod(rex_console_command::class, 'decodeMessage');
 
-        $command = new class() extends rex_console_command {
+        $command = new class extends rex_console_command {
             public function execute(InputInterface $input, OutputInterface $output): int
             {
                 return 0;
@@ -25,7 +25,7 @@ final class rex_console_command_test extends TestCase
     {
         $method = new ReflectionMethod(rex_console_command::class, 'decodeMessage');
 
-        $command = new class() extends rex_console_command {
+        $command = new class extends rex_console_command {
             public function execute(InputInterface $input, OutputInterface $output): int
             {
                 return 0;
