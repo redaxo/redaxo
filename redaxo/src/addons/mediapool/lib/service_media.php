@@ -1,5 +1,7 @@
 <?php
 
+use voku\helper\AntiXSS;
+
 /**
  * @package redaxo\mediapool
  */
@@ -93,6 +95,8 @@ final class rex_media_service
         if ('' == $data['file']['type'] && isset($size['mime'])) {
             $data['file']['type'] = $size['mime'];
         }
+
+        self::sanitizeMedia($dstFile, $data['file']['type']);
 
         $saveObject = rex_sql::factory();
         $saveObject->setTable(rex::getTablePrefix() . 'media');
@@ -202,6 +206,8 @@ final class rex_media_service
                 }
 
                 @chmod($dstFile, rex::getFilePerm());
+
+                self::sanitizeMedia($dstFile, $filetype);
 
                 $saveObject->setValue('filetype', $filetype);
                 $saveObject->setValue('filesize', filesize($dstFile));
@@ -369,5 +375,23 @@ final class rex_media_service
         }
 
         return $items;
+    }
+
+    private static function sanitizeMedia(string $path, ?string $type): void
+    {
+        if ('image/svg+xml' !== $type || 'svg' !== rex_file::extension($path)) {
+            return;
+        }
+
+        $content = rex_type::notNull(rex_file::get($path));
+
+        $antiXss = new AntiXSS();
+        $antiXss->removeEvilAttributes(['style']);
+        $antiXss->removeEvilHtmlTags(['svg', 'title', 'xml']);
+
+        $content = $antiXss->xss_clean($content);
+        $content = preg_replace('/^\s*&lt;\?xml(.*?)\?&gt;/', '<?xml$1?>', $content);
+
+        rex_file::put($path, $content);
     }
 }
