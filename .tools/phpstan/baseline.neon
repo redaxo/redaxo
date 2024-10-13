@@ -1346,11 +1346,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/tests/category_test.php
 
 		-
-			message: "#^Method rex_user_role\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/users/lib/role.php
-
-		-
 			message: "#^Method rex_user_role\\:\\:removeOrReplaceItem\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
 			count: 1
 			path: ../../redaxo/src/addons/users/lib/role.php
@@ -1881,6 +1876,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/sql/util.php
+
+		-
 			message: "#^Method rex_sql_util\\:\\:readSqlDump\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/util.php
@@ -2016,6 +2016,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/type.php
 
 		-
+			message: "#^PHPDoc tag @phpstan\\-assert for \\$value has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/type.php
+
+		-
 			message: "#^Method rex_url\\:\\:backendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/url.php
@@ -2042,6 +2047,11 @@ parameters:
 
 		-
 			message: "#^Method rex_var\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/var/var.php
+
+		-
+			message: "#^PHPDoc tag @var with type class\\-string is not subtype of native type lowercase\\-string&non\\-falsy\\-string\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/var/var.php
 
