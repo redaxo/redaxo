@@ -174,7 +174,7 @@ class rex_logger extends AbstractLogger
     public static function getLogLevel($errno)
     {
         return match ($errno) {
-            E_STRICT, E_USER_DEPRECATED, E_DEPRECATED, E_USER_WARNING, E_WARNING, E_COMPILE_WARNING => LogLevel::WARNING,
+            E_USER_DEPRECATED, E_DEPRECATED, E_USER_WARNING, E_WARNING, E_COMPILE_WARNING => LogLevel::WARNING,
             E_USER_NOTICE, E_NOTICE => LogLevel::NOTICE,
             default => LogLevel::ERROR,
         };

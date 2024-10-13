@@ -1346,11 +1346,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/tests/category_test.php
 
 		-
-			message: "#^Method rex_user_role\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/users/lib/role.php
-
-		-
 			message: "#^Method rex_user_role\\:\\:removeOrReplaceItem\\(\\) has parameter \\$ep with generic class rex_extension_point but does not specify its types\\: T$#"
 			count: 1
 			path: ../../redaxo/src/addons/users/lib/role.php
@@ -1363,11 +1358,6 @@ parameters:
 		-
 			message: "#^Impure static variable in pure function rex_escape\\(\\)\\.$#"
 			count: 2
-			path: ../../redaxo/src/core/functions/function_rex_escape.php
-
-		-
-			message: "#^Possibly impure call to a callable in pure function rex_escape\\(\\)\\.$#"
-			count: 1
 			path: ../../redaxo/src/core/functions/function_rex_escape.php
 
 		-
@@ -1626,6 +1616,16 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/form_base.php
 
 		-
+			message: "#^Class rex_fragment has PHPDoc tag @method for method getSubfragment\\(\\) parameter \\#2 \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/fragment.php
+
+		-
+			message: "#^Class rex_fragment has PHPDoc tag @method for method subfragment\\(\\) parameter \\#2 \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/fragment.php
+
+		-
 			message: "#^Method rex_list\\:\\:_getAttributeString\\(\\) has parameter \\$array with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
@@ -1876,6 +1876,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/sql/util.php
+
+		-
 			message: "#^Method rex_sql_util\\:\\:readSqlDump\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/util.php
@@ -2011,6 +2016,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/type.php
 
 		-
+			message: "#^PHPDoc tag @phpstan\\-assert for \\$value has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/type.php
+
+		-
 			message: "#^Method rex_url\\:\\:backendController\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/url.php
@@ -2041,6 +2051,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/var/var.php
 
 		-
+			message: "#^PHPDoc tag @var with type class\\-string is not subtype of native type lowercase\\-string&non\\-falsy\\-string\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/var/var.php
+
+		-
 			message: "#^Method rex_view\\:\\:getJsFilesWithOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/view.php
@@ -2054,6 +2069,11 @@ parameters:
 			message: "#^Property rex_view\\:\\:\\$jsFiles type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/view.php
+
+		-
+			message: "#^Unable to resolve the template type T in call to function rex_escape$#"
+			count: 1
+			path: ../../redaxo/src/core/pages/system.log.external.php
 
 		-
 			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(mixed \\.\\.\\.\\)\\: \\(object\\|null\\), Closure\\(mixed, mixed\\)\\: void given\\.$#"
