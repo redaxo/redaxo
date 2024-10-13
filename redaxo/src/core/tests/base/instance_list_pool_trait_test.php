@@ -14,7 +14,7 @@ final class rex_test_instance_list_pool
     }
 
     private function __construct(
-        private int $id,
+        private int $id, // @phpstan-ignore property.onlyWritten
     ) {}
 
     public static function get(int $id): self
