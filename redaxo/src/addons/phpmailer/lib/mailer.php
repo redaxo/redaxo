@@ -339,11 +339,8 @@ class rex_mailer extends PHPMailer
         $mail->FromName = 'REDAXO Error Report';
         $mail->addAddress(rex::getErrorEmail());
 
-        // Set X-Mailer header
+        // Set X-Mailer header for ErrorMails
         $mail->XMailer = 'REDAXO/' . rex::getVersion() . ' ErrorMailer';
-
-        // Set SMTPDebug
-        $mail->SMTPDebug = $addon->getConfig('smtp_debug');
 
         if ($mail->Send()) {
             // Update configuration only if email was sent successfully
