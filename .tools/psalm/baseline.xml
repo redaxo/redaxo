@@ -1622,8 +1622,6 @@
       <code><![CDATA[$address]]></code>
       <code><![CDATA[$bcc]]></code>
       <code><![CDATA[$detourAddress]]></code>
-      <code><![CDATA[$lasterrors]]></code>
-      <code><![CDATA[$sendTime]]></code>
       <code><![CDATA[$this->CharSet]]></code>
       <code><![CDATA[$this->ConfirmReadingTo]]></code>
       <code><![CDATA[$this->Encoding]]></code>
@@ -1642,19 +1640,14 @@
       <code><![CDATA[$this->Username]]></code>
       <code><![CDATA[$this->WordWrap]]></code>
       <code><![CDATA[$this->archive]]></code>
-      <code><![CDATA[$timediff]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$sendTime]]></code>
       <code><![CDATA[$this->xHeader[$kind]]]></code>
       <code><![CDATA[$this->xHeader['to']]]></code>
     </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$address]]></code>
     </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$sendTime]]></code>
-    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/phpmailer/lib/system_setting_phpmailer_errormail.php">
     <MixedArgument>
