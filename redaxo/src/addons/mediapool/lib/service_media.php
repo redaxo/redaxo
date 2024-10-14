@@ -387,7 +387,7 @@ final class rex_media_service
 
         $antiXss = new AntiXSS();
         $antiXss->removeEvilAttributes(['style']);
-        $antiXss->removeEvilHtmlTags(['svg', 'title', 'xml']);
+        $antiXss->removeEvilHtmlTags(['style', 'svg', 'title']);
 
         $content = $antiXss->xss_clean($content);
         $content = preg_replace('/^\s*&lt;\?xml(.*?)\?&gt;/', '<?xml$1?>', $content);
