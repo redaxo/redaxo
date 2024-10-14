@@ -249,8 +249,8 @@ class rex_mailer extends PHPMailer
     {
         $addon = rex_addon::get('phpmailer');
         $logFile = rex_path::log('system.log');
-        $lastSendTime = $addon->getConfig('last_log_file_send_time', 0);
-        $lastErrors = $addon->getConfig('last_errors', '');
+        $lastSendTime = (int) $addon->getConfig('last_log_file_send_time', 0);
+        $lastErrors = (string) $addon->getConfig('last_errors', '');
         $currentErrors = '';
 
         // Check if the log file has content
@@ -325,7 +325,7 @@ class rex_mailer extends PHPMailer
 
         // Combine time-based and content-based checks
         $timeSinceLastSend = time() - $lastSendTime;
-        $errorMailInterval = $addon->getConfig('errormail');
+        $errorMailInterval = (int) $addon->getConfig('errormail');
 
         if ($timeSinceLastSend < $errorMailInterval && $currentErrorsHash === $lastErrors) {
             return;
