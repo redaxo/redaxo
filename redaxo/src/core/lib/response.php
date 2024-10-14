@@ -28,6 +28,7 @@ class rex_response
     private static bool $sentEtag = false;
     private static bool $sentContentType = false;
     private static bool $sentCacheControl = false;
+    private static bool $closeConnection = false;
     private static array $additionalHeaders = [];
     private static array $preloadFiles = [];
     private static string $nonce = '';
@@ -275,7 +276,7 @@ class rex_response
 
         $hasShutdownExtension = rex_extension::isRegistered('RESPONSE_SHUTDOWN');
         if ($hasShutdownExtension) {
-            header('Connection: close');
+            self::$closeConnection = true;
         }
 
         self::sendContent($content, null, $lastModified);
@@ -340,10 +341,21 @@ class rex_response
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
 
+        $finish = null;
+        if (function_exists('fastcgi_finish_request')) {
+            $finish = fastcgi_finish_request(...);
+        } elseif (function_exists('litespeed_finish_request')) {
+            $finish = litespeed_finish_request(...);
+        } elseif (self::$closeConnection) {
+            header('Connection: close');
+        }
+
         echo $content;
 
-        if (function_exists('fastcgi_finish_request')) {
-            fastcgi_finish_request();
+        if ($finish) {
+            $finish();
+        } elseif (!in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
+            flush();
         }
     }
 

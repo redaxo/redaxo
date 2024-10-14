@@ -4376,9 +4376,13 @@
     </MixedArrayAccess>
     <MixedAssignment>
       <code><![CDATA[$chunkSize]]></code>
+      <code><![CDATA[$finish]]></code>
       <code><![CDATA[$preloadFile]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
+    <MixedFunctionCall>
+      <code><![CDATA[$finish()]]></code>
+    </MixedFunctionCall>
     <MixedOperand>
       <code><![CDATA[$preloadFile['file']]]></code>
       <code><![CDATA[$preloadFile['mimeType']]]></code>
