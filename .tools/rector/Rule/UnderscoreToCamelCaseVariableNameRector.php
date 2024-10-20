@@ -6,6 +6,7 @@ namespace Redaxo\Rector\Rule;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Param;
 use Rector\Naming\ParamRenamer\ParamRenamer;
 use Rector\Naming\ValueObject\ParamRename;
@@ -57,13 +58,32 @@ final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
      */
     public function getNodeTypes(): array
     {
-        return [Variable::class];
+        return [Variable::class, FunctionLike::class];
     }
 
     /**
-     * @param Variable $node
+     * @param Variable|FunctionLike $node
      */
     public function refactor(Node $node): ?Node
+    {
+        if ($node instanceof Variable) {
+            return $this->renameVariable($node);
+        }
+
+        if (!$node instanceof FunctionLike) {
+            return null;
+        }
+
+        $modified = false;
+        foreach ($node->getParams() as $param) {
+            $renamedParam = $this->renameParam($node, $param);
+            $modified = $modified || null !== $renamedParam;
+        }
+
+        return $modified ? $node : null;
+    }
+
+    public function renameVariable(Variable $node): ?Node
     {
         $nodeName = $this->getName($node);
         if (null === $nodeName) {
@@ -71,6 +91,10 @@ final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
         }
 
         if (!str_contains(ltrim($nodeName, '_'), '_')) {
+            return null;
+        }
+
+        if ($node->getAttribute(AttributeKey::IS_PARAM_VAR)) {
             return null;
         }
 
@@ -93,11 +117,6 @@ final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
             return null;
         }
 
-        $parent = $node->getAttribute(AttributeKey::PARENT_NODE);
-        if ($parent instanceof Param) {
-            return $this->renameParam($parent);
-        }
-
         if ($this->isName($node, $camelCaseName)) {
             return null;
         }
@@ -107,27 +126,24 @@ final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
         return $node;
     }
 
-    private function renameParam(Param $param): ?Variable
+    private function renameParam(FunctionLike $function, Param $param): ?Param
     {
         $resolvedExpectedName = $this->underscoreCamelCaseExpectedNameResolver->resolve($param);
         if (null === $resolvedExpectedName) {
             return null;
         }
 
-        $paramRename = $this->paramRenameFactory->createFromResolvedExpectedName($param, $resolvedExpectedName);
+        if ($this->isName($param, $resolvedExpectedName)) {
+            return null;
+        }
+
+        $paramRename = $this->paramRenameFactory->createFromResolvedExpectedName($function, $param, $resolvedExpectedName);
         if (!$paramRename instanceof ParamRename) {
             return null;
         }
 
-        $renamedParam = $this->paramRenamer->rename($paramRename);
-        if (!$renamedParam instanceof Param) {
-            return null;
-        }
+        $this->paramRenamer->rename($paramRename);
 
-        if (!$renamedParam->var instanceof Variable) {
-            return null;
-        }
-
-        return $renamedParam->var;
+        return $param;
     }
 }
