@@ -89,6 +89,11 @@ class rex_media_manager
     {
         $this->type = $type;
 
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_INIT', $this, [
+            'type' => $type,
+            'file' => $this->originalFilename,
+        ], true));
+
         if (!$this->isCached()) {
             $set = $this->effectsFromType($type);
             $set = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
