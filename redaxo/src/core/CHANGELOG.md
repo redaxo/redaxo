@@ -1,6 +1,26 @@
 Changelog
 =========
 
+Version 5.18.0 – 22.10.2024
+---------------------------
+
+### Neu
+
+* `dump`: Unterstützung für Labels (`dump(foo: $foo)`) (@gharlan)
+* `rex_package`: Neue Methode `getLicense` und ausgabe der Lizenz im Command `package:list` (@dergel)
+* `rex_var`-Klassen können über `register`-Methode explizit registriert werden (@gharlan)
+* Optimiertes Beenden der Response bei Nutzung von `RESPONSE_SHUTDOWN` (Code nach dem Senden der Response) (@gharlan)
+* Optimierung Fehlermeldungen (@tyrant88, @gharlan)
+* EOL-Daten für PHP/MySQL/MariaDB aktualisiert (@gharlan)
+
+### Bugfixes
+
+* Passkey-Login funktionierte nicht, wenn zuvor ein Benutzername im Feld eingegeben wurde (@gharlan)
+* Safari: Password-Toggle funktionierte nicht für generierte Passwörter (@gharlan)
+* `rex_string::highlight` und Highlighting in `rex_markdown` für PHP 8.3 korrigiert (@gharlan)
+* `E_STRICT`-Konstante nicht mehr nutzen (Vorbereitung für PHP 8.4) (@gharlan)
+
+
 Version 5.17.1 – 07.04.2024
 ---------------------------
 

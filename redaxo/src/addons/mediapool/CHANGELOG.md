@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.15.0 – 22.10.2024
+---------------------------
+
+### Security
+
+* Weitere Extensions (insbesondere `.html`) werden geblockt, um XSS über diese Dateien zu verhindern (gemeldet von Valerii Voronin) (@skerbis)
+* In SVG-Dateien wird beim Upload JS-Code entfernt, um XSS zu verhindern (gemeldet von Praison) (@gharlan)
+
+
 Version 2.13.0 – 28.02.2023
 ---------------------------
 
