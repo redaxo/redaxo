@@ -450,7 +450,16 @@ class rex_be_controller
      */
     public static function includeCurrentPageSubPath(array $context = [])
     {
-        $path = rex_type::string(self::requireCurrentPageObject()->getSubPath());
+        $page = self::requireCurrentPageObject();
+        $path = $page->getSubPath();
+        if (null === $path) {
+            throw new rex_exception(sprintf(
+                $page instanceof rex_be_page_main
+                    ? 'Current page "%s" is a main page and therefore has no sub-path.'
+                    : 'Current page "%s" does not have a sub-path.',
+                $page->getFullKey(),
+            ));
+        }
 
         if ('.md' !== strtolower(substr($path, -3))) {
             return self::includePath($path, $context);
@@ -471,7 +480,7 @@ class rex_be_controller
         $content = $fragment->parse('core/page/docs.php');
 
         $fragment = new rex_fragment();
-        $fragment->setVar('title', self::requireCurrentPageObject()->getTitle(), false);
+        $fragment->setVar('title', $page->getTitle(), false);
         $fragment->setVar('body', $content, false);
         echo $fragment->parse('core/page/section.php');
 
