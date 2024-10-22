@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.17.0 – 22.10.2024
+---------------------------
+
+### Neu
+
+* Neuer EP `MEDIA_MANAGER_INIT`, der für jeden Aufruf getriggert wird (noch vor der Cache-Prüfung) (@gharlan)
+
+
 Version 2.16.0 – 12.03.2024
 ---------------------------
 

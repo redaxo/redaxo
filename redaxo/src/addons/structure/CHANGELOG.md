@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.17.2 – 22.10.2024
+---------------------------
+
+### Bugfixes
+
+* `rex_article_not_found_exception`: Die aktuelle Artikel-ID wurde nicht auf den Fehlerartikel umgeschwenkt (@tyrant88)
+* Artikelbearbeitung: Fehler vermeiden bei Benutzern mit limitierten Rechten (@gharlan)
+
+
 Version 2.17.1 – 07.04.2024
 ---------------------------
 
