@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use function in_array;
 use function is_bool;
+use function sprintf;
 
 use const STR_PAD_LEFT;
 

@@ -86,7 +86,7 @@ final class VarDumper
             }
 
             $dumper->setDisplayOptions([
-                'fileLinkFormat' => new class() {
+                'fileLinkFormat' => new class {
                     public function format(string $file, string $line): string|false
                     {
                         /** @var Editor|null $editor */

@@ -7,6 +7,8 @@ use Redaxo\Core\Base\SingletonTrait;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
 
+use function sprintf;
+
 /**
  * Represents a null addon.
  *

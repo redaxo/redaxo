@@ -15,6 +15,7 @@ use function array_key_exists;
 use function assert;
 use function function_exists;
 use function in_array;
+use function sprintf;
 
 class ManagedMedia
 {

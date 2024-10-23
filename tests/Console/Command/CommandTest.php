@@ -15,7 +15,7 @@ final class CommandTest extends TestCase
     {
         $method = new ReflectionMethod(AbstractCommand::class, 'decodeMessage');
 
-        $command = new class() extends AbstractCommand {
+        $command = new class extends AbstractCommand {
             public function execute(InputInterface $input, OutputInterface $output): int
             {
                 return 0;
@@ -29,7 +29,7 @@ final class CommandTest extends TestCase
     {
         $method = new ReflectionMethod(AbstractCommand::class, 'decodeMessage');
 
-        $command = new class() extends AbstractCommand {
+        $command = new class extends AbstractCommand {
             public function execute(InputInterface $input, OutputInterface $output): int
             {
                 return 0;

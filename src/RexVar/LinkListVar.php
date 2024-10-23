@@ -11,6 +11,7 @@ use Redaxo\Core\View\Fragment;
 
 use function in_array;
 use function Redaxo\Core\View\escape;
+use function sprintf;
 
 /**
  * REX_LINKLIST[1].

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
+<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
       <code><![CDATA[$query['query']]]></code>
@@ -3180,7 +3180,11 @@
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$chunkSize]]></code>
+      <code><![CDATA[$finish]]></code>
     </MixedAssignment>
+    <MixedFunctionCall>
+      <code><![CDATA[$finish()]]></code>
+    </MixedFunctionCall>
     <MixedOperand>
       <code><![CDATA[$range->getEnd()]]></code>
       <code><![CDATA[$range->getLength()]]></code>
@@ -3258,8 +3262,6 @@
       <code><![CDATA[$address]]></code>
       <code><![CDATA[$bcc]]></code>
       <code><![CDATA[$detourAddress]]></code>
-      <code><![CDATA[$lasterrors]]></code>
-      <code><![CDATA[$sendTime]]></code>
       <code><![CDATA[$this->CharSet]]></code>
       <code><![CDATA[$this->ConfirmReadingTo]]></code>
       <code><![CDATA[$this->Encoding]]></code>
@@ -3278,19 +3280,14 @@
       <code><![CDATA[$this->Username]]></code>
       <code><![CDATA[$this->WordWrap]]></code>
       <code><![CDATA[$this->archive]]></code>
-      <code><![CDATA[$timediff]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$sendTime]]></code>
       <code><![CDATA[$this->xHeader[$kind]]]></code>
       <code><![CDATA[$this->xHeader['to']]]></code>
     </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$address]]></code>
     </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$sendTime]]></code>
-    </PossiblyNullOperand>
   </file>
   <file src="src/MediaManager/Effect/ConvertToImageEffect.php">
     <MixedArgument>

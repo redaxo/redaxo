@@ -6,6 +6,8 @@ use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Http\Request;
 
+use function sprintf;
+
 /**
  * Class for generating and validating csrf tokens.
  *

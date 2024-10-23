@@ -17,6 +17,7 @@ use function in_array;
 use function ini_get;
 use function is_array;
 use function is_string;
+use function sprintf;
 
 use const E_WARNING;
 use const STREAM_CLIENT_CONNECT;

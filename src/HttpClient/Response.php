@@ -12,6 +12,7 @@ use function gettype;
 use function in_array;
 use function is_resource;
 use function is_string;
+use function sprintf;
 
 use const STREAM_FILTER_READ;
 use const STREAM_FILTER_WRITE;

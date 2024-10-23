@@ -1351,11 +1351,6 @@ parameters:
 			path: ../../src/Security/User.php
 
 		-
-			message: "#^Method Redaxo\\\\Core\\\\Security\\\\UserRole\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Security/UserRole.php
-
-		-
 			message: "#^Method Redaxo\\\\Core\\\\Security\\\\UserRole\\:\\:removeOrReplaceItem\\(\\) has parameter \\$ep with generic class Redaxo\\\\Core\\\\ExtensionPoint\\\\ExtensionPoint but does not specify its types\\: T$#"
 			count: 1
 			path: ../../src/Security/UserRole.php
@@ -1424,6 +1419,11 @@ parameters:
 			message: "#^PHPDoc tag @var for variable \\$Block has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../src/Util/Parsedown.php
+
+		-
+			message: "#^PHPDoc tag @phpstan\\-assert for \\$value has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../src/Util/Type.php
 
 		-
 			message: "#^Method Redaxo\\\\Core\\\\View\\\\Asset\\:\\:getJsFilesWithOptions\\(\\) return type has no value type specified in iterable type array\\.$#"

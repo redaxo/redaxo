@@ -17,6 +17,7 @@ use Redaxo\Core\Translation\I18n;
 use rex_exception;
 
 use function function_exists;
+use function sprintf;
 
 class ContentHandler
 {

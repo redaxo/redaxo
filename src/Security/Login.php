@@ -14,6 +14,8 @@ use rex_exception;
 use RuntimeException;
 use SensitiveParameter;
 
+use function sprintf;
+
 use const PASSWORD_DEFAULT;
 use const PHP_SESSION_ACTIVE;
 

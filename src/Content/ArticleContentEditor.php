@@ -21,6 +21,7 @@ use Redaxo\Core\View\View;
 
 use function count;
 use function Redaxo\Core\View\escape;
+use function sprintf;
 
 /**
  * Erweiterung eines Artikels um slicemanagement.

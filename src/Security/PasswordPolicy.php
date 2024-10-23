@@ -6,6 +6,8 @@ use Redaxo\Core\Translation\I18n;
 use rex_exception;
 use SensitiveParameter;
 
+use function sprintf;
+
 class PasswordPolicy
 {
     /**

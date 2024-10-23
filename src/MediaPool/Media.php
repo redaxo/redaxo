@@ -17,6 +17,7 @@ use rex_sql_exception;
 
 use function in_array;
 use function Redaxo\Core\View\escape;
+use function sprintf;
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab.

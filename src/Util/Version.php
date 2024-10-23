@@ -8,6 +8,7 @@ use rex_exception;
 use function count;
 use function function_exists;
 use function in_array;
+use function sprintf;
 
 class Version
 {

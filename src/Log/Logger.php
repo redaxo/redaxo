@@ -20,7 +20,6 @@ use function function_exists;
 use const E_COMPILE_WARNING;
 use const E_DEPRECATED;
 use const E_NOTICE;
-use const E_STRICT;
 use const E_USER_DEPRECATED;
 use const E_USER_NOTICE;
 use const E_USER_WARNING;
@@ -176,7 +175,7 @@ class Logger extends AbstractLogger
     public static function getLogLevel($errno)
     {
         return match ($errno) {
-            E_STRICT, E_USER_DEPRECATED, E_DEPRECATED, E_USER_WARNING, E_WARNING, E_COMPILE_WARNING => LogLevel::WARNING,
+            E_USER_DEPRECATED, E_DEPRECATED, E_USER_WARNING, E_WARNING, E_COMPILE_WARNING => LogLevel::WARNING,
             E_USER_NOTICE, E_NOTICE => LogLevel::NOTICE,
             default => LogLevel::ERROR,
         };

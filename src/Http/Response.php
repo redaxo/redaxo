@@ -16,8 +16,10 @@ use function function_exists;
 use function in_array;
 use function ini_get;
 use function is_resource;
+use function sprintf;
 
 use const FORCE_GZIP;
+use const PHP_SAPI;
 
 final class Response
 {
@@ -39,6 +41,7 @@ final class Response
     private static bool $sentEtag = false;
     private static bool $sentContentType = false;
     private static bool $sentCacheControl = false;
+    private static bool $closeConnection = false;
     /** @var array<string, string> */
     private static array $additionalHeaders = [];
     /** @var list<array{file: string, type: string, mimeType: string}> */
@@ -257,7 +260,7 @@ final class Response
 
         $hasShutdownExtension = Extension::isRegistered('RESPONSE_SHUTDOWN');
         if ($hasShutdownExtension) {
-            header('Connection: close');
+            self::$closeConnection = true;
         }
 
         self::sendContent($content, null, $lastModified);
@@ -319,10 +322,21 @@ final class Response
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
 
+        $finish = null;
+        if (function_exists('fastcgi_finish_request')) {
+            $finish = fastcgi_finish_request(...);
+        } elseif (function_exists('litespeed_finish_request')) {
+            $finish = litespeed_finish_request(...);
+        } elseif (self::$closeConnection) {
+            header('Connection: close');
+        }
+
         echo $content;
 
-        if (function_exists('fastcgi_finish_request')) {
-            fastcgi_finish_request();
+        if ($finish) {
+            $finish();
+        } elseif (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
+            flush();
         }
     }
 

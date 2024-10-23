@@ -10,6 +10,7 @@ use Redaxo\Core\Language\Language;
 
 use function is_array;
 use function is_int;
+use function sprintf;
 
 /**
  * The ArticleSlice class is an object wrapper over the database table rex_article_slice.

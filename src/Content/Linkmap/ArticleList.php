@@ -6,6 +6,7 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\Http\Context;
 
 use function Redaxo\Core\View\escape;
+use function sprintf;
 
 /**
  * @internal

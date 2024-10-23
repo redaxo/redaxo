@@ -7,6 +7,8 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\HttpClient\Response;
 use rex_socket_exception;
 
+use function sprintf;
+
 use const ZLIB_ENCODING_DEFLATE;
 use const ZLIB_ENCODING_GZIP;
 

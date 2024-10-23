@@ -6,6 +6,8 @@ use InvalidArgumentException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
+use function sprintf;
+
 /**
  * Abstract class for complex permissions.
  *

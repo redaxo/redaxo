@@ -7,6 +7,7 @@ use rex_exception;
 use rex_sql_exception;
 
 use function dirname;
+use function sprintf;
 use function strlen;
 
 /**

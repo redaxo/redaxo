@@ -390,7 +390,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
 
     $blocks = $rightNav->getNavigation();
     $navigation = current($blocks);
-    $contentNaviRight = $navigation['navigation'];
+    $contentNaviRight = $navigation['navigation'] ?? [];
 
     $contentNaviRight[] = ['title' => '<a href="' . Url::article($articleId, $clang) . '" onclick="window.open(this.href); return false;">' . I18n::msg('article_show') . ' <i class="rex-icon rex-icon-external-link"></i></a>'];
 

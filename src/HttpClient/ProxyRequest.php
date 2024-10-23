@@ -5,6 +5,8 @@ namespace Redaxo\Core\HttpClient;
 use Override;
 use rex_socket_exception;
 
+use function sprintf;
+
 use const STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
 
 /**

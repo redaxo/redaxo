@@ -7,6 +7,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 
 use function is_array;
+use function sprintf;
 
 class ArticleRevision
 {

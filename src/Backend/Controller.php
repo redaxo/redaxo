@@ -17,6 +17,7 @@ use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
+use rex_exception;
 
 use function call_user_func;
 use function count;
@@ -24,6 +25,7 @@ use function ini_get;
 use function is_array;
 use function is_callable;
 use function is_string;
+use function sprintf;
 
 use const EXTR_SKIP;
 
@@ -634,7 +636,16 @@ class Controller
      */
     public static function includeCurrentPageSubPath(array $context = [])
     {
-        $path = Type::string(self::requireCurrentPageObject()->getSubPath());
+        $page = self::requireCurrentPageObject();
+        $path = $page->getSubPath();
+        if (null === $path) {
+            throw new rex_exception(sprintf(
+                $page instanceof MainPage
+                    ? 'Current page "%s" is a main page and therefore has no sub-path.'
+                    : 'Current page "%s" does not have a sub-path.',
+                $page->getFullKey(),
+            ));
+        }
 
         if ('.md' !== strtolower(substr($path, -3))) {
             return self::includePath($path, $context);
@@ -655,7 +666,7 @@ class Controller
         $content = $fragment->parse('core/page/docs.php');
 
         $fragment = new Fragment();
-        $fragment->setVar('title', self::requireCurrentPageObject()->getTitle(), false);
+        $fragment->setVar('title', $page->getTitle(), false);
         $fragment->setVar('body', $content, false);
         echo $fragment->parse('core/page/section.php');
 

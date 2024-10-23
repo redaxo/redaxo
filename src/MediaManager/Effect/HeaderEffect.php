@@ -7,6 +7,8 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\Translation\I18n;
 
+use function sprintf;
+
 class HeaderEffect extends AbstractEffect
 {
     public function execute()

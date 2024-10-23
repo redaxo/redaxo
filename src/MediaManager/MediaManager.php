@@ -113,6 +113,11 @@ class MediaManager
     {
         $this->type = $type;
 
+        Extension::registerPoint(new ExtensionPoint('MEDIA_MANAGER_INIT', $this, [
+            'type' => $type,
+            'file' => $this->originalFilename,
+        ], true));
+
         if (!$this->isCached()) {
             $set = $this->effectsFromType($type);
             $set = Extension::registerPoint(new ExtensionPoint('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));

@@ -5,6 +5,7 @@ namespace Redaxo\Core\View;
 use rex_exception;
 
 use function in_array;
+use function sprintf;
 
 class Asset
 {

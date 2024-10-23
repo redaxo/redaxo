@@ -5,6 +5,8 @@ namespace Redaxo\Core\Tests\RexVar;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Redaxo\Core\RexVar\RexVar;
 
+use function sprintf;
+
 /** @internal */
 final class RexVarTestVarA extends RexVar
 {

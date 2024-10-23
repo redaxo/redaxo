@@ -7,6 +7,7 @@ use Redaxo\Core\Form\Select\Select;
 use rex_exception;
 
 use function is_array;
+use function sprintf;
 
 /**
  * @internal

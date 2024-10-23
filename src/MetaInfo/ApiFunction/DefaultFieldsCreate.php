@@ -12,6 +12,7 @@ use Redaxo\Core\Translation\I18n;
 
 use function call_user_func_array;
 use function is_string;
+use function sprintf;
 
 /**
  * @internal

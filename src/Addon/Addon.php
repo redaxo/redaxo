@@ -23,6 +23,7 @@ use RuntimeException;
 use function assert;
 use function in_array;
 use function is_bool;
+use function sprintf;
 
 use const DIRECTORY_SEPARATOR;
 use const EXTR_SKIP;

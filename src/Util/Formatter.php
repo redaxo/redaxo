@@ -16,6 +16,7 @@ use function is_callable;
 use function is_int;
 use function is_string;
 use function Redaxo\Core\View\escape;
+use function sprintf;
 use function strlen;
 
 use const E_USER_WARNING;

@@ -15,6 +15,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function define;
+use function sprintf;
 
 /**
  * @internal

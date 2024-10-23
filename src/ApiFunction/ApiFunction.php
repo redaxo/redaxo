@@ -19,6 +19,7 @@ use rex_exception;
 use rex_http_exception;
 
 use function Redaxo\Core\View\escape;
+use function sprintf;
 
 /**
  * This is a base class for all functions which a component may provide for public use.

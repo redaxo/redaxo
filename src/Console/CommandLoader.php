@@ -33,6 +33,7 @@ use Symfony\Component\Console\Exception\CommandNotFoundException;
 
 use function gettype;
 use function is_array;
+use function sprintf;
 
 /**
  * @internal

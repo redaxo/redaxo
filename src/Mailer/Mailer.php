@@ -240,20 +240,19 @@ class Mailer extends PHPMailer
     public static function errorMail(): void
     {
         $logFile = Path::log('system.log');
-        $sendTime = Core::getConfig('phpmailer_last_log_file_send_time', 0);
-        $lasterrors = Core::getConfig('phpmailer_last_errors', '');
-        $currenterrors = '';
-        $timediff = time() - $sendTime;
+        $lastSendTime = (int) Core::getConfig('phpmailer_last_log_file_send_time', 0);
+        $lastErrors = (string) Core::getConfig('phpmailer_last_errors', '');
+        $currentErrors = '';
 
-        if ($timediff <= Core::getConfig('phpmailer_errormail') || !filesize($logFile)) {
+        // Check if the log file has content
+        if (!filesize($logFile)) {
             return;
         }
 
         $file = LogFile::factory($logFile);
-
         $logevent = false;
 
-        // Start - generate mailbody
+        // Start - generate mail body
         $mailBody = '<h2>Error protocol for: ' . Core::getServerName() . '</h2>';
         $mailBody .= '<style nonce="' . Response::getNonce() . '"> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
         $mailBody .= '<table>';
@@ -269,8 +268,11 @@ class Mailer extends PHPMailer
         $mailBody .= '    </thead>';
         $mailBody .= '    <tbody>';
 
+        $errorCount = 0;
+        $maxErrors = 30; // Maximum number of errors to process
+
         /** @var LogEntry $entry */
-        foreach (new LimitIterator($file, 0, 30) as $entry) {
+        foreach (new LimitIterator($file, 0, $maxErrors) as $entry) {
             $data = $entry->getData();
             $time = Formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]);
             $type = $data[0];
@@ -280,24 +282,11 @@ class Mailer extends PHPMailer
             $url = $data[4] ?? '';
 
             $style = '';
-            $logtypes = [
-                'error',
-                'exception',
-            ];
-
-            foreach ($logtypes as $logtype) {
-                if (false !== stripos($type, $logtype)) {
-                    $logevent = true;
-                    $style = ' class="errorbg"';
-                    $currenterrors .= $entry->getTimestamp() . ' mailer.php';
-                    break;
-                }
-            }
-
-            if ('logevent' == $type) {
-                $style = ' class="eventbg"';
+            if (false !== stripos($type, 'error') || false !== stripos($type, 'exception') || 'logevent' === $type) {
+                $style = ' class="' . (('logevent' === $type) ? 'eventbg' : 'errorbg') . '"';
                 $logevent = true;
-                $currenterrors .= $entry->getTimestamp() . ' mailer.php';
+                $currentErrors .= $entry->getTimestamp() . $type . $message;
+                ++$errorCount;
             }
 
             $mailBody .= '        <tr' . $style . '>';
@@ -308,29 +297,46 @@ class Mailer extends PHPMailer
             $mailBody .= '            <td>' . $line . '</td>';
             $mailBody .= '            <td>' . $url . '</td>';
             $mailBody .= '        </tr>';
-        }
 
-        // check if logevent occured then send mail
-        if (!$logevent) {
-            return;
-        }
-
-        if ($lasterrors === $currenterrors || '' == $currenterrors) {
-            return;
+            if ($errorCount >= $maxErrors) {
+                break;
+            }
         }
 
         $mailBody .= '    </tbody>';
         $mailBody .= '</table>';
-        // End - generate mailbody
 
+        // If no errors were found, terminate
+        if (!$logevent) {
+            return;
+        }
+
+        // Create hash of current errors
+        $currentErrorsHash = md5($currentErrors);
+
+        // Combine time-based and content-based checks
+        $timeSinceLastSend = time() - $lastSendTime;
+        $errorMailInterval = (int) Core::getConfig('phpmailer_errormail');
+
+        if ($timeSinceLastSend < $errorMailInterval && $currentErrorsHash === $lastErrors) {
+            return;
+        }
+
+        // Send email
         $mail = new self();
-        $mail->Subject = Core::getServerName() . ' - error report ';
+        $mail->Subject = Core::getServerName() . ' - Error Report';
         $mail->Body = $mailBody;
         $mail->AltBody = strip_tags($mailBody);
-        $mail->FromName = 'REDAXO error report';
+        $mail->FromName = 'REDAXO Error Report';
         $mail->addAddress(Core::getErrorEmail());
-        Core::getConfig('phpmailer_last_errors', $currenterrors);
-        Core::getConfig('phpmailer_last_log_file_send_time', time());
-        $mail->Send();
+
+        // Set X-Mailer header for ErrorMails
+        $mail->XMailer = 'REDAXO/' . Core::getVersion() . ' ErrorMailer';
+
+        if ($mail->Send()) {
+            // Update configuration only if email was sent successfully
+            Core::getConfig('phpmailer_last_errors', $currentErrorsHash);
+            Core::getConfig('phpmailer_last_log_file_send_time', time());
+        }
     }
 }

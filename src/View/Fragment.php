@@ -9,6 +9,7 @@ use Redaxo\Core\Util\Type;
 use Stringable;
 
 use function array_key_exists;
+use function sprintf;
 
 use const DIRECTORY_SEPARATOR;
 use const E_USER_WARNING;

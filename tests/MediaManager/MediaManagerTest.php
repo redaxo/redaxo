@@ -80,7 +80,7 @@ final class MediaManagerTest extends TestCase
     {
         yield [false, 'non_existing', 'test.jpg', time()];
 
-        $media = new class() extends Media {
+        $media = new class extends Media {
             public int $fakeUpdateDate = 0;
 
             public function __construct() {}

@@ -5,6 +5,7 @@ namespace Redaxo\Core\Filesystem;
 use rex_exception;
 
 use function function_exists;
+use function sprintf;
 use function strlen;
 
 use const DIRECTORY_SEPARATOR;

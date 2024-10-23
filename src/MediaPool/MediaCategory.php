@@ -9,6 +9,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 
 use function in_array;
+use function sprintf;
 
 /**
  * Object Oriented Framework: Bildet eine Kategorie im Medienpool ab.

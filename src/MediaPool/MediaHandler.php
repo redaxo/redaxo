@@ -13,7 +13,9 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
+use Redaxo\Core\Util\Type;
 use rex_sql_exception;
+use voku\helper\AntiXSS;
 
 use function assert;
 use function count;
@@ -117,6 +119,8 @@ final class MediaHandler
         if ('' == $data['file']['type'] && isset($size['mime'])) {
             $data['file']['type'] = $size['mime'];
         }
+
+        self::sanitizeMedia($dstFile, $data['file']['type']);
 
         $saveObject = Sql::factory();
         $saveObject->setTable(Core::getTablePrefix() . 'media');
@@ -226,6 +230,8 @@ final class MediaHandler
                 }
 
                 @chmod($dstFile, Core::getFilePerm());
+
+                self::sanitizeMedia($dstFile, $filetype);
 
                 $saveObject->setValue('filetype', $filetype);
                 $saveObject->setValue('filesize', filesize($dstFile));
@@ -393,5 +399,23 @@ final class MediaHandler
         }
 
         return $items;
+    }
+
+    private static function sanitizeMedia(string $path, ?string $type): void
+    {
+        if ('image/svg+xml' !== $type && 'svg' !== strtolower(File::extension($path))) {
+            return;
+        }
+
+        $content = Type::notNull(File::get($path));
+
+        $antiXss = new AntiXSS();
+        $antiXss->removeEvilAttributes(['style']);
+        $antiXss->removeEvilHtmlTags(['style', 'svg', 'title']);
+
+        $content = $antiXss->xss_clean($content);
+        $content = preg_replace('/^\s*&lt;\?xml(.*?)\?&gt;/', '<?xml$1?>', $content);
+
+        File::put($path, $content);
     }
 }

@@ -33,6 +33,7 @@ use function is_array;
 use function is_int;
 use function is_string;
 use function Redaxo\Core\View\escape;
+use function sprintf;
 
 abstract class AbstractForm
 {

@@ -9,6 +9,8 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 
+use function sprintf;
+
 /**
  * @internal
  */

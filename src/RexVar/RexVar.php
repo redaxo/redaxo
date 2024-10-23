@@ -12,6 +12,7 @@ use function count;
 use function in_array;
 use function is_array;
 use function is_string;
+use function sprintf;
 
 use const ENT_QUOTES;
 use const PREG_SET_ORDER;

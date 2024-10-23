@@ -10,6 +10,7 @@ use function is_array;
 use function is_object;
 use function is_string;
 use function ord;
+use function sprintf;
 use function strlen;
 
 use const ENT_QUOTES;

@@ -17,7 +17,7 @@ final class TestInstanceListPool
     }
 
     private function __construct(
-        protected int $id,
+        private int $id, // @phpstan-ignore property.onlyWritten
     ) {}
 
     public static function get(int $id): self
