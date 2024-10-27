@@ -1,0 +1,15 @@
+[submodule "redaxo/src/addons/redaxo_url_rewrite"]
+	path = redaxo/src/addons/redaxo_url_rewrite
+	url = git@github.com:BenJ1337/redaxo_url_rewrite.git
+[submodule "redaxo/src/addons/redaxo_bootstrap"]
+	path = redaxo/src/addons/redaxo_bootstrap
+	url = git@github.com:BenJ1337/redaxo_bootstrap.git
+[submodule "redaxo/src/addons/redaxo_input_components"]
+	path = redaxo/src/addons/redaxo_input_components
+	url = git@github.com:BenJ1337/redaxo_input_components.git
+[submodule "redaxo/src/addons/redaxo_custom_components"]
+	path = redaxo/src/addons/redaxo_custom_components
+	url = git@github.com:BenJ1337/redaxo_custom_components.git
+[submodule "redaxo/src/addons/redaxo_module_template_synch"]
+	path = redaxo/src/addons/redaxo_module_template_synch
+	url = git@github.com:BenJ1337/redaxo_module_template_synch.git

@@ -46,3 +46,11 @@
 # Docker
 /.docker
 /docker-compose.*.yml
+
+# Änderungen Benjamin Hacker
+!/.htaccess
+!/redaxo/src/addons/redaxo_url_rewrite/
+!/redaxo/src/addons/redaxo_bootstrap/
+!/redaxo/src/addons/redaxo_custom_components/
+!/redaxo/src/addons/redaxo_input_components/
+!/redaxo/src/addons/redaxo_module_template_synch/
