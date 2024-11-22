@@ -386,7 +386,8 @@ final class rex_media_service
         $content = rex_type::notNull(rex_file::get($path));
 
         $antiXss = new AntiXSS();
-        $antiXss->removeEvilAttributes(['style']);
+        $antiXss->removeNeverAllowedRegex(['&lt;!--', '&lt;!--$1--&gt;']);
+        $antiXss->removeEvilAttributes(['style', 'xlink:href']);
         $antiXss->removeEvilHtmlTags(['style', 'svg', 'title']);
 
         $content = $antiXss->xss_clean($content);
