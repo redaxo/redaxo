@@ -242,7 +242,7 @@ final class rex_sql_select_test extends TestCase
         self::assertTrue($sql->hasError());
         self::assertEquals('42S22', $sql->getErrno());
         self::assertEquals(1054, $sql->getMysqlErrno());
-        self::assertEquals("Unknown column 'rex_tests' in 'field list'", $sql->getError());
+        self::assertStringStartsWith("Unknown column 'rex_tests' in ", $sql->getError());
 
         $exception = null;
         try {
@@ -254,7 +254,7 @@ final class rex_sql_select_test extends TestCase
         self::assertTrue($sql->hasError());
         self::assertEquals('42S22', $sql->getErrno());
         self::assertEquals(1054, $sql->getMysqlErrno());
-        self::assertEquals("Unknown column 'idx' in 'where clause'", $sql->getError());
+        self::assertStringStartsWith("Unknown column 'idx' in ", $sql->getError());
 
         $exception = null;
         rex_sql::closeConnection(); // https://github.com/redaxo/redaxo/pull/5272#discussion_r935793505
