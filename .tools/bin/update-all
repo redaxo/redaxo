@@ -21,6 +21,7 @@ rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
 rm -rf redaxo/src/core/vendor/voku/anti-xss/build/
 rm -rf redaxo/src/core/vendor/voku/portable-ascii/build/
 
+find redaxo/src/core/vendor -name ".deepsource.toml" -type f -delete
 find redaxo/src/core/vendor -name ".gitattributes" -type f -delete
 find redaxo/src/core/vendor -name ".gitignore" -type f -delete
 find redaxo/src/core/vendor -name ".mailmap" -type f -delete
