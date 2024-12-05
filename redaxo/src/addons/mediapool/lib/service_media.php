@@ -379,6 +379,10 @@ final class rex_media_service
 
     private static function sanitizeMedia(string $path, ?string $type): void
     {
+        if (!rex_addon::require('mediapool')->getProperty('sanitize_svgs', true)) {
+            return;
+        }
+
         if ('image/svg+xml' !== $type && 'svg' !== strtolower(rex_file::extension($path))) {
             return;
         }
