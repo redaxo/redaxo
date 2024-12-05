@@ -392,6 +392,7 @@ final class rex_media_service
 
         $content = $antiXss->xss_clean($content);
         $content = preg_replace('/^\s*&lt;\?xml(.*?)\?&gt;/', '<?xml$1?>', $content);
+        $content = preg_replace('/&lt;!DOCTYPE(.*?)>/', '<!DOCTYPE$1>', $content);
 
         rex_file::put($path, $content);
     }
