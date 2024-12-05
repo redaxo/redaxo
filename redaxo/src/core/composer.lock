@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60bba4f85e5ea88eb9cd6c19d97e714a",
+    "content-hash": "694773f504677eb8d343e29f10d78316",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -1340,16 +1340,16 @@
         },
         {
             "name": "voku/portable-utf8",
-            "version": "6.0.13",
+            "version": "dev-php84-nullable_type_declaration",
             "source": {
                 "type": "git",
-                "url": "https://github.com/voku/portable-utf8.git",
-                "reference": "b8ce36bf26593e5c2e81b1850ef0ffb299d2043f"
+                "url": "https://github.com/heelc29/voku-portable-utf8.git",
+                "reference": "24f42224b72f935371678c17894e8c35081b5cfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/b8ce36bf26593e5c2e81b1850ef0ffb299d2043f",
-                "reference": "b8ce36bf26593e5c2e81b1850ef0ffb299d2043f",
+                "url": "https://api.github.com/repos/heelc29/voku-portable-utf8/zipball/24f42224b72f935371678c17894e8c35081b5cfc",
+                "reference": "24f42224b72f935371678c17894e8c35081b5cfc",
                 "shasum": ""
             },
             "require": {
@@ -1378,14 +1378,18 @@
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
                 "psr-4": {
                     "voku\\": "src/voku/"
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "voku\\tests\\": "tests/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "(Apache-2.0 or GPL-2.0)"
             ],
@@ -1406,46 +1410,54 @@
             "description": "Portable UTF-8 library - performance optimized (unicode) string functions for php.",
             "homepage": "https://github.com/voku/portable-utf8",
             "keywords": [
-                "UTF",
                 "clean",
                 "php",
                 "unicode",
+                "utf",
                 "utf-8",
                 "utf8"
             ],
             "support": {
-                "issues": "https://github.com/voku/portable-utf8/issues",
-                "source": "https://github.com/voku/portable-utf8/tree/6.0.13"
+                "source": "https://github.com/heelc29/voku-portable-utf8/tree/php84-nullable_type_declaration"
             },
             "funding": [
                 {
-                    "url": "https://www.paypal.me/moelleken",
-                    "type": "custom"
+                    "type": "github",
+                    "url": "https://github.com/voku"
                 },
                 {
-                    "url": "https://github.com/voku",
-                    "type": "github"
+                    "type": "patreon",
+                    "url": "https://www.patreon.com/voku"
                 },
                 {
-                    "url": "https://opencollective.com/portable-utf8",
-                    "type": "open_collective"
+                    "type": "open_collective",
+                    "url": "https://opencollective.com/portable-utf8"
                 },
                 {
-                    "url": "https://www.patreon.com/voku",
-                    "type": "patreon"
+                    "type": "tidelift",
+                    "url": "https://tidelift.com/funding/github/packagist/voku/portable-utf8"
                 },
                 {
-                    "url": "https://tidelift.com/funding/github/packagist/voku/portable-utf8",
-                    "type": "tidelift"
+                    "type": "custom",
+                    "url": "https://www.paypal.me/moelleken"
                 }
             ],
-            "time": "2023-03-08T08:35:38+00:00"
+            "time": "2024-07-12T12:52:22+00:00"
         }
     ],
     "packages-dev": [],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "voku/portable-utf8",
+            "version": "dev-php84-nullable_type_declaration",
+            "alias": "6.0.14-dev",
+            "alias_normalized": "6.0.14.0-dev"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "voku/portable-utf8": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {},
