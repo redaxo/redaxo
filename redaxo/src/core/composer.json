@@ -10,7 +10,8 @@
         "symfony/http-foundation": "^6.4.16",
         "symfony/var-dumper": "^6.4.15",
         "symfony/yaml": "^6.4.13",
-        "voku/anti-xss": "^4.1.42"
+        "voku/anti-xss": "^4.1.42",
+        "voku/portable-utf8": "dev-php84-nullable_type_declaration as 6.0.14-dev"
     },
 
     "replace": {
@@ -35,5 +36,12 @@
         },
         "platform-check": false,
         "prepend-autoloader": false
-    }
+    },
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/heelc29/voku-portable-utf8"
+        }
+    ]
 }
