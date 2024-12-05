@@ -193,6 +193,7 @@ class rex_setup
             '8.1' => '2025-12-01',
             '8.2' => '2026-12-01',
             '8.3' => '2027-12-01',
+            '8.4' => '2028-12-01',
         ];
 
         $versionNumber = rex_formatter::version(PHP_VERSION, '%s.%s');
