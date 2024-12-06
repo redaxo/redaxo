@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.15.1 – 06.12.2024
+---------------------------
+
+### Bugfixes
+
+* SVG-Filterung (XSS-Schutz):
+    - Konfiguration des AntiXSS-Scripts optimiert für besseren Erhalt der SVG-Inhalte (@ischfr)
+    - Die Filterung kann optional über die Property `sanitize_svgs` deaktiviert werden (bei eigener Risikoeinschätzung) (@gharlan)
+
+
 Version 2.15.0 – 22.10.2024
 ---------------------------
 
