@@ -241,6 +241,7 @@ class rex_setup
                 '11.2' => '2024-11-01',
                 '11.3' => '2024-05-01',
                 '11.4' => '2029-05-01', // LTS
+                '11.5' => '2024-11-01',
             ];
 
             $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
