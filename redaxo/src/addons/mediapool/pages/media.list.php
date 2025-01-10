@@ -246,10 +246,31 @@ if (!rex_addon::get('media_manager')->isAvailable()) {
     $mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
 }
 
-$pager = new rex_pager(5000);
+$pager = new rex_pager(50);
 
 $items = rex_media_service::getList($filter, [], $pager);
 
+$pagination = '';
+$distance = 3; // Wert, der bestimmt wieviele Seiten vor bzw. nach der aktuellen Seite angezeigt werden sollen.
+$last_page_shown = 0;
+$pagination .= '<ul class="pagination">';
+for ($page = $pager->getFirstPage(); $page <= $pager->getLastPage(); ++$page) {
+  $show = false;
+  $class = ($pager->isActivePage($page)) ? ' active' : '';
+  if ($page < $distance) $show = true;
+  if (abs($page - $pager->getCurrentPage()) < $distance) $show = true;
+  if ($page + $distance > $pager->getLastPage()) $show = true;
+  if ($show) {
+      if (($page-1) > $last_page_shown) {
+        $pagination .= '<li><a>...</a></li>';
+      } 
+      $pagination .= "<li class=$class><a href='?page=mediapool/media&start=" . $pager->getCursor($page) . "'>" . $page + 1 . "</a> </li>";
+      $last_page_shown = $page;
+  }
+}
+$pagination .= '</ul>';
+
+$panel .= $pagination;
 $panel .= '<tbody>';
 
 foreach ($items as $media) {
@@ -339,7 +360,7 @@ if (0 == $pager->getRowCount()) {
 }
 
 $panel .= '
-                </tbody>
+                </tbody> 
         </table>
     </fieldset>
 </form>';
