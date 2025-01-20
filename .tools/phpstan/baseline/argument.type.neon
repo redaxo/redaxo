@@ -1,4 +1,4 @@
-# total 6 errors
+# total 8 errors
 
 parameters:
     ignoreErrors:
@@ -21,3 +21,13 @@ parameters:
             message: '#^Parameter \#2 \$replace of function str_replace expects array\<string\>\|string, array\<int, int\|string\> given\.$#'
             count: 1
             path: ../../../src/Content/ArticleContentBase.php
+
+        -
+            message: '#^Parameter \#3 \$priority of static method Redaxo\\Core\\MetaInfo\\MetaInfo\:\:addField\(\) expects int, string given\.$#'
+            count: 1
+            path: ../../../src/MetaInfo/ApiFunction/DefaultFieldsCreate.php
+
+        -
+            message: '#^Parameter \#5 \$type of static method Redaxo\\Core\\MetaInfo\\MetaInfo\:\:addField\(\) expects int, string given\.$#'
+            count: 1
+            path: ../../../src/MetaInfo/ApiFunction/DefaultFieldsCreate.php

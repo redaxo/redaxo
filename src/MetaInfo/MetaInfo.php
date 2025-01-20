@@ -1,5 +1,8 @@
 <?php
 
+namespace Redaxo\Core\MetaInfo;
+
+use InvalidArgumentException;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -12,6 +15,13 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Asset;
 
+use function dirname;
+use function in_array;
+use function is_int;
+use function is_string;
+
+class MetaInfo
+{
     /**
      * Fügt einen neuen Feldtyp ein.
      *
@@ -23,7 +33,7 @@ use Redaxo\Core\View\Asset;
      *
      * @return int|string
      */
-    function rex_metainfo_add_field_type($label, $dbtype, $dblength)
+    public static function addFieldType($label, $dbtype, $dblength)
     {
         if (!is_string($label) || empty($label)) {
             return I18n::msg('minfo_field_error_invalid_name');
@@ -62,7 +72,7 @@ use Redaxo\Core\View\Asset;
      *
      * @return bool|string
      */
-    function rex_metainfo_delete_field_type($fieldTypeId)
+    public static function deleteFieldType($fieldTypeId)
     {
         if (!is_int($fieldTypeId) || empty($fieldTypeId)) {
             return I18n::msg('minfo_field_error_invalid_typeid');
@@ -91,10 +101,10 @@ use Redaxo\Core\View\Asset;
      *
      * @return bool|string
      */
-    function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '')
+    public static function addField($title, $name, $priority, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '')
     {
-        $prefix = rex_metainfo_meta_prefix($name);
-        $metaTable = rex_metainfo_meta_table($prefix);
+        $prefix = self::metaPrefix($name);
+        $metaTable = self::metaTable($prefix);
 
         // Prefix korrekt?
         if (!$metaTable) {
@@ -156,7 +166,7 @@ use Redaxo\Core\View\Asset;
      *
      * @return bool|string
      */
-    function rex_metainfo_delete_field($fieldIdOrName)
+    public static function deleteField($fieldIdOrName)
     {
         // Löschen anhand der FieldId
         if (is_int($fieldIdOrName)) {
@@ -181,8 +191,8 @@ use Redaxo\Core\View\Asset;
         $name = (string) $sql->getValue('name');
         $fieldId = $sql->getValue('id');
 
-        $prefix = rex_metainfo_meta_prefix($name);
-        $metaTable = Type::string(rex_metainfo_meta_table($prefix));
+        $prefix = self::metaPrefix($name);
+        $metaTable = Type::string(self::metaTable($prefix));
 
         // Spalte existiert?
         $sql->setQuery('SELECT * FROM ' . $metaTable . ' LIMIT 1');
@@ -204,7 +214,7 @@ use Redaxo\Core\View\Asset;
      *
      * @return string
      */
-    function rex_metainfo_meta_prefix(string $name)
+    public static function metaPrefix(string $name)
     {
         if (false === ($pos = strpos($name, '_'))) {
             throw new InvalidArgumentException('$name must be like "prefix_name"');
@@ -220,9 +230,10 @@ use Redaxo\Core\View\Asset;
 
     /**
      * Gibt die mit dem Prefix verbundenen Tabellennamen zurück.
+     *
      * @return string|false
      */
-    function rex_metainfo_meta_table(string $prefix)
+    public static function metaTable(string $prefix)
     {
         $metaTables = Core::getProperty('metainfo_metaTables', []);
 
@@ -231,9 +242,10 @@ use Redaxo\Core\View\Asset;
 
     /**
      * Bindet ggf extensions ein.
+     *
      * @return void
      */
-    function rex_metainfo_extensions_handler(ExtensionPoint $ep)
+    public static function extensionHandler(ExtensionPoint $ep)
     {
         $page = $ep->getSubject();
         $mainpage = Controller::getCurrentPagePart(1);
@@ -245,13 +257,11 @@ use Redaxo\Core\View\Asset;
 
         // include extensions
         if ('structure' == $page) {
-            require_once dirname(__DIR__, 4) . '/src/MetaInfo/Handler/CategoryHandler.php';
+            require_once dirname(__DIR__) . '/MetaInfo/Handler/CategoryHandler.php';
         } elseif ('mediapool' == $mainpage) {
-            require_once dirname(__DIR__, 4) . '/src/MetaInfo/Handler/MediaHandler.php';
+            require_once dirname(__DIR__) . '/MetaInfo/Handler/MediaHandler.php';
         } elseif ('system/lang' == $page) {
-            require_once dirname(__DIR__, 4) . '/src/MetaInfo/Handler/LanguageHandler.php';
-        } elseif ('backup' == $page) {
-            require_once __DIR__ . '/function_metainfo_extension_cleanup.php';
+            require_once dirname(__DIR__) . '/MetaInfo/Handler/LanguageHandler.php';
         }
     }
 
@@ -262,7 +272,7 @@ use Redaxo\Core\View\Asset;
      * @param ExtensionPoint|array $epOrParams
      * @return void
      */
-    function rex_metainfo_cleanup($epOrParams)
+    public static function cleanup($epOrParams)
     {
         $params = $epOrParams instanceof ExtensionPoint ? $epOrParams->getParams() : $epOrParams;
         // Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
@@ -282,8 +292,8 @@ use Redaxo\Core\View\Asset;
         $sql->setQuery('SELECT name FROM ' . Core::getTablePrefix() . 'metainfo_field');
 
         for ($i = 0; $i < $sql->getRows(); ++$i) {
-            $prefix = rex_metainfo_meta_prefix((string) $sql->getValue('name'));
-            $table = Type::string(rex_metainfo_meta_table($prefix));
+            $prefix = self::metaPrefix((string) $sql->getValue('name'));
+            $table = Type::string(self::metaTable($prefix));
             $tableManager = new MetaInfoTable($table);
 
             $tableManager->deleteColumn((string) $sql->getValue('name'));
@@ -308,3 +318,4 @@ use Redaxo\Core\View\Asset;
         $sql = Sql::factory();
         $sql->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'metainfo_field');
     }
+}

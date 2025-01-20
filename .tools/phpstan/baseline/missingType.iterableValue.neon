@@ -88,11 +88,6 @@ parameters:
             path: ../../../redaxo/src/addons/install/lib/webservice.php
 
         -
-            message: '#^Function rex_metainfo_cleanup\(\) has parameter \$epOrParams with no value type specified in iterable type array\.$#'
-            count: 1
-            path: ../../../redaxo/src/core/functions/function_metainfo_extension_cleanup.php
-
-        -
             message: '#^Method Redaxo\\Core\\Backend\\Controller\:\:pageAddProperties\(\) has parameter \$properties with no value type specified in iterable type array\.$#'
             count: 1
             path: ../../../src/Backend/Controller.php
@@ -706,6 +701,11 @@ parameters:
             message: '#^Method Redaxo\\Core\\MetaInfo\\Handler\\MediaHandler\:\:handleSave\(\) return type has no value type specified in iterable type array\.$#'
             count: 1
             path: ../../../src/MetaInfo/Handler/MediaHandler.php
+
+        -
+            message: '#^Method Redaxo\\Core\\MetaInfo\\MetaInfo\:\:cleanup\(\) has parameter \$epOrParams with no value type specified in iterable type array\.$#'
+            count: 1
+            path: ../../../src/MetaInfo/MetaInfo.php
 
         -
             message: '#^Method Redaxo\\Core\\RexVar\\LinkListVar\:\:getWidget\(\) has parameter \$args with no value type specified in iterable type array\.$#'

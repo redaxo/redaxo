@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\MetaInfo\Form\MetaInfoForm;
+use Redaxo\Core\MetaInfo\MetaInfo;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
@@ -32,7 +33,7 @@ $fieldId = Request::request('field_id', 'int');
 if ('delete' == $func) {
     $fieldId = Request::request('field_id', 'int', 0);
     if (0 != $fieldId) {
-        if (rex_metainfo_delete_field($fieldId)) {
+        if (MetaInfo::deleteField($fieldId)) {
             echo Message::success(I18n::msg('minfo_field_successfull_deleted'));
         } else {
             echo Message::error(I18n::msg('minfo_field_error_deleted'));

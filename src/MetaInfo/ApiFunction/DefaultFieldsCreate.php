@@ -8,9 +8,9 @@ use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\MetaInfo\MetaInfo;
 use Redaxo\Core\Translation\I18n;
 
-use function call_user_func_array;
 use function is_string;
 use function sprintf;
 
@@ -52,7 +52,7 @@ class DefaultFieldsCreate extends ApiFunction
 
         foreach ($defaultFields as $field) {
             if (!isset($existing[$field[1]])) {
-                $return = call_user_func_array('rex_metainfo_add_field', $field);
+                $return = MetaInfo::addField(...$field);
                 if (is_string($return)) {
                     throw new ApiFunctionException($return);
                 }

@@ -10,6 +10,7 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MetaInfo\Form\DefaultType;
+use Redaxo\Core\MetaInfo\MetaInfo;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
 
@@ -50,7 +51,7 @@ class MediaHandler extends AbstractHandler
         $escapedFilename = $sql->escape($params['filename']);
         for ($i = 0; $i < $rows; ++$i) {
             $name = (string) $sql->getValue('name');
-            $prefix = rex_metainfo_meta_prefix($name);
+            $prefix = MetaInfo::metaPrefix($name);
             if (self::PREFIX === $prefix) {
                 $key = 'media';
             } elseif (LanguageHandler::PREFIX === $prefix) {

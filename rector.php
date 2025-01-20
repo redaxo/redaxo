@@ -469,6 +469,15 @@ return RectorConfig::configure()
         new FuncCallToStaticCall('rex_mediapool_syncFile', MediaPool\MediaPool::class, 'addMedia'), // different params
         new FuncCallToStaticCall('rex_mediapool_deleteMedia', MediaPool\MediaPool::class, 'deleteMedia'), // different return value
 
+        new FuncCallToStaticCall('rex_metainfo_add_field', MetaInfo\MetaInfo::class, 'addField'),
+        new FuncCallToStaticCall('rex_metainfo_add_field_type', MetaInfo\MetaInfo::class, 'addFieldType'),
+        new FuncCallToStaticCall('rex_metainfo_cleanup', MetaInfo\MetaInfo::class, 'cleanup'),
+        new FuncCallToStaticCall('rex_metainfo_delete_field', MetaInfo\MetaInfo::class, 'deleteField'),
+        new FuncCallToStaticCall('rex_metainfo_delete_field_type', MetaInfo\MetaInfo::class, 'deleteFieldType'),
+        new FuncCallToStaticCall('rex_metainfo_extensions_handler', MetaInfo\MetaInfo::class, 'extensionHandler'),
+        new FuncCallToStaticCall('rex_metainfo_meta_prefix', MetaInfo\MetaInfo::class, 'metaPrefix'),
+        new FuncCallToStaticCall('rex_metainfo_meta_table', MetaInfo\MetaInfo::class, 'metaTable'),
+
         new FuncCallToStaticCall('rex_cookie', Http\Request::class, 'cookie'),
         new FuncCallToStaticCall('rex_env', Http\Request::class, 'env'),
         new FuncCallToStaticCall('rex_files', Http\Request::class, 'files'),

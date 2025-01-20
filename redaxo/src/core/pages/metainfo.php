@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\MetaInfo\MetaInfo;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\View;
 
@@ -19,6 +20,6 @@ $prefix = match ($subpage) {
 if ('' === $prefix) {
     Controller::includeCurrentPageSubPath();
 } else {
-    $metaTable = rex_metainfo_meta_table($prefix);
+    $metaTable = MetaInfo::metaTable($prefix);
     require __DIR__ . '/metainfo.field.php';
 }

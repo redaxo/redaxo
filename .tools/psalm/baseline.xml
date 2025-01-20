@@ -894,37 +894,6 @@
       <code><![CDATA[setEval]]></code>
     </MixedMethodCall>
   </file>
-  <file src="redaxo/src/core/functions/function_metainfo.php">
-    <InvalidArgument>
-      <code><![CDATA[['id' => $fieldId]]]></code>
-    </InvalidArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$metaTables[$prefix]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$metaTables]]></code>
-      <code><![CDATA[$page]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string|false]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$metaTables[$prefix] ?? false]]></code>
-      <code><![CDATA[$metaTables[$prefix] ?? false]]></code>
-    </MixedReturnStatement>
-    <NullableReturnStatement>
-      <code><![CDATA[$metaTables[$prefix] ?? false]]></code>
-    </NullableReturnStatement>
-    <PossiblyNullArrayAccess>
-      <code><![CDATA[$metaTables[$prefix]]]></code>
-    </PossiblyNullArrayAccess>
-  </file>
-  <file src="redaxo/src/core/functions/function_metainfo_extension_cleanup.php">
-    <MixedArgument>
-      <code><![CDATA[$params['content']]]></code>
-      <code><![CDATA[$params['content']]]></code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/core/lib/error_handler.php">
     <InvalidScalarArgument>
       <code><![CDATA[$line]]></code>
@@ -3585,9 +3554,10 @@
     </NullableReturnStatement>
   </file>
   <file src="src/MetaInfo/ApiFunction/DefaultFieldsCreate.php">
-    <MixedAssignment>
-      <code><![CDATA[$return]]></code>
-    </MixedAssignment>
+    <InvalidArgument>
+      <code><![CDATA[$field]]></code>
+      <code><![CDATA[$field]]></code>
+    </InvalidArgument>
   </file>
   <file src="src/MetaInfo/Form/Field/RestrictionField.php">
     <PossiblyNullOperand>
@@ -3876,6 +3846,35 @@
     <PossiblyNullReference>
       <code><![CDATA[getPathAsArray]]></code>
     </PossiblyNullReference>
+  </file>
+  <file src="src/MetaInfo/MetaInfo.php">
+    <InvalidArgument>
+      <code><![CDATA[['id' => $fieldId]]]></code>
+    </InvalidArgument>
+    <MixedArgument>
+      <code><![CDATA[$params['content']]]></code>
+      <code><![CDATA[$params['content']]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$metaTables[$prefix]]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$metaTables]]></code>
+      <code><![CDATA[$page]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[string|false]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$metaTables[$prefix] ?? false]]></code>
+      <code><![CDATA[$metaTables[$prefix] ?? false]]></code>
+    </MixedReturnStatement>
+    <NullableReturnStatement>
+      <code><![CDATA[$metaTables[$prefix] ?? false]]></code>
+    </NullableReturnStatement>
+    <PossiblyNullArrayAccess>
+      <code><![CDATA[$metaTables[$prefix]]]></code>
+    </PossiblyNullArrayAccess>
   </file>
   <file src="src/RexVar/ArticleVar.php">
     <MixedArgument>
