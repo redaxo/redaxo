@@ -1,12 +1,16 @@
 <?php
 
+namespace Redaxo\Core\Util;
+
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Formatter;
 use ScssPhp\ScssPhp\Formatter\Compressed;
 
-class rex_scss_compiler
+use function is_array;
+
+class ScssCompiler
 {
     /** @var string */
     protected $root_dir;
