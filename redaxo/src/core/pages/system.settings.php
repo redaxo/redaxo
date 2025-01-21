@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Cache;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
@@ -45,7 +46,7 @@ if ($func && !$csrfToken->isValid()) {
     $error[] = I18n::msg('setup_error2');
 } elseif ('generate' == $func) {
     // generate all articles,cats,templates,caches
-    $success = rex_delete_cache();
+    $success = Cache::delete();
 } elseif ('updateassets' == $func && !Core::isLiveMode()) {
     Dir::copy(Path::core('assets'), Path::coreAssets());
 

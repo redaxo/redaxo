@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Setup;
 
 use DateTimeImmutable;
+use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
@@ -62,7 +63,7 @@ class Setup
     public static function init()
     {
         // initial purge all generated files
-        rex_delete_cache();
+        Cache::delete();
 
         // copy alle media files of the current rex-version into redaxo_media
         Dir::copy(Path::core('assets'), Path::coreAssets());

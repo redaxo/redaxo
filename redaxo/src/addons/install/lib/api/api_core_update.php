@@ -6,6 +6,7 @@ use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
+use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -211,7 +212,7 @@ class rex_api_install_core_update extends ApiFunction
 
             $message = $installAddon->i18n('info_core_updated');
             $success = true;
-            rex_delete_cache();
+            Cache::delete();
             rex_install_webservice::deleteCache();
             rex_install_packages::deleteCache();
             Core::setConfig('version', $version['version']);

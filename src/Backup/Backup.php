@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Backup;
 
 use PDO;
+use Redaxo\Core\Cache;
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -188,7 +189,7 @@ class Backup
         unset($lines);
 
         // delete cache before EP to avoid obsolete caches while running extensions
-        rex_delete_cache();
+        Cache::delete();
 
         // refresh Config with new values from database
         Config::refresh();
@@ -204,7 +205,7 @@ class Backup
         self::importScript(str_replace('.sql', '.php', $filename), self::IMPORT_DB, self::IMPORT_EVENT_POST);
 
         // delete cache again because the extensions and the php script could have changed data again
-        $msg .= rex_delete_cache();
+        $msg .= Cache::delete();
 
         return ['state' => true, 'message' => $msg];
     }

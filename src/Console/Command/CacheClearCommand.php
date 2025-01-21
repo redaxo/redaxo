@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Console\Command;
 
 use Override;
+use Redaxo\Core\Cache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,7 +23,7 @@ class CacheClearCommand extends AbstractCommand
     #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $successMsg = rex_delete_cache();
+        $successMsg = Cache::delete();
         $io = $this->getStyle($input, $output);
 
         $io->success($this->decodeMessage($successMsg));

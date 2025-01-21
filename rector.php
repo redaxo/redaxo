@@ -43,6 +43,7 @@ use Redaxo\Core\ApiFunction;
 use Redaxo\Core\Backend;
 use Redaxo\Core\Backup;
 use Redaxo\Core\Base;
+use Redaxo\Core\Cache;
 use Redaxo\Core\Config;
 use Redaxo\Core\Console;
 use Redaxo\Core\Content;
@@ -491,6 +492,8 @@ return RectorConfig::configure()
         new FuncCallToStaticCall('rex_unset_session', Http\Request::class, 'unsetSession'),
 
         new FuncCallToStaticCall('rex_getUrl', Filesystem\Url::class, 'article'),
+
+        new FuncCallToStaticCall('rex_delete_cache', Cache::class, 'delete'),
     ])
     ->withConfiguredRule(ArgumentRemoverRector::class, [
         new ArgumentRemover(Util\Str::class, 'buildQuery', 1, null),
