@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\MetaInfo\Form;
 
+use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
@@ -312,7 +313,7 @@ class MetaInfoForm extends Form
                 // Spalte in der Tabelle anlegen
                 $tmRes = $this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
             }
-            rex_delete_cache();
+            Cache::delete();
 
             return $tmRes;
         }

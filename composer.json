@@ -69,7 +69,6 @@
             "redaxo/src/core/lib/"
         ],
         "files": [
-            "redaxo/src/core/functions/function_rex_other.php",
             "src/View/escape.php"
         ]
     },

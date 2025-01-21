@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Language;
 
+use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
@@ -64,7 +65,7 @@ class LanguageHandler
             $newLang->insert();
         }
 
-        rex_delete_cache();
+        Cache::delete();
 
         // ----- EXTENSION POINT
         $clang = Language::get($id);
@@ -110,7 +111,7 @@ class LanguageHandler
         $comparator = $oldPriority < $priority ? '=' : '!=';
         Util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority, id' . $comparator . $id);
 
-        rex_delete_cache();
+        Cache::delete();
 
         // ----- EXTENSION POINT
         $clang = Language::get($id);
@@ -152,7 +153,7 @@ class LanguageHandler
         $del->setQuery('delete from ' . Core::getTablePrefix() . 'article where clang_id=?', [$id]);
         $del->setQuery('delete from ' . Core::getTablePrefix() . 'article_slice where clang_id=?', [$id]);
 
-        rex_delete_cache();
+        Cache::delete();
 
         // ----- EXTENSION POINT
         Extension::registerPoint(new ExtensionPoint('CLANG_DELETED', '', [
