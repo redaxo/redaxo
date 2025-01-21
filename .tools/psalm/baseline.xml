@@ -150,9 +150,6 @@
       <code><![CDATA[array<int, array{version: string, description: string, path: string, checksum: string}>]]></code>
       <code><![CDATA[rex_install_webservice::getJson('core')]]></code>
     </MixedReturnTypeCoercion>
-    <UndefinedFunction>
-      <code><![CDATA[rex_delete_cache()]]></code>
-    </UndefinedFunction>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_package_add.php">
     <ArgumentTypeCoercion>
@@ -1726,7 +1723,6 @@
   <file src="redaxo/src/core/pages/system.settings.php">
     <MixedArgument>
       <code><![CDATA[$destination]]></code>
-      <code><![CDATA[$success]]></code>
       <code><![CDATA[Core::getConfig('notfound_article_id', 1)]]></code>
       <code><![CDATA[Core::getConfig('phpmailer_errormail', 1)]]></code>
       <code><![CDATA[Core::getConfig('start_article_id', 1)]]></code>
@@ -1740,7 +1736,6 @@
       <code><![CDATA[$destination]]></code>
       <code><![CDATA[$files]]></code>
       <code><![CDATA[$source]]></code>
-      <code><![CDATA[$success]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MixedOperand>
@@ -1753,9 +1748,6 @@
       <code><![CDATA[$editor->getName()]]></code>
       <code><![CDATA[Core::getConfig('phpmailer_errormail', 1)]]></code>
     </PossiblyNullArgument>
-    <UndefinedFunction>
-      <code><![CDATA[rex_delete_cache()]]></code>
-    </UndefinedFunction>
   </file>
   <file src="redaxo/src/core/pages/users.roles.php">
     <MixedArgument>
@@ -1963,12 +1955,6 @@
       <code><![CDATA[$href]]></code>
     </MixedArgumentTypeCoercion>
   </file>
-  <file src="src/Backup/Backup.php">
-    <UndefinedFunction>
-      <code><![CDATA[rex_delete_cache()]]></code>
-      <code><![CDATA[rex_delete_cache()]]></code>
-    </UndefinedFunction>
-  </file>
   <file src="src/Config.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$cfg->getValue('value')]]></code>
@@ -2002,17 +1988,6 @@
     <PossiblyNullReference>
       <code><![CDATA[boot]]></code>
     </PossiblyNullReference>
-  </file>
-  <file src="src/Console/Command/CacheClearCommand.php">
-    <MixedArgument>
-      <code><![CDATA[$successMsg]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$successMsg]]></code>
-    </MixedAssignment>
-    <UndefinedFunction>
-      <code><![CDATA[rex_delete_cache()]]></code>
-    </UndefinedFunction>
   </file>
   <file src="src/Console/Command/ConfigGetCommand.php">
     <ArgumentTypeCoercion>
@@ -3248,11 +3223,6 @@
       <code><![CDATA[getId]]></code>
       <code><![CDATA[getPriority]]></code>
     </PossiblyNullReference>
-    <UndefinedFunction>
-      <code><![CDATA[rex_delete_cache()]]></code>
-      <code><![CDATA[rex_delete_cache()]]></code>
-      <code><![CDATA[rex_delete_cache()]]></code>
-    </UndefinedFunction>
   </file>
   <file src="src/Log/Logger.php">
     <MixedArgument>
@@ -3706,9 +3676,6 @@
     <PossiblyNullOperand>
       <code><![CDATA[$field->getAttribute('id')]]></code>
     </PossiblyNullOperand>
-    <UndefinedFunction>
-      <code><![CDATA[rex_delete_cache()]]></code>
-    </UndefinedFunction>
   </file>
   <file src="src/MetaInfo/Handler/AbstractHandler.php">
     <ArgumentTypeCoercion>
@@ -4276,9 +4243,6 @@
     <MixedOperand>
       <code><![CDATA[$source]]></code>
     </MixedOperand>
-    <UndefinedFunction>
-      <code><![CDATA[rex_delete_cache()]]></code>
-    </UndefinedFunction>
   </file>
   <file src="src/SystemReport.php">
     <ArgumentTypeCoercion>
