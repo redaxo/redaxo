@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Util;
 
+use Exception;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use ScssPhp\ScssPhp\Compiler;
