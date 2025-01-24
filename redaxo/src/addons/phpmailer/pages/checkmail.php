@@ -1,9 +1,4 @@
 <?php
-/**
- * PHPMailer Addon.
- *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- */
 
 $addon = rex_addon::get('phpmailer');
 $content = $mailerDebug = '';

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package redaxo\be-style
  *
