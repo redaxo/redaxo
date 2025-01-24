@@ -72,7 +72,7 @@ $context = new rex_context([
 ]);
 
 // ----- Titel anzeigen
-echo rex_view::title(rex_i18n::msg('content') . ': ' . $OOArt->getName(), '');
+echo rex_view::title(rex_i18n::msg('content') . ': ' . rex_escape($OOArt->getName()), '');
 
 // ----- Languages
 echo rex_view::clangSwitchAsButtons($context);

@@ -80,8 +80,8 @@ abstract class rex_structure_element
      * Returns Object Value.
      *
      * @param string $value
-     *
      * @return string|int|null
+     * @psalm-taint-source input
      */
     public function getValue($value)
     {
@@ -334,6 +334,7 @@ abstract class rex_structure_element
      * Returns the name of the article.
      *
      * @return string
+     * @psalm-taint-source input
      */
     public function getName()
     {
