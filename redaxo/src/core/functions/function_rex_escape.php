@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Escapes a variable to be used while rendering html.
  *
