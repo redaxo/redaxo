@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be5c929dac03c3cf02373e48a445250f",
+    "content-hash": "90d60f8ccdfa58ef0351693e271676c7",
     "packages": [
         {
             "name": "splitbrain/php-archive",
-            "version": "1.3.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/splitbrain/php-archive.git",
-                "reference": "d274e5190ba309777926348900cf9578d9e533c9"
+                "reference": "d9d4eaac12a6587727b8e539946dd06cac8b3f02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/splitbrain/php-archive/zipball/d274e5190ba309777926348900cf9578d9e533c9",
-                "reference": "d274e5190ba309777926348900cf9578d9e533c9",
+                "url": "https://api.github.com/repos/splitbrain/php-archive/zipball/d9d4eaac12a6587727b8e539946dd06cac8b3f02",
+                "reference": "d9d4eaac12a6587727b8e539946dd06cac8b3f02",
                 "shasum": ""
             },
             "require": {
@@ -62,9 +62,15 @@
             ],
             "support": {
                 "issues": "https://github.com/splitbrain/php-archive/issues",
-                "source": "https://github.com/splitbrain/php-archive/tree/1.3.1"
+                "source": "https://github.com/splitbrain/php-archive/tree/1.4.0"
             },
-            "time": "2022-03-23T09:21:55+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/splitbrain",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-12-09T14:08:44+00:00"
         }
     ],
     "packages-dev": [],
