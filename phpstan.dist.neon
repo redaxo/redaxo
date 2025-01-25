@@ -1,7 +1,8 @@
 includes:
-	- .tools/phpstan/baseline.neon
-	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - .tools/phpstan/baseline/loader.neon
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
+# vendor/bin/phpstan --generate-baseline=.tools/phpstan/baseline/loader.neon && vendor/bin/split-phpstan-baseline .tools/phpstan/baseline/loader.neon
 parameters:
     level: 6
     phpVersion: 80100 # PHP 8.1
@@ -33,7 +34,7 @@ parameters:
     universalObjectCratesClasses:
         - rex_fragment
     symfony:
-        console_application_loader: .tools/phpstan/console.php
+        consoleApplicationLoader: .tools/phpstan/console.php
     ignoreErrors:
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'

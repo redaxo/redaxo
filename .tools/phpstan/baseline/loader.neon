@@ -1,0 +1,23 @@
+includes:
+    - argument.templateType.neon
+    - argument.type.neon
+    - assign.propertyType.neon
+    - booleanAnd.rightAlwaysFalse.neon
+    - catch.neverThrown.neon
+    - deadCode.unreachable.neon
+    - function.alreadyNarrowedType.neon
+    - if.alwaysTrue.neon
+    - impure.propertyAssign.neon
+    - impure.static.neon
+    - impureMethod.pure.neon
+    - method.childReturnType.neon
+    - missingType.generics.neon
+    - missingType.iterableValue.neon
+    - missingType.parameter.neon
+    - possiblyImpure.functionCall.neon
+    - possiblyImpure.methodCall.neon
+    - return.type.neon
+    - staticClassAccess.privateMethod.neon
+    - ternary.alwaysTrue.neon
+    - throws.unusedType.neon
+    - varTag.nativeType.neon
