@@ -33,7 +33,7 @@ parameters:
     universalObjectCratesClasses:
         - rex_fragment
     symfony:
-        console_application_loader: .tools/phpstan/console.php
+        consoleApplicationLoader: .tools/phpstan/console.php
     ignoreErrors:
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
