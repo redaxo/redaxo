@@ -1,0 +1,13 @@
+# total 2 errors
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Call to function is_array\(\) with array\<non\-falsy\-string, int\|non\-falsy\-string\> will always evaluate to true\.$#'
+            count: 1
+            path: ../../../redaxo/src/addons/mediapool/lib/service_media.php
+
+        -
+            message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+            count: 1
+            path: ../../../redaxo/src/core/lib/sql/util.php

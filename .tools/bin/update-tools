@@ -12,6 +12,7 @@ composer require --dev --ansi --fixed --with-all-dependencies \
     rector/rector \
     redaxo/php-cs-fixer-config \
     redaxo/psalm-plugin \
+    shipmonk/phpstan-baseline-per-identifier \
     vimeo/psalm
 
 composer update --ansi
