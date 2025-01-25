@@ -340,7 +340,7 @@ final class rex_media_service
             if (!in_array($orderByItem[0], self::ORDER_BY, true)) {
                 continue;
             }
-            $orderbys[] = ':orderby_' . $index . ' ' . ('ASC' == $orderByItem[1]) ? 'ASC' : 'DESC';
+            $orderbys[] = ':orderby_' . $index . ' ' . ('ASC' == $orderByItem[1] ? 'ASC' : 'DESC');
             $queryParams['orderby_' . $index] = 'm.' . $orderByItem[0];
         }
 
