@@ -1,0 +1,8 @@
+# total 1 error
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Method Redaxo\\Core\\Database\\Sql\:\:getRows\(\) is marked as impure but does not have any side effects\.$#'
+            count: 1
+            path: ../../../src/Database/Sql.php

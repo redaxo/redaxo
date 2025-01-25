@@ -1,0 +1,8 @@
+# total 1 error
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Impure property assignment in pure function Redaxo\\Core\\View\\escape\(\)\.$#'
+            count: 1
+            path: ../../../src/View/escape.php

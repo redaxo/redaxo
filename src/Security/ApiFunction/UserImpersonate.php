@@ -27,8 +27,6 @@ class UserImpersonate extends ApiFunction
             Core::getProperty('login')->depersonate();
 
             Response::sendRedirect(Url::backendPage('users/users'));
-
-            exit;
         }
 
         $user = Core::requireUser();
@@ -39,8 +37,6 @@ class UserImpersonate extends ApiFunction
         Core::getProperty('login')->impersonate((int) $impersonate);
 
         Response::sendRedirect(Url::backendController());
-
-        exit;
     }
 
     protected function requiresCsrfProtection()

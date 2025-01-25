@@ -364,7 +364,7 @@ final class MediaHandler
             if (!in_array($orderByItem[0], self::ORDER_BY, true)) {
                 continue;
             }
-            $orderbys[] = ':orderby_' . $index . ' ' . ('ASC' == $orderByItem[1]) ? 'ASC' : 'DESC';
+            $orderbys[] = ':orderby_' . $index . ' ' . ('ASC' == $orderByItem[1] ? 'ASC' : 'DESC');
             $queryParams['orderby_' . $index] = 'm.' . $orderByItem[0];
         }
 
@@ -403,6 +403,10 @@ final class MediaHandler
 
     private static function sanitizeMedia(string $path, ?string $type): void
     {
+        if (!Core::getProperty('sanitize_svgs', true)) {
+            return;
+        }
+
         if ('image/svg+xml' !== $type && 'svg' !== strtolower(File::extension($path))) {
             return;
         }
@@ -410,11 +414,13 @@ final class MediaHandler
         $content = Type::notNull(File::get($path));
 
         $antiXss = new AntiXSS();
-        $antiXss->removeEvilAttributes(['style']);
+        $antiXss->removeNeverAllowedRegex(['&lt;!--', '&lt;!--$1--&gt;']);
+        $antiXss->removeEvilAttributes(['style', 'xlink:href']);
         $antiXss->removeEvilHtmlTags(['style', 'svg', 'title']);
 
         $content = $antiXss->xss_clean($content);
         $content = preg_replace('/^\s*&lt;\?xml(.*?)\?&gt;/', '<?xml$1?>', $content);
+        $content = preg_replace('/&lt;!DOCTYPE(.*?)>/', '<!DOCTYPE$1>', $content);
 
         File::put($path, $content);
     }

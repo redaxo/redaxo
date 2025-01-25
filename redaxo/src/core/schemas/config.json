@@ -427,6 +427,10 @@
         "image_extensions": {
             "description": "Image extensions",
             "type": "array"
+        },
+        "sanitize_svgs": {
+            "description": "Sanitize SVGs",
+            "type": "boolean"
         }
     },
     "additionalProperties": false,

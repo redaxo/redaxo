@@ -34,7 +34,7 @@ abstract class ComplexPermission
     /**
      * Array of class names.
      *
-     * @var array<string, class-string<\Redaxo\Core\Security\ComplexPermission>>
+     * @var array<string, class-string<ComplexPermission>>
      */
     private static $classes = [];
 
@@ -87,7 +87,7 @@ abstract class ComplexPermission
     /**
      * Returns all complex perm classes.
      *
-     * @return array<string, class-string<\Redaxo\Core\Security\ComplexPermission>> Class names
+     * @return array<string, class-string<ComplexPermission>> Class names
      */
     public static function getAll()
     {

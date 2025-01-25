@@ -294,13 +294,14 @@ if (!$passwordChangeRequired) {
     echo $content;
 }
 
-$confirmField = static function (string $id) use ($login, $webauthn): string {
+$passkeyVerify = $login->getPasskey() ? $webauthn->getGetArgs($login->getPasskey()) : '';
+$confirmField = static function (string $id) use ($login, $passkeyVerify): string {
     $formElements = [];
     $n = [];
 
     if ($login->getPasskey()) {
         $n['label'] = '<label for="' . $id . '">' . I18n::msg('passkey_current') . '</label>';
-        $n['field'] = '<div data-auth-passkey-verify="' . escape($webauthn->getGetArgs($login->getPasskey())) . '">
+        $n['field'] = '<div data-auth-passkey-verify="' . escape($passkeyVerify) . '">
         <button type="button" class="btn btn-primary" id="' . $id . '">' . I18n::msg('passkey_current_verify') . '</button>
         <i class="fa fa-check-circle-o text-success hidden"></i>
         <input type="hidden" name="passkey_verify"/>

@@ -144,8 +144,8 @@ class BackendLogin extends Login
                     $add .= 'password = ?, ';
                     $params[] = $password = self::passwordHash($this->userPassword, true);
                 }
-                array_push($params, Sql::datetime(), Sql::datetime(), session_id(), $this->userLogin);
-                $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
+                array_push($params, Sql::datetime(), Sql::datetime(), session_id(), $this->getSessionVar(self::SESSION_USER_ID));
+                $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE id=? LIMIT 1', $params);
 
                 $this->setSessionVar(self::SESSION_PASSWORD, $password);
 

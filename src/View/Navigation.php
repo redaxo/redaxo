@@ -57,7 +57,11 @@ class Navigation
     private array $linkclasses = [];
     /** @var list<array{metafield: string, value: int|string, type: string, depth: int|''}> */
     private array $filter = [];
-    /** @var list<array{callback: callable(Category, int, array<(int | string), (int | string | list<string>)>, array<(int | string), (int | string | list<string>)>, string):bool, depth: (int | )}> */
+    /** @var list<array{
+     *     callback: callable(Category, int, array<int|string, int|string|list<string>>, array<int|string, int|string|list<string>>, string):bool,
+     *     depth: int|''
+     * }>
+     */
     private array $callbacks = [];
 
     private int $currentArticleId = -1; // Aktueller Artikel

@@ -1,0 +1,8 @@
+# total 2 errors
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Impure static variable in pure function Redaxo\\Core\\View\\escape\(\)\.$#'
+            count: 2
+            path: ../../../src/View/escape.php

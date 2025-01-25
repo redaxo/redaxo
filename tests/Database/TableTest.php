@@ -272,7 +272,7 @@ final class TableTest extends TestCase
         Table::clearInstance(self::TABLE);
         $table = Table::get(self::TABLE);
 
-        self::assertSame($expectedOrder, array_keys($table->getColumns()));
+        self::assertSame($expectedOrder, array_keys($table->getColumns())); // @phpstan-ignore argument.unresolvableType,   staticMethod.impossibleType
 
         self::assertEquals($status, $table->getColumn('status'));
 
