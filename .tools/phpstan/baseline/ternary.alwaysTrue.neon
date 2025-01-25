@@ -1,8 +1,0 @@
-# total 1 error
-
-parameters:
-    ignoreErrors:
-        -
-            message: '#^Ternary operator condition is always true\.$#'
-            count: 1
-            path: ../../../redaxo/src/addons/mediapool/lib/service_media.php

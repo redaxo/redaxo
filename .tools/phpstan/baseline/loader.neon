@@ -18,6 +18,5 @@ includes:
     - possiblyImpure.methodCall.neon
     - return.type.neon
     - staticClassAccess.privateMethod.neon
-    - ternary.alwaysTrue.neon
     - throws.unusedType.neon
     - varTag.nativeType.neon
