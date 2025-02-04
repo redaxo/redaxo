@@ -222,7 +222,7 @@ final class Type
     }
 
     /**
-     * @psalm-assert string $value
+     * @phpstan-assert string $value
      * @psalm-pure
      */
     public static function string(mixed $value): string

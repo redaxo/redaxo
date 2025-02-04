@@ -1187,6 +1187,8 @@ class Sql implements Iterator
 
     /**
      * Gibt den zuletzt aufgetretene Fehler zurueck.
+     *
+     * @phpstan-impure
      */
     public function getError(): ?string
     {

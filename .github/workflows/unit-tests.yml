@@ -23,6 +23,9 @@ jobs:
                         db-image: 'mysql:8.0'
                         composer-flags: '--prefer-lowest'
                     -   php-version: '8.4'
+                        db-image: 'mysql:8.4'
+                        composer-flags: '--ignore-platform-req=php'
+                    -   php-version: '8.5'
                         db-image: 'mysql:9.1'
                         composer-flags: '--ignore-platform-req=php'
                     -   php-version: '8.3'
@@ -38,7 +41,10 @@ jobs:
                     MYSQL_ROOT_PASSWORD: root
                 ports:
                     - 3306:3306
-                options: --health-cmd="${{ matrix.db-image == 'mariadb:latest' && 'mariadb-admin' || 'mysqladmin' }} ping" --health-interval=10s --health-timeout=5s --health-retries=3
+                options: >-
+                    --health-cmd="${{ matrix.db-image == 'mariadb:latest' && 'mariadb-admin' || 'mysqladmin' }} ping"
+                    --health-interval=10s --health-timeout=5s --health-retries=3
+                    ${{ matrix.db-image == 'mysql:8.4' && '-e MYSQL_ROOT_PASSWORD=root --entrypoint sh mysql:8.4 -c "exec docker-entrypoint.sh mysqld --mysql-native-password=ON"' || '' }}
 
         steps:
             -   name: Checkout

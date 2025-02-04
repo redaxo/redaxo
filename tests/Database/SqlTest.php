@@ -54,7 +54,7 @@ final class SqlTest extends TestCase
     public function testFactory(): void
     {
         $sql = Sql::factory();
-        self::assertInstanceOf(Sql::class, $sql);
+        self::assertInstanceOf(Sql::class, $sql); // @phpstan-ignore staticMethod.alreadyNarrowedType
     }
 
     public function testCheckConnection(): void

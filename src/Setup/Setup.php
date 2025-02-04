@@ -215,6 +215,7 @@ class Setup
             '8.1' => '2025-12-01',
             '8.2' => '2026-12-01',
             '8.3' => '2027-12-01',
+            '8.4' => '2028-12-01',
         ];
 
         $versionNumber = Formatter::version(PHP_VERSION, '%s.%s');
@@ -262,6 +263,7 @@ class Setup
                 '11.2' => '2024-11-01',
                 '11.3' => '2024-05-01',
                 '11.4' => '2029-05-01', // LTS
+                '11.5' => '2024-11-01',
             ];
 
             $versionNumber = Formatter::version($dbVersion, '%s.%s');

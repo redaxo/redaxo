@@ -4471,9 +4471,6 @@
       <code><![CDATA[getName]]></code>
       <code><![CDATA[getName]]></code>
     </PossiblyNullReference>
-    <PropertyTypeCoercion>
-      <code><![CDATA[$this->callbacks]]></code>
-    </PropertyTypeCoercion>
   </file>
   <file src="src/View/View.php">
     <MixedArgument>

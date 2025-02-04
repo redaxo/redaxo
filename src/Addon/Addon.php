@@ -345,7 +345,7 @@ final class Addon implements AddonInterface
         $this->properties = array_intersect_key($this->properties, ['install' => null, 'status' => null]);
         if ($properties) {
             foreach ($properties as $key => $value) {
-                Type::string($key);
+                $key = Type::string($key);
                 if (isset($this->properties[$key])) {
                     continue;
                 }

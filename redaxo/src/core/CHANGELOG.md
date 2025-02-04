@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 5.18.1 – 06.12.2024
+---------------------------
+
+### Bugfixes
+
+* PHP 8.4: Deperecated-Notices entfernt (@gharlan)
+* Bei Login über Passkey wurde der "letzte Login" und andere Daten nicht aktualisiert (@gharlan)
+* Profil: Die Passwortänderung war nicht möglich bei Login über Passkey (@gharlan)
+* EOL-Daten für PHP/MariaDB aktualisiert (@staabm, @gharlan)
+
+
 Version 5.18.0 – 22.10.2024
 ---------------------------
 

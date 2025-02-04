@@ -111,3 +111,4 @@ blocked_extensions: [asp, aspx, bat, cfm, cgi, flv, hh, html, htaccess, htpasswd
 allowed_mime_types: ~
 allowed_doctypes: [avif, bmp, css, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, svg, swf, tar, tif, tiff, txt, webp, wma, xls, xlsx, zip]
 image_extensions: [avif, bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]
+sanitize_svgs: true

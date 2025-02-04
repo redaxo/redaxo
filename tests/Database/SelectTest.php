@@ -231,7 +231,8 @@ final class SelectTest extends TestCase
         self::assertTrue($sql->hasError());
         self::assertEquals('42S22', $sql->getErrno());
         self::assertEquals(1054, $sql->getMysqlErrno());
-        self::assertEquals("Unknown column 'rex_tests' in 'field list'", $sql->getError());
+        self::assertNotNull($error = $sql->getError());
+        self::assertStringStartsWith("Unknown column 'rex_tests' in ", $error);
 
         $exception = null;
         try {
@@ -243,7 +244,8 @@ final class SelectTest extends TestCase
         self::assertTrue($sql->hasError());
         self::assertEquals('42S22', $sql->getErrno());
         self::assertEquals(1054, $sql->getMysqlErrno());
-        self::assertEquals("Unknown column 'idx' in 'where clause'", $sql->getError());
+        self::assertNotNull($error = $sql->getError());
+        self::assertStringStartsWith("Unknown column 'idx' in ", $error);
 
         $exception = null;
         Sql::closeConnection(); // https://github.com/redaxo/redaxo/pull/5272#discussion_r935793505
