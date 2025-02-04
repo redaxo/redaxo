@@ -586,6 +586,7 @@ Core::setProperty('metainfo_metaTables', [
 ]);
 
 Extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
+Extension::register('BACKUP_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
 Extension::register('STRUCTURE_CONTENT_SIDEBAR', function ($ep) {
     $subject = $ep->getSubject();
     $metaSidebar = include Path::core('pages/metainfo.content.php');

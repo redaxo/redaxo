@@ -3,10 +3,11 @@
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Table;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\MetaInfo\Database\Table;
+use Redaxo\Core\MetaInfo\Database\Table as MetaInfoTable;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Asset;
@@ -146,7 +147,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
 
     Util::organizePriorities(Core::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE ' . $prefix, 'priority, updatedate');
 
-    $tableManager = new Table($metaTable);
+    $tableManager = new MetaInfoTable($metaTable);
     return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);
 }
 
@@ -194,7 +195,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
 
     $sql->delete();
 
-    $tableManager = new Table($metaTable);
+    $tableManager = new MetaInfoTable($metaTable);
     return $tableManager->deleteColumn($name);
 }
 
@@ -252,4 +253,58 @@ function rex_metainfo_extensions_handler(ExtensionPoint $ep)
     } elseif ('backup' == $page) {
         require_once __DIR__ . '/function_metainfo_extension_cleanup.php';
     }
+}
+
+/**
+ * Alle Metafelder löschen, nicht das nach einem Import in der Parameter Tabelle
+ * noch Datensätze zu Feldern stehen, welche nicht als Spalten in der
+ * rex_article angelegt wurden!
+ * @param ExtensionPoint|array $epOrParams
+ * @return void
+ */
+function rex_metainfo_cleanup($epOrParams)
+{
+    $params = $epOrParams instanceof ExtensionPoint ? $epOrParams->getParams() : $epOrParams;
+    // Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
+    if (
+        isset($params['force']) && true != $params['force']
+        && !str_contains($params['content'], 'CREATE TABLE `' . Core::getTablePrefix() . 'article`')
+        && !str_contains($params['content'], 'CREATE TABLE ' . Core::getTablePrefix() . 'article')
+    ) {
+        return;
+    }
+
+    if (!Table::get(Core::getTable('metainfo_field'))->exists()) {
+        return;
+    }
+
+    $sql = Sql::factory();
+    $sql->setQuery('SELECT name FROM ' . Core::getTablePrefix() . 'metainfo_field');
+
+    for ($i = 0; $i < $sql->getRows(); ++$i) {
+        $prefix = rex_metainfo_meta_prefix((string) $sql->getValue('name'));
+        $table = Type::string(rex_metainfo_meta_table($prefix));
+        $tableManager = new MetaInfoTable($table);
+
+        $tableManager->deleteColumn((string) $sql->getValue('name'));
+
+        $sql->next();
+    }
+
+    // evtl reste aufräumen
+    $tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_'], 'clang' => ['clang_']];
+    foreach ($tablePrefixes as $table => $prefixes) {
+        $table = Core::getTablePrefix() . $table;
+        $tableManager = new MetaInfoTable($table);
+
+        foreach (Sql::showColumns($table) as $column) {
+            $column = $column['name'];
+            if (in_array(substr($column, 0, 4), $prefixes)) {
+                $tableManager->deleteColumn($column);
+            }
+        }
+    }
+
+    $sql = Sql::factory();
+    $sql->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'metainfo_field');
 }
