@@ -390,6 +390,8 @@ return RectorConfig::configure()
         'rex_navigation' => View\Navigation::class,
         'rex_system_report' => SystemReport::class,
         'rex_view' => View\View::class,
+        'rex_be_style' => Backend\Style::class,
+        'rex_scss_compiler' => Util\ScssCompiler::class,
     ])
     ->withConfiguredRule(RenameFunctionRector::class, [
         'rex_escape' => 'Redaxo\\Core\\View\\escape',

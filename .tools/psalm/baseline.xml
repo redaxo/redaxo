@@ -925,11 +925,6 @@
       <code><![CDATA[$params['content']]]></code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/lib/be_style/scss_compiler.php">
-    <MixedOperand>
-      <code><![CDATA[$path]]></code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/lib/error_handler.php">
     <InvalidScalarArgument>
       <code><![CDATA[$line]]></code>
@@ -4339,6 +4334,11 @@
     <PropertyTypeCoercion>
       <code><![CDATA[$this->headers]]></code>
     </PropertyTypeCoercion>
+  </file>
+  <file src="src/Util/ScssCompiler.php">
+    <MixedOperand>
+      <code><![CDATA[$path]]></code>
+    </MixedOperand>
   </file>
   <file src="src/Util/Type.php">
     <ArgumentTypeCoercion>

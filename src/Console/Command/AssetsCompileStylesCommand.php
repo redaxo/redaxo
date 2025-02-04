@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Console\Command;
 
 use Override;
-use rex_be_style;
+use Redaxo\Core\Backend\Style;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,9 +23,9 @@ class AssetsCompileStylesCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
-        $io->title('be_style scss compiler');
+        $io->title('Backend style scss compiler');
 
-        rex_be_style::compile();
+        Style::compile();
 
         $io->success('Styles successfully compiled');
 

@@ -1,11 +1,14 @@
 <?php
 
+namespace Redaxo\Core\Backend;
+
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Util\ScssCompiler;
 
-class rex_be_style
+class Style
 {
     /**
      * Converts Backend SCSS files to CSS.
@@ -34,7 +37,7 @@ class rex_be_style
         $scssFiles = Extension::registerPoint(new ExtensionPoint('BE_STYLE_SCSS_COMPILE', $scssFiles));
 
         foreach ($scssFiles as $file) {
-            $compiler = new rex_scss_compiler();
+            $compiler = new ScssCompiler();
 
             if (isset($file['root_dir'])) {
                 $compiler->setRootDir($file['root_dir']);
