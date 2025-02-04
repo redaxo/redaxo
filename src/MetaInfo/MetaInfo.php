@@ -3,12 +3,9 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
-use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\MetaInfo\Database\Table as MetaInfoTable;
 use Redaxo\Core\Util\Type;
-
-Extension::register('BACKUP_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
 
 /**
  * Alle Metafelder löschen, nicht das nach einem Import in der Parameter Tabelle
