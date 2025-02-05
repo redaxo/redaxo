@@ -9,9 +9,9 @@ use PDO;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Util\Type;
-use rex_sql_exception;
 
 /** @internal */
 final class SqlTest extends TestCase
@@ -224,7 +224,7 @@ final class SqlTest extends TestCase
 
         self::assertTrue($sql->hasValue('col_array'), 'set value exists');
 
-        self::expectException(rex_sql_exception::class);
+        self::expectException(SqlException::class);
         $sql->getArrayValue('col_array');
     }
 
@@ -521,9 +521,9 @@ final class SqlTest extends TestCase
         $exception = null;
         try {
             $sql->getLastId();
-        } catch (rex_sql_exception $exception) {
+        } catch (SqlException $exception) {
         }
-        self::assertInstanceOf(rex_sql_exception::class, $exception, 'LastId() without previous insert');
+        self::assertInstanceOf(SqlException::class, $exception, 'LastId() without previous insert');
 
         $sql->setTable(self::TABLE);
         $sql->setValue('col_int', 5);
@@ -541,9 +541,9 @@ final class SqlTest extends TestCase
         $exception = null;
         try {
             $sql->getLastId();
-        } catch (rex_sql_exception $exception) {
+        } catch (SqlException $exception) {
         }
-        self::assertInstanceOf(rex_sql_exception::class, $exception, 'LastId after ->update()');
+        self::assertInstanceOf(SqlException::class, $exception, 'LastId after ->update()');
 
         $sql->setQuery('INSERT INTO ' . self::TABLE . ' SET col_int = 3');
 
@@ -555,9 +555,9 @@ final class SqlTest extends TestCase
         $exception = null;
         try {
             $secondSql->getLastId();
-        } catch (rex_sql_exception $exception) {
+        } catch (SqlException $exception) {
         }
-        self::assertInstanceOf(rex_sql_exception::class, $exception, 'LastId after SELECT query');
+        self::assertInstanceOf(SqlException::class, $exception, 'LastId after SELECT query');
 
         self::assertSame(2, $sql->getLastId(), 'LastId still the same in other sql object');
     }

@@ -2,6 +2,7 @@
 
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -70,7 +71,7 @@ if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
                         'filename' => $fileName,
                         'category_id' => $rexFileCategory,
                     ]));
-                } catch (rex_sql_exception) {
+                } catch (SqlException) {
                     $error = I18n::msg('pool_selectedmedia_error');
                 }
             }

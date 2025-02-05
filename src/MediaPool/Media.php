@@ -6,6 +6,7 @@ use AllowDynamicProperties;
 use Redaxo\Core\Base\InstanceListPoolTrait;
 use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -13,7 +14,6 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Util\Formatter;
-use rex_sql_exception;
 
 use function in_array;
 use function Redaxo\Core\View\escape;
@@ -105,7 +105,7 @@ class Media
     }
 
     /**
-     * @throws rex_sql_exception
+     * @throws SqlException
      * @return static|null
      */
     public static function forId(int $mediaId): ?self

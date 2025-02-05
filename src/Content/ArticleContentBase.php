@@ -4,6 +4,7 @@ namespace Redaxo\Core\Content;
 
 use LogicException;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -15,7 +16,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
 use rex_exception;
-use rex_sql_exception;
 use rex_var;
 
 use function assert;
@@ -620,7 +620,7 @@ class ArticleContentBase
     }
 
     /**
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     private function renderSlices(string $articleLimit, string $sliceLimit): void
     {

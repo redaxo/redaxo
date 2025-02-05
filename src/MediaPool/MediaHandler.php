@@ -5,6 +5,7 @@ namespace Redaxo\Core\MediaPool;
 use LogicException;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -14,7 +15,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Type;
-use rex_sql_exception;
 use voku\helper\AntiXSS;
 
 use function assert;
@@ -296,7 +296,7 @@ final class MediaHandler
     /**
      * @param array{category_id?: int, category_id_path?: int, types?: list<string>, term?: string} $filter
      * @param list<array{string, 'ASC'|'DESC'}> $orderBy
-     * @throws rex_sql_exception
+     * @throws SqlException
      * @return list<Media>
      */
     public static function getList(array $filter = [], array $orderBy = [], ?Pager $pager = null): array

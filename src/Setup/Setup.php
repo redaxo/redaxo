@@ -5,6 +5,8 @@ namespace Redaxo\Core\Setup;
 use DateTimeImmutable;
 use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\CouldNotConnectException;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -18,8 +20,6 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Util\Version;
 use rex_exception;
-use rex_sql_could_not_connect_exception;
-use rex_sql_exception;
 
 use function array_key_exists;
 use function extension_loaded;
@@ -319,9 +319,9 @@ class Setup
             $userSql->setQuery('select * from ' . Core::getTable('user') . ' LIMIT 1');
 
             return $initial = 0 == $userSql->getRows();
-        } catch (rex_sql_could_not_connect_exception) {
+        } catch (CouldNotConnectException) {
             return $initial = true;
-        } catch (rex_sql_exception $e) {
+        } catch (SqlException $e) {
             $sql = $e->getSql();
             if ($sql && Sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST === $sql->getErrno()) {
                 return $initial = true;

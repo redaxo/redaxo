@@ -6,6 +6,7 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Dir;
@@ -17,7 +18,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Exception\YamlParseException;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Version;
-use rex_sql_exception;
 
 use function extension_loaded;
 use function in_array;
@@ -157,7 +157,7 @@ class AddonManager
             return true;
         } catch (UserMessageException $e) {
             $this->message = $e->getMessage();
-        } catch (rex_sql_exception $e) {
+        } catch (SqlException $e) {
             $this->message = 'SQL error: ' . $e->getMessage();
         }
 
@@ -222,7 +222,7 @@ class AddonManager
             return true;
         } catch (UserMessageException $e) {
             $this->message = $e->getMessage();
-        } catch (rex_sql_exception $e) {
+        } catch (SqlException $e) {
             $this->message = 'SQL error: ' . $e->getMessage();
         }
 

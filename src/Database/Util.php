@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Database;
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use rex_exception;
-use rex_sql_exception;
 
 use function dirname;
 use function sprintf;
@@ -116,7 +116,7 @@ final readonly class Util
      *
      * @param non-empty-string $file
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     public static function importDump(string $file, bool $debug = false): void
     {
@@ -131,12 +131,12 @@ final readonly class Util
         foreach (self::readSqlDump($file) as $query) {
             try {
                 $sql->setQuery(self::prepareQuery($query));
-            } catch (rex_sql_exception $e) {
+            } catch (SqlException $e) {
                 $error .= $e->getMessage() . "\n<br />";
             }
         }
         if ($error) {
-            throw new rex_sql_exception($error, null, $sql);
+            throw new SqlException($error, null, $sql);
         }
     }
 

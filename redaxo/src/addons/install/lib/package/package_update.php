@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -73,7 +74,7 @@ class rex_install_package_update extends rex_install_package_download
                 $this->addon->includeFile('../.new.' . $this->addonkey . '/' . Addon::FILE_UPDATE);
             } catch (UserMessageException $e) {
                 return $e->getMessage();
-            } catch (rex_sql_exception $e) {
+            } catch (SqlException $e) {
                 return 'SQL error: ' . $e->getMessage();
             }
             if ('' != ($msg = (string) $this->addon->getProperty('updatemsg', ''))) {

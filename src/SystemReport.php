@@ -3,12 +3,12 @@
 namespace Redaxo\Core;
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Util\Version;
-use rex_sql_exception;
 
 use function extension_loaded;
 use function ini_get;
@@ -81,7 +81,7 @@ class SystemReport
                         $dbData['Warning'] = implode('<br/>', $security);
                     }
                 }
-            } catch (rex_sql_exception $exception) {
+            } catch (SqlException $exception) {
                 $dbData['Warning'] = $exception->getMessage();
             }
 

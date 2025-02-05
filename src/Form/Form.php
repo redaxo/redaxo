@@ -4,6 +4,7 @@ namespace Redaxo\Core\Form;
 
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -12,7 +13,6 @@ use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
-use rex_sql_exception;
 
 use function assert;
 use function count;
@@ -378,7 +378,7 @@ class Form extends AbstractForm
                 }
             }
             $saved = true;
-        } catch (rex_sql_exception) {
+        } catch (SqlException) {
             $saved = false;
         }
 
@@ -403,7 +403,7 @@ class Form extends AbstractForm
         try {
             $deleteSql->delete();
             $deleted = true;
-        } catch (rex_sql_exception) {
+        } catch (SqlException) {
             $deleted = false;
         }
 

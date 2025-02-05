@@ -4,10 +4,10 @@ namespace Redaxo\Core\Database;
 
 use LogicException;
 use Redaxo\Core\Base\InstancePoolTrait;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Util\Type;
 use rex_exception;
-use rex_sql_exception;
 use RuntimeException;
 
 use function array_slice;
@@ -76,7 +76,7 @@ final class Table
         try {
             $columns = Sql::showColumns($name, $db);
             $this->new = false;
-        } catch (rex_sql_exception $exception) {
+        } catch (SqlException $exception) {
             $sql = $exception->getSql();
             if ($sql && Sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $sql->getErrno()) {
                 throw $exception;

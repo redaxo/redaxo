@@ -3,9 +3,9 @@
 namespace Redaxo\Core\Cronjob\Type;
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Translation\I18n;
-use rex_sql_exception;
 
 class OptimizeTableType extends AbstractType
 {
@@ -18,7 +18,7 @@ class OptimizeTableType extends AbstractType
             try {
                 $sql->setQuery('OPTIMIZE TABLE ' . implode(', ', array_map($sql->escapeIdentifier(...), $tables)));
                 return true;
-            } catch (rex_sql_exception $e) {
+            } catch (SqlException $e) {
                 $this->setMessage($e->getMessage());
                 return false;
             }

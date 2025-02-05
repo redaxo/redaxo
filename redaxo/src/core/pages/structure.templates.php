@@ -3,6 +3,7 @@
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Content\TemplateCache;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -160,7 +161,7 @@ if ('add' == $function || 'edit' == $function) {
                     'modules' => $modules,
                     'categories' => $categories,
                 ]));
-            } catch (rex_sql_exception $e) {
+            } catch (SqlException $e) {
                 if (Sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
                     $error = I18n::msg('template_key_exists');
                     $save = 'nein';
@@ -197,7 +198,7 @@ if ('add' == $function || 'edit' == $function) {
                         'modules' => $modules,
                         'categories' => $categories,
                     ]));
-                } catch (rex_sql_exception $e) {
+                } catch (SqlException $e) {
                     if (Sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
                         $error = I18n::msg('template_key_exists');
                         $save = 'nein';

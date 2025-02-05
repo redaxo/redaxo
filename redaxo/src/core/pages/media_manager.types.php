@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -48,7 +49,7 @@ if ('delete' == $func && $typeId > 0) {
         });
 
         $success = I18n::msg('media_manager_type_deleted');
-    } catch (rex_sql_exception) {
+    } catch (SqlException) {
         $error = $sql->getError();
     }
     $func = '';
@@ -72,7 +73,7 @@ if ('copy' == $func && $typeId > 0) {
         $sql->setQuery('INSERT INTO ' . Core::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM ' . Core::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(Sql::FORMAT_DATETIME), $login, date(Sql::FORMAT_DATETIME), $login, $typeId]);
 
         $success = I18n::msg('media_manager_type_copied');
-    } catch (rex_sql_exception) {
+    } catch (SqlException) {
         $error = $sql->getError();
     }
 
