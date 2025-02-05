@@ -5,7 +5,6 @@ namespace Redaxo\Core\MediaPool;
 use LogicException;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
-use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -296,7 +295,6 @@ final class MediaHandler
     /**
      * @param array{category_id?: int, category_id_path?: int, types?: list<string>, term?: string} $filter
      * @param list<array{string, 'ASC'|'DESC'}> $orderBy
-     * @throws SqlException
      * @return list<Media>
      */
     public static function getList(array $filter = [], array $orderBy = [], ?Pager $pager = null): array

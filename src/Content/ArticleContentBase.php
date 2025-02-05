@@ -4,7 +4,6 @@ namespace Redaxo\Core\Content;
 
 use LogicException;
 use Redaxo\Core\Core;
-use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -619,9 +618,6 @@ class ArticleContentBase
         return $result;
     }
 
-    /**
-     * @throws SqlException
-     */
     private function renderSlices(string $articleLimit, string $sliceLimit): void
     {
         $moduleId = Request::request('module_id', 'int');

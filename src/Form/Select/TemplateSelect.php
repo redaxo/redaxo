@@ -4,7 +4,6 @@ namespace Redaxo\Core\Form\Select;
 
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
-use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
@@ -57,7 +56,6 @@ class TemplateSelect extends Select
     }
 
     /**
-     * @throws SqlException
      * @return void
      */
     public function setSelectedFromStartArticle()

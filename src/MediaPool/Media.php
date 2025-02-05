@@ -6,7 +6,6 @@ use AllowDynamicProperties;
 use Redaxo\Core\Base\InstanceListPoolTrait;
 use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Core;
-use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -105,7 +104,6 @@ class Media
     }
 
     /**
-     * @throws SqlException
      * @return static|null
      */
     public static function forId(int $mediaId): ?self
