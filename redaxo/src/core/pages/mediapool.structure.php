@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\MediaPool\MediaCategory;
@@ -43,7 +44,7 @@ if ($PERMALL) {
             } elseif ('delete_file_cat' == $mediaMethod) {
                 try {
                     $success = MediaCategoryHandler::deleteCategory($editId);
-                } catch (rex_functional_exception $e) {
+                } catch (UserMessageException $e) {
                     $error = $e->getMessage();
                 }
             } elseif ('add_file_cat' == $mediaMethod) {

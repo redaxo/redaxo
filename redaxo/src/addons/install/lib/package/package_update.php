@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -27,13 +28,13 @@ class rex_install_package_update extends rex_install_package_download
     protected function checkPreConditions()
     {
         if (!Addon::exists($this->addonkey)) {
-            throw new rex_functional_exception(sprintf('AddOn "%s" does not exist!', $this->addonkey));
+            throw new UserMessageException(sprintf('AddOn "%s" does not exist!', $this->addonkey));
         }
         $addon = Addon::get($this->addonkey);
         assert($addon instanceof Addon);
         $this->addon = $addon;
         if (!Version::compare($this->file['version'], $this->addon->getVersion(), '>')) {
-            throw new rex_functional_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
+            throw new UserMessageException(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
         }
     }
 
@@ -69,7 +70,7 @@ class rex_install_package_update extends rex_install_package_download
         if ($this->addon->isInstalled() && is_file($temppath . Addon::FILE_UPDATE)) {
             try {
                 $this->addon->includeFile('../.new.' . $this->addonkey . '/' . Addon::FILE_UPDATE);
-            } catch (rex_functional_exception $e) {
+            } catch (UserMessageException $e) {
                 return $e->getMessage();
             } catch (rex_sql_exception $e) {
                 return 'SQL error: ' . $e->getMessage();
@@ -110,7 +111,7 @@ class rex_install_package_update extends rex_install_package_download
         if (!@rename($path, $pathOld)) {
             $message = $path . ' could not be moved to ' . $pathOld;
             $message .= ($error = error_get_last()) ? ': ' . $error['message'] : '.';
-            throw new rex_functional_exception($message);
+            throw new UserMessageException($message);
         }
         // move new addon to main addon path
         if (@rename($temppath, $path)) {
@@ -122,7 +123,7 @@ class rex_install_package_update extends rex_install_package_download
 
             $message = $temppath . ' could not be moved to ' . $path;
             $message .= ($error = error_get_last()) ? ': ' . $error['message'] : '.';
-            throw new rex_functional_exception($message);
+            throw new UserMessageException($message);
         }
 
         // ---- update assets

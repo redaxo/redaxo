@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Util\Version;
 
 /**
@@ -16,7 +17,7 @@ class rex_install_packages
     private static $myPackages;
 
     /**
-     * @throws rex_functional_exception
+     * @throws UserMessageException
      *
      * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, counter: int, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, counter: int, created: string, updated: string}>}>
      */
@@ -75,7 +76,7 @@ class rex_install_packages
     /**
      * Returns _all_ packages available on redaxo.org, including those already installed etc.
      *
-     * @throws rex_functional_exception
+     * @throws UserMessageException
      *
      * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, counter: int, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, counter: int, created: string, updated: string}>}>
      */
@@ -100,7 +101,7 @@ class rex_install_packages
     /**
      * Returns all packages owned by the current user.
      *
-     * @throws rex_functional_exception
+     * @throws UserMessageException
      *
      * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, counter: int, created: string, updated: string, status: bool, files: array<int, array{version: string, description: string, path: string, checksum: string, counter: int, created: string, updated: string, redaxo_versions: list<string>, status: bool}>}>
      */
@@ -134,7 +135,7 @@ class rex_install_packages
     /**
      * @param string $path
      *
-     * @throws rex_functional_exception
+     * @throws UserMessageException
      *
      * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, counter: int, created: string, updated: string, status?: bool, files: array<int, array{version: string, description: string, path: string, checksum: string, counter: int, created: string, updated: string, redaxo_versions?: list<string>, status?: bool}>}>
      *

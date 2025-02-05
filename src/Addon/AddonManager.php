@@ -7,6 +7,7 @@ use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
@@ -15,7 +16,6 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Version;
-use rex_functional_exception;
 use rex_sql_exception;
 use rex_yaml_parse_exception;
 
@@ -58,9 +58,6 @@ class AddonManager
      * Installs a addon.
      *
      * @param bool $installDump When TRUE, the sql dump will be importet
-     *
-     * @throws rex_functional_exception
-     *
      * @return bool TRUE on success, FALSE on error
      */
     public function install(bool $installDump = true): bool
@@ -69,28 +66,28 @@ class AddonManager
             // check package directory perms
             $installDir = $this->addon->getPath();
             if (!Dir::isWritable($installDir)) {
-                throw new rex_functional_exception($this->i18n('dir_not_writable', $installDir));
+                throw new UserMessageException($this->i18n('dir_not_writable', $installDir));
             }
 
             // check package.yml
             $addonFile = $this->addon->getPath(Addon::FILE_PACKAGE);
             if (!is_readable($addonFile)) {
-                throw new rex_functional_exception($this->i18n('missing_yml_file'));
+                throw new UserMessageException($this->i18n('missing_yml_file'));
             }
             try {
                 File::getConfig($addonFile);
             } catch (rex_yaml_parse_exception $e) {
-                throw new rex_functional_exception($this->i18n('invalid_yml_file') . ' ' . $e->getMessage());
+                throw new UserMessageException($this->i18n('invalid_yml_file') . ' ' . $e->getMessage());
             }
             $addonId = $this->addon->getProperty('package');
             if (null === $addonId) {
-                throw new rex_functional_exception($this->i18n('missing_id', $this->addon->getPackageId()));
+                throw new UserMessageException($this->i18n('missing_id', $this->addon->getPackageId()));
             }
             if ($addonId != $this->addon->getPackageId()) {
-                throw new rex_functional_exception($this->wrongPackageId($addonId));
+                throw new UserMessageException($this->wrongPackageId($addonId));
             }
             if (null === $this->addon->getProperty('version')) {
-                throw new rex_functional_exception($this->i18n('missing_version'));
+                throw new UserMessageException($this->i18n('missing_version'));
             }
 
             // check requirements and conflicts
@@ -102,7 +99,7 @@ class AddonManager
                 $message .= $this->message;
             }
             if ($message) {
-                throw new rex_functional_exception($message);
+                throw new UserMessageException($message);
             }
 
             $reinstall = $this->addon->getProperty('install');
@@ -117,10 +114,10 @@ class AddonManager
                 $successMessage = $this->addon->getProperty('successmsg', '');
 
                 if ('' != ($instmsg = $this->addon->getProperty('installmsg', ''))) {
-                    throw new rex_functional_exception($instmsg);
+                    throw new UserMessageException($instmsg);
                 }
                 if (!$this->addon->isInstalled()) {
-                    throw new rex_functional_exception($this->i18n('no_reason'));
+                    throw new UserMessageException($this->i18n('no_reason'));
                 }
             }
 
@@ -148,7 +145,7 @@ class AddonManager
             $assets = $this->addon->getPath('assets');
             if (is_dir($assets)) {
                 if (!Dir::copy($assets, $this->addon->getAssetsPath())) {
-                    throw new rex_functional_exception($this->i18n('install_cant_copy_files'));
+                    throw new UserMessageException($this->i18n('install_cant_copy_files'));
                 }
             }
 
@@ -158,7 +155,7 @@ class AddonManager
             }
 
             return true;
-        } catch (rex_functional_exception $e) {
+        } catch (UserMessageException $e) {
             $this->message = $e->getMessage();
         } catch (rex_sql_exception $e) {
             $this->message = 'SQL error: ' . $e->getMessage();
@@ -174,9 +171,6 @@ class AddonManager
      * Uninstalls a addon.
      *
      * @param bool $installDump When TRUE, the sql dump will be importet
-     *
-     * @throws rex_functional_exception
-     *
      * @return bool TRUE on success, FALSE on error
      */
     public function uninstall(bool $installDump = true): bool
@@ -198,10 +192,10 @@ class AddonManager
                 $this->addon->includeFile(Addon::FILE_UNINSTALL);
 
                 if ('' != ($instmsg = $this->addon->getProperty('installmsg', ''))) {
-                    throw new rex_functional_exception($instmsg);
+                    throw new UserMessageException($instmsg);
                 }
                 if ($this->addon->isInstalled()) {
-                    throw new rex_functional_exception($this->i18n('no_reason'));
+                    throw new UserMessageException($this->i18n('no_reason'));
                 }
             }
 
@@ -214,7 +208,7 @@ class AddonManager
             // delete assets
             $assets = $this->addon->getAssetsPath();
             if (is_dir($assets) && !Dir::delete($assets)) {
-                throw new rex_functional_exception($this->i18n('install_cant_delete_files'));
+                throw new UserMessageException($this->i18n('install_cant_delete_files'));
             }
 
             // clear cache of addon
@@ -226,7 +220,7 @@ class AddonManager
             $this->message = $this->i18n('uninstalled', $this->addon->getName());
 
             return true;
-        } catch (rex_functional_exception $e) {
+        } catch (UserMessageException $e) {
             $this->message = $e->getMessage();
         } catch (rex_sql_exception $e) {
             $this->message = 'SQL error: ' . $e->getMessage();

@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\HttpClient\Request;
@@ -26,7 +27,7 @@ class rex_install_webservice
      *
      * @param string $path path to local cache-file
      *
-     * @throws rex_functional_exception
+     * @throws UserMessageException
      *
      * @return array
      */
@@ -59,7 +60,7 @@ class rex_install_webservice
             $error = I18n::msg('install_webservice_unreachable');
         }
 
-        throw new rex_functional_exception($error);
+        throw new UserMessageException($error);
     }
 
     /**
@@ -67,7 +68,7 @@ class rex_install_webservice
      *
      * @param string $url Url to a resource to download
      *
-     * @throws rex_functional_exception
+     * @throws UserMessageException
      *
      * @return string Returns a local path to the downloaded archive
      */
@@ -86,7 +87,7 @@ class rex_install_webservice
             Logger::logException($e);
         }
 
-        throw new rex_functional_exception(I18n::msg('install_archive_unreachable'));
+        throw new UserMessageException(I18n::msg('install_archive_unreachable'));
     }
 
     /**
@@ -94,7 +95,7 @@ class rex_install_webservice
      *
      * @param string $path
      * @param string|null $archive Path to archive
-     * @throws rex_functional_exception
+     * @throws UserMessageException
      * @return void
      */
     public static function post($path, array $data, $archive = null)
@@ -125,14 +126,14 @@ class rex_install_webservice
             $error = I18n::msg('install_webservice_unreachable');
         }
 
-        throw new rex_functional_exception($error);
+        throw new UserMessageException($error);
     }
 
     /**
      * Issues a http DELETE to the given path.
      *
      * @param string $path
-     * @throws rex_functional_exception
+     * @throws UserMessageException
      * @return void
      */
     public static function delete($path)
@@ -158,7 +159,7 @@ class rex_install_webservice
             $error = I18n::msg('install_webservice_unreachable');
         }
 
-        throw new rex_functional_exception($error);
+        throw new UserMessageException($error);
     }
 
     /**

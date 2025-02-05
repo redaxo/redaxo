@@ -4,10 +4,10 @@ namespace Redaxo\Core\MediaPool;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Translation\I18n;
-use rex_functional_exception;
 
 class MediaCategoryHandler
 {
@@ -52,7 +52,7 @@ class MediaCategoryHandler
     /**
      * @param int $categoryId
      *
-     * @throws rex_functional_exception
+     * @throws UserMessageException
      *
      * @return string A success message
      */
@@ -66,14 +66,14 @@ class MediaCategoryHandler
             if ($uses = self::categoryIsInUse($categoryId)) {
                 $gf->setQuery('SELECT name FROM ' . Core::getTable('media_category') . ' WHERE id=?', [$categoryId]);
                 $name = "{$gf->getValue('name')} [$categoryId]";
-                throw new rex_functional_exception('<strong>' . I18n::msg('pool_kat_delete_error', $name) . ' ' . I18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
+                throw new UserMessageException('<strong>' . I18n::msg('pool_kat_delete_error', $name) . ' ' . I18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
             }
 
             $gf->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'media_category WHERE id=?', [$categoryId]);
             MediaPoolCache::deleteCategory($categoryId);
             MediaPoolCache::deleteLists();
         } else {
-            throw new rex_functional_exception(I18n::msg('pool_kat_not_deleted'));
+            throw new UserMessageException(I18n::msg('pool_kat_not_deleted'));
         }
 
         Extension::registerPoint(new ExtensionPoint('MEDIA_CATEGORY_DELETED', ['id' => $categoryId]));

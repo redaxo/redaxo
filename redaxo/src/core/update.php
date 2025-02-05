@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
@@ -11,11 +12,11 @@ use Redaxo\Core\Util\Version;
 // while updating the core, the constants contain the old min versions from previous core version
 
 if (version_compare(Core::getVersion(), '5.16', '<')) {
-    throw new rex_functional_exception(sprintf('The REDAXO version "%s" is too old for this update, please update to 5.16 before.', Core::getVersion()));
+    throw new UserMessageException(sprintf('The REDAXO version "%s" is too old for this update, please update to 5.16 before.', Core::getVersion()));
 }
 
 if (PHP_VERSION_ID < 80300) {
-    throw new rex_functional_exception(I18n::msg('setup_201', PHP_VERSION, '8.3'));
+    throw new UserMessageException(I18n::msg('setup_201', PHP_VERSION, '8.3'));
 }
 
 $minExtensions = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
@@ -23,7 +24,7 @@ $missing = array_filter($minExtensions, static function (string $extension) {
     return !extension_loaded($extension);
 });
 if ($missing) {
-    throw new rex_functional_exception('Missing required php extension(s): ' . implode(', ', $missing));
+    throw new UserMessageException('Missing required php extension(s): ' . implode(', ', $missing));
 }
 
 $minMysqlVersion = '8.0';
@@ -43,7 +44,7 @@ if (Version::compare($dbVersion, $minVersion, '<')) {
         ? I18n::msg('sql_database_required_version', $dbType, $dbVersion, $minMysqlVersion, $minMariaDbVersion)
         : "The $dbType version $dbVersion is too old, you need at least MySQL $minMysqlVersion or MariaDB $minMariaDbVersion!";
 
-    throw new rex_functional_exception($message);
+    throw new UserMessageException($message);
 }
 
 $path = Path::coreData('config.yml');

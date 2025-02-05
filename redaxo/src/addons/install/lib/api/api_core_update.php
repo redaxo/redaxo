@@ -8,6 +8,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
@@ -50,11 +51,11 @@ class rex_api_install_core_update extends ApiFunction
             throw new ApiFunctionException(sprintf('Existing version of Core (%s) is newer than %s', Core::getVersion(), $version['version']));
         }
         if (!is_writable(Path::core())) {
-            throw new rex_functional_exception($installAddon->i18n('warning_directory_not_writable', Path::core()));
+            throw new UserMessageException($installAddon->i18n('warning_directory_not_writable', Path::core()));
         }
         try {
             $archivefile = rex_install_webservice::getArchive($version['path']);
-        } catch (rex_functional_exception $e) {
+        } catch (UserMessageException $e) {
             throw new ApiFunctionException($e->getMessage());
         }
 
@@ -68,17 +69,17 @@ class rex_api_install_core_update extends ApiFunction
         $updateAddonsConfig = [];
         try {
             if ($version['checksum'] != md5_file($archivefile)) {
-                throw new rex_functional_exception($installAddon->i18n('warning_zip_wrong_checksum'));
+                throw new UserMessageException($installAddon->i18n('warning_zip_wrong_checksum'));
             }
 
             // remove temp dir very late otherwise Whoops could not find source files in case of errors
             register_shutdown_function(static fn () => Dir::delete($temppath));
 
             if (!rex_install_archive::extract($archivefile, $temppath)) {
-                throw new rex_functional_exception($installAddon->i18n('warning_core_zip_not_extracted'));
+                throw new UserMessageException($installAddon->i18n('warning_core_zip_not_extracted'));
             }
             if (!is_dir($temppath . 'core')) {
-                throw new rex_functional_exception($installAddon->i18n('warning_zip_wrong_format'));
+                throw new UserMessageException($installAddon->i18n('warning_zip_wrong_format'));
             }
             if (is_dir($temppath . 'addons')) {
                 foreach (Finder::factory($temppath . 'addons')->dirsOnly() as $dir) {
@@ -102,7 +103,7 @@ class rex_api_install_core_update extends ApiFunction
                         $addon = Addon::get($addonkey);
 
                         if (!is_writable($addon->getPath())) {
-                            throw new rex_functional_exception($installAddon->i18n('warning_directory_not_writable', $addon->getPath()));
+                            throw new UserMessageException($installAddon->i18n('warning_directory_not_writable', $addon->getPath()));
                         }
 
                         $updateAddons[$addonkey] = $addon;
@@ -125,15 +126,15 @@ class rex_api_install_core_update extends ApiFunction
                     try {
                         $addon->includeFile($file);
                         if ($msg = $addon->getProperty('updatemsg', '')) {
-                            throw new rex_functional_exception($msg);
+                            throw new UserMessageException($msg);
                         }
                         if (!$addon->getProperty('update', true)) {
-                            throw new rex_functional_exception(I18n::msg('package_no_reason'));
+                            throw new UserMessageException(I18n::msg('package_no_reason'));
                         }
-                    } catch (rex_functional_exception $e) {
-                        throw new rex_functional_exception($addonkey . ': ' . $e->getMessage(), $e);
+                    } catch (UserMessageException $e) {
+                        throw new UserMessageException($addonkey . ': ' . $e->getMessage(), $e);
                     } catch (rex_sql_exception $e) {
-                        throw new rex_functional_exception($addonkey . ': SQL error: ' . $e->getMessage(), $e);
+                        throw new UserMessageException($addonkey . ': SQL error: ' . $e->getMessage(), $e);
                     }
                 }
 
@@ -165,7 +166,7 @@ class rex_api_install_core_update extends ApiFunction
             if (!@rename($pathCore, $pathOld)) {
                 $message = $pathCore . ' could not be moved to ' . $pathOld;
                 $message .= ($error = error_get_last()) ? ': ' . $error['message'] : '.';
-                throw new rex_functional_exception($message);
+                throw new UserMessageException($message);
             }
             // move new core to main core path
             if (@rename($temppath . 'core', $pathCore)) {
@@ -177,7 +178,7 @@ class rex_api_install_core_update extends ApiFunction
 
                 $message = $temppath . 'core could not be moved to ' . $pathCore;
                 $message .= ($error = error_get_last()) ? ': ' . $error['message'] : '.';
-                throw new rex_functional_exception($message);
+                throw new UserMessageException($message);
             }
 
             if (is_dir(Path::core('assets'))) {
@@ -196,7 +197,7 @@ class rex_api_install_core_update extends ApiFunction
                     Dir::copy(Path::addon($addonkey, 'assets'), Path::addonAssets($addonkey));
                 }
             }
-        } catch (rex_functional_exception $e) {
+        } catch (UserMessageException $e) {
             $message = $e->getMessage();
         } catch (rex_sql_exception $e) {
             $message = 'SQL error: ' . $e->getMessage();
@@ -248,7 +249,7 @@ class rex_api_install_core_update extends ApiFunction
     /**
      * @param string $temppath
      * @param string $version
-     * @throws rex_functional_exception
+     * @throws UserMessageException
      * @return void
      */
     private function checkRequirements($temppath, $version, array $addons)
@@ -302,7 +303,7 @@ class rex_api_install_core_update extends ApiFunction
         }
 
         if (!empty($messages)) {
-            throw new rex_functional_exception('<ul><li>' . implode('</li><li>', $messages) . '</li></ul>');
+            throw new UserMessageException('<ul><li>' . implode('</li><li>', $messages) . '</li></ul>');
         }
     }
 

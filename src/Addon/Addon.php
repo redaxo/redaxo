@@ -16,7 +16,6 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
 use rex_exception;
-use rex_functional_exception;
 use rex_yaml_parse_exception;
 use RuntimeException;
 
@@ -383,14 +382,12 @@ final class Addon implements AddonInterface
 
     /**
      * Clears the cache of the addon.
-     *
-     * @throws rex_functional_exception
      */
     public function clearCache(): void
     {
         $cacheDir = $this->getCachePath();
         if (!Dir::delete($cacheDir)) {
-            throw new rex_functional_exception($this->i18n('cache_not_writable', $cacheDir));
+            throw new rex_exception('Addon cache directory "' . $cacheDir . '" is not writable.');
         }
 
         $cache = File::getCache($path = Path::coreCache(self::PROPERTIES_CACHE_FILE));

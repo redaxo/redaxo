@@ -4,6 +4,7 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 
@@ -27,7 +28,7 @@ class rex_api_install_package_update extends ApiFunction
 
         try {
             $message = $installer->run($addonkey, $fileId);
-        } catch (rex_functional_exception $exception) {
+        } catch (UserMessageException $exception) {
             throw new ApiFunctionException($exception->getMessage());
         }
 

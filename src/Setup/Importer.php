@@ -8,9 +8,9 @@ use Redaxo\Core\Backup\Backup;
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
-use rex_functional_exception;
 use rex_sql_exception;
 
 use function Redaxo\Core\View\escape;
@@ -33,7 +33,7 @@ class Importer
 
         try {
             include Path::core('update.php');
-        } catch (rex_functional_exception $e) {
+        } catch (UserMessageException $e) {
             $errMsg .= $e->getMessage();
         } catch (rex_sql_exception $e) {
             $errMsg .= 'SQL error: ' . $e->getMessage();
@@ -105,7 +105,7 @@ class Importer
 
         try {
             include Path::core('install.php');
-        } catch (rex_functional_exception $e) {
+        } catch (UserMessageException $e) {
             $errMsg .= $e->getMessage();
         } catch (rex_sql_exception $e) {
             $errMsg .= 'SQL error: ' . $e->getMessage();
@@ -128,7 +128,7 @@ class Importer
 
         try {
             include Path::core('install.php');
-        } catch (rex_functional_exception $e) {
+        } catch (UserMessageException $e) {
             $errMsg .= $e->getMessage();
         } catch (rex_sql_exception $e) {
             $errMsg .= 'SQL error: ' . $e->getMessage();

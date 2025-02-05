@@ -317,7 +317,6 @@ package_caption = Lista de paquetes disponibles
 addon_systemaddon = Addon del sistema
 addon_systempackage_delete_not_allowed = Los complementos del sistema no se pueden eliminar!
 addon_dir_not_writable = ¡Los permisos de escritura están faltando para el directorio addon!
-addon_cache_not_writable = ¡El directorio AddOn cache no tiene permisos de escritura!
 package_missing_yml_file = ¡Falta el archivo package.yml!
 package_invalid_yml_file = El archivo package.yml no es válido:
 package_missing_id = La configuración "paquete" falta en package.yml ("package: {0}").

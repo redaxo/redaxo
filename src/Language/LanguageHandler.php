@@ -6,13 +6,13 @@ use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
-use rex_functional_exception;
 
 class LanguageHandler
 {
@@ -128,19 +128,18 @@ class LanguageHandler
      * Löscht eine Clang.
      *
      * @param int $id Zu löschende ClangId
-     *
-     * @throws rex_exception
+     * @throws UserMessageException
      * @return void
      */
     public static function deleteCLang($id)
     {
         $startClang = Language::getStartId();
         if ($id == $startClang) {
-            throw new rex_functional_exception(I18n::msg('clang_error_startidcanotbedeleted', $startClang));
+            throw new UserMessageException(I18n::msg('clang_error_startidcanotbedeleted', $startClang));
         }
 
         if (!Language::exists($id)) {
-            throw new rex_functional_exception(I18n::msg('clang_error_idcanotbedeleted', $id));
+            throw new UserMessageException(I18n::msg('clang_error_idcanotbedeleted', $id));
         }
 
         $clang = Language::get($id);

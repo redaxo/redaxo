@@ -326,7 +326,6 @@ package_caption = List of available packages
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns may not be deleted!
 addon_dir_not_writable = Write permissions are missing for the AddOn directory!
-addon_cache_not_writable = The AddOn cache directory is not writable!
 package_missing_yml_file = The file package.yml is missing!
 package_invalid_yml_file = The file package.yml is invalid:
 package_missing_id = "package" is not specified in package.yml ("package: {0}")!
