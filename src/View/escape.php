@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\View;
 
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use stdClass;
 use Stringable;
 
@@ -33,8 +33,6 @@ use const ENT_SUBSTITUTE;
  *                         "css": escapes a string for the CSS context. CSS escaping can be applied to any string being inserted into CSS and escapes everything except alphanumerics.
  *                         "url": escapes a string for the URI or parameter contexts. This should not be used to escape an entire URI; only a subcomponent being inserted.
  * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
- *
- * @throws InvalidArgumentException
  *
  * @return mixed
  * @psalm-return (T is Stringable ? string : T)

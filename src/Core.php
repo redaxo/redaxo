@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core;
 
-use InvalidArgumentException;
 use Redaxo\Core\Console\Application;
 use Redaxo\Core\Database\Configuration as DatabaseConfiguration;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\User;
@@ -124,23 +124,23 @@ final class Core
                 break;
             case 'server':
                 if (!Validator::factory()->url($value)) {
-                    throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be a full URL!');
+                    throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be a full URL.');
                 }
                 $value = rtrim($value, '/') . '/';
                 break;
             case 'error_email':
                 if (null !== $value && !Validator::factory()->email($value)) {
-                    throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be an email address!');
+                    throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be an email address.');
                 }
                 break;
             case 'console':
                 if (null !== $value && !$value instanceof Application) {
-                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of %s, "%s" found!', $key, Application::class, get_debug_type($value)));
+                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of %s, "%s" found.', $key, Application::class, get_debug_type($value)));
                 }
                 break;
             case 'version':
                 if (!is_string($value) || !preg_match('/^\d+(?:\.\d+)*(?:-\w+)?$/', $value)) {
-                    throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be a valid version string');
+                    throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be a valid version string.');
                 }
                 break;
         }

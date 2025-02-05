@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Security;
 
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
@@ -73,13 +73,12 @@ abstract class ComplexPermission
      *
      * @param string $key Key for the complex perm
      * @param class-string<self> $class Class name
-     * @throws InvalidArgumentException
      * @return void
      */
     public static function register($key, $class)
     {
         if (!is_subclass_of($class, self::class)) {
-            throw new InvalidArgumentException(sprintf('Class "%s" must be a subclass of "%s"!', $class, self::class));
+            throw new InvalidArgumentException(sprintf('Class "%s" must be a subclass of "%s".', $class, self::class));
         }
         self::$classes[$key] = $class;
     }

@@ -2,12 +2,12 @@
 
 namespace Redaxo\Core\View;
 
-use InvalidArgumentException;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Backend\Navigation;
 use Redaxo\Core\Backend\Page;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
@@ -69,14 +69,12 @@ class View
      * @param string $head
      * @param string|array|null $subtitle
      *
-     * @throws InvalidArgumentException
-     *
      * @return string
      */
     public static function title($head, $subtitle = null)
     {
         if (null !== $subtitle && !is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof Page)) {
-            throw new InvalidArgumentException('Expecting $subtitle to be a string or an array of Page!');
+            throw new InvalidArgumentException('Expecting $subtitle to be a string or an array of ' . Page::class . '.');
         }
 
         if (null === $subtitle) {

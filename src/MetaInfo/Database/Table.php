@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\MetaInfo\Database;
 
-use InvalidArgumentException;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use rex_sql_exception;
 
 /**

@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Tests\Util;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Util\Type;
 use stdClass;
 use Throwable;

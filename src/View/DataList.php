@@ -2,13 +2,13 @@
 
 namespace Redaxo\Core\View;
 
-use InvalidArgumentException;
 use Override;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Base\UrlProviderInterface;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
@@ -733,9 +733,6 @@ class DataList implements UrlProviderInterface
      * Gibt die Position einer Spalte zurück.
      *
      * @param string $columnName Name der Spalte
-     *
-     * @throws InvalidArgumentException $columnName kommt in $this->columnNames nicht vor
-     *
      * @return int Index der Spalte
      */
     public function getColumnPosition(string $columnName): int
@@ -943,7 +940,7 @@ class DataList implements UrlProviderInterface
             foreach ($defaultSort as $column => $type) {
                 $type = strtolower($type);
                 if (!in_array($type, ['asc', 'desc'], true)) {
-                    throw new InvalidArgumentException('Default sort type must be "asc" or "desc", but "' . $type . '" given');
+                    throw new InvalidArgumentException('Default sort type must be "asc" or "desc", but "' . $type . '" given.');
                 }
                 $sort[] = $sql->escapeIdentifier($column) . ' ' . $type;
             }
@@ -1021,7 +1018,7 @@ class DataList implements UrlProviderInterface
      * @psalm-taint-escape html
      * @psalm-taint-escape sql
      */
-    public function getSortType($default = null)
+    public function getSortType(?string $default = null)
     {
         if (Request::request('list', 'string') == $this->getName()) {
             $sortType = strtolower(Request::request('sorttype', 'string'));
@@ -1037,7 +1034,7 @@ class DataList implements UrlProviderInterface
 
         $default = strtolower($default);
         if (!in_array($default, ['asc', 'desc'], true)) {
-            throw new InvalidArgumentException('Default sort type must be "asc", "desc" or null, but "' . $default . '" given');
+            throw new InvalidArgumentException('Default sort type must be "asc", "desc" or null, but "' . $default . '" given.');
         }
 
         return $default;

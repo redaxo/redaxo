@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\ExtensionPoint;
 
-use InvalidArgumentException;
 use Redaxo\Core\Base\FactoryTrait;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Util\Timer;
 
 use function call_user_func;

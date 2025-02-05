@@ -3,8 +3,8 @@
 namespace Redaxo\Core\HttpClient;
 
 use Closure;
-use InvalidArgumentException;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Str;

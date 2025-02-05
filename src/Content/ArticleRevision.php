@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Content;
 
-use InvalidArgumentException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\InvalidArgumentException;
 
 use function is_array;
 use function sprintf;

@@ -5,7 +5,6 @@ namespace Redaxo\Core\Filesystem;
 use Closure;
 use Countable;
 use FilesystemIterator;
-use InvalidArgumentException;
 use IteratorAggregate;
 use Override;
 use RecursiveCallbackFilterIterator;
@@ -13,6 +12,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIterator;
 use RecursiveIteratorIterator;
 use Redaxo\Core\Base\FactoryTrait;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Util\SortableIterator;
 use SplFileInfo;
 use Traversable;
@@ -52,13 +52,11 @@ class Finder implements IteratorAggregate, Countable
      * Returns a new finder object.
      *
      * @param string $dir Path to a directory
-     *
-     * @throws InvalidArgumentException
      */
     public static function factory(string $dir): static
     {
         if (!is_dir($dir)) {
-            throw new InvalidArgumentException('Folder "' . $dir . '" not found!');
+            throw new InvalidArgumentException('Directory "' . $dir . '" not found.');
         }
 
         $class = static::getFactoryClass();

@@ -2,13 +2,13 @@
 
 namespace Redaxo\Core\Console\Command;
 
-use InvalidArgumentException;
 use Override;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\SchemaDumper;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Translation;
 
-use InvalidArgumentException;
 use Locale;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
@@ -399,8 +399,6 @@ class I18n
      * @param bool $escape Flag whether the translated text should be escaped
      * @param callable $i18nFunction Function that returns the translation for the i18n key
      *
-     * @throws InvalidArgumentException
-     *
      * @psalm-taint-escape ($escape is true ? "html" : null)
      *
      * @return mixed
@@ -423,7 +421,7 @@ class I18n
         if (null === $array || is_scalar($array)) {
             return $array;
         }
-        throw new InvalidArgumentException('Expecting $text to be a String or Array of Scalar, "' . gettype($array) . '" given!');
+        throw new InvalidArgumentException('Expecting $array to be a string or an array of scalar, "' . gettype($array) . '" given.');
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Util;
 
-use InvalidArgumentException;
 use Normalizer;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use rex_yaml_parse_exception;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -180,7 +180,7 @@ final class Str
         foreach ($attributes as $key => $value) {
             if (is_int($key)) {
                 if (is_array($value)) {
-                    throw new InvalidArgumentException('For integer keys the value can not be an array');
+                    throw new InvalidArgumentException('For integer keys the value can not be an array.');
                 }
                 $attr .= ' ' . (string) escape($value);
             } else {

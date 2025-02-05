@@ -4,7 +4,7 @@ namespace Redaxo\Core\Util;
 
 use BackedEnum;
 use Closure;
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 
 use function array_key_exists;
 use function gettype;
@@ -47,8 +47,6 @@ final class Type
      *
      * @param mixed $var Variable to cast
      * @param TCastType $type Cast type
-     *
-     * @throws InvalidArgumentException
      *
      * @return mixed Casted value
      *
@@ -105,7 +103,7 @@ final class Type
                     // check if every element in the array is from the generic type
                     $matches = [];
                     if (!preg_match('@array\[([^\]]*)\]@', $type, $matches)) {
-                        throw new InvalidArgumentException('Unexpected type "' . $type . '" in cast()!');
+                        throw new InvalidArgumentException('Unexpected type "' . $type . '" in cast().');
                     }
 
                     foreach ($var as $key => $value) {
@@ -113,7 +111,7 @@ final class Type
                             $var[$key] = self::cast($value, $matches[1]);
                         } catch (InvalidArgumentException) {
                             // Evtl Typo im vartype, mit urspr. typ als fehler melden
-                            throw new InvalidArgumentException('Unexpected type "' . $type . '" in cast()!');
+                            throw new InvalidArgumentException('Unexpected type "' . $type . '" in cast().');
                         }
                     }
 
@@ -125,10 +123,10 @@ final class Type
             return $type($var);
         }
         if (is_string($type)) {
-            throw new InvalidArgumentException('Unexpected type "' . $type . '" in cast()!');
+            throw new InvalidArgumentException('Unexpected type "' . $type . '" in cast().');
         }
         if ([] === $type) {
-            throw new InvalidArgumentException('Unexpected type in cast()!');
+            throw new InvalidArgumentException('Unexpected type in cast().');
         }
 
         $oneOf = false;
@@ -139,11 +137,11 @@ final class Type
             } elseif (is_scalar($cast) || null === $cast || $cast instanceof BackedEnum) {
                 $oneOf = true;
             } else {
-                throw new InvalidArgumentException('Unexpected type in cast()!');
+                throw new InvalidArgumentException('Unexpected type in cast().');
             }
         }
         if ($oneOf && $shape) {
-            throw new InvalidArgumentException('Unexpected type in cast()!');
+            throw new InvalidArgumentException('Unexpected type in cast().');
         }
 
         if ($oneOf) {
@@ -161,7 +159,7 @@ final class Type
         $newVar = [];
         foreach ($type as $cast) {
             if (!is_array($cast) || !isset($cast[0])) {
-                throw new InvalidArgumentException('Unexpected type in cast()!');
+                throw new InvalidArgumentException('Unexpected type in cast().');
             }
 
             $key = $cast[0];
@@ -193,7 +191,7 @@ final class Type
     public static function notNull(mixed $value): mixed
     {
         if (null === $value) {
-            throw new InvalidArgumentException('Exptected a value other than null');
+            throw new InvalidArgumentException('Exptected a value other than null.');
         }
 
         return $value;
@@ -206,7 +204,7 @@ final class Type
     public static function bool(mixed $value): bool
     {
         if (!is_bool($value)) {
-            throw new InvalidArgumentException('Exptected a boolean, but got ' . get_debug_type($value));
+            throw new InvalidArgumentException('Exptected a boolean, but got ' . get_debug_type($value) . '.');
         }
 
         return $value;
@@ -228,7 +226,7 @@ final class Type
     public static function string(mixed $value): string
     {
         if (!is_string($value)) {
-            throw new InvalidArgumentException('Exptected a string, but got ' . get_debug_type($value));
+            throw new InvalidArgumentException('Exptected a string, but got ' . get_debug_type($value) . '.');
         }
 
         return $value;
@@ -250,7 +248,7 @@ final class Type
     public static function int(mixed $value): int
     {
         if (!is_int($value)) {
-            throw new InvalidArgumentException('Exptected an integer, but got ' . get_debug_type($value));
+            throw new InvalidArgumentException('Exptected an integer, but got ' . get_debug_type($value) . '.');
         }
 
         return $value;
@@ -273,7 +271,7 @@ final class Type
     public static function array(mixed $value): array
     {
         if (!is_array($value)) {
-            throw new InvalidArgumentException('Exptected an array, but got ' . get_debug_type($value));
+            throw new InvalidArgumentException('Exptected an array, but got ' . get_debug_type($value) . '.');
         }
 
         return $value;
@@ -289,7 +287,7 @@ final class Type
     public static function instanceOf(mixed $value, string $class): object
     {
         if (!$value instanceof $class) {
-            throw new InvalidArgumentException('Exptected a ' . $class . ', but got ' . get_debug_type($value));
+            throw new InvalidArgumentException('Exptected a ' . $class . ', but got ' . get_debug_type($value) . '.');
         }
 
         return $value;

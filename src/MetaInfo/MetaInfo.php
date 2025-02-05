@@ -2,12 +2,12 @@
 
 namespace Redaxo\Core\MetaInfo;
 
-use InvalidArgumentException;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\MetaInfo\Database\Table as MetaInfoTable;
@@ -162,11 +162,9 @@ class MetaInfo
     }
 
     /**
-     * @param string|int $fieldIdOrName
-     *
      * @return bool|string
      */
-    public static function deleteField($fieldIdOrName)
+    public static function deleteField(string|int $fieldIdOrName)
     {
         // Löschen anhand der FieldId
         if (is_int($fieldIdOrName)) {
@@ -174,11 +172,9 @@ class MetaInfo
             $invalidField = I18n::msg('minfo_field_error_invalid_fieldid');
         }
         // Löschen anhand des Feldnames
-        elseif (is_string($fieldIdOrName)) {
+        else {
             $fieldQry = 'SELECT * FROM ' . Core::getTablePrefix() . 'metainfo_field WHERE name=:idOrName LIMIT 2';
             $invalidField = I18n::msg('minfo_field_error_invalid_name');
-        } else {
-            throw new InvalidArgumentException('MetaInfos: Unexpected type for $fieldIdOrName!');
         }
         // Feld existiert?
         $sql = Sql::factory();
@@ -217,12 +213,12 @@ class MetaInfo
     public static function metaPrefix(string $name)
     {
         if (false === ($pos = strpos($name, '_'))) {
-            throw new InvalidArgumentException('$name must be like "prefix_name"');
+            throw new InvalidArgumentException('Parameter $name must be like "prefix_name".');
         }
 
         $prefix = substr(strtolower($name), 0, $pos + 1);
         if ('' === $prefix) {
-            throw new InvalidArgumentException('$name must be like "prefix_name".');
+            throw new InvalidArgumentException('Parameter $name must be like "prefix_name".');
         }
 
         return $prefix;

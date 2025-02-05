@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\MetaInfo\Form\Input;
 
-use InvalidArgumentException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Form\Select\Select;
 
 use function is_array;
@@ -46,7 +46,7 @@ class DateTimeInput extends AbstractInput
     public function setValue($value)
     {
         if (!is_array($value)) {
-            throw new InvalidArgumentException('Expecting $value to be an array!');
+            throw new InvalidArgumentException('Expecting $value to be an array.');
         }
 
         $this->dateInput->setValue($value);
