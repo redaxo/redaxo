@@ -3,6 +3,7 @@
 namespace Redaxo\Core\MediaManager\Effect;
 
 use GdImage;
+use Redaxo\Core\MediaManager\Exception\MediaNotFoundException;
 use Redaxo\Core\MediaManager\ManagedMedia;
 
 abstract class AbstractEffect
@@ -37,6 +38,7 @@ abstract class AbstractEffect
     }
 
     /**
+     * @throws MediaNotFoundException
      * @return void
      */
     abstract public function execute();

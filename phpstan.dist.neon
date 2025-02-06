@@ -29,6 +29,7 @@ parameters:
             - Redaxo\Core\Content\Exception\ArticleNotFoundException
             - Redaxo\Core\Exception\UserMessageException
             - Redaxo\Core\HttpClient\Exception\HttpClientException
+            - Redaxo\Core\MediaManager\Exception\MediaNotFoundException
     symfony:
         consoleApplicationLoader: .tools/phpstan/console.php
     ignoreErrors:

@@ -12,11 +12,11 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\MediaManager\Effect\AbstractEffect;
+use Redaxo\Core\MediaManager\Exception\MediaNotFoundException;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use rex_media;
-use rex_media_manager_not_found_exception;
 
 use function assert;
 use function count;
@@ -143,7 +143,7 @@ class MediaManager
 
                 try {
                     $effect->execute();
-                } catch (rex_media_manager_not_found_exception) {
+                } catch (MediaNotFoundException) {
                     $this->notFound = true;
 
                     return;

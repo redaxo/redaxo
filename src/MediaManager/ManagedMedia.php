@@ -8,8 +8,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Response;
+use Redaxo\Core\MediaManager\Exception\MediaNotFoundException;
 use Redaxo\Core\Util\Str;
-use rex_media_manager_not_found_exception;
 
 use function array_key_exists;
 use function assert;
@@ -136,6 +136,7 @@ class ManagedMedia
     }
 
     /**
+     * @throws MediaNotFoundException
      * @return void
      */
     public function asImage()
@@ -145,7 +146,7 @@ class ManagedMedia
         }
 
         if (!$this->sourcePath || !is_file($this->sourcePath)) {
-            throw new rex_media_manager_not_found_exception(sprintf('Source path "%s" does not exist.', $this->sourcePath));
+            throw new MediaNotFoundException(sprintf('Source path "%s" does not exist.', $this->sourcePath));
         }
 
         $this->image = [
@@ -193,7 +194,7 @@ class ManagedMedia
         }
 
         if (!$image) {
-            throw new rex_media_manager_not_found_exception(sprintf('Source path "%s" could not be converted to gd resource.', $this->sourcePath));
+            throw new MediaNotFoundException(sprintf('Source path "%s" could not be converted to gd resource.', $this->sourcePath));
         }
 
         $this->image['src'] = $image;
