@@ -140,9 +140,9 @@ abstract class ApiFunction
                     self::$instance = $apiImpl;
                     return $apiImpl;
                 }
-                throw new HttpException(new rex_exception('$apiClass is expected to define a subclass of ApiFunction, "' . $apiClass . '" given!'), Response::HTTP_NOT_FOUND);
+                throw new HttpException('API class is expected to define a subclass of ApiFunction, "' . $apiClass . '" given.', Response::HTTP_NOT_FOUND);
             }
-            throw new HttpException(new rex_exception('$apiClass "' . $apiClass . '" not found!'), Response::HTTP_NOT_FOUND);
+            throw new HttpException('API class "' . $apiClass . '" not found.', Response::HTTP_NOT_FOUND);
         }
 
         return null;

@@ -80,11 +80,11 @@ if (Core::getConfig('article_history', false)) {
         }
 
         if (!$user) {
-            throw new HttpException(new rex_exception('no permission'), Response::HTTP_UNAUTHORIZED);
+            throw new HttpException('No permission.', Response::HTTP_UNAUTHORIZED);
         }
 
         if (!$user->hasPerm('history[article_rollback]')) {
-            throw new HttpException(new rex_exception('no permission for the slice version'), Response::HTTP_FORBIDDEN);
+            throw new HttpException('No permission for the slice version.', Response::HTTP_FORBIDDEN);
         }
 
         Extension::register('ART_INIT', static function (ExtensionPoint $ep) {
