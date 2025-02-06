@@ -5,10 +5,10 @@ namespace Redaxo\Core\Cronjob;
 use DateTime;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\Type\AbstractType;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use rex_exception;
-use rex_sql_exception;
 
 use function in_array;
 use function ini_get;
@@ -113,7 +113,7 @@ class CronjobManager
         try {
             $this->sql->update();
             $success = true;
-        } catch (rex_sql_exception) {
+        } catch (SqlException) {
             $success = false;
         }
         $this->saveNextTime();
@@ -132,7 +132,7 @@ class CronjobManager
         try {
             $this->sql->update();
             return true;
-        } catch (rex_sql_exception) {
+        } catch (SqlException) {
             return false;
         }
     }
@@ -148,7 +148,7 @@ class CronjobManager
         try {
             $this->sql->delete();
             $success = true;
-        } catch (rex_sql_exception) {
+        } catch (SqlException) {
             $success = false;
         }
         $this->saveNextTime();
@@ -312,7 +312,7 @@ class CronjobManager
                 WHERE   id = ?
             ', [$nexttime, $id]);
             $success = true;
-        } catch (rex_sql_exception) {
+        } catch (SqlException) {
             $success = false;
         }
         $this->saveNextTime();

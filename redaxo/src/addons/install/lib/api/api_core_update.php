@@ -8,6 +8,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -133,7 +134,7 @@ class rex_api_install_core_update extends ApiFunction
                         }
                     } catch (UserMessageException $e) {
                         throw new UserMessageException($addonkey . ': ' . $e->getMessage(), $e);
-                    } catch (rex_sql_exception $e) {
+                    } catch (SqlException $e) {
                         throw new UserMessageException($addonkey . ': SQL error: ' . $e->getMessage(), $e);
                     }
                 }
@@ -199,7 +200,7 @@ class rex_api_install_core_update extends ApiFunction
             }
         } catch (UserMessageException $e) {
             $message = $e->getMessage();
-        } catch (rex_sql_exception $e) {
+        } catch (SqlException $e) {
             $message = 'SQL error: ' . $e->getMessage();
         } finally {
             File::delete($archivefile);

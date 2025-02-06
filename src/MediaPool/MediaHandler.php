@@ -14,7 +14,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Type;
-use rex_sql_exception;
 use voku\helper\AntiXSS;
 
 use function assert;
@@ -296,7 +295,6 @@ final class MediaHandler
     /**
      * @param array{category_id?: int, category_id_path?: int, types?: list<string>, term?: string} $filter
      * @param list<array{string, 'ASC'|'DESC'}> $orderBy
-     * @throws rex_sql_exception
      * @return list<Media>
      */
     public static function getList(array $filter = [], array $orderBy = [], ?Pager $pager = null): array

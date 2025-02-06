@@ -6,6 +6,7 @@ use PDO;
 use Redaxo\Core\Cache;
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\ExtensionPoint\Extension;
@@ -17,7 +18,6 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
 use rex_exception;
-use rex_sql_exception;
 
 use function count;
 use function is_int;
@@ -176,7 +176,7 @@ class Backup
         foreach ($lines as $line) {
             try {
                 $sql->setQuery($line['query']);
-            } catch (rex_sql_exception $e) {
+            } catch (SqlException $e) {
                 $error[] = nl2br(trim(escape($e->getMessage())));
             }
         }

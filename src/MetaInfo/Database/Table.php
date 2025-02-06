@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\MetaInfo\Database;
 
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\InvalidArgumentException;
-use rex_sql_exception;
 
 /**
  * @internal
@@ -75,7 +75,7 @@ class Table
         try {
             $sql->setQuery($qry);
             return true;
-        } catch (rex_sql_exception) {
+        } catch (SqlException) {
             return false;
         }
     }
@@ -118,7 +118,7 @@ class Table
         try {
             $sql->setQuery($qry);
             return true;
-        } catch (rex_sql_exception) {
+        } catch (SqlException) {
             return false;
         }
     }
@@ -137,7 +137,7 @@ class Table
         try {
             $sql->setQuery($qry);
             return true;
-        } catch (rex_sql_exception) {
+        } catch (SqlException) {
             return false;
         }
     }

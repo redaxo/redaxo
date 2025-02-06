@@ -4,6 +4,7 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Content\ModuleCache;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -191,7 +192,7 @@ if ('add' == $function || 'edit' == $function) {
                     }
                 }
             }
-        } catch (rex_sql_exception $e) {
+        } catch (SqlException $e) {
             if (Sql::ERROR_VIOLATE_UNIQUE_KEY === $e->getErrorCode()) {
                 $error = I18n::msg('module_key_exists');
                 $save = '0';

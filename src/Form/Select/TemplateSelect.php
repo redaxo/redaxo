@@ -7,7 +7,6 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
-use rex_sql_exception;
 
 use function count;
 
@@ -57,7 +56,6 @@ class TemplateSelect extends Select
     }
 
     /**
-     * @throws rex_sql_exception
      * @return void
      */
     public function setSelectedFromStartArticle()

@@ -396,6 +396,8 @@ return RectorConfig::configure()
         'rex_scss_compiler' => Util\ScssCompiler::class,
         'rex_functional_exception' => Exception\UserMessageException::class,
         'rex_socket_exception' => HttpClient\Exception\HttpClientException::class,
+        'rex_sql_exception' => Database\Exception\SqlException::class,
+        'rex_sql_could_not_connect_exception' => Database\Exception\CouldNotConnectException::class,
         'rex_yaml_parse_exception' => Util\Exception\YamlParseException::class,
     ])
     ->withConfiguredRule(RenameFunctionRector::class, [

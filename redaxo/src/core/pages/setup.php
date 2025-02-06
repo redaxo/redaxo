@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Filesystem\File;
@@ -319,7 +320,7 @@ if (6 === $step) {
                 $user->setValue('status', '1');
                 try {
                     $user->insert();
-                } catch (rex_sql_exception) {
+                } catch (SqlException) {
                     $errors[] = Message::error(I18n::msg('setup_504'));
                 }
             }

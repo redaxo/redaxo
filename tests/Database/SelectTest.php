@@ -5,9 +5,9 @@ namespace Redaxo\Core\Tests\Database;
 use Override;
 use PDO;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use ReflectionProperty;
-use rex_sql_exception;
 
 /** @internal */
 final class SelectTest extends TestCase
@@ -224,10 +224,10 @@ final class SelectTest extends TestCase
         $exception = null;
         try {
             $sql->setQuery('SELECT ' . self::TABLE);
-        } catch (rex_sql_exception $exception) {
+        } catch (SqlException $exception) {
         }
 
-        self::assertInstanceOf(rex_sql_exception::class, $exception);
+        self::assertInstanceOf(SqlException::class, $exception);
         self::assertTrue($sql->hasError());
         self::assertEquals('42S22', $sql->getErrno());
         self::assertEquals(1054, $sql->getMysqlErrno());
@@ -237,10 +237,10 @@ final class SelectTest extends TestCase
         $exception = null;
         try {
             $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE idx = ?', [1]);
-        } catch (rex_sql_exception $exception) {
+        } catch (SqlException $exception) {
         }
 
-        self::assertInstanceOf(rex_sql_exception::class, $exception);
+        self::assertInstanceOf(SqlException::class, $exception);
         self::assertTrue($sql->hasError());
         self::assertEquals('42S22', $sql->getErrno());
         self::assertEquals(1054, $sql->getMysqlErrno());
@@ -252,10 +252,10 @@ final class SelectTest extends TestCase
         $sql = Sql::factory();
         try {
             $sql->setQuery('SELECT * FROM non_existing_table');
-        } catch (rex_sql_exception $exception) {
+        } catch (SqlException $exception) {
         }
 
-        self::assertInstanceOf(rex_sql_exception::class, $exception);
+        self::assertInstanceOf(SqlException::class, $exception);
         self::assertSame($sql, $exception->getSql());
         self::assertTrue($sql->hasError());
         self::assertSame(Sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST, $sql->getErrno());
@@ -282,7 +282,7 @@ final class SelectTest extends TestCase
             $sql->setQuery('SELECT ' . self::TABLE, [], [
                 Sql::OPT_BUFFERED => false,
             ]);
-        } catch (rex_sql_exception) {
+        } catch (SqlException) {
         }
 
         self::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));

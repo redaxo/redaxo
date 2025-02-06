@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\ExtensionPoint\Extension;
@@ -65,7 +66,7 @@ if ('delete' == $func && $effectId > 0) {
             ->setWhere(['id' => $typeId])
             ->addGlobalUpdateFields()
             ->update();
-    } catch (rex_sql_exception) {
+    } catch (SqlException) {
         $warning = $sql->getError();
     }
     $func = '';

@@ -10,11 +10,11 @@ use PDOException;
 use PDOStatement;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Exception\CouldNotConnectException;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
-use rex_sql_could_not_connect_exception;
-use rex_sql_exception;
 use SensitiveParameter;
 use Throwable;
 
@@ -125,7 +125,7 @@ class Sql implements Iterator
      * Stellt die Verbindung zur Datenbank her.
      *
      * @param positive-int $db
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     protected function selectDB(int $db): void
     {
@@ -166,16 +166,16 @@ class Sql implements Iterator
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
-                throw new rex_sql_could_not_connect_exception("Could not connect to database.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
+                throw new CouldNotConnectException("Could not connect to database.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
             }
-            throw new rex_sql_could_not_connect_exception('Could not connect to database', $e, $this);
+            throw new CouldNotConnectException('Could not connect to database.', $e, $this);
         }
     }
 
     /**
      * return the PDO Instance, create database connection when not already created.
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     public function getConnection(): PDO
     {
@@ -306,7 +306,7 @@ class Sql implements Iterator
      * @param array<scalar|null> $params An optional array of statement parameter
      * @param array<self::OPT_*, bool> $options For possible option keys view `Sql::OPT_*` constants
      *
-     * @throws rex_sql_exception on errors
+     * @throws SqlException on errors
      *
      * @psalm-taint-sink sql $query
      * @psalm-taint-specialize
@@ -345,7 +345,7 @@ class Sql implements Iterator
      * Prepares a PDOStatement.
      *
      * @param string $query A query string with placeholders
-     * @throws rex_sql_exception
+     * @throws SqlException
      * @return PDOStatement The prepared statement
      *
      * @psalm-taint-sink sql $query
@@ -358,7 +358,7 @@ class Sql implements Iterator
             $this->stmt = $pdo->prepare($query);
             return $this->stmt;
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while preparing statement "' . $query . '"! ' . $e->getMessage(), $e, $this);
+            throw new SqlException('Error while preparing statement "' . $query . '": ' . $e->getMessage(), $e, $this);
         }
     }
 
@@ -368,12 +368,12 @@ class Sql implements Iterator
      * @param array<scalar|null> $params Array of input parameters
      * @param array<self::OPT_*, bool> $options For possible option keys view `Sql::OPT_*` constants
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     public function execute(array $params = [], array $options = []): static
     {
         if (!$this->stmt) {
-            throw new rex_sql_exception('you need to prepare a query before calling execute()', null, $this);
+            throw new SqlException('you need to prepare a query before calling execute().', null, $this);
         }
 
         $buffered = null;
@@ -403,7 +403,7 @@ class Sql implements Iterator
             $this->rows = $this->stmt->rowCount();
             $this->lastInsertId = ((int) $this->getConnection()->lastInsertId()) ?: null;
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . '! ' . $e->getMessage(), $e, $this);
+            throw new SqlException('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . ': ' . $e->getMessage(), $e, $this);
         } finally {
             if (null !== $buffered) {
                 $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
@@ -431,7 +431,7 @@ class Sql implements Iterator
      * @param array<scalar|null> $params An optional array of statement parameter
      * @param array<self::OPT_*, bool> $options For possible option keys view `Sql::OPT_*` constants
      *
-     * @throws rex_sql_exception on errors
+     * @throws SqlException on errors
      *
      * @psalm-taint-specialize
      */
@@ -545,7 +545,7 @@ class Sql implements Iterator
      * @param string $column Spaltenname des zu pruefenden Feldes
      * @param string $value Wert, der enthalten sein soll
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     protected function isValueOf(string $column, string $value): bool
     {
@@ -672,7 +672,7 @@ class Sql implements Iterator
      * Returns the value of a column.
      *
      * @param string $column Name of the column
-     * @throws rex_sql_exception
+     * @throws SqlException
      * @return scalar|null
      *
      * @psalm-taint-source input
@@ -680,7 +680,7 @@ class Sql implements Iterator
     public function getValue(string $column): string|int|float|bool|null
     {
         if (empty($column)) {
-            throw new rex_sql_exception('parameter $column must not be empty!', null, $this);
+            throw new InvalidArgumentException('Parameter $column must not be empty.');
         }
 
         // fast fail,... value already set manually?
@@ -706,7 +706,7 @@ class Sql implements Iterator
      * Returns the array value of a (json encoded) column.
      *
      * @param string $column Name of the column
-     * @throws rex_sql_exception
+     * @throws SqlException
      * @return array<mixed>
      */
     public function getArrayValue(string $column): array
@@ -722,17 +722,17 @@ class Sql implements Iterator
                 return $decoded;
             }
         } catch (JsonException $e) {
-            throw new rex_sql_exception('Failed to decode json value of column "' . $column . '": ' . $e->getMessage(), $e);
+            throw new SqlException('Failed to decode json value of column "' . $column . '": ' . $e->getMessage(), $e);
         }
 
-        throw new rex_sql_exception('Failed to decode json value of column "' . $column . '" as array');
+        throw new SqlException('Failed to decode json value of column "' . $column . '" as array.');
     }
 
     /**
      * Returns the unix timestamp of a datetime column.
      *
      * @param string $column Name of the column
-     * @throws rex_sql_exception
+     * @throws SqlException
      * @return int|null Unix timestamp or `null` if the column is `null` or not in sql datetime format
      */
     public function getDateTimeValue(string $column): ?int
@@ -782,7 +782,7 @@ class Sql implements Iterator
         if (!$this->lastRow) {
             $lastRow = $this->stmt->fetch($fetchType);
             if (false === $lastRow) {
-                throw new rex_sql_exception('Unable to fetch row for statement "' . $this->query . '"', null, $this);
+                throw new SqlException('Unable to fetch row for statement "' . $this->query . '".', null, $this);
             }
             /** @var array<scalar|null> $lastRow */
             $this->lastRow = $lastRow;
@@ -818,7 +818,7 @@ class Sql implements Iterator
      * Falls das Feld nicht vorhanden ist,
      * wird Null zurueckgegeben, sonst True/False
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     public function isNull(string $column): ?bool
     {
@@ -891,7 +891,7 @@ class Sql implements Iterator
      * Setzt eine Select-Anweisung auf die angegebene Tabelle
      * mit den WHERE Parametern ab.
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      *
      * @psalm-taint-sink sql $columns
      */
@@ -910,7 +910,7 @@ class Sql implements Iterator
      * Setzt eine Update-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten und WHERE Parametern ab.
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     public function update(): static
     {
@@ -927,7 +927,7 @@ class Sql implements Iterator
      * Setzt eine Insert-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten ab.
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     public function insert(): static
     {
@@ -956,13 +956,13 @@ class Sql implements Iterator
             /** @psalm-taint-escape html */ // https://github.com/vimeo/psalm/issues/4669
             $printValues = $values;
             $printValues = print_r($printValues, true);
-            throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . $printValues . '! Check your null/not-null constraints!', null, $this);
+            throw new SqlException('Error while inserting into table "' . $tableName . '" with values ' . $printValues . '. Check your null/not-null constraints.', null, $this);
         }
         return $this;
     }
 
     /**
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     public function insertOrUpdate(): static
     {
@@ -987,7 +987,7 @@ class Sql implements Iterator
      * has the same value as a new row for a PRIMARY KEY or a UNIQUE index,
      * the old row is deleted before the new row is inserted.
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     public function replace(): static
     {
@@ -1008,7 +1008,7 @@ class Sql implements Iterator
      * Setzt eine Delete-Anweisung auf die angegebene Tabelle
      * mit den angegebenen WHERE Parametern ab.
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     public function delete(): static
     {
@@ -1068,7 +1068,7 @@ class Sql implements Iterator
     /**
      * Setzt den Cursor des Resultsets zurueck zum Anfang.
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     public function reset(): static
     {
@@ -1087,7 +1087,7 @@ class Sql implements Iterator
     public function getLastId(): int
     {
         if (null === $this->lastInsertId) {
-            throw new rex_sql_exception('No last insert id available.', null, $this);
+            throw new SqlException('No last insert id available.', null, $this);
         }
 
         return $this->lastInsertId;
@@ -1103,7 +1103,7 @@ class Sql implements Iterator
      * @param array<scalar|null> $params An optional array of statement parameter
      * @param TFetchType $fetchType
      *
-     * @throws rex_sql_exception on errors
+     * @throws SqlException on errors
      *
      * @return list<array<int|string, scalar|null>>|array<int|string, scalar|null>
      * @psalm-return (
@@ -1141,7 +1141,7 @@ class Sql implements Iterator
      * @param array<scalar|null> $params An optional array of statement parameter
      * @param TFetchType $fetchType
      *
-     * @throws rex_sql_exception on errors
+     * @throws SqlException on errors
      *
      * @return list<array<int|string, scalar|null>>|array<int|string, scalar|null>
      * @psalm-return (
@@ -1264,7 +1264,7 @@ class Sql implements Iterator
      * Setzt eine Spalte auf den naechst moeglich auto_increment Wert.
      *
      * @param string $column Name der Spalte
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     public function setNewId(string $column, int $startId = 0): int
     {
@@ -1451,14 +1451,14 @@ class Sql implements Iterator
     /**
      * Starts a database transaction.
      *
-     * @throws rex_sql_exception when a transaction is already running
+     * @throws SqlException when a transaction is already running
      *
      * @return bool Indicating whether the transaction was successfully started
      */
     public function beginTransaction(): bool
     {
         if ($this->getConnection()->inTransaction()) {
-            throw new rex_sql_exception('Transaction already started', null, $this);
+            throw new SqlException('Transaction already started.', null, $this);
         }
         return $this->getConnection()->beginTransaction();
     }
@@ -1466,14 +1466,14 @@ class Sql implements Iterator
     /**
      * Rollback a already started database transaction.
      *
-     * @throws rex_sql_exception when no transaction was started beforehand
+     * @throws SqlException when no transaction was started beforehand
      *
      * @return bool Indicating whether the transaction was successfully rollbacked
      */
     public function rollBack(): bool
     {
         if (!$this->getConnection()->inTransaction()) {
-            throw new rex_sql_exception('Unable to rollback, no transaction started before', null, $this);
+            throw new SqlException('Unable to rollback, no transaction started before.', null, $this);
         }
         return $this->getConnection()->rollBack();
     }
@@ -1481,14 +1481,14 @@ class Sql implements Iterator
     /**
      * Commit a already started database transaction.
      *
-     * @throws rex_sql_exception when no transaction was started beforehand
+     * @throws SqlException when no transaction was started beforehand
      *
      * @return bool Indicating whether the transaction was successfully committed
      */
     public function commit(): bool
     {
         if (!$this->getConnection()->inTransaction()) {
-            throw new rex_sql_exception('Unable to commit, no transaction started before', null, $this);
+            throw new SqlException('Unable to commit, no transaction started before', null, $this);
         }
         return $this->getConnection()->commit();
     }
@@ -1580,7 +1580,7 @@ class Sql implements Iterator
      * @param string $table Name der Tabelle
      * @param positive-int $db Id der Datenbankverbindung
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      *
      * @return string CREATE TABLE Sql-Statement zu erstellung der Tabelle
      */
@@ -1590,10 +1590,10 @@ class Sql implements Iterator
         $sql->setQuery('SHOW CREATE TABLE ' . $sql->escapeIdentifier($table));
 
         if (!$sql->getRows()) {
-            throw new rex_sql_exception(sprintf('Table "%s" does not exist.', $table));
+            throw new SqlException(sprintf('Table "%s" does not exist.', $table));
         }
         if (!$sql->hasValue('Create Table')) {
-            throw new rex_sql_exception(sprintf('Table "%s" does not exist, it is a view instead.', $table));
+            throw new SqlException(sprintf('Table "%s" does not exist, it is a view instead.', $table));
         }
 
         return $sql->getValue('Create Table');
@@ -1605,7 +1605,7 @@ class Sql implements Iterator
      *
      * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      *
      * @return list<string> Ein Array von Tabellennamen
      */
@@ -1620,7 +1620,7 @@ class Sql implements Iterator
      *
      * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      *
      * @return list<string> Ein Array von Tabellennamen
      */
@@ -1635,7 +1635,7 @@ class Sql implements Iterator
      *
      * @param string|null $tablePrefix Zu suchender Tabellennamen-Prefix
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      *
      * @return list<string> Ein Array von Viewnamen
      */
@@ -1645,7 +1645,7 @@ class Sql implements Iterator
     }
 
     /**
-     * @throws rex_sql_exception
+     * @throws SqlException
      * @return list<string>
      */
     private function fetchTablesAndViews(?string $tablePrefix = null, ?string $where = null): array
@@ -1699,7 +1699,7 @@ class Sql implements Iterator
      * @param string $table Name der Tabelle
      * @param positive-int $db Id der Datenbankverbindung
      *
-     * @throws rex_sql_exception
+     * @throws SqlException
      *
      * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
      * @psalm-return list<array{name: string, type: string, null: 'YES'|'NO', key: string, default: null|string, extra: string, comment: null|string}>
@@ -1879,7 +1879,7 @@ class Sql implements Iterator
     }
 
     /**
-     * @throws rex_sql_exception
+     * @throws SqlException
      */
     private function setMultiRecordQuery(string $verb, bool $onDuplicateKeyUpdate = false): static
     {

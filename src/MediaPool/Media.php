@@ -13,7 +13,6 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Util\Formatter;
-use rex_sql_exception;
 
 use function in_array;
 use function Redaxo\Core\View\escape;
@@ -105,7 +104,6 @@ class Media
     }
 
     /**
-     * @throws rex_sql_exception
      * @return static|null
      */
     public static function forId(int $mediaId): ?self

@@ -15,7 +15,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
 use rex_exception;
-use rex_sql_exception;
 use rex_var;
 
 use function assert;
@@ -619,9 +618,6 @@ class ArticleContentBase
         return $result;
     }
 
-    /**
-     * @throws rex_sql_exception
-     */
     private function renderSlices(string $articleLimit, string $sliceLimit): void
     {
         $moduleId = Request::request('module_id', 'int');
