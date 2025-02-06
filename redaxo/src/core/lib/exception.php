@@ -84,11 +84,6 @@ class rex_http_exception extends rex_exception
 }
 
 /**
- * Exception class for yaml parse errors.
- */
-class rex_yaml_parse_exception extends rex_exception {}
-
-/**
  * Socket exception.
  *
  * @see Request

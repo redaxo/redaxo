@@ -12,11 +12,11 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Exception\YamlParseException;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
 use rex_exception;
-use rex_yaml_parse_exception;
 use RuntimeException;
 
 use function assert;
@@ -330,7 +330,7 @@ final class Addon implements AddonInterface
                         File::putCache(Path::coreCache(self::PROPERTIES_CACHE_FILE), $cache);
                     });
                 }
-            } catch (rex_yaml_parse_exception $exception) {
+            } catch (YamlParseException $exception) {
                 if ($this->isInstalled()) {
                     throw $exception;
                 }

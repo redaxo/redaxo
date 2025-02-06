@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Filesystem;
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Util\Exception\YamlParseException;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Timer;
@@ -68,6 +69,7 @@ final class File
      *
      * @param string $file Path to the file
      * @param array<mixed>|null $default Default value
+     * @throws YamlParseException
      * @return array<mixed>|null Content of the file or default value if the file isn't readable
      * @psalm-return ($default is null ? array<mixed>|null : array<mixed>)
      */
