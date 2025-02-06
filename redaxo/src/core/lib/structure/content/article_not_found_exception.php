@@ -1,9 +1,14 @@
 <?php
 
-class rex_article_not_found_exception extends rex_exception
+namespace Redaxo\Core\Content\Exception;
+
+use Redaxo\Core\Exception\Exception;
+use Throwable;
+
+final class ArticleNotFoundException extends \Exception implements Exception
 {
-    public function __construct(?string $message = null, ?Exception $previous = null)
+    public function __construct(?string $message = null, ?Throwable $previous = null)
     {
-        parent::__construct($message ?? 'Article not found.', $previous);
+        parent::__construct($message ?? 'Article not found.', 0, $previous);
     }
 }

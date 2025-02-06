@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Content;
 
 use LogicException;
+use Redaxo\Core\Content\Exception\ArticleNotFoundException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
@@ -438,6 +439,7 @@ class ArticleContentBase
     // ----- Template inklusive Artikel zurückgeben
 
     /**
+     * @throws ArticleNotFoundException
      * @return string
      */
     public function getArticleTemplate()

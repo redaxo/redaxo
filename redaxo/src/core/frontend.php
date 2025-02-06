@@ -6,6 +6,7 @@ use Redaxo\Core\Content\ArticleContent;
 use Redaxo\Core\Content\ArticleContentBase;
 use Redaxo\Core\Content\ArticleRevision;
 use Redaxo\Core\Content\ArticleSliceHistory;
+use Redaxo\Core\Content\Exception\ArticleNotFoundException;
 use Redaxo\Core\Content\HistoryLogin;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -178,7 +179,7 @@ if (!$article->setArticleId(Article::getCurrentId())) {
 
 try {
     $content .= $article->getArticleTemplate();
-} catch (rex_article_not_found_exception) {
+} catch (ArticleNotFoundException) {
     $article = new ArticleContent();
     $article->setClang(Language::getCurrentId());
     $article->setArticleId(Article::getNotfoundArticleId());

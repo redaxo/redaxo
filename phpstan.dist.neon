@@ -26,6 +26,7 @@ parameters:
             tooWideThrowType: true
         # implicitThrows: false
         checkedExceptionClasses:
+            - Redaxo\Core\Content\Exception\ArticleNotFoundException
             - Redaxo\Core\Exception\UserMessageException
             - Redaxo\Core\HttpClient\Exception\HttpClientException
     symfony:
