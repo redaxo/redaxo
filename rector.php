@@ -397,6 +397,7 @@ return RectorConfig::configure()
         'rex_article_not_found_exception' => Content\Exception\ArticleNotFoundException::class,
         'rex_functional_exception' => Exception\UserMessageException::class,
         'rex_http_exception' => Http\Exception\HttpException::class,
+        'rex_media_manager_not_found_exception' => MediaManager\Exception\MediaNotFoundException::class,
         'rex_socket_exception' => HttpClient\Exception\HttpClientException::class,
         'rex_sql_exception' => Database\Exception\SqlException::class,
         'rex_sql_could_not_connect_exception' => Database\Exception\CouldNotConnectException::class,
