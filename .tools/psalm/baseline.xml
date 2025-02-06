@@ -907,15 +907,6 @@
       <code><![CDATA[$frame['type']]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
-  <file src="redaxo/src/core/lib/exception.php">
-    <MixedInferredReturnType>
-      <code><![CDATA[?int]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$previous->errorInfo[1] ?? null]]></code>
-      <code><![CDATA[$previous->errorInfo[1] ?? null]]></code>
-    </MixedReturnStatement>
-  </file>
   <file src="redaxo/src/core/pages/backup.export.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$EXPDIR]]></code>
@@ -2737,6 +2728,15 @@
       <code><![CDATA[$this->sslKey]]></code>
       <code><![CDATA[$this->sslVerifyServerCert]]></code>
     </MixedAssignment>
+  </file>
+  <file src="src/Database/Exception/SqlException.php">
+    <MixedInferredReturnType>
+      <code><![CDATA[?int]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$previous->errorInfo[1] ?? null]]></code>
+      <code><![CDATA[$previous->errorInfo[1] ?? null]]></code>
+    </MixedReturnStatement>
   </file>
   <file src="src/Database/SchemaDumper.php">
     <RedundantCondition>
