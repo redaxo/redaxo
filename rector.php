@@ -394,6 +394,7 @@ return RectorConfig::configure()
         'rex_view' => View\View::class,
         'rex_be_style' => Backend\Style::class,
         'rex_scss_compiler' => Util\ScssCompiler::class,
+        'rex_article_not_found_exception' => Content\Exception\ArticleNotFoundException::class,
         'rex_functional_exception' => Exception\UserMessageException::class,
         'rex_http_exception' => Http\Exception\HttpException::class,
         'rex_socket_exception' => HttpClient\Exception\HttpClientException::class,
