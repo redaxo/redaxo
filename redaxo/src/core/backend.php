@@ -16,6 +16,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
+use Redaxo\Core\Http\Exception\HttpException;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
@@ -52,20 +53,20 @@ if (Request::get('asset') && Request::get('buster')) {
     $assetDir = Path::assets();
 
     if (!$fullPath) {
-        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), Response::HTTP_NOT_FOUND);
+        throw new HttpException(new Exception('File "' . $assetFile . '" not found'), Response::HTTP_NOT_FOUND);
     }
     if (!str_starts_with($fullPath, $assetDir)) {
-        throw new rex_http_exception(new Exception('Assets can only be streamed from within the assets folder. "' . $fullPath . '" is not within "' . $assetDir . '"'), Response::HTTP_NOT_FOUND);
+        throw new HttpException(new Exception('Assets can only be streamed from within the assets folder. "' . $fullPath . '" is not within "' . $assetDir . '"'), Response::HTTP_NOT_FOUND);
     }
 
     $ext = File::extension($assetFile);
     if (!in_array($ext, ['js', 'css'], true)) {
-        throw new rex_http_exception(new Exception('Only JS and CSS files can be streamed from the assets folder'), Response::HTTP_NOT_FOUND);
+        throw new HttpException(new Exception('Only JS and CSS files can be streamed from the assets folder'), Response::HTTP_NOT_FOUND);
     }
 
     $content = File::get($assetFile);
     if (null === $content) {
-        throw new rex_http_exception(new Exception('File "' . $assetFile . '" not found'), Response::HTTP_NOT_FOUND);
+        throw new HttpException(new Exception('File "' . $assetFile . '" not found'), Response::HTTP_NOT_FOUND);
     }
 
     if ('js' === $ext) {

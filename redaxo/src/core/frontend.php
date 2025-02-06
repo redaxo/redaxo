@@ -13,6 +13,7 @@ use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Exception\HttpException;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
@@ -78,11 +79,11 @@ if (Core::getConfig('article_history', false)) {
         }
 
         if (!$user) {
-            throw new rex_http_exception(new rex_exception('no permission'), Response::HTTP_UNAUTHORIZED);
+            throw new HttpException(new rex_exception('no permission'), Response::HTTP_UNAUTHORIZED);
         }
 
         if (!$user->hasPerm('history[article_rollback]')) {
-            throw new rex_http_exception(new rex_exception('no permission for the slice version'), Response::HTTP_FORBIDDEN);
+            throw new HttpException(new rex_exception('no permission for the slice version'), Response::HTTP_FORBIDDEN);
         }
 
         Extension::register('ART_INIT', static function (ExtensionPoint $ep) {

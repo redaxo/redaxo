@@ -2,4 +2,6 @@
 
 namespace Redaxo\Core\Exception;
 
-interface Exception {}
+use Throwable;
+
+interface Exception extends Throwable {}
