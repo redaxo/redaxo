@@ -1,8 +1,5 @@
 <?php
 
-use Redaxo\Core\HttpClient\Request;
-use Redaxo\Core\Database\Sql;
-
 class rex_exception extends Exception
 {
     /**
