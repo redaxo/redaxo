@@ -3,7 +3,7 @@
 namespace Redaxo\Core\HttpClient;
 
 use Override;
-use rex_socket_exception;
+use Redaxo\Core\HttpClient\Exception\HttpClientException;
 
 use function sprintf;
 
@@ -64,7 +64,7 @@ class ProxyRequest extends Request
             ];
             $response = $this->writeRequest('CONNECT', $this->destinationHost . ':' . $this->destinationPort, $headers);
             if (!$response->isOk()) {
-                throw new rex_socket_exception(sprintf('Couldn\'t connect to proxy server, server responds with "%s %s"', $response->getStatusCode(), $response->getStatusMessage()));
+                throw new HttpClientException(sprintf('Couldn\'t connect to proxy server, server responds with "%s %s".', $response->getStatusCode(), $response->getStatusMessage()));
             }
             stream_context_set_option($this->stream, 'ssl', 'SNI_enabled', true);
             stream_context_set_option($this->stream, 'ssl', 'peer_name', $this->destinationHost);

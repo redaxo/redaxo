@@ -27,6 +27,7 @@ parameters:
         # implicitThrows: false
         checkedExceptionClasses:
             - Redaxo\Core\Exception\UserMessageException
+            - Redaxo\Core\HttpClient\Exception\HttpClientException
     symfony:
         consoleApplicationLoader: .tools/phpstan/console.php
     ignoreErrors:
@@ -38,3 +39,6 @@ parameters:
         -
             message: '#^Method .* throws checked exception Redaxo\\Core\\Exception\\UserMessageException but it''s missing from the PHPDoc @throws tag\.$#'
             path: redaxo/src/addons/install/*
+        -
+            identifier: missingType.checkedException
+            path: tests/*

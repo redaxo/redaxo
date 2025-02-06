@@ -4,8 +4,8 @@ namespace Redaxo\Core\HttpClient;
 
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Filesystem\Dir;
+use Redaxo\Core\HttpClient\Exception\HttpClientException;
 use rex_exception;
-use rex_socket_exception;
 
 use function dirname;
 use function gettype;
@@ -39,6 +39,7 @@ final class Response
 
     /**
      * @param resource $stream Socket stream
+     * @throws HttpClientException
      */
     public function __construct($stream)
     {
@@ -55,7 +56,7 @@ final class Response
         $this->header = rtrim($header);
 
         if (!preg_match('@^HTTP/1\.\d ([0-9]+) (\V+)@', $this->header, $matches)) {
-            throw new rex_socket_exception('Missing status code in response header');
+            throw new HttpClientException('Missing status code in response header.');
         }
 
         $this->statusCode = (int) $matches[1];

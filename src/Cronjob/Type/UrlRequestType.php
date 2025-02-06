@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Cronjob\Type;
 
+use Redaxo\Core\HttpClient\Exception\HttpClientException;
 use Redaxo\Core\HttpClient\Request;
 use Redaxo\Core\Translation\I18n;
-use rex_exception;
 
 use function in_array;
 
@@ -42,7 +42,7 @@ class UrlRequestType extends AbstractType
             }
             $this->setMessage($message);
             return $success;
-        } catch (rex_exception $e) {
+        } catch (HttpClientException $e) {
             $this->setMessage($e->getMessage());
             return false;
         }

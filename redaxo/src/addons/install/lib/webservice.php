@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\HttpClient\Exception\HttpClientException;
 use Redaxo\Core\HttpClient\Request;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Translation\I18n;
@@ -52,7 +53,7 @@ class rex_install_webservice
                     return $data;
                 }
             }
-        } catch (rex_socket_exception $e) {
+        } catch (HttpClientException $e) {
             Logger::logException($e);
         }
 
@@ -83,7 +84,7 @@ class rex_install_webservice
                 $response->writeBodyTo($file);
                 return $file;
             }
-        } catch (rex_socket_exception $e) {
+        } catch (HttpClientException $e) {
             Logger::logException($e);
         }
 
@@ -118,7 +119,7 @@ class rex_install_webservice
                 }
                 $error = I18n::msg('install_webservice_error') . '<br />' . $data['error'];
             }
-        } catch (rex_socket_exception $e) {
+        } catch (HttpClientException $e) {
             Logger::logException($e);
         }
 
@@ -151,7 +152,7 @@ class rex_install_webservice
                 }
                 $error = I18n::msg('install_webservice_error') . '<br />' . $data['error'];
             }
-        } catch (rex_socket_exception $e) {
+        } catch (HttpClientException $e) {
             Logger::logException($e);
         }
 
