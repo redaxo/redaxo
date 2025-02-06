@@ -1,7 +1,6 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\HttpClient\Request;
 
 class rex_exception extends Exception
 {
@@ -82,10 +81,3 @@ class rex_http_exception extends rex_exception
         return str_starts_with($this->httpCode, '4');
     }
 }
-
-/**
- * Socket exception.
- *
- * @see Request
- */
-class rex_socket_exception extends rex_exception {}

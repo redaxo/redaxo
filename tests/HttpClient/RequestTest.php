@@ -7,12 +7,13 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\HttpClient\Exception\HttpClientException;
 use Redaxo\Core\HttpClient\ProxyRequest;
 use Redaxo\Core\HttpClient\Request;
 use Redaxo\Core\HttpClient\Response;
 use ReflectionClass;
 use ReflectionMethod;
-use rex_socket_exception;
 
 /** @internal */
 final class RequestTest extends TestCase
@@ -75,7 +76,7 @@ final class RequestTest extends TestCase
 
         try {
             $method->invoke($socket, 'GET', '/a/path', ['Host' => 'www.example.com', 'Connection' => 'Close'], "body1\r\nbody2");
-        } catch (rex_socket_exception) { // @phpstan-ignore-line
+        } catch (HttpClientException) { // @phpstan-ignore-line
             // ignore "Missing status code in response header" error in Response class
         }
 
@@ -137,7 +138,7 @@ final class RequestTest extends TestCase
     #[DataProvider('parseUrlExceptionProvider')]
     public function testParseUrlException(string $url): void
     {
-        $this->expectException(rex_socket_exception::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $method = new ReflectionMethod(Request::class, 'parseUrl');
         $method->invoke(null, $url);

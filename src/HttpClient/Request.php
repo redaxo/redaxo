@@ -6,11 +6,11 @@ use Closure;
 use Redaxo\Core\Core;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\HttpClient\Exception\HttpClientException;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
-use rex_socket_exception;
 use SensitiveParameter;
 
 use function in_array;
@@ -46,7 +46,7 @@ use const STREAM_CLIENT_CONNECT;
  *          //get file body
  *          $body = $response->getBody();
  *      }
- *  } catch(rex_socket_exception $e) {
+ *  } catch(HttpClientException $e) {
  *      //error message: $e->getMessage()
  *  }
  * </code>
@@ -101,8 +101,6 @@ class Request
 
     /**
      * Creates a socket by a full URL.
-     *
-     * @throws rex_socket_exception
      *
      * @see Request::factory()
      */
@@ -204,7 +202,7 @@ class Request
     /**
      * Makes a GET request.
      *
-     * @throws rex_socket_exception
+     * @throws HttpClientException
      */
     public function doGet(): Response
     {
@@ -217,7 +215,7 @@ class Request
      * @param string|array<string, string>|Closure(resource): void $data Body data as string or array (POST parameters) or a Closure for writing the body
      * @param array<string, array{path: string, type: string}> $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
      *
-     * @throws rex_socket_exception
+     * @throws HttpClientException
      */
     public function doPost(string|array|Closure $data = '', array $files = []): Response
     {
@@ -271,7 +269,7 @@ class Request
     /**
      * Makes a DELETE request.
      *
-     * @throws rex_socket_exception
+     * @throws HttpClientException
      */
     public function doDelete(): Response
     {
@@ -330,7 +328,7 @@ class Request
     /**
      * Opens the socket connection.
      *
-     * @throws rex_socket_exception
+     * @throws HttpClientException
      */
     protected function openConnection(): void
     {
@@ -361,14 +359,14 @@ class Request
         }
 
         if ($errstr) {
-            throw new rex_socket_exception($errstr . ' (' . $errno . ')');
+            throw new HttpClientException($errstr . ' (' . $errno . ')');
         }
 
         if ($prevError) {
-            throw new rex_socket_exception($prevError);
+            throw new HttpClientException($prevError);
         }
 
-        throw new rex_socket_exception('Unknown error.');
+        throw new HttpClientException('Unknown error.');
     }
 
     /**
@@ -379,7 +377,7 @@ class Request
      * @param array<string, string> $headers Headers
      * @param string|Closure(resource): void $data Body data as string or a Closure for writing the body
      *
-     * @throws rex_socket_exception
+     * @throws HttpClientException
      */
     protected function writeRequest(string $method, string $path, array $headers = [], string|Closure $data = ''): Response
     {
@@ -401,7 +399,7 @@ class Request
 
         $meta = stream_get_meta_data($this->stream);
         if (isset($meta['timed_out']) && $meta['timed_out']) {
-            throw new rex_socket_exception('Timeout!');
+            throw new HttpClientException('Timeout.');
         }
 
         return (new Response($this->stream))->decompressContent($this->acceptCompression);
@@ -412,8 +410,6 @@ class Request
      *
      * @param string $url Full URL
      *
-     * @throws rex_socket_exception
-     *
      * @return array{host: string, port: int, ssl: bool, path: string} URL parts
      */
     protected static function parseUrl(string $url): array
@@ -423,7 +419,7 @@ class Request
             $parts = parse_url('https://' . $url);
         }
         if (false === $parts || !isset($parts['host'])) {
-            throw new rex_socket_exception('It isn\'t possible to parse the URL "' . $url . '"!');
+            throw new InvalidArgumentException('It isn\'t possible to parse the URL "' . $url . '"!');
         }
 
         $port = 80;
@@ -431,7 +427,7 @@ class Request
         if (isset($parts['scheme'])) {
             $supportedProtocols = ['http', 'https'];
             if (!in_array($parts['scheme'], $supportedProtocols)) {
-                throw new rex_socket_exception('Unsupported protocol "' . $parts['scheme'] . '". Supported protocols are ' . implode(', ', $supportedProtocols) . '.');
+                throw new InvalidArgumentException('Unsupported protocol "' . $parts['scheme'] . '". Supported protocols are ' . implode(', ', $supportedProtocols) . '.');
             }
             if ('https' == $parts['scheme']) {
                 $ssl = true;

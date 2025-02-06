@@ -4,8 +4,8 @@ namespace Redaxo\Core\Tests\HttpClient;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\HttpClient\Exception\HttpClientException;
 use Redaxo\Core\HttpClient\Response;
-use rex_socket_exception;
 
 use function sprintf;
 
@@ -37,7 +37,7 @@ final class ResponseTest extends TestCase
     #[DataProvider('getInvalidHeader')]
     public function testConstructWithInvalidHeader(string $header): void
     {
-        $this->expectException(rex_socket_exception::class);
+        $this->expectException(HttpClientException::class);
         $this->expectExceptionMessage('Missing status code in response header');
 
         $this->getResponse($header . "\r\n");
