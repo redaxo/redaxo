@@ -11,7 +11,7 @@ use function is_string;
 /**
  * Exception class for http-status code handling.
  */
-final class HttpException extends RuntimeException implements Exception
+class HttpException extends RuntimeException implements Exception
 {
     private string $httpCode;
 

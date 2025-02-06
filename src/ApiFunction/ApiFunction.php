@@ -10,6 +10,7 @@ use Redaxo\Core\Content\ApiFunction as ContentApiFunction;
 use Redaxo\Core\Core;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Exception\HttpException;
+use Redaxo\Core\Http\Exception\NotFoundHttpException;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
@@ -140,9 +141,9 @@ abstract class ApiFunction
                     self::$instance = $apiImpl;
                     return $apiImpl;
                 }
-                throw new HttpException('API class is expected to define a subclass of ApiFunction, "' . $apiClass . '" given.', Response::HTTP_NOT_FOUND);
+                throw new NotFoundHttpException('API class is expected to define a subclass of ApiFunction, "' . $apiClass . '" given.');
             }
-            throw new HttpException('API class "' . $apiClass . '" not found.', Response::HTTP_NOT_FOUND);
+            throw new NotFoundHttpException('API class "' . $apiClass . '" not found.');
         }
 
         return null;
@@ -210,11 +211,11 @@ abstract class ApiFunction
         if (null != $apiFunc) {
             if (!$apiFunc->published) {
                 if (!Core::isBackend()) {
-                    throw new HttpException(new ApiFunctionException('the api function ' . $apiFunc::class . ' is not published, therefore can only be called from the backend!'), Response::HTTP_FORBIDDEN);
+                    throw new HttpException(new ApiFunctionException('the api function ' . $apiFunc::class . ' is not published, therefore can only be called from the backend.'), Response::HTTP_FORBIDDEN);
                 }
 
                 if (!Core::getUser()) {
-                    throw new HttpException(new ApiFunctionException('missing backend session to call api function ' . $apiFunc::class . '!'), Response::HTTP_UNAUTHORIZED);
+                    throw new HttpException(new ApiFunctionException('missing backend session to call api function ' . $apiFunc::class . '.'), Response::HTTP_UNAUTHORIZED);
                 }
             }
 

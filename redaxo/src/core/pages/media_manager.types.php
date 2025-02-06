@@ -6,6 +6,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\Http\Exception\NotFoundHttpException;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
@@ -190,7 +191,7 @@ if ('' == $func) {
     $form = Form::factory(Core::getTablePrefix() . 'media_manager_type', '', 'id = ' . $typeId);
 
     if ($typeId && MediaManager::STATUS_SYSTEM_TYPE === (int) $form->getSql()->getValue('status')) {
-        throw new rex_exception('System media types can not be edited.');
+        throw new NotFoundHttpException('System media types can not be edited.');
     }
 
     $form->addParam('type_id', $typeId);

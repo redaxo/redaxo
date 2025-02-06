@@ -15,6 +15,7 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Exception\HttpException;
+use Redaxo\Core\Http\Exception\NotFoundHttpException;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
@@ -166,7 +167,7 @@ $article->setClang(Language::getCurrentId());
 
 if (!$article->setArticleId(Article::getCurrentId())) {
     if (!Core::isDebugMode() && !BackendLogin::hasSession()) {
-        throw new rex_exception('Article with id ' . Article::getCurrentId() . ' does not exist');
+        throw new NotFoundHttpException('Article with id ' . Article::getCurrentId() . ' does not exist.');
     }
 
     $fragment = new Fragment([
