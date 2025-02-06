@@ -3,6 +3,7 @@
 use Redaxo\Core\Core;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Exception\HttpException;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Log\Logger;
@@ -83,7 +84,7 @@ abstract class rex_error_handler
             }
 
             $status = Response::HTTP_INTERNAL_ERROR;
-            if ($exception instanceof rex_http_exception && $exception->getHttpCode()) {
+            if ($exception instanceof HttpException && $exception->getHttpCode()) {
                 $status = $exception->getHttpCode();
             }
             Response::setStatus($status);
