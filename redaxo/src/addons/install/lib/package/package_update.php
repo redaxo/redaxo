@@ -8,6 +8,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Exception\YamlParseException;
 use Redaxo\Core\Util\Version;
 
 /**
@@ -58,7 +59,7 @@ class rex_install_package_update extends rex_install_package_download
         }
         try {
             $config = File::getConfig($packageFile);
-        } catch (rex_yaml_parse_exception $e) {
+        } catch (YamlParseException $e) {
             return I18n::msg('package_invalid_yml_file') . ' ' . $e->getMessage();
         }
 

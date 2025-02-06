@@ -395,6 +395,7 @@ return RectorConfig::configure()
         'rex_be_style' => Backend\Style::class,
         'rex_scss_compiler' => Util\ScssCompiler::class,
         'rex_functional_exception' => Exception\UserMessageException::class,
+        'rex_yaml_parse_exception' => Util\Exception\YamlParseException::class,
     ])
     ->withConfiguredRule(RenameFunctionRector::class, [
         'rex_escape' => 'Redaxo\\Core\\View\\escape',

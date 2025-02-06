@@ -4,7 +4,7 @@ namespace Redaxo\Core\Util;
 
 use Normalizer;
 use Redaxo\Core\Exception\InvalidArgumentException;
-use rex_yaml_parse_exception;
+use Redaxo\Core\Util\Exception\YamlParseException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use voku\helper\AntiXSS;
@@ -123,7 +123,7 @@ final class Str
      *
      * @param string $value YAML string
      *
-     * @throws rex_yaml_parse_exception
+     * @throws YamlParseException
      *
      * @return array<mixed>
      */
@@ -136,11 +136,11 @@ final class Str
         try {
             $result = Yaml::parse($value);
         } catch (ParseException $exception) {
-            throw new rex_yaml_parse_exception($exception->getMessage(), $exception);
+            throw new YamlParseException($exception->getMessage(), $exception);
         }
 
         if (!is_array($result)) {
-            throw new rex_yaml_parse_exception(__FUNCTION__ . ' does not support YAML content containing a single scalar value (given "' . $value . '")');
+            throw new YamlParseException(__FUNCTION__ . ' does not support YAML content containing a single scalar value (given "' . $value . '")');
         }
 
         return $result;
