@@ -122,7 +122,9 @@ final class rex_mediapool
         foreach ($blockedExtensions as $blockedExtension) {
             // $blockedExtensions extensions are not allowed within filenames, to prevent double extension vulnerabilities:
             // -> some webspaces execute files named file.php.txt as php
-            if (str_contains($filename, '.' . $blockedExtension)) {
+            if (str_ends_with($filename, '.' . $blockedExtension) // Prüfe ob der String mit der verbotenen Endung endet
+                || str_ends_with($filename, '.' . $blockedExtension . '.' . $fileExt) // prüfe ob es keine doppelte Endung der Form *.php.ext gibt
+            ) {
                 return false;
             }
         }
