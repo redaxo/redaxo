@@ -1,6 +1,6 @@
 <?php
 
-use voku\helper\AntiXSS;
+use enshrined\svgSanitize\Sanitizer;
 
 /**
  * @package redaxo\mediapool
@@ -389,14 +389,7 @@ final class rex_media_service
 
         $content = rex_type::notNull(rex_file::get($path));
 
-        $antiXss = new AntiXSS();
-        $antiXss->removeNeverAllowedRegex(['&lt;!--', '&lt;!--$1--&gt;']);
-        $antiXss->removeEvilAttributes(['style', 'xlink:href']);
-        $antiXss->removeEvilHtmlTags(['style', 'svg', 'title']);
-
-        $content = $antiXss->xss_clean($content);
-        $content = preg_replace('/^\s*&lt;\?xml(.*?)\?&gt;/', '<?xml$1?>', $content);
-        $content = preg_replace('/&lt;!DOCTYPE(.*?)>/', '<!DOCTYPE$1>', $content);
+        $content = (new Sanitizer())->sanitize($content);
 
         rex_file::put($path, $content);
     }

@@ -28,6 +28,7 @@
         "vimeo/psalm": "6.4.0"
     },
     "replace": {
+        "enshrined/svg-sanitize": "0.21.0",
         "erusev/parsedown": "1.7.4",
         "erusev/parsedown-extra": "0.8.1",
         "filp/whoops": "2.17.0",
