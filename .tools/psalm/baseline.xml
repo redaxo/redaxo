@@ -1246,10 +1246,9 @@
       <code><![CDATA[$queryParams]]></code>
       <code><![CDATA[rex_mediapool::getBlockedExtensions()]]></code>
     </MixedArgumentTypeCoercion>
-    <PossiblyNullArgument>
+    <PossiblyFalseArgument>
       <code><![CDATA[$content]]></code>
-      <code><![CDATA[$content]]></code>
-    </PossiblyNullArgument>
+    </PossiblyFalseArgument>
     <PossiblyNullOperand>
       <code><![CDATA[rex_file::mimeType($data['file']['path'])]]></code>
     </PossiblyNullOperand>
