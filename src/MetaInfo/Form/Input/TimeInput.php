@@ -4,7 +4,6 @@ namespace Redaxo\Core\MetaInfo\Form\Input;
 
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Form\Select\Select;
-use rex_exception;
 
 use function is_array;
 use function sprintf;
@@ -50,7 +49,7 @@ class TimeInput extends AbstractInput
 
         foreach (['hour', 'minute'] as $reqIndex) {
             if (!isset($value[$reqIndex])) {
-                throw new rex_exception('Missing index "' . $reqIndex . '" in $value!');
+                throw new InvalidArgumentException('Missing index "' . $reqIndex . '" in $value!');
             }
         }
 

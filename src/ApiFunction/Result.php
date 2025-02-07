@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\ApiFunction;
 
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Message;
-use rex_exception;
 
 use function is_array;
 
@@ -104,7 +104,7 @@ class Result
         $json = json_decode($json, true);
 
         if (!is_array($json)) {
-            throw new rex_exception('Unable to decode json into an array.');
+            throw new InvalidArgumentException('Unable to decode json into an array.');
         }
 
         return new self(

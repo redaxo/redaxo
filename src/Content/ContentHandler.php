@@ -8,6 +8,7 @@ use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
@@ -93,7 +94,6 @@ class ContentHandler
      * @param int $clang Id der Sprache
      * @param string $direction Richtung in die verschoben werden soll
      *
-     * @throws rex_exception
      * @throws ApiFunctionException
      *
      * @return string Eine Statusmeldung
@@ -162,7 +162,7 @@ class ContentHandler
                 $article = Article::get($articleId, $clang);
                 $info = Extension::registerPoint(new ArticleContentUpdated($article, 'slice_moved', $info));
             } else {
-                throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!');
+                throw new InvalidArgumentException('Unsupported move direction "' . $direction . '".');
             }
         } else {
             throw new ApiFunctionException(I18n::msg('slice_moved_error'));

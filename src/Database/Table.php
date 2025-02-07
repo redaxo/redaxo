@@ -338,13 +338,11 @@ final class Table
 
     /**
      * @param string|list<string>|null $columns Column name(s)
-     *
-     * @throws rex_exception
      */
     public function setPrimaryKey(string|array|null $columns): self
     {
         if (is_array($columns) && !$columns) {
-            throw new rex_exception('The primary key column array can not be empty. To delete the primary key use `null` instead.');
+            throw new InvalidArgumentException('The primary key column array can not be empty. To delete the primary key use `null` instead.');
         }
 
         $columns = null === $columns ? [] : (array) $columns;
