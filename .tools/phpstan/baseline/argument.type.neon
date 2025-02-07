@@ -93,7 +93,7 @@ parameters:
             path: ../../../redaxo/src/core/lib/sql/table.php
 
         -
-            message: '#^Parameter \#1 \$extensionPoint of static method rex_extension\:\:registerPoint\(\) expects rex_extension_point\<list\<string\>\|string\|null\>, rex_extension_point\<list\<string\>\|string\|null\> given\.$#'
+            message: '#^Parameter \#1 \$extensionPoint of static method rex_extension\:\:registerPoint\(\) expects rex_extension_point\<string\|null\>, rex_extension_point\<string\|null\> given\.$#'
             count: 1
             path: ../../../redaxo/src/core/lib/util/editor.php
 
