@@ -53,7 +53,7 @@
     <issueHandlers>
         <Trace errorLevel="error"/> <!-- https://psalm.dev/docs/running_psalm/issues/Trace/ -->
         <InvalidGlobal>
-            <errorLevel type="info">
+            <errorLevel type="suppress"> <!-- https://github.com/vimeo/psalm/issues/11262 -->
                 <file name="redaxo/src/addons/mediapool/pages/index.php"/>
                 <file name="redaxo/src/addons/mediapool/pages/upload.php"/>
                 <file name="redaxo/src/core/pages/login.php"/>
@@ -61,7 +61,7 @@
         </InvalidGlobal>
 <!-- level 2 issues - slightly lazy code writing, but provably low false-negatives -->
         <DeprecatedMethod>
-            <errorLevel type="info">
+            <errorLevel type="suppress"> <!-- https://github.com/vimeo/psalm/issues/11262 -->
                 <referencedMethod name="rex_string::versionCompare"/>
             </errorLevel>
         </DeprecatedMethod>

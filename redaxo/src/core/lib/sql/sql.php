@@ -920,7 +920,8 @@ class rex_sql implements Iterator
                 }
 
                 /** @psalm-taint-escape sql */ // psalm marks whole array (keys and values) as tainted, not values only
-                $qry .= $this->escapeIdentifier($fldName) . ' = :' . $fldName;
+                $set = $this->escapeIdentifier($fldName) . ' = :' . $fldName;
+                $qry .= $set;
             }
         }
         if (is_array($this->rawValues)) {
