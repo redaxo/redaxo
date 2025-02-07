@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\MediaManager;
 
-use BadMethodCallException;
 use GdImage;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Response;
@@ -327,7 +327,7 @@ class ManagedMedia
     protected function getImageSource()
     {
         if (!isset($this->image['src'])) {
-            throw new BadMethodCallException(__METHOD__ . ' can not be called without calling asImage() before');
+            throw new LogicException(__METHOD__ . ' can not be called without calling asImage() before.');
         }
 
         $format = $this->format;
@@ -364,7 +364,7 @@ class ManagedMedia
     public function getImage()
     {
         if (!isset($this->image['src'])) {
-            throw new BadMethodCallException(__METHOD__ . ' can not be called without calling asImage() before');
+            throw new LogicException(__METHOD__ . ' can not be called without calling asImage() before.');
         }
 
         return $this->image['src'];
@@ -457,7 +457,7 @@ class ManagedMedia
     private function fixOrientation()
     {
         if (!isset($this->image['src'])) {
-            throw new BadMethodCallException(__METHOD__ . ' can not be called without calling asImage() before');
+            throw new LogicException(__METHOD__ . ' can not be called without calling asImage() before.');
         }
 
         if (!function_exists('exif_read_data')) {

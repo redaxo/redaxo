@@ -5,7 +5,7 @@ namespace Redaxo\Core\Database\Exception;
 use PDOException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\Exception;
-use RuntimeException;
+use Redaxo\Core\Exception\RuntimeException;
 use Throwable;
 
 class SqlException extends RuntimeException implements Exception
@@ -14,7 +14,7 @@ class SqlException extends RuntimeException implements Exception
 
     public function __construct(string $message, ?Throwable $previous = null, ?Sql $sql = null)
     {
-        parent::__construct($message, 0, $previous);
+        parent::__construct($message, $previous);
 
         $this->sql = $sql;
     }

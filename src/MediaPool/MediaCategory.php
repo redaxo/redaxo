@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\MediaPool;
 
-use LogicException;
 use Redaxo\Core\Base\InstanceListPoolTrait;
 use Redaxo\Core\Base\InstancePoolTrait;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 

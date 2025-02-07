@@ -4,6 +4,8 @@ namespace Redaxo\Core\MetaInfo\Handler;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
@@ -12,7 +14,6 @@ use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MetaInfo\Form\DefaultType;
 use Redaxo\Core\MetaInfo\MetaInfo;
 use Redaxo\Core\Translation\I18n;
-use rex_exception;
 
 use function in_array;
 
@@ -25,8 +26,6 @@ class MediaHandler extends AbstractHandler
 
     /**
      * Extension to check whether the given media is still in use.
-     *
-     * @throws rex_exception
      *
      * @return list<string>
      */
@@ -63,7 +62,7 @@ class MediaHandler extends AbstractHandler
             }
             $where[$key][] = match ((int) $sql->getValue('type_id')) {
                 DefaultType::REX_MEDIA_WIDGET => 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($name) . ')',
-                default => throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type_id') . '"!'),
+                default => throw new LogicException('Unexpected fieldtype "' . $sql->getValue('type_id') . '".'),
             };
             $sql->next();
         }
@@ -209,7 +208,7 @@ class MediaHandler extends AbstractHandler
             if (1 == $sql->getRows()) {
                 $params['id'] = (int) $sql->getValue('id');
             } else {
-                throw new rex_exception('Error occured during file upload!');
+                throw new RuntimeException('Error occured during file upload.');
             }
         }
 

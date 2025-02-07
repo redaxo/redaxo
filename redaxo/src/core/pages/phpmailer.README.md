@@ -242,7 +242,7 @@ rex_extension::register('PHPMAILER_POST_SEND', function (rex_extension_point $ep
         imap_close($connection);
     } else {
         // error handling
-       throw new rex_exception(sprintf('IMAP Error: "%s"', imap_last_error()));
+       throw new RuntimeException(sprintf('IMAP Error: "%s"', imap_last_error()));
     }
 });
 ```

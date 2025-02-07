@@ -3,10 +3,10 @@
 namespace Redaxo\Core;
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-use rex_exception;
 
 use function count;
 use function dirname;
@@ -236,7 +236,7 @@ class Config
         $dir = dirname(self::$cacheFile);
         Dir::create($dir);
         if (!is_writable($dir)) {
-            throw new rex_exception('Configuration: cache dir "' . dirname(self::$cacheFile) . '" is not writable!');
+            throw new RuntimeException('Configuration: cache dir "' . dirname(self::$cacheFile) . '" is not writable.');
         }
 
         // save cache on shutdown
@@ -296,7 +296,7 @@ class Config
     private static function generateCache(): void
     {
         if (File::putCache(self::$cacheFile, self::$data) <= 0) {
-            throw new rex_exception('Configuration: unable to write cache file ' . self::$cacheFile);
+            throw new RuntimeException('Configuration: unable to write cache file "' . self::$cacheFile . '".');
         }
     }
 

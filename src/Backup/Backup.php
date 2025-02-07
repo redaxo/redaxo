@@ -9,6 +9,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Dir;
@@ -17,7 +19,6 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Translation\I18n;
-use rex_exception;
 
 use function count;
 use function is_int;
@@ -55,7 +56,7 @@ class Backup
             return str_ends_with($filename, '.sql') || str_ends_with($filename, '.sql.gz');
         }
 
-        throw new rex_exception('unexpected importType ' . $importType);
+        throw new LogicException('Unexpected importType "' . $importType . '".');
     }
 
     /**
@@ -437,7 +438,7 @@ class Backup
         $handle = opendir($path . $dir);
 
         if (false === $handle) {
-            throw new rex_exception(sprintf('Unable to open dir "%s"', $path . $dir));
+            throw new RuntimeException(sprintf('Unable to open dir "%s".', $path . $dir));
         }
 
         $isMediafolder = realpath($path . $dir) . '/' == Path::media();

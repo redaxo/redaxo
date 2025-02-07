@@ -27,7 +27,7 @@ use Redaxo\Core\Console\Command\SystemReportCommand;
 use Redaxo\Core\Console\Command\UserCreateCommand;
 use Redaxo\Core\Console\Command\UserSetPasswordCommand;
 use Redaxo\Core\Core;
-use rex_exception;
+use Redaxo\Core\Exception\RuntimeException;
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
@@ -87,7 +87,7 @@ final class CommandLoader implements CommandLoaderInterface
             }
 
             if (!is_array($commands)) {
-                throw new rex_exception('Expecting "console_commands" property to be an array, got "' . gettype($commands) . '" from package.yml of "' . $addon->getName() . '"');
+                throw new RuntimeException('Expecting "console_commands" property to be an array, got "' . gettype($commands) . '" from package.yml of "' . $addon->getName() . '"');
             }
 
             foreach ($commands as $command => $class) {

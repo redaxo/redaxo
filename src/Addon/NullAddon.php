@@ -4,8 +4,8 @@ namespace Redaxo\Core\Addon;
 
 use Override;
 use Redaxo\Core\Base\SingletonTrait;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Translation\I18n;
-use rex_exception;
 
 use function sprintf;
 
@@ -36,31 +36,31 @@ final class NullAddon implements AddonInterface
     #[Override]
     public function getPath(string $file = ''): never
     {
-        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
+        throw new LogicException(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
     #[Override]
     public function getAssetsPath(string $file = ''): never
     {
-        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
+        throw new LogicException(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
     #[Override]
     public function getAssetsUrl(string $file = ''): never
     {
-        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
+        throw new LogicException(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
     #[Override]
     public function getDataPath(string $file = ''): never
     {
-        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
+        throw new LogicException(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
     #[Override]
     public function getCachePath(string $file = ''): never
     {
-        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
+        throw new LogicException(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
     #[Override]

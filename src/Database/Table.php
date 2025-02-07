@@ -2,13 +2,12 @@
 
 namespace Redaxo\Core\Database;
 
-use LogicException;
 use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Util\Type;
-use rex_exception;
-use RuntimeException;
 
 use function array_slice;
 use function count;
@@ -285,18 +284,15 @@ final class Table
         ;
     }
 
-    /**
-     * @throws rex_exception
-     */
     public function renameColumn(string $oldName, string $newName): self
     {
         $column = $this->getColumn($oldName);
         if (!$column) {
-            throw new rex_exception(sprintf('Column with name "%s" does not exist.', $oldName));
+            throw new LogicException(sprintf('Column with name "%s" does not exist.', $oldName));
         }
 
         if ($this->hasColumn($newName)) {
-            throw new rex_exception(sprintf('Column with the new name "%s" already exists.', $newName));
+            throw new LogicException(sprintf('Column with the new name "%s" already exists.', $newName));
         }
 
         if ($oldName === $newName) {
@@ -409,18 +405,15 @@ final class Table
         return $this;
     }
 
-    /**
-     * @throws rex_exception
-     */
     public function renameIndex(string $oldName, string $newName): self
     {
         $index = $this->getIndex($oldName);
         if (!$index) {
-            throw new rex_exception(sprintf('Index with name "%s" does not exist.', $oldName));
+            throw new LogicException(sprintf('Index with name "%s" does not exist.', $oldName));
         }
 
         if ($this->hasIndex($newName)) {
-            throw new rex_exception(sprintf('Index with the new name "%s" already exists.', $newName));
+            throw new LogicException(sprintf('Index with the new name "%s" already exists.', $newName));
         }
 
         if ($oldName === $newName) {
@@ -500,18 +493,15 @@ final class Table
         return $this;
     }
 
-    /**
-     * @throws rex_exception
-     */
     public function renameForeignKey(string $oldName, string $newName): self
     {
         $foreignKey = $this->getForeignKey($oldName);
         if (!$foreignKey) {
-            throw new rex_exception(sprintf('Foreign key with name "%s" does not exist.', $oldName));
+            throw new LogicException(sprintf('Foreign key with name "%s" does not exist.', $oldName));
         }
 
         if ($this->hasForeignKey($newName)) {
-            throw new rex_exception(sprintf('Foreign key with the new name "%s" already exists.', $newName));
+            throw new LogicException(sprintf('Foreign key with the new name "%s" already exists.', $newName));
         }
 
         if ($oldName === $newName) {
@@ -600,16 +590,14 @@ final class Table
 
     /**
      * Creates the table.
-     *
-     * @throws rex_exception
      */
     public function create(): void
     {
         if (!$this->new) {
-            throw new rex_exception(sprintf('Table "%s" already exists.', $this->name));
+            throw new LogicException(sprintf('Table "%s" already exists.', $this->name));
         }
         if (!$this->columns) {
-            throw new rex_exception('A table must have at least one column.');
+            throw new LogicException('A table must have at least one column.');
         }
 
         $this->sortColumns();
@@ -643,13 +631,11 @@ final class Table
 
     /**
      * Alters the table.
-     *
-     * @throws rex_exception
      */
     public function alter(): void
     {
         if ($this->new) {
-            throw new rex_exception(sprintf('Table "%s" does not exist.', $this->originalName));
+            throw new LogicException(sprintf('Table "%s" does not exist.', $this->originalName));
         }
 
         $parts = [];

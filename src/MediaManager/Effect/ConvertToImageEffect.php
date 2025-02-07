@@ -3,11 +3,11 @@
 namespace Redaxo\Core\MediaManager\Effect;
 
 use Imagick;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
-use rex_exception;
 
 use function function_exists;
 use function in_array;
@@ -82,7 +82,7 @@ class ConvertToImageEffect extends AbstractEffect
             exec($cmd, $out, $ret);
 
             if (0 !== $ret) {
-                throw new rex_exception('Unable to exec command ' . $cmd);
+                throw new RuntimeException('Unable to exec command "' . $cmd . '".');
             }
 
             $this->media->setSourcePath($outputFile);
@@ -158,9 +158,9 @@ class ConvertToImageEffect extends AbstractEffect
 
         if (0 != $ret) {
             if ($error = error_get_last()) {
-                throw new rex_exception('Unable to exec command ' . $cmd . ': ' . $error['message']);
+                throw new RuntimeException('Unable to exec command "' . $cmd . '": ' . $error['message']);
             }
-            throw new rex_exception('Unable to exec command ' . $cmd);
+            throw new RuntimeException('Unable to exec command "' . $cmd . '".');
         }
 
         $this->media->setSourcePath($toPath);

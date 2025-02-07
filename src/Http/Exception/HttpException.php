@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Http\Exception;
 
 use Redaxo\Core\Exception\Exception;
-use RuntimeException;
+use Redaxo\Core\Exception\RuntimeException;
 use Throwable;
 
 use function is_string;
@@ -17,7 +17,7 @@ class HttpException extends RuntimeException implements Exception
 
     public function __construct(string|Throwable $cause, string $httpCode)
     {
-        parent::__construct(is_string($cause) ? $cause : $cause->getMessage(), 0, $cause instanceof Throwable ? $cause : null);
+        parent::__construct(is_string($cause) ? $cause : $cause->getMessage(), $cause instanceof Throwable ? $cause : null);
 
         $this->httpCode = $httpCode;
     }

@@ -2,10 +2,10 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
-use rex_exception;
 
 use function assert;
 use function is_string;
@@ -82,13 +82,13 @@ class ArticleContent extends ArticleContentBase
         $value = $this->correctValue($value);
 
         if (!Article::hasValue($value)) {
-            throw new rex_exception('Articles do not have the property "' . $value . '"');
+            throw new LogicException('Articles do not have the property "' . $value . '"');
         }
 
         $article = Article::get($this->article_id, $this->clang);
 
         if (!$article) {
-            throw new rex_exception('Article for id=' . $this->article_id . ' and clang=' . $this->clang . ' does not exist');
+            throw new LogicException('Article for id=' . $this->article_id . ' and clang=' . $this->clang . ' does not exist');
         }
 
         return $article->getValue($value);
@@ -150,7 +150,7 @@ class ArticleContent extends ArticleContentBase
         }
 
         if (!$this->currentSlice) {
-            throw new rex_exception('There is no current slice; getCurrentSlice() can be called only while rendering slices');
+            throw new LogicException('There is no current slice; getCurrentSlice() can be called only while rendering slices');
         }
 
         return $this->currentSlice;

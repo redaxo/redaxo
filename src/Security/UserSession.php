@@ -5,8 +5,8 @@ namespace Redaxo\Core\Security;
 use Redaxo\Core\Base\SingletonTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Http\Request;
-use rex_exception;
 
 /**
  * @internal
@@ -39,7 +39,7 @@ final class UserSession
                 ->select();
             if ($sql->getRows()) {
                 if ($userId !== (int) $sql->getValue('user_id')) {
-                    throw new rex_exception('Cookie key "' . $cookieKey . '" does not belong to current user "' . $userId . '", it belongs to user "' . (string) $sql->getValue('user_id') . '"');
+                    throw new RuntimeException('Cookie key "' . $cookieKey . '" does not belong to current user "' . $userId . '", it belongs to user "' . (string) $sql->getValue('user_id') . '"');
                 }
 
                 $updateByCookieKey = true;

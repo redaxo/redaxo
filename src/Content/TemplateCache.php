@@ -4,10 +4,10 @@ namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\RexVar\RexVar;
-use rex_exception;
 
 use function function_exists;
 
@@ -30,7 +30,7 @@ class TemplateCache
         $sql->setQuery('SELECT * FROM ' . Core::getTable('template') . ' WHERE id = ?', [$id]);
 
         if (1 !== $sql->getRows()) {
-            throw new rex_exception('Template with id "' . $id . '" does not exist.');
+            throw new RuntimeException('Template with id "' . $id . '" does not exist.');
         }
 
         $content = $sql->getValue('content');
@@ -38,7 +38,7 @@ class TemplateCache
 
         $path = self::getPath($id);
         if (!File::put($path, $content)) {
-            throw new rex_exception('Unable to generate template "' . $id . '".');
+            throw new RuntimeException('Unable to generate template "' . $id . '".');
         }
 
         if (function_exists('opcache_invalidate')) {
@@ -52,7 +52,7 @@ class TemplateCache
         $mapping = array_column($data, 'key', 'id');
 
         if (!File::putCache(self::getKeyMappingPath(), $mapping)) {
-            throw new rex_exception('Unable to generate template key mapping.');
+            throw new RuntimeException('Unable to generate template key mapping.');
         }
     }
 

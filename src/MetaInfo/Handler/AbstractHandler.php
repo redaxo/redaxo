@@ -2,10 +2,10 @@
 
 namespace Redaxo\Core\MetaInfo\Handler;
 
-use Exception;
 use PDO;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Select\Select;
@@ -308,7 +308,7 @@ abstract class AbstractHandler
                     } elseif ('datetime' == $typeLabel) {
                         $rexInput = new DateTimeInput();
                     } else {
-                        throw new Exception('Unexpected $typeLabel "' . $typeLabel . '"');
+                        throw new LogicException('Unexpected $typeLabel "' . $typeLabel . '"');
                     }
                     $tagAttr = ' class="form-control-date"';
 

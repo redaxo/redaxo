@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Util;
 
 use Redaxo\Core\Exception\InvalidArgumentException;
-use rex_exception;
+use Redaxo\Core\Exception\RuntimeException;
 
 use function count;
 use function function_exists;
@@ -28,8 +28,6 @@ class Version
      *
      * @param string $version Version
      * @param string $constraints Constraint list, separated by comma
-     *
-     * @throws rex_exception
      */
     public static function matchesConstraints(string $version, string $constraints): bool
     {
@@ -43,7 +41,7 @@ class Version
             if (!preg_match('/^(?<op>==?|<=?|>=?|!=|~|\^|) ?(?<version>\d+(?:\.\d+)*)(?<wildcard>\.\*)?(?<prerelease>[ -.]?[a-z]+(?:[ -.]?\d+)?)?$/i', $constraint, $match)
                 || isset($match['wildcard']) && $match['wildcard'] && ('' != $match['op'] || isset($match['prerelease']) && $match['prerelease'])
             ) {
-                throw new rex_exception('Unknown version constraint "' . $constraint . '"!');
+                throw new RuntimeException('Unknown version constraint "' . $constraint . '"!');
             }
 
             if (isset($match['wildcard']) && $match['wildcard']) {

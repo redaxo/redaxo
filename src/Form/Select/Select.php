@@ -5,7 +5,7 @@ namespace Redaxo\Core\Form\Select;
 use PDO;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use rex_exception;
+use Redaxo\Core\Exception\LogicException;
 
 use function count;
 use function in_array;
@@ -394,7 +394,7 @@ class Select
     {
         if ($level > 100) {
             // nur mal so zu sicherheit .. man weiss nie ;)
-            throw new rex_exception('Select->outGroup overflow');
+            throw new LogicException('Select->outGroup overflow.');
         }
 
         $ausgabe = '';

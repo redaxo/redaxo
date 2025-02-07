@@ -8,13 +8,13 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleContent;
 use Redaxo\Core\Content\ArticleContentBase;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use ReflectionClass;
 use ReflectionProperty;
-use rex_exception;
 
 /** @internal */
 final class ArticleContentTest extends TestCase
@@ -112,7 +112,7 @@ final class ArticleContentTest extends TestCase
         $viaSql = new ReflectionProperty(ArticleContent::class, 'viasql');
         $viaSql->setValue($instance, true);
 
-        $this->expectException(rex_exception::class);
+        $this->expectException(LogicException::class);
 
         $instance->getValue($value);
     }
@@ -150,7 +150,7 @@ final class ArticleContentTest extends TestCase
     {
         $instance = new ArticleContent(1, 1);
 
-        $this->expectException(rex_exception::class);
+        $this->expectException(LogicException::class);
 
         $instance->getValue($value);
     }

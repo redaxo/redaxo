@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\MediaManager\Effect;
 
-use LogicException;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\Translation\I18n;

@@ -2,7 +2,8 @@
 
 namespace Redaxo\Core\ApiFunction\Exception;
 
-use rex_exception;
+use Redaxo\Core\Exception\Exception;
+use Throwable;
 
 /**
  * Exception-Type to indicate exceptions in an api function.
@@ -10,4 +11,10 @@ use rex_exception;
  *
  * @see ApiFunction
  */
-class ApiFunctionException extends rex_exception {}
+class ApiFunctionException extends \Exception implements Exception
+{
+    public function __construct(string $message, ?Throwable $previous = null)
+    {
+        parent::__construct($message, 0, $previous);
+    }
+}

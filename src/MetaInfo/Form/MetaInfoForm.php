@@ -6,6 +6,7 @@ use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Form;
@@ -23,7 +24,6 @@ use Redaxo\Core\MetaInfo\Handler\MediaHandler;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Validator\ValidationRule;
-use rex_exception;
 
 use function assert;
 use function strlen;
@@ -158,7 +158,7 @@ class MetaInfoForm extends Form
             } elseif (MediaHandler::PREFIX == $this->metaPrefix) {
                 $field->setSelect(new MediaCategorySelect());
             } else {
-                throw new rex_exception('Unexpected TablePrefix "' . $this->metaPrefix . '".');
+                throw new LogicException('Unexpected TablePrefix "' . $this->metaPrefix . '".');
             }
         }
 

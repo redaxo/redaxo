@@ -5,12 +5,12 @@ namespace Redaxo\Core\Security;
 use DateTimeImmutable;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
-use rex_exception;
 use SensitiveParameter;
 
 use function assert;
@@ -288,7 +288,7 @@ class BackendLogin extends Login
     {
         $instname = Core::getProperty('instname');
         if (!$instname) {
-            throw new rex_exception('Property "instname" is empty');
+            throw new LogicException('Property "instname" is empty');
         }
 
         return 'rex_user_' . sha1($instname);

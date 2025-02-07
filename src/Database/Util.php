@@ -5,7 +5,7 @@ namespace Redaxo\Core\Database;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Exception\InvalidArgumentException;
-use rex_exception;
+use Redaxo\Core\Exception\RuntimeException;
 
 use function dirname;
 use function sprintf;
@@ -46,17 +46,15 @@ final readonly class Util
      *
      * @param non-empty-string $sourceTable
      * @param non-empty-string $destinationTable
-     *
-     * @throws rex_exception
      */
     public static function copyTable(string $sourceTable, string $destinationTable): void
     {
         if (!Table::get($sourceTable)->exists()) {
-            throw new rex_exception(sprintf('Source table "%s" does not exist.', $sourceTable));
+            throw new RuntimeException(sprintf('Source table "%s" does not exist.', $sourceTable));
         }
 
         if (Table::get($destinationTable)->exists()) {
-            throw new rex_exception(sprintf('Destination table "%s" already exists.', $destinationTable));
+            throw new RuntimeException(sprintf('Destination table "%s" already exists.', $destinationTable));
         }
 
         $sql = Sql::factory();
@@ -70,8 +68,6 @@ final readonly class Util
      *
      * @param non-empty-string $sourceTable
      * @param non-empty-string $destinationTable
-     *
-     * @throws rex_exception
      */
     public static function copyTableWithData(string $sourceTable, string $destinationTable): void
     {
@@ -175,7 +171,7 @@ final readonly class Util
             return $ret;
         }
 
-        throw new rex_exception('File "' . $file . '" could not be read.');
+        throw new RuntimeException('File "' . $file . '" could not be read.');
     }
 
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)

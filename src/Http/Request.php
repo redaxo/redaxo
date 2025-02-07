@@ -4,8 +4,8 @@ namespace Redaxo\Core\Http;
 
 use Closure;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Util\Type;
-use rex_exception;
 
 use function array_key_exists;
 use function is_array;
@@ -83,13 +83,11 @@ final class Request
      * @param string $varname Variable name
      * @param TCastType $type Cast type
      * @param mixed $default Default value
-     *
-     * @throws rex_exception
      */
     public static function session(string $varname, string|array|Closure|null $type = null, mixed $default = ''): mixed
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call Login::startSession() before!');
+            throw new LogicException('Session not started, call Login::startSession() before.');
         }
 
         if (isset($_SESSION[self::getSessionNamespace()][$varname])) {
@@ -107,13 +105,11 @@ final class Request
      *
      * @param string $varname Variable name
      * @param mixed $value Value
-     *
-     * @throws rex_exception
      */
     public static function setSession(string $varname, mixed $value): void
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call Login::startSession() before!');
+            throw new LogicException('Session not started, call Login::startSession() before.');
         }
 
         $_SESSION[self::getSessionNamespace()][$varname] = $value;
@@ -123,13 +119,11 @@ final class Request
      * Deletes a session variable.
      *
      * @param string $varname Variable name
-     *
-     * @throws rex_exception
      */
     public static function unsetSession(string $varname): void
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call Login::startSession() before!');
+            throw new LogicException('Session not started, call Login::startSession() before.');
         }
 
         unset($_SESSION[self::getSessionNamespace()][$varname]);
@@ -137,13 +131,11 @@ final class Request
 
     /**
      * clear redaxo session contents within the current namespace (the session itself stays alive).
-     *
-     * @throws rex_exception
      */
     public static function clearSession(): void
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call Login::startSession() before!');
+            throw new LogicException('Session not started, call Login::startSession() before.');
         }
 
         unset($_SESSION[self::getSessionNamespace()]);

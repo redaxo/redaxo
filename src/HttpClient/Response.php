@@ -3,9 +3,9 @@
 namespace Redaxo\Core\HttpClient;
 
 use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\HttpClient\Exception\HttpClientException;
-use rex_exception;
 
 use function dirname;
 use function gettype;
@@ -203,7 +203,7 @@ final class Response
         if (!$this->streamFiltersInitialized) {
             if ($this->chunked) {
                 if (!is_resource(stream_filter_append($this->stream, 'dechunk', STREAM_FILTER_READ))) {
-                    throw new rex_exception('Could not add dechunk filter to socket stream');
+                    throw new RuntimeException('Could not add dechunk filter to socket stream');
                 }
             }
 
@@ -242,7 +242,6 @@ final class Response
 
     /**
      * @param resource $stream
-     * @throws rex_exception
      * @return resource
      */
     private function addZlibStreamFilter($stream, int $mode)
@@ -252,7 +251,7 @@ final class Response
         }
 
         if (!in_array('zlib.*', stream_get_filters())) {
-            throw new rex_exception('The zlib filter for streams is missing.');
+            throw new RuntimeException('The zlib filter for streams is missing.');
         }
 
         if (!in_array($mode, [STREAM_FILTER_READ, STREAM_FILTER_WRITE])) {
@@ -267,7 +266,7 @@ final class Response
         );
 
         if (!is_resource($appendedZlibStreamFilter)) {
-            throw new rex_exception('Could not add stream filter for gzip support.');
+            throw new RuntimeException('Could not add stream filter for gzip support.');
         }
 
         return $appendedZlibStreamFilter;

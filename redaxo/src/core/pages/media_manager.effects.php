@@ -4,6 +4,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
@@ -276,7 +277,7 @@ if ('' == $func) {
                     }
                     break;
                 default:
-                    throw new rex_exception('Unexpected param type "' . $param['type'] . '"');
+                    throw new LogicException('Unexpected param type "' . $param['type'] . '".');
             }
         }
     }

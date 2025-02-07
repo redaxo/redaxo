@@ -6,7 +6,7 @@ use ArrayIterator;
 use Closure;
 use IteratorAggregate;
 use Override;
-use rex_exception;
+use Redaxo\Core\Exception\LogicException;
 use Traversable;
 
 /**
@@ -46,7 +46,7 @@ readonly class SortableIterator implements IteratorAggregate
             self::VALUES === $this->sort => uasort($array, $sortCallback),
             self::KEYS === $this->sort => uksort($array, $sortCallback),
             $this->sort instanceof Closure => uasort($array, $this->sort),
-            default => throw new rex_exception('Unknown sort mode!'),
+            default => throw new LogicException('Unknown sort mode.'),
         };
         return new ArrayIterator($array);
     }

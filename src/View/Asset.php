@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\View;
 
-use rex_exception;
+use Redaxo\Core\Exception\RuntimeException;
 
 use function in_array;
 use function sprintf;
@@ -27,14 +27,12 @@ class Asset
      *
      * @param string $file
      * @param string $media
-     *
-     * @throws rex_exception
      * @return void
      */
     public static function addCssFile($file, $media = 'all')
     {
         if (isset(self::$cssFiles[$media]) && in_array($file, self::$cssFiles[$media])) {
-            throw new rex_exception(sprintf('The CSS file "%s" is already added to media "%s".', $file, $media));
+            throw new RuntimeException(sprintf('The CSS file "%s" is already added to media "%s".', $file, $media));
         }
 
         self::$cssFiles[$media][] = $file;
@@ -55,8 +53,6 @@ class Asset
      *
      * @param string $file
      * @param array<self::JS_*, bool>|array<self::JS_*> $options
-     *
-     * @throws rex_exception
      * @return void
      */
     public static function addJsFile($file, array $options = [])
@@ -66,7 +62,7 @@ class Asset
         }
 
         if (in_array($file, self::$jsFiles)) {
-            throw new rex_exception(sprintf('The JS file "%s" is already added.', $file));
+            throw new RuntimeException(sprintf('The JS file "%s" is already added.', $file));
         }
 
         self::$jsFiles[] = [$file, $options];

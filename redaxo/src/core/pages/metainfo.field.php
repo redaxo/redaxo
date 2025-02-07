@@ -4,6 +4,7 @@ use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
@@ -19,11 +20,11 @@ $content = '';
 // ------------------------------> Parameter
 /** @psalm-suppress TypeDoesNotContainType */
 if (empty($prefix) || !is_string($prefix)) {
-    throw new rex_exception('Fehler: Prefix nicht definiert!');
+    throw new LogicException('Missing $prefix variable.');
 }
 
 if (empty($metaTable) || !is_string($metaTable)) {
-    throw new rex_exception('Fehler: metaTable nicht definiert!');
+    throw new LogicException('Missing $metaTable variable.');
 }
 
 $func = Request::request('func', 'string');

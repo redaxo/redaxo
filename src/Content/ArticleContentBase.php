@@ -2,10 +2,10 @@
 
 namespace Redaxo\Core\Content;
 
-use LogicException;
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
@@ -15,8 +15,6 @@ use Redaxo\Core\RexVar\RexVar;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Stream;
 use Redaxo\Core\Util\Timer;
-use rex_exception;
-use rex_var;
 
 use function assert;
 use function in_array;
@@ -285,7 +283,7 @@ class ArticleContentBase
             }
         }
 
-        throw new rex_exception('Articles do not have the property "' . $value . '"');
+        throw new LogicException('Articles do not have the property "' . $value . '"');
     }
 
     /**
@@ -340,7 +338,7 @@ class ArticleContentBase
     public function getCurrentSlice(): ArticleSlice
     {
         if (!$this->sliceSql || !$this->sliceSql->valid()) {
-            throw new rex_exception('There is no current slice; getCurrentSlice() can be called only while rendering slices');
+            throw new LogicException('There is no current slice; getCurrentSlice() can be called only while rendering slices');
         }
 
         return ArticleSlice::fromSql($this->sliceSql);

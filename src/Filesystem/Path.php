@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Filesystem;
 
-use rex_exception;
+use Redaxo\Core\Exception\LogicException;
 
 use function function_exists;
 use function sprintf;
@@ -315,7 +315,7 @@ final class Path
 
         if (0 === $ret) {
             if ('' === $out[0]) {
-                throw new rex_exception('empty binary path found.');
+                throw new LogicException('Empty binary path found.');
             }
             return (string) $out[0];
         }

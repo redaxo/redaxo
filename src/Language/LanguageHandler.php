@@ -6,13 +6,13 @@ use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
-use rex_exception;
 
 class LanguageHandler
 {
@@ -84,15 +84,12 @@ class LanguageHandler
      * @param string $name Name der Clang
      * @param int $priority Priority
      * @param bool|null $status Status
-     *
-     * @throws rex_exception
-     *
      * @return bool
      */
     public static function editCLang($id, $code, $name, $priority, $status = null)
     {
         if (!Language::exists($id)) {
-            throw new rex_exception('Language with id "' . $id . '" does not exist');
+            throw new RuntimeException('Language with id "' . $id . '" does not exist');
         }
 
         $oldPriority = Language::get($id)->getPriority();
@@ -165,7 +162,6 @@ class LanguageHandler
     /**
      * Schreibt Spracheigenschaften in die Datei include/clang.php.
      *
-     * @throws rex_exception
      * @return void
      */
     public static function generateCache()
@@ -183,7 +179,7 @@ class LanguageHandler
 
         $file = Path::coreCache('clang.cache');
         if (!File::putCache($file, $clangs)) {
-            throw new rex_exception('Language cache file could not be generated');
+            throw new RuntimeException('Language cache file could not be generated');
         }
     }
 }

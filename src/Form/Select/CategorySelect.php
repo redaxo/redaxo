@@ -4,7 +4,7 @@ namespace Redaxo\Core\Form\Select;
 
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Core;
-use rex_exception;
+use Redaxo\Core\Exception\LogicException;
 
 use function is_array;
 
@@ -125,7 +125,7 @@ class CategorySelect extends Select
     {
         if ($level > 100) {
             // nur mal so zu sicherheit .. man weiss nie ;)
-            throw new rex_exception('select->_outGroup overflow');
+            throw new LogicException('select->outGroup overflow.');
         }
 
         $ausgabe = '';

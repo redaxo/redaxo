@@ -5,6 +5,7 @@ namespace Redaxo\Core\Backend;
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -17,7 +18,6 @@ use Redaxo\Core\Util\Markdown;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
-use rex_exception;
 
 use function call_user_func;
 use function count;
@@ -639,7 +639,7 @@ class Controller
         $page = self::requireCurrentPageObject();
         $path = $page->getSubPath();
         if (null === $path) {
-            throw new rex_exception(sprintf(
+            throw new LogicException(sprintf(
                 $page instanceof MainPage
                     ? 'Current page "%s" is a main page and therefore has no sub-path.'
                     : 'Current page "%s" does not have a sub-path.',

@@ -3,7 +3,7 @@
 namespace Redaxo\Core\MediaManager\Effect;
 
 use GdImage;
-use LogicException;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Translation\I18n;
 
@@ -139,7 +139,7 @@ class MirrorEffect extends AbstractEffect
 
         $reflected = imagecreatetruecolor($destWidth, $destHeight);
         if (!$reflected) {
-            throw new LogicException('unable to create image');
+            throw new LogicException('Unable to create image.');
         }
         if ($transparent) {
             imagealphablending($reflected, false);

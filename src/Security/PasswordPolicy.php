@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Security;
 
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Translation\I18n;
-use rex_exception;
 use SensitiveParameter;
 
 use function sprintf;
@@ -20,9 +20,6 @@ class PasswordPolicy
     /**
      * @param string $password
      * @param int|null $id
-     *
-     * @throws rex_exception
-     *
      * @return true|string `true` on success, otherwise an error message
      */
     public function check(#[SensitiveParameter] $password, $id = null)
@@ -110,7 +107,7 @@ class PasswordPolicy
                 'lowercase' => preg_match_all('/[a-z]/', $password),
                 'digit' => preg_match_all('/\d/', $password),
                 'symbol' => preg_match_all('/[^a-zA-Z0-9]/', $password),
-                default => throw new rex_exception(sprintf('Unknown password_policy key "%s".', $key)),
+                default => throw new LogicException(sprintf('Unknown password_policy key "%s".', $key)),
             };
 
             if (!$this->matchesCount($count, $options)) {
