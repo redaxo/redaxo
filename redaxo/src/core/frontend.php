@@ -15,6 +15,7 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Exception\HttpException;
+use Redaxo\Core\Http\Exception\NotFoundHttpException;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Language\Language;
@@ -80,11 +81,11 @@ if (Core::getConfig('article_history', false)) {
         }
 
         if (!$user) {
-            throw new HttpException(new rex_exception('no permission'), Response::HTTP_UNAUTHORIZED);
+            throw new HttpException('No permission.', Response::HTTP_UNAUTHORIZED);
         }
 
         if (!$user->hasPerm('history[article_rollback]')) {
-            throw new HttpException(new rex_exception('no permission for the slice version'), Response::HTTP_FORBIDDEN);
+            throw new HttpException('No permission for the slice version.', Response::HTTP_FORBIDDEN);
         }
 
         Extension::register('ART_INIT', static function (ExtensionPoint $ep) {
@@ -166,7 +167,7 @@ $article->setClang(Language::getCurrentId());
 
 if (!$article->setArticleId(Article::getCurrentId())) {
     if (!Core::isDebugMode() && !BackendLogin::hasSession()) {
-        throw new rex_exception('Article with id ' . Article::getCurrentId() . ' does not exist');
+        throw new NotFoundHttpException('Article with id ' . Article::getCurrentId() . ' does not exist.');
     }
 
     $fragment = new Fragment([

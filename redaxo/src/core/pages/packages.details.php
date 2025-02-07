@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Http\Exception\NotFoundHttpException;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
@@ -20,7 +21,7 @@ $navigation = [
 ];
 
 if (!in_array($subPage, ['help', 'changelog', 'license'], true)) {
-    throw new rex_exception('Unknown packages subpage "' . $subPage . '"');
+    throw new NotFoundHttpException('Unknown packages subpage "' . $subPage . '"');
 }
 
 $navigation[$subPage]['active'] = true;
