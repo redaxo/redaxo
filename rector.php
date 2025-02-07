@@ -50,6 +50,7 @@ use Redaxo\Core\Content;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob;
 use Redaxo\Core\Database;
+use Redaxo\Core\ErrorHandler;
 use Redaxo\Core\Exception;
 use Redaxo\Core\ExtensionPoint;
 use Redaxo\Core\Filesystem;
@@ -221,6 +222,7 @@ return RectorConfig::configure()
         'rex_cronjob_manager_sql' => Cronjob\CronjobManager::class,
         'rex_dir' => Filesystem\Dir::class,
         'rex_editor' => Util\Editor::class,
+        'rex_error_handler' => ErrorHandler::class,
         'rex_extension' => ExtensionPoint\Extension::class,
         'rex_extension_point' => ExtensionPoint\ExtensionPoint::class,
         'rex_extension_point_art_content_updated' => Content\ExtensionPoint\ArticleContentUpdated::class,

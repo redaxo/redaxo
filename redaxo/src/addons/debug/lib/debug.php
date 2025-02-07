@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ErrorHandler;
 use Redaxo\Core\Log\Logger;
 
 /**
@@ -18,7 +19,7 @@ class rex_debug
         rex_sql_debug::class,
         Sql::class,
         Logger::class,
-        rex_error_handler::class,
+        ErrorHandler::class,
     ];
 
     /**

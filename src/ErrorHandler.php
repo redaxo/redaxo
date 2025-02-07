@@ -1,6 +1,8 @@
 <?php
 
-use Redaxo\Core\Core;
+namespace Redaxo\Core;
+
+use ErrorException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Exception\HttpException;
@@ -9,16 +11,35 @@ use Redaxo\Core\Http\Response;
 use Redaxo\Core\Log\Logger;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\Login;
-use Redaxo\Core\SystemReport;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
+use rex_exception;
+use Throwable;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
+use function in_array;
+use function ini_get;
+use function is_array;
+use function is_int;
 use function Redaxo\Core\View\escape;
 
-abstract class rex_error_handler
+use const E_COMPILE_ERROR;
+use const E_COMPILE_WARNING;
+use const E_DEPRECATED;
+use const E_ERROR;
+use const E_NOTICE;
+use const E_PARSE;
+use const E_RECOVERABLE_ERROR;
+use const E_USER_DEPRECATED;
+use const E_USER_ERROR;
+use const E_USER_NOTICE;
+use const E_USER_WARNING;
+use const E_WARNING;
+use const PHP_SAPI;
+
+abstract class ErrorHandler
 {
     private static bool $registered = false;
 
@@ -398,7 +419,7 @@ abstract class rex_error_handler
     }
 
     /**
-     * @param Throwable|Exception $exception
+     * @param Throwable $exception
      *
      * @return string
      */
