@@ -7,6 +7,7 @@ use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\CronjobExecutor;
 use Redaxo\Core\Cronjob\CronjobManager;
+use Redaxo\Core\ErrorHandler;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\DefaultPathProvider;
@@ -137,7 +138,7 @@ if ('cli' !== PHP_SAPI) {
     Core::setProperty('request', BaseRequest::createFromGlobals());
 }
 
-rex_error_handler::register();
+ErrorHandler::register();
 VarDumper::register();
 
 // ----------------- REX PERMS

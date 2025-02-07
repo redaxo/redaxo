@@ -8,10 +8,10 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
+use Redaxo\Core\ErrorHandler;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Exception\HttpException;
 use Redaxo\Core\Security\BackendLogin;
-use rex_error_handler;
 use Stringable;
 use Throwable;
 
@@ -92,7 +92,7 @@ class Logger extends AbstractLogger
     public static function logError(int $errno, string $errstr, string $errfile, int $errline, ?string $url = null): void
     {
         $logger = self::factory();
-        $logger->log(rex_error_handler::getErrorType($errno), $errstr, [], $errfile, $errline, $url);
+        $logger->log(ErrorHandler::getErrorType($errno), $errstr, [], $errfile, $errline, $url);
     }
 
     /**
