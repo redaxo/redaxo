@@ -894,19 +894,6 @@
       <code><![CDATA[setEval]]></code>
     </MixedMethodCall>
   </file>
-  <file src="redaxo/src/core/lib/error_handler.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$line]]></code>
-      <code><![CDATA[$row[2]]]></code>
-    </InvalidScalarArgument>
-    <MixedOperand>
-      <code><![CDATA[Request::server('REQUEST_URI')]]></code>
-    </MixedOperand>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$frame['function']]]></code>
-      <code><![CDATA[$frame['type']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
   <file src="redaxo/src/core/pages/backup.export.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$EXPDIR]]></code>
@@ -2825,6 +2812,19 @@
     <PossiblyNullArgument>
       <code><![CDATA[$oldName]]></code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/ErrorHandler.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$line]]></code>
+      <code><![CDATA[$row[2]]]></code>
+    </InvalidScalarArgument>
+    <MixedOperand>
+      <code><![CDATA[Request::server('REQUEST_URI')]]></code>
+    </MixedOperand>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$frame['function']]]></code>
+      <code><![CDATA[$frame['type']]]></code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="src/ExtensionPoint/Extension.php">
     <InvalidCast>
