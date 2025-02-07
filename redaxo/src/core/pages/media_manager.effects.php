@@ -9,9 +9,9 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\SelectField;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\Http\Exception\NotFoundHttpException;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
-use Redaxo\Core\MediaManager\Effect;
 use Redaxo\Core\MediaManager\Effect\AbstractEffect;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\Translation\I18n;
@@ -30,10 +30,10 @@ $func = Request::request('func', 'string');
 $sql = Sql::factory();
 $sql->setQuery('SELECT * FROM ' . Core::getTablePrefix() . 'media_manager_type WHERE id=' . $typeId);
 if (1 != $sql->getRows()) {
-    throw new Exception('Invalid type_id "' . $typeId . '"');
+    throw new NotFoundHttpException('Invalid type_id "' . $typeId . '"');
 }
 if (MediaManager::STATUS_SYSTEM_TYPE === (int) $sql->getValue('status')) {
-    throw new rex_exception('System media types can not be edited.');
+    throw new NotFoundHttpException('System media types can not be edited.');
 }
 $typeName = (string) $sql->getValue('name');
 

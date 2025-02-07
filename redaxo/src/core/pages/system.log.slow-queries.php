@@ -1,11 +1,12 @@
 <?php
 
 use Redaxo\Core\Database\Util;
+use Redaxo\Core\Http\Exception\NotFoundHttpException;
 
 $logFile = Util::slowQueryLogPath();
 
 if (null === $logFile) {
-    throw new rex_exception('slow query log file not found');
+    throw new NotFoundHttpException('Slow query log file not found.');
 }
 
 require_once __DIR__ . '/system.log.external.php';
