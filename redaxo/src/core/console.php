@@ -10,7 +10,7 @@ use Redaxo\Core\Translation\I18n;
 set_time_limit(0);
 
 // setup a minimal exception handler to print early errors,
-// happening before redaxo itself was able to register its rex_error_handler
+// happening before redaxo itself was able to register its ErrorHandler
 set_exception_handler(static function (Throwable $exception): void {
     fwrite(STDERR, $exception->getMessage() . "\n");
     fwrite(STDERR, $exception->getTraceAsString() . "\n");
