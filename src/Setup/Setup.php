@@ -8,6 +8,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Exception\CouldNotConnectException;
 use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
@@ -19,7 +20,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Util\Version;
-use rex_exception;
 
 use function array_key_exists;
 use function extension_loaded;
@@ -71,7 +71,7 @@ class Setup
         // provide a error message for 'git cloned' sources, to give newcomers a hint why the very first setup might look broken.
         // we intentionally dont check permissions here, as those will be checked in a later setup step.
         if (!is_dir(Path::coreAssets())) {
-            throw new rex_exception('Unable to copy assets to "' . Path::coreAssets() . '". Is the folder writable for the webserver?');
+            throw new RuntimeException('Unable to copy assets to "' . Path::coreAssets() . '". Is the folder writable for the webserver?');
         }
 
         $files = require Path::core('vendor_files.php');

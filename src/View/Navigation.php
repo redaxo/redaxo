@@ -5,9 +5,9 @@ namespace Redaxo\Core\View;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\Category;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Util\Str;
-use rex_exception;
 
 use function count;
 use function in_array;
@@ -72,7 +72,7 @@ class Navigation
     public function __construct()
     {
         if (!self::$factoryCall && self::class === static::class) {
-            throw new rex_exception(sprintf('Base class %s must be instantiated via %1$s::factory().', self::class));
+            throw new LogicException(sprintf('Base class %s must be instantiated via %1$s::factory().', self::class));
         }
 
         self::$factoryCall = false;

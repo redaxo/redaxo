@@ -6,6 +6,7 @@ use BadMethodCallException;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
@@ -24,7 +25,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Message;
-use rex_exception;
 
 use function array_key_exists;
 use function assert;
@@ -373,9 +373,6 @@ abstract class AbstractForm
      *
      * @param string $name
      * @param mixed $value
-     *
-     * @throws rex_exception
-     *
      * @return MediaField
      */
     public function addMediaField($name, $value = null, array $attributes = [])
@@ -391,9 +388,6 @@ abstract class AbstractForm
      *
      * @param string $name
      * @param mixed $value
-     *
-     * @throws rex_exception
-     *
      * @return ArticleField
      */
     public function addArticleField($name, $value = null, array $attributes = [])
@@ -616,9 +610,6 @@ abstract class AbstractForm
     // --------- Static Methods
     /**
      * @param string $inputType
-     *
-     * @throws rex_exception
-     *
      * @return class-string<BaseField>
      */
     public static function getInputClassName($inputType)
@@ -638,7 +629,7 @@ abstract class AbstractForm
             'media' => MediaField::class,
             'article' => ArticleField::class,
             'hidden', 'readonly', 'readonlytext', 'text', 'textarea' => BaseField::class,
-            default => throw new rex_exception("Unexpected inputType '" . $inputType . "'!"),
+            default => throw new LogicException("Unexpected inputType '" . $inputType . "'!"),
         };
 
         return $className;
@@ -983,7 +974,7 @@ abstract class AbstractForm
         }
 
         if (in_array($attributeName, ['method', 'action'], true)) {
-            throw new rex_exception(sprintf('Attribute "%s" can not be set via %s.', $attributeName, __FUNCTION__));
+            throw new LogicException(sprintf('Attribute "%s" can not be set via %s.', $attributeName, __FUNCTION__));
         }
 
         $this->formAttributes[$attributeName] = $attributeValue;

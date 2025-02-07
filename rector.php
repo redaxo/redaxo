@@ -33,9 +33,11 @@ use Rector\Renaming\ValueObject\RenameStaticMethod;
 use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
 use Rector\Transform\Rector\FuncCall\FuncCallToStaticCallRector;
 use Rector\Transform\Rector\New_\NewToStaticCallRector;
+use Rector\Transform\Rector\StaticCall\StaticCallToNewRector;
 use Rector\Transform\ValueObject\ConstFetchToClassConstFetch;
 use Rector\Transform\ValueObject\FuncCallToStaticCall;
 use Rector\Transform\ValueObject\NewToStaticCall;
+use Rector\Transform\ValueObject\StaticCallToNew;
 use Rector\TypeDeclaration\Rector as TypeDeclaration;
 use Rector\ValueObject\PhpVersion;
 use Redaxo\Core\Addon;
@@ -397,6 +399,7 @@ return RectorConfig::configure()
         'rex_be_style' => Backend\Style::class,
         'rex_scss_compiler' => Util\ScssCompiler::class,
         'rex_article_not_found_exception' => Content\Exception\ArticleNotFoundException::class,
+        'rex_exception' => Exception\Exception::class,
         'rex_functional_exception' => Exception\UserMessageException::class,
         'rex_http_exception' => Http\Exception\HttpException::class,
         'rex_media_manager_not_found_exception' => MediaManager\Exception\MediaNotFoundException::class,
@@ -463,6 +466,10 @@ return RectorConfig::configure()
     ->withConfiguredRule(NewToStaticCallRector::class, [
         new NewToStaticCall(Security\BackendPasswordPolicy::class, Security\BackendPasswordPolicy::class, 'factory'),
         new NewToStaticCall(Log\LogFile::class, Log\LogFile::class, 'factory'),
+        new NewToStaticCall('rex_exception', Exception\RuntimeException::class, 'create'), // 2 step modification, see StaticCallToNewRector
+    ])
+    ->withConfiguredRule(StaticCallToNewRector::class, [
+        new StaticCallToNew(Exception\RuntimeException::class, 'create'), // 2 step modification, see NewToStaticCallRector
     ])
     ->withConfiguredRule(FuncCallToStaticCallRector::class, [
         new FuncCallToStaticCall('rex_mediapool_filename', MediaPool\MediaPool::class, 'filename'),

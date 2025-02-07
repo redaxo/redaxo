@@ -9,13 +9,13 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Util;
 use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
-use rex_exception;
 
 use function function_exists;
 use function sprintf;
@@ -219,7 +219,7 @@ class ContentHandler
         $sql->setQuery('SELECT article_id, clang_id FROM ' . Core::getTable('article_slice') . ' WHERE id = ?', [$sliceId]);
 
         if (!$sql->getRows()) {
-            throw new rex_exception(sprintf('Slice with id=%d not found.', $sliceId));
+            throw new RuntimeException(sprintf('Slice with id=%d not found.', $sliceId));
         }
 
         $article = Article::get($sql->getValue('article_id'), $sql->getValue('clang_id'));
@@ -342,9 +342,6 @@ class ContentHandler
      *
      * @param int $articleId Id des zu generierenden Artikels
      * @param int $clang ClangId des Artikels
-     *
-     * @throws rex_exception
-     *
      * @return true
      */
     public static function generateArticleContent($articleId, $clang = null)
@@ -358,7 +355,7 @@ class ContentHandler
             $CONT->setClang($clangId);
             $CONT->setEval(false); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
             if (!$CONT->setArticleId($articleId)) {
-                throw new rex_exception(sprintf('Article %d does not exist.', $articleId));
+                throw new RuntimeException(sprintf('Article %d does not exist.', $articleId));
             }
 
             // --------------------------------------------------- Artikelcontent speichern
@@ -373,7 +370,7 @@ class ContentHandler
             ]));
 
             if (!File::put($articleContentFile, $articleContent)) {
-                throw new rex_exception(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, Path::coreCache('structure/')));
+                throw new RuntimeException(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, Path::coreCache('structure/')));
             }
 
             if (function_exists('opcache_invalidate')) {

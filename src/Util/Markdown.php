@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Util;
 
 use Redaxo\Core\Base\FactoryTrait;
-use rex_exception;
+use Redaxo\Core\Exception\RuntimeException;
 
 use function Redaxo\Core\View\escape;
 
@@ -80,7 +80,7 @@ class Markdown
                         $message .= "a h$previous is followed by a h$level, but only a h" . ($previous + 1) . ' or lower is allowed.';
                     }
 
-                    throw new rex_exception($message);
+                    throw new RuntimeException($message);
                 }
 
                 $toc .= "<ul>\n";

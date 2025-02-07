@@ -4,14 +4,14 @@ namespace Redaxo\Core\Security;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
-use rex_exception;
-use RuntimeException;
 use SensitiveParameter;
 
 use function sprintf;
@@ -379,7 +379,7 @@ class Login
             // each code-path which set $ok=true, must also set a UID
             $sessUid = $this->getSessionVar(self::SESSION_USER_ID);
             if (empty($sessUid)) {
-                throw new rex_exception('Login considered successfull but no UID found');
+                throw new LogicException('Login considered successfull but no UID found');
             }
         } else {
             // wenn nicht, dann UID loeschen und error seite
@@ -587,9 +587,9 @@ class Login
 
                 if (!@session_start()) {
                     if ($error = error_get_last()) {
-                        throw new rex_exception('Unable to start session: ' . $error['message']);
+                        throw new RuntimeException('Unable to start session: ' . $error['message']);
                     }
-                    throw new rex_exception('Unable to start session.');
+                    throw new RuntimeException('Unable to start session.');
                 }
             });
         }

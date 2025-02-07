@@ -8,6 +8,7 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Content\ApiFunction as ContentApiFunction;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Exception\HttpException;
 use Redaxo\Core\Http\Exception\NotFoundHttpException;
@@ -17,7 +18,6 @@ use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\Security\ApiFunction as SecurityApiFunction;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
-use rex_exception;
 
 use function Redaxo\Core\View\escape;
 use function sprintf;
@@ -116,8 +116,6 @@ abstract class ApiFunction
 
     /**
      * Returns the api function instance which is bound to the current request, or null if no api function was bound.
-     *
-     * @throws rex_exception
      */
     public static function factory(): ?self
     {
@@ -169,7 +167,7 @@ abstract class ApiFunction
         $class = static::class;
 
         if (self::class === $class) {
-            throw new BadMethodCallException(__FUNCTION__ . ' must be called on subclasses of "' . self::class . '".');
+            throw new LogicException(__FUNCTION__ . ' must be called on subclasses of "' . self::class . '".');
         }
 
         return [self::REQ_CALL_PARAM => self::getName($class), CsrfToken::PARAM => CsrfToken::factory($class)->getValue()];
@@ -236,7 +234,7 @@ abstract class ApiFunction
                     $result = $apiFunc->execute();
 
                     if (!($result instanceof Result)) {
-                        throw new rex_exception('Illegal result returned from api-function ' . Request::get(self::REQ_CALL_PARAM) . '. Expected a instance of ApiFunctionResult but got "' . get_debug_type($result) . '".');
+                        throw new LogicException('Illegal result returned from api-function ' . Request::get(self::REQ_CALL_PARAM) . '. Expected a instance of ApiFunctionResult but got "' . get_debug_type($result) . '".');
                     }
 
                     $apiFunc->result = $result;
@@ -323,6 +321,6 @@ abstract class ApiFunction
             return substr($class, 8);
         }
 
-        throw new rex_exception('The api function "' . $class . '" is not registered.');
+        throw new LogicException('The api function "' . $class . '" is not registered.');
     }
 }

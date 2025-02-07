@@ -3,12 +3,12 @@
 namespace Redaxo\Core\Filesystem;
 
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Util\Exception\YamlParseException;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
-use rex_exception;
 
 use function dirname;
 
@@ -28,9 +28,6 @@ final class File
      * Returns the content of a file.
      *
      * @param string $file Path to the file
-     *
-     * @throws rex_exception throws when the file cannot be read
-     *
      * @return string Content of the file
      *
      * @psalm-assert non-empty-string $file
@@ -41,7 +38,7 @@ final class File
             $content = @file_get_contents($file);
 
             if (false === $content) {
-                throw new rex_exception('Unable to read file "' . $file . '"');
+                throw new RuntimeException('Unable to read file "' . $file . '".');
             }
 
             return $content;

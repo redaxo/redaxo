@@ -5,11 +5,11 @@ namespace Redaxo\Core\Translation;
 use Locale;
 use Redaxo\Core\Core;
 use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
-use rex_exception;
 
 use function call_user_func;
 use function count;
@@ -286,7 +286,7 @@ class I18n
 
         $msg = preg_replace($patterns, $replaceWith, $msg);
         if (null === $msg) {
-            throw new rex_exception(preg_last_error_msg());
+            throw new RuntimeException(preg_last_error_msg());
         }
 
         if ($escape) {

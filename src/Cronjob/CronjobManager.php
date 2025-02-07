@@ -7,8 +7,8 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Cronjob\Type\AbstractType;
 use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use rex_exception;
 
 use function in_array;
 use function ini_get;
@@ -82,8 +82,6 @@ class CronjobManager
 
     /**
      * @param int $id
-     *
-     * @throws rex_exception
      * @return string
      */
     public function getName($id)
@@ -97,7 +95,7 @@ class CronjobManager
         if (1 == $this->sql->getRows()) {
             return $this->sql->getValue('name');
         }
-        throw new rex_exception(sprintf('No cronjob found with id %s', $id));
+        throw new RuntimeException(sprintf('No cronjob found with id %s.', $id));
     }
 
     /**

@@ -7,9 +7,9 @@ use Redaxo\Core\Content\ModulePermission;
 use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Language\LanguagePermission;
 use Redaxo\Core\MediaPool\MediaPoolPermission;
-use RuntimeException;
 use SensitiveParameter;
 
 use function in_array;

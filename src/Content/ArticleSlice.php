@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Content;
 
-use LogicException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
 

@@ -56,7 +56,7 @@ class Logger extends AbstractLogger
     /**
      * Shorthand: Logs the given Exception.
      *
-     * @param Throwable|Exception $exception The Exception to log
+     * @param Throwable $exception The Exception to log
      * @return void
      */
     public static function logException($exception, ?string $url = null)

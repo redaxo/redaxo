@@ -5,8 +5,8 @@ namespace Redaxo\Core\Tests\Util;
 use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Util\Timer;
-use RuntimeException;
 use Throwable;
 
 /** @internal */
@@ -58,7 +58,7 @@ final class TimerTest extends TestCase
         $exception = null;
         try {
             Timer::measure('test2', static function (): never {
-                throw new RuntimeException();
+                throw new RuntimeException('test');
             });
         } catch (Throwable $exception) {
         }

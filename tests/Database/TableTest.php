@@ -10,7 +10,7 @@ use Redaxo\Core\Database\ForeignKey;
 use Redaxo\Core\Database\Index;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
-use rex_exception;
+use Redaxo\Core\Exception\LogicException;
 
 /** @internal */
 final class TableTest extends TestCase
@@ -352,7 +352,7 @@ final class TableTest extends TestCase
 
     public function testRenameColumnNonExisting(): void
     {
-        $this->expectException(rex_exception::class);
+        $this->expectException(LogicException::class);
 
         $table = $this->createTable();
         $table->renameColumn('foo', 'bar');
@@ -360,7 +360,7 @@ final class TableTest extends TestCase
 
     public function testRenameColumnToAlreadyExisting(): void
     {
-        $this->expectException(rex_exception::class);
+        $this->expectException(LogicException::class);
 
         $table = $this->createTable();
         $table->renameColumn('id', 'title');
@@ -708,7 +708,7 @@ final class TableTest extends TestCase
 
     public function testRenameNonExistingTable(): void
     {
-        $this->expectException(rex_exception::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Table "rex_non_existing" does not exist.');
 
         Table::get('rex_non_existing')

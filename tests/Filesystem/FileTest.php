@@ -5,10 +5,10 @@ namespace Redaxo\Core\Tests\Filesystem;
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-use rex_exception;
 
 /** @internal */
 final class FileTest extends TestCase
@@ -36,7 +36,7 @@ final class FileTest extends TestCase
 
     public function testRequireThrows(): void
     {
-        $this->expectException(rex_exception::class);
+        $this->expectException(RuntimeException::class);
 
         $file = $this->getPath('non_existing.txt');
         File::require($file);

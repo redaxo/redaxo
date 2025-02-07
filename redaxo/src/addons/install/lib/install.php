@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Exception\RuntimeException;
 
 class rex_install
 {
@@ -10,18 +11,16 @@ class rex_install
      *
      * @param non-empty-string $addonKey e.g. "yform"
      * @param string $version e.g. "3.2.1"
-     *
-     * @throws rex_exception
      */
     public function downloadAddon(string $addonKey, string $version): void
     {
         if (Addon::exists($addonKey)) {
-            throw new rex_exception(sprintf('AddOn "%s" already exists!', $addonKey));
+            throw new RuntimeException(sprintf('AddOn "%s" already exists.', $addonKey));
         }
 
         $packages = rex_install_packages::getAddPackages();
         if (!isset($packages[$addonKey])) {
-            throw new rex_exception(sprintf('AddOn "%s" does not exist!', $addonKey));
+            throw new RuntimeException(sprintf('AddOn "%s" does not exist.', $addonKey));
         }
         $package = $packages[$addonKey];
         $files = $package['files'];
@@ -37,14 +36,14 @@ class rex_install
         }
 
         if (!$fileId || !isset($files[$fileId])) {
-            throw new rex_exception(sprintf('Version "%s" not found!', $version));
+            throw new RuntimeException(sprintf('Version "%s" not found.', $version));
         }
 
         $install = new rex_install_package_add();
         $message = $install->run($addonKey, $fileId);
 
         if ('' !== $message) {
-            throw new rex_exception($message);
+            throw new RuntimeException($message);
         }
     }
 
@@ -54,19 +53,17 @@ class rex_install
      *
      * @param non-empty-string $addonKey e.g. "yform"
      * @param string $version e.g. "3.2.1"
-     *
-     * @throws rex_exception
      */
     public function updateAddon(string $addonKey, string $version): void
     {
         if (!Addon::exists($addonKey)) {
-            throw new rex_exception(sprintf('AddOn "%s" does not exist!', $addonKey));
+            throw new RuntimeException(sprintf('AddOn "%s" does not exist.', $addonKey));
         }
 
         $packages = rex_install_packages::getUpdatePackages();
 
         if (!isset($packages[$addonKey])) {
-            throw new rex_exception(sprintf('No Updates available for AddOn "%s"!', $addonKey));
+            throw new RuntimeException(sprintf('No Updates available for AddOn "%s".', $addonKey));
         }
         $package = $packages[$addonKey];
         $files = $package['files'];
@@ -82,14 +79,14 @@ class rex_install
         }
 
         if (!$fileId || !isset($files[$fileId])) {
-            throw new rex_exception(sprintf('Version "%s" does not exist or is below the current version!', $version));
+            throw new RuntimeException(sprintf('Version "%s" does not exist or is below the current version.', $version));
         }
 
         $install = new rex_install_package_update();
         $message = $install->run($addonKey, $fileId);
 
         if ('' !== $message) {
-            throw new rex_exception($message);
+            throw new RuntimeException($message);
         }
     }
 }

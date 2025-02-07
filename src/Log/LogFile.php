@@ -4,9 +4,9 @@ namespace Redaxo\Core\Log;
 
 use Iterator;
 use Redaxo\Core\Base\FactoryTrait;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Filesystem\File;
 use ReturnTypeWillChange;
-use rex_exception;
 
 use function assert;
 use function strlen;
@@ -86,7 +86,7 @@ class LogFile implements Iterator
     public function current()
     {
         if (null === $this->currentLine) {
-            throw new rex_exception('current() can not be used before calling rewind()/next() or after last line');
+            throw new LogicException('current() can not be used before calling rewind()/next() or after last line');
         }
 
         return LogEntry::createFromString($this->currentLine);

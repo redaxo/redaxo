@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Console\Command\AbstractCommand;
+use Redaxo\Core\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -69,7 +70,7 @@ class rex_command_install_update extends AbstractCommand
         $install = new rex_install_package_update();
         try {
             $message = $install->run($addonKey, $fileId);
-        } catch (rex_exception $exception) {
+        } catch (Exception $exception) {
             $io->error($this->decodeMessage($exception->getMessage()));
             return 1;
         }

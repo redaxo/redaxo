@@ -5,6 +5,8 @@ namespace Redaxo\Core;
 use Redaxo\Core\Console\Application;
 use Redaxo\Core\Database\Configuration as DatabaseConfiguration;
 use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\User;
@@ -13,7 +15,6 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Validator\Validator;
-use rex_exception;
 use Symfony\Component\HttpFoundation\Request;
 
 use function constant;
@@ -363,14 +364,14 @@ final class Core
     /**
      * Returns the current user.
      *
-     * In contrast to `getUser`, this method throw a `rex_exception` if the user does not exist.
+     * In contrast to `getUser`, this method throw an exception if the user does not exist.
      */
     public static function requireUser(): User
     {
         $user = self::getProperty('user');
 
         if (!$user instanceof User) {
-            throw new rex_exception('User object does not exist');
+            throw new LogicException('User object does not exist');
         }
 
         return $user;
@@ -399,7 +400,7 @@ final class Core
         $request = self::getProperty('request');
 
         if (null === $request) {
-            throw new rex_exception('The request object is not available in cli');
+            throw new RuntimeException('The request object is not available in cli');
         }
 
         return $request;
@@ -407,8 +408,6 @@ final class Core
 
     /**
      * @param positive-int $db
-     *
-     * @throws rex_exception
      */
     public static function getDbConfig(int $db = 1): DatabaseConfiguration
     {
@@ -417,7 +416,7 @@ final class Core
         if (!$config) {
             $configFile = Path::coreData('config.yml');
 
-            throw new rex_exception('Unable to read db config from config.yml "' . $configFile . '"');
+            throw new RuntimeException('Unable to read db config from "' . $configFile . '".');
         }
 
         return new DatabaseConfiguration($config[$db]);

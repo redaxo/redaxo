@@ -4,9 +4,9 @@ namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-use rex_exception;
 
 class ModuleCache
 {
@@ -26,7 +26,7 @@ class ModuleCache
         $mapping = array_column($data, 'key', 'id');
 
         if (!File::putCache(self::getKeyMappingPath(), $mapping)) {
-            throw new rex_exception('Unable to generate module key mapping.');
+            throw new RuntimeException('Unable to generate module key mapping.');
         }
     }
 

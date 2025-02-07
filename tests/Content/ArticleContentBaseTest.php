@@ -6,9 +6,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Content\ArticleContentBase;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\LogicException;
 use ReflectionClass;
 use ReflectionProperty;
-use rex_exception;
 
 /** @internal */
 final class ArticleContentBaseTest extends TestCase
@@ -45,7 +45,7 @@ final class ArticleContentBaseTest extends TestCase
     {
         $instance = $this->createArticleContentBaseWithoutConstructor();
 
-        $this->expectException(rex_exception::class);
+        $this->expectException(LogicException::class);
 
         $instance->getValue($value);
     }

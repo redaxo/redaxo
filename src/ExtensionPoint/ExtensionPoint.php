@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\ExtensionPoint;
 
-use rex_exception;
+use Redaxo\Core\Exception\LogicException;
 
 /**
  * @template T
@@ -41,13 +41,12 @@ class ExtensionPoint
      * Sets the subject.
      *
      * @param T $subject
-     * @throws rex_exception
      * @return void
      */
     public function setSubject($subject)
     {
         if ($this->isReadonly()) {
-            throw new rex_exception('Subject can\'t be adjusted in readonly extension points');
+            throw new LogicException('Subject can\'t be adjusted in readonly extension points.');
         }
         $this->subject = $subject;
     }
@@ -67,14 +66,12 @@ class ExtensionPoint
      *
      * @param string $key
      * @param mixed $value
-     *
-     * @throws rex_exception
      * @return void
      */
     public function setParam($key, $value)
     {
         if ($this->isReadonly()) {
-            throw new rex_exception('Params can\'t be adjusted in readonly extension points');
+            throw new LogicException('Params can\'t be adjusted in readonly extension points.');
         }
         $this->params[$key] = $value;
     }

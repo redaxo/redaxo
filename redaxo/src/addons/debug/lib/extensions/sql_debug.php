@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\Exception;
 use Redaxo\Core\Util\Timer;
 
 /**
@@ -20,7 +21,7 @@ class rex_sql_debug extends Sql
                 rex_debug_clockwork::getInstance()->getRequest()
                     ->addDatabaseQuery($query, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
             }
-        } catch (rex_exception $e) {
+        } catch (Exception $e) {
             $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
             $file = $trace[0]['file'];

@@ -3,10 +3,10 @@
 namespace Redaxo\Core\Language;
 
 use AllowDynamicProperties;
-use LogicException;
+use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-use rex_exception;
 
 use function count;
 use function in_array;
@@ -104,14 +104,12 @@ class Language
      * Sets the current clang id.
      *
      * @param int $id Clang id
-     *
-     * @throws rex_exception
      * @return void
      */
     public static function setCurrentId($id)
     {
         if (!self::exists($id)) {
-            throw new rex_exception('Language id "' . $id . '" doesn\'t exist');
+            throw new RuntimeException('Language id "' . $id . '" doesn\'t exist');
         }
         self::$currentId = (int) $id;
     }

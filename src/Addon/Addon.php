@@ -6,6 +6,7 @@ use Override;
 use Redaxo\Core\Addon\ExtensionPoint\AddonCacheDeleted;
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
@@ -16,8 +17,6 @@ use Redaxo\Core\Util\Exception\YamlParseException;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
-use rex_exception;
-use RuntimeException;
 
 use function assert;
 use function in_array;
@@ -83,7 +82,6 @@ final class Addon implements AddonInterface
     /**
      * Returns the addon by the given name.
      *
-     * @throws RuntimeException if the addon does not exist
      * @psalm-assert =non-empty-string $addon
      */
     public static function require(string $addon): self
@@ -272,7 +270,7 @@ final class Addon implements AddonInterface
             return require $__file;
         }
 
-        throw new rex_exception(sprintf('Addon "%s": the page path "%s" neither exists as standalone path nor as addon subpath "%s"', $this->name, $__file, $__path));
+        throw new RuntimeException(sprintf('Addon "%s": the page path "%s" neither exists as standalone path nor as addon subpath "%s"', $this->name, $__file, $__path));
     }
 
     #[Override]
@@ -387,7 +385,7 @@ final class Addon implements AddonInterface
     {
         $cacheDir = $this->getCachePath();
         if (!Dir::delete($cacheDir)) {
-            throw new rex_exception('Addon cache directory "' . $cacheDir . '" is not writable.');
+            throw new RuntimeException('Addon cache directory "' . $cacheDir . '" is not writable.');
         }
 
         $cache = File::getCache($path = Path::coreCache(self::PROPERTIES_CACHE_FILE));

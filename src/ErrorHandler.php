@@ -3,6 +3,7 @@
 namespace Redaxo\Core;
 
 use ErrorException;
+use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Exception\HttpException;
@@ -14,7 +15,6 @@ use Redaxo\Core\Security\Login;
 use Redaxo\Core\Util\Editor;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
-use rex_exception;
 use Throwable;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
@@ -405,7 +405,7 @@ abstract class ErrorHandler
 
         try {
             $request = Core::getRequest();
-        } catch (rex_exception) {
+        } catch (RuntimeException) {
             return null;
         }
 

@@ -4,15 +4,15 @@ namespace Redaxo\Core\Tests\View;
 
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\View\Navigation;
-use rex_exception;
 
 /** @internal */
 final class NavigationTest extends TestCase
 {
     public function testContruct(): void
     {
-        $this->expectException(rex_exception::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Base class ' . Navigation::class . ' must be instantiated via ' . Navigation::class . '::factory().');
 
         new Navigation();

@@ -6,13 +6,13 @@ use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Field\PriorityField;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
-use rex_exception;
 
 use function assert;
 use function count;
@@ -79,7 +79,7 @@ class Form extends AbstractForm
             // Ein Datensatz gefunden => Mode: Edit
             $this->setEditMode(true);
         } else {
-            throw new rex_exception('Form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!');
+            throw new LogicException('Form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!');
         }
 
         // --------- Load Env
