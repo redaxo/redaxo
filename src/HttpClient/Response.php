@@ -248,7 +248,7 @@ final class Response
     private function addZlibStreamFilter($stream, int $mode)
     {
         if (!is_resource($stream)) {
-            throw new rex_exception('The stream has to be a resource.');
+            throw new InvalidArgumentException('The stream has to be a resource.');
         }
 
         if (!in_array('zlib.*', stream_get_filters())) {
@@ -256,7 +256,7 @@ final class Response
         }
 
         if (!in_array($mode, [STREAM_FILTER_READ, STREAM_FILTER_WRITE])) {
-            throw new rex_exception('Invalid stream filter mode.');
+            throw new InvalidArgumentException('Invalid stream filter mode.');
         }
 
         $appendedZlibStreamFilter = stream_filter_append(

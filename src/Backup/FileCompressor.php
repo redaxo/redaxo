@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Backup;
 
-use Exception;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Filesystem\File;
 
 /**
@@ -55,7 +55,7 @@ class FileCompressor
     public function gzReadDeCompressed(string $source)
     {
         if ('gz' !== File::extension($source)) {
-            throw new Exception('Expecting a file with .gz suffix');
+            throw new InvalidArgumentException('Expecting a file with .gz suffix');
         }
 
         $str = '';

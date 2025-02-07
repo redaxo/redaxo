@@ -4,6 +4,7 @@ namespace Redaxo\Core\Database;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Exception\SqlException;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use rex_exception;
 
 use function dirname;
@@ -121,7 +122,7 @@ final readonly class Util
     public static function importDump(string $file, bool $debug = false): void
     {
         if (!str_ends_with($file, '.sql')) {
-            throw new rex_exception('Expecting a .sql file, "' . $file . '" given.');
+            throw new InvalidArgumentException('Expecting a .sql file, "' . $file . '" given.');
         }
 
         $sql = Sql::factory();

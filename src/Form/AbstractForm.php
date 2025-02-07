@@ -967,7 +967,7 @@ abstract class AbstractForm
         $attributeName = preg_replace('/[^\w\d\-]/', '', strtolower($attributeName));
 
         if ('' === $attributeName) {
-            throw new rex_exception('The attribute name cannot be empty.');
+            throw new InvalidArgumentException('The attribute name cannot be empty.');
         }
 
         if (null === $attributeValue) {

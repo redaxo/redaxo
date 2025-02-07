@@ -7,7 +7,6 @@ use IntlDateFormatter;
 use IntlTimeZone;
 use Locale;
 use Redaxo\Core\Exception\InvalidArgumentException;
-use rex_exception;
 
 use function call_user_func;
 use function count;
@@ -404,14 +403,12 @@ final class Formatter
      * Formats a string by a custom callable.
      *
      * @param callable(string|null):string|array{0: callable(non-empty-array):string, 1: array<mixed>} $format A callable or an array of a callable and additional params
-     *
-     * @throws rex_exception
      */
     public static function custom(?string $value, callable|array $format): string
     {
         if (!is_callable($format)) {
             if (!is_callable($format[0])) {
-                throw new rex_exception('Unable to find callable ' . $format[0] . ' for custom format!');
+                throw new InvalidArgumentException('Unable to find callable ' . $format[0] . ' for custom format!');
             }
 
             $params = [];

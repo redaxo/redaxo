@@ -472,7 +472,7 @@ class I18n
     private static function validateLocale(string $locale): string
     {
         if (!$locale || !preg_match('/^[a-z]{2}_[a-z]{2}$/', $locale)) {
-            throw new rex_exception('Invalid locale "' . $locale . '"');
+            throw new InvalidArgumentException('Invalid locale "' . $locale . '"');
         }
         return $locale;
     }

@@ -4,7 +4,6 @@ namespace Redaxo\Core\MetaInfo\Form\Input;
 
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Form\Select\Select;
-use rex_exception;
 
 use function is_array;
 use function sprintf;
@@ -77,7 +76,7 @@ class DateInput extends AbstractInput
 
         foreach (['year', 'month', 'day'] as $reqIndex) {
             if (!isset($value[$reqIndex])) {
-                throw new rex_exception('Missing index "' . $reqIndex . '" in $value!');
+                throw new InvalidArgumentException('Missing index "' . $reqIndex . '" in $value!');
             }
         }
 
