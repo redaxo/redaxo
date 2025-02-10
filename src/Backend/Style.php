@@ -8,13 +8,14 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Util\ScssCompiler;
 
-class Style
+final class Style
 {
+    private function __construct() {}
+
     /**
      * Converts Backend SCSS files to CSS.
-     * @return void
      */
-    public static function compile()
+    public static function compile(): void
     {
         $scssFiles = Extension::registerPoint(new ExtensionPoint('BE_STYLE_SCSS_FILES', []));
 

@@ -8,7 +8,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
 
 use function count;
-use function is_array;
 
 /**
  * @psalm-consistent-constructor
@@ -30,16 +29,15 @@ class Navigation
     /** @var array<string, list<Page>> */
     private array $pages = [];
 
+    protected function __construct() {}
+
     public static function factory(): static
     {
         $class = static::getFactoryClass();
         return new $class();
     }
 
-    /**
-     * @return void
-     */
-    public function addPage(Page $page)
+    public function addPage(Page $page): void
     {
         $blockName = 'default';
         if ($page instanceof MainPage) {
@@ -56,9 +54,9 @@ class Navigation
     /**
      * @return list<array{navigation: list<array<string, mixed>>, headline: array{title: string}}>
      */
-    public function getNavigation()
+    public function getNavigation(): array
     {
-        uksort($this->pages, function (string $block1, string $block2) {
+        uksort($this->pages, function (string $block1, string $block2): int {
             $prio1 = $this->getPrio($block1);
             $prio2 = $this->getPrio($block2);
 
@@ -76,9 +74,9 @@ class Navigation
         $return = [];
         foreach ($this->pages as $block => $blockPages) {
             if (count($blockPages) > 0 && $blockPages[0] instanceof MainPage) {
-                uasort($blockPages, static function (Page $a, Page $b) {
-                    $aPrio = $a instanceof MainPage ? (int) $a->getPrio() : 0;
-                    $bPrio = $b instanceof MainPage ? (int) $b->getPrio() : 0;
+                uasort($blockPages, static function (Page $a, Page $b): int {
+                    $aPrio = $a instanceof MainPage ? $a->getPrio() : 0;
+                    $bPrio = $b instanceof MainPage ? $b->getPrio() : 0;
                     if ($aPrio === $bPrio || ($aPrio <= 0 && $bPrio <= 0)) {
                         return strnatcasecmp($a->getTitle(), $b->getTitle());
                     }
@@ -114,7 +112,7 @@ class Navigation
      *
      * @return list<array<string, mixed>>
      */
-    private function _getNavigation(array $blockPages)
+    private function _getNavigation(array $blockPages): array
     {
         $navigation = [];
 
@@ -150,7 +148,7 @@ class Navigation
             }
 
             $subpages = $page->getSubpages();
-            if (is_array($subpages) && !empty($subpages)) {
+            if ($subpages) {
                 $n['children'] = $this->_getNavigation($subpages);
             }
 
@@ -160,10 +158,7 @@ class Navigation
         return $navigation;
     }
 
-    /**
-     * @return void
-     */
-    protected function setActiveElements()
+    protected function setActiveElements(): void
     {
         foreach ($this->pages as $blockPages) {
             foreach ($blockPages as $page) {
@@ -182,22 +177,12 @@ class Navigation
         }
     }
 
-    /**
-     * @param string $block
-     * @param string $headline
-     * @return void
-     */
-    public function setHeadline($block, $headline)
+    public function setHeadline(string $block, string $headline): void
     {
         $this->headlines[$block] = $headline;
     }
 
-    /**
-     * @param string $block
-     *
-     * @return string
-     */
-    public function getHeadline($block)
+    public function getHeadline(string $block): string
     {
         if (isset($this->headlines[$block])) {
             return $this->headlines[$block];

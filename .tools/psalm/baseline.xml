@@ -2062,9 +2062,6 @@
     </PossiblyInvalidArgument>
   </file>
   <file src="src/Backend/Page.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$href]]></code>
-    </MixedArgumentTypeCoercion>
     <PossiblyNullArgument>
       <code><![CDATA[preg_replace('/\b' . preg_quote($class, '/') . '\b/', '', $this->getItemAttr('class'))]]></code>
       <code><![CDATA[preg_replace('/\b' . preg_quote($class, '/') . '\b/', '', $this->getLinkAttr('class'))]]></code>
