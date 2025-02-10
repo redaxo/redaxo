@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.4.0@04f312ac6ea48ba1c3e5db4d815bf6d74641c0ee">
+<files psalm-version="6.5.1@3f17a6b24a2dbe543e21408c2b19108cf6a355ef">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument>
       <code><![CDATA[$column]]></code>
@@ -4615,6 +4615,9 @@
     <MixedOperand>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[rex_config::get($this->getPackageId(), $key, $default)]]></code>
+    </MixedReturnStatement>
     <PossiblyFalseArgument>
       <code><![CDATA[$f]]></code>
       <code><![CDATA[$f]]></code>
@@ -4746,6 +4749,7 @@
       <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
       <code><![CDATA[$login ? $login->getImpersonator() : null]]></code>
       <code><![CDATA[$request]]></code>
+      <code><![CDATA[rex_config::get(self::CONFIG_NAMESPACE, $key, $default)]]></code>
     </MixedReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[list<non-empty-string>]]></code>
@@ -4784,8 +4788,6 @@
       <code><![CDATA[$dir]]></code>
       <code><![CDATA[$func($path)]]></code>
       <code><![CDATA[$path]]></code>
-      <code><![CDATA[self::MIN_PHP_VERSION]]></code>
-      <code><![CDATA[self::MIN_PHP_VERSION]]></code>
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$config['db'][1]]]></code>
