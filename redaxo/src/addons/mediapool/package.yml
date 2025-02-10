@@ -1,5 +1,5 @@
 package: mediapool
-version: '2.15.1'
+version: '2.15.2-dev'
 author: 'Jan Kristinus'
 supportpage: https://github.com/redaxo/redaxo
 
@@ -32,4 +32,4 @@ sanitize_svgs: true
 
 requires:
     php: '>=8.1'
-    redaxo: ^5.15.0
+    redaxo: ^5.18.2-dev
