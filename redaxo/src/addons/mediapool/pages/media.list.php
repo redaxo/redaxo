@@ -126,8 +126,55 @@ if (!empty($argUrl['args']['types'])) {
     echo rex_view::info(rex_i18n::msg('pool_file_filter') . ' <code>' . $argUrl['args']['types'] . '</code>');
 }
 
+// Add Filter to the Query
+$filter = [];
+
+$mediaName = rex_request('media_name', 'string');
+if ('' != $mediaName) {
+    $filter['term'] = $mediaName;
+
+    if ('global' != rex_addon::get('mediapool')->getConfig('searchmode', 'local') && 0 != $rexFileCategory) {
+        $filter['category_id_path'] = $rexFileCategory;
+    }
+} else {
+    $filter['category_id'] = $rexFileCategory;
+}
+
+if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
+    $types = explode(',', $argUrl['args']['types']);
+    $filter['types'] = $types;
+}
+
+if (!rex_addon::get('media_manager')->isAvailable()) {
+    $mediaManagerUrl = null;
+} else {
+    $mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
+}
+
+// Pagination
+if(empty($filter['term'] ))
+{
+    $pagination = '';
+    $context = new rex_context([
+        'page' => rex_be_controller::getCurrentPage() // Aktuelle Seite im Backend
+    ]);
+    $addon = rex_addon::get('mediapool');
+    $pager = new rex_pager($addon->getProperty('rows_per_page', 200));
+    $items = rex_media_service::getList($filter, [], $pager);
+    $mediaFragment = new rex_fragment();
+    $mediaFragment->setVar('pager', $pager);
+    $mediaFragment->setVar('urlprovider', $context);
+    $pagination = $mediaFragment->parse('core/navigations/pagination.php');    
+}
+else
+{
+    $pager = new rex_pager(5000);
+    $items = rex_media_service::getList($filter, [], $pager);
+}
+$panel = $pagination ?? '';
+
 // deletefilelist und cat change
-$panel = '
+$panel .= '
 <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
     <fieldset>
         ' . $csrf->getHiddenField() . '
@@ -222,33 +269,6 @@ if ($hasCategoryPerm) {
                 ';
 }
 
-$filter = [];
-
-$mediaName = rex_request('media_name', 'string');
-if ('' != $mediaName) {
-    $filter['term'] = $mediaName;
-
-    if ('global' != rex_addon::get('mediapool')->getConfig('searchmode', 'local') && 0 != $rexFileCategory) {
-        $filter['category_id_path'] = $rexFileCategory;
-    }
-} else {
-    $filter['category_id'] = $rexFileCategory;
-}
-
-if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
-    $types = explode(',', $argUrl['args']['types']);
-    $filter['types'] = $types;
-}
-
-if (!rex_addon::get('media_manager')->isAvailable()) {
-    $mediaManagerUrl = null;
-} else {
-    $mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
-}
-
-$pager = new rex_pager(5000);
-
-$items = rex_media_service::getList($filter, [], $pager);
 
 $panel .= '<tbody>';
 
