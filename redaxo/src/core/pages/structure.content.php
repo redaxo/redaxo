@@ -90,7 +90,7 @@ $context = new Context([
 ]);
 
 // ----- Titel anzeigen
-echo View::title(I18n::msg('content') . ': ' . $OOArt->getName(), '');
+echo View::title(I18n::msg('content') . ': ' . escape($OOArt->getName()), '');
 
 // ----- Languages
 echo View::clangSwitchAsButtons($context);

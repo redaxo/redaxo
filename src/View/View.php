@@ -70,6 +70,9 @@ class View
      * @param string|array|null $subtitle
      *
      * @return string
+     *
+     * @psalm-taint-sink html $head
+     * @psalm-taint-sink html $subtitle
      */
     public static function title($head, $subtitle = null)
     {

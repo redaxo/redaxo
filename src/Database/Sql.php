@@ -166,9 +166,9 @@ class Sql implements Iterator
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
-                throw new CouldNotConnectException("Could not connect to database.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
+                throw new CouldNotConnectException("Could not connect to database (DB: ' . $db . ')'.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
             }
-            throw new CouldNotConnectException('Could not connect to database.', $e, $this);
+            throw new CouldNotConnectException('Could not connect to database (DB: ' . $db . ').', $e, $this);
         }
     }
 
@@ -862,7 +862,8 @@ class Sql implements Iterator
             }
 
             /** @psalm-taint-escape sql */ // psalm marks whole array (keys and values) as tainted, not values only
-            $qry .= $this->escapeIdentifier($fldName) . ' = :' . $fldName;
+            $set = $this->escapeIdentifier($fldName) . ' = :' . $fldName;
+            $qry .= $set;
         }
         foreach ($this->rawValues as $fldName => $value) {
             if ('' != $qry) {

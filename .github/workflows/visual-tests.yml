@@ -84,8 +84,6 @@ jobs:
 
             -   name: Composer install
                 uses: ramsey/composer-install@v2
-                with:
-                    composer-options: --ignore-platform-req=php
 
             -   name: Init database
                 run: |

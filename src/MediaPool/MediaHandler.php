@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\MediaPool;
 
+use enshrined\svgSanitize\Sanitizer;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -14,7 +15,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Type;
-use voku\helper\AntiXSS;
 
 use function assert;
 use function count;
@@ -411,14 +411,7 @@ final class MediaHandler
 
         $content = Type::notNull(File::get($path));
 
-        $antiXss = new AntiXSS();
-        $antiXss->removeNeverAllowedRegex(['&lt;!--', '&lt;!--$1--&gt;']);
-        $antiXss->removeEvilAttributes(['style', 'xlink:href']);
-        $antiXss->removeEvilHtmlTags(['style', 'svg', 'title']);
-
-        $content = $antiXss->xss_clean($content);
-        $content = preg_replace('/^\s*&lt;\?xml(.*?)\?&gt;/', '<?xml$1?>', $content);
-        $content = preg_replace('/&lt;!DOCTYPE(.*?)>/', '<!DOCTYPE$1>', $content);
+        $content = (new Sanitizer())->sanitize($content);
 
         File::put($path, $content);
     }

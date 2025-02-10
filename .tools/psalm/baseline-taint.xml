@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.5.1@3f17a6b24a2dbe543e21408c2b19108cf6a355ef">
   <file src="redaxo/src/core/backend.php">
     <TaintedHtml>
       <code><![CDATA['<script nonce="' . Response::getNonce() . '">
@@ -75,6 +75,11 @@
       <code><![CDATA[$this->getVar('content2iframe')]]></code>
       <code><![CDATA[$this->getVar('content2select')]]></code>
     </TaintedTextWithQuotes>
+  </file>
+  <file src="src/Backend/Controller.php">
+    <TaintedExtract>
+      <code><![CDATA[$__context]]></code>
+    </TaintedExtract>
   </file>
   <file src="src/Database/Sql.php">
     <TaintedSql>

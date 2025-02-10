@@ -95,8 +95,8 @@ abstract class StructureElement
      * Returns Object Value.
      *
      * @param string $value
-     *
      * @return string|int|null
+     * @psalm-taint-source input
      */
     public function getValue($value)
     {
@@ -328,6 +328,7 @@ abstract class StructureElement
      * Returns the name of the article.
      *
      * @return string
+     * @psalm-taint-source input
      */
     public function getName()
     {
