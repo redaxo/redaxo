@@ -152,7 +152,7 @@ if (!rex_addon::get('media_manager')->isAvailable()) {
 }
 
 // Pagination
-if(empty($filter['term'] ))
+if(empty($mediaName))
 {
     $pagination = '';
     $context = new rex_context([
