@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.17.3 – 10.02.2025
+---------------------------
+
+### Security
+
+* Content-Page: Der Artikelname wurde in in der Überschrift nicht escaped (Stored XSS; gemeldet von @geo-chen) (@gharlan)
+
+
 Version 2.17.2 – 22.10.2024
 ---------------------------
 
