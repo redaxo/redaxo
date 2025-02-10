@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 5.18.2 – 10.02.2025
+---------------------------
+
+### Bugfixes
+
+* `rex_sql_could_not_connect_exception`: Es war nicht ersichtlich, für welche DB-Verbindung die Exception geworfen wurde (@danspringer)
+
+
 Version 5.18.1 – 06.12.2024
 ---------------------------
 

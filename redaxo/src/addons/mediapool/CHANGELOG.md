@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.15.2 – 10.02.2025
+---------------------------
+
+### Bugfixes
+
+* SVG-Filterung optimiert durch neuen SVG-Sanitizer (@gharlan)
+* Dateiendung-Blockierung korrigiert (`.json` wird nicht mehr gesperrt aufgrund der `.js`-Sperre) (@omphteliba)
+
+
 Version 2.15.1 – 06.12.2024
 ---------------------------
 
