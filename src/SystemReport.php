@@ -19,18 +19,15 @@ use const PHP_SAPI;
 use const PHP_VERSION;
 use const STR_PAD_LEFT;
 
-class SystemReport
+final class SystemReport
 {
-    public const TITLE_REDAXO = 'REDAXO';
-    public const TITLE_PACKAGES = 'Packages';
-    public const TITLE_PHP = 'PHP';
+    public const string TITLE_REDAXO = 'REDAXO';
+    public const string TITLE_PACKAGES = 'Packages';
+    public const string TITLE_PHP = 'PHP';
 
     private function __construct() {}
 
-    /**
-     * @return self
-     */
-    public static function factory()
+    public static function factory(): self
     {
         return new self();
     }
@@ -38,7 +35,7 @@ class SystemReport
     /**
      * @return array<string, array<string, string|bool>>
      */
-    public function get()
+    public function get(): array
     {
         $data = [];
 
@@ -121,10 +118,7 @@ class SystemReport
         return $data;
     }
 
-    /**
-     * @return string
-     */
-    public function asMarkdown()
+    public function asMarkdown(): string
     {
         $report = $this->get();
 
@@ -168,10 +162,7 @@ class SystemReport
             OUTPUT;
     }
 
-    /**
-     * @return string
-     */
-    private function getBrowser()
+    private function getBrowser(): string
     {
         if (!isset($_SERVER['HTTP_USER_AGENT'])) {
             return '(unknown)';

@@ -39,15 +39,16 @@ use const E_USER_WARNING;
 use const E_WARNING;
 use const PHP_SAPI;
 
-abstract class ErrorHandler
+final class ErrorHandler
 {
     private static bool $registered = false;
 
+    private function __construct() {}
+
     /**
      * Registers the class as php-error/exception handler.
-     * @return void
      */
-    public static function register()
+    public static function register(): void
     {
         if (self::$registered) {
             return;
@@ -62,9 +63,8 @@ abstract class ErrorHandler
 
     /**
      * Unregisters the logger instance as php-error/exception handler.
-     * @return void
      */
-    public static function unregister()
+    public static function unregister(): void
     {
         if (!self::$registered) {
             return;
@@ -79,11 +79,8 @@ abstract class ErrorHandler
 
     /**
      * Handles the given Exception.
-     *
-     * @param Throwable $exception The Exception to handle
-     * @return never
      */
-    public static function handleException($exception)
+    public static function handleException(Throwable $exception): never
     {
         try {
             Logger::logException($exception, self::getUrl());
@@ -136,10 +133,9 @@ abstract class ErrorHandler
     }
 
     /**
-     * @param Throwable $exception
      * @return array{string, string}
      */
-    private static function renderWhoops($exception)
+    private static function renderWhoops(Throwable $exception): array
     {
         $whoops = new Run();
         $whoops->writeToOutput(false);
@@ -312,15 +308,9 @@ abstract class ErrorHandler
     /**
      * Handles a error message.
      *
-     * @param int $errno The error code to handle
-     * @param string $errstr The error message
-     * @param string $errfile The file in which the error occured
-     * @param int $errline The line of the file in which the error occured
-     *
      * @throws ErrorException
-     * @return bool
      */
-    public static function handleError($errno, $errstr, $errfile, $errline)
+    public static function handleError(int $errno, string $errstr, string $errfile, int $errline): bool
     {
         if (in_array($errno, [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
@@ -361,9 +351,8 @@ abstract class ErrorHandler
 
     /**
      * Shutdown-handler which is called at the very end of the request.
-     * @return void
      */
-    public static function shutdown()
+    public static function shutdown(): void
     {
         // catch fatal/parse errors
         if (self::$registered) {
@@ -382,10 +371,8 @@ abstract class ErrorHandler
      * Get a human readable string representing the given php error code.
      *
      * @param int $errno a php error code, e.g. E_ERROR
-     *
-     * @return string
      */
-    public static function getErrorType($errno)
+    public static function getErrorType(int $errno): string
     {
         return match ($errno) {
             E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR => 'Fatal error',
@@ -411,19 +398,14 @@ abstract class ErrorHandler
 
         // Backend URLs use `/` inside page param, and we try to use them unencoded
         // so for consistency we unencode them here too
-        $uri = preg_replace_callback('@(?<=\?page=)[\w/]+@', static function (array $match) {
+        $uri = preg_replace_callback('@(?<=\?page=)[\w/]+@', static function (array $match): string {
             return str_replace('%2F', '/', $match[0]);
         }, $request->getRequestUri(), 1);
 
         return $request->getSchemeAndHttpHost() . $uri;
     }
 
-    /**
-     * @param Throwable $exception
-     *
-     * @return string
-     */
-    private static function getMarkdownReport($exception)
+    private static function getMarkdownReport(Throwable $exception): string
     {
         $file = Path::relative($exception->getFile());
         $markdown = '**' . $exception::class . ":** {$exception->getMessage()}\n";
