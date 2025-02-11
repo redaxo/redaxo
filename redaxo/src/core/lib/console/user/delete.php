@@ -35,7 +35,7 @@ class rex_command_user_delete extends rex_console_command
 
         if (!$user->getRows()) {
             $io->error(sprintf('The admin user "%s" does not exist.', $loginName));
-            return COMMAND::INVALID;
+            return Command::INVALID;
         }
 
         $askConfirmationQuestion = $io->confirm(sprintf('Are you sure you would like to delete user "%s"?', $loginName), false);
