@@ -16,8 +16,8 @@ class rex_command_user_delete extends rex_console_command
     protected function configure(): void
     {
         $this
-            ->addArgument('login', InputArgument::REQUIRED, 'Login')
-            ->setDescription('Deletes an administrator user by the specified login name.');
+            ->addArgument('user', InputArgument::REQUIRED, 'Username')
+            ->setDescription('Deletes an user by the specified login name.');
     }
 
     #[Override]
@@ -25,35 +25,35 @@ class rex_command_user_delete extends rex_console_command
     {
         $io = $this->getStyle($input, $output);
 
-        $loginName = $input->getArgument('login');
+        $username = $input->getArgument('user');
 
         $user = rex_sql::factory();
         $user
             ->setTable(rex::getTablePrefix() . 'user')
-            ->setWhere(['login' => $loginName])
+            ->setWhere(['login' => $username])
             ->select();
 
         if (!$user->getRows()) {
-            $io->error(sprintf('The admin user "%s" does not exist.', $loginName));
+            $io->error(sprintf('The user "%s" does not exist.', $username));
             return Command::INVALID;
         }
 
-        $askConfirmationQuestion = $io->confirm(sprintf('Are you sure you would like to delete user "%s"?', $loginName), false);
+        $askConfirmationQuestion = $io->confirm(sprintf('Are you sure you would like to delete user "%s"?', $username), false);
         if ($askConfirmationQuestion) {
-            $this->deleteAdminUserByGivenLoginName($loginName);
-            $io->success(sprintf('User "%s" has been successfully deleted.', $loginName));
+            $this->deleteUserByGivenLoginName($username);
+            $io->success(sprintf('User "%s" has been successfully deleted.', $username));
         } else {
-            $io->info(sprintf('Aborted. User "%s" was not deleted.', $loginName));
+            $io->info(sprintf('Aborted. User "%s" was not deleted.', $username));
             return Command::FAILURE;
         }
 
         return Command::SUCCESS;
     }
 
-    private function deleteAdminUserByGivenLoginName(string $loginName): void
+    private function deleteUserByGivenLoginName(string $username): void
     {
         $user = rex_sql::factory();
         $user->setTable(rex::getTablePrefix() . 'user');
-        $user->setWhere(['login' => $loginName])->delete();
+        $user->setWhere(['login' => $username])->delete();
     }
 }
