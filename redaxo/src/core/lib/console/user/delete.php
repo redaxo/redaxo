@@ -16,7 +16,9 @@ class rex_command_user_delete extends rex_console_command
     protected function configure(): void
     {
         $this
-            ->addArgument('user', InputArgument::REQUIRED, 'Username')
+            ->addArgument('user', InputArgument::REQUIRED, 'Username', null, static function () {
+                return array_column(rex_sql::factory()->getArray('SELECT login FROM ' . rex::getTable('user')), 'login');
+            })
             ->setDescription('Deletes an user by the specified login name.');
     }
 
