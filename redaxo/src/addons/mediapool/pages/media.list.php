@@ -152,25 +152,18 @@ if (!rex_addon::get('media_manager')->isAvailable()) {
 }
 
 // Pagination
-if(empty($mediaName))
-{
-    $pagination = '';
-    $context = new rex_context([
-        'page' => rex_be_controller::getCurrentPage() // Aktuelle Seite im Backend
-    ]);
-    $addon = rex_addon::get('mediapool');
-    $pager = new rex_pager($addon->getProperty('rows_per_page', 200));
-    $items = rex_media_service::getList($filter, [], $pager);
-    $mediaFragment = new rex_fragment();
-    $mediaFragment->setVar('pager', $pager);
-    $mediaFragment->setVar('urlprovider', $context);
-    $pagination = $mediaFragment->parse('core/navigations/pagination.php');    
-}
-else
-{
-    $pager = new rex_pager(5000);
-    $items = rex_media_service::getList($filter, [], $pager);
-}
+$pagination = '';
+$context = new rex_context([
+    'page' => rex_be_controller::getCurrentPage() // Aktuelle Seite im Backend
+]);
+$addon = rex_addon::get('mediapool');
+$pager = new rex_pager($addon->getProperty('rows_per_page', 100));
+$items = rex_media_service::getList($filter, [], $pager);
+$mediaFragment = new rex_fragment();
+$mediaFragment->setVar('pager', $pager);
+$mediaFragment->setVar('urlprovider', $context);
+$pagination = $mediaFragment->parse('core/navigations/pagination.php');    
+
 $panel = $pagination ?? '';
 
 // deletefilelist und cat change
