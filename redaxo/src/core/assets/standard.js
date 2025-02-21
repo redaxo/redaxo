@@ -487,7 +487,7 @@ jQuery(function($){
                 cache: false,
                 success: function (data) {
                     if (i % 2 == 0) {
-                        $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/' + url + '</code> is insecure. The folder <code>redaxo/' + url + '</code> is insecure. Make sure this folder is not publicly accessible.</div>');
+                        $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/' + url + '</code> is insecure. Make sure this folder is not publicly accessible.</div>');
                         setCookie('rex_htaccess_check', '');
                     }
                 }
