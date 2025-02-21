@@ -16,7 +16,7 @@ class rex_console_application extends Application
         parent::__construct('REDAXO', rex::getVersion());
     }
 
-    public function doRun(InputInterface $input, OutputInterface $output)
+    public function doRun(InputInterface $input, OutputInterface $output): int
     {
         try {
             $this->checkConsoleUser($input, $output);
@@ -42,7 +42,7 @@ class rex_console_application extends Application
         }
     }
 
-    protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output)
+    protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
     {
         if ($command instanceof rex_console_command) {
             $this->loadPackages($command);
