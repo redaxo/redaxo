@@ -49,20 +49,16 @@ class rex_command_user_list extends rex_console_command
                 return Command::INVALID;
             }
 
-            $table = new Table($output);
-            $table
-                ->setHeaders(['Name', 'Login', 'E-Mail', 'Admin', 'Creation date', 'Last Login'])
-                ->setRows([
-                    [
-                        $user->getValue('name'),
-                        $user->getValue('login'),
-                        $user->getValue('email') ?? 'No E-Mail Configured',
-                        $user->getValue('admin'),
-                        $user->getValue('createdate'),
-                        $user->getValue('lastlogin'),
-                    ],
-                ])
-                ->render();
+            $userRows = [];
+            $userRows[] = [
+                $user->getValue('name'),
+                $user->getValue('login'),
+                $user->getValue('email') ?? 'No E-Mail Configured',
+                $user->getValue('admin'),
+                $user->getValue('createdate'),
+                $user->getValue('lastlogin'),
+            ];
+            $this->generateTable($output, $userRows);
             return Command::SUCCESS;
         }
 
@@ -86,10 +82,15 @@ class rex_command_user_list extends rex_console_command
             ];
         }
 
+        $this->generateTable($output, $userRows);
+    }
+
+    private function generateTable(OutputInterface $output, array $rows): void
+    {
         $table = new Table($output);
         $table
             ->setHeaders(['Name', 'Login', 'E-Mail', 'Admin', 'Creation date', 'Last Login'])
-            ->setRows($userRows)
+            ->setRows($rows)
             ->render();
     }
 }
