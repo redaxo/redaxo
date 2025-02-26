@@ -24,5 +24,4 @@ return ['includes' => [
     __DIR__ . '/staticClassAccess.privateMethod.php',
     __DIR__ . '/throws.unusedType.php',
     __DIR__ . '/varTag.nativeType.php',
-    __DIR__ . '/test.php',
 ]];
