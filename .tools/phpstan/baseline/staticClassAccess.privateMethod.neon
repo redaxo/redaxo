@@ -1,8 +1,0 @@
-# total 1 error
-
-parameters:
-    ignoreErrors:
-        -
-            message: '#^Unsafe call to private method rex_sql_table\:\:baseClearInstance\(\) through static\:\:\.$#'
-            count: 1
-            path: ../../../redaxo/src/core/lib/sql/table.php
