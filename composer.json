@@ -122,9 +122,10 @@
         "phpunit": "phpunit --colors=always",
         "phpstan": "phpstan analyse --ansi -v",
         "phpstan:baseline": [
-            "phpstan --generate-baseline=.tools/phpstan/baseline/loader.neon -v",
-            "find .tools/phpstan/baseline/ -type f -not -name loader.neon -delete",
-            "split-phpstan-baseline .tools/phpstan/baseline/loader.neon"
+            "phpstan --generate-baseline=.tools/phpstan/baseline/_loader.php -v",
+            "find .tools/phpstan/baseline/ -type f -not -name _loader.php -delete",
+            "split-phpstan-baseline .tools/phpstan/baseline/_loader.php",
+            "@cs-fixer .tools/phpstan/baseline"
         ],
         "phpstan:no-cache": [
             "phpstan clear-result-cache --ansi",
