@@ -85,6 +85,9 @@ class rex_command_user_list extends rex_console_command
         $this->generateTable($output, $userRows);
     }
 
+    /**
+     * @param array<array<int|string>> $rows
+     */
     private function generateTable(OutputInterface $output, array $rows): void
     {
         $table = new Table($output);
