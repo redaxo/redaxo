@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.5.1@3f17a6b24a2dbe543e21408c2b19108cf6a355ef">
+<files psalm-version="6.8.8@1361cd33008feb3ae2b4a93f1860e14e538ec8c2">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument>
       <code><![CDATA[$column]]></code>
@@ -239,6 +239,12 @@
     <PossiblyFalsePropertyAssignmentValue>
       <code><![CDATA[json_encode($value)]]></code>
     </PossiblyFalsePropertyAssignmentValue>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$this->getAttribute('id')]]></code>
       <code><![CDATA[$this->getAttribute('id')]]></code>
@@ -343,6 +349,14 @@
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </ArgumentTypeCoercion>
+    <InvalidOperand>
+      <code><![CDATA[$envFieldId]]></code>
+      <code><![CDATA[$envFieldId]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$typeFieldId]]></code>
+      <code><![CDATA[rex_escape($field->getAttribute('id'), 'js')]]></code>
+      <code><![CDATA[rex_escape($value, 'js')]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$attributes]]></code>
       <code><![CDATA[$attributes]]></code>
@@ -412,6 +426,9 @@
     <InvalidArgument>
       <code><![CDATA[['id' => $job['id']]]]></code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code><![CDATA[round($count / 5) * 5]]></code>
+    </InvalidOperand>
   </file>
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
@@ -549,6 +566,9 @@
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_core_update.php">
+    <InvalidOperand>
+      <code><![CDATA[$addonkey]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$addon->getProperty('conflicts', [])]]></code>
       <code><![CDATA[$addon->getProperty('requires', [])]]></code>
@@ -743,6 +763,9 @@
     </PossiblyInvalidArgument>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
+    <InvalidOperand>
+      <code><![CDATA[(float) $duration / 2]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$color]]></code>
       <code><![CDATA[$color]]></code>
@@ -820,6 +843,24 @@
     </PossiblyFalseArgument>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_sharpen.php">
+    <InvalidOperand>
+      <code><![CDATA[$gNew << 8]]></code>
+      <code><![CDATA[$rNew << 16]]></code>
+      <code><![CDATA[$this->params['amount'] * ($bOrig - $bBlur)]]></code>
+      <code><![CDATA[$this->params['amount'] * ($bOrig - $bBlur)]]></code>
+      <code><![CDATA[$this->params['amount'] * ($gOrig - $gBlur)]]></code>
+      <code><![CDATA[$this->params['amount'] * ($gOrig - $gBlur)]]></code>
+      <code><![CDATA[$this->params['amount'] * ($rOrig - $rBlur)]]></code>
+      <code><![CDATA[$this->params['amount'] * ($rOrig - $rBlur)]]></code>
+      <code><![CDATA[($rNew << 16) + ($gNew << 8)]]></code>
+      <code><![CDATA[($this->params['amount'] * ($bOrig - $bBlur)) + $bOrig]]></code>
+      <code><![CDATA[($this->params['amount'] * ($bOrig - $bBlur)) + $bOrig]]></code>
+      <code><![CDATA[($this->params['amount'] * ($gOrig - $gBlur)) + $gOrig]]></code>
+      <code><![CDATA[($this->params['amount'] * ($gOrig - $gBlur)) + $gOrig]]></code>
+      <code><![CDATA[($this->params['amount'] * ($rOrig - $rBlur)) + $rOrig]]></code>
+      <code><![CDATA[($this->params['amount'] * ($rOrig - $rBlur)) + $rOrig]]></code>
+      <code><![CDATA[((float) $this->params['radius']) * 2]]></code>
+    </InvalidOperand>
     <PossiblyFalseArgument>
       <code><![CDATA[$imgBlur]]></code>
       <code><![CDATA[$imgBlur]]></code>
@@ -898,6 +939,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_mirror.php">
+    <InvalidOperand>
+      <code><![CDATA[$h * ((int) rtrim($this->params['height'], '%') / 100)]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$alpha]]></code>
       <code><![CDATA[$bgColor[0]]]></code>
@@ -947,6 +991,10 @@
     </PossiblyFalseOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_resize.php">
+    <InvalidOperand>
+      <code><![CDATA[$h * ((int) rtrim($this->params['height'], '%') / 100)]]></code>
+      <code><![CDATA[$w * ((int) rtrim($this->params['width'], '%') / 100)]]></code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code><![CDATA[$this->params['height']]]></code>
       <code><![CDATA[$this->params['height']]]></code>
@@ -1087,6 +1135,9 @@
     <MixedAssignment>
       <code><![CDATA[$shortName]]></code>
     </MixedAssignment>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$field->getAttribute('id')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$warning]]></code>
     </PossiblyNullArgument>
@@ -1136,6 +1187,9 @@
     <InvalidArgument>
       <code><![CDATA[$data]]></code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code><![CDATA[rex_escape($argName)]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$FILEINFOS['filename']]]></code>
       <code><![CDATA[$FILE['name']]]></code>
@@ -1249,6 +1303,9 @@
     <PossiblyFalseArgument>
       <code><![CDATA[$content]]></code>
     </PossiblyFalseArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$uses]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[rex_file::mimeType($data['file']['path'])]]></code>
     </PossiblyNullOperand>
@@ -1264,6 +1321,9 @@
     <NoValue>
       <code><![CDATA[$warning]]></code>
     </NoValue>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$uses]]></code>
+    </PossiblyInvalidOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/var_media.php">
     <MixedArgument>
@@ -1286,8 +1346,14 @@
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/var_medialist.php">
+    <InvalidOperand>
+      <code><![CDATA[$aname]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$avalue]]></code>
       <code><![CDATA[$value]]></code>
@@ -1304,8 +1370,16 @@
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/index.php">
+    <InvalidOperand>
+      <code><![CDATA[rex_escape($argName)]]></code>
+    </InvalidOperand>
     <MixedAssignment>
       <code><![CDATA[$argValue]]></code>
     </MixedAssignment>
@@ -1325,6 +1399,9 @@
       <code><![CDATA[$gf->getValue('category_id')]]></code>
       <code><![CDATA[$gf->getValue('category_id')]]></code>
     </ArgumentTypeCoercion>
+    <InvalidOperand>
+      <code><![CDATA[$gf->getDateTimeValue('updatedate')]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$error]]></code>
       <code><![CDATA[$success]]></code>
@@ -1378,6 +1455,9 @@
       <code><![CDATA[$argUrl['args']['types']]]></code>
       <code><![CDATA[$mediaManagerUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate'))]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$media->getValue('updatedate')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$media->getValue('updatedate')]]></code>
     </PossiblyNullOperand>
@@ -1510,6 +1590,9 @@
     <MixedMethodCall>
       <code><![CDATA[setValue]]></code>
     </MixedMethodCall>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$OOArt->getValue('template_id')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$OOArt->getValue('template_id')]]></code>
     </PossiblyNullOperand>
@@ -1648,6 +1731,9 @@
     </RedundantCondition>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/media_handler.php">
+    <InvalidOperand>
+      <code><![CDATA[$sql->getValue('type_id')]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$catId]]></code>
       <code><![CDATA[$params['filename']]]></code>
@@ -1713,6 +1799,13 @@
     <PossiblyInvalidArgument>
       <code><![CDATA[$value]]></code>
     </PossiblyInvalidArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$value['day']]]></code>
       <code><![CDATA[$value['month']]]></code>
@@ -1741,6 +1834,12 @@
       <code><![CDATA[$end]]></code>
       <code><![CDATA[$start]]></code>
     </MixedArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$value['hour']]]></code>
       <code><![CDATA[$value['minute']]]></code>
@@ -1751,6 +1850,10 @@
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/restrictions_element.php">
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$id]]></code>
       <code><![CDATA[$id]]></code>
@@ -1766,6 +1869,9 @@
     <MixedAssignment>
       <code><![CDATA[$params['id']]]></code>
     </MixedAssignment>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$field->getAttribute('id')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$fieldAttributes]]></code>
       <code><![CDATA[$fieldDefault]]></code>
@@ -1776,6 +1882,10 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/pages/content.metainfo.php">
+    <InvalidOperand>
+      <code><![CDATA[rex_escape($article->getValue('createuser'))]]></code>
+      <code><![CDATA[rex_escape($article->getValue('updateuser'))]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$ctypes]]></code>
     </MixedArgument>
@@ -1858,6 +1968,9 @@
       <code><![CDATA[$this->xHeader[$kind]]]></code>
       <code><![CDATA[$this->xHeader['to']]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$entry->getTimestamp()]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$address]]></code>
     </PossiblyNullArgument>
@@ -2039,6 +2152,11 @@
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullReference>
       <code><![CDATA[getId]]></code>
     </PossiblyNullReference>
@@ -2058,6 +2176,11 @@
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullReference>
       <code><![CDATA[getId]]></code>
     </PossiblyNullReference>
@@ -2109,6 +2232,13 @@
     </RedundantCondition>
   </file>
   <file src="redaxo/src/addons/structure/lib/service_article.php">
+    <InvalidOperand>
+      <code><![CDATA[$fromSql->getValue('name')]]></code>
+      <code><![CDATA[$toSql->getValue('id')]]></code>
+      <code><![CDATA[$toSql->getValue('id')]]></code>
+      <code><![CDATA[$toSql->getValue('path')]]></code>
+      <code><![CDATA[$toSql->getValue('path')]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$data['category_id']]]></code>
       <code><![CDATA[$data['category_id']]]></code>
@@ -2168,6 +2298,10 @@
     <InvalidArgument>
       <code><![CDATA[['id' => $ArtSql->getValue('id'), 'startarticle' => '0', 'clang_id' => $clang]]]></code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code><![CDATA[$fcat->getValue('path')]]></code>
+      <code><![CDATA[$tcat->getValue('path')]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$data['catname']]]></code>
       <code><![CDATA[$data['catname']]]></code>
@@ -2216,6 +2350,9 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/structure/lib/structure_element.php">
+    <InvalidOperand>
+      <code><![CDATA[$name]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$clang]]></code>
       <code><![CDATA[$id]]></code>
@@ -2253,6 +2390,12 @@
       <code><![CDATA[$id]]></code>
       <code><![CDATA[$id]]></code>
     </MixedArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$ctype]]></code>
+      <code><![CDATA[$ctype]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullReference>
       <code><![CDATA[getValue]]></code>
     </PossiblyNullReference>
@@ -2270,6 +2413,9 @@
       <code><![CDATA[$structureContext->getMountpoints()]]></code>
       <code><![CDATA[$structureContext->getMountpoints()]]></code>
     </ArgumentTypeCoercion>
+    <InvalidOperand>
+      <code><![CDATA[$sql->getValue('id')]]></code>
+    </InvalidOperand>
     <NullOperand>
       <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
       <code><![CDATA[rex_escape($KAT->getValue('catname'))]]></code>
@@ -2407,6 +2553,9 @@
       <code><![CDATA[$CONTENT]]></code>
       <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
     </PossiblyFalseArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$TEMPLATE->getKey() ?? $TEMPLATE->getId()]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
       <code><![CDATA[$template->getKey()]]></code>
@@ -2549,6 +2698,12 @@
     <PossiblyInvalidArgument>
       <code><![CDATA[$id]]></code>
     </PossiblyInvalidArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$templateId]]></code>
+      <code><![CDATA[$templateId]]></code>
+      <code><![CDATA[$tmpl->getKey() ?? $tmpl->getId()]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$tmpl]]></code>
       <code><![CDATA[$tmpl]]></code>
@@ -2710,6 +2865,9 @@
     <InvalidArrayOffset>
       <code><![CDATA[$usedIds[$list->getValue('id')]]]></code>
     </InvalidArrayOffset>
+    <InvalidOperand>
+      <code><![CDATA[$aid]]></code>
+    </InvalidOperand>
     <NullOperand>
       <code><![CDATA[rex_escape($ausgabe)]]></code>
       <code><![CDATA[rex_escape($eingabe)]]></code>
@@ -2781,6 +2939,9 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/boot.php">
+    <InvalidOperand>
+      <code><![CDATA[strtotime($version['history_date'])]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$articleId]]></code>
       <code><![CDATA[$clangId]]></code>
@@ -3746,6 +3907,9 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$cfg->getValue('value')]]></code>
     </ArgumentTypeCoercion>
+    <InvalidOperand>
+      <code><![CDATA[rex_file::putCache(self::$cacheFile, self::$data) <= 0]]></code>
+    </InvalidOperand>
     <MixedAssignment>
       <code><![CDATA[$v]]></code>
       <code><![CDATA[$value]]></code>
@@ -4003,6 +4167,11 @@
       <code><![CDATA[$_GET + $_POST]]></code>
       <code><![CDATA[$_POST]]></code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code><![CDATA[rex_escape($name)]]></code>
+      <code><![CDATA[rex_escape($name)]]></code>
+      <code><![CDATA[rex_escape($valName)]]></code>
+    </InvalidOperand>
     <MixedAssignment>
       <code><![CDATA[$valVal]]></code>
       <code><![CDATA[$value]]></code>
@@ -4060,6 +4229,12 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/form/elements/checkbox.php">
+    <InvalidOperand>
+      <code><![CDATA[rex_escape($name)]]></code>
+      <code><![CDATA[rex_escape($optId)]]></code>
+      <code><![CDATA[rex_escape($optId)]]></code>
+      <code><![CDATA[rex_escape($optName)]]></code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code><![CDATA[$this->getValue() ?? '']]></code>
     </InvalidScalarArgument>
@@ -4073,6 +4248,9 @@
       <code><![CDATA[rex_escape($optValue)]]></code>
       <code><![CDATA[rex_escape($optValue)]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$optId]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$optId]]></code>
       <code><![CDATA[rex_escape($name)]]></code>
@@ -4097,6 +4275,10 @@
     <MixedAssignment>
       <code><![CDATA[$values]]></code>
     </MixedAssignment>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyInvalidPropertyAssignmentValue>
       <code><![CDATA[$value]]></code>
     </PossiblyInvalidPropertyAssignmentValue>
@@ -4117,6 +4299,10 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/core/lib/form/elements/element.php">
+    <InvalidOperand>
+      <code><![CDATA[rex_escape($value)]]></code>
+      <code><![CDATA[rex_escape($value)]]></code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code><![CDATA[$this->getAttribute('class')]]></code>
     </InvalidReturnStatement>
@@ -4126,6 +4312,9 @@
     <NullableReturnStatement>
       <code><![CDATA[$this->getAttribute('class')]]></code>
     </NullableReturnStatement>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$this->getAttribute('id')]]></code>
       <code><![CDATA[rex_escape($value)]]></code>
@@ -4169,6 +4358,9 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/form/elements/radio.php">
+    <InvalidOperand>
+      <code><![CDATA[rex_escape($optName)]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$optValue]]></code>
     </MixedArgument>
@@ -4178,6 +4370,9 @@
     <MixedOperand>
       <code><![CDATA[rex_escape($optValue)]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$id]]></code>
     </PossiblyNullOperand>
@@ -4192,6 +4387,9 @@
     <PossiblyInvalidArgument>
       <code><![CDATA[$this->getAttribute('name')]]></code>
     </PossiblyInvalidArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$this->getValue()]]></code>
     </PossiblyNullArgument>
@@ -4303,6 +4501,10 @@
       <code><![CDATA[$this->linkAttributes[$column] ?? $default]]></code>
       <code><![CDATA[json_decode($this->getValue($column), true)]]></code>
     </MixedReturnStatement>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$this->tableAttributes['class']]]></code>
+      <code><![CDATA[$width]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$columnLayout]]></code>
       <code><![CDATA[$column['width'] ?? null]]></code>
@@ -4341,6 +4543,13 @@
             'samesite' => $sessionConfig['samesite'] ?? 'lax',
         ]]]></code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code><![CDATA[$hours]]></code>
+      <code><![CDATA[$hours * 3600]]></code>
+      <code><![CDATA[$mins]]></code>
+      <code><![CDATA[$time - ($hours * 3600)]]></code>
+      <code><![CDATA[($time - ($hours * 3600)) / 60]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[rex::getProperty('session_duration')]]></code>
     </MixedArgument>
@@ -4668,6 +4877,11 @@
     <InvalidFalsableReturnType>
       <code><![CDATA[string]]></code>
     </InvalidFalsableReturnType>
+    <InvalidOperand>
+      <code><![CDATA[$filesize]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[filesize($file)]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$chunkSize]]></code>
       <code><![CDATA[$range->getStart()]]></code>
@@ -4820,6 +5034,10 @@
     <InvalidFalsableReturnType>
       <code><![CDATA[int|null]]></code>
     </InvalidFalsableReturnType>
+    <InvalidOperand>
+      <code><![CDATA[$fldName]]></code>
+      <code><![CDATA[$paramName]]></code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code><![CDATA[$sql->getValue('Create Table')]]></code>
       <code><![CDATA[$this->getConnection()->quote($value)]]></code>
@@ -4976,6 +5194,11 @@
     <InvalidFalsableReturnType>
       <code><![CDATA[string]]></code>
     </InvalidFalsableReturnType>
+    <InvalidOperand>
+      <code><![CDATA[$value * 10 ** $precision]]></code>
+      <code><![CDATA[$value / 1024]]></code>
+      <code><![CDATA[$value /= 1024]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$format['params']]]></code>
       <code><![CDATA[$format['params']]]></code>
@@ -5036,6 +5259,9 @@
     </PropertyTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/util/log_file.php">
+    <ImplicitToStringCast>
+      <code><![CDATA[new rex_log_entry(time(), $data)]]></code>
+    </ImplicitToStringCast>
     <InvalidArrayAccess>
       <code><![CDATA[$this->buffer[$this->bufferPos]]]></code>
     </InvalidArrayAccess>
@@ -5063,6 +5289,9 @@
     </PossiblyFalsePropertyAssignmentValue>
   </file>
   <file src="redaxo/src/core/lib/util/logger.php">
+    <InvalidOperand>
+      <code><![CDATA[$key]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$level]]></code>
       <code><![CDATA[$level]]></code>
@@ -5118,6 +5347,11 @@
     <PropertyTypeCoercion>
       <code><![CDATA[$this->headers]]></code>
     </PropertyTypeCoercion>
+  </file>
+  <file src="redaxo/src/core/lib/util/pager.php">
+    <InvalidOperand>
+      <code><![CDATA[ceil($this->rowCount / $this->rowsPerPage) - 1]]></code>
+    </InvalidOperand>
   </file>
   <file src="redaxo/src/core/lib/util/path.php">
     <LessSpecificReturnStatement>
@@ -5220,6 +5454,10 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/util/timer.php">
+    <InvalidOperand>
+      <code><![CDATA[$duration * $precision]]></code>
+      <code><![CDATA[$duration += $timer->getDelta(self::MILLISEC)]]></code>
+    </InvalidOperand>
     <MixedAssignment>
       <code><![CDATA[$duration]]></code>
       <code><![CDATA[$duration]]></code>
@@ -5392,6 +5630,11 @@
       <code><![CDATA[$key ?: $function]]></code>
     </MixedOperand>
   </file>
+  <file src="redaxo/src/core/pages/profile.auth_methods.php">
+    <InvalidOperand>
+      <code><![CDATA[rex_escape($id)]]></code>
+    </InvalidOperand>
+  </file>
   <file src="redaxo/src/core/pages/profile.php">
     <PossiblyNullArgument>
       <code><![CDATA[$usertheme]]></code>
@@ -5534,9 +5777,15 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="redaxo/src/core/pages/system.report.html.php">
+    <InvalidOperand>
+      <code><![CDATA[rex_escape($value)]]></code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code><![CDATA[$value]]></code>
     </InvalidScalarArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$value]]></code>
+    </PossiblyInvalidOperand>
   </file>
   <file src="redaxo/src/core/pages/system.settings.php">
     <MixedAssignment>
