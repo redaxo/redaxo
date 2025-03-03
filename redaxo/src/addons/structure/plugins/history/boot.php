@@ -86,7 +86,7 @@ if ('' != $historyDate) {
     });
 }
 
-if (rex::isBackend() && rex::getUser()?->hasPerm('history[article_rollback]')) {
+if (rex::getUser()?->hasPerm('history[article_rollback]')) {
     rex_extension::register(
         ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
         static function (rex_extension_point $ep) {
@@ -105,7 +105,9 @@ if (rex::isBackend() && rex::getUser()?->hasPerm('history[article_rollback]')) {
             }
         },
     );
+}
 
+if (rex::isBackend() && rex::getUser()?->hasPerm('history[article_rollback]')) {
     rex_view::addCssFile($plugin->getAssetsUrl('noUiSlider/nouislider.css'));
     rex_view::addJsFile($plugin->getAssetsUrl('noUiSlider/nouislider.js'), [rex_view::JS_IMMUTABLE => true]);
     rex_view::addCssFile($plugin->getAssetsUrl('history.css'));
