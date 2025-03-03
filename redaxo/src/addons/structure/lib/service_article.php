@@ -35,6 +35,7 @@ class rex_article_service
             $path .= $parent->getId() . '|';
         } else {
             $path = '|';
+            $data['category_id'] = 0; // Bugfix: Wenn kein Parent, dann in Root
         }
 
         if (rex_plugin::get('structure', 'content')->isAvailable()) {
