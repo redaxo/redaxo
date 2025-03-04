@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.11.2 – 04.03.2025
+---------------------------
+
+### Bugfixes
+
+* Wenn im Core-Setup die vorhandene Datenbank überschrieben wurde, kam es während des MetaInfo-Cleanups zum Fehler (@gharlan)
+
+
 Version 2.11.0 – 12.03.2024
 ---------------------------
 
