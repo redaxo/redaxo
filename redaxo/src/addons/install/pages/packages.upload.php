@@ -175,7 +175,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             $panel .= '
                 <tr>
                     <th>' . $package->i18n('website') . '</th>
-                    <td data-title="' . $package->i18n('website') . '"><a class="rex-link-expanded" href="' . rex_escape($addon['website']) . '">' . rex_escape($addon['website']) . '</a></td>
+                    <td data-title="' . $package->i18n('website') . '"><a class="rex-link-expanded" rel="noopener noreferrer" href="' . rex_escape($addon['website']) . '" target="_blank">' . rex_escape($addon['website']) . ' <i class="fa fa-external-link"></i></a></td>
                 </tr>';
         }
 
