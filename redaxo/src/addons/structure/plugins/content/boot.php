@@ -9,6 +9,7 @@
 rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
 rex_perm::register('publishSlice[]', null, rex_perm::OPTIONS);
 rex_complex_perm::register('modules', rex_module_perm::class);
+
 rex_extension::register('CLANG_DELETED', static function (rex_extension_point $ep) {
     $del = rex_sql::factory();
     $del->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where clang_id=?', [$ep->getParam('clang')->getId()]);
