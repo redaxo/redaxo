@@ -142,7 +142,7 @@ final class rex_mediapool
      */
     public static function isAllowedMimeType(string $path, ?string $filename = null): bool
     {
-        $allowedMimetypes = rex_addon::get('mediapool')->getProperty('allowed_mime_types');
+        $allowedMimetypes = self::getAllowedMimeTypes();
 
         if (!$allowedMimetypes) {
             return true;
@@ -191,5 +191,25 @@ final class rex_mediapool
     public static function getBlockedExtensions(): array
     {
         return rex_addon::get('mediapool')->getProperty('blocked_extensions');
+    }
+
+    /**
+     * Get global list of allowed mime types.
+     *
+     * @return array<string, list<string>> Mapping of file extensions to corresponding list of allowed mime types
+     */
+    public static function getAllowedMimeTypes(): array
+    {
+        return rex_addon::get('mediapool')->getProperty('allowed_mime_types', []);
+    }
+
+    /**
+     * Set global list of allowed mime types.
+     *
+     * @param array<string, list<string>> $mimeTypes Mapping of file extensions to corresponding list of allowed mime types
+     */
+    public static function setAllowedMimeTypes(array $mimeTypes): void
+    {
+        rex_addon::get('mediapool')->setProperty('allowed_mime_types', $mimeTypes);
     }
 }
