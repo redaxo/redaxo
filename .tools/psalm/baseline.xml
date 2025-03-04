@@ -2272,6 +2272,7 @@
       <code><![CDATA[$currentStatus]]></code>
       <code><![CDATA[$currentStatus]]></code>
       <code><![CDATA[$currentStatus]]></code>
+      <code><![CDATA[$data['category_id']]]></code>
     </MixedOperand>
     <MixedReturnStatement>
       <code><![CDATA[($currentStatus + 1) % count($artStatusTypes)]]></code>
@@ -2291,6 +2292,7 @@
       <code><![CDATA[getCategoryId]]></code>
     </PossiblyNullReference>
     <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$data['template_id']]]></code>
       <code><![CDATA[$data['template_id']]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
