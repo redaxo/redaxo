@@ -104,3 +104,10 @@ if (rex_version::compare(rex::getVersion(), '5.15.0-dev', '<') && $user = rex::g
 if (rex_version::compare(rex::getVersion(), '5.16.0', '<')) {
     class_exists(LogLevel::class);
 }
+
+if (rex_version::compare(rex::getVersion(), '5.18.3', '<')) {
+    $results = rex_session(rex_api_function::REQ_RESULT_PARAM, 'array', []);
+    $result = (new rex_api_result(true, rex_i18n::msg('info_core_updated')))->toJSON();
+    $results[$result] = $result;
+    rex_set_session(rex_api_function::REQ_RESULT_PARAM, $results);
+}
