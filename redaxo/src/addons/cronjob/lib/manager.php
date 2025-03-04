@@ -84,7 +84,7 @@ class rex_cronjob_manager
             $this->name = $name;
             $this->id = $id;
             $this->cronjob = $cronjob;
-            $type = $cronjob->getType();
+            $type = rex_string::normalize($cronjob->getType());
             if (is_array($params)) {
                 foreach ($params as $key => $value) {
                     $cronjob->setParam(str_replace($type . '_', '', $key), $value);
