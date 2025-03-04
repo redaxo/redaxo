@@ -21,12 +21,12 @@ blocked_extensions: [asp, aspx, bat, cfm, cgi, flv, hh, html, htaccess, htpasswd
 
 # mime type allowlist. the list is checked after the blocked_extensions check from above has passed.
 allowed_mime_types:
+    avif: [image/avif]
     gif: [image/gif]
     jpg: [image/jpeg, image/pjpeg]
     jpeg: [image/jpeg, image/pjpeg]
     png: [image/png]
     webp: [image/webp]
-    avif: [image/avif]
     eps: [application/postscript]
     tif: [image/tiff]
     tiff: [image/tiff]
