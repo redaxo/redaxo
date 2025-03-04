@@ -202,7 +202,7 @@ final class rex_media_service
                 || in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
             ) {
                 if (!rex_mediapool::isAllowedMimeType($srcFile, $dstFile)) {
-                    $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . $extensionNew . '</code> (<code>' . $filetype . '</code>)';
+                    $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . $extensionNew . '</code> (<code>' . ($filetype ?? 'unknown mime type') . '</code>)';
                     throw new rex_api_exception($warning);
                 }
                 if (!rex_file::move($srcFile, $dstFile)) {
