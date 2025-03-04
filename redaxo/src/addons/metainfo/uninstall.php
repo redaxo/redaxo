@@ -7,7 +7,7 @@
  */
 
 $curDir = __DIR__;
-require_once $curDir . '/functions/function_metainfo.php';
+require_once $curDir . '/boot.php';
 require_once $curDir . '/extensions/extension_cleanup.php';
 
 rex_metainfo_cleanup(['force' => true]);
