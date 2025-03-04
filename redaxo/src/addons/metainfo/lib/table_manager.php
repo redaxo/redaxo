@@ -60,8 +60,8 @@ class rex_metainfo_table_manager
             throw new InvalidArgumentException('Invalid column type "' . $type . '"');
         }
         /** @psalm-taint-escape sql */
-        $type = ' ' . $type;
-        $qry .= $type;
+        $addType = ' ' . $type;
+        $qry .= $addType;
 
         if (0 != $length) {
             $qry .= '(' . (int) $length . ')';
@@ -104,8 +104,8 @@ class rex_metainfo_table_manager
             throw new InvalidArgumentException('Invalid column type "' . $type . '"');
         }
         /** @psalm-taint-escape sql */
-        $type = ' ' . $type;
-        $qry .= $type;
+        $addType = ' ' . $type;
+        $qry .= $addType;
 
         if (0 != $length) {
             $qry .= '(' . (int) $length . ')';
