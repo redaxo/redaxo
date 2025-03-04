@@ -6,7 +6,7 @@ Version 5.18.3 – 04.03.2025
 
 ### Security
 
-* API-Functions: Bei Nutzung von `setRequiresReboot` war über den Result-Parameter in der URL Cross-Site-Scripting möglich (gemeldet von @0xadik) (@gharlan)
+* API-Functions: Bei Nutzung von `setRequiresReboot(true)` war über den Result-Parameter in der URL Cross-Site-Scripting möglich (gemeldet von @0xadik) (@gharlan)
 
 ### Bugfixes
 

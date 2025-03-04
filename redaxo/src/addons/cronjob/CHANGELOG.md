@@ -6,7 +6,7 @@ Version 2.11.1 – 04.03.2025
 
 ### Bugfixes
 
-* Bei Cronjob-Klasse mit Namespaces bzw. Großbuchstaben konnten die Params in der Klasse nicht korrekt abgefragt werden (@gharlan)
+* Bei Cronjob-Klassen mit Namespaces bzw. Großbuchstaben konnten die Params in der Klasse nicht korrekt abgefragt werden (@gharlan)
 
 
 Version 2.10.2 – 24.02.2024
