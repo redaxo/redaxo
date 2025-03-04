@@ -11,7 +11,7 @@ Version 5.18.3 – 04.03.2025
 ### Bugfixes
 
 * Console: Aufwärts-Kompatibilität zu neueren `symfony/console`-Versionen (@crydotsnake)
-* Text-Optimierungen (alxndr-w, @crydotsnake)
+* Text-Optimierungen (@alxndr-w, @crydotsnake)
 
 
 Version 5.18.2 – 10.02.2025
