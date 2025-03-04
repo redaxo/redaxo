@@ -24,9 +24,12 @@ class rex_category_service
         self::reqKey($data, 'catpriority');
         self::reqKey($data, 'catname');
 
-        // parent may be null, when adding in the root cat
-        $parent = rex_category::get($categoryId);
-        if ($parent) {
+        if ($categoryId) {
+            $parent = rex_category::get($categoryId);
+            if (!$parent) {
+                throw new rex_api_exception('Target category with ID "' . $categoryId . '" does not exist.');
+            }
+
             $path = $parent->getPath();
             $path .= $parent->getId() . '|';
         } else {
