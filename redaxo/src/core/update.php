@@ -107,7 +107,7 @@ if (rex_version::compare(rex::getVersion(), '5.16.0', '<')) {
 
 if (rex_version::compare(rex::getVersion(), '5.18.3', '<')) {
     $results = rex_session(rex_api_function::REQ_RESULT_PARAM, 'array', []);
-    $result = new rex_api_result(true, rex_i18n::msg('info_core_updated'));
+    $result = new rex_api_result(true, rex_i18n::msg('install_info_core_updated'));
     $result->setRequiresReboot(true);
     $result = $result->toJSON();
     $results[$result] = $result;
