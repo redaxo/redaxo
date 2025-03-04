@@ -86,26 +86,26 @@ if ('' != $historyDate) {
     });
 }
 
+rex_extension::register(
+    ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
+    static function (rex_extension_point $ep) {
+        $type = match ($ep->getName()) {
+            'ART_SLICES_COPY' => 'slices_copy',
+            'SLICE_MOVE' => 'slice_' . $ep->getParam('direction'),
+            default => strtolower($ep->getName()),
+        };
+
+        $articleId = $ep->getParam('article_id');
+        $clangId = $ep->getParam('clang_id');
+        $sliceRevision = $ep->getParam('slice_revision');
+
+        if (0 == $sliceRevision) {
+            rex_article_slice_history::makeSnapshot($articleId, $clangId, $type);
+        }
+    },
+);
+
 if (rex::isBackend() && rex::getUser()?->hasPerm('history[article_rollback]')) {
-    rex_extension::register(
-        ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
-        static function (rex_extension_point $ep) {
-            $type = match ($ep->getName()) {
-                'ART_SLICES_COPY' => 'slices_copy',
-                'SLICE_MOVE' => 'slice_' . $ep->getParam('direction'),
-                default => strtolower($ep->getName()),
-            };
-
-            $articleId = $ep->getParam('article_id');
-            $clangId = $ep->getParam('clang_id');
-            $sliceRevision = $ep->getParam('slice_revision');
-
-            if (0 == $sliceRevision) {
-                rex_article_slice_history::makeSnapshot($articleId, $clangId, $type);
-            }
-        },
-    );
-
     rex_view::addCssFile($plugin->getAssetsUrl('noUiSlider/nouislider.css'));
     rex_view::addJsFile($plugin->getAssetsUrl('noUiSlider/nouislider.js'), [rex_view::JS_IMMUTABLE => true]);
     rex_view::addCssFile($plugin->getAssetsUrl('history.css'));
