@@ -48,8 +48,18 @@ if (rex::isBackend() && rex::getUser()) {
 }
 
 rex_extension::register('CLANG_ADDED', static function (rex_extension_point $ep) {
+    $sourceId = rex_clang::getStartId();
+    if ($sourceId === $ep->getParam('id')) {
+        foreach (rex_clang::getAllIds(true) as $clangId) {
+            if ($sourceId !== $clangId) {
+                $sourceId = $clangId;
+                break;
+            }
+        }
+    }
+
     $firstLang = rex_sql::factory();
-    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=?', [rex_clang::getStartId()]);
+    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=?', [$sourceId]);
     $fields = $firstLang->getFieldnames();
 
     $newLang = rex_sql::factory();
