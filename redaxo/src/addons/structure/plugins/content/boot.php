@@ -28,7 +28,6 @@ if (rex::isBackend()) {
     if ('content' == rex_be_controller::getCurrentPagePart(1)) {
         rex_view::addJsFile(rex_url::pluginAssets('structure', 'content', 'content.js'), [rex_view::JS_IMMUTABLE => true]);
     }
-
 } else {
     rex_extension::register('FE_OUTPUT', static function (rex_extension_point $ep) {
         $clangId = rex_get('clang', 'int');
