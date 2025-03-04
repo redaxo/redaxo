@@ -182,9 +182,14 @@ abstract class rex_api_function
 
             $urlResult = rex_get(self::REQ_RESULT_PARAM, 'string');
             if ($urlResult) {
-                // take over result from url and do not execute the apiFunc
-                $result = rex_api_result::fromJSON($urlResult);
-                $apiFunc->result = $result;
+                // take over result from url and session and do not execute the apiFunc
+                rex_login::startSession();
+                $result = rex_session(self::REQ_RESULT_PARAM, 'array[string]', [])[$urlResult] ?? null;
+                if (!is_string($result)) {
+                    throw new rex_http_exception(new rex_api_exception('The result of the api function is not available in the session.'), rex_response::HTTP_NOT_FOUND);
+                }
+
+                $apiFunc->result = rex_api_result::fromJSON($result);
             } else {
                 if ($apiFunc->requiresCsrfProtection() && !rex_csrf_token::factory($apiFunc::class)->isValid()) {
                     $result = new rex_api_result(false, rex_i18n::msg('csrf_token_invalid'));
@@ -202,11 +207,18 @@ abstract class rex_api_function
 
                     $apiFunc->result = $result;
                     if ($result->requiresReboot()) {
-                        $context = rex_context::fromGet();
-                        // add api call result to url
-                        $context->setParam(self::REQ_RESULT_PARAM, $result->toJSON());
-                        // and redirect to SELF for reboot
-                        rex_response::sendRedirect($context->getUrl([], false));
+                        // add api call result to session
+                        rex_login::startSession();
+                        $results = rex_session(self::REQ_RESULT_PARAM, 'array', []);
+                        $result = $result->toJSON();
+                        $key = sha1($result);
+                        $results[$key] = $result;
+                        rex_set_session(self::REQ_RESULT_PARAM, $results);
+
+                        // and redirect to SELF for reboot with session key as parameter
+                        rex_response::sendRedirect(rex_context::fromGet()->getUrl([
+                            self::REQ_RESULT_PARAM => $key,
+                        ], false));
                     }
                 } catch (rex_api_exception $e) {
                     $message = $e->getMessage();
@@ -369,14 +381,14 @@ class rex_api_result
     }
 
     /**
-     * @return false|string
+     * @return string
      */
     public function toJSON()
     {
-        return json_encode([
+        return rex_type::string(json_encode([
             'succeeded' => $this->succeeded,
             'message' => $this->message,
-        ]);
+        ]));
     }
 
     /**
