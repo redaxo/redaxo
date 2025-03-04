@@ -1276,14 +1276,9 @@
   </file>
   <file src="redaxo/src/addons/mediapool/lib/mediapool.php">
     <MixedArgument>
-      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
       <code><![CDATA[$args['types']]]></code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
-    </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$allowedMimetypes]]></code>
       <code><![CDATA[$blockedExtension]]></code>
     </MixedAssignment>
     <MixedOperand>
@@ -1291,6 +1286,7 @@
       <code><![CDATA[$blockedExtension]]></code>
     </MixedOperand>
     <MixedReturnStatement>
+      <code><![CDATA[rex_addon::get('mediapool')->getProperty('allowed_mime_types', [])]]></code>
       <code><![CDATA[rex_addon::get('mediapool')->getProperty('blocked_extensions')]]></code>
     </MixedReturnStatement>
   </file>
@@ -1515,11 +1511,6 @@
       <code><![CDATA[$data['filename']]]></code>
       <code><![CDATA[$data['filename']]]></code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/mediapool/tests/mediapool_test.php">
-    <MixedAssignment>
-      <code><![CDATA[$allowedMimeTypes]]></code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/mediapool/update.php">
     <InvalidArgument>
