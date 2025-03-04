@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.17.4 – 04.03.2025
+---------------------------
+
+### Bugfixes
+
+* Wenn eine neue Sprache mit Prio=1 angelegt wird, wurden die Kategorien/Artikel nicht in die neue Sprache dupliziert (@gharlan)
+* Beim Löschen von Sprachen aus dem Frontend heraus wurde die Artikel-Slice-Tabelle nicht aufgeräumt (@marcohanke)
+* History-Plugin: Es wurden nur Snapshots erstellt, wenn Benutzer mit Rollback-Recht die Artikel bearbeitet haben, und nur im Backend (@marcohanke)
+* Article/Category-Service: Es wurde nicht abgefangen, wenn die Zielkategorie nicht existiert (@dergel, @gharlan)
+
+
 Version 2.17.3 – 10.02.2025
 ---------------------------
 
