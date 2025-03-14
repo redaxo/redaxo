@@ -1,4 +1,6 @@
 {
+    "type": "project",
+
     "require": {
         "scssphp/scssphp": "^1.13.0"
     },
