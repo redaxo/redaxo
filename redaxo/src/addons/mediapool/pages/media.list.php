@@ -149,6 +149,9 @@ if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
 
 $context = new rex_context([
     'page' => rex_be_controller::getCurrentPage(),
+    'rex_file_category' => $rexFileCategory,
+    'media_name' => $mediaName,
+    ...$argUrl,
 ]);
 $pager = new rex_pager($addon->getProperty('rows_per_page', 100));
 
