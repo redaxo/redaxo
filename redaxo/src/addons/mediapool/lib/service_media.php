@@ -1,6 +1,6 @@
 <?php
 
-use voku\helper\AntiXSS;
+use enshrined\svgSanitize\Sanitizer;
 
 /**
  * @package redaxo\mediapool
@@ -201,6 +201,10 @@ final class rex_media_service
                 $extensionNew == $extensionOld
                 || in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
             ) {
+                if (!rex_mediapool::isAllowedMimeType($srcFile, $dstFile)) {
+                    $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . $extensionNew . '</code> (<code>' . ($filetype ?? 'unknown mime type') . '</code>)';
+                    throw new rex_api_exception($warning);
+                }
                 if (!rex_file::move($srcFile, $dstFile)) {
                     throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
                 }
@@ -389,14 +393,7 @@ final class rex_media_service
 
         $content = rex_type::notNull(rex_file::get($path));
 
-        $antiXss = new AntiXSS();
-        $antiXss->removeNeverAllowedRegex(['&lt;!--', '&lt;!--$1--&gt;']);
-        $antiXss->removeEvilAttributes(['style', 'xlink:href']);
-        $antiXss->removeEvilHtmlTags(['style', 'svg', 'title']);
-
-        $content = $antiXss->xss_clean($content);
-        $content = preg_replace('/^\s*&lt;\?xml(.*?)\?&gt;/', '<?xml$1?>', $content);
-        $content = preg_replace('/&lt;!DOCTYPE(.*?)>/', '<!DOCTYPE$1>', $content);
+        $content = (new Sanitizer())->sanitize($content);
 
         rex_file::put($path, $content);
     }

@@ -69,7 +69,7 @@ class rex_editor
         } elseif (isset($this->editors[$editor]) || 'xdebug' === $editor) {
             if ('xdebug' === $editor) {
                 // if xdebug is not enabled, use `get_cfg_var` to get the value directly from php.ini
-                $editorUrl = ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+                $editorUrl = ini_get('xdebug.file_link_format') ?: rex_type::string(get_cfg_var('xdebug.file_link_format'));
             } else {
                 $editorUrl = $this->editors[$editor];
             }

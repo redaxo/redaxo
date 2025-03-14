@@ -128,7 +128,7 @@ $n['field'] = $httpsRedirectSel->get();
 $formElements[] = $n;
 
 $n = [];
-$n['field'] = '<p>' . rex_i18n::msg('hsts_more_information') . '</p>';
+$n['field'] = '<p>' . rex_i18n::rawMsg('hsts_more_information') . '</p>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

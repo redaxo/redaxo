@@ -1,6 +1,27 @@
 Changelog
 =========
 
+Version 5.18.3 – 04.03.2025
+---------------------------
+
+### Security
+
+* API-Functions: Bei Nutzung von `setRequiresReboot(true)` war über den Result-Parameter in der URL Cross-Site-Scripting möglich (gemeldet von @0xadik) (@gharlan)
+
+### Bugfixes
+
+* Console: Aufwärts-Kompatibilität zu neueren `symfony/console`-Versionen (@crydotsnake)
+* Text-Optimierungen (@alxndr-w, @crydotsnake)
+
+
+Version 5.18.2 – 10.02.2025
+---------------------------
+
+### Bugfixes
+
+* `rex_sql_could_not_connect_exception`: Es war nicht ersichtlich, für welche DB-Verbindung die Exception geworfen wurde (@danspringer)
+
+
 Version 5.18.1 – 06.12.2024
 ---------------------------
 

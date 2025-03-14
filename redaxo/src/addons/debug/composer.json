@@ -1,6 +1,8 @@
 {
+    "type": "project",
+
     "require": {
-        "itsgoingd/clockwork": "^5.3.3"
+        "itsgoingd/clockwork": "^5.3.4"
     },
 
     "config": {

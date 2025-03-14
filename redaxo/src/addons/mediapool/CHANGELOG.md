@@ -1,6 +1,25 @@
 Changelog
 =========
 
+Version 2.15.3 – 04.03.2025
+---------------------------
+
+### Security
+
+* **[BC-Break]** Es ist nun default eine Liste mit erlaubten Dateiendungen und Mime-Types hinterlegt, um Probleme (z.B. XSS) mit unbekannten bzw. in der Blocklist nicht bedachten Dateitypen zu vermeiden (gemeldet von @0xadik) (@gharlan)
+  - Die Default-Liste (siehe `allowed_mime_types` in der `package.yml`) kann z.B. im Project-Addon mittels `rex_mediapool::setAllowedMimeTypes()` ergänzt/überschrieben werden.
+* Beim Austauschen existierender Dateien wurden die `allowed_mime_types` nicht beachtet (@gharlan)
+
+
+Version 2.15.2 – 10.02.2025
+---------------------------
+
+### Bugfixes
+
+* SVG-Filterung optimiert durch neuen SVG-Sanitizer (@gharlan)
+* Dateiendung-Blockierung korrigiert (`.json` wird nicht mehr gesperrt aufgrund der `.js`-Sperre) (@omphteliba)
+
+
 Version 2.15.1 – 06.12.2024
 ---------------------------
 

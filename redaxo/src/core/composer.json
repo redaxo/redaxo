@@ -1,15 +1,18 @@
 {
+    "type": "project",
+
     "require": {
+        "enshrined/svg-sanitize": "^0.21",
         "erusev/parsedown": "^1.7.4",
         "erusev/parsedown-extra": "^0.8.1",
-        "filp/whoops": "^2.16.0",
+        "filp/whoops": "^2.17.0",
         "lbuchs/webauthn": "^2.2.0",
         "psr/log": "^3.0.2",
-        "ramsey/http-range": "^1.1",
+        "ramsey/http-range": "^1.2.1",
         "symfony/console": "^6.4.17",
-        "symfony/http-foundation": "^6.4.16",
-        "symfony/var-dumper": "^6.4.15",
-        "symfony/yaml": "^6.4.13",
+        "symfony/http-foundation": "^6.4.18",
+        "symfony/var-dumper": "^6.4.18",
+        "symfony/yaml": "^6.4.18",
         "voku/anti-xss": "^4.1.42",
         "voku/portable-utf8": "dev-php84-nullable_type_declaration as 6.0.14-dev"
     },

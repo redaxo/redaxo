@@ -41,7 +41,7 @@ class UnitFactory implements UnitFactoryInterface
     {
         $unitSet = explode('=', $rangesSpecifier);
 
-        if (!isset($unitSet[0]) || $unitSet[0] === '') {
+        if ($unitSet[0] === '') {
             throw new InvalidRangeUnitException(
                 'No range-unit provided in $rangesSpecifier',
             );

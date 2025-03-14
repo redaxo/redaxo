@@ -28,7 +28,6 @@ class rex_test_factory
         return 'static-base';
     }
 
-    /** @psalm-suppress MixedInferredReturnType */
     public static function staticCallDeprecated(): string
     {
         if (static::hasFactoryClass()) {
