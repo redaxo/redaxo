@@ -1429,8 +1429,6 @@
   </file>
   <file src="redaxo/src/addons/mediapool/pages/media.list.php">
     <MixedArgument>
-      <code><![CDATA[$argUrl]]></code>
-      <code><![CDATA[$argUrl]]></code>
       <code><![CDATA[$error]]></code>
       <code><![CDATA[$fileName]]></code>
       <code><![CDATA[$filename]]></code>
@@ -1448,7 +1446,6 @@
       <code><![CDATA[$filename]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$argUrl['args']['types']]]></code>
       <code><![CDATA[$mediaManagerUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate'))]]></code>
     </MixedOperand>
     <PossiblyInvalidOperand>
