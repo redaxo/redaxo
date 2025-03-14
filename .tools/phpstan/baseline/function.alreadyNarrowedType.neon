@@ -1,8 +1,0 @@
-# total 1 error
-
-parameters:
-    ignoreErrors:
-        -
-            message: '#^Call to function is_array\(\) with array\<non\-falsy\-string, int\|non\-falsy\-string\> will always evaluate to true\.$#'
-            count: 1
-            path: ../../../src/MediaPool/MediaHandler.php

@@ -70,7 +70,7 @@ if ($func && !$csrfToken->isValid()) {
 
     $config['debug']['enabled'] = !Core::isDebugMode();
     Core::setProperty('debug', $config['debug']);
-    if (File::putConfig($configFile, $config) > 0) {
+    if (File::putConfig($configFile, $config)) {
         // reload the page so that debug mode is immediately visible
         Response::sendRedirect(Url::currentBackendPage(['rex_debug_updated' => true]));
     }
@@ -132,7 +132,7 @@ if ($func && !$csrfToken->isValid()) {
     }
 
     if (empty($error)) {
-        if (File::putConfig($configFile, $config) > 0) {
+        if (File::putConfig($configFile, $config)) {
             $success = I18n::msg('info_updated');
         }
     }

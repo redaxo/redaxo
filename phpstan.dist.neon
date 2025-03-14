@@ -1,8 +1,7 @@
 includes:
-    - .tools/phpstan/baseline/loader.neon
+    - .tools/phpstan/baseline/_loader.php
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
-# vendor/bin/phpstan --generate-baseline=.tools/phpstan/baseline/loader.neon && vendor/bin/split-phpstan-baseline .tools/phpstan/baseline/loader.neon
 parameters:
     level: 6
     phpVersion: 80300 # PHP 8.3

@@ -17,8 +17,10 @@ use Redaxo\Core\Http\Response;
 use Redaxo\Core\MetaInfo\ApiFunction\DefaultFieldsCreate;
 use Redaxo\Core\Security\ApiFunction as SecurityApiFunction;
 use Redaxo\Core\Security\CsrfToken;
+use Redaxo\Core\Security\Login;
 use Redaxo\Core\Translation\I18n;
 
+use function is_string;
 use function Redaxo\Core\View\escape;
 use function sprintf;
 
@@ -219,9 +221,14 @@ abstract class ApiFunction
 
             $urlResult = Request::get(self::REQ_RESULT_PARAM, 'string');
             if ($urlResult) {
-                // take over result from url and do not execute the apiFunc
-                $result = Result::fromJSON($urlResult);
-                $apiFunc->result = $result;
+                // take over result from url and session and do not execute the apiFunc
+                Login::startSession();
+                $result = Request::session(self::REQ_RESULT_PARAM, 'array[string]', [])[$urlResult] ?? null;
+                if (!is_string($result)) {
+                    throw new NotFoundHttpException(new ApiFunctionException('The result of the api function is not available in the session.'));
+                }
+
+                $apiFunc->result = Result::fromJSON($result);
             } else {
                 if ($apiFunc->requiresCsrfProtection() && !CsrfToken::factory($apiFunc::class)->isValid()) {
                     $result = new Result(false, I18n::msg('csrf_token_invalid'));
@@ -239,11 +246,18 @@ abstract class ApiFunction
 
                     $apiFunc->result = $result;
                     if ($result->requiresReboot()) {
-                        $context = Context::fromGet();
-                        // add api call result to url
-                        $context->setParam(self::REQ_RESULT_PARAM, $result->toJSON());
-                        // and redirect to SELF for reboot
-                        Response::sendRedirect($context->getUrl());
+                        // add api call result to session
+                        Login::startSession();
+                        $results = Request::session(self::REQ_RESULT_PARAM, 'array', []);
+                        $result = $result->toJSON();
+                        $key = sha1($result);
+                        $results[$key] = $result;
+                        Request::setSession(self::REQ_RESULT_PARAM, $results);
+
+                        // and redirect to SELF for reboot with session key as parameter
+                        Response::sendRedirect(Context::fromGet()->getUrl([
+                            self::REQ_RESULT_PARAM => $key,
+                        ]));
                     }
                 } catch (ApiFunctionException $e) {
                     $message = $e->getMessage();

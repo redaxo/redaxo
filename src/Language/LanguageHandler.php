@@ -39,8 +39,18 @@ class LanguageHandler
 
         Util::organizePriorities(Core::getTable('clang'), 'priority', '', 'priority, id != ' . $id);
 
+        $sourceId = Language::getStartId();
+        if ($sourceId === $id) {
+            foreach (Language::getAllIds(true) as $clangId) {
+                if ($sourceId !== $clangId) {
+                    $sourceId = $clangId;
+                    break;
+                }
+            }
+        }
+
         $firstLang = Sql::factory();
-        $firstLang->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=?', [Language::getStartId()]);
+        $firstLang->setQuery('select * from ' . Core::getTablePrefix() . 'article where clang_id=?', [$sourceId]);
         $fields = $firstLang->getFieldnames();
 
         $newLang = Sql::factory();

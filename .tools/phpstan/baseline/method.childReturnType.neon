@@ -1,8 +1,0 @@
-# total 1 error
-
-parameters:
-    ignoreErrors:
-        -
-            message: '#^Return type \(void\) of method Redaxo\\Core\\MetaInfo\\Handler\\LanguageHandler\:\:buildFilterCondition\(\) should be compatible with return type \(string\) of method Redaxo\\Core\\MetaInfo\\Handler\\AbstractHandler\:\:buildFilterCondition\(\)$#'
-            count: 1
-            path: ../../../src/MetaInfo/Handler/LanguageHandler.php

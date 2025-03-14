@@ -37,9 +37,11 @@ class CategoryHandler
         self::reqKey($data, 'catpriority');
         self::reqKey($data, 'catname');
 
-        // parent may be null, when adding in the root cat
-        $parent = Category::get($categoryId);
-        if ($parent) {
+        if ($categoryId) {
+            $parent = Category::get($categoryId);
+            if (!$parent) {
+                throw new ApiFunctionException('Target category with ID "' . $categoryId . '" does not exist.');
+            }
             $path = $parent->getPath();
             $path .= $parent->getId() . '|';
         } else {

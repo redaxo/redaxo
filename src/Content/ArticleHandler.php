@@ -36,9 +36,11 @@ class ArticleHandler
             $data['priority'] = 1;
         }
 
-        // parent may be null, when adding in the root cat
-        $parent = Category::get($data['category_id']);
-        if ($parent) {
+        if ($data['category_id']) {
+            $parent = Category::get($data['category_id']);
+            if (!$parent) {
+                throw new ApiFunctionException('Target category with ID "' . $data['category_id'] . '" does not exist.');
+            }
             $path = $parent->getPath();
             $path .= $parent->getId() . '|';
         } else {

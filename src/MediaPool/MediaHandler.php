@@ -224,6 +224,10 @@ final class MediaHandler
                 $extensionNew == $extensionOld
                 || in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
             ) {
+                if (!MediaPool::isAllowedMimeType($srcFile, $dstFile)) {
+                    $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . $extensionNew . '</code> (<code>' . ($filetype ?? 'unknown mime type') . '</code>)';
+                    throw new ApiFunctionException($warning);
+                }
                 if (!File::move($srcFile, $dstFile)) {
                     throw new ApiFunctionException(I18n::msg('pool_file_movefailed'));
                 }

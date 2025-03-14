@@ -64,7 +64,7 @@ if ($addonkey && isset($addons[$addonkey]) && !Addon::exists($addonkey)) {
         $content .= '
             <tr>
                 <th>' . $package->i18n('website') . '</th>
-                <td data-title="' . $package->i18n('website') . '"><a class="rex-link-expanded" href="' . escape($addon['website']) . '">' . escape($addon['website']) . '</a></td>
+                <td data-title="' . $package->i18n('website') . '"><a class="rex-link-expanded" rel="noopener noreferrer" href="' . escape($addon['website']) . '" target="_blank">' . escape($addon['website']) . ' <i class="fa fa-external-link"></i></a></td>
             </tr>';
     }
 

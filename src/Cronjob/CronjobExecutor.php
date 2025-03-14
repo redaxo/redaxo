@@ -13,6 +13,7 @@ use Redaxo\Core\Cronjob\Type\UrlRequestType;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Log\LogFile;
+use Redaxo\Core\Util\Str;
 use Throwable;
 
 use function defined;
@@ -97,7 +98,7 @@ class CronjobExecutor
             $this->name = $name;
             $this->id = $id;
             $this->cronjob = $cronjob;
-            $type = $cronjob->getType();
+            $type = Str::normalize($cronjob->getType());
             foreach ($params as $key => $value) {
                 $cronjob->setParam(str_replace($type . '_', '', $key), $value);
             }

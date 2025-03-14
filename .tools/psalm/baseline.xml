@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.5.1@3f17a6b24a2dbe543e21408c2b19108cf6a355ef">
+<files psalm-version="6.8.9@e856423a5dc38d65e56b5792750c557277afe393">
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
       <code><![CDATA[$query['query']]]></code>
@@ -131,6 +131,9 @@
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_core_update.php">
+    <InvalidOperand>
+      <code><![CDATA[$addonkey]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$addon->getProperty('conflicts', [])]]></code>
       <code><![CDATA[$addon->getProperty('requires', [])]]></code>
@@ -303,9 +306,10 @@
     </NullOperand>
   </file>
   <file src="redaxo/src/core/backend.php">
+    <InvalidOperand>
+      <code><![CDATA[strtotime($version['history_date'])]]></code>
+    </InvalidOperand>
     <MixedArgument>
-      <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$clangId]]></code>
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$version['history_date']]]></code>
@@ -327,17 +331,13 @@
       <code><![CDATA[$version['history_user']]]></code>
     </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$clangId]]></code>
       <code><![CDATA[$historyInfo]]></code>
       <code><![CDATA[$metaSidebar]]></code>
-      <code><![CDATA[$sliceRevision]]></code>
       <code><![CDATA[$subject]]></code>
       <code><![CDATA[$userAgent]]></code>
       <code><![CDATA[$version]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$ep->getParam('direction')]]></code>
       <code><![CDATA[$metaSidebar]]></code>
       <code><![CDATA[$version['history_date']]]></code>
       <code><![CDATA[$version['history_user']]]></code>
@@ -368,8 +368,18 @@
       <code><![CDATA[Core::getProperty('timezone', 'Europe/Berlin')]]></code>
     </ArgumentTypeCoercion>
     <MixedArgument>
+      <code><![CDATA[$articleId]]></code>
+      <code><![CDATA[$clangId]]></code>
       <code><![CDATA[$ep->getParam('file')]]></code>
     </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$articleId]]></code>
+      <code><![CDATA[$clangId]]></code>
+      <code><![CDATA[$sliceRevision]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$ep->getParam('direction')]]></code>
+    </MixedOperand>
     <PossiblyInvalidArgument>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
       <code><![CDATA[$REX['BACKEND_FOLDER']]]></code>
@@ -1015,6 +1025,14 @@
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </ArgumentTypeCoercion>
+    <InvalidOperand>
+      <code><![CDATA[$envFieldId]]></code>
+      <code><![CDATA[$envFieldId]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$typeFieldId]]></code>
+      <code><![CDATA[escape($field->getAttribute('id'), 'js')]]></code>
+      <code><![CDATA[escape($value, 'js')]]></code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code><![CDATA[$activeType]]></code>
     </InvalidScalarArgument>
@@ -1083,6 +1101,9 @@
     <MixedAssignment>
       <code><![CDATA[$shortName]]></code>
     </MixedAssignment>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$field->getAttribute('id')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$warning]]></code>
     </PossiblyNullArgument>
@@ -1133,6 +1154,9 @@
       <code><![CDATA[$gf->getValue('category_id')]]></code>
       <code><![CDATA[$gf->getValue('category_id')]]></code>
     </ArgumentTypeCoercion>
+    <InvalidOperand>
+      <code><![CDATA[$gf->getDateTimeValue('updatedate')]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$error]]></code>
       <code><![CDATA[$success]]></code>
@@ -1164,8 +1188,6 @@
   </file>
   <file src="redaxo/src/core/pages/mediapool.media.list.php">
     <MixedArgument>
-      <code><![CDATA[$argUrl]]></code>
-      <code><![CDATA[$argUrl]]></code>
       <code><![CDATA[$error]]></code>
       <code><![CDATA[$fileName]]></code>
       <code><![CDATA[$filename]]></code>
@@ -1175,24 +1197,29 @@
       <code><![CDATA[$error]]></code>
       <code><![CDATA[$success]]></code>
       <code><![CDATA[['filename' => $fileName]]]></code>
-      <code><![CDATA[array_merge(['file_id' => $media->getId(), 'rex_file_category' => $rexFileCategory], $argUrl)]]></code>
-      <code><![CDATA[array_merge(['page' => 'mediapool/upload'], $argUrl)]]></code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$fileName]]></code>
       <code><![CDATA[$filename]]></code>
     </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$argUrl['args']['types']]]></code>
-    </MixedOperand>
     <PossiblyInvalidArgument>
       <code><![CDATA[$media->getValue('updatedate')]]></code>
     </PossiblyInvalidArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$media->getValue('updatedate')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$media->getValue('updatedate')]]></code>
     </PossiblyNullOperand>
+    <RedundantCondition>
+      <code><![CDATA[int]]></code>
+      <code><![CDATA[int]]></code>
+    </RedundantCondition>
   </file>
   <file src="redaxo/src/core/pages/mediapool.php">
+    <InvalidOperand>
+      <code><![CDATA[escape($argName)]]></code>
+    </InvalidOperand>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$argUrl]]></code>
     </MixedArgumentTypeCoercion>
@@ -1268,6 +1295,10 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/metainfo.content.php">
+    <InvalidOperand>
+      <code><![CDATA[escape($article->getValue('createuser'))]]></code>
+      <code><![CDATA[escape($article->getValue('updateuser'))]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$ctypes]]></code>
     </MixedArgument>
@@ -1379,6 +1410,11 @@
     <PossiblyNullReference>
       <code><![CDATA[getData]]></code>
     </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/pages/profile.auth_methods.php">
+    <InvalidOperand>
+      <code><![CDATA[escape($id)]]></code>
+    </InvalidOperand>
   </file>
   <file src="redaxo/src/core/pages/profile.php">
     <PossiblyNullArgument>
@@ -1615,6 +1651,9 @@
     <InvalidArrayOffset>
       <code><![CDATA[$usedIds[$list->getValue('id')]]]></code>
     </InvalidArrayOffset>
+    <InvalidOperand>
+      <code><![CDATA[$aid]]></code>
+    </InvalidOperand>
     <NullOperand>
       <code><![CDATA[escape($ausgabe)]]></code>
       <code><![CDATA[escape($eingabe)]]></code>
@@ -1656,6 +1695,9 @@
     <InvalidArrayOffset>
       <code><![CDATA[$templateNames[$sql->getValue('template_id')]]]></code>
     </InvalidArrayOffset>
+    <InvalidOperand>
+      <code><![CDATA[$sql->getValue('id')]]></code>
+    </InvalidOperand>
     <NullOperand>
       <code><![CDATA[escape($KAT->getValue('catname'))]]></code>
       <code><![CDATA[escape($KAT->getValue('catname'))]]></code>
@@ -1769,11 +1811,20 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="redaxo/src/core/pages/system.report.html.php">
+    <InvalidOperand>
+      <code><![CDATA[escape($value)]]></code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code><![CDATA[$value]]></code>
     </InvalidScalarArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$value]]></code>
+    </PossiblyInvalidOperand>
   </file>
   <file src="redaxo/src/core/pages/system.settings.php">
+    <InvalidOperand>
+      <code><![CDATA[$key]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$destination]]></code>
       <code><![CDATA[Core::getConfig('notfound_article_id', 1)]]></code>
@@ -2020,6 +2071,9 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Backup/Backup.php">
+    <InvalidOperand>
+      <code><![CDATA[$column]]></code>
+    </InvalidOperand>
     <PossiblyFalseArgument>
       <code><![CDATA[$tmpArchivePath]]></code>
       <code><![CDATA[$tmpArchivePath]]></code>
@@ -2045,6 +2099,9 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$cfg->getValue('value')]]></code>
     </ArgumentTypeCoercion>
+    <InvalidOperand>
+      <code><![CDATA[File::putCache(self::$cacheFile, self::$data) <= 0]]></code>
+    </InvalidOperand>
     <MixedAssignment>
       <code><![CDATA[$v]]></code>
       <code><![CDATA[$value]]></code>
@@ -2354,6 +2411,9 @@
     </MoreSpecificReturnType>
   </file>
   <file src="src/Content/ArticleCache.php">
+    <InvalidOperand>
+      <code><![CDATA[$clang]]></code>
+    </InvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$clang]]></code>
     </PossiblyNullOperand>
@@ -2371,6 +2431,9 @@
       <code><![CDATA[$CONTENT]]></code>
       <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
     </PossiblyFalseArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$TEMPLATE->getKey() ?? $TEMPLATE->getId()]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$TEMPLATE->getTemplate()]]></code>
       <code><![CDATA[$template->getKey()]]></code>
@@ -2396,6 +2459,13 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$id]]></code>
     </ArgumentTypeCoercion>
+    <InvalidOperand>
+      <code><![CDATA[$fromSql->getValue('name')]]></code>
+      <code><![CDATA[$toSql->getValue('id')]]></code>
+      <code><![CDATA[$toSql->getValue('id')]]></code>
+      <code><![CDATA[$toSql->getValue('path')]]></code>
+      <code><![CDATA[$toSql->getValue('path')]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$data['category_id']]]></code>
       <code><![CDATA[$data['category_id']]]></code>
@@ -2428,6 +2498,7 @@
       <code><![CDATA[$currentStatus]]></code>
       <code><![CDATA[$currentStatus]]></code>
       <code><![CDATA[$currentStatus]]></code>
+      <code><![CDATA[$data['category_id']]]></code>
     </MixedOperand>
     <MixedReturnStatement>
       <code><![CDATA[($currentStatus + 1) % count($artStatusTypes)]]></code>
@@ -2447,6 +2518,7 @@
       <code><![CDATA[getCategoryId]]></code>
     </PossiblyNullReference>
     <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$data['template_id']]]></code>
       <code><![CDATA[$data['template_id']]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
@@ -2488,6 +2560,10 @@
     <InvalidArrayOffset>
       <code><![CDATA[$templates[$templateId]]]></code>
     </InvalidArrayOffset>
+    <InvalidOperand>
+      <code><![CDATA[$fcat->getValue('path')]]></code>
+      <code><![CDATA[$tcat->getValue('path')]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$data['catname']]]></code>
       <code><![CDATA[$data['catname']]]></code>
@@ -2636,6 +2712,9 @@
     </MixedAssignment>
   </file>
   <file src="src/Content/StructureElement.php">
+    <InvalidOperand>
+      <code><![CDATA[$name]]></code>
+    </InvalidOperand>
     <MixedAssignment>
       <code><![CDATA[$prefix]]></code>
       <code><![CDATA[$value]]></code>
@@ -2815,6 +2894,12 @@
     <PossiblyFalsePropertyAssignmentValue>
       <code><![CDATA[json_encode($value)]]></code>
     </PossiblyFalsePropertyAssignmentValue>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$this->getAttribute('id')]]></code>
       <code><![CDATA[$this->getAttribute('id')]]></code>
@@ -2916,6 +3001,10 @@
     <InvalidFalsableReturnType>
       <code><![CDATA[int|null]]></code>
     </InvalidFalsableReturnType>
+    <InvalidOperand>
+      <code><![CDATA[$fldName]]></code>
+      <code><![CDATA[$paramName]]></code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code><![CDATA[$sql->getValue('Create Table')]]></code>
       <code><![CDATA[$this->getConnection()->quote($value)]]></code>
@@ -3134,6 +3223,10 @@
     </ArgumentTypeCoercion>
   </file>
   <file src="src/Form/Field/BaseField.php">
+    <InvalidOperand>
+      <code><![CDATA[escape($value)]]></code>
+      <code><![CDATA[escape($value)]]></code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code><![CDATA[$this->getAttribute('class')]]></code>
     </InvalidReturnStatement>
@@ -3143,6 +3236,9 @@
     <NullableReturnStatement>
       <code><![CDATA[$this->getAttribute('class')]]></code>
     </NullableReturnStatement>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$this->getAttribute('id')]]></code>
       <code><![CDATA[escape($value)]]></code>
@@ -3150,6 +3246,12 @@
     </PossiblyNullOperand>
   </file>
   <file src="src/Form/Field/CheckboxField.php">
+    <InvalidOperand>
+      <code><![CDATA[escape($name)]]></code>
+      <code><![CDATA[escape($optId)]]></code>
+      <code><![CDATA[escape($optId)]]></code>
+      <code><![CDATA[escape($optName)]]></code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code><![CDATA[$this->getValue() ?? '']]></code>
     </InvalidScalarArgument>
@@ -3163,6 +3265,9 @@
       <code><![CDATA[escape($optValue)]]></code>
       <code><![CDATA[escape($optValue)]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$optId]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$optId]]></code>
       <code><![CDATA[escape($name)]]></code>
@@ -3187,6 +3292,10 @@
     <MixedAssignment>
       <code><![CDATA[$values]]></code>
     </MixedAssignment>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$this->getAttribute('id')]]></code>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyInvalidPropertyAssignmentValue>
       <code><![CDATA[$value]]></code>
     </PossiblyInvalidPropertyAssignmentValue>
@@ -3242,12 +3351,18 @@
     </PossiblyNullOperand>
   </file>
   <file src="src/Form/Field/RadioField.php">
+    <InvalidOperand>
+      <code><![CDATA[escape($optName)]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$optValue]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$optValue]]></code>
     </MixedAssignment>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$id]]></code>
     </PossiblyNullOperand>
@@ -3262,6 +3377,9 @@
     <PossiblyInvalidArgument>
       <code><![CDATA[$this->getAttribute('name')]]></code>
     </PossiblyInvalidArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$this->getAttribute('name')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$this->getValue()]]></code>
     </PossiblyNullArgument>
@@ -3348,6 +3466,13 @@
       <code><![CDATA[array<int, string>]]></code>
     </MixedReturnTypeCoercion>
   </file>
+  <file src="src/Http/Context.php">
+    <InvalidOperand>
+      <code><![CDATA[escape($valName)]]></code>
+      <code><![CDATA[escape($valVal ?? '')]]></code>
+      <code><![CDATA[escape($value ?? '')]]></code>
+    </InvalidOperand>
+  </file>
   <file src="src/Http/Request.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$type]]></code>
@@ -3370,6 +3495,10 @@
     <InvalidFalsableReturnType>
       <code><![CDATA[string]]></code>
     </InvalidFalsableReturnType>
+    <InvalidOperand>
+      <code><![CDATA[$filesize]]></code>
+      <code><![CDATA[filesize($file)]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$chunkSize]]></code>
       <code><![CDATA[$range->getStart()]]></code>
@@ -3460,6 +3589,9 @@
     </PossiblyFalseArgument>
   </file>
   <file src="src/Log/LogFile.php">
+    <ImplicitToStringCast>
+      <code><![CDATA[new LogEntry(time(), $data)]]></code>
+    </ImplicitToStringCast>
     <InvalidArrayAccess>
       <code><![CDATA[$this->buffer[$this->bufferPos]]]></code>
     </InvalidArrayAccess>
@@ -3486,6 +3618,9 @@
     </PossiblyFalsePropertyAssignmentValue>
   </file>
   <file src="src/Log/Logger.php">
+    <InvalidOperand>
+      <code><![CDATA[$key]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$level]]></code>
       <code><![CDATA[$level]]></code>
@@ -3546,6 +3681,9 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/MediaManager/Effect/ConvertToImageEffect.php">
+    <InvalidOperand>
+      <code><![CDATA[(float) $duration / 2]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$color]]></code>
       <code><![CDATA[$color]]></code>
@@ -3623,6 +3761,24 @@
     </PossiblyFalseArgument>
   </file>
   <file src="src/MediaManager/Effect/FilterSharpenEffect.php">
+    <InvalidOperand>
+      <code><![CDATA[$gNew << 8]]></code>
+      <code><![CDATA[$rNew << 16]]></code>
+      <code><![CDATA[$this->params['amount'] * ($bOrig - $bBlur)]]></code>
+      <code><![CDATA[$this->params['amount'] * ($bOrig - $bBlur)]]></code>
+      <code><![CDATA[$this->params['amount'] * ($gOrig - $gBlur)]]></code>
+      <code><![CDATA[$this->params['amount'] * ($gOrig - $gBlur)]]></code>
+      <code><![CDATA[$this->params['amount'] * ($rOrig - $rBlur)]]></code>
+      <code><![CDATA[$this->params['amount'] * ($rOrig - $rBlur)]]></code>
+      <code><![CDATA[($rNew << 16) + ($gNew << 8)]]></code>
+      <code><![CDATA[($this->params['amount'] * ($bOrig - $bBlur)) + $bOrig]]></code>
+      <code><![CDATA[($this->params['amount'] * ($bOrig - $bBlur)) + $bOrig]]></code>
+      <code><![CDATA[($this->params['amount'] * ($gOrig - $gBlur)) + $gOrig]]></code>
+      <code><![CDATA[($this->params['amount'] * ($gOrig - $gBlur)) + $gOrig]]></code>
+      <code><![CDATA[($this->params['amount'] * ($rOrig - $rBlur)) + $rOrig]]></code>
+      <code><![CDATA[($this->params['amount'] * ($rOrig - $rBlur)) + $rOrig]]></code>
+      <code><![CDATA[((float) $this->params['radius']) * 2]]></code>
+    </InvalidOperand>
     <PossiblyFalseArgument>
       <code><![CDATA[$imgBlur]]></code>
       <code><![CDATA[$imgBlur]]></code>
@@ -3701,6 +3857,9 @@
     </MixedOperand>
   </file>
   <file src="src/MediaManager/Effect/MirrorEffect.php">
+    <InvalidOperand>
+      <code><![CDATA[$h * ((int) rtrim($this->params['height'], '%') / 100)]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$alpha]]></code>
       <code><![CDATA[$bgColor[0]]]></code>
@@ -3750,6 +3909,10 @@
     </PossiblyFalseOperand>
   </file>
   <file src="src/MediaManager/Effect/ResizeEffect.php">
+    <InvalidOperand>
+      <code><![CDATA[$h * ((int) rtrim($this->params['height'], '%') / 100)]]></code>
+      <code><![CDATA[$w * ((int) rtrim($this->params['width'], '%') / 100)]]></code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code><![CDATA[$this->params['height']]]></code>
       <code><![CDATA[$this->params['height']]]></code>
@@ -3930,6 +4093,9 @@
     <NoValue>
       <code><![CDATA[$warning]]></code>
     </NoValue>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$uses]]></code>
+    </PossiblyInvalidOperand>
   </file>
   <file src="src/MediaPool/MediaHandler.php">
     <MixedArgumentTypeCoercion>
@@ -3942,20 +4108,18 @@
       <code><![CDATA[ini_get('upload_max_filesize')]]></code>
       <code><![CDATA[ini_get('upload_max_filesize')]]></code>
     </PossiblyFalseArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$uses]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[File::mimeType($data['file']['path'])]]></code>
     </PossiblyNullOperand>
   </file>
   <file src="src/MediaPool/MediaPool.php">
     <MixedArgument>
-      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
       <code><![CDATA[$args['types']]]></code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$allowedMimetypes[$extension]]]></code>
-    </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$allowedMimetypes]]></code>
       <code><![CDATA[$blockedExtension]]></code>
     </MixedAssignment>
     <MixedOperand>
@@ -3963,10 +4127,13 @@
       <code><![CDATA[$blockedExtension]]></code>
     </MixedOperand>
     <MixedReturnStatement>
+      <code><![CDATA[Core::getProperty('allowed_mime_types', [])]]></code>
+      <code><![CDATA[Core::getProperty('allowed_mime_types', [])]]></code>
       <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
       <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
     </MixedReturnStatement>
     <NullableReturnStatement>
+      <code><![CDATA[Core::getProperty('allowed_mime_types', [])]]></code>
       <code><![CDATA[Core::getProperty('blocked_extensions', [])]]></code>
     </NullableReturnStatement>
   </file>
@@ -3977,6 +4144,10 @@
     </InvalidArgument>
   </file>
   <file src="src/MetaInfo/Form/Field/RestrictionField.php">
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$id]]></code>
       <code><![CDATA[$id]]></code>
@@ -3994,6 +4165,11 @@
       <code><![CDATA[$this->getValue()]]></code>
     </MixedReturnTypeCoercion>
   </file>
+  <file src="src/MetaInfo/Form/Input/ArticleInput.php">
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$name]]></code>
+    </PossiblyInvalidOperand>
+  </file>
   <file src="src/MetaInfo/Form/Input/DateInput.php">
     <InvalidArgument>
       <code><![CDATA[$value]]></code>
@@ -4005,6 +4181,13 @@
     <PossiblyInvalidArgument>
       <code><![CDATA[$value]]></code>
     </PossiblyInvalidArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$value['day']]]></code>
       <code><![CDATA[$value['month']]]></code>
@@ -4015,6 +4198,11 @@
       <code><![CDATA[$value['month']]]></code>
       <code><![CDATA[$value['year']]]></code>
     </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/MetaInfo/Form/Input/MediaInput.php">
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$name]]></code>
+    </PossiblyInvalidOperand>
   </file>
   <file src="src/MetaInfo/Form/Input/SelectInput.php">
     <ArgumentTypeCoercion>
@@ -4033,6 +4221,12 @@
       <code><![CDATA[$end]]></code>
       <code><![CDATA[$start]]></code>
     </MixedArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$value['hour']]]></code>
       <code><![CDATA[$value['minute']]]></code>
@@ -4052,6 +4246,9 @@
     <MixedAssignment>
       <code><![CDATA[$params['id']]]></code>
     </MixedAssignment>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$field->getAttribute('id')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$fieldAttributes]]></code>
       <code><![CDATA[$fieldDefault]]></code>
@@ -4137,6 +4334,9 @@
     <MixedMethodCall>
       <code><![CDATA[setValue]]></code>
     </MixedMethodCall>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$OOArt->getValue('template_id')]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullOperand>
       <code><![CDATA[$OOArt->getValue('template_id')]]></code>
     </PossiblyNullOperand>
@@ -4205,6 +4405,9 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[['clang_id' => $clangArr['id'], 'func' => 'editclang']]]></code>
     </ArgumentTypeCoercion>
+    <InvalidOperand>
+      <code><![CDATA[$sql->getValue('type_id')]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$catId]]></code>
       <code><![CDATA[$params['filename']]]></code>
@@ -4282,6 +4485,12 @@
       <code><![CDATA[$id]]></code>
       <code><![CDATA[$id]]></code>
     </MixedArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$ctype]]></code>
+      <code><![CDATA[$ctype]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullReference>
       <code><![CDATA[getValue]]></code>
     </PossiblyNullReference>
@@ -4308,6 +4517,11 @@
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullReference>
       <code><![CDATA[getId]]></code>
     </PossiblyNullReference>
@@ -4327,11 +4541,19 @@
     <MixedOperand>
       <code><![CDATA[$name]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullReference>
       <code><![CDATA[getId]]></code>
     </PossiblyNullReference>
   </file>
   <file src="src/RexVar/MediaListVar.php">
+    <InvalidOperand>
+      <code><![CDATA[$aname]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$avalue]]></code>
       <code><![CDATA[$value]]></code>
@@ -4348,6 +4570,11 @@
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
   </file>
   <file src="src/RexVar/MediaVar.php">
     <MixedArgument>
@@ -4370,6 +4597,9 @@
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+    </PossiblyInvalidOperand>
   </file>
   <file src="src/RexVar/RexVar.php">
     <MixedArgumentTypeCoercion>
@@ -4417,6 +4647,12 @@
     <PossiblyInvalidArgument>
       <code><![CDATA[$id]]></code>
     </PossiblyInvalidArgument>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$templateId]]></code>
+      <code><![CDATA[$templateId]]></code>
+      <code><![CDATA[$tmpl->getKey() ?? $tmpl->getId()]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$tmpl]]></code>
       <code><![CDATA[$tmpl]]></code>
@@ -4460,6 +4696,13 @@
             'samesite' => $sessionConfig['samesite'] ?? 'lax',
         ]]]></code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code><![CDATA[$hours]]></code>
+      <code><![CDATA[$hours * 3600]]></code>
+      <code><![CDATA[$mins]]></code>
+      <code><![CDATA[$time - ($hours * 3600)]]></code>
+      <code><![CDATA[($time - ($hours * 3600)) / 60]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[Core::getProperty('session_duration')]]></code>
     </MixedArgument>
@@ -4721,9 +4964,19 @@
     </PropertyTypeCoercion>
   </file>
   <file src="src/Util/Formatter.php">
+    <InvalidOperand>
+      <code><![CDATA[$value * 10 ** $precision]]></code>
+      <code><![CDATA[$value / 1024]]></code>
+      <code><![CDATA[$value /= 1024]]></code>
+    </InvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$value]]></code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/Util/Pager.php">
+    <InvalidOperand>
+      <code><![CDATA[ceil((int) $this->rowCount / $this->rowsPerPage) - 1]]></code>
+    </InvalidOperand>
   </file>
   <file src="src/Util/Parsedown.php">
     <MixedArgument>
@@ -4803,6 +5056,12 @@
     <PossiblyFalseArgument>
       <code><![CDATA[ini_get('suhosin.executor.include.whitelist')]]></code>
     </PossiblyFalseArgument>
+  </file>
+  <file src="src/Util/Timer.php">
+    <InvalidOperand>
+      <code><![CDATA[$duration * $precision]]></code>
+      <code><![CDATA[$duration += $timer->getDelta(self::MILLISEC)]]></code>
+    </InvalidOperand>
   </file>
   <file src="src/Util/Type.php">
     <ArgumentTypeCoercion>
@@ -4893,6 +5152,10 @@
       <code><![CDATA[$this->linkAttributes[$column] ?? $default]]></code>
       <code><![CDATA[json_decode($this->getValue($column), true)]]></code>
     </MixedReturnStatement>
+    <PossiblyInvalidOperand>
+      <code><![CDATA[$this->tableAttributes['class']]]></code>
+      <code><![CDATA[$width]]></code>
+    </PossiblyInvalidOperand>
     <PossiblyNullArgument>
       <code><![CDATA[$columnLayout]]></code>
       <code><![CDATA[$column['width'] ?? null]]></code>
@@ -4940,6 +5203,9 @@
     </PossiblyNullReference>
   </file>
   <file src="src/View/View.php">
+    <InvalidOperand>
+      <code><![CDATA[escape($argName)]]></code>
+    </InvalidOperand>
     <MixedArgument>
       <code><![CDATA[$buttonTitle]]></code>
       <code><![CDATA[$pageObj]]></code>
@@ -5080,11 +5346,6 @@
       <code><![CDATA[zlib_encode($body, ZLIB_ENCODING_DEFLATE)]]></code>
       <code><![CDATA[zlib_encode($body, ZLIB_ENCODING_GZIP)]]></code>
     </PossiblyFalseArgument>
-  </file>
-  <file src="tests/MediaPool/MediaPoolTest.php">
-    <MixedAssignment>
-      <code><![CDATA[$allowedMimeTypes]]></code>
-    </MixedAssignment>
   </file>
   <file src="tests/RexVar/RexVarTest.php">
     <MixedArgument>

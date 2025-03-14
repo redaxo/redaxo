@@ -1,8 +1,0 @@
-# total 2 errors
-
-parameters:
-    ignoreErrors:
-        -
-            message: '#^Method Redaxo\\Core\\Security\\User\:\:getComplexPerm\(\) should return Redaxo\\Core\\Content\\ModulePermission\|Redaxo\\Core\\Content\\StructurePermission\|Redaxo\\Core\\Language\\LanguagePermission\|Redaxo\\Core\\MediaPool\\MediaPoolPermission\|null but returns Redaxo\\Core\\Security\\ComplexPermission\|null\.$#'
-            count: 2
-            path: ../../../src/Security/User.php

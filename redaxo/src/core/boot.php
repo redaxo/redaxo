@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ArticleSliceHistory;
 use Redaxo\Core\Content\ModulePermission;
 use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Core;
@@ -216,6 +217,27 @@ if (!Core::isSetup()) {
 
         return null;
     });
+
+    if (Core::getConfig('article_history', false)) {
+        Extension::register(
+            ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
+            static function (ExtensionPoint $ep) {
+                $type = match ($ep->getName()) {
+                    'ART_SLICES_COPY' => 'slices_copy',
+                    'SLICE_MOVE' => 'slice_' . $ep->getParam('direction'),
+                    default => strtolower($ep->getName()),
+                };
+
+                $articleId = $ep->getParam('article_id');
+                $clangId = $ep->getParam('clang_id');
+                $sliceRevision = $ep->getParam('slice_revision');
+
+                if (0 == $sliceRevision) {
+                    ArticleSliceHistory::makeSnapshot($articleId, $clangId, $type);
+                }
+            },
+        );
+    }
 }
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {

@@ -1,8 +1,0 @@
-# total 1 error
-
-parameters:
-    ignoreErrors:
-        -
-            message: '#^Right side of && is always false\.$#'
-            count: 1
-            path: ../../../src/Form/Select/CategorySelect.php

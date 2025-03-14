@@ -285,25 +285,6 @@ if (Core::getUser()) {
 }
 
 if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('history[article_rollback]')) {
-    Extension::register(
-        ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
-        static function (ExtensionPoint $ep) {
-            $type = match ($ep->getName()) {
-                'ART_SLICES_COPY' => 'slices_copy',
-                'SLICE_MOVE' => 'slice_' . $ep->getParam('direction'),
-                default => strtolower($ep->getName()),
-            };
-
-            $articleId = $ep->getParam('article_id');
-            $clangId = $ep->getParam('clang_id');
-            $sliceRevision = $ep->getParam('slice_revision');
-
-            if (0 == $sliceRevision) {
-                ArticleSliceHistory::makeSnapshot($articleId, $clangId, $type);
-            }
-        },
-    );
-
     Asset::addCssFile(Url::coreAssets('noUiSlider/nouislider.css'));
     Asset::addJsFile(Url::coreAssets('noUiSlider/nouislider.js'), [Asset::JS_IMMUTABLE => true]);
     Asset::addCssFile(Url::coreAssets('css/history.css'));

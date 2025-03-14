@@ -4,7 +4,6 @@ namespace Redaxo\Core\Tests\MediaPool;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Redaxo\Core\Core;
 use Redaxo\Core\MediaPool\MediaPool;
 
 /** @internal */
@@ -40,15 +39,15 @@ final class MediaPoolTest extends TestCase
     #[DataProvider('provideIsAllowedMimeType')]
     public function testIsAllowedMimeType(bool $expected, string $path, ?string $filename = null): void
     {
-        $allowedMimeTypes = Core::getProperty('allowed_mime_types');
+        $allowedMimeTypes = MediaPool::getAllowedMimeTypes();
 
-        Core::setProperty('allowed_mime_types', [
+        MediaPool::setAllowedMimeTypes([
             'md' => ['text/plain'],
         ]);
 
         self::assertSame($expected, MediaPool::isAllowedMimeType($path, $filename));
 
-        Core::setProperty('allowed_mime_types', $allowedMimeTypes);
+        MediaPool::setAllowedMimeTypes($allowedMimeTypes);
     }
 
     /** @return list<array{0: bool, 1: string, 2?: string}> */

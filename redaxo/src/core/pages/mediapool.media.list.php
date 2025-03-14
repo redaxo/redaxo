@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
@@ -10,6 +11,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\MediaCategorySelect;
+use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
@@ -19,6 +21,7 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
+use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
@@ -39,10 +42,9 @@ if (!isset($success)) {
 if (!isset($error)) {
     $error = '';
 }
-if (!isset($argUrl)) {
-    /** @var array{args: array{types: string}, opener_input_field: string} */
-    $argUrl = [];
-}
+
+/** @var array{args?: array{types: string}, opener_input_field?: string} $argUrl */
+$argUrl ??= [];
 
 $mediaMethod = Request::request('media_method', 'string');
 
@@ -151,8 +153,43 @@ if (!empty($argUrl['args']['types'])) {
     echo Message::info(I18n::msg('pool_file_filter') . ' <code>' . $argUrl['args']['types'] . '</code>');
 }
 
+// Add Filter to the Query
+$filter = [];
+
+$mediaName = Request::request('media_name', 'string');
+if ('' != $mediaName) {
+    $filter['term'] = $mediaName;
+
+    if (0 != $rexFileCategory) {
+        $filter['category_id_path'] = $rexFileCategory;
+    }
+} else {
+    $filter['category_id'] = $rexFileCategory;
+}
+
+if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
+    $types = explode(',', $argUrl['args']['types']);
+    $filter['types'] = $types;
+}
+
+$context = new Context([
+    'page' => Controller::getCurrentPage(),
+    'rex_file_category' => $rexFileCategory,
+    'media_name' => $mediaName,
+    ...$argUrl,
+]);
+$pager = new Pager(Type::int(Core::getProperty('rows_per_page', 100)));
+
+$items = MediaHandler::getList($filter, [], $pager);
+
+$mediaFragment = new Fragment();
+$mediaFragment->setVar('pager', $pager);
+$mediaFragment->setVar('urlprovider', $context);
+
+$panel = $mediaFragment->parse('core/navigations/pagination.php');
+
 // deletefilelist und cat change
-$panel = '
+$panel .= '
 <form action="' . Url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
     <fieldset>
         ' . $csrf->getHiddenField() . '
@@ -246,28 +283,6 @@ if ($hasCategoryPerm) {
                 </tfoot>
                 ';
 }
-
-$filter = [];
-
-$mediaName = Request::request('media_name', 'string');
-if ('' != $mediaName) {
-    $filter['term'] = $mediaName;
-
-    if (0 != $rexFileCategory) {
-        $filter['category_id_path'] = $rexFileCategory;
-    }
-} else {
-    $filter['category_id'] = $rexFileCategory;
-}
-
-if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
-    $types = explode(',', $argUrl['args']['types']);
-    $filter['types'] = $types;
-}
-
-$pager = new Pager(5000);
-
-$items = MediaHandler::getList($filter, [], $pager);
 
 $panel .= '<tbody>';
 

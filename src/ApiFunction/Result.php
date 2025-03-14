@@ -85,14 +85,14 @@ class Result
     }
 
     /**
-     * @return false|string
+     * @return string
      */
     public function toJSON()
     {
-        return json_encode([
+        return Type::string(json_encode([
             'succeeded' => $this->succeeded,
             'message' => $this->message,
-        ]);
+        ]));
     }
 
     /**

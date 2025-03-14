@@ -139,7 +139,7 @@ $n['field'] = $httpsRedirectSel->get();
 $formElements[] = $n;
 
 $n = [];
-$n['field'] = '<p>' . I18n::msg('hsts_more_information') . '</p>';
+$n['field'] = '<p>' . I18n::rawMsg('hsts_more_information') . '</p>';
 $formElements[] = $n;
 
 $fragment = new Fragment();

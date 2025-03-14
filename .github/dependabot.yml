@@ -3,16 +3,6 @@
 
 version: 2
 updates:
-    -   package-ecosystem: composer
-        directory: /
-        versioning-strategy: increase
-        schedule:
-            interval: monthly
-        allow:
-            -   dependency-type: development
-        groups:
-            tools: { patterns: ['*'] }
-
     -   package-ecosystem: github-actions
         directory: /
         schedule:
