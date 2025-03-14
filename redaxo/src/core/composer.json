@@ -1,4 +1,6 @@
 {
+    "type": "project",
+
     "require": {
         "enshrined/svg-sanitize": "^0.21",
         "erusev/parsedown": "^1.7.4",
