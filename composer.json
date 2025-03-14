@@ -14,7 +14,7 @@
         "friendsofredaxo/linter": "1.4.0",
         "jetbrains/phpstorm-attributes": "^1.2",
         "phpstan/extension-installer": "1.4.3",
-        "phpstan/phpstan": "2.1.4",
+        "phpstan/phpstan": "2.1.6",
         "phpstan/phpstan-deprecation-rules": "2.0.1",
         "phpstan/phpstan-phpunit": "2.0.4",
         "phpstan/phpstan-symfony": "2.0.2",
@@ -24,8 +24,8 @@
         "rector/rector": "2.0.9",
         "redaxo/php-cs-fixer-config": "2.13.1",
         "redaxo/psalm-plugin": "2.2.0",
-        "shipmonk/phpstan-baseline-per-identifier": "2.1.3",
-        "vimeo/psalm": "6.5.1"
+        "shipmonk/phpstan-baseline-per-identifier": "2.1.4",
+        "vimeo/psalm": "6.8.8"
     },
     "replace": {
         "enshrined/svg-sanitize": "0.21.0",
@@ -122,9 +122,10 @@
         "phpunit": "phpunit --colors=always",
         "phpstan": "phpstan analyse --ansi -v",
         "phpstan:baseline": [
-            "phpstan --generate-baseline=.tools/phpstan/baseline/loader.neon -v",
-            "find .tools/phpstan/baseline/ -type f -not -name loader.neon -delete",
-            "split-phpstan-baseline .tools/phpstan/baseline/loader.neon"
+            "phpstan --generate-baseline=.tools/phpstan/baseline/_loader.php -v",
+            "find .tools/phpstan/baseline/ -type f -not -name _loader.php -delete",
+            "split-phpstan-baseline .tools/phpstan/baseline/_loader.php",
+            "@cs-fixer .tools/phpstan/baseline"
         ],
         "phpstan:no-cache": [
             "phpstan clear-result-cache --ansi",

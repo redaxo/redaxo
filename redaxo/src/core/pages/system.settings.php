@@ -39,7 +39,7 @@ if ($func && !$csrfToken->isValid()) {
 
     $config['debug']['enabled'] = !rex::isDebugMode();
     rex::setProperty('debug', $config['debug']);
-    if (rex_file::putConfig($configFile, $config) > 0) {
+    if (rex_file::putConfig($configFile, $config)) {
         // reload the page so that debug mode is immediately visible
         rex_response::sendRedirect(rex_url::currentBackendPage(['rex_debug_updated' => true], false));
     }
@@ -75,7 +75,7 @@ if ($func && !$csrfToken->isValid()) {
     }
 
     if (empty($error)) {
-        if (rex_file::putConfig($configFile, $config) > 0) {
+        if (rex_file::putConfig($configFile, $config)) {
             $success = rex_i18n::msg('info_updated');
         }
     }

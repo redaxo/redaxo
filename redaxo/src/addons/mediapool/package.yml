@@ -1,5 +1,5 @@
 package: mediapool
-version: '2.15.2'
+version: '2.15.3'
 author: 'Jan Kristinus'
 supportpage: https://github.com/redaxo/redaxo
 
@@ -19,12 +19,44 @@ page:
 
 blocked_extensions: [asp, aspx, bat, cfm, cgi, flv, hh, html, htaccess, htpasswd, ini, jsp, jsf, js, jsphp, log, mjs, pht, php, php3, php4, php5, php6, php7, php8, phar, pl, ps1, phtml, py, rb, rm, sh, shmtl, shtml, swf, wasm, wmv, wma, xhtml, xht, xml]
 
-# optional mime type allowlist. the list is checked after the blocked_extensions check from above has passed.
-# exmaple:
-#   allowed_mime_types:
-#       gif: [image/gif]
-#       jpg: [image/jpeg, image/pjpeg]
-allowed_mime_types: ~
+# mime type allowlist. the list is checked after the blocked_extensions check from above has passed.
+allowed_mime_types:
+    avif: [image/avif]
+    gif: [image/gif]
+    jpg: [image/jpeg, image/pjpeg]
+    jpeg: [image/jpeg, image/pjpeg]
+    png: [image/png]
+    webp: [image/webp]
+    eps: [application/postscript]
+    tif: [image/tiff]
+    tiff: [image/tiff]
+    svg: [image/svg+xml]
+    pdf: [application/pdf]
+    xls: [application/vnd.ms-excel]
+    xlsx: [application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]
+    doc: [application/msword]
+    docx: [application/vnd.openxmlformats-officedocument.wordprocessingml.document]
+    dot: [application/msword]
+    dotx: [application/vnd.openxmlformats-officedocument.wordprocessingml.template]
+    ppt: [application/vnd.ms-powerpoint]
+    pptx: [application/vnd.openxmlformats-officedocument.presentationml.presentation]
+    pot: [application/vnd.ms-powerpoint]
+    potx: [application/vnd.openxmlformats-officedocument.presentationml.template]
+    pps: [application/vnd.ms-powerpoint]
+    ppsx: [application/vnd.openxmlformats-officedocument.presentationml.slideshow]
+    rtf: [application/rtf]
+    txt: [text/plain, application/octet-stream]
+    csv: [text/plain, application/octet-stream]
+    zip: [application/x-zip-compressed, application/zip]
+    gz: [application/x-gzip]
+    tar: [application/x-tar]
+    mov: [video/quicktime]
+    movie: [video/quicktime]
+    mp3: [audio/mpeg]
+    mpe: [video/mpeg]
+    mpeg: [video/mpeg]
+    mpg: [video/mpeg]
+    mp4: [video/mp4]
 
 allowed_doctypes: [avif, bmp, css, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, svg, swf, tar, tif, tiff, txt, webp, wma, xls, xlsx, zip]
 image_extensions: [avif, bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]
