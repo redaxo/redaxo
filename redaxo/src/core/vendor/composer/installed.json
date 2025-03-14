@@ -335,27 +335,27 @@
         },
         {
             "name": "psr/http-message",
-            "version": "1.1",
-            "version_normalized": "1.1.0.0",
+            "version": "2.0",
+            "version_normalized": "2.0.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0"
             },
-            "time": "2023-04-04T09:50:52+00:00",
+            "time": "2023-04-04T09:54:51+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -371,7 +371,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for HTTP messages",
@@ -385,7 +385,7 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-message/tree/1.1"
+                "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
             "install-path": "../psr/http-message"
         },
@@ -537,32 +537,45 @@
         },
         {
             "name": "ramsey/http-range",
-            "version": "1.1.0",
-            "version_normalized": "1.1.0.0",
+            "version": "1.2.1",
+            "version_normalized": "1.2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/http-range.git",
-                "reference": "e516e7d038e3ad56e297a1033c760a281e60e64e"
+                "reference": "d773d9ca0b30a4715cbdcd5faaae664cae64f8da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/http-range/zipball/e516e7d038e3ad56e297a1033c760a281e60e64e",
-                "reference": "e516e7d038e3ad56e297a1033c760a281e60e64e",
+                "url": "https://api.github.com/repos/ramsey/http-range/zipball/d773d9ca0b30a4715cbdcd5faaae664cae64f8da",
+                "reference": "d773d9ca0b30a4715cbdcd5faaae664cae64f8da",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4 || ^8.0",
-                "psr/http-message": "^1.0",
+                "psr/http-message": "^1.0 || ^2.0",
                 "ramsey/collection": "^1.0",
                 "symfony/polyfill-ctype": "^1.23"
             },
             "require-dev": {
-                "ramsey/devtools": "^1.7"
+                "captainhook/captainhook": "^5.18",
+                "captainhook/plugin-composer": "^5.3",
+                "ergebnis/composer-normalize": "^2.45",
+                "mockery/mockery": "^1.6",
+                "php-parallel-lint/php-console-highlighter": "^1.0",
+                "php-parallel-lint/php-parallel-lint": "^1.4",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-mockery": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.6.22 || ^10.5.45 || ^11.5.10 || ^12.0",
+                "ramsey/coding-standard": "^2.1",
+                "ramsey/conventional-commits": "^1.4",
+                "roave/security-advisories": "dev-latest"
             },
             "suggest": {
                 "ext-ctype": "Support for ctype_* functions."
             },
-            "time": "2021-08-08T19:36:06+00:00",
+            "time": "2025-03-01T21:41:33+00:00",
             "type": "library",
             "extra": {
                 "captainhook": {
@@ -570,9 +583,6 @@
                 },
                 "ramsey/conventional-commits": {
                     "configFile": "conventional-commits.json"
-                },
-                "ramsey/devtools": {
-                    "command-prefix": "dev"
                 }
             },
             "installation-source": "dist",
@@ -600,14 +610,8 @@
             ],
             "support": {
                 "issues": "https://github.com/ramsey/http-range/issues",
-                "source": "https://github.com/ramsey/http-range/tree/1.1.0"
+                "source": "https://github.com/ramsey/http-range/tree/1.2.1"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/ramsey",
-                    "type": "github"
-                }
-            ],
             "install-path": "../ramsey/http-range"
         },
         {
