@@ -2,6 +2,7 @@ package: mediapool
 version: '2.15.3'
 author: 'Jan Kristinus'
 supportpage: https://github.com/redaxo/redaxo
+
 rows_per_page: 100
 
 page:
