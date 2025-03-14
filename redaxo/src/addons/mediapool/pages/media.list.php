@@ -14,10 +14,9 @@ if (!isset($success)) {
 if (!isset($error)) {
     $error = '';
 }
-if (!isset($argUrl)) {
-    /** @var array{args: array{types: string}, opener_input_field: string} */
-    $argUrl = [];
-}
+
+/** @var array{args?: array{types: string}, opener_input_field?: string} $argUrl */
+$argUrl ??= [];
 
 $mediaMethod = rex_request('media_method', 'string');
 
@@ -153,7 +152,7 @@ $context = new rex_context([
     'media_name' => $mediaName,
     ...$argUrl,
 ]);
-$pager = new rex_pager($addon->getProperty('rows_per_page', 100));
+$pager = new rex_pager(rex_type::int($addon->getProperty('rows_per_page', 100)));
 
 $items = rex_media_service::getList($filter, [], $pager);
 
