@@ -24,7 +24,6 @@ blocked_extensions: [asp, aspx, bat, cfm, cgi, flv, hh, html, htaccess, htpasswd
 # mime type allowlist. the list is checked after the blocked_extensions check from above has passed.
 allowed_mime_types:
     avif: [image/avif]
-    csv: [text/csv]
     gif: [image/gif]
     jpg: [image/jpeg, image/pjpeg]
     jpeg: [image/jpeg, image/pjpeg]
@@ -49,7 +48,7 @@ allowed_mime_types:
     ppsx: [application/vnd.openxmlformats-officedocument.presentationml.slideshow]
     rtf: [application/rtf]
     txt: [text/plain, application/octet-stream]
-    csv: [text/plain, application/octet-stream]
+    csv: [text/plain, text/csv, application/octet-stream]
     zip: [application/x-zip-compressed, application/zip]
     gz: [application/x-gzip]
     tar: [application/x-tar]
