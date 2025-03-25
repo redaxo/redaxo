@@ -24,6 +24,7 @@ blocked_extensions: [asp, aspx, bat, cfm, cgi, flv, hh, html, htaccess, htpasswd
 # mime type allowlist. the list is checked after the blocked_extensions check from above has passed.
 allowed_mime_types:
     avif: [image/avif]
+    csv: [text/csv]
     gif: [image/gif]
     jpg: [image/jpeg, image/pjpeg]
     jpeg: [image/jpeg, image/pjpeg]
@@ -60,7 +61,7 @@ allowed_mime_types:
     mpg: [video/mpeg]
     mp4: [video/mp4]
 
-allowed_doctypes: [avif, bmp, css, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, svg, swf, tar, tif, tiff, txt, webp, wma, xls, xlsx, zip]
+allowed_doctypes: [avif, bmp, css, csv, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, svg, swf, tar, tif, tiff, txt, webp, wma, xls, xlsx, zip]
 image_extensions: [avif, bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]
 sanitize_svgs: true
 
