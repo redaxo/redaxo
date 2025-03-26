@@ -32,6 +32,7 @@ content_contentcopy = Inhalt wurde kopiert.
 content_errorcopy = Sie können Inhalte nicht in die gleiche Sprache kopieren.
 content_contentoflang = von Sprache
 content_to = nach Sprache
+content_overwrite = Bestehenden Inhalt überschreiben
 content_submitcopycontent = Inhalte kopieren
 content_submitmovearticle = Artikel verschieben
 content_errormovearticle = Artikel konnte nicht verschoben werden.
