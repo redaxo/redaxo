@@ -100,15 +100,15 @@ class rex_config_form extends rex_form_base
 
             // Die ersten fünf Buttons als Parameter übergeben
             /** @var rex_form_element|null $saveElement */
-            $saveElement = isset($buttons[0]) ? $buttons[0] : null;
+            $saveElement = $buttons[0] ?? null;
             /** @var rex_form_element|null $applyElement */
-            $applyElement = isset($buttons[1]) ? $buttons[1] : null;
+            $applyElement = $buttons[1] ?? null;
             /** @var rex_form_element|null $deleteElement */
-            $deleteElement = isset($buttons[2]) ? $buttons[2] : null;
+            $deleteElement = $buttons[2] ?? null;
             /** @var rex_form_element|null $resetElement */
-            $resetElement = isset($buttons[3]) ? $buttons[3] : null;
+            $resetElement = $buttons[3] ?? null;
             /** @var rex_form_element|null $abortElement */
-            $abortElement = isset($buttons[4]) ? $buttons[4] : null;
+            $abortElement = $buttons[4] ?? null;
 
             $this->addControlField($saveElement, $applyElement, $deleteElement, $resetElement, $abortElement);
         }
