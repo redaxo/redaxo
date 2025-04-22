@@ -59,6 +59,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
                     7 => '7 ' . rex_i18n::msg('phpmailer_archivecron_days'),
                     14 => '14 ' . rex_i18n::msg('phpmailer_archivecron_days'),
                     30 => '30 ' . rex_i18n::msg('phpmailer_archivecron_days'),
+                    90 => '90 ' . rex_i18n::msg('phpmailer_archivecron_days')
                 ],
                 'default' => 7,
             ],
