@@ -29,10 +29,9 @@ use function sprintf;
 
 use const EXTR_SKIP;
 
-class Controller
+final class Controller
 {
-    /** @var string */
-    private static $page;
+    private static ?string $page = null;
 
     /** @var list<string> */
     private static array $pageParts = [];
@@ -42,22 +41,21 @@ class Controller
     /** @var array<string, Page> */
     private static array $pages = [];
 
-    /**
-     * @param string $page
-     * @return void
-     */
-    public static function setCurrentPage($page)
+    private function __construct() {}
+
+    public static function setCurrentPage(string $page): void
     {
         self::$page = trim($page, '/ ');
         self::$pageParts = explode('/', self::$page);
         self::$pageObject = null;
     }
 
-    /**
-     * @return string
-     */
-    public static function getCurrentPage()
+    public static function getCurrentPage(): string
     {
+        if (null === self::$page) {
+            throw new LogicException('Calling getCurrentPage before the backend page has been set is not allowed.');
+        }
+
         return self::$page;
     }
 
@@ -68,7 +66,7 @@ class Controller
      * @return list<string>|string|null
      * @psalm-return (T is null ? list<string> : string|null)
      */
-    public static function getCurrentPagePart($part = null, $default = null)
+    public static function getCurrentPagePart(?int $part = null, ?string $default = null): string|array|null
     {
         if (null === $part) {
             return self::$pageParts;
@@ -77,10 +75,7 @@ class Controller
         return self::$pageParts[$part] ?? $default;
     }
 
-    /**
-     * @return Page|null
-     */
-    public static function getCurrentPageObject()
+    public static function getCurrentPageObject(): ?Page
     {
         if (!self::$pageObject) {
             self::$pageObject = self::getPageObject(self::getCurrentPage());
@@ -95,10 +90,8 @@ class Controller
 
     /**
      * @param string|list<string> $page
-     *
-     * @return Page|null
      */
-    public static function getPageObject($page)
+    public static function getPageObject(string|array $page): ?Page
     {
         if (!is_array($page)) {
             $page = explode('/', $page);
@@ -120,24 +113,20 @@ class Controller
     /**
      * @return array<string, Page>
      */
-    public static function getPages()
+    public static function getPages(): array
     {
         return self::$pages;
     }
 
     /**
      * @param array<string, Page> $pages
-     * @return void
      */
-    public static function setPages(array $pages)
+    public static function setPages(array $pages): void
     {
         self::$pages = $pages;
     }
 
-    /**
-     * @return string
-     */
-    public static function getPageTitle()
+    public static function getPageTitle(): string
     {
         $parts = [];
 
@@ -153,20 +142,14 @@ class Controller
         return implode(' · ', $parts);
     }
 
-    /**
-     * @return Page
-     */
-    public static function getSetupPage()
+    public static function getSetupPage(): Page
     {
         $page = new Page('setup', I18n::msg('setup'));
         $page->setPath(Path::core('pages/setup.php'));
         return $page;
     }
 
-    /**
-     * @return Page
-     */
-    public static function getLoginPage()
+    public static function getLoginPage(): Page
     {
         $page = new Page('login', 'Login');
         $page->setPath(Path::core('pages/login.php'));
@@ -174,10 +157,7 @@ class Controller
         return $page;
     }
 
-    /**
-     * @return void
-     */
-    public static function appendLoggedInPages()
+    public static function appendLoggedInPages(): void
     {
         self::$pages['profile'] = (new Page('profile', I18n::msg('profile')))
             ->setPath(Path::core('pages/profile.php'))
@@ -404,10 +384,7 @@ class Controller
         ;
     }
 
-    /**
-     * @return void
-     */
-    public static function appendPackagePages()
+    public static function appendPackagePages(): void
     {
         $insertPages = [];
         $addons = Core::isSafeMode() ? Addon::getSetupAddons() : Addon::getAvailableAddons();
@@ -440,15 +417,7 @@ class Controller
         }
     }
 
-    /**
-     * @param Page|array $page
-     * @param bool $createMainPage
-     * @param string $pageKey
-     * @param bool|string $prefix
-     *
-     * @return Page|null
-     */
-    private static function pageCreate($page, Addon $package, $createMainPage, ?Page $parentPage = null, $pageKey = null, $prefix = false)
+    private static function pageCreate(Page|array|null $page, Addon $package, bool $createMainPage, ?Page $parentPage = null, ?string $pageKey = null, bool|string $prefix = false): ?Page
     {
         if (is_array($page) && isset($page['title']) && (false !== ($page['live_mode'] ?? null) || !Core::isLiveMode())) {
             $pageArray = $page;
@@ -484,11 +453,7 @@ class Controller
         return null;
     }
 
-    /**
-     * @param string $prefix
-     * @return void
-     */
-    private static function pageSetSubPaths(Page $page, Addon $package, $prefix = '')
+    private static function pageSetSubPaths(Page $page, Addon $package, string $prefix = ''): void
     {
         foreach ($page->getSubpages() as $subpage) {
             if (!$subpage->hasSubPath()) {
@@ -498,10 +463,7 @@ class Controller
         }
     }
 
-    /**
-     * @return void
-     */
-    private static function pageAddProperties(Page $page, array $properties, Addon $package)
+    private static function pageAddProperties(Page $page, array $properties, Addon $package): void
     {
         foreach ($properties as $key => $value) {
             switch (strtolower($key)) {
@@ -551,12 +513,9 @@ class Controller
         }
     }
 
-    /**
-     * @return void
-     */
-    public static function checkPagePermissions(User $user)
+    public static function checkPagePermissions(User $user): void
     {
-        $check = static function (Page $page) use (&$check, $user) {
+        $check = static function (Page $page) use (&$check, $user): bool {
             if (!$page->checkPermission($user)) {
                 return false;
             }
@@ -605,9 +564,8 @@ class Controller
 
     /**
      * Includes the current page. A page may be provided by the core or an addon.
-     * @return void
      */
-    public static function includeCurrentPage()
+    public static function includeCurrentPage(): void
     {
         $currentPage = self::requireCurrentPageObject();
 
@@ -631,7 +589,7 @@ class Controller
     /**
      * Includes the sub-path of current page.
      *
-     * @param array<string, mixed> $context
+     * @param array<literal-string, mixed> $context
      * @return mixed
      */
     public static function includeCurrentPageSubPath(array $context = [])
@@ -676,7 +634,7 @@ class Controller
     /**
      * Includes a path in correct package context.
      *
-     * @param array<string, mixed> $context
+     * @param array<literal-string, mixed> $context
      */
     private static function includePath(string $path, array $context = []): mixed
     {

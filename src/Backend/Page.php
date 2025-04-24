@@ -4,52 +4,43 @@ namespace Redaxo\Core\Backend;
 
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Security\User;
+use Redaxo\Core\Util\Str;
 
 use function is_array;
 use function is_string;
 
+/**
+ * @psalm-import-type TUrlParams from Str
+ */
 class Page
 {
-    /** @var string */
-    private $key;
-    /** @var string */
-    private $fullKey;
-    /** @var string */
-    private $title;
+    private readonly string $key;
+    private string $fullKey;
+    private string $title;
 
-    /** @var bool|null */
-    private $popup;
-    /** @var string|null */
-    private $href;
+    private ?bool $popup = null;
+    private ?string $href = null;
     /** @var array<string, string> */
-    private $itemAttr = [];
+    private array $itemAttr = [];
     /** @var array<string, string> */
-    private $linkAttr = [];
-    /** @var string|null */
-    private $path;
-    /** @var string|null */
-    private $subPath;
+    private array $linkAttr = [];
 
-    /** @var self|null */
-    private $parent;
+    private ?string $path = null;
+    private ?string $subPath = null;
+
+    private ?Page $parent = null;
 
     /** @var array<string, self> */
-    private $subpages = [];
+    private array $subpages = [];
 
-    /** @var bool|null */
-    private $isActive;
-    /** @var bool */
-    private $hidden = false;
-    /** @var bool */
-    private $hasLayout = true;
-    /** @var bool */
-    private $hasNavigation = true;
-    /** @var bool|null */
-    private $pjax;
-    /** @var string|null */
-    private $icon;
+    private ?bool $isActive = null;
+    private bool $hidden = false;
+    private bool $hasLayout = true;
+    private bool $hasNavigation = true;
+    private ?bool $pjax = null;
+    private ?string $icon = null;
     /** @var list<string> */
-    private $requiredPermissions = [];
+    private array $requiredPermissions = [];
 
     public function __construct(string $key, string $title)
     {
@@ -60,20 +51,16 @@ class Page
 
     /**
      * Returns the page key.
-     *
-     * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
 
     /**
      * Returns the full page path.
-     *
-     * @return string
      */
-    public function getFullKey()
+    public function getFullKey(): string
     {
         return $this->fullKey;
     }
@@ -83,7 +70,7 @@ class Page
      *
      * @return $this
      */
-    public function setTitle(string $title): self
+    public function setTitle(string $title): static
     {
         $this->title = $title;
 
@@ -92,10 +79,8 @@ class Page
 
     /**
      * Returns the title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -106,11 +91,9 @@ class Page
      * The method adds (or removes) also the rex-popup CSS class and sets hasNavigation to false (true).
      * If $popup is a string, the variable will be used for the onclick attribute.
      *
-     * @param bool|string $popup
-     *
      * @return $this
      */
-    public function setPopup($popup)
+    public function setPopup(bool|string $popup): static
     {
         if ($popup) {
             $this->popup = true;
@@ -133,10 +116,8 @@ class Page
 
     /**
      * Returns whether the page is a popup.
-     *
-     * @return bool
      */
-    public function isPopup()
+    public function isPopup(): bool
     {
         if (null !== $this->popup) {
             return $this->popup;
@@ -148,11 +129,10 @@ class Page
     /**
      * Sets the page href.
      *
-     * @param string|array $href Href string or array of params
-     *
+     * @param string|TUrlParams $href Href string or array of params
      * @return $this
      */
-    public function setHref($href)
+    public function setHref(string|array $href): static
     {
         if (is_array($href)) {
             $href = Url::backendController($href);
@@ -164,20 +144,16 @@ class Page
 
     /**
      * Returns whether the page has a custom href.
-     *
-     * @return bool
      */
-    public function hasHref()
+    public function hasHref(): bool
     {
         return (bool) $this->href;
     }
 
     /**
      * Returns the page href.
-     *
-     * @return string
      */
-    public function getHref()
+    public function getHref(): string
     {
         if ($this->href) {
             return $this->href;
@@ -200,7 +176,7 @@ class Page
      *
      * @template T as ?string
      * @param T $name
-     * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
+     * @return string|array<string, string> Attribute value for given `$name` or attribute array if `$name` is `null`
      * @psalm-return (T is string ? string : array<string, string>)
      */
     public function getItemAttr(?string $name, string $default = ''): string|array
@@ -265,7 +241,7 @@ class Page
      *
      * @template T as ?string
      * @param T $name
-     * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
+     * @return string|array<string, string> Attribute value for given `$name` or attribute array if `$name` is `null`
      * @psalm-return (T is string ? string : array<string, string>)
      */
     public function getLinkAttr(?string $name, string $default = ''): string|array
@@ -302,11 +278,9 @@ class Page
     /**
      * Set the page path which will be included directly by the core.
      *
-     * @param string $path
-     *
      * @return $this
      */
-    public function setPath($path)
+    public function setPath(string $path): static
     {
         $this->path = $path;
 
@@ -315,20 +289,16 @@ class Page
 
     /**
      * Returns whether a path is set.
-     *
-     * @return bool
      */
-    public function hasPath()
+    public function hasPath(): bool
     {
         return !empty($this->path) || $this->parent && $this->parent->hasPath();
     }
 
     /**
      * Returns the path which will be included directly by the core.
-     *
-     * @return string|null
      */
-    public function getPath()
+    public function getPath(): ?string
     {
         if (!empty($this->path)) {
             return $this->path;
@@ -339,11 +309,9 @@ class Page
     /**
      * Set the page subpath which should be used by the packages to include this page inside their main page.
      *
-     * @param string $subPath
-     *
      * @return $this
      */
-    public function setSubPath($subPath)
+    public function setSubPath(string $subPath): static
     {
         $this->subPath = $subPath;
 
@@ -352,20 +320,16 @@ class Page
 
     /**
      * Returns whether a subpath is set.
-     *
-     * @return bool
      */
-    public function hasSubPath()
+    public function hasSubPath(): bool
     {
         return !empty($this->subPath);
     }
 
     /**
      * Returns the subpath which should be used by packages to include this page inside their main page.
-     *
-     * @return string|null
      */
-    public function getSubPath()
+    public function getSubPath(): ?string
     {
         return $this->subPath;
     }
@@ -375,7 +339,7 @@ class Page
      *
      * @return $this
      */
-    public function addSubpage(self $subpage)
+    public function addSubpage(self $subpage): static
     {
         $this->subpages[$subpage->getKey()] = $subpage;
         $subpage->parent = $this;
@@ -384,11 +348,7 @@ class Page
         return $this;
     }
 
-    /**
-     * @param string $key
-     * @return void
-     */
-    private function setParentKey($key)
+    private function setParentKey(string $key): void
     {
         $this->fullKey = $key . '/' . $this->key;
         foreach ($this->subpages as $subpage) {
@@ -400,10 +360,9 @@ class Page
      * Sets all subpages.
      *
      * @param array<self> $subpages
-     *
      * @return $this
      */
-    public function setSubpages(array $subpages)
+    public function setSubpages(array $subpages): static
     {
         $this->subpages = [];
         array_walk($subpages, $this->addSubpage(...));
@@ -413,12 +372,8 @@ class Page
 
     /**
      * Returns the subpage for the given key.
-     *
-     * @param string $key
-     *
-     * @return self|null
      */
-    public function getSubpage($key)
+    public function getSubpage(string $key): ?self
     {
         return $this->subpages[$key] ?? null;
     }
@@ -428,17 +383,15 @@ class Page
      *
      * @return array<string, self>
      */
-    public function getSubpages()
+    public function getSubpages(): array
     {
         return $this->subpages;
     }
 
     /**
      * Returns the first leaf of the subpages tree.
-     *
-     * @return self
      */
-    public function getFirstSubpagesLeaf()
+    public function getFirstSubpagesLeaf(): self
     {
         $page = $this;
         while ($subpages = $page->getSubpages()) {
@@ -450,23 +403,19 @@ class Page
     /**
      * Sets whether the page is active.
      *
-     * @param bool $isActive
-     *
      * @return $this
      */
-    public function setIsActive($isActive = true)
+    public function setIsActive(bool $isActive = true): static
     {
-        $this->isActive = (bool) $isActive;
+        $this->isActive = $isActive;
 
         return $this;
     }
 
     /**
      * Returns whether the page is active.
-     *
-     * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
         if (null !== $this->isActive) {
             return $this->isActive;
@@ -482,10 +431,8 @@ class Page
 
     /**
      * Returns the parent page object.
-     *
-     * @return self|null
      */
-    public function getParent()
+    public function getParent(): ?self
     {
         return $this->parent;
     }
@@ -493,11 +440,9 @@ class Page
     /**
      * Sets whether the page is hidden.
      *
-     * @param bool $hidden
-     *
      * @return $this
      */
-    public function setHidden($hidden = true)
+    public function setHidden(bool $hidden = true): static
     {
         $this->hidden = $hidden;
 
@@ -506,10 +451,8 @@ class Page
 
     /**
      * Returns whether the page is hidden.
-     *
-     * @return bool
      */
-    public function isHidden()
+    public function isHidden(): bool
     {
         return $this->hidden;
     }
@@ -517,11 +460,9 @@ class Page
     /**
      * Sets whether the page has layout.
      *
-     * @param bool $hasLayout
-     *
      * @return $this
      */
-    public function setHasLayout($hasLayout)
+    public function setHasLayout(bool $hasLayout): static
     {
         $this->hasLayout = $hasLayout;
 
@@ -530,10 +471,8 @@ class Page
 
     /**
      * Returns whether tha page has layout.
-     *
-     * @return bool
      */
-    public function hasLayout()
+    public function hasLayout(): bool
     {
         return $this->hasLayout && (!$this->parent || $this->parent->hasLayout());
     }
@@ -541,11 +480,9 @@ class Page
     /**
      * Sets whether the page has a navigation.
      *
-     * @param bool $hasNavigation
-     *
      * @return $this
      */
-    public function setHasNavigation($hasNavigation)
+    public function setHasNavigation(bool $hasNavigation): static
     {
         $this->hasNavigation = $hasNavigation;
 
@@ -554,10 +491,8 @@ class Page
 
     /**
      * Returns whether the page has a navigation.
-     *
-     * @return bool
      */
-    public function hasNavigation()
+    public function hasNavigation(): bool
     {
         return $this->hasNavigation && (!$this->parent || $this->parent->hasNavigation());
     }
@@ -565,11 +500,9 @@ class Page
     /**
      * Sets whether the page allows pjax.
      *
-     * @param bool $pjax
-     *
      * @return $this
      */
-    public function setPjax($pjax = true)
+    public function setPjax(bool $pjax = true): static
     {
         $this->pjax = $pjax;
 
@@ -578,10 +511,8 @@ class Page
 
     /**
      * Returns whether the page allows pjax.
-     *
-     * @return bool
      */
-    public function allowsPjax()
+    public function allowsPjax(): bool
     {
         if (null !== $this->pjax) {
             return $this->pjax;
@@ -595,11 +526,9 @@ class Page
     /**
      * Sets whether the page has an icon.
      *
-     * @param string $icon
-     *
      * @return $this
      */
-    public function setIcon($icon)
+    public function setIcon(string $icon): static
     {
         $this->icon = $icon;
 
@@ -608,20 +537,16 @@ class Page
 
     /**
      * Returns the icon.
-     *
-     * @return string|null
      */
-    public function getIcon()
+    public function getIcon(): ?string
     {
         return $this->icon;
     }
 
     /**
      * Returns whether the page has an icon.
-     *
-     * @return bool
      */
-    public function hasIcon()
+    public function hasIcon(): bool
     {
         return !empty($this->icon);
     }
@@ -630,10 +555,9 @@ class Page
      * Sets the required permissions.
      *
      * @param list<string>|string $perm
-     *
      * @return $this
      */
-    public function setRequiredPermissions($perm)
+    public function setRequiredPermissions(string|array $perm): static
     {
         $this->requiredPermissions = (array) $perm;
 
@@ -645,17 +569,15 @@ class Page
      *
      * @return list<string>
      */
-    public function getRequiredPermissions()
+    public function getRequiredPermissions(): array
     {
         return $this->requiredPermissions;
     }
 
     /**
      * Checks whether the given user has permission for the page.
-     *
-     * @return bool
      */
-    public function checkPermission(User $user)
+    public function checkPermission(User $user): bool
     {
         foreach ($this->requiredPermissions as $perm) {
             if (!$user->hasPerm($perm)) {

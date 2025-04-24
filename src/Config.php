@@ -16,7 +16,7 @@ use function is_array;
  * Class for handling configurations.
  * The configuration is persisted between requests.
  */
-class Config
+final class Config
 {
     /**
      * Flag to indicate if the config was initialized.
@@ -25,10 +25,8 @@ class Config
 
     /**
      * path to the cache file.
-     *
-     * @var string
      */
-    private static $cacheFile;
+    private static string $cacheFile;
 
     /**
      * Flag which indicates if database needs an update, because settings have changed.
@@ -55,6 +53,8 @@ class Config
      * @var array<string, array<string, true>>
      */
     private static array $deletedData = [];
+
+    private function __construct() {}
 
     /**
      * Method which saves an arbitary value associated to the given namespace and key.
@@ -113,7 +113,7 @@ class Config
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
-    public static function get(string $namespace, ?string $key = null, mixed $default = null)
+    public static function get(string $namespace, ?string $key = null, mixed $default = null): mixed
     {
         self::init();
 
@@ -221,9 +221,8 @@ class Config
 
     /**
      * initilizes the Configuration class.
-     * @return void
      */
-    protected static function init()
+    private static function init(): void
     {
         if (self::$initialized) {
             return;
@@ -248,9 +247,8 @@ class Config
 
     /**
      * load the config-data.
-     * @return void
      */
-    protected static function load()
+    private static function load(): void
     {
         // check if we can load the config from the filesystem
         if (!self::loadFromFile()) {

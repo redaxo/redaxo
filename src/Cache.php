@@ -14,8 +14,10 @@ use Redaxo\Core\Translation\I18n;
 
 use function function_exists;
 
-class Cache
+final class Cache
 {
+    private function __construct() {}
+
     /**
      * Deletes the cache.
      */

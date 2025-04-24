@@ -4,10 +4,8 @@ namespace Redaxo\Core\Backend;
 
 class MainPage extends Page
 {
-    /** @var string */
-    private $block;
-    /** @var int */
-    private $prio = 0;
+    private string $block;
+    private int $prio = 0;
 
     /**
      * @param string $block Navigation block
@@ -22,11 +20,9 @@ class MainPage extends Page
     /**
      * Sets the navigation block.
      *
-     * @param string $block
-     *
      * @return $this
      */
-    public function setBlock($block)
+    public function setBlock(string $block): static
     {
         $this->block = $block;
 
@@ -35,10 +31,8 @@ class MainPage extends Page
 
     /**
      * Returns the navigation block.
-     *
-     * @return string
      */
-    public function getBlock()
+    public function getBlock(): string
     {
         return $this->block;
     }
@@ -46,11 +40,9 @@ class MainPage extends Page
     /**
      * Sets the priority.
      *
-     * @param int $prio
-     *
      * @return $this
      */
-    public function setPrio($prio)
+    public function setPrio(int $prio): static
     {
         $this->prio = $prio;
 
@@ -59,10 +51,8 @@ class MainPage extends Page
 
     /**
      * Returns the priority.
-     *
-     * @return int
      */
-    public function getPrio()
+    public function getPrio(): int
     {
         return $this->prio;
     }

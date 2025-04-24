@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// total 207 errors
+// total 206 errors
 
 $ignoreErrors = [];
 $ignoreErrors[] = [
@@ -99,11 +99,6 @@ $ignoreErrors[] = [
     'message' => '#^Method Redaxo\\\\Core\\\\Backend\\\\Controller\\:\\:pageCreate\\(\\) has parameter \\$page with no value type specified in iterable type array\\.$#',
     'count' => 1,
     'path' => __DIR__ . '/../../../src/Backend/Controller.php',
-];
-$ignoreErrors[] = [
-    'message' => '#^Method Redaxo\\\\Core\\\\Backend\\\\Page\\:\\:setHref\\(\\) has parameter \\$href with no value type specified in iterable type array\\.$#',
-    'count' => 1,
-    'path' => __DIR__ . '/../../../src/Backend/Page.php',
 ];
 $ignoreErrors[] = [
     'message' => '#^Method Redaxo\\\\Core\\\\Content\\\\ArticleAction\\:\\:getMessages\\(\\) return type has no value type specified in iterable type array\\.$#',
