@@ -19,6 +19,8 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         if: github.event.pull_request.draft == false
+        env:
+            PHP_CS_FIXER_IGNORE_ENV: 1
         permissions:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
