@@ -7,6 +7,8 @@ parameters:
     phpVersion: 80300 # PHP 8.3
     treatPhpDocTypesAsCertain: false
     editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+    featureToggles:
+        internalTag: false
     paths:
         # restrict to core and core addons, ignore other locally installed addons
         - src

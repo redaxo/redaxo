@@ -58,7 +58,7 @@ final class StrTest extends TestCase
         self::assertSame($expectedArray, Str::split($string));
     }
 
-    /** @return list<array{0: string, 1: array}> */
+    /** @return list<array{0: string, 1: TUrlParams}> */
     public static function buildQueryProvider(): array
     {
         return [

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// total 206 errors
+// total 205 errors
 
 $ignoreErrors = [];
 $ignoreErrors[] = [
@@ -919,11 +919,6 @@ $ignoreErrors[] = [
     'message' => '#^Method Redaxo\\\\Core\\\\Tests\\\\Security\\\\PasswordPolicyTest\\:\\:testCheck\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#',
     'count' => 1,
     'path' => __DIR__ . '/../../../tests/Security/PasswordPolicyTest.php',
-];
-$ignoreErrors[] = [
-    'message' => '#^Method Redaxo\\\\Core\\\\Tests\\\\Util\\\\StrTest\\:\\:buildQueryProvider\\(\\) return type has no value type specified in iterable type array\\.$#',
-    'count' => 1,
-    'path' => __DIR__ . '/../../../tests/Util/StrTest.php',
 ];
 $ignoreErrors[] = [
     'message' => '#^Method Redaxo\\\\Core\\\\Tests\\\\Util\\\\StrTest\\:\\:testSplit\\(\\) has parameter \\$expectedArray with no value type specified in iterable type array\\.$#',

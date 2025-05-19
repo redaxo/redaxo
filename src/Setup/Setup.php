@@ -39,6 +39,7 @@ use const PHP_VERSION;
 class Setup
 {
     // These values must be synchronized with the values in redaxo/src/core/update.php
+    /** @var string */
     public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
     public const MIN_PHP_EXTENSIONS = ['ctype', 'fileinfo', 'filter', 'gd', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
     public const MIN_MYSQL_VERSION = '8.0';
