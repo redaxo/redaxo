@@ -25,7 +25,7 @@
         "redaxo/php-cs-fixer-config": "2.14.0",
         "redaxo/psalm-plugin": "2.2.0",
         "shipmonk/phpstan-baseline-per-identifier": "2.1.6",
-        "vimeo/psalm": "6.10.3"
+        "vimeo/psalm": "6.11.0"
     },
     "replace": {
         "enshrined/svg-sanitize": "0.21.0",
@@ -198,7 +198,6 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "allow-plugins": {
-            "composer/package-versions-deprecated": true,
             "phpstan/extension-installer": true
         }
     }
