@@ -1,3 +1,8 @@
 .modal-backdrop {
     display: none !important;
 }
+
+.rex-session-timeout-dialog,
+.rex-session-timeout-dialog + .modal-backdrop {
+    display: block !important;
+}
