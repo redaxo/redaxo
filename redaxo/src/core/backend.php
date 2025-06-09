@@ -213,12 +213,12 @@ rex_view::setJsProperty('session_max_overall_duration', rex::getProperty('sessio
 
 $login = rex::getProperty('login');
 if ($login) {
-    rex_view::setJsProperty('session_start', $login->getSessionVar('starttime'), 0);
+    rex_view::setJsProperty('session_start', $login->getSessionVar('starttime'));
     rex_view::setJsProperty('session_logged_id', 1);
 } else {
     rex_view::setJsProperty('session_logged_id', 0);
 }
-rex_view::setJsProperty('time', time(), 0);
+rex_view::setJsProperty('time', time());
 rex_view::setJsProperty('session_warning_time', rex::getProperty('session_warning_time', 60));
 
 rex_view::setJsProperty('session_logout_url', rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams(), false));
