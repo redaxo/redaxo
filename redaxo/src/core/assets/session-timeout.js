@@ -16,8 +16,6 @@ rex.i18n.session_timeout_refresh_label
 
 if (1 === rex.session_logged_id && rex.session_keep_alive) {
 
-    alert(1);
-
     (function ($) {
 
             'use strict';
@@ -83,7 +81,7 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                 var buttonHTML = '';
                 if (options.buttons && options.buttons.length) {
                     options.buttons.forEach(function (button) {
-                        buttonHTML += '<button id="' + button.id +'" type="button" class="' + button.class + '">' + button.label + '</button>';
+                        buttonHTML += '<button id="' + button.id +'" type="button" class="' + button.class + ' btn">' + button.label + '</button>';
                         if (button.click) {
                             $(document).on('click', '#' + button.id, function () {
                                 button.click();
@@ -97,23 +95,23 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                     .remove();
                 $('body')
                     .append(
-                    '<div class="modal rex-session-timeout-dialog"> \
-                        <div class="modal-dialog"> \
-                            <div class="modal-content"> \
-                                <div class="modal-header"> \
-                                    <button type="button" class="rex-session-timeout-close" data-dismiss="modal" aria-hidden="true">&times;</button> \
-                                    <h4 class="modal-title">' + rex.i18n.session_timeout_title + '</h4> \
-                                </div> \
-                                <div class="modal-body"> \
-                                    <p>' + options.message + '</p> \
-                                </div> \
-                                <div class="modal-footer"> \
-                                    ' + buttonHTML + ' \
+                        '<div class="modal rex-session-timeout-dialog"> \
+                            <div class="modal-dialog"> \
+                                <div class="modal-dialog-content"> \
+                                    <div class="modal-dialog-header"> \
+                                        <h4 class="modal-dialog-title">' + rex.i18n.session_timeout_title + '</h4> \
+                                        <button type="button" class="rex-session-timeout-close close-btn" data-dismiss="modal" aria-hidden="true">&times;</button> \
+                                    </div> \
+                                    <div class="modal-dialog-body"> \
+                                        <p>' + options.message + '</p> \
+                                    </div> \
+                                    <div class="modal-dialog-footer"> \
+                                        ' + buttonHTML + ' \
+                                    </div> \
                                 </div> \
                             </div> \
-                        </div> \
-                    </div>'
-                );
+                        </div>'
+                    );
 
                 $('.rex-session-timeout-close').on('click', function () {
                     $('.rex-session-timeout-dialog').remove();
