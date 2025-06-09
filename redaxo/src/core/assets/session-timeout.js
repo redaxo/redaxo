@@ -14,7 +14,9 @@ rex.i18n.session_timeout_logout_label
 rex.i18n.session_timeout_refresh_label
 */
 
-if ('login' !== rex.page && rex.session_keep_alive) {
+if (1 === rex.session_logged_id && rex.session_keep_alive) {
+
+    alert(1);
 
     (function ($) {
 
@@ -59,7 +61,6 @@ if ('login' !== rex.page && rex.session_keep_alive) {
 
                     // KeepAlive, if not timed out
                     if (rex.maxKeepAlive > rex.currentServerTime) {
-                        console.log('Keep Alive is needed, performing ajax request');
                         clearInterval(rex_sessionCheckInterval);
                         $.ajax(rex.session_keep_alive_url, {
                             cache: false
@@ -70,8 +71,6 @@ if ('login' !== rex.page && rex.session_keep_alive) {
                         }).fail(function (data) {
                             $.rex_viewSessionFailedDialog();
                         });
-                    } else {
-                        console.log('Keep Alive not needed, session is still active');
                     }
 
                 }, 15 * 1000 /* check all 5 seconds */);

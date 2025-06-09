@@ -212,7 +212,12 @@ rex_view::setJsProperty('session_duration', rex::getProperty('session_duration',
 rex_view::setJsProperty('session_max_overall_duration', rex::getProperty('session_max_overall_duration', 0));
 
 $login = rex::getProperty('login');
-rex_view::setJsProperty('session_start', $login->getSessionVar('starttime'), 0);
+if ($login) {
+    rex_view::setJsProperty('session_start', $login->getSessionVar('starttime'), 0);
+    rex_view::setJsProperty('session_logged_id', 1);
+} else {
+    rex_view::setJsProperty('session_logged_id', 0);
+}
 rex_view::setJsProperty('time', time(), 0);
 rex_view::setJsProperty('session_warning_time', rex::getProperty('session_warning_time', 60));
 
