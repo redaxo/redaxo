@@ -1,77 +1,78 @@
 .modal-backdrop {
     display: none !important;
 }
-
-.modal-dialog,
-.modal-dialog + .modal-backdrop {
+.modal-open .modal-backdrop {
     display: block !important;
 }
 
-.modal-dialog {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba($color-a-light, 0.5);
-    display: none;
-    z-index: 9999;
-    margin: 0;
+.modal-header {
+    background-color: $brand-primary;
+    color: $color-a-lighter;
+
+    .close {
+        color: $color-a-lighter;
+        opacity: .8;
+        text-shadow: none;
+
+        &:hover,
+        &:focus {
+            opacity: 1;
+        }
+    }
 }
 
-.modal-dialog-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 500px;
+.rex-session-timeout-dialog {
+
+    .modal-dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        max-width: 500px;
+    }
+    &.modal.in .modal-dialog {
+        transform: translate(-50%, -50%);
+    }
+
+    .modal-footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        background-color: $color-a-light;
+
+        @media(min-width: $grid-float-breakpoint) {
+            justify-content: space-between;
+        }
+
+        &::before,
+        &::after {
+            display: none;
+        }
+
+        .btn {
+            margin: 2px 0;
+        }
+    }
 }
 
-.modal-dialog-header {
-    background-color: $color-blue-3;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px 8px 0 0;
-    position: relative;
+// ----------------------------------------------------------------------------
+
+@mixin _dark-modal {
+    .modal-header {
+        background-color: $color-blue-3;
+    }
+    .rex-session-timeout-dialog {
+        .modal-footer {
+            background-color: $color-a-dark;
+        }
+    }
 }
 
-.modal-dialog-title {
-    margin: 0;
-    font-size: 18px;
-    font-weight: bold;
+body.rex-theme-dark {
+    @include _dark-modal;
 }
 
-.modal-dialog-body {
-    padding: 30px 20px;
-    text-align: center;
-    font-size: 16px;
-    line-height: 1.6;
-    color: $color-a-darker;
-}
-
-.modal-dialog-footer {
-    padding: 20px;
-    text-align: center;
-    border-top: 1px solid #e5e5e5;
-}
-
-.modal-dialog .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 28px;
-    cursor: pointer;
-    opacity: 0.8;
-    line-height: 1;
-}
-
-.modal-dialog .btn {
-    margin: 0 10px;
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        @include _dark-modal;
+    }
 }

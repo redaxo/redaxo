@@ -97,15 +97,15 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                     .append(
                         '<div class="modal rex-session-timeout-dialog"> \
                             <div class="modal-dialog"> \
-                                <div class="modal-dialog-content"> \
-                                    <div class="modal-dialog-header"> \
-                                        <h4 class="modal-dialog-title">' + rex.i18n.session_timeout_title + '</h4> \
-                                        <button type="button" class="rex-session-timeout-close close-btn" data-dismiss="modal" aria-hidden="true">&times;</button> \
+                                <div class="modal-content"> \
+                                    <div class="modal-header"> \
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> \
+                                        <h4 class="modal-title">' + rex.i18n.session_timeout_title + '</h4> \
                                     </div> \
-                                    <div class="modal-dialog-body"> \
+                                    <div class="modal-body"> \
                                         <p>' + options.message + '</p> \
                                     </div> \
-                                    <div class="modal-dialog-footer"> \
+                                    <div class="modal-footer"> \
                                         ' + buttonHTML + ' \
                                     </div> \
                                 </div> \
@@ -113,9 +113,9 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                         </div>'
                     );
 
-                $('.rex-session-timeout-close').on('click', function () {
+                $('.rex-session-timeout-dialog').on('hidden.bs.modal', function (e) {
                     $('.rex-session-timeout-dialog').remove();
-                });
+                })
                 $('.rex-session-timeout-dialog').modal({
                     backdrop: 'static',
                 });
@@ -128,7 +128,7 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                 options.message = rex.i18n.session_timeout_message_failed;
                 options.buttons = [
                     {
-                        label: rex.i18n.session_timeout_login_label,
+                        label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_login_label,
                         class: 'btn btn-default rex-session-timeout-dialog-logout',
                         click: function () {
                             window.location.href = rex.session_logout_url;
@@ -148,7 +148,7 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                 options.buttons = [
                     {
                         id: 'rex-session-timeout-dialog-logout',
-                        label: rex.i18n.session_timeout_logout_label,
+                        label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_logout_label,
                         class: 'btn btn-default rex-session-timeout-dialog-logout',
                         click: function () {
                             window.location.href = rex.session_logout_url;
@@ -156,7 +156,7 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                     },
                     {
                         id: 'rex-session-timeout-dialog-refresh',
-                        label: rex.i18n.session_timeout_refresh_label,
+                        label: '<i class="rex-icon rex-icon-refresh"></i> ' + rex.i18n.session_timeout_refresh_label,
                         class: 'btn btn-primary rex-session-timeout-dialog-refresh',
                         click: function () {
                             rex.maxKeepAlive = new Date(rex.maxKeepAlive.getTime() + (rex.keepAliveExpandtime * 1000)); // 15 Minuten
@@ -179,7 +179,7 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                 options.buttons = [
                     {
                         id: 'rex-session-timeout-dialog-logout',
-                        label: rex.i18n.session_timeout_logout_label,
+                        label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_logout_label,
                         class: 'btn btn-default rex-session-timeout-dialog-logout',
                         click: function () {
                             window.location.href = rex.session_logout_url;
