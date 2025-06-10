@@ -58,7 +58,12 @@ class rex_command_user_list extends rex_console_command
                 $user->getValue('createdate'),
                 $user->getValue('lastlogin'),
             ];
-            $this->generateTable($output, $userRows);
+
+            $table = new Table($output);
+            $table
+                ->setHeaders(['Name', 'Login', 'E-Mail', 'Admin', 'Creation date', 'Last Login'])
+                ->setRows($userRows)
+                ->render();
             return Command::SUCCESS;
         }
 
@@ -82,18 +87,10 @@ class rex_command_user_list extends rex_console_command
             ];
         }
 
-        $this->generateTable($output, $userRows);
-    }
-
-    /**
-     * @param array<array<int|string>> $rows
-     */
-    private function generateTable(OutputInterface $output, array $rows): void
-    {
         $table = new Table($output);
         $table
             ->setHeaders(['Name', 'Login', 'E-Mail', 'Admin', 'Creation date', 'Last Login'])
-            ->setRows($rows)
+            ->setRows($userRows)
             ->render();
     }
 }
