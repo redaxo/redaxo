@@ -81,7 +81,7 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                 var buttonHTML = '';
                 if (options.buttons && options.buttons.length) {
                     options.buttons.forEach(function (button) {
-                        buttonHTML += '<button id="' + button.id +'" type="button" class="' + button.class + ' btn">' + button.label + '</button>';
+                        buttonHTML += '<button id="' + button.id + '" ' + button.attr + ' type="button" >' + button.label + '</button>';
                         if (button.click) {
                             $(document).on('click', '#' + button.id, function () {
                                 button.click();
@@ -128,8 +128,9 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                 options.message = rex.i18n.session_timeout_message_failed;
                 options.buttons = [
                     {
+                        id: 'rex-session-timeout-dialog-logout',
                         label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_login_label,
-                        class: 'btn btn-default rex-session-timeout-dialog-logout',
+                        attr: ' class="btn btn-default rex-session-timeout-dialog-logout"',
                         click: function () {
                             window.location.href = rex.session_logout_url;
                         }
@@ -149,7 +150,7 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                     {
                         id: 'rex-session-timeout-dialog-logout',
                         label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_logout_label,
-                        class: 'btn btn-default rex-session-timeout-dialog-logout',
+                        attr: ' class="btn btn-default rex-session-timeout-dialog-logout"',
                         click: function () {
                             window.location.href = rex.session_logout_url;
                         }
@@ -157,7 +158,7 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                     {
                         id: 'rex-session-timeout-dialog-refresh',
                         label: '<i class="rex-icon rex-icon-refresh"></i> ' + rex.i18n.session_timeout_refresh_label,
-                        class: 'btn btn-primary rex-session-timeout-dialog-refresh',
+                        attr: ' class="btn btn-primary rex-session-timeout-dialog-refresh" data-dismiss="modal"',
                         click: function () {
                             rex.maxKeepAlive = new Date(rex.maxKeepAlive.getTime() + (rex.keepAliveExpandtime * 1000)); // 15 Minuten
                             $.rex_sessionInterval(); // Restart the session interval
@@ -179,8 +180,8 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                 options.buttons = [
                     {
                         id: 'rex-session-timeout-dialog-logout',
+                        attr: ' class="btn btn-default rex-session-timeout-dialog-logout"',
                         label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_logout_label,
-                        class: 'btn btn-default rex-session-timeout-dialog-logout',
                         click: function () {
                             window.location.href = rex.session_logout_url;
                         }
