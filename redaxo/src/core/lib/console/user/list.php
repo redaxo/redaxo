@@ -53,7 +53,7 @@ class rex_command_user_list extends rex_console_command
             $userRows[] = [
                 $user->getValue('name'),
                 $user->getValue('login'),
-                $user->getValue('email') ?? 'No E-Mail Configured',
+                $user->getValue('email') ?: 'No E-Mail Configured',
                 $user->getValue('admin'),
                 $user->getValue('createdate'),
                 $user->getValue('lastlogin'),
@@ -75,7 +75,7 @@ class rex_command_user_list extends rex_console_command
             $userRows[] = [
                 $user->getValue('name'),
                 $user->getValue('login'),
-                $user->getValue('email') ?? 'No E-Mail configured',
+                $user->getValue('email') ?: 'No E-Mail configured',
                 $user->getValue('admin'),
                 $user->getValue('createdate'),
                 $user->getValue('lastlogin'),
