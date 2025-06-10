@@ -14,25 +14,25 @@ rex.i18n.session_timeout_logout_label
 rex.i18n.session_timeout_refresh_label
 */
 
-if (1 === rex.session_logged_id && rex.session_keep_alive) {
+if (1 === rex.session_logged_in && rex.session_keep_alive) {
 
     (function ($) {
 
             'use strict';
 
             $.rex_sessionTimeout = function (options) {
-                rex.currentBrowserTime = new Date(); // 02:00h
-                rex.serverTime = new Date(rex.time * 1000); // 05:00h
-                rex.offsetTime = rex.currentBrowserTime.getTime() - rex.serverTime.getTime(); // -3h
+                rex.currentBrowserTime = new Date();
+                rex.serverTime = new Date(rex.time * 1000);
+                rex.offsetTime = rex.currentBrowserTime.getTime() - rex.serverTime.getTime();
                 rex.lastSessionUpdate = new Date(rex.time * 1000);
-                rex.maxKeepAlive = new Date((rex.time + rex.session_keep_alive) * 1000); // 2 Minuten
+                rex.maxKeepAlive = new Date((rex.time + rex.session_keep_alive) * 1000);
                 rex.keepAliveExpandtime = 15 * 60; // 15 Minuten in Sekunden
 
                 if (rex.session_warning_time > rex.session_duration) {
                     rex.session_warning_time = parseInt(rex.session_duration / 2); // Session duration halbiert
                 }
 
-                $.rex_sessionInterval(); // Session halten
+                $.rex_sessionInterval();
 
             }
 
@@ -71,7 +71,7 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
                         });
                     }
 
-                }, 15 * 1000 /* check all 5 seconds */);
+                }, 15 * 1000);
 
             }
 
@@ -194,9 +194,8 @@ if (1 === rex.session_logged_id && rex.session_keep_alive) {
         }
     )(jQuery);
 
-    $(document).on('rex:ready', function () {
+    $(document).ready(function () {
         $.rex_sessionTimeout();
     });
-}
 
-// This code is executed when the document is ready
+}

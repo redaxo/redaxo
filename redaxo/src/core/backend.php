@@ -205,24 +205,25 @@ rex_view::addJsFile(rex_url::coreAssets('clipboard-copy-element.js'), [rex_view:
 
 rex_view::setJsProperty('backend', true);
 
-rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
-rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
+if (rex::getUser()) {
+    $login = rex::getProperty('login');
 
-rex_view::setJsProperty('session_duration', rex::getProperty('session_duration', 0));
-rex_view::setJsProperty('session_max_overall_duration', rex::getProperty('session_max_overall_duration', 0));
+    rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
+    rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
 
-$login = rex::getProperty('login');
-if ($login) {
+    rex_view::setJsProperty('session_duration', rex::getProperty('session_duration', 0));
+    rex_view::setJsProperty('session_max_overall_duration', rex::getProperty('session_max_overall_duration', 0));
     rex_view::setJsProperty('session_start', $login->getSessionVar('starttime'));
-    rex_view::setJsProperty('session_logged_id', 1);
+    rex_view::setJsProperty('session_logged_in', 1);
+    rex_view::setJsProperty('session_warning_time', rex::getProperty('session_warning_time', 60));
+
+    rex_view::setJsProperty('session_logout_url', rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams(), false));
+    rex_view::setJsProperty('session_keep_alive_url', rex_url::backendController(['page' => 'credits'], false));
+
 } else {
-    rex_view::setJsProperty('session_logged_id', 0);
+    rex_view::setJsProperty('session_logged_in', 0);
 }
 rex_view::setJsProperty('time', time());
-rex_view::setJsProperty('session_warning_time', rex::getProperty('session_warning_time', 60));
-
-rex_view::setJsProperty('session_logout_url', rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams(), false));
-rex_view::setJsProperty('session_keep_alive_url', rex_url::backendController(['page' => 'credits'], false));
 
 rex_view::setJsProperty('i18n', [
     'session_timeout_title' => rex_i18n::msg('session_timeout_title'),
