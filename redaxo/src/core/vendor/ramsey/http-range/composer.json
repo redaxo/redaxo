@@ -1,13 +1,13 @@
 {
     "name": "ramsey/http-range",
-    "type": "library",
     "description": "A PHP library for parsing and handling HTTP range requests.",
+    "license": "MIT",
+    "type": "library",
     "keywords": [
         "http",
         "range",
         "requests"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Ben Ramsey",
@@ -17,30 +17,31 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
-        "psr/http-message": "^1.0",
+        "psr/http-message": "^1.0 || ^2.0",
         "ramsey/collection": "^1.0",
         "symfony/polyfill-ctype": "^1.23"
     },
     "require-dev": {
-        "ramsey/devtools": "^1.7"
+        "captainhook/captainhook": "^5.18",
+        "captainhook/plugin-composer": "^5.3",
+        "ergebnis/composer-normalize": "^2.45",
+        "mockery/mockery": "^1.6",
+        "php-parallel-lint/php-console-highlighter": "^1.0",
+        "php-parallel-lint/php-parallel-lint": "^1.4",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-mockery": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpunit/phpunit": "^9.6.22 || ^10.5.45 || ^11.5.10 || ^12.0",
+        "ramsey/coding-standard": "^2.1",
+        "ramsey/conventional-commits": "^1.4",
+        "roave/security-advisories": "dev-latest"
     },
     "suggest": {
         "ext-ctype": "Support for ctype_* functions."
     },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "captainhook": {
-            "force-install": true
-        },
-        "ramsey/conventional-commits": {
-            "configFile": "conventional-commits.json"
-        },
-        "ramsey/devtools": {
-            "command-prefix": "dev"
-        }
-    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Ramsey\\Http\\Range\\": "src/"
@@ -51,6 +52,46 @@
             "Ramsey\\Http\\Range\\Test\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "config": {
+        "allow-plugins": {
+            "captainhook/plugin-composer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "captainhook": {
+            "force-install": true
+        },
+        "ramsey/conventional-commits": {
+            "configFile": "conventional-commits.json"
+        }
+    },
+    "scripts": {
+        "analyze": [
+            "@dev:analyze:phpstan"
+        ],
+        "build:clean": "git clean -fX build/.",
+        "build:clean:cache": "git clean -fX build/cache/.",
+        "build:clean:coverage": "git clean -fX build/coverage/.",
+        "dev:analyze:phpstan": "phpstan analyze --ansi",
+        "dev:lint:fix": "phpcbf --cache=build/cache/phpcs.cache",
+        "dev:lint:style": "phpcs --colors --cache=build/cache/phpcs.cache",
+        "dev:lint:syntax": "parallel-lint --colors src tests",
+        "dev:test:coverage:ci": "XDEBUG_MODE=coverage phpunit --colors=always --coverage-text --coverage-clover build/coverage/clover.xml --coverage-crap4j build/coverage/crap4j.xml --coverage-xml build/coverage/coverage-xml --log-junit build/junit.xml",
+        "dev:test:coverage:html": "XDEBUG_MODE=coverage phpunit --colors=always --coverage-html build/coverage/coverage-html",
+        "dev:test:unit": "phpunit --colors=always",
+        "lint": [
+            "@dev:lint:syntax",
+            "@dev:lint:style"
+        ],
+        "test": [
+            "@dev:lint:syntax",
+            "@dev:lint:style",
+            "@dev:analyze:phpstan",
+            "@dev:test:unit"
+        ]
+    }
 }

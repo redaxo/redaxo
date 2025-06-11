@@ -42,7 +42,7 @@ function rex_escape($value, $strategy = 'html')
 
         if ($value instanceof stdClass) {
             $clone = clone $value;
-            foreach (get_object_vars($value) as $k => $v) {
+            foreach (get_object_vars($value) as $k => $v) { // @phpstan-ignore impure.functionCall
                 $clone->$k = rex_escape($v, $strategy);
             }
 

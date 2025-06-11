@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+// total 467 errors
 return ['includes' => [
     __DIR__ . '/argument.templateType.php',
     __DIR__ . '/argument.type.php',
@@ -13,7 +14,6 @@ return ['includes' => [
     __DIR__ . '/if.alwaysTrue.php',
     __DIR__ . '/impure.propertyAssign.php',
     __DIR__ . '/impure.static.php',
-    __DIR__ . '/impureMethod.pure.php',
     __DIR__ . '/method.childReturnType.php',
     __DIR__ . '/missingType.generics.php',
     __DIR__ . '/missingType.iterableValue.php',
