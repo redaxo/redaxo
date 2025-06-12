@@ -219,7 +219,6 @@ if (rex::getUser()) {
 
     rex_view::setJsProperty('session_logout_url', rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams(), false));
     rex_view::setJsProperty('session_keep_alive_url', rex_url::backendController(['page' => 'credits'], false));
-
 } else {
     rex_view::setJsProperty('session_logged_in', 0);
 }
