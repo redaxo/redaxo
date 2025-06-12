@@ -27,16 +27,22 @@ if (1 === rex.session_logged_in && rex.session_keep_alive) {
             let offsetTime;
             let lastSessionUpdate;
             let maxKeepAlive;
-            let keepAliveExpandtime = 15 * 60; // 15 Minuten in Sekunden
+            let keepAliveExpandtime = 5 * 60;
             let sessionCheckInterval;
 
             // Private Methoden
             const init = function () {
+
                 currentBrowserTime = new Date();
                 serverTime = new Date(rex.time * 1000);
                 offsetTime = currentBrowserTime.getTime() - serverTime.getTime();
                 lastSessionUpdate = new Date(rex.time * 1000);
                 maxKeepAlive = new Date((rex.time + rex.session_keep_alive) * 1000);
+
+                // keepaliveExpandtime auf die Hälfte der keepalive Zeit setzen
+                if (rex.session_warning_time > rex.session_keep_alive) {
+                    keepAliveExpandtime = parseInt(rex.session_keep_alive / 2);
+                }
 
                 if (rex.session_warning_time > rex.session_duration) {
                     rex.session_warning_time = parseInt(rex.session_duration / 2);
@@ -46,7 +52,9 @@ if (1 === rex.session_logged_in && rex.session_keep_alive) {
             };
 
             const startSessionInterval = function () {
+
                 sessionCheckInterval = setInterval(function () {
+
                     const currentBrowserTimeNow = new Date();
                     const currentServerTimeNow = new Date(currentBrowserTimeNow.getTime() - offsetTime);
 
@@ -72,12 +80,12 @@ if (1 === rex.session_logged_in && rex.session_keep_alive) {
                         performKeepAlive();
                     }
 
-                }, 15 * 1000);
+                }, 10 * 1000);
             };
 
             const performKeepAlive = function () {
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', rex.session_keep_alive_url + '?_=' + new Date().getTime(), true);
+                xhr.open('GET', rex.session_keep_alive_url + '&' + new Date().getTime(), true);
 
                 xhr.onload = function () {
                     if (xhr.status === 200) {
@@ -215,7 +223,8 @@ if (1 === rex.session_logged_in && rex.session_keep_alive) {
                             attr: 'class="btn btn-primary rex-session-timeout-dialog-refresh" data-dismiss="modal"',
                             click: function () {
                                 maxKeepAlive = new Date(maxKeepAlive.getTime() + (keepAliveExpandtime * 1000));
-                                startSessionInterval();
+                                performKeepAlive(); // direkt keep alive aufrufen
+                                startSessionInterval(); // neues Intervall für keepalive
                                 const dialog = document.querySelector('.rex-session-timeout-dialog');
                                 if (dialog) {
                                     dialog.remove();
