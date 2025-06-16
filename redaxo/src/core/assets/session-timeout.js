@@ -1,128 +1,106 @@
-/*
-rex.session_keep_alive // refresh rate
-rex.session_duration // Maximale Sessiondauer wenn nicht aktualisiert wurde
-rex.session_max_overall_duration // (maximale komplette dauer, danach wird IMMER geschlossen
-rex.session_start
-rex.time
-rex.session_warning_time // Zeit in Sekunden vor dem Ablauf einer Session, an der eine Warnung ausgegeben wird, dass die Session bald abläuft
-rex.session_logout_url
-rex.session_keep_alive_url
+(function () {
+    'use strict';
 
-rex.i18n.session_timeout_title
-rex.i18n.session_timeout_message
-rex.i18n.session_timeout_logout_label
-rex.i18n.session_timeout_refresh_label
-*/
+    const createSessionTimeoutManager = function () {
 
-if (1 === rex.session_logged_in && rex.session_keep_alive) {
+        let intervalCheckTime = 5;
+        let sessionCheckInterval;
+        let keepAliveTime;
+        let warningTime;
+        let serverOffsetTime = 0; // Offset zwischen Serverzeit und Browserzeit in Sekunden
+        let overallSessionWarningTime;
+        let currentSessionWarningTime;
+        let sessionCounterDelete;
 
-    (function () {
-        'use strict';
+        const init = function () {
 
-        // Session Timeout Manager als Closure
-        const createSessionTimeoutManager = function () {
-            // Private Variablen
-            let currentBrowserTime;
-            let serverTime;
-            let offsetTime;
-            let lastSessionUpdate;
-            let maxKeepAlive;
-            let keepAliveExpandtime = 5 * 60;
-            let sessionCheckInterval;
+            warningTime = rex.session_warning_time + intervalCheckTime;
+            serverOffsetTime = parseInt(new Date().getTime() / 1000) - rex.session_server_time; // Offset in Sekunden
+            overallSessionWarningTime = (rex.session_start - serverOffsetTime + rex.session_max_overall_duration - warningTime) * 1000;
 
-            // Private Methoden
-            const init = function () {
+            updateKeepAliveTime();
+            setCurrentSessionWarningTime();
+            startSessionInterval();
 
-                currentBrowserTime = new Date();
-                serverTime = new Date(rex.time * 1000);
-                offsetTime = currentBrowserTime.getTime() - serverTime.getTime();
-                lastSessionUpdate = new Date(rex.time * 1000);
-                maxKeepAlive = new Date((rex.time + rex.session_keep_alive) * 1000);
+            $(document).on("rex:ready", function() {
+                setCurrentSessionWarningTime();
+            });
 
-                // keepaliveExpandtime auf die Hälfte der keepalive Zeit setzen
-                if (rex.session_warning_time > rex.session_keep_alive) {
-                    keepAliveExpandtime = parseInt(rex.session_keep_alive / 2);
+        };
+
+        const setCurrentSessionWarningTime = function (time) {
+            currentSessionWarningTime = new Date().getTime() + ((rex.session_duration - warningTime) * 1000); // Zeitpunkt, bis zu dem die aktuelle Session gültig ist
+        }
+
+        const updateKeepAliveTime = function () {
+            keepAliveTime = new Date().getTime() + (rex.session_keep_alive * 1000); // Zeitpunkt, bis zu dem die KeepAlive-Funktion aktiv ist
+        }
+
+        const startSessionInterval = function () {
+
+            sessionCheckInterval = setInterval(function () {
+                const currentTime = new Date().getTime();
+
+                if (overallSessionWarningTime < currentTime) {
+                    clearInterval(sessionCheckInterval);
+                    viewSessionOverallTimeoutDialog();
+                    return;
                 }
 
-                if (rex.session_warning_time > rex.session_duration) {
-                    rex.session_warning_time = parseInt(rex.session_duration / 2);
+                if (currentSessionWarningTime < currentTime) {
+                    clearInterval(sessionCheckInterval);
+                    viewSessionExpandDialog();
+                    return;
                 }
 
-                startSessionInterval();
-            };
+                if ( keepAliveTime > currentTime ) {
+                    clearInterval(sessionCheckInterval);
+                    performKeepAlive();
+                }
 
-            const startSessionInterval = function () {
+            }, intervalCheckTime * 1000);
+        };
 
-                sessionCheckInterval = setInterval(function () {
+        const performKeepAlive = function () {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', rex.session_keep_alive_url + '&' + new Date().getTime(), true);
 
-                    const currentBrowserTimeNow = new Date();
-                    const currentServerTimeNow = new Date(currentBrowserTimeNow.getTime() - offsetTime);
-
-                    // Überprüfung der Gesamtzeit
-                    const overAllEndServerTimeWarningMoment = new Date((rex.session_start + rex.session_max_overall_duration - rex.session_warning_time) * 1000);
-                    if (overAllEndServerTimeWarningMoment < currentServerTimeNow) {
-                        clearInterval(sessionCheckInterval);
-                        viewSessionOverallTimeoutDialog();
-                        return;
-                    }
-
-                    // Aktuelle Session überprüfen
-                    const nextWarningSessionDurationTime = new Date(lastSessionUpdate.getTime() + (rex.session_warning_time * 1000));
-                    if (nextWarningSessionDurationTime < currentServerTimeNow) {
-                        clearInterval(sessionCheckInterval);
-                        viewSessionExpandDialog();
-                        return;
-                    }
-
-                    // KeepAlive wenn nicht abgelaufen
-                    if (maxKeepAlive > currentServerTimeNow) {
-                        clearInterval(sessionCheckInterval);
-                        performKeepAlive();
-                    }
-
-                }, 10 * 1000);
-            };
-
-            const performKeepAlive = function () {
-                const xhr = new XMLHttpRequest();
-                xhr.open('GET', rex.session_keep_alive_url + '&' + new Date().getTime(), true);
-
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        lastSessionUpdate = new Date();
-                        lastSessionUpdate.setTime(lastSessionUpdate.getTime() - offsetTime);
-                        startSessionInterval();
-                    } else {
-                        viewSessionFailedDialog();
-                    }
-                };
-
-                xhr.onerror = function () {
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    let response = JSON.parse(xhr.responseText);
+                    overallSessionWarningTime = new Date().getTime() + ((response.rest_overall_time - warningTime) * 1000);
+                    startSessionInterval();
+                } else {
                     viewSessionFailedDialog();
-                };
-
-                xhr.send();
+                }
             };
 
-            const createModalBox = function (options) {
-                // Entferne existierende Dialoge
-                const existingDialog = document.querySelector('.rex-session-timeout-dialog');
-                if (existingDialog) {
-                    existingDialog.remove();
-                }
+            xhr.onerror = function () {
+                viewSessionFailedDialog();
+            };
 
-                // Erstelle Modal HTML
-                const modal = document.createElement('div');
-                modal.className = 'modal rex-session-timeout-dialog';
+            xhr.send();
+        };
 
-                let buttonHTML = '';
-                if (options.buttons && options.buttons.length) {
-                    options.buttons.forEach(function (button) {
-                        buttonHTML += '<button id="' + button.id + '" ' + button.attr + ' type="button">' + button.label + '</button>';
-                    });
-                }
+        const createModalBox = function (options) {
+            // Entferne existierende Dialoge
+            const existingDialog = document.querySelector('.rex-session-timeout-dialog');
+            if (existingDialog) {
+                existingDialog.remove();
+            }
 
-                modal.innerHTML = `
+            // Erstelle Modal HTML
+            const modal = document.createElement('div');
+            modal.className = 'modal rex-session-timeout-dialog';
+
+            let buttonHTML = '';
+            if (options.buttons && options.buttons.length) {
+                options.buttons.forEach(function (button) {
+                    buttonHTML += '<button id="' + button.id + '" ' + button.attr + ' type="button">' + button.label + '</button>';
+                });
+            }
+
+            modal.innerHTML = `
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -139,157 +117,176 @@ if (1 === rex.session_logged_in && rex.session_keep_alive) {
                     </div>
                 `;
 
-                document.body.appendChild(modal);
+            document.body.appendChild(modal);
 
-                // Event Listener für Buttons hinzufügen
-                if (options.buttons && options.buttons.length) {
-                    options.buttons.forEach(function (button) {
-                        if (button.click) {
-                            const btnElement = document.getElementById(button.id);
-                            if (btnElement) {
-                                btnElement.addEventListener('click', button.click);
-                            }
+            // Event Listener für Buttons hinzufügen
+            if (options.buttons && options.buttons.length) {
+                options.buttons.forEach(function (button) {
+                    if (button.click) {
+                        const btnElement = document.getElementById(button.id);
+                        if (btnElement) {
+                            btnElement.addEventListener('click', button.click);
                         }
-                    });
-                }
-
-                // Close Button Funktionalität
-                const closeButton = modal.querySelector('.close');
-                if (closeButton) {
-                    closeButton.addEventListener('click', function () {
-                        modal.remove();
-                    });
-                }
-
-                // Bootstrap Modal anzeigen (falls Bootstrap vorhanden)
-                if (typeof $ !== 'undefined' && $.fn.modal) {
-                    $(modal).modal({
-                        backdrop: 'static'
-                    });
-                    $(modal).on('hidden.bs.modal', function () {
-                        modal.remove();
-                    });
-                } else {
-                    // Fallback ohne Bootstrap
-                    modal.style.display = 'block';
-                    modal.classList.add('in');
-
-                    // Backdrop hinzufügen
-                    const backdrop = document.createElement('div');
-                    backdrop.className = 'modal-backdrop fade in';
-                    document.body.appendChild(backdrop);
-                }
-            };
-
-            const viewSessionFailedDialog = function () {
-                const options = {
-                    title: rex.i18n.session_timeout_title,
-                    message: rex.i18n.session_timeout_message_failed,
-                    buttons: [
-                        {
-                            id: 'rex-session-timeout-dialog-logout',
-                            label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_login_label,
-                            attr: 'class="btn btn-default rex-session-timeout-dialog-logout"',
-                            click: function () {
-                                window.location.href = rex.session_logout_url;
-                            }
-                        }
-                    ]
-                };
-
-                createModalBox(options);
-            };
-
-            const viewSessionExpandDialog = function () {
-                const values = [parseInt(rex.session_warning_time / 60), parseInt(keepAliveExpandtime / 60)];
-                const message = rex.i18n.session_timeout_message_expand.replace(/{(\d+)}/g, function (match, index) {
-                    return values[Number(index)];
-                });
-
-                const options = {
-                    message: message,
-                    buttons: [
-                        {
-                            id: 'rex-session-timeout-dialog-logout',
-                            label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_logout_label,
-                            attr: 'class="btn btn-default rex-session-timeout-dialog-logout"',
-                            click: function () {
-                                window.location.href = rex.session_logout_url;
-                            }
-                        },
-                        {
-                            id: 'rex-session-timeout-dialog-refresh',
-                            label: '<i class="rex-icon rex-icon-refresh"></i> ' + rex.i18n.session_timeout_refresh_label,
-                            attr: 'class="btn btn-primary rex-session-timeout-dialog-refresh" data-dismiss="modal"',
-                            click: function () {
-                                maxKeepAlive = new Date(maxKeepAlive.getTime() + (keepAliveExpandtime * 1000));
-                                performKeepAlive(); // direkt keep alive aufrufen
-                                startSessionInterval(); // neues Intervall für keepalive
-                                const dialog = document.querySelector('.rex-session-timeout-dialog');
-                                if (dialog) {
-                                    dialog.remove();
-                                }
-                                const backdrop = document.querySelector('.modal-backdrop');
-                                if (backdrop) {
-                                    backdrop.remove();
-                                }
-                            }
-                        }
-                    ]
-                };
-
-                createModalBox(options);
-            };
-
-            const viewSessionOverallTimeoutDialog = function () {
-                const values = [parseInt(rex.session_warning_time / 60)];
-                const message = rex.i18n.session_timeout_message_expired.replace(/{(\d+)}/g, function (match, index) {
-                    return values[Number(index)];
-                });
-
-                const options = {
-                    message: message,
-                    buttons: [
-                        {
-                            id: 'rex-session-timeout-dialog-logout',
-                            attr: 'class="btn btn-default rex-session-timeout-dialog-logout"',
-                            label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_logout_label,
-                            click: function () {
-                                window.location.href = rex.session_logout_url;
-                            }
-                        }
-                    ]
-                };
-
-                createModalBox(options);
-            };
-
-            // Öffentliche API
-            return {
-                init: init,
-                stopInterval: function () {
-                    if (sessionCheckInterval) {
-                        clearInterval(sessionCheckInterval);
                     }
-                }
-            };
+                });
+            }
+
+            // Close Button Funktionalität
+            const closeButton = modal.querySelector('.close');
+            if (closeButton) {
+                closeButton.addEventListener('click', function () {
+                    modal.remove();
+                });
+            }
+
+            // Bootstrap Modal anzeigen (falls Bootstrap vorhanden)
+            if (typeof $ !== 'undefined' && $.fn.modal) {
+                $(modal).modal({
+                    backdrop: 'static'
+                });
+                $(modal).on('hidden.bs.modal', function () {
+                    modal.remove();
+                });
+            } else {
+                // Fallback ohne Bootstrap
+                modal.style.display = 'block';
+                modal.classList.add('in');
+
+                // Backdrop hinzufügen
+                const backdrop = document.createElement('div');
+                backdrop.className = 'modal-backdrop fade in';
+                document.body.appendChild(backdrop);
+            }
         };
 
-        // Session Manager erstellen und initialisieren
-        const sessionManager = createSessionTimeoutManager();
+        const viewSessionFailedDialog = function () {
+            const options = {
+                title: rex.i18n.session_timeout_title,
+                message: rex.i18n.session_timeout_message_failed,
+                buttons: [
+                    {
+                        id: 'rex-session-timeout-dialog-logout',
+                        label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_login_label,
+                        attr: 'class="btn btn-default rex-session-timeout-dialog-logout"',
+                        click: function () {
+                            window.location.href = rex.session_logout_url;
+                        }
+                    }
+                ]
+            };
 
-        // Warte bis DOM geladen ist
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function () {
-                sessionManager.init();
+            createModalBox(options);
+        };
+
+        const viewSessionExpandDialog = function () {
+
+            let sessionButtonCounter = warningTime;
+            const values = ['<span id="rex-session-timeout-counter">~' + parseInt(sessionButtonCounter / 60) + '</span>', parseInt(rex.session_duration / 60)];
+            const message = rex.i18n.session_timeout_message_expand.replace(/{(\d+)}/g, function (match, index) {
+                return values[Number(index)];
             });
-        } else {
+
+            const options = {
+                message: message,
+                buttons: [
+                    {
+                        id: 'rex-session-timeout-dialog-logout',
+                        label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_logout_label,
+                        attr: 'class="btn btn-default rex-session-timeout-dialog-logout"',
+                        click: function () {
+                            window.location.href = rex.session_logout_url;
+                        }
+                    },
+                    {
+                        id: 'rex-session-timeout-dialog-refresh',
+                        label: '<i class="rex-icon rex-icon-refresh"></i> ' + rex.i18n.session_timeout_refresh_label,
+                        attr: 'class="btn btn-primary rex-session-timeout-dialog-refresh" data-dismiss="modal"',
+                        click: function () {
+                            clearInterval(sessionCounterDelete);
+                            performKeepAlive();
+                            currentSessionWarningTime = new Date().getTime() + ((rex.session_duration - warningTime) * 1000); // Zeitpunkt, bis zu dem die aktuelle Session gültig ist
+                            const dialog = document.querySelector('.rex-session-timeout-dialog');
+                            if (dialog) {
+                                dialog.remove();
+                            }
+                            const backdrop = document.querySelector('.modal-backdrop');
+                            if (backdrop) {
+                                backdrop.remove();
+                            }
+                            startSessionInterval()
+                        }
+                    }
+                ]
+            };
+
+            createModalBox(options);
+
+            sessionCounterDelete = setInterval(function () {
+
+                sessionButtonCounter = warningTime - ((new Date().getTime() - currentSessionWarningTime) / 1000);
+                document.getElementById('rex-session-timeout-counter').innerHTML = "~" + parseInt(sessionButtonCounter / 60);
+                if (sessionButtonCounter <= 0) {
+                    document.getElementById('rex-session-timeout-dialog-refresh').remove(); // Button entfernen
+                    clearInterval(sessionCounterDelete);
+                }
+
+            }, 1000); // Intervall zum Runterzählen des Counters
+
+        };
+
+        const viewSessionOverallTimeoutDialog = function () {
+
+            let InfoTime = overallSessionWarningTime - new Date().getTime();
+            if (InfoTime < 0) {
+                InfoTime = 0;
+            }
+
+            const values = [parseInt(InfoTime / 60)];
+            const message = rex.i18n.session_timeout_message_expired.replace(/{(\d+)}/g, function (match, index) {
+                return values[Number(index)];
+            });
+
+            const options = {
+                message: message,
+                buttons: [
+                    {
+                        id: 'rex-session-timeout-dialog-logout',
+                        attr: 'class="btn btn-default rex-session-timeout-dialog-logout"',
+                        label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_logout_label,
+                        click: function () {
+                            window.location.href = rex.session_logout_url;
+                        }
+                    }
+                ]
+            };
+
+            createModalBox(options);
+        };
+
+        // Öffentliche API
+        return {
+            init: init,
+            stopInterval: function () {
+                if (sessionCheckInterval) {
+                    clearInterval(sessionCheckInterval);
+                }
+            }
+        };
+    };
+
+    // Session Manager erstellen und initialisieren
+    const sessionManager = createSessionTimeoutManager();
+
+    // Warte bis DOM geladen ist
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
             sessionManager.init();
-        }
+        });
+    } else {
+        sessionManager.init();
+    }
 
-        // Optional: Manager global verfügbar machen für Debugging
-        window.rexSessionManager = sessionManager;
+    // Optional: Manager global verfügbar machen für Debugging
+    window.rexSessionManager = sessionManager;
 
-    })();
-
-}
+})();
