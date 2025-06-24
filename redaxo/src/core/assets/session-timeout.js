@@ -89,6 +89,8 @@
                 existingDialog.remove();
             }
 
+            document.querySelector('.modal-backdrop')?.remove();
+
             // Erstelle Modal HTML
             const modal = document.createElement('div');
             modal.className = 'modal rex-session-timeout-dialog';
@@ -205,15 +207,8 @@
                             clearInterval(sessionCounterDelete);
                             performKeepAlive();
                             currentSessionWarningTime = new Date().getTime() + ((rex.session_duration - warningTime) * 1000); // Zeitpunkt, bis zu dem die aktuelle Session gültig ist
-                            const dialog = document.querySelector('.rex-session-timeout-dialog');
-                            if (dialog) {
-                                dialog.remove();
-                            }
-                            const backdrop = document.querySelector('.modal-backdrop');
-                            if (backdrop) {
-                                backdrop.remove();
-                            }
-                            startSessionInterval()
+                            document.querySelector('.rex-session-timeout-dialog').remove();
+                            document.querySelector('.modal-backdrop').remove();
                         }
                     }
                 ]
@@ -224,9 +219,14 @@
             sessionCounterDelete = setInterval(function () {
 
                 sessionButtonCounter = warningTime - ((new Date().getTime() - currentSessionWarningTime) / 1000);
-                document.getElementById('rex-session-timeout-counter').innerHTML = "~" + parseInt(sessionButtonCounter / 60);
-                if (sessionButtonCounter <= 0) {
-                    document.getElementById('rex-session-timeout-dialog-refresh').remove(); // Button entfernen
+                let TimeOutElement = document.getElementById('rex-session-timeout-counter');
+                if (TimeOutElement) {
+                    TimeOutElement.innerHTML = "~" + parseInt(sessionButtonCounter / 60);
+                    if (sessionButtonCounter <= 0) {
+                        document.getElementById('rex-session-timeout-dialog-refresh').remove(); // Button entfernen
+                        clearInterval(sessionCounterDelete);
+                    }
+                } else {
                     clearInterval(sessionCounterDelete);
                 }
 
@@ -265,12 +265,7 @@
 
         // Öffentliche API
         return {
-            init: init,
-            stopInterval: function () {
-                if (sessionCheckInterval) {
-                    clearInterval(sessionCheckInterval);
-                }
-            }
+            init: init
         };
     };
 
