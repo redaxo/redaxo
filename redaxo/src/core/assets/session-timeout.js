@@ -24,11 +24,12 @@
 
             $(document).on("rex:ready", function() {
                 setCurrentSessionWarningTime();
+                updateKeepAliveTime();
             });
 
         };
 
-        const setCurrentSessionWarningTime = function (time) {
+        const setCurrentSessionWarningTime = function () {
             currentSessionWarningTime = new Date().getTime() + ((rex.session_duration - warningTime) * 1000); // Zeitpunkt, bis zu dem die aktuelle Session gültig ist
         }
 
@@ -39,6 +40,7 @@
         const startSessionInterval = function () {
 
             sessionCheckInterval = setInterval(function () {
+
                 const currentTime = new Date().getTime();
 
                 if (overallSessionWarningTime < currentTime) {
@@ -47,24 +49,21 @@
                     return;
                 }
 
-                if (currentSessionWarningTime < currentTime) {
-                    clearInterval(sessionCheckInterval);
-                    viewSessionExpandDialog();
-                    return;
-                }
-
                 if ( keepAliveTime > currentTime ) {
                     clearInterval(sessionCheckInterval);
                     performKeepAlive();
+                } else if (currentSessionWarningTime < currentTime) {
+                    clearInterval(sessionCheckInterval);
+                    viewSessionExpandDialog();
                 }
 
             }, intervalCheckTime * 1000);
         };
 
         const performKeepAlive = function () {
+
             const xhr = new XMLHttpRequest();
             xhr.open('GET', rex.session_keep_alive_url + '&' + new Date().getTime(), true);
-
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     let response = JSON.parse(xhr.responseText);
@@ -206,7 +205,7 @@
                         click: function () {
                             clearInterval(sessionCounterDelete);
                             performKeepAlive();
-                            currentSessionWarningTime = new Date().getTime() + ((rex.session_duration - warningTime) * 1000); // Zeitpunkt, bis zu dem die aktuelle Session gültig ist
+                            setCurrentSessionWarningTime(); // Zeitpunkt, bis zu dem die aktuelle Session gültig ist
                             document.querySelector('.rex-session-timeout-dialog').remove();
                             document.querySelector('.modal-backdrop').remove();
                         }
