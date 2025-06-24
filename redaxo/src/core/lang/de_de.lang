@@ -446,7 +446,7 @@ session_removed = Sitzung wurde beendet
 session_remove_error = Sitzung konnte nicht beendet werden
 
 session_timeout_title = Meldung zur aktuellen Session
-session_timeout_message_expand = Die aktuelle Session läuft in {0} Minute/n ab. Soll diese um {1} Minuten verlängert werden?
+session_timeout_message_expand = Die aktuelle Session läuft in {0} Minute/n ab. Soll diese wieder auf eine Dauer von {1} Minuten gesetzt werden?
 session_timeout_message_expired = Die maximale Gesamtsessiondauer ist bald erreicht. Die Session läuft in {0} Minute/n ab. Bitte die aktuellen Arbeiten sofort beenden.
 session_timeout_message_failed = Es gab einen Fehler bei der Session. Bitte neu anmelden
 
