@@ -223,6 +223,7 @@
                     TimeOutElement.innerHTML = "~" + parseInt(sessionButtonCounter / 60);
                     if (sessionButtonCounter <= 0) {
                         document.getElementById('rex-session-timeout-dialog-refresh').remove(); // Button entfernen
+                        document.querySelector('.rex-session-timeout-dialog .modal-body p').innerHTML = rex.i18n.session_timeout_message_has_expired;
                         clearInterval(sessionCounterDelete);
                     }
                 } else {
