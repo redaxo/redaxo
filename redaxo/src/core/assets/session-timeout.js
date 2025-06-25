@@ -3,9 +3,11 @@
 
     const createSessionTimeoutManager = function () {
 
-        let intervalCheckTime = 120;
+        let intervalCheckTime = 5;
         let sessionCheckInterval;
-        let keepAliveTime;
+        let keepAliveTime = 180;
+        let keepAliveEndTime;
+        let keepAliveNextTime;
         let warningTime;
         let serverOffsetTime = 0; // Offset zwischen Serverzeit und Browserzeit in Sekunden
         let overallSessionWarningTime;
@@ -18,13 +20,13 @@
             serverOffsetTime = parseInt(new Date().getTime() / 1000) - rex.session_server_time; // Offset in Sekunden
             overallSessionWarningTime = (rex.session_start - serverOffsetTime + rex.session_max_overall_duration - warningTime) * 1000;
 
-            updateKeepAliveTime();
+            updateKeepAliveEndTime();
             setCurrentSessionWarningTime();
             startSessionInterval();
 
             $(document).on("rex:ready", function() {
                 setCurrentSessionWarningTime();
-                updateKeepAliveTime();
+                updateKeepAliveEndTime();
             });
 
         };
@@ -33,14 +35,14 @@
             currentSessionWarningTime = new Date().getTime() + ((rex.session_duration - warningTime) * 1000); // Zeitpunkt, bis zu dem die aktuelle Session gültig ist
         }
 
-        const updateKeepAliveTime = function () {
-            keepAliveTime = new Date().getTime() + (rex.session_keep_alive * 1000); // Zeitpunkt, bis zu dem die KeepAlive-Funktion aktiv ist
+        const updateKeepAliveEndTime = function () {
+            keepAliveEndTime = new Date().getTime() + (rex.session_keep_alive * 1000); // Zeitpunkt, bis zu dem die KeepAlive-Funktion aktiv ist
         }
 
         const startSessionInterval = function () {
+            keepAliveNextTime = new Date().getTime() + (keepAliveTime * 1000); // Zeitpunkt, bis zum nächsten KeepAlive
 
             sessionCheckInterval = setInterval(function () {
-
                 const currentTime = new Date().getTime();
 
                 if (overallSessionWarningTime < currentTime) {
@@ -49,7 +51,10 @@
                     return;
                 }
 
-                if ( keepAliveTime > currentTime ) {
+                if (keepAliveEndTime > currentTime) {
+                    if (keepAliveNextTime > currentTime) {
+                        return;
+                    }
                     clearInterval(sessionCheckInterval);
                     performKeepAlive();
                 } else if (currentSessionWarningTime < currentTime) {
