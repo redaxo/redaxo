@@ -59,7 +59,7 @@ class rex_form_control_element extends rex_form_element
                 $this->deleteElement->setAttribute('class', 'btn btn-delete');
             }
 
-            if (!$this->deleteElement->hasAttribute('onclick')) {
+            if (!$this->deleteElement->hasAttribute('data-confirm') && !$this->deleteElement->hasAttribute('onclick')) {
                 $this->deleteElement->setAttribute('data-confirm', rex_i18n::msg('form_delete') . '?');
             }
 
@@ -73,7 +73,7 @@ class rex_form_control_element extends rex_form_element
                 $this->resetElement->setAttribute('class', 'btn btn-reset');
             }
 
-            if (!$this->resetElement->hasAttribute('onclick')) {
+            if (!$this->resetElement->hasAttribute('data-confirm') && !$this->resetElement->hasAttribute('onclick')) {
                 $this->resetElement->setAttribute('data-confirm', rex_i18n::msg('form_reset') . '?');
             }
 
