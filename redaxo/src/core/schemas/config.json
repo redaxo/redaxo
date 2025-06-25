@@ -107,7 +107,7 @@
             "type": "integer"
         },
         "session_warning_time": {
-            "description": "Seconds before a Dialogwindow apears and asks for action",
+            "description": "Seconds before a dialog window appears and asks for action",
             "type": "integer"
         },
         "backend_login_policy": {
