@@ -25,11 +25,11 @@ jobs:
                     -   php-version: '8.4'
                         db-image: 'mysql:8.4'
                     -   php-version: '8.5'
-                        db-image: 'mysql:9.1'
+                        db-image: 'mysql:latest'
                         composer-flags: '--ignore-platform-req=php'
                     -   php-version: '8.3'
                         db-image: 'mariadb:10.4'
-                    -   php-version: '8.3'
+                    -   php-version: '8.4'
                         db-image: 'mariadb:latest'
 
         # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers

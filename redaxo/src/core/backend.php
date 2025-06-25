@@ -239,9 +239,33 @@ Asset::addJsFile(Url::coreAssets('js/mediapool.js'), [Asset::JS_IMMUTABLE]);
 
 Asset::setJsProperty('backend', true);
 Asset::setJsProperty('accesskeys', Core::getProperty('use_accesskeys'));
-Asset::setJsProperty('session_keep_alive', Core::getProperty('session_keep_alive', 0));
 Asset::setJsProperty('cookie_params', Login::getCookieParams());
 Asset::setJsProperty('imageExtensions', Core::getProperty('image_extensions'));
+
+if (Core::getUser()) {
+    Asset::addJsFile(Url::coreAssets('session-timeout.js'), [Asset::JS_IMMUTABLE => true]);
+
+    $login = Core::getProperty('login');
+    Asset::setJsProperty('session_keep_alive_url', Url::backendController(['page' => 'credits', 'rex-api-call' => 'user_session_status']));
+    Asset::setJsProperty('session_logout_url', Url::backendController(['rex_logout' => 1] + CsrfToken::factory('backend_logout')->getUrlParams()));
+    Asset::setJsProperty('session_keep_alive', Core::getProperty('session_keep_alive', 0));
+    Asset::setJsProperty('session_duration', Core::getProperty('session_duration', 0));
+    Asset::setJsProperty('session_max_overall_duration', Core::getProperty('session_max_overall_duration', 0));
+    Asset::setJsProperty('session_start', $login->getSessionVar(Login::SESSION_START_TIME));
+    Asset::setJsProperty('session_stay_logged_in', $login->getSessionVar(BackendLogin::SESSION_STAY_LOGGED_IN, false));
+    Asset::setJsProperty('session_warning_time', Core::getProperty('session_warning_time', 300));
+    Asset::setJsProperty('session_server_time', time());
+
+    Asset::setJsProperty('i18n', [
+        'session_timeout_title' => I18n::msg('session_timeout_title'),
+        'session_timeout_message_expand' => I18n::msg('session_timeout_message_expand'),
+        'session_timeout_message_expired' => I18n::msg('session_timeout_message_expired'),
+        'session_timeout_message_has_expired' => I18n::msg('session_timeout_message_has_expired'),
+        'session_timeout_logout_label' => I18n::msg('session_timeout_logout_label'),
+        'session_timeout_login_label' => I18n::msg('session_timeout_login_label'),
+        'session_timeout_refresh_label' => I18n::msg('session_timeout_refresh_label'),
+    ]);
+}
 
 Asset::addCssFile(Url::coreAssets('css/styles.css'));
 Asset::addCssFile(Url::coreAssets('css/bootstrap-select.min.css'));

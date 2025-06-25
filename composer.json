@@ -14,7 +14,7 @@
         "enshrined/svg-sanitize": "^0.21.0",
         "erusev/parsedown": "^1.7.4",
         "erusev/parsedown-extra": "^0.8.1",
-        "filp/whoops": "^2.18.0",
+        "filp/whoops": "^2.18.3",
         "itsgoingd/clockwork": "^5.3.4",
         "lbuchs/webauthn": "^2.2.0",
         "phpmailer/phpmailer": "^6.10.0",
@@ -22,29 +22,29 @@
         "ramsey/http-range": "^1.2.1",
         "scssphp/scssphp": "^1.13.0",
         "splitbrain/php-archive": "^1.4.0",
-        "symfony/console": "^6.4.21",
-        "symfony/http-foundation": "^6.4.21",
+        "symfony/console": "^6.4.22",
+        "symfony/http-foundation": "^6.4.22",
         "symfony/var-dumper": "^6.4.21",
         "symfony/yaml": "^6.4.21",
         "voku/anti-xss": "^4.1.42",
-        "voku/portable-utf8": "dev-php84-nullable_type_declaration as 6.0.14-dev"
+        "voku/portable-utf8": "dev-master as 6.0.14-dev"
     },
     "require-dev": {
         "friendsofredaxo/linter": "1.4.0",
         "jetbrains/phpstorm-attributes": "^1.2",
         "phpstan/extension-installer": "1.4.3",
-        "phpstan/phpstan": "2.1.16",
+        "phpstan/phpstan": "2.1.17",
         "phpstan/phpstan-deprecation-rules": "2.0.3",
         "phpstan/phpstan-phpunit": "2.0.6",
         "phpstan/phpstan-symfony": "2.0.6",
-        "phpunit/phpunit": "^10.5.46",
+        "phpunit/phpunit": "^10.5.47",
         "psalm/plugin-phpunit": "0.19.5",
         "psalm/plugin-symfony": "v5.2.7",
-        "rector/rector": "2.0.16",
+        "rector/rector": "2.1.0",
         "redaxo/php-cs-fixer-config": "2.14.0",
         "redaxo/psalm-plugin": "2.2.0",
         "shipmonk/phpstan-baseline-per-identifier": "2.1.6",
-        "vimeo/psalm": "6.10.3"
+        "vimeo/psalm": "6.12.0"
     },
     "replace": {
         "symfony/polyfill-ctype": "*",
@@ -172,14 +172,7 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "allow-plugins": {
-            "composer/package-versions-deprecated": true,
             "phpstan/extension-installer": true
         }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/heelc29/voku-portable-utf8"
-        }
-    ]
+    }
 }

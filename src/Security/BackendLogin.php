@@ -24,6 +24,7 @@ use const PHP_SESSION_ACTIVE;
 class BackendLogin extends Login
 {
     public const SYSTEM_ID = 'backend_login';
+    public const SESSION_STAY_LOGGED_IN = 'stay_logged_in';
 
     private const SESSION_PASSWORD_CHANGE_REQUIRED = 'password_change_required';
 
@@ -154,8 +155,10 @@ class BackendLogin extends Login
                         $cookiekey = base64_encode(random_bytes(64));
                     }
                     self::setStayLoggedInCookie($cookiekey);
+                    $this->setSessionVar(self::SESSION_STAY_LOGGED_IN, true);
                 } else {
                     $cookiekey = null;
+                    $this->setSessionVar(self::SESSION_STAY_LOGGED_IN, false);
                 }
 
                 UserSession::getInstance()->storeCurrentSession($this, $cookiekey, $this->passkey);

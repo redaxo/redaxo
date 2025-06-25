@@ -93,6 +93,7 @@ abstract class ApiFunction
         'user_impersonate' => SecurityApiFunction\UserImpersonate::class,
         'user_remove_auth_method' => SecurityApiFunction\UserRemoveAuthMethod::class,
         'user_remove_session' => SecurityApiFunction\UserRemoveSession::class,
+        'user_session_status' => SecurityApiFunction\UserSessionStatus::class,
     ];
 
     /**

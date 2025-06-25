@@ -770,18 +770,6 @@ jQuery(document).ready(function($) {
     document.addEventListener('keydown', handleKeyEvents, true);
 });
 
-// keep session alive
-if ('login' !== rex.page && rex.session_keep_alive) {
-    var keepAliveInterval = setInterval(function () {
-        jQuery.ajax('index.php?page=credits', {
-            cache: false
-        });
-    }, 5 * 60 * 1000 /* make ajax request every 5 minutes */);
-    setTimeout(function () {
-        clearInterval(keepAliveInterval);
-    }, rex.session_keep_alive * 1000 /* stop request after x seconds - see config.yml */);
-}
-
 // handle key events
 var handleKeyEvents = function (event) {
 

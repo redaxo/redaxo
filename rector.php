@@ -168,6 +168,7 @@ return RectorConfig::configure()
         'rex_api_user_impersonate' => Security\ApiFunction\UserImpersonate::class,
         'rex_api_user_remove_auth_method' => Security\ApiFunction\UserRemoveAuthMethod::class,
         'rex_api_user_remove_session' => Security\ApiFunction\UserRemoveSession::class,
+        'rex_api_user_session_status' => Security\ApiFunction\UserSessionStatus::class,
         'rex_backup' => Backup\Backup::class,
         'rex_backup_file_compressor' => Backup\FileCompressor::class,
         'rex_backup_tar' => Backup\Tar::class,
