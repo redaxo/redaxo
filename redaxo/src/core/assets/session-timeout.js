@@ -286,7 +286,4 @@
         sessionManager.init();
     }
 
-    // Optional: Manager global verfügbar machen für Debugging
-    window.rexSessionManager = sessionManager;
-
 })();
