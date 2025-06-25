@@ -429,6 +429,14 @@ password_rule_lowercase = {0} lowercase letter(s)
 password_rule_digit = {0} digit(s)
 password_rule_symbol = {0} symbol(s)
 
+session_timeout_title = Session Message
+session_timeout_message_expand = The current session will expire in {0} minute(s). Should it be reset to a duration of {1} minutes?
+session_timeout_message_expired = The maximum total session duration is almost reached. The session will expire in {0} minute(s). Please finish your current work immediately.
+session_timeout_message_has_expired = The session has expired.
+session_timeout_logout_label = Log out
+session_timeout_login_label = Log in again
+session_timeout_refresh_label = Extend session
+
 # redaxo\include\classes\class.rex_list.php
 list_previous = previous page
 list_next = next page
