@@ -20,7 +20,7 @@ class rex_api_user_session_status extends rex_api_function
 
         $login = rex::getProperty('login');
 
-        $restOverallTime = rex::getProperty('session_max_overall_duration', 0) + $login->getSessionVar(rex_backend_login::SESSION_START_TIME) - $login->getSessionVar(rex_backend_login::SESSION_LAST_ACTIVITY);
+        $restOverallTime = (int) rex::getProperty('session_max_overall_duration', 0) + (int) $login->getSessionVar(rex_backend_login::SESSION_START_TIME) - (int) $login->getSessionVar(rex_backend_login::SESSION_LAST_ACTIVITY);
         rex_response::sendJson([
             'rest_overall_time' => $restOverallTime,
         ]);
