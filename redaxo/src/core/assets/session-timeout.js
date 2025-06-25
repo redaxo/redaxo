@@ -13,6 +13,7 @@
         let overallSessionWarningTime;
         let currentSessionWarningTime;
         let sessionCounterDelete;
+        let OverallSessionCounterDelete;
 
         const init = function () {
 
@@ -22,6 +23,7 @@
 
             updateKeepAliveEndTime();
             setCurrentSessionWarningTime();
+
             startSessionInterval();
 
             $(document).on("rex:ready", function() {
@@ -186,9 +188,9 @@
 
         const viewSessionExpandDialog = function () {
 
-            let sessionButtonCounter = currentSessionWarningTime + (warningTime * 1000) - new Date().getTime(); // Zeit bis zum Ende der aktuellen Session in Sekunden
+            let sessionButtonCounter = (currentSessionWarningTime + (warningTime * 1000) - new Date().getTime()) / 1000; // Zeit bis zum Ende der aktuellen Session in Sekunden
 
-            const values = ['<span id="rex-session-timeout-counter">~' + parseInt(sessionButtonCounter / 60 / 1000) + '</span>', parseInt(rex.session_duration / 60)];
+            const values = ['<span id="rex-session-timeout-counter">~' + parseInt(sessionButtonCounter / 60) + '</span>', parseInt(rex.session_duration / 60)];
             const message = rex.i18n.session_timeout_message_expand.replace(/{(\d+)}/g, function (match, index) {
                 return values[Number(index)];
             });
@@ -222,8 +224,7 @@
             createModalBox(options);
 
             sessionCounterDelete = setInterval(function () {
-
-                sessionButtonCounter = warningTime - ((new Date().getTime() - currentSessionWarningTime) / 1000);
+                sessionButtonCounter = (currentSessionWarningTime + (warningTime * 1000) - new Date().getTime()) / 1000; // Zeit bis zum Ende der aktuellen Session in Sekunden
                 let TimeOutElement = document.getElementById('rex-session-timeout-counter');
                 if (TimeOutElement) {
                     TimeOutElement.innerHTML = "~" + parseInt(sessionButtonCounter / 60);
@@ -235,19 +236,16 @@
                 } else {
                     clearInterval(sessionCounterDelete);
                 }
-
-            }, 1000); // Intervall zum Runterzählen des Counters
+            }, 1000);
 
         };
 
         const viewSessionOverallTimeoutDialog = function () {
 
-            let InfoTime = overallSessionWarningTime - new Date().getTime();
-            if (InfoTime < 0) {
-                InfoTime = 0;
-            }
+            let OverallSessionButtonCounter = (overallSessionWarningTime + (warningTime * 1000) - new Date().getTime()) / 1000;
 
-            const values = [parseInt(InfoTime / 60)];
+            const values = ['<span id="rex-session-timeout-counter">~' + parseInt(OverallSessionButtonCounter / 60) + '</span>'];
+
             const message = rex.i18n.session_timeout_message_expired.replace(/{(\d+)}/g, function (match, index) {
                 return values[Number(index)];
             });
@@ -267,6 +265,21 @@
             };
 
             createModalBox(options);
+
+            OverallSessionCounterDelete = setInterval(function () {
+                let OverallSessionButtonCounter = (overallSessionWarningTime + (warningTime * 1000) - new Date().getTime()) / 1000;
+                let TimeOutElement = document.getElementById('rex-session-timeout-counter');
+                if (TimeOutElement) {
+                    TimeOutElement.innerHTML = "~" + parseInt(OverallSessionButtonCounter / 60);
+                    if (OverallSessionButtonCounter <= 0) {
+                        document.querySelector('.rex-session-timeout-dialog .modal-body p').innerHTML = rex.i18n.session_timeout_message_has_expired;
+                        clearInterval(OverallSessionCounterDelete);
+                    }
+                } else {
+                    clearInterval(OverallSessionCounterDelete);
+                }
+            }, 1000);
+
         };
 
         // Öffentliche API
