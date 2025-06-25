@@ -186,8 +186,9 @@
 
         const viewSessionExpandDialog = function () {
 
-            let sessionButtonCounter = warningTime;
-            const values = ['<span id="rex-session-timeout-counter">~' + parseInt(sessionButtonCounter / 60) + '</span>', parseInt(rex.session_duration / 60)];
+            let sessionButtonCounter = currentSessionWarningTime + (warningTime * 1000) - new Date().getTime(); // Zeit bis zum Ende der aktuellen Session in Sekunden
+
+            const values = ['<span id="rex-session-timeout-counter">~' + parseInt(sessionButtonCounter / 60 / 1000) + '</span>', parseInt(rex.session_duration / 60)];
             const message = rex.i18n.session_timeout_message_expand.replace(/{(\d+)}/g, function (match, index) {
                 return values[Number(index)];
             });
