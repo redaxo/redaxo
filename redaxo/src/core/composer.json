@@ -5,16 +5,16 @@
         "enshrined/svg-sanitize": "^0.21",
         "erusev/parsedown": "^1.7.4",
         "erusev/parsedown-extra": "^0.8.1",
-        "filp/whoops": "^2.18.0",
+        "filp/whoops": "^2.18.3",
         "lbuchs/webauthn": "^2.2.0",
         "psr/log": "^3.0.2",
         "ramsey/http-range": "^1.2.1",
-        "symfony/console": "^6.4.21",
-        "symfony/http-foundation": "^6.4.21",
+        "symfony/console": "^6.4.22",
+        "symfony/http-foundation": "^6.4.22",
         "symfony/var-dumper": "^6.4.21",
         "symfony/yaml": "^6.4.21",
         "voku/anti-xss": "^4.1.42",
-        "voku/portable-utf8": "dev-php84-nullable_type_declaration as 6.0.14-dev"
+        "voku/portable-utf8": "dev-master as 6.0.14-dev"
     },
 
     "replace": {
@@ -39,12 +39,5 @@
         },
         "platform-check": false,
         "prepend-autoloader": false
-    },
-
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/heelc29/voku-portable-utf8"
-        }
-    ]
+    }
 }
