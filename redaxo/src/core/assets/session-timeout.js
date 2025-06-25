@@ -163,7 +163,7 @@
         const viewSessionFailedDialog = function () {
             const options = {
                 title: rex.i18n.session_timeout_title,
-                message: rex.i18n.session_timeout_message_failed,
+                message: rex.i18n.session_timeout_message_has_expired,
                 buttons: [
                     {
                         id: 'rex-session-timeout-dialog-logout',

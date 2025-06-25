@@ -225,7 +225,6 @@ if (rex::getUser()) {
         'session_timeout_message_expand' => rex_i18n::msg('session_timeout_message_expand'),
         'session_timeout_message_expired' => rex_i18n::msg('session_timeout_message_expired'),
         'session_timeout_message_has_expired' => rex_i18n::msg('session_timeout_message_has_expired'),
-        'session_timeout_message_failed' => rex_i18n::msg('session_timeout_message_failed'),
         'session_timeout_logout_label' => rex_i18n::msg('session_timeout_logout_label'),
         'session_timeout_login_label' => rex_i18n::msg('session_timeout_login_label'),
         'session_timeout_refresh_label' => rex_i18n::msg('session_timeout_refresh_label'),
