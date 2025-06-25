@@ -4903,9 +4903,6 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
-    <InvalidConstantAssignmentValue>
-      <code><![CDATA[MIN_PHP_VERSION = REX_MIN_PHP_VERSION]]></code>
-    </InvalidConstantAssignmentValue>
     <MixedArgument>
       <code><![CDATA[$config['db'][1]['host']]]></code>
       <code><![CDATA[$config['db'][1]['login']]]></code>
