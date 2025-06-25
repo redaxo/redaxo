@@ -3668,6 +3668,7 @@
       <code><![CDATA[$fromPath]]></code>
     </PossiblyFalseOperand>
     <PossiblyNullArgument>
+      <code><![CDATA[$imagick->getImageBlob()]]></code>
       <code><![CDATA[$this->media->getMediaPath()]]></code>
       <code><![CDATA[$this->media->getMediaPath()]]></code>
     </PossiblyNullArgument>
