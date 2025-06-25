@@ -216,7 +216,7 @@ if (rex::getUser()) {
     rex_view::setJsProperty('session_max_overall_duration', rex::getProperty('session_max_overall_duration', 0));
     rex_view::setJsProperty('session_start', $login->getSessionVar(rex_login::SESSION_START_TIME));
     rex_view::setJsProperty('session_stay_logged_in', $login->getSessionVar(rex_backend_login::SESSION_STAY_LOGGED_IN, false));
-    rex_view::setJsProperty('session_warning_time', rex::getProperty('session_warning_time', 60));
+    rex_view::setJsProperty('session_warning_time', rex::getProperty('session_warning_time', 300));
     rex_view::setJsProperty('session_server_time', time());
 
     rex_view::setJsProperty('i18n', [
