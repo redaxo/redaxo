@@ -39,6 +39,7 @@ class rex_console_command_loader implements CommandLoaderInterface
                 'package:uninstall' => rex_command_package_uninstall::class,
                 'system:report' => rex_command_system_report::class,
                 'user:set-password' => rex_command_user_set_password::class,
+                'user:list' => rex_command_user_list::class,
             ]);
         }
 
