@@ -206,8 +206,6 @@ rex_view::setJsProperty('backend', true);
 rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
 
 if (rex::getUser()) {
-    rex_api_function::register('user_session_status', 'rex_api_user_session_status');
-
     rex_view::addJsFile(rex_url::coreAssets('session-timeout.js'), [rex_view::JS_IMMUTABLE => true]);
 
     $login = rex::getProperty('login');
