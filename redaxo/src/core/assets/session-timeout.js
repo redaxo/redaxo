@@ -3,7 +3,7 @@
 
     const createSessionTimeoutManager = function () {
 
-        let intervalCheckTime = 5;
+        let intervalCheckTime = 120;
         let sessionCheckInterval;
         let keepAliveTime;
         let warningTime;
