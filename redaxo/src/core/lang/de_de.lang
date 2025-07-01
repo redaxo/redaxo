@@ -288,7 +288,7 @@ https_only_backend = nur für Backend aktivieren
 https_activate = für Frontend und Backend aktivieren
 
 setup_password_hint = Zur Vergabe eines neuen Passwortes dieses eintragen. Sonst unverändert lassen.
-hsts_more_information = HSTS sollte in den Hosting-Einstellungen der Domain/s (empfohlen) aktiviert werden, kann aber auch in der config.yml von REDAXO nachträglich aktiviert werden. Weitere Informationen in der REDAXO-Doku.
+hsts_more_information = HSTS sollte in den Hosting-Einstellungen der Domain/s (empfohlen) aktiviert werden, kann aber auch in der config.yml von REDAXO nachträglich aktiviert werden. Weitere Informationen in der <a href="https://redaxo.org/doku/" target="_blank" rel="noopener noreferrer">REDAXO-Doku</a>.
 
 # src\core\pages\addon.php
 addon = AddOn
@@ -444,6 +444,14 @@ active_session = Aktive Sitzung
 confirm_remove_session = Sitzung wirklich beenden?
 session_removed = Sitzung wurde beendet
 session_remove_error = Sitzung konnte nicht beendet werden
+
+session_timeout_title = Meldung zur aktuellen Session
+session_timeout_message_expand = Die aktuelle Session läuft in {0} Minute(n) ab. Soll diese wieder auf eine Dauer von {1} Minuten gesetzt werden?
+session_timeout_message_expired = Die maximale Gesamtsessiondauer ist bald erreicht. Die Session läuft in {0} Minute(n) ab. Bitte die aktuellen Arbeiten sofort beenden.
+session_timeout_message_has_expired = Die Session ist abgelaufen. Bitte neu anmelden
+session_timeout_logout_label = Abmelden
+session_timeout_login_label = Erneut anmelden
+session_timeout_refresh_label = Session verlängern
 
 password_change_required = Das Passwort ist abgelaufen. Um fortzufahren, bitte ein neues Passwort angeben!
 password_not_changed = Das neue Passwort muss sich vom vorherigen unterscheiden!

@@ -1,6 +1,58 @@
 Changelog
 =========
 
+Version 5.18.3 – 04.03.2025
+---------------------------
+
+### Security
+
+* API-Functions: Bei Nutzung von `setRequiresReboot(true)` war über den Result-Parameter in der URL Cross-Site-Scripting möglich (gemeldet von @0xadik) (@gharlan)
+
+### Bugfixes
+
+* Console: Aufwärts-Kompatibilität zu neueren `symfony/console`-Versionen (@crydotsnake)
+* Text-Optimierungen (@alxndr-w, @crydotsnake)
+
+
+Version 5.18.2 – 10.02.2025
+---------------------------
+
+### Bugfixes
+
+* `rex_sql_could_not_connect_exception`: Es war nicht ersichtlich, für welche DB-Verbindung die Exception geworfen wurde (@danspringer)
+
+
+Version 5.18.1 – 06.12.2024
+---------------------------
+
+### Bugfixes
+
+* PHP 8.4: Deperecated-Notices entfernt (@gharlan)
+* Bei Login über Passkey wurde der "letzte Login" und andere Daten nicht aktualisiert (@gharlan)
+* Profil: Die Passwortänderung war nicht möglich bei Login über Passkey (@gharlan)
+* EOL-Daten für PHP/MariaDB aktualisiert (@staabm, @gharlan)
+
+
+Version 5.18.0 – 22.10.2024
+---------------------------
+
+### Neu
+
+* `dump`: Unterstützung für Labels (`dump(foo: $foo)`) (@gharlan)
+* `rex_package`: Neue Methode `getLicense` und ausgabe der Lizenz im Command `package:list` (@dergel)
+* `rex_var`-Klassen können über `register`-Methode explizit registriert werden (@gharlan)
+* Optimiertes Beenden der Response bei Nutzung von `RESPONSE_SHUTDOWN` (Code nach dem Senden der Response) (@gharlan)
+* Optimierung Fehlermeldungen (@tyrant88, @gharlan)
+* EOL-Daten für PHP/MySQL/MariaDB aktualisiert (@gharlan)
+
+### Bugfixes
+
+* Passkey-Login funktionierte nicht, wenn zuvor ein Benutzername im Feld eingegeben wurde (@gharlan)
+* Safari: Password-Toggle funktionierte nicht für generierte Passwörter (@gharlan)
+* `rex_string::highlight` und Highlighting in `rex_markdown` für PHP 8.3 korrigiert (@gharlan)
+* `E_STRICT`-Konstante nicht mehr nutzen (Vorbereitung für PHP 8.4) (@gharlan)
+
+
 Version 5.17.1 – 07.04.2024
 ---------------------------
 

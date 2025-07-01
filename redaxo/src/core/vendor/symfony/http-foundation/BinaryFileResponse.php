@@ -217,15 +217,19 @@ class BinaryFileResponse extends Response
             }
             if ('x-accel-redirect' === strtolower($type)) {
                 // Do X-Accel-Mapping substitutions.
-                // @link https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/#x-accel-redirect
-                $parts = HeaderUtils::split($request->headers->get('X-Accel-Mapping', ''), ',=');
+                // @link https://github.com/rack/rack/blob/main/lib/rack/sendfile.rb
+                // @link https://mattbrictson.com/blog/accelerated-rails-downloads
+                if (!$request->headers->has('X-Accel-Mapping')) {
+                    throw new \LogicException('The "X-Accel-Mapping" header must be set when "X-Sendfile-Type" is set to "X-Accel-Redirect".');
+                }
+                $parts = HeaderUtils::split($request->headers->get('X-Accel-Mapping'), ',=');
                 foreach ($parts as $part) {
                     [$pathPrefix, $location] = $part;
                     if (str_starts_with($path, $pathPrefix)) {
                         $path = $location.substr($path, \strlen($pathPrefix));
                         // Only set X-Accel-Redirect header if a valid URI can be produced
                         // as nginx does not serve arbitrary file paths.
-                        $this->headers->set($type, $path);
+                        $this->headers->set($type, rawurlencode($path));
                         $this->maxlen = 0;
                         break;
                     }

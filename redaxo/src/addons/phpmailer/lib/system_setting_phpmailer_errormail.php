@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class for errormail setting to show in settings.
  *

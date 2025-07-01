@@ -41,6 +41,6 @@ final class UnderscoreCamelCaseConflictingNameGuard
             $expectedNames[] = $expectedName;
         }
 
-        return $this->arrayFilter->filterWithAtLeastTwoOccurences($expectedNames);
+        return $this->arrayFilter->filterWithAtLeastTwoOccurrences($expectedNames);
     }
 }

@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 3.5.1 – 10.02.2025
+--------------------------
+
+* Update Font Awesome auf 6.7.2 (@alxndr-w)
+
+
+Version 3.5.0 – 22.10.2024
+--------------------------
+
+* Login-Seite: Neues Hintergrundbild (@dergel)
+* Update Font Awesome auf 6.5.2 (@madiko)
+* Neues Icon für Cronjob-Menüpunkt (@alxndr-w)
+
+
 Version 3.4.1 – 07.04.2024
 --------------------------
 

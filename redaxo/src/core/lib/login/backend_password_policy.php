@@ -73,7 +73,7 @@ class rex_backend_password_policy extends rex_password_policy
     {
         $class = static::getFactoryClass();
 
-        return new $class();
+        return new $class(); // @phpstan-ignore method.deprecated
     }
 
     public function check(#[SensitiveParameter] $password, $id = null)

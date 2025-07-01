@@ -8,6 +8,7 @@
 class rex_setup
 {
     // These values must be synchronized with the values in redaxo/src/core/update.php
+    /** @var string */
     public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
     public const MIN_PHP_EXTENSIONS = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
     public const MIN_MYSQL_VERSION = '5.6';
@@ -190,9 +191,10 @@ class rex_setup
 
         // Source: https://www.php.net/supported-versions.php, Security Support Until, set to 1st of month
         $deprecatedVersions = [
-            '8.1' => '2024-11-01',
-            '8.2' => '2025-12-01',
-            '8.3' => '2026-12-01',
+            '8.1' => '2025-12-01',
+            '8.2' => '2026-12-01',
+            '8.3' => '2027-12-01',
+            '8.4' => '2028-12-01',
         ];
 
         $versionNumber = rex_formatter::version(PHP_VERSION, '%s.%s');
@@ -238,6 +240,9 @@ class rex_setup
                 '11.0' => '2024-06-01',
                 '11.1' => '2024-08-01',
                 '11.2' => '2024-11-01',
+                '11.3' => '2024-05-01',
+                '11.4' => '2029-05-01', // LTS
+                '11.5' => '2024-11-01',
             ];
 
             $versionNumber = rex_formatter::version($dbVersion, '%s.%s');
@@ -257,6 +262,9 @@ class rex_setup
                 '8.1' => '2023-10-01',
                 '8.2' => '2024-01-01',
                 '8.3' => '2024-04-01',
+                '8.4' => '2032-04-01',
+                '9.0' => '2024-10-01',
+                '9.1' => '2025-01-01',
             ];
 
             $versionNumber = rex_formatter::version($dbVersion, '%s.%s');

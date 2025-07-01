@@ -28,9 +28,12 @@ class rex_article_service
             $data['priority'] = 1;
         }
 
-        // parent may be null, when adding in the root cat
-        $parent = rex_category::get($data['category_id']);
-        if ($parent) {
+        if ($data['category_id']) {
+            $parent = rex_category::get($data['category_id']);
+            if (!$parent) {
+                throw new rex_api_exception('Target category with ID "' . $data['category_id'] . '" does not exist.');
+            }
+
             $path = $parent->getPath();
             $path .= $parent->getId() . '|';
         } else {

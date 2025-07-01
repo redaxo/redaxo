@@ -1,6 +1,22 @@
 Changelog
 =========
 
+Version 2.17.1 – 04.03.2025
+---------------------------
+
+### Bugfixes
+
+* Beim Nutzen der Mediapool-Services im Frontend wurde der Media-Manager-Cache nicht gelöscht und der Verwendungscheck hat nicht gegriffen (@marcohanke)
+
+
+Version 2.17.0 – 22.10.2024
+---------------------------
+
+### Neu
+
+* Neuer EP `MEDIA_MANAGER_INIT`, der für jeden Aufruf getriggert wird (noch vor der Cache-Prüfung) (@gharlan)
+
+
 Version 2.16.0 – 12.03.2024
 ---------------------------
 

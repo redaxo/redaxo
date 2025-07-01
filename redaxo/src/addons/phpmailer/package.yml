@@ -1,5 +1,5 @@
 package: phpmailer
-version: '2.13.1'
+version: '2.14.2'
 author: 'Markus Staab, Thomas Skerbis, Jan Kristinus, Brent R. Matzelle'
 supportpage: https://github.com/redaxo/redaxo
 
@@ -11,7 +11,7 @@ page:
     subpages:
         config: { title: 'translate:configuration' }
         log: { title: 'translate:logging' }
-        help: { title: 'translate:help', subPath: README.md }
+        help: { title: 'translate:help', subPath: README.md, itemClass: 'pull-right' }
         checkmail: { title: 'translate:checkmail', hidden: true}
 
 pages:
@@ -29,6 +29,7 @@ default_config:
     fromname: 'Mailer'
     confirmto: ''
     bcc: ''
+    returnto: ''
     mailer: 'smtp'
     host: 'localhost'
     port: 587

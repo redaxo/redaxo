@@ -284,6 +284,9 @@ class rex_view
      * @throws InvalidArgumentException
      *
      * @return string
+     *
+     * @psalm-taint-sink html $head
+     * @psalm-taint-sink html $subtitle
      */
     public static function title($head, $subtitle = null)
     {

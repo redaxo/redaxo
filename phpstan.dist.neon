@@ -1,12 +1,14 @@
 includes:
-	- .tools/phpstan/baseline.neon
-	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - .tools/phpstan/baseline/_loader.php
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
     level: 6
     phpVersion: 80100 # PHP 8.1
     treatPhpDocTypesAsCertain: false
     editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+    featureToggles:
+        internalTag: false
     paths:
         # restrict to core and core addons, ignore other locally installed addons
         - redaxo/src/core
@@ -33,10 +35,10 @@ parameters:
     universalObjectCratesClasses:
         - rex_fragment
     symfony:
-        console_application_loader: .tools/phpstan/console.php
+        consoleApplicationLoader: .tools/phpstan/console.php
     ignoreErrors:
-        - '#Unsafe usage of new static\(\)\.#'
-        - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
+        - '#^Unsafe usage of new static\(\)#'
+        - '#^Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
         - '#^Offset .* on .* always exists#'
         -
             message: '#.*deprecated.*#'

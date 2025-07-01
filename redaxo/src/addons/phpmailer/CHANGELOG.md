@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.14.0 – 22.10.2024
+---------------------------
+
+### Neu
+
+* Optimierung Error-Mails (bessere Vermeidung von Mehrfachversand, `X-Mailer`-Header für Identifizierung) (@skerbis)
+* Neues Konfigurationsfeld für `Return-Path` (@tyrant88)
+* Hilfe-Menüpunkt nach rechts versetzt (@alxndr-w)
+
+
 Version 2.13.1 – 12.03.2024
 ---------------------------
 

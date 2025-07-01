@@ -9,6 +9,7 @@
 class rex_backend_login extends rex_login
 {
     public const SYSTEM_ID = 'backend_login';
+    public const SESSION_STAY_LOGGED_IN = 'stay_logged_in';
 
     private const SESSION_PASSWORD_CHANGE_REQUIRED = 'password_change_required';
 
@@ -110,6 +111,7 @@ class rex_backend_login extends rex_login
                 $this->setSessionVar(self::SESSION_PASSWORD, null);
                 $this->setSessionVar(self::SESSION_START_TIME, time());
                 $this->setSessionVar(self::SESSION_LAST_ACTIVITY, time());
+                $this->userLogin = null;
             } else {
                 $this->message = rex_i18n::msg('login_error');
                 $this->passkey = null;
@@ -128,8 +130,8 @@ class rex_backend_login extends rex_login
                     $add .= 'password = ?, ';
                     $params[] = $password = self::passwordHash($this->userPassword, true);
                 }
-                array_push($params, rex_sql::datetime(), rex_sql::datetime(), session_id(), $this->userLogin);
-                $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
+                array_push($params, rex_sql::datetime(), rex_sql::datetime(), session_id(), $this->getSessionVar(self::SESSION_USER_ID));
+                $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE id=? LIMIT 1', $params);
 
                 $this->setSessionVar(self::SESSION_PASSWORD, $password);
 
@@ -138,8 +140,10 @@ class rex_backend_login extends rex_login
                         $cookiekey = base64_encode(random_bytes(64));
                     }
                     self::setStayLoggedInCookie($cookiekey);
+                    $this->setSessionVar(self::SESSION_STAY_LOGGED_IN, true);
                 } else {
                     $cookiekey = null;
+                    $this->setSessionVar(self::SESSION_STAY_LOGGED_IN, false);
                 }
 
                 rex_user_session::getInstance()->storeCurrentSession($this, $cookiekey, $this->passkey);

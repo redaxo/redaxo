@@ -32,6 +32,7 @@ class rex_mailer extends PHPMailer
         $this->From = $addon->getConfig('from');
         $this->FromName = $addon->getConfig('fromname');
         $this->ConfirmReadingTo = $addon->getConfig('confirmto');
+        $this->Sender = $addon->getConfig('returnto');
         $this->Mailer = $addon->getConfig('mailer');
         $this->Host = $addon->getConfig('host');
         $this->Port = $addon->getConfig('port');
@@ -248,20 +249,19 @@ class rex_mailer extends PHPMailer
     {
         $addon = rex_addon::get('phpmailer');
         $logFile = rex_path::log('system.log');
-        $sendTime = $addon->getConfig('last_log_file_send_time', 0);
-        $lasterrors = $addon->getConfig('last_errors', '');
-        $currenterrors = '';
-        $timediff = time() - $sendTime;
+        $lastSendTime = (int) $addon->getConfig('last_log_file_send_time', 0);
+        $lastErrors = (string) $addon->getConfig('last_errors', '');
+        $currentErrors = '';
 
-        if ($timediff <= $addon->getConfig('errormail') || !filesize($logFile)) {
+        // Check if the log file has content
+        if (!filesize($logFile)) {
             return;
         }
 
         $file = rex_log_file::factory($logFile);
-
         $logevent = false;
 
-        // Start - generate mailbody
+        // Start - generate mail body
         $mailBody = '<h2>Error protocol for: ' . rex::getServerName() . '</h2>';
         $mailBody .= '<style nonce="' . rex_response::getNonce() . '"> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
         $mailBody .= '<table>';
@@ -277,8 +277,11 @@ class rex_mailer extends PHPMailer
         $mailBody .= '    </thead>';
         $mailBody .= '    <tbody>';
 
+        $errorCount = 0;
+        $maxErrors = 30; // Maximum number of errors to process
+
         /** @var rex_log_entry $entry */
-        foreach (new LimitIterator($file, 0, 30) as $entry) {
+        foreach (new LimitIterator($file, 0, $maxErrors) as $entry) {
             $data = $entry->getData();
             $time = rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]);
             $type = $data[0];
@@ -288,24 +291,11 @@ class rex_mailer extends PHPMailer
             $url = $data[4] ?? '';
 
             $style = '';
-            $logtypes = [
-                'error',
-                'exception',
-            ];
-
-            foreach ($logtypes as $logtype) {
-                if (false !== stripos($type, $logtype)) {
-                    $logevent = true;
-                    $style = ' class="errorbg"';
-                    $currenterrors .= $entry->getTimestamp() . ' ';
-                    break;
-                }
-            }
-
-            if ('logevent' == $type) {
-                $style = ' class="eventbg"';
+            if (false !== stripos($type, 'error') || false !== stripos($type, 'exception') || 'logevent' === $type) {
+                $style = ' class="' . (('logevent' === $type) ? 'eventbg' : 'errorbg') . '"';
                 $logevent = true;
-                $currenterrors .= $entry->getTimestamp() . ' ';
+                $currentErrors .= $entry->getTimestamp() . $type . $message;
+                ++$errorCount;
             }
 
             $mailBody .= '        <tr' . $style . '>';
@@ -316,29 +306,46 @@ class rex_mailer extends PHPMailer
             $mailBody .= '            <td>' . $line . '</td>';
             $mailBody .= '            <td>' . $url . '</td>';
             $mailBody .= '        </tr>';
-        }
 
-        // check if logevent occured then send mail
-        if (!$logevent) {
-            return;
-        }
-
-        if ($lasterrors === $currenterrors || '' == $currenterrors) {
-            return;
+            if ($errorCount >= $maxErrors) {
+                break;
+            }
         }
 
         $mailBody .= '    </tbody>';
         $mailBody .= '</table>';
-        // End - generate mailbody
 
+        // If no errors were found, terminate
+        if (!$logevent) {
+            return;
+        }
+
+        // Create hash of current errors
+        $currentErrorsHash = md5($currentErrors);
+
+        // Combine time-based and content-based checks
+        $timeSinceLastSend = time() - $lastSendTime;
+        $errorMailInterval = (int) $addon->getConfig('errormail');
+
+        if ($timeSinceLastSend < $errorMailInterval && $currentErrorsHash === $lastErrors) {
+            return;
+        }
+
+        // Send email
         $mail = new self();
-        $mail->Subject = rex::getServerName() . ' - error report ';
+        $mail->Subject = rex::getServerName() . ' - Error Report';
         $mail->Body = $mailBody;
         $mail->AltBody = strip_tags($mailBody);
-        $mail->FromName = 'REDAXO error report';
+        $mail->FromName = 'REDAXO Error Report';
         $mail->addAddress(rex::getErrorEmail());
-        $addon->setConfig('last_errors', $currenterrors);
-        $addon->setConfig('last_log_file_send_time', time());
-        $mail->Send();
+
+        // Set X-Mailer header for ErrorMails
+        $mail->XMailer = 'REDAXO/' . rex::getVersion() . ' ErrorMailer';
+
+        if ($mail->Send()) {
+            // Update configuration only if email was sent successfully
+            $addon->setConfig('last_errors', $currentErrorsHash);
+            $addon->setConfig('last_log_file_send_time', time());
+        }
     }
 }

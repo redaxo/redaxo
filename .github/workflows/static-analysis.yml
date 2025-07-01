@@ -55,7 +55,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.3'
+                    php-version: '8.4'
                     extensions: gd, intl, imagick
                     coverage: none # disable xdebug, pcov
 
@@ -125,7 +125,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.3'
+                    php-version: '8.4'
                     extensions: gd, intl, imagick
                     coverage: none # disable xdebug, pcov
 
@@ -189,7 +189,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.3'
+                    php-version: '8.4'
                     extensions: gd, intl, imagick, pdo_mysql
                     coverage: none # disable xdebug, pcov
 
@@ -213,7 +213,7 @@ jobs:
                 id: baseline
                 run: |
                     composer phpstan:baseline
-                    git diff --exit-code .tools/phpstan/baseline.neon || (echo "::error file=.tools/phpstan/baseline.neon,line=1,col=1::PHPStan baseline file is outdated and must be regenerated via \`composer phpstan:baseline\`." && exit 1)
+                    git diff --exit-code .tools/phpstan/baseline || (echo "::error file=.tools/phpstan/baseline/_loader.php,line=1,col=1::PHPStan baseline files are outdated and must be regenerated via \`composer phpstan:baseline\`." && exit 1)
 
             -   name: Git pull
                 if: failure() && steps.baseline.conclusion != 'skipped' && github.event_name == 'repository_dispatch'
@@ -226,4 +226,4 @@ jobs:
                     commit_message: Update phpstan baseline
                     commit_user_name: rex-bot
                     commit_user_email: rex-bot@users.noreply.github.com
-                    file_pattern: .tools/phpstan/baseline.neon
+                    file_pattern: .tools/phpstan/baseline/*.php
