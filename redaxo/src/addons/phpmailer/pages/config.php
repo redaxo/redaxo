@@ -228,8 +228,8 @@ $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
 $content .= '</fieldset>';
-$content .= '<fieldset id="microsoftsettings"><legend>' . $addon->i18n('microsoft_options') . '</legend>';
-
+$content .= '<fieldset id="microsoftsettings" data-toggle="tooltip" title="' . $addon->i18n('phpmailer_microsoft365_info') . '"><legend>' . $addon->i18n('microsoft_options') . ' <i class="rex-icon fa-question-circle"></i></legend>';
+$n['label'] = '<label data-toggle="tooltip" title="' . $addon->i18n('security_mode_help') . '" for="security_mode">' . rex_escape($addon->i18n('security_mode')) . ' <i class="rex-icon fa-question-circle"></i></label>';
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-msgraph_client_id">' . $addon->i18n('msgraph_client_id') . '</label>';
