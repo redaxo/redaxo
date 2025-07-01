@@ -15,6 +15,10 @@ class rex_mailer extends PHPMailer
     public const LOG_ERRORS = 1;
     public const LOG_ALL = 2;
 
+    public string $GraphClientId = '';
+    public string $GraphClientSecret = '';
+    public string $GraphTenantId = '';
+
     /** @var bool */
     private $archive;
 
@@ -50,6 +54,11 @@ class rex_mailer extends PHPMailer
         $this->SMTPAutoTLS = $addon->getConfig('security_mode');
         $this->Username = $addon->getConfig('username');
         $this->Password = $addon->getConfig('password');
+
+        $this->GraphClientId = $addon->getConfig('msgraph_client_id') ?? '';
+        $this->GraphClientSecret = $addon->getConfig('msgraph_client_secret') ?? '';
+        $this->GraphTenantId = $addon->getConfig('msgraph_tenant_id') ?? '';
+
 
         if ($bcc = $addon->getConfig('bcc')) {
             $this->addBCC($bcc);
@@ -347,5 +356,135 @@ class rex_mailer extends PHPMailer
             $addon->setConfig('last_errors', $currentErrorsHash);
             $addon->setConfig('last_log_file_send_time', time());
         }
+    }
+
+
+    public function microsoft365Send(): bool
+    {
+        $from = $this->From;
+        $to = array_map(function($addr) { return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']]; }, $this->getToAddresses());
+        $subject = $this->Subject;
+
+        // Korrektes Mapping: contentType klein schreiben!
+        // Body-Type für Graph-API anhand von AltBody bestimmen
+        if (!empty($this->AltBody)) {
+            $body = ['contentType' => 'html', 'content' => $this->Body];
+        } else {
+            $body = ['contentType' => 'text', 'content' => $this->Body];
+        }
+
+        // CC/BCC für Graph API aufbereiten
+        $cc = array_map(function($addr) { return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']]; }, $this->getCcAddresses() ?: []);
+        $bcc = array_map(function($addr) { return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']]; }, $this->getBccAddresses() ?: []);
+
+        // Reply-To-Adressen für Graph API aufbereiten (nur gültige, nicht-leere Adressen, KEIN leeres Array setzen)
+        $replyToAddresses = array_filter($this->getReplyToAddresses(), function($addr) {
+            return !empty($addr[0]) && filter_var($addr[0], FILTER_VALIDATE_EMAIL);
+        });
+        $replyTo = null;
+        if (count($replyToAddresses) > 0) {
+            $replyTo = [];
+            foreach ($replyToAddresses as $addr) {
+                $entry = ['emailAddress' => ['address' => $addr[0]]];
+                if (isset($addr[1]) && trim($addr[1]) !== '') {
+                    $entry['emailAddress']['name'] = $addr[1];
+                }
+                $replyTo[] = $entry;
+            }
+        }
+
+        // Attachments für Graph API aufbereiten
+        $attachments = [];
+        foreach ($this->getAttachments() as $att) {
+            $file = $att[0];
+            $name = $att[2] ?: basename($file);
+            $encoding = $att[3] ?: 'base64';
+            $type = $att[4] ?: 'application/octet-stream';
+            $isString = $att[6] ?? false;
+            $content = $isString ? $file : (is_readable($file) ? file_get_contents($file) : null);
+            if ($content !== null) {
+                $attachments[] = [
+                    '@odata.type' => '#microsoft.graph.fileAttachment',
+                    'name' => $name,
+                    'contentType' => $type,
+                    'contentBytes' => base64_encode($content),
+                ];
+            }
+        }
+
+        // ensure valid access token
+        $token = json_decode(rex_config::get('phpmailer', 'msgraph_token', ''));
+        if (!$token || $token['expires'] < time()) {
+
+            // Token abgelaufen oder nicht vorhanden, neues Token holen
+            $tokenUrl = "https://login.microsoftonline.com/$this->GraphTenantId/oauth2/v2.0/token";
+            $tokenSocket = rex_socket::factoryUrl($tokenUrl);
+            $tokenSocket->addHeader('Content-Type', 'application/x-www-form-urlencoded');
+            $tokenData = [
+                'client_id' => $this->GraphClientId,
+                'scope' => 'https://graph.microsoft.com/.default',
+                'client_secret' => $this->GraphClientSecret,
+                'grant_type' => 'client_credentials',
+            ];
+
+            try {
+                $tokenResponse = $tokenSocket->doPost($tokenData);
+                $token = json_decode($tokenResponse->getBody(), true);
+                $token['expires'] = time() + ($token['expires_in'] ?? 3600);
+
+                $accessToken = $token['access_token'] ?? null;
+                if (!$accessToken) throw new \Exception(rex_i18n::msg('phpmailer_msgraph_no_token'));
+
+                rex_config::set('phpmailer', 'msgraph_token', json_encode($token));
+
+            } catch (\Exception $e) {
+                $this->setError(rex_i18n::msg('phpmailer_msgraph_auth_error') . $e->getMessage());
+                $accessToken = null;
+                rex_config::set('phpmailer', 'msgraph_token', null);
+            }
+
+        }
+
+        // Mail senden via rex_socket
+        $mailUrl = "https://graph.microsoft.com/v1.0/users/$from/sendMail";
+        $mailSocket = rex_socket::factoryUrl($mailUrl);
+        $mailSocket->addHeader('Authorization', 'Bearer ' . $accessToken);
+        $mailSocket->addHeader('Content-Type', 'application/json');
+        $mailData = [
+            'message' => [
+                'subject' => $subject,
+                'body' => $body,
+                'toRecipients' => $to,
+                'from' => ['emailAddress' => ['address' => $from]],
+            ],
+            'saveToSentItems' => true,
+        ];
+        if (!empty($cc)) {
+            $mailData['message']['ccRecipients'] = $cc;
+        }
+        if (!empty($bcc)) {
+            $mailData['message']['bccRecipients'] = $bcc;
+        }
+        if (is_array($replyTo) && count($replyTo) > 0) {
+            $mailData['message']['replyTo'] = $replyTo;
+        }
+        if (!empty($attachments)) {
+            $mailData['message']['attachments'] = $attachments;
+        }
+
+        // Debug: JSON-Body loggen ins REDAXO-Addon-Data-Verzeichnis
+        $debugPath = rex_path::addonData('phpmailer', 'graph_mail_debug.json');
+        rex_file::put($debugPath, json_encode($mailData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        try {
+            $mailResponse = $mailSocket->doPost(json_encode($mailData));
+            if ($mailResponse->getStatusCode() >= 400) {
+                $this->setError(rex_i18n::msg('phpmailer_msgraph_api_error') . $mailResponse->getBody());
+                return false;
+            }
+        } catch (\Exception $e) {
+            $this->setError(rex_i18n::msg('phpmailer_msgraph_send_error') . $e->getMessage());
+            return false;
+        }
+        return true;
     }
 }

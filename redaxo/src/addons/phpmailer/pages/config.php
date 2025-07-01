@@ -29,6 +29,9 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
         ['charset', 'string'],
         ['wordwrap', 'int'],
         ['encoding', 'string'],
+        ['msgraph_client_id', 'string'],
+        ['msgraph_client_secret', 'string'],
+        ['msgraph_tenant_id', 'string'],
         ['username', 'string'],
         ['password', 'string'],
         ['smtpsecure', 'string'],
@@ -73,6 +76,7 @@ if (function_exists('mail')) {
 }
 $mta[] = 'smtp';
 $mta[] = 'sendmail';
+$mta[] = 'microsoft365';
 foreach ($mta as $type) {
     $selMailer->addOption($type, $type);
 }
@@ -224,7 +228,31 @@ $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
 $content .= '</fieldset>';
+$content .= '<fieldset id="microsoftsettings"><legend>' . $addon->i18n('microsoft_options') . '</legend>';
+
+$formElements = [];
+$n = [];
+$n['label'] = '<label for="phpmailer-msgraph_client_id">' . $addon->i18n('msgraph_client_id') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-msgraph_client_id" type="text" name="settings[msgraph_client_id]" value="' . rex_escape($addon->getConfig('msgraph_client_id')) . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-msgraph_client_secret">' . $addon->i18n('msgraph_client_secret') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-msgraph_client_secret" type="text" name="settings[msgraph_client_secret]" value="' . rex_escape($addon->getConfig('msgraph_client_secret')) . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-msgraph_tenant_id">' . $addon->i18n('msgraph_tenant_id') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-msgraph_tenant_id" type="text" name="settings[msgraph_tenant_id]" value="' . rex_escape($addon->getConfig('msgraph_tenant_id')) . '" />';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+
+$content .= '</fieldset>';
 $content .= '<fieldset id="smtpsettings"><legend>' . $addon->i18n('smtp_options') . '</legend>';
+
 
 $formElements = [];
 $n = [];
@@ -378,11 +406,14 @@ echo '
     $('#smtpsettings').toggle(
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );
-     $('#securetype').toggle(
+    $('#microsoftsettings').toggle(
+        $('#phpmailer-mailer').find("option[value='microsoft365']").is(":checked")
+    );
+    $('#securetype').toggle(
         $('#security_mode').find("option[value='0']").is(":checked")
     );
 
-     $('#smtpauthlogin').toggle(
+    $('#smtpauthlogin').toggle(
         $('#phpmailer-smtpauth').find("option[value='1']").is(":checked")
     );
 
@@ -391,6 +422,14 @@ echo '
             $('#smtpsettings').slideDown();
         } else {
             $('#smtpsettings').slideUp();
+        }
+    });
+
+    $('#phpmailer-mailer').change(function(){
+        if ($(this).val() == 'microsoft365') {
+            $('#microsoftsettings').slideDown();
+        } else {
+            $('#microsoftsettings').slideUp();
         }
     });
 
