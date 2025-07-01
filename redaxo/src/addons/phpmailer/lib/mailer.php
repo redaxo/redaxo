@@ -413,8 +413,9 @@ class rex_mailer extends PHPMailer
         }
 
         // ensure valid access token
-        $token = json_decode(rex_config::get('phpmailer', 'msgraph_token', ''));
-        if (!$token || $token['expires'] < time()) {
+        $token = json_decode(rex_config::get('phpmailer', 'msgraph_token', '{}'), true);
+        $accessToken = $token['access_token'] ?? null;
+        if (!isset($accessToken) || $token['expires'] < time()) {
 
             // Token abgelaufen oder nicht vorhanden, neues Token holen
             $tokenUrl = "https://login.microsoftonline.com/$this->GraphTenantId/oauth2/v2.0/token";
