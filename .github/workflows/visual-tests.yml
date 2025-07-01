@@ -141,7 +141,7 @@ jobs:
                     git diff --exit-code --name-only .github/tests-visual/
 
             -   name: Commit changed files
-                uses: stefanzweifel/git-auto-commit-action@v5
+                uses: stefanzweifel/git-auto-commit-action@v6
                 if: failure() && env.writable == 1
                 with:
                     commit_message: Update screenshots
