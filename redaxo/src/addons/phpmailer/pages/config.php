@@ -50,6 +50,15 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
         echo rex_view::warning($warning);
     }
 
+    // Reset the token if the Microsoft 365 settings have changed
+    if ($addon->getConfig('msgraph_client_id') != '' &&
+        $settings['msgraph_client_id'] . $settings['msgraph_client_secret'] . $settings['msgraph_tenant_id'] !=
+        $addon->getConfig('msgraph_client_id') . $addon->getConfig('msgraph_client_secret') . $addon->getConfig('msgraph_tenant_id')) {
+
+        $addon->setConfig('msgraph_token', '');
+        echo rex_view::success($addon->i18n('phpmailer_msgraph_token_deleted'));
+    }
+
     $addon->setConfig($settings);
 
     if ('' != rex_post('btn_check', 'string')) {
@@ -226,11 +235,16 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
+$formElements = [];
 
 $content .= '</fieldset>';
 $content .= '<fieldset id="microsoftsettings" data-toggle="tooltip" title="' . $addon->i18n('phpmailer_microsoft365_info') . '"><legend>' . $addon->i18n('microsoft_options') . ' <i class="rex-icon fa-question-circle"></i></legend>';
-$n['label'] = '<label data-toggle="tooltip" title="' . $addon->i18n('security_mode_help') . '" for="security_mode">' . rex_escape($addon->i18n('security_mode')) . ' <i class="rex-icon fa-question-circle"></i></label>';
-$formElements = [];
+
+$n = [];
+$n['label'] = '<label for="phpmailer-msgraph_tenant_id">' . $addon->i18n('msgraph_tenant_id') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-msgraph_tenant_id" type="text" name="settings[msgraph_tenant_id]" value="' . rex_escape($addon->getConfig('msgraph_tenant_id')) . '" />';
+$formElements[] = $n;
+
 $n = [];
 $n['label'] = '<label for="phpmailer-msgraph_client_id">' . $addon->i18n('msgraph_client_id') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-msgraph_client_id" type="text" name="settings[msgraph_client_id]" value="' . rex_escape($addon->getConfig('msgraph_client_id')) . '" />';
@@ -241,10 +255,6 @@ $n['label'] = '<label for="phpmailer-msgraph_client_secret">' . $addon->i18n('ms
 $n['field'] = '<input class="form-control" id="phpmailer-msgraph_client_secret" type="text" name="settings[msgraph_client_secret]" value="' . rex_escape($addon->getConfig('msgraph_client_secret')) . '" />';
 $formElements[] = $n;
 
-$n = [];
-$n['label'] = '<label for="phpmailer-msgraph_tenant_id">' . $addon->i18n('msgraph_tenant_id') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-msgraph_tenant_id" type="text" name="settings[msgraph_tenant_id]" value="' . rex_escape($addon->getConfig('msgraph_tenant_id')) . '" />';
-$formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
@@ -252,7 +262,6 @@ $content .= $fragment->parse('core/form/form.php');
 
 $content .= '</fieldset>';
 $content .= '<fieldset id="smtpsettings"><legend>' . $addon->i18n('smtp_options') . '</legend>';
-
 
 $formElements = [];
 $n = [];
