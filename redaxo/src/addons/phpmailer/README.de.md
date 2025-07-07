@@ -26,7 +26,7 @@ Das PHPMailer-AddOn unterstützt den Versand von E-Mails über die Microsoft Gra
 Im Microsoft Backend muss in der Anwendung MS Entra eine App angelegt werden. Dadurch entsteht eine Client-ID, die im PHPMailer-AddOn - genauso wie die Mandanten-Id (Tenant ID) hinterlegt werden muss.
 Für die App muss außerdem ein geheimes Client-Passwort generiert werden ("Geheimnis anlgen"), das ebenfalls im PHPMailer-AddOn hinterlegt werden muss.
 
-Die App muss die Amwendungs-Berechtigung (nicht "delegate-Berechtigung") `Mail.Send` besitzen.
+Die App muss die Anwendungs-Berechtigung (nicht "delegate-Berechtigung") `Mail.Send` besitzen.
 Die Berechtigung muss dann noch im Microsoft Backend genehmigt werden.
 
 ## PHPMailer Code-Beispiele
