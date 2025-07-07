@@ -473,18 +473,20 @@ class rex_mailer extends PHPMailer
             $mailData['message']['attachments'] = $attachments;
         }
 
-        // Debug: JSON-Body loggen ins REDAXO-Addon-Data-Verzeichnis
-        $debugPath = rex_path::addonData('phpmailer', 'graph_mail_debug.json');
-        rex_file::put($debugPath, json_encode($mailData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-        try {
-            $mailResponse = $mailSocket->doPost(json_encode($mailData));
-            if ($mailResponse->getStatusCode() >= 400) {
-                $this->setError(rex_i18n::msg('phpmailer_msgraph_api_error') . $mailResponse->getBody());
+        if (rex::isDebugMode()) {
+            // Debug: JSON-Body loggen ins REDAXO-Addon-Data-Verzeichnis
+            $debugPath = rex_path::addonData('phpmailer', 'graph_mail_debug.json');
+            rex_file::put($debugPath, json_encode($mailData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            try {
+                $mailResponse = $mailSocket->doPost(json_encode($mailData));
+                if ($mailResponse->getStatusCode() >= 400) {
+                    $this->setError(rex_i18n::msg('phpmailer_msgraph_api_error') . $mailResponse->getBody());
+                    return false;
+                }
+            } catch (\Exception $e) {
+                $this->setError(rex_i18n::msg('phpmailer_msgraph_send_error') . $e->getMessage());
                 return false;
             }
-        } catch (\Exception $e) {
-            $this->setError(rex_i18n::msg('phpmailer_msgraph_send_error') . $e->getMessage());
-            return false;
         }
         return true;
     }
