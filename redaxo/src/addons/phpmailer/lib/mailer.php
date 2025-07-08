@@ -362,7 +362,9 @@ class rex_mailer extends PHPMailer
     public function microsoft365Send(): bool
     {
         $from = $this->From;
-        $to = array_map(function($addr) { return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']]; }, $this->getToAddresses());
+        $to = array_map(function ($addr) {
+            return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']];
+        }, $this->getToAddresses());
         $subject = $this->Subject;
 
         // Korrektes Mapping: contentType klein schreiben!
@@ -374,11 +376,15 @@ class rex_mailer extends PHPMailer
         }
 
         // CC/BCC für Graph API aufbereiten
-        $cc = array_map(function($addr) { return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']]; }, $this->getCcAddresses() ?: []);
-        $bcc = array_map(function($addr) { return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']]; }, $this->getBccAddresses() ?: []);
+        $cc = array_map(function ($addr) {
+            return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']];
+        }, $this->getCcAddresses() ?: []);
+        $bcc = array_map(function ($addr) {
+            return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']];
+        }, $this->getBccAddresses() ?: []);
 
         // Reply-To-Adressen für Graph API aufbereiten (nur gültige, nicht-leere Adressen, KEIN leeres Array setzen)
-        $replyToAddresses = array_filter($this->getReplyToAddresses(), function($addr) {
+        $replyToAddresses = array_filter($this->getReplyToAddresses(), function ($addr) {
             return !empty($addr[0]) && filter_var($addr[0], FILTER_VALIDATE_EMAIL);
         });
         $replyTo = null;
@@ -416,7 +422,6 @@ class rex_mailer extends PHPMailer
         $token = json_decode(rex_config::get('phpmailer', 'msgraph_token', '{}'), true);
         $accessToken = $token['access_token'] ?? null;
         if (!isset($accessToken) || $token['expires'] - 300 < time()) {
-
             // Token abgelaufen oder nicht vorhanden, neues Token holen
             $tokenUrl = "https://login.microsoftonline.com/$this->GraphTenantId/oauth2/v2.0/token";
             $tokenSocket = rex_socket::factoryUrl($tokenUrl);
@@ -434,16 +439,16 @@ class rex_mailer extends PHPMailer
                 $token['expires'] = time() + ($token['expires_in'] ?? 3600);
 
                 $accessToken = $token['access_token'] ?? null;
-                if (!$accessToken) throw new \Exception(rex_i18n::msg('phpmailer_msgraph_no_token'));
+                if (!$accessToken) {
+                    throw new \Exception(rex_i18n::msg('phpmailer_msgraph_no_token'));
+                }
 
                 rex_config::set('phpmailer', 'msgraph_token', json_encode($token));
-
             } catch (\Exception $e) {
                 $this->setError(rex_i18n::msg('phpmailer_msgraph_auth_error') . $e->getMessage());
                 $accessToken = null;
                 rex_config::set('phpmailer', 'msgraph_token', null);
             }
-
         }
 
         // Mail senden via rex_socket
@@ -477,17 +482,18 @@ class rex_mailer extends PHPMailer
             // Debug: JSON-Body loggen ins REDAXO-Addon-Data-Verzeichnis
             $debugPath = rex_path::addonData('phpmailer', 'graph_mail_debug.json');
             rex_file::put($debugPath, json_encode($mailData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-            try {
-                $mailResponse = $mailSocket->doPost(json_encode($mailData));
-                if ($mailResponse->getStatusCode() >= 400) {
-                    $this->setError(rex_i18n::msg('phpmailer_msgraph_api_error') . $mailResponse->getBody());
-                    return false;
-                }
-            } catch (\Exception $e) {
-                $this->setError(rex_i18n::msg('phpmailer_msgraph_send_error') . $e->getMessage());
+        }
+        try {
+            $mailResponse = $mailSocket->doPost(json_encode($mailData));
+            if ($mailResponse->getStatusCode() >= 400) {
+                $this->setError(rex_i18n::msg('phpmailer_msgraph_api_error') . $mailResponse->getBody());
                 return false;
             }
+        } catch (\Exception $e) {
+            $this->setError(rex_i18n::msg('phpmailer_msgraph_send_error') . $e->getMessage());
+            return false;
         }
+
         return true;
     }
 }
