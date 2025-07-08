@@ -440,11 +440,11 @@ class rex_mailer extends PHPMailer
 
                 $accessToken = $token['access_token'] ?? null;
                 if (!$accessToken) {
-                    throw new \Exception(rex_i18n::msg('phpmailer_msgraph_no_token'));
+                    throw new Exception(rex_i18n::msg('phpmailer_msgraph_no_token'));
                 }
 
                 rex_config::set('phpmailer', 'msgraph_token', json_encode($token));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->setError(rex_i18n::msg('phpmailer_msgraph_auth_error') . $e->getMessage());
                 $accessToken = null;
                 rex_config::set('phpmailer', 'msgraph_token', null);
@@ -489,7 +489,7 @@ class rex_mailer extends PHPMailer
                 $this->setError(rex_i18n::msg('phpmailer_msgraph_api_error') . $mailResponse->getBody());
                 return false;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->setError(rex_i18n::msg('phpmailer_msgraph_send_error') . $e->getMessage());
             return false;
         }
