@@ -15,9 +15,9 @@ class rex_mailer extends PHPMailer
     public const LOG_ERRORS = 1;
     public const LOG_ALL = 2;
 
-    public string $GraphClientId = '';
-    public string $GraphClientSecret = '';
-    public string $GraphTenantId = '';
+    public string $graphClientId;
+    public string $graphClientSecret;
+    public string $graphTenantId;
 
     /** @var bool */
     private $archive;
@@ -55,9 +55,9 @@ class rex_mailer extends PHPMailer
         $this->Username = $addon->getConfig('username');
         $this->Password = $addon->getConfig('password');
 
-        $this->GraphClientId = $addon->getConfig('msgraph_client_id') ?? '';
-        $this->GraphClientSecret = $addon->getConfig('msgraph_client_secret') ?? '';
-        $this->GraphTenantId = $addon->getConfig('msgraph_tenant_id') ?? '';
+        $this->graphClientId = $addon->getConfig('msgraph_client_id') ?? '';
+        $this->graphClientSecret = $addon->getConfig('msgraph_client_secret') ?? '';
+        $this->graphTenantId = $addon->getConfig('msgraph_tenant_id') ?? '';
 
 
         if ($bcc = $addon->getConfig('bcc')) {
@@ -359,7 +359,7 @@ class rex_mailer extends PHPMailer
     }
 
 
-    public function microsoft365Send(): bool
+    protected function microsoft365Send(): bool
     {
         $from = $this->From;
         $to = array_map(function ($addr) {
@@ -419,17 +419,17 @@ class rex_mailer extends PHPMailer
         }
 
         // ensure valid access token
-        $token = json_decode(rex_config::get('phpmailer', 'msgraph_token', '{}'), true);
+        $token = rex_config::get('phpmailer', 'msgraph_token', '{}');
         $accessToken = $token['access_token'] ?? null;
         if (!isset($accessToken) || $token['expires'] - 300 < time()) {
             // Token abgelaufen oder nicht vorhanden, neues Token holen
-            $tokenUrl = "https://login.microsoftonline.com/$this->GraphTenantId/oauth2/v2.0/token";
+            $tokenUrl = "https://login.microsoftonline.com/$this->graphTenantId/oauth2/v2.0/token";
             $tokenSocket = rex_socket::factoryUrl($tokenUrl);
             $tokenSocket->addHeader('Content-Type', 'application/x-www-form-urlencoded');
             $tokenData = [
-                'client_id' => $this->GraphClientId,
+                'client_id' => $this->graphClientId,
                 'scope' => 'https://graph.microsoft.com/.default',
-                'client_secret' => $this->GraphClientSecret,
+                'client_secret' => $this->graphClientSecret,
                 'grant_type' => 'client_credentials',
             ];
 
@@ -443,7 +443,7 @@ class rex_mailer extends PHPMailer
                     throw new Exception(rex_i18n::msg('phpmailer_msgraph_no_token'));
                 }
 
-                rex_config::set('phpmailer', 'msgraph_token', json_encode($token));
+                rex_config::set('phpmailer', 'msgraph_token', $token);
             } catch (Exception $e) {
                 $this->setError(rex_i18n::msg('phpmailer_msgraph_auth_error') . $e->getMessage());
                 $accessToken = null;
