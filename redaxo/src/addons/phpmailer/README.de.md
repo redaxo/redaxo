@@ -29,6 +29,8 @@ Für die App muss außerdem ein geheimes Client-Passwort generiert werden ("Gehe
 Die App muss die Anwendungs-Berechtigung (nicht "delegate-Berechtigung") `Mail.Send` besitzen.
 Die Berechtigung muss dann noch im Microsoft Backend genehmigt werden.
 
+Hinweis: Die Microsoft Graph API unterstützt nicht den Versand von Lesebestätigungen an beliebige E-Mail-Adressen. Sie werden immer an die E-Mail-Adresse des Absenders gesendet.
+
 ## PHPMailer Code-Beispiele
 
 
