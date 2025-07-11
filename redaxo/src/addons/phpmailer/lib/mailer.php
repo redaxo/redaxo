@@ -361,7 +361,7 @@ class rex_mailer extends PHPMailer
 
     protected function microsoft365Send(): bool
     {
-        $from = $this->From;
+        $from = '' === $this->Sender ? $this->From : $this->Sender;
         $to = array_map(function ($addr) {
             return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']];
         }, $this->getToAddresses());
@@ -487,6 +487,10 @@ class rex_mailer extends PHPMailer
         }
         if (!empty($customHeaders)) {
             $mailData['message']['internetMessageHeaders'] = $customHeaders;
+        }
+        if ('' !== $this->ConfirmReadingTo) {
+            // MS Graph API unterstützt keine Read-Receipts an beliebige Empfänger
+            $mailData['message']['isReadReceiptRequested'] = true;
         }
 
         if (rex::isDebugMode()) {
