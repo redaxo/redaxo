@@ -399,6 +399,14 @@ class rex_mailer extends PHPMailer
             }
         }
 
+        $customHeaders = [];
+        foreach ($this->getCustomHeaders() as $header) {
+            $customHeaders[] = [
+                "name" => $header[0],
+                "value" => $this->encodeHeader(trim($header[1]))
+                ];
+        }
+
         // Attachments für Graph API aufbereiten
         $attachments = [];
         foreach ($this->getAttachments() as $att) {
@@ -476,6 +484,9 @@ class rex_mailer extends PHPMailer
         }
         if (!empty($attachments)) {
             $mailData['message']['attachments'] = $attachments;
+        }
+        if (!empty($customHeaders)) {
+            $mailData['message']['internetMessageHeaders'] = $customHeaders;
         }
 
         if (rex::isDebugMode()) {
