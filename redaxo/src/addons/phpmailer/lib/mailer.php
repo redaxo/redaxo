@@ -368,7 +368,7 @@ class rex_mailer extends PHPMailer
         $subject = $this->Subject;
 
         // Korrektes Mapping: contentType klein schreiben!
-        // Body-Type für Graph-API anhand von isHTML() bestimmen
+        // Body-Type für Graph-API anhand von bereits gesetztem contentType bestimmen
         if (static::CONTENT_TYPE_PLAINTEXT !== $this->ContentType) {
             $body = ['contentType' => 'html', 'content' => $this->Body];
         } else {
