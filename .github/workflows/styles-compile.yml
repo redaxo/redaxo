@@ -52,7 +52,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.3
+                    php-version: 8.4
                     extensions: pdo_mysql
                     coverage: none # disable xdebug, pcov
                     tools: cs2pr
@@ -69,7 +69,7 @@ jobs:
                 run: php redaxo/bin/console be_style:compile --ansi -v
 
             -   name: Commit changed files
-                uses: stefanzweifel/git-auto-commit-action@v5
+                uses: stefanzweifel/git-auto-commit-action@v6
                 if: env.writable == 1
                 with:
                     commit_message: Apply be_style:compile
