@@ -59,7 +59,6 @@ class rex_mailer extends PHPMailer
         $this->graphClientSecret = $addon->getConfig('msgraph_client_secret') ?? '';
         $this->graphTenantId = $addon->getConfig('msgraph_tenant_id') ?? '';
 
-
         if ($bcc = $addon->getConfig('bcc')) {
             $this->addBCC($bcc);
         }
@@ -358,11 +357,10 @@ class rex_mailer extends PHPMailer
         }
     }
 
-
     protected function microsoft365Send(): bool
     {
         $from = '' === $this->Sender ? $this->From : $this->Sender;
-        $to = array_map(function ($addr) {
+        $to = array_map(static function ($addr) {
             return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']];
         }, $this->getToAddresses());
         $subject = $this->Subject;
@@ -376,15 +374,15 @@ class rex_mailer extends PHPMailer
         }
 
         // CC/BCC für Graph API aufbereiten
-        $cc = array_map(function ($addr) {
+        $cc = array_map(static function ($addr) {
             return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']];
         }, $this->getCcAddresses() ?: []);
-        $bcc = array_map(function ($addr) {
+        $bcc = array_map(static function ($addr) {
             return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']];
         }, $this->getBccAddresses() ?: []);
 
         // Reply-To-Adressen für Graph API aufbereiten (nur gültige, nicht-leere Adressen, KEIN leeres Array setzen)
-        $replyToAddresses = array_filter($this->getReplyToAddresses(), function ($addr) {
+        $replyToAddresses = array_filter($this->getReplyToAddresses(), static function ($addr) {
             return !empty($addr[0]) && filter_var($addr[0], FILTER_VALIDATE_EMAIL);
         });
         $replyTo = null;
@@ -392,7 +390,7 @@ class rex_mailer extends PHPMailer
             $replyTo = [];
             foreach ($replyToAddresses as $addr) {
                 $entry = ['emailAddress' => ['address' => $addr[0]]];
-                if (isset($addr[1]) && trim($addr[1]) !== '') {
+                if (isset($addr[1]) && '' !== trim($addr[1])) {
                     $entry['emailAddress']['name'] = $addr[1];
                 }
                 $replyTo[] = $entry;
@@ -402,9 +400,9 @@ class rex_mailer extends PHPMailer
         $customHeaders = [];
         foreach ($this->getCustomHeaders() as $header) {
             $customHeaders[] = [
-                "name" => $header[0],
-                "value" => $this->encodeHeader(trim($header[1]))
-                ];
+                'name' => $header[0],
+                'value' => $this->encodeHeader(trim($header[1])),
+            ];
         }
 
         // Attachments für Graph API aufbereiten
@@ -415,7 +413,7 @@ class rex_mailer extends PHPMailer
             $type = $att[4] ?: 'application/octet-stream';
             $isString = $att[5] ?? false;
             $content = $isString ? $file : (is_readable($file) ? file_get_contents($file) : null);
-            if ($content !== null) {
+            if (null !== $content) {
                 $attachments[] = [
                     '@odata.type' => '#microsoft.graph.fileAttachment',
                     'name' => $name,

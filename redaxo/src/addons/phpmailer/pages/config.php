@@ -51,10 +51,9 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
     }
 
     // Reset the token if the Microsoft 365 settings have changed
-    if ($addon->getConfig('msgraph_client_id') != '' &&
-        $settings['msgraph_client_id'] . $settings['msgraph_client_secret'] . $settings['msgraph_tenant_id'] !=
+    if ('' != $addon->getConfig('msgraph_client_id')
+        && $settings['msgraph_client_id'] . $settings['msgraph_client_secret'] . $settings['msgraph_tenant_id'] !=
         $addon->getConfig('msgraph_client_id') . $addon->getConfig('msgraph_client_secret') . $addon->getConfig('msgraph_tenant_id')) {
-
         $addon->setConfig('msgraph_token', '');
         echo rex_view::success($addon->i18n('phpmailer_msgraph_token_deleted'));
     }
@@ -254,7 +253,6 @@ $n = [];
 $n['label'] = '<label for="phpmailer-msgraph_client_secret">' . $addon->i18n('msgraph_client_secret') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-msgraph_client_secret" type="text" name="settings[msgraph_client_secret]" value="' . rex_escape($addon->getConfig('msgraph_client_secret')) . '" />';
 $formElements[] = $n;
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
