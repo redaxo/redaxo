@@ -500,7 +500,7 @@ class rex_mailer extends PHPMailer
         }
         try {
             $mailResponse = $mailSocket->doPost(json_encode($mailData));
-            if ($mailResponse->getStatusCode() >= 400) {
+            if (!$mailResponse->isSuccessful()) {
                 $this->setError(rex_i18n::msg('phpmailer_msgraph_api_error') . $mailResponse->getBody());
                 return false;
             }
