@@ -427,7 +427,7 @@ class rex_mailer extends PHPMailer
         }
 
         // ensure valid access token
-        $token = rex_config::get('phpmailer', 'msgraph_token', '{}');
+        $token = rex_config::get('phpmailer', 'msgraph_token', []);
         $accessToken = $token['access_token'] ?? null;
         if (!isset($accessToken) || $token['expires'] - 300 < time()) {
             // Token abgelaufen oder nicht vorhanden, neues Token holen
