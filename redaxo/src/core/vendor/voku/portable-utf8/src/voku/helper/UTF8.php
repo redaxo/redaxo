@@ -9489,10 +9489,16 @@ final class UTF8
             return 0;
         }
 
-        return \strcmp(
+        $cmp = \strcmp(
             \Normalizer::normalize($str1, \Normalizer::NFD),
             \Normalizer::normalize($str2, \Normalizer::NFD)
         );
+
+        if (!is_int($cmp)) {
+            return $cmp < 0 ? -1 : ($cmp > 0 ? 1 : 0);
+        }
+
+        return $cmp === 0 ? 0 : ($cmp < 0 ? -1 : 1);
     }
 
     /**
@@ -11876,19 +11882,10 @@ final class UTF8
             ||
             $length !== null
         ) {
-            if ($encoding === 'UTF-8') {
-                if ($length === null) {
-                    $str1 = (string) \mb_substr($str1, $offset);
-                } else {
-                    $str1 = (string) \mb_substr($str1, $offset, $length);
-                }
-                $str2 = (string) \mb_substr($str2, 0, (int) self::strlen($str1));
-            } else {
-                $encoding = self::normalize_encoding($encoding, 'UTF-8');
+            $encoding = self::normalize_encoding($encoding, 'UTF-8');
 
-                $str1 = (string) self::substr($str1, $offset, $length, $encoding);
-                $str2 = (string) self::substr($str2, 0, (int) self::strlen($str1), $encoding);
-            }
+            $str1 = (string) self::substr($str1, $offset, $length, $encoding);
+            $str2 = (string) self::substr($str2, 0, (int) self::strlen($str1), $encoding);
         }
 
         if ($case_insensitivity) {
@@ -12045,7 +12042,7 @@ final class UTF8
                 &&
                 ($length + $offset) <= 0
                 &&
-                \PHP_VERSION_ID < 71000 // output from "substr_count()" have changed in PHP 7.1
+                \PHP_VERSION_ID < 70100 // output from "substr_count()" have changed in PHP 7.1
             ) {
                 return false;
             }
@@ -13300,9 +13297,41 @@ final class UTF8
             return '';
         }
 
-        /** @noinspection PhpUsageOfSilenceOperatorInspection | TODO for PHP > 8.2: find a replacement for this */
-        /** @var false|string $str - the polyfill maybe return false */
-        $str = @\utf8_encode($str);
+        if (\PHP_VERSION_ID < 80200) {
+            $str = @\utf8_encode($str);
+        } else {
+            if (self::$ORD === null) {
+                self::$ORD = self::getData('ord');
+            }
+
+            if (self::$CHR === null) {
+                self::$CHR = self::getData('chr');
+            }
+
+            // Duplicate the string to avoid overwriting characters in-place
+            $str .= $str;
+
+            $len = self::strlen_in_byte($str);
+            $halfLen = $len >> 1;
+
+            for ($i = $halfLen, $j = 0; $i < $len; ++$i, ++$j) {
+                switch (true) {
+                    case $str[$i] < "\x80":
+                        $str[$j] = $str[$i];
+                        break;
+                    case $str[$i] < "\xC0":
+                        $str[$j] = "\xC2";
+                        $str[++$j] = $str[$i];
+                        break;
+                    default:
+                        $str[$j] = "\xC3";
+                        $str[++$j] = self::$CHR[self::$ORD[$str[$i]] - 64];
+                        break;
+                }
+            }
+
+            $str = self::substr_in_byte($str, 0, $j);
+        }
 
         if ($str === false) {
             return '';
@@ -13801,8 +13830,8 @@ final class UTF8
         /** @noinspection PhpUsageOfSilenceOperatorInspection */
         /** @noinspection DeprecatedIniOptionsInspection */
         return \defined('MB_OVERLOAD_STRING')
-               &&
-               ((int) @\ini_get('mbstring.func_overload') & \MB_OVERLOAD_STRING);
+            &&
+            ((int) @\ini_get('mbstring.func_overload') & \MB_OVERLOAD_STRING);
     }
 
     /**
@@ -14059,7 +14088,7 @@ final class UTF8
         if (isset(self::$WIN1252_TO_UTF8[$ordC1])) { // found in Windows-1252 special cases
             $buf .= self::$WIN1252_TO_UTF8[$ordC1];
         } else {
-            $cc1 = self::$CHR[$ordC1 / 64] | "\xC0";
+            $cc1 = self::$CHR[intval(floor($ordC1 / 64))] | "\xC0";
             $cc2 = ((string) $input & "\x3F") | "\x80";
             $buf .= $cc1 . $cc2;
         }
