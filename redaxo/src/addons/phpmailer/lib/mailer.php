@@ -413,7 +413,7 @@ class rex_mailer extends PHPMailer
             $file = $att[0];
             $name = $att[2] ?: basename($file);
             $type = $att[4] ?: 'application/octet-stream';
-            $isString = $att[6] ?? false;
+            $isString = $att[5] ?? false;
             $content = $isString ? $file : (is_readable($file) ? file_get_contents($file) : null);
             if ($content !== null) {
                 $attachments[] = [
