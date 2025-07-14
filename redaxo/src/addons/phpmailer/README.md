@@ -28,6 +28,7 @@ In the Microsoft backend, an app must be created in the MS Entra application. Th
 The app must have the application permission (not "delegate permission") Mail.Send. This permission must then be approved in the Microsoft backend
 
 Note: The Microsoft Graph API does not support sending read receipts to arbitrary addresses. They are always sent to the sender address of the email.
+Note: The Microsoft Graph API does not support sendung emails with both plain text and HTML body at the same time. Therefore the AddOn uses the HTML body if set and the plain text body otherwise.
 
 ## PHPMailer Code Examples
 

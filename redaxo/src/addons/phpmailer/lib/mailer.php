@@ -412,7 +412,6 @@ class rex_mailer extends PHPMailer
         foreach ($this->getAttachments() as $att) {
             $file = $att[0];
             $name = $att[2] ?: basename($file);
-            $encoding = $att[3] ?: 'base64';
             $type = $att[4] ?: 'application/octet-stream';
             $isString = $att[6] ?? false;
             $content = $isString ? $file : (is_readable($file) ? file_get_contents($file) : null);

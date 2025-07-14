@@ -30,6 +30,7 @@ Die App muss die Anwendungs-Berechtigung (nicht "delegate-Berechtigung") `Mail.S
 Die Berechtigung muss dann noch im Microsoft Backend genehmigt werden.
 
 Hinweis: Die Microsoft Graph API unterstützt nicht den Versand von Lesebestätigungen an beliebige E-Mail-Adressen. Sie werden immer an die E-Mail-Adresse des Absenders gesendet.
+Hinweis: Die Microsoft Graph API unterstützt nicht den Versand von E-Mails mit plain text UND mit HTML body. Das AddOn benutzt den HTML body, wenn er gesetzt ist, ansonsten den plain text body.
 
 ## PHPMailer Code-Beispiele
 
