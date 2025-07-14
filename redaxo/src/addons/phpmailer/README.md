@@ -21,14 +21,17 @@ For more information about using PHPMailer, see: [https://github.com/PHPMailer/P
 > **Note:** A test mail can be sent with the button **Save and test**. For this purpose, the sender and test address must be specified.
 
 ## Microsoft Graph API
+
 The PHPMailer add-on supports sending emails via the Microsoft Graph API. For this, a Microsoft 365 business or school account is required.
 
-In the Microsoft backend, an app must be created in the MS Entra application. This will generate a client ID, which must be stored in the PHPMailer add-on, as well as the tenant ID. A secret client password ("create secret") must also be generated for the app and stored in the PHPMailer add-on.
+In the Microsoft backend, an app must be created in the MS Entra application. This will generate a client ID, which must be stored in the PHPMailer add-on, as well as the tenant ID.  
+A secret client password ("create secret") must also be generated for the app and stored in the PHPMailer add-on.
 
 The app must have the application permission (not "delegate permission") Mail.Send. This permission must then be approved in the Microsoft backend
 
-Note: The Microsoft Graph API does not support sending read receipts to arbitrary addresses. They are always sent to the sender address of the email.
-Note: The Microsoft Graph API does not support sendung emails with both plain text and HTML body at the same time. Therefore the AddOn uses the HTML body if set and the plain text body otherwise.
+Note 1: The Microsoft Graph API does not support sending read receipts to arbitrary addresses. They are always sent to the sender address of the email.  
+
+Note 2: The Microsoft Graph API does not support sendung emails with both plain text and HTML body at the same time. Therefore the AddOn uses the HTML body if set and the plain text body otherwise.
 
 ## PHPMailer Code Examples
 
