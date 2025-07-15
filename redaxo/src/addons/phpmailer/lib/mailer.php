@@ -359,10 +359,12 @@ class rex_mailer extends PHPMailer
 
     protected function microsoft365Send(): bool
     {
-        $from = '' === $this->Sender ? $this->From : $this->Sender;
-        $to = array_map(static function ($addr) {
+        $transformAddress = static function (array $addr) {
             return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']];
-        }, $this->getToAddresses());
+        };
+
+        $from = '' === $this->Sender ? $this->From : $this->Sender;
+        $to = array_map($transformAddress, $this->getToAddresses());
         $subject = $this->Subject;
 
         // Korrektes Mapping: contentType klein schreiben!
@@ -374,12 +376,8 @@ class rex_mailer extends PHPMailer
         }
 
         // CC/BCC für Graph API aufbereiten
-        $cc = array_map(static function ($addr) {
-            return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']];
-        }, $this->getCcAddresses() ?: []);
-        $bcc = array_map(static function ($addr) {
-            return ['emailAddress' => ['address' => $addr[0], 'name' => $addr[1] ?? '']];
-        }, $this->getBccAddresses() ?: []);
+        $cc = array_map($transformAddress, $this->getCcAddresses() ?: []);
+        $bcc = array_map($transformAddress, $this->getBccAddresses() ?: []);
 
         // Reply-To-Adressen für Graph API aufbereiten (nur gültige, nicht-leere Adressen, KEIN leeres Array setzen)
         $replyToAddresses = array_filter($this->getReplyToAddresses(), static function ($addr) {
