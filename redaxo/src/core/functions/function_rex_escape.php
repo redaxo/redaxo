@@ -5,7 +5,7 @@
  *
  * This function is adapted from code coming from Twig.
  * (c) Fabien Potencier
- * https://github.com/twigphp/Twig/blob/5f20d4a362078e8a066f7dcc146e8005186d9663/src/Extension/EscaperExtension.php#L166
+ * https://github.com/twigphp/Twig/blob/1680bba4228c5dc3c9427fe82423300da8a9d487/src/Runtime/EscaperRuntime.php#L100
  *
  * @package redaxo\core
  *
@@ -49,7 +49,7 @@ function rex_escape($value, $strategy = 'html')
             return $clone;
         }
 
-        if (is_object($value) && method_exists($value, '__toString')) {
+        if ($value instanceof Stringable) {
             $value = (string) $value;
         } else {
             return $value;
@@ -64,7 +64,7 @@ function rex_escape($value, $strategy = 'html')
 
     switch ($strategy) {
         case 'html':
-            // see https://secure.php.net/htmlspecialchars
+            // see https://www.php.net/htmlspecialchars
             return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
         case 'html_simplified':
@@ -82,13 +82,12 @@ function rex_escape($value, $strategy = 'html')
             $string = preg_replace_callback('#[^a-zA-Z0-9,\._]#Su', static function ($matches) {
                 $char = $matches[0];
 
-                /**
+                /*
                  * A few characters have short escape sequences in JSON and JavaScript.
                  * Escape sequences supported only by JavaScript, not JSON, are omitted.
                  * \" is also supported but omitted, because the resulting string is not HTML safe.
-                 * @var array<string, string>
                  */
-                static $shortMap = [
+                $short = match ($char) {
                     '\\' => '\\\\',
                     '/' => '\\/',
                     "\x08" => '\b',
@@ -96,10 +95,11 @@ function rex_escape($value, $strategy = 'html')
                     "\x0A" => '\n',
                     "\x0D" => '\r',
                     "\x09" => '\t',
-                ];
+                    default => false,
+                };
 
-                if (isset($shortMap[$char])) {
-                    return $shortMap[$char];
+                if ($short) {
+                    return $short;
                 }
 
                 $codepoint = mb_ord($char, 'UTF-8');
@@ -159,21 +159,19 @@ function rex_escape($value, $strategy = 'html')
                  * replace it with while grabbing the hex value of the character.
                  */
                 if (1 === strlen($chr)) {
-                    /**
+                    /*
                      * While HTML supports far more named entities, the lowest common denominator
                      * has become HTML5's XML Serialisation which is restricted to the those named
                      * entities that XML supports. Using HTML entities would result in this error:
-                     *     XML Parsing Error: undefined entity.
-                     * @var array<int, string>
+                     *     XML Parsing Error: undefined entity
                      */
-                    static $entityMap = [
+                    return match ($ord) {
                         34 => '&quot;', /* quotation mark */
                         38 => '&amp;',  /* ampersand */
                         60 => '&lt;',   /* less-than sign */
                         62 => '&gt;',   /* greater-than sign */
-                    ];
-
-                    return $entityMap[$ord] ?? sprintf('&#x%02X;', $ord);
+                        default => sprintf('&#x%02X;', $ord),
+                    };
                 }
 
                 /*
