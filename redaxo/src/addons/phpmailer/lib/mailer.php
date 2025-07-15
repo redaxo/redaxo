@@ -383,19 +383,18 @@ class rex_mailer extends PHPMailer
         $replyToAddresses = array_filter($this->getReplyToAddresses(), static function ($addr) {
             return !empty($addr[0]) && filter_var($addr[0], FILTER_VALIDATE_EMAIL);
         });
-        $replyTo = null;
-        if (count($replyToAddresses) > 0) {
-            $replyTo = [];
-            foreach ($replyToAddresses as $addr) {
-                $entry = ['emailAddress' => ['address' => $addr[0]]];
-                if (isset($addr[1]) && '' !== trim($addr[1])) {
-                    $entry['emailAddress']['name'] = $addr[1];
-                }
-                $replyTo[] = $entry;
+        $replyTo = [];
+        /** @var array{0: string, 1?: string} $addr */
+        foreach ($replyToAddresses as $addr) {
+            $entry = ['emailAddress' => ['address' => $addr[0]]];
+            if (isset($addr[1]) && '' !== trim($addr[1])) {
+                $entry['emailAddress']['name'] = $addr[1];
             }
+            $replyTo[] = $entry;
         }
 
         $customHeaders = [];
+        /** @var array{string, string} $header */
         foreach ($this->getCustomHeaders() as $header) {
             $customHeaders[] = [
                 'name' => $header[0],
@@ -405,12 +404,13 @@ class rex_mailer extends PHPMailer
 
         // Attachments für Graph API aufbereiten
         $attachments = [];
+        /** @var array{string, string, string, string, string, bool} $att */
         foreach ($this->getAttachments() as $att) {
             $file = $att[0];
-            $name = $att[2] ?: basename($file);
+            $name = $att[2] ?: rex_path::basename($file);
             $type = $att[4] ?: 'application/octet-stream';
             $isString = $att[5] ?? false;
-            $content = $isString ? $file : (is_readable($file) ? file_get_contents($file) : null);
+            $content = $isString ? $file : rex_file::get($file);
             if (null !== $content) {
                 $attachments[] = [
                     '@odata.type' => '#microsoft.graph.fileAttachment',
@@ -422,9 +422,9 @@ class rex_mailer extends PHPMailer
         }
 
         // ensure valid access token
-        $token = rex_config::get('phpmailer', 'msgraph_token', []);
-        $accessToken = $token['access_token'] ?? null;
-        if (!isset($accessToken) || $token['expires'] - 300 < time()) {
+        /** @var array{access_token: string, expires: int, expires_in?: int}|null $token */
+        $token = rex_config::get('phpmailer', 'msgraph_token');
+        if (!isset($token['access_token']) || $token['expires'] - 300 < time()) {
             // Token abgelaufen oder nicht vorhanden, neues Token holen
             $tokenUrl = "https://login.microsoftonline.com/$this->graphTenantId/oauth2/v2.0/token";
             $tokenSocket = rex_socket::factoryUrl($tokenUrl);
@@ -438,26 +438,27 @@ class rex_mailer extends PHPMailer
 
             try {
                 $tokenResponse = $tokenSocket->doPost($tokenData);
+                /** @var array{expires_in?: int, access_token?: string} $token */
                 $token = json_decode($tokenResponse->getBody(), true);
                 $token['expires'] = time() + ($token['expires_in'] ?? 3600);
 
-                $accessToken = $token['access_token'] ?? null;
-                if (!$accessToken) {
+                if (!isset($token['access_token'])) {
                     throw new Exception(rex_i18n::msg('phpmailer_msgraph_no_token'));
                 }
 
                 rex_config::set('phpmailer', 'msgraph_token', $token);
             } catch (Exception $e) {
                 $this->setError(rex_i18n::msg('phpmailer_msgraph_auth_error') . $e->getMessage());
-                $accessToken = null;
-                rex_config::set('phpmailer', 'msgraph_token', null);
+                rex_config::remove('phpmailer', 'msgraph_token');
+
+                throw $e;
             }
         }
 
         // Mail senden via rex_socket
         $mailUrl = "https://graph.microsoft.com/v1.0/users/$from/sendMail";
         $mailSocket = rex_socket::factoryUrl($mailUrl);
-        $mailSocket->addHeader('Authorization', 'Bearer ' . $accessToken);
+        $mailSocket->addHeader('Authorization', 'Bearer ' . $token['access_token']);
         $mailSocket->addHeader('Content-Type', 'application/json');
         $mailData = [
             'message' => [
@@ -474,7 +475,7 @@ class rex_mailer extends PHPMailer
         if (!empty($bcc)) {
             $mailData['message']['bccRecipients'] = $bcc;
         }
-        if (is_array($replyTo) && count($replyTo) > 0) {
+        if (count($replyTo) > 0) {
             $mailData['message']['replyTo'] = $replyTo;
         }
         if (!empty($attachments)) {
