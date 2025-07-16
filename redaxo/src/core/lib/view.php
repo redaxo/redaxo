@@ -409,7 +409,6 @@ class rex_view
     /**
      * Returns a clang switch.
      *
-     * @param rex_context $context
      * @param bool $showEditLink Whether to show the "edit languages" link (default: true)
      * @return string
      */

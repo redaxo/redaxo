@@ -11,18 +11,13 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
         private rex_context $context,
     ) {}
 
-    /**
-     * @return rex_context
-     */
     public function getContext(): rex_context
     {
         return $this->context;
     }
 
     /**
-     * Get the language ID from context
-     * 
-     * @return int
+     * Get the language ID from context.
      */
     protected function getClangId(): int
     {
@@ -68,18 +63,13 @@ class rex_linkmap_article_list extends rex_linkmap_article_list_renderer
         private rex_context $context,
     ) {}
 
-    /**
-     * @return rex_context
-     */
     public function getContext(): rex_context
     {
         return $this->context;
     }
 
     /**
-     * Get the language ID from context
-     * 
-     * @return int
+     * Get the language ID from context.
      */
     protected function getClangId(): int
     {

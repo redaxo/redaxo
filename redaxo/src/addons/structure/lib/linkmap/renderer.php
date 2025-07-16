@@ -13,7 +13,7 @@ abstract class rex_linkmap_tree_renderer
     public function getTree($categoryId)
     {
         $clang = $this->getClangId();
-            
+
         $category = rex_category::get($categoryId, $clang);
 
         $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpointCategories();
@@ -39,9 +39,7 @@ abstract class rex_linkmap_tree_renderer
     }
 
     /**
-     * Get the language ID for this renderer
-     * 
-     * @return int
+     * Get the language ID for this renderer.
      */
     protected function getClangId(): int
     {
@@ -140,7 +138,7 @@ abstract class rex_linkmap_article_list_renderer
     public function getList($categoryId)
     {
         $clang = $this->getClangId();
-            
+
         $isRoot = 0 === $categoryId;
         $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpoints();
 
@@ -161,9 +159,7 @@ abstract class rex_linkmap_article_list_renderer
     }
 
     /**
-     * Get the language ID for this renderer
-     * 
-     * @return int
+     * Get the language ID for this renderer.
      */
     protected function getClangId(): int
     {
