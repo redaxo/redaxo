@@ -8,6 +8,7 @@ Das PHPMailer-AddOn ermöglicht den Versand von E-Mails. Zusätzlich kann PHPMai
 - sendmail 
 - SMTP/SMTPS
 - SMTP/SMTPS-Auth
+- Microsoft Graph API (Microsoft 365)
 
 Der Aufruf erfolgt über die Klasse `rex_mailer`. Dabei werden die nachfolgend beschriebenen und in der Konfiguration hinterlegten Einstellungen berücksichtigt.
 
@@ -18,6 +19,20 @@ Die Werte der Konfiguration können in AddOns oder Modulen leicht überschrieben
 Weitere Informationen zur Verwendung von PHPMailer unter: [https://github.com/PHPMailer/PHPMailer/wiki/Tutorial](https://github.com/PHPMailer/PHPMailer/wiki/Tutorial)
 
 > **Hinweis:** Eine Test-Mail kann mit dem Button **Speichern und testen** verschickt werden. Hierzu müssen unbedingt Absender- und Test-Adresse festgelegt werden.
+
+## Microsoft Graph API
+
+Das PHPMailer-AddOn unterstützt den Versand von E-Mails über die Microsoft Graph API. Hierzu muss ein Microsoft 365 Geschäfts- oder Schulkonto existieren.
+
+Im Microsoft Backend muss in der Anwendung MS Entra eine App angelegt werden. Dadurch entsteht eine Client-ID, die im PHPMailer-AddOn - genauso wie die Mandanten-Id (Tenant ID) hinterlegt werden muss.  
+Für die App muss außerdem ein geheimes Client-Passwort generiert werden ("Geheimnis anlgen"), das ebenfalls im PHPMailer-AddOn hinterlegt werden muss.  
+
+Die App muss die Anwendungs-Berechtigung (nicht "delegate-Berechtigung") `Mail.Send` besitzen.
+Die Berechtigung muss dann noch im Microsoft Backend genehmigt werden.
+
+Hinweis 1: Die Microsoft Graph API unterstützt nicht den Versand von Lesebestätigungen an beliebige E-Mail-Adressen. Sie werden immer an die E-Mail-Adresse des Absenders gesendet.  
+
+Hinweis 2: Die Microsoft Graph API unterstützt nicht den Versand von E-Mails mit plain text UND mit HTML body. Das AddOn benutzt den HTML body, wenn er gesetzt ist, ansonsten den plain text body.
 
 ## PHPMailer Code-Beispiele
 
