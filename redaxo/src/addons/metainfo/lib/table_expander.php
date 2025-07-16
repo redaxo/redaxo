@@ -318,12 +318,12 @@ class rex_metainfo_table_expander extends rex_form
         }
 
         $sql = rex_sql::factory();
-        $metaPrefix = $sql->escapeLikeWildcards($this->metaPrefix);
+        $metaPrefix = $sql->escape($sql->escapeLikeWildcards($this->metaPrefix) . '%');
 
         rex_sql_util::organizePriorities(
             $this->tableName,
             'priority',
-            'name LIKE "' . $metaPrefix . '%"',
+            'name LIKE ' . $metaPrefix,
             'priority, updatedate desc',
         );
     }
