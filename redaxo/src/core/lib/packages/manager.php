@@ -36,13 +36,9 @@ abstract class rex_package_manager
     /**
      * Creates the manager for the package.
      *
-     * @param rex_package $package Package
-     *
-     * @return static
-     *
      * @template TS as rex_package
-     * @psalm-param TS $package
-     * @psalm-return (TS is rex_plugin ? rex_plugin_manager : (TS is rex_addon ? rex_addon_manager : self))
+     * @param TS $package Package
+     * @return (TS is rex_plugin ? rex_plugin_manager : (TS is rex_addon ? rex_addon_manager : self))
      */
     public static function factory(rex_package $package)
     {

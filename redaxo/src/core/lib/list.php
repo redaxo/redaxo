@@ -552,8 +552,7 @@ class rex_list implements rex_url_provider_interface
      * @template T as null|string
      * @param string $columnName Name der Spalte
      * @param T $default Defaultrückgabewert, falls kein Label gesetzt ist
-     * @return string|null
-     * @psalm-return (T is null ? string : ?string)
+     * @return (T is null ? string : ?string)
      */
     public function getColumnLabel($columnName, $default = null)
     {

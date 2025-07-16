@@ -224,8 +224,7 @@ class rex_be_page
      * @template T as ?string
      * @param T $name
      * @param string $default
-     * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
-     * @psalm-return (T is string ? string : array<string, string>)
+     * @return (T is string ? string : array<string, string>) Attribute value for given `$name` or attribute array if `$name` is `null`
      */
     public function getItemAttr($name, $default = '')
     {
@@ -322,8 +321,7 @@ class rex_be_page
      * @template T as ?string
      * @param T $name
      * @param string $default
-     * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
-     * @psalm-return (T is string ? string : array<string, string>)
+     * @return (T is string ? string : array<string, string>) Attribute value for given `$name` or attribute array if `$name` is `null`
      */
     public function getLinkAttr($name, $default = '')
     {
