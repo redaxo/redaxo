@@ -8,9 +8,7 @@
 trait rex_linkmap_clang_aware_trait
 {
     /**
-     * Get the language ID for this renderer
-     * 
-     * @return int
+     * Get the language ID for this renderer.
      */
     protected function getClangId(): int
     {
@@ -27,18 +25,13 @@ trait rex_linkmap_context_aware_trait
 {
     private rex_context $context;
 
-    /**
-     * @return rex_context
-     */
     public function getContext(): rex_context
     {
         return $this->context;
     }
 
     /**
-     * Get the language ID from context
-     * 
-     * @return int
+     * Get the language ID from context.
      */
     protected function getClangId(): int
     {
