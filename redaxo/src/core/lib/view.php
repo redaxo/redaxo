@@ -409,9 +409,11 @@ class rex_view
     /**
      * Returns a clang switch.
      *
+     * @param rex_context $context
+     * @param bool $showEditLink Whether to show the "edit languages" link (default: true)
      * @return string
      */
-    public static function clangSwitchAsDropdown(rex_context $context)
+    public static function clangSwitchAsDropdown(rex_context $context, $showEditLink = true)
     {
         if (1 == rex_clang::count()) {
             return '';
@@ -441,7 +443,7 @@ class rex_view
         $fragment->setVar('header', rex_i18n::msg('clang_select'));
         $fragment->setVar('items', $items, false);
 
-        if ($user->isAdmin()) {
+        if ($showEditLink && $user->isAdmin()) {
             $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><i class="fa fa-flag"></i> ' . rex_i18n::msg('languages_edit') . '</a>', false);
         }
 

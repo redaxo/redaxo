@@ -12,7 +12,9 @@ abstract class rex_linkmap_tree_renderer
      */
     public function getTree($categoryId)
     {
-        $category = rex_category::get($categoryId);
+        $clang = $this->getClangId();
+            
+        $category = rex_category::get($categoryId, $clang);
 
         $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpointCategories();
         if (count($mountpoints) > 0) {
@@ -21,7 +23,7 @@ abstract class rex_linkmap_tree_renderer
                 $category = $roots[0];
             }
         } else {
-            $roots = rex_category::getRootCategories();
+            $roots = rex_category::getRootCategories($clang);
         }
 
         $tree = [];
@@ -34,6 +36,16 @@ abstract class rex_linkmap_tree_renderer
         $rendered = $this->renderTree($roots, $tree);
         // add css class to root node
         return '<ul class="list-group rex-linkmap-list-group"' . substr($rendered, 3);
+    }
+
+    /**
+     * Get the language ID for this renderer
+     * 
+     * @return int
+     */
+    protected function getClangId(): int
+    {
+        return rex_clang::getStartId();
     }
 
     /**
@@ -127,6 +139,8 @@ abstract class rex_linkmap_article_list_renderer
      */
     public function getList($categoryId)
     {
+        $clang = $this->getClangId();
+            
         $isRoot = 0 === $categoryId;
         $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpoints();
 
@@ -136,13 +150,24 @@ abstract class rex_linkmap_article_list_renderer
         }
 
         if ($isRoot && 0 == count($mountpoints)) {
-            $articles = rex_article::getRootArticles();
+            $articles = rex_article::getRootArticles($clang);
         } elseif ($isRoot) {
             $articles = [];
         } else {
-            $articles = rex_category::get($categoryId)->getArticles();
+            $category = rex_category::get($categoryId, $clang);
+            $articles = $category ? $category->getArticles() : [];
         }
         return self::renderList($articles, $categoryId);
+    }
+
+    /**
+     * Get the language ID for this renderer
+     * 
+     * @return int
+     */
+    protected function getClangId(): int
+    {
+        return rex_clang::getStartId();
     }
 
     /**

@@ -12,6 +12,24 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
     ) {}
 
     /**
+     * @return rex_context
+     */
+    public function getContext(): rex_context
+    {
+        return $this->context;
+    }
+
+    /**
+     * Get the language ID from context
+     * 
+     * @return int
+     */
+    protected function getClangId(): int
+    {
+        return (int) $this->context->getParam('clang', rex_clang::getStartId());
+    }
+
+    /**
      * @return string
      */
     protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon)
@@ -49,6 +67,24 @@ class rex_linkmap_article_list extends rex_linkmap_article_list_renderer
     public function __construct(
         private rex_context $context,
     ) {}
+
+    /**
+     * @return rex_context
+     */
+    public function getContext(): rex_context
+    {
+        return $this->context;
+    }
+
+    /**
+     * Get the language ID from context
+     * 
+     * @return int
+     */
+    protected function getClangId(): int
+    {
+        return (int) $this->context->getParam('clang', rex_clang::getStartId());
+    }
 
     /**
      * @return string

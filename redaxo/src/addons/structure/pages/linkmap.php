@@ -79,7 +79,7 @@ if (!rex_request::isXmlHttpRequest()) {
 <?php
 
 $isRoot = 0 === $categoryId;
-$category = rex_category::get($categoryId);
+$category = rex_category::get($categoryId, $clang);
 
 $navigation = [];
 if ($category) {
@@ -92,6 +92,14 @@ if ($category) {
 }
 
 echo rex_view::title('<i class="rex-icon rex-icon-linkmap"></i> Linkmap');
+
+// Language switcher for multi-language setups - displayed above breadcrumb, right aligned
+if (rex_clang::count() > 1) {
+    $langSwitcher = rex_view::clangSwitchAsDropdown($context, false);
+    if ($langSwitcher) {
+        echo '<div class="text-right">' . $langSwitcher . '</div>';
+    }
+}
 
 $title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . rex_i18n::msg('root_level') . '</a>';
 
