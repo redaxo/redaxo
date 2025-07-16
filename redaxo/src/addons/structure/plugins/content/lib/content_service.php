@@ -226,10 +226,11 @@ class rex_content_service
      * @param int $fromClang ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
      * @param int $toClang ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
      * @param int|null $revision If null, slices of all revisions are copied
+     * @param bool $overwrite If true, existing content in target language will be deleted before copying
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    public static function copyContent($fromId, $toId, $fromClang = 1, $toClang = 1, $revision = null)
+    public static function copyContent($fromId, $toId, $fromClang = 1, $toClang = 1, $revision = null, $overwrite = false)
     {
         if ($fromId == $toId && $fromClang == $toClang) {
             return false;
@@ -242,15 +243,22 @@ class rex_content_service
             $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$fromId, $fromClang, $revision]);
         }
 
-        if (!$gc->getRows()) {
-            return true;
-        }
-
         rex_extension::registerPoint(new rex_extension_point('ART_SLICES_COPY', '', [
             'article_id' => $toId,
             'clang_id' => $toClang,
             'slice_revision' => $revision,
+            'overwrite' => $overwrite,
         ]));
+
+        // Wenn Überschreiben aktiviert ist, lösche zuerst den bestehenden Inhalt
+        if ($overwrite) {
+            $sql = rex_sql::factory();
+            if (null === $revision) {
+                $sql->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'article_slice WHERE article_id=? AND clang_id=?', [$toId, $toClang]);
+            } else {
+                $sql->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'article_slice WHERE article_id=? AND clang_id=? AND revision=?', [$toId, $toClang, $revision]);
+            }
+        }
 
         $ins = rex_sql::factory();
         // $ins->setDebug();
