@@ -199,7 +199,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
         rex::getTablePrefix() . 'metainfo_field',
         'priority',
         'name LIKE "' . $metaPrefixForQuery . '%"',
-        'priority, updatedate desc'
+        'priority, updatedate desc',
     );
 
     $tableManager = new rex_metainfo_table_manager($metaTable);
