@@ -36,6 +36,7 @@ class rex_install_webservice
         try {
             $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
+            self::configureSecureSSL($socket);
             $response = $socket->doGet();
             if ($response->isOk()) {
                 $data = json_decode($response->getBody(), true);
@@ -70,6 +71,10 @@ class rex_install_webservice
     {
         try {
             $socket = rex_socket::factoryUrl($url);
+            // Only apply secure SSL config for redaxo.org URLs
+            if (str_contains($url, self::HOST)) {
+                self::configureSecureSSL($socket);
+            }
             $response = $socket->doGet();
             if ($response->isOk()) {
                 $filename = rex_path::basename($url);
@@ -99,6 +104,7 @@ class rex_install_webservice
         try {
             $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
+            self::configureSecureSSL($socket);
             $files = [];
             if ($archive) {
                 $files['archive']['path'] = $archive;
@@ -137,6 +143,7 @@ class rex_install_webservice
         try {
             $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
+            self::configureSecureSSL($socket);
             $response = $socket->doDelete();
             if ($response->isOk()) {
                 $data = json_decode($response->getBody(), true);
@@ -234,6 +241,29 @@ class rex_install_webservice
                 }
             }
         }
+    }
+
+    /**
+     * Configures secure SSL options for redaxo.org connections.
+     *
+     * @param rex_socket $socket
+     * @return void
+     */
+    private static function configureSecureSSL(rex_socket $socket)
+    {
+        $socket->setOptions([
+            'ssl' => [
+                'verify_peer' => true,
+                'verify_peer_name' => true,
+                'verify_depth' => 3,
+                'disable_compression' => true,
+                'SNI_enabled' => true,
+                // TLS 1.3 cipher suites (preferred)
+                'ciphersuites' => 'TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256',
+                // TLS 1.2 cipher suites (fallback)
+                'ciphers' => 'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256',
+            ],
+        ]);
     }
 
     /**
