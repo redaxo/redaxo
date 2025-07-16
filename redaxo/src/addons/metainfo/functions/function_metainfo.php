@@ -194,11 +194,11 @@ function rex_metainfo_delete_field($fieldIdOrName)
     $sql->delete();
 
     // Reorganize priorities after deletion
-    $metaPrefixForQuery = rex_sql::factory()->escapeLikeWildcards($prefix);
+    $metaPrefixForQuery = $sql->escape($sql->escapeLikeWildcards($prefix) . '%');
     rex_sql_util::organizePriorities(
         rex::getTablePrefix() . 'metainfo_field',
         'priority',
-        'name LIKE "' . $metaPrefixForQuery . '%"',
+        'name LIKE ' . $metaPrefixForQuery,
         'priority, updatedate desc',
     );
 
