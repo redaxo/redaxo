@@ -10,16 +10,17 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @internal
  */
-class rex_command_user_delete extends rex_console_command
+final class rex_command_user_delete extends rex_console_command
 {
     #[Override]
     protected function configure(): void
     {
         $this
+            ->setDescription('Deletes an user by the specified login name.')
             ->addArgument('user', InputArgument::REQUIRED, 'Username', null, static function () {
                 return array_column(rex_sql::factory()->getArray('SELECT login FROM ' . rex::getTable('user')), 'login');
             })
-            ->setDescription('Deletes an user by the specified login name.');
+        ;
     }
 
     #[Override]
@@ -29,33 +30,36 @@ class rex_command_user_delete extends rex_console_command
 
         $username = $input->getArgument('user');
 
-        $user = rex_sql::factory();
-        $user
-            ->setTable(rex::getTablePrefix() . 'user')
-            ->setWhere(['login' => $username])
-            ->select();
+        $user = rex_user::forLogin($username);
 
-        if (!$user->getRows()) {
+        if (!$user) {
             $io->error(sprintf('The user "%s" does not exist.', $username));
-            return Command::INVALID;
+            return Command::FAILURE;
         }
 
         $askConfirmationQuestion = $io->confirm(sprintf('Are you sure you would like to delete user "%s"?', $username), false);
-        if ($askConfirmationQuestion) {
-            $this->deleteUserByGivenLoginName($username);
-            $io->success(sprintf('User "%s" has been successfully deleted.', $username));
-        } else {
+        if (!$askConfirmationQuestion) {
             $io->info(sprintf('Aborted. User "%s" was not deleted.', $username));
             return Command::FAILURE;
         }
 
+        $this->deleteUser($user);
+        $io->success(sprintf('User "%s" has been successfully deleted.', $username));
+
         return Command::SUCCESS;
     }
 
-    private function deleteUserByGivenLoginName(string $username): void
+    private function deleteUser(rex_user $user): void
     {
-        $user = rex_sql::factory();
-        $user->setTable(rex::getTablePrefix() . 'user');
-        $user->setWhere(['login' => $username])->delete();
+        $sql = rex_sql::factory();
+        $sql->setTable(rex::getTable('user'));
+        $sql->setWhere(['id' => $user->getId()])->delete();
+
+        rex_user::clearInstance($user->getId());
+
+        rex_extension::registerPoint(new rex_extension_point('USER_DELETED', '', [
+            'id' => $user->getId(),
+            'user' => $user,
+        ], true));
     }
 }
