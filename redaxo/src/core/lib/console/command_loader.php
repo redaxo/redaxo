@@ -39,8 +39,8 @@ class rex_console_command_loader implements CommandLoaderInterface
                 'package:run-update-script' => rex_command_package_run_update_script::class,
                 'package:uninstall' => rex_command_package_uninstall::class,
                 'system:report' => rex_command_system_report::class,
-                'user:set-password' => rex_command_user_set_password::class,
                 'user:list' => rex_command_user_list::class,
+                'user:set-password' => rex_command_user_set_password::class,
             ]);
         }
 

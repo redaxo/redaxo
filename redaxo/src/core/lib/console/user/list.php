@@ -12,13 +12,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @internal
  */
-class rex_command_user_list extends rex_console_command
+final class rex_command_user_list extends rex_console_command
 {
     #[Override]
     protected function configure(): void
     {
         $this
-            ->setName('user:list')
             ->setDescription('Choose between list all users, or only one by the given login name')
             ->addOption('all', 'a', InputOption::VALUE_NONE, 'List all available users')
             ->addArgument('user', InputArgument::OPTIONAL, 'Username', null, static function () {
