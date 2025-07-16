@@ -51,8 +51,7 @@ trait rex_instance_pool_trait
      * If the instance does not exist it will be created by calling the $createCallback
      *
      * @param mixed $key Key
-     * @param callable $createCallback Callback, will be called to create a new instance
-     * @psalm-param callable(mixed...):?static $createCallback
+     * @param callable(mixed...):?static $createCallback Callback, will be called to create a new instance
      *
      * @return static|null
      */

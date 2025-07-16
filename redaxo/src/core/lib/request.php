@@ -227,8 +227,7 @@ class rex_request
     /**
      * Returns the HTTP method of the current request.
      *
-     * @return string HTTP method in lowercase (head,get,post,put,delete)
-     * @psalm-return lowercase-string
+     * @return lowercase-string HTTP method in lowercase (head,get,post,put,delete)
      */
     public static function requestMethod()
     {
