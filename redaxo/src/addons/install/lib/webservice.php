@@ -72,7 +72,7 @@ class rex_install_webservice
         try {
             $socket = rex_socket::factoryUrl($url);
             // Only apply secure SSL config for redaxo.org URLs
-            if (str_contains($url, self::HOST)) {
+            if (parse_url($url, PHP_URL_HOST) === self::HOST) {
                 self::configureSecureSSL($socket);
             }
             $response = $socket->doGet();
