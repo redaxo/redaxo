@@ -475,8 +475,7 @@ class rex_login
      *
      * @param string $varname
      * @param mixed $default
-     * @return mixed
-     * @psalm-return (
+     * @return (
      *     $varname is 'starttime' ? int|null :
      *     ($varname is 'STAMP' ? int|null :
      *     ($varname is 'UID' ? int|null :
