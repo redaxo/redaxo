@@ -246,23 +246,57 @@ class rex_install_webservice
     /**
      * Configures secure SSL options for redaxo.org connections.
      *
+     * @param rex_socket $socket
      * @return void
      */
     private static function configureSecureSSL(rex_socket $socket)
     {
-        $socket->setOptions([
-            'ssl' => [
-                'verify_peer' => true,
-                'verify_peer_name' => true,
-                'verify_depth' => 3,
-                'disable_compression' => true,
-                'SNI_enabled' => true,
-                // TLS 1.3 cipher suites (preferred)
-                'ciphersuites' => 'TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256',
-                // TLS 1.2 cipher suites (fallback)
-                'ciphers' => 'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256',
-            ],
-        ]);
+        $sslOptions = [
+            'verify_peer' => true,
+            'verify_peer_name' => true,
+            'verify_depth' => 3,
+            'disable_compression' => true,
+            'SNI_enabled' => true,
+            // Enforce TLS 1.2+ only, prevent fallback to older protocols
+            'crypto_method' => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT,
+            // TLS 1.3 cipher suites (preferred)
+            'ciphersuites' => 'TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256',
+            // TLS 1.2 cipher suites (fallback)
+            'ciphers' => 'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256',
+        ];
+
+        // Explicitly set CA bundle if available for enhanced security
+        $caBundle = self::getCABundle();
+        if ($caBundle) {
+            $sslOptions['cafile'] = $caBundle;
+        }
+
+        $socket->setOptions(['ssl' => $sslOptions]);
+    }
+
+    /**
+     * Attempts to locate a system CA bundle for certificate verification.
+     *
+     * @return string|null Path to CA bundle file, or null if not found
+     */
+    private static function getCABundle()
+    {
+        // Common CA bundle locations across different systems
+        $caBundlePaths = [
+            '/etc/ssl/certs/ca-certificates.crt', // Debian/Ubuntu
+            '/etc/pki/tls/certs/ca-bundle.crt',   // Red Hat/CentOS
+            '/usr/share/ssl/certs/ca-bundle.crt', // Older Red Hat
+            '/usr/local/share/certs/ca-root-nss.crt', // FreeBSD
+            '/etc/ssl/cert.pem',                  // OpenBSD/macOS
+        ];
+
+        foreach ($caBundlePaths as $path) {
+            if (is_file($path) && is_readable($path)) {
+                return $path;
+            }
+        }
+
+        return null;
     }
 
     /**
