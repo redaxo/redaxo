@@ -236,6 +236,20 @@ class rex_content_service
             return false;
         }
 
+        $gc = rex_sql::factory();
+        if (null === $revision) {
+            $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=?', [$fromId, $fromClang]);
+        } else {
+            $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$fromId, $fromClang, $revision]);
+        }
+
+        rex_extension::registerPoint(new rex_extension_point('ART_SLICES_COPY', '', [
+            'article_id' => $toId,
+            'clang_id' => $toClang,
+            'slice_revision' => $revision,
+            'overwrite' => $overwrite,
+        ]));
+
         // Wenn Überschreiben aktiviert ist, lösche zuerst den bestehenden Inhalt
         if ($overwrite) {
             $sql = rex_sql::factory();
@@ -244,25 +258,7 @@ class rex_content_service
             } else {
                 $sql->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'article_slice WHERE article_id=? AND clang_id=? AND revision=?', [$toId, $toClang, $revision]);
             }
-            rex_article_cache::deleteContent($toId, $toClang);
         }
-
-        $gc = rex_sql::factory();
-        if (null === $revision) {
-            $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=?', [$fromId, $fromClang]);
-        } else {
-            $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$fromId, $fromClang, $revision]);
-        }
-
-        if (!$gc->getRows()) {
-            return true;
-        }
-
-        rex_extension::registerPoint(new rex_extension_point('ART_SLICES_COPY', '', [
-            'article_id' => $toId,
-            'clang_id' => $toClang,
-            'slice_revision' => $revision,
-        ]));
 
         $ins = rex_sql::factory();
         // $ins->setDebug();
