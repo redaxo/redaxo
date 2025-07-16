@@ -46,3 +46,4 @@
 # Docker
 /.docker
 /docker-compose.*.yml
+.DS_Store
