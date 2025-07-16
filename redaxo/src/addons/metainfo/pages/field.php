@@ -41,9 +41,9 @@ if ('' == $func) {
     $title = rex_i18n::msg('minfo_field_list_caption');
 
     $sql = rex_sql::factory();
-    $likePrefix = $sql->escapeLikeWildcards($prefix);
+    $likePrefix = $sql->escape($sql->escapeLikeWildcards($prefix) . '%');
 
-    $list = rex_list::factory('SELECT id, name, priority FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
+    $list = rex_list::factory('SELECT id, name, priority FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE ' . $likePrefix . ' ORDER BY priority');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-metainfo"></i>';
