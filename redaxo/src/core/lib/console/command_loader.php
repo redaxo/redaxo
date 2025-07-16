@@ -23,8 +23,6 @@ class rex_console_command_loader implements CommandLoaderInterface
             'db:set-connection' => rex_command_db_set_connection::class,
             'setup:check' => rex_command_setup_check::class,
             'setup:run' => rex_command_setup_run::class,
-            'user:create' => rex_command_user_create::class,
-            'user:delete' => rex_command_user_delete::class,
         ];
 
         if (!rex::isSetup()) {
@@ -39,6 +37,8 @@ class rex_console_command_loader implements CommandLoaderInterface
                 'package:run-update-script' => rex_command_package_run_update_script::class,
                 'package:uninstall' => rex_command_package_uninstall::class,
                 'system:report' => rex_command_system_report::class,
+                'user:create' => rex_command_user_create::class,
+                'user:delete' => rex_command_user_delete::class,
                 'user:set-password' => rex_command_user_set_password::class,
             ]);
         }
