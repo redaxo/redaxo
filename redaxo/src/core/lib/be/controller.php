@@ -39,8 +39,7 @@ class rex_be_controller
      * @template T of positive-int|null
      * @param T $part Part index, beginning with 1. If $part is null, an array of all current parts will be returned
      * @param string|null $default Default value
-     * @return list<string>|string|null
-     * @psalm-return (T is null ? list<string> : string|null)
+     * @return (T is null ? list<string> : string|null)
      */
     public static function getCurrentPagePart($part = null, $default = null)
     {

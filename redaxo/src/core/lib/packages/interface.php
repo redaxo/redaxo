@@ -92,8 +92,7 @@ interface rex_package_interface
      * @param T $key The associated key
      * @param mixed $default Default return value if no associated-value can be found
      * @throws InvalidArgumentException
-     * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
-     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
+     * @return (T is string ? mixed|null : array<string, mixed>) the value for $key or $default if $key cannot be found in the given $namespace
      */
     public function getConfig($key = null, $default = null);
 

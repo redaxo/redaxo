@@ -152,13 +152,11 @@ class rex_fragment
      *
      * @template T
      * @param T $value The value to escape
-     * @param string $strategy One of "html", "html_attr", "css", "js", "url"
-     * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
+     * @param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy One of "html", "html_attr", "css", "js", "url"
      *
      * @throws InvalidArgumentException
      *
-     * @return mixed
-     * @psalm-return (T is Stringable ? string : T)
+     * @return (T is Stringable ? string : T)
      */
     protected function escape($value, $strategy = 'html')
     {

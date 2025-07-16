@@ -32,6 +32,7 @@ content_contentcopy = Content copied.
 content_errorcopy = You cannot copy article content to the same language.
 content_contentoflang = from language
 content_to = to language
+content_overwrite = Overwrite existing content
 content_submitcopycontent = Copy content
 content_submitmovearticle = Move article
 content_errormovearticle = Error. Article not moved.
