@@ -97,7 +97,7 @@ echo rex_view::title('<i class="rex-icon rex-icon-linkmap"></i> Linkmap');
 if (rex_clang::count() > 1) {
     $langSwitcher = rex_view::clangSwitchAsDropdown($context, false);
     if ($langSwitcher) {
-        echo '<div class="text-right">' . $langSwitcher . '</div>';
+        echo '<div class="clearfix"><div class="pull-right">' . $langSwitcher . '</div></div>';
     }
 }
 
