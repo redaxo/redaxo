@@ -441,6 +441,7 @@ class rex_view
         $fragment->setVar('button_label', $buttonLabel);
         $fragment->setVar('header', rex_i18n::msg('clang_select'));
         $fragment->setVar('items', $items, false);
+        $fragment->setVar('right', true);
 
         if ($showEditLink && $user->isAdmin()) {
             $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><i class="fa fa-flag"></i> ' . rex_i18n::msg('languages_edit') . '</a>', false);

@@ -7,6 +7,8 @@
  */
 abstract class rex_linkmap_tree_renderer
 {
+    use rex_linkmap_clang_aware_trait;
+
     /**
      * @return string
      */
@@ -36,14 +38,6 @@ abstract class rex_linkmap_tree_renderer
         $rendered = $this->renderTree($roots, $tree);
         // add css class to root node
         return '<ul class="list-group rex-linkmap-list-group"' . substr($rendered, 3);
-    }
-
-    /**
-     * Get the language ID for this renderer.
-     */
-    protected function getClangId(): int
-    {
-        return rex_clang::getStartId();
     }
 
     /**
@@ -132,6 +126,8 @@ abstract class rex_linkmap_tree_renderer
  */
 abstract class rex_linkmap_article_list_renderer
 {
+    use rex_linkmap_clang_aware_trait;
+
     /**
      * @return string
      */
@@ -156,14 +152,6 @@ abstract class rex_linkmap_article_list_renderer
             $articles = $category ? $category->getArticles() : [];
         }
         return self::renderList($articles, $categoryId);
-    }
-
-    /**
-     * Get the language ID for this renderer.
-     */
-    protected function getClangId(): int
-    {
-        return rex_clang::getStartId();
     }
 
     /**
