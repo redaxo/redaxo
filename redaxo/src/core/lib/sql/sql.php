@@ -1851,7 +1851,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return list<array{name: string, type: string, null: 'YES'|'NO', key: string, default: null|string, extra: string, comment: null|string}> Ein mehrdimensionales Array das die Metadaten enthaelt
+     * @return list<array{name: string, type: string, null: 'YES'|'NO', key: string, default: string|null, extra: string, comment: string|null}> Ein mehrdimensionales Array das die Metadaten enthaelt
      */
     public static function showColumns($table, $db = 1)
     {
