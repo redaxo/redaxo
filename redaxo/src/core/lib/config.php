@@ -113,8 +113,7 @@ class rex_config
      * @param T $key The associated key
      * @param mixed $default Default return value if no associated-value can be found
      * @throws InvalidArgumentException
-     * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
-     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
+     * @return (T is string ? mixed|null : array<string, mixed>) the value for $key or $default if $key cannot be found in the given $namespace
      */
     public static function get($namespace, $key = null, $default = null)
     {

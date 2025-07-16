@@ -1916,11 +1916,18 @@
       <code><![CDATA[$this->Username]]></code>
       <code><![CDATA[$this->WordWrap]]></code>
       <code><![CDATA[$this->archive]]></code>
+      <code><![CDATA[$this->graphClientId]]></code>
+      <code><![CDATA[$this->graphClientSecret]]></code>
+      <code><![CDATA[$this->graphTenantId]]></code>
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$this->xHeader[$kind]]]></code>
       <code><![CDATA[$this->xHeader['to']]]></code>
     </MixedOperand>
+    <PossiblyFalseArgument>
+      <code><![CDATA[json_encode($mailData)]]></code>
+      <code><![CDATA[json_encode($mailData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)]]></code>
+    </PossiblyFalseArgument>
     <PossiblyNullArgument>
       <code><![CDATA[$address]]></code>
     </PossiblyNullArgument>
@@ -1972,6 +1979,10 @@
       <code><![CDATA[$addon->getConfig('smtpauth')]]></code>
       <code><![CDATA[$addon->getConfig('smtpsecure')]]></code>
     </MixedArgument>
+    <MixedOperand>
+      <code><![CDATA[$addon->getConfig('msgraph_client_id')]]></code>
+      <code><![CDATA[$addon->getConfig('msgraph_tenant_id')]]></code>
+    </MixedOperand>
     <NullOperand>
       <code><![CDATA[rex_escape($addon->getConfig('bcc'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('charset'))]]></code>
@@ -1979,6 +1990,9 @@
       <code><![CDATA[rex_escape($addon->getConfig('from'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('fromname'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('host'))]]></code>
+      <code><![CDATA[rex_escape($addon->getConfig('msgraph_client_id'))]]></code>
+      <code><![CDATA[rex_escape($addon->getConfig('msgraph_client_secret'))]]></code>
+      <code><![CDATA[rex_escape($addon->getConfig('msgraph_tenant_id'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('password'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('port'))]]></code>
       <code><![CDATA[rex_escape($addon->getConfig('returnto'))]]></code>
@@ -3630,9 +3644,6 @@
     </PossiblyFalseArgument>
   </file>
   <file src="redaxo/src/core/functions/function_rex_escape.php">
-    <InvalidCast>
-      <code><![CDATA[$value]]></code>
-    </InvalidCast>
     <InvalidReturnStatement>
       <code><![CDATA[$string]]></code>
       <code><![CDATA[$string]]></code>
@@ -3665,10 +3676,6 @@
       <code><![CDATA[1 === strlen($char) ? ord($char) : mb_ord($char, 'UTF-8')]]></code>
       <code><![CDATA[mb_ord($chr, 'UTF-8')]]></code>
     </PossiblyFalseArgument>
-    <TypeDoesNotContainType>
-      <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
-      <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
-    </TypeDoesNotContainType>
   </file>
   <file src="redaxo/src/core/functions/function_rex_other.php">
     <PossiblyFalseArgument>
@@ -4477,7 +4484,6 @@
       <code><![CDATA[$_SESSION[static::getSessionNamespace()]]]></code>
     </PossiblyInvalidArrayOffset>
     <PossiblyNullArgument>
-      <code><![CDATA[$this->userPassword]]></code>
       <code><![CDATA[rex::getProperty('session_duration')]]></code>
     </PossiblyNullArgument>
   </file>

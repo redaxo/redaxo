@@ -468,8 +468,7 @@ abstract class rex_formatter
      * Formats a string by a custom callable.
      *
      * @param string $value Value
-     * @param callable|array $format A callable or an array of a callable and additional params
-     * @psalm-param callable(string):string|array{0: callable(non-empty-array):string, 1: mixed} $format
+     * @param callable(string):string|array{0: callable(non-empty-array):string, 1: mixed} $format A callable or an array of a callable and additional params
      *
      * @throws rex_exception
      *

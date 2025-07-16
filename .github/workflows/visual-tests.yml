@@ -120,7 +120,6 @@ jobs:
                     php -S localhost:8080 router.php &
 
             -   name: Take screenshots (differential)
-                if: github.event_name != 'repository_dispatch'
                 run: |
                     php redaxo/bin/console config:set setup true -t boolean --ansi -v
                     php redaxo/bin/console cache:clear --ansi -v
@@ -128,16 +127,6 @@ jobs:
                     php redaxo/bin/console config:set setup false -t boolean --ansi -v
                     php redaxo/bin/console cache:clear --ansi -v
                     node .github/tests-visual/visual-record.js
-                    git diff --exit-code --name-only .github/tests-visual/
-            -   name: Force regenerate all screenshots
-                if: github.event_name == 'repository_dispatch'
-                run: |
-                    php redaxo/bin/console config:set setup true -t boolean --ansi -v
-                    php redaxo/bin/console cache:clear --ansi -v
-                    node .github/tests-visual/visual-record.js setup regenerate-all
-                    php redaxo/bin/console config:set setup false -t boolean --ansi -v
-                    php redaxo/bin/console cache:clear --ansi -v
-                    node .github/tests-visual/visual-record.js regenerate-all
                     git diff --exit-code --name-only .github/tests-visual/
 
             -   name: Commit changed files
