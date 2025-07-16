@@ -24,6 +24,7 @@ class rex_console_command_loader implements CommandLoaderInterface
             'setup:check' => rex_command_setup_check::class,
             'setup:run' => rex_command_setup_run::class,
             'user:create' => rex_command_user_create::class,
+            'user:delete' => rex_command_user_delete::class,
         ];
 
         if (!rex::isSetup()) {
