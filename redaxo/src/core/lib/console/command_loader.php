@@ -39,6 +39,7 @@ class rex_console_command_loader implements CommandLoaderInterface
                 'system:report' => rex_command_system_report::class,
                 'user:create' => rex_command_user_create::class,
                 'user:delete' => rex_command_user_delete::class,
+                'user:list' => rex_command_user_list::class,
                 'user:set-password' => rex_command_user_set_password::class,
             ]);
         }

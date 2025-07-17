@@ -1,5 +1,7 @@
 <?php
 
+use Composer\CaBundle\CaBundle;
+
 /**
  * @package redaxo\install
  *
@@ -36,6 +38,7 @@ class rex_install_webservice
         try {
             $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
+            self::configureSecureSsl($socket);
             $response = $socket->doGet();
             if ($response->isOk()) {
                 $data = json_decode($response->getBody(), true);
@@ -70,6 +73,10 @@ class rex_install_webservice
     {
         try {
             $socket = rex_socket::factoryUrl($url);
+            // Only apply secure SSL config for redaxo.org URLs
+            if (self::HOST === parse_url($url, PHP_URL_HOST)) {
+                self::configureSecureSsl($socket);
+            }
             $response = $socket->doGet();
             if ($response->isOk()) {
                 $filename = rex_path::basename($url);
@@ -99,6 +106,7 @@ class rex_install_webservice
         try {
             $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
+            self::configureSecureSsl($socket);
             $files = [];
             if ($archive) {
                 $files['archive']['path'] = $archive;
@@ -137,6 +145,7 @@ class rex_install_webservice
         try {
             $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
+            self::configureSecureSsl($socket);
             $response = $socket->doDelete();
             if ($response->isOk()) {
                 $data = json_decode($response->getBody(), true);
@@ -234,6 +243,28 @@ class rex_install_webservice
                 }
             }
         }
+    }
+
+    /**
+     * Configures secure SSL options for redaxo.org connections.
+     */
+    private static function configureSecureSsl(rex_socket $socket): void
+    {
+        $socket->setOptions(['ssl' => [
+            'verify_peer' => true,
+            'verify_peer_name' => true,
+            'verify_depth' => 3,
+            'disable_compression' => true,
+            'SNI_enabled' => true,
+            // Enforce TLS 1.2+ only, prevent fallback to older protocols
+            'crypto_method' => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT,
+            // TLS 1.3 cipher suites (preferred)
+            'ciphersuites' => 'TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256',
+            // TLS 1.2 cipher suites (fallback)
+            'ciphers' => 'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256',
+            // Set CA bundle for enhanced security
+            'cafile' => CaBundle::getBundledCaBundlePath(),
+        ]]);
     }
 
     /**
