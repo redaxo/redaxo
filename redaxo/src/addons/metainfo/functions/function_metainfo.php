@@ -193,6 +193,15 @@ function rex_metainfo_delete_field($fieldIdOrName)
 
     $sql->delete();
 
+    // Reorganize priorities after deletion
+    $metaPrefixForQuery = $sql->escape($sql->escapeLikeWildcards($prefix) . '%');
+    rex_sql_util::organizePriorities(
+        rex::getTablePrefix() . 'metainfo_field',
+        'priority',
+        'name LIKE ' . $metaPrefixForQuery,
+        'priority, updatedate desc',
+    );
+
     $tableManager = new rex_metainfo_table_manager($metaTable);
     return $tableManager->deleteColumn($name);
 }
