@@ -9,7 +9,7 @@ use Composer\CaBundle\CaBundle;
  */
 class rex_install_webservice
 {
-    public const HOST = 'www.redaxo.org';
+    public const HOST = 'redaxo.org';
     public const PORT = 443;
     public const SSL = true;
     public const PATH = '/de/ws/';
