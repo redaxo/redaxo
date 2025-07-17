@@ -264,38 +264,20 @@ class rex_install_webservice
             'ciphers' => 'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256',
         ];
 
-        // Explicitly set CA bundle if available for enhanced security
-        $caBundle = self::getCABundle();
-        if ($caBundle) {
-            $sslOptions['cafile'] = $caBundle;
-        }
+        // Set CA bundle for enhanced security
+        $sslOptions['cafile'] = self::getCABundle();
 
         $socket->setOptions(['ssl' => $sslOptions]);
     }
 
     /**
-     * Attempts to locate a system CA bundle for certificate verification.
+     * Gets the CA bundle path using composer/ca-bundle.
      *
-     * @return string|null Path to CA bundle file, or null if not found
+     * @return string Path to CA bundle file
      */
     private static function getCABundle()
     {
-        // Common CA bundle locations across different systems
-        $caBundlePaths = [
-            '/etc/ssl/certs/ca-certificates.crt', // Debian/Ubuntu
-            '/etc/pki/tls/certs/ca-bundle.crt',   // Red Hat/CentOS
-            '/usr/share/ssl/certs/ca-bundle.crt', // Older Red Hat
-            '/usr/local/share/certs/ca-root-nss.crt', // FreeBSD
-            '/etc/ssl/cert.pem',                  // OpenBSD/macOS
-        ];
-
-        foreach ($caBundlePaths as $path) {
-            if (is_file($path) && is_readable($path)) {
-                return $path;
-            }
-        }
-
-        return null;
+        return \Composer\CaBundle\CaBundle::getBundledCaBundlePath();
     }
 
     /**
