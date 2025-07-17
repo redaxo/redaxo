@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 3.6.0 – XX.XX.2025
+--------------------------
+
+* Login-Seite: Neues Hintergrundbild (@gharlan)
+
+
 Version 3.5.1 – 10.02.2025
 --------------------------
 
