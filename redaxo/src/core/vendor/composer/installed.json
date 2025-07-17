@@ -1628,6 +1628,6 @@
             "install-path": "../voku/portable-utf8"
         }
     ],
-    "dev": true,
+    "dev": false,
     "dev-package-names": []
 }
