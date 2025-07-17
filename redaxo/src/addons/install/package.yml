@@ -1,5 +1,5 @@
 package: install
-version: '2.12.1'
+version: '2.13.0'
 author: Gregor Harlan
 supportpage: https://github.com/redaxo/redaxo
 
@@ -24,7 +24,7 @@ requires:
     php:
         version: '>=8.1'
         extensions: [zlib]
-    redaxo: ^5.16.0
+    redaxo: ^5.19.0
 
 
 console_commands:

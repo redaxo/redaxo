@@ -1,6 +1,21 @@
 Changelog
 =========
 
+Version 5.19.0 – 17.07.2025
+---------------------------
+
+### Neu
+
+* Session-Ablauf wird über Modal-Overlay angekündigt, mit Verlängerungsoption (@dergel, @tbaddade, @gharlan)
+* Neue Commands `user:list` und `user:delete` (@crydotsnake, @gharlan)
+
+### Bugfixes
+
+* Nach Umstellung auf PHP 8.4 gingen die Passwörter bei den Usern teils verloren, die gerade mit "Eingeloggt bleiben"-Option eingeloggt sind, oder die sich über einen Passkey einloggen (@gharlan)
+* `rex_form`: Vorhanden `data-confirm`-Attribute bei Control-Elementen werden nicht mehr überschrieben (@gharlan)
+* Command `user:create` wurden fälschlich auch im Setup-Modus angeboten, obwohl er erst danach funktioniert (@gharlan)
+
+
 Version 5.18.3 – 04.03.2025
 ---------------------------
 

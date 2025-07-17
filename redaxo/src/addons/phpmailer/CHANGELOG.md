@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.15.0 – 17.07.2025
+---------------------------
+
+### Neu
+
+* Neuer Mailer-Typ `Microsoft365`, der über die "Microsoft Graph API" versendet (@tyrant88, @skerbis)
+
+
 Version 2.14.0 – 22.10.2024
 ---------------------------
 

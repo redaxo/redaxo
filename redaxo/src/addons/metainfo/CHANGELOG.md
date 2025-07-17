@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.11.3 – 17.07.2025
+---------------------------
+
+### Bugfixes
+
+* Nach Löschung eines Feldes wurden die Prioritäten nicht neu gesetzt (@skerbis)
+* Escaping des Meta-Präfixes korrigiert (@gharlan)
+
+
 Version 2.11.2 – 04.03.2025
 ---------------------------
 

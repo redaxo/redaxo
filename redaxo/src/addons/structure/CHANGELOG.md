@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.18.0 – 17.07.2025
+---------------------------
+
+### Neu
+
+* Inhalte zwischen Sprachen kopieren: Optional können vorhandene Inhalte überschrieben werden (@omphteliba)
+
+### Bugfixes
+
+* History-Plugin: History-Datenbankstruktur an Struktur der Originaltabelle `rex_article_slice` angepasst (@dergel)
+
+
 Version 2.17.4 – 04.03.2025
 ---------------------------
 

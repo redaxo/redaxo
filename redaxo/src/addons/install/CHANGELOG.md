@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.13.0 – 17.07.2025
+---------------------------
+
+### Neu
+
+* Kommunikation mit redaxo.org mit SSL-Zertifikat-Validierung (@skerbis)
+* AddOn-Website-Link wird als externer Link markiert und in neuem Tab geöffnet (@crydotsnake)
+
+
 Version 2.12.1 – 24.02.2024
 ---------------------------
 

@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.16.0 – 17.07.2025
+---------------------------
+
+### Neu
+
+* Paginierung für die Medien (über Property `rows_per_page` konfigurierbar) (@Hasan-Alherek)
+* Erlaubte Mime-Types:
+  - `text/csv` wird erlaubt (@skerbis)
+  - Passwortgeschützte Excel/Word-Dateien werden erlaubt (@crydotsnake)
+
+
 Version 2.15.3 – 04.03.2025
 ---------------------------
 
