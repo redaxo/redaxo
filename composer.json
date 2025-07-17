@@ -37,7 +37,7 @@
         "lbuchs/webauthn": "v2.2.0",
         "phpmailer/phpmailer": "v6.10.0",
         "psr/container": "2.0.2",
-        "psr/http-message": "2.0",
+        "psr/http-message": "1.1",
         "psr/log": "3.0.2",
         "ramsey/collection": "1.3.0",
         "ramsey/http-range": "1.2.1",
