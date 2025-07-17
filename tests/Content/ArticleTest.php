@@ -60,6 +60,6 @@ final class ArticleTest extends TestCase
 
     private function createArticleWithoutConstructor(): Article
     {
-        return (new ReflectionClass(Article::class))->newInstanceWithoutConstructor();
+        return new ReflectionClass(Article::class)->newInstanceWithoutConstructor();
     }
 }

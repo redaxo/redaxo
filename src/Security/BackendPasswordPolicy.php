@@ -152,7 +152,7 @@ class BackendPasswordPolicy extends PasswordPolicy
         $minI = count($previousPasswords) - ($this->noReuseOfLast ?? 0);
 
         if (isset($this->noReuseWithin)) {
-            $minTimestamp = (new DateTimeImmutable())->sub($this->noReuseWithin)->getTimestamp();
+            $minTimestamp = new DateTimeImmutable()->sub($this->noReuseWithin)->getTimestamp();
         } else {
             $minTimestamp = time() + 1;
         }

@@ -351,7 +351,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         if ($ctype != $key) {
             $hasSlice = null !== ArticleSlice::getFirstSliceForCtype($key, $articleId, $clang);
         }
-        $editPage->addSubpage((new Page('ctype' . $key, I18n::translate($val)))
+        $editPage->addSubpage(new Page('ctype' . $key, I18n::translate($val))
             ->setHref(['page' => 'content/edit', 'article_id' => $articleId, 'clang' => $clang, 'ctype' => $key])
             ->setIsActive($ctype == $key)
             ->setItemAttr('class', $hasSlice ? '' : 'rex-empty'),

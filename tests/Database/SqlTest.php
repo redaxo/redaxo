@@ -287,7 +287,7 @@ final class SqlTest extends TestCase
         self::assertSame(2, $sql->getRows());
 
         self::assertSame('foo', $sql->getValue('col_str'));
-        self::assertSame((new DateTime('now', new DateTimeZone('UTC')))->format('Y-m-d'), $sql->getValue('col_date'));
+        self::assertSame(new DateTime('now', new DateTimeZone('UTC'))->format('Y-m-d'), $sql->getValue('col_date'));
         self::assertEquals(3, $sql->getValue('col_int'));
 
         $sql->next();

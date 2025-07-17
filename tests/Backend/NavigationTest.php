@@ -15,9 +15,9 @@ final class NavigationTest extends TestCase
     public function testSetPrio(): void
     {
         $navi = Navigation::factory();
-        $navi->addPage((new MainPage('addons', 'addon', 'addon'))->setIsActive(false));
-        $navi->addPage((new MainPage('system', 'system', 'system'))->setIsActive(true));
-        $navi->addPage((new MainPage('test', 'test', 'test'))->setIsActive(false));
+        $navi->addPage(new MainPage('addons', 'addon', 'addon')->setIsActive(false));
+        $navi->addPage(new MainPage('system', 'system', 'system')->setIsActive(true));
+        $navi->addPage(new MainPage('test', 'test', 'test')->setIsActive(false));
 
         $navi->setHeadline('test', 'Test');
         $navi->setHeadline('system', 'System');

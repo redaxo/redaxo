@@ -157,7 +157,7 @@ final class CategoryTest extends TestCase
 
     private function createCategoryWithoutConstructor(): Category
     {
-        return (new ReflectionClass(Category::class))->newInstanceWithoutConstructor();
+        return new ReflectionClass(Category::class)->newInstanceWithoutConstructor();
     }
 
     /** @return array{Category, Category, Category} */

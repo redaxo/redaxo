@@ -415,7 +415,7 @@ final class MediaHandler
 
         $content = Type::notNull(File::get($path));
 
-        $content = (new Sanitizer())->sanitize($content);
+        $content = new Sanitizer()->sanitize($content);
 
         File::put($path, $content);
     }

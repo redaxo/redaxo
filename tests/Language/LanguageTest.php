@@ -61,6 +61,6 @@ final class LanguageTest extends TestCase
 
     private function createClangWithoutConstructor(): Language
     {
-        return (new ReflectionClass(Language::class))->newInstanceWithoutConstructor();
+        return new ReflectionClass(Language::class)->newInstanceWithoutConstructor();
     }
 }
