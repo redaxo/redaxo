@@ -4,7 +4,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -18,8 +17,7 @@ final class rex_command_user_list extends rex_console_command
     protected function configure(): void
     {
         $this
-            ->setDescription('Choose between list all users, or only one by the given login name')
-            ->addOption('all', 'a', InputOption::VALUE_NONE, 'List all available users')
+            ->setDescription('List all users or a specific user by login name')
             ->addArgument('user', InputArgument::OPTIONAL, 'Username', null, static function () {
                 return array_column(rex_sql::factory()->getArray('SELECT login FROM' . rex::getTable('user')), 'login');
             });
@@ -29,67 +27,48 @@ final class rex_command_user_list extends rex_console_command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
-        $allOption = $input->getOption('all');
+
         $username = $input->getArgument('user');
-
-        if ($allOption) {
-            $this->listAllUsers($output);
-            return Command::SUCCESS;
-        }
-
+        $sql = rex_sql::factory();
+        $query = '
+            SELECT
+                IF(name <> "", name, login) as name,
+                `login`,
+                `email`,
+                IF(`admin`, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR ", ") FROM ' . rex::getTable('user_role') . ' r WHERE FIND_IN_SET(r.id, role)), "")) as role,
+                `createdate`,
+                `lastlogin`
+            FROM ' . rex::getTable('user') . '
+        ';
         if ($username) {
-            $user = rex_sql::factory();
-            $user->setQuery('SELECT `name`, `login`, `email`, `admin`, `createdate`, `lastlogin` FROM ' . rex::getTable('user') . ' WHERE login = :login', [
+            $sql->setQuery($query . ' WHERE login = :login', [
                 'login' => $username,
             ]);
 
-            if (0 === $user->getRows()) {
+            if (0 === $sql->getRows()) {
                 $io->error(sprintf('The user "%s" does not exist.', $username));
-                return Command::INVALID;
+                return Command::FAILURE;
             }
-
-            $userRows = [];
-            $userRows[] = [
-                $user->getValue('name'),
-                $user->getValue('login'),
-                $user->getValue('email') ?: 'No E-Mail Configured',
-                $user->getValue('admin'),
-                $user->getValue('createdate'),
-                $user->getValue('lastlogin'),
-            ];
-
-            $table = new Table($output);
-            $table
-                ->setHeaders(['Name', 'Login', 'E-Mail', 'Admin', 'Creation date', 'Last Login'])
-                ->setRows($userRows)
-                ->render();
-            return Command::SUCCESS;
-        }
-
-        $io->error('Please specify either "--all" or a login name.');
-        return Command::FAILURE;
-    }
-
-    private function listAllUsers(OutputInterface $output): void
-    {
-        $userRows = [];
-        $allUsers = rex_sql::factory();
-        $allUsers->setQuery('SELECT `name`, `login`, `email`, `admin`, `createdate`, `lastlogin` FROM ' . rex::getTable('user'));
-        foreach ($allUsers as $user) {
-            $userRows[] = [
-                $user->getValue('name'),
-                $user->getValue('login'),
-                $user->getValue('email') ?: 'No E-Mail configured',
-                $user->getValue('admin'),
-                $user->getValue('createdate'),
-                $user->getValue('lastlogin'),
-            ];
+        } else {
+            $sql->setQuery($query . ' ORDER BY name');
         }
 
         $table = new Table($output);
-        $table
-            ->setHeaders(['Name', 'Login', 'E-Mail', 'Admin', 'Creation date', 'Last Login'])
-            ->setRows($userRows)
-            ->render();
+        $table->setHeaders(['Name', 'Login', 'E-Mail', 'Roles', 'Created', 'Last Login']);
+
+        foreach ($sql as $user) {
+            $table->addRow([
+                $user->getValue('name'),
+                $user->getValue('login'),
+                $user->getValue('email'),
+                $user->getValue('role'),
+                $user->getValue('createdate'),
+                $user->getValue('lastlogin'),
+            ]);
+        }
+
+        $table->render();
+
+        return Command::SUCCESS;
     }
 }
