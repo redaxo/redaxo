@@ -1,5 +1,7 @@
 <?php
 
+use Composer\CaBundle\CaBundle;
+
 /**
  * @package redaxo\install
  *
@@ -277,7 +279,7 @@ class rex_install_webservice
      */
     private static function getCABundle()
     {
-        return \Composer\CaBundle\CaBundle::getBundledCaBundlePath();
+        return CaBundle::getBundledCaBundlePath();
     }
 
     /**
