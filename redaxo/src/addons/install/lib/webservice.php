@@ -38,7 +38,7 @@ class rex_install_webservice
         try {
             $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
-            self::configureSecureSSL($socket);
+            self::configureSecureSsl($socket);
             $response = $socket->doGet();
             if ($response->isOk()) {
                 $data = json_decode($response->getBody(), true);
@@ -75,7 +75,7 @@ class rex_install_webservice
             $socket = rex_socket::factoryUrl($url);
             // Only apply secure SSL config for redaxo.org URLs
             if (self::HOST === parse_url($url, PHP_URL_HOST)) {
-                self::configureSecureSSL($socket);
+                self::configureSecureSsl($socket);
             }
             $response = $socket->doGet();
             if ($response->isOk()) {
@@ -106,7 +106,7 @@ class rex_install_webservice
         try {
             $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
-            self::configureSecureSSL($socket);
+            self::configureSecureSsl($socket);
             $files = [];
             if ($archive) {
                 $files['archive']['path'] = $archive;
@@ -145,7 +145,7 @@ class rex_install_webservice
         try {
             $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
-            self::configureSecureSSL($socket);
+            self::configureSecureSsl($socket);
             $response = $socket->doDelete();
             if ($response->isOk()) {
                 $data = json_decode($response->getBody(), true);
@@ -247,12 +247,10 @@ class rex_install_webservice
 
     /**
      * Configures secure SSL options for redaxo.org connections.
-     *
-     * @return void
      */
-    private static function configureSecureSSL(rex_socket $socket)
+    private static function configureSecureSsl(rex_socket $socket): void
     {
-        $sslOptions = [
+        $socket->setOptions(['ssl' => [
             'verify_peer' => true,
             'verify_peer_name' => true,
             'verify_depth' => 3,
@@ -264,22 +262,9 @@ class rex_install_webservice
             'ciphersuites' => 'TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256',
             // TLS 1.2 cipher suites (fallback)
             'ciphers' => 'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256',
-        ];
-
-        // Set CA bundle for enhanced security
-        $sslOptions['cafile'] = self::getCABundle();
-
-        $socket->setOptions(['ssl' => $sslOptions]);
-    }
-
-    /**
-     * Gets the CA bundle path using composer/ca-bundle.
-     *
-     * @return string Path to CA bundle file
-     */
-    private static function getCABundle()
-    {
-        return CaBundle::getBundledCaBundlePath();
+            // Set CA bundle for enhanced security
+            'cafile' => CaBundle::getBundledCaBundlePath(),
+        ]]);
     }
 
     /**
