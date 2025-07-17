@@ -2,6 +2,7 @@
     "type": "project",
 
     "require": {
+        "composer/ca-bundle": "^1.5.7",
         "enshrined/svg-sanitize": "^0.21",
         "erusev/parsedown": "^1.7.4",
         "erusev/parsedown-extra": "^0.8.1",
