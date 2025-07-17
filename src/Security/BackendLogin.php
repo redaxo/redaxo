@@ -60,7 +60,7 @@ class BackendLogin extends Login
             )';
 
         if ($blockAccountAfter = $this->passwordPolicy->getBlockAccountAfter()) {
-            $datetime = (new DateTimeImmutable())->sub($blockAccountAfter);
+            $datetime = new DateTimeImmutable()->sub($blockAccountAfter);
             $qry .= ' AND password_changed > "' . $datetime->format(Sql::FORMAT_DATETIME) . '"';
         }
 
@@ -176,7 +176,7 @@ class BackendLogin extends Login
                 if ($this->user->getValue('password_change_required')) {
                     $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, true);
                 } elseif ($forceRenewAfter = $this->passwordPolicy->getForceRenewAfter()) {
-                    $datetime = (new DateTimeImmutable())->sub($forceRenewAfter);
+                    $datetime = new DateTimeImmutable()->sub($forceRenewAfter);
                     if (strtotime($this->user->getValue('password_changed')) < $datetime->getTimestamp()) {
                         $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, true);
                     }

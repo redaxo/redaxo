@@ -402,7 +402,7 @@ class Request
             throw new HttpClientException('Timeout.');
         }
 
-        return (new Response($this->stream))->decompressContent($this->acceptCompression);
+        return new Response($this->stream)->decompressContent($this->acceptCompression);
     }
 
     /**

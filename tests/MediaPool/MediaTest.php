@@ -39,6 +39,6 @@ final class MediaTest extends TestCase
 
     private function createMediaWithoutConstructor(): Media
     {
-        return (new ReflectionClass(Media::class))->newInstanceWithoutConstructor();
+        return new ReflectionClass(Media::class)->newInstanceWithoutConstructor();
     }
 }

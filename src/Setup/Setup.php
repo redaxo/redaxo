@@ -342,7 +342,7 @@ class Setup
         $config = File::getConfig($configFile);
 
         $config['setup'] = isset($config['setup']) && is_array($config['setup']) ? $config['setup'] : [];
-        $config['setup'][$token] = (new DateTimeImmutable('+1 hour'))->format('Y-m-d H:i:s');
+        $config['setup'][$token] = new DateTimeImmutable('+1 hour')->format('Y-m-d H:i:s');
 
         if (!File::putConfig($configFile, $config)) {
             return false;

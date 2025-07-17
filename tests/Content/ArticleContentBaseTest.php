@@ -61,6 +61,6 @@ final class ArticleContentBaseTest extends TestCase
 
     private function createArticleContentBaseWithoutConstructor(): ArticleContentBase
     {
-        return (new ReflectionClass(ArticleContentBase::class))->newInstanceWithoutConstructor();
+        return new ReflectionClass(ArticleContentBase::class)->newInstanceWithoutConstructor();
     }
 }
