@@ -41,9 +41,9 @@ if ('' == $func) {
     $title = rex_i18n::msg('minfo_field_list_caption');
 
     $sql = rex_sql::factory();
-    $likePrefix = $sql->escapeLikeWildcards($prefix);
+    $likePrefix = $sql->escape($sql->escapeLikeWildcards($prefix) . '%');
 
-    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
+    $list = rex_list::factory('SELECT id, name, priority FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE ' . $likePrefix . ' ORDER BY priority');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-metainfo"></i>';
@@ -58,6 +58,9 @@ if ('' == $func) {
 
     $list->setColumnLabel('name', rex_i18n::msg('minfo_field_label_name'));
     $list->setColumnParams('name', ['func' => 'edit', 'field_id' => '###id###']);
+
+    $list->setColumnLabel('priority', rex_i18n::msg('minfo_field_label_priority'));
+    $list->setColumnLayout('priority', ['<th class="rex-table-priority">###VALUE###</th>', '<td class="rex-table-priority" data-title="' . rex_i18n::msg('minfo_field_label_priority') . '">###VALUE###</td>']);
 
     $list->addColumn(rex_i18n::msg('minfo_field_label_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('minfo_field_label_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
