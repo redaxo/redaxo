@@ -203,6 +203,8 @@ return RectorConfig::configure()
         'rex_command_package_uninstall' => Console\Command\AddonUninstallCommand::class,
         'rex_command_system_report' => Console\Command\SystemReportCommand::class,
         'rex_command_user_create' => Console\Command\UserCreateCommand::class,
+        'rex_command_user_delete' => Console\Command\UserDeleteCommand::class,
+        'rex_command_user_list' => Console\Command\UserListCommand::class,
         'rex_command_user_set_password' => Console\Command\UserSetPasswordCommand::class,
         'rex_command_only_setup_packages' => Console\Command\OnlySetupAddonsInterface::class,
         'rex_command_standalone' => Console\Command\StandaloneInterface::class,

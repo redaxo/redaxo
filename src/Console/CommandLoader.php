@@ -25,6 +25,8 @@ use Redaxo\Core\Console\Command\SetupCheckCommand;
 use Redaxo\Core\Console\Command\SetupRunCommand;
 use Redaxo\Core\Console\Command\SystemReportCommand;
 use Redaxo\Core\Console\Command\UserCreateCommand;
+use Redaxo\Core\Console\Command\UserDeleteCommand;
+use Redaxo\Core\Console\Command\UserListCommand;
 use Redaxo\Core\Console\Command\UserSetPasswordCommand;
 use Redaxo\Core\Core;
 use Redaxo\Core\Exception\RuntimeException;
@@ -70,8 +72,8 @@ final class CommandLoader implements CommandLoaderInterface
                 'addon:uninstall' => AddonUninstallCommand::class,
                 'system:report' => SystemReportCommand::class,
                 'user:create' => UserCreateCommand::class,
-                'user:delete' => \rex_command_user_delete::class,
-                'user:list' => \rex_command_user_list::class,
+                'user:delete' => UserDeleteCommand::class,
+                'user:list' => UserListCommand::class,
                 'user:set-password' => UserSetPasswordCommand::class,
             ]);
         }

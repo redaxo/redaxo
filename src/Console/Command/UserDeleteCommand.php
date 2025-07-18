@@ -1,16 +1,24 @@
 <?php
 
+namespace Redaxo\Core\Console\Command;
+
+use Override;
+use Redaxo\Core\Core;
+use Redaxo\Core\Database\Sql;
+use Redaxo\Core\ExtensionPoint\Extension;
+use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Security\User;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function sprintf;
+
 /**
- * @package redaxo\core
- *
  * @internal
  */
-final class rex_command_user_delete extends rex_console_command
+final class UserDeleteCommand extends AbstractCommand
 {
     #[Override]
     protected function configure(): void
@@ -18,7 +26,7 @@ final class rex_command_user_delete extends rex_console_command
         $this
             ->setDescription('Deletes an user by the specified login name.')
             ->addArgument('user', InputArgument::REQUIRED, 'Username', null, static function () {
-                return array_column(rex_sql::factory()->getArray('SELECT login FROM ' . rex::getTable('user')), 'login');
+                return array_column(Sql::factory()->getArray('SELECT login FROM ' . Core::getTable('user')), 'login');
             })
         ;
     }
@@ -30,7 +38,7 @@ final class rex_command_user_delete extends rex_console_command
 
         $username = $input->getArgument('user');
 
-        $user = rex_user::forLogin($username);
+        $user = User::forLogin($username);
 
         if (!$user) {
             $io->error(sprintf('The user "%s" does not exist.', $username));
@@ -49,15 +57,15 @@ final class rex_command_user_delete extends rex_console_command
         return Command::SUCCESS;
     }
 
-    private function deleteUser(rex_user $user): void
+    private function deleteUser(User $user): void
     {
-        $sql = rex_sql::factory();
-        $sql->setTable(rex::getTable('user'));
+        $sql = Sql::factory();
+        $sql->setTable(Core::getTable('user'));
         $sql->setWhere(['id' => $user->getId()])->delete();
 
-        rex_user::clearInstance($user->getId());
+        User::clearInstance($user->getId());
 
-        rex_extension::registerPoint(new rex_extension_point('USER_DELETED', '', [
+        Extension::registerPoint(new ExtensionPoint('USER_DELETED', '', [
             'id' => $user->getId(),
             'user' => $user,
         ], true));
