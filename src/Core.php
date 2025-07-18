@@ -59,8 +59,7 @@ final class Core
      * @template T as ?string
      * @param T $key The associated key
      * @param mixed $default Default return value if no associated-value can be found
-     * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
-     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
+     * @return (T is string ? mixed|null : array<string, mixed>) the value for $key or $default if $key cannot be found in the given $namespace
      */
     public static function getConfig(?string $key = null, mixed $default = null): mixed
     {
@@ -156,8 +155,7 @@ final class Core
      * @param string $key Key of the property
      * @param mixed $default Default value, will be returned if the property isn't set
      *
-     * @return mixed The value for $key or $default if $key cannot be found
-     * @psalm-return (
+     * @return (
      *      $key is 'login' ? BackendLogin|null :
      *      ($key is 'live_mode' ? bool :
      *      ($key is 'safe_mode' ? bool :
@@ -188,7 +186,7 @@ final class Core
      *      ($key is 'setup_addons' ? non-empty-string[] :
      *      mixed|null
      *      )))))))))))))))))))))))))))
-     * )
+     * ) The value for $key or $default if $key cannot be found
      */
     public static function getProperty(string $key, mixed $default = null): mixed
     {

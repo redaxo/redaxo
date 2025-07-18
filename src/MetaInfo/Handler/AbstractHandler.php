@@ -604,7 +604,7 @@ abstract class AbstractHandler
     protected static function getSqlFields($prefix, $filterCondition = '')
     {
         $sqlFields = Sql::factory();
-        $prefix = $sqlFields->escapeLikeWildcards($prefix);
+        $prefix = $sqlFields->escape($sqlFields->escapeLikeWildcards($prefix) . '%');
 
         $qry = 'SELECT
                             *
@@ -613,7 +613,7 @@ abstract class AbstractHandler
                             ' . Core::getTablePrefix() . 'metainfo_type t
                         WHERE
                             `p`.`type_id` = `t`.`id` AND
-                            `p`.`name` LIKE "' . $prefix . '%"
+                            `p`.`name` LIKE ' . $prefix . '
                             ' . $filterCondition . '
                             ORDER BY
                             priority';

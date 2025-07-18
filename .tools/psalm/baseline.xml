@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.12.0@cf420941d061a57050b6c468ef2c778faf40aee2">
+<files psalm-version="6.13.0@70cdf647255a1362b426bb0f522a85817b8c791c">
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
       <code><![CDATA[$query['query']]]></code>
@@ -297,10 +297,10 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/install/pages/settings.php">
-    <NullOperand>
+    <MixedOperand>
       <code><![CDATA[escape($config['api_key'])]]></code>
       <code><![CDATA[escape($config['api_login'])]]></code>
-    </NullOperand>
+    </MixedOperand>
   </file>
   <file src="redaxo/src/core/backend.php">
     <InvalidOperand>
@@ -1110,14 +1110,14 @@
     <MixedArgument>
       <code><![CDATA[Core::getConfig('media_manager_interlace')]]></code>
     </MixedArgument>
-    <NullOperand>
+    <MixedOperand>
       <code><![CDATA[escape(Core::getConfig('media_manager_jpg_quality'))]]></code>
       <code><![CDATA[escape(Core::getConfig('media_manager_jpg_quality'))]]></code>
       <code><![CDATA[escape(Core::getConfig('media_manager_png_compression'))]]></code>
       <code><![CDATA[escape(Core::getConfig('media_manager_png_compression'))]]></code>
       <code><![CDATA[escape(Core::getConfig('media_manager_webp_quality'))]]></code>
       <code><![CDATA[escape(Core::getConfig('media_manager_webp_quality'))]]></code>
-    </NullOperand>
+    </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[Core::getConfig('media_manager_interlace')]]></code>
     </PossiblyNullArgument>
@@ -1345,12 +1345,10 @@
     <MixedOperand>
       <code><![CDATA[Core::getConfig('phpmailer_mailer')]]></code>
       <code><![CDATA[Core::getConfig('phpmailer_smtpsecure')]]></code>
-    </MixedOperand>
-    <NullOperand>
       <code><![CDATA[escape(Core::getConfig('phpmailer_host'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_port'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_test_address'))]]></code>
-    </NullOperand>
+    </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[Core::getConfig('phpmailer_test_address')]]></code>
     </PossiblyNullArgument>
@@ -1373,20 +1371,25 @@
       <code><![CDATA[Core::getConfig('phpmailer_smtpauth')]]></code>
       <code><![CDATA[Core::getConfig('phpmailer_smtpsecure')]]></code>
     </MixedArgument>
-    <NullOperand>
+    <MixedOperand>
+      <code><![CDATA[Core::getConfig('phpmailer_msgraph_client_id')]]></code>
+      <code><![CDATA[Core::getConfig('phpmailer_msgraph_tenant_id')]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_bcc'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_charset'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_confirmto'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_from'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_fromname'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_host'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_msgraph_client_id'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_msgraph_client_secret'))]]></code>
+      <code><![CDATA[escape(Core::getConfig('phpmailer_msgraph_tenant_id'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_password'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_port'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_returnto'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_test_address'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_username'))]]></code>
       <code><![CDATA[escape(Core::getConfig('phpmailer_wordwrap'))]]></code>
-    </NullOperand>
+    </MixedOperand>
     <PossiblyNullArgument>
       <code><![CDATA[Core::getConfig('phpmailer_encoding')]]></code>
       <code><![CDATA[Core::getConfig('phpmailer_logging')]]></code>
@@ -1752,10 +1755,10 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/pages/system.be_style.customizer.php">
-    <NullOperand>
+    <MixedOperand>
       <code><![CDATA[escape(Core::getConfig('be_style_labelcolor', ''))]]></code>
       <code><![CDATA[escape(Core::getConfig('be_style_labelcolor', ''))]]></code>
-    </NullOperand>
+    </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/system.clangs.php">
     <NullOperand>
@@ -3639,11 +3642,18 @@
       <code><![CDATA[$this->Username]]></code>
       <code><![CDATA[$this->WordWrap]]></code>
       <code><![CDATA[$this->archive]]></code>
+      <code><![CDATA[$this->graphClientId]]></code>
+      <code><![CDATA[$this->graphClientSecret]]></code>
+      <code><![CDATA[$this->graphTenantId]]></code>
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[$this->xHeader[$kind]]]></code>
       <code><![CDATA[$this->xHeader['to']]]></code>
     </MixedOperand>
+    <PossiblyFalseArgument>
+      <code><![CDATA[json_encode($mailData)]]></code>
+      <code><![CDATA[json_encode($mailData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)]]></code>
+    </PossiblyFalseArgument>
     <PossiblyNullArgument>
       <code><![CDATA[$address]]></code>
     </PossiblyNullArgument>
@@ -4584,6 +4594,9 @@
     <MixedMethodCall>
       <code><![CDATA[getValue]]></code>
     </MixedMethodCall>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$value]]></code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="src/Security/ApiFunction/UserHasSession.php">
     <MixedArgument>
@@ -4632,7 +4645,6 @@
       <code><![CDATA[$_SESSION[static::getSessionNamespace()]]]></code>
     </PossiblyInvalidArrayOffset>
     <PossiblyNullArgument>
-      <code><![CDATA[$this->userPassword]]></code>
       <code><![CDATA[Core::getProperty('session_duration')]]></code>
     </PossiblyNullArgument>
   </file>
@@ -5139,9 +5151,6 @@
     </PossiblyNullReference>
   </file>
   <file src="src/View/escape.php">
-    <InvalidCast>
-      <code><![CDATA[$value]]></code>
-    </InvalidCast>
     <InvalidReturnStatement>
       <code><![CDATA[$string]]></code>
       <code><![CDATA[$string]]></code>
@@ -5174,10 +5183,6 @@
       <code><![CDATA[1 === strlen($char) ? ord($char) : mb_ord($char, 'UTF-8')]]></code>
       <code><![CDATA[mb_ord($chr, 'UTF-8')]]></code>
     </PossiblyFalseArgument>
-    <TypeDoesNotContainType>
-      <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
-      <code><![CDATA[is_object($value) && method_exists($value, '__toString')]]></code>
-    </TypeDoesNotContainType>
   </file>
   <file src="tests/Console/Command/ConfigSetCommandTest.php">
     <PossiblyFalsePropertyAssignmentValue>

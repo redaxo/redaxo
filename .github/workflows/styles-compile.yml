@@ -74,7 +74,7 @@ jobs:
                 run: php redaxo/bin/console assets:compile-styles --ansi -v
 
             -   name: Commit changed files
-                uses: stefanzweifel/git-auto-commit-action@v5
+                uses: stefanzweifel/git-auto-commit-action@v6
                 if: env.writable == 1
                 with:
                     commit_message: Apply assets:compile-styles

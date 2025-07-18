@@ -1106,8 +1106,7 @@ class Sql implements Iterator
      *
      * @throws SqlException on errors
      *
-     * @return list<array<int|string, scalar|null>>|array<int|string, scalar|null>
-     * @psalm-return (
+     * @return (
      *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
      *    (
      *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null>> :
@@ -1144,8 +1143,7 @@ class Sql implements Iterator
      *
      * @throws SqlException on errors
      *
-     * @return list<array<int|string, scalar|null>>|array<int|string, scalar|null>
-     * @psalm-return (
+     * @return (
      *    TFetchType is PDO::FETCH_KEY_PAIR ? array<int|string, scalar|null> :
      *    (
      *       TFetchType is PDO::FETCH_NUM ? list<array<int, scalar|null>> :
@@ -1374,7 +1372,7 @@ class Sql implements Iterator
     /**
      * Escapes the `LIKE` wildcard chars "%" and "_" in given value.
      *
-     * @psalm-return ($value is numeric-string ? numeric-string :
+     * @return ($value is numeric-string ? numeric-string :
      *   ($value is non-falsy-string ? non-falsy-string :
      *   ($value is non-empty-string ? non-empty-string : string
      * )))
@@ -1702,8 +1700,7 @@ class Sql implements Iterator
      *
      * @throws SqlException
      *
-     * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
-     * @psalm-return list<array{name: string, type: string, null: 'YES'|'NO', key: string, default: null|string, extra: string, comment: null|string}>
+     * @return list<array{name: string, type: string, null: 'YES'|'NO', key: string, default: string|null, extra: string, comment: string|null}> Ein mehrdimensionales Array das die Metadaten enthaelt
      */
     public static function showColumns(string $table, int $db = 1): array
     {

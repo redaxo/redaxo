@@ -141,7 +141,8 @@ class BackendLogin extends Login
                 self::regenerateSessionId();
                 $params = [];
                 $add = '';
-                if (($password = $this->user->getValue('password')) && self::passwordNeedsRehash($password)) {
+                $password = $this->user->getValue('password');
+                if ($password && $this->userLogin && $this->userPassword && self::passwordNeedsRehash($password)) {
                     $add .= 'password = ?, ';
                     $params[] = $password = self::passwordHash($this->userPassword, true);
                 }

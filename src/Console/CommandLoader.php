@@ -53,7 +53,6 @@ final class CommandLoader implements CommandLoaderInterface
             'db:set-connection' => DatabaseSetConnectionCommand::class,
             'setup:check' => SetupCheckCommand::class,
             'setup:run' => SetupRunCommand::class,
-            'user:create' => UserCreateCommand::class,
         ];
 
         if (!Core::isSetup()) {
@@ -70,6 +69,9 @@ final class CommandLoader implements CommandLoaderInterface
                 'addon:run-update-script' => AddonRunUpdateScriptCommand::class,
                 'addon:uninstall' => AddonUninstallCommand::class,
                 'system:report' => SystemReportCommand::class,
+                'user:create' => UserCreateCommand::class,
+                'user:delete' => \rex_command_user_delete::class,
+                'user:list' => \rex_command_user_list::class,
                 'user:set-password' => UserSetPasswordCommand::class,
             ]);
         }

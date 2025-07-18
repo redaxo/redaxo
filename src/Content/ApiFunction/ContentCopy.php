@@ -25,6 +25,7 @@ class ContentCopy extends ApiFunction
         $articleId = Request::request('article_id', 'int');
         $clangA = Request::request('clang_a', 'int');
         $clangB = Request::request('clang_b', 'int');
+        $overwrite = Request::request('overwrite', 'bool', false);
 
         $user = Core::requireUser();
 
@@ -34,7 +35,7 @@ class ContentCopy extends ApiFunction
             && $user->getComplexPerm('clang')->hasPerm($clangA)
             && $user->getComplexPerm('clang')->hasPerm($clangB)
         ) {
-            if (ContentHandler::copyContent($articleId, $articleId, $clangA, $clangB)) {
+            if (ContentHandler::copyContent($articleId, $articleId, $clangA, $clangB, null, $overwrite)) {
                 return new Result(true, I18n::msg('content_contentcopy'));
             }
 

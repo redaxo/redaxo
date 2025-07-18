@@ -239,6 +239,15 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
 
     $formElements = [];
     $n = [];
+    $n['field'] = '<div class="checkbox"><label><input type="checkbox" name="overwrite" value="1" /> ' . I18n::msg('content_overwrite') . '</label></div>';
+    $formElements[] = $n;
+
+    $fragment = new Fragment();
+    $fragment->setVar('elements', $formElements, false);
+    $panel .= $fragment->parse('core/form/form.php');
+
+    $formElements = [];
+    $n = [];
     $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="content_copy" value="1" data-confirm="' . I18n::msg('content_submitcopycontent') . '?" ' . $onclickApiFields(ContentCopy::getHiddenFields()) . '>' . I18n::msg('content_submitcopycontent') . '</button>';
     $formElements[] = $n;
 

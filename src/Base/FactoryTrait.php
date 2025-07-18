@@ -34,8 +34,8 @@ trait FactoryTrait
     /**
      * Sets the class for the factory.
      *
-     * @psalm-param class-string<self> $subClass https://github.com/vimeo/psalm/issues/5535
      * @phpstan-param class-string<static> $subClass
+     * @psalm-param class-string<self> $subClass https://github.com/vimeo/psalm/issues/5535
      */
     public static function setFactoryClass(string $subClass): void
     {

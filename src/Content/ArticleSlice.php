@@ -358,8 +358,7 @@ class ArticleSlice
     /**
      * @template T of int|string
      * @param T $index
-     * @return int|string|null
-     * @psalm-return (T is int ? string|null : int|string|null)
+     * @return (T is int ? string|null : int|string|null)
      */
     public function getValue($index)
     {

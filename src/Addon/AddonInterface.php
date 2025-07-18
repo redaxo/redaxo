@@ -67,8 +67,7 @@ interface AddonInterface
      * @template T as ?string
      * @param T $key The associated key
      * @param mixed $default Default return value if no associated-value can be found
-     * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
-     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
+     * @return (T is string ? mixed|null : array<string, mixed>) the value for $key or $default if $key cannot be found in the given $namespace
      */
     public function getConfig(?string $key = null, mixed $default = null): mixed;
 

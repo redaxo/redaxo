@@ -19,8 +19,6 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         if: github.event.pull_request.draft == false
-        env:
-            PHP_CS_FIXER_IGNORE_ENV: 1
         permissions:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
@@ -66,7 +64,7 @@ jobs:
                 run: vendor/bin/php-cs-fixer list-files --config=.php-cs-fixer.dist.php | xargs -n 250 -P 3 vendor/bin/php-cs-fixer fix --diff --config=.php-cs-fixer.dist.php
 
             -   name: Commit changed files
-                uses: stefanzweifel/git-auto-commit-action@v5
+                uses: stefanzweifel/git-auto-commit-action@v6
                 if: env.writable == 1
                 with:
                     commit_message: Apply php-cs-fixer changes
@@ -110,7 +108,7 @@ jobs:
                 run: vendor/bin/rector process --no-progress-bar
 
             -   name: Commit changed files
-                uses: stefanzweifel/git-auto-commit-action@v5
+                uses: stefanzweifel/git-auto-commit-action@v6
                 if: env.writable == 1
                 with:
                     commit_message: Apply rector changes

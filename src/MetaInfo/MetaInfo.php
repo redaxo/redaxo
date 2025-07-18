@@ -201,6 +201,10 @@ class MetaInfo
 
         $sql->delete();
 
+        // Reorganize priorities after deletion
+        $prefix = $sql->escape($sql->escapeLikeWildcards($prefix) . '%');
+        Util::organizePriorities(Core::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE ' . $prefix, 'priority, updatedate desc');
+
         $tableManager = new MetaInfoTable($metaTable);
         return $tableManager->deleteColumn($name);
     }

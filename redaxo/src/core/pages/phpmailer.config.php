@@ -36,6 +36,9 @@ if ('' != Request::post('btn_save', 'string') || '' != Request::post('btn_check'
         ['phpmailer_charset', 'string'],
         ['phpmailer_wordwrap', 'int'],
         ['phpmailer_encoding', 'string'],
+        ['phpmailer_msgraph_client_id', 'string'],
+        ['phpmailer_msgraph_client_secret', 'string'],
+        ['phpmailer_msgraph_tenant_id', 'string'],
         ['phpmailer_username', 'string'],
         ['phpmailer_password', 'string'],
         ['phpmailer_smtpsecure', 'string'],
@@ -52,6 +55,14 @@ if ('' != Request::post('btn_save', 'string') || '' != Request::post('btn_check'
         $settings['phpmailer_detour_mode'] = false;
         $warning = I18n::msg('phpmailer_detour_warning');
         echo Message::warning($warning);
+    }
+
+    // Reset the token if the Microsoft 365 settings have changed
+    if ('' != Core::getConfig('phpmailer_msgraph_client_id')
+        && $settings['phpmailer_msgraph_client_id'] . $settings['phpmailer_msgraph_client_secret'] . $settings['phpmailer_msgraph_tenant_id'] !=
+        Core::getConfig('phpmailer_msgraph_client_id') . Core::getConfig('phpmailer_msgraph_client_secret') . Core::getConfig('phpmailer_msgraph_tenant_id')) {
+        Core::setConfig('phpmailer_msgraph_token', '');
+        echo Message::success(I18n::msg('phpmailer_msgraph_token_deleted'));
     }
 
     Config::set('core', $settings);
@@ -80,6 +91,7 @@ if (function_exists('mail')) {
 }
 $mta[] = 'smtp';
 $mta[] = 'sendmail';
+$mta[] = 'microsoft365';
 foreach ($mta as $type) {
     $selMailer->addOption($type, $type);
 }
@@ -224,6 +236,29 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="phpmailer-mailer">' . I18n::msg('phpmailer_mailertype') . '</label>';
 $n['field'] = $selMailer->get();
+$formElements[] = $n;
+
+$fragment = new Fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+$formElements = [];
+
+$content .= '</fieldset>';
+$content .= '<fieldset id="microsoftsettings" data-toggle="tooltip" title="' . I18n::msg('phpmailer_microsoft365_info') . '"><legend>' . I18n::msg('phpmailer_microsoft_options') . ' <i class="rex-icon fa-question-circle"></i></legend>';
+
+$n = [];
+$n['label'] = '<label for="phpmailer-msgraph_tenant_id">' . I18n::msg('phpmailer_msgraph_tenant_id') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-msgraph_tenant_id" type="text" name="settings[phpmailer_msgraph_tenant_id]" value="' . escape(Core::getConfig('phpmailer_msgraph_tenant_id')) . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-msgraph_client_id">' . I18n::msg('phpmailer_msgraph_client_id') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-msgraph_client_id" type="text" name="settings[phpmailer_msgraph_client_id]" value="' . escape(Core::getConfig('phpmailer_msgraph_client_id')) . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-msgraph_client_secret">' . I18n::msg('phpmailer_msgraph_client_secret') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-msgraph_client_secret" type="text" name="settings[phpmailer_msgraph_client_secret]" value="' . escape(Core::getConfig('phpmailer_msgraph_client_secret')) . '" />';
 $formElements[] = $n;
 
 $fragment = new Fragment();
@@ -385,11 +420,14 @@ echo '
     $('#smtpsettings').toggle(
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );
-     $('#securetype').toggle(
+    $('#microsoftsettings').toggle(
+        $('#phpmailer-mailer').find("option[value='microsoft365']").is(":checked")
+    );
+    $('#securetype').toggle(
         $('#security_mode').find("option[value='0']").is(":checked")
     );
 
-     $('#smtpauthlogin').toggle(
+    $('#smtpauthlogin').toggle(
         $('#phpmailer-smtpauth').find("option[value='1']").is(":checked")
     );
 
@@ -398,6 +436,14 @@ echo '
             $('#smtpsettings').slideDown();
         } else {
             $('#smtpsettings').slideUp();
+        }
+    });
+
+    $('#phpmailer-mailer').change(function(){
+        if ($(this).val() == 'microsoft365') {
+            $('#microsoftsettings').slideDown();
+        } else {
+            $('#microsoftsettings').slideUp();
         }
     });
 

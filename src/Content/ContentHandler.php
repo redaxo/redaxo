@@ -242,10 +242,11 @@ class ContentHandler
      * @param int $fromClang ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
      * @param int $toClang ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
      * @param int|null $revision If null, slices of all revisions are copied
+     * @param bool $overwrite If true, existing content in target language will be deleted before copying
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    public static function copyContent($fromId, $toId, $fromClang = 1, $toClang = 1, $revision = null)
+    public static function copyContent($fromId, $toId, $fromClang = 1, $toClang = 1, $revision = null, $overwrite = false)
     {
         if ($fromId == $toId && $fromClang == $toClang) {
             return false;
@@ -258,15 +259,22 @@ class ContentHandler
             $gc->setQuery('select * from ' . Core::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$fromId, $fromClang, $revision]);
         }
 
-        if (!$gc->getRows()) {
-            return true;
-        }
-
         Extension::registerPoint(new ExtensionPoint('ART_SLICES_COPY', '', [
             'article_id' => $toId,
             'clang_id' => $toClang,
             'slice_revision' => $revision,
+            'overwrite' => $overwrite,
         ]));
+
+        // Wenn Überschreiben aktiviert ist, lösche zuerst den bestehenden Inhalt
+        if ($overwrite) {
+            $sql = Sql::factory();
+            if (null === $revision) {
+                $sql->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'article_slice WHERE article_id=? AND clang_id=?', [$toId, $toClang]);
+            } else {
+                $sql->setQuery('DELETE FROM ' . Core::getTablePrefix() . 'article_slice WHERE article_id=? AND clang_id=? AND revision=?', [$toId, $toClang, $revision]);
+            }
+        }
 
         $ins = Sql::factory();
         // $ins->setDebug();

@@ -176,8 +176,7 @@ class Page
      *
      * @template T as ?string
      * @param T $name
-     * @return string|array<string, string> Attribute value for given `$name` or attribute array if `$name` is `null`
-     * @psalm-return (T is string ? string : array<string, string>)
+     * @return (T is string ? string : array<string, string>) Attribute value for given `$name` or attribute array if `$name` is `null`
      */
     public function getItemAttr(?string $name, string $default = ''): string|array
     {
@@ -241,8 +240,7 @@ class Page
      *
      * @template T as ?string
      * @param T $name
-     * @return string|array<string, string> Attribute value for given `$name` or attribute array if `$name` is `null`
-     * @psalm-return (T is string ? string : array<string, string>)
+     * @return (T is string ? string : array<string, string>) Attribute value for given `$name` or attribute array if `$name` is `null`
      */
     public function getLinkAttr(?string $name, string $default = ''): string|array
     {

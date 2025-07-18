@@ -234,8 +234,8 @@ class User
      * @param string $key Complex perm key
      *
      * @return ComplexPermission|null Complex perm
-     * @psalm-return ComplexPermission|null
      * @phpstan-return MediaPoolPermission|StructurePermission|ModulePermission|LanguagePermission|null
+     * @psalm-return ComplexPermission|null
      */
     public function getComplexPerm($key)
     {

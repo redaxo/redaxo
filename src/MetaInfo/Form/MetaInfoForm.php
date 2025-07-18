@@ -333,12 +333,12 @@ class MetaInfoForm extends Form
         }
 
         $sql = Sql::factory();
-        $metaPrefix = $sql->escapeLikeWildcards($this->metaPrefix);
+        $metaPrefix = $sql->escape($sql->escapeLikeWildcards($this->metaPrefix) . '%');
 
         Util::organizePriorities(
             $this->tableName,
             'priority',
-            'name LIKE "' . $metaPrefix . '%"',
+            'name LIKE ' . $metaPrefix,
             'priority, updatedate desc',
         );
     }
