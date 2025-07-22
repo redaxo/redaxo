@@ -290,9 +290,9 @@ class rex_file
 
         return match (strtolower(self::extension($file))) {
             'css' => 'text/css',
-            'vtt' => 'text/vtt',
             'js' => 'application/javascript',
             'svg' => 'image/svg+xml',
+            'vtt' => 'text/vtt',
             default => $mimeType,
         };
     }
