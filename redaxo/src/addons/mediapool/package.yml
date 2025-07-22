@@ -49,6 +49,7 @@ allowed_mime_types:
     rtf: [application/rtf]
     txt: [text/plain, application/octet-stream]
     csv: [text/plain, text/csv, application/octet-stream]
+    vtt: [text/vtt]
     zip: [application/x-zip-compressed, application/zip]
     gz: [application/x-gzip]
     tar: [application/x-tar]
@@ -59,8 +60,9 @@ allowed_mime_types:
     mpeg: [video/mpeg]
     mpg: [video/mpeg]
     mp4: [video/mp4]
+    
 
-allowed_doctypes: [avif, bmp, css, csv, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, svg, swf, tar, tif, tiff, txt, webp, wma, xls, xlsx, zip]
+allowed_doctypes: [avif, bmp, css, csv, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, srt, svg, swf, tar, tif, tiff, txt, vtt, webp, wma, xls, xlsx, zip]
 image_extensions: [avif, bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]
 sanitize_svgs: true
 
