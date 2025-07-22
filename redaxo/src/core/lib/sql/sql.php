@@ -1259,6 +1259,35 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Führt eine SELECT-Abfrage aus und gibt direkt ein Array zurück.
+     * Vermeidet die doppelte Datenbankabfrage von select() + getArray().
+     *
+     * @param string $columns Spalten für SELECT
+     * @param int $fetchType PDO Fetch-Typ
+     *
+     * @return array Array mit den Ergebnisdaten
+     *
+     * @throws rex_sql_exception on errors
+     *
+     * @psalm-taint-sink sql $columns
+     */
+    public function selectAsArray($columns = '*', $fetchType = PDO::FETCH_ASSOC)
+    {
+        [$where, $whereParams] = $this->buildWhere();
+
+        $query = 'SELECT ' . $columns . ' FROM ' . $this->escapeIdentifier($this->table) . ' ' . $where;
+
+        $pdo = $this->getConnection();
+
+        // PDO-Attribute für Array-Ausgabe setzen (ohne Tabellennamen)
+        $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
+        $this->setQuery($query, $whereParams);
+        $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
+
+        return $this->stmt->fetchAll($fetchType);
+    }
+
+    /**
      * Gibt die zuletzt aufgetretene Fehlernummer zurueck.
      *
      * @return string|null
