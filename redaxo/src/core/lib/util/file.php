@@ -290,6 +290,8 @@ class rex_file
 
         return match (strtolower(self::extension($file))) {
             'css' => 'text/css',
+            'vtt' => 'text/vtt',
+            'srt' => 'text/plain',
             'js' => 'application/javascript',
             'svg' => 'image/svg+xml',
             default => $mimeType,
