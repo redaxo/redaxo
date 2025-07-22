@@ -1265,9 +1265,8 @@ class rex_sql implements Iterator
      * @param string $columns Spalten für SELECT
      * @param int $fetchType PDO Fetch-Typ
      *
-     * @return array Array mit den Ergebnisdaten
-     *
      * @throws rex_sql_exception on errors
+     * @return array Array mit den Ergebnisdaten
      *
      * @psalm-taint-sink sql $columns
      */
