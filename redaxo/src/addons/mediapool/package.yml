@@ -50,7 +50,7 @@ allowed_mime_types:
     txt: [text/plain, application/octet-stream]
     csv: [text/plain, text/csv, application/octet-stream]
     srt: [text/plain]
-    vtt: [text/vtt]
+    vtt: [text/plain, text/vtt]
     zip: [application/x-zip-compressed, application/zip]
     gz: [application/x-gzip]
     tar: [application/x-tar]
