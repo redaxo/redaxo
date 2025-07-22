@@ -1261,8 +1261,11 @@ class rex_sql implements Iterator
     /**
      * Führt eine SELECT-Abfrage aus und gibt direkt ein Array zurück.
      * Vermeidet die doppelte Datenbankabfrage von select() + getArray().
+     * 
+     * Diese Methode nutzt die bestehende select() Implementierung und 
+     * optimiert nur das Array-Fetching ohne globale PDO-Attribute zu ändern.
      *
-     * @param string $columns Spalten für SELECT
+     * @param string $columns Spalten für SELECT (wird an select() weitergegeben)
      * @param int $fetchType PDO Fetch-Typ
      *
      * @return array Array mit den Ergebnisdaten
@@ -1273,18 +1276,31 @@ class rex_sql implements Iterator
      */
     public function selectAsArray($columns = '*', $fetchType = PDO::FETCH_ASSOC)
     {
-        [$where, $whereParams] = $this->buildWhere();
-
-        $query = 'SELECT ' . $columns . ' FROM ' . $this->escapeIdentifier($this->table) . ' ' . $where;
-
-        $pdo = $this->getConnection();
-
-        // PDO-Attribute für Array-Ausgabe setzen (ohne Tabellennamen)
-        $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
-        $this->setQuery($query, $whereParams);
-        $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
-
-        return $this->stmt->fetchAll($fetchType);
+        // Verwende die bestehende select() Methode, die alle SQL-Features unterstützt
+        // (ORDER BY, GROUP BY, HAVING, LIMIT, etc.) und Column-Escaping bereits handhabt
+        $this->select($columns);
+        
+        // Hole die Daten direkt vom Statement ohne PDO-Attribute zu ändern
+        // Das vermeidet Race Conditions und nutzt die bereits ausgeführte Abfrage
+        $result = $this->stmt->fetchAll($fetchType);
+        
+        // Da fetchAll() die Daten mit Tabellennamen zurückgeben kann,
+        // müssen wir sie bei Bedarf bereinigen
+        if ($fetchType === PDO::FETCH_ASSOC && !empty($result)) {
+            $cleanResult = [];
+            foreach ($result as $row) {
+                $cleanRow = [];
+                foreach ($row as $key => $value) {
+                    // Entferne Tabellennamen-Präfix falls vorhanden (table.column -> column)
+                    $cleanKey = str_contains($key, '.') ? substr($key, strrpos($key, '.') + 1) : $key;
+                    $cleanRow[$cleanKey] = $value;
+                }
+                $cleanResult[] = $cleanRow;
+            }
+            return $cleanResult;
+        }
+        
+        return $result;
     }
 
     /**
