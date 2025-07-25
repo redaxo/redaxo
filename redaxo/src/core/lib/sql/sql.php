@@ -2056,6 +2056,121 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
+     * Datenbank an. Mit SSL-Unterstützung.
+     *
+     * @param string $host the host. might optionally include a port.
+     * @param string $login
+     * @param string $password
+     * @param string $database
+     * @param bool $createDb
+     * @param array $sslOptions SSL options array
+     *
+     * @return true|string
+     */
+    public static function checkDbConnectionWithSsl(
+        #[SensitiveParameter] $host,
+        #[SensitiveParameter] $login,
+        #[SensitiveParameter] $password,
+        #[SensitiveParameter] $database,
+        $createDb = false,
+        array $sslOptions = [],
+    ) {
+        if (!$database) {
+            return rex_i18n::msg('sql_database_name_missing');
+        }
+
+        if (str_contains($host, ':')) {
+            [$hostName, $port] = explode(':', $host, 2);
+            if (!filter_var($hostName, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+                return rex_i18n::msg('sql_database_host_invalid', $hostName);
+            }
+        } else {
+            if (!filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+                return rex_i18n::msg('sql_database_host_invalid', $host);
+            }
+        }
+
+        $errMsg = true;
+
+        try {
+            self::createConnection(
+                $host,
+                $database,
+                $login,
+                $password,
+                false,
+                $sslOptions,
+            );
+
+            // db connection was successfully established, but we were meant to create the db
+            if ($createDb) {
+                // -> throw db already exists error
+                $errMsg = rex_i18n::msg('sql_database_already_exists');
+            }
+        } catch (PDOException $e) {
+            // see client mysql error codes at https://dev.mysql.com/doc/mysql-errors/8.0/en/client-error-reference.html
+
+            // ER_BAD_HOST
+            if (str_contains($e->getMessage(), 'SQLSTATE[HY000] [2002]')) {
+                // unable to connect to db server
+                $errMsg = rex_i18n::msg('sql_unable_to_connect_database');
+            }
+            // ER_BAD_DB_ERROR
+            elseif (str_contains($e->getMessage(), 'SQLSTATE[HY000] [1049]') || str_contains($e->getMessage(), 'SQLSTATE[42000]')) {
+                if ($createDb) {
+                    try {
+                        // use the "mysql" db for the connection
+                        $conn = self::createConnection(
+                            $host,
+                            'mysql',
+                            $login,
+                            $password,
+                            false,
+                            $sslOptions,
+                        );
+
+                        if (1 !== $conn->exec('CREATE DATABASE ' . self::_escapeIdentifier($database) . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
+                            // unable to create db
+                            $errMsg = rex_i18n::msg('sql_unable_to_create_database');
+                        }
+                    } catch (PDOException) {
+                        // unable to find database
+                        $errMsg = rex_i18n::msg('sql_unable_to_open_database');
+                    }
+                } else {
+                    // unable to find database
+                    $errMsg = rex_i18n::msg('sql_unable_to_find_database');
+                }
+            }
+            // ER_ACCESS_DENIED_ERROR
+            // ER_DBACCESS_DENIED_ERROR
+            // ER_ACCESS_DENIED_NO_PASSWORD_ERROR
+            elseif (
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1045]')
+                || str_contains($e->getMessage(), 'SQLSTATE[28000]')
+                || str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]')
+                || str_contains($e->getMessage(), 'SQLSTATE[HY000] [1698]')
+            ) {
+                // unable to connect to db
+                $errMsg = rex_i18n::msg('sql_unable_to_connect_database');
+            }
+            // ER_ACCESS_TO_SERVER_ERROR
+            elseif (
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [2005]')
+            ) {
+                // unable to connect to server
+                $errMsg = rex_i18n::msg('sql_unable_to_connect_server');
+            } else {
+                // we didn't expected this error, so rethrow it to show it to the admin/end-user
+                throw $e;
+            }
+        }
+
+        return $errMsg;
+    }
+
+    /**
      * @param string $verb
      * @param bool $onDuplicateKeyUpdate
      *

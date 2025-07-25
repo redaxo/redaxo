@@ -42,6 +42,12 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             ->addOption('db-setup', null, InputOption::VALUE_REQUIRED, 'Database setup mode e.g. "normal", "override" or "import"', null, ['normal', 'override', 'import'])
             ->addOption('db-charset', null, InputOption::VALUE_REQUIRED, 'Database charset "utf8" or "utf8mb4"', null, ['utf8mb4', 'utf8'])
             ->addOption('db-import', null, InputOption::VALUE_REQUIRED, 'Database import filename if "import" is used as --db-setup')
+            ->addOption('db-ssl-enable', null, InputOption::VALUE_NONE, 'Enable SSL for database connection')
+            ->addOption('db-ssl-ca', null, InputOption::VALUE_REQUIRED, 'Path to SSL Certificate Authority file')
+            ->addOption('db-ssl-key', null, InputOption::VALUE_REQUIRED, 'Path to SSL key file')
+            ->addOption('db-ssl-cert', null, InputOption::VALUE_REQUIRED, 'Path to SSL certificate file')
+            ->addOption('db-ssl-verify-server-cert', null, InputOption::VALUE_REQUIRED, 'Verify SSL server certificate (true/false)', null, ['true', 'false'])
+            ->addOption('db-ssl-ca-mode', null, InputOption::VALUE_NONE, 'Simple SSL mode: set CA=true and disable server cert verification')
             ->addOption('admin-username', null, InputOption::VALUE_REQUIRED, 'Creates a redaxo admin user with the given username')
             ->addOption('admin-password', null, InputOption::VALUE_REQUIRED, 'Sets the password for the admin user account')
         ;
@@ -211,6 +217,46 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $config['db'][1]['login'] = $dbLogin;
             $config['db'][1]['password'] = $dbPassword;
             $config['db'][1]['name'] = $dbName;
+
+            // SSL configuration
+            if ($input->getOption('db-ssl-enable') || $input->getOption('db-ssl-ca-mode')) {
+                // Simple SSL CA mode for corporate databases
+                if ($input->getOption('db-ssl-ca-mode')) {
+                    $config['db'][1]['ssl_ca'] = true;
+                    $config['db'][1]['ssl_verify_server_cert'] = false;
+                    $io->success('Simple SSL CA mode enabled (CA=true, verify_server_cert=false)');
+                }
+
+                if ($sslCa = $input->getOption('db-ssl-ca')) {
+                    if (!is_file($sslCa) || !is_readable($sslCa)) {
+                        throw new InvalidArgumentException('SSL CA file not found or not readable: ' . $sslCa);
+                    }
+                    $config['db'][1]['ssl_ca'] = $sslCa;
+                }
+
+                if ($sslKey = $input->getOption('db-ssl-key')) {
+                    if (!is_file($sslKey) || !is_readable($sslKey)) {
+                        throw new InvalidArgumentException('SSL key file not found or not readable: ' . $sslKey);
+                    }
+                    $config['db'][1]['ssl_key'] = $sslKey;
+                }
+
+                if ($sslCert = $input->getOption('db-ssl-cert')) {
+                    if (!is_file($sslCert) || !is_readable($sslCert)) {
+                        throw new InvalidArgumentException('SSL certificate file not found or not readable: ' . $sslCert);
+                    }
+                    $config['db'][1]['ssl_cert'] = $sslCert;
+                }
+
+                if (null !== $sslVerifyServerCert = $input->getOption('db-ssl-verify-server-cert')) {
+                    if (!in_array($sslVerifyServerCert, ['true', 'false'], true)) {
+                        throw new InvalidArgumentException('SSL verify server cert must be "true" or "false"');
+                    }
+                    $config['db'][1]['ssl_verify_server_cert'] = 'true' === $sslVerifyServerCert;
+                }
+
+                $io->success('SSL configuration applied for database connection');
+            }
 
             rex::setProperty('db', $config['db']);
             try {
