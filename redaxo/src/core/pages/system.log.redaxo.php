@@ -62,7 +62,7 @@ if (is_dir($logPath)) {
     foreach ($files as $file) {
         if (is_file($file)) {
             $fileSize = filesize($file);
-            if ($fileSize !== false) {
+            if (false !== $fileSize) {
                 $logSize += $fileSize;
             }
         }
