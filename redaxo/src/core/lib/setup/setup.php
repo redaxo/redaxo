@@ -145,7 +145,7 @@ class rex_setup
     public static function checkDb($config, $createDb)
     {
         $dbConfig = $config['db'][1];
-        
+
         // Build SSL options array
         $sslOptions = [];
         if (isset($dbConfig['ssl_key']) && isset($dbConfig['ssl_cert'])) {
@@ -165,7 +165,7 @@ class rex_setup
         } else {
             $err = rex_sql::checkDbConnection($dbConfig['host'], $dbConfig['login'], $dbConfig['password'], $dbConfig['name'], $createDb);
         }
-        
+
         if (true !== $err) {
             return $err;
         }
