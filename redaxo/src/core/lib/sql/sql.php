@@ -2064,7 +2064,7 @@ class rex_sql implements Iterator
      * @param string $password
      * @param string $database
      * @param bool $createDb
-     * @param array $sslOptions SSL options array
+     * @param array<int, mixed> $sslOptions SSL options array
      *
      * @return true|string
      */
