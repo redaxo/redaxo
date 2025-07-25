@@ -33,6 +33,52 @@ if ('' != $error) {
     echo rex_view::error($error);
 }
 
+// Buttons oben anzeigen
+$formElements = [];
+$editor = rex_editor::factory();
+
+$n = [];
+$n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('delete') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
+$formElements[] = $n;
+
+if ($url = $editor->getUrl($logFile, 0)) {
+    $n = [];
+    $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
+    $formElements[] = $n;
+}
+
+if (is_file($logFile)) {
+    $url = rex_url::currentBackendPage(['func' => 'download'] + $csrfToken->getUrlParams());
+    $n = [];
+    $n['field'] = '<a class="btn btn-save" href="' . $url . '" download>' . rex_i18n::msg('syslog_download', rex_path::basename($logFile)) . '</a>';
+    $formElements[] = $n;
+}
+
+// Log-Größeninformation hinzufügen
+$logPath = rex_path::log();
+$logSize = 0;
+if (is_dir($logPath)) {
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($logPath, RecursiveDirectoryIterator::SKIP_DOTS));
+    foreach ($iterator as $file) {
+        if ($file->isFile()) {
+            $logSize += $file->getSize();
+        }
+    }
+}
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$buttons = $fragment->parse('core/form/submit.php');
+
+// Info-Box mit Log-Größe
+$logSizeInfo = '<p><strong>' . rex_i18n::msg('system') . ':</strong> ' . rex_file::formattedSize($logSize ?: 0) . ' (' . rex_i18n::msg('syslog_logs_total') . ')</p>';
+
+$fragment = new rex_fragment();
+$fragment->setVar('title', rex_i18n::msg('syslog_title', $logFile), false);
+$fragment->setVar('content', $logSizeInfo, false);
+$fragment->setVar('buttons', $buttons, false);
+$topSection = $fragment->parse('core/page/section.php');
+
 $content = '
             <table class="table table-hover">
                 <thead>
@@ -42,8 +88,6 @@ $content = '
                     </tr>
                 </thead>
                 <tbody>';
-
-$editor = rex_editor::factory();
 
 $file = rex_log_file::factory($logFile);
 foreach (new LimitIterator($file, 0, 100) as $entry) {
@@ -100,40 +144,19 @@ $content .= '
                 </tbody>
             </table>';
 
-$formElements = [];
-
-$n = [];
-$n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('delete') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
-$formElements[] = $n;
-
-if ($url = $editor->getUrl($logFile, 0)) {
-    $n = [];
-    $n['field'] = '<a class="btn btn-save" href="' . $url . '">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
-    $formElements[] = $n;
-}
-
-if (is_file($logFile)) {
-    $url = rex_url::currentBackendPage(['func' => 'download'] + $csrfToken->getUrlParams());
-    $n = [];
-    $n['field'] = '<a class="btn btn-save" href="' . $url . '" download>' . rex_i18n::msg('syslog_download', rex_path::basename($logFile)) . '</a>';
-    $formElements[] = $n;
-}
-
+// Content-Fragment für die Log-Tabelle
 $fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$buttons = $fragment->parse('core/form/submit.php');
-
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('syslog_title', $logFile), false);
+$fragment->setVar('title', rex_i18n::msg('syslog_entries'), false);
 $fragment->setVar('content', $content, false);
-$fragment->setVar('buttons', $buttons, false);
-$content = $fragment->parse('core/page/section.php');
+$logTableSection = $fragment->parse('core/page/section.php');
 
-$content = '
+// Gesamte Ausgabe mit Form umschließen
+$output = '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
         <input type="hidden" name="func" value="delLog" />
         ' . $csrfToken->getHiddenField() . '
-        ' . $content . '
+        ' . $topSection . '
+        ' . $logTableSection . '
     </form>';
 
-echo $content;
+echo $output;

@@ -104,6 +104,22 @@ class rex_system_report
 
         $data[self::TITLE_PACKAGES] = $packages;
 
+        // Log directory size
+        $logPath = rex_path::log();
+        $logSize = 0;
+        if (is_dir($logPath)) {
+            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($logPath, RecursiveDirectoryIterator::SKIP_DOTS));
+            foreach ($iterator as $file) {
+                if ($file->isFile()) {
+                    $logSize += $file->getSize();
+                }
+            }
+        }
+
+        $data['Logs'] = [
+            'Total size' => rex_file::formattedSize($logSize),
+        ];
+
         return $data;
     }
 
