@@ -109,11 +109,13 @@ class rex_system_report
         $logSize = 0;
         if (is_dir($logPath)) {
             $files = glob($logPath . '/*', GLOB_BRACE);
-            foreach ($files as $file) {
-                if (is_file($file)) {
-                    $fileSize = filesize($file);
-                    if (false !== $fileSize) {
-                        $logSize += $fileSize;
+            if (false !== $files) {
+                foreach ($files as $file) {
+                    if (is_string($file) && is_file($file)) {
+                        $fileSize = filesize($file);
+                        if (false !== $fileSize) {
+                            $logSize += $fileSize;
+                        }
                     }
                 }
             }
