@@ -228,7 +228,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 if (!isset($config['db'][1]) || !is_array($config['db'][1])) {
                     $config['db'][1] = [];
                 }
-                
+
                 // Simple SSL CA mode for corporate databases
                 if ($input->getOption('db-ssl-ca-mode')) {
                     $config['db'][1]['ssl_ca'] = true;
