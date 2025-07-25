@@ -175,9 +175,9 @@
                     {
                         id: 'rex-session-timeout-dialog-login',
                         label: '<i class="rex-icon rex-icon-sign-in"></i> ' + rex.i18n.session_timeout_login_label,
-                        attr: 'class="btn btn-primary rex-session-timeout-dialog-login"',
+                        attr: 'class="btn btn-primary rex-session-timeout-dialog-login-btn"',
                         click: function () {
-                            window.location.reload();
+                            window.location.href = rex.session_login_url;
                         }
                     }
                 ]
