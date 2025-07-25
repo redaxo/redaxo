@@ -144,7 +144,28 @@ class rex_setup
      */
     public static function checkDb($config, $createDb)
     {
-        $err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $createDb);
+        $dbConfig = $config['db'][1];
+        
+        // Build SSL options array
+        $sslOptions = [];
+        if (isset($dbConfig['ssl_key']) && isset($dbConfig['ssl_cert'])) {
+            $sslOptions[PDO::MYSQL_ATTR_SSL_KEY] = $dbConfig['ssl_key'];
+            $sslOptions[PDO::MYSQL_ATTR_SSL_CERT] = $dbConfig['ssl_cert'];
+        }
+        if (isset($dbConfig['ssl_ca'])) {
+            $sslOptions[PDO::MYSQL_ATTR_SSL_CA] = $dbConfig['ssl_ca'];
+        }
+        if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+            $sslOptions[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $dbConfig['ssl_verify_server_cert'] ?? true;
+        }
+
+        // Use SSL-aware connection check if SSL options are present
+        if (!empty($sslOptions)) {
+            $err = rex_sql::checkDbConnectionWithSsl($dbConfig['host'], $dbConfig['login'], $dbConfig['password'], $dbConfig['name'], $createDb, $sslOptions);
+        } else {
+            $err = rex_sql::checkDbConnection($dbConfig['host'], $dbConfig['login'], $dbConfig['password'], $dbConfig['name'], $createDb);
+        }
+        
         if (true !== $err) {
             return $err;
         }
