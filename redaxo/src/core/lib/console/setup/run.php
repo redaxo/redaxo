@@ -61,6 +61,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $this->input = $input;
 
         $configFile = rex_path::coreData('config.yml');
+        /** @var array<string, mixed> $config */
         $config = array_merge(
             rex_file::getConfig(rex_path::core('default.config.yml')),
             rex_file::getConfig($configFile),
@@ -220,6 +221,14 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
             // SSL configuration
             if ($input->getOption('db-ssl-enable') || $input->getOption('db-ssl-ca-mode')) {
+                // Ensure db config array exists
+                if (!isset($config['db']) || !is_array($config['db'])) {
+                    $config['db'] = [];
+                }
+                if (!isset($config['db'][1]) || !is_array($config['db'][1])) {
+                    $config['db'][1] = [];
+                }
+                
                 // Simple SSL CA mode for corporate databases
                 if ($input->getOption('db-ssl-ca-mode')) {
                     $config['db'][1]['ssl_ca'] = true;
