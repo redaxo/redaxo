@@ -58,10 +58,13 @@ if (is_file($logFile)) {
 $logPath = rex_path::log();
 $logSize = 0;
 if (is_dir($logPath)) {
-    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($logPath, RecursiveDirectoryIterator::SKIP_DOTS));
-    foreach ($iterator as $file) {
-        if ($file->isFile()) {
-            $logSize += $file->getSize();
+    $files = glob($logPath . '/*', GLOB_BRACE);
+    foreach ($files as $file) {
+        if (is_file($file)) {
+            $fileSize = filesize($file);
+            if ($fileSize !== false) {
+                $logSize += $fileSize;
+            }
         }
     }
 }
@@ -71,7 +74,7 @@ $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
 // Info-Box mit Log-Größe
-$logSizeInfo = '<p><strong>' . rex_i18n::msg('system') . ':</strong> ' . rex_file::formattedSize($logSize ?: 0) . ' (' . rex_i18n::msg('syslog_logs_total') . ')</p>';
+$logSizeInfo = '<p><strong>' . rex_i18n::msg('system') . ':</strong> ' . rex_formatter::bytes($logSize ?: 0) . ' (' . rex_i18n::msg('syslog_logs_total') . ')</p>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('syslog_title', $logFile), false);

@@ -108,16 +108,19 @@ class rex_system_report
         $logPath = rex_path::log();
         $logSize = 0;
         if (is_dir($logPath)) {
-            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($logPath, RecursiveDirectoryIterator::SKIP_DOTS));
-            foreach ($iterator as $file) {
-                if ($file->isFile()) {
-                    $logSize += $file->getSize();
+            $files = glob($logPath . '/*', GLOB_BRACE);
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    $fileSize = filesize($file);
+                    if ($fileSize !== false) {
+                        $logSize += $fileSize;
+                    }
                 }
             }
         }
 
         $data['Logs'] = [
-            'Total size' => rex_file::formattedSize($logSize),
+            'Total size' => rex_formatter::bytes($logSize),
         ];
 
         return $data;
