@@ -108,16 +108,9 @@ class rex_system_report
         $logPath = rex_path::log();
         $logSize = 0;
         if (is_dir($logPath)) {
-            $files = glob($logPath . '/*', GLOB_BRACE);
-            if (false !== $files) {
-                foreach ($files as $file) {
-                    if (is_string($file) && is_file($file)) {
-                        $fileSize = filesize($file);
-                        if (false !== $fileSize) {
-                            $logSize += $fileSize;
-                        }
-                    }
-                }
+            $finder = rex_finder::factory($logPath)->filesOnly();
+            foreach ($finder as $file) {
+                $logSize += $file->getSize();
             }
         }
 
