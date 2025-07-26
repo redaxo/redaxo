@@ -155,16 +155,17 @@ class rex_setup
             $sslOptions[PDO::MYSQL_ATTR_SSL_CERT] = (string) $dbConfig['ssl_cert'];
         }
         if (isset($dbConfig['ssl_ca'])) {
-            /** @var mixed $sslCaValue */
-            $sslCaValue = $dbConfig['ssl_ca'];
-            /** @psalm-suppress MixedAssignment */
-            $sslOptions[PDO::MYSQL_ATTR_SSL_CA] = $sslCaValue;
+            if (is_string($dbConfig['ssl_ca']) || $dbConfig['ssl_ca'] === true) {
+                $sslOptions[PDO::MYSQL_ATTR_SSL_CA] = $dbConfig['ssl_ca'];
+            } else {
+                trigger_error('Invalid SSL CA value provided. It must be a boolean true or a file path string.', E_USER_WARNING);
+            }
         }
         if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
-            /** @var mixed $verifyValue */
             $verifyValue = $dbConfig['ssl_verify_server_cert'] ?? true;
-            /** @psalm-suppress MixedAssignment */
-            $sslOptions[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $verifyValue;
+            if (is_bool($verifyValue)) {
+                $sslOptions[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $verifyValue;
+            }
         }
 
         // Use SSL-aware connection check with options
