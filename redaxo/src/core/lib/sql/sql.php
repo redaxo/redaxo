@@ -123,7 +123,13 @@ class rex_sql implements Iterator
                     ];
                 }
                 if ($dbconfig->sslCa) {
-                    $options[PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
+                    if (true === $dbconfig->sslCa) {
+                        // ssl_ca = true enables SSL CA verification without specific file
+                        $options[PDO::MYSQL_ATTR_SSL_CA] = true;
+                    } else {
+                        // ssl_ca = string path to CA file
+                        $options[PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
+                    }
                 }
 
                 // available only with mysqlnd
