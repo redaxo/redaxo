@@ -144,7 +144,34 @@ class rex_setup
      */
     public static function checkDb($config, $createDb)
     {
-        $err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $createDb);
+        /** @var array<string, mixed> $dbConfig */
+        $dbConfig = $config['db'][1];
+
+        // Build SSL options array
+        /** @var array<int, mixed> $sslOptions */
+        $sslOptions = [];
+        if (isset($dbConfig['ssl_key']) && isset($dbConfig['ssl_cert'])) {
+            $sslOptions[PDO::MYSQL_ATTR_SSL_KEY] = (string) $dbConfig['ssl_key'];
+            $sslOptions[PDO::MYSQL_ATTR_SSL_CERT] = (string) $dbConfig['ssl_cert'];
+        }
+        if (isset($dbConfig['ssl_ca'])) {
+            if (is_string($dbConfig['ssl_ca']) || true === $dbConfig['ssl_ca']) {
+                $sslOptions[PDO::MYSQL_ATTR_SSL_CA] = $dbConfig['ssl_ca'];
+            } else {
+                trigger_error('Invalid SSL CA value provided. It must be a boolean true or a file path string.', E_USER_WARNING);
+            }
+        }
+        if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+            /** @var mixed $verifyValue */
+            $verifyValue = $dbConfig['ssl_verify_server_cert'] ?? true;
+            if (is_bool($verifyValue)) {
+                $sslOptions[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $verifyValue;
+            }
+        }
+
+        // Use SSL-aware connection check with options
+        $err = rex_sql::checkDbConnection((string) $dbConfig['host'], (string) $dbConfig['login'], (string) $dbConfig['password'], (string) $dbConfig['name'], $createDb, $sslOptions);
+
         if (true !== $err) {
             return $err;
         }

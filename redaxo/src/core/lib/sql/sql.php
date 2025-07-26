@@ -123,7 +123,13 @@ class rex_sql implements Iterator
                     ];
                 }
                 if ($dbconfig->sslCa) {
-                    $options[PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
+                    if (true === $dbconfig->sslCa) {
+                        // ssl_ca = true enables SSL CA verification without specific file
+                        $options[PDO::MYSQL_ATTR_SSL_CA] = true;
+                    } else {
+                        // ssl_ca = string path to CA file
+                        $options[PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
+                    }
                 }
 
                 // available only with mysqlnd
@@ -1945,6 +1951,7 @@ class rex_sql implements Iterator
      * @param string $password
      * @param string $database
      * @param bool $createDb
+     * @param array<int, mixed> $options Additional PDO options (e.g., SSL options)
      *
      * @return true|string
      */
@@ -1954,6 +1961,7 @@ class rex_sql implements Iterator
         #[SensitiveParameter] $password,
         #[SensitiveParameter] $database,
         $createDb = false,
+        array $options = [],
     ) {
         if (!$database) {
             return rex_i18n::msg('sql_database_name_missing');
@@ -1978,6 +1986,8 @@ class rex_sql implements Iterator
                 $database,
                 $login,
                 $password,
+                false,
+                $options,
             );
 
             // db connection was successfully established, but we were meant to create the db
@@ -2003,6 +2013,8 @@ class rex_sql implements Iterator
                             'mysql',
                             $login,
                             $password,
+                            false,
+                            $options,
                         );
 
                         if (1 !== $conn->exec('CREATE DATABASE ' . self::_escapeIdentifier($database) . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
