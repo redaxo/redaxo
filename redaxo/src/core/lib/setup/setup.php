@@ -162,6 +162,7 @@ class rex_setup
             }
         }
         if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+            /** @var mixed $verifyValue */
             $verifyValue = $dbConfig['ssl_verify_server_cert'] ?? true;
             if (is_bool($verifyValue)) {
                 $sslOptions[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $verifyValue;
