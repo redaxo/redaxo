@@ -167,12 +167,8 @@ class rex_setup
             $sslOptions[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $verifyValue;
         }
 
-        // Use SSL-aware connection check if SSL options are present
-        if (!empty($sslOptions)) {
-            $err = rex_sql::checkDbConnectionWithSsl((string) $dbConfig['host'], (string) $dbConfig['login'], (string) $dbConfig['password'], (string) $dbConfig['name'], $createDb, $sslOptions);
-        } else {
-            $err = rex_sql::checkDbConnection((string) $dbConfig['host'], (string) $dbConfig['login'], (string) $dbConfig['password'], (string) $dbConfig['name'], $createDb);
-        }
+        // Use SSL-aware connection check with options
+        $err = rex_sql::checkDbConnection((string) $dbConfig['host'], (string) $dbConfig['login'], (string) $dbConfig['password'], (string) $dbConfig['name'], $createDb, $sslOptions);
 
         if (true !== $err) {
             return $err;
