@@ -516,7 +516,7 @@ class rex_mailer extends PHPMailer
     public static function getArchiveStats(): array
     {
         $archiveFolder = self::logFolder();
-        
+
         if (!is_dir($archiveFolder)) {
             return ['size' => 0, 'fileCount' => 0];
         }
@@ -546,7 +546,7 @@ class rex_mailer extends PHPMailer
     public static function getRecentArchivedFiles(int $limit = 10): array
     {
         $archiveFolder = self::logFolder();
-        
+
         if (!is_dir($archiveFolder)) {
             return [];
         }
@@ -599,13 +599,13 @@ class rex_mailer extends PHPMailer
             // Split content into lines and process only headers
             $lines = explode("\n", $content);
             $headerLines = 0;
-            
+
             foreach ($lines as $line) {
                 $line = trim($line);
                 if (empty($line)) {
                     break; // End of headers
                 }
-                
+
                 if ($headerLines >= 50) {
                     break; // Limit header processing
                 }
