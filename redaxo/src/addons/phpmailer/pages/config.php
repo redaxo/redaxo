@@ -361,7 +361,7 @@ $n = [];
 $n['label'] = '<label for="phpmailer-archive">' . $addon->i18n('archive') . '</label>';
 $n['field'] = $selArchive->get();
 if ($addon->getConfig('archive')) {
-    $n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...' . substr(rex_mailer::logFolder(), -30)) 
+    $n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...' . substr(rex_mailer::logFolder(), -30))
                . '<br><a href="' . rex_url::backendPage('phpmailer/archive') . '" class="btn btn-sm btn-default">'
                . '<i class="rex-icon rex-icon-folder-open"></i> ' . $addon->i18n('archive_manage') . '</a>';
 } else {
