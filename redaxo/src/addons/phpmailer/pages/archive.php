@@ -51,12 +51,12 @@ if ($archiveExists) {
             $fileCount++;
         }
     }
-    
+
     $n = [];
     $n['label'] = '<label>' . $addon->i18n('archive_size') . '</label>';
     $n['field'] = rex_formatter::bytes($archiveSize);
     $formElements[] = $n;
-    
+
     $n = [];
     $n['label'] = '<label>' . $addon->i18n('archive_file_count') . '</label>';
     $n['field'] = $fileCount . ' ' . $addon->i18n('archive_files');
@@ -111,7 +111,7 @@ if ($archiveExists) {
             }
             return $timeB - $timeA;
         });
-        
+
         // Show only last 10 files
         $recentFiles = array_slice($files, 0, 10);
         
@@ -120,19 +120,21 @@ if ($archiveExists) {
             $filename = pathinfo($file, PATHINFO_BASENAME);
             $filesize = filesize($file);
             $filemtime = filemtime($file);
-            
+
             // Read email headers from .eml file
             $subject = $addon->i18n('archive_no_subject');
             $recipient = $addon->i18n('archive_no_recipient');
-            
+
             $handle = fopen($file, 'r');
             if ($handle) {
                 $headerLines = 0;
                 while (($line = fgets($handle)) !== false && $headerLines < 50) {
                     $line = trim($line);
-                    if (empty($line)) break; // End of headers
-                    
-                    if (stripos($line, 'Subject:') === 0) {
+                    if (empty($line)) {
+                        break;
+                    } // End of headers
+
+                    if (0 === stripos($line, 'Subject:')) {
                         $subject = substr($line, 8);
                         // Decode MIME encoded subjects
                         if (function_exists('iconv_mime_decode')) {
@@ -144,27 +146,20 @@ if ($archiveExists) {
                         $subject = rex_escape(trim($subject));
                         $subject = mb_strlen($subject) > 50 ? mb_substr($subject, 0, 50) . '...' : $subject;
                     }
-                    
-                    if (stripos($line, 'To:') === 0) {
+
+                    if (0 === stripos($line, 'To:')) {
                         $recipient = rex_escape(trim(substr($line, 3)));
                         $recipient = mb_strlen($recipient) > 30 ? mb_substr($recipient, 0, 30) . '...' : $recipient;
                     }
-                    
-                    $headerLines++;
+
+                    ++$headerLines;
                 }
                 fclose($handle);
             }
             
-            $filemtimeValue = filemtime($file);
-            $filesizeValue = filesize($file);
-            
             // Check for false values and provide defaults
-            if ($filemtimeValue === false) {
-                $filemtimeValue = 0;
-            }
-            if ($filesizeValue === false) {
-                $filesizeValue = 0;
-            }
+            $filemtimeValue = $filemtime !== false ? $filemtime : 0;
+            $filesizeValue = $filesize !== false ? $filesize : 0;
             
             $content .= '<tr>';
             $content .= '<td class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($filemtimeValue, [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>';
@@ -176,10 +171,10 @@ if ($archiveExists) {
     } else {
         $content .= '<tr><td colspan="4" class="text-muted text-center">' . $addon->i18n('archive_no_files') . '</td></tr>';
     }
-    
+
     $content .= '</tbody>';
     $content .= '</table>';
-    
+
     $fragment = new rex_fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $addon->i18n('archive_recent_mails'), false);
@@ -194,7 +189,7 @@ if ($archiveExists) {
     $content .= '<strong>' . $addon->i18n('archive_delete_warning') . '</strong><br>';
     $content .= $addon->i18n('archive_delete_warning_desc');
     $content .= '</div>';
-    
+
     $content .= '<form method="post" action="' . rex_url::currentBackendPage() . '">';
     $content .= rex_csrf_token::factory('phpmailer-delete-archive')->getHiddenField();
     $content .= '<input type="hidden" name="func" value="delete_archive">';
@@ -202,7 +197,7 @@ if ($archiveExists) {
     $content .= '<i class="rex-icon rex-icon-delete"></i> ' . $addon->i18n('archive_delete');
     $content .= '</button>';
     $content .= '</form>';
-    
+
     $fragment = new rex_fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $addon->i18n('archive_management'), false);
