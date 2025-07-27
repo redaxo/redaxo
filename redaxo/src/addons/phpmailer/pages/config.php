@@ -11,8 +11,12 @@ $addon = rex_addon::get('phpmailer');
 $message = '';
 
 if ('' != rex_get('btn_delete_archive', 'string') || '' != rex_post('btn_delete_archive', 'string')) {
-    if (rex_dir::delete(rex_mailer::logFolder(), true)) {
-        echo rex_view::success($addon->i18n('archive_deleted'));
+    if (rex_csrf_token::factory('phpmailer-delete-archive')->isValid()) {
+        if (rex_dir::delete(rex_mailer::logFolder(), true)) {
+            echo rex_view::success($addon->i18n('archive_deleted'));
+        }
+    } else {
+        echo rex_view::error($addon->i18n('csrf_token_invalid'));
     }
 }
 if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string')) {
@@ -369,7 +373,7 @@ $formElements[] = $n;
 
 if (is_dir(rex_mailer::logFolder())) {
     $n = [];
-    $n['field'] = '<a href="' . rex_url::currentBackendPage(['btn_delete_archive' => '1']) . '" data-confirm="' . $addon->i18n('archive_delete_confirm') . '" class="btn btn-danger pull-right">' . $addon->i18n('archive_delete') . '</a>';
+    $n['field'] = '<a href="' . rex_url::currentBackendPage(['btn_delete_archive' => '1', '_csrf_token' => rex_csrf_token::factory('phpmailer-delete-archive')->getValue()]) . '" data-confirm="' . $addon->i18n('archive_delete_confirm') . '" class="btn btn-danger pull-right">' . $addon->i18n('archive_delete') . '</a>';
     $formElements[] = $n;
 }
 
