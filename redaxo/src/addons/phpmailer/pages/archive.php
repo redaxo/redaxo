@@ -38,7 +38,7 @@ $content = '';
 $formElements = [];
 $n = [];
 $n['label'] = '<label>' . $addon->i18n('archive_path') . '</label>';
-$n['field'] = '<code>' . rex_escape($archiveFolder) . '</code>';
+$n['field'] = '<span style="word-break: break-all; font-family: monospace; font-size: 0.9em;">' . rex_escape($archiveFolder) . '</span>';
 $formElements[] = $n;
 
 if ($archiveExists) {
