@@ -507,4 +507,136 @@ class rex_mailer extends PHPMailer
 
         return true;
     }
+
+    /**
+     * Get archive statistics (size and file count).
+     *
+     * @return array{size: int, fileCount: int}
+     */
+    public static function getArchiveStats(): array
+    {
+        $archiveFolder = self::logFolder();
+        
+        if (!is_dir($archiveFolder)) {
+            return ['size' => 0, 'fileCount' => 0];
+        }
+
+        $archiveSize = 0;
+        $fileCount = 0;
+
+        // Use rex_finder to count all .eml files in subdirectories
+        $finder = rex_finder::factory($archiveFolder)->recursive()->filesOnly();
+
+        foreach ($finder as $file) {
+            $archiveSize += $file->getSize();
+            if ('eml' === pathinfo($file->getFilename(), PATHINFO_EXTENSION)) {
+                ++$fileCount;
+            }
+        }
+
+        return ['size' => $archiveSize, 'fileCount' => $fileCount];
+    }
+
+    /**
+     * Get recent archived email files.
+     *
+     * @param int $limit Maximum number of files to return
+     * @return array<string> Array of file paths
+     */
+    public static function getRecentArchivedFiles(int $limit = 10): array
+    {
+        $archiveFolder = self::logFolder();
+        
+        if (!is_dir($archiveFolder)) {
+            return [];
+        }
+
+        // Get recent .eml files recursively using rex_finder
+        $finder = rex_finder::factory($archiveFolder)->recursive()->filesOnly();
+        $files = [];
+
+        foreach ($finder as $path => $file) {
+            if ('eml' === pathinfo($file->getFilename(), PATHINFO_EXTENSION)) {
+                $files[] = $path;
+            }
+        }
+
+        if (empty($files)) {
+            return [];
+        }
+
+        // Sort by modification time, newest first
+        usort($files, static function (string $a, string $b): int {
+            $timeA = filemtime($a);
+            $timeB = filemtime($b);
+            if (false === $timeA || false === $timeB) {
+                return 0;
+            }
+            return $timeB - $timeA;
+        });
+
+        // Return only the requested number of files
+        return array_slice($files, 0, $limit);
+    }
+
+    /**
+     * Parse email headers from .eml file.
+     *
+     * @param string $filePath Path to .eml file
+     * @return array{subject: string, recipient: string, size: int, mtime: int}
+     */
+    public static function parseEmailHeaders(string $filePath): array
+    {
+        $addon = rex_addon::get('phpmailer');
+        $subject = $addon->i18n('archive_no_subject');
+        $recipient = $addon->i18n('archive_no_recipient');
+        $filesize = filesize($filePath);
+        $filemtime = filemtime($filePath);
+
+        // Use rex_file::get() to read file content
+        $content = rex_file::get($filePath);
+        if ($content) {
+            // Split content into lines and process only headers
+            $lines = explode("\n", $content);
+            $headerLines = 0;
+            
+            foreach ($lines as $line) {
+                $line = trim($line);
+                if (empty($line)) {
+                    break; // End of headers
+                }
+                
+                if ($headerLines >= 50) {
+                    break; // Limit header processing
+                }
+
+                if (0 === stripos($line, 'Subject:')) {
+                    $subject = substr($line, 8);
+                    // Decode MIME encoded subjects
+                    if (function_exists('iconv_mime_decode')) {
+                        $decodedSubject = iconv_mime_decode($subject, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
+                        if (false !== $decodedSubject) {
+                            $subject = $decodedSubject;
+                        }
+                    }
+                    $subject = rex_escape(trim($subject));
+                    $subject = mb_strlen($subject) > 50 ? mb_substr($subject, 0, 50) . '...' : $subject;
+                }
+
+                if (0 === stripos($line, 'To:')) {
+                    $recipient = rex_escape(trim(substr($line, 3)));
+                    $recipient = mb_strlen($recipient) > 30 ? mb_substr($recipient, 0, 30) . '...' : $recipient;
+                }
+
+                ++$headerLines;
+            }
+        }
+
+        return [
+            'subject' => $subject,
+            'recipient' => $recipient,
+            'size' => false !== $filesize ? $filesize : 0,
+            'mtime' => false !== $filemtime ? $filemtime : 0,
+        ];
+    }
 }

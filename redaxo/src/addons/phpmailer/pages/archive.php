@@ -38,32 +38,21 @@ $content = '';
 $formElements = [];
 $n = [];
 $n['label'] = '<label>' . $addon->i18n('archive_path') . '</label>';
-$n['field'] = '<span style="word-break: break-all; font-family: monospace; font-size: 0.9em;">' . rex_escape($archiveFolder) . '</span>';
+$n['field'] = '<span style="word-break: break-all; font-family: monospace; font-size: 0.9em;" nonce="' . rex_response::getNonce() . '">' . rex_escape($archiveFolder) . '</span>';
 $formElements[] = $n;
 
 if ($archiveExists) {
-    // Calculate archive size manually
-    $archiveSize = 0;
-    $fileCount = 0;
-
-    // Use rex_finder to count all .eml files in subdirectories
-    $finder = rex_finder::factory($archiveFolder)->recursive()->filesOnly();
-
-    foreach ($finder as $file) {
-        $archiveSize += $file->getSize();
-        if ('eml' === pathinfo($file->getFilename(), PATHINFO_EXTENSION)) {
-            ++$fileCount;
-        }
-    }
+    // Get archive statistics
+    $archiveStats = rex_mailer::getArchiveStats();
 
     $n = [];
     $n['label'] = '<label>' . $addon->i18n('archive_size') . '</label>';
-    $n['field'] = rex_formatter::bytes($archiveSize);
+    $n['field'] = rex_formatter::bytes($archiveStats['size']);
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label>' . $addon->i18n('archive_file_count') . '</label>';
-    $n['field'] = $fileCount . ' ' . $addon->i18n('archive_files');
+    $n['field'] = $archiveStats['fileCount'] . ' ' . $addon->i18n('archive_files');
     $formElements[] = $n;
 } else {
     $n = [];
@@ -74,12 +63,13 @@ if ($archiveExists) {
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
+$fragment->setVar('grouped', true);
 $content .= $fragment->parse('core/form/form.php');
 
 // Add archive management to the same panel if archive exists
 if ($archiveExists) {
     $content .= '<hr>';
-    $content .= '<div style="margin-bottom: 15px;">';
+    $content .= '<div>';
     $content .= '<strong>' . $addon->i18n('archive_delete_warning') . '</strong><br>';
     $content .= $addon->i18n('archive_delete_warning_desc');
     $content .= '</div>';
@@ -136,80 +126,20 @@ if ($archiveExists) {
     $content .= '</thead>';
     $content .= '<tbody>';
 
-    // Get recent .eml files recursively using rex_finder
-    $finder = rex_finder::factory($archiveFolder)->recursive()->filesOnly();
-    $files = [];
+    // Get recent .eml files using rex_mailer method
+    $recentFiles = rex_mailer::getRecentArchivedFiles(10);
 
-    foreach ($finder as $path => $file) {
-        if ('eml' === pathinfo($file->getFilename(), PATHINFO_EXTENSION)) {
-            $files[] = $path;
-        }
-    }
-    if ($files) {
-        // Sort by modification time, newest first
-        usort($files, static function (string $a, string $b): int {
-            $timeA = filemtime($a);
-            $timeB = filemtime($b);
-            if (false === $timeA || false === $timeB) {
-                return 0;
-            }
-            return $timeB - $timeA;
-        });
-
-        // Show only last 10 files
-        $recentFiles = array_slice($files, 0, 10);
-
+    if ($recentFiles) {
         /** @var string $file */
         foreach ($recentFiles as $file) {
-            $filename = pathinfo($file, PATHINFO_BASENAME);
-            $filesize = filesize($file);
-            $filemtime = filemtime($file);
-
-            // Read email headers from .eml file
-            $subject = $addon->i18n('archive_no_subject');
-            $recipient = $addon->i18n('archive_no_recipient');
-
-            $handle = fopen($file, 'r');
-            if ($handle) {
-                $headerLines = 0;
-                while (($line = fgets($handle)) !== false && $headerLines < 50) {
-                    $line = trim($line);
-                    if (empty($line)) {
-                        break;
-                    } // End of headers
-
-                    if (0 === stripos($line, 'Subject:')) {
-                        $subject = substr($line, 8);
-                        // Decode MIME encoded subjects
-                        if (function_exists('iconv_mime_decode')) {
-                            $decodedSubject = iconv_mime_decode($subject, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
-                            if (false !== $decodedSubject) {
-                                $subject = $decodedSubject;
-                            }
-                        }
-                        $subject = rex_escape(trim($subject));
-                        $subject = mb_strlen($subject) > 50 ? mb_substr($subject, 0, 50) . '...' : $subject;
-                    }
-
-                    if (0 === stripos($line, 'To:')) {
-                        $recipient = rex_escape(trim(substr($line, 3)));
-                        $recipient = mb_strlen($recipient) > 30 ? mb_substr($recipient, 0, 30) . '...' : $recipient;
-                    }
-
-                    ++$headerLines;
-                }
-                fclose($handle);
-            }
-
-            // Check for false values and provide defaults
-            $filemtimeValue = false !== $filemtime ? $filemtime : 0;
-            $filesizeValue = false !== $filesize ? $filesize : 0;
+            // Parse email headers using rex_mailer method
+            $emailData = rex_mailer::parseEmailHeaders($file);
 
             $content .= '<tr>';
-            $content .= '<td class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($filemtimeValue, [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>';
-            $content .= '<td>' . $subject . '</td>';
-            $content .= '<td>' . $recipient . '</td>';
-            $content .= '<td class="rex-table-tabular-nums">' . rex_formatter::bytes($filesizeValue) . '</td>';
+            $content .= '<td class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($emailData['mtime'], [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>';
+            $content .= '<td>' . $emailData['subject'] . '</td>';
+            $content .= '<td>' . $emailData['recipient'] . '</td>';
+            $content .= '<td class="rex-table-tabular-nums">' . rex_formatter::bytes($emailData['size']) . '</td>';
             $content .= '</tr>';
         }
     } else {
