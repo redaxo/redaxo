@@ -10,15 +10,6 @@ $addon = rex_addon::get('phpmailer');
 
 $message = '';
 
-if ('' != rex_post('btn_delete_archive', 'string')) {
-    if (rex_csrf_token::factory('phpmailer-delete-archive')->isValid()) {
-        if (rex_dir::delete(rex_mailer::logFolder(), true)) {
-            echo rex_view::success($addon->i18n('archive_deleted'));
-        }
-    } else {
-        echo rex_view::error($addon->i18n('csrf_token_invalid'));
-    }
-}
 if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string')) {
     $settings = rex_post('settings', [
         ['fromname', 'string'],
@@ -366,19 +357,17 @@ $n['field'] = $selLog->get();
 $formElements[] = $n;
 
 $n = [];
+$n = [];
 $n['label'] = '<label for="phpmailer-archive">' . $addon->i18n('archive') . '</label>';
 $n['field'] = $selArchive->get();
-$n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...' . substr(rex_mailer::logFolder(), -30));
-$formElements[] = $n;
-
-if (is_dir(rex_mailer::logFolder())) {
-    $n = [];
-    $n['field'] = '<form method="post" action="' . rex_url::currentBackendPage() . '" class="pull-right" style="display:inline;" onsubmit="return confirm(\'' . addslashes($addon->i18n('archive_delete_confirm')) . '\');">'
-                . rex_csrf_token::factory('phpmailer-delete-archive')->getHiddenField()
-                . '<button type="submit" name="btn_delete_archive" value="1" class="btn btn-danger">' . $addon->i18n('archive_delete') . '</button>'
-                . '</form>';
-    $formElements[] = $n;
+if ($addon->getConfig('archive')) {
+    $n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...' . substr(rex_mailer::logFolder(), -30)) 
+               . '<br><a href="' . rex_url::backendPage('phpmailer/archive') . '" class="btn btn-sm btn-default">'
+               . '<i class="rex-icon rex-icon-folder-open"></i> ' . $addon->i18n('archive_manage') . '</a>';
+} else {
+    $n['note'] = $addon->i18n('archive_disabled_note');
 }
+$formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
