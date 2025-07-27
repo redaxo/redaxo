@@ -6,6 +6,7 @@
  * @author Thomas Skerbis
  */
 
+/** @var rex_addon $addon */
 $addon = rex_addon::get('phpmailer');
 $func = rex_request('func', 'string');
 $message = '';
@@ -41,17 +42,13 @@ if ($archiveExists) {
     $archiveSize = 0;
     $fileCount = 0;
     
-    // Use recursive iterator to count all .eml files in subdirectories
-    $iterator = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator($archiveFolder, RecursiveDirectoryIterator::SKIP_DOTS)
-    );
+    // Use rex_finder to count all .eml files in subdirectories
+    $finder = rex_finder::factory($archiveFolder)->recursive()->filesOnly();
     
-    foreach ($iterator as $file) {
-        if ($file->isFile()) {
-            $archiveSize += $file->getSize();
-            if (pathinfo($file->getFilename(), PATHINFO_EXTENSION) === 'eml') {
-                $fileCount++;
-            }
+    foreach ($finder as $file) {
+        $archiveSize += $file->getSize();
+        if (pathinfo($file->getFilename(), PATHINFO_EXTENSION) === 'eml') {
+            $fileCount++;
         }
     }
     
@@ -95,28 +92,32 @@ if ($archiveExists) {
     $content .= '</thead>';
     $content .= '<tbody>';
     
-    // Get recent .eml files recursively
+    // Get recent .eml files recursively using rex_finder
+    $finder = rex_finder::factory($archiveFolder)->recursive()->filesOnly();
     $files = [];
-    $iterator = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator($archiveFolder, RecursiveDirectoryIterator::SKIP_DOTS)
-    );
     
-    foreach ($iterator as $file) {
-        if ($file->isFile() && pathinfo($file->getFilename(), PATHINFO_EXTENSION) === 'eml') {
-            $files[] = $file->getPathname();
+    foreach ($finder as $path => $file) {
+        if (pathinfo($file->getFilename(), PATHINFO_EXTENSION) === 'eml') {
+            $files[] = $path;
         }
     }
     if ($files) {
         // Sort by modification time, newest first
-        usort($files, function($a, $b) {
-            return filemtime($b) - filemtime($a);
+        usort($files, function(string $a, string $b): int {
+            $timeA = filemtime($a);
+            $timeB = filemtime($b);
+            if ($timeA === false || $timeB === false) {
+                return 0;
+            }
+            return $timeB - $timeA;
         });
         
         // Show only last 10 files
         $recentFiles = array_slice($files, 0, 10);
         
+        /** @var string $file */
         foreach ($recentFiles as $file) {
-            $filename = basename($file);
+            $filename = pathinfo($file, PATHINFO_BASENAME);
             $filesize = filesize($file);
             $filemtime = filemtime($file);
             
@@ -135,7 +136,10 @@ if ($archiveExists) {
                         $subject = substr($line, 8);
                         // Decode MIME encoded subjects
                         if (function_exists('iconv_mime_decode')) {
-                            $subject = iconv_mime_decode($subject, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
+                            $decodedSubject = iconv_mime_decode($subject, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
+                            if ($decodedSubject !== false) {
+                                $subject = $decodedSubject;
+                            }
                         }
                         $subject = rex_escape(trim($subject));
                         $subject = mb_strlen($subject) > 50 ? mb_substr($subject, 0, 50) . '...' : $subject;
@@ -151,11 +155,22 @@ if ($archiveExists) {
                 fclose($handle);
             }
             
+            $filemtimeValue = filemtime($file);
+            $filesizeValue = filesize($file);
+            
+            // Check for false values and provide defaults
+            if ($filemtimeValue === false) {
+                $filemtimeValue = 0;
+            }
+            if ($filesizeValue === false) {
+                $filesizeValue = 0;
+            }
+            
             $content .= '<tr>';
-            $content .= '<td class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($filemtime, [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>';
+            $content .= '<td class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($filemtimeValue, [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>';
             $content .= '<td>' . $subject . '</td>';
             $content .= '<td>' . $recipient . '</td>';
-            $content .= '<td class="rex-table-tabular-nums">' . rex_formatter::bytes($filesize) . '</td>';
+            $content .= '<td class="rex-table-tabular-nums">' . rex_formatter::bytes($filesizeValue) . '</td>';
             $content .= '</tr>';
         }
     } else {
