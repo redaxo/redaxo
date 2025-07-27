@@ -27,7 +27,11 @@ if ('delete_archive' == $func) {
 $archiveFolder = rex_mailer::logFolder();
 $archiveExists = is_dir($archiveFolder);
 
-// Archive Information Panel
+// Two-column layout for Archive Information and Legal Notice
+echo '<div class="row">';
+
+// Archive Information Panel (left column)
+echo '<div class="col-md-6">';
 $content = '';
 
 // Archive Status Panel
@@ -72,11 +76,51 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
+// Add archive management to the same panel if archive exists
+if ($archiveExists) {
+    $content .= '<hr>';
+    $content .= '<div style="margin-bottom: 15px;">';
+    $content .= '<strong>' . $addon->i18n('archive_delete_warning') . '</strong><br>';
+    $content .= $addon->i18n('archive_delete_warning_desc');
+    $content .= '</div>';
+
+    $content .= '<form method="post" action="' . rex_url::currentBackendPage() . '">';
+    $content .= rex_csrf_token::factory('phpmailer-delete-archive')->getHiddenField();
+    $content .= '<input type="hidden" name="func" value="delete_archive">';
+    $content .= '<button type="submit" class="btn btn-danger btn-sm" data-confirm="' . $addon->i18n('archive_delete_confirm') . '">';
+    $content .= '<i class="rex-icon rex-icon-delete"></i> ' . $addon->i18n('archive_delete');
+    $content .= '</button>';
+    $content .= '</form>';
+}
+
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'info', false);
 $fragment->setVar('title', $addon->i18n('archive_info_page'), false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
+echo '</div>';
+
+// Legal Notice Panel (right column)
+echo '<div class="col-md-6">';
+$content = '';
+$content .= '<p>' . $addon->i18n('archive_legal_notice_text') . '</p>';
+$content .= '<ul>';
+$content .= '<li>' . $addon->i18n('archive_legal_notice_technical') . '</li>';
+$content .= '<li>' . $addon->i18n('archive_legal_notice_not_legal') . '</li>';
+$content .= '<li>' . $addon->i18n('archive_legal_notice_gdpr') . '</li>';
+$content .= '<li>' . $addon->i18n('archive_legal_notice_deletion') . '</li>';
+$content .= '<li>' . $addon->i18n('archive_legal_notice_avv') . '</li>';
+$content .= '</ul>';
+
+$fragment = new rex_fragment();
+$fragment->setVar('class', 'edit', false);
+$fragment->setVar('title', $addon->i18n('archive_legal_notice_title'), false);
+$fragment->setVar('body', $content, false);
+echo $fragment->parse('core/page/section.php');
+echo '</div>';
+
+// Close row
+echo '</div>';
 
 // Recent Archived Emails Panel
 if ($archiveExists) {
@@ -178,29 +222,6 @@ if ($archiveExists) {
     $fragment = new rex_fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $addon->i18n('archive_recent_mails'), false);
-    $fragment->setVar('body', $content, false);
-    echo $fragment->parse('core/page/section.php');
-}
-
-// Archive Management Panel
-if ($archiveExists) {
-    $content = '';
-    $content .= '<div class="alert alert-warning">';
-    $content .= '<strong>' . $addon->i18n('archive_delete_warning') . '</strong><br>';
-    $content .= $addon->i18n('archive_delete_warning_desc');
-    $content .= '</div>';
-
-    $content .= '<form method="post" action="' . rex_url::currentBackendPage() . '">';
-    $content .= rex_csrf_token::factory('phpmailer-delete-archive')->getHiddenField();
-    $content .= '<input type="hidden" name="func" value="delete_archive">';
-    $content .= '<button type="submit" class="btn btn-danger" data-confirm="' . $addon->i18n('archive_delete_confirm') . '">';
-    $content .= '<i class="rex-icon rex-icon-delete"></i> ' . $addon->i18n('archive_delete');
-    $content .= '</button>';
-    $content .= '</form>';
-
-    $fragment = new rex_fragment();
-    $fragment->setVar('class', 'edit', false);
-    $fragment->setVar('title', $addon->i18n('archive_management'), false);
     $fragment->setVar('body', $content, false);
     echo $fragment->parse('core/page/section.php');
 }

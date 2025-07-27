@@ -119,3 +119,12 @@ phpmailer_errormail_60min = 60 minute interval
 
 system_setting_errormail = Send e-mail on errors
 perm_general_phpmailer[] = PHPMailer settings
+
+# Archive Legal Notice
+phpmailer_archive_legal_notice_title = Legal Notice for Email Archiving
+phpmailer_archive_legal_notice_text = The following important information regarding email archiving must be considered:
+phpmailer_archive_legal_notice_technical = The email archive serves exclusively for technical analysis and error diagnostics.
+phpmailer_archive_legal_notice_not_legal = This archiving does NOT constitute legally compliant archiving in terms of compliance requirements.
+phpmailer_archive_legal_notice_gdpr = Emails may contain personal data (GDPR). The archive must be protected accordingly.
+phpmailer_archive_legal_notice_deletion = The archive should be deleted regularly (e.g., via cronjob) to comply with data protection regulations.
+phpmailer_archive_legal_notice_avv = When operating the website on behalf of others, data processing agreements (DPA) must be considered.
