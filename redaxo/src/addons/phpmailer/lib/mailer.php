@@ -445,13 +445,12 @@ class rex_mailer extends PHPMailer
                 if (!isset($token['access_token'])) {
                     throw new Exception(rex_i18n::msg('phpmailer_msgraph_no_token'));
                 }
-
                 rex_config::set('phpmailer', 'msgraph_token', $token);
+
             } catch (Exception $e) {
                 $this->setError(rex_i18n::msg('phpmailer_msgraph_auth_error') . $e->getMessage());
                 rex_config::remove('phpmailer', 'msgraph_token');
-
-                throw $e;
+                return false;
             }
         }
 
