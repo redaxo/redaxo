@@ -77,6 +77,7 @@ linkmap = Mapa de enlace
 linkmap_categories = Categorías
 linkmap_articles = Artículo
 linkmap_has_no_template = No tiene plantilla
+linkmap_link_inserted = ¡El enlace %s ha sido insertado!
 
 var_link_open = Seleccionar enlace
 var_link_delete = Eliminar el enlace seleccionado
