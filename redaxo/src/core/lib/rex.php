@@ -84,6 +84,9 @@ class rex
         if (!is_string($key)) {
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
+
+        $value = self::parseEnvVariables($value);
+
         switch ($key) {
             case 'debug':
                 // bc for boolean "debug" property
@@ -583,5 +586,26 @@ class rex
         }
 
         return null;
+    }
+
+    private static function parseEnvVariables(mixed $value): mixed
+    {
+        if (is_string($value) && str_starts_with($value, '%env(') && str_ends_with($value, ')%')) {
+            $var = substr($value, 5, -2);
+            $value = $_SERVER[$var] ?? $_ENV[$var] ?? null;
+
+            if (null === $value) {
+                throw new InvalidArgumentException('Environment variable "' . $var . '" is not set.');
+            }
+            return $value;
+        }
+
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $value[$k] = self::parseEnvVariables($v);
+            }
+        }
+
+        return $value;
     }
 }
