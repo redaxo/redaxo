@@ -1,5 +1,7 @@
 <?php
 
+use Pdo\Mysql;
+
 /**
  * Klasse zur Verbindung und Interatkion mit der Datenbank.
  *
@@ -28,7 +30,7 @@ class rex_sql implements Iterator
     /**
      * Controls query buffering.
      *
-     * View `PDO::MYSQL_ATTR_USE_BUFFERED_QUERY` for more details.
+     * View `Pdo\Mysql::ATTR_USE_BUFFERED_QUERY` for more details.
      */
     public const OPT_BUFFERED = 'buffered';
 
@@ -205,7 +207,11 @@ class rex_sql implements Iterator
             PDO::ATTR_FETCH_TABLE_NAMES => true,
         ];
 
-        $dbh = @new PDO($dsn, $login, $password, $options);
+        if (class_exists(Mysql::class)) {
+            $dbh = @new Mysql($dsn, $login, $password, $options);
+        } else {
+            $dbh = @new PDO($dsn, $login, $password, $options);
+        }
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $dbh;
     }
