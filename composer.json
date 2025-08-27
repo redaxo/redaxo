@@ -29,7 +29,7 @@
     },
     "replace": {
         "composer/ca-bundle": "1.5.8",
-        "enshrined/svg-sanitize": "0.21.0",
+        "enshrined/svg-sanitize": "0.22.0",
         "erusev/parsedown": "1.7.4",
         "erusev/parsedown-extra": "0.8.1",
         "filp/whoops": "2.18.4",
