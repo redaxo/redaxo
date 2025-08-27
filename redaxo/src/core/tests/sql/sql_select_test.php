@@ -1,5 +1,6 @@
 <?php
 
+use Pdo\Mysql;
 use PHPUnit\Framework\TestCase;
 
 /** @internal */
@@ -281,13 +282,15 @@ final class rex_sql_select_test extends TestCase
         /** @var PDO $pdo */
         $pdo = $property->getValue()[1];
 
-        self::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
+        $bufferedQueryAttr = class_exists(Mysql::class) ? Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY;
+
+        self::assertEquals(1, $pdo->getAttribute($bufferedQueryAttr));
 
         $sql->setQuery('SELECT * FROM ' . self::TABLE, [], [
             rex_sql::OPT_BUFFERED => false,
         ]);
 
-        self::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
+        self::assertEquals(1, $pdo->getAttribute($bufferedQueryAttr));
 
         try {
             $sql->setQuery('SELECT ' . self::TABLE, [], [
@@ -296,7 +299,7 @@ final class rex_sql_select_test extends TestCase
         } catch (rex_sql_exception) {
         }
 
-        self::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
+        self::assertEquals(1, $pdo->getAttribute($bufferedQueryAttr));
     }
 
     private function insertRow(): void

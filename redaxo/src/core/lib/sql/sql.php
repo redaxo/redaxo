@@ -117,19 +117,22 @@ class rex_sql implements Iterator
             if (!isset(self::$pdo[$db])) {
                 $options = [];
                 $dbconfig = rex::getDbConfig($db);
+                $mysqlClass = class_exists(Mysql::class);
 
                 if ($dbconfig->sslKey && $dbconfig->sslCert) {
                     $options = [
-                        PDO::MYSQL_ATTR_SSL_KEY => $dbconfig->sslKey,
-                        PDO::MYSQL_ATTR_SSL_CERT => $dbconfig->sslCert,
+                        $mysqlClass ? Mysql::ATTR_SSL_KEY : PDO::MYSQL_ATTR_SSL_KEY => $dbconfig->sslKey,
+                        $mysqlClass ? Mysql::ATTR_SSL_CERT : PDO::MYSQL_ATTR_SSL_CERT => $dbconfig->sslCert,
                     ];
                 }
                 if ($dbconfig->sslCa) {
-                    $options[PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
+                    $options[$mysqlClass ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
                 }
 
                 // available only with mysqlnd
-                if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+                if (defined(Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT')) {
+                    $options[Mysql::ATTR_SSL_VERIFY_SERVER_CERT] = $dbconfig->sslVerifyServerCert;
+                } elseif (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
                     $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $dbconfig->sslVerifyServerCert;
                 }
 
@@ -208,6 +211,7 @@ class rex_sql implements Iterator
         ];
 
         if (class_exists(Mysql::class)) {
+            /** @var PDO $dbh */
             $dbh = @new Mysql($dsn, $login, $password, $options);
         } else {
             $dbh = @new PDO($dsn, $login, $password, $options);
@@ -391,10 +395,12 @@ class rex_sql implements Iterator
         }
 
         $buffered = null;
+        $bufferedAttr = null;
         $pdo = $this->getConnection();
         if (isset($options[self::OPT_BUFFERED])) {
-            $buffered = $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
-            $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
+            $bufferedAttr = class_exists(Mysql::class) ? Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY;
+            $buffered = $pdo->getAttribute($bufferedAttr);
+            $pdo->setAttribute($bufferedAttr, $options[self::OPT_BUFFERED]);
         }
 
         try {
@@ -420,7 +426,7 @@ class rex_sql implements Iterator
             throw new rex_sql_exception('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . '! ' . $e->getMessage(), $e, $this);
         } finally {
             if (null !== $buffered) {
-                $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
+                $pdo->setAttribute($bufferedAttr, $buffered);
             }
 
             if ($this->debug) {
