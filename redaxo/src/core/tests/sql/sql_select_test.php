@@ -282,7 +282,7 @@ final class rex_sql_select_test extends TestCase
         /** @var PDO $pdo */
         $pdo = $property->getValue()[1];
 
-        $bufferedQueryAttr = class_exists(Mysql::class) ? Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY;
+        $bufferedQueryAttr = PHP_VERSION_ID >= 8_04_00 ? Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY;
 
         self::assertEquals(1, $pdo->getAttribute($bufferedQueryAttr));
 

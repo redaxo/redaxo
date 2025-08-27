@@ -117,7 +117,7 @@ class rex_sql implements Iterator
             if (!isset(self::$pdo[$db])) {
                 $options = [];
                 $dbconfig = rex::getDbConfig($db);
-                $mysqlClass = class_exists(Mysql::class);
+                $mysqlClass = PHP_VERSION_ID >= 8_04_00;
 
                 if ($dbconfig->sslKey && $dbconfig->sslCert) {
                     $options = [
@@ -130,10 +130,10 @@ class rex_sql implements Iterator
                 }
 
                 // available only with mysqlnd
-                if (defined(Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT')) {
-                    $options[Mysql::ATTR_SSL_VERIFY_SERVER_CERT] = $dbconfig->sslVerifyServerCert;
-                } elseif (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
-                    $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $dbconfig->sslVerifyServerCert;
+                $constant = $mysqlClass ? Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT' : 'PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT';
+                if (defined($constant)) {
+                    /** @psalm-suppress MixedArrayOffset */
+                    $options[constant($constant)] = $dbconfig->sslVerifyServerCert;
                 }
 
                 $conn = self::createConnection(
@@ -210,13 +210,12 @@ class rex_sql implements Iterator
             PDO::ATTR_FETCH_TABLE_NAMES => true,
         ];
 
-        if (class_exists(Mysql::class)) {
-            /** @var PDO $dbh */
+        if (PHP_VERSION_ID >= 8_04_00) {
             $dbh = @new Mysql($dsn, $login, $password, $options);
         } else {
             $dbh = @new PDO($dsn, $login, $password, $options);
         }
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         return $dbh;
     }
 
@@ -395,10 +394,9 @@ class rex_sql implements Iterator
         }
 
         $buffered = null;
-        $bufferedAttr = null;
         $pdo = $this->getConnection();
         if (isset($options[self::OPT_BUFFERED])) {
-            $bufferedAttr = class_exists(Mysql::class) ? Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY;
+            $bufferedAttr = PHP_VERSION_ID >= 8_04_00 ? Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY;
             $buffered = $pdo->getAttribute($bufferedAttr);
             $pdo->setAttribute($bufferedAttr, $options[self::OPT_BUFFERED]);
         }
@@ -426,7 +424,7 @@ class rex_sql implements Iterator
             throw new rex_sql_exception('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . '! ' . $e->getMessage(), $e, $this);
         } finally {
             if (null !== $buffered) {
-                $pdo->setAttribute($bufferedAttr, $buffered);
+                $pdo->setAttribute(PHP_VERSION_ID >= 8_04_00 ? Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
             }
 
             if ($this->debug) {
