@@ -605,7 +605,7 @@ class rex
                 rex_file::getConfig(rex_path::core('default.config.yml')),
                 rex_file::getConfig($configFile),
             );
-            $config = array_map(static fn (mixed $value) => self::convertYamlTags($config), $config);
+            $config = array_map(static fn (mixed $value) => self::convertYamlTags($value), $config);
             rex_file::putCache($cacheFile, $config);
         }
 
