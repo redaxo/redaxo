@@ -235,18 +235,27 @@ abstract class rex_error_handler
             $saveModeLink = '<a class="rex-safemode" href="' . rex_url::backendPage('packages', ['safemode' => 1]) . '">activate safe mode</a>';
         }
 
-        $bugTitle = 'Exception: ' . $exception->getMessage();
-        $bugLabel = 'Bug';
-        $bugBody = self::getMarkdownReport($exception);
-        if (rex_server('REQUEST_URI')) {
-            $bugBody =
-                '**Request-Uri:** ' . rex_server('REQUEST_URI') . "\n" .
-                '**Request-Method:** ' . strtoupper(rex_request::requestMethod()) . "\n" .
-                "\n" . $bugBody;
+        try {
+            $markdownReport = self::getMarkdownReport($exception);
+        } catch (Throwable) {
+            $markdownReport = null;
         }
 
-        $bugBodyCompressed = rex_type::string(preg_replace('/ {2,}/u', ' ', $bugBody)); // replace multiple spaces with one space
-        $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels=' . rex_escape($bugLabel, 'url') . '&title=' . rex_escape($bugTitle, 'url') . '&body=' . rex_escape($bugBodyCompressed, 'url') . '" rel="noopener noreferrer" target="_blank">Report a REDAXO bug</a>';
+        $reportBugLink = '';
+        if ($markdownReport) {
+            $bugTitle = 'Exception: ' . $exception->getMessage();
+            $bugLabel = 'Bug';
+            $bugBody = $markdownReport;
+            if (rex_server('REQUEST_URI')) {
+                $bugBody =
+                    '**Request-Uri:** ' . rex_server('REQUEST_URI') . "\n" .
+                    '**Request-Method:** ' . strtoupper(rex_request::requestMethod()) . "\n" .
+                    "\n" . $bugBody;
+            }
+
+            $bugBodyCompressed = rex_type::string(preg_replace('/ {2,}/u', ' ', $bugBody)); // replace multiple spaces with one space
+            $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels=' . rex_escape($bugLabel, 'url') . '&title=' . rex_escape($bugTitle, 'url') . '&body=' . rex_escape($bugBodyCompressed, 'url') . '" rel="noopener noreferrer" target="_blank">Report a REDAXO bug</a>';
+        }
 
         $url = rex::isFrontend() ? rex_url::frontendController() : rex_url::backendController();
 
@@ -272,14 +281,17 @@ abstract class rex_error_handler
             $errPage,
         );
 
-        $errPageMarkdownBtn = preg_replace(
-            '@<button id="copy-button" .*?</button>@s',
-            '$0<button class="rightButton clipboard" data-clipboard-text="' . rex_escape(self::getMarkdownReport($exception)) . '" title="Copy exception details and system report as markdown to clipboard">COPY MARKDOWN</button>',
-            $errPage,
-        );
-        if (null !== $errPageMarkdownBtn) {
-            $errPage = $errPageMarkdownBtn;
+        if ($markdownReport) {
+            $errPageMarkdownBtn = preg_replace(
+                '@<button id="copy-button" .*?</button>@s',
+                '$0<button class="rightButton clipboard" data-clipboard-text="' . rex_escape($markdownReport) . '" title="Copy exception details and system report as markdown to clipboard">COPY MARKDOWN</button>',
+                $errPage,
+            );
+            if (null !== $errPageMarkdownBtn) {
+                $errPage = $errPageMarkdownBtn;
+            }
         }
+
         $errPage = str_replace('<button id="copy-button"', '<button ', $errPage);
         $errPage = preg_replace('@<button id="hide-error" .*?</button>@s', '', $errPage);
 
