@@ -85,6 +85,7 @@ class rex
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
 
+        /** @psalm-suppress MixedAssignment */
         $value = self::parseEnvVariables($value);
 
         switch ($key) {
@@ -600,12 +601,10 @@ class rex
             return $value;
         }
 
-        if (is_array($value)) {
-            foreach ($value as $k => $v) {
-                $value[$k] = self::parseEnvVariables($v);
-            }
+        if (!is_array($value)) {
+            return $value;
         }
 
-        return $value;
+        return array_map(static fn (mixed $value) => self::parseEnvVariables($value), $value);
     }
 }
