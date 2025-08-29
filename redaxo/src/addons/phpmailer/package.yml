@@ -11,6 +11,7 @@ page:
     subpages:
         config: { title: 'translate:configuration' }
         log: { title: 'translate:logging' }
+        archive: { title: 'translate:archive' }
         help: { title: 'translate:help', subPath: README.md, itemClass: 'pull-right' }
         checkmail: { title: 'translate:checkmail', hidden: true}
 
