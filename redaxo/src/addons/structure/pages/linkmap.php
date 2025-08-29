@@ -60,6 +60,24 @@ if (str_starts_with($openerInputField, 'REX_LINKLIST_')) {
         JS;
 }
 
+$insertLinkNotification = '
+    if(name) {
+        let container = document.createElement("div");
+        let notice = document.createElement("div");
+        container.className = "rex-message-container";
+        notice.className = "alert alert-success";
+        notice.textContent = `' . rex_i18n::msg('linkmap_link_inserted') . '`;
+        notice.textContent = notice.textContent.replace("%s", name);
+        container.appendChild(notice);
+        let target = document.querySelector(".rex-breadcrumb");
+        if (target) {
+          target.insertAdjacentElement("afterend", container);
+          setTimeout(() => container.remove(), 2000);
+        }
+    }
+';
+$funcBody .= $insertLinkNotification;
+
 // ------------------------ Print JS Functions
 
 $retainEventHandlers = '';

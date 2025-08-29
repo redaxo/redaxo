@@ -79,6 +79,7 @@ linkmap = Linkmap
 linkmap_categories = Kategorier
 linkmap_articles = Artiklar
 linkmap_has_no_template = har ingen mall
+linkmap_link_inserted = Länken %s har lagts till!
 
 var_link_open = Välja länk
 var_link_delete = Radera vald länk
