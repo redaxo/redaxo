@@ -4909,10 +4909,6 @@
   </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
     <MixedArgument>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
       <code><![CDATA[$dir]]></code>
       <code><![CDATA[$dir]]></code>
       <code><![CDATA[$func($path)]]></code>
@@ -4920,13 +4916,6 @@
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
     </MixedArrayAccess>
     <PossiblyFalseArgument>
       <code><![CDATA[fileperms($path)]]></code>

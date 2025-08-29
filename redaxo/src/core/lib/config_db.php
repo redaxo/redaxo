@@ -22,7 +22,7 @@ final class rex_config_db
     public $sslKey;
     /** @var string|null */
     public $sslCert;
-    /** @var string|null */
+    /** @var string|bool|null */
     public $sslCa;
     /** @var bool */
     public $sslVerifyServerCert;
