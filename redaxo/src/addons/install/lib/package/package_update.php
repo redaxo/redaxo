@@ -136,6 +136,8 @@ class rex_install_package_update extends rex_install_package_download
             rex_dir::copy($origAssets, $assets);
         }
 
+        rex_package_manager::synchronizeWithFileSystem();
+
         // ---- update package order
         if ($this->addon->isAvailable()) {
             $this->addon->loadProperties(true);
