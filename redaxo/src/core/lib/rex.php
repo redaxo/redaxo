@@ -2,6 +2,7 @@
 
 use JetBrains\PhpStorm\Deprecated;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Yaml\Tag\TaggedValue;
 
 /**
  * REX base class for core properties etc.
@@ -13,6 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 class rex
 {
     public const CONFIG_NAMESPACE = 'core';
+
+    private const CACHE_ENV_KEY = "\0rex_env_var\0";
 
     /**
      * Array of properties.
@@ -84,6 +87,7 @@ class rex
         if (!is_string($key)) {
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
+
         switch ($key) {
             case 'debug':
                 // bc for boolean "debug" property
@@ -583,5 +587,78 @@ class rex
         }
 
         return null;
+    }
+
+    /**
+     * @internal
+     */
+    public static function loadConfigYml(): void
+    {
+        $cacheFile = rex_path::coreCache('config.yml.cache');
+        $configFile = rex_path::coreData('config.yml');
+
+        $cacheMtime = @filemtime($cacheFile);
+        if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
+            $config = rex_file::getCache($cacheFile);
+        } else {
+            $config = array_merge(
+                rex_file::getConfig(rex_path::core('default.config.yml')),
+                rex_file::getConfig($configFile),
+            );
+            $config = array_map(static fn (mixed $value) => self::convertYamlTags($value), $config);
+            rex_file::putCache($cacheFile, $config);
+        }
+
+        /**
+         * @var string $key
+         * @var mixed $value
+         */
+        foreach ($config as $key => $value) {
+            /** @psalm-suppress MixedAssignment */
+            $value = self::convertEnvVariables($value);
+
+            if (in_array($key, ['fileperm', 'dirperm'])) {
+                $value = octdec((string) $value);
+            }
+
+            self::setProperty($key, $value);
+        }
+    }
+
+    private static function convertYamlTags(mixed $value): mixed
+    {
+        if ($value instanceof TaggedValue) {
+            if ('env' !== $value->getTag()) {
+                return $value->getValue();
+            }
+
+            return [self::CACHE_ENV_KEY => $value->getValue()];
+        }
+
+        if (!is_array($value)) {
+            return $value;
+        }
+
+        return array_map(static fn (mixed $value) => self::convertYamlTags($value), $value);
+    }
+
+    private static function convertEnvVariables(mixed $value): mixed
+    {
+        if (!is_array($value)) {
+            return $value;
+        }
+
+        $var = $value[self::CACHE_ENV_KEY] ?? null;
+        if (!is_string($var)) {
+            return array_map(static fn (mixed $value) => self::convertEnvVariables($value), $value);
+        }
+
+        $value = $_SERVER[$var] ?? $_ENV[$var] ?? null;
+
+        if (null === $value) {
+            throw new InvalidArgumentException('Environment variable "' . $var . '" is not set.');
+        }
+
+        return $value;
     }
 }
