@@ -173,11 +173,11 @@
                 message: rex.i18n.session_timeout_message_has_expired,
                 buttons: [
                     {
-                        id: 'rex-session-timeout-dialog-logout',
-                        label: '<i class="rex-icon rex-icon-sign-out"></i> ' + rex.i18n.session_timeout_login_label,
-                        attr: 'class="btn btn-default rex-session-timeout-dialog-logout"',
+                        id: 'rex-session-timeout-dialog-login',
+                        label: '<i class="rex-icon rex-icon-sign-in"></i> ' + rex.i18n.session_timeout_login_label,
+                        attr: 'class="btn btn-primary rex-session-timeout-dialog-login-btn"',
                         click: function () {
-                            window.location.href = rex.session_logout_url;
+                            window.location.href = rex.session_login_url;
                         }
                     }
                 ]
