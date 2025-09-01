@@ -1,7 +1,7 @@
 cronjob_title = Cronjobs
 
 cronjob_add = Cronjob hinzufügen
-cronjob_edit = Cronjob editieren
+cronjob_edit = Cronjob bearbeiten
 
 cronjob_caption = Liste der angelegten Cronjobs
 cronjob_no_cronjobs = Keine Cronjobs vorhanden
@@ -73,7 +73,7 @@ cronjob_error_no_environment = Mindestens eine Umgebung muss ausgewählt werden!
 cronjob_error_interval_incomplete = Beim Intervall muss in jeder Kategorie ein Wert ausgewählt werden!
 
 cronjob_not_found = Cronjob nicht gefunden!
-cronjob_not_editable = Cronjob ist nicht editierbar!
+cronjob_not_editable = Cronjob ist nicht bearbeitbar!
 
 cronjob_log = Log
 cronjob_log_date = Datum
