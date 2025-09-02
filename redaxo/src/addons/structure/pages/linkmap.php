@@ -79,7 +79,7 @@ if (!rex_request::isXmlHttpRequest()) {
 <?php
 
 $isRoot = 0 === $categoryId;
-$category = rex_category::get($categoryId);
+$category = rex_category::get($categoryId, $clang);
 
 $navigation = [];
 if ($category) {
@@ -93,6 +93,9 @@ if ($category) {
 
 echo rex_view::title('<i class="rex-icon rex-icon-linkmap"></i> Linkmap');
 
+// Language switcher for multi-language setups - same as in structure addon
+echo rex_view::clangSwitchAsButtons($context);
+
 $title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . rex_i18n::msg('root_level') . '</a>';
 
 $fragment = new rex_fragment();
@@ -102,7 +105,7 @@ echo $fragment->parse('core/navigations/breadcrumb.php');
 
 $content = [];
 
-$categoryTree = new rex_linkmap_category_tree($context);
+$categoryTree = new rex_linkmap_category_tree($context, $clang);
 $panel = $categoryTree->getTree($categoryId);
 
 $fragment = new rex_fragment();
@@ -110,7 +113,7 @@ $fragment->setVar('title', rex_i18n::msg('linkmap_categories'), false);
 $fragment->setVar('content', $panel, false);
 $content[] = $fragment->parse('core/page/section.php');
 
-$articleList = new rex_linkmap_article_list($context);
+$articleList = new rex_linkmap_article_list($context, $clang);
 $panel = $articleList->getList($categoryId);
 
 $fragment = new rex_fragment();

@@ -8,20 +8,31 @@
 abstract class rex_linkmap_tree_renderer
 {
     /**
+     * @param int|null $clang Language ID for categories/articles
      * @return string
      */
-    public function getTree($categoryId)
+    public function getTree(int $categoryId, ?int $clang = null)
     {
-        $category = rex_category::get($categoryId);
+        if (null === $clang) {
+            $clang = rex_clang::getCurrentId();
+        }
+
+        $category = rex_category::get($categoryId, $clang);
 
         $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpointCategories();
         if (count($mountpoints) > 0) {
-            $roots = $mountpoints;
+            $roots = [];
+            foreach ($mountpoints as $mountpoint) {
+                $catObj = rex_category::get($mountpoint->getId(), $clang);
+                if ($catObj) {
+                    $roots[] = $catObj;
+                }
+            }
             if (!$category && 1 === count($roots)) {
                 $category = $roots[0];
             }
         } else {
-            $roots = rex_category::getRootCategories();
+            $roots = rex_category::getRootCategories(false, $clang);
         }
 
         $tree = [];
@@ -123,10 +134,15 @@ abstract class rex_linkmap_tree_renderer
 abstract class rex_linkmap_article_list_renderer
 {
     /**
+     * @param int|null $clang Language ID for articles
      * @return string
      */
-    public function getList($categoryId)
+    public function getList(int $categoryId, ?int $clang = null)
     {
+        if (null === $clang) {
+            $clang = rex_clang::getCurrentId();
+        }
+
         $isRoot = 0 === $categoryId;
         $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpoints();
 
@@ -136,11 +152,12 @@ abstract class rex_linkmap_article_list_renderer
         }
 
         if ($isRoot && 0 == count($mountpoints)) {
-            $articles = rex_article::getRootArticles();
+            $articles = rex_article::getRootArticles(false, $clang);
         } elseif ($isRoot) {
             $articles = [];
         } else {
-            $articles = rex_category::get($categoryId)->getArticles();
+            $category = rex_category::get($categoryId, $clang);
+            $articles = $category ? $category->getArticles() : [];
         }
         return self::renderList($articles, $categoryId);
     }

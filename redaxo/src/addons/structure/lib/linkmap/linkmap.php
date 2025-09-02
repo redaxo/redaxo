@@ -9,7 +9,16 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
 {
     public function __construct(
         private rex_context $context,
+        private int $clang,
     ) {}
+
+    /**
+     * @return string
+     */
+    public function getTree(int $categoryId, ?int $clang = null)
+    {
+        return parent::getTree($categoryId, $this->clang);
+    }
 
     /**
      * @return string
@@ -48,7 +57,16 @@ class rex_linkmap_article_list extends rex_linkmap_article_list_renderer
 {
     public function __construct(
         private rex_context $context,
+        private int $clang,
     ) {}
+
+    /**
+     * @return string
+     */
+    public function getList(int $categoryId, ?int $clang = null)
+    {
+        return parent::getList($categoryId, $this->clang);
+    }
 
     /**
      * @return string
