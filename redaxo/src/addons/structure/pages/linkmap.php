@@ -93,8 +93,8 @@ if ($category) {
 
 echo rex_view::title('<i class="rex-icon rex-icon-linkmap"></i> Linkmap');
 
-// Language switcher for multi-language setups - same as in structure addon
-echo rex_view::clangSwitchAsButtons($context);
+// Language switcher - same as structure but without edit link
+echo rex_view::clangSwitchAsButtons($context, true, false);
 
 $title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . rex_i18n::msg('root_level') . '</a>';
 
