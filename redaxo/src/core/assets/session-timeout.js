@@ -59,7 +59,7 @@
                     }
                     clearInterval(sessionCheckInterval);
                     performKeepAlive();
-                } else if (currentSessionWarningTime < currentTime) {
+                } else if (!rex.session_stay_logged_in && currentSessionWarningTime < currentTime) {
                     clearInterval(sessionCheckInterval);
                     viewSessionExpandDialog();
                 }
