@@ -87,7 +87,7 @@ abstract class rex_linkmap_tree_renderer
     /**
      * @return string
      */
-    abstract protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon);
+    abstract protected function treeItem(rex_category $cat, string $liClasses, string $linkClasses, string $subHtml, string $liIcon);
 
     /**
      * @return string
@@ -110,7 +110,7 @@ abstract class rex_linkmap_tree_renderer
     /**
      * @return string
      */
-    public static function formatLi(rex_structure_element $OOobject, $currentCategoryId, rex_context $context, $liAttr = '', $linkAttr = '')
+    public static function formatLi(rex_structure_element $OOobject, int $currentCategoryId, rex_context $context, string $liAttr = '', string $linkAttr = '')
     {
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offline') . '"';
 
@@ -165,7 +165,7 @@ abstract class rex_linkmap_article_list_renderer
     /**
      * @return string
      */
-    public function renderList(array $articles, $categoryId)
+    public function renderList(array $articles, int $categoryId)
     {
         $list = '';
         if ($articles) {
@@ -183,5 +183,5 @@ abstract class rex_linkmap_article_list_renderer
     /**
      * @return string
      */
-    abstract protected function listItem(rex_article $article, $categoryId);
+    abstract protected function listItem(rex_article $article, int $categoryId);
 }

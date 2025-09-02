@@ -11,7 +11,7 @@ class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
         private rex_context $context,
     ) {}
 
-    public function getTree($categoryId)
+    public function getTree(int $categoryId, ?int $clang = null)
     {
         // if not, let the structure as is, by providing a remembered id
         if ($categoryId <= 0) {
@@ -19,13 +19,13 @@ class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
         } else {
             rex_request::setSession('tree_category_id', $categoryId);
         }
-        return parent::getTree($categoryId);
+        return parent::getTree($categoryId, $clang);
     }
 
     /**
      * @return string
      */
-    protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon)
+    protected function treeItem(rex_category $cat, string $liClasses, string $linkClasses, string $subHtml, string $liIcon)
     {
         $linkClasses .= '';
 
