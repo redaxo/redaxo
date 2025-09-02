@@ -37,7 +37,7 @@ __REDAXO und die Community kennenlernen:__
 
 ### 1. Das CMS installieren und die Demos testen
 
-Das ist vermutlich die beste Möglichkeit, REDAXO kennenzulernen: Installiere das [neueste Release](https://github.com/redaxo/redaxo/releases), melde dich im Adminbereich an und benutze das eingebaute _Installer_-AddOn, um eine der Demo-Websites einzurichten. Für Einsteiger bietet sich die »Basisdemo« (Suche nach `demo_base`) an, die alle wichtigen Themen im Umgang mit REDAXO erklärt.
+Das ist vermutlich die beste Möglichkeit, REDAXO kennenzulernen: Installiere das [neuste Release](https://github.com/redaxo/redaxo/releases), melde dich im Adminbereich an und benutze das eingebaute _Installer_-AddOn, um eine der Demo-Websites einzurichten. Für Einsteiger bietet sich die »Basisdemo« (Suche nach `demo_base`) an, die alle wichtigen Themen im Umgang mit REDAXO erklärt.
 
 Aktuelle Demo-Websites: [Basis](https://github.com/FriendsOfREDAXO/demo_base), [Community](https://github.com/FriendsOfREDAXO/demo_community), [OnePage](https://github.com/FriendsOfREDAXO/demo_onepage), [FullPage](https://github.com/FriendsOfREDAXO/demo_fullpage).
 
