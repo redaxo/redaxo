@@ -1,5 +1,7 @@
 <?php
 
+use Pdo\Mysql;
+
 /**
  * Klasse zur Verbindung und Interatkion mit der Datenbank.
  *
@@ -28,7 +30,7 @@ class rex_sql implements Iterator
     /**
      * Controls query buffering.
      *
-     * View `PDO::MYSQL_ATTR_USE_BUFFERED_QUERY` for more details.
+     * View `Pdo\Mysql::ATTR_USE_BUFFERED_QUERY` for more details.
      */
     public const OPT_BUFFERED = 'buffered';
 
@@ -115,20 +117,23 @@ class rex_sql implements Iterator
             if (!isset(self::$pdo[$db])) {
                 $options = [];
                 $dbconfig = rex::getDbConfig($db);
+                $mysqlClass = PHP_VERSION_ID >= 8_04_00;
 
                 if ($dbconfig->sslKey && $dbconfig->sslCert) {
                     $options = [
-                        PDO::MYSQL_ATTR_SSL_KEY => $dbconfig->sslKey,
-                        PDO::MYSQL_ATTR_SSL_CERT => $dbconfig->sslCert,
+                        $mysqlClass ? Mysql::ATTR_SSL_KEY : PDO::MYSQL_ATTR_SSL_KEY => $dbconfig->sslKey,
+                        $mysqlClass ? Mysql::ATTR_SSL_CERT : PDO::MYSQL_ATTR_SSL_CERT => $dbconfig->sslCert,
                     ];
                 }
                 if ($dbconfig->sslCa) {
-                    $options[PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
+                    $options[$mysqlClass ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
                 }
 
                 // available only with mysqlnd
-                if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
-                    $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $dbconfig->sslVerifyServerCert;
+                $constant = $mysqlClass ? Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT' : 'PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT';
+                if (defined($constant)) {
+                    /** @psalm-suppress MixedArrayOffset */
+                    $options[constant($constant)] = $dbconfig->sslVerifyServerCert;
                 }
 
                 $conn = self::createConnection(
@@ -146,7 +151,7 @@ class rex_sql implements Iterator
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
-                throw new rex_sql_could_not_connect_exception("Could not connect to database (DB: ' . $db . ')'.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
+                throw new rex_sql_could_not_connect_exception('Could not connect to database (DB: ' . $db . ").\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
             }
             throw new rex_sql_could_not_connect_exception('Could not connect to database (DB: ' . $db . ')', $e, $this);
         }
@@ -205,8 +210,12 @@ class rex_sql implements Iterator
             PDO::ATTR_FETCH_TABLE_NAMES => true,
         ];
 
-        $dbh = @new PDO($dsn, $login, $password, $options);
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        if (PHP_VERSION_ID >= 8_04_00) {
+            $dbh = @new Mysql($dsn, $login, $password, $options);
+        } else {
+            $dbh = @new PDO($dsn, $login, $password, $options);
+        }
+
         return $dbh;
     }
 
@@ -387,8 +396,9 @@ class rex_sql implements Iterator
         $buffered = null;
         $pdo = $this->getConnection();
         if (isset($options[self::OPT_BUFFERED])) {
-            $buffered = $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
-            $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
+            $bufferedAttr = PHP_VERSION_ID >= 8_04_00 ? Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY;
+            $buffered = $pdo->getAttribute($bufferedAttr);
+            $pdo->setAttribute($bufferedAttr, $options[self::OPT_BUFFERED]);
         }
 
         try {
@@ -414,7 +424,7 @@ class rex_sql implements Iterator
             throw new rex_sql_exception('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . '! ' . $e->getMessage(), $e, $this);
         } finally {
             if (null !== $buffered) {
-                $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
+                $pdo->setAttribute(PHP_VERSION_ID >= 8_04_00 ? Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
             }
 
             if ($this->debug) {

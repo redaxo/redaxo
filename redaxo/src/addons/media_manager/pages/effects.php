@@ -112,7 +112,7 @@ if ('' == $func) {
     $footer = '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '">' . rex_i18n::msg('media_manager_back') . '</a>';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::RawMsg('media_manager_effect_caption', $typeName), false);
+    $fragment->setVar('title', rex_i18n::rawMsg('media_manager_effect_caption', rex_escape($typeName)), false);
     $fragment->setVar('content', $content, false);
     $fragment->setVar('footer', $footer, false);
     $content = $fragment->parse('core/page/section.php');
@@ -124,9 +124,9 @@ if ('' == $func) {
     });
 
     if ('edit' == $func) {
-        $formLabel = rex_i18n::RawMsg('media_manager_effect_edit_header', rex_escape($typeName));
+        $formLabel = rex_i18n::rawMsg('media_manager_effect_edit_header', rex_escape($typeName));
     } else {
-        $formLabel = rex_i18n::RawMsg('media_manager_effect_create_header', rex_escape($typeName));
+        $formLabel = rex_i18n::rawMsg('media_manager_effect_create_header', rex_escape($typeName));
     }
 
     $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type_effect', '', 'id=' . $effectId);
