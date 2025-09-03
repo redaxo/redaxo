@@ -177,10 +177,10 @@ $content .= $fragment->parse('core/form/form.php');
 // SSL Configuration Section
 $formElements = [];
 
-// SSL Toggle Checkbox
+// SSL Toggle Checkbox  
 $n = [];
-$n['label'] = '<label for="rex-form-ssl-toggle">' . rex_i18n::msg('setup_database_ssl') . '</label>';
-$n['field'] = '<input type="checkbox" id="rex-form-ssl-toggle" name="ssl_toggle" value="1"' . $sslToggleChecked . ' />';
+$n['label'] = '<label>' . rex_i18n::msg('setup_database_ssl') . '</label>';
+$n['field'] = '<input type="checkbox" data-ssl-toggle="true" name="ssl_toggle" value="1"' . $sslToggleChecked . ' />';
 $n['note'] = rex_i18n::msg('setup_database_ssl_info');
 $formElements[] = $n;
 
@@ -224,15 +224,21 @@ $n['label'] = '<label for="rex-form-ssl-cert">' . rex_i18n::msg('setup_ssl_cert'
 $n['field'] = '<input class="form-control" type="text" id="rex-form-ssl-cert" name="db_ssl_cert" value="' . rex_escape($sslCert) . '" placeholder="/path/to/cert.pem" />';
 $sslFormElements[] = $n;
 
+// SSL verify server cert checkbox (separate for proper styling)
+$sslVerifyFormElements = [];
 $n = [];
-$n['label'] = '<label for="rex-form-ssl-verify">' . rex_i18n::msg('setup_ssl_verify') . '</label>';
+$n['label'] = '<label>' . rex_i18n::msg('setup_ssl_verify') . '</label>';
 $sslVerifyChecked = $sslVerifyServerCert ? ' checked="checked"' : '';
 $n['field'] = '<input type="checkbox" id="rex-form-ssl-verify" name="db_ssl_verify_server_cert" value="1"' . $sslVerifyChecked . ' />';
-$sslFormElements[] = $n;
+$sslVerifyFormElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $sslFormElements, false);
 $content .= $fragment->parse('core/form/form.php');
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $sslVerifyFormElements, false);
+$content .= $fragment->parse('core/form/checkbox.php');
 
 $content .= '</div>'; // End SSL config panel
 
@@ -294,16 +300,22 @@ $content = $fragment->parse('core/page/section.php');
 echo '<form action="' . $context->getUrl(['step' => 4]) . '" method="post">' . $content . '</form>';
 
 ?>
-<script>
-jQuery(function($) {
+<script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
+jQuery(document).ready(function($) {
     // SSL Panel Toggle
-    $('#rex-form-ssl-toggle').on('change', function() {
+    $('input[data-ssl-toggle="true"]').on('change', function() {
+        var panel = $('#ssl-config-panel');
         if ($(this).is(':checked')) {
-            $('#ssl-config-panel').slideDown(300);
+            panel.slideDown(300);
         } else {
-            $('#ssl-config-panel').slideUp(300);
+            panel.slideUp(300);
         }
     });
+    
+    // Show SSL panel if checkbox is checked (from POST data or config)
+    if ($('input[data-ssl-toggle="true"]').is(':checked')) {
+        $('#ssl-config-panel').show();
+    }
     
     // SSL CA file field visibility
     function toggleSslCaFileField() {
@@ -313,10 +325,5 @@ jQuery(function($) {
     
     $('#rex-form-ssl-ca-mode').on('change', toggleSslCaFileField);
     toggleSslCaFileField(); // Initial call
-    
-    // Show SSL panel if checkbox is checked (from POST data or config)
-    if ($('#rex-form-ssl-toggle').is(':checked')) {
-        $('#ssl-config-panel').show();
-    }
 });
 </script>

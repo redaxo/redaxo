@@ -337,7 +337,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
             // CLI SSL configuration (existing non-interactive logic)
             if ($input->hasParameterOption('--db-ssl-ca') || $input->getOption('db-ssl-key') || $input->getOption('db-ssl-cert') || $input->getOption('db-ssl-verify-server-cert')) {
-                // Ensure db config array exists
+                // Ensure db config structure exists for SSL (psalm type safety)
                 if (!isset($config['db']) || !is_array($config['db'])) {
                     $config['db'] = [];
                 }

@@ -2096,7 +2096,7 @@ class rex_sql implements Iterator
                 $sslOptions[$mysqlClass ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA] = $dbConfig['ssl_ca'];
                 $hasSslConfig = true;
             } else {
-                trigger_error('Invalid SSL CA value provided. It must be either the boolean true or a string (file path).', E_USER_WARNING);
+                throw new InvalidArgumentException('Invalid SSL CA value provided. It must be either the boolean true or a string (file path).');
             }
         }
 
