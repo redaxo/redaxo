@@ -1961,7 +1961,7 @@ class rex_sql implements Iterator
      * @param string $password
      * @param string $database
      * @param bool $createDb
-     * @param array<int, mixed> $options Additional PDO options (e.g., SSL options)
+     * @param array<array-key, bool|string> $options Additional PDO options (e.g., SSL options)
      *
      * @return true|string
      */
@@ -2065,6 +2065,44 @@ class rex_sql implements Iterator
         }
 
         return $errMsg;
+    }
+
+    /**
+     * Create SSL options array from database configuration.
+     *
+     * @param array<string, mixed> $dbConfig Database configuration array
+     *
+     * @return array<array-key, bool|string> SSL options for PDO connection
+     */
+    public static function createSslOptions(array $dbConfig): array
+    {
+        $sslOptions = [];
+        $mysqlClass = PHP_VERSION_ID >= 8_04_00;
+
+        if (isset($dbConfig['ssl_key'], $dbConfig['ssl_cert'])) {
+            $sslOptions[$mysqlClass ? Mysql::ATTR_SSL_KEY : PDO::MYSQL_ATTR_SSL_KEY] = (string) $dbConfig['ssl_key'];
+            $sslOptions[$mysqlClass ? Mysql::ATTR_SSL_CERT : PDO::MYSQL_ATTR_SSL_CERT] = (string) $dbConfig['ssl_cert'];
+        }
+
+        if (isset($dbConfig['ssl_ca'])) {
+            if (is_string($dbConfig['ssl_ca']) || true === $dbConfig['ssl_ca']) {
+                $sslOptions[$mysqlClass ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA] = $dbConfig['ssl_ca'];
+            } else {
+                trigger_error('Invalid SSL CA value provided. It must be either the boolean true or a string (file path).', E_USER_WARNING);
+            }
+        }
+
+        $constant = $mysqlClass ? Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT' : 'PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT';
+        if (defined($constant)) {
+            /** @var mixed $verifyValue */
+            $verifyValue = $dbConfig['ssl_verify_server_cert'] ?? true;
+            if (is_bool($verifyValue)) {
+                /** @psalm-suppress MixedArrayOffset */
+                $sslOptions[constant($constant)] = $verifyValue;
+            }
+        }
+
+        return $sslOptions;
     }
 
     /**
