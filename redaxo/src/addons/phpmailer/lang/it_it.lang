@@ -37,33 +37,3 @@ phpmailer_high = Alto
 phpmailer_normal = Normale
 phpmailer_low = Basso
 phpmailer_no = Nessuna
-
-# Archive Maintenance
-phpmailer_archive_maintenance = Manutenzione Archivio
-phpmailer_archive_purge_info = L'archivio può essere pulito regolarmente utilizzando il Cronjob di Pulizia per rimuovere automaticamente le email più vecchie.
-
-# Archive translations
-phpmailer_archive = Archiviazione email
-phpmailer_archive_delete = Elimina archivio email
-phpmailer_archive_deleted = L'archivio email è stato eliminato.
-phpmailer_archive_delete_error = Errore durante l'eliminazione dell'archivio email.
-phpmailer_archive_delete_confirm = Vuoi eliminare permanentemente l'archivio email? Questo non può essere annullato.
-phpmailer_archive_manage = Gestisci archivio
-phpmailer_archive_disabled_note = L'archiviazione email è disabilitata.
-phpmailer_archive_info = Informazioni Archivio
-phpmailer_archive_path = Percorso Archivio
-phpmailer_archive_size = Dimensione Archivio
-phpmailer_archive_file_count = Numero di File
-phpmailer_archive_files = file
-phpmailer_archive_status = Stato
-phpmailer_archive_empty = L'archivio è vuoto
-phpmailer_archive_recent_mails = Email Archiviate di Recente
-phpmailer_archive_maintenance = Manutenzione Archivio
-phpmailer_archive_delete_warning = Attenzione!
-phpmailer_archive_delete_warning_desc = L'eliminazione dell'archivio rimuoverà permanentemente tutte le email memorizzate.
-phpmailer_archive_date = Data
-phpmailer_archive_subject = Oggetto
-phpmailer_archive_to = Destinatario
-phpmailer_archive_no_subject = Nessun oggetto
-phpmailer_archive_no_recipient = Nessun destinatario
-phpmailer_archive_no_files = Nessuna email archiviata disponibile

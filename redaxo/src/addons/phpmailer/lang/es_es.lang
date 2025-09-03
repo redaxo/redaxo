@@ -81,33 +81,3 @@ phpmailer_errormail_60min = 60 Minutos de verificación de intervalo
 
 system_setting_errormail = Enviar mensajes de error
 
-# Archive Maintenance
-phpmailer_archive_maintenance = Mantenimiento del Archivo
-phpmailer_archive_purge_info = El archivo se puede limpiar regularmente usando el Cronjob de Purga para eliminar automáticamente correos electrónicos más antiguos.
-
-# Archive translations
-phpmailer_archive = Archivado de correo electrónico
-phpmailer_archive_delete = Eliminar archivo de correo electrónico
-phpmailer_archive_deleted = El archivo de correo electrónico ha sido eliminado.
-phpmailer_archive_delete_error = Error al eliminar el archivo de correo electrónico.
-phpmailer_archive_delete_confirm = ¿Desea eliminar permanentemente el archivo de correo electrónico? Esto no se puede revertir.
-phpmailer_archive_manage = Administrar archivo
-phpmailer_archive_disabled_note = El archivado de correo electrónico está deshabilitado.
-phpmailer_archive_info = Información del Archivo
-phpmailer_archive_path = Ruta del Archivo
-phpmailer_archive_size = Tamaño del Archivo
-phpmailer_archive_file_count = Número de Archivos
-phpmailer_archive_files = archivos
-phpmailer_archive_status = Estado
-phpmailer_archive_empty = El archivo está vacío
-phpmailer_archive_recent_mails = Correos Electrónicos Archivados Recientemente
-phpmailer_archive_maintenance = Mantenimiento del Archivo
-phpmailer_archive_delete_warning = ¡Advertencia!
-phpmailer_archive_delete_warning_desc = Eliminar el archivo eliminará permanentemente todos los correos electrónicos almacenados.
-phpmailer_archive_date = Fecha
-phpmailer_archive_subject = Asunto
-phpmailer_archive_to = Destinatario
-phpmailer_archive_no_subject = Sin asunto
-phpmailer_archive_no_recipient = Sin destinatario
-phpmailer_archive_no_files = No hay correos electrónicos archivados disponibles
-
