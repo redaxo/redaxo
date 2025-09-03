@@ -118,6 +118,14 @@ if ($step > 3) {
 
         // Handle SSL configuration
         if (rex_post('ssl_toggle', 'boolean')) {
+            // Ensure db config structure exists
+            if (!isset($config['db']) || !is_array($config['db'])) {
+                $config['db'] = [];
+            }
+            if (!isset($config['db'][1]) || !is_array($config['db'][1])) {
+                $config['db'][1] = [];
+            }
+
             // SSL CA Configuration
             $sslCaMode = rex_post('db_ssl_ca_mode', 'string');
             if ('system' === $sslCaMode) {
@@ -150,10 +158,12 @@ if ($step > 3) {
             $config['db'][1]['ssl_verify_server_cert'] = rex_post('db_ssl_verify_server_cert', 'boolean', true);
         } else {
             // SSL disabled - remove all SSL configuration keys
-            unset($config['db'][1]['ssl_ca']);
-            unset($config['db'][1]['ssl_key']);
-            unset($config['db'][1]['ssl_cert']);
-            unset($config['db'][1]['ssl_verify_server_cert']);
+            if (isset($config['db']) && is_array($config['db']) && isset($config['db'][1]) && is_array($config['db'][1])) {
+                unset($config['db'][1]['ssl_ca']);
+                unset($config['db'][1]['ssl_key']);
+                unset($config['db'][1]['ssl_cert']);
+                unset($config['db'][1]['ssl_verify_server_cert']);
+            }
         }
 
         if ('true' === $config['use_https']) {

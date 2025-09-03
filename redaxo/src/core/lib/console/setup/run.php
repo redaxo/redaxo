@@ -271,7 +271,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                         });
 
                         /** @var array<string|int, mixed> $dbConfigArray */
-                        $dbConfigArray = $config['db'];
+                        $dbConfigArray = $config['db'] ?? [];
                         if (!is_array($dbConfigArray)) {
                             $dbConfigArray = [];
                         }
@@ -288,7 +288,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     // Only ask for ssl_verify_server_cert if SSL is actually configured
                     if ($sslConfigured) {
                         /** @var array<string|int, mixed> $dbConfigArray */
-                        $dbConfigArray = $config['db'];
+                        $dbConfigArray = $config['db'] ?? [];
                         if (!is_array($dbConfigArray)) {
                             $dbConfigArray = [];
                         }
@@ -302,7 +302,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     $io->success('SSL configuration completed');
                 } else {
                     // SSL disabled - remove all SSL configuration keys
-                    if (isset($config['db'][1])) {
+                    if (isset($config['db']) && is_array($config['db']) && isset($config['db'][1]) && is_array($config['db'][1])) {
                         unset($config['db'][1]['ssl_ca']);
                         unset($config['db'][1]['ssl_key']);
                         unset($config['db'][1]['ssl_cert']);

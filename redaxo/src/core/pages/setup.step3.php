@@ -38,25 +38,30 @@ $sslCert = '';
 $sslVerifyServerCert = true;
 
 // First, load from existing config
-if (isset($config['db'][1]['ssl_ca'])
-    || isset($config['db'][1]['ssl_key'])
-    || isset($config['db'][1]['ssl_cert'])
-    || isset($config['db'][1]['ssl_verify_server_cert'])) {
+$dbConfig = [];
+if (isset($config['db']) && is_array($config['db']) && isset($config['db'][1]) && is_array($config['db'][1])) {
+    $dbConfig = $config['db'][1];
+}
+
+if (isset($dbConfig['ssl_ca'])
+    || isset($dbConfig['ssl_key'])
+    || isset($dbConfig['ssl_cert'])
+    || isset($dbConfig['ssl_verify_server_cert'])) {
     $sslToggleChecked = ' checked="checked"';
 }
 
-if (isset($config['db'][1]['ssl_ca'])) {
-    if (true === $config['db'][1]['ssl_ca']) {
+if (isset($dbConfig['ssl_ca'])) {
+    if (true === $dbConfig['ssl_ca']) {
         $sslCaMode = 'system';
-    } elseif (is_string($config['db'][1]['ssl_ca']) && !empty($config['db'][1]['ssl_ca'])) {
+    } elseif (is_string($dbConfig['ssl_ca']) && !empty($dbConfig['ssl_ca'])) {
         $sslCaMode = 'file';
-        $sslCaFile = $config['db'][1]['ssl_ca'];
+        $sslCaFile = $dbConfig['ssl_ca'];
     }
 }
 
-$sslKey = $config['db'][1]['ssl_key'] ?? '';
-$sslCert = $config['db'][1]['ssl_cert'] ?? '';
-$sslVerifyServerCert = $config['db'][1]['ssl_verify_server_cert'] ?? true;
+$sslKey = (string) ($dbConfig['ssl_key'] ?? '');
+$sslCert = (string) ($dbConfig['ssl_cert'] ?? '');
+$sslVerifyServerCert = (bool) ($dbConfig['ssl_verify_server_cert'] ?? true);
 
 // Override with POST data if available (form submission)
 if (rex_post('ssl_toggle', 'boolean')) {
@@ -76,24 +81,24 @@ $sslVerifyServerCert = rex_post('db_ssl_verify_server_cert', 'boolean', true);
 
 // Fallback to config values if no POST data
 if (!rex_post('ssl_toggle')) {
-    if (isset($config['db'][1]['ssl_ca'])
-        || isset($config['db'][1]['ssl_key'])
-        || isset($config['db'][1]['ssl_cert'])) {
+    if (isset($dbConfig['ssl_ca'])
+        || isset($dbConfig['ssl_key'])
+        || isset($dbConfig['ssl_cert'])) {
         $sslToggleChecked = ' checked="checked"';
     }
 
-    if (isset($config['db'][1]['ssl_ca'])) {
-        if (true === $config['db'][1]['ssl_ca']) {
+    if (isset($dbConfig['ssl_ca'])) {
+        if (true === $dbConfig['ssl_ca']) {
             $sslCaMode = 'system';
-        } elseif (is_string($config['db'][1]['ssl_ca']) && !empty($config['db'][1]['ssl_ca'])) {
+        } elseif (is_string($dbConfig['ssl_ca']) && !empty($dbConfig['ssl_ca'])) {
             $sslCaMode = 'file';
-            $sslCaFile = $config['db'][1]['ssl_ca'];
+            $sslCaFile = $dbConfig['ssl_ca'];
         }
     }
 
-    $sslKey = $config['db'][1]['ssl_key'] ?? '';
-    $sslCert = $config['db'][1]['ssl_cert'] ?? '';
-    $sslVerifyServerCert = $config['db'][1]['ssl_verify_server_cert'] ?? true;
+    $sslKey = (string) ($dbConfig['ssl_key'] ?? '');
+    $sslCert = (string) ($dbConfig['ssl_cert'] ?? '');
+    $sslVerifyServerCert = (bool) ($dbConfig['ssl_verify_server_cert'] ?? true);
 }
 
 $httpsRedirectSel = new rex_select();
@@ -143,12 +148,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for=rex-form-mysql-host" class="required">MySQL Host</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . rex_escape($config['db'][1]['host']) . '" required />';
+$n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . rex_escape((string) ($dbConfig['host'] ?? '')) . '" required />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-db-user-login" class="required">Login</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . rex_escape($config['db'][1]['login']) . '" required />';
+$n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . rex_escape((string) ($dbConfig['login'] ?? '')) . '" required />';
 $formElements[] = $n;
 
 $n = [];
@@ -162,7 +167,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-dbname" class="required">' . rex_i18n::msg('setup_308') . '</label>';
-$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" required />';
+$n['field'] = '<input class="form-control" type="text" value="' . rex_escape((string) ($dbConfig['name'] ?? '')) . '" id="rex-form-dbname" name="dbname" required />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
