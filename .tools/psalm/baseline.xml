@@ -5586,19 +5586,8 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$errorArray]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-    </MixedArrayAccess>
     <MixedOperand>
       <code><![CDATA[$cancelSetupBtn]]></code>
-      <code><![CDATA[rex_escape($config['db'][1]['host'])]]></code>
-      <code><![CDATA[rex_escape($config['db'][1]['login'])]]></code>
-      <code><![CDATA[rex_escape($config['db'][1]['name'])]]></code>
       <code><![CDATA[rex_escape($config['error_email'])]]></code>
       <code><![CDATA[rex_escape($config['server'])]]></code>
       <code><![CDATA[rex_escape($config['servername'])]]></code>
