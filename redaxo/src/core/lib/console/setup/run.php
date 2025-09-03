@@ -194,30 +194,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 $requiredValue,
             );
 
-            $dbCreate = $this->getOptionOrAsk(
-                new ConfirmationQuestion('Create database?', false),
-                'db-createdb',
-                false,
-                null,
-                static function ($value) {
-                    if (!in_array($value, ['yes', 'no', 'true', 'false'], true)) {
-                        throw new InvalidArgumentException('Unknown value "' . $value . '" specified');
-                    }
-                    return $value;
-                },
-            );
-
-            if (is_string($dbCreate)) {
-                $dbCreate = 'yes' === $dbCreate || 'true' === $dbCreate;
-                $io->success('Database will ' . ($dbCreate ? '' : 'not ') . 'be created');
-            }
-
-            $config['db'][1]['host'] = $dbHost;
-            $config['db'][1]['login'] = $dbLogin;
-            $config['db'][1]['password'] = $dbPassword;
-            $config['db'][1]['name'] = $dbName;
-
-            // Interactive SSL configuration
+            // Interactive SSL configuration - BEFORE database creation
             if ($input->isInteractive()) {
                 $sslRequired = $this->io->confirm('Configure SSL database connection?', false);
                 if ($sslRequired) {
@@ -334,6 +311,29 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     }
                 }
             }
+
+            $dbCreate = $this->getOptionOrAsk(
+                new ConfirmationQuestion('Create database?', false),
+                'db-createdb',
+                false,
+                null,
+                static function ($value) {
+                    if (!in_array($value, ['yes', 'no', 'true', 'false'], true)) {
+                        throw new InvalidArgumentException('Unknown value "' . $value . '" specified');
+                    }
+                    return $value;
+                },
+            );
+
+            if (is_string($dbCreate)) {
+                $dbCreate = 'yes' === $dbCreate || 'true' === $dbCreate;
+                $io->success('Database will ' . ($dbCreate ? '' : 'not ') . 'be created');
+            }
+
+            $config['db'][1]['host'] = $dbHost;
+            $config['db'][1]['login'] = $dbLogin;
+            $config['db'][1]['password'] = $dbPassword;
+            $config['db'][1]['name'] = $dbName;
 
             // CLI SSL configuration (existing non-interactive logic)
             if ($input->hasParameterOption('--db-ssl-ca') || $input->getOption('db-ssl-key') || $input->getOption('db-ssl-cert') || $input->getOption('db-ssl-verify-server-cert')) {
