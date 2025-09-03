@@ -155,10 +155,10 @@ class rex_setup
             $sslOptions[PDO::MYSQL_ATTR_SSL_CERT] = (string) $dbConfig['ssl_cert'];
         }
         if (isset($dbConfig['ssl_ca'])) {
-            if (is_string($dbConfig['ssl_ca']) || true === $dbConfig['ssl_ca']) {
+            if (is_string($dbConfig['ssl_ca']) || $dbConfig['ssl_ca'] === true) {
                 $sslOptions[PDO::MYSQL_ATTR_SSL_CA] = $dbConfig['ssl_ca'];
             } else {
-                trigger_error('Invalid SSL CA value provided. It must be a boolean true or a file path string.', E_USER_WARNING);
+                trigger_error('Invalid SSL CA value provided. It must be either the boolean true or a string (file path).', E_USER_WARNING);
             }
         }
         if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
