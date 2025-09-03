@@ -42,7 +42,6 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             ->addOption('db-setup', null, InputOption::VALUE_REQUIRED, 'Database setup mode e.g. "normal", "override" or "import"', null, ['normal', 'override', 'import'])
             ->addOption('db-charset', null, InputOption::VALUE_REQUIRED, 'Database charset "utf8" or "utf8mb4"', null, ['utf8mb4', 'utf8'])
             ->addOption('db-import', null, InputOption::VALUE_REQUIRED, 'Database import filename if "import" is used as --db-setup')
-            ->addOption('db-ssl-enable', null, InputOption::VALUE_NONE, 'Enable SSL for database connection')
             ->addOption('db-ssl-ca', null, InputOption::VALUE_OPTIONAL, 'Path to SSL Certificate Authority file or use without value to enable CA mode')
             ->addOption('db-ssl-key', null, InputOption::VALUE_REQUIRED, 'Path to SSL key file')
             ->addOption('db-ssl-cert', null, InputOption::VALUE_REQUIRED, 'Path to SSL certificate file')
@@ -219,7 +218,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $config['db'][1]['name'] = $dbName;
 
             // SSL configuration
-            if ($input->getOption('db-ssl-enable') || $input->hasParameterOption('--db-ssl-ca')) {
+            if ($input->hasParameterOption('--db-ssl-ca') || $input->getOption('db-ssl-key') || $input->getOption('db-ssl-cert') || $input->getOption('db-ssl-verify-server-cert')) {
                 // Ensure db config array exists
                 if (!isset($config['db']) || !is_array($config['db'])) {
                     $config['db'] = [];
