@@ -94,6 +94,8 @@ require_once rex_path::core('functions/function_rex_other.php');
 // ----------------- VERSION
 rex::setProperty('version', '5.19.0');
 
+rex_error_handler::register();
+
 rex::loadConfigYml();
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
@@ -102,7 +104,6 @@ if ('cli' !== PHP_SAPI) {
     rex::setProperty('request', Request::createFromGlobals());
 }
 
-rex_error_handler::register();
 rex_var_dumper::register();
 
 // ----------------- REX PERMS

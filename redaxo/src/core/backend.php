@@ -211,6 +211,7 @@ if (rex::getUser()) {
     $login = rex::getProperty('login');
     rex_view::setJsProperty('session_keep_alive_url', rex_url::backendController(['page' => 'credits', 'rex-api-call' => 'user_session_status'], false));
     rex_view::setJsProperty('session_logout_url', rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams(), false));
+    rex_view::setJsProperty('session_login_url', rex_url::backendController([], false));
     rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
     rex_view::setJsProperty('session_duration', rex::getProperty('session_duration', 0));
     rex_view::setJsProperty('session_max_overall_duration', rex::getProperty('session_max_overall_duration', 0));

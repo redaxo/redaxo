@@ -31,13 +31,13 @@
 
 ## Community ❤️
 
-REDAXO is mainly used in German-speaking countries. However, the software already comes in several languages — English, Spanish, Italian, Swedisch, Portuguese — and the community is working on translating more and more content. If you don't understand German, please don't let that stop you from trying REDAXO: The community is known for being extremely helpful and friendly, and we will support you wherever we can! ✌️
+REDAXO is mainly used in German-speaking countries. However, the software already comes in several languages — English, Spanish, Italian, Swedish, Portuguese — and the community is working on translating more and more content. If you don't understand German, please don't let that stop you from trying REDAXO: The community is known for being extremely helpful and friendly, and we will support you wherever we can! ✌️
 
 __Get to know REDAXO and its community:__
 
 ### 1. Install CMS and check out the demo websites
 
-This is probably the best way to get to know REDAXO: install the [latest release](https://github.com/redaxo/redaxo/releases), log in to the admin section and use the built-in _Installer_ addOn to check out one of the demo websites. If you’re new to REDAXO or don’t speak german, search for `demo_base` (»Basisdemo«) as it is fully translated into English and explains all major topics.
+This is probably the best way to get to know REDAXO: install the [latest release](https://github.com/redaxo/redaxo/releases), log in to the admin section and use the built-in _Installer_ addOn to check out one of the demo websites. If you’re new to REDAXO or don’t speak German, search for `demo_base` (»Basisdemo«) as it is fully translated into English and explains all major topics.
 
 Current demo websites: [Base](https://github.com/FriendsOfREDAXO/demo_base), [Community](https://github.com/FriendsOfREDAXO/demo_community), [OnePage](https://github.com/FriendsOfREDAXO/demo_onepage), [FullPage](https://github.com/FriendsOfREDAXO/demo_fullpage).
 
@@ -57,7 +57,7 @@ Your marker still missing? [Learn how to place it on the map](https://github.com
 
 To develop on core and core addons, set up the project with these steps:
 
-- Clone the repsoitory: `git clone https://github.com/redaxo/redaxo redaxo && cd redaxo`
+- Clone the repository: `git clone https://github.com/redaxo/redaxo redaxo && cd redaxo`
 - Install the tools used for the development with [Composer](https://getcomposer.org): `composer install`
 - You can use the provided Docker configuration to start a local development environment: `docker-compose up -d`. In case you need a port other than the default port 80, start it like this: `REDAXO_PORT=8080 docker-compose up -d`.
 
