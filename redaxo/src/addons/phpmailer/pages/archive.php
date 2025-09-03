@@ -66,7 +66,19 @@ $fragment->setVar('elements', $formElements, false);
 $fragment->setVar('grouped', true);
 $content .= $fragment->parse('core/form/form.php');
 
-// Add archive management to the same panel if archive exists
+$fragment = new rex_fragment();
+$fragment->setVar('class', 'info', false);
+$fragment->setVar('title', $addon->i18n('archive_info_page'), false);
+$fragment->setVar('body', $content, false);
+echo $fragment->parse('core/page/section.php');
+echo '</div>';
+
+// Archive Maintenance Panel (right column)
+echo '<div class="col-md-6">';
+$content = '';
+$content .= '<p>' . $addon->i18n('archive_purge_info') . '</p>';
+
+// Add archive management to maintenance panel if archive exists
 if ($archiveExists) {
     $content .= '<hr>';
     $content .= '<div>';
@@ -82,18 +94,6 @@ if ($archiveExists) {
     $content .= '</button>';
     $content .= '</form>';
 }
-
-$fragment = new rex_fragment();
-$fragment->setVar('class', 'info', false);
-$fragment->setVar('title', $addon->i18n('archive_info_page'), false);
-$fragment->setVar('body', $content, false);
-echo $fragment->parse('core/page/section.php');
-echo '</div>';
-
-// Archive Maintenance Panel (right column)
-echo '<div class="col-md-6">';
-$content = '';
-$content .= '<p>' . $addon->i18n('archive_purge_info') . '</p>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
