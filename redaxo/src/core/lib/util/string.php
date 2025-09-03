@@ -163,7 +163,7 @@ class rex_string
         }
 
         try {
-            $result = Yaml::parse($value);
+            $result = Yaml::parse($value, Yaml::PARSE_CUSTOM_TAGS);
         } catch (ParseException $exception) {
             throw new rex_yaml_parse_exception($exception->getMessage(), $exception);
         }

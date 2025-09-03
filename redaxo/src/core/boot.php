@@ -96,29 +96,7 @@ rex::setProperty('version', '5.19.0');
 
 rex_error_handler::register();
 
-$cacheFile = rex_path::coreCache('config.yml.cache');
-$configFile = rex_path::coreData('config.yml');
-
-$cacheMtime = @filemtime($cacheFile);
-if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
-    $config = rex_file::getCache($cacheFile);
-} else {
-    $config = array_merge(
-        rex_file::getConfig(rex_path::core('default.config.yml')),
-        rex_file::getConfig($configFile)
-    );
-    rex_file::putCache($cacheFile, $config);
-}
-/**
- * @var string $key
- * @var mixed $value
- */
-foreach ($config as $key => $value) {
-    if (in_array($key, ['fileperm', 'dirperm'])) {
-        $value = octdec((string) $value);
-    }
-    rex::setProperty($key, $value);
-}
+rex::loadConfigYml();
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
