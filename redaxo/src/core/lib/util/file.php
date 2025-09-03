@@ -292,6 +292,7 @@ class rex_file
             'css' => 'text/css',
             'js' => 'application/javascript',
             'svg' => 'image/svg+xml',
+            'vtt' => 'text/vtt',
             default => $mimeType,
         };
     }
