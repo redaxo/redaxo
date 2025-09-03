@@ -66,7 +66,7 @@ if (rex_post('ssl_toggle', 'boolean')) {
     $sslKey = rex_post('db_ssl_key', 'string', $sslKey);
     $sslCert = rex_post('db_ssl_cert', 'string', $sslCert);
     $sslVerifyServerCert = rex_post('db_ssl_verify_server_cert', 'boolean', $sslVerifyServerCert);
-} elseif (isset($_POST) && !empty($_POST) && !rex_post('ssl_toggle', 'boolean')) {
+} elseif (!empty($_POST)) {
     // Form was submitted but SSL toggle was unchecked - clear SSL toggle
     $sslToggleChecked = '';
 }
