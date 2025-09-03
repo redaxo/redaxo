@@ -75,6 +75,7 @@
                 if (xhr.status === 200) {
                     let response = JSON.parse(xhr.responseText);
                     overallSessionWarningTime = new Date().getTime() + ((response.rest_overall_time - warningTime) * 1000);
+                    setCurrentSessionWarningTime();
                     startSessionInterval();
                 } else {
                     viewSessionFailedDialog();
