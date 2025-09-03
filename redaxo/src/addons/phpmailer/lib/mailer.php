@@ -611,18 +611,16 @@ class rex_mailer extends PHPMailer
                 if (0 === stripos($line, 'Subject:')) {
                     $subject = substr($line, 8);
                     // Decode MIME encoded subjects
-                    if (function_exists('iconv_mime_decode')) {
-                        $decodedSubject = iconv_mime_decode($subject, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
-                        if (false !== $decodedSubject) {
-                            $subject = $decodedSubject;
-                        }
+                    $decodedSubject = iconv_mime_decode($subject, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
+                    if (false !== $decodedSubject) {
+                        $subject = $decodedSubject;
                     }
-                    $subject = rex_escape(trim($subject));
+                    $subject = trim($subject);
                     $subject = mb_strlen($subject) > 50 ? mb_substr($subject, 0, 50) . '...' : $subject;
                 }
 
                 if (0 === stripos($line, 'To:')) {
-                    $recipient = rex_escape(trim(substr($line, 3)));
+                    $recipient = trim(substr($line, 3));
                     $recipient = mb_strlen($recipient) > 30 ? mb_substr($recipient, 0, 30) . '...' : $recipient;
                 }
 

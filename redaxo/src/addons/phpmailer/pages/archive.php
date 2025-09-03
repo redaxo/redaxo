@@ -68,7 +68,7 @@ $content .= $fragment->parse('core/form/form.php');
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'info', false);
-$fragment->setVar('title', $addon->i18n('archive_info_page'), false);
+$fragment->setVar('title', $addon->i18n('archive_info'), false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 echo '</div>';
@@ -129,10 +129,10 @@ if ($archiveExists) {
             $emailData = rex_mailer::parseEmailHeaders($file);
 
             $content .= '<tr>';
-            $content .= '<td class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($emailData['mtime'], [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>';
-            $content .= '<td>' . $emailData['subject'] . '</td>';
-            $content .= '<td>' . $emailData['recipient'] . '</td>';
-            $content .= '<td class="rex-table-tabular-nums">' . rex_formatter::bytes($emailData['size']) . '</td>';
+            $content .= '<td data-title="' . $addon->i18n('archive_date') . '" class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($emailData['mtime'], [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>';
+            $content .= '<td data-title="' . $addon->i18n('archive_subject') . '">' . rex_escape($emailData['subject']) . '</td>';
+            $content .= '<td data-title="' . $addon->i18n('archive_to') . '">' . rex_escape($emailData['recipient']) . '</td>';
+            $content .= '<td data-title="' . $addon->i18n('archive_size') . '" class="rex-table-tabular-nums">' . rex_formatter::bytes($emailData['size']) . '</td>';
             $content .= '</tr>';
         }
     } else {
@@ -143,9 +143,8 @@ if ($archiveExists) {
     $content .= '</table>';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $addon->i18n('archive_recent_mails'), false);
-    $fragment->setVar('body', $content, false);
+    $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }
 

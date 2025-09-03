@@ -184,6 +184,14 @@ Emails that are not sent are prefixed with `not_sent_`.
 
 The archive can be purged periodically via the CronJob "Purge Mailer Archive". 
 
+#### Archive Management
+
+A dedicated archive management page is available under 'PHPMailer' > 'Archive' which provides:
+
+- Overview of archive size and number of stored emails
+- List of the 10 most recent archived emails with subject, recipient and date
+- Safe deletion of the complete email archive from the maintenance panel 
+
 ### Extension-Point `PHPMAILER_CONFIG`
 
 The configuration can be overwritten and/or extended via extension point. 
