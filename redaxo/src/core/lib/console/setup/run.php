@@ -217,7 +217,125 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $config['db'][1]['password'] = $dbPassword;
             $config['db'][1]['name'] = $dbName;
 
-            // SSL configuration
+            // Interactive SSL configuration
+            if ($input->isInteractive()) {
+                $sslRequired = $this->io->confirm('Configure SSL database connection?', false);
+                if ($sslRequired) {
+                    $io->section('SSL Configuration');
+                    
+                    $sslConfigured = false; // Track if any SSL option was configured
+                    
+                    /** @var string $sslCaChoice */
+                    $sslCaChoice = $this->io->choice('SSL Certificate Authority', [
+                        'none' => 'No CA verification',
+                        'system' => 'Use system CA (recommended for managed databases)',
+                        'file' => 'Specify CA certificate file path'
+                    ], 'none');
+                    
+                    if ('system' === $sslCaChoice) {
+                        /** @var array<string|int, mixed> $dbConfigArray */
+                        $dbConfigArray = $config['db'];
+                        if (!is_array($dbConfigArray)) {
+                            $dbConfigArray = [];
+                        }
+                        /** @var array<string, mixed> $dbConfig */
+                        $dbConfig = $dbConfigArray[1] ?? [];
+                        $dbConfig['ssl_ca'] = true;
+                        $dbConfigArray[1] = $dbConfig;
+                        $config['db'] = $dbConfigArray;
+                        $sslConfigured = true;
+                        $io->success('System CA verification enabled');
+                    } elseif ('file' === $sslCaChoice) {
+                        /** @var string $sslCaFile */
+                        $sslCaFile = $this->io->ask('Path to CA certificate file', null, static function (mixed $path): string {
+                            if (!$path || !is_string($path)) {
+                                throw new InvalidArgumentException('CA certificate file path required');
+                            }
+                            if (!is_file($path) || !is_readable($path)) {
+                                throw new InvalidArgumentException('SSL CA file not found or not readable: ' . $path);
+                            }
+                            return $path;
+                        });
+                        /** @var array<string|int, mixed> $dbConfigArray */
+                        $dbConfigArray = $config['db'];
+                        if (!is_array($dbConfigArray)) {
+                            $dbConfigArray = [];
+                        }
+                        /** @var array<string, mixed> $dbConfig */
+                        $dbConfig = $dbConfigArray[1] ?? [];
+                        $dbConfig['ssl_ca'] = $sslCaFile;
+                        $dbConfigArray[1] = $dbConfig;
+                        $config['db'] = $dbConfigArray;
+                        $sslConfigured = true;
+                        $io->success('CA certificate file set: ' . $sslCaFile);
+                    }
+                    
+                    if ($this->io->confirm('Use client certificate authentication?', false)) {
+                        /** @var string $sslKey */
+                        $sslKey = $this->io->ask('Path to SSL key file', null, static function (mixed $path): string {
+                            if (!$path || !is_string($path)) {
+                                throw new InvalidArgumentException('SSL key file path required');
+                            }
+                            if (!is_file($path) || !is_readable($path)) {
+                                throw new InvalidArgumentException('SSL key file not found or not readable: ' . $path);
+                            }
+                            return $path;
+                        });
+                        
+                        /** @var string $sslCert */
+                        $sslCert = $this->io->ask('Path to SSL certificate file', null, static function (mixed $path): string {
+                            if (!$path || !is_string($path)) {
+                                throw new InvalidArgumentException('SSL certificate file path required');
+                            }
+                            if (!is_file($path) || !is_readable($path)) {
+                                throw new InvalidArgumentException('SSL certificate file not found or not readable: ' . $path);
+                            }
+                            return $path;
+                        });
+                        
+                        /** @var array<string|int, mixed> $dbConfigArray */
+                        $dbConfigArray = $config['db'];
+                        if (!is_array($dbConfigArray)) {
+                            $dbConfigArray = [];
+                        }
+                        /** @var array<string, mixed> $dbConfig */
+                        $dbConfig = $dbConfigArray[1] ?? [];
+                        $dbConfig['ssl_key'] = $sslKey;
+                        $dbConfig['ssl_cert'] = $sslCert;
+                        $dbConfigArray[1] = $dbConfig;
+                        $config['db'] = $dbConfigArray;
+                        $sslConfigured = true;
+                        $io->success('Client certificate authentication configured');
+                    }
+                    
+                    // Only ask for ssl_verify_server_cert if SSL is actually configured
+                    if ($sslConfigured) {
+                        /** @var array<string|int, mixed> $dbConfigArray */
+                        $dbConfigArray = $config['db'];
+                        if (!is_array($dbConfigArray)) {
+                            $dbConfigArray = [];
+                        }
+                        /** @var array<string, mixed> $dbConfig */
+                        $dbConfig = $dbConfigArray[1] ?? [];
+                        $dbConfig['ssl_verify_server_cert'] = $this->io->confirm('Verify SSL server certificate?', true);
+                        $dbConfigArray[1] = $dbConfig;
+                        $config['db'] = $dbConfigArray;
+                    }
+                    
+                    $io->success('SSL configuration completed');
+                } else {
+                    // SSL disabled - remove all SSL configuration keys
+                    if (isset($config['db'][1])) {
+                        unset($config['db'][1]['ssl_ca']);
+                        unset($config['db'][1]['ssl_key']);
+                        unset($config['db'][1]['ssl_cert']);
+                        unset($config['db'][1]['ssl_verify_server_cert']);
+                        $io->success('SSL configuration disabled - removed existing SSL settings');
+                    }
+                }
+            }
+
+            // CLI SSL configuration (existing non-interactive logic)
             if ($input->hasParameterOption('--db-ssl-ca') || $input->getOption('db-ssl-key') || $input->getOption('db-ssl-cert') || $input->getOption('db-ssl-verify-server-cert')) {
                 // Ensure db config array exists
                 if (!isset($config['db']) || !is_array($config['db'])) {

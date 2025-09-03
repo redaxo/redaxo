@@ -211,6 +211,20 @@ setup_315 = Folgender Fehler wurde gemeldet: {0}
 setup_316 = REDAXO-Einstellungen
 setup_399 = 3 / config.yml
 
+# SSL Database Configuration
+setup_database_ssl = SSL-Datenbankverbindung
+setup_database_ssl_optional = optional
+setup_database_ssl_title = SSL-Datenbankverbindung konfigurieren
+setup_database_ssl_info = Konfiguriere SSL-Einstellungen für sichere Datenbankverbindungen. Besonders wichtig für Cloud-Datenbanken und Unternehmensumgebungen.
+setup_ssl_ca = SSL-Zertifikats-Autorität
+setup_ssl_ca_none = Keine SSL-Verifizierung
+setup_ssl_ca_system = System-CA verwenden (empfohlen für verwaltete Datenbanken)
+setup_ssl_ca_file = CA-Zertifikat-Datei angeben
+setup_ssl_ca_file_path = Pfad zur CA-Zertifikat-Datei
+setup_ssl_key = Pfad zur SSL-Schlüssel-Datei
+setup_ssl_cert = Pfad zur SSL-Zertifikat-Datei
+setup_ssl_verify = SSL-Server-Zertifikat verifizieren
+
 setup_400 = Setup: Schritt 4 von 6 / Datenbank
 setup_401 = Datenbank einrichten
 setup_402 = Tabelle {0} wurde nicht gefunden!

@@ -116,6 +116,46 @@ if ($step > 3) {
         $config['db'][1]['name'] = trim(rex_post('dbname', 'string'));
         $config['use_https'] = rex_post('use_https', 'string');
 
+        // Handle SSL configuration
+        if (rex_post('ssl_toggle', 'boolean')) {
+            // SSL CA Configuration
+            $sslCaMode = rex_post('db_ssl_ca_mode', 'string');
+            if ('system' === $sslCaMode) {
+                $config['db'][1]['ssl_ca'] = true;
+            } elseif ('file' === $sslCaMode) {
+                $sslCaFile = rex_post('db_ssl_ca_file', 'string');
+                if (!empty($sslCaFile)) {
+                    $config['db'][1]['ssl_ca'] = $sslCaFile;
+                }
+            } else {
+                // No CA mode selected - remove ssl_ca
+                unset($config['db'][1]['ssl_ca']);
+            }
+            
+            // Client certificates
+            $sslKey = rex_post('db_ssl_key', 'string');
+            $sslCert = rex_post('db_ssl_cert', 'string');
+            if (!empty($sslKey)) {
+                $config['db'][1]['ssl_key'] = $sslKey;
+            } else {
+                unset($config['db'][1]['ssl_key']);
+            }
+            if (!empty($sslCert)) {
+                $config['db'][1]['ssl_cert'] = $sslCert;
+            } else {
+                unset($config['db'][1]['ssl_cert']);
+            }
+            
+            // SSL verify server cert
+            $config['db'][1]['ssl_verify_server_cert'] = rex_post('db_ssl_verify_server_cert', 'boolean', true);
+        } else {
+            // SSL disabled - remove all SSL configuration keys
+            unset($config['db'][1]['ssl_ca']);
+            unset($config['db'][1]['ssl_key']);
+            unset($config['db'][1]['ssl_cert']);
+            unset($config['db'][1]['ssl_verify_server_cert']);
+        }
+
         if ('true' === $config['use_https']) {
             $config['use_https'] = true;
         } elseif ('false' === $config['use_https']) {

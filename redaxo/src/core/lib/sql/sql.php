@@ -119,6 +119,7 @@ class rex_sql implements Iterator
                 $dbconfig = rex::getDbConfig($db);
                 $mysqlClass = PHP_VERSION_ID >= 8_04_00;
 
+                // Only add SSL options if SSL is actually configured
                 if ($dbconfig->sslKey && $dbconfig->sslCert) {
                     $options = [
                         $mysqlClass ? Mysql::ATTR_SSL_KEY : PDO::MYSQL_ATTR_SSL_KEY => $dbconfig->sslKey,
@@ -135,11 +136,14 @@ class rex_sql implements Iterator
                     }
                 }
 
-                // available only with mysqlnd
-                $constant = $mysqlClass ? Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT' : 'PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT';
-                if (defined($constant)) {
-                    /** @psalm-suppress MixedArrayOffset */
-                    $options[constant($constant)] = $dbconfig->sslVerifyServerCert;
+                // Only set SSL verify if SSL is actually configured (CA or client certs)
+                if (($dbconfig->sslKey && $dbconfig->sslCert) || $dbconfig->sslCa) {
+                    // available only with mysqlnd
+                    $constant = $mysqlClass ? Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT' : 'PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT';
+                    if (defined($constant)) {
+                        /** @psalm-suppress MixedArrayOffset */
+                        $options[constant($constant)] = $dbconfig->sslVerifyServerCert;
+                    }
                 }
 
                 $conn = self::createConnection(
@@ -2079,26 +2083,33 @@ class rex_sql implements Iterator
         $sslOptions = [];
         $mysqlClass = PHP_VERSION_ID >= 8_04_00;
 
+        $hasSslConfig = false;
+
         if (isset($dbConfig['ssl_key'], $dbConfig['ssl_cert'])) {
             $sslOptions[$mysqlClass ? Mysql::ATTR_SSL_KEY : PDO::MYSQL_ATTR_SSL_KEY] = (string) $dbConfig['ssl_key'];
             $sslOptions[$mysqlClass ? Mysql::ATTR_SSL_CERT : PDO::MYSQL_ATTR_SSL_CERT] = (string) $dbConfig['ssl_cert'];
+            $hasSslConfig = true;
         }
 
         if (isset($dbConfig['ssl_ca'])) {
             if (is_string($dbConfig['ssl_ca']) || true === $dbConfig['ssl_ca']) {
                 $sslOptions[$mysqlClass ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA] = $dbConfig['ssl_ca'];
+                $hasSslConfig = true;
             } else {
                 trigger_error('Invalid SSL CA value provided. It must be either the boolean true or a string (file path).', E_USER_WARNING);
             }
         }
 
-        $constant = $mysqlClass ? Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT' : 'PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT';
-        if (defined($constant)) {
-            /** @var mixed $verifyValue */
-            $verifyValue = $dbConfig['ssl_verify_server_cert'] ?? true;
-            if (is_bool($verifyValue)) {
-                /** @psalm-suppress MixedArrayOffset */
-                $sslOptions[constant($constant)] = $verifyValue;
+        // Only set SSL verify if SSL is actually configured
+        if ($hasSslConfig) {
+            $constant = $mysqlClass ? Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT' : 'PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT';
+            if (defined($constant)) {
+                /** @var mixed $verifyValue */
+                $verifyValue = $dbConfig['ssl_verify_server_cert'] ?? true;
+                if (is_bool($verifyValue)) {
+                    /** @psalm-suppress MixedArrayOffset */
+                    $sslOptions[constant($constant)] = $verifyValue;
+                }
             }
         }
 

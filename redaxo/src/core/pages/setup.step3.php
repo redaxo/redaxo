@@ -29,6 +29,73 @@ $timezoneSel->setSelected($config['timezone']);
 
 $dbCreateChecked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
 
+// SSL configuration state - prioritize POST data, fallback to config values
+$sslToggleChecked = '';
+$sslCaMode = '';
+$sslCaFile = '';
+$sslKey = '';
+$sslCert = '';
+$sslVerifyServerCert = true;
+
+// First, load from existing config
+if (isset($config['db'][1]['ssl_ca']) || 
+    isset($config['db'][1]['ssl_key']) || 
+    isset($config['db'][1]['ssl_cert']) ||
+    isset($config['db'][1]['ssl_verify_server_cert'])) {
+    $sslToggleChecked = ' checked="checked"';
+}
+
+if (isset($config['db'][1]['ssl_ca'])) {
+    if (true === $config['db'][1]['ssl_ca']) {
+        $sslCaMode = 'system';
+    } elseif (is_string($config['db'][1]['ssl_ca']) && !empty($config['db'][1]['ssl_ca'])) {
+        $sslCaMode = 'file';
+        $sslCaFile = $config['db'][1]['ssl_ca'];
+    }
+}
+
+$sslKey = $config['db'][1]['ssl_key'] ?? '';
+$sslCert = $config['db'][1]['ssl_cert'] ?? '';
+$sslVerifyServerCert = $config['db'][1]['ssl_verify_server_cert'] ?? true;
+
+// Override with POST data if available (form submission)
+if (rex_post('ssl_toggle', 'boolean')) {
+    $sslToggleChecked = ' checked="checked"';
+    $sslCaMode = rex_post('db_ssl_ca_mode', 'string', $sslCaMode);
+    $sslCaFile = rex_post('db_ssl_ca_file', 'string', $sslCaFile);
+    $sslKey = rex_post('db_ssl_key', 'string', $sslKey);
+    $sslCert = rex_post('db_ssl_cert', 'string', $sslCert);
+    $sslVerifyServerCert = rex_post('db_ssl_verify_server_cert', 'boolean', $sslVerifyServerCert);
+} elseif (isset($_POST) && !empty($_POST) && !rex_post('ssl_toggle', 'boolean')) {
+    // Form was submitted but SSL toggle was unchecked - clear SSL toggle
+    $sslToggleChecked = '';
+}
+$sslKey = rex_post('db_ssl_key', 'string', '');
+$sslCert = rex_post('db_ssl_cert', 'string', '');
+$sslVerifyServerCert = rex_post('db_ssl_verify_server_cert', 'boolean', true);
+
+// Fallback to config values if no POST data
+if (!rex_post('ssl_toggle')) {
+    if (isset($config['db'][1]['ssl_ca']) || 
+        isset($config['db'][1]['ssl_key']) || 
+        isset($config['db'][1]['ssl_cert'])) {
+        $sslToggleChecked = ' checked="checked"';
+    }
+    
+    if (isset($config['db'][1]['ssl_ca'])) {
+        if (true === $config['db'][1]['ssl_ca']) {
+            $sslCaMode = 'system';
+        } elseif (is_string($config['db'][1]['ssl_ca']) && !empty($config['db'][1]['ssl_ca'])) {
+            $sslCaMode = 'file';
+            $sslCaFile = $config['db'][1]['ssl_ca'];
+        }
+    }
+    
+    $sslKey = $config['db'][1]['ssl_key'] ?? '';
+    $sslCert = $config['db'][1]['ssl_cert'] ?? '';
+    $sslVerifyServerCert = $config['db'][1]['ssl_verify_server_cert'] ?? true;
+}
+
 $httpsRedirectSel = new rex_select();
 $httpsRedirectSel->setId('rex-form-https');
 $httpsRedirectSel->setStyle('class="form-control selectpicker"');
@@ -102,6 +169,69 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
+// SSL Configuration Section
+$formElements = [];
+
+// SSL Toggle Checkbox
+$n = [];
+$n['label'] = '<label for="rex-form-ssl-toggle">' . rex_i18n::msg('setup_database_ssl') . '</label>';
+$n['field'] = '<input type="checkbox" id="rex-form-ssl-toggle" name="ssl_toggle" value="1"' . $sslToggleChecked . ' />';
+$n['note'] = rex_i18n::msg('setup_database_ssl_info');
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/checkbox.php');
+
+// SSL Configuration Fields (collapsible)
+$content .= '<div id="ssl-config-panel" style="display: none;">';
+
+$sslFormElements = [];
+
+// SSL CA Configuration
+$sslCaSel = new rex_select();
+$sslCaSel->setId('rex-form-ssl-ca-mode');
+$sslCaSel->setStyle('class="form-control selectpicker"');
+$sslCaSel->setName('db_ssl_ca_mode');
+$sslCaSel->setSize(1);
+$sslCaSel->addOption(rex_i18n::msg('setup_ssl_ca_none'), '');
+$sslCaSel->addOption(rex_i18n::msg('setup_ssl_ca_system'), 'system');
+$sslCaSel->addOption(rex_i18n::msg('setup_ssl_ca_file'), 'file');
+$sslCaSel->setSelected($sslCaMode);
+
+$n = [];
+$n['label'] = '<label for="rex-form-ssl-ca-mode">' . rex_i18n::msg('setup_ssl_ca') . '</label>';
+$n['field'] = $sslCaSel->get();
+$sslFormElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="rex-form-ssl-ca-file">' . rex_i18n::msg('setup_ssl_ca_file_path') . '</label>';
+$n['field'] = '<input class="form-control" type="text" id="rex-form-ssl-ca-file" name="db_ssl_ca_file" value="' . rex_escape($sslCaFile) . '" placeholder="/path/to/ca.pem" data-ssl-field="file" />';
+$sslFormElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="rex-form-ssl-key">' . rex_i18n::msg('setup_ssl_key') . '</label>';
+$n['field'] = '<input class="form-control" type="text" id="rex-form-ssl-key" name="db_ssl_key" value="' . rex_escape($sslKey) . '" placeholder="/path/to/key.pem" />';
+$sslFormElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="rex-form-ssl-cert">' . rex_i18n::msg('setup_ssl_cert') . '</label>';
+$n['field'] = '<input class="form-control" type="text" id="rex-form-ssl-cert" name="db_ssl_cert" value="' . rex_escape($sslCert) . '" placeholder="/path/to/cert.pem" />';
+$sslFormElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="rex-form-ssl-verify">' . rex_i18n::msg('setup_ssl_verify') . '</label>';
+$sslVerifyChecked = $sslVerifyServerCert ? ' checked="checked"' : '';
+$n['field'] = '<input type="checkbox" id="rex-form-ssl-verify" name="db_ssl_verify_server_cert" value="1"' . $sslVerifyChecked . ' />';
+$sslFormElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $sslFormElements, false);
+$content .= $fragment->parse('core/form/form.php');
+
+$content .= '</div>'; // End SSL config panel
+
+// Database Create Checkbox
 $formElements = [];
 $n = [];
 $n['label'] = '<label>' . rex_i18n::msg('setup_311') . '</label>';
@@ -157,3 +287,31 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 echo '<form action="' . $context->getUrl(['step' => 4]) . '" method="post">' . $content . '</form>';
+
+?>
+<script>
+jQuery(function($) {
+    // SSL Panel Toggle
+    $('#rex-form-ssl-toggle').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#ssl-config-panel').slideDown(300);
+        } else {
+            $('#ssl-config-panel').slideUp(300);
+        }
+    });
+    
+    // SSL CA file field visibility
+    function toggleSslCaFileField() {
+        var mode = $('#rex-form-ssl-ca-mode').val();
+        $('[data-ssl-field="file"]').closest('.rex-form-group').toggle(mode === 'file');
+    }
+    
+    $('#rex-form-ssl-ca-mode').on('change', toggleSslCaFileField);
+    toggleSslCaFileField(); // Initial call
+    
+    // Show SSL panel if checkbox is checked (from POST data or config)
+    if ($('#rex-form-ssl-toggle').is(':checked')) {
+        $('#ssl-config-panel').show();
+    }
+});
+</script>
