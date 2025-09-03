@@ -177,7 +177,7 @@ $content .= $fragment->parse('core/form/form.php');
 // SSL Configuration Section
 $formElements = [];
 
-// SSL Toggle Checkbox  
+// SSL Toggle Checkbox
 $n = [];
 $n['label'] = '<label>' . rex_i18n::msg('setup_database_ssl') . '</label>';
 $n['field'] = '<input type="checkbox" data-ssl-toggle="true" name="ssl_toggle" value="1"' . $sslToggleChecked . ' />';
