@@ -94,6 +94,8 @@ require_once rex_path::core('functions/function_rex_other.php');
 // ----------------- VERSION
 rex::setProperty('version', '5.19.0');
 
+rex_error_handler::register();
+
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
 
@@ -124,7 +126,6 @@ if ('cli' !== PHP_SAPI) {
     rex::setProperty('request', Request::createFromGlobals());
 }
 
-rex_error_handler::register();
 rex_var_dumper::register();
 
 // ----------------- REX PERMS
