@@ -259,7 +259,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     $config['db'][1]['ssl_cert'] = $sslCert;
                 }
 
-                if (null !== $sslVerifyServerCert = $input->getOption('db-ssl-verify-server-cert')) {
+                $sslVerifyServerCert = $input->getOption('db-ssl-verify-server-cert');
+                if (null !== $sslVerifyServerCert) {
                     if (!in_array($sslVerifyServerCert, ['yes', 'no'], true)) {
                         throw new InvalidArgumentException('SSL verify server cert must be "yes" or "no"');
                     }
