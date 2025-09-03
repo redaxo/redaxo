@@ -222,16 +222,16 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 $sslRequired = $this->io->confirm('Configure SSL database connection?', false);
                 if ($sslRequired) {
                     $io->section('SSL Configuration');
-                    
+
                     $sslConfigured = false; // Track if any SSL option was configured
-                    
+
                     /** @var string $sslCaChoice */
                     $sslCaChoice = $this->io->choice('SSL Certificate Authority', [
                         'none' => 'No CA verification',
                         'system' => 'Use system CA (recommended for managed databases)',
-                        'file' => 'Specify CA certificate file path'
+                        'file' => 'Specify CA certificate file path',
                     ], 'none');
-                    
+
                     if ('system' === $sslCaChoice) {
                         /** @var array<string|int, mixed> $dbConfigArray */
                         $dbConfigArray = $config['db'];
@@ -269,7 +269,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                         $sslConfigured = true;
                         $io->success('CA certificate file set: ' . $sslCaFile);
                     }
-                    
+
                     if ($this->io->confirm('Use client certificate authentication?', false)) {
                         /** @var string $sslKey */
                         $sslKey = $this->io->ask('Path to SSL key file', null, static function (mixed $path): string {
@@ -281,7 +281,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                             }
                             return $path;
                         });
-                        
+
                         /** @var string $sslCert */
                         $sslCert = $this->io->ask('Path to SSL certificate file', null, static function (mixed $path): string {
                             if (!$path || !is_string($path)) {
@@ -292,7 +292,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                             }
                             return $path;
                         });
-                        
+
                         /** @var array<string|int, mixed> $dbConfigArray */
                         $dbConfigArray = $config['db'];
                         if (!is_array($dbConfigArray)) {
@@ -307,7 +307,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                         $sslConfigured = true;
                         $io->success('Client certificate authentication configured');
                     }
-                    
+
                     // Only ask for ssl_verify_server_cert if SSL is actually configured
                     if ($sslConfigured) {
                         /** @var array<string|int, mixed> $dbConfigArray */
@@ -321,7 +321,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                         $dbConfigArray[1] = $dbConfig;
                         $config['db'] = $dbConfigArray;
                     }
-                    
+
                     $io->success('SSL configuration completed');
                 } else {
                     // SSL disabled - remove all SSL configuration keys

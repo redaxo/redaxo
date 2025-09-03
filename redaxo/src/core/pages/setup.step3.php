@@ -38,10 +38,10 @@ $sslCert = '';
 $sslVerifyServerCert = true;
 
 // First, load from existing config
-if (isset($config['db'][1]['ssl_ca']) || 
-    isset($config['db'][1]['ssl_key']) || 
-    isset($config['db'][1]['ssl_cert']) ||
-    isset($config['db'][1]['ssl_verify_server_cert'])) {
+if (isset($config['db'][1]['ssl_ca'])
+    || isset($config['db'][1]['ssl_key'])
+    || isset($config['db'][1]['ssl_cert'])
+    || isset($config['db'][1]['ssl_verify_server_cert'])) {
     $sslToggleChecked = ' checked="checked"';
 }
 
@@ -76,12 +76,12 @@ $sslVerifyServerCert = rex_post('db_ssl_verify_server_cert', 'boolean', true);
 
 // Fallback to config values if no POST data
 if (!rex_post('ssl_toggle')) {
-    if (isset($config['db'][1]['ssl_ca']) || 
-        isset($config['db'][1]['ssl_key']) || 
-        isset($config['db'][1]['ssl_cert'])) {
+    if (isset($config['db'][1]['ssl_ca'])
+        || isset($config['db'][1]['ssl_key'])
+        || isset($config['db'][1]['ssl_cert'])) {
         $sslToggleChecked = ' checked="checked"';
     }
-    
+
     if (isset($config['db'][1]['ssl_ca'])) {
         if (true === $config['db'][1]['ssl_ca']) {
             $sslCaMode = 'system';
@@ -90,7 +90,7 @@ if (!rex_post('ssl_toggle')) {
             $sslCaFile = $config['db'][1]['ssl_ca'];
         }
     }
-    
+
     $sslKey = $config['db'][1]['ssl_key'] ?? '';
     $sslCert = $config['db'][1]['ssl_cert'] ?? '';
     $sslVerifyServerCert = $config['db'][1]['ssl_verify_server_cert'] ?? true;

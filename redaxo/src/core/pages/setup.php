@@ -131,7 +131,7 @@ if ($step > 3) {
                 // No CA mode selected - remove ssl_ca
                 unset($config['db'][1]['ssl_ca']);
             }
-            
+
             // Client certificates
             $sslKey = rex_post('db_ssl_key', 'string');
             $sslCert = rex_post('db_ssl_cert', 'string');
@@ -145,7 +145,7 @@ if ($step > 3) {
             } else {
                 unset($config['db'][1]['ssl_cert']);
             }
-            
+
             // SSL verify server cert
             $config['db'][1]['ssl_verify_server_cert'] = rex_post('db_ssl_verify_server_cert', 'boolean', true);
         } else {
