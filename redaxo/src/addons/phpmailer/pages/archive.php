@@ -27,7 +27,7 @@ if ('delete_archive' == $func) {
 $archiveFolder = rex_mailer::logFolder();
 $archiveExists = is_dir($archiveFolder);
 
-// Two-column layout for Archive Information and Legal Notice
+// Two-column layout for Archive Information and Archive Maintenance
 echo '<div class="row">';
 
 // Archive Information Panel (left column)
@@ -90,21 +90,14 @@ $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 echo '</div>';
 
-// Legal Notice Panel (right column)
+// Archive Maintenance Panel (right column)
 echo '<div class="col-md-6">';
 $content = '';
-$content .= '<p>' . $addon->i18n('archive_legal_notice_text') . '</p>';
-$content .= '<ul>';
-$content .= '<li>' . $addon->i18n('archive_legal_notice_technical') . '</li>';
-$content .= '<li>' . $addon->i18n('archive_legal_notice_not_legal') . '</li>';
-$content .= '<li>' . $addon->i18n('archive_legal_notice_gdpr') . '</li>';
-$content .= '<li>' . $addon->i18n('archive_legal_notice_deletion') . '</li>';
-$content .= '<li>' . $addon->i18n('archive_legal_notice_avv') . '</li>';
-$content .= '</ul>';
+$content .= '<p>' . $addon->i18n('archive_purge_info') . '</p>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', $addon->i18n('archive_legal_notice_title'), false);
+$fragment->setVar('title', $addon->i18n('archive_maintenance'), false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 echo '</div>';
