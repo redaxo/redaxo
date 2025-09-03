@@ -478,11 +478,11 @@ class rex_article_service
             $sql->setWhere(['id' => $artId, 'clang_id' => $clang]);
             $sql->setValue('startarticle', 1);
             $sql->setValue('catname', $sql->getValue('name'));
-            $sql->setValue('catpriority', 100);
+            $sql->setValue('catpriority', 99999);
             $sql->setValue('priority', 1);
             $sql->update();
 
-            rex_category_service::newCatPrio($parentId, $clang, 0, 100);
+            rex_category_service::newCatPrio($parentId, $clang, 1, 0);
         }
 
         rex_article_cache::deleteLists($parentId);
@@ -536,11 +536,11 @@ class rex_article_service
             $sql->setWhere(['id' => $artId, 'clang_id' => $clang]);
             $sql->setValue('startarticle', 0);
             $sql->setValue('catname', $catname);
-            $sql->setValue('priority', 100);
+            $sql->setValue('priority', 99999);
             $sql->setValue('catpriority', 0);
             $sql->update();
 
-            self::newArtPrio($parentId, $clang, 0, 100);
+            self::newArtPrio($parentId, $clang, 1, 0);
         }
 
         rex_article_cache::deleteLists($parentId);
@@ -864,7 +864,7 @@ class rex_article_service
                     $artSql->setValue('path', $path);
                     $artSql->setValue('catname', $catname);
                     // Artikel als letzten Artikel in die neue Kat einfügen
-                    $artSql->setValue('priority', '99999');
+                    $artSql->setValue('priority', 99999);
                     // Kopierter Artikel offline setzen
                     $artSql->setValue('status', $fromSql->getValue('status'));
                     $artSql->addGlobalUpdateFields(self::getUser());
