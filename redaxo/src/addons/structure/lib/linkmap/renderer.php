@@ -14,7 +14,10 @@ abstract class rex_linkmap_tree_renderer
     {
         $category = rex_category::get($categoryId);
 
-        $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpointCategories();
+        $user = rex::requireUser();
+
+        // If the user has the new permission 'linkmap[all_categories]' show full tree
+        $mountpoints = $user->hasPerm('linkmap[all_categories]') ? [] : $user->getComplexPerm('structure')->getMountpointCategories();
         if (count($mountpoints) > 0) {
             $roots = $mountpoints;
             if (!$category && 1 === count($roots)) {
@@ -128,8 +131,11 @@ abstract class rex_linkmap_article_list_renderer
     public function getList($categoryId)
     {
         $isRoot = 0 === $categoryId;
-        $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpoints();
 
+        $user = rex::requireUser();
+        $mountpoints = $user->hasPerm('linkmap[all_categories]') ? [] : $user->getComplexPerm('structure')->getMountpoints();
+
+        // If the user is allowed to see all categories, treat as if there are no mountpoints
         if ($isRoot && 1 === count($mountpoints)) {
             $categoryId = reset($mountpoints);
             $isRoot = false;

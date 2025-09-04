@@ -190,6 +190,14 @@ Nicht versendete E-Mails erhalten das Präfix `not_sent_`.
 
 Das Archiv kann über den CronJob "Mailer-Archiv bereinigen" regelmäßig bereinigt werden. 
 
+#### Archiv-Verwaltung
+
+Eine eigene Archiv-Verwaltungsseite steht unter `PHPMailer` > `Archiv` zur Verfügung und bietet:
+
+- Übersicht über Archivgröße und Anzahl der gespeicherten E-Mails
+- Auflistung der 10 zuletzt archivierten E-Mails mit Betreff, Empfänger und Datum
+- Sichere Löschung des kompletten E-Mail-Archivs über das Wartungspanel 
+
 ## Extension-Point `PHPMAILER_CONFIG`
 
 Die Konfiguration kann mittels Extension-Point überschrieben und/oder ergänzt werden. 

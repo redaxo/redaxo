@@ -78,7 +78,27 @@ phpmailer_archive = Email archiving
 phpmailer_archive_info = Archive folder: <span title="{0}">{1}</span>
 phpmailer_archive_delete = Delete email archive
 phpmailer_archive_deleted = The email archive has been deleted
+phpmailer_archive_delete_error = Error deleting the email archive.
 phpmailer_archive_delete_confirm = Do you want the e-mail archive to be permanently deleted? This cannot be reversed.
+phpmailer_archive_manage = Manage archive
+phpmailer_archive_disabled_note = Email archiving is disabled.
+phpmailer_archive_info = Archive Information
+phpmailer_archive_path = Archive Path
+phpmailer_archive_size = Archive Size
+phpmailer_archive_file_count = Number of Files
+phpmailer_archive_files = files
+phpmailer_archive_status = Status
+phpmailer_archive_empty = Archive is empty
+phpmailer_archive_recent_mails = Recently Archived Emails
+phpmailer_archive_maintenance = Archive Maintenance
+phpmailer_archive_delete_warning = Warning!
+phpmailer_archive_delete_warning_desc = Deleting the archive will permanently remove all stored emails.
+phpmailer_archive_date = Date
+phpmailer_archive_subject = Subject
+phpmailer_archive_to = Recipient
+phpmailer_archive_no_subject = No subject
+phpmailer_archive_no_recipient = No recipient
+phpmailer_archive_no_files = No archived emails available
 phpmailer_archivecron = Purge mailer archive
 phpmailer_archivecron_label = Delete mails older than
 phpmailer_archivecron_days = days
@@ -99,3 +119,7 @@ phpmailer_errormail_60min = 60 minute interval
 
 system_setting_errormail = Send e-mail on errors
 perm_general_phpmailer[] = PHPMailer settings
+
+# Archive Maintenance
+phpmailer_archive_maintenance = Archive Maintenance
+phpmailer_archive_purge_info = The archive can be regularly cleaned using the Purge Cronjob to automatically remove older emails.

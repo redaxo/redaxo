@@ -68,6 +68,7 @@ perm_options_moveArticle[] = Move article
 perm_options_moveCategory[] = Move category
 perm_options_publishArticle[] = Publish article
 perm_options_publishCategory[] = Publish category
+perm_options_linkmap[all_categories] = Show all categories in Linkmap
 
 system_setting_start_article_id = Start article
 system_setting_notfound_article_id = Not-found article
