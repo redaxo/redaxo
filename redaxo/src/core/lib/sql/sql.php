@@ -115,26 +115,7 @@ class rex_sql implements Iterator
 
         try {
             if (!isset(self::$pdo[$db])) {
-                $options = [];
                 $dbconfig = rex::getDbConfig($db);
-                $mysqlClass = PHP_VERSION_ID >= 8_04_00;
-
-                if ($dbconfig->sslKey && $dbconfig->sslCert) {
-                    $options = [
-                        $mysqlClass ? Mysql::ATTR_SSL_KEY : PDO::MYSQL_ATTR_SSL_KEY => $dbconfig->sslKey,
-                        $mysqlClass ? Mysql::ATTR_SSL_CERT : PDO::MYSQL_ATTR_SSL_CERT => $dbconfig->sslCert,
-                    ];
-                }
-                if ($dbconfig->sslCa) {
-                    $options[$mysqlClass ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
-                }
-
-                // available only with mysqlnd
-                $constant = $mysqlClass ? Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT' : 'PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT';
-                if (defined($constant)) {
-                    /** @psalm-suppress MixedArrayOffset */
-                    $options[constant($constant)] = $dbconfig->sslVerifyServerCert;
-                }
 
                 $conn = self::createConnection(
                     $dbconfig->host,
@@ -142,7 +123,7 @@ class rex_sql implements Iterator
                     $dbconfig->login,
                     $dbconfig->password,
                     $dbconfig->persistent,
-                    $options,
+                    self::createSslOptions($dbconfig),
                 );
                 self::$pdo[$db] = $conn;
 
@@ -1955,6 +1936,7 @@ class rex_sql implements Iterator
      * @param string $password
      * @param string $database
      * @param bool $createDb
+     * @param array<array-key, bool|string> $options Additional PDO options (e.g., SSL options)
      *
      * @return true|string
      */
@@ -1964,6 +1946,7 @@ class rex_sql implements Iterator
         #[SensitiveParameter] $password,
         #[SensitiveParameter] $database,
         $createDb = false,
+        array $options = [],
     ) {
         if (!$database) {
             return rex_i18n::msg('sql_database_name_missing');
@@ -1988,6 +1971,8 @@ class rex_sql implements Iterator
                 $database,
                 $login,
                 $password,
+                false,
+                $options,
             );
 
             // db connection was successfully established, but we were meant to create the db
@@ -2013,6 +1998,8 @@ class rex_sql implements Iterator
                             'mysql',
                             $login,
                             $password,
+                            false,
+                            $options,
                         );
 
                         if (1 !== $conn->exec('CREATE DATABASE ' . self::_escapeIdentifier($database) . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
@@ -2053,6 +2040,44 @@ class rex_sql implements Iterator
         }
 
         return $errMsg;
+    }
+
+    /**
+     * Create SSL options array from database configuration.
+     *
+     * @return array<array-key, bool|string> SSL options for PDO connection
+     *
+     * @internal
+     */
+    public static function createSslOptions(rex_config_db $dbConfig): array
+    {
+        $options = [];
+        $mysqlClass = PHP_VERSION_ID >= 8_04_00;
+
+        if ($dbConfig->sslKey && $dbConfig->sslCert) {
+            $options = [
+                $mysqlClass ? Mysql::ATTR_SSL_KEY : PDO::MYSQL_ATTR_SSL_KEY => $dbConfig->sslKey,
+                $mysqlClass ? Mysql::ATTR_SSL_CERT : PDO::MYSQL_ATTR_SSL_CERT => $dbConfig->sslCert,
+            ];
+        }
+        if (true === $dbConfig->sslCa) {
+            // ssl_ca = true enables SSL CA verification without specific file
+            $options[$mysqlClass ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA] = true;
+        } elseif ($dbConfig->sslCa) {
+            // ssl_ca = string path to CA file
+            $options[$mysqlClass ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA] = $dbConfig->sslCa;
+        }
+
+        if ($options) {
+            // available only with mysqlnd
+            $constant = $mysqlClass ? Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT' : 'PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT';
+            if (defined($constant)) {
+                /** @psalm-suppress MixedArrayOffset */
+                $options[constant($constant)] = $dbConfig->sslVerifyServerCert;
+            }
+        }
+
+        return $options;
     }
 
     /**

@@ -210,6 +210,20 @@ setup_315 = The following error occurred: {0}
 setup_316 = REDAXO settings
 setup_399 = 3 / config.yml
 
+# SSL Database Configuration
+setup_database_ssl = SSL Database Connection
+setup_database_ssl_optional = optional
+setup_database_ssl_title = Configure SSL Database Connection
+setup_database_ssl_info = Configure SSL settings for secure database connections. Particularly important for cloud databases and enterprise environments.
+setup_ssl_ca = SSL Certificate Authority
+setup_ssl_ca_none = No SSL verification
+setup_ssl_ca_system = Use system CA (recommended for managed databases)
+setup_ssl_ca_file = Specify CA certificate file
+setup_ssl_ca_file_path = Path to CA certificate file
+setup_ssl_key = Path to SSL key file
+setup_ssl_cert = Path to SSL certificate file
+setup_ssl_verify = Verify SSL server certificate
+
 setup_400 = Setup: step 4 of 6 / Database
 setup_401 = Setup database
 setup_402 = Table {0} could not be found!

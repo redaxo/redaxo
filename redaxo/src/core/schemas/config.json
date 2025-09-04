@@ -373,7 +373,7 @@
                         },
                         "ssl_ca": {
                             "description": "File path to the ssl certificate authority",
-                            "type": ["null", "string"]
+                            "type": ["null", "boolean", "string"]
                         },
                         "ssl_verify_server_cert": {
                             "description": "Verification of the server SSL certificate",
