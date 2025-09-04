@@ -144,7 +144,10 @@ class rex_setup
      */
     public static function checkDb($config, $createDb)
     {
-        $err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $createDb);
+        $dbConfig = new rex_config_db($config['db'][1]);
+
+        $err = rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, $dbConfig->name, $createDb, rex_sql::createSslOptions($dbConfig));
+
         if (true !== $err) {
             return $err;
         }

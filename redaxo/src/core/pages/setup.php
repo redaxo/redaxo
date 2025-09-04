@@ -90,6 +90,27 @@ if (2 === $step) {
 $errorArray = [];
 
 $configFile = rex_path::coreData('config.yml');
+/**
+ * @var array{
+ *     setup: bool,
+ *     instname: string|null,
+ *     lang: string|null,
+ *     server: string|null,
+ *     servername: string|null,
+ *     error_email: string|null,
+ *     timezone: string,
+ *     db: array{1: array{
+ *         host: string|null,
+ *         login: string|null,
+ *         password: string|null,
+ *         name: string|null,
+ *         ssl_ca?: string|bool|null,
+ *         ssl_key?: string|null,
+ *         ssl_cert?: string|null,
+ *         ssl_verify_server_cert?: bool
+ *     }},
+ * } $config
+ */
 $config = array_merge(
     rex_file::getConfig(rex_path::core('default.config.yml')),
     rex_file::getConfig($configFile),
@@ -115,6 +136,28 @@ if ($step > 3) {
         }
         $config['db'][1]['name'] = trim(rex_post('dbname', 'string'));
         $config['use_https'] = rex_post('use_https', 'string');
+
+        if (rex_post('db_ssl_toggle', 'boolean')) {
+            $sslCaMode = rex_post('db_ssl_ca_mode', 'string');
+            if ('system' === $sslCaMode) {
+                $config['db'][1]['ssl_ca'] = true;
+            } elseif ('file' === $sslCaMode) {
+                $sslCaFile = rex_post('db_ssl_ca_file', 'string');
+                if (!empty($sslCaFile)) {
+                    $config['db'][1]['ssl_ca'] = $sslCaFile;
+                }
+            } else {
+                $config['db'][1]['ssl_ca'] = null;
+            }
+
+            $config['db'][1]['ssl_key'] = trim(rex_post('db_ssl_key', 'string')) ?: null;
+            $config['db'][1]['ssl_cert'] = trim(rex_post('db_ssl_cert', 'string')) ?: null;
+            $config['db'][1]['ssl_verify_server_cert'] = rex_post('db_ssl_verify_server_cert', 'boolean');
+        } else {
+            $config['db'][1]['ssl_ca'] = null;
+            $config['db'][1]['ssl_key'] = null;
+            $config['db'][1]['ssl_cert'] = null;
+        }
 
         if ('true' === $config['use_https']) {
             $config['use_https'] = true;

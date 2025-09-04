@@ -42,6 +42,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             ->addOption('db-setup', null, InputOption::VALUE_REQUIRED, 'Database setup mode e.g. "normal", "override" or "import"', null, ['normal', 'override', 'import'])
             ->addOption('db-charset', null, InputOption::VALUE_REQUIRED, 'Database charset "utf8" or "utf8mb4"', null, ['utf8mb4', 'utf8'])
             ->addOption('db-import', null, InputOption::VALUE_REQUIRED, 'Database import filename if "import" is used as --db-setup')
+            ->addOption('db-ssl-ca', null, InputOption::VALUE_OPTIONAL, 'Path to SSL Certificate Authority file or use without value to enable CA mode', false)
+            ->addOption('db-ssl-key', null, InputOption::VALUE_REQUIRED, 'Path to SSL key file')
+            ->addOption('db-ssl-cert', null, InputOption::VALUE_REQUIRED, 'Path to SSL certificate file')
+            ->addOption('db-ssl-verify-server-cert', null, InputOption::VALUE_REQUIRED, 'Verify SSL server certificate (yes/no)', null, ['yes', 'no'])
             ->addOption('admin-username', null, InputOption::VALUE_REQUIRED, 'Creates a redaxo admin user with the given username')
             ->addOption('admin-password', null, InputOption::VALUE_REQUIRED, 'Sets the password for the admin user account')
         ;
@@ -55,6 +59,27 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $this->input = $input;
 
         $configFile = rex_path::coreData('config.yml');
+        /**
+         * @var array{
+         *     setup: bool,
+         *     instname: string|null,
+         *     lang: string|null,
+         *     server: string|null,
+         *     servername: string|null,
+         *     error_email: string|null,
+         *     timezone: string|null,
+         *     db: array{1: array{
+         *         host: string|null,
+         *         login: string|null,
+         *         password: string|null,
+         *         name: string|null,
+         *         ssl_ca?: string|bool|null,
+         *         ssl_key?: string|null,
+         *         ssl_cert?: string|null,
+         *         ssl_verify_server_cert?: bool
+         *     }},
+         * } $config
+         */
         $config = array_merge(
             rex_file::getConfig(rex_path::core('default.config.yml')),
             rex_file::getConfig($configFile),
@@ -155,14 +180,14 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $io->section('Database information');
 
         do {
-            $dbHost = $this->getOptionOrAsk(
+            $config['db'][1]['host'] = $this->getOptionOrAsk(
                 'MySQL Host',
                 'db-host',
                 $config['db'][1]['host'],
                 'Using MySQL Host "%s"',
                 $requiredValue,
             );
-            $dbLogin = $this->getOptionOrAsk(
+            $config['db'][1]['login'] = $this->getOptionOrAsk(
                 'Login',
                 'db-login',
                 $config['db'][1]['login'],
@@ -173,7 +198,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $q = new Question('Password');
             $q->setHidden(true);
 
-            $dbPassword = $this->getOptionOrAsk(
+            $config['db'][1]['password'] = $this->getOptionOrAsk(
                 $q,
                 'db-password',
                 '',
@@ -181,13 +206,95 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 null,
             );
 
-            $dbName = $this->getOptionOrAsk(
+            $config['db'][1]['name'] = $this->getOptionOrAsk(
                 'Database name',
                 'db-name',
                 $config['db'][1]['name'],
                 'Using database name "%s"',
                 $requiredValue,
             );
+
+            $sslRequired = $input->isInteractive() && $this->io->confirm('Configure SSL database connection?', false);
+            $sslConfigured = false; // Track if any SSL option was configured
+
+            $sslCa = $input->getOption('db-ssl-ca');
+            if ($sslRequired && ($this->forceAsking || false === $sslCa)) {
+                /** @var string $sslCaChoice */
+                $sslCaChoice = $this->io->choice('SSL Certificate Authority', [
+                    'none' => 'No CA verification',
+                    'system' => 'Use system CA (recommended for managed databases)',
+                    'file' => 'Specify CA certificate file path',
+                ], 'none');
+
+                if ('none' === $sslCaChoice) {
+                    $config['db'][1]['ssl_ca'] = null;
+                } elseif ('system' === $sslCaChoice) {
+                    $config['db'][1]['ssl_ca'] = true;
+                    $sslConfigured = true;
+                } elseif ('file' === $sslCaChoice) {
+                    $config['db'][1]['ssl_ca'] = rex_type::string($this->io->ask('Path to CA certificate file', null, static function (mixed $path): string {
+                        if (!$path || !is_string($path)) {
+                            throw new InvalidArgumentException('CA certificate file path required');
+                        }
+                        if (!is_file($path) || !is_readable($path)) {
+                            throw new InvalidArgumentException('SSL CA file not found or not readable: ' . $path);
+                        }
+                        return $path;
+                    }));
+                    $sslConfigured = true;
+                }
+            } elseif (false === $sslCa) {
+                $config['db'][1]['ssl_ca'] = null;
+            } elseif (null === $sslCa || true === $sslCa) {
+                $config['db'][1]['ssl_ca'] = true;
+                $io->success('Using SSL system CA verification');
+                $sslConfigured = true;
+            } else {
+                if (!is_file($sslCa) || !is_readable($sslCa)) {
+                    throw new InvalidArgumentException('SSL CA file not found or not readable: ' . $sslCa);
+                }
+                $config['db'][1]['ssl_ca'] = $sslCa;
+                $io->success(sprintf('Using SSL CA file "%s"', $sslCa));
+                $sslConfigured = true;
+            }
+
+            $sslClientCertificateRequired = $sslRequired && $this->io->confirm('Use client certificate authentication?', false);
+
+            foreach (['ssl_key' => 'key', 'ssl_cert' => 'certificate'] as $key => $name) {
+                $value = rex_type::nullOrString($input->getOption('db-' . str_replace('_', '-', $key)));
+                if ($sslClientCertificateRequired && (null === $value || $this->forceAsking)) {
+                    $value = rex_type::string($io->ask("Path to SSL $name file", rex_type::nullOrString($config['db'][1][$key] ?? null), static function (string $value) use ($name) {
+                        if (!$value) {
+                            throw new InvalidArgumentException("SSL $name file path required");
+                        }
+                        if (!is_file($value) || !is_readable($value)) {
+                            throw new InvalidArgumentException("SSL $name file not found or not readable: " . $value);
+                        }
+                        return $value;
+                    }));
+                    $sslConfigured = true;
+                } elseif (is_string($value)) {
+                    if (!is_file($value) || !is_readable($value)) {
+                        throw new InvalidArgumentException("SSL $name file not found or not readable: " . $value);
+                    }
+                    $io->success(sprintf('Using SSL %s file "%s"', $name, $value));
+                    $sslConfigured = true;
+                }
+                $config['db'][1][$key] = $value;
+            }
+
+            $sslVerifyServerCert = $input->getOption('db-ssl-verify-server-cert');
+            if (
+                $sslRequired && $sslConfigured
+                && (null === $sslVerifyServerCert || $this->forceAsking)
+            ) {
+                $config['db'][1]['ssl_verify_server_cert'] = $this->io->confirm('Verify SSL server certificate?', true);
+            } elseif (null !== $sslVerifyServerCert) {
+                $config['db'][1]['ssl_verify_server_cert'] = 'yes' === $sslVerifyServerCert || 'true' === $sslVerifyServerCert;
+                $io->success('SSL server certificate verification ' . ($config['db'][1]['ssl_verify_server_cert'] ? 'enabled' : 'disabled'));
+            } else {
+                $config['db'][1]['ssl_verify_server_cert'] = true;
+            }
 
             $dbCreate = $this->getOptionOrAsk(
                 new ConfirmationQuestion('Create database?', false),
@@ -206,11 +313,6 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 $dbCreate = 'yes' === $dbCreate || 'true' === $dbCreate;
                 $io->success('Database will ' . ($dbCreate ? '' : 'not ') . 'be created');
             }
-
-            $config['db'][1]['host'] = $dbHost;
-            $config['db'][1]['login'] = $dbLogin;
-            $config['db'][1]['password'] = $dbPassword;
-            $config['db'][1]['name'] = $dbName;
 
             rex::setProperty('db', $config['db']);
             try {
