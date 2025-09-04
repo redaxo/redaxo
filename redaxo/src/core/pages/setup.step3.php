@@ -29,31 +29,23 @@ $timezoneSel->setSelected($config['timezone']);
 
 $dbCreateChecked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
 
-// SSL configuration state - prioritize POST data, fallback to config values
+/** @var array<string, string|bool|null> $dbConfig */
+$dbConfig = $config['db'][1] ?? [];
+
 $sslToggleChecked = '';
-$sslCaMode = '';
-$sslCaFile = '';
-$sslKey = '';
-$sslCert = '';
-$sslVerifyServerCert = true;
-
-// First, load from existing config
-$dbConfig = [];
-if (isset($config['db']) && is_array($config['db']) && isset($config['db'][1]) && is_array($config['db'][1])) {
-    $dbConfig = $config['db'][1];
-}
-
-if (isset($dbConfig['ssl_ca'])
-    || isset($dbConfig['ssl_key'])
-    || isset($dbConfig['ssl_cert'])
-    || isset($dbConfig['ssl_verify_server_cert'])) {
+if (($dbConfig['ssl_ca'] ?? false)
+    || ($dbConfig['ssl_key'] ?? false)
+    || ($dbConfig['ssl_cert'] ?? false)
+) {
     $sslToggleChecked = ' checked="checked"';
 }
 
-if (isset($dbConfig['ssl_ca'])) {
+$sslCaMode = '';
+$sslCaFile = '';
+if ($dbConfig['ssl_ca'] ?? false) {
     if (true === $dbConfig['ssl_ca']) {
         $sslCaMode = 'system';
-    } elseif (is_string($dbConfig['ssl_ca']) && !empty($dbConfig['ssl_ca'])) {
+    } elseif (is_string($dbConfig['ssl_ca'])) {
         $sslCaMode = 'file';
         $sslCaFile = $dbConfig['ssl_ca'];
     }
@@ -62,44 +54,6 @@ if (isset($dbConfig['ssl_ca'])) {
 $sslKey = (string) ($dbConfig['ssl_key'] ?? '');
 $sslCert = (string) ($dbConfig['ssl_cert'] ?? '');
 $sslVerifyServerCert = (bool) ($dbConfig['ssl_verify_server_cert'] ?? true);
-
-// Override with POST data if available (form submission)
-if (rex_post('ssl_toggle', 'boolean')) {
-    $sslToggleChecked = ' checked="checked"';
-    $sslCaMode = rex_post('db_ssl_ca_mode', 'string', $sslCaMode);
-    $sslCaFile = rex_post('db_ssl_ca_file', 'string', $sslCaFile);
-    $sslKey = rex_post('db_ssl_key', 'string', $sslKey);
-    $sslCert = rex_post('db_ssl_cert', 'string', $sslCert);
-    $sslVerifyServerCert = rex_post('db_ssl_verify_server_cert', 'boolean', $sslVerifyServerCert);
-} elseif (!empty($_POST)) {
-    // Form was submitted but SSL toggle was unchecked - clear SSL toggle
-    $sslToggleChecked = '';
-}
-$sslKey = rex_post('db_ssl_key', 'string', '');
-$sslCert = rex_post('db_ssl_cert', 'string', '');
-$sslVerifyServerCert = rex_post('db_ssl_verify_server_cert', 'boolean', true);
-
-// Fallback to config values if no POST data
-if (!rex_post('ssl_toggle')) {
-    if (isset($dbConfig['ssl_ca'])
-        || isset($dbConfig['ssl_key'])
-        || isset($dbConfig['ssl_cert'])) {
-        $sslToggleChecked = ' checked="checked"';
-    }
-
-    if (isset($dbConfig['ssl_ca'])) {
-        if (true === $dbConfig['ssl_ca']) {
-            $sslCaMode = 'system';
-        } elseif (is_string($dbConfig['ssl_ca']) && !empty($dbConfig['ssl_ca'])) {
-            $sslCaMode = 'file';
-            $sslCaFile = $dbConfig['ssl_ca'];
-        }
-    }
-
-    $sslKey = (string) ($dbConfig['ssl_key'] ?? '');
-    $sslCert = (string) ($dbConfig['ssl_cert'] ?? '');
-    $sslVerifyServerCert = (bool) ($dbConfig['ssl_verify_server_cert'] ?? true);
-}
 
 $httpsRedirectSel = new rex_select();
 $httpsRedirectSel->setId('rex-form-https');
@@ -180,7 +134,7 @@ $formElements = [];
 // SSL Toggle Checkbox
 $n = [];
 $n['label'] = '<label>' . rex_i18n::msg('setup_database_ssl') . '</label>';
-$n['field'] = '<input type="checkbox" data-ssl-toggle="true" name="ssl_toggle" value="1"' . $sslToggleChecked . ' />';
+$n['field'] = '<input type="checkbox" data-ssl-toggle="true" name="db_ssl_toggle" value="1"' . $sslToggleChecked . ' />';
 $n['note'] = rex_i18n::msg('setup_database_ssl_info');
 $formElements[] = $n;
 
@@ -311,18 +265,18 @@ jQuery(document).ready(function($) {
             panel.slideUp(300);
         }
     });
-    
+
     // Show SSL panel if checkbox is checked (from POST data or config)
     if ($('input[data-ssl-toggle="true"]').is(':checked')) {
         $('#ssl-config-panel').show();
     }
-    
+
     // SSL CA file field visibility
     function toggleSslCaFileField() {
         var mode = $('#rex-form-ssl-ca-mode').val();
         $('[data-ssl-field="file"]').closest('.rex-form-group').toggle(mode === 'file');
     }
-    
+
     $('#rex-form-ssl-ca-mode').on('change', toggleSslCaFileField);
     toggleSslCaFileField(); // Initial call
 });

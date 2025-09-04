@@ -144,14 +144,9 @@ class rex_setup
      */
     public static function checkDb($config, $createDb)
     {
-        /** @var array<string, mixed> $dbConfig */
-        $dbConfig = $config['db'][1];
+        $dbConfig = new rex_config_db($config['db'][1]);
 
-        // Create SSL options using shared method
-        $sslOptions = rex_sql::createSslOptions($dbConfig);
-
-        // Use SSL-aware connection check with options
-        $err = rex_sql::checkDbConnection((string) $dbConfig['host'], (string) $dbConfig['login'], (string) $dbConfig['password'], (string) $dbConfig['name'], $createDb, $sslOptions);
+        $err = rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, $dbConfig->name, $createDb, rex_sql::createSslOptions($dbConfig));
 
         if (true !== $err) {
             return $err;
