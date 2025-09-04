@@ -22,6 +22,7 @@ rex_perm::register('publishArticle[]', null, rex_perm::OPTIONS);
 rex_perm::register('publishCategory[]', null, rex_perm::OPTIONS);
 rex_perm::register('article2startarticle[]', null, rex_perm::OPTIONS);
 rex_perm::register('article2category[]', null, rex_perm::OPTIONS);
+rex_perm::register('linkmap[all_categories]', null, rex_perm::OPTIONS);
 
 rex_complex_perm::register('structure', rex_structure_perm::class);
 
