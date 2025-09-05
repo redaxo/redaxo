@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.17.0 – 05.09.2025
+---------------------------
+
+### Neu
+
+* Erlaubte Mime-Types: vtt und srt ergänzt (@skerbis)
+
+### Bugfixes
+
+* Update des SVG-Sanitizers inkl. Security-Fix (@gharlan)
+
+
 Version 2.16.0 – 17.07.2025
 ---------------------------
 

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.17.2 – 05.09.2025
+---------------------------
+
+### Bugfixes
+
+* Escaping des Mediatypnamens korrigiert (@gharlan)
+
+
 Version 2.17.1 – 04.03.2025
 ---------------------------
 

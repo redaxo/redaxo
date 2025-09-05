@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.16.0 – 05.09.2025
+---------------------------
+
+### Neu
+
+* Neue Archiv-Seite (@skerbis)
+
+### Bugfixes
+
+* Umgang mit Fehlern bei den "MS Graph Credentials" optimiert (@tyrant88)
+
+
 Version 2.15.0 – 17.07.2025
 ---------------------------
 
