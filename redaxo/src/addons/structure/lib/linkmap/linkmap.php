@@ -9,12 +9,21 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
 {
     public function __construct(
         private rex_context $context,
+        private int $clang,
     ) {}
 
     /**
      * @return string
      */
-    protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon)
+    public function getTree(int $categoryId, ?int $clang = null)
+    {
+        return parent::getTree($categoryId, $this->clang);
+    }
+
+    /**
+     * @return string
+     */
+    protected function treeItem(rex_category $cat, string $liClasses, string $linkClasses, string $subHtml, string $liIcon)
     {
         if ('' != $liClasses) {
             $liClasses = ' class="' . rtrim($liClasses) . '"';
@@ -48,12 +57,21 @@ class rex_linkmap_article_list extends rex_linkmap_article_list_renderer
 {
     public function __construct(
         private rex_context $context,
+        private int $clang,
     ) {}
 
     /**
      * @return string
      */
-    protected function listItem(rex_article $article, $categoryId)
+    public function getList(int $categoryId, ?int $clang = null)
+    {
+        return parent::getList($categoryId, $this->clang);
+    }
+
+    /**
+     * @return string
+     */
+    protected function listItem(rex_article $article, int $categoryId)
     {
         $liAttr = ' class="list-group-item"';
         $url = 'javascript:insertLink(\'redaxo://' . $article->getId() . '\',\'' . rex_escape(trim(sprintf('%s [%s]', $article->getName(), $article->getId())), 'js') . '\');';
