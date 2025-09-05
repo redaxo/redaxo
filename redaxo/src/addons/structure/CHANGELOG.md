@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 2.19.0 – 05.09.2025
+---------------------------
+
+### Neu
+
+* Neue Berechtigung, um in der Linkmap alle Kategorien auswählen zu können (auch die, für die man ansonsten keine Rechte hat) (@skerbis)
+
+### Bugfixes
+
+* Umwandlung Kategorie/Artikel (beide Richtungen): Priorität bei mehr als 100 Kategorien/Artikeln korrigiert (@gharlan)
+* Version-Plugin: Nach Kopieren zwischen Live-/Arbeitsversion wurden die Slices der Quellversion ausgegeben (@gharlan)
+
+
 Version 2.18.0 – 17.07.2025
 ---------------------------
 
