@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.13.1 – 05.09.2025
+---------------------------
+
+### Bugfixes
+
+* Wenn bei Addon-Updates Plugins gelöscht wurden, konnte es im Anschluss zu Fehlern kommen (teilweise erst später nach weiteren Aktionen) (@gharlan)
+* Kommunikation mit redaxo.org ohne "www.", dadurch immer SSL-Zertifikat-Validierung (@gharlan)
+
+
 Version 2.13.0 – 17.07.2025
 ---------------------------
 

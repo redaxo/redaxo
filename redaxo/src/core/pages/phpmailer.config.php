@@ -2,7 +2,6 @@
 
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
-use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Select\Select;
 use Redaxo\Core\Http\Request;
@@ -17,11 +16,6 @@ use function Redaxo\Core\View\escape;
 
 $message = '';
 
-if ('' != Request::post('btn_delete_archive', 'string')) {
-    if (Dir::delete(Mailer::logFolder(), true)) {
-        echo Message::success(I18n::msg('phpmailer_archive_deleted'));
-    }
-}
 if ('' != Request::post('btn_save', 'string') || '' != Request::post('btn_check', 'string')) {
     $settings = Request::post('settings', [
         ['phpmailer_fromname', 'string'],
@@ -371,14 +365,14 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="phpmailer-archive">' . I18n::msg('phpmailer_archive') . '</label>';
 $n['field'] = $selArchive->get();
-$n['note'] = I18n::rawMsg('phpmailer_archive_info', Mailer::logFolder(), '...' . substr(Mailer::logFolder(), -30));
-$formElements[] = $n;
-
-if (is_dir(Mailer::logFolder())) {
-    $n = [];
-    $n['field'] = '<button data-confirm="' . I18n::msg('phpmailer_archive_delete_confirm') . '" class="btn btn-danger pull-right" type="submit" name="btn_delete_archive" value="' . I18n::msg('phpmailer_archive_delete') . '">' . I18n::msg('phpmailer_archive_delete') . '</button>';
-    $formElements[] = $n;
+if (Core::getConfig('phpmailer_archive')) {
+    $n['note'] = I18n::rawMsg('phpmailer_archive_info', Mailer::logFolder(), '...' . substr(Mailer::logFolder(), -30))
+        . '<br><a href="' . Url::backendPage('phpmailer/archive') . '" class="btn btn-sm btn-default">'
+        . '<i class="rex-icon rex-icon-folder-open"></i> ' . I18n::msg('phpmailer_archive_manage') . '</a>';
+} else {
+    $n['note'] = I18n::msg('phpmailer_archive_disabled_note');
 }
+$formElements[] = $n;
 
 $fragment = new Fragment();
 $fragment->setVar('elements', $formElements, false);

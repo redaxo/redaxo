@@ -1,6 +1,27 @@
 Changelog
 =========
 
+Version 5.20.0 – 05.09.2025
+---------------------------
+
+### Neu
+
+* Setup: SSL-Datenbankverbindung kann konfiguriert werden (@skerbis, @gharlan)
+* `config.yml`: Env-Variablen können genutzt werden über einen YAML-Tag `!env` (Beispiel: `password: !env DB_PASSWORD`) (@gharlan)
+* `rex_string`: YAML-Decoding/Encoding untersützt YAML-Tags (@gharlan)
+
+### Bugfixes
+
+* Session-Ablauf-Overlay
+  - Erschien teilweise, obwohl die Session noch gar nicht abgelaufen war (@gharlan)
+  - Button-Beschriftung korrigiert (@skerbis)
+* `rex_sql`:
+  - Neue Klasse `Pdo\Mysql` nutzen, wenn verfügbar (Vorbereitung für Deprecations in PHP 8.5) (@gharlan)
+  - Fehlermeldung bei Verbindungsproblemen korrigiert (@staabm)
+* Error-Handler wird bereits früher registriert und ist robuster bzgl. Fehler während der Generierung der Whoops-Seite (@gharlan)
+* Textkorrekturen (@skerbis)
+
+
 Version 5.19.0 – 17.07.2025
 ---------------------------
 

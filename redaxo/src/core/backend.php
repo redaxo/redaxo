@@ -248,6 +248,7 @@ if (Core::getUser()) {
     $login = Core::getProperty('login');
     Asset::setJsProperty('session_keep_alive_url', Url::backendController(['page' => 'credits', 'rex-api-call' => 'user_session_status']));
     Asset::setJsProperty('session_logout_url', Url::backendController(['rex_logout' => 1] + CsrfToken::factory('backend_logout')->getUrlParams()));
+    Asset::setJsProperty('session_login_url', Url::backendController());
     Asset::setJsProperty('session_keep_alive', Core::getProperty('session_keep_alive', 0));
     Asset::setJsProperty('session_duration', Core::getProperty('session_duration', 0));
     Asset::setJsProperty('session_max_overall_duration', Core::getProperty('session_max_overall_duration', 0));
@@ -455,6 +456,7 @@ if (Core::getConfig('article_work_version', false)) {
 
                     $article = Type::instanceOf(Article::get($articleId, $clangId), Article::class);
                     ArticleRevision::setSessionArticleRevision($articleId, ArticleRevision::LIVE);
+                    $params['slice_revision'] = ArticleRevision::LIVE;
                     $return = Extension::registerPoint(
                         new ArticleContentUpdated($article, 'work_to_live', $return),
                     );
@@ -469,6 +471,7 @@ if (Core::getConfig('article_work_version', false)) {
                 );
                 $return .= Message::success(I18n::msg('version_info_live_version_to_working'));
                 ArticleRevision::setSessionArticleRevision($articleId, ArticleRevision::WORK);
+                $params['slice_revision'] = ArticleRevision::WORK;
                 break;
             case 'clear_work':
                 ArticleRevision::clearContent($articleId, $clangId, ArticleRevision::WORK);
@@ -575,6 +578,7 @@ Permission::register('article2startarticle[]', null, Permission::OPTIONS);
 Permission::register('article2category[]', null, Permission::OPTIONS);
 Permission::register('moveSlice[]', null, Permission::OPTIONS);
 Permission::register('publishSlice[]', null, Permission::OPTIONS);
+Permission::register('linkmap[all_categories]', null, Permission::OPTIONS);
 
 if (Core::getConfig('article_history', false)) {
     Permission::register('history[article_rollback]', null, Permission::OPTIONS);

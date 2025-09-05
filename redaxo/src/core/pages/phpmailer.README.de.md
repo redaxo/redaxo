@@ -195,6 +195,14 @@ Nicht versendete E-Mails erhalten das Präfix `not_sent_`.
 
 Das Archiv kann über den CronJob "Mailer-Archiv bereinigen" regelmäßig bereinigt werden. 
 
+#### Archiv-Verwaltung
+
+Eine eigene Archiv-Verwaltungsseite steht unter `PHPMailer` > `Archiv` zur Verfügung und bietet:
+
+- Übersicht über Archivgröße und Anzahl der gespeicherten E-Mails
+- Auflistung der 10 zuletzt archivierten E-Mails mit Betreff, Empfänger und Datum
+- Sichere Löschung des kompletten E-Mail-Archivs über das Wartungspanel 
+
 ## Extension-Point `PHPMAILER_CONFIG`
 
 Die Konfiguration kann mittels Extension-Point überschrieben und/oder ergänzt werden. 
@@ -225,7 +233,7 @@ rex_extension::register('PHPMAILER_CONFIG', function (rex_extension_point $ep) {
 
 ## Extension-Point `PHPMAILER_PRE_SEND`
 
-Dieser Extension-Point bietet sich an um E-Mails vor dem Versand zu überprüfen. So könnte an dieser Stelle ein Spamfilter greifen oder ein Virusscanner eingesezt werden.
+Dieser Extension-Point bietet sich an um E-Mails vor dem Versand zu überprüfen. So könnte an dieser Stelle ein Spamfilter greifen oder ein Virusscanner eingesetzt werden.
 
 ```php
 rex_extension::register('PHPMAILER_PRE_SEND', function (rex_extension_point $ep) {

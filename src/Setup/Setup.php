@@ -5,6 +5,7 @@ namespace Redaxo\Core\Setup;
 use DateTimeImmutable;
 use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\Configuration;
 use Redaxo\Core\Database\Exception\CouldNotConnectException;
 use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
@@ -167,7 +168,10 @@ class Setup
      */
     public static function checkDb($config, $createDb)
     {
-        $err = Sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $createDb);
+        $dbConfig = new Configuration($config['db'][1]);
+
+        $err = Sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, $dbConfig->name, $createDb, Sql::createSslOptions($dbConfig));
+
         if (true !== $err) {
             return $err;
         }

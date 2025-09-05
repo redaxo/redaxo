@@ -6,6 +6,7 @@ use Iterator;
 use JsonException;
 use Override;
 use PDO;
+use Pdo\Mysql;
 use PDOException;
 use PDOStatement;
 use Redaxo\Core\Base\FactoryTrait;
@@ -20,6 +21,7 @@ use Throwable;
 
 use function array_key_exists;
 use function assert;
+use function constant;
 use function defined;
 use function gettype;
 use function in_array;
@@ -34,6 +36,7 @@ use const FILTER_FLAG_HOSTNAME;
 use const FILTER_VALIDATE_DOMAIN;
 use const JSON_THROW_ON_ERROR;
 use const PHP_SAPI;
+use const PHP_VERSION_ID;
 
 /**
  * Connect and interact with the database.
@@ -54,7 +57,7 @@ class Sql implements Iterator
     /** Default SQL datetime format */
     final public const string FORMAT_DATETIME = 'Y-m-d H:i:s';
 
-    /** Controls query buffering, view `PDO::MYSQL_ATTR_USE_BUFFERED_QUERY` for more details */
+    /** Controls query buffering, view `Pdo\Mysql::ATTR_USE_BUFFERED_QUERY` for more details */
     final public const string OPT_BUFFERED = 'buffered';
 
     protected bool $debug = false; // debug schalter
@@ -133,23 +136,7 @@ class Sql implements Iterator
 
         try {
             if (!isset(self::$pdo[$db])) {
-                $options = [];
                 $dbconfig = Core::getDbConfig($db);
-
-                if ($dbconfig->sslKey && $dbconfig->sslCert) {
-                    $options = [
-                        PDO::MYSQL_ATTR_SSL_KEY => $dbconfig->sslKey,
-                        PDO::MYSQL_ATTR_SSL_CERT => $dbconfig->sslCert,
-                    ];
-                }
-                if ($dbconfig->sslCa) {
-                    $options[PDO::MYSQL_ATTR_SSL_CA] = $dbconfig->sslCa;
-                }
-
-                // available only with mysqlnd
-                if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
-                    $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $dbconfig->sslVerifyServerCert;
-                }
 
                 $conn = self::createConnection(
                     $dbconfig->host,
@@ -157,7 +144,7 @@ class Sql implements Iterator
                     $dbconfig->login,
                     $dbconfig->password,
                     $dbconfig->persistent,
-                    $options,
+                    self::createSslOptions($dbconfig),
                 );
                 self::$pdo[$db] = $conn;
 
@@ -166,7 +153,7 @@ class Sql implements Iterator
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
-                throw new CouldNotConnectException("Could not connect to database (DB: ' . $db . ')'.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
+                throw new CouldNotConnectException('Could not connect to database (DB: ' . $db . ").\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
             }
             throw new CouldNotConnectException('Could not connect to database (DB: ' . $db . ').', $e, $this);
         }
@@ -219,8 +206,12 @@ class Sql implements Iterator
             PDO::ATTR_FETCH_TABLE_NAMES => true,
         ];
 
-        $dbh = @new PDO($dsn, $login, $password, $options);
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        if (PHP_VERSION_ID >= 8_04_00) {
+            $dbh = @new Mysql($dsn, $login, $password, $options);
+        } else {
+            $dbh = @new PDO($dsn, $login, $password, $options);
+        }
+
         return $dbh;
     }
 
@@ -379,8 +370,9 @@ class Sql implements Iterator
         $buffered = null;
         $pdo = $this->getConnection();
         if (isset($options[self::OPT_BUFFERED])) {
-            $buffered = $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
-            $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
+            $bufferedAttr = PHP_VERSION_ID >= 8_04_00 ? Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY;
+            $buffered = $pdo->getAttribute($bufferedAttr);
+            $pdo->setAttribute($bufferedAttr, $options[self::OPT_BUFFERED]);
         }
 
         try {
@@ -406,7 +398,7 @@ class Sql implements Iterator
             throw new SqlException('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . ': ' . $e->getMessage(), $e, $this);
         } finally {
             if (null !== $buffered) {
-                $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
+                $pdo->setAttribute(PHP_VERSION_ID >= 8_04_00 ? Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
             }
 
             if ($this->debug) {
@@ -1778,6 +1770,7 @@ class Sql implements Iterator
      * Datenbank an.
      *
      * @param string $host the host. might optionally include a port.
+     * @param array<array-key, bool|string> $options Additional PDO options (e.g., SSL options)
      */
     public static function checkDbConnection(
         #[SensitiveParameter] string $host,
@@ -1785,6 +1778,7 @@ class Sql implements Iterator
         #[SensitiveParameter] string $password,
         #[SensitiveParameter] string $database,
         bool $createDb = false,
+        array $options = [],
     ): true|string {
         if (!$database) {
             return I18n::msg('sql_database_name_missing');
@@ -1809,6 +1803,8 @@ class Sql implements Iterator
                 $database,
                 $login,
                 $password,
+                false,
+                $options,
             );
 
             // db connection was successfully established, but we were meant to create the db
@@ -1834,6 +1830,8 @@ class Sql implements Iterator
                             'mysql',
                             $login,
                             $password,
+                            false,
+                            $options,
                         );
 
                         if (1 !== $conn->exec('CREATE DATABASE ' . self::_escapeIdentifier($database) . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
@@ -1874,6 +1872,44 @@ class Sql implements Iterator
         }
 
         return $errMsg;
+    }
+
+    /**
+     * Create SSL options array from database configuration.
+     *
+     * @return array<array-key, bool|string> SSL options for PDO connection
+     *
+     * @internal
+     */
+    public static function createSslOptions(Configuration $dbConfig): array
+    {
+        $options = [];
+        $mysqlClass = PHP_VERSION_ID >= 8_04_00;
+
+        if ($dbConfig->sslKey && $dbConfig->sslCert) {
+            $options = [
+                $mysqlClass ? Mysql::ATTR_SSL_KEY : PDO::MYSQL_ATTR_SSL_KEY => $dbConfig->sslKey,
+                $mysqlClass ? Mysql::ATTR_SSL_CERT : PDO::MYSQL_ATTR_SSL_CERT => $dbConfig->sslCert,
+            ];
+        }
+        if (true === $dbConfig->sslCa) {
+            // ssl_ca = true enables SSL CA verification without specific file
+            $options[$mysqlClass ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA] = true;
+        } elseif ($dbConfig->sslCa) {
+            // ssl_ca = string path to CA file
+            $options[$mysqlClass ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA] = $dbConfig->sslCa;
+        }
+
+        if ($options) {
+            // available only with mysqlnd
+            $constant = $mysqlClass ? Mysql::class . '::ATTR_SSL_VERIFY_SERVER_CERT' : 'PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT';
+            if (defined($constant)) {
+                /** @psalm-suppress MixedArrayOffset */
+                $options[constant($constant)] = $dbConfig->sslVerifyServerCert;
+            }
+        }
+
+        return $options;
     }
 
     /**

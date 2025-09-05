@@ -19,7 +19,9 @@ abstract class ArticleListRenderer
     public function getList($categoryId)
     {
         $isRoot = 0 === $categoryId;
-        $mountpoints = Core::requireUser()->getComplexPerm('structure')->getMountpoints();
+
+        $user = Core::requireUser();
+        $mountpoints = $user->hasPerm('linkmap[all_categories]') ? [] : $user->getComplexPerm('structure')->getMountpoints();
 
         if ($isRoot && 1 === count($mountpoints)) {
             $categoryId = reset($mountpoints);

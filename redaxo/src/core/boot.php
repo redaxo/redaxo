@@ -109,29 +109,9 @@ Fragment::addDirectory(Path::core('fragments/'));
 // ----------------- VERSION
 Core::setProperty('version', '6.0.0-dev');
 
-$cacheFile = Path::coreCache('config.yml.cache');
-$configFile = Path::coreData('config.yml');
+ErrorHandler::register();
 
-$cacheMtime = @filemtime($cacheFile);
-if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
-    $config = File::getCache($cacheFile);
-} else {
-    $config = array_merge(
-        File::getConfig(Path::core('default.config.yml')),
-        File::getConfig($configFile),
-    );
-    File::putCache($cacheFile, $config);
-}
-/**
- * @var string $key
- * @var mixed $value
- */
-foreach ($config as $key => $value) {
-    if (in_array($key, ['fileperm', 'dirperm'])) {
-        $value = octdec((string) $value);
-    }
-    Core::setProperty($key, $value);
-}
+Core::loadConfigYml();
 
 date_default_timezone_set(Core::getProperty('timezone', 'Europe/Berlin'));
 
@@ -139,7 +119,6 @@ if ('cli' !== PHP_SAPI) {
     Core::setProperty('request', BaseRequest::createFromGlobals());
 }
 
-ErrorHandler::register();
 VarDumper::register();
 
 // ----------------- REX PERMS

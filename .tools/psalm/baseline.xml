@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.13.0@70cdf647255a1362b426bb0f522a85817b8c791c">
+<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument>
       <code><![CDATA[$query['query']]]></code>
@@ -1417,26 +1417,12 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/pages/setup.php">
-    <MixedArgument>
+    <ArgumentTypeCoercion>
       <code><![CDATA[$config['timezone']]]></code>
+    </ArgumentTypeCoercion>
+    <PossiblyInvalidArgument>
       <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAssignment>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
+    </PossiblyInvalidArgument>
   </file>
   <file src="redaxo/src/core/pages/setup.step1.php">
     <MixedOperand>
@@ -1460,19 +1446,8 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$errorArray]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-    </MixedArrayAccess>
     <MixedOperand>
       <code><![CDATA[$cancelSetupBtn]]></code>
-      <code><![CDATA[escape($config['db'][1]['host'])]]></code>
-      <code><![CDATA[escape($config['db'][1]['login'])]]></code>
-      <code><![CDATA[escape($config['db'][1]['name'])]]></code>
       <code><![CDATA[escape($config['error_email'])]]></code>
       <code><![CDATA[escape($config['server'])]]></code>
       <code><![CDATA[escape($config['servername'])]]></code>
@@ -2232,12 +2207,6 @@
       <code><![CDATA[$config['db'][1]['host']]]></code>
       <code><![CDATA[$config['db'][1]['login']]]></code>
       <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['error_email']]]></code>
-      <code><![CDATA[$config['lang'] ?? null]]></code>
-      <code><![CDATA[$config['server']]]></code>
-      <code><![CDATA[$config['servername']]]></code>
-      <code><![CDATA[$config['timezone']]]></code>
-      <code><![CDATA[$config['timezone']]]></code>
       <code><![CDATA[$dbCreate]]></code>
       <code><![CDATA[$login]]></code>
       <code><![CDATA[$login]]></code>
@@ -2250,24 +2219,6 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[['login' => $login]]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
-    </MixedArrayAssignment>
     <MixedAssignment>
       <code><![CDATA[$config['db'][1]['host']]]></code>
       <code><![CDATA[$config['db'][1]['login']]]></code>
@@ -2280,10 +2231,6 @@
       <code><![CDATA[$config['timezone']]]></code>
       <code><![CDATA[$createdb]]></code>
       <code><![CDATA[$dbCreate]]></code>
-      <code><![CDATA[$dbHost]]></code>
-      <code><![CDATA[$dbLogin]]></code>
-      <code><![CDATA[$dbName]]></code>
-      <code><![CDATA[$dbPassword]]></code>
       <code><![CDATA[$login]]></code>
       <code><![CDATA[$password]]></code>
     </MixedAssignment>
@@ -4809,23 +4756,13 @@
   </file>
   <file src="src/Setup/Setup.php">
     <MixedArgument>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
+      <code><![CDATA[$config['db'][1]]]></code>
       <code><![CDATA[$destination]]></code>
       <code><![CDATA[$func($path)]]></code>
       <code><![CDATA[$path]]></code>
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]]]></code>
-      <code><![CDATA[$config['db'][1]['host']]]></code>
-      <code><![CDATA[$config['db'][1]['login']]]></code>
-      <code><![CDATA[$config['db'][1]['name']]]></code>
-      <code><![CDATA[$config['db'][1]['password']]]></code>
     </MixedArrayAccess>
     <MixedAssignment>
       <code><![CDATA[$destination]]></code>

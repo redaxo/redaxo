@@ -136,7 +136,7 @@ if ('' == $func) {
     $footer = '<a class="btn btn-back" href="' . Url::currentBackendPage() . '">' . I18n::msg('media_manager_back') . '</a>';
 
     $fragment = new Fragment();
-    $fragment->setVar('title', I18n::rawMsg('media_manager_effect_caption', $typeName), false);
+    $fragment->setVar('title', I18n::rawMsg('media_manager_effect_caption', escape($typeName)), false);
     $fragment->setVar('content', $content, false);
     $fragment->setVar('footer', $footer, false);
     $content = $fragment->parse('core/page/section.php');

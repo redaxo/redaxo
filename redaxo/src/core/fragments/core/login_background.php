@@ -9,7 +9,7 @@ use Redaxo\Core\View\Fragment;
  * @psalm-scope-this Fragment
  */
 
-$pictureName = 'lucas-k-wQLAGv4_OYs-unsplash';
+$pictureName = 'and-machines-HErhYBxhreE-unsplash';
 
 $url2400Avif = Url::coreAssets('images/' . $pictureName . '-2400.avif');
 $url3500Avif = Url::coreAssets('images/' . $pictureName . '-3500.avif');
@@ -37,7 +37,7 @@ $url3500Webp = Url::coreAssets('images/' . $pictureName . '-3500.webp');
 
 <style nonce="<?= Response::getNonce() ?>">
     #rex-page-login {
-        background-color: #032126;
+        background-color: #000000;
     }
     #rex-page-login .panel-default {
         background-color: rgba(33, 38, 41, 0.9);
@@ -49,7 +49,7 @@ $url3500Webp = Url::coreAssets('images/' . $pictureName . '-3500.webp');
     }
     #rex-page-login .btn-primary:hover,
     #rex-page-login .btn-primary:focus {
-        background-color: #ff3c00;
+        background-color: #BB017A;
     }
 
     #rex-page-login .rex-global-footer {
@@ -75,7 +75,7 @@ $url3500Webp = Url::coreAssets('images/' . $pictureName . '-3500.webp');
         <ul class="list-inline">
             <li><a href="https://www.yakamara.de" target="_blank" rel="noreferrer noopener">yakamara.de</a></li>
             <li><a href="https://www.redaxo.org" target="_blank" rel="noreferrer noopener">redaxo.org</a></li>
-            <li class="rex-background-credits">Photo by <a href="https://unsplash.com/de/@aznbokchoy" target="_blank" rel="noreferrer noopener">Lucas K</a> on <a href="https://unsplash.com/de/fotos/blauer-und-orangefarbener-rauch-wQLAGv4_OYs"  target="_blank" rel="noreferrer noopener">Unsplash</a></li>
+            <li class="rex-background-credits">Photo by <a href="https://unsplash.com/de/@and_machines" target="_blank" rel="noreferrer noopener">@and_machines</a> on <a href="https://unsplash.com/de/fotos/ein-schwarzer-hintergrund-mit-blauen-und-rosa-linien-HErhYBxhreE"  target="_blank" rel="noreferrer noopener">Unsplash</a></li>
         </ul>
     </nav>
 </footer>

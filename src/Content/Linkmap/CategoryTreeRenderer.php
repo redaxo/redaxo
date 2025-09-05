@@ -25,7 +25,10 @@ abstract class CategoryTreeRenderer
     {
         $category = Category::get($categoryId);
 
-        $mountpoints = Core::requireUser()->getComplexPerm('structure')->getMountpointCategories();
+        $user = Core::requireUser();
+
+        // If the user has the new permission 'linkmap[all_categories]' show full tree
+        $mountpoints = $user->hasPerm('linkmap[all_categories]') ? [] : $user->getComplexPerm('structure')->getMountpointCategories();
         if (count($mountpoints) > 0) {
             $roots = $mountpoints;
             if (!$category && 1 === count($roots)) {

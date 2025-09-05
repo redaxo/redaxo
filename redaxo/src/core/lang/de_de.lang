@@ -91,7 +91,7 @@ language = Sprache
 languages = Sprachen
 languages_edit = Sprachen bearbeiten
 id_exists = ID existiert schon.
-enter_code = Bitte geben sie einen Code ein.
+enter_code = Bitte geben Sie einen Code ein.
 enter_name = Bitte einen Namen eingeben.
 clang_add = Sprache hinzufügen
 clang_edit = Sprache bearbeiten
@@ -171,7 +171,7 @@ setup = Setup
 setup_cancel = Setup abbrechen
 setup_restart = Setup neu starten
 setup_text = Hier können Sie das Setup erneut starten. Dies sollten Sie nur im Notfall machen. Unter normalen Umständen ist es nicht nötig.
-setup_error2 = Leider konnte die config.yml nicht beschrieben werden. Bitte tragen Sie dort in der \"setup: true\" ein
+setup_error2 = Leider konnte die config.yml nicht gespeichert werden. Bitte tragen Sie dort in der \"setup: true\" ein
 
 
 
@@ -211,6 +211,20 @@ setup_315 = Folgender Fehler wurde gemeldet: {0}
 setup_316 = REDAXO-Einstellungen
 setup_399 = 3 / config.yml
 
+# SSL Database Configuration
+setup_database_ssl = SSL-Datenbankverbindung
+setup_database_ssl_optional = optional
+setup_database_ssl_title = SSL-Datenbankverbindung konfigurieren
+setup_database_ssl_info = Konfiguriere SSL-Einstellungen für sichere Datenbankverbindungen. Besonders wichtig für Cloud-Datenbanken und Unternehmensumgebungen.
+setup_ssl_ca = SSL-Zertifikats-Autorität
+setup_ssl_ca_none = Keine SSL-Verifizierung
+setup_ssl_ca_system = System-CA verwenden (empfohlen für verwaltete Datenbanken)
+setup_ssl_ca_file = CA-Zertifikat-Datei angeben
+setup_ssl_ca_file_path = Pfad zur CA-Zertifikat-Datei
+setup_ssl_key = Pfad zur SSL-Schlüssel-Datei
+setup_ssl_cert = Pfad zur SSL-Zertifikat-Datei
+setup_ssl_verify = SSL-Server-Zertifikat verifizieren
+
 setup_400 = Setup: Schritt 4 von 6 / Datenbank
 setup_401 = Datenbank einrichten
 setup_402 = Tabelle {0} wurde nicht gefunden!
@@ -246,7 +260,7 @@ setup_511 = Schritt 5 erneut durchführen
 setup_599 = 5 / Administrator
 
 setup_600 = Setup: Schritt 6 von 6 / Heureka
-setup_601 = Leider konnte die config.yml nicht beschrieben werden. Bitte ändern Sie die Datei manuell über FTP.
+setup_601 = Leider konnte die config.yml nicht gespeichert werden. Bitte ändern Sie die Datei manuell über FTP.
 setup_602 = Herzlichen Glückwunsch zur REDAXO-Installation!
 setup_603 = Bitte noch dieses beachten:
 setup_604 = <ol><li>Mit dem {0}eingerichtetem Zugang einloggen{1}</li><li>Innerhalb der Community haben wir mehrere Website-Demos entwickelt, die typische Anwendungsfälle mit REDAXO zeigen. Sie können nach Login über das bereits enthaltene <strong>Install</strong>-AddOn runtergeladen werden. <a href="https://redaxo.org/download/website-demos/">Infos zu Website-Demos auf redaxo.org</a></li></ol>
@@ -298,14 +312,14 @@ addon_no_activation = AddOn <b>{0}</b> konnte aus folgendem Grund <b>nicht</b> a
 addon_no_deactivation = AddOn <b>{0}</b> konnte aus folgendem Grund <b>nicht</b> deaktiviert werden:
 package_not_installed = Es wurde noch nicht installiert!
 addon_installed = AddOn <b>{0}</b> wurde installiert und aktiviert!
-addon_reinstalled = AddOn <b>{0}</b> wurde re-installiert!
+addon_reinstalled = AddOn <b>{0}</b> wurde reinstalliert!
 addon_activated = AddOn <b>{0}</b> wurde aktiviert!
 addon_deactivated = AddOn <b>{0}</b> wurde deaktiviert!
 addon_uninstalled = AddOn <b>{0}</b> wurde deinstalliert!
 addon_deleted = AddOn <b>{0}</b> wurde gelöscht!
 addon_not_deleted = AddOn <b>{0}</b> konnte nicht gelöscht werden!
 addon_delete_question = AddOn "{0}" löschen?
-addon_uninstall_question = AddOn "{0}" de-installieren?
+addon_uninstall_question = AddOn "{0}" deinstallieren?
 package_hname = Name
 package_hversion = Version
 package_hhelp = Hilfe
@@ -314,10 +328,10 @@ package_hactive = Aktiviert
 package_hdelete = Entfernen
 package_hinformation = Informationen
 package_hlicense = Lizenz
-package_reinstall = re-installieren
+package_reinstall = reinstallieren
 package_install = installieren
 package_notinstalled = nicht installiert
-package_uninstall = de-installieren
+package_uninstall = deinstallieren
 package_delete = löschen
 package_deactivate = deaktivieren
 package_activate = aktivieren
@@ -373,7 +387,7 @@ credits_explain_license = Lizenz erklären
 profile_myprofile = Mein Benutzerprofil bearbeiten
 profile_title = Mein Profil
 profile_save = Profil speichern
-invalid_email = Die E-Mailadresse ist nicht gültig.
+invalid_email = Die E-Mail-Adresse ist nicht gültig.
 user_psw_updated = Passwort wurde aktualisiert
 user_psw_verify_error = Das alte Passwort ist nicht korrekt.
 user_psw_new_error = Das neue Passwort ist leer oder die Wiederholung stimmt nicht überein.
@@ -788,7 +802,28 @@ phpmailer_archive = E-Mail-Archivierung
 phpmailer_archive_info = Archiv-Ordner: <span title="{0}">{1}</span>
 phpmailer_archive_delete = E-Mail-Archiv löschen
 phpmailer_archive_deleted = Das E-Mail-Archiv wurde gelöscht.
+phpmailer_archive_delete_error = Fehler beim Löschen des E-Mail-Archivs.
 phpmailer_archive_delete_confirm = Soll das E-Mail-Archiv vollständig gelöscht werden? Dieser Vorgang kann nicht rückgängig gemacht werden.
+phpmailer_archive_manage = Archiv verwalten
+phpmailer_archive_disabled_note = Die E-Mail-Archivierung ist deaktiviert.
+phpmailer_archive = Archiv
+phpmailer_archive_info = Archiv-Informationen
+phpmailer_archive_path = Archiv-Pfad
+phpmailer_archive_size = Archiv-Größe
+phpmailer_archive_file_count = Anzahl Dateien
+phpmailer_archive_files = Dateien
+phpmailer_archive_status = Status
+phpmailer_archive_empty = Archiv ist leer
+phpmailer_archive_recent_mails = Zuletzt archivierte E-Mails
+phpmailer_archive_maintenance = Archiv-Wartung
+phpmailer_archive_delete_warning = Achtung!
+phpmailer_archive_delete_warning_desc = Das Löschen des Archivs entfernt alle gespeicherten E-Mails unwiderruflich.
+phpmailer_archive_date = Datum
+phpmailer_archive_subject = Betreff
+phpmailer_archive_to = Empfänger
+phpmailer_archive_no_subject = Kein Betreff
+phpmailer_archive_no_recipient = Kein Empfänger
+phpmailer_archive_no_files = Keine archivierten E-Mails vorhanden
 phpmailer_archivecron = Mailer-Archiv bereinigen
 phpmailer_archivecron_label = Lösche Mails älter als
 phpmailer_archivecron_days = Tage
@@ -809,6 +844,10 @@ phpmailer_errormail_60min = im 60 Minuten-Intervall
 
 system_setting_errormail = E-Mail-Benachrichtigung bei Fehlern
 perm_general_phpmailer[] = PHPMailer-Einstellungen
+
+# Archive Maintenance
+phpmailer_archive_maintenance = Archiv-Wartung
+phpmailer_archive_purge_info = Das Archiv kann über den Cronjob "E-Mail-Archiv bereinigen" regelmäßig bereinigt werden, um ältere E-Mails automatisch zu entfernen.
 
 # be_style
 be_style = Backend style
@@ -1286,6 +1325,7 @@ perm_options_moveArticle[] = Artikel verschieben
 perm_options_moveCategory[] = Kategorien verschieben
 perm_options_publishArticle[] = Artikel veröffentlichen
 perm_options_publishCategory[] = Kategorien veröffentlichen
+perm_options_linkmap[all_categories] = Alle Kategorien in der Linkmap anzeigen
 
 system_setting_start_article_id = Startartikel
 system_setting_notfound_article_id = Fehlerartikel

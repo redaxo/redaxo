@@ -31,12 +31,12 @@ The app must have the application permission (not "delegate permission") Mail.Se
 
 Note 1: The Microsoft Graph API does not support sending read receipts to arbitrary addresses. They are always sent to the sender address of the email.  
 
-Note 2: The Microsoft Graph API does not support sendung emails with both plain text and HTML body at the same time. Therefore the AddOn uses the HTML body if set and the plain text body otherwise.
+Note 2: The Microsoft Graph API does not support sending emails with both plain text and HTML body at the same time. Therefore the AddOn uses the HTML body if set and the plain text body otherwise.
 
 ## PHPMailer Code Examples
 
 
-### 1. Beispiel
+### 1. Example
 
 Send an e-mail to a specific recipient.
 
@@ -178,7 +178,7 @@ The Email log can be found under 'System' > 'Log files' > 'PHPMailer'. The loggi
 - Log only errors: Only errors will be logged. 
 - Log all transactions: All transmissions are logged 
 
-The log provides information about date/time, sender, recipient, subject and message. It can be ecleared via 'Clear log file'. 
+The log provides information about date/time, sender, recipient, subject and message. It can be cleared via 'Clear log file'. 
 
 The log is stored under `/redaxo/data/log/mail.log`.
 
@@ -188,6 +188,14 @@ When email archiving is switched on, all emails are saved in complete `.eml` for
 Emails that are not sent are prefixed with `not_sent_`. 
 
 The archive can be purged periodically via the CronJob "Purge Mailer Archive". 
+
+#### Archive Management
+
+A dedicated archive management page is available under 'PHPMailer' > 'Archive' which provides:
+
+- Overview of archive size and number of stored emails
+- List of the 10 most recent archived emails with subject, recipient and date
+- Safe deletion of the complete email archive from the maintenance panel 
 
 ### Extension-Point `PHPMAILER_CONFIG`
 
@@ -238,7 +246,7 @@ The `PHPMAILER_POST_SEND` is useful to perform custom processing steps after sen
 ```php
 rex_extension::register('PHPMAILER_POST_SEND', function (rex_extension_point $ep) {
     $subject = $ep->getSubject(); 
-    $host = $subject->host;
+    $host = $subject->Host;
     $port = '993';
     $user = 'user@domain.tld';
     $pass = 'XYZ12324';

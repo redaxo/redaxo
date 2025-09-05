@@ -307,6 +307,7 @@ final class File
             'css' => 'text/css',
             'js' => 'application/javascript',
             'svg' => 'image/svg+xml',
+            'vtt' => 'text/vtt',
             default => $mimeType,
         };
     }

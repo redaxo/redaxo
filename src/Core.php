@@ -7,6 +7,7 @@ use Redaxo\Core\Database\Configuration as DatabaseConfiguration;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Exception\RuntimeException;
+use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\User;
@@ -16,6 +17,7 @@ use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Validator\Validator;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Yaml\Tag\TaggedValue;
 
 use function constant;
 use function in_array;
@@ -31,6 +33,8 @@ use const PHP_SESSION_ACTIVE;
 final class Core
 {
     public const string CONFIG_NAMESPACE = 'core';
+
+    private const CACHE_ENV_KEY = "\0rex_env_var\0";
 
     /**
      * Array of properties.
@@ -543,5 +547,78 @@ final class Core
         }
 
         return null;
+    }
+
+    /**
+     * @internal
+     */
+    public static function loadConfigYml(): void
+    {
+        $cacheFile = Path::coreCache('config.yml.cache');
+        $configFile = Path::coreData('config.yml');
+
+        $cacheMtime = @filemtime($cacheFile);
+        if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
+            $config = File::getCache($cacheFile);
+        } else {
+            $config = array_merge(
+                File::getConfig(Path::core('default.config.yml')),
+                File::getConfig($configFile),
+            );
+            $config = array_map(static fn (mixed $value) => self::convertYamlTags($value), $config);
+            File::putCache($cacheFile, $config);
+        }
+
+        /**
+         * @var string $key
+         * @var mixed $value
+         */
+        foreach ($config as $key => $value) {
+            /** @psalm-suppress MixedAssignment */
+            $value = self::convertEnvVariables($value);
+
+            if (in_array($key, ['fileperm', 'dirperm'])) {
+                $value = octdec((string) $value);
+            }
+
+            self::setProperty($key, $value);
+        }
+    }
+
+    private static function convertYamlTags(mixed $value): mixed
+    {
+        if ($value instanceof TaggedValue) {
+            if ('env' !== $value->getTag()) {
+                return $value->getValue();
+            }
+
+            return [self::CACHE_ENV_KEY => $value->getValue()];
+        }
+
+        if (!is_array($value)) {
+            return $value;
+        }
+
+        return array_map(static fn (mixed $value) => self::convertYamlTags($value), $value);
+    }
+
+    private static function convertEnvVariables(mixed $value): mixed
+    {
+        if (!is_array($value)) {
+            return $value;
+        }
+
+        $var = $value[self::CACHE_ENV_KEY] ?? null;
+        if (!is_string($var)) {
+            return array_map(static fn (mixed $value) => self::convertEnvVariables($value), $value);
+        }
+
+        $value = $_SERVER[$var] ?? $_ENV[$var] ?? null;
+
+        if (null === $value) {
+            throw new InvalidArgumentException('Environment variable "' . $var . '" is not set.');
+        }
+
+        return $value;
     }
 }

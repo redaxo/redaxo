@@ -10,6 +10,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
+use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\HttpClient\Request;
@@ -19,11 +20,14 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Timer;
 
+use function array_slice;
 use function count;
 
 use const FILTER_VALIDATE_EMAIL;
+use const ICONV_MIME_DECODE_CONTINUE_ON_ERROR;
 use const JSON_PRETTY_PRINT;
 use const JSON_UNESCAPED_UNICODE;
+use const PATHINFO_EXTENSION;
 
 class Mailer extends PHPMailer
 {
@@ -222,7 +226,7 @@ class Mailer extends PHPMailer
 
     private function archive(string $archivedata = '', string $status = ''): void
     {
-        $dir = self::logFolder() . 'mailer.php/' . date('Y') . '/' . date('m');
+        $dir = self::logFolder() . '/' . date('Y') . '/' . date('m');
         $count = 1;
         $archiveFile = $dir . '/' . $status . date('Y-m-d_H_i_s') . '.eml';
         while (is_file($archiveFile)) {
@@ -442,13 +446,11 @@ class Mailer extends PHPMailer
                 if (!isset($token['access_token'])) {
                     throw new Exception(I18n::msg('phpmailer_msgraph_no_token'));
                 }
-
                 Core::setConfig('phpmailer_msgraph_token', $token);
             } catch (Exception $e) {
                 $this->setError(I18n::msg('phpmailer_msgraph_auth_error') . $e->getMessage());
                 Core::removeConfig('phpmailer_msgraph_token');
-
-                throw $e;
+                return false;
             }
         }
 
@@ -503,5 +505,134 @@ class Mailer extends PHPMailer
         }
 
         return true;
+    }
+
+    /**
+     * Get archive statistics (size and file count).
+     *
+     * @return array{size: int, fileCount: int}
+     */
+    public static function getArchiveStats(): array
+    {
+        $archiveFolder = self::logFolder();
+
+        if (!is_dir($archiveFolder)) {
+            return ['size' => 0, 'fileCount' => 0];
+        }
+
+        $archiveSize = 0;
+        $fileCount = 0;
+
+        // Use Finder to count all .eml files in subdirectories
+        $finder = Finder::factory($archiveFolder)->recursive()->filesOnly();
+
+        foreach ($finder as $file) {
+            $archiveSize += $file->getSize();
+            if ('eml' === pathinfo($file->getFilename(), PATHINFO_EXTENSION)) {
+                ++$fileCount;
+            }
+        }
+
+        return ['size' => $archiveSize, 'fileCount' => $fileCount];
+    }
+
+    /**
+     * Get recent archived email files.
+     *
+     * @param int $limit Maximum number of files to return
+     * @return array<string> Array of file paths
+     */
+    public static function getRecentArchivedFiles(int $limit = 10): array
+    {
+        $archiveFolder = self::logFolder();
+
+        if (!is_dir($archiveFolder)) {
+            return [];
+        }
+
+        // Get recent .eml files recursively using Finder
+        $finder = Finder::factory($archiveFolder)->recursive()->filesOnly();
+        $files = [];
+
+        foreach ($finder as $path => $file) {
+            if ('eml' === pathinfo($file->getFilename(), PATHINFO_EXTENSION)) {
+                $files[] = $path;
+            }
+        }
+
+        if (empty($files)) {
+            return [];
+        }
+
+        // Sort by modification time, newest first
+        usort($files, static function (string $a, string $b): int {
+            $timeA = filemtime($a);
+            $timeB = filemtime($b);
+            if (false === $timeA || false === $timeB) {
+                return 0;
+            }
+            return $timeB - $timeA;
+        });
+
+        // Return only the requested number of files
+        return array_slice($files, 0, $limit);
+    }
+
+    /**
+     * Parse email headers from .eml file.
+     *
+     * @param string $filePath Path to .eml file
+     * @return array{subject: string, recipient: string, size: int, mtime: int}
+     */
+    public static function parseEmailHeaders(string $filePath): array
+    {
+        $subject = I18n::msg('phpmailer_archive_no_subject');
+        $recipient = I18n::msg('phpmailer_archive_no_recipient');
+        $filesize = filesize($filePath);
+        $filemtime = filemtime($filePath);
+
+        // Use File::get() to read file content
+        $content = File::get($filePath);
+        if ($content) {
+            // Split content into lines and process only headers
+            $lines = explode("\n", $content);
+            $headerLines = 0;
+
+            foreach ($lines as $line) {
+                $line = trim($line);
+                if (empty($line)) {
+                    break; // End of headers
+                }
+
+                if ($headerLines >= 50) {
+                    break; // Limit header processing
+                }
+
+                if (0 === stripos($line, 'Subject:')) {
+                    $subject = substr($line, 8);
+                    // Decode MIME encoded subjects
+                    $decodedSubject = iconv_mime_decode($subject, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
+                    if (false !== $decodedSubject) {
+                        $subject = $decodedSubject;
+                    }
+                    $subject = trim($subject);
+                    $subject = mb_strlen($subject) > 50 ? mb_substr($subject, 0, 50) . '...' : $subject;
+                }
+
+                if (0 === stripos($line, 'To:')) {
+                    $recipient = trim(substr($line, 3));
+                    $recipient = mb_strlen($recipient) > 30 ? mb_substr($recipient, 0, 30) . '...' : $recipient;
+                }
+
+                ++$headerLines;
+            }
+        }
+
+        return [
+            'subject' => $subject,
+            'recipient' => $recipient,
+            'size' => false !== $filesize ? $filesize : 0,
+            'mtime' => false !== $filemtime ? $filemtime : 0,
+        ];
     }
 }

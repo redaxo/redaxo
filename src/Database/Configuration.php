@@ -12,7 +12,7 @@ final readonly class Configuration
 
     public ?string $sslKey;
     public ?string $sslCert;
-    public ?string $sslCa;
+    public string|bool|null $sslCa;
     public bool $sslVerifyServerCert;
 
     public function __construct(array $dbConfig)
