@@ -535,6 +535,12 @@ body:after {
     margin-bottom: -(ceil($grid-gutter-width / 2));
     margin-left: -(ceil($grid-gutter-width / 2));
 }
+.rex-slice .panel-footer {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+}
 .rex-range-input-group {
     .input-group-addon:first-child {
         width: 60%;
