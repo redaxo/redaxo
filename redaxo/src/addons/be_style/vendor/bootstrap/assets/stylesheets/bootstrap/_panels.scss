@@ -53,6 +53,12 @@
   @include border-bottom-radius(($panel-border-radius - 1));
 }
 
+.rex-slice .panel-footer {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}
 
 // List groups in panels
 //
