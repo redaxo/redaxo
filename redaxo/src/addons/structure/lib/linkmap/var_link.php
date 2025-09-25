@@ -57,9 +57,9 @@ class rex_var_link extends rex_var
         // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim Öffnen der Linkmap dessen Kategorie anzeigen
         if ($art instanceof rex_article) {
             $artName = trim(sprintf('%s [%s]', $art->getName(), $art->getId()));
-            if($hash) {
+            if ($hash) {
                 $artName .= ' #' . $hash;
-            }            
+            }
             $category = $art->getCategoryId();
         }
 

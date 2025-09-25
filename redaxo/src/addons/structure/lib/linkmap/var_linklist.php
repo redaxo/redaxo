@@ -63,9 +63,9 @@ class rex_var_linklist extends rex_var
             [$id, $hash] = array_pad(explode('#', $link ?? '', 2), 2, null);
             if ($article = rex_article::get((int) $id)) {
                 $label = trim(sprintf('%s [%s]', $article->getName(), $article->getId()));
-                if($hash) {
+                if ($hash) {
                     $label .= ' #' . $hash;
-                }                
+                }
                 $options .= '<option value="' . $link . '">' . rex_escape($label) . '</option>';
             }
         }
