@@ -61,12 +61,12 @@ class rex_var_linklist extends rex_var
                 continue;
             }
             [$id, $hash] = array_pad(explode('#', $link, 2), 2, null);
-            if (is_int($id) && $article = rex_article::get((int) $id)) {
+            if (null !== $id && '' !== $id && $article = rex_article::get((int) $id)) {
                 $label = trim(sprintf('%s [%s]', $article->getName(), $article->getId()));
-                if ($hash) {
+                if (null !== $hash && '' !== $hash) {
                     $label .= ' #' . $hash;
                 }
-                $options .= '<option value="' . ($link ?? '') . '">' . rex_escape($label) . '</option>';
+                $options .= '<option value="' . $link . '">' . rex_escape($label) . '</option>';
             }
         }
 
