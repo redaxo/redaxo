@@ -50,7 +50,7 @@ class rex_var_link extends rex_var
     public static function getWidget($id, $name, $value, array $args = [])
     {
         $artName = '';
-        [$id, $hash] = array_pad(explode('#', (string) ($value ?? ''), 2), 2, null);
+        [$id, $hash] = array_pad(explode('#', $value, 2), 2, null);
         $art = rex_article::get((int) $id);
         $category = rex_category::getCurrent() ? rex_category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
 
@@ -75,11 +75,12 @@ class rex_var_link extends rex_var
         $deleteFunc = '';
         if (rex::requireUser()->getComplexPerm('structure')->hasStructurePerm()) {
             $class = '';
-            $escapedId = rex_escape($id, 'js');
+            $escapedId = rex_escape($id, 'js') ?? '';
             $openFunc = 'openLinkMap(\'REX_LINK_' . $escapedId . '\', \'' . $openParams . '\');';
             $deleteFunc = 'deleteREXLink(\'' . $escapedId . '\');';
         }
 
+        $id = rex_escape((string) $id, 'html_attr') ?? '';
         $e = [];
         $e['field'] = '<input class="form-control" type="text" name="REX_LINK_NAME[' . $id . ']" value="' . rex_escape($artName) . '" id="REX_LINK_' . $id . '_NAME" readonly="readonly" /><input type="hidden" name="' . $name . '" id="REX_LINK_' . $id . '" value="' . $value . '" />';
         $e['functionButtons'] = '

@@ -80,6 +80,7 @@ class rex_var_linklist extends rex_var
             $deleteFunc = 'deleteREXLinklist(' . $quotedId . ');';
         }
 
+        $id = rex_escape((string) $id, 'html_attr') ?? '';
         $e = [];
         $e['field'] = '
                 <select class="form-control" name="REX_LINKLIST_SELECT[' . $id . ']" id="REX_LINKLIST_SELECT_' . $id . '" size="10">
