@@ -169,7 +169,6 @@ abstract class rex_linkmap_article_list_renderer
                     ['articles' => $articles, 'category_id' => $categoryId],
                 ),
             );
-            
             if ('' != $list) {
                 $list = '<ul class="list-group rex-linkmap-list-group">' . $list . '</ul>';
             }
