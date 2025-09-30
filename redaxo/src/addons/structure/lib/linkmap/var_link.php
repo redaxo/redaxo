@@ -50,8 +50,8 @@ class rex_var_link extends rex_var
     public static function getWidget($id, $name, $value, array $args = [])
     {
         $artName = '';
-        [$id, $hash] = array_pad(explode('#', $value, 2), 2, null);
-        $art = rex_article::get((int) $id);
+        [$article_id, $hash] = array_pad(explode('#', $value, 2), 2, null);
+        $art = rex_article::get((int) $article_id);
         $category = rex_category::getCurrent() ? rex_category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
 
         // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim Öffnen der Linkmap dessen Kategorie anzeigen
