@@ -60,8 +60,8 @@ class rex_var_linklist extends rex_var
             if ('' == $link) {
                 continue;
             }
-            [$id, $hash] = array_pad(explode('#', $link, 2), 2, null);
-            if (null !== $id && '' !== $id && $article = rex_article::get((int) $id)) {
+            [$article_id, $hash] = array_pad(explode('#', $link, 2), 2, null);
+            if (null !== $article_id && '' !== $article_id && $article = rex_article::get((int) $article_id)) {
                 $label = trim(sprintf('%s [%s]', $article->getName(), $article->getId()));
                 if (null !== $hash && '' !== $hash) {
                     $label .= ' #' . $hash;
