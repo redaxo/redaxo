@@ -170,6 +170,11 @@ abstract class rex_package_manager
                 $this->message .= ' ' . $successMessage;
             }
 
+            $suggests = $this->checkSuggests();
+            if ($suggests) {
+                $this->message .= '<br /><br />' . rex_i18n::msg('package_suggests') . ':<br />' . implode('<br />', $suggests);
+            }
+
             return true;
         } catch (rex_functional_exception $e) {
             $this->message = $e->getMessage();
@@ -513,6 +518,60 @@ abstract class rex_package_manager
             return false;
         }
         return true;
+    }
+
+    /**
+     * Checks the suggestions for the package.
+     *
+     * @return array List of suggestion messages
+     */
+    public function checkSuggests()
+    {
+        $suggests = $this->package->getProperty('suggests', []);
+
+        if (!is_array($suggests)) {
+            return [];
+        }
+
+        $messages = [];
+
+        if (isset($suggests['packages']) && is_array($suggests['packages'])) {
+            foreach ($suggests['packages'] as $packageId => $version) {
+                $message = $this->checkPackageSuggest($packageId);
+                if ($message) {
+                    $messages[] = $message;
+                }
+            }
+        }
+
+        return $messages;
+    }
+
+    /**
+     * Checks whether the package suggestion is met.
+     *
+     * @param string $packageId Package ID
+     *
+     * @return string|null Suggestion message or null if no suggestion needed
+     */
+    public function checkPackageSuggest($packageId)
+    {
+        $suggests = $this->package->getProperty('suggests', []);
+        if (!isset($suggests['packages'][$packageId])) {
+            return null;
+        }
+        $package = rex_package::get($packageId);
+        if ($package->isAvailable()) {
+            // Already available, no need to suggest
+            return null;
+        }
+
+        $suggestedVersion = $suggests['packages'][$packageId];
+        if (!is_string($suggestedVersion) || !$suggestedVersion) {
+            return $this->i18n('suggest_error_' . $package->getType(), $packageId);
+        }
+
+        return $this->i18n('suggest_error_' . $package->getType() . '_version', $packageId, $suggestedVersion);
     }
 
     /**
