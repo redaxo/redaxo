@@ -523,9 +523,9 @@ abstract class rex_package_manager
     /**
      * Checks the suggestions for the package.
      *
-     * @return array List of suggestion messages
+     * @return array<int, string> List of suggestion messages
      */
-    public function checkSuggests()
+    public function checkSuggests(): array
     {
         $suggests = $this->package->getProperty('suggests', []);
 
@@ -554,12 +554,14 @@ abstract class rex_package_manager
      *
      * @return string|null Suggestion message or null if no suggestion needed
      */
-    public function checkPackageSuggest($packageId)
+    public function checkPackageSuggest(string $packageId): ?string
     {
         $suggests = $this->package->getProperty('suggests', []);
-        if (!isset($suggests['packages'][$packageId])) {
+
+        if (!is_array($suggests) || !isset($suggests['packages'][$packageId])) {
             return null;
         }
+
         $package = rex_package::get($packageId);
         if ($package->isAvailable()) {
             // Already available, no need to suggest
