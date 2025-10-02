@@ -536,7 +536,9 @@ abstract class rex_package_manager
         $messages = [];
 
         if (isset($suggests['packages']) && is_array($suggests['packages'])) {
-            foreach ($suggests['packages'] as $packageId => $version) {
+            /** @var array<string, string> $packages */
+            $packages = $suggests['packages'];
+            foreach ($packages as $packageId => $version) {
                 $message = $this->checkPackageSuggest($packageId);
                 if ($message) {
                     $messages[] = $message;
@@ -562,13 +564,16 @@ abstract class rex_package_manager
             return null;
         }
 
+        /** @var array<string, string> $packages */
+        $packages = $suggests['packages'];
+
         $package = rex_package::get($packageId);
         if ($package->isAvailable()) {
             // Already available, no need to suggest
             return null;
         }
 
-        $suggestedVersion = $suggests['packages'][$packageId];
+        $suggestedVersion = $packages[$packageId];
         if (!is_string($suggestedVersion) || !$suggestedVersion) {
             return $this->i18n('suggest_error_' . $package->getType(), $packageId);
         }
