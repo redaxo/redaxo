@@ -570,10 +570,12 @@ abstract class rex_package_manager
 
         $suggestedVersion = $suggests['packages'][$packageId];
         if (!is_string($suggestedVersion) || !$suggestedVersion) {
-            return $this->i18n('suggest_error_' . $package->getType(), $packageId);
+            $type = str_contains($packageId, '/') ? 'plugin' : 'addon';
+            return $this->i18n('suggest_error_' . $type, $packageId);
         }
 
-        return $this->i18n('suggest_error_' . $package->getType() . '_version', $packageId, $suggestedVersion);
+        $type = str_contains($packageId, '/') ? 'plugin' : 'addon';
+        return $this->i18n('suggest_error_' . $type . '_version', $packageId, $suggestedVersion);
     }
 
     /**
