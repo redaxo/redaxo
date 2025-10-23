@@ -90,7 +90,7 @@ class rex_article_content_editor extends rex_article_content
                 'ctype' => $this->ctype,
                 'module_id' => $moduleId,
                 'slice_id' => $sliceId,
-                'revision' => $sliceRevision
+                'revision' => $sliceRevision,
             ]));
 
             $fragment = new rex_fragment();
