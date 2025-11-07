@@ -15,15 +15,6 @@ $error = '';
 $content = '';
 $message = '';
 
-$name = '';
-$key = null;
-$previewaction = '';
-$presaveaction = '';
-$postsaveaction = '';
-$previewstatus = 255;
-$presavestatus = 255;
-$postsavestatus = 255;
-
 $csrfToken = rex_csrf_token::factory('structure_content_module_action');
 
 if ('delete' == $function && !$csrfToken->isValid()) {
