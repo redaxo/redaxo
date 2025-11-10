@@ -224,7 +224,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $n = [];
         $n['label'] = '<label for="key">' . rex_i18n::msg('action_key') . '</label>';
-        $n['field'] = '<input class="form-control" type="text" id="key" name="key" value="' . rex_escape($key) . '" maxlength="191" autocorrect="off" autocapitalize="off" spellcheck="false" />';
+        $n['field'] = '<input class="form-control" type="text" id="key" name="key" value="' . rex_escape($key ?? '') . '" maxlength="191" autocorrect="off" autocapitalize="off" spellcheck="false" />';
         $n['note'] = rex_i18n::msg('action_key_notice');
         $formElements[] = $n;
 
@@ -481,7 +481,7 @@ if ($OUT) {
                         <tr>
                             <td class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon rex-icon-action"></i></a></td>
                             <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . (int) $sql->getValue('id') . '</td>
-                            <td data-title="' . rex_i18n::msg('header_action_key') . '">' . rex_escape($sql->getValue('key')) . '</td>
+                            <td data-title="' . rex_i18n::msg('header_action_key') . '">' . rex_escape($sql->getValue('key') ?? '') . '</td>
                             <td data-title="' . rex_i18n::msg('action_name') . '"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '">' . rex_escape($sql->getValue('name')) . '</a></td>
                             <td data-title="' . rex_i18n::msg('action_header_preview') . '">' . implode('/', $previewmode) . '</td>
                             <td data-title="' . rex_i18n::msg('action_header_presave') . '">' . implode('/', $presavemode) . '</td>
