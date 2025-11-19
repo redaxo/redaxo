@@ -383,8 +383,8 @@ class rex_media
         }
 
         $result = false;
-        $fh = @fopen($filepath, 'rb');
-        
+        $fh = @fopen($filepath, 'r');
+
         if (false === $fh) {
             return false;
         }
@@ -399,9 +399,9 @@ class rex_media
                 $result = (bool) ((ord($myByte) >> 1) & 1);
             }
         }
-        
+
         fclose($fh);
-        
+
         return $result;
     }
 
