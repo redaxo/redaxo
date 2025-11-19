@@ -391,7 +391,7 @@ class rex_media
             return false;
         }
 
-        // Read file content (first 30 bytes are sufficient for checking)
+        /** @psalm-suppress PossiblyFalseArgument - $realFilepath is validated as string above */
         $content = rex_file::get($realFilepath);
         if (null === $content || strlen($content) < 21) {
             return false;
