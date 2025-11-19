@@ -392,19 +392,27 @@ class rex_media
         }
 
         $result = false;
-        $fh = @fopen($realFilepath, 'r');
+        $fh = fopen($realFilepath, 'rb');
 
         if (false === $fh) {
             return false;
         }
 
+        // Validate RIFF/WEBP header
+        $header = fread($fh, 12);
+        if (!is_string($header) || 12 !== strlen($header) || 'RIFF' !== substr($header, 0, 4) || 'WEBP' !== substr($header, 8, 4)) {
+            fclose($fh);
+            return false;
+        }
+
         // Check for VP8X chunk which contains animation flag
-        fseek($fh, 12);
-        if ('VP8X' === fread($fh, 4)) {
-            fseek($fh, 16);
+        $chunk = fread($fh, 4);
+        if (is_string($chunk) && 4 === strlen($chunk) && 'VP8X' === $chunk) {
+            // Skip chunk size (4 bytes) and read flags byte at position 20
+            fread($fh, 4);
             $myByte = fread($fh, 1);
-            // Check the animation flag (bit 1)
-            if (false !== $myByte && '' !== $myByte) {
+            // Check the animation flag (bit 1, zero-indexed)
+            if (is_string($myByte) && '' !== $myByte) {
                 $result = (bool) ((ord($myByte) >> 1) & 1);
             }
         }
