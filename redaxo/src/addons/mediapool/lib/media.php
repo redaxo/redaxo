@@ -391,8 +391,11 @@ class rex_media
             return false;
         }
 
+        // At this point $realFilepath is guaranteed to be a string
+        assert(is_string($realFilepath));
+
         $result = false;
-        $fh = fopen($realFilepath, 'r');
+        $fh = fopen($realFilepath, 'rb');
 
         if (false === $fh) {
             return false;
