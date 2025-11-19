@@ -382,8 +382,17 @@ class rex_media
             return false;
         }
 
+        // Validate that the file is within the media directory for security
+        $mediaPath = rex_path::media();
+        $realFilepath = realpath($filepath);
+        $realMediaPath = realpath($mediaPath);
+
+        if (false === $realFilepath || false === $realMediaPath || !str_starts_with($realFilepath, $realMediaPath)) {
+            return false;
+        }
+
         $result = false;
-        $fh = @fopen($filepath, 'r');
+        $fh = @fopen($realFilepath, 'r');
 
         if (false === $fh) {
             return false;
