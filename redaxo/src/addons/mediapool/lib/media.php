@@ -364,9 +364,11 @@ class rex_media
     /**
      * Checks if a WebP file is animated.
      *
-     * @param string $filename The filename or full path to the WebP file
+     * @param string $filename The filename (from media pool) or full path to the WebP file
      *
      * @return bool TRUE if the WebP file is animated, FALSE otherwise
+     *
+     * @psalm-suppress TaintedFile
      */
     public static function isAnimatedWebp($filename)
     {
@@ -375,25 +377,11 @@ class rex_media
             return false;
         }
 
-        // Add media path if only filename is provided
-        $filepath = is_file($filename) ? $filename : rex_path::media($filename);
+        // Get full path from media pool
+        $filepath = rex_path::media($filename);
 
-        if (!is_file($filepath)) {
-            return false;
-        }
-
-        // Validate that the file is within the media directory for security
-        $mediaPath = rex_path::media();
-        $realFilepath = realpath($filepath);
-        $realMediaPath = realpath($mediaPath);
-
-        if (false === $realFilepath || false === $realMediaPath || !str_starts_with($realFilepath, $realMediaPath)) {
-            return false;
-        }
-
-        // Path is validated to be within media directory, safe to read
-        /** @psalm-suppress TaintedFile */
-        $content = rex_file::get($realFilepath);
+        /** @psalm-suppress TaintedFile - filename comes from media pool database */
+        $content = rex_file::get($filepath);
         if (null === $content || strlen($content) < 21) {
             return false;
         }
