@@ -391,38 +391,30 @@ class rex_media
             return false;
         }
 
-        // At this point $realFilepath is guaranteed to be a string
-        assert(is_string($realFilepath));
-
-        $result = false;
-        $fh = fopen($realFilepath, 'r');
-
-        if (false === $fh) {
+        // Read file content (first 30 bytes are sufficient for checking)
+        $content = rex_file::get($realFilepath);
+        if (null === $content || strlen($content) < 21) {
             return false;
         }
 
-        // Validate RIFF/WEBP header
-        $header = fread($fh, 12);
-        if (!is_string($header) || 12 !== strlen($header) || !str_starts_with($header, 'RIFF') || 'WEBP' !== substr($header, 8, 4)) {
-            fclose($fh);
+        // Validate RIFF/WEBP header (bytes 0-11)
+        if (!str_starts_with($content, 'RIFF') || 'WEBP' !== substr($content, 8, 4)) {
             return false;
         }
 
-        // Check for VP8X chunk which contains animation flag
-        $chunk = fread($fh, 4);
-        if (is_string($chunk) && 4 === strlen($chunk) && 'VP8X' === $chunk) {
-            // Skip chunk size (4 bytes) and read flags byte at position 20
-            fread($fh, 4);
-            $myByte = fread($fh, 1);
-            // Check the animation flag (bit 1, zero-indexed)
-            if (is_string($myByte) && '' !== $myByte) {
-                $result = (bool) ((ord($myByte) >> 1) & 1);
-            }
+        // Check for VP8X chunk which contains animation flag (bytes 12-15)
+        if ('VP8X' !== substr($content, 12, 4)) {
+            return false;
         }
 
-        fclose($fh);
+        // Read flags byte at position 20 (after 12 bytes header + 4 bytes "VP8X" + 4 bytes chunk size)
+        $flagsByte = substr($content, 20, 1);
+        if ('' === $flagsByte) {
+            return false;
+        }
 
-        return $result;
+        // Check the animation flag (bit 1, zero-indexed)
+        return (bool) ((ord($flagsByte) >> 1) & 1);
     }
 
     /**
