@@ -391,7 +391,8 @@ class rex_media
             return false;
         }
 
-        /** @psalm-suppress PossiblyFalseArgument - $realFilepath is validated as string above */
+        // Path is validated to be within media directory, safe to read
+        /** @psalm-suppress TaintedFile */
         $content = rex_file::get($realFilepath);
         if (null === $content || strlen($content) < 21) {
             return false;
