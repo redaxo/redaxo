@@ -395,7 +395,7 @@ class rex_media
         assert(is_string($realFilepath));
 
         $result = false;
-        $fh = fopen($realFilepath, 'rb');
+        $fh = fopen($realFilepath, 'r');
 
         if (false === $fh) {
             return false;
