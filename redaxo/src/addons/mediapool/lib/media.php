@@ -400,7 +400,7 @@ class rex_media
 
         // Validate RIFF/WEBP header
         $header = fread($fh, 12);
-        if (!is_string($header) || 12 !== strlen($header) || 'RIFF' !== substr($header, 0, 4) || 'WEBP' !== substr($header, 8, 4)) {
+        if (!is_string($header) || 12 !== strlen($header) || !str_starts_with($header, 'RIFF') || 'WEBP' !== substr($header, 8, 4)) {
             fclose($fh);
             return false;
         }
