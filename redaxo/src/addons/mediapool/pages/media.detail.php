@@ -148,7 +148,7 @@ if ($isImage) {
     }
     $imgMax = rex_url::media($fname);
 
-    if (rex_addon::get('media_manager')->isAvailable() && 'svg' != rex_file::extension($fname)) {
+    if (rex_addon::get('media_manager')->isAvailable() && 'svg' != rex_file::extension($fname) && !rex_media::isAnimatedWebp($fname)) {
         $imgn = rex_media_manager::getUrl('rex_media_medium', $encodedFname, $gf->getDateTimeValue('updatedate'));
         $imgMax = rex_media_manager::getUrl('rex_media_large', $encodedFname, $gf->getDateTimeValue('updatedate'));
 

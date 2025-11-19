@@ -282,7 +282,7 @@ foreach ($items as $media) {
 
         if (rex_media::isImageType(rex_file::extension($media->getFileName()))) {
             $thumbnail = '<img class="thumbnail" src="' . rex_url::media($media->getFileName()) . '?buster=' . $media->getValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
-            if ($mediaManagerUrl && 'svg' != rex_file::extension($media->getFileName())) {
+            if ($mediaManagerUrl && 'svg' != rex_file::extension($media->getFileName()) && !rex_media::isAnimatedWebp($media->getFileName())) {
                 $thumbnail = '<img class="thumbnail" src="' . $mediaManagerUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
             }
         }
