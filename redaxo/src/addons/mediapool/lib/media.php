@@ -392,7 +392,7 @@ class rex_media
         }
 
         $result = false;
-        $fh = fopen($realFilepath, 'rb');
+        $fh = fopen($realFilepath, 'r');
 
         if (false === $fh) {
             return false;
