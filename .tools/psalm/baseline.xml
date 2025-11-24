@@ -201,6 +201,9 @@
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$selected]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$jobs]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayOffset>
       <code><![CDATA[$jobs[$id]]]></code>
     </MixedArrayOffset>
@@ -3995,6 +3998,9 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/console/setup/run.php">
+    <InvalidArgument>
+      <code><![CDATA[$backups]]></code>
+    </InvalidArgument>
     <MixedArgument>
       <code><![CDATA[$config['db'][1]['host']]]></code>
       <code><![CDATA[$config['db'][1]['login']]]></code>
