@@ -2,7 +2,7 @@
     "type": "project",
 
     "require": {
-        "composer/ca-bundle": "^1.5.8",
+        "composer/ca-bundle": "^1.5.9",
         "enshrined/svg-sanitize": "^0.22",
         "erusev/parsedown": "^1.7.4",
         "erusev/parsedown-extra": "^0.8.1",
@@ -11,10 +11,10 @@
         "psr/http-message": "^1.1",
         "psr/log": "^3.0.2",
         "ramsey/http-range": "^1.2.1",
-        "symfony/console": "^6.4.25",
-        "symfony/http-foundation": "^6.4.25",
-        "symfony/var-dumper": "^6.4.25",
-        "symfony/yaml": "^6.4.25",
+        "symfony/console": "^6.4.27",
+        "symfony/http-foundation": "^6.4.29",
+        "symfony/var-dumper": "^6.4.26",
+        "symfony/yaml": "^6.4.26",
         "voku/anti-xss": "^4.1.42",
         "voku/portable-utf8": "dev-master as 6.0.14-dev"
     },
