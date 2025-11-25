@@ -1287,19 +1287,19 @@
   </file>
   <file src="redaxo/src/addons/mediapool/lib/service_media.php">
     <MixedArgumentTypeCoercion>
-      <code><![CDATA[$allowedExtensions]]></code>
       <code><![CDATA[$queryParams]]></code>
-      <code><![CDATA[rex_mediapool::getBlockedExtensions()]]></code>
+      <code><![CDATA[rex_escape($allowedExtensions)]]></code>
+      <code><![CDATA[rex_escape(rex_mediapool::getBlockedExtensions())]]></code>
     </MixedArgumentTypeCoercion>
+    <NullOperand>
+      <code><![CDATA[rex_escape(rex_file::mimeType($data['file']['path']))]]></code>
+    </NullOperand>
     <PossiblyFalseArgument>
       <code><![CDATA[$content]]></code>
     </PossiblyFalseArgument>
     <PossiblyInvalidOperand>
       <code><![CDATA[$uses]]></code>
     </PossiblyInvalidOperand>
-    <PossiblyNullOperand>
-      <code><![CDATA[rex_file::mimeType($data['file']['path'])]]></code>
-    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/service_media_category.php">
     <MixedArgument>
