@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 5.20.1 – 25.11.2025
+---------------------------
+
+### Security
+
+* Sicherheitslücke in `symfony/http-foundation` durch Update behoben  (@gharlan)
+
+
 Version 5.20.0 – 05.09.2025
 ---------------------------
 
