@@ -64,7 +64,7 @@ jobs:
                 id: playwright-version
                 run: echo "PLAYWRIGHT_VERSION=$(node -e "process.stdout.write(require('playwright/package.json').version)")" >> $GITHUB_ENV
             -   name: Cache Playwright browser binaries
-                uses: actions/cache@v4
+                uses: actions/cache@v5
                 id: playwright-cache
                 with:
                     path: ~/.cache/ms-playwright
