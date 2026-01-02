@@ -5036,11 +5036,6 @@
       <code><![CDATA[$_SERVER['SERVER_PROTOCOL']]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
-  <file src="redaxo/src/core/lib/util/editor.php">
-    <PossiblyNullArrayOffset>
-      <code><![CDATA[$this->editors]]></code>
-    </PossiblyNullArrayOffset>
-  </file>
   <file src="redaxo/src/core/lib/util/file.php">
     <FalsableReturnStatement>
       <code><![CDATA[ob_get_clean()]]></code>
