@@ -132,3 +132,7 @@ media_manager_effect_brightness_notice =
 
 media_manager_effect_contrast = 
 media_manager_effect_contrast_notice = 
+
+media_manager_effect_insert_image_percent = Image: place image/watermark (transparent)
+media_manager_effect_brand_width_percent_x = Larghezza in percentuale
+media_manager_effect_brand_opacity_percent = Opacità in percentuale

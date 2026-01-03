@@ -178,3 +178,7 @@ media_manager_effect_greyscale = Bild: Graustufen
 
 media_manager_effect_image_format = Bild: In JPEG/PNG/GIF/WEBP/AVIF konvertieren
 media_manager_effect_image_format_convertto = Zielformat
+
+media_manager_effect_insert_image_percent = Bild: Bild platzieren / Wasserzeichen (Transparent)
+media_manager_effect_brand_width_percent_x = Breite in Prozent
+media_manager_effect_brand_opacity_percent = Deckkraft in Prozent
