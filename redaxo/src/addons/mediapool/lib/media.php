@@ -362,6 +362,51 @@ class rex_media
     }
 
     /**
+     * Checks if a WebP file is animated.
+     *
+     * @param string $filename The filename (from media pool) or full path to the WebP file
+     *
+     * @return bool TRUE if the WebP file is animated, FALSE otherwise
+     *
+     * @psalm-suppress TaintedFile
+     */
+    public static function isAnimatedWebp($filename)
+    {
+        // Only check webp files for performance reasons
+        if ('webp' !== rex_file::extension($filename)) {
+            return false;
+        }
+
+        // Get full path from media pool
+        $filepath = rex_path::media($filename);
+
+        /** @psalm-suppress TaintedFile - filename comes from media pool database */
+        $content = rex_file::get($filepath);
+        if (null === $content || strlen($content) < 21) {
+            return false;
+        }
+
+        // Validate RIFF/WEBP header (bytes 0-11)
+        if (!str_starts_with($content, 'RIFF') || 'WEBP' !== substr($content, 8, 4)) {
+            return false;
+        }
+
+        // Check for VP8X chunk which contains animation flag (bytes 12-15)
+        if ('VP8X' !== substr($content, 12, 4)) {
+            return false;
+        }
+
+        // Read flags byte at position 20 (after 12 bytes header + 4 bytes "VP8X" + 4 bytes chunk size)
+        $flagsByte = substr($content, 20, 1);
+        if ('' === $flagsByte) {
+            return false;
+        }
+
+        // Check the animation flag (bit 1, zero-indexed)
+        return (bool) ((ord($flagsByte) >> 1) & 1);
+    }
+
+    /**
      * @return bool
      */
     public function hasValue($value)
