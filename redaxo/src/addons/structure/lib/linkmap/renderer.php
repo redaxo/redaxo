@@ -162,6 +162,13 @@ abstract class rex_linkmap_article_list_renderer
                 $list .= $this->listItem($article, $categoryId);
             }
 
+            $list = rex_extension::registerPoint(
+                new rex_extension_point(
+                    'LINKMAP_ARTICLE_LIST',
+                    $list,
+                    ['articles' => $articles, 'category_id' => $categoryId],
+                ),
+            );
             if ('' != $list) {
                 $list = '<ul class="list-group rex-linkmap-list-group">' . $list . '</ul>';
             }
