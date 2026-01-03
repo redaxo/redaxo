@@ -372,17 +372,18 @@ class rex_view
      * Returns a clang switch.
      *
      * @param bool $asDropDown
+     * @param bool $showEditLink Whether to show the "edit languages" link for admins in dropdown mode
      *
      * @return string
      */
-    public static function clangSwitchAsButtons(rex_context $context, $asDropDown = true)
+    public static function clangSwitchAsButtons(rex_context $context, $asDropDown = true, bool $showEditLink = true)
     {
         if (1 == rex_clang::count()) {
             return '';
         }
 
         if ($asDropDown && rex_clang::count() >= 4) {
-            return self::clangSwitchAsDropdown($context);
+            return self::clangSwitchAsDropdown($context, $showEditLink);
         }
 
         $items = [];
@@ -409,9 +410,10 @@ class rex_view
     /**
      * Returns a clang switch.
      *
+     * @param bool $showEditLink Whether to show the "edit languages" link for admins
      * @return string
      */
-    public static function clangSwitchAsDropdown(rex_context $context)
+    public static function clangSwitchAsDropdown(rex_context $context, bool $showEditLink = true)
     {
         if (1 == rex_clang::count()) {
             return '';
@@ -441,7 +443,7 @@ class rex_view
         $fragment->setVar('header', rex_i18n::msg('clang_select'));
         $fragment->setVar('items', $items, false);
 
-        if ($user->isAdmin()) {
+        if ($showEditLink && $user->isAdmin()) {
             $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><i class="fa fa-flag"></i> ' . rex_i18n::msg('languages_edit') . '</a>', false);
         }
 
