@@ -25,4 +25,4 @@ jobs:
                     persist-credentials: false
 
             -   name: Super-linter
-                uses: super-linter/super-linter@v8
+                uses: super-linter/super-linter/slim@v8
