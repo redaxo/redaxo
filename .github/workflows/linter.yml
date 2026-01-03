@@ -29,9 +29,13 @@ jobs:
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                     VALIDATE_ALL_CODEBASE: false
-                    VALIDATE_PHP: false
-                    VALIDATE_PHP_BUILTIN: false
-                    VALIDATE_PHP_PHPCS: false
-                    VALIDATE_PHP_PHPSTAN: false
-                    VALIDATE_PHP_PSALM: false
+                    VALIDATE_BASH: true
+                    VALIDATE_BASH_EXEC: true
+                    VALIDATE_CSS: true
+                    VALIDATE_EDITORCONFIG: true
+                    VALIDATE_GITHUB_ACTIONS: true
+                    VALIDATE_JAVASCRIPT_ES: true
+                    VALIDATE_JSON: true
+                    VALIDATE_MARKDOWN: true
+                    VALIDATE_YAML: true
                     FILTER_REGEX_EXCLUDE: .*/vendor/.*
