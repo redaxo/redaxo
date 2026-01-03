@@ -10,7 +10,7 @@ permissions:
     contents: read
 
 jobs:
-    rexlint:
+    lint:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         if: github.event.pull_request.draft == false
@@ -19,14 +19,5 @@ jobs:
             -   name: Checkout
                 uses: actions/checkout@v6
 
-            -   name: Setup PHP
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: 8.1
-                    coverage: none # disable xdebug, pcov
-
-            -   name: Composer install
-                uses: ramsey/composer-install@v3
-
-            -   name: Run rexlint
-                run: vendor/bin/rexlint
+            -   name: Super-linter
+                uses: super-linter/super-linter@v8
