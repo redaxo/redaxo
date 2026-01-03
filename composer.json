@@ -11,7 +11,6 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "friendsofredaxo/linter": "1.4.0",
         "jetbrains/phpstorm-attributes": "^1.2",
         "phpstan/extension-installer": "1.4.3",
         "phpstan/phpstan": "2.1.33",
