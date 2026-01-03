@@ -8,8 +8,6 @@ on:
 
 permissions:
     contents: read
-    # To report GitHub Actions status checks
-    statuses: write
 
 jobs:
     super-linter:
@@ -29,8 +27,7 @@ jobs:
             -   name: Super-linter
                 uses: super-linter/super-linter/slim@v8
                 env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                    VALIDATE_ALL_CODEBASE: false
+                    MULTI_STATUS: false
                     VALIDATE_BASH: true
                     VALIDATE_BASH_EXEC: true
                     VALIDATE_CSS: true
