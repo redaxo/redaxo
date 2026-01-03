@@ -8,6 +8,8 @@ on:
 
 permissions:
     contents: read
+    # To report GitHub Actions status checks
+    statuses: write
 
 jobs:
     super-linter:
