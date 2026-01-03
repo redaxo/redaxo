@@ -80,6 +80,7 @@ linkmap = Карта связей
 linkmap_categories = Категории
 linkmap_articles = Статьи
 linkmap_has_no_template = не имеет шаблона
+linkmap_link_inserted = Ссылка %s вставлена!
 
 var_link_open = Выбрать ссылку
 var_link_delete = Удалить выбранную ссылку
