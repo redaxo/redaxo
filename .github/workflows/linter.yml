@@ -28,6 +28,7 @@ jobs:
                 uses: super-linter/super-linter/slim@v8
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                    VALIDATE_ALL_CODEBASE: false
                     VALIDATE_PHP: false
                     VALIDATE_PHP_BUILTIN: false
                     VALIDATE_PHP_PHPCS: false
