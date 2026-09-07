@@ -19,8 +19,12 @@ use const PHP_SESSION_ACTIVE;
 /**
  * The http session.
  *
- * Start it with `Session::start()`, afterwards it is available as `Core::getRequest()->getSession()`.
- * A session is never started implicitly, so that a request which does not need one stays cacheable.
+ * `Session::start()` starts it if necessary and returns it — that is the way to get hold of the session. It is
+ * never started implicitly, so that a request which does not need one stays cacheable: reading from a session
+ * that was not started throws.
+ *
+ * The same session is registered on the request object, where code following symfony's conventions looks for it
+ * (`Core::getRequest()->getSession()`). That path does not start it either, and it does not exist in the console.
  */
 final class Session
 {
