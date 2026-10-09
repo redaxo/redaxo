@@ -156,7 +156,6 @@ setup_206 = The following directories do not exist or do not have the correct pe
 setup_208 = PHP version <b>{0}</b> ok
 setup_211 = The following files/folder are editable by all users on this server ("Others"-Mode-Bit 7). Permissions should be more restrictive:
 
-setup_402 = Table {0} could not be found!
 
 setup_security_no_https = The connection is not encrypted. It is recommended to use SSL encryption for each call to the front- and backend in order to ensure privacy and data protection.
 setup_security_warn_mod_security = The Apache module "mod_security" is loaded. This can cause problems if not configured correctly.

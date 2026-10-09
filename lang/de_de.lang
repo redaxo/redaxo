@@ -157,7 +157,6 @@ setup_206 = Die folgenden Verzeichnisse sind nicht vorhanden oder es fehlt die B
 setup_208 = PHP-Version <b>{0}</b> ok
 setup_211 = Die folgenden Dateien/Verzeichnisse sind für alle Anwender auf dem Server veränderbar (Others-Mode-Bit 7). Die Berechtigungen sollten restriktiver sein:
 
-setup_402 = Tabelle {0} wurde nicht gefunden!
 
 setup_security_no_https = Die Verbindung ist unverschlüsselt. Frontend und Backend sollten grundsätzlich durch HTTPS verschlüsselt aufgerufen werden, um die Privatsphäre zu schützen und den Datenschutz zu gewährleisten.
 setup_security_warn_mod_security = Das Apache Modul "mod_security" ist geladen. Dies kann bei falscher Konfiguration zu Problemen führen.

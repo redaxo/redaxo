@@ -2,7 +2,6 @@
 
 namespace Redaxo\Core\Setup;
 
-use Redaxo\Core\Cache;
 use Redaxo\Core\Database\ConnectionConfig;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
@@ -40,13 +39,6 @@ final class Setup
     public const DEFAULT_DUMMY_PASSWORD = '-REDAXO-DEFAULT-DUMMY-PASSWORD-';
 
     private function __construct() {}
-
-    /** Prepares the filesystem for a fresh installation. */
-    public static function init(): void
-    {
-        // initial purge all generated files
-        Cache::delete();
-    }
 
     /**
      * checks environment related conditions.

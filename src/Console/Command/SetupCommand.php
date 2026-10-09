@@ -10,9 +10,7 @@ use Redaxo\Core\Env;
 use Redaxo\Core\Environment;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Security\BackendLogin;
-use Redaxo\Core\Setup\Importer;
 use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
@@ -20,6 +18,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -50,7 +49,6 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         InputInterface $input,
         SymfonyStyle $io,
         #[Option('System language e.g. "de_de" or "en_gb"', suggestedValues: I18n::getLocales(...))] ?string $lang = null,
-        #[Option('Accept license terms and conditions')] bool $agreeLicense = false, // BC, not used anymore
         #[Option('Database url, e.g. "mysql://<login>:<password>@<host>/<name>"')] ?string $databaseUrl = null,
         #[Option('Database hostname e.g. "localhost" or "127.0.0.1"')] ?string $dbHost = null,
         #[Option('Database login')] ?string $dbLogin = null,
@@ -61,7 +59,6 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         #[Option('Path to SSL certificate file')] ?string $dbSslCert = null,
         #[Option('Verify SSL server certificate (yes/no)', suggestedValues: ['yes', 'no'])] ?string $dbSslVerifyServerCert = null,
         #[Option('Creates the database "yes" or "no"', suggestedValues: ['yes', 'no'])] ?string $dbCreatedb = null,
-        #[Option('Database setup mode e.g. "normal", "override" or "existing"', suggestedValues: ['normal', 'override', 'existing'])] ?string $dbSetup = null,
         #[Option('Creates a redaxo admin user with the given username')] ?string $adminUsername = null,
         #[Option('Sets the password for the admin user account')] ?string $adminPassword = null,
     ): int {
@@ -74,8 +71,6 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
             }
             return $value;
         };
-
-        Setup::init();
 
         // ---------------------------------- Step 1 . Language
         $io->title('Step 1 of 5 / Language');
@@ -235,8 +230,8 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
             return Command::FAILURE;
         }
 
-        // ---------------------------------- step 4 . create db / demo
-        $io->title('Step 4 of 5 / Database');
+        // ---------------------------------- Step 4 . Migration
+        $io->title('Step 4 of 5 / Migration');
 
         $sql = Sql::factory();
         $dbEol = Setup::checkDbSecurity();
@@ -248,62 +243,12 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
             $io->block('Database version: ' . $sql->getDbType() . ' ' . $sql->getDbVersion());
         }
 
-        $tablesComplete = '' == Importer::verifyDbSchema();
+        $migrateInput = new ArrayInput([]);
+        $migrateInput->setInteractive($input->isInteractive());
 
-        // spaces before/after to make sf-console render the array-key instead of
-        // our overlong description text
-        $defaultDbMode = ' normal ';
-        $createdbOptions = [
-            'normal' => 'Setup database',
-            'override' => 'Setup database and overwrite it if it exitsts already (Caution - All existing data will be deleted!)',
-            'existing' => 'Database already exists (Continue with the existing data)',
-        ];
-
-        if ($tablesComplete) {
-            $defaultDbMode = ' existing ';
-        } else {
-            unset($createdbOptions['existing']);
+        if (Command::SUCCESS !== $code = new MigrateCommand()->run($migrateInput, $io)) {
+            return $code;
         }
-
-        $createdb = $this->getOptionOrAsk(
-            new ChoiceQuestion('Choose database setup', $createdbOptions, $defaultDbMode),
-            'db-setup',
-            null,
-            null,
-            static function ($value) use ($createdbOptions) {
-                if (!array_key_exists($value, $createdbOptions)) {
-                    throw new InvalidArgumentException('Unknown db-setup value "' . $value . '".');
-                }
-                return $value;
-            },
-        );
-        $io->success('Using "' . $createdb . '" database setup');
-
-        if ('existing' == $createdb && $tablesComplete) {
-            $error = Importer::databaseAlreadyExists();
-            $io->success('Skipping database setup');
-        } elseif ('override' == $createdb) {
-            $error = Importer::overrideExisting();
-            $io->success('Database successfully overwritten');
-        } elseif ('normal' == $createdb) {
-            $error = Importer::prepareEmptyDb();
-            $io->success('Database successfully created');
-        } else {
-            $error = 'An undefinied error occurred';
-        }
-
-        if ('' !== $error) {
-            $io->error($this->decodeMessage($error));
-            return Command::FAILURE;
-        }
-
-        $error = Importer::verifyDbSchema();
-        if ('' != $error) {
-            $io->error($this->decodeMessage($error));
-            return Command::FAILURE;
-        }
-
-        LanguageHandler::generateCache();
 
         // the language chosen in step 1 becomes the default language of the installation
         Core::setConfig('lang', $lang);
