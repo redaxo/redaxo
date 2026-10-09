@@ -7,6 +7,7 @@ use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Table;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\MetaInfo\MetaSync;
@@ -72,10 +73,20 @@ final class MigrateCommand extends AbstractCommand implements StandaloneInterfac
     {
         $io->section('Schema');
 
+        // without the core's config table, no install() has ever run on this database
+        $freshInstance = !Table::get('rex_config')->exists();
+
         if (!$this->convergePackage($io, Migrator::CORE, static function (): void {
             require Path::core('setup/install.php');
         })) {
             return false;
+        }
+
+        if ($freshInstance) {
+            // install() created the current schema, so the migrations leading there must not run (addons do the same
+            // in their AddonManager::install(), the project is new along with the instance)
+            Migrator::baseline(Migrator::CORE);
+            Migrator::baseline(Migrator::PROJECT);
         }
 
         foreach (Addon::getBootOrder() as $addonName) {
