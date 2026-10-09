@@ -148,18 +148,13 @@ dev_mode_marker = The dev mode is enabled
 system_report = System report
 system_report_markdown = As markdown
 
-setup_201 = The PHP version on this server is outdated ({0}), please update it (minimum version {1}, latest version is recommended)
-setup_202 = Couldn't find the required PHP extension module <b>{0}</b>!
 setup_204 = The following directories are not writable:
 setup_205 = The following files are not writable:
 setup_206 = The following directories do not exist or do not have the correct permissions:
-setup_208 = PHP version <b>{0}</b> ok
 setup_211 = The following files/folder are editable by all users on this server ("Others"-Mode-Bit 7). Permissions should be more restrictive:
 
 
 setup_security_no_https = The connection is not encrypted. It is recommended to use SSL encryption for each call to the front- and backend in order to ensure privacy and data protection.
-setup_security_warn_mod_security = The Apache module "mod_security" is loaded. This can cause problems if not configured correctly.
-setup_security_deprecated_php = The used PHP Version {0} version will no longer receive updates. You should consider upgrading to a newer version.
 setup_security_deprecated_mysql = The used MySQL Version {0} version will no longer receive updates. You should consider upgrading to a newer version.
 setup_security_deprecated_mariadb = The used MariaDB Version {0} version will no longer receive updates. You should consider upgrading to a newer version.
 setup_session_autostart_warning = The php settings "session.auto_start" is activated. It is recommended to disable this for avoiding problems.

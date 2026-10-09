@@ -6,7 +6,6 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
-use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Path;
@@ -14,8 +13,6 @@ use Redaxo\Core\MetaInfo\MetaSync;
 use Redaxo\Core\Migration\Migration;
 use Redaxo\Core\Migration\Migrator;
 use Redaxo\Core\Setup\Setup;
-use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Version;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
@@ -42,13 +39,8 @@ final class MigrateCommand extends AbstractCommand implements StandaloneInterfac
         SymfonyStyle $io,
         #[Option('Record pending migrations as executed without running them')] bool $fake = false,
     ): int {
-        // verify the database server meets the minimum version requirements
-        $sql = Sql::factory();
-        $dbType = $sql->getDbType();
-        $dbVersion = $sql->getDbVersion();
-        $minVersion = Sql::MARIADB === $dbType ? Setup::MIN_MARIADB_VERSION : Setup::MIN_MYSQL_VERSION;
-        if (Version::compare($dbVersion, $minVersion, '<')) {
-            $io->error(I18n::msg('sql_database_required_version', $dbType, $dbVersion, Setup::MIN_MYSQL_VERSION, Setup::MIN_MARIADB_VERSION));
+        if ('' !== $error = Setup::checkDbVersion()) {
+            $io->error($error);
             return Command::FAILURE;
         }
 

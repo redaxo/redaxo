@@ -14,24 +14,17 @@ use Redaxo\Core\Util\Type;
 use Redaxo\Core\Util\Version;
 
 use function array_key_exists;
-use function extension_loaded;
-use function function_exists;
-use function in_array;
 use function ini_get;
 use function sprintf;
 
 use const PHP_OS;
 use const PHP_SAPI;
-use const PHP_VERSION;
 
 /**
  * @internal
  */
 final class Setup
 {
-    /** @var string */
-    public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
-    public const MIN_PHP_EXTENSIONS = ['ctype', 'fileinfo', 'iconv', 'intl', 'mbstring', 'pdo_mysql', 'session', 'tokenizer'];
     public const MIN_MYSQL_VERSION = '8.4';
     public const MIN_MARIADB_VERSION = '10.11';
 
@@ -39,30 +32,6 @@ final class Setup
     public const DEFAULT_DUMMY_PASSWORD = '-REDAXO-DEFAULT-DUMMY-PASSWORD-';
 
     private function __construct() {}
-
-    /**
-     * checks environment related conditions.
-     *
-     * @return list<string> An array of error messages
-     */
-    public static function checkEnvironment(): array
-    {
-        $errors = [];
-
-        // -------------------------- VERSIONSCHECK
-        if (1 == version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '<')) {
-            $errors[] = I18n::msg('setup_201', PHP_VERSION, self::MIN_PHP_VERSION);
-        }
-
-        // -------------------------- EXTENSION CHECK
-        foreach (self::MIN_PHP_EXTENSIONS as $extension) {
-            if (!extension_loaded($extension)) {
-                $errors[] = I18n::msg('setup_202', $extension);
-            }
-        }
-
-        return $errors;
-    }
 
     /**
      * checks permissions of all required filesystem resources.
@@ -130,6 +99,16 @@ final class Setup
             return $err;
         }
 
+        return self::checkDbVersion();
+    }
+
+    /**
+     * Checks that the connected database server meets the minimum version.
+     *
+     * @return string Error message, empty if the version is supported
+     */
+    public static function checkDbVersion(): string
+    {
         $sql = Sql::factory();
         $type = $sql->getDbType();
         $version = $sql->getDbVersion();
@@ -155,32 +134,10 @@ final class Setup
             $security[] = I18n::msg('setup_security_no_https');
         }
 
-        if (function_exists('apache_get_modules') && in_array('mod_security', apache_get_modules())) {
-            $security[] = I18n::msg('setup_security_warn_mod_security');
-        }
-
         if (ini_get('session.auto_start')) {
             $security[] = I18n::msg('setup_session_autostart_warning');
         }
 
-        // Source: https://www.php.net/supported-versions.php, Security Support Until, set to 1st of month
-        $deprecatedVersions = [
-            '8.1' => '2025-12-01',
-            '8.2' => '2026-12-01',
-            '8.3' => '2027-12-01',
-            '8.4' => '2028-12-01',
-            '8.5' => '2029-12-01',
-        ];
-
-        $versionNumber = Formatter::version(PHP_VERSION, '%s.%s');
-
-        if (array_key_exists($versionNumber, $deprecatedVersions)) {
-            $deprecationDate = $deprecatedVersions[$versionNumber];
-            $currentDate = date('Y-m-d');
-            if ($currentDate > $deprecationDate) {
-                $security[] = I18n::msg('setup_security_deprecated_php', PHP_VERSION);
-            }
-        }
         return $security;
     }
 

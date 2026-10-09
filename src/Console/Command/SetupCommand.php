@@ -26,12 +26,9 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function array_key_exists;
-use function count;
 use function in_array;
 use function is_string;
 use function sprintf;
-
-use const PHP_VERSION;
 
 /**
  * @internal
@@ -73,7 +70,7 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         };
 
         // ---------------------------------- Step 1 . Language
-        $io->title('Step 1 of 5 / Language');
+        $io->title('Step 1 of 4 / Language');
         $langs = [];
         foreach (I18n::getLocales() as $locale) {
             $langs[$locale] = I18n::msgInLocale('lang', $locale);
@@ -93,17 +90,8 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
             },
         ));
 
-        // ---------------------------------- Step 2 . Perms, Environment
-        $io->title('Step 2 of 5 / System check');
-
-        $io->warning('The checks are executed only in the cli environment and do not guarantee correctness in the web server environment.');
-
-        if (Command::SUCCESS !== $code = $this->performSystemcheck()) {
-            return $code;
-        }
-
-        // ---------------------------------- step 3 . Database
-        $io->title('Step 3 of 5 / Database');
+        // ---------------------------------- Step 2 . Database
+        $io->title('Step 2 of 4 / Database');
 
         // a url the environment already provides seeds the questions, so that a re-run can keep or adjust it
         $envUrl = Env::get('DATABASE_URL');
@@ -230,8 +218,8 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
             return Command::FAILURE;
         }
 
-        // ---------------------------------- Step 4 . Migration
-        $io->title('Step 4 of 5 / Migration');
+        // ---------------------------------- Step 3 . Migration
+        $io->title('Step 3 of 4 / Migration');
 
         $sql = Sql::factory();
         $dbEol = Setup::checkDbSecurity();
@@ -253,8 +241,8 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         // the language chosen in step 1 becomes the default language of the installation
         Core::setConfig('lang', $lang);
 
-        // ---------------------------------- Step 5 . Create User
-        $io->title('Step 5 of 5 / User');
+        // ---------------------------------- Step 4 . Create User
+        $io->title('Step 4 of 4 / User');
 
         $user = Sql::factory();
         $user
@@ -538,46 +526,5 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         }
 
         return $this->io->ask($question, Type::nullOrString($default), $validator);
-    }
-
-    private function performSystemcheck(): int
-    {
-        /** Cloned from command system:check*/
-        $errors = Setup::checkEnvironment();
-        if (0 == count($errors)) {
-            $phpEol = Setup::checkPhpSecurity();
-            if (!empty($phpEol)) {
-                foreach ($phpEol as $warning) {
-                    $this->io->warning($warning);
-                }
-            } else {
-                $this->io->success($this->decodeMessage(I18n::msg('setup_208', PHP_VERSION)));
-            }
-        } else {
-            $errors = array_map($this->decodeMessage(...), $errors);
-            $this->io->error("PHP version errors:\n" . implode("\n", $errors));
-            return Command::FAILURE;
-        }
-
-        $res = Setup::checkFilesystem();
-        if (count($res) > 0) {
-            $errors = []; // @phpstan-ignore assign.redundant
-            foreach ($res as $key => $messages) {
-                if (count($messages) > 0) {
-                    $affectedFiles = [];
-                    foreach ($messages as $message) {
-                        $affectedFiles[] = '- ' . Path::relative($message);
-                    }
-                    $errors[] = I18n::msg($key) . "\n" . implode("\n", $affectedFiles);
-                }
-            }
-
-            $errors = array_map($this->decodeMessage(...), $errors);
-            $this->io->error("Directory permissions error:\n" . implode("\n", $errors));
-            return Command::FAILURE;
-        }
-        $this->io->success('Directory permissions ok');
-
-        return Command::SUCCESS;
     }
 }

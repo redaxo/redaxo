@@ -12,8 +12,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function count;
 
-use const PHP_VERSION;
-
 /**
  * @internal
  */
@@ -23,15 +21,6 @@ final class SystemCheckCommand extends AbstractCommand
     public function __invoke(SymfonyStyle $io): int
     {
         $exitCode = 0;
-
-        $errors = Setup::checkEnvironment();
-        if (0 == count($errors)) {
-            $io->success($this->decodeMessage(I18n::msg('setup_208', PHP_VERSION)));
-        } else {
-            $exitCode = 1;
-            $errors = array_map($this->decodeMessage(...), $errors);
-            $io->error("PHP version errors:\n" . implode("\n", $errors));
-        }
 
         $res = Setup::checkFilesystem();
         if (count($res) > 0) {
