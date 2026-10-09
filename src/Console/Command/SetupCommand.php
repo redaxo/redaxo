@@ -222,14 +222,7 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         $io->title('Step 3 of 4 / Migration');
 
         $sql = Sql::factory();
-        $dbEol = Setup::checkDbSecurity();
-        if (!empty($dbEol)) {
-            foreach ($dbEol as $warning) {
-                $io->warning($warning);
-            }
-        } else {
-            $io->block('Database version: ' . $sql->getDbType() . ' ' . $sql->getDbVersion());
-        }
+        $io->block('Database version: ' . $sql->getDbType() . ' ' . $sql->getDbVersion());
 
         $migrateInput = new ArrayInput([]);
         $migrateInput->setInteractive($input->isInteractive());

@@ -9,11 +9,9 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Util\Version;
 
-use function array_key_exists;
 use function ini_get;
 use function sprintf;
 
@@ -136,69 +134,6 @@ final class Setup
 
         if (ini_get('session.auto_start')) {
             $security[] = I18n::msg('setup_session_autostart_warning');
-        }
-
-        return $security;
-    }
-
-    /**
-     * Basic database security checks. Returns a human readable strings on error.
-     *
-     * @return list<string>
-     */
-    public static function checkDbSecurity(): array
-    {
-        $sql = Sql::factory();
-        $dbVersion = $sql->getDbVersion();
-        $dbType = $sql->getDbType();
-        $security = [];
-        $currentDate = date('Y-m-d');
-
-        if (Sql::MARIADB === $dbType) {
-            // Deprecated versions and dates
-            // Source: https://endoflife.date/mariadb, set to 1st of month
-            $deprecatedVersions = [
-                '10.11' => '2028-02-01', // LTS
-                '11.0' => '2024-06-01',
-                '11.1' => '2024-08-01',
-                '11.2' => '2024-11-01',
-                '11.3' => '2024-05-01',
-                '11.4' => '2029-05-01', // LTS
-                '11.5' => '2024-11-01',
-                '11.6' => '2025-02-01',
-                '11.7' => '2025-05-01',
-                '11.8' => '2028-06-01',
-                '12.0' => '2025-11-01',
-                '12.1' => '2026-02-01',
-            ];
-
-            $versionNumber = Formatter::version($dbVersion, '%s.%s');
-            if (array_key_exists($versionNumber, $deprecatedVersions)) {
-                $deprecationDate = $deprecatedVersions[$versionNumber];
-                if ($currentDate > $deprecationDate) {
-                    $security[] = I18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-                }
-            }
-        } elseif (Sql::MYSQL === $dbType) {
-            // Deprecated versions and dates
-            // Source: https://en.wikipedia.org/wiki/MySQL#Release_history, set to 1st of month
-            $deprecatedVersions = [
-                '8.4' => '2032-04-01',
-                '9.0' => '2024-10-01',
-                '9.1' => '2025-01-01',
-                '9.2' => '2025-04-01',
-                '9.3' => '2025-07-01',
-                '9.4' => '2025-10-01',
-                '9.5' => '2026-01-01',
-            ];
-
-            $versionNumber = Formatter::version($dbVersion, '%s.%s');
-            if (array_key_exists($versionNumber, $deprecatedVersions)) {
-                $deprecationDate = $deprecatedVersions[$versionNumber];
-                if ($currentDate > $deprecationDate) {
-                    $security[] = I18n::msg('setup_security_deprecated_mysql', $dbVersion);
-                }
-            }
         }
 
         return $security;

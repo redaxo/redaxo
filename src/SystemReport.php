@@ -67,13 +67,6 @@ final class SystemReport
                 $sql = Sql::factory($dbId);
 
                 $dbData['Version'] = $sql->getDbType() . ' ' . $sql->getDbVersion();
-
-                if (1 === $dbId) {
-                    $security = Setup::checkDbSecurity();
-                    if ($security) {
-                        $dbData['Warning'] = implode('<br/>', $security);
-                    }
-                }
             } catch (SqlException $exception) {
                 $dbData['Warning'] = $exception->getMessage();
             }

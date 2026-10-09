@@ -156,8 +156,6 @@ setup_211 = Die folgenden Dateien/Verzeichnisse sind für alle Anwender auf dem 
 
 
 setup_security_no_https = Die Verbindung ist unverschlüsselt. Frontend und Backend sollten grundsätzlich durch HTTPS verschlüsselt aufgerufen werden, um die Privatsphäre zu schützen und den Datenschutz zu gewährleisten.
-setup_security_deprecated_mysql = Die verwendete MySQL-Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
-setup_security_deprecated_mariadb = Die verwendete MariaDB-Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
 setup_session_autostart_warning = In den PHP-Einstellungen ist "session.auto_start" aktiviert. Es wird empfohlen, dies zu deaktivieren, um Probleme zu vermeiden.
 
 sql_database_name_missing = Es muss ein Datenbankname angegeben werden!
