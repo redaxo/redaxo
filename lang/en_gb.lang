@@ -154,8 +154,6 @@ setup_206 = The following directories do not exist or do not have the correct pe
 setup_211 = The following files/folder are editable by all users on this server ("Others"-Mode-Bit 7). Permissions should be more restrictive:
 
 
-setup_security_no_https = The connection is not encrypted. It is recommended to use SSL encryption for each call to the front- and backend in order to ensure privacy and data protection.
-setup_session_autostart_warning = The php settings "session.auto_start" is activated. It is recommended to disable this for avoiding problems.
 
 sql_database_name_missing = Enter a database name!
 sql_database_host_invalid = "{0}" is not a valid MySQL host

@@ -7,16 +7,13 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Util\Version;
 
-use function ini_get;
 use function sprintf;
 
 use const PHP_OS;
-use const PHP_SAPI;
 
 /**
  * @internal
@@ -117,25 +114,5 @@ final class Setup
         }
 
         return '';
-    }
-
-    /**
-     * Basic php security checks. Returns a human readable strings on error.
-     *
-     * @return list<string>
-     */
-    public static function checkPhpSecurity(): array
-    {
-        $security = [];
-
-        if (PHP_SAPI !== 'cli' && !Request::isHttps()) {
-            $security[] = I18n::msg('setup_security_no_https');
-        }
-
-        if (ini_get('session.auto_start')) {
-            $security[] = I18n::msg('setup_session_autostart_warning');
-        }
-
-        return $security;
     }
 }
