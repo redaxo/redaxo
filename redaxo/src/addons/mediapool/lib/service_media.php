@@ -124,6 +124,7 @@ final class rex_media_service
 
         $data['message'] = implode('<br />', $message);
 
+        rex_media::clearInstance($data['file']['name_new']);
         rex_media_cache::deleteList($categoryId);
 
         /**
