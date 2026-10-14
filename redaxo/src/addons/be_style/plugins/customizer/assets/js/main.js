@@ -50,9 +50,10 @@ $(document).on('rex:ready', function (event, container) {
 
 var Customizer = function () { };
 
-Customizer.init = function (container) {
-    var cm = 0;
+// shared across inits, so generated ids stay unique when rex:ready is triggered for further containers
+Customizer.codemirrorIdCounter = 0;
 
+Customizer.init = function (container) {
     container.find(rex.customizer_codemirror_selectors).each(function () {
         var t = $(this);
         var editor = null;
@@ -65,8 +66,8 @@ Customizer.init = function (container) {
         var id = t.attr("id");
 
         if (typeof id === "undefined") {
-            cm++;
-            id = 'codemirror-id-' + cm;
+            Customizer.codemirrorIdCounter++;
+            id = 'codemirror-id-' + Customizer.codemirrorIdCounter;
             t.attr("id", id);
         }
 
