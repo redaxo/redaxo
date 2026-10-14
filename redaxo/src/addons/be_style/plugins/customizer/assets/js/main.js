@@ -51,11 +51,11 @@ $(document).on('rex:ready', function (event, container) {
 var Customizer = function () { };
 
 Customizer.init = function (container) {
-    var cm_editor = {};
     var cm = 0;
 
     container.find(rex.customizer_codemirror_selectors).each(function () {
         var t = $(this);
+        var editor = null;
 
         // skip textareas already converted, e.g. when rex:ready is triggered again for the same container
         if (t.next('.CodeMirror').length) {
@@ -98,7 +98,9 @@ Customizer.init = function (container) {
                 } else if (document.body.classList.contains('rex-theme-dark')) {
                     theme = rex.customizer_codemirror_defaultdarktheme;
                 }
-                cm_editor[cm].setOption('theme', theme);
+                if (editor) {
+                    editor.setOption('theme', theme);
+                }
             });
         }
 
@@ -174,7 +176,7 @@ Customizer.init = function (container) {
                 console.log('Error in Textarea-Codemirror-Options! \nOptions: ' + new_options);
                 console.log(e);
             }
-            cm_editor[cm] = CodeMirror.fromTextArea(this, cm_options);
+            editor = CodeMirror.fromTextArea(this, cm_options);
         }
     });
 
