@@ -56,6 +56,12 @@ Customizer.init = function (container) {
 
     container.find(rex.customizer_codemirror_selectors).each(function () {
         var t = $(this);
+
+        // skip textareas already converted, e.g. when rex:ready is triggered again for the same container
+        if (t.next('.CodeMirror').length) {
+            return;
+        }
+
         var id = t.attr("id");
 
         if (typeof id === "undefined") {
@@ -168,7 +174,7 @@ Customizer.init = function (container) {
                 console.log('Error in Textarea-Codemirror-Options! \nOptions: ' + new_options);
                 console.log(e);
             }
-            cm_editor[cm] = CodeMirror.fromTextArea(document.getElementById(id), cm_options);
+            cm_editor[cm] = CodeMirror.fromTextArea(this, cm_options);
         }
     });
 
