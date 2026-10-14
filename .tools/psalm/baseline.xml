@@ -988,20 +988,16 @@
       <code><![CDATA[$password]]></code>
       <code><![CDATA[$password]]></code>
       <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[['login' => $login]]]></code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
-      <code><![CDATA[$createdb]]></code>
       <code><![CDATA[$dbCreate]]></code>
       <code><![CDATA[$login]]></code>
       <code><![CDATA[$password]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code><![CDATA[$createdb]]></code>
-      <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedOperand>
